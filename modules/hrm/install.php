@@ -1,6 +1,5 @@
 <?php
 
-
 if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_newstaff` (
     `user_id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -69,8 +68,8 @@ if (!$CI->db->table_exists(db_prefix() . 'my_salary')) {
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'my_employee_basic')) { 
-	$CI->db->query('CREATE TABLE `' .db_prefix().	'my_employee_basic` (
+if (!$CI->db->table_exists(db_prefix() . 'employee_basic')) { 
+	$CI->db->query('CREATE TABLE `' .db_prefix().	'employee_basic` (
 	`employee_basic_id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`staff_id` int(11) NOT NULL,
 	`username` varchar(50) NOT NULL,

@@ -7,7 +7,7 @@ class vaction extends App_Model{
 
     public function getVac($id){
         $this->db->select('*');
-        $this->db->from('tblvac');
+        $this->db->from('tblmy_vac');
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
@@ -20,18 +20,18 @@ class vaction extends App_Model{
     }
 
     public function add($data){
-        $this->db->insert('tblvac', $data);
+        $this->db->insert('tblmy_vac', $data);
     }
 
     public function update($data, $id)
     {   
-    	$query = $this->db->get_where('tblvac', array('id' => $id));
+    	$query = $this->db->get_where('tblmy_vac', array('id' => $id));
     	if(empty($query->row_array())){
             unset($data['id']);
-	        $this->db->insert('tblvac', $data);
+	        $this->db->insert('tblmy_vac', $data);
         }else {
         	$this->db->where(['id' => $id]);
-        	$this->db->update('tblvac', $data);
+        	$this->db->update('tblmy_vac', $data);
         }
 
         if ($this->db->affected_rows() > 0) {
@@ -53,7 +53,7 @@ class vaction extends App_Model{
 
         $this->db->where('id', $id);
 
-        $this->db->delete('tblvac');
+        $this->db->delete('tblmy_vac');
         if ($this->db->affected_rows() > 0) {
             log_activity('Vac Deleted [' . $id . ']');
 

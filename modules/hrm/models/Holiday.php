@@ -12,28 +12,28 @@ class holiday extends App_Model{
     		'start_date' => $start_date, 
     		'end_date' => $end_date
     	);
-    	$this->db->insert('tblholiday', $data);
+    	$this->db->insert('tblmy_holiday', $data);
 	}
     public function getHolidays($id){
         $this->db->where('id', $id);
-        $this->db->from('tblholiday');
+        $this->db->from('tblmy_holiday');
         $query = $this->db->get();
         return $query->row();
     }
 
     public function add($data){
-        $this->db->insert('tblholiday', $data);
+        $this->db->insert('tblmy_holiday', $data);
     }
 
     public function update($data, $id)
     {   
-        $query = $this->db->get_where('tblholiday', array('id' => $id));
+        $query = $this->db->get_where('tblmy_holiday', array('id' => $id));
         if(empty($query->row_array())){
             unset($data['id']);
-            $this->db->insert('tblholiday', $data);
+            $this->db->insert('tblmy_holiday', $data);
         }else {
             $this->db->where(['id' => $id]);
-            $this->db->update('tblholiday', $data);
+            $this->db->update('tblmy_holiday', $data);
         }
 
         if ($this->db->affected_rows() > 0) {
@@ -55,7 +55,7 @@ class holiday extends App_Model{
 
         $this->db->where('id', $id);
 
-        $this->db->delete('tblholiday');
+        $this->db->delete('tblmy_holiday');
         if ($this->db->affected_rows() > 0) {
             log_activity('Holiday Deleted [' . $id . ']');
 

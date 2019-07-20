@@ -11,7 +11,7 @@ class manage_salary extends App_Model{
     }
     public function getSalary($user_id){
         $this->db->select('*');
-        $this->db->from(db_prefix() .'newstaff');
+        $this->db->from(db_prefix() .'my_newstaff');
         $this->db->where('user_id', $user_id);
         $query = $this->db->get();
         return $query->row_array();
@@ -21,7 +21,7 @@ class manage_salary extends App_Model{
     public function update($user_id, $data)
     {   
         	$this->db->where(['user_id' => $user_id]);
-        	$this->db->update('tblnewstaff', $data);
+        	$this->db->update('tblmy_newstaff', $data);
 
         if ($this->db->affected_rows() > 0) {
             log_activity('Vac Deleted [' . $id . ']');

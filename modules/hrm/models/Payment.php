@@ -8,8 +8,8 @@ class payment extends App_Model{
 
     public function getSalary($id){
         $this->db->select('*');
-        $this->db->from(db_prefix().'salary');
-        $this->db->where(db_prefix().'salary.id', $id);
+        $this->db->from(db_prefix().'my_salary');
+        $this->db->where(db_prefix().'my_salary.id', $id);
         
         $query = $this->db->get();
         return $query->row_array();
@@ -17,14 +17,14 @@ class payment extends App_Model{
 
     public function add($id, $data){
         $this->db->where('id', $id);
-        $this->db->update('tblsalary', $data);
+        $this->db->update('tblmy_salary', $data);
 
     }
     public function delete($id){
 
         $this->db->where('id', $id);
 
-        $this->db->delete(db_prefix() . 'salary');
+        $this->db->delete(db_prefix() . 'my_salary');
         if ($this->db->affected_rows() > 0) {
             log_activity('Vac Deleted [' . $id . ']');
 

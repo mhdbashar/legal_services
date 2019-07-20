@@ -7,7 +7,7 @@ class awards extends App_Model{
 
     public function getAward($id){
         $this->db->select('*');
-        $this->db->from('tblaward');
+        $this->db->from('tblmy_award');
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
@@ -20,18 +20,18 @@ class awards extends App_Model{
     }
 
     public function add($data){
-        $this->db->insert('tblvac', $data);
+        $this->db->insert('tblmy_vac', $data);
     }
 
     public function update($data, $id)
     {   
-    	$query = $this->db->get_where('tblaward', array('id' => $id));
+    	$query = $this->db->get_where('tblmy_award', array('id' => $id));
     	if(empty($query->row_array())){
             unset($data['id']);
-	        $this->db->insert('tblaward', $data);
+	        $this->db->insert('tblmy_award', $data);
         }else {
         	$this->db->where(['id' => $id]);
-        	$this->db->update('tblaward', $data);
+        	$this->db->update('tblmy_award', $data);
         }
 
         if ($this->db->affected_rows() > 0) {
@@ -46,7 +46,7 @@ class awards extends App_Model{
 
         $this->db->where('id', $id);
 
-        $this->db->delete('tblaward');
+        $this->db->delete('tblmy_award');
         if ($this->db->affected_rows() > 0) {
             log_activity('Award Deleted [' . $id . ']');
 

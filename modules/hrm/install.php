@@ -1,8 +1,8 @@
 <?php
 
 
-if (!$CI->db->table_exists(db_prefix() . 'newstaff')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . 'newstaff` (
+if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_newstaff` (
     `user_id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `staff_id` int(11) NOT NULL,
     `gender` varchar(20) NOT NULL,
@@ -14,8 +14,8 @@ if (!$CI->db->table_exists(db_prefix() . 'newstaff')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'vac')) {           
-	$CI->db->query('CREATE TABLE `' . db_prefix() .  'vac` (
+if (!$CI->db->table_exists(db_prefix() . 'my_vac')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_vac` (
 	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	  `staff_id` int(11) NOT NULL,
 	  `description` text NOT NULL,
@@ -25,8 +25,8 @@ if (!$CI->db->table_exists(db_prefix() . 'vac')) {
 
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'workday')) {
-	$CI->db->query('CREATE TABLE `' . db_prefix() .  'workday` (
+if (!$CI->db->table_exists(db_prefix() . 'my_workday')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_workday` (
 	  `saturday` int(11) NOT NULL,
 	  `sunday` int(11) NOT NULL,
 	  `monday` int(11) NOT NULL,
@@ -35,11 +35,11 @@ if (!$CI->db->table_exists(db_prefix() . 'workday')) {
 	  `thursday` int(11) NOT NULL,
 	  `friday` int(11) NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
-	$CI->db->query("INSERT INTO `tblworkday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES ('1', '1', '1', '1', '1', '1', '1');");
+	$CI->db->query("INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES ('1', '1', '1', '1', '1', '1', '1');");
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'holiday')) {           
-	$CI->db->query('CREATE TABLE `' . db_prefix() .  'holiday` (
+if (!$CI->db->table_exists(db_prefix() . 'my_holiday')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_holiday` (
 	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	  `event_name` varchar(200) NOT NULL,
 	  `description` text NOT NULL,
@@ -48,8 +48,8 @@ if (!$CI->db->table_exists(db_prefix() . 'holiday')) {
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'award')) {           
-	$CI->db->query('CREATE TABLE `' . db_prefix() .  'award` (
+if (!$CI->db->table_exists(db_prefix() . 'my_award')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_award` (
 	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	  `staff_id` int(11) NOT NULL,
 	  `award` double NOT NULL,
@@ -58,8 +58,8 @@ if (!$CI->db->table_exists(db_prefix() . 'award')) {
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'salary')) {           
-	$CI->db->query('CREATE TABLE `' . db_prefix() .  'salary` (
+if (!$CI->db->table_exists(db_prefix() . 'my_salary')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_salary` (
 	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	  `staff_id` int(11) NOT NULL,
 	  `comments` text NOT NULL,
@@ -69,3 +69,19 @@ if (!$CI->db->table_exists(db_prefix() . 'salary')) {
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'my_employee_basic')) { 
+	$CI->db->query('CREATE TABLE `' .db_prefix().	'my_employee_basic` (
+	`employee_basic_id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	`staff_id` int(11) NOT NULL,
+	`username` varchar(50) NOT NULL,
+	`gender` varchar(50) NOT NULL,
+	`mobile` varchar(50) NOT NULL,
+	`joining_date` date NOT NULL,
+	`date_of_birth` date NOT NULL,
+	`maratial_status` varchar(50) NOT NULL,
+	`father_name` varchar(50) DEFAULT NULL,
+	`mother_name` varchar(50) DEFAULT NULL,
+	`address` varchar(150) DEFAULT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+  

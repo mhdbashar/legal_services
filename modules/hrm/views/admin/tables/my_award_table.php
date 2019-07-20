@@ -4,17 +4,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $custom_fields         = get_table_custom_fields('vac');
 
-$aColumns = ['award', 'reason', 'date','CONCAT(firstname, " ", lastname) as full_name', db_prefix() . 'award.id'];
+$aColumns = ['award', 'reason', 'date','CONCAT(firstname, " ", lastname) as full_name', db_prefix() . 'my_award.id'];
 // $aColumns = ['description', 'start_date', 'end_date','firstname, lastname', db_prefix() . 'vac.id'];
 
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'award';
+$sTable       = db_prefix().'my_award';
 
 $where  = [];
 
 $join = [
-    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'award.staff_id',
+    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'my_award.staff_id',
 ];
 
 

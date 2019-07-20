@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = ['event_name', 'description', 'start_date', 'end_date'];
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'holiday';
+$sTable       = db_prefix().'my_holiday';
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], [], ['id']);
 $output  = $result['output'];

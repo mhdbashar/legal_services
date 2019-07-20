@@ -313,7 +313,7 @@ class Employee extends App_Model
 
         $this->db->select($select_str);
         $this->db->where($where);
-        $this->db->join(db_prefix() . 'employee_basic', '' . db_prefix() . 'employee_basic.staff_id = ' . db_prefix() . 'staff.staffid', 'left');
+        $this->db->join(db_prefix() . 'my_employee_basic', '' . db_prefix() . 'my_employee_basic.staff_id = ' . db_prefix() . 'staff.staffid', 'left');
         if (is_numeric($id)) {
             $this->db->where('staffid', $id);
             $staff = $this->db->get(db_prefix() . 'staff')->row();
@@ -848,7 +848,7 @@ class Employee extends App_Model
         
         
         $this->db->where('staff_id', $id);
-        $this->db->update(db_prefix() . 'employee_basic', $employee);
+        $this->db->update(db_prefix() . 'my_employee_basic', $employee);
 
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;

@@ -27,7 +27,7 @@
                             <div class="form-group" app-field-wrapper="date">
                               <label for="date" class="control-label">Start Date</label>
                               <div class="input-group date">
-                                <input type="text" id="date" name="start_date" class="form-control datepicker" value="2019-05-23" autocomplete="off" aria-invalid="false">
+                                <input type="text" id="date" name="start_date" class="form-control datepicker" value="<?php echo date("Y-m-d"); ?>" autocomplete="off" aria-invalid="false">
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar calendar-icon"></i>
                                 </div>
@@ -38,7 +38,7 @@
                             <div class="form-group" app-field-wrapper="date">
                               <label for="date" class="control-label">End Date</label>
                               <div class="input-group date">
-                                <input type="text" id="date" name="end_date" class="form-control datepicker" value="2019-05-23" autocomplete="off" aria-invalid="false">
+                                <input type="text" id="date" name="end_date" class="form-control datepicker" value="<?php echo date("Y-m-d"); ?>" autocomplete="off" aria-invalid="false">
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar calendar-icon"></i>
                                 </div>

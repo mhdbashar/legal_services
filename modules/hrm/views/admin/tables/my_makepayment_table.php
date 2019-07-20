@@ -14,17 +14,17 @@ $aColumns = [
 
 
 $sIndexColumn = 'staff_id';
-$sTable       = db_prefix().'newstaff';
+$sTable       = db_prefix().'my_newstaff';
 
 $where  = [];
 
 $join = [
-    'LEFT JOIN '.db_prefix().'salary ON '.db_prefix().'salary.payment_month = "'.$month.'" AND '.db_prefix().'salary.staff_id = '.db_prefix().'newstaff.staff_id',
-    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'newstaff.staff_id',
+    'LEFT JOIN '.db_prefix().'my_salary ON '.db_prefix().'my_salary.payment_month = "'.$month.'" AND '.db_prefix().'my_salary.staff_id = '.db_prefix().'my_newstaff.staff_id',
+    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'my_newstaff.staff_id',
 
     'LEFT JOIN 
-    (SELECT SUM(award)  award, staff_id, date FROM '.db_prefix().'award GROUP BY staff_id) as p 
-    ON p.date = "'.$month.'" AND p.staff_id = '.db_prefix().'newstaff.staff_id '
+    (SELECT SUM(award)  award, staff_id, date FROM '.db_prefix().'my_award GROUP BY staff_id) as p 
+    ON p.date = "'.$month.'" AND p.staff_id = '.db_prefix().'my_newstaff.staff_id '
     
 ];
 

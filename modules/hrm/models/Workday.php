@@ -7,7 +7,7 @@ class workday extends App_Model
     public function getdays()
     {
         $this->db->select('*');
-        $this->db->from('tblworkday');
+        $this->db->from('tblmy_workday');
         $query = $this->db->get();
 		return $query->row_array();
     }
@@ -21,7 +21,7 @@ class workday extends App_Model
     		'thursday' => $thursday, 
     		'friday' => $friday
     	);
-    	$this->db->update('tblworkday', $data);
+    	$this->db->update('tblmy_workday', $data);
         return true;
     }
 }

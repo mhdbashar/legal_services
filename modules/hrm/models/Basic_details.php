@@ -17,7 +17,7 @@ class basic_details extends App_Model
     {
         $this->db->where('staff_id', $id);
         $this->db->select('main_salary, transportation_expenses, other_expenses, gender, created, job_title');
-        $this->db->from('tblnewstaff');
+        $this->db->from('tblmy_newstaff');
         $query = $this->db->get();
 		return $query->row_array();
     }
@@ -27,15 +27,15 @@ class basic_details extends App_Model
     	if ($array != null)$this->db->update('tblstaff', $array);
         if ($this->issetNewDetails($id)){
             $this->db->where(['staff_id' => $id]);
-            if ($array2 != null)$this->db->update('tblnewstaff', $array2);
+            if ($array2 != null)$this->db->update('tblmy_newstaff', $array2);
         }else{
-            $this->db->insert('tblnewstaff', $array2);
+            $this->db->insert('tblmy_newstaff', $array2);
         }
     	
     }
 
     public function issetNewDetails($id){
-        $this->db->from('tblnewstaff');
+        $this->db->from('tblmy_newstaff');
         $this->db->where(['staff_id' => $id]);
         $query = $this->db->get()->result();
         if(empty($query)) return false;

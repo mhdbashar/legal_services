@@ -3,17 +3,17 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = ['main_salary', 'transportation_expenses', 
-'other_expenses','CONCAT(firstname, " ", lastname) as full_name', db_prefix() . 'newstaff.user_id'];
+'other_expenses','CONCAT(firstname, " ", lastname) as full_name', db_prefix() . 'my_newstaff.user_id'];
 // $aColumns = ['description', 'start_date', 'end_date','firstname, lastname', db_prefix() . 'vac.id'];
 
 
 $sIndexColumn = 'user_id';
-$sTable       = db_prefix().'newstaff';
+$sTable       = db_prefix().'my_newstaff';
 
 $where  = [];
 
 $join = [
-    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'newstaff.staff_id',
+    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'my_newstaff.staff_id',
 ];
 
 

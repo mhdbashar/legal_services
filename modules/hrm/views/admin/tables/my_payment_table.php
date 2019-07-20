@@ -11,12 +11,12 @@ $aColumns = ['paid_date', 'payment_month', 'comments',
 
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'salary';
+$sTable       = db_prefix().'my_salary';
 
 $where  = [];
 
 $join = [
-    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'salary.staff_id',
+    'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'my_salary.staff_id',
 ];
 
 

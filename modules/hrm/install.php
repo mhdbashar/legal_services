@@ -68,7 +68,7 @@ if (!$CI->db->table_exists(db_prefix() . 'my_salary')) {
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'employee_basic')) { 
+if (!$CI->db->table_exists(db_prefix() . '')) { 
 	$CI->db->query('CREATE TABLE `' .db_prefix().	'employee_basic` (
 	`employee_basic_id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`staff_id` int(11) NOT NULL,

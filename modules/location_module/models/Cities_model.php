@@ -14,7 +14,7 @@ class Cities_model extends APP_Model{
 
     public function get($id=''){
         if(is_numeric($id)){
-            $this->db->where($id);
+            $this->db->where('id' ,$id);
             return $this->db->get($this->table_name)->row();
         }
 
@@ -28,6 +28,25 @@ class Cities_model extends APP_Model{
         if($insert_id){
             log_activity('New ' . $this->table_name . ' added [ID: '.$insert_id.']');
             return $insert_id;
+        }
+        return false;
+    }
+
+    public function add_city($data){
+        $this->db->insert($this->table_name, $data);
+        if($this->db->affected_rows() > 0){
+            log_activity($this->table_name . ' Added [City ID: '. $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function update_city($data, $id){
+        $this->db->where('Id', $id);
+        $this->db->update($this->table_name, $data);
+        if($this->db->affected_rows() > 0){
+            log_activity($this->table_name . ' updated [City ID: '. $id . ']');
+            return true;
         }
         return false;
     }

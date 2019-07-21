@@ -449,7 +449,7 @@ class Session_discussions_model extends App_Model
         ]);
     }
 
-    public function remove_file($id, $log_activity = true)
+    public function remove_file($id, $logActivity = true)
     {
         hooks()->do_action('before_remove_project_file', $id);
 
@@ -473,7 +473,7 @@ class Session_discussions_model extends App_Model
 
             $this->db->where('id', $id);
             $this->db->delete(db_prefix() . 'project_files');
-            if ($log_activity) {
+            if ($logActivity) {
                 $this->log_activity($file->project_id, 'project_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
             }
 
@@ -1867,14 +1867,14 @@ class Session_discussions_model extends App_Model
         return $this->get_discussion_comment($data['id']);
     }
 
-    public function delete_discussion_comment($id, $log_activity = true)
+    public function delete_discussion_comment($id, $logActivity = true)
     {
         $comment = $this->get_discussion_comment($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'my_sessiondiscussioncomments');
         if ($this->db->affected_rows() > 0) {
             $this->delete_discussion_comment_attachment($comment->file_name, $comment->discussion_id);
-            if ($log_activity) {
+            if ($logActivity) {
                 $additional_data = '';
                 if ($comment->discussion_type == 'regular') {
                     $discussion = $this->get_discussion($comment->discussion_id);
@@ -1898,7 +1898,7 @@ class Session_discussions_model extends App_Model
             'parent' => null,
         ]);
 
-        if ($this->db->affected_rows() > 0 && $log_activity) {
+        if ($this->db->affected_rows() > 0 && $logActivity) {
             $this->_update_discussion_last_activity($comment->discussion_id, $comment->discussion_type);
         }
 
@@ -1966,13 +1966,13 @@ class Session_discussions_model extends App_Model
         return false;
     }
 
-    public function delete_discussion($id, $log_activity = true)
+    public function delete_discussion($id, $logActivity = true)
     {
         $discussion = $this->get_discussion($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'my_sessiondiscussions');
         if ($this->db->affected_rows() > 0) {
-            if ($log_activity) {
+            if ($logActivity) {
                 $this->log_activity($discussion->session_id, 'project_activity_deleted_discussion', $discussion->subject, $discussion->show_to_customer);
             }
             $this->_delete_discussion_comments($id, 'regular');

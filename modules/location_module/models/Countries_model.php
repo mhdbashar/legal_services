@@ -15,7 +15,7 @@ class Countries_model extends App_Model{
 
     public function get($id=''){
         if(is_numeric($id)){
-            $this->db->where($id);
+            $this->db->where('country_id' ,$id);
             return $this->db->get($this->table_name)->row();
         }
 
@@ -33,11 +33,20 @@ class Countries_model extends App_Model{
         return false;
     }
 
-    public function update($data, $id){
-        $this->db->where('id', $id);
+    public function update_country($data, $id){
+        $this->db->where('country_id', $id);
         $this->db->update($this->table_name, $data);
         if($this->db->affected_rows() > 0){
-            log_activity($this->table_name . ' updated [ID: '. $id . ']');
+            log_activity($this->table_name . ' updated [Country ID: '. $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function add_country($data){
+        $this->db->insert($this->table_name, $data);
+        if($this->db->affected_rows() > 0){
+            log_activity($this->table_name . ' Added [Country ID: '. $id . ']');
             return true;
         }
         return false;

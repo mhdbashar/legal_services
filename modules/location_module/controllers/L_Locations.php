@@ -21,34 +21,59 @@ class L_Locations extends AdminController
         $this->load->view('admin/countries/countries_manage', $data);
     }
 
-    public function edit_country(){
-        if (!is_admin()) {
-            access_denied();
-        }
+    
 
-        if ($this->input->is_ajax_request()) {
-            $data = $this->input->post();
-            if ($data['country_id'] == '') {
-                $id      = $this->Countries_model->add($data);
-                $message = $id ? "Country added successfully" : 'There is a problem in contacting the server';
-                echo json_encode([
-                    'success' => $id ? true : false,
-                    'message' => $message,
-                    'id'      => $id,
-                    'name'    => $data['short_name'],
-                ]);
-            } else {
-                $success = $this->Countries_model->update($data, $data['country_id']);
-                $message = '';
-                if ($success == true) {
-                    $message = "Country updated successfully";
-                }
-                echo json_encode([
-                    'success' => $success,
-                    'message' => $message,
-                ]);
-            }
-        }
+    public function country_json($id){
+        $data = $this->Countries_model->get($id);
+        echo json_encode($data);
+    }
+
+    public function edit_country(){
+        $data = $this->input->post();
+        $id = $this->input->post('country_id');
+        $success = $this->Countries_model->update_country($data, $id);
+        if($success)
+            set_alert('success', 'Country Updated successfully');
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_country(){
+        $data = $this->input->post();
+        $success = $this->Countries_model->add_country($data);
+        if($success)
+            set_alert('success', 'Country Added successfully');
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_city(){
+        $data = $this->input->post();
+        $success = $this->Cities_model->add_city($data);
+        if($success)
+            set_alert('success', 'City Added successfully');
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function city_json($id){
+        $data = $this->Cities_model->get($id);
+        echo json_encode($data);
+    }
+
+    public function update_city(){
+
+        $data = $this->input->post();
+        $id = $this->input->post('Id');
+        $success = $this->Cities_model->update_city($data, $id);
+        if($success)
+            set_alert('success', 'City Updated successfully');
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function edit_country_json(){
@@ -104,6 +129,7 @@ class L_Locations extends AdminController
             $this->locationapp->get_table_data('cities_table', ['country_id' => $country_id]);
         }
         $data['title'] = 'Locations';
+        $data['country_id'] = $country_id;
         $this->load->view('admin/cities/cities_manage', $data);
     }
 

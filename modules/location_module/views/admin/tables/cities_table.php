@@ -15,12 +15,10 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
-    for ($i = 0 ; $i < count($aColumns) ; $i++) {
-        $_data = '<a href="#" data-toggle="modal" data-target="#cities_modal" data-id="' . $aRow['Id'] . '">' . $aRow[$aColumns[$i]] . '</a>';
+    $row[] = $aRow['Name_en'];
 
-        $row[] = $_data;
-    }
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#cities_modal', 'data-id' => $aRow['Id']]);
+
+    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#cities_modal', 'data-id' => $aRow['Id'], 'onclick' => 'edit_city_json(' . $aRow['Id'] . ')']);
     $row[]   = $options .= icon_btn('location_module/L_Locations/delete_City/' . $aRow['Id'], 'remove', 'btn-danger _delete');
 
     $output['aaData'][] = $row;

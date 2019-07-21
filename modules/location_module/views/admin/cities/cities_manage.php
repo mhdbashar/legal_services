@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                      <div class="_buttons">
-                        <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#cities_modal"><?php echo 'New City'; ?></a>
+                        <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_city"><?php echo 'New City'; ?></a>
                     </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('admin/cities/cities_view'); ?>
+<?php $this->load->view('admin/cities/cities_view', ['country_id' => $country_id]); ?>
 <?php init_tail(); ?>
 <script>
    $(function(){

@@ -1,6 +1,6 @@
 <?php
 
-if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
+if (!$CI->db->table_exists(db_prefix() . 'my_new')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_newstaff` (
     `user_id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `staff_id` int(11) NOT NULL,

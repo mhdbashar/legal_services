@@ -7,17 +7,17 @@
                 <div class="panel_s">
                     <div class="panel-body">
                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_session" data-title="New Holiday" data-readonly="">
-                        Add New Session
+                        <?php echo _l('add_new_session') ?>
                     </button>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
-                        'Subject',
-                        'Date',
-                        'Status',
-                        'Result',
-                        'Options',
+                        _l('subject'),
+                        _l('date'),
+                        _l('status'),
+                        _l('result'),
+                        _l('options'),
                         ),'customer-groups'); ?>
                     <?php 
 
@@ -35,6 +35,17 @@
 </div>
 <?php init_tail(); ?>
 <script>
+    <?php 
+
+for($i = 0; $i < $num_session; $i++){ ?>
+        function submitForm<?php echo $i ?>(){ 
+            document.getElementById('myform<?php echo $i ?>').submit(); 
+        }
+        function resultForm<?php echo $i ?>(){ 
+            document.getElementById('resultform<?php echo $i ?>').submit(); 
+        }
+    
+<?php } ?>
    $(function(){
         initDataTable('.table-customer-groups', window.location.href, [1], [1]);
    });

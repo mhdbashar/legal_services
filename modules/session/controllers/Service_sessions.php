@@ -14,7 +14,8 @@ class Service_sessions extends AdminController
     {
         $data['service_id'] = $service_id;
         $data['rel_id'] = $rel_id;
-        $data['title'] = 'Service Sessions';
+        $data['title'] = _l('service_session');
+        $data['num_session'] = $this->Service_sessions_model->count_sessions($service_id, $rel_id);
 
         if ($this->input->is_ajax_request())
             $this->sessionapp->get_table_data('my_service_sessions', $data);
@@ -27,6 +28,8 @@ class Service_sessions extends AdminController
         echo json_encode($data);
     }
 
+    
+
     public function add($rel_id, $service_id, $staff){
         $data = $this->input->get();
         $data['staff'] = $staff;
@@ -34,9 +37,9 @@ class Service_sessions extends AdminController
         $data['service_id'] = $service_id;
         $success = $this->Service_sessions_model->add($data);
         if($success)
-            set_alert('success', 'Added Successfuly');
+            set_alert('success', _l('session_added_successfuly'));
         else
-            set_alert('danger', 'Problem Deleting');
+            set_alert('danger', _l('problem_creating'));
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -47,9 +50,9 @@ class Service_sessions extends AdminController
         $data['service_id'] = $service_id;
         $success = $this->Service_sessions_model->update($data, $id);
         if($success)
-            set_alert('success', 'Updated Successfuly');
+            set_alert('success', _l('session_updated_successfuly'));
         else
-            set_alert('danger', 'Problem Updating');
+            set_alert('danger', _l('problem_updating'));
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -59,9 +62,9 @@ class Service_sessions extends AdminController
         $data['service_id'] = $service_id;
         $success = $this->Service_sessions_model->update($data, $id);
         if($success)
-            set_alert('success', 'Deleted Successfuly');
+            set_alert('success', _l('session_deleted_successfuly'));
         else
-            set_alert('danger', 'Problem Deleting');
+            set_alert('danger', _l('problem_deleting'));
         redirect($_SERVER['HTTP_REFERER']);
     }
 

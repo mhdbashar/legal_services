@@ -16,7 +16,7 @@ class Session_Info extends AdminController{
     }
 
 
-    public function discussion($id = '')
+    public function discussion($id = "")
     {
         if ($this->input->get()) {
             $message = '';
@@ -130,9 +130,9 @@ class Session_Info extends AdminController{
     	$details = $this->input->get('details');
     	$success = $this->Service_sessions_model->update_details($id, ['details' => $details]);
     	if ($success){
-    		set_alert('success', 'Detail Updated Successfuly');
+    		set_alert('success', _l('detail_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }
@@ -140,9 +140,9 @@ class Session_Info extends AdminController{
         $status = $this->input->get('status');
         $success = $this->Service_sessions_model->update_details($id, ['status' => $status]);
         if ($success){
-            set_alert('success', 'Status Updated Successfuly');
+            set_alert('success', _l('status_updated_successfuly'));
         }else{
-            set_alert('danger', 'Problem Updating');
+            set_alert('danger', _l('problem_updating'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -151,9 +151,9 @@ class Session_Info extends AdminController{
         $result = $this->input->get('result');
         $success = $this->Service_sessions_model->update_details($id, ['result' => $result]);
         if ($success){
-            set_alert('success', 'Result Updated Successfuly');
+            set_alert('success', _l('result_updated_successfuly'));
         }else{
-            set_alert('danger', 'Problem Updating');
+            set_alert('danger', _l('problem_updating'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -163,9 +163,9 @@ class Session_Info extends AdminController{
     	$next_action = $this->input->get('next_action');
     	$success = $this->Service_sessions_model->update_details($id, ['next_action' => $next_action]);
     	if ($success){
-    		set_alert('success', 'Next Action Updated Successfuly');
+    		set_alert('success', _l('next_action_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }
@@ -175,9 +175,9 @@ class Session_Info extends AdminController{
     	$next_date = $this->input->get('next_date');
     	$success = $this->Service_sessions_model->update_details($id, ['next_date' => $next_date]);
     	if ($success){
-    		set_alert('success', 'Next Date Updated Successfuly');
+    		set_alert('success', _l('next_date_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }

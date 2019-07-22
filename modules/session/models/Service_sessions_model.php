@@ -22,6 +22,12 @@ class Service_sessions_model extends App_Model
         return false;
     }
 
+    public function count_sessions($service_id, $rel_id){
+        $this->db->select('id');
+        $this->db->from(db_prefix() . 'my_service_session');
+        $this->db->where(['service_id' => $service_id, 'rel_id' => $rel_id]);
+        return $this->db->count_all_results();
+    }
    
     
     // tblmy_service_sessions, `id`, `service_id`, `red_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `details`, `next_action`, `next_date`, `report`, `deleted`

@@ -32,39 +32,28 @@
                            </li>
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_information" aria-controls="tab_information" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Session Information
+                                 <?php echo _l('session_info') ?>
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_next_action" aria-controls="tab_next_action" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Next Action
+                                 <?php echo _l('next_action') ?>
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_next_date" aria-controls="tab_next_date" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Next Date
-                              </a>
-                           </li>
-                           <li role="presentation" class="tab-separator">
-                              <a href="#tab_status" aria-controls="tab_status" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Status
-                              </a>
-                           </li>
-
-                           <li role="presentation" class="tab-separator">
-                              <a href="#tab_result" aria-controls="tab_result" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Result
+                                 <?php echo _l('next_date') ?>
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_discussion" aria-controls="tab_discussion" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Discussions
+                                 <?php echo _l('discussion') ?>
                               </a>
                            </li>
 
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_detail" aria-controls="tab_detail" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 Session Detail
+                                 <?php echo _l('session_detail') ?>
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator toggle_view">
@@ -120,43 +109,43 @@
                               ?>
                         </div>
                      </div>
-                     <div role="tabpanel" class="tab-pane" id="tab_information">
+                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'info'){echo ' active';} ?>" id="tab_information">
                         <?php 
                            function statusName($id){
                               switch ($id) {
-                                 case 0:
+                                 case 1:
                                     return "جلسة أولى";
                                     break;
-                                 case 1:
+                                 case 2:
                                     return "جلسة استماع";
                                     break;
-                                 case 2:
+                                 case 3:
                                     return "جلسة رد";
                                     break;
-                                 case 3:
+                                 case 4:
                                     return "النطق  بالحكم";
                                     break;
                                  
                                  default:
-                                    return "جلسة أولى";
+                                    return "غير محدد";
                                     break;
                               }
                            }
                            function resultName($id){
                               switch ($id) {
-                                 case 0:
+                                 case 1:
                                     return "تم الحكم لصالح المدعي";
                                     break;
-                                 case 1:
+                                 case 2:
                                     return "تم الحكم لصالح المدعي عليه";
                                     break;
-                                 case 2:
+                                 case 3:
                                     return "تم إقفال القضية";
                                     break;
                                 
                                  
                                  default:
-                                    return "تم الحكم لصالح المدعي";
+                                    return "غير محدد";
                                     break;
                               }
                            }
@@ -164,30 +153,30 @@
                         <div class="row well ">
                             <div class="col-md-12" style="font-size: 17px">
                                     <div class="col-md-6">
-                                        <?php echo '<b>Service Id</b>' ?> : <?php echo $session->service_id ?>
+                                        <?php echo '<b>'._l('service_id').'</b>' ?> : <?php echo $session->service_id ?>
                                     </div>
                                     <div class="col-md-6">
-                                        <?php echo '<b>Subject</b>' ?> : <?php echo $session->subject ?>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <?php echo '<b>Court</b>' ?> : <?php echo ($court_name->court_name) ?>
+                                        <?php echo '<b>'._l('subject').'</b>' ?> : <?php echo $session->subject ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo '<b>Judge</b>' ?> : <?php echo $judge_name->name ?>
+                                        <?php echo '<b>'._l('court').'</b>' ?> : <?php echo ($court_name->court_name) ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo '<b>Date</b>' ?> : <?php echo $session->date ?>
+                                        <?php echo '<b>'._l('judge').'</b>' ?> : <?php echo $judge_name->name ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo '<b>Status</b>' ?> : <?php echo statusName($session->status) ?>
+                                        <?php echo '<b>'._l('session_date').'</b>' ?> : <?php echo $session->date ?>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo '<b>Result</b>' ?> : <?php echo resultName($session->result) ?>
+                                        <?php echo '<b>'._l('status').'</b>' ?> : <?php echo statusName($session->status) ?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo '<b>'._l('result').'</b>' ?> : <?php echo resultName($session->result) ?>
                                     </div>
 
                                     <div class="col-md-6">
@@ -196,22 +185,22 @@
 
                                 <?php if ($session->details){ ?>
                                     <div class="col-md-6">
-                                        <?php echo '<b>Details</b>' ?> : <?php echo $session->details ?>
+                                        <?php echo '<b>'._l('detail').'</b>' ?> : <?php echo $session->details ?>
                                     </div>
                                 <?php } ?>
                                 <?php if ($session->next_action){ ?>
                                     <div class="col-md-6">
-                                        <?php echo '<b>Next Action</b>' ?> : <?php echo $session->next_action ?>
+                                        <?php echo '<b>'._l('next_action').'</b>' ?> : <?php echo $session->next_action ?>
                                     </div>
                                 <?php } ?>
                                 <?php if ($session->next_date){ ?>
                                     <div class="col-md-6">
-                                        <?php echo '<b>Next Date</b>' ?> : <?php echo $session->next_date ?>
+                                        <?php echo '<b>'._l('next_date').'</b>' ?> : <?php echo $session->next_date ?>
                                     </div>
                                 <?php } ?>
                                 <?php if ($session->report){ ?>
                                     <div class="col-md-6">
-                                        <?php echo '<b>Report</b>' ?> : <?php echo $session->report ?>
+                                        <?php echo '<b>'._l('report').'</b>' ?> : <?php echo $session->report ?>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -221,27 +210,27 @@
                               <?php $detail = ($session->details) ? $session->details : '' ;  ?>
                         <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_detail/' ?><?php echo $session->id ?>">
                            <div class="form-group">
-                             <label for="details" class="col-form-label">Session Detail</label>
+                             <label for="details" class="col-form-label"><?php echo _l('session_detail') ?></label>
                              <textarea type="text" class="form-control" id="details" name="details" value="<?php echo $detail ?>"></textarea>
                            </div>
-                           <button type="submit" class="btn btn-primary">Save</button>
+                           <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
                         </form>
                      </div>
                      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'next_action'){echo ' active';} ?>" id="tab_next_action">
                               <?php $detail = ($session->next_action) ? $session->next_action : '' ;  ?>
                         <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_next_action/' ?><?php echo $session->id ?>">
                            <div class="form-group">
-                             <label for="subject" class="col-form-label">Next Action</label>
+                             <label for="subject" class="col-form-label"><?php echo _l('next_action') ?></label>
                              <textarea type="text" class="form-control" id="subject" name="next_action" value="<?php echo $detail ?>"></textarea>
                            </div>
-                           <button type="submit" class="btn btn-primary">Save</button>
+                           <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
                         </form>
                      </div>
                      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'next_date'){echo ' active';} ?>" id="tab_next_date">
                               <?php $detail = ($session->next_date) ? $session->next_date : '' ;  ?>
                         <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_next_date/' ?><?php echo $session->id ?>">
                            <div class="form-group" app-field-wrapper="date">
-                            <label for="date" class="control-label">Date</label>
+                            <label for="date" class="control-label"><?php echo _l('date') ?></label>
                               <div class="input-group date">
                                  <input type="text" id="date" name="next_date" class="form-control datepicker" value="<?php echo $detail ?>" autocomplete="off" aria-invalid="false">
                                  <div class="input-group-addon">
@@ -249,30 +238,10 @@
                                  </div>
                               </div>
                            </div>
-                           <button type="submit" class="btn btn-primary">Save</button>
+                           <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
                         </form>
                      </div>
-                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'status'){echo ' active';} ?>" id="tab_status">
-                        
-                        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_status/' ?><?php echo $session->id ?>">
-                           <div class="form-group">
-                            <label for="staff_id" class="col-form-label"><h4>Status : <?php echo statusName($session->status) ?></h4></label>
-                            <div class="row-fluid">
-                              <select name="status" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true" value="3">
-
-                                  <option value="0">جلسة أولى</option>
-                                  <option value="1">جلسة استماع</option>
-                                  <option value="2">جلسة رد</option>
-                                  <option value="3">النطق  بالحكم</option>
-                                  
-                              </select>
-                            
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                        
-                     </div>
+                     
                      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'discussion'){echo ' active';} ?>" id="tab_discussion">
 
 
@@ -300,33 +269,15 @@
                                 } else {
                                 echo _l('project_discussion_posted_by',get_staff_full_name($discussion->staff_id));
                                 }
+
                                 ?>
                         </p>
-                        <p><?php echo _l('project_discussion_total_comments'); ?>: <?php echo total_rows(db_prefix().'projectdiscussioncomments',array('discussion_id'=>$discussion->id)); ?>
+                        <p><?php echo _l('project_discussion_total_comments'); ?>: <?php echo total_rows(db_prefix().'my_sessiondiscussioncomments',array('discussion_id'=>$discussion->id)); ?>
                         <p class="text-muted"><?php echo $discussion->description; ?></p>
                         <hr />
                         <div id="discussion-comments"></div>
                         <?php } ?>
 
-                     </div>
-                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'result'){echo ' active';} ?>" id="tab_result">
-                        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_result/' ?><?php echo $session->id ?>">
-                           <div class="form-group">
-                            <label for="staff_id" class="col-form-label"><h4>Result : <?php echo resultName($session->result) ?></h4></label>
-                            <div class="row-fluid">
-                              <select name="result" id="result" class="selectpicker" data-show-subtext="true" data-live-search="true" value="3">
-
-                                  <option value="0">تم الحكم لصالح المدعي</option>
-                                  <option value="1">تم الحكم لصالح المدعي عليه</option>
-                                  <option value="2">تم إقفال القضية</option>
-                                  
-                              </select>
-                            
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                        
                      </div>
                            
                   </div>
@@ -351,6 +302,7 @@
    taskid = '<?php echo $this->input->get('taskid'); ?>';
 </script>
 <script>
+
    var gantt_data = {};
    <?php if(isset($gantt_data)){ ?>
    gantt_data = <?php echo json_encode($gantt_data); ?>;

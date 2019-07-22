@@ -25,7 +25,8 @@ function session_module_init_menu_item() {
 
     $CI->app_menu->add_sidebar_menu_item('session', [
         'name' => 'Session',
-        'href' => base_url('session/service_sessions/session/1/1'),
+        // URL form:    http://.../session/service_sessions/session/{service_id}/{rel_type}
+        'href' => base_url('session/service_sessions/session/1/1'), 
         'position' => 10,
         'icon' => 'fa fa-map-marker',
     ]);

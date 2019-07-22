@@ -18,6 +18,7 @@ class Basic extends AdminController{
     		'skype' 		=> $this->input->post('skype'), 
     		'hourly_rate' 	=> $this->input->post('hourly_rate'), 
     	];
+        
     	$arr2 = [
             'staff_id'                      => $id, 
            'job_title'                      => $this->input->post('job_title'), 

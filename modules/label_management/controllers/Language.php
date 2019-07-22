@@ -14,7 +14,7 @@ class Language extends AdminController
 
 		if(!file_exists($file)){
 			require FCPATH . 'application/language/' . $language . '/' . $language . '_lang.php';
-			$a = getArr($lang);
+			$a = $this->getArr($lang);
 			$handle = fopen($file, 'w+');
 			fwrite($handle, $a);
 		}
@@ -32,7 +32,7 @@ class Language extends AdminController
 			$key = $this->input->get('key'); $value = $this->input->get('value');
 			$lang[$key] = $value;
 
-			$a = getArr($lang);
+			$a = $this->getArr($lang);
 			fwrite($handle,  $a);
 			
 			fclose($handle);
@@ -56,7 +56,7 @@ class Language extends AdminController
     	require $file;
 		unset($lang[$key]);
 
-		$a = getArr($lang);
+		$a = $this->getArr($lang);
 
 		$handle = fopen($file, 'w+');
 		fwrite($handle,  $a);
@@ -65,5 +65,15 @@ class Language extends AdminController
 		$offset = $this->session->flashdata('offset');
 		redirect('label_management/Language/index/' . $language . '/' . $offset);
 	}
+	public function getArr($lang){
+	    $str = '<?php';
+	   foreach($lang as $key => $value){
+
+	       $str .= "\n$" . "lang['" . $key . "']" . ' = "' . str_replace('"', '\"', $value) . '";';
+	   }
+	   return $str;
+	}
+
+
 
 }

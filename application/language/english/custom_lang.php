@@ -1,18 +1,8 @@
 <?php
-$lang['Id'] = "ID";
-$lang['procuration'] = "Procuration";
-$lang['procurations'] = "Procurations";
-$lang['procuration_state'] = "Procuration state";
-$lang['procuration_type'] = "Procuration type";
-$lang['new_procuration_type'] = "New Procuration type";
-$lang['new_procuration_state'] = "New Procuration state";
-$lang['new_procuration'] = "New Procuration";
-$lang['company'] = "Company";
-$lang['individual'] = "Individual";
-$lang['customer_details'] = "Customer Name (Company or Individual)";
-$lang['customer_type'] = "Customer Type";
-$lang['customer_representative'] = "Customer Representative";
-$lang['new_customer_representative'] = "New Customer Representative";
-$lang['new_judge'] = "New Judge";
-$lang['case_status'] = "Case Status";
-$lang['new_cstatus'] = "New Case Status";
+$lang['two_factor_auth_phonenumber_code_not_found'] = 'your phone number not found, please ask administrator to update it first.';
+$lang['two_factor_auth_phonenumber_code_not_sent'] = 'your code not sent, %s';
+$lang['two_factor_auth_phonenumber_code_sent_successfully'] = 'An SMS has been sent to your mobile with verification code to verify your login';
+$lang['disable_two_factor_authentication'] = 'Disable Two Factor Authentication ';
+$lang['two_factor_sms_authentication_info'] = 'Two factor authentication is provided by SMS, before enable two factor authentication make sure that your SMS settings are properly configured and the system is able to send an SMS. Unique authentication key will be sent to SMS upon login.';
+$lang['enable_two_factor_sms_authentication'] = ' Enable Two Factor SMS Authentication';
+$lang['enable_two_factor_authentication'] = ' Enable Two Factor Email Authentication';

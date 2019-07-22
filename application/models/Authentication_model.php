@@ -109,7 +109,9 @@ class Authentication_model extends App_Model
 
                 $this->update_login_info($user->$_id, $staff);
             } else {
-                return ['two_factor_auth' => true, 'user' => $user];
+                //ShababSy.com Changed this
+				return ['two_factor_auth' => $user->two_factor_auth_enabled, 'user' => $user];
+                //return ['two_factor_auth' => true, 'user' => $user];
             }
 
             return true;
@@ -602,11 +604,18 @@ class Authentication_model extends App_Model
      * Set 2 factor authentication code for staff member
      * @param mixed $id staff id
      */
-    public function set_two_factor_auth_code($id)
+	 
+    public function set_two_factor_auth_code($id, $auth_type=1)
     {
-        $code = generate_two_factor_auth_key();
-        $code .= $id;
-
+		// ShababSy.com Added this
+        if($auth_type==1){
+			$code = generate_two_factor_auth_key();
+		}else{
+			$code = rand(1000, 9999);
+		}
+		//$code = generate_two_factor_auth_key();
+		$code .= $id;
+		
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', [
             'two_factor_auth_code'           => $code,
@@ -614,5 +623,113 @@ class Authentication_model extends App_Model
         ]);
 
         return $code;
+    }
+	
+	
+	
+	// ShababSy.com Added this func
+	public function send_verification_sms($userdata)
+    {
+
+		$userAccount = 'mohd1978';
+        $passAccount = '19781978';
+        $sender 	 = 'TechnoLinks';
+		
+		
+		
+        //الرسائل الناتجه من دالة الإرسال
+        $arraySendMsg = array();
+        $arraySendMsg[0] = "لم يتم الاتصال بالخادم";
+        $arraySendMsg[1] = "تمت عملية الإرسال بنجاح";
+        $arraySendMsg[2] = "رصيدك 0 , الرجاء إعادة التعبئة حتى تتمكن من إرسال الرسائل";
+        $arraySendMsg[3] = "رصيدك غير كافي لإتمام عملية الإرسال";
+        $arraySendMsg[4] = "رقم الجوال (إسم المستخدم) غير صحيح";
+        $arraySendMsg[5] = "كلمة المرور الخاصة بالحساب غير صحيحة";
+        $arraySendMsg[6] = "صفحة الانترنت غير فعالة , حاول الارسال من جديد";
+        $arraySendMsg[7] = "نظام غير فعال";
+        $arraySendMsg[8] = "تكرار رمز  لنفس المستخدم";
+        $arraySendMsg[9] = "انتهاء الفترة التجريبية";
+        $arraySendMsg[10] = "عدد الارقام لا يساوي عدد الرسائل";
+        $arraySendMsg[11] = "اشتراكك لا يتيح لك ارسال رسائل لهذه. يجب عليك تفعيل الاشتراك لهذه";
+        $arraySendMsg[12] = "إصدار البوابة غير صحيح";
+        $arraySendMsg[13] = "الرقم المرسل به غير مفعل أو لا يوجد الرمز BS في نهاية الرسالة";
+        $arraySendMsg[14] = "غير مصرح لك بالإرسال بإستخدام هذا المرسل";
+        $arraySendMsg[15] = "الأرقام المرسل لها غير موجوده أو غير صحيحه";
+        $arraySendMsg[16] = "إسم المرسل فارغ، أو غير صحيح";
+        $arraySendMsg[17] = "نص الرسالة غير متوفر أو غير مشفر بشكل صحيح";
+        $arraySendMsg[18] = "تم ايقاف الارسال من المزود";
+        $arraySendMsg[19] = "لم يتم العثور على مفتاح نوع التطبيق";
+
+        
+        $numbers = $userdata->phonenumber;
+        $msg = 'Your verification code is: ' . $userdata->two_factor_auth_code;
+        $MsgID = time();//rand(1, 99999);
+        $timeSend = 0;
+        $dateSend = 0;
+        $deleteKey = 0;
+        $viewResult = 0;
+
+        $url = "www.mobily.ws/api/msgSend.php";
+        $applicationType = "68";
+        $sender = urlencode($sender);
+        $domainName = $_SERVER['SERVER_NAME'];
+        $stringToPost = "mobile=" . $userAccount . "&password=" . $passAccount . "&numbers=" . $numbers . "&sender=" . $sender . "&msg=" . $msg . "&timeSend=" . $timeSend . "&dateSend=" . $dateSend . "&applicationType=" . $applicationType . "&domainName=" . $domainName . "&msgId=" . $MsgID . "&deleteKey=" . $deleteKey . "&lang=3";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $stringToPost);
+        $result = curl_exec($ch);
+
+        if ($viewResult)
+            $result = $this->printStringResult(trim($result), $arraySendMsg);
+        return $result;
+    }
+
+
+	// ShababSy.com Added this func
+    public function printStringResult($apiResult, $arrayMsgs, $printType = 'Alpha')
+    {
+        global $undefinedResult;
+        switch ($printType) {
+            case 'Alpha': {
+                if (array_key_exists($apiResult, $arrayMsgs))
+                    return $arrayMsgs[$apiResult];
+                else
+                    return $arrayMsgs[0];
+            }
+                break;
+
+            case 'Balance': {
+                if (array_key_exists($apiResult, $arrayMsgs))
+                    return $arrayMsgs[$apiResult];
+                else {
+                    list($originalAccount, $currentAccount) = explode("/", $apiResult);
+                    if (!empty($originalAccount) && !empty($currentAccount)) {
+                        return sprintf($arrayMsgs[3], $currentAccount, $originalAccount);
+                    } else
+                        return $arrayMsgs[0];
+                }
+            }
+                break;
+
+            case 'Senders': {
+                $apiResult = str_replace('[pending]', '[pending]<br>', $apiResult);
+                $apiResult = str_replace('[active]', '<br>[active]<br>', $apiResult);
+                $apiResult = str_replace('[notActive]', '<br>[notActive]<br>', $apiResult);
+                return $apiResult;
+            }
+                break;
+
+            case 'Normal':
+                if ($apiResult{0} != '#')
+                    return $arrayMsgs[$apiResult];
+                else
+                    return $apiResult;
+                break;
+        }
     }
 }

@@ -70,7 +70,8 @@ for($i = 0; $i < $num_session; $i++){ ?>
                 $('[name="subject"]').val(data.subject);
                 $('[name="date"]').val(data.date);
                 $('[name="id"]').val(data.id);
-                
+                $('[name="court_id"]').val(data.court_id);
+                $('[name="judge_id"]').val(data.judge_id);
                 
                 // $('[name="dob"]').datepicker('update',data.dob);
                 $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded

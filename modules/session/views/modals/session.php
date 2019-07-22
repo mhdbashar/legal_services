@@ -14,13 +14,14 @@
                         
                           <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" name="subject">
+                            <input type="text" class="form-control" id="subject" name="subject" required>
                           </div>
                           
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
-                              <select name="court_id" id="court_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select required style="padding: 6px 9px; border-radius: 3px; width: 100%" name="court_id">
+                                <option value="">Not Selected</option>
                                 <?php foreach ($courts as $court){ ?>
 
                                   <option value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
@@ -34,7 +35,8 @@
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
-                              <select name="judge_id" id="judge_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
+                                <option value="">Not Selected</option>
                                 <?php foreach ($judges as $judge){ ?>
 
                                   <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>
@@ -82,16 +84,16 @@
 
                           <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" name="subject">
+                            <input type="text" class="form-control" id="subject" name="subject" required>
                           </div>
 
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
-                              <select id="selection" name="court_id" id="court_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select required style="padding: 6px 9px; border-radius: 3px; width: 100%" name="court_id">
                                 <?php foreach ($courts as $court){ ?>
 
-                                  <option class="<?php echo $court['c_id'] ?>" value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
+                                  <option value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
                                   
                                 <?php } ?>
                               </select>
@@ -102,7 +104,7 @@
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
-                              <select name="judge_id" id="judge_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
                                 <?php foreach ($judges as $judge){ ?>
 
                                   <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>

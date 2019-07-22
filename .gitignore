@@ -3,3 +3,4 @@ system/
 plugins/
 themes/
 vendor/
+app-config.php

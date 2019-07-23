@@ -27,7 +27,7 @@
 <?php init_tail(); ?>
 <script>
    $(function(){
-        initDataTable('.table-countries', window.location.href, [1], [1]);
+        initDataTable('.table-countries', window.location.href);
    });
 </script>
 </body>

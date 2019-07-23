@@ -6,7 +6,7 @@ $aColumns = ['short_name', 'short_name_ar'];
 
 $sIndexColumn = 'country_id';
 $sTable       = db_prefix().'countries';
-$where = ['WHERE short_name_ar > ""'];
+$where = ['AND short_name_ar > ""'];
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, ['country_id']);
 $output  = $result['output'];
 $rResult = $result['rResult'];

@@ -7,7 +7,7 @@ $aColumns = ['Name_en', 'Name_ar'];
 $sIndexColumn = 'Id';
 $sTable       = db_prefix().'cities';
 
-$where = ['WHERE country_id = ' . $country_id];
+$where = ['AND country_id = ' . $country_id];
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, ['Id']);
 $output  = $result['output'];

@@ -15,6 +15,9 @@
                     <div class="col-md-12">
                         <?php echo render_input('short_name','Country name'); ?>
                     </div>
+                    <div class="col-md-12">
+                        <?php echo render_input('short_name_ar','Arabic Country name'); ?>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -72,6 +75,8 @@
                 $('[name="country_id"]').val(data.country_id);
                 
                 $('[name="short_name"]').val(data.short_name);
+
+                $('[name="short_name_ar"]').val(data.short_name_ar);
 
                 $('#countries_modal').modal('show'); // show bootstrap modal when complete loaded
 

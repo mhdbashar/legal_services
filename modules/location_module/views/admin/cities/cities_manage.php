@@ -14,6 +14,7 @@
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
                         'City Name',
+                        'Arabic City Name',
                         'Options',
                         ),'cities'); ?>
                     </div>

@@ -14,6 +14,7 @@
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
                         'Country Name',
+                        'Arabic Country Name',
                         'Options',
                         ),'countries'); ?>
                     </div>

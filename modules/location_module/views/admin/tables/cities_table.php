@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$aColumns = ['Name_en'];
+$aColumns = ['Name_en', 'Name_ar'];
 
 $sIndexColumn = 'Id';
 $sTable       = db_prefix().'cities';
@@ -16,6 +16,7 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['Name_en'];
+    $row[] = $aRow['Name_ar'];
 
 
     $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#cities_modal', 'data-id' => $aRow['Id'], 'onclick' => 'edit_city_json(' . $aRow['Id'] . ')']);

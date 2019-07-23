@@ -13,6 +13,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('Name_en','City name'); ?>
+                        <?php echo render_input('Name_ar','Arabic City name'); ?>
                         <?php echo form_hidden('Id'); ?>
                     </div>
                 </div>
@@ -72,6 +73,8 @@
                 $('[name="Id"]').val(data.Id);
                 
                 $('[name="Name_en"]').val(data.Name_en);
+
+                $('[name="Name_ar"]').val(data.Name_ar);
 
                 $('#countries_modal').modal('show'); // show bootstrap modal when complete loaded
 

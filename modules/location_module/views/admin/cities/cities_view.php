@@ -41,6 +41,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('Name_en','City name'); ?>
+                        <?php echo render_input('Name_ar','Arabic City name'); ?>
                         <input aria-hidden="true" type="hidden" class="form-control" value="<?php echo $country_id ?>" name="country_id">
                     </div>
                 </div>

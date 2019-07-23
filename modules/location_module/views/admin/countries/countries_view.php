@@ -43,6 +43,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('short_name','Country name'); ?>
+                        <?php echo render_input('short_name_ar','Arabic Country name'); ?>
                     </div>
                 </div>
             </div>

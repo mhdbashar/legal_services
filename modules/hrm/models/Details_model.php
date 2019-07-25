@@ -2,8 +2,44 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class basic_details extends App_Model
+class Details_model extends App_Model
 {
+
+    public function add_bank($data){
+        $this->db->insert('tblmy_bank', $data);
+        $insert_id = $this->db->insert_id();
+        if($insert_id){
+            log_activity('Bank added [ID: '.$insert_id.']');
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function delete_bank($id){
+        $this->db->where('id', $id);
+
+        $this->db->delete('tblmy_bank');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Bank Deleted [' . $id . ']');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_bank($id = '')
+    {
+        if (is_numeric($id)) {
+        $this->db->where('id', $id);
+
+        return $this->db->get('tblmy_bank')->row();
+        }
+        
+        $this->db->order_by('id', 'desc');
+        return $this->db->get('tblmy_bank')->result_array();
+    }
+
     public function getstaff($id)
     {
         $this->db->select('staffid, firstname, lastname, facebook, email, phonenumber, hourly_rate, skype');
@@ -31,6 +67,13 @@ class basic_details extends App_Model
         }else{
             $this->db->insert('tblmy_newstaff', $array2);
         }
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Staff Updated [' . $id . ']');
+
+            return true;
+        }
+
+        return false;
     	
     }
 

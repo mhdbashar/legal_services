@@ -12,7 +12,7 @@ class Employees extends AdminController {
         $ci->load->library(['hr_tabs']);
         //$ci->load->library(['hr_tabs']);
         $this->load->model('hr');
-        $this->load->model('basic_details');
+        $this->load->model('Details_model');
     }
 
     /* List all Employees */
@@ -33,6 +33,9 @@ class Employees extends AdminController {
     public function member($id = '') {
         if (!has_permission('hr', '', 'view')) {
             access_denied('hr');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->hrmapp->get_table_data('my_bank_table', ['staff_id' => $id]);
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
@@ -176,5 +179,7 @@ class Employees extends AdminController {
         ]);
 
     }
+
+    
 
 }

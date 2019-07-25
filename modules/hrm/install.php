@@ -13,6 +13,18 @@ if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'my_bank')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_bank` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `staff_id` int(11) NOT NULL,
+    `bank_name` varchar(255) NOT NULL, 
+    `account_name` varchar(255) NOT NULL, 
+    `routing_number` int(11) NOT NULL, 
+    `account_number` int(11) NOT NULL, 
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'my_vac')) {           
 	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_vac` (
 	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,

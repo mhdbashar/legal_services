@@ -3,7 +3,7 @@
 <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <?php echo form_open("hrm/basic/edit/" . $info['staffid'], array('id' => 'basic-form', 'autocomplete' => 'off')); ?>
+            <?php echo form_open("hrm/details/edit_basic_details/" . $info['staffid'], array('id' => 'basic-form', 'autocomplete' => 'off')); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel"><?php echo 'Edit Staff Account'; ?></h4>

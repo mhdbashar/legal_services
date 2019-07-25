@@ -295,12 +295,12 @@ function app_init_customer_profile_tabs()
         'position' => 80,
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('vault', [
-        'name'     => _l('vault'),
-        'icon'     => 'fa fa-lock',
-        'view'     => 'admin/clients/groups/vault',
-        'position' => 85,
-    ]);
+    // $CI->app_tabs->add_customer_profile_tab('vault', [
+    //     'name'     => _l('vault'),
+    //     'icon'     => 'fa fa-lock',
+    //     'view'     => 'admin/clients/groups/vault',
+    //     'position' => 85,
+    // ]);
 
     $CI->app_tabs->add_customer_profile_tab('reminders', [
         'name'     => $remindersText,

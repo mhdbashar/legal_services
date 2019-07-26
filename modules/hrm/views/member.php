@@ -511,8 +511,18 @@ $arr = $this->Details_model->getstaff($id);
 <?php init_tail(); ?>
 <script>
 
+   
+
+   $(function(){
+        initDataTable('.table-make_payment', window.location.href, [1], [1]);
+   });
+
    $(function(){
         initDataTable('.table-bank', window.location.href);
+   });
+
+   $(function(){
+        initDataTable('.table-leave', window.location.href);
    });
 
    function edit_bank_json(id){

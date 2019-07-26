@@ -34,9 +34,37 @@ class Employees extends AdminController {
         if (!has_permission('hr', '', 'view')) {
             access_denied('hr');
         }
-        if ($this->input->is_ajax_request()) {
-            $this->hrmapp->get_table_data('my_bank_table', ['staff_id' => $id]);
+        
+        if($this->input->get('month')){
+
+            $month = $this->input->get('month');
+            $year = $this->input->get('year');
+
+            $data['staff_id'] = $id;
+            $data['month'] = $year . "-" . $month;
+            
+            if($this->input->is_ajax_request()){
+                $this->hrmapp->get_table_data('my_makepayment_table', $data);
+            }
         }
+
+        if($this->input->get('group') == 'bank'){
+            
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_bank_table', ['staff_id' => $id]);
+            }
+        }
+
+        if($this->input->get('group') == 'leave'){
+            
+            if($this->input->is_ajax_request()){
+                $this->hrmapp->get_table_data('my_vac_table', ['staff_id' => $id]);
+            }
+        }
+        
+
+        
+
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
         $this->load->model('departments_model');
@@ -112,7 +140,7 @@ class Employees extends AdminController {
 
         $tab = $this->input->get('group');
         $data['tab']['slug'] = $tab;
-        $data['tab']['view'] = 'hr/includes/' . $tab;
+        $data['tab']['view'] = 'hrm/details/' . $tab;
         $data['tab']['info'] = $this->hr_tabs->filter_tab($this->hr_tabs->get_employeedetails_tabs(), $tab);
 
         if (!$data['tab']) {

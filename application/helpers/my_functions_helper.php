@@ -108,6 +108,15 @@ function my_custom_setup_menu_items()
 
     ]);
 
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("case_status"), // The name if the item
+        'href'     => admin_url('Case_status'), // URL of the item
+        'position' => 3, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
 }
 
 

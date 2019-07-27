@@ -59,7 +59,7 @@ function my_custom_setup_menu_items()
     $CI->app_menu->add_setup_menu_item('1', [
         'name'     => _l("procuration"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 2, // The menu position
+        'position' => 1, // The menu position
         'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
     ]);
 
@@ -83,7 +83,21 @@ function my_custom_setup_menu_items()
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("procuration_type"), // The name if the item
         'href'     => admin_url('procuration/type'), // URL of the item
+        'position' => 3, // The menu position
+    ]);
+
+    $CI->app_menu->add_setup_menu_item('2', [
+        'name'     => _l("customer_representative"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
         'position' => 2, // The menu position
+        'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("customer_representative"), // The name if the item
+        'href'     => admin_url('customer_representative'), // URL of the item
+        'position' => 1, // The menu position
     ]);
 }
 

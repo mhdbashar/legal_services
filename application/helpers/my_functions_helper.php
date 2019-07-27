@@ -60,7 +60,7 @@ function my_custom_setup_menu_items()
         'name'     => _l("procuration"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 1, // The menu position
-        'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
+        //'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
     ]);
 
     // The first paremeter is the parent menu ID/Slug
@@ -87,10 +87,10 @@ function my_custom_setup_menu_items()
     ]);
 
     $CI->app_menu->add_setup_menu_item('2', [
-        'name'     => _l("customer_representative"), // The name if the item
+        'name'     => _l("legal_services_settings"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 2, // The menu position
-        'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
+        //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
     ]);
 
     $CI->app_menu->add_setup_children_item('2', [
@@ -99,6 +99,15 @@ function my_custom_setup_menu_items()
         'href'     => admin_url('customer_representative'), // URL of the item
         'position' => 1, // The menu position
     ]);
+
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("Judges"), // The name if the item
+        'href'     => admin_url('Judge'), // URL of the item
+        'position' => 2, // The menu position
+
+    ]);
+
 }
 
 

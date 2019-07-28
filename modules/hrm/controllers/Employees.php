@@ -35,16 +35,10 @@ class Employees extends AdminController {
             access_denied('hr');
         }
         
-        if($this->input->get('month')){
-
-            $month = $this->input->get('month');
-            $year = $this->input->get('year');
-
-            $data['staff_id'] = $id;
-            $data['month'] = $year . "-" . $month;
+        if($this->input->get('group') == 'salary'){
             
-            if($this->input->is_ajax_request()){
-                $this->hrmapp->get_table_data('my_makepayment_table', $data);
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_payment_table', ['staff_id' => $id]);
             }
         }
 

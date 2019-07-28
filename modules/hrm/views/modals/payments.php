@@ -31,3 +31,37 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+    function edit_payment_json(id){
+
+        save_method = 'update';
+        $('#form_transout')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+
+        //Ajax Load data from ajax
+        $.ajax({
+            url : "<?php echo site_url('hrm/payments/get') ?>/" + id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+                $('[name="ammount"]').val(data.ammount);
+                $('[name="id"]').val((data.id));
+                $('[name="staff_id"]').val((data.staff_id));
+                $('[name="comments"]').val((data.comments));
+                $('[name="payment_month"]').val((data.payment_month));
+                
+                
+                // $('[name="dob"]').datepicker('update',data.dob);
+                $('#make_payment').modal('show'); // show bootstrap modal when complete loaded
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+</script>

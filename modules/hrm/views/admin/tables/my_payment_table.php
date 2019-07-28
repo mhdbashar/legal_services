@@ -14,13 +14,16 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix().'my_salary';
 
 $where  = [];
+if(isset($staff_id)){
+    $where[] = 'AND staff_id = '. $staff_id;
+}
 
 $join = [
     'JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'my_salary.staff_id',
 ];
 
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, [], []);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, []);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 

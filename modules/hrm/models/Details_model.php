@@ -61,6 +61,10 @@ class Details_model extends App_Model
 
     	$this->db->where(['staffid' => $id]);
     	if ($array != null)$this->db->update('tblstaff', $array);
+        $affacted = 0;
+        if ($this->db->affected_rows() > 0) {
+            $affacted++;
+        }
         if ($this->issetNewDetails($id)){
             $this->db->where(['staff_id' => $id]);
             if ($array2 != null)$this->db->update('tblmy_newstaff', $array2);
@@ -68,8 +72,11 @@ class Details_model extends App_Model
             $this->db->insert('tblmy_newstaff', $array2);
         }
         if ($this->db->affected_rows() > 0) {
+            
+            $affacted++;
+        }
+        if($affacted > 0){
             log_activity('Staff Updated [' . $id . ']');
-
             return true;
         }
 

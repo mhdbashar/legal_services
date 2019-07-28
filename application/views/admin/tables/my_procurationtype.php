@@ -12,7 +12,7 @@ $join = [];
 $where  = [];
 $filter = [];
 $sIndexColumn = 'id';
-$sTable       = 'tblprocurationtype';
+$sTable       = db_prefix() .'my_procurationtype';
 
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);

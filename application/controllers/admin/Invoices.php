@@ -9,6 +9,7 @@ class Invoices extends AdminController
         parent::__construct();
         $this->load->model('invoices_model');
         $this->load->model('credit_notes_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Get all invoices in case user go on index page */
@@ -71,6 +72,25 @@ class Invoices extends AdminController
         $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
             'clientid' => $clientid,
             'data'     => $data,
+        ]);
+    }
+
+    public function table_case($clientid = '', $slug = '')
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
+
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_case'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+            'ServID'   => $clientid,
+            'slug'     => $slug,
         ]);
     }
 
@@ -515,22 +535,7 @@ class Invoices extends AdminController
         }
 
         try {
-
-            $statementData = [];
-            if($this->input->post('attach_statement')) {
-                $statementData['attach'] = true;
-                $statementData['from'] = to_sql_date($this->input->post('statement_from'));
-                $statementData['to'] = to_sql_date($this->input->post('statement_to'));
-            }
-
-            $success = $this->invoices_model->send_invoice_to_client(
-                $id,
-                '',
-                $this->input->post('attach_pdf'),
-                $this->input->post('cc'),
-                false,
-                $statementData
-            );
+            $success = $this->invoices_model->send_invoice_to_client($id, '', $this->input->post('attach_pdf'), $this->input->post('cc'));
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;

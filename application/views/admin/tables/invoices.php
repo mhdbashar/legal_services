@@ -1,5 +1,4 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');

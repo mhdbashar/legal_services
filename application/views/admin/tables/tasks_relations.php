@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $hasPermissionEdit   = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');

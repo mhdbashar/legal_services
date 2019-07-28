@@ -25,7 +25,7 @@
       });
 
       $('body').on('show.bs.modal', '._project_file', function() {
-          discussion_comments('#project-file-discussion', discussion_id, 'file');
+          discussion_comments_case('#case-file-discussion', discussion_id, 'file');
       });
 
       $('body').on('shown.bs.modal', '#milestone', function() {
@@ -33,6 +33,10 @@
       });
 
       initDataTable('.table-credit-notes', admin_url + 'credit_notes/table?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+
+      servid_credit_notes_case = $(".table-credit-notes_case").attr('data-servid');
+      slug_credit_notes_case = $(".table-credit-notes_case").attr('data-slug');
+      initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_case/'+servid_credit_notes_case+'/'+ slug_credit_notes_case +'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
       if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
           var chartOptions = {
@@ -68,6 +72,7 @@
           timesheetsChart = new Chart(ctx, chartOptions);
       }
       milestones_kanban();
+      milestones_case_kanban();
       $('#project_top').on('change', function() {
           var val = $(this).val();
           var __project_group = get_url_param('group');
@@ -121,7 +126,8 @@
               },
               success: function(file, response) {
                   if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                      window.location.href = admin_url + 'projects/view/' + project_id + '?group=project_files';
+                      //window.location.href = admin_url + 'projects/view/' + project_id + '?group=project_files';
+                      location.reload();
                   }
               },
               sending: function(file, xhr, formData) {
@@ -182,11 +188,22 @@
 
       _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 
+      slug_expenses_case = $(".table-case-expenses").attr('data-slug');
+      _table_api_case = initDataTable('.table-case-expenses', admin_url + 'LegalServices/Cases_controller/expenses/' + project_id + '/' + slug_expenses_case, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+
       if (_table_api) {
           _table_api.column(0).visible(false, false).columns.adjust();
       }
 
+      if (_table_api_case) {
+          _table_api_case.column(0).visible(false, false).columns.adjust();
+      }
+
       init_rel_tasks_table(project_id, 'project');
+
+      slug_tasks_case = $(".table-rel-tasks_case").attr('data-new-rel-slug');
+      init_rel_tasks_case_table(project_id, slug_tasks_case);
+
       initDataTable('.table-notes', admin_url + 'projects/notes/' + project_id, [4], [4], 'undefined', [1, 'desc']);
 
       var Timesheets_ServerParams = {};
@@ -195,7 +212,14 @@
       });
 
       initDataTable('.table-timesheets', admin_url + 'projects/timesheets/' + project_id, [8], [8], Timesheets_ServerParams, [3, 'desc']);
+
+      slug_timesheets_case = $(".table-timesheets_case").attr('data-new-rel-slug');
+      initDataTable('.table-timesheets_case', admin_url + 'LegalServices/Cases_controller/timesheets/' + project_id + '/' + slug_timesheets_case , [8], [8], Timesheets_ServerParams, [3, 'desc']);
+
       initDataTable('.table-project-discussions', admin_url + 'projects/discussions/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
+      slug_case_discussions = $(".table-case-discussions").attr('data-new-rel-slug');
+      initDataTable('.table-case-discussions', admin_url + 'LegalServices/Cases_controller/discussions/' + project_id + '/' + slug_case_discussions, undefined, undefined, 'undefined', [1, 'desc']);
+
 
       appValidateForm($('#milestone_form'), {
           name: 'required',
@@ -354,6 +378,14 @@
       }
   }
 
+  function milestones_case_switch_view(ServID, slug) {
+      $('#milestones-table').toggleClass('hide');
+      $('.case-milestones-kanban').toggleClass('hide');
+      if (!$.fn.DataTable.isDataTable('.table-milestones_case')) {
+          initDataTable('.table-milestones_case', admin_url + 'LegalServices/Cases_controller/milestones/' + project_id + '/' + ServID + '/' + slug);
+      }
+  }
+
   function manage_discussion(form) {
       var data = $(form).serialize();
       var url = form.action;
@@ -363,6 +395,7 @@
               alert_float('success', response.message);
           }
           $('.table-project-discussions').DataTable().ajax.reload(null, false);
+          $('.table-case-discussions').DataTable().ajax.reload(null, false);
           $('#discussion').modal('hide');
           $('#discussion_form').find('button[type="submit"]').button('reset');
       });
@@ -453,12 +486,20 @@
               init_timers();
               reload_tasks_tables();
               pre_invoice_project();
+              pre_invoice_case();
           }, 500);
       });
   }
 
   function pre_invoice_project() {
       requestGet('projects/get_pre_invoice_project_info/' + project_id).done(function(response) {
+          $('#pre_invoice_project').html(response);
+          $('#pre_invoice_project_settings').modal('show');
+      });
+  }
+
+  function pre_invoice_case() {
+      requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
           $('#pre_invoice_project').html(response);
           $('#pre_invoice_project_settings').modal('show');
       });
@@ -507,6 +548,15 @@
       }
   }
 
+  function delete_case_discussion(id) {
+      if (confirm_delete()) {
+          requestGetJSON('LegalServices/Cases_controller/delete_discussion/' + id).done(function(response) {
+              alert_float(response.alert_type, response.message);
+              $('.table-case-discussions').DataTable().ajax.reload(null, false);
+          });
+      }
+  }
+
   function projectExpenseSubmitHandler(form) {
       $.post(form.action, $(form).serialize()).done(function(response) {
           response = JSON.parse(response);
@@ -531,6 +581,15 @@
   function view_project_file(id, $project_id) {
       $('#project_file_data').empty();
       $("#project_file_data").load(admin_url + 'projects/file/' + id + '/' + project_id, function(response, status, xhr) {
+          if (status == "error") {
+              alert_float('danger', xhr.statusText);
+          }
+      });
+  }
+
+  function view_case_file(id, $project_id) {
+      $('#project_file_data').empty();
+      $("#project_file_data").load(admin_url + 'LegalServices/Cases_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
           if (status == "error") {
               alert_float('danger', xhr.statusText);
           }
@@ -607,6 +666,37 @@
 
   }
 
+  function case_files_bulk_action(e) {
+      if (confirm_delete()) {
+          var mass_delete = $('#mass_delete').prop('checked');
+          var ids = [];
+          var data = {};
+          if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+              data.visible_to_customer = $('#bulk_pf_visible_to_customer').prop('checked');
+          } else {
+              data.mass_delete = true;
+          }
+
+          var rows = $('.table-project-files').find('tbody tr');
+          $.each(rows, function() {
+              var checkbox = $($(this).find('td').eq(0)).find('input');
+              if (checkbox.prop('checked') == true) {
+                  ids.push(checkbox.val());
+              }
+          });
+
+          data.ids = ids;
+          $(e).addClass('disabled');
+
+          setTimeout(function() {
+              $.post(admin_url + 'LegalServices/Cases_controller/bulk_action_files', data).done(function() {
+                  window.location.reload();
+              });
+          }, 200);
+      }
+
+  }
+
   function gantt_filter() {
       var status = $('select[name="gantt_task_status"]').selectpicker('val');
       var gantt_type = $('select[name="gantt_type"]').selectpicker('val');
@@ -617,6 +707,18 @@
           params['gantt_task_status'] = status;
       }
       window.location.href = buildUrl(admin_url + 'projects/view/' + project_id, params);
+  }
+
+  function gantt_case_filter(ServID) {
+      var status = $('select[name="gantt_task_status"]').selectpicker('val');
+      var gantt_type = $('select[name="gantt_type"]').selectpicker('val');
+      var params = [];
+      params['gantt_type'] = gantt_type;
+      params['group'] = 'project_gantt';
+      if (status) {
+          params['gantt_task_status'] = status;
+      }
+      window.location.href = buildUrl(admin_url + 'Case/view/' + ServID + '/' + project_id, params);
   }
 
   function confirm_project_status_change(e) {
@@ -656,6 +758,43 @@
       });
   }
 
+  function confirm_case_status_change(e, slug) {
+      var data = {};
+
+      $(e).attr('disabled', true);
+
+      data.project_id = $(e).data('project-id');
+      data.status_id = $(e).data('status-id');
+
+      if (data.status_id == 4) {
+          var $projectMarkedAsFinishedInput = $('#project_marked_as_finished_email_to_contacts');
+          if ($projectMarkedAsFinishedInput.length > 0) {
+              data.send_project_marked_as_finished_email_to_contacts = $projectMarkedAsFinishedInput.prop('checked') === true ? 1 : 0;
+          }
+      }
+
+      data.mark_all_tasks_as_completed = $('#mark_all_tasks_as_completed').prop('checked') === true ? 1 : 0;
+      data.cancel_recurring_tasks = $('input[name="cancel_recurring_tasks"]').val();
+
+      if (!data.cancel_recurring_tasks) {
+          data.cancel_recurring_tasks = false;
+      } else {
+          data.cancel_recurring_tasks = true;
+      }
+
+      data.notify_project_members_status_change = $('#notify_project_members_status_change').prop('checked') === true ? 1 : 0;
+
+      $.post(admin_url + 'LegalServices/Cases_controller/mark_as/' + slug, data).done(function(response) {
+          response = JSON.parse(response);
+          alert_float(response.success === true ? 'success' : 'warning', response.message);
+          setTimeout(function() {
+              window.location.reload();
+          }, 1500);
+      }).fail(function(data) {
+          window.location.reload();
+      });
+  }
+
   function milestones_kanban_update(ui, object) {
       if (object === ui.item.parent()[0]) {
           data = {};
@@ -677,8 +816,69 @@
       }
   }
 
+  function milestones_case_kanban_update(ui, object) {
+      if (object === ui.item.parent()[0]) {
+          data = {};
+          data.order = [];
+          data.milestone_id = $(ui.item.parent()[0]).parents('.milestone-column').data('col-status-id');
+          data.task_id = $(ui.item).data('task-id');
+          var tasks = $(ui.item.parent()[0]).parents('.milestone-column').find('.task');
+
+          var i = 0;
+          $.each(tasks, function() {
+              data.order.push([$(this).data('task-id'), i]);
+              i++;
+          });
+          check_kanban_empty_col('[data-task-id]');
+
+          setTimeout(function() {
+              $.post(admin_url + 'LegalServices/Cases_controller/update_task_milestone', data)
+          }, 50);
+      }
+  }
+
   function milestones_kanban() {
       init_kanban('projects/milestones_kanban', milestones_kanban_update, '.project-milestone', 445, 360, after_milestones_kanban);
+  }
+
+  function milestones_case_kanban() {
+      slug_case_kanban = $(".table-milestones_case").attr('data-slug');
+      init_kanban('LegalServices/Cases_controller/milestones_kanban/' + slug_case_kanban, milestones_case_kanban_update, '.case-milestone', 445, 360, after_milestones_case_kanban);
+  }
+
+  function after_milestones_case_kanban() {
+      $("#kan-ban").sortable({
+          helper: 'clone',
+          item: '.kan-ban-col',
+          cancel: '.milestone-not-sortable',
+          update: function(event, ui) {
+              var uncategorized_is_after = $(ui.item).next('ul.kan-ban-col[data-col-status-id="0"]');
+
+              if (uncategorized_is_after.length) {
+                  $(this).sortable('cancel');
+                  return false;
+              }
+
+              var data = {}
+              data.order = [];
+              var status = $('.kan-ban-col');
+              var i = 0;
+
+              $.each(status, function() {
+                  data.order.push([$(this).data('col-status-id'), i]);
+                  i++;
+              });
+
+              $.post(admin_url + 'LegalServices/Cases_controller/update_milestones_order', data);
+          }
+      });
+
+      for (var i = -10; i < $('.task-phase').not('.color-not-auto-adjusted').length / 2; i++) {
+          var r = 120;
+          var g = 169;
+          var b = 56;
+          $('.task-phase:eq(' + (i + 10) + ')').not('.color-not-auto-adjusted').css('background', color(r - (i * 13), g - (i * 13), b - (i * 13))).css('border', '1px solid ' + color(r - (i * 12), g - (i * 12), b - (i * 12)));
+      };
   }
 
   function after_milestones_kanban() {

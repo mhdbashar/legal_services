@@ -117,6 +117,23 @@ function my_custom_setup_menu_items()
 
     ]);
 
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("CourtsManagement"), // The name if the item
+        'href'     => admin_url('courts_control'), // URL of the item
+        'position' => 2, // The menu position
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("LegalServiceManage"), // The name if the item
+        'href'     => admin_url('ServicesControl'), // URL of the item
+        'position' => 3, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
 }
 
 

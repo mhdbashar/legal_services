@@ -42,13 +42,13 @@ class Cases_model extends App_Model
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where('my_cases.id', $id);
-            $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,customer_representative.representative as Representative,my_casestatus.name as StatusCase');
+            $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id');
             $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id');
             $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num');
-            $this->db->join(db_prefix() . 'customer_representative',  'customer_representative.id=' . db_prefix() . 'my_cases.representative');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative');
             $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
             if ($project) {
@@ -63,7 +63,7 @@ class Cases_model extends App_Model
                 foreach ($settings as $key => $setting) {
                     if ($setting['name'] == 'available_features') {
                         $available_features_index = $key;
-                        @$available_features = unserialize($setting['value']);
+                        @$available_features = @unserialize($setting['value']);
                         if (is_array($available_features)) {
                             foreach ($available_features as $name => $avf) {
                                 $settings_available_features[] = $name;
@@ -85,7 +85,7 @@ class Cases_model extends App_Model
                         if (!in_array($tab, $settings_available_features)) {
                             if ($available_features_index) {
                                 $current_available_features_settings = $settings[$available_features_index];
-                                $tmp = unserialize($current_available_features_settings['value']);
+                                $tmp = @unserialize($current_available_features_settings['value']);
                                 $tmp[$tab] = 1;
                                 $this->db->where('id', $current_available_features_settings['id']);
                                 $this->db->update(db_prefix() . 'case_settings', ['value' => serialize($tmp)]);
@@ -622,7 +622,7 @@ class Cases_model extends App_Model
                 'rel_type' => '',
             ]);
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
                 'rel_id' => 0,
                 'rel_type' => '',

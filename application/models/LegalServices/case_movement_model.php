@@ -16,13 +16,13 @@ class case_movement_model extends App_Model
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where('case_movement.case_id', $id);
-            $this->db->select('case_movement.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,customer_representative.representative as Representative,my_casestatus.name as StatusCase');
+            $this->db->select('case_movement.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'case_movement.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'case_movement.cat_id' , 'left');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'case_movement.subcat_id' , 'left');
             $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'case_movement.court_id' , 'left');
             $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'case_movement.jud_num' , 'left');
-            $this->db->join(db_prefix() . 'customer_representative',  'customer_representative.id=' . db_prefix() . 'case_movement.representative' , 'left');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'case_movement.representative' , 'left');
             $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'case_movement.case_status' , 'left');
             return $this->db->get(db_prefix() . 'case_movement')->result_array();
         }

@@ -48,7 +48,7 @@ class LegalServicesModel extends App_Model
         $this->db->insert('my_basic_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            logActivity('New Service Added [ServID: ' . $insert_id . ']');
+            log_activity('New Service Added [ServID: ' . $insert_id . ']');
         }
         return $insert_id;
     }
@@ -58,7 +58,7 @@ class LegalServicesModel extends App_Model
         $this->db->where('id', $ServID);
         $this->db->update('my_basic_services', $data);
         if ($this->db->affected_rows() > 0) {
-            logActivity('Service Updated [ServID: ' . $ServID . ']');
+            log_activity('Service Updated [ServID: ' . $ServID . ']');
             return true;
         }
         return false;
@@ -68,7 +68,7 @@ class LegalServicesModel extends App_Model
         $this->db->where('id', $ServID);
         $this->db->delete('my_basic_services');
         if ($this->db->affected_rows() > 0) {
-            logActivity('Service Deleted [ServID: ' . $ServID . ']');
+            log_activity('Service Deleted [ServID: ' . $ServID . ']');
             return true;
         }
         return false;
@@ -92,7 +92,7 @@ class LegalServicesModel extends App_Model
         $this->db->insert('my_categories', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            logActivity('New Category Added [CatID: ' . $insert_id . ']');
+            log_activity('New Category Added [CatID: ' . $insert_id . ']');
         }
         return $insert_id;
     }
@@ -104,7 +104,7 @@ class LegalServicesModel extends App_Model
         $this->db->insert('my_categories', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            logActivity('New SubCategory Added [CatID: ' . $insert_id . ']');
+            log_activity('New SubCategory Added [CatID: ' . $insert_id . ']');
         }
         return $insert_id;
     }
@@ -113,7 +113,7 @@ class LegalServicesModel extends App_Model
         $this->db->where('id', $CatID);
         $this->db->update('my_categories', $data);
         if ($this->db->affected_rows() > 0) {
-            logActivity('Category Updated [CatID: ' . $CatID . ']');
+            log_activity('Category Updated [CatID: ' . $CatID . ']');
             return true;
         }
         return false;
@@ -122,7 +122,7 @@ class LegalServicesModel extends App_Model
     {
         $this->db->delete('my_categories', ['id' => $CatID]);
         if ($this->db->affected_rows() > 0) {
-            logActivity('Category Deleted [CatID: ' . $CatID . ']');
+            log_activity('Category Deleted [CatID: ' . $CatID . ']');
         }
         $query = $this->db->where('parent_id', $CatID)->get('my_categories');
         foreach( $query->result() as $Child ) {

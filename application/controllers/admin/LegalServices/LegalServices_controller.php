@@ -36,7 +36,7 @@ class LegalServices_controller extends AdminController
             $data['model'] = $this->other;
             //$data['cases'] = $this->case->get();
             if ($this->input->is_ajax_request()) {
-                $this->app->get_table_data('other_services',$data);
+                $this->app->get_table_data('my_other_services',$data);
             }
         }
         $data['title']    = _l('LegalServiceManage');

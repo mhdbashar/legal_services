@@ -37,7 +37,7 @@ class Cases_controller extends AdminController
         $data['auto_select_billing_type'] = $this->case->get_most_used_billing_type();
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
-            $key                                          = array_search('available_features', array_column($data['last_case_settings'], 'name'));
+            $key                                       = array_search('available_features', array_column($data['last_case_settings'], 'name'));
             $data['last_case_settings'][$key]['value'] = unserialize($data['last_case_settings'][$key]['value']);
         }
         $data['settings'] = $this->case->get_settings();

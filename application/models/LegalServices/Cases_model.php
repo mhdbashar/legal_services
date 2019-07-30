@@ -173,7 +173,7 @@ class Cases_model extends App_Model
         }
 
         if (isset($data['settings'])) {
-            $project_settings = $data['settings'];
+            $case_settings = $data['settings'];
             unset($data['settings']);
         }
         if (isset($data['custom_fields'])) {
@@ -287,7 +287,7 @@ class Cases_model extends App_Model
                         $value_setting = serialize($tab_settings);
                     }
                     $this->db->insert(db_prefix() . 'case_settings', [
-                        'case_id' => $insert_id,
+                        'case_id'    => $insert_id,
                         'name'       => $setting,
                         'value'      => $value_setting,
                     ]);
@@ -296,7 +296,7 @@ class Cases_model extends App_Model
                 foreach ($original_settings as $setting) {
                     $value_setting = 0;
                     $this->db->insert(db_prefix() . 'case_settings', [
-                        'case_id' => $insert_id,
+                        'case_id'    => $insert_id,
                         'name'       => $setting,
                         'value'      => $value_setting,
                     ]);
@@ -372,6 +372,7 @@ class Cases_model extends App_Model
             $original_settings = $this->get_case_settings($id);
 
             foreach ($original_settings as $setting) {
+
                 if ($setting['name'] != 'available_features') {
                     if (in_array($setting['name'], $_settings)) {
                         $value_setting = 1;
@@ -624,7 +625,7 @@ class Cases_model extends App_Model
 
             $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
-                'rel_id' => 0,
+                'relid' => 0,
                 'rel_type' => '',
             ]);
 

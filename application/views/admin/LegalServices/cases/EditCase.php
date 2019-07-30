@@ -342,6 +342,10 @@
                             <?php echo _l('case_settings'); ?>
                         </h4>
                         <hr class="hr-panel-heading" />
+
+
+
+
                         <?php  foreach($settings as $setting){
 
                             $checked = ' checked';
@@ -377,7 +381,7 @@
                                 <div class="form-group mtop15 select-placeholder case-available-features">
                                     <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
                                     <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
-                                        <?php var_dump(get_case_tabs_admin()); foreach(get_case_tabs_admin() as $tab) {
+                                        <?php foreach(get_case_tabs_admin() as $tab) {
                                             $selected = '';
                                             if(isset($tab['collapse'])){ ?>
                                                 <optgroup label="<?php echo $tab['name']; ?>">
@@ -423,7 +427,7 @@
                                                     $selected = ' selected';
                                                 }
                                                 ?>
-                                                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='case_overview'){echo ' disabled selected';} ?>
+                                                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='project_overview'){echo ' disabled selected';} ?>
                                                     <?php echo $selected; ?>
                                                     <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
                                                     <?php echo $tab['name']; ?>

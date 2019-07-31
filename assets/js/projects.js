@@ -395,7 +395,6 @@
               alert_float('success', response.message);
           }
           $('.table-project-discussions').DataTable().ajax.reload(null, false);
-          $('.table-case-discussions').DataTable().ajax.reload(null, false);
           $('#discussion').modal('hide');
           $('#discussion_form').find('button[type="submit"]').button('reset');
       });

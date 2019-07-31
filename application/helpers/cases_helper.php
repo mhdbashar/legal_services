@@ -488,6 +488,9 @@ function total_case_finished_tasks_by_milestone($milestone_id, $project_id)
 function get_cases_countries($field)
 {
     $CI = & get_instance();
+    if($field == 'short_name'){
+        $field = 'short_name_ar';
+    }
     return $CI->db->get_where(db_prefix().'countries', array($field.'!=' => ''))->result_array();
 }
 

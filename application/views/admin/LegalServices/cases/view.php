@@ -281,6 +281,7 @@ echo form_hidden('project_percent',$percent);
 </script>
 <script>
     <?php
+    $num_session = isset($num_session) ? $num_session : 0;
     for($i = 0; $i < $num_session; $i++){ ?>
     function submitForm<?php echo $i ?>(){
         document.getElementById('myform<?php echo $i ?>').submit();

@@ -242,11 +242,104 @@
             </div>
             <div class="col-md-5">
                 <div class="panel_s">
-                    <div class="panel-body" id="project-settings-area">
+                    <div class="panel-body" id="oservice-settings-area">
                         <h4 class="no-margin">
-                            <?php echo _l('project_settings'); ?>
+                            <?php echo _l('oservice_settings'); ?>
                         </h4>
-                        <hr class="hr-panel-heading"/>
+                        <hr class="hr-panel-heading" />
+                        <?php  foreach($settings as $setting){
+
+                            $checked = ' checked';
+                            if(isset($oservice)){
+                                if($oservice->settings->{$setting} == 0){
+                                    $checked = '';
+                                }
+                            } /*else {
+                foreach($last_oservice_settings as $last_setting) {
+                    if($setting == $last_setting['name']){
+                        // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
+                        if($last_setting['value'] == 0 || $last_setting['name'] == 'hide_tasks_on_main_tasks_table'){
+                            $checked = '';
+                        }
+                    }
+                }
+                if(count($last_oservice_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
+                    $checked = '';
+                }
+            } */?>
+                            <?php if($setting != 'available_features'){ ?>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
+                                    <label for="<?php echo $setting; ?>">
+                                        <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
+                                            <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
+                                        <?php } else{ ?>
+                                            <?php echo _l('oservice_allow_client_to',_l('oservice_setting_'.$setting)); ?>
+                                        <?php } ?>
+                                    </label>
+                                </div>
+                            <?php } else { ?>
+                                <div class="form-group mtop15 select-placeholder oservice-available-features">
+                                    <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
+                                    <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
+                                        <?php   foreach(get_oservice_tabs_admin() as $tab) {
+                                            $selected = '';
+                                            if(isset($tab['collapse'])){ ?>
+                                                <optgroup label="<?php echo $tab['name']; ?>">
+                                                    <?php foreach($tab['children'] as $tab_dropdown) {
+                                                        $selected = '';
+                                                        if(isset($oservice) && (
+                                                                (isset($oservice->settings->available_features[$tab_dropdown['slug']])
+                                                                    && $oservice->settings->available_features[$tab_dropdown['slug']] == 1)
+                                                                || !isset($oservice->settings->available_features[$tab_dropdown['slug']]))) {
+                                                            $selected = ' selected';
+                                                        } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
+                                                            foreach($last_oservice_settings as $last_oservice_setting) {
+                                                                if($last_oservice_setting['name'] == $setting) {
+                                                                    if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
+                                                                        && $last_oservice_setting['value'][$tab_dropdown['slug']] == 1) {
+                                                                        $selected = ' selected';
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else if(!isset($oservice)) {
+                                                            $selected = ' selected';
+                                                        }
+                                                        ?>
+                                                        <option value="<?php echo $tab_dropdown['slug']; ?>"<?php echo $selected; ?><?php if(isset($tab_dropdown['linked_to_customer_option']) && is_array($tab_dropdown['linked_to_customer_option']) && count($tab_dropdown['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab_dropdown['linked_to_customer_option']); ?>"<?php } ?>><?php echo $tab_dropdown['name']; ?></option>
+                                                    <?php } ?>
+                                                </optgroup>
+                                            <?php } else {
+                                                if(isset($oservice) && (
+                                                        (isset($oservice->settings->available_features[$tab['slug']])
+                                                            && $oservice->settings->available_features[$tab['slug']] == 1)
+                                                        || !isset($oservice->settings->available_features[$tab['slug']]))) {
+                                                    $selected = ' selected';
+                                                } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
+                                                    foreach($last_oservice_settings as $last_oservice_setting) {
+                                                        if($last_oservice_setting['name'] == $setting) {
+                                                            if(isset($last_oservice_setting['value'][$tab['slug']])
+                                                                && $last_oservice_setting['value'][$tab['slug']] == 1) {
+                                                                $selected = ' selected';
+                                                            }
+                                                        }
+                                                    }
+                                                } else if(!isset($oservice)) {
+                                                    $selected = ' selected';
+                                                }
+                                                ?>
+                                                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='oservice_overview'){echo ' disabled selected';} ?>
+                                                    <?php echo $selected; ?>
+                                                    <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
+                                                    <?php echo $tab['name']; ?>
+                                                </option>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            <?php } ?>
+                            <hr class="no-margin" />
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -445,7 +538,7 @@
             $('.project_progress_slider').slider({disabled:_checked});
         });
 
-        $('#project-settings-area input').on('change',function(){
+        $('#oservice-settings-area input').on('change',function(){
             if($(this).attr('id') == 'view_tasks' && $(this).prop('checked') == false){
                 $('#create_tasks').prop('checked',false).prop('disabled',true);
                 $('#edit_tasks').prop('checked',false).prop('disabled',true);
@@ -467,18 +560,18 @@
             }
         });
 
-        // Auto adjust customer permissions based on selected project visible tabs
-        // Eq Project creator disable TASKS tab, then this function will auto turn off customer project option Allow customer to view tasks
+        // Auto adjust customer permissions based on selected oservice visible tabs
+        // Eq oservice creator disable TASKS tab, then this function will auto turn off customer oservice option Allow customer to view tasks
 
         $('#available_features').on('change',function(){
             $("#available_features option").each(function(){
                 if($(this).data('linked-customer-option') && !$(this).is(':selected')) {
                     var opts = $(this).data('linked-customer-option').split(',');
                     for(var i = 0; i<opts.length;i++) {
-                        var project_option = $('#'+opts[i]);
-                        project_option.prop('checked',false);
+                        var oservice_option = $('#'+opts[i]);
+                        oservice_option.prop('checked',false);
                         if(opts[i] == 'view_tasks') {
-                            project_option.trigger('change');
+                            oservice_option.trigger('change');
                         }
                     }
                 }

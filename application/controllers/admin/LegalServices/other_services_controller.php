@@ -34,13 +34,14 @@ class Other_services_controller extends AdminController
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
-        $data['last_project_settings'] = $this->other->get_last_project_settings();
-//        if (count($data['last_project_settings'])) {
-//            $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
-//            $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
-//        }
+        $data['last_oservice_settings'] = $this->other->get_last_oservice_settings();
+           if (count($data['last_oservice_settings'])) {
+              $key                                          = array_search('available_features', array_column($data['last_oservice_settings'], 'name'));
+              $data['last_oservice_settings'][$key]['value'] = unserialize($data['last_oservice_settings'][$key]['value']);
+          }
+
         $data['settings'] = $this->other->get_settings();
-        $data['statuses'] = $this->other->get_project_statuses();
+        $data['statuses'] = $this->other->get_oservice_statuses();
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $data['ServID'] = $ServID;
         $data['title'] = _l('permission_create').' '._l('LegalService');
@@ -99,21 +100,6 @@ class Other_services_controller extends AdminController
         }
         redirect(admin_url("Service/$ServID"));
     }
-
-
-
-
-
-
-
-
-//    public function index()
-//    {
-//        close_setup_menu();
-//        $data['statuses'] = $this->other->get_project_statuses();
-//        $data['title']    = _l('projects');
-//        $this->load->view('admin/LegalServices/other_services/manage', $data);
-//    }
 
     public function table($clientid = '')
     {

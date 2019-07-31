@@ -26,6 +26,7 @@ class Details extends AdminController{
     	$arr2 = [
             'staff_id'                      => $id, 
            'job_title'                      => $this->input->post('job_title'), 
+           'period'                      => $this->input->post('period'), 
     		'gender' 						=> $this->input->post('gender'), 
     		'main_salary' 					=> $this->input->post('main_salary'), 
     		'transportation_expenses' 		=> $this->input->post('transportation_expenses'), 
@@ -50,6 +51,20 @@ class Details extends AdminController{
             set_alert('success', 'Bank Added Successfully');
         else
             set_alert('danger', 'Problem Adding');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_bank(){
+        if(!is_admin()){
+            access_denied();
+        }
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Details_model->edit_bank($data, $id);
+        if($success)
+            set_alert('success', 'Bank Updated Successfully');
+        else
+            set_alert('danger', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
     }
 

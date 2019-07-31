@@ -45,6 +45,7 @@
                         <?php echo render_input('account_name','Account Name', '', 'text',  ['required' => 'required']); ?>
                         <?php echo render_input('routing_number','Routing Number', '', 'number', ['required' => 'required']); ?>
                         <?php echo render_input('account_number','Account Number', '', 'number', ['required' => 'required']); ?>
+                        <input aria-hidden="true" type="hidden" class="form-control" value="<?php echo $id ?>" name="id">
                         <input aria-hidden="true" type="hidden" class="form-control" value="<?php echo $staff_id ?>" name="staff_id">
                     </div>
                 </div>

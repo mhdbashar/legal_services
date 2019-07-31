@@ -6,6 +6,7 @@ $lang['hr']                            = 'HR System';
 $lang['employee_name']                            = 'Employee Name';
 $lang['new_employee']                            = 'New Employee';
 $lang['basic_details']                            = 'Basic Details';
+$lang['timecard_details']                            = 'Timecard Details';
 $lang['bank_details']                            = 'Bank Details';
 $lang['documents_details']                            = 'Documents Details';
 $lang['leave_details']                            = 'Leave Details';

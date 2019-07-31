@@ -22,6 +22,21 @@ class workday extends App_Model
     		'friday' => $friday
     	);
     	$this->db->update('tblmy_workday', $data);
-        return true;
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function update_p($data){
+        $this->db->update('tblmy_workdays_period', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function get_period(){
+        return $this->db->get('tblmy_workdays_period')->row_array();
     }
 }

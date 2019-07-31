@@ -11,6 +11,7 @@ class Workdays extends AdminController{
     public function index(){
         
         $data['data'] = $this->workday->getdays();
+        $data['period'] = $this->workday->get_period();
         $data['title'] = "Work Days";
         $this->load->view('settings/workday', $data);
     }
@@ -24,9 +25,16 @@ class Workdays extends AdminController{
         $thursday   = $this->input->get('thursday');
         $friday     = $this->input->get('friday');
         $success = $this->workday->setdays($saturday, $sunday, $monday, $tuesday, $wednesday, $thursday, $friday);
-        if ($success) {
-                set_alert('success', "Workdays Updated Successfuly");
-            }
-        redirect('hrm/workdays/index');
+        $data = [
+            'evening' => $this->input->get('evening'), 
+            'morning' => $this->input->get('morning')
+        ];
+        $success2 = $this->workday->update_p($data);
+        if ($success or $success2) {
+            set_alert('success', "Workdays Updated Successfuly");
+        }else{
+            set_alert('danger', "Problem Updating");
+        }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

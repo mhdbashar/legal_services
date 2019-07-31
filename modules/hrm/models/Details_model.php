@@ -10,10 +10,21 @@ class Details_model extends App_Model
         $insert_id = $this->db->insert_id();
         if($insert_id){
             log_activity('Bank added [ID: '.$insert_id.']');
-            return $insert_id;
+            return true;
         }
         return false;
     }
+
+    public function edit_bank($data, $id){
+        $this->db->where('id', $id);
+        $this->db->update('tblmy_bank', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Bank Updated [ID: '.$id.']');
+            return true;
+        }
+        return false;
+    }
+
 
     public function delete_bank($id){
         $this->db->where('id', $id);
@@ -52,7 +63,7 @@ class Details_model extends App_Model
     public function getnewstaff($id)
     {
         $this->db->where('staff_id', $id);
-        $this->db->select('main_salary, transportation_expenses, other_expenses, gender, created, job_title');
+        $this->db->select('*');
         $this->db->from('tblmy_newstaff');
         $query = $this->db->get();
 		return $query->row_array();
@@ -90,6 +101,28 @@ class Details_model extends App_Model
         $query = $this->db->get()->result();
         if(empty($query)) return false;
         else return true;
+    }
+
+    public function get_month_holiday($month){
+        $this->db->where('MONTH(start_date)', $month);
+        $this->db->from('tblmy_holiday');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_month_vaction($month, $staff_id){
+        $this->db->where(['MONTH(start_date)' => $month, 'staff_id' => $staff_id]);
+        $this->db->from('tblmy_vac');
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+    public function get_staff_name($staff_id){
+        $this->db->select('firstname, lastname');
+        $this->db->where('staffid', $staff_id);
+        $query = $this->db->get('tblstaff');
+        return $query->row_array();
     }
 }
 

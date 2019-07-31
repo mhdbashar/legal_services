@@ -58,6 +58,17 @@
 						                <?php echo '<b style="font-size: 17px">Job Title</b>' ?> : <?php echo $info['job_title'] ?>
 						            </div>
 						        <?php } ?>
+						        <?php if (isset($info['period'])){ ?>
+						            <div class="col-md-6">
+						            	<?php 
+
+						            		if($info['period'] == 'm') $info['period'] = "Morning";
+						            		if($info['period'] == 'e') $info['period'] = "Evening";
+
+						            	?>
+						                <?php echo '<b style="font-size: 17px">Period</b>' ?> : <?php echo $info['period'] ?>
+						            </div>
+						        <?php } ?>
 						        <?php if (isset($info['created'])){ ?>
 						            <div class="col-md-6">
 						                <?php echo '<b style="font-size: 17px">created</b>' ?> : <?php echo $info['created'] ?>

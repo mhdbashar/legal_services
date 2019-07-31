@@ -525,6 +525,10 @@ $arr = $this->Details_model->getstaff($id);
         initDataTable('.table-leave', window.location.href);
    });
 
+   $(function(){
+        initDataTable('.table-activity', window.location.href);
+   });
+
    function edit_bank_json(id){
 
         save_method = 'update';
@@ -542,7 +546,7 @@ $arr = $this->Details_model->getstaff($id);
             {
 
                 console.log(data);
-                $('[name="staff_id"]').val(data.staff_id);
+                $('[name="id"]').val(data.id);
                 $('[name="bank_name"]').val(data.bank_name);
                 $('[name="account_name"]').val(data.account_name);
                 $('[name="routing_number"]').val(data.routing_number);

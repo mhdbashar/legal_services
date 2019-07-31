@@ -41,6 +41,23 @@
                     </div>
 
                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gender">Period</label>
+                            <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="period" id="direction">
+                                <option value="" <?php if (isset($info['period']) && empty($info['period'])) {
+                            echo 'selected';
+                        } ?>></option>
+                                <option value="m" <?php if (isset($info['period']) && $info['period'] == 'm') {
+                            echo 'selected';
+                        } ?>>Morning</option>
+                                <option value="e" <?php if (isset($info['period']) && $info['period'] == 'e') {
+                            echo 'selected';
+                        } ?>>Evening</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <?php $value = ( isset($info['job_title']) ? $info['job_title'] : ''); ?>
                         <?php echo render_input('job_title', 'Job Title', $value); ?>
                     </div>

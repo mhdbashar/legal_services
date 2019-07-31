@@ -4,6 +4,7 @@ if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_newstaff` (
     `user_id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `staff_id` int(11) NOT NULL,
+    `period` varchar(1) NOT NULL,
     `gender` varchar(20) NOT NULL,
     `main_salary` int(11) NOT NULL,
     `transportation_expenses` int(11) NOT NULL,
@@ -47,6 +48,31 @@ if (!$CI->db->table_exists(db_prefix() . 'my_workday')) {
 	  `friday` int(11) NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 	$CI->db->query("INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES ('1', '1', '1', '1', '1', '1', '1');");
+}
+/*
+if (!$CI->db->table_exists(db_prefix() . 'my_workdays')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_workdays` (
+	  `day` varchar(10) NOT NULL,
+	  `work` int(11) NOT NULL,
+	  `period` varchar(1) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+	$CI->db->query("INSERT INTO `".db_prefix() . 'my_workdays'."` (`day`, `work`, `period`) VALUES
+		('saturday', '1', 'e'),
+		('sunday', '0', 'm'),
+		('monday', '1', 'e'),
+		('tuesday', '0', 'e'),
+		('wednesday', '1', 'm'),
+		('thursday', '1', 'm'),
+		('friday', '0', 'm');");
+}
+*/
+if (!$CI->db->table_exists(db_prefix() . 'my_workdays_period')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_workdays_period` (
+	    `morning` varchar(50) NOT NULL,
+ 		`evening` varchar(50) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+	$CI->db->query("INSERT INTO `".db_prefix() . 'my_workdays_period'."` (`morning`, `evening`) VALUES
+		('9:30-13:30', '2:00-12:00');");
 }
 
 if (!$CI->db->table_exists(db_prefix() . 'my_holiday')) {           

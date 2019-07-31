@@ -128,6 +128,11 @@ function hrm_init_employeedetails_tabs()
         'view'     => 'hrm/details/salary',
         'position' => 45,
     ]);
+    $CI->hr_tabs->add_employeedetails_tab('timecard', [
+        'name'     => _l('timecard_details'),
+        'view'     => 'hrm/details/timecard',
+        'position' => 45,
+    ]);
 
 }
 

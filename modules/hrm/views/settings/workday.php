@@ -12,21 +12,33 @@
                             <a href="<?php echo base_url() ?>hrm/vac" class="btn btn-outline-secondary" type="button">Vaction</a>
                           </form>
                         </nav>
+<hr>
+                        <form class="form-check form-inline" action="<?php echo base_url() . 'hrm/Workdays/edit/' ?>">
+                                <div class="col-md-4">
+                                    <label for="ammount" class="col-form-label">Morning</label>
+                                    <input class="form-control" value="<?php echo $period['morning'] ?>" name="morning"></div>
+                                <div class="col-md-4">
+                                    <label for="ammount" class="col-form-label">Evening</label>
+                                    <input class="form-control" value="<?php echo $period['evening'] ?>" name="evening"></div>
+                            
+
+                    <br><br><br>
 
 
-					<form class="form-check" action="<?php echo base_url() . 'hrm/Workdays/edit' ?>">
 <?php foreach($data as $key => $value): ?>
 
 	<?php if ($value == 1)$checked = 'checked'; else $checked = null; ?>
-						<input <?php echo $checked; ?> style="margin-left: 30px;" class="form-check-input large" value="1" type="checkbox" name="<?php echo $key ?>" id="defaultCheck1">  
-						<label class="form-check-label" for="defaultCheck1">
-					    	<?php echo $key ?>
-						</label>
-
+						<div style="display: -webkit-inline-box">
+                        <div class="checkbox checkbox-primary">
+                        <input value="1" type="checkbox" name="<?php echo $key ?>" <?php echo $checked; ?> id="show_to_customer<?php echo $key; ?>">
+                            <label for="show_to_customer<?php echo $key; ?>"><?php echo $key ?></label>
+                        </div>
+                        </div>
 <?php endforeach; ?>
-						<br>
-						<input style="margin-left: 30px;" class="input" type="submit" name="">
-						
+        <hr>
+                    <div class="">
+						<button class="btn btn-primary" style="margin-left: 10px" type="submit">Submit</button>
+					</div>
 					</form>
 
                     </div>

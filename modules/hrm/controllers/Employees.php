@@ -13,6 +13,7 @@ class Employees extends AdminController {
         //$ci->load->library(['hr_tabs']);
         $this->load->model('hr');
         $this->load->model('Details_model');
+        $this->load->model('Workday');
     }
 
     /* List all Employees */
@@ -39,6 +40,15 @@ class Employees extends AdminController {
             
             if ($this->input->is_ajax_request()) {
                 $this->hrmapp->get_table_data('my_payment_table', ['staff_id' => $id]);
+            }
+        }
+
+        if($this->input->get('group') == 'activities'){
+            
+            $staff = $this->Details_model->get_staff_name($id);
+            $staffname = $staff['firstname'] . ' ' . $staff['lastname'];
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_activity_table', ['staffname' => $staffname]);
             }
         }
 

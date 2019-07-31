@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Countries.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Countries.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_discussion.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_discussion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/cases.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/cases.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/projects.js" afterDir="false" />
-    </list>
+    <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,225 +16,57 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="597">
+            <state relative-caret-position="663">
               <caret line="47" column="74" selection-start-line="47" selection-start-column="74" selection-end-line="47" selection-end-column="74" />
               <folding>
                 <element signature="n#__construct#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#edit#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#2373#2497#0#PHP" />
-                <element signature="e#2506#2953#0#PHP" />
-                <element signature="e#2653#2943#0#PHP" />
-                <element signature="e#2805#2943#0#PHP" />
-                <element signature="e#3173#3284#0#PHP" />
-                <element signature="e#3502#3556#0#PHP" />
                 <element signature="n#delete#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#4276#4400#0#PHP" />
-                <element signature="e#4465#4623#0#PHP" />
-                <element signature="e#4549#4623#0#PHP" />
                 <element signature="n#table#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#5014#5099#0#PHP" />
-                <element signature="e#5050#5098#0#PHP" />
                 <element signature="n#staff_projects#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#expenses#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#5306#5398#0#PHP" />
-                <element signature="e#5353#5397#0#PHP" />
                 <element signature="n#add_expense#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#5455#6208#0#PHP" />
-                <element signature="e#5613#5985#0#PHP" />
-                <element signature="e#5724#5949#0#PHP" />
-                <element signature="e#5736#5948#1#PHP" />
-                <element signature="e#6003#6180#0#PHP" />
-                <element signature="e#6015#6179#1#PHP" />
                 <element signature="n#gantt#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#6578#7156#0#PHP" />
-                <element signature="e#6631#7146#0#PHP" />
-                <element signature="e#6860#7042#0#PHP" />
-                <element signature="e#6904#7028#0#PHP" />
-                <element signature="e#7043#7146#0#PHP" />
-                <element signature="e#7166#7263#0#PHP" />
-                <element signature="e#7331#7573#0#PHP" />
-                <element signature="e#7605#7744#0#PHP" />
-                <element signature="e#7647#7743#1#PHP" />
                 <element signature="n#mark_as#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#19388#19918#0#PHP" />
-                <element signature="e#19439#19908#0#PHP" />
-                <element signature="e#19780#19894#0#PHP" />
-                <element signature="e#19932#20026#0#PHP" />
-                <element signature="e#19944#20025#1#PHP" />
                 <element signature="n#file#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#20311#20405#0#PHP" />
                 <element signature="n#update_file_data#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#20544#20647#0#PHP" />
                 <element signature="n#add_external_file#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#20709#21170#0#PHP" />
                 <element signature="n#download_all_files#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#21236#21958#0#PHP" />
-                <element signature="e#21377#21593#0#PHP" />
-                <element signature="e#21709#21823#0#PHP" />
                 <element signature="n#export_project_data#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#22025#22159#0#PHP" />
                 <element signature="n#update_task_milestone#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#22225#22333#0#PHP" />
                 <element signature="n#update_milestones_order#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#22401#22514#0#PHP" />
                 <element signature="n#pin_action#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#add_edit_members#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#22734#22960#0#PHP" />
                 <element signature="n#discussions#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#23027#23324#0#PHP" />
-                <element signature="e#23125#23314#0#PHP" />
-                <element signature="e#23180#23299#0#PHP" />
-                <element signature="e#23230#23298#0#PHP" />
                 <element signature="n#discussion#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#23387#24421#0#PHP" />
-                <element signature="e#23484#24394#0#PHP" />
-                <element signature="e#23607#23755#0#PHP" />
-                <element signature="e#23777#23895#0#PHP" />
-                <element signature="e#23789#23894#1#PHP" />
-                <element signature="e#23911#24394#0#PHP" />
-                <element signature="e#24121#24239#0#PHP" />
-                <element signature="e#24261#24379#0#PHP" />
-                <element signature="e#24273#24378#1#PHP" />
                 <element signature="n#get_discussion_comments#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#add_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#update_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#delete_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#delete_discussion#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#25132#25250#0#PHP" />
-                <element signature="e#25354#25473#0#PHP" />
-                <element signature="e#25487#25587#0#PHP" />
-                <element signature="e#25499#25586#1#PHP" />
                 <element signature="n#change_milestone_color#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#25655#25764#0#PHP" />
                 <element signature="n#upload_file#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#change_file_visibility#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#25952#26065#0#PHP" />
                 <element signature="n#change_activity_visibility#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#26149#26344#0#PHP" />
-                <element signature="e#26209#26334#0#PHP" />
                 <element signature="n#remove_file#0;n#Other_services_controller#0;n#!!top" />
                 <element signature="n#milestones_kanban#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#26906#27124#0#PHP" />
-                <element signature="e#27210#27290#0#PHP" />
                 <element signature="n#milestones_kanban_load_more#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#27781#27897#0#PHP" />
-                <element signature="e#28002#28174#0#PHP" />
                 <element signature="n#milestones#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#28240#28528#0#PHP" />
-                <element signature="e#28338#28518#0#PHP" />
-                <element signature="e#28393#28503#0#PHP" />
-                <element signature="e#28434#28502#0#PHP" />
                 <element signature="n#milestone#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#28590#29308#0#PHP" />
-                <element signature="e#28687#29298#0#PHP" />
-                <element signature="e#28809#28930#0#PHP" />
-                <element signature="e#28945#29298#0#PHP" />
-                <element signature="e#29156#29284#0#PHP" />
                 <element signature="n#delete_milestone#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#29529#29714#0#PHP" />
-                <element signature="e#29589#29704#0#PHP" />
                 <element signature="n#bulk_action_files#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#30140#30710#0#PHP" />
-                <element signature="e#30314#30700#0#PHP" />
-                <element signature="e#30352#30686#0#PHP" />
-                <element signature="e#30396#30668#0#PHP" />
-                <element signature="e#30559#30668#0#PHP" />
-                <element signature="e#30719#30846#0#PHP" />
                 <element signature="n#timesheets#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#30912#31200#0#PHP" />
-                <element signature="e#31010#31190#0#PHP" />
-                <element signature="e#31065#31175#0#PHP" />
-                <element signature="e#31106#31174#0#PHP" />
                 <element signature="n#timesheet#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#31254#31946#0#PHP" />
-                <element signature="e#31427#31794#0#PHP" />
-                <element signature="e#31544#31709#0#PHP" />
-                <element signature="e#31710#31794#0#PHP" />
-                <element signature="e#31812#31918#0#PHP" />
-                <element signature="e#31824#31917#1#PHP" />
                 <element signature="n#timesheet_task_assignees#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#32369#32571#0#PHP" />
-                <element signature="e#32580#33220#0#PHP" />
-                <element signature="e#32706#32852#0#PHP" />
-                <element signature="e#32865#33065#0#PHP" />
-                <element signature="e#32963#33051#0#PHP" />
                 <element signature="n#remove_team_member#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#33333#33590#0#PHP" />
-                <element signature="e#33435#33580#0#PHP" />
                 <element signature="n#save_note#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#33759#34139#0#PHP" />
-                <element signature="e#33893#34008#0#PHP" />
                 <element signature="n#copy#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#34199#34719#0#PHP" />
-                <element signature="e#34332#34709#0#PHP" />
-                <element signature="e#34522#34709#0#PHP" />
                 <element signature="n#mass_stop_timers#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#34812#35884#0#PHP" />
-                <element signature="e#34881#34976#0#PHP" />
-                <element signature="e#34990#35073#0#PHP" />
-                <element signature="e#35192#35541#0#PHP" />
-                <element signature="e#35348#35457#0#PHP" />
-                <element signature="e#35395#35456#0#PHP" />
-                <element signature="e#35673#35755#0#PHP" />
-                <element signature="e#35773#35873#0#PHP" />
-                <element signature="e#35785#35872#1#PHP" />
                 <element signature="n#get_pre_invoice_project_info#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#35968#36931#0#PHP" />
-                <element signature="e#36054#36220#0#PHP" />
-                <element signature="e#36091#36219#0#PHP" />
-                <element signature="e#36265#36430#0#PHP" />
-                <element signature="e#36302#36429#0#PHP" />
-                <element signature="e#36689#36814#0#PHP" />
-                <element signature="e#36720#36813#0#PHP" />
                 <element signature="n#get_invoice_project_data#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#37000#45413#0#PHP" />
-                <element signature="e#37203#37275#0#PHP" />
-                <element signature="e#37368#37461#0#PHP" />
-                <element signature="e#37404#37460#0#PHP" />
-                <element signature="e#37823#38079#0#PHP" />
-                <element signature="e#37979#38079#0#PHP" />
-                <element signature="e#38616#42815#0#PHP" />
-                <element signature="e#38767#42801#0#PHP" />
-                <element signature="e#38876#39528#0#PHP" />
-                <element signature="e#39270#39506#0#PHP" />
-                <element signature="e#39333#39421#0#PHP" />
-                <element signature="e#39549#39845#0#PHP" />
-                <element signature="e#39712#39845#0#PHP" />
-                <element signature="e#39942#40899#0#PHP" />
-                <element signature="e#39998#40881#0#PHP" />
-                <element signature="e#40454#40720#0#PHP" />
-                <element signature="e#40592#40720#0#PHP" />
-                <element signature="e#40900#42801#0#PHP" />
-                <element signature="e#41092#42783#0#PHP" />
-                <element signature="e#41154#42761#0#PHP" />
-                <element signature="e#41375#41535#0#PHP" />
-                <element signature="e#42092#42311#0#PHP" />
-                <element signature="e#42341#42641#0#PHP" />
-                <element signature="e#42487#42641#0#PHP" />
-                <element signature="e#42828#42924#0#PHP" />
-                <element signature="e#42937#45165#0#PHP" />
-                <element signature="e#42991#43098#0#PHP" />
-                <element signature="e#43115#43211#0#PHP" />
-                <element signature="e#43439#43522#0#PHP" />
-                <element signature="e#43540#43623#0#PHP" />
-                <element signature="e#43695#45151#0#PHP" />
-                <element signature="e#44157#44329#0#PHP" />
-                <element signature="e#44351#44539#0#PHP" />
-                <element signature="e#44643#44790#0#PHP" />
-                <element signature="e#44811#44961#0#PHP" />
                 <element signature="n#get_rel_project_data#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#45496#46669#0#PHP" />
-                <element signature="e#45585#45762#0#PHP" />
-                <element signature="e#46004#46107#0#PHP" />
-                <element signature="e#46178#46658#0#PHP" />
-                <element signature="e#46190#46657#1#PHP" />
-                <element signature="e#46467#46642#1#PHP" />
-                <element signature="e#46529#46602#0#PHP" />
                 <element signature="n#invoice_project#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#46740#47371#0#PHP" />
-                <element signature="e#47000#47237#0#PHP" />
                 <element signature="n#view_project_as_client#0;n#Other_services_controller#0;n#!!top" />
-                <element signature="e#47452#47577#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -254,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/../law/application/controllers/admin/LegalServices/Other_services_controller.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="442">
-              <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -263,7 +85,7 @@
         <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
-              <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+              <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -271,11 +93,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5887">
+            <state relative-caret-position="9860">
               <caret line="580" column="7" selection-start-line="580" selection-start-column="7" selection-end-line="580" selection-end-column="7" />
-              <folding>
-                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -410,7 +229,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="170" />
     <option name="y" value="91" />
     <option name="width" value="1024" />
@@ -421,7 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -474,6 +292,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -508,16 +327,18 @@
       <updated>1564436291687</updated>
       <workItem from="1564436292962" duration="6889000" />
       <workItem from="1564511461025" duration="8670000" />
+      <workItem from="1564532316748" duration="594000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15559000" />
+    <option name="totallyTimeSpent" value="16153000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1380" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3181818" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22761194" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Grunt " order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -1312,23 +1133,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5887">
-          <caret line="580" column="7" selection-start-line="580" selection-start-column="7" selection-end-line="580" selection-end-column="7" />
-          <folding>
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../law/application/views/admin/LegalServices/other_services/Add.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4843">
@@ -1341,233 +1145,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
+        <state relative-caret-position="663">
           <caret line="47" column="74" selection-start-line="47" selection-start-column="74" selection-end-line="47" selection-end-column="74" />
           <folding>
             <element signature="n#__construct#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#edit#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#2373#2497#0#PHP" />
-            <element signature="e#2506#2953#0#PHP" />
-            <element signature="e#2653#2943#0#PHP" />
-            <element signature="e#2805#2943#0#PHP" />
-            <element signature="e#3173#3284#0#PHP" />
-            <element signature="e#3502#3556#0#PHP" />
             <element signature="n#delete#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#4276#4400#0#PHP" />
-            <element signature="e#4465#4623#0#PHP" />
-            <element signature="e#4549#4623#0#PHP" />
             <element signature="n#table#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#5014#5099#0#PHP" />
-            <element signature="e#5050#5098#0#PHP" />
             <element signature="n#staff_projects#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#expenses#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#5306#5398#0#PHP" />
-            <element signature="e#5353#5397#0#PHP" />
             <element signature="n#add_expense#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#5455#6208#0#PHP" />
-            <element signature="e#5613#5985#0#PHP" />
-            <element signature="e#5724#5949#0#PHP" />
-            <element signature="e#5736#5948#1#PHP" />
-            <element signature="e#6003#6180#0#PHP" />
-            <element signature="e#6015#6179#1#PHP" />
             <element signature="n#gantt#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#6578#7156#0#PHP" />
-            <element signature="e#6631#7146#0#PHP" />
-            <element signature="e#6860#7042#0#PHP" />
-            <element signature="e#6904#7028#0#PHP" />
-            <element signature="e#7043#7146#0#PHP" />
-            <element signature="e#7166#7263#0#PHP" />
-            <element signature="e#7331#7573#0#PHP" />
-            <element signature="e#7605#7744#0#PHP" />
-            <element signature="e#7647#7743#1#PHP" />
             <element signature="n#mark_as#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#19388#19918#0#PHP" />
-            <element signature="e#19439#19908#0#PHP" />
-            <element signature="e#19780#19894#0#PHP" />
-            <element signature="e#19932#20026#0#PHP" />
-            <element signature="e#19944#20025#1#PHP" />
             <element signature="n#file#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#20311#20405#0#PHP" />
             <element signature="n#update_file_data#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#20544#20647#0#PHP" />
             <element signature="n#add_external_file#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#20709#21170#0#PHP" />
             <element signature="n#download_all_files#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#21236#21958#0#PHP" />
-            <element signature="e#21377#21593#0#PHP" />
-            <element signature="e#21709#21823#0#PHP" />
             <element signature="n#export_project_data#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#22025#22159#0#PHP" />
             <element signature="n#update_task_milestone#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#22225#22333#0#PHP" />
             <element signature="n#update_milestones_order#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#22401#22514#0#PHP" />
             <element signature="n#pin_action#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#add_edit_members#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#22734#22960#0#PHP" />
             <element signature="n#discussions#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#23027#23324#0#PHP" />
-            <element signature="e#23125#23314#0#PHP" />
-            <element signature="e#23180#23299#0#PHP" />
-            <element signature="e#23230#23298#0#PHP" />
             <element signature="n#discussion#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#23387#24421#0#PHP" />
-            <element signature="e#23484#24394#0#PHP" />
-            <element signature="e#23607#23755#0#PHP" />
-            <element signature="e#23777#23895#0#PHP" />
-            <element signature="e#23789#23894#1#PHP" />
-            <element signature="e#23911#24394#0#PHP" />
-            <element signature="e#24121#24239#0#PHP" />
-            <element signature="e#24261#24379#0#PHP" />
-            <element signature="e#24273#24378#1#PHP" />
             <element signature="n#get_discussion_comments#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#add_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#update_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#delete_discussion_comment#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#delete_discussion#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#25132#25250#0#PHP" />
-            <element signature="e#25354#25473#0#PHP" />
-            <element signature="e#25487#25587#0#PHP" />
-            <element signature="e#25499#25586#1#PHP" />
             <element signature="n#change_milestone_color#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#25655#25764#0#PHP" />
             <element signature="n#upload_file#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#change_file_visibility#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#25952#26065#0#PHP" />
             <element signature="n#change_activity_visibility#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#26149#26344#0#PHP" />
-            <element signature="e#26209#26334#0#PHP" />
             <element signature="n#remove_file#0;n#Other_services_controller#0;n#!!top" />
             <element signature="n#milestones_kanban#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#26906#27124#0#PHP" />
-            <element signature="e#27210#27290#0#PHP" />
             <element signature="n#milestones_kanban_load_more#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#27781#27897#0#PHP" />
-            <element signature="e#28002#28174#0#PHP" />
             <element signature="n#milestones#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#28240#28528#0#PHP" />
-            <element signature="e#28338#28518#0#PHP" />
-            <element signature="e#28393#28503#0#PHP" />
-            <element signature="e#28434#28502#0#PHP" />
             <element signature="n#milestone#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#28590#29308#0#PHP" />
-            <element signature="e#28687#29298#0#PHP" />
-            <element signature="e#28809#28930#0#PHP" />
-            <element signature="e#28945#29298#0#PHP" />
-            <element signature="e#29156#29284#0#PHP" />
             <element signature="n#delete_milestone#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#29529#29714#0#PHP" />
-            <element signature="e#29589#29704#0#PHP" />
             <element signature="n#bulk_action_files#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#30140#30710#0#PHP" />
-            <element signature="e#30314#30700#0#PHP" />
-            <element signature="e#30352#30686#0#PHP" />
-            <element signature="e#30396#30668#0#PHP" />
-            <element signature="e#30559#30668#0#PHP" />
-            <element signature="e#30719#30846#0#PHP" />
             <element signature="n#timesheets#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#30912#31200#0#PHP" />
-            <element signature="e#31010#31190#0#PHP" />
-            <element signature="e#31065#31175#0#PHP" />
-            <element signature="e#31106#31174#0#PHP" />
             <element signature="n#timesheet#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#31254#31946#0#PHP" />
-            <element signature="e#31427#31794#0#PHP" />
-            <element signature="e#31544#31709#0#PHP" />
-            <element signature="e#31710#31794#0#PHP" />
-            <element signature="e#31812#31918#0#PHP" />
-            <element signature="e#31824#31917#1#PHP" />
             <element signature="n#timesheet_task_assignees#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#32369#32571#0#PHP" />
-            <element signature="e#32580#33220#0#PHP" />
-            <element signature="e#32706#32852#0#PHP" />
-            <element signature="e#32865#33065#0#PHP" />
-            <element signature="e#32963#33051#0#PHP" />
             <element signature="n#remove_team_member#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#33333#33590#0#PHP" />
-            <element signature="e#33435#33580#0#PHP" />
             <element signature="n#save_note#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#33759#34139#0#PHP" />
-            <element signature="e#33893#34008#0#PHP" />
             <element signature="n#copy#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#34199#34719#0#PHP" />
-            <element signature="e#34332#34709#0#PHP" />
-            <element signature="e#34522#34709#0#PHP" />
             <element signature="n#mass_stop_timers#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#34812#35884#0#PHP" />
-            <element signature="e#34881#34976#0#PHP" />
-            <element signature="e#34990#35073#0#PHP" />
-            <element signature="e#35192#35541#0#PHP" />
-            <element signature="e#35348#35457#0#PHP" />
-            <element signature="e#35395#35456#0#PHP" />
-            <element signature="e#35673#35755#0#PHP" />
-            <element signature="e#35773#35873#0#PHP" />
-            <element signature="e#35785#35872#1#PHP" />
             <element signature="n#get_pre_invoice_project_info#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#35968#36931#0#PHP" />
-            <element signature="e#36054#36220#0#PHP" />
-            <element signature="e#36091#36219#0#PHP" />
-            <element signature="e#36265#36430#0#PHP" />
-            <element signature="e#36302#36429#0#PHP" />
-            <element signature="e#36689#36814#0#PHP" />
-            <element signature="e#36720#36813#0#PHP" />
             <element signature="n#get_invoice_project_data#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#37000#45413#0#PHP" />
-            <element signature="e#37203#37275#0#PHP" />
-            <element signature="e#37368#37461#0#PHP" />
-            <element signature="e#37404#37460#0#PHP" />
-            <element signature="e#37823#38079#0#PHP" />
-            <element signature="e#37979#38079#0#PHP" />
-            <element signature="e#38616#42815#0#PHP" />
-            <element signature="e#38767#42801#0#PHP" />
-            <element signature="e#38876#39528#0#PHP" />
-            <element signature="e#39270#39506#0#PHP" />
-            <element signature="e#39333#39421#0#PHP" />
-            <element signature="e#39549#39845#0#PHP" />
-            <element signature="e#39712#39845#0#PHP" />
-            <element signature="e#39942#40899#0#PHP" />
-            <element signature="e#39998#40881#0#PHP" />
-            <element signature="e#40454#40720#0#PHP" />
-            <element signature="e#40592#40720#0#PHP" />
-            <element signature="e#40900#42801#0#PHP" />
-            <element signature="e#41092#42783#0#PHP" />
-            <element signature="e#41154#42761#0#PHP" />
-            <element signature="e#41375#41535#0#PHP" />
-            <element signature="e#42092#42311#0#PHP" />
-            <element signature="e#42341#42641#0#PHP" />
-            <element signature="e#42487#42641#0#PHP" />
-            <element signature="e#42828#42924#0#PHP" />
-            <element signature="e#42937#45165#0#PHP" />
-            <element signature="e#42991#43098#0#PHP" />
-            <element signature="e#43115#43211#0#PHP" />
-            <element signature="e#43439#43522#0#PHP" />
-            <element signature="e#43540#43623#0#PHP" />
-            <element signature="e#43695#45151#0#PHP" />
-            <element signature="e#44157#44329#0#PHP" />
-            <element signature="e#44351#44539#0#PHP" />
-            <element signature="e#44643#44790#0#PHP" />
-            <element signature="e#44811#44961#0#PHP" />
             <element signature="n#get_rel_project_data#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#45496#46669#0#PHP" />
-            <element signature="e#45585#45762#0#PHP" />
-            <element signature="e#46004#46107#0#PHP" />
-            <element signature="e#46178#46658#0#PHP" />
-            <element signature="e#46190#46657#1#PHP" />
-            <element signature="e#46467#46642#1#PHP" />
-            <element signature="e#46529#46602#0#PHP" />
             <element signature="n#invoice_project#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#46740#47371#0#PHP" />
-            <element signature="e#47000#47237#0#PHP" />
             <element signature="n#view_project_as_client#0;n#Other_services_controller#0;n#!!top" />
-            <element signature="e#47452#47577#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9860">
+          <caret line="580" column="7" selection-start-line="580" selection-start-column="7" selection-end-line="580" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../law/application/controllers/admin/LegalServices/Other_services_controller.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
-          <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
         </state>
       </provider>
     </entry>

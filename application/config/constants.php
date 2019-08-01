@@ -201,3 +201,11 @@ define('APP_MODULES_PATH', FCPATH . 'modules/');
  * Helper libraries path
  */
 define('LIBSPATH', APPPATH . 'libraries/');
+/**
+ * Case attachments
+ */
+define('CASES_FOLDER', FCPATH . 'uploads/cases' . '/');
+/**
+ * Case files attachments
+ */
+define('CASE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cases' . '/');

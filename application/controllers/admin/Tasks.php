@@ -8,6 +8,7 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -372,6 +373,7 @@ class Tasks extends AdminController
             }
         }
         $data['id']    = $id;
+        $data['legal_services'] = $this->legal->get_all_services();
         $data['title'] = $title;
         $this->load->view('admin/tasks/task', $data);
     }

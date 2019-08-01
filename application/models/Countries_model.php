@@ -20,7 +20,9 @@ class  Countries_model  extends App_Model{
     // public function get_by_countryId($country_id){
     //     return $this->db->where('Id',$country_id)->get('perfexcountries')->row();
     // }
-
+    public function get_all_cities(){
+        return $this->db->get('cities')->result();
+    }
     public function get_cities_by_countryId($country_id){
         return $this->db->where('Country_id',$country_id)->get('cities')->result();
     }

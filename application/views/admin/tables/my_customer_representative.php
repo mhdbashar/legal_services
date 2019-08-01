@@ -42,7 +42,6 @@ foreach ($rResult as $aRow) {
     $_data .= ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     $_data .= ' | <a href="' . admin_url('customer_representative/cust_representatived/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $row[] = $_data;
-
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
             $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);

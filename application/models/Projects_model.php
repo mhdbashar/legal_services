@@ -1008,7 +1008,7 @@ class Projects_model extends App_Model
 
 
         $data['start_date'] = to_sql_date($data['start_date']);
-
+var_dump($data['start_date']);exit();
         if (!empty($data['deadline'])) {
             $data['deadline'] = to_sql_date($data['deadline']);
         } else {

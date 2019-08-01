@@ -64,6 +64,9 @@
                                 <option value="proposal" <?php if(isset($custom_field) && $custom_field->fieldto == 'proposal'){echo 'selected';} ?>><?php echo _l('proposal'); ?></option>
                                 <option value="projects" <?php if(isset($custom_field) && $custom_field->fieldto == 'projects'){echo 'selected';} ?>><?php echo _l('projects'); ?></option>
                                 <option value="tickets" <?php if(isset($custom_field) && $custom_field->fieldto == 'tickets'){echo 'selected';} ?>><?php echo _l('tickets'); ?></option>
+                                <option value="proc_state" <?php if(isset($custom_field) && $custom_field->fieldto == 'proc_state'){echo 'selected';} ?>><?php echo _l('procuration_state'); ?></option>                                
+                                <option value="proc_type" <?php if(isset($custom_field) && $custom_field->fieldto == 'proc_type'){echo 'selected';} ?>><?php echo _l('procuration_type'); ?></option>
+                                <option value="cust_repres" <?php if(isset($custom_field) && $custom_field->fieldto == 'cust_repres'){echo 'selected';} ?>><?php echo _l('customer_representative'); ?></option>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>
                           </div>

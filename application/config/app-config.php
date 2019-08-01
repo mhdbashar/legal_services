@@ -50,7 +50,7 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'legalserv');
+define('APP_DB_NAME', 'legalserv1');
 
 /**
  * @since  2.3.0

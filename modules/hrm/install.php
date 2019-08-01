@@ -121,4 +121,34 @@ if (!$CI->db->table_exists(db_prefix() . 'my_employee_basic')) {
 	`address` varchar(150) DEFAULT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
-  
+
+
+
+
+// ShababSy.com Added This Table
+if (!$CI->db->table_exists(db_prefix() . 'my_training')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_training` (
+	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	  `staff_id` int(11) NOT NULL,
+	  `training` varchar(20) NOT NULL,
+	  `vendor` varchar(20) NOT NULL,
+	  `start_date` date NOT NULL,
+	  `end_date` date NOT NULL,
+	  `cost` double NOT NULL,
+	  `status` varchar(20) NOT NULL,
+	  `performance` varchar(20) NOT NULL,
+	  `remarks` text NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+
+// ShababSy.com Added This Table
+if (!$CI->db->table_exists(db_prefix() . 'my_training_attachments')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_training_attachments` (
+	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	  `trainid` int(11) NOT NULL,
+	  `file_name` text NOT NULL,
+	  `filetype` text NOT NULL,
+	  `dateadded` date NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

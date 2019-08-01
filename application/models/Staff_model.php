@@ -386,7 +386,7 @@ class Staff_model extends App_Model
         } else {
             unset($data['send_welcome_email']);
         }
-
+        $data['email_signature'] = nl2br_save_html($data['email_signature']);
         $data['password']        = app_hash_password($data['password']);
         $data['datecreated']     = date('Y-m-d H:i:s');
         if (isset($data['departments'])) {
@@ -527,9 +527,10 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-
-        if (isset($data['two_factor_auth_enabled'])) {
-            $data['two_factor_auth_enabled'] = 1;
+														//ShababSy.com Added this cond.
+        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
+            //ShababSy.com Changed this
+			//$data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }
@@ -651,12 +652,15 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-        if (isset($data['two_factor_auth_enabled'])) {
-            $data['two_factor_auth_enabled'] = 1;
+        												//ShababSy.com Added this cond.
+        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
+            //ShababSy.com Changed this
+			//$data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }
 
+        $data['email_signature'] = nl2br_save_html($data['email_signature']);
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);

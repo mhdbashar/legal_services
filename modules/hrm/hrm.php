@@ -4,6 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HRM_MODULE_PATH', __DIR__ );
 define('HRM_MODULE_NAME', 'hrm');
 
+//ShababSy.com Added this line
+define('TRAINING_ATTACHMENTS_FOLDER', FCPATH . 'uploads/training_attachments' . '/');
+
 /*
 Module Name: New HR System
 Description: Default module for Human Resources Management
@@ -63,6 +66,14 @@ function hrm_module_init_menu_items()
             'name'     => 'Salary',
             'href'     => admin_url('hrm/payments'),
             'position' => 28,
+        ]);
+
+
+        $CI->app_menu->add_sidebar_children_item('hrm-system', [
+            'slug'     => 'Training',
+            'name'     => 'Training',
+            'href'     => admin_url('hrm/Training'),
+            'position' => 29,
         ]);
                 
     }

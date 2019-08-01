@@ -11,7 +11,7 @@ function appDatepicker(e) {
             url: admin_url + 'My_custom_controller/get_date_options',
             // data: ['<?php echo get_instance()->security->get_csrf_token_name();?> : <?php echo get_instance()->security->get_csrf_hash(); ?>'],
             success: function(data) {
-                console.log(JSON.parse(data).lang)
+                // console.log(JSON.parse(data).lang)
                 lang = JSON.parse(data).lang;
                 dateType = JSON.parse(data).mode;
                 // comment = JSON.parse(comment);

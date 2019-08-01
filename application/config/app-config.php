@@ -17,7 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 * environments.
 *
 */
-define('APP_BASE_URL', 'http://localhost/crm2/');
+define('APP_BASE_URL', 'http://localhost/legalserv/');
 
 /*
 * --------------------------------------------------------------------------
@@ -50,7 +50,7 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'crm2');
+define('APP_DB_NAME', 'legalserv');
 
 /**
  * @since  2.3.0

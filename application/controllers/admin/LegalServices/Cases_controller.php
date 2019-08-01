@@ -38,7 +38,7 @@ class Cases_controller extends AdminController
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
             $key                                       = array_search('available_features', array_column($data['last_case_settings'], 'name'));
-            $data['last_case_settings'][$key]['value'] = unserialize($data['last_case_settings'][$key]['value']);
+            $data['last_case_settings'][$key]['value'] = @unserialize($data['last_case_settings'][$key]['value']);
         }
         $data['settings'] = $this->case->get_settings();
         if ($this->input->get('customer_id')) {
@@ -73,12 +73,12 @@ class Cases_controller extends AdminController
         $data['case_members'] = $this->case->get_project_members($id);
         $data['case_judges'] = $this->case->get_case_judges($id);
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
-        $data['case']->settings->available_features = unserialize($data['case']->settings->available_features);
+        $data['case']->settings->available_features = @unserialize($data['case']->settings->available_features);
         $data['last_project_settings'] = $this->case->get_last_case_settings();
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_case_settings'], 'name'));
-            $data['last_case_settings'][$key]['value'] = unserialize($data['last_case_settings'][$key]['value']);
+            $data['last_case_settings'][$key]['value'] = @unserialize($data['last_case_settings'][$key]['value']);
         }
         $data['settings'] = $this->case->get_settings();
 
@@ -200,7 +200,7 @@ class Cases_controller extends AdminController
                 blank_page(_l('project_not_found'));
             }
 
-            @$project->settings->available_features = unserialize($project->settings->available_features);
+            @$project->settings->available_features = @unserialize($project->settings->available_features);
             $data['statuses'] = $this->case->get_project_statuses();
 
             $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');
@@ -933,7 +933,7 @@ class Cases_controller extends AdminController
             $project    = $this->case->get($project_id);
             $item['id'] = 0;
 
-            $default_tax     = unserialize(get_option('default_tax'));
+            $default_tax     = @unserialize(get_option('default_tax'));
             $item['taxname'] = $default_tax;
 
             $tasks = $this->input->post('tasks');

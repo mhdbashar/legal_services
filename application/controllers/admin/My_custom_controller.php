@@ -13,7 +13,7 @@ class My_custom_controller extends AdminController
 
     function get_date_options(){
 //        $json['lang'] ="ar";
-        $json['lang'] = $this->app->get_option('active_language');
+        ($this->app->get_option('active_language') == "arabic") ? $json['lang'] = "ar" : $json['lang'] = "en"; 
 //        $json['lang'] ="ar";
 
         $date_option = get_option('dateformat');

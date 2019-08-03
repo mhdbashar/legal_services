@@ -24,7 +24,7 @@ class manage_salary extends App_Model{
         	$this->db->update('tblmy_newstaff', $data);
 
         if ($this->db->affected_rows() > 0) {
-            log_activity('Vac Deleted [' . $id . ']');
+            log_activity('Salary Updated [' . $user_id . ']');
 
             return true;
         }

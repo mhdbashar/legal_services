@@ -41,7 +41,7 @@ foreach($holidays as $holiday){
 	}
 }
 
-$time = str_replace('-', '', date('Y-m-d', strtotime('2019-'.$m.'-01')));
+$time = str_replace('-', '', date('Y-m-d', strtotime($y.'-'.$m.'-01')));
 $datetime = DateTime::createFromFormat('Ymd', $time);
 $day_name = $datetime->format('D');
 
@@ -57,6 +57,11 @@ foreach($vactions as $vaction){
 		$vac[$i] = (int)$i . "\n";
 	}
 }
+
+$work_days = $this->Details_model->getdays();
+
+$total_month_hour = 0;
+$total_month_min = 0;
 
 
 function numDays($date, $year){
@@ -135,6 +140,42 @@ function print_days($day_name){
 			break;
 	}
 }
+function is_holiday($y, $m, $day, $work_days){
+	$datetime = DateTime::createFromFormat('Ymd', $y.$m.$day);
+	$day_name = $datetime->format('D');
+	switch ($day_name) {
+		case 'Sat':
+		if($work_days['saturday'] == 0) return true;
+			return false;
+			break;
+		case 'Sun':
+		if($work_days['sunday'] == 0) return true;
+			return false;
+			break;
+		case 'Mon':
+		if($work_days['monday'] == 0) return true;
+			return false;
+			break;
+		case 'Tue':
+		if($work_days['tuesday'] == 0) return true;
+			return false;
+			break;
+		case 'Wed':
+		if($work_days['wednesday'] == 0) return true;
+			return false;
+			break;
+		case 'Thu':
+		if($work_days['thursday'] == 0) return true;
+			return false;
+			break;
+		case 'Fri':
+		if($work_days['friday'] == 0) return true;
+			return false;
+			break;
+		default:
+			return false;
+}
+}
 ?>
 <div class="col-md-9">
 	<div class="panel_s">
@@ -182,13 +223,17 @@ function print_days($day_name){
 		          	<?php if($day > numDays($m, $y)) break; ?>
 		          	<?php 
 		          	$area = '';
-		          	if(isset($holi[$day]) or isset($vac[$day])) {
+		          	if(isset($holi[$day]) or isset($vac[$day]) or is_holiday($y,$m,$day, $work_days)) {
 		          		$break++;
 		          		if(isset($holi[$day]))
 		          			$area .="<b class='text-success'>Holiday</b>";
 		          		if(isset($vac[$day]))
 		          			$area .="<br><b class='text-danger'>Vaction</b>";
-		          	} else $area = "<b>Day : </b>" . $day . "<br><b>Period : </b><br>" . $period . "<br><b>Hours : </b>" . $total_job; 
+		          		if(is_holiday($y,$m,$day, $work_days))
+		          			$area = "<b class='text-success'>Holiday</b>";
+		          	} else{
+		          		$area = "<b>Day : </b>" . $day . "<br><b>Period : </b><br>" . $period . "<br><b>Hours : </b>" . $total_job;
+		          	}  
 
 		          	?>
 		          	<td><?php echo $area;  $day++; ?></td>
@@ -204,11 +249,18 @@ function print_days($day_name){
 		           	$total_week_hour++; $total_week_min-= 60;
 		           } 
 		          ?>
-		          <td class="text-primary"><?php echo (abs($total_week_hour) . ":" . (int)(abs($total_week_min))) ?></td>
+		          <td class="text-primary"><?php echo (abs($total_week_hour) . ":" . (int)(abs($total_week_min))); $total_month_hour += $total_week_hour; $total_month_min += $total_week_min ?></td>
 		        </tr>
 		<?php endforeach; ?>        
 		      </tbody>
-		    </table>	
+		    </table>
+		      <?php
+		          while ($total_month_min >= 60) {
+		           	$total_month_hour++; $total_month_min-= 60;
+		           } 
+	          ?>
+	          <hr>
+		    <h3>Total in month : <span class="text-primary"><?php echo abs($total_month_hour) . ":" . (int)abs($total_month_min) ?></span> </h3>	
         	</div>
         	
            

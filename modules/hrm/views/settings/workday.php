@@ -13,13 +13,39 @@
                           </form>
                         </nav>
 <hr>
+<?php
+
+    $start_morning = substr($period['morning'], 0, strpos($period['morning'], '-'));
+    $end_morning = str_replace($start_morning.'-', '', $period['morning']);
+
+    $start_evening = substr($period['evening'], 0, strpos($period['evening'], '-'));
+    $end_evening = str_replace($start_evening.'-', '', $period['evening']);
+
+?>
                         <form class="form-check form-inline" action="<?php echo base_url() . 'hrm/Workdays/edit/' ?>">
-                                <div class="col-md-4">
-                                    <label for="ammount" class="col-form-label">Morning</label>
-                                    <input class="form-control" value="<?php echo $period['morning'] ?>" name="morning"></div>
-                                <div class="col-md-4">
-                                    <label for="ammount" class="col-form-label">Evening</label>
-                                    <input class="form-control" value="<?php echo $period['evening'] ?>" name="evening"></div>
+                                <div class="row">
+                                    <div class="col-md-2 h4">Morning :</div>
+                                    <div class="col-md-4">
+                                        <label for="ammount" class="col-form-label">Morning From</label>
+                                        <input type="time" class="form-control" value="<?php echo $start_morning ?>" name="start_morning">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="ammount" class="col-form-label">Morning To</label>
+                                        <input type="time" class="form-control" value="<?php echo $end_morning ?>" name="end_morning">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2 h4">Evening :</div>
+                                    <div class="col-md-4">
+                                        <label for="ammount" class="col-form-label">Evening From</label>
+                                        <input type="time" class="form-control" value="<?php echo $start_evening ?>" name="start_evening">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="ammount" class="col-form-label">Evening To</label>
+                                        <input type="time" class="form-control" value="<?php echo $end_evening ?>" name="end_evening">
+                                    </div>
+                                </div>
                             
 
                     <br><br><br>

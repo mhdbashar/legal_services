@@ -118,6 +118,14 @@ class Details_model extends App_Model
 
     }
 
+    public function getdays()
+    {
+        $this->db->select('*');
+        $this->db->from('tblmy_workday');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
     public function get_staff_name($staff_id){
         $this->db->select('firstname, lastname');
         $this->db->where('staffid', $staff_id);

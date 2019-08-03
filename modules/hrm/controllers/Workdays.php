@@ -26,8 +26,8 @@ class Workdays extends AdminController{
         $friday     = $this->input->get('friday');
         $success = $this->workday->setdays($saturday, $sunday, $monday, $tuesday, $wednesday, $thursday, $friday);
         $data = [
-            'evening' => $this->input->get('evening'), 
-            'morning' => $this->input->get('morning')
+            'evening' => $this->input->get('start_evening').'-'.$this->input->get('end_evening'), 
+            'morning' => $this->input->get('start_morning').'-'.$this->input->get('end_morning')
         ];
         $success2 = $this->workday->update_p($data);
         if ($success or $success2) {

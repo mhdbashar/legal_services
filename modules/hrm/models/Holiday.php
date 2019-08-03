@@ -23,6 +23,14 @@ class holiday extends App_Model{
 
     public function add($data){
         $this->db->insert('tblmy_holiday', $data);
+        $insert_id = $this->db->insert_id();
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Holiday Added [' . $insert_id . ']');
+
+            return true;
+        }
+
+        return false;
     }
 
     public function update($data, $id)

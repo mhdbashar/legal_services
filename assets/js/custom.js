@@ -2,7 +2,7 @@ function appDatepicker(e) {
     // console.log(app.options.date_format);
         let obj = document.getElementsByClassName('datepicker');
         let icon = document.getElementsByClassName('calendar-icon');
-        let lang = "english";
+        let lang = "en";
         let dateType = "AD";
         // console.log(admin_url + 'settings/get_date_options');
 

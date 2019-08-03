@@ -113,7 +113,7 @@ function print_days($day_name){
         '<th scope="col">Tuesday</th>',
         '<th scope="col">Wednesday</th>',
         '<th scope="col">Thursday</th>',
-        '<th scope="col">friday</th>',
+        '<th scope="col" style="color:red;">Friday</th>',
         
   	];
 	switch ($day_name) {
@@ -141,6 +141,7 @@ function print_days($day_name){
 	}
 }
 function is_holiday($y, $m, $day, $work_days){
+	$y= strlen($y)<4 ? '20'.$y : $y;
 	$datetime = DateTime::createFromFormat('Ymd', $y.$m.$day);
 	$day_name = $datetime->format('D');
 	switch ($day_name) {
@@ -260,7 +261,7 @@ function is_holiday($y, $m, $day, $work_days){
 		           } 
 	          ?>
 	          <hr>
-		    <h3>Total in month : <span class="text-primary"><?php echo abs($total_month_hour) . ":" . (int)abs($total_month_min) ?></span> </h3>	
+		    <h3>Working Hours : <span class="text-primary"><?php echo abs($total_month_hour) . ":" . (int)abs($total_month_min) ?></span> </h3>	
         	</div>
         	
            

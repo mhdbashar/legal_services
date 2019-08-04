@@ -1,4 +1,4 @@
-<?php  defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
 
@@ -21,7 +21,7 @@ $sTable       = db_prefix() . 'invoices';
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
-    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'invoices.project_id',
+    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'invoices.rel_sid',
 ];
 
 $custom_fields = get_table_custom_fields('invoice');
@@ -99,8 +99,8 @@ if ($clientid != '') {
 }
 
 if ($project_id) {
-    array_push($where, 'AND rel_id=' . $project_id);
-    array_push($where, 'AND rel_type=' . "'" . $slug . "'");
+    array_push($where, 'AND rel_sid=' . $project_id);
+    array_push($where, 'AND rel_stype=' . "'" . $slug . "'");
 }
 
 if (!has_permission('invoices', '', 'view')) {

@@ -157,7 +157,7 @@ function get_credit_note_item_taxes($itemid)
 {
     $CI = & get_instance();
     $CI->db->where('itemid', $itemid);
-    $CI->db->where('rel_type', 'credit_note');
+    $CI->db->where('rel_stype', 'credit_note');
     $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
     $i     = 0;
     foreach ($taxes as $tax) {

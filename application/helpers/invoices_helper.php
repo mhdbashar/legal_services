@@ -365,7 +365,7 @@ function get_invoice_item_taxes($itemid)
 {
     $CI = & get_instance();
     $CI->db->where('itemid', $itemid);
-    $CI->db->where('rel_type', 'invoice');
+    $CI->db->where('rel_stype', 'invoice');
     $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
     $i     = 0;
     foreach ($taxes as $tax) {

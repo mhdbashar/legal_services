@@ -98,13 +98,13 @@ if ($project->billing_type == 2 || $project->billing_type == 3) {
 }
 
 // Total expenses + money
-$html .= '<b>' . _l('project_overview_expenses') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_id' => $project->id], 'rel_type' => $slug, 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id], 'rel_stype' => $slug, 'field' => 'amount']), $project->currency_data) . '<br />';
 // Billable expenses + money
-$html .= '<b>' . _l('project_overview_expenses_billable') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_id' => $project->id, 'rel_type' => $slug, 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_billable') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Billed expenses + money
-$html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_id' => $project->id, 'rel_type' => $slug, 'invoiceid !=' => 'NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid !=' => 'NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Unbilled expenses + money
-$html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_id' => $project->id, 'rel_type' => $slug, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Write finance overview
 $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, 'L', 0, 0, '', '', true, 0, true);
 

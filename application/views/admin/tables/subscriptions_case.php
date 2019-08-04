@@ -18,8 +18,8 @@ $filter = [];
 $where  = [];
 
 if ($this->ci->input->get('project_id')) {
-    array_push($where, 'AND rel_id=' . $this->ci->input->get('project_id'));
-    array_push($where, 'AND rel_type=' ."'" .$slug . "'");
+    array_push($where, 'AND rel_sid=' . $this->ci->input->get('project_id'));
+    array_push($where, 'AND rel_stype=' ."'" .$slug . "'");
 }
 
 if ($this->ci->input->get('client_id')) {

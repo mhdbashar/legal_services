@@ -7,8 +7,8 @@
             $where_all = '';
             $has_permission_view = has_permission('invoices','','view');
             if(isset($project)){
-                $where_all .= 'rel_id='.$project->id . ' AND ';
-                $where_all .= 'rel_type='."'".$service->slug ."'" .' AND ';
+                $where_all .= 'rel_sid='.$project->id . ' AND ';
+                $where_all .= 'rel_stype='."'".$service->slug ."'" .' AND ';
             }
             if(!$has_permission_view){
                 $where_all .= get_invoices_where_sql_for_staff(get_staff_user_id());
@@ -27,8 +27,8 @@
 
                     $where = array('status'=>$status);
                     if(isset($project)){
-                        $where['rel_id'] = $project->id;
-                        $where['rel_type'] = "$service->slug";
+                        $where['rel_sid'] = $project->id;
+                        $where['rel_stype'] = "$service->slug";
                     }
                     if(!$has_permission_view){
                         $where['addedfrom'] = get_staff_user_id();

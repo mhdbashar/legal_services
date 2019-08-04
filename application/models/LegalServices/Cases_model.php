@@ -558,7 +558,7 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'case_notes');
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->delete(db_prefix() . 'milestones');
 
             // Delete the custom field values
@@ -599,34 +599,34 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'case_activity');
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'expenses', [
-                'rel_id' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'invoices', [
-                'rel_id' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'creditnotes', [
-                'rel_id' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'estimates', [
-                'rel_id' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('relid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
                 'relid' => 0,
-                'rel_type' => '',
+                'rel_stype' => '',
             ]);
 
             $this->db->where('project_id', $id);
@@ -1572,7 +1572,7 @@ class Cases_model extends App_Model
     public function get_milestones($slug,$project_id)
     {
         $this->db->select('*, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id) as total_tasks, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id AND status=5) as total_finished_tasks');
-        $this->db->where(array(db_prefix() . 'milestones.rel_id' => $project_id, db_prefix() . 'milestones.rel_type' => $slug));
+        $this->db->where(array(db_prefix() . 'milestones.rel_sid' => $project_id, db_prefix() . 'milestones.rel_stype' => $slug));
         $this->db->order_by('milestone_order', 'ASC');
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
         $i          = 0;
@@ -1588,7 +1588,7 @@ class Cases_model extends App_Model
     public function add_milestone($ServID, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $data['rel_type']    = $slug;
+        $data['rel_stype']    = $slug;
         $data['due_date']    = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
         $data['description'] = nl2br($data['description']);
@@ -2315,7 +2315,7 @@ class Cases_model extends App_Model
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
         $project   = $this->get($project_id);
-        $settings  = $this->get_project_settings($project_id);
+        $settings  = $this->get_case_settings($project_id);
         $_new_data = [];
         $fields    = $this->db->list_fields(db_prefix() . 'my_cases');
         foreach ($fields as $field) {

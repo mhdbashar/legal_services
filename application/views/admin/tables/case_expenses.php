@@ -31,8 +31,8 @@ $where  = [];
 $filter = [];
 include_once(APPPATH . 'views/admin/tables/includes/expenses_filter.php');
 
-array_push($where, 'AND ' .db_prefix() . 'expenses.rel_id=' . $project_id);
-array_push($where, 'AND ' .db_prefix() . 'expenses.rel_type=' ."'". $slug. "'");
+array_push($where, 'AND ' .db_prefix() . 'expenses.rel_sid=' . $project_id);
+array_push($where, 'AND ' .db_prefix() . 'expenses.rel_stype=' ."'". $slug. "'");
 
 if (!has_permission('expenses', '', 'view')) {
     array_push($where, 'AND ' . db_prefix() . 'expenses.addedfrom=' . get_staff_user_id());

@@ -49,8 +49,8 @@ if (!has_permission('credit_notes', '', 'view')) {
 
 $project_id = $this->ci->input->get('project_id');
 if ($project_id) {
-    array_push($where, 'AND rel_id=' . $project_id);
-    array_push($where, 'AND rel_type=' ."'". $slug ."'");
+    array_push($where, 'AND rel_sid=' . $project_id);
+    array_push($where, 'AND rel_stype=' ."'". $slug ."'");
 }
 
 $statuses  = $this->ci->credit_notes_model->get_statuses();

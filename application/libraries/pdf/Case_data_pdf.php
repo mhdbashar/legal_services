@@ -44,20 +44,20 @@ class Case_data_pdf extends App_pdf
         }
         $data['total_members'] = count($members);
         $data['total_tickets'] = total_rows(db_prefix().'tickets', [
-                'relid' => $project->id,
-                'rel_type' => $slug,
+                'rel_sid' => $project->id,
+                'rel_stype' => $slug,
             ]);
         $data['total_invoices'] = total_rows(db_prefix().'invoices', [
-            'rel_id' => $project->id,
-            'rel_type' => $slug,
+            'rel_sid' => $project->id,
+            'rel_stype' => $slug,
             ]);
 
         $this->ci->load->model('invoices_model');
 
         $data['invoices_total_data'] = $this->ci->invoices_model->get_invoices_total([
                 'currency'   => $project->currency_data->id,
-                'rel_id' => $project->id,
-                'rel_type' => $slug,
+                'rel_sid' => $project->id,
+                'rel_stype' => $slug,
             ]);
 
         $data['total_milestones']     = count($data['milestones']);

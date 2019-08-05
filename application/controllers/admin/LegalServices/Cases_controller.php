@@ -125,11 +125,16 @@ class Cases_controller extends AdminController
         ]);
     }
 
-    public function add_expense($ServID = '')
+    public function add_expense($ServID = '', $case_id = '')
     {
         if ($this->input->post()) {
             $this->load->model('expenses_model');
-            $id = $this->expenses_model->add($this->input->post());
+            $data = array();
+            $data = $this->input->post();
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['rel_stype'] = $slug;
+            $data['rel_sid'] = $case_id;
+            $id = $this->expenses_model->add_for_case($data);
             if ($id) {
                 set_alert('success', _l('added_successfully', _l('expense')));
                 echo json_encode([
@@ -309,7 +314,7 @@ class Cases_controller extends AdminController
                 $data['bodyclass'] .= 'case-milestones ';
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
 
-                $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_id' => $id, 'rel_type' => $slug]);
+                $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
             } elseif ($group == 'project_files') {
                 $data['files'] = $this->case->get_files($id);
@@ -680,7 +685,7 @@ class Cases_controller extends AdminController
         }
     }
 
-    public function milestone($ServID = '' ,$id = '')
+    public function milestone($ServID = '')
     {
         if ($this->input->post()) {
             $message = '';
@@ -701,7 +706,7 @@ class Cases_controller extends AdminController
             }
         }
 
-        redirect(admin_url('Case/view/'.$ServID. '/' . $this->input->post('rel_id') . '?group=project_milestones'));
+        redirect(admin_url('Case/view/'.$ServID. '/' . $this->input->post('rel_sid') . '?group=project_milestones'));
     }
 
     public function delete_milestone($ServID='',$project_id, $id)
@@ -888,8 +893,8 @@ class Cases_controller extends AdminController
             $this->load->model('expenses_model');
             $this->db->where('invoiceid IS NULL');
             $data['expenses'] = $this->expenses_model->get('', [
-                'rel_id'    => $project_id,
-                'rel_type'  => $slug,
+                'rel_sid'    => $project_id,
+                'rel_stype'  => $slug,
                 'billable'  => 1,
             ]);
 

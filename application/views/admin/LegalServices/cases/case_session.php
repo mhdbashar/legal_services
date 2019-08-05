@@ -22,13 +22,12 @@
             </div>
             <div class="modal-body">
                 <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/add/'.$rel_id.'/'.$service_id . '/' . get_staff_user_id() ?>">
+                    <input type="hidden" name="rel_type" value="<?php echo $service->slug; ?>">
                     <div class="form-group">
-
                         <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
                             <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
-
                         <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
@@ -40,25 +39,19 @@
 
                                     <?php } ?>
                                 </select>
-
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
                                 <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
                                     <option value="">Not Selected</option>
                                     <?php foreach ($judges as $judge){ ?>
-
                                         <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>
-
                                     <?php } ?>
                                 </select>
-
                             </div>
                         </div>
-
                         <div class="form-group" app-field-wrapper="date">
                             <label for="date" class="control-label">Date</label>
                             <div class="input-group date">
@@ -78,7 +71,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="update_session" tabindex="-1" role="dialog" aria-labelledby="update_session" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -91,36 +83,27 @@
             <div class="modal-body">
                 <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/update/'.$rel_id.'/'.$service_id ?>">
                     <div class="form-group">
-
                         <input aria-hidden="true" type="hidden" class="form-control" id="id" name="id">
-
                         <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
                             <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
-
                         <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
                                 <select required style="padding: 6px 9px; border-radius: 3px; width: 100%" name="court_id">
                                     <?php foreach ($courts as $court){ ?>
-
                                         <option value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
-
                                     <?php } ?>
                                 </select>
-
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
-                                <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
-                                    <?php foreach ($judges as $judge){ ?>
+                                <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" ><?php foreach ($judges as $judge){ ?>
 
                                         <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>
-
                                     <?php } ?>
                                 </select>
 

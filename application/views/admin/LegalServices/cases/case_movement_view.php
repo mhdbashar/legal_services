@@ -23,6 +23,14 @@
                             <?php echo _l('Court') . ' : <b>' . $movement['court_name'] . '</b>'; ?>
                         </p>
                         <p class="mtop10 no-mbot">
+                            <?php
+                            echo _l('judge').' :';
+                            foreach ($judges_case as $judge){
+                                echo ' &nbsp; <span class="label label-success inline-block mbot5">' . $judge->name. '</span>';
+                            }
+                            ?>
+                        </p>
+                        <p class="mtop10 no-mbot">
                             <?php echo _l('CaseCode') . ' : <b>' . $movement['code'] . '</b>'; ?>
                         </p>
                         <p class="mtop10 no-mbot">

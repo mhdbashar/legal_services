@@ -1,306 +1,14 @@
-<?php
-//
-//defined('BASEPATH') or exit('No direct script access allowed');
-//
-//class Other_services_model extends App_Model
-//{
-//    public function __construct()
-//    {
-//        parent::__construct();
-//        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-//    }
-//
-//    public function get($ServID,$id = '')
-//    {
-//        if (is_numeric($id)) {
-//            return $this->db->get_where('my_other_services', array(
-//                'id' => $id,
-//                'deleted' => 0,
-//                'service_id' => $ServID,
-//            ))->row();
-//        }
-//        return $this->db->get_where('my_other_services',   array(
-//                'deleted' => 0,
-//                'service_id' => $ServID,
-//        ))->result();
-//    }
-//
-//    public function GetTopNumbering()
-//    {
-//        $this->db->select('numbering');
-//        $this->db->from('my_other_services');
-//        $this->db->order_by("id desc");
-//        return $this->db->get()->row();
-//    }
-//
-//    public function GetClientsServices($id)
-//    {
-//        $this->db->select('clients.company');
-//        $this->db->from('clients');
-//        $this->db->join('my_other_services', 'clients.userid = my_other_services.customer_id' ,'right');
-//        $this->db->where('my_other_services.id', $id);
-//        return $this->db->get()->row();
-//    }
-//
-//    public function GetMembersServices($id)
-//    {
-//        $this->db->select('staff.staffid, staff.firstname, staff.lastname, staff.profile_image');
-//        $this->db->from('my_members_services');
-//        $this->db->join('my_other_services', 'my_other_services.id = my_members_services.service_id');
-//        $this->db->join('staff', 'staff.staffid = my_members_services.staff_id');
-//        $this->db->where('my_other_services.id', $id);
-//        return $this->db->get()->result();
-//    }
-//
-//    public function add($ServID,$data)
-//    {
-//        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-//        $data['service_id'] = $ServID;
-//        if (isset($data['custom_fields'])) {
-//            $custom_fields = $data['custom_fields'];
-//            unset($data['custom_fields']);
-//        }
-//
-//        $tags = '';
-//        if (isset($data['tags'])) {
-//            $tags = $data['tags'];
-//            unset($data['tags']);
-//        }
-//
-//        if (isset($data['members'])) {
-//            $members = $data['members'];
-//            unset($data['members']);
-//        }
-//
-//        if (isset($data['send_created_email'])) {
-//            $data['send_created_email'] = 1;
-//        }
-//
-//        $this->db->insert('my_other_services', $data);
-//        $insert_id = $this->db->insert_id();
-//        if ($insert_id) {
-//
-//            handle_tags_save($tags, $insert_id, $slug);
-//
-//            if (isset($custom_fields)) {
-//                handle_custom_fields_post($insert_id, $custom_fields);
-//            }
-//
-//            if (isset($members)) {
-//                $_pm['members'] = $members;
-//                $this->add_edit_members($_pm, $insert_id);
-//            }
-//
-//            log_activity ('New Sub Service Added [ServiceID: ' . $insert_id . ']');
-//
-//            return $insert_id;
-//        }
-//        return false;
-//    }
-//
-//    public function update($ServID,$id,$data)
-//    {
-//        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-//        $affectedRows = 0;
-//        if (isset($data['custom_fields'])) {
-//            $custom_fields = $data['custom_fields'];
-//            if (handle_custom_fields_post($id, $custom_fields)) {
-//                $affectedRows++;
-//            }
-//            unset($data['custom_fields']);
-//        }
-//
-//        if (isset($data['members'])) {
-//            $members = $data['members'];
-//            unset($data['members']);
-//        }
-//        $_pm = [];
-//        if (isset($members)) {
-//            $_pm['members'] = $members;
-//        }
-//        if ($this->add_edit_members($_pm, $id)) {
-//            $affectedRows++;
-//        }
-//
-//        if (isset($data['tags'])) {
-//            if (handle_tags_save($data['tags'], $id, $slug)) {
-//                $affectedRows++;
-//            }
-//            unset($data['tags']);
-//        }
-//
-//        $this->db->where('id', $id);
-//        $this->db->update('my_other_services', $data);
-//        if ($this->db->affected_rows() > 0) {
-//            logActivity('Sub Services Updated [ServID: ' . $id . ']');
-//            return true;
-//        }
-//        return false;
-//
-//    }
-//
-//    public function delete($ServID,$id)
-//    {
-//        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-//        $this->db->where('id', $id);
-//        $this->db->update('my_other_services', array('deleted' => 1));
-//        if ($this->db->affected_rows() > 0) {
-//            // Delete the custom field values
-//            $this->db->where('relid', $id);
-//            $this->db->where('fieldto', $slug);
-//            $this->db->delete('customfieldsvalues');
-//            // Delete the members
-//            $this->db->where('service_id', $id);
-//            $this->db->delete(db_prefix() . 'my_members_services');
-//            // Delete the tags
-//            $this->db->where('rel_id', $id);
-//            $this->db->where('rel_type', $slug);
-//            $this->db->delete(db_prefix() . 'taggables');
-//            logActivity('Sub Services Deleted [ServID: ' . $id . ']');
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public function add_edit_members($data, $id)
-//    {
-//        $affectedRows = 0;
-//        if (isset($data['members'])) {
-//            $members = $data['members'];
-//        }
-//
-//        $new_project_members_to_receive_email = [];
-//        $this->db->select('title,customer_id');
-//        $this->db->where('id', $id);
-//        $member      = $this->db->get(db_prefix() . 'my_other_services')->row();
-//        $member_name = $member->title;
-//        $client_id   = $member->customer_id;
-//
-//        $case_members_in = $this->get_project_members($id);
-//        if (sizeof($case_members_in) > 0) {
-//            foreach ($case_members_in as $case_member) {
-//                if (isset($members)) {
-//                    if (!in_array($case_member['staff_id'], $members)) {
-//                        $this->db->where('service_id', $id);
-//                        $this->db->where('staff_id', $case_member['staff_id']);
-//                        $this->db->delete(db_prefix() . 'my_members_services');
-//                    }
-//                } else {
-//                    $this->db->where('service_id', $id);
-//                    $this->db->delete(db_prefix() . 'my_members_services');
-//                    if ($this->db->affected_rows() > 0) {
-//                        $affectedRows++;
-//                    }
-//                }
-//            }
-//            if (isset($members)) {
-//                $notifiedUsers = [];
-//                foreach ($members as $staff_id) {
-//                    $this->db->where('service_id', $id);
-//                    $this->db->where('staff_id', $staff_id);
-//                    $_exists = $this->db->get(db_prefix() . 'my_members_services')->row();
-//                    if (!$_exists) {
-//                        if (empty($staff_id)) {
-//                            continue;
-//                        }
-//                        $this->db->insert(db_prefix() . 'my_members_services', [
-//                            'service_id' => $id,
-//                            'staff_id'   => $staff_id,
-//                        ]);
-//                        if ($this->db->affected_rows() > 0) {
-//                            if ($staff_id != get_staff_user_id()) {
-//                                $notified = add_notification([
-//                                    'fromuserid'      => get_staff_user_id(),
-//                                    'description'     => 'not_staff_added_as_service_member',
-//                                    'link'            => 'ServiceDetails/1/' . $id,
-//                                    'touserid'        => $staff_id,
-//                                    'additional_data' => serialize([
-//                                        $members,
-//                                    ]),
-//                                ]);
-//                                array_push($new_project_members_to_receive_email, $staff_id);
-//                                if ($notified) {
-//                                    array_push($notifiedUsers, $staff_id);
-//                                }
-//                            }
-//                            //  $this->log_activity($id, 'case_activity_added_team_member', get_staff_full_name($staff_id));
-//                            $affectedRows++;
-//                        }
-//                    }
-//                }
-//                pusher_trigger_notification($notifiedUsers);
-//            }
-//        } else {
-//            if (isset($members)) {
-//                $notifiedUsers = [];
-//                foreach ($members as $staff_id) {
-//                    if (empty($staff_id)) {
-//                        continue;
-//                    }
-//                    $this->db->insert(db_prefix() . 'my_members_services', [
-//                        'service_id' => $id,
-//                        'staff_id'   => $staff_id,
-//                    ]);
-//                    if ($this->db->affected_rows() > 0) {
-//                        if ($staff_id != get_staff_user_id()) {
-//                            $notified = add_notification([
-//                                'fromuserid'      => get_staff_user_id(),
-//                                'description'     => 'not_staff_added_as_service_member',
-//                                'link'            => 'ServiceDetails/1/' . $id,
-//                                'touserid'        => $staff_id,
-//                                'additional_data' => serialize([
-//                                    $members,
-//                                ]),
-//                            ]);
-//                            array_push($new_project_members_to_receive_email, $staff_id);
-//                            if ($notifiedUsers) {
-//                                array_push($notifiedUsers, $staff_id);
-//                            }
-//                        }
-//                        // $this->log_activity($id, 'case_activity_added_team_member', get_staff_full_name($staff_id));
-//                        $affectedRows++;
-//                    }
-//                }
-//                pusher_trigger_notification($notifiedUsers);
-//            }
-//        }
-//
-//        if (count($new_project_members_to_receive_email) > 0) {
-//            $all_members = $this->get_project_members($id);
-//            foreach ($all_members as $data) {
-//                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
-//                    //send_mail_template('project_staff_added_as_member', $data, $id, $client_id);
-//                }
-//            }
-//        }
-//        if ($affectedRows > 0) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
-//    public function get_project_members($id)
-//    {
-//        $this->db->select('email,service_id,staff_id');
-//        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
-//        $this->db->where('service_id', $id);
-//        return $this->db->get(db_prefix() . 'my_members_services')->result_array();
-//    }
-//}
-
-
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Other_services_model extends App_Model
 {
-    private $project_settings;
+    private $oservice_settings;
 
     public function __construct()
     {
         parent::__construct();
 
-        $project_settings = [
+        $oservice_settings = [
             'available_features',
             'view_tasks',
             'create_tasks',
@@ -321,7 +29,7 @@ class Other_services_model extends App_Model
             'view_team_members',
             'hide_tasks_on_main_tasks_table',
         ];
-        $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
+        $this->oservice_settings = hooks()->apply_filters('oservice_settings', $oservice_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
@@ -334,28 +42,28 @@ class Other_services_model extends App_Model
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_other_services.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_other_services.cat_id');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_other_services.subcat_id');
-            $project = $this->db->get(db_prefix() . 'my_other_services')->row();
-            if ($project) {
-                $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
-                $settings = $this->get_project_settings($id);
+            $oservice = $this->db->get(db_prefix() . 'my_other_services')->row();
+            if ($oservice) {
+                //$oservice->shared_vault_entries = $this->clients_model->get_vault_entries($oservice->clientid, ['share_in_oservices' => 1]);
+                $settings = $this->get_oservice_settings($id);
 
                 // SYNC NEW TABS
-                $tabs = get_project_tabs_admin();
+                $tabs = get_oservice_tabs_admin();
                 $tabs_flatten = [];
                 $settings_available_features = [];
 
                 $available_features_index = false;
-//                foreach ($settings as $key => $setting) {
-//                    if ($setting['name'] == 'available_features') {
-//                        $available_features_index = $key;
-//                        $available_features = unserialize($setting['value']);
-//                        if (is_array($available_features)) {
-//                            foreach ($available_features as $name => $avf) {
-//                                $settings_available_features[] = $name;
-//                            }
-//                        }
-//                    }
-//                }
+                foreach ($settings as $key => $setting) {
+                    if ($setting['name'] == 'available_features') {
+                        $available_features_index = $key;
+                        $available_features = unserialize($setting['value']);
+                        if (is_array($available_features)) {
+                            foreach ($available_features as $name => $avf) {
+                                $settings_available_features[] = $name;
+                            }
+                        }
+                    }
+                }
                 foreach ($tabs as $tab) {
                     if (isset($tab['collapse'])) {
                         foreach ($tab['children'] as $d) {
@@ -373,25 +81,25 @@ class Other_services_model extends App_Model
                                 $tmp = unserialize($current_available_features_settings['value']);
                                 $tmp[$tab] = 1;
                                 $this->db->where('id', $current_available_features_settings['id']);
-                                $this->db->update(db_prefix() . 'project_settings', ['value' => serialize($tmp)]);
+                                $this->db->update(db_prefix() . 'oservice_settings', ['value' => serialize($tmp)]);
                             }
                         }
                     }
                 }
 
-                $project->settings = new StdClass();
+                $oservice->settings = new StdClass();
 
                 foreach ($settings as $setting) {
-                    $project->settings->{$setting['name']} = $setting['value'];
+                    $oservice->settings->{$setting['name']} = $setting['value'];
                 }
 
-                $project->client_data = new StdClass();
-                $project->client_data = $this->clients_model->get($project->clientid);
+                $oservice->client_data = new StdClass();
+                $oservice->client_data = $this->clients_model->get($oservice->clientid);
 
-                $project = hooks()->apply_filters('project_get', $project);
-                $GLOBALS['project'] = $project;
+                $oservice = hooks()->apply_filters('oservice_get', $oservice);
+                $GLOBALS['oservice'] = $oservice;
 
-                return $project;
+                return $oservice;
             }
 
             return null;
@@ -424,7 +132,7 @@ class Other_services_model extends App_Model
     {
         $this->db->select('staff.staffid, staff.firstname, staff.lastname, staff.profile_image');
         $this->db->from('my_members_services');
-        $this->db->join('my_other_services', 'my_other_services.id = my_members_services.project_id');
+        $this->db->join('my_other_services', 'my_other_services.id = my_members_services.oservice_id');
         $this->db->join('staff', 'staff.staffid = my_members_services.staff_id');
         $this->db->where('my_other_services.id', $id);
         return $this->db->get()->result();
@@ -432,13 +140,9 @@ class Other_services_model extends App_Model
 
     public function add($ServID,$data)
     {
-        //echo "<pre>";print_r($data);exit;
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-
-        $data['service_id'] = $ServID;
-
-        if (isset($data['notify_project_members_status_change'])) {
-            unset($data['notify_project_members_status_change']);
+        if (isset($data['notify_oservice_members_status_change'])) {
+            unset($data['notify_oservice_members_status_change']);
         }
         $send_created_email = false;
         if (isset($data['send_created_email'])) {
@@ -446,14 +150,14 @@ class Other_services_model extends App_Model
             $send_created_email = true;
         }
 
-        $send_project_marked_as_finished_email_to_contacts = false;
-        if (isset($data['project_marked_as_finished_email_to_contacts'])) {
-            unset($data['project_marked_as_finished_email_to_contacts']);
-            $send_project_marked_as_finished_email_to_contacts = true;
+        $send_oservice_marked_as_finished_email_to_contacts = false;
+        if (isset($data['oservice_marked_as_finished_email_to_contacts'])) {
+            unset($data['oservice_marked_as_finished_email_to_contacts']);
+            $send_oservice_marked_as_finished_email_to_contacts = true;
         }
 
         if (isset($data['settings'])) {
-            $project_settings = $data['settings'];
+            $oservice_settings = $data['settings'];
             unset($data['settings']);
         }
         if (isset($data['custom_fields'])) {
@@ -467,7 +171,6 @@ class Other_services_model extends App_Model
         }
 
 
-
         $data['start_date'] = to_sql_date($data['start_date']);
 
         if (!empty($data['deadline'])) {
@@ -476,23 +179,23 @@ class Other_services_model extends App_Model
             unset($data['deadline']);
         }
 
-        $data['project_created'] = date('Y-m-d');
-        if (isset($data['project_members'])) {
-            $project_members = $data['project_members'];
-            unset($data['project_members']);
+        $data['oservice_created'] = date('Y-m-d');
+        if (isset($data['oservice_members'])) {
+            $oservice_members = $data['oservice_members'];
+            unset($data['oservice_members']);
         }
         if ($data['billing_type'] == 1) {
-            $data['project_rate_per_hour'] = 0;
+            $data['oservice_rate_per_hour'] = 0;
         } elseif ($data['billing_type'] == 2) {
-            $data['project_cost'] = 0;
+            $data['oservice_cost'] = 0;
         } else {
-            $data['project_rate_per_hour'] = 0;
-            $data['project_cost'] = 0;
+            $data['oservice_rate_per_hour'] = 0;
+            $data['oservice_cost'] = 0;
         }
-
+        $data['service_id']= $ServID;
         $data['addedfrom'] = get_staff_user_id();
 
-        $data = hooks()->apply_filters('before_add_project', $data);
+        $data = hooks()->apply_filters('before_add_oservice', $data);
 
         $tags = '';
         if (isset($data['tags'])) {
@@ -509,16 +212,16 @@ class Other_services_model extends App_Model
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
 
-            if (isset($project_members)) {
-                $_pm['project_members'] = $project_members;
+            if (isset($oservice_members)) {
+                $_pm['oservice_members'] = $oservice_members;
                 $this->add_edit_members($_pm, $insert_id);
             }
 
             $original_settings = $this->get_settings();
-            if (isset($project_settings)) {
+            if (isset($oservice_settings)) {
                 $_settings = [];
                 $_values = [];
-                foreach ($project_settings as $name => $val) {
+                foreach ($oservice_settings as $name => $val) {
                     array_push($_settings, $name);
                     $_values[$name] = $val;
                 }
@@ -530,7 +233,7 @@ class Other_services_model extends App_Model
                             $value_setting = 0;
                         }
                     } else {
-                        $tabs = get_project_tabs_admin();
+                        $tabs = get_oservice_tabs_admin();
                         $tab_settings = [];
                         foreach ($_values[$setting] as $tab) {
                             $tab_settings[$tab] = 1;
@@ -550,8 +253,8 @@ class Other_services_model extends App_Model
                         }
                         $value_setting = serialize($tab_settings);
                     }
-                    $this->db->insert(db_prefix() . 'project_settings', [
-                        'project_id' => $insert_id,
+                    $this->db->insert(db_prefix() . 'oservice_settings', [
+                        'oservice_id' => $insert_id,
                         'name' => $setting,
                         'value' => $value_setting,
                     ]);
@@ -559,25 +262,25 @@ class Other_services_model extends App_Model
             } else {
                 foreach ($original_settings as $setting) {
                     $value_setting = 0;
-                    $this->db->insert(db_prefix() . 'project_settings', [
-                        'project_id' => $insert_id,
+                    $this->db->insert(db_prefix() . 'oservice_settings', [
+                        'oservice_id' => $insert_id,
                         'name' => $setting,
                         'value' => $value_setting,
                     ]);
                 }
             }
 
-            $this->log_activity($insert_id, 'project_activity_created');
+            $this->log_activity($insert_id, 'oservice_activity_created');
 
             if ($send_created_email == true) {
-                $this->send_project_customer_email($insert_id, 'project_created_to_customer');
+                $this->send_oservice_customer_email($insert_id, 'oservice_created_to_customer');
             }
 
-            if ($send_project_marked_as_finished_email_to_contacts == true) {
-                $this->send_project_customer_email($insert_id, 'project_marked_as_finished_to_customer');
+            if ($send_oservice_marked_as_finished_email_to_contacts == true) {
+                $this->send_oservice_customer_email($insert_id, 'oservice_marked_as_finished_to_customer');
             }
 
-            hooks()->do_action('after_add_project', $insert_id);
+            hooks()->do_action('after_add_oservice', $insert_id);
 
             log_activity ('New Sub Service Added [ServiceID: ' . $insert_id . ']');
 
@@ -600,22 +303,22 @@ class Other_services_model extends App_Model
             $send_created_email = true;
         }
 
-        $send_project_marked_as_finished_email_to_contacts = false;
-        if (isset($data['project_marked_as_finished_email_to_contacts'])) {
-            unset($data['project_marked_as_finished_email_to_contacts']);
-            $send_project_marked_as_finished_email_to_contacts = true;
+        $send_oservice_marked_as_finished_email_to_contacts = false;
+        if (isset($data['oservice_marked_as_finished_email_to_contacts'])) {
+            unset($data['oservice_marked_as_finished_email_to_contacts']);
+            $send_oservice_marked_as_finished_email_to_contacts = true;
         }
 
-        $original_project = $this->get($ServID,$id);
+        $original_oservice = $this->get($ServID,$id);
 
-        if (isset($data['notify_project_members_status_change'])) {
-            $notify_project_members_status_change = true;
-            unset($data['notify_project_members_status_change']);
+        if (isset($data['notify_oservice_members_status_change'])) {
+            $notify_oservice_members_status_change = true;
+            unset($data['notify_oservice_members_status_change']);
         }
         $affectedRows = 0;
         if (!isset($data['settings'])) {
-            $this->db->where('project_id', $id);
-            $this->db->update(db_prefix() . 'project_settings', [
+            $this->db->where('oservice_id', $id);
+            $this->db->update(db_prefix() . 'oservice_settings', [
                 'value' => 0,
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -631,7 +334,7 @@ class Other_services_model extends App_Model
             }
 
             unset($data['settings']);
-            $original_settings = $this->get_project_settings($id);
+            $original_settings = $this->get_oservice_settings($id);
 
             foreach ($original_settings as $setting) {
                 if ($setting['name'] != 'available_features') {
@@ -641,7 +344,7 @@ class Other_services_model extends App_Model
                         $value_setting = 0;
                     }
                 } else {
-                    $tabs = get_project_tabs_admin();
+                    $tabs = get_oservice_tabs_admin();
                     $tab_settings = [];
                     foreach ($_values[$setting['name']] as $tab) {
                         $tab_settings[$tab] = 1;
@@ -662,9 +365,9 @@ class Other_services_model extends App_Model
                     $value_setting = serialize($tab_settings);
                 }
 
-                $this->db->where('project_id', $id);
+                $this->db->where('oservice_id', $id);
                 $this->db->where('name', $setting['name']);
-                $this->db->update(db_prefix() . 'project_settings', [
+                $this->db->update(db_prefix() . 'oservice_settings', [
                     'value' => $value_setting,
                 ]);
 
@@ -702,20 +405,20 @@ class Other_services_model extends App_Model
 
         $data['start_date'] = to_sql_date($data['start_date']);
         if ($data['billing_type'] == 1) {
-            $data['project_rate_per_hour'] = 0;
+            $data['oservice_rate_per_hour'] = 0;
         } elseif ($data['billing_type'] == 2) {
-            $data['project_cost'] = 0;
+            $data['oservice_cost'] = 0;
         } else {
-            $data['project_rate_per_hour'] = 0;
-            $data['project_cost'] = 0;
+            $data['oservice_rate_per_hour'] = 0;
+            $data['oservice_cost'] = 0;
         }
-        if (isset($data['project_members'])) {
-            $project_members = $data['project_members'];
-            unset($data['project_members']);
+        if (isset($data['oservice_members'])) {
+            $oservice_members = $data['oservice_members'];
+            unset($data['oservice_members']);
         }
         $_pm = [];
-        if (isset($project_members)) {
-            $_pm['project_members'] = $project_members;
+        if (isset($oservice_members)) {
+            $_pm['oservice_members'] = $oservice_members;
         }
         if ($this->add_edit_members($_pm, $id)) {
             $affectedRows++;
@@ -737,54 +440,54 @@ class Other_services_model extends App_Model
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id);
         }
-
-        $data = hooks()->apply_filters('before_update_project', $data, $id);
+        $data['service_id']= $ServID;
+        $data = hooks()->apply_filters('before_update_oservice', $data, $id);
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'my_other_services', $data);
 
         if ($this->db->affected_rows() > 0) {
             if (isset($mark_all_tasks_as_completed)) {
-                $this->_mark_all_project_tasks_as_completed($id);
+                $this->_mark_all_oservice_tasks_as_completed($id);
             }
             $affectedRows++;
         }
 
         if ($send_created_email == true) {
-            if ($this->send_project_customer_email($id, 'project_created_to_customer')) {
+            if ($this->send_oservice_customer_email($id, 'oservice_created_to_customer')) {
                 $affectedRows++;
             }
         }
 
-        if ($send_project_marked_as_finished_email_to_contacts == true) {
-            if ($this->send_project_customer_email($id, 'project_marked_as_finished_to_customer')) {
+        if ($send_oservice_marked_as_finished_email_to_contacts == true) {
+            if ($this->send_oservice_customer_email($id, 'oservice_marked_as_finished_to_customer')) {
                 $affectedRows++;
             }
         }
         if ($affectedRows > 0) {
-            $this->log_activity($id, 'project_activity_updated');
+            $this->log_activity($id, 'oservice_activity_updated');
             logActivity('Sub Services Updated [ServID: ' . $id . ']');
 
-            if ($original_project->status != $data['status']) {
-                hooks()->do_action('project_status_changed', [
+            if ($original_oservice->status != $data['status']) {
+                hooks()->do_action('oservice_status_changed', [
                     'status' => $data['status'],
-                    'project_id' => $id,
+                    'oservice_id' => $id,
                 ]);
                 // Give space this log to be on top
                 sleep(1);
                 if ($data['status'] == 4) {
-                    $this->log_activity($id, 'project_marked_as_finished');
+                    $this->log_activity($id, 'oservice_marked_as_finished');
                     $this->db->where('id', $id);
                     $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => date('Y-m-d H:i:s')]);
                 } else {
-                    $this->log_activity($id, 'project_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
+                    $this->log_activity($id, 'oservice_status_updated', '<b><lang>oservice_status_' . $data['status'] . '</lang></b>');
                 }
 
-                if (isset($notify_project_members_status_change)) {
-                    $this->_notify_project_members_status_change($id, $original_project->status, $data['status']);
+                if (isset($notify_oservice_members_status_change)) {
+                    $this->_notify_oservice_members_status_change($id, $original_oservice->status, $data['status']);
                 }
             }
-            hooks()->do_action('after_update_project', $id);
+            hooks()->do_action('after_update_oservice', $id);
 
             return true;
         }
@@ -800,13 +503,14 @@ class Other_services_model extends App_Model
         $this->db->delete(db_prefix() . 'my_other_services');
         if ($this->db->affected_rows() > 0) {
 
-            $this->db->where('project_id', $id);
+            $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'my_members_services');
 
-            $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'project_notes');
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'oservice_notes');
 
-            $this->db->where('project_id', $id);
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', $slug);
             $this->db->delete(db_prefix() . 'milestones');
 
             // Delete the custom field values
@@ -818,18 +522,18 @@ class Other_services_model extends App_Model
             $this->db->where('rel_type', $slug);
             $this->db->delete(db_prefix() . 'taggables');
 
-            $this->db->where('project_id', $id);
-            $discussions = $this->db->get(db_prefix() . 'projectdiscussions')->result_array();
+            $this->db->where('oservice_id', $id);
+            $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
             foreach ($discussions as $discussion) {
                 $discussion_comments = $this->get_discussion_comments($discussion['id'], 'regular');
                 foreach ($discussion_comments as $comment) {
                     $this->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
                 }
                 $this->db->where('discussion_id', $discussion['id']);
-                $this->db->delete(db_prefix() . 'projectdiscussioncomments');
+                $this->db->delete(db_prefix() . 'oservicediscussioncomments');
             }
-            $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'projectdiscussions');
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'oservicediscussions');
 
             $files = $this->get_files($id);
             foreach ($files as $file) {
@@ -841,41 +545,46 @@ class Other_services_model extends App_Model
                 $this->tasks_model->delete_task($task['id'], false);
             }
 
-            $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'project_settings');
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'oservice_settings');
 
-            $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'project_activity');
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'oservice_activity');
 
-            $this->db->where('project_id', $id);
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'expenses', [
-                'project_id' => 0,
+                'relid' => 0,
+                'rel_type' => '',
             ]);
 
-            $this->db->where('project_id', $id);
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'invoices', [
-                'project_id' => 0,
+                'relid' => 0,
+                'rel_type' => '',
             ]);
 
-            $this->db->where('project_id', $id);
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'creditnotes', [
-                'project_id' => 0,
+                'relid' => 0,
+                'rel_type' => '',
             ]);
 
-            $this->db->where('project_id', $id);
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'estimates', [
-                'project_id' => 0,
+                'relid' => 0,
+                'rel_type' => '',
             ]);
 
-            $this->db->where('project_id', $id);
+            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
-                'project_id' => 0,
+                'relid' => 0,
+                'rel_type' => '',
             ]);
 
-            $this->db->where('project_id', $id);
-            $this->db->delete(db_prefix() . 'pinned_projects');
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'pinned_oservices');
 
-            log_activity('Sub Services Deleted [ServID: ' . $id . ']');
+            log_activity('Sub Services Deleted [Service ID: ' . $id . ']');
             return true;
         }
         return false;
@@ -885,46 +594,46 @@ class Other_services_model extends App_Model
     {
 
         $affectedRows = 0;
-        if (isset($data['project_members'])) {
-            $project_members = $data['project_members'];
+        if (isset($data['oservice_members'])) {
+            $oservice_members = $data['oservice_members'];
         }
 
-        $new_project_members_to_receive_email = [];
+        $new_oservice_members_to_receive_email = [];
         $this->db->select('name,clientid');
         $this->db->where('id', $id);
-        $project = $this->db->get(db_prefix() . 'my_other_services')->row();
-        $project_name = $project->name;
-        $client_id = $project->clientid;
+        $oservice = $this->db->get(db_prefix() . 'my_other_services')->row();
+        $oservice_name = $oservice->name;
+        $client_id = $oservice->clientid;
 
-        $project_members_in = $this->get_project_members($id);
-        if (sizeof($project_members_in) > 0) {
-            foreach ($project_members_in as $project_member) {
-                if (isset($project_members)) {
-                    if (!in_array($project_member['staff_id'], $project_members)) {
-                        $this->db->where('project_id', $id);
-                        $this->db->where('staff_id', $project_member['staff_id']);
+        $oservice_members_in = $this->get_oservice_members($id);
+        if (sizeof($oservice_members_in) > 0) {
+            foreach ($oservice_members_in as $oservice_member) {
+                if (isset($oservice_members)) {
+                    if (!in_array($oservice_member['staff_id'], $oservice_members)) {
+                        $this->db->where('oservice_id', $id);
+                        $this->db->where('staff_id', $oservice_member['staff_id']);
                         $this->db->delete(db_prefix() . 'my_members_services');
                         if ($this->db->affected_rows() > 0) {
-                            $this->db->where('staff_id', $project_member['staff_id']);
-                            $this->db->where('project_id', $id);
-                            $this->db->delete(db_prefix() . 'pinned_projects');
+                            $this->db->where('staff_id', $oservice_member['staff_id']);
+                            $this->db->where('oservice_id', $id);
+                            $this->db->delete(db_prefix() . 'pinned_oservices');
 
-                            $this->log_activity($id, 'project_activity_removed_team_member', get_staff_full_name($project_member['staff_id']));
+                            $this->log_activity($id, 'oservice_activity_removed_team_member', get_staff_full_name($oservice_member['staff_id']));
                             $affectedRows++;
                         }
                     }
                 } else {
-                    $this->db->where('project_id', $id);
+                    $this->db->where('oservice_id', $id);
                     $this->db->delete(db_prefix() . 'my_members_services');
                     if ($this->db->affected_rows() > 0) {
                         $affectedRows++;
                     }
                 }
             }
-            if (isset($project_members)) {
+            if (isset($oservice_members)) {
                 $notifiedUsers = [];
-                foreach ($project_members as $staff_id) {
-                    $this->db->where('project_id', $id);
+                foreach ($oservice_members as $staff_id) {
+                    $this->db->where('oservice_id', $id);
                     $this->db->where('staff_id', $staff_id);
                     $_exists = $this->db->get(db_prefix() . 'my_members_services')->row();
                     if (!$_exists) {
@@ -932,28 +641,28 @@ class Other_services_model extends App_Model
                             continue;
                         }
                         $this->db->insert(db_prefix() . 'my_members_services', [
-                            'project_id' => $id,
+                            'oservice_id' => $id,
                             'staff_id' => $staff_id,
                         ]);
                         if ($this->db->affected_rows() > 0) {
                             if ($staff_id != get_staff_user_id()) {
                                 $notified = add_notification([
                                     'fromuserid' => get_staff_user_id(),
-                                    'description' => 'not_staff_added_as_project_member',
+                                    'description' => 'not_staff_added_as_oservice_member',
                                     'link' => 'view/' . $id,
                                     'touserid' => $staff_id,
                                     'additional_data' => serialize([
-                                        $project_name,
+                                        $oservice_name,
                                     ]),
                                 ]);
-                                array_push($new_project_members_to_receive_email, $staff_id);
+                                array_push($new_oservice_members_to_receive_email, $staff_id);
                                 if ($notified) {
                                     array_push($notifiedUsers, $staff_id);
                                 }
                             }
 
 
-                            $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                            $this->log_activity($id, 'oservice_activity_added_team_member', get_staff_full_name($staff_id));
                             $affectedRows++;
                         }
                     }
@@ -961,33 +670,33 @@ class Other_services_model extends App_Model
                 pusher_trigger_notification($notifiedUsers);
             }
         } else {
-            if (isset($project_members)) {
+            if (isset($oservice_members)) {
                 $notifiedUsers = [];
-                foreach ($project_members as $staff_id) {
+                foreach ($oservice_members as $staff_id) {
                     if (empty($staff_id)) {
                         continue;
                     }
                     $this->db->insert(db_prefix() . 'my_members_services', [
-                        'project_id' => $id,
+                        'oservice_id' => $id,
                         'staff_id' => $staff_id,
                     ]);
                     if ($this->db->affected_rows() > 0) {
                         if ($staff_id != get_staff_user_id()) {
                             $notified = add_notification([
                                 'fromuserid' => get_staff_user_id(),
-                                'description' => 'not_staff_added_as_project_member',
+                                'description' => 'not_staff_added_as_oservice_member',
                                 'link' => 'view/' . $id,
                                 'touserid' => $staff_id,
                                 'additional_data' => serialize([
-                                    $project_name,
+                                    $oservice_name,
                                 ]),
                             ]);
-                            array_push($new_project_members_to_receive_email, $staff_id);
+                            array_push($new_oservice_members_to_receive_email, $staff_id);
                             if ($notifiedUsers) {
                                 array_push($notifiedUsers, $staff_id);
                             }
                         }
-                        $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                        $this->log_activity($id, 'oservice_activity_added_team_member', get_staff_full_name($staff_id));
                         $affectedRows++;
                     }
                 }
@@ -995,11 +704,11 @@ class Other_services_model extends App_Model
             }
         }
 
-//        if (count($new_project_members_to_receive_email) > 0) {
-//            $all_members = $this->get_project_members($id);
+//        if (count($new_oservice_members_to_receive_email) > 0) {
+//            $all_members = $this->get_oservice_members($id);
 //            foreach ($all_members as $data) {
-//                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
-//                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id);
+//                if (in_array($data['staff_id'], $new_oservice_members_to_receive_email)) {
+//                    send_mail_template('oservice_staff_added_as_member', $data, $id, $client_id);
 //                }
 //            }
 //        }
@@ -1010,50 +719,50 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_project_members($id)
+    public function get_oservice_members($id)
     {
-        $this->db->select('email,project_id,staff_id');
+        $this->db->select('email,oservice_id,staff_id');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
-        $this->db->where('project_id', $id);
+        $this->db->where('oservice_id', $id);
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
     }
 
 
-    public function get_project_statuses()
+    public function get_oservice_statuses()
     {
-        $statuses = hooks()->apply_filters('before_get_project_statuses', [
+        $statuses = hooks()->apply_filters('before_get_oservice_statuses', [
             [
                 'id' => 1,
                 'color' => '#989898',
-                'name' => _l('project_status_1'),
+                'name' => _l('oservice_status_1'),
                 'order' => 1,
                 'filter_default' => true,
             ],
             [
                 'id' => 2,
                 'color' => '#03a9f4',
-                'name' => _l('project_status_2'),
+                'name' => _l('oservice_status_2'),
                 'order' => 2,
                 'filter_default' => true,
             ],
             [
                 'id' => 3,
                 'color' => '#ff6f00',
-                'name' => _l('project_status_3'),
+                'name' => _l('oservice_status_3'),
                 'order' => 3,
                 'filter_default' => true,
             ],
             [
                 'id' => 4,
                 'color' => '#84c529',
-                'name' => _l('project_status_4'),
+                'name' => _l('oservice_status_4'),
                 'order' => 100,
                 'filter_default' => false,
             ],
             [
                 'id' => 5,
                 'color' => '#989898',
-                'name' => _l('project_status_5'),
+                'name' => _l('oservice_status_5'),
                 'order' => 4,
                 'filter_default' => false,
             ],
@@ -1066,31 +775,31 @@ class Other_services_model extends App_Model
         return $statuses;
     }
 
-    public function get_distinct_tasks_timesheets_staff($project_id)
+    public function get_distinct_tasks_timesheets_staff($oservice_id, $slug)
     {
-        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="project" AND rel_id=' . $project_id)->result_array();
+        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="'.$slug.'" AND rel_id=' . $oservice_id)->result_array();
     }
 
-    public function get_distinct_projects_members()
+    public function get_distinct_oservices_members()
     {
-        return $this->db->query('SELECT staff_id, firstname, lastname FROM ' . db_prefix() . 'project_members JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . 'project_members.staff_id GROUP by staff_id order by firstname ASC')->result_array();
+        return $this->db->query('SELECT staff_id, firstname, lastname FROM ' . db_prefix() . 'oservice_members JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . 'oservice_members.staff_id GROUP by staff_id order by firstname ASC')->result_array();
     }
 
     public function get_most_used_billing_type()
     {
         return $this->db->query('SELECT billing_type, COUNT(*) AS total_usage
-                FROM ' . db_prefix() . 'projects
+                FROM ' . db_prefix() . 'my_other_services
                 GROUP BY billing_type
                 ORDER BY total_usage DESC
                 LIMIT 1')->row();
     }
 
-    public function timers_started_for_project($project_id, $where = [], $task_timers_where = [])
+    public function timers_started_for_oservice($slug = '',$oservice_id, $where = [], $task_timers_where = [])
     {
         $this->db->where($where);
         $this->db->where('end_time IS NULL');
-        $this->db->where(db_prefix() . 'tasks.rel_id', $project_id);
-        $this->db->where(db_prefix() . 'tasks.rel_type', 'project');
+        $this->db->where(db_prefix() . 'tasks.rel_id', $oservice_id);
+        $this->db->where(db_prefix() . 'tasks.rel_type', $slug);
         $this->db->join(db_prefix() . 'tasks', db_prefix() . 'tasks.id=' . db_prefix() . 'taskstimers.task_id');
         $total = $this->db->count_all_results(db_prefix() . 'taskstimers');
 
@@ -1099,20 +808,20 @@ class Other_services_model extends App_Model
 
     public function pin_action($id)
     {
-        if (total_rows(db_prefix() . 'pinned_projects', [
+        if (total_rows(db_prefix() . 'pinned_oservices', [
                 'staff_id' => get_staff_user_id(),
-                'project_id' => $id,
+                'oservice_id' => $id,
             ]) == 0) {
-            $this->db->insert(db_prefix() . 'pinned_projects', [
+            $this->db->insert(db_prefix() . 'pinned_oservices', [
                 'staff_id' => get_staff_user_id(),
-                'project_id' => $id,
+                'oservice_id' => $id,
             ]);
 
             return true;
         }
-        $this->db->where('project_id', $id);
+        $this->db->where('oservice_id', $id);
         $this->db->where('staff_id', get_staff_user_id());
-        $this->db->delete(db_prefix() . 'pinned_projects');
+        $this->db->delete(db_prefix() . 'pinned_oservices');
 
         return true;
     }
@@ -1120,7 +829,7 @@ class Other_services_model extends App_Model
     public function get_currency($id)
     {
         $this->load->model('currencies_model');
-        $customer_currency = $this->clients_model->get_customer_default_currency(get_client_id_by_project_id($id));
+        $customer_currency = $this->clients_model->get_customer_default_currency(get_client_id_by_oservice_id($id));
         if ($customer_currency != 0) {
             $currency = $this->currencies_model->get($customer_currency);
         } else {
@@ -1130,54 +839,54 @@ class Other_services_model extends App_Model
         return $currency;
     }
 
-    public function calc_progress($id)
+    public function calc_progress($slug,$id)
     {
         $this->db->select('progress_from_tasks,progress,status');
         $this->db->where('id', $id);
-        $project = $this->db->get(db_prefix() . 'my_other_services')->row();
+        $oservice = $this->db->get(db_prefix() . 'my_other_services')->row();
 
-        if ($project->status == 4) {
+        if ($oservice->status == 4) {
             return 100;
         }
 
-        if ($project->progress_from_tasks == 1) {
-            return $this->calc_progress_by_tasks($id);
+        if ($oservice->progress_from_tasks == 1) {
+            return $this->calc_progress_by_tasks($id,$slug);
         }
 
-        return $project->progress;
+        return $oservice->progress;
     }
 
-    public function calc_progress_by_tasks($id)
+    public function calc_progress_by_tasks($id,$slug )
     {
-        $total_project_tasks = total_rows(db_prefix() . 'tasks', [
-            'rel_type' => 'project',
+        $total_oservice_tasks = total_rows(db_prefix() . 'tasks', [
+            'rel_type' => $slug,
             'rel_id' => $id,
         ]);
         $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
-            'rel_type' => 'project',
+            'rel_type' => $slug,
             'rel_id' => $id,
             'status' => 5,
         ]);
         $percent = 0;
-        if ($total_finished_tasks >= floatval($total_project_tasks)) {
+        if ($total_finished_tasks >= floatval($total_oservice_tasks)) {
             $percent = 100;
         } else {
-            if ($total_project_tasks !== 0) {
-                $percent = number_format(($total_finished_tasks * 100) / $total_project_tasks, 2);
+            if ($total_oservice_tasks !== 0) {
+                $percent = number_format(($total_finished_tasks * 100) / $total_oservice_tasks, 2);
             }
         }
 
         return $percent;
     }
 
-    public function get_last_project_settings()
+    public function get_last_oservice_settings()
     {
         $this->db->select('id');
         $this->db->order_by('id', 'DESC');
         $this->db->limit(1);
-        $last_project = $this->db->get(db_prefix() . 'my_other_services')->row();
-        if ($last_project) {
-            return $this->get_project_settings($last_project->id);
+        $last_oservice = $this->db->get(db_prefix() . 'my_other_services')->row();
+        if ($last_oservice) {
+            return $this->get_oservice_settings($last_oservice->id);
         }
 
         return [];
@@ -1185,10 +894,10 @@ class Other_services_model extends App_Model
 
     public function get_settings()
     {
-        return $this->project_settings;
+        return $this->oservice_settings;
     }
 
-    public function calculate_total_by_project_hourly_rate($seconds, $hourly_rate)
+    public function calculate_total_by_oservice_hourly_rate($seconds, $hourly_rate)
     {
         $hours = seconds_to_time_format($seconds);
         $decimal = sec2qty($seconds);
@@ -1218,10 +927,11 @@ class Other_services_model extends App_Model
         ];
     }
 
-    public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false)
+    public function get_tasks($slug = '',$id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         $has_permission = has_permission('tasks', '', 'view');
-        $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
+        $show_all_tasks_for_oservice_member = get_option('show_all_tasks_for_oservice_member');
 
         if (is_client_logged_in()) {
             $this->db->where('visible_to_client', 1);
@@ -1241,10 +951,10 @@ class Other_services_model extends App_Model
         $this->db->select($select);
 
         $this->db->join(db_prefix() . 'milestones', db_prefix() . 'milestones.id = ' . db_prefix() . 'tasks.milestone', 'left');
-        $this->db->where('rel_id', $id);
-        $this->db->where('rel_type', 'project');
+        $this->db->where(db_prefix() .'tasks.rel_id', $id);
+        $this->db->where(db_prefix() .'tasks.rel_type', $slug);
         if ($apply_restrictions == true) {
-            if (!is_client_logged_in() && !$has_permission && $show_all_tasks_for_project_member == 0) {
+            if (!is_client_logged_in() && !$has_permission && $show_all_tasks_for_oservice_member == 0) {
                 $this->db->where('(
                     ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ')
                     OR ' . db_prefix() . 'tasks.id IN(SELECT taskid FROM ' . db_prefix() . 'task_followers WHERE staffid=' . get_staff_user_id() . ')
@@ -1257,26 +967,28 @@ class Other_services_model extends App_Model
         $this->db->where($where);
 
         // Milestones kanban order
-        // Request is admin/projects/milestones_kanban
+        // Request is admin/oservices/milestones_kanban
         if ($this->uri->segment(3) == 'milestones_kanban') {
             $this->db->order_by('milestone_order', 'asc');
         } else {
-            $orderByString = hooks()->apply_filters('project_tasks_array_default_order', 'FIELD(status, 5), duedate IS NULL ASC, duedate');
+            $orderByString = hooks()->apply_filters('oservice_tasks_array_default_order', 'FIELD(status, 5), duedate IS NULL ASC, duedate');
             $this->db->order_by($orderByString, '', false);
         }
 
         if ($count == false) {
+
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
         } else {
+
             $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
         }
 
         return $tasks;
     }
 
-    public function cancel_recurring_tasks($id)
+    public function cancel_recurring_tasks($id, $slug)
     {
-        $this->db->where('rel_type', 'project');
+        $this->db->where('rel_type', $slug);
         $this->db->where('rel_id', $id);
         $this->db->where('recurring', 1);
         $this->db->where('(cycles != total_cycles OR cycles=0)');
@@ -1291,7 +1003,7 @@ class Other_services_model extends App_Model
         ]);
     }
 
-    public function do_milestones_kanban_query($milestone_id, $project_id, $page = 1, $where = [], $count = false)
+    public function do_milestones_kanban_query($milestone_id, $oservice_id, $page = 1, $where = [], $count = false)
     {
         $where['milestone'] = $milestone_id;
 
@@ -1305,29 +1017,29 @@ class Other_services_model extends App_Model
             }
         }
 
-        return $this->get_tasks($project_id, $where, true, $count);
+        return $this->get_tasks($oservice_id, $where, true, $count);
     }
 
-    public function get_files($project_id)
+    public function get_files($oservice_id)
     {
         if (is_client_logged_in()) {
             $this->db->where('visible_to_customer', 1);
         }
-        $this->db->where('project_id', $project_id);
+        $this->db->where('oservice_id', $oservice_id);
 
-        return $this->db->get(db_prefix() . 'project_files')->result_array();
+        return $this->db->get(db_prefix() . 'oservice_files')->result_array();
     }
 
-    public function get_file($id, $project_id = false)
+    public function get_file($id, $oservice_id = false)
     {
         if (is_client_logged_in()) {
             $this->db->where('visible_to_customer', 1);
         }
         $this->db->where('id', $id);
-        $file = $this->db->get(db_prefix() . 'project_files')->row();
+        $file = $this->db->get(db_prefix() . 'oservice_files')->row();
 
-        if ($file && $project_id) {
-            if ($file->project_id != $project_id) {
+        if ($file && $oservice_id) {
+            if ($file->oservice_id != $oservice_id) {
                 return false;
             }
         }
@@ -1339,13 +1051,13 @@ class Other_services_model extends App_Model
     {
         $this->db->where('id', $data['id']);
         unset($data['id']);
-        $this->db->update(db_prefix() . 'project_files', $data);
+        $this->db->update(db_prefix() . 'oservice_files', $data);
     }
 
     public function change_file_visibility($id, $visible)
     {
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'project_files', [
+        $this->db->update(db_prefix() . 'oservice_files', [
             'visible_to_customer' => $visible,
         ]);
     }
@@ -1353,20 +1065,20 @@ class Other_services_model extends App_Model
     public function change_activity_visibility($id, $visible)
     {
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'project_activity', [
+        $this->db->update(db_prefix() . 'oservice_activity', [
             'visible_to_customer' => $visible,
         ]);
     }
 
     public function remove_file($id, $logActivity = true)
     {
-        hooks()->do_action('before_remove_project_file', $id);
+        hooks()->do_action('before_remove_oservice_file', $id);
 
         $this->db->where('id', $id);
-        $file = $this->db->get(db_prefix() . 'project_files')->row();
+        $file = $this->db->get(db_prefix() . 'oservice_files')->row();
         if ($file) {
             if (empty($file->external)) {
-                $path = get_upload_path_by_type('project') . $file->project_id . '/';
+                $path = get_upload_path_by_type('oservice') . $file->oservice_id . '/';
                 $fullPath = $path . $file->file_name;
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
@@ -1381,19 +1093,19 @@ class Other_services_model extends App_Model
             }
 
             $this->db->where('id', $id);
-            $this->db->delete(db_prefix() . 'project_files');
+            $this->db->delete(db_prefix() . 'oservice_files');
             if ($logActivity) {
-                $this->log_activity($file->project_id, 'project_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+                $this->log_activity($file->oservice_id, 'oservice_activity_oservice_file_removed', $file->file_name, $file->visible_to_customer);
             }
 
             // Delete discussion comments
             $this->_delete_discussion_comments($id, 'file');
 
-            if (is_dir(get_upload_path_by_type('project') . $file->project_id)) {
+            if (is_dir(get_upload_path_by_type('oservice') . $file->oservice_id)) {
                 // Check if no attachments left, so we can delete the folder also
-                $other_attachments = list_files(get_upload_path_by_type('project') . $file->project_id);
+                $other_attachments = list_files(get_upload_path_by_type('oservice') . $file->oservice_id);
                 if (count($other_attachments) == 0) {
-                    delete_dir(get_upload_path_by_type('project') . $file->project_id);
+                    delete_dir(get_upload_path_by_type('oservice') . $file->oservice_id);
                 }
             }
 
@@ -1403,13 +1115,13 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_project_overview_weekly_chart_data($id, $type = 'this_week')
+    public function get_oservice_overview_weekly_chart_data($slug = '',$id, $type = 'this_week')
     {
-        $billing_type = get_project_billing_type($id);
+        $billing_type = get_oservice_billing_type($id);
         $chart = [];
 
-        $has_permission_create = has_permission('projects', '', 'create');
-        // If don't have permission for projects create show only bileld time
+        $has_permission_create = has_permission('oservices', '', 'create');
+        // If don't have permission for oservices create show only bileld time
         if (!$has_permission_create) {
             $timesheets_type = 'total_logged_time_only';
         } else {
@@ -1425,7 +1137,7 @@ class Other_services_model extends App_Model
         $chart['data']['datasets'] = [];
 
         $chart['data']['datasets'][] = [
-            'label' => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('project_overview_billable_hours')) : str_replace(':', '', _l('project_overview_logged_hours'))),
+            'label' => ($timesheets_type == 'billable_unbilled' ? str_replace(':', '', _l('oservice_overview_billable_hours')) : str_replace(':', '', _l('oservice_overview_logged_hours'))),
             'data' => [],
             'backgroundColor' => [],
             'borderColor' => [],
@@ -1434,7 +1146,7 @@ class Other_services_model extends App_Model
 
         if ($timesheets_type == 'billable_unbilled') {
             $chart['data']['datasets'][] = [
-                'label' => str_replace(':', '', _l('project_overview_unbilled_hours')),
+                'label' => str_replace(':', '', _l('oservice_overview_unbilled_hours')),
                 'data' => [],
                 'backgroundColor' => [],
                 'borderColor' => [],
@@ -1515,7 +1227,7 @@ class Other_services_model extends App_Model
 
             $color = '3, 169, 244';
 
-            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id = "' . $id . '"';
+            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$slug.'" AND rel_id = "' . $id . '"';
 
             if ($timesheets_type != 'total_logged_time_only') {
                 $where .= ' AND billable=1';
@@ -1593,7 +1305,7 @@ class Other_services_model extends App_Model
         return $chart;
     }
 
-    public function get_gantt_data($project_id, $type = 'milestones', $taskStatus = null)
+    public function get_gantt_data($slug, $oservice_id, $type = 'milestones', $taskStatus = null)
     {
         $type_data = [];
         if ($type == 'milestones') {
@@ -1601,7 +1313,7 @@ class Other_services_model extends App_Model
                 'name' => _l('milestones_uncategorized'),
                 'id' => 0,
             ];
-            $_milestones = $this->get_milestones($project_id);
+            $_milestones = $this->get_milestones($slug,$oservice_id);
             foreach ($_milestones as $m) {
                 $type_data[] = $m;
             }
@@ -1610,7 +1322,7 @@ class Other_services_model extends App_Model
                 'name' => _l('task_list_not_assigned'),
                 'staff_id' => 0,
             ];
-            $_members = $this->get_project_members($project_id);
+            $_members = $this->get_oservice_members($oservice_id);
             foreach ($_members as $m) {
                 $type_data[] = $m;
             }
@@ -1627,20 +1339,24 @@ class Other_services_model extends App_Model
 
         $gantt_data = [];
         $has_permission = has_permission('tasks', '', 'view');
+
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
-                $tasks = $this->get_tasks($project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+
+                $tasks = $this->get_tasks($slug,$oservice_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                 $name = $data['name'];
             } elseif ($type == 'members') {
                 if ($data['staff_id'] != 0) {
-                    $tasks = $this->get_tasks($project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+
+                    $tasks = $this->get_tasks($slug,$oservice_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                     $name = get_staff_full_name($data['staff_id']);
                 } else {
-                    $tasks = $this->get_tasks($project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+                    $tasks = $this->get_tasks($slug,$oservice_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                     $name = $data['name'];
                 }
             } else {
-                $tasks = $this->get_tasks($project_id, [
+
+                $tasks = $this->get_tasks($slug,$oservice_id, [
                     'status' => $data,
                 ], true);
 
@@ -1663,9 +1379,9 @@ class Other_services_model extends App_Model
         return $gantt_data;
     }
 
-    public function get_all_projects_gantt_data($filters = [])
+    public function get_all_oservices_gantt_data($filters = [])
     {
-        $statuses = $this->get_project_statuses();
+        $statuses = $this->get_oservice_statuses();
         $gantt_data = [];
 
         $statusesIds = [];
@@ -1674,36 +1390,36 @@ class Other_services_model extends App_Model
                 continue;
             }
 
-            if (!has_permission('projects', '', 'view')) {
-                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+            if (!has_permission('oservices', '', 'view')) {
+                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . get_staff_user_id() . ')');
             }
 
             if ($filters['member']) {
-                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . $filters['member'] . ')');
+                $this->db->where(db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . $filters['member'] . ')');
             }
 
             $this->db->where('status', $status['id']);
             $this->db->order_by('deadline IS NULL ASC, deadline', '', false);
-            $projects = $this->db->get(db_prefix() . 'my_other_services')->result_array();
+            $oservices = $this->db->get(db_prefix() . 'my_other_services')->result_array();
 
-            foreach ($projects as $project) {
-                $tasks = $this->get_tasks($project['id'], [], true);
+            foreach ($oservices as $oservice) {
+                $tasks = $this->get_tasks($slug,$oservice['id'], [], true);
 
                 $data = [];
                 $data['values'] = [];
                 $values = [];
                 $data['desc'] = ' '; // right white background
-                $data['name'] = $project['name']; // the heading
+                $data['name'] = $oservice['name']; // the heading
 
-                $values['from'] = strftime('%Y/%m/%d', strtotime($project['start_date']));
-                $values['to'] = strftime('%Y/%m/%d', strtotime($project['deadline']));
+                $values['from'] = strftime('%Y/%m/%d', strtotime($oservice['start_date']));
+                $values['to'] = strftime('%Y/%m/%d', strtotime($oservice['deadline']));
                 $values['desc'] = '';
-                $values['label'] = $project['name'];
+                $values['label'] = $oservice['name'];
 
                 $values['dataObj'] = [
-                    'project_id' => $project['id'],
+                    'oservice_id' => $oservice['id'],
                 ];
-                $values['customClass'] = 'ganttProject';
+                $values['customClass'] = 'ganttoservice';
                 $data['values'][] = $values;
                 $gantt_data[] = $data;
 
@@ -1718,10 +1434,10 @@ class Other_services_model extends App_Model
         return $gantt_data;
     }
 
-    public function calc_milestone_logged_time($project_id, $id)
+    public function calc_milestone_logged_time($slug,$oservice_id, $id)
     {
         $total = [];
-        $tasks = $this->get_tasks($project_id, [
+        $tasks = $this->get_tasks($slug,$oservice_id, [
             'milestone' => $id,
         ]);
 
@@ -1732,29 +1448,31 @@ class Other_services_model extends App_Model
         return array_sum($total);
     }
 
-    public function total_logged_time($id)
+    public function total_logged_time($slug, $id)
     {
+
         $q = $this->db->query('
             SELECT SUM(CASE
                 WHEN end_time is NULL THEN ' . time() . '-start_time
                 ELSE end_time-start_time
                 END) as total_logged_time
             FROM ' . db_prefix() . 'taskstimers
-            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id=' . $id . ')')
+            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id=' . $id . ')')
             ->row();
 
         return $q->total_logged_time;
     }
 
-    public function get_milestones($project_id)
+    public function get_milestones($slug,$oservice_id)
     {
-        $this->db->select('*, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id=' . $project_id . ' and milestone=' . db_prefix() . 'milestones.id) as total_tasks, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id=' . $project_id . ' and milestone=' . db_prefix() . 'milestones.id AND status=5) as total_finished_tasks');
-        $this->db->where('project_id', $project_id);
+        $this->db->select('*, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id=' . $oservice_id . ' and milestone=' . db_prefix() . 'milestones.id) as total_tasks, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id=' . $oservice_id . ' and milestone=' . db_prefix() . 'milestones.id AND status=5) as total_finished_tasks');
+        $this->db->where('rel_id', $oservice_id);
+        $this->db->where('rel_type', $slug);
         $this->db->order_by('milestone_order', 'ASC');
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
         $i = 0;
         foreach ($milestones as $milestone) {
-            $milestones[$i]['total_logged_time'] = $this->calc_milestone_logged_time($project_id, $milestone['id']);
+            $milestones[$i]['total_logged_time'] = $this->calc_milestone_logged_time($slug,$oservice_id, $milestone['id']);
             $i++;
         }
 
@@ -1762,30 +1480,34 @@ class Other_services_model extends App_Model
         return $milestones;
     }
 
-    public function add_milestone($data)
+    public function add_milestone($ServID,$data)
     {
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        //$data['rel_id']    = $data['oservice_id'];
+        $data['rel_type']    = $slug;
         $data['due_date'] = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
         $data['description'] = nl2br($data['description']);
-
+        var_dump($data);
         if (isset($data['description_visible_to_customer'])) {
             $data['description_visible_to_customer'] = 1;
         } else {
             $data['description_visible_to_customer'] = 0;
         }
+
         $this->db->insert(db_prefix() . 'milestones', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             $this->db->where('id', $insert_id);
             $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-            $project = $this->get($milestone->project_id);
-            if ($project->settings->view_milestones == 1) {
+            $oservice = $this->get($ServID,$milestone->rel_id);
+            if ($oservice->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {
                 $show_to_customer = 0;
             }
-            $this->log_activity($milestone->project_id, 'project_activity_created_milestone', $milestone->name, $show_to_customer);
-            log_activity('Project Milestone Created [ID:' . $insert_id . ']');
+            $this->log_activity($milestone->id, 'oservice_activity_created_milestone', $milestone->name, $show_to_customer);
+            log_activity('oservice Milestone Created [ID:' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -1795,6 +1517,7 @@ class Other_services_model extends App_Model
 
     public function update_milestone($data, $id)
     {
+
         $this->db->where('id', $id);
         $milestone = $this->db->get(db_prefix() . 'milestones')->row();
         $data['due_date'] = to_sql_date($data['due_date']);
@@ -1809,14 +1532,14 @@ class Other_services_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'milestones', $data);
         if ($this->db->affected_rows() > 0) {
-            $project = $this->get($milestone->project_id);
-            if ($project->settings->view_milestones == 1) {
+            $oservice = $this->get($milestone->id);
+            if ($oservice->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {
                 $show_to_customer = 0;
             }
-            $this->log_activity($milestone->project_id, 'project_activity_updated_milestone', $milestone->name, $show_to_customer);
-            log_activity('Project Milestone Updated [ID:' . $id . ']');
+            $this->log_activity($milestone->id, 'oservice_activity_updated_milestone', $milestone->name, $show_to_customer);
+            log_activity('oservice Milestone Updated [ID:' . $id . ']');
 
             return true;
         }
@@ -1864,18 +1587,18 @@ class Other_services_model extends App_Model
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'milestones');
         if ($this->db->affected_rows() > 0) {
-            $project = $this->get($milestone->project_id);
-            if ($project->settings->view_milestones == 1) {
+            $oservice = $this->get($milestone->id);
+            if ($oservice->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {
                 $show_to_customer = 0;
             }
-            $this->log_activity($milestone->project_id, 'project_activity_deleted_milestone', $milestone->name, $show_to_customer);
+            $this->log_activity($milestone->id, 'oservice_activity_deleted_milestone', $milestone->name, $show_to_customer);
             $this->db->where('milestone', $id);
             $this->db->update(db_prefix() . 'tasks', [
                 'milestone' => 0,
             ]);
-            log_activity('Project Milestone Deleted [' . $id . ']');
+            log_activity('oservice Milestone Deleted [' . $id . ']');
 
             return true;
         }
@@ -1884,17 +1607,17 @@ class Other_services_model extends App_Model
     }
 
     /**
-     * Simplified function to send non complicated email templates for project contacts
-     * @param mixed $id project id
+     * Simplified function to send non complicated email templates for oservice contacts
+     * @param mixed $id oservice id
      * @return boolean
      */
-    public function send_project_customer_email($id, $template)
+    public function send_oservice_customer_email($id, $template)
     {
         $this->db->select('clientid');
         $this->db->where('id', $id);
         $clientid = $this->db->get(db_prefix() . 'my_other_services')->row()->clientid;
         $sent = false;
-        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'project_emails' => 1]);
+        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'oservice_emails' => 1]);
         foreach ($contacts as $contact) {
             if (send_mail_template($template, $id, $clientid, $contact)) {
                 $sent = true;
@@ -1904,49 +1627,49 @@ class Other_services_model extends App_Model
         return $sent;
     }
 
-    public function mark_as($data)
+    public function mark_as($data, $slug)
     {
         $this->db->select('status');
-        $this->db->where('id', $data['project_id']);
+        $this->db->where('id', $data['oservice_id']);
         $old_status = $this->db->get(db_prefix() . 'my_other_services')->row()->status;
 
-        $this->db->where('id', $data['project_id']);
+        $this->db->where('id', $data['oservice_id']);
         $this->db->update(db_prefix() . 'my_other_services', [
             'status' => $data['status_id'],
         ]);
         if ($this->db->affected_rows() > 0) {
-            hooks()->do_action('project_status_changed', [
+            hooks()->do_action('oservice_status_changed', [
                 'status' => $data['status_id'],
-                'project_id' => $data['project_id'],
+                'oservice_id' => $data['oservice_id'],
             ]);
 
 
             if ($data['status_id'] == 4) {
-                $this->log_activity($data['project_id'], 'project_marked_as_finished');
-                $this->db->where('id', $data['project_id']);
+                $this->log_activity($data['oservice_id'], 'oservice_marked_as_finished');
+                $this->db->where('id', $data['oservice_id']);
                 $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => date('Y-m-d H:i:s')]);
             } else {
-                $this->log_activity($data['project_id'], 'project_status_updated', '<b><lang>project_status_' . $data['status_id'] . '</lang></b>');
+                $this->log_activity($data['oservice_id'], 'oservice_status_updated', '<b><lang>oservice_status_' . $data['status_id'] . '</lang></b>');
                 if ($old_status == 4) {
                     $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => null]);
                 }
             }
 
-            if ($data['notify_project_members_status_change'] == 1) {
-                $this->_notify_project_members_status_change($data['project_id'], $old_status, $data['status_id']);
+            if ($data['notify_oservice_members_status_change'] == 1) {
+                $this->_notify_oservice_members_status_change($data['oservice_id'], $old_status, $data['status_id']);
             }
 
             if ($data['mark_all_tasks_as_completed'] == 1) {
-                $this->_mark_all_project_tasks_as_completed($data['project_id']);
+                $this->_mark_all_oservice_tasks_as_completed($data['oservice_id'], $slug);
             }
 
             if (isset($data['cancel_recurring_tasks']) && $data['cancel_recurring_tasks'] == 'true') {
-                $this->cancel_recurring_tasks($data['project_id']);
+                $this->cancel_recurring_tasks($data['oservice_id'], $slug);
             }
 
-            if (isset($data['send_project_marked_as_finished_email_to_contacts'])
-                && $data['send_project_marked_as_finished_email_to_contacts'] == 1) {
-                $this->send_project_customer_email($data['project_id'], 'project_marked_as_finished_to_customer');
+            if (isset($data['send_oservice_marked_as_finished_email_to_contacts'])
+                && $data['send_oservice_marked_as_finished_email_to_contacts'] == 1) {
+                $this->send_oservice_customer_email($data['oservice_id'], 'oservice_marked_as_finished_to_customer');
             }
 
             return true;
@@ -1956,20 +1679,20 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    private function _notify_project_members_status_change($id, $old_status, $new_status)
+    private function _notify_oservice_members_status_change($id, $old_status, $new_status)
     {
-        $members = $this->get_project_members($id);
+        $members = $this->get_oservice_members($id);
         $notifiedUsers = [];
         foreach ($members as $member) {
             if ($member['staff_id'] != get_staff_user_id()) {
                 $notified = add_notification([
                     'fromuserid' => get_staff_user_id(),
-                    'description' => 'not_project_status_updated',
-                    'link' => 'projects/view/' . $id,
+                    'description' => 'not_oservice_status_updated',
+                    'link' => 'oservices/view/' . $id,
                     'touserid' => $member['staff_id'],
                     'additional_data' => serialize([
-                        '<lang>project_status_' . $old_status . '</lang>',
-                        '<lang>project_status_' . $new_status . '</lang>',
+                        '<lang>oservice_status_' . $old_status . '</lang>',
+                        '<lang>oservice_status_' . $new_status . '</lang>',
                     ]),
                 ]);
                 if ($notified) {
@@ -1980,9 +1703,9 @@ class Other_services_model extends App_Model
         pusher_trigger_notification($notifiedUsers);
     }
 
-    private function _mark_all_project_tasks_as_completed($id)
+    private function _mark_all_oservice_tasks_as_completed($id, $slug)
     {
-        $this->db->where('rel_type', 'project');
+        $this->db->where('rel_type', $slug);
         $this->db->where('rel_id', $id);
         $this->db->update(db_prefix() . 'tasks', [
             'status' => 5,
@@ -1996,17 +1719,17 @@ class Other_services_model extends App_Model
                 'end_time' => time(),
             ]);
         }
-        $this->log_activity($id, 'project_activity_marked_all_tasks_as_complete');
+        $this->log_activity($id, 'oservice_activity_marked_all_tasks_as_complete');
     }
 
-    public function is_member($project_id, $staff_id = '')
+    public function is_member($oservice_id, $staff_id = '')
     {
         if (!is_numeric($staff_id)) {
             $staff_id = get_staff_user_id();
         }
         $member = total_rows(db_prefix() . 'my_members_services', [
             'staff_id' => $staff_id,
-            'project_id' => $project_id,
+            'oservice_id' => $oservice_id,
         ]);
         if ($member > 0) {
             return true;
@@ -2015,33 +1738,34 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_projects_for_ticket($client_id)
+    public function get_oservices_for_ticket($client_id)
     {
         return $this->get('', [
             'clientid' => $client_id,
         ]);
     }
 
-    public function get_project_settings($project_id)
+    public function get_oservice_settings($oservice_id)
     {
-        $this->db->where('project_id', $project_id);
+        $this->db->where('oservice_id', $oservice_id);
 
-        return $this->db->get(db_prefix() . 'project_settings')->result_array();
+        return $this->db->get(db_prefix() . 'oservice_settings')->result_array();
     }
 
-    public function remove_team_member($project_id, $staff_id)
+    public function remove_team_member($ServID = '',$oservice_id, $staff_id)
     {
-        $this->db->where('project_id', $project_id);
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $this->db->where('oservice_id', $oservice_id);
         $this->db->where('staff_id', $staff_id);
         $this->db->delete(db_prefix() . 'my_members_services');
         if ($this->db->affected_rows() > 0) {
 
             // Remove member from tasks where is assigned
             $this->db->where('staffid', $staff_id);
-            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id="' . $project_id . '")');
+            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $oservice_id . '")');
             $this->db->delete(db_prefix() . 'task_assigned');
 
-            $this->log_activity($project_id, 'project_activity_removed_team_member', get_staff_full_name($staff_id));
+            $this->log_activity($oservice_id, 'oservice_activity_removed_team_member', get_staff_full_name($staff_id));
 
             return true;
         }
@@ -2049,10 +1773,11 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_timesheets($project_id, $tasks_ids = [])
+    public function get_timesheets($slug,$oservice_id, $tasks_ids = [])
     {
+
         if (count($tasks_ids) == 0) {
-            $tasks = $this->get_tasks($project_id);
+            $tasks = $this->get_tasks($slug,$oservice_id);
             $tasks_ids = [];
             foreach ($tasks as $task) {
                 array_push($tasks_ids, $task['id']);
@@ -2080,17 +1805,17 @@ class Other_services_model extends App_Model
         return [];
     }
 
-    public function get_discussion($id, $project_id = '')
+    public function get_discussion($id, $oservice_id = '')
     {
-        if ($project_id != '') {
-            $this->db->where('project_id', $project_id);
+        if ($oservice_id != '') {
+            $this->db->where('oservice_id', $oservice_id);
         }
         $this->db->where('id', $id);
         if (is_client_logged_in()) {
             $this->db->where('show_to_customer', 1);
-            $this->db->where('project_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . get_client_user_id() . ')');
+            $this->db->where('oservice_id IN (SELECT id FROM ' . db_prefix() . 'my_other_services WHERE clientid=' . get_client_user_id() . ')');
         }
-        $discussion = $this->db->get(db_prefix() . 'projectdiscussions')->row();
+        $discussion = $this->db->get(db_prefix() . 'oservicediscussions')->row();
         if ($discussion) {
             return $discussion;
         }
@@ -2101,7 +1826,7 @@ class Other_services_model extends App_Model
     public function get_discussion_comment($id)
     {
         $this->db->where('id', $id);
-        $comment = $this->db->get(db_prefix() . 'projectdiscussioncomments')->row();
+        $comment = $this->db->get(db_prefix() . 'oservicediscussioncomments')->row();
         if ($comment->contact_id != 0) {
             if (is_client_logged_in()) {
                 if ($comment->contact_id == get_contact_user_id()) {
@@ -2149,7 +1874,7 @@ class Other_services_model extends App_Model
     {
         $this->db->where('discussion_id', $id);
         $this->db->where('discussion_type', $type);
-        $comments = $this->db->get(db_prefix() . 'projectdiscussioncomments')->result_array();
+        $comments = $this->db->get(db_prefix() . 'oservicediscussioncomments')->result_array();
         $i = 0;
         $allCommentsIDS = [];
         $allCommentsParentIDS = [];
@@ -2215,16 +1940,16 @@ class Other_services_model extends App_Model
         return $comments;
     }
 
-    public function get_discussions($project_id)
+    public function get_discussions($oservice_id)
     {
-        $this->db->where('project_id', $project_id);
+        $this->db->where('oservice_id', $oservice_id);
         if (is_client_logged_in()) {
             $this->db->where('show_to_customer', 1);
         }
-        $discussions = $this->db->get(db_prefix() . 'projectdiscussions')->result_array();
+        $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
         $i = 0;
         foreach ($discussions as $discussion) {
-            $discussions[$i]['total_comments'] = total_rows(db_prefix() . 'projectdiscussioncomments', [
+            $discussions[$i]['total_comments'] = total_rows(db_prefix() . 'oservicediscussioncomments', [
                 'discussion_id' => $discussion['id'],
                 'discussion_type' => 'regular',
             ]);
@@ -2234,7 +1959,7 @@ class Other_services_model extends App_Model
         return $discussions;
     }
 
-    public function add_discussion_comment($data, $discussion_id, $type)
+    public function add_discussion_comment($ServID = '',$data, $discussion_id, $type)
     {
         $discussion = $this->get_discussion($discussion_id);
         $_data['discussion_id'] = $discussion_id;
@@ -2254,21 +1979,21 @@ class Other_services_model extends App_Model
             $_data['staff_id'] = get_staff_user_id();
             $_data['fullname'] = get_staff_full_name($_data['staff_id']);
         }
-        $_data = handle_project_discussion_comment_attachments($discussion_id, $data, $_data);
+        $_data = handle_oservice_discussion_comment_attachments($discussion_id, $data, $_data);
         $_data['created'] = date('Y-m-d H:i:s');
-        $this->db->insert(db_prefix() . 'projectdiscussioncomments', $_data);
+        $this->db->insert(db_prefix() . 'oservicediscussioncomments', $_data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             if ($type == 'regular') {
                 $discussion = $this->get_discussion($discussion_id);
-                $not_link = 'projects/view/' . $discussion->project_id . '?group=project_discussions&discussion_id=' . $discussion_id;
+                $not_link = 'SOther/view/' .$ServID.'/'. $discussion->oservice_id . '?group=oservice_discussions&discussion_id=' . $discussion_id;
             } else {
                 $discussion = $this->get_file($discussion_id);
-                $not_link = 'projects/view/' . $discussion->project_id . '?group=project_files&file_id=' . $discussion_id;
+                $not_link = 'SOther/view/' .$ServID.'/'. $discussion->oservice_id . '?group=oservice_files&file_id=' . $discussion_id;
                 $discussion->show_to_customer = $discussion->visible_to_customer;
             }
 
-            $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, [
+            $this->send_oservice_email_template($discussion->oservice_id, 'oservice_new_discussion_comment_to_staff', 'oservice_new_discussion_comment_to_customer', $discussion->show_to_customer, [
                 'staff' => [
                     'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
@@ -2283,10 +2008,10 @@ class Other_services_model extends App_Model
             ]);
 
 
-            $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
+            $this->log_activity($discussion->oservice_id, 'oservice_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
 
             $notification_data = [
-                'description' => 'not_commented_on_project_discussion',
+                'description' => 'not_commented_on_oservice_discussion',
                 'link' => $not_link,
             ];
 
@@ -2296,7 +2021,7 @@ class Other_services_model extends App_Model
                 $notification_data['fromuserid'] = get_staff_user_id();
             }
 
-            $members = $this->get_project_members($discussion->project_id);
+            $members = $this->get_oservice_members($discussion->oservice_id);
             $notifiedUsers = [];
             foreach ($members as $member) {
                 if ($member['staff_id'] == get_staff_user_id() && !is_client_logged_in()) {
@@ -2321,7 +2046,7 @@ class Other_services_model extends App_Model
     {
         $comment = $this->get_discussion_comment($data['id']);
         $this->db->where('id', $data['id']);
-        $this->db->update(db_prefix() . 'projectdiscussioncomments', [
+        $this->db->update(db_prefix() . 'oservicediscussioncomments', [
             'modified' => date('Y-m-d H:i:s'),
             'content' => $data['content'],
         ]);
@@ -2336,18 +2061,18 @@ class Other_services_model extends App_Model
     {
         $comment = $this->get_discussion_comment($id);
         $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'projectdiscussioncomments');
+        $this->db->delete(db_prefix() . 'oservicediscussioncomments');
         if ($this->db->affected_rows() > 0) {
             $this->delete_discussion_comment_attachment($comment->file_name, $comment->discussion_id);
             if ($logActivity) {
                 $additional_data = '';
                 if ($comment->discussion_type == 'regular') {
                     $discussion = $this->get_discussion($comment->discussion_id);
-                    $not = 'project_activity_deleted_discussion_comment';
+                    $not = 'oservice_activity_deleted_discussion_comment';
                     $additional_data .= $discussion->subject . '<br />' . $comment->content;
                 } else {
                     $discussion = $this->get_file($comment->discussion_id);
-                    $not = 'project_activity_deleted_file_discussion_comment';
+                    $not = 'oservice_activity_deleted_file_discussion_comment';
                     $additional_data .= $discussion->subject . '<br />' . $comment->content;
                 }
 
@@ -2355,12 +2080,12 @@ class Other_services_model extends App_Model
                     $additional_data .= $comment->file_name;
                 }
 
-                $this->log_activity($discussion->project_id, $not, $additional_data);
+                $this->log_activity($discussion->oservice_id, $not, $additional_data);
             }
         }
 
         $this->db->where('parent', $id);
-        $this->db->update(db_prefix() . 'projectdiscussioncomments', [
+        $this->db->update(db_prefix() . 'oservicediscussioncomments', [
             'parent' => null,
         ]);
 
@@ -2373,7 +2098,7 @@ class Other_services_model extends App_Model
 
     public function delete_discussion_comment_attachment($file_name, $discussion_id)
     {
-        $path = PROJECT_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id;
+        $path = oservice_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id;
         if (!is_null($file_name)) {
             if (file_exists($path . '/' . $file_name)) {
                 unlink($path . '/' . $file_name);
@@ -2388,7 +2113,7 @@ class Other_services_model extends App_Model
         }
     }
 
-    public function add_discussion($data)
+    public function add_discussion($data, $ServID)
     {
         if (is_client_logged_in()) {
             $data['contact_id'] = get_contact_user_id();
@@ -2405,13 +2130,13 @@ class Other_services_model extends App_Model
         }
         $data['datecreated'] = date('Y-m-d H:i:s');
         $data['description'] = nl2br($data['description']);
-        $this->db->insert(db_prefix() . 'projectdiscussions', $data);
+        $this->db->insert(db_prefix() . 'oservicediscussions', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $members = $this->get_project_members($data['project_id']);
+            $members = $this->get_oservice_members($data['oservice_id']);
             $notification_data = [
-                'description' => 'not_created_new_project_discussion',
-                'link' => 'projects/view/' . $data['project_id'] . '?group=project_discussions&discussion_id=' . $insert_id,
+                'description' => 'not_created_new_oservice_discussion',
+                'link' => 'SOther/view/' .$ServID.'/'. $data['oservice_id'] . '?group=oservice_discussions&discussion_id=' . $insert_id,
             ];
 
             if (is_client_logged_in()) {
@@ -2431,7 +2156,7 @@ class Other_services_model extends App_Model
                 }
             }
             pusher_trigger_notification($notifiedUsers);
-            $this->send_project_email_template($data['project_id'], 'project_discussion_created_to_staff', 'project_discussion_created_to_customer', $data['show_to_customer'], [
+            $this->send_oservice_email_template($data['oservice_id'], 'oservice_discussion_created_to_staff', 'oservice_discussion_created_to_customer', $data['show_to_customer'], [
                 'staff' => [
                     'discussion_id' => $insert_id,
                     'discussion_type' => 'regular',
@@ -2442,7 +2167,7 @@ class Other_services_model extends App_Model
                     'discussion_type' => 'regular',
                 ],
             ]);
-            $this->log_activity($data['project_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
+            $this->log_activity($data['oservice_id'], 'oservice_activity_created_discussion', $data['subject'], $data['show_to_customer']);
 
             return $insert_id;
         }
@@ -2459,9 +2184,9 @@ class Other_services_model extends App_Model
             $data['show_to_customer'] = 0;
         }
         $data['description'] = nl2br($data['description']);
-        $this->db->update(db_prefix() . 'projectdiscussions', $data);
+        $this->db->update(db_prefix() . 'oservicediscussions', $data);
         if ($this->db->affected_rows() > 0) {
-            $this->log_activity($data['project_id'], 'project_activity_updated_discussion', $data['subject'], $data['show_to_customer']);
+            $this->log_activity($data['oservice_id'], 'oservice_activity_updated_discussion', $data['subject'], $data['show_to_customer']);
 
             return true;
         }
@@ -2473,10 +2198,10 @@ class Other_services_model extends App_Model
     {
         $discussion = $this->get_discussion($id);
         $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'projectdiscussions');
+        $this->db->delete(db_prefix() . 'oservicediscussions');
         if ($this->db->affected_rows() > 0) {
             if ($logActivity) {
-                $this->log_activity($discussion->project_id, 'project_activity_deleted_discussion', $discussion->subject, $discussion->show_to_customer);
+                $this->log_activity($discussion->oservice_id, 'oservice_activity_deleted_discussion', $discussion->subject, $discussion->show_to_customer);
             }
             $this->_delete_discussion_comments($id, 'regular');
 
@@ -2486,21 +2211,22 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function copy($project_id, $data)
+    public function copy($ServID,$oservice_id, $data)
     {
-        $project = $this->get($project_id);
-        $settings = $this->get_project_settings($project_id);
+        $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $oservice = $this->get($oservice_id);
+        $settings = $this->get_oservice_settings($oservice_id);
         $_new_data = [];
         $fields = $this->db->list_fields(db_prefix() . 'my_other_services');
         foreach ($fields as $field) {
-            if (isset($project->$field)) {
-                $_new_data[$field] = $project->$field;
+            if (isset($oservice->$field)) {
+                $_new_data[$field] = $oservice->$field;
             }
         }
 
         unset($_new_data['id']);
-        $_new_data['clientid'] = $data['clientid_copy_project'];
-        unset($_new_data['clientid_copy_project']);
+        $_new_data['clientid'] = $data['clientid_copy_oservice'];
+        unset($_new_data['clientid_copy_oservice']);
 
         $_new_data['start_date'] = to_sql_date($data['start_date']);
 
@@ -2515,7 +2241,7 @@ class Other_services_model extends App_Model
             $_new_data['deadline'] = null;
         }
 
-        $_new_data['project_created'] = date('Y-m-d H:i:s');
+        $_new_data['oservice_created'] = date('Y-m-d H:i:s');
         $_new_data['addedfrom'] = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
@@ -2523,18 +2249,18 @@ class Other_services_model extends App_Model
         $this->db->insert(db_prefix() . 'my_other_services', $_new_data);
         $id = $this->db->insert_id();
         if ($id) {
-            $tags = get_tags_in($project_id, 'project');
-            handle_tags_save($tags, $id, 'project');
+            $tags = get_tags_in($oservice_id,  $slug);
+            handle_tags_save($tags, $id, $slug);
 
             foreach ($settings as $setting) {
-                $this->db->insert(db_prefix() . 'project_settings', [
-                    'project_id' => $id,
+                $this->db->insert(db_prefix() . 'oservice_settings', [
+                    'oservice_id' => $id,
                     'name' => $setting['name'],
                     'value' => $setting['value'],
                 ]);
             }
             $added_tasks = [];
-            $tasks = $this->get_tasks($project_id);
+            $tasks = $this->get_tasks($slug,$oservice_id);
             if (isset($data['tasks'])) {
                 foreach ($tasks as $task) {
                     if (isset($data['task_include_followers'])) {
@@ -2549,9 +2275,9 @@ class Other_services_model extends App_Model
                     $copy_task_data['copy_from'] = $task['id'];
                     $task_id = $this->tasks_model->copy($copy_task_data, [
                         'rel_id' => $id,
-                        'rel_type' => 'project',
+                        'rel_type'            => $slug,
                         'last_recurring_date' => null,
-                        'status' => $data['copy_project_task_status'],
+                        'status' => $data['copy_oservice_task_status'],
                     ]);
                     if ($task_id) {
                         array_push($added_tasks, $task_id);
@@ -2559,7 +2285,7 @@ class Other_services_model extends App_Model
                 }
             }
             if (isset($data['milestones'])) {
-                $milestones = $this->get_milestones($project_id);
+                $milestones = $this->get_milestones($slug,$oservice_id);
                 $_added_milestones = [];
                 foreach ($milestones as $milestone) {
                     $dCreated = new DateTime($milestone['datecreated']);
@@ -2569,7 +2295,8 @@ class Other_services_model extends App_Model
 
                     $this->db->insert(db_prefix() . 'milestones', [
                         'name' => $milestone['name'],
-                        'project_id' => $id,
+                        'rel_id' => $id,
+                        'rel_type' => $slug,
                         'milestone_order' => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
                         'description' => $milestone['description'],
@@ -2588,7 +2315,7 @@ class Other_services_model extends App_Model
                 }
                 if (isset($data['tasks'])) {
                     if (count($added_tasks) > 0) {
-                        // Original project tasks
+                        // Original oservice tasks
                         foreach ($tasks as $task) {
                             if ($task['milestone'] != 0) {
                                 $this->db->where('id', $task['milestone']);
@@ -2621,31 +2348,31 @@ class Other_services_model extends App_Model
                 }
             }
             if (isset($data['members'])) {
-                $members = $this->get_project_members($project_id);
+                $members = $this->get_oservice_members($oservice_id);
                 $_members = [];
                 foreach ($members as $member) {
                     array_push($_members, $member['staff_id']);
                 }
                 $this->add_edit_members([
-                    'project_members' => $_members,
+                    'oservice_members' => $_members,
                 ], $id);
             }
 
-            $custom_fields = get_custom_fields('projects');
+            $custom_fields = get_custom_fields($slug);
             foreach ($custom_fields as $field) {
-                $value = get_custom_field_value($project_id, $field['id'], 'projects', false);
+                $value = get_custom_field_value($oservice_id, $field['id'], $slug, false);
                 if ($value != '') {
                     $this->db->insert(db_prefix() . 'customfieldsvalues', [
                         'relid' => $id,
                         'fieldid' => $field['id'],
-                        'fieldto' => 'projects',
+                        'fieldto' => $slug,
                         'value' => $value,
                     ]);
                 }
             }
 
-            $this->log_activity($id, 'project_activity_created');
-            log_activity('Project Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
+            $this->log_activity($id, 'oservice_activity_created');
+            log_activity('oservice Copied [ID: ' . $oservice_id . ', NewID: ' . $id . ']');
 
             return $id;
         }
@@ -2653,11 +2380,11 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_staff_notes($project_id)
+    public function get_staff_notes($oservice_id)
     {
-        $this->db->where('project_id', $project_id);
+        $this->db->where('oservice_id', $oservice_id);
         $this->db->where('staff_id', get_staff_user_id());
-        $notes = $this->db->get(db_prefix() . 'project_notes')->row();
+        $notes = $this->db->get(db_prefix() . 'oservice_notes')->row();
         if ($notes) {
             return $notes->content;
         }
@@ -2665,15 +2392,15 @@ class Other_services_model extends App_Model
         return '';
     }
 
-    public function save_note($data, $project_id)
+    public function save_note($data, $oservice_id)
     {
-        // Check if the note exists for this project;
-        $this->db->where('project_id', $project_id);
+        // Check if the note exists for this oservice;
+        $this->db->where('oservice_id', $oservice_id);
         $this->db->where('staff_id', get_staff_user_id());
-        $notes = $this->db->get(db_prefix() . 'project_notes')->row();
+        $notes = $this->db->get(db_prefix() . 'oservice_notes')->row();
         if ($notes) {
             $this->db->where('id', $notes->id);
-            $this->db->update(db_prefix() . 'project_notes', [
+            $this->db->update(db_prefix() . 'oservice_notes', [
                 'content' => $data['content'],
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -2682,10 +2409,10 @@ class Other_services_model extends App_Model
 
             return false;
         }
-        $this->db->insert(db_prefix() . 'project_notes', [
+        $this->db->insert(db_prefix() . 'oservice_notes', [
             'staff_id' => get_staff_user_id(),
             'content' => $data['content'],
-            'project_id' => $project_id,
+            'oservice_id' => $oservice_id,
         ]);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -2698,25 +2425,25 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_activity($id = '', $limit = '', $only_project_members_activity = false)
+    public function get_activity($id = '', $limit = '', $only_oservice_members_activity = false)
     {
         if (!is_client_logged_in()) {
-            $has_permission = has_permission('projects', '', 'view');
+            $has_permission = has_permission('oservices', '', 'view');
             if (!$has_permission) {
-                $this->db->where('project_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+                $this->db->where('oservice_id IN (SELECT oservice_id FROM ' . db_prefix() . 'oservice_members WHERE staff_id=' . get_staff_user_id() . ')');
             }
         }
         if (is_client_logged_in()) {
             $this->db->where('visible_to_customer', 1);
         }
         if (is_numeric($id)) {
-            $this->db->where('project_id', $id);
+            $this->db->where('oservice_id', $id);
         }
         if (is_numeric($limit)) {
             $this->db->limit($limit);
         }
         $this->db->order_by('dateadded', 'desc');
-        $activities = $this->db->get(db_prefix() . 'project_activity')->result_array();
+        $activities = $this->db->get(db_prefix() . 'oservice_activity')->result_array();
         $i = 0;
         foreach ($activities as $activity) {
             $seconds = get_string_between($activity['additional_data'], '<seconds>', '</seconds>');
@@ -2728,12 +2455,12 @@ class Other_services_model extends App_Model
             if ($other_lang_keys != '') {
                 $_additional_data = str_replace('<lang>' . $other_lang_keys . '</lang>', _l($other_lang_keys), $_additional_data);
             }
-            if (strpos($_additional_data, 'project_status_') !== false) {
-                $_additional_data = get_project_status_by_id(strafter($_additional_data, 'project_status_'));
+            if (strpos($_additional_data, 'oservice_status_') !== false) {
+                $_additional_data = get_oservice_status_by_id(strafter($_additional_data, 'oservice_status_'));
             }
             $activities[$i]['description'] = _l($activities[$i]['description_key']);
             $activities[$i]['additional_data'] = $_additional_data;
-            $activities[$i]['project_name'] = get_project_name_by_id($activity['project_id']);
+            $activities[$i]['oservice_name'] = get_oservice_name_by_id($activity['oservice_id']);
             unset($activities[$i]['description_key']);
             $i++;
         }
@@ -2741,7 +2468,7 @@ class Other_services_model extends App_Model
         return $activities;
     }
 
-    public function log_activity($project_id, $description_key, $additional_data = '', $visible_to_customer = 1)
+    public function log_activity($oservice_id, $description_key, $additional_data = '', $visible_to_customer = 1)
     {
         if (!DEFINED('CRON')) {
             if (is_client_logged_in()) {
@@ -2761,25 +2488,25 @@ class Other_services_model extends App_Model
         $data['description_key'] = $description_key;
         $data['additional_data'] = $additional_data;
         $data['visible_to_customer'] = $visible_to_customer;
-        $data['project_id'] = $project_id;
+        $data['oservice_id'] = $oservice_id;
         $data['dateadded'] = date('Y-m-d H:i:s');
 
-        $data = hooks()->apply_filters('before_log_project_activity', $data);
+        $data = hooks()->apply_filters('before_log_oservice_activity', $data);
 
-        $this->db->insert(db_prefix() . 'project_activity', $data);
+        $this->db->insert(db_prefix() . 'oservice_activity', $data);
     }
 
-    public function new_project_file_notification($file_id, $project_id)
+    public function new_oservice_file_notification($ServID = '',$file_id, $oservice_id)
     {
         $file = $this->get_file($file_id);
 
         $additional_data = $file->file_name;
-        $this->log_activity($project_id, 'project_activity_uploaded_file', $additional_data, $file->visible_to_customer);
+        $this->log_activity($oservice_id, 'oservice_activity_uploaded_file', $additional_data, $file->visible_to_customer);
 
-        $members = $this->get_project_members($project_id);
+        $members = $this->get_oservice_members($oservice_id);
         $notification_data = [
-            'description' => 'not_project_file_uploaded',
-            'link' => 'projects/view/' . $project_id . '?group=project_files&file_id=' . $file_id,
+            'description' => 'not_oservice_file_uploaded',
+            'link' => 'SOther/view/' .$ServID. '/'. $oservice_id . '?group=oservice_files&file_id=' . $file_id,
         ];
 
         if (is_client_logged_in()) {
@@ -2800,10 +2527,10 @@ class Other_services_model extends App_Model
         }
         pusher_trigger_notification($notifiedUsers);
 
-        $this->send_project_email_template(
-            $project_id,
-            'project_file_to_staff',
-            'project_file_to_customer',
+        $this->send_oservice_email_template(
+            $oservice_id,
+            'oservice_file_to_staff',
+            'oservice_file_to_customer',
             $file->visible_to_customer,
             [
                 'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file'],
@@ -2815,7 +2542,7 @@ class Other_services_model extends App_Model
     public function add_external_file($data)
     {
         $insert['dateadded'] = date('Y-m-d H:i:s');
-        $insert['project_id'] = $data['project_id'];
+        $insert['oservice_id'] = $data['oservice_id'];
         $insert['external'] = $data['external'];
         $insert['visible_to_customer'] = $data['visible_to_customer'];
         $insert['file_name'] = $data['files'][0]['name'];
@@ -2835,10 +2562,10 @@ class Other_services_model extends App_Model
             $insert['contact_id'] = $data['contact_id'];
         }
 
-        $this->db->insert(db_prefix() . 'project_files', $insert);
+        $this->db->insert(db_prefix() . 'oservice_files', $insert);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $this->new_project_file_notification($insert_id, $data['project_id']);
+            $this->new_oservice_file_notification($insert_id, $data['oservice_id']);
 
             return $insert_id;
         }
@@ -2846,7 +2573,7 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function send_project_email_template($project_id, $staff_template, $customer_template, $action_visible_to_customer, $additional_data = [])
+    public function send_oservice_email_template($oservice_id, $staff_template, $customer_template, $action_visible_to_customer, $additional_data = [])
     {
         if (count($additional_data) == 0) {
             $additional_data['customers'] = [];
@@ -2859,68 +2586,69 @@ class Other_services_model extends App_Model
             }
         }
 
-        $project = $this->get($project_id);
-        $members = $this->get_project_members($project_id);
+        $oservice = $this->get($oservice_id);
+        $members = $this->get_oservice_members($oservice_id);
 
         foreach ($members as $member) {
             if (is_staff_logged_in() && $member['staff_id'] == get_staff_user_id()) {
                 continue;
             }
-            send_mail_template($staff_template, $project, $member, $additional_data['staff']);
+            send_mail_template($staff_template, $oservice, $member, $additional_data['staff']);
         }
         if ($action_visible_to_customer == 1) {
-            $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
+            $contacts = $this->clients_model->get_contacts($oservice->clientid, ['active' => 1, 'oservice_emails' => 1]);
 
             foreach ($contacts as $contact) {
                 if (is_client_logged_in() && $contact['id'] == get_contact_user_id()) {
                     continue;
                 }
-                send_mail_template($customer_template, $project, $contact, $additional_data['customers']);
+                send_mail_template($customer_template, $oservice, $contact, $additional_data['customers']);
             }
         }
     }
 
-    private function _get_project_billing_data($id)
+    private function _get_oservice_billing_data($id)
     {
-        $this->db->select('billing_type,project_rate_per_hour');
+        $this->db->select('billing_type,oservice_rate_per_hour');
         $this->db->where('id', $id);
 
         return $this->db->get(db_prefix() . 'my_other_services')->row();
     }
 
-    public function total_logged_time_by_billing_type($id, $conditions = [])
+    public function total_logged_time_by_billing_type($slug = '',$id, $conditions = [])
     {
-        $project_data = $this->_get_project_billing_data($id);
-        $data = [];
-        if ($project_data->billing_type == 2) {
-            $seconds = $this->total_logged_time($id);
-            $data = $this->projects_model->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
+
+        $oservice_data = $this->_get_oservice_billing_data($id);
+        $data         = [];
+        if ($oservice_data->billing_type == 2) {
+            $seconds             = $this->total_logged_time($slug, $id);
+            $data                = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->oservice_rate_per_hour);
             $data['logged_time'] = $data['hours'];
-        } elseif ($project_data->billing_type == 3) {
-            $data = $this->_get_data_total_logged_time($id);
+        } elseif ($oservice_data->billing_type == 3) {
+            $data = $this->_get_data_total_logged_time($slug, $id);
         }
 
         return $data;
     }
 
-    public function data_billable_time($id)
+    public function data_billable_time($slug,$id)
     {
-        return $this->_get_data_total_logged_time($id, [
+        return $this->_get_data_total_logged_time($slug,$id, [
             'billable' => 1,
         ]);
     }
 
-    public function data_billed_time($id)
+    public function data_billed_time($slug,$id)
     {
-        return $this->_get_data_total_logged_time($id, [
+        return $this->_get_data_total_logged_time($slug,$id, [
             'billable' => 1,
             'billed' => 1,
         ]);
     }
 
-    public function data_unbilled_time($id)
+    public function data_unbilled_time($slug,$id)
     {
-        return $this->_get_data_total_logged_time($id, [
+        return $this->_get_data_total_logged_time($slug,$id, [
             'billable' => 1,
             'billed' => 0,
         ]);
@@ -2930,29 +2658,29 @@ class Other_services_model extends App_Model
     {
         $this->db->where('discussion_id', $id);
         $this->db->where('discussion_type', $type);
-        $comments = $this->db->get(db_prefix() . 'projectdiscussioncomments')->result_array();
+        $comments = $this->db->get(db_prefix() . 'oservicediscussioncomments')->result_array();
         foreach ($comments as $comment) {
             $this->delete_discussion_comment_attachment($comment['file_name'], $id);
         }
         $this->db->where('discussion_id', $id);
         $this->db->where('discussion_type', $type);
-        $this->db->delete(db_prefix() . 'projectdiscussioncomments');
+        $this->db->delete(db_prefix() . 'oservicediscussioncomments');
     }
 
-    private function _get_data_total_logged_time($id, $conditions = [])
+    private function _get_data_total_logged_time($slug = '',$id, $conditions = [])
     {
-        $project_data = $this->_get_project_billing_data($id);
-        $tasks = $this->get_tasks($id, $conditions);
+        $oservice_data = $this->_get_oservice_billing_data($id);
+        $tasks = $this->get_tasks($slug,$id, $conditions);
 
-        if ($project_data->billing_type == 3) {
+        if ($oservice_data->billing_type == 3) {
             $data = $this->calculate_total_by_task_hourly_rate($tasks);
             $data['logged_time'] = seconds_to_time_format($data['total_seconds']);
-        } elseif ($project_data->billing_type == 2) {
+        } elseif ($oservice_data->billing_type == 2) {
             $seconds = 0;
             foreach ($tasks as $task) {
                 $seconds += $task['total_logged_time'];
             }
-            $data = $this->calculate_total_by_project_hourly_rate($seconds, $project_data->project_rate_per_hour);
+            $data = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->oservice_rate_per_hour);
             $data['logged_time'] = $data['hours'];
         }
 
@@ -2962,9 +2690,9 @@ class Other_services_model extends App_Model
     private function _update_discussion_last_activity($id, $type)
     {
         if ($type == 'file') {
-            $table = db_prefix() . 'project_files';
+            $table = db_prefix() . 'oservice_files';
         } elseif ($type == 'regular') {
-            $table = db_prefix() . 'projectdiscussions';
+            $table = db_prefix() . 'oservicediscussions';
         }
         $this->db->where('id', $id);
         $this->db->update($table, [

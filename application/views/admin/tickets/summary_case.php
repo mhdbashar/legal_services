@@ -55,8 +55,8 @@
             $_where = 'status='.$status['ticketstatusid'] . ' '.$where;
         }
         if(isset($project_id)){
-            $_where = $_where . ' AND relid='.$project_id;
-            $_where = $_where . ' AND rel_type="'.$service->slug.'"';
+            $_where = $_where . ' AND rel_sid='.$project_id;
+            $_where = $_where . ' AND rel_stype="'.$service->slug.'"';
         }
         ?>
         <div class="col-md-2 col-xs-6 mbot15 border-right">

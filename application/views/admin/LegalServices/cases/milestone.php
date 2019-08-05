@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo form_hidden('rel_id',$project->id); ?>
+                        <?php echo form_hidden('rel_sid',$project->id); ?>
                         <div id="additional_milestone"></div>
                         <?php echo render_input('name','milestone_name'); ?>
                         <?php echo render_date_input('due_date','milestone_due_date','',($project->deadline) ? array('data-date-end-date'=>$project->deadline) : array()); ?>
@@ -23,7 +23,7 @@
                             <input type="checkbox" id="description_visible_to_customer" name="description_visible_to_customer">
                             <label for="description_visible_to_customer"><?php echo _l('description_visible_to_customer'); ?></label>
                         </div>
-                        <?php echo render_input('milestone_order','project_milestone_order',total_rows(db_prefix().'milestones',array('rel_id'=>$project->id)) + 1,'number'); ?>
+                        <?php echo render_input('milestone_order','project_milestone_order',total_rows(db_prefix().'milestones',array('rel_sid'=>$project->id)) + 1,'number'); ?>
                     </div>
                 </div>
             </div>

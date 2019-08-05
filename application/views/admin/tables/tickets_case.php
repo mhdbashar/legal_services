@@ -58,8 +58,8 @@ if (isset($where_not_ticket_id)) {
     array_push($where, 'AND ' . db_prefix() . 'tickets.ticketid != ' . $where_not_ticket_id);
 }
 if ($this->ci->input->post('project_id')) {
-    array_push($where, 'AND relid = ' . $this->ci->input->post('project_id'));
-    array_push($where, 'AND rel_type = ' .'"'. $slug.'"');
+    array_push($where, 'AND rel_sid = ' . $this->ci->input->post('project_id'));
+    array_push($where, 'AND rel_stype = ' .'"'. $slug.'"');
 }
 
 $statuses  = $this->ci->tickets_model->get_ticket_status();

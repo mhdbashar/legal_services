@@ -6,8 +6,8 @@ $aColumns = [
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'milestones';
 $where        = [
-    'AND rel_id=' . $project_id,
-    'AND rel_type=' ."'". $slug. "'" ,
+    'AND rel_sid=' . $project_id,
+    'AND rel_stype=' ."'". $slug. "'" ,
 ];
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, [
     'id',

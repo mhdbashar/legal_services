@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2019 at 10:58 AM
+-- Generation Time: Jul 31, 2019 at 04:16 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `perfex_crm`
+-- Database: `legal_services`
 --
 
 -- --------------------------------------------------------
@@ -45,9 +45,7 @@ CREATE TABLE `tblcasediscussions` (
 --
 
 INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, `show_to_customer`, `datecreated`, `last_activity`, `staff_id`, `contact_id`) VALUES
-(1, 1, 'test hlk', 'test hlktest hlktest hlktest hlk', 1, '2019-06-23 00:51:48', NULL, 1, 0),
-(2, 1, 'test hlk', 'test hlk', 1, '2019-06-23 00:52:23', NULL, 1, 0),
-(5, 1, 'asdasdasd', 'asdsd', 1, '2019-07-02 17:25:12', NULL, 1, 0);
+(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0);
 
 --
 -- Indexes for dumped tables
@@ -67,7 +65,7 @@ ALTER TABLE `tblcasediscussions`
 -- AUTO_INCREMENT for table `tblcasediscussions`
 --
 ALTER TABLE `tblcasediscussions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

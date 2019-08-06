@@ -257,11 +257,13 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-6">
-                                <?php echo render_date_input('start_date','project_start_date',$case->start_date); ?>
+                        <div class="col-md-6">
+                                <?php $value = (isset($case) ? _d($case->start_date) : _d(date('Y-m-d'))); ?>
+                                <?php echo render_date_input('start_date','project_start_date',$value); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline','project_deadline',$case->deadline); ?>
+                                <?php $value = (isset($case) ? _d($case->deadline) : _d(date('Y-m-d'))); ?>
+                                <?php echo render_date_input('deadline','project_deadline',$value); ?>
                             </div>
                         </div>
                         <div class="row">

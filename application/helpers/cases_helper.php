@@ -732,7 +732,7 @@ function handle_case_file_uploads($ServID, $project_id)
             $_FILES['file']['size']     = [$_FILES['file']['size']];
         }
 
-        $path = get_upload_path_by_type('case') . $project_id . '/';
+        $path = get_upload_path_by_type_case('case') . $project_id . '/';
 
         for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
             if (_perfex_upload_error($_FILES['file']['error'][$i])) {
@@ -817,6 +817,18 @@ function handle_case_file_uploads($ServID, $project_id)
     }
 
     return false;
+}
+
+function get_upload_path_by_type_case($type)
+{
+    $path = '';
+    switch ($type) {
+        case 'case':
+            $path = CASE_ATTACHMENTS_FOLDER;
+            break;
+    }
+
+    return hooks()->apply_filters('get_upload_path_by_type', $path, $type);
 }
 
 function handle_case_discussion_comment_attachments($discussion_id, $post_data, $insert_data)

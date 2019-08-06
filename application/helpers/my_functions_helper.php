@@ -27,6 +27,13 @@ function admin_assets()
 //
 function to_AD_date($date)
 {
+    if(strpos($date, ' ') != false){
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+//        var_dump($dateArray);exit;
+    }
     $date_option = get_option('dateformat');
     $parts = explode('|', $date_option);
     if(isset($parts[2])){
@@ -43,12 +50,23 @@ function to_AD_date($date)
 
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
     }
-
+    if(isset($time)){
+        $date = $date.' '.$time;
+    }
     return $date;
 }
 
 function to_hijri_date($date)
 {
+//    var_dump($date);exit;
+    if(strpos($date, ' ') != false){
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+//        var_dump($dateArray);exit;
+    }
+
     $date_option = get_option('dateformat');
     $opt = explode('|', $date_option);
 
@@ -65,6 +83,9 @@ function to_hijri_date($date)
         if (isset($datetime[1])){
         $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1]; 
         }
+    }
+    if(isset($time)){
+        $date = $date.' '.$time;
     }
         return $date;
 }

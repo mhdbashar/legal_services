@@ -3,13 +3,13 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class  Other_services_controller extends AdminController
+class Other_services_controller extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/other_services_model', 'other');
+        $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
         $this->load->helper('date');
@@ -35,14 +35,14 @@ class  Other_services_controller extends AdminController
         $data['Numbering'] = $this->other->GetTopNumbering();
         $data['auto_select_billing_type'] = $this->other->get_most_used_billing_type();
 
-//        if ($this->input->get('customer_id')) {
-//            $data['customer_id'] = $this->input->get('customer_id');
-//        }
-        //$data['last_oservice_settings'] = $this->other->get_last_oservice_settings();
-        //   if (count($data['last_oservice_settings'])) {
-        //      $key                                          = array_search('available_features', array_column($data['last_oservice_settings'], 'name'));
-        //      $data['last_oservice_settings'][$key]['value'] = unserialize($data['last_oservice_settings'][$key]['value']);
-        //  }
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
+        }
+        $data['last_oservice_settings'] = $this->other->get_last_oservice_settings();
+           if (count($data['last_oservice_settings'])) {
+              $key                                          = array_search('available_features', array_column($data['last_oservice_settings'], 'name'));
+              $data['last_oservice_settings'][$key]['value'] = unserialize($data['last_oservice_settings'][$key]['value']);
+          }
 
         $data['settings'] = $this->other->get_settings();
         $data['statuses'] = $this->other->get_oservice_statuses();
@@ -74,12 +74,12 @@ class  Other_services_controller extends AdminController
         $data['other_members'] = $this->other->get_oservice_members($id);
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['OtherServ']->settings->available_features = unserialize($data['OtherServ']->settings->available_features);
-//        if ($this->input->get('customer_id')) {
-//            $data['customer_id'] = $this->input->get('customer_id');
-//        }
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
+        }
         $data['last_oservice_settings'] = $this->other->get_last_oservice_settings();
         if (count($data['last_oservice_settings'])) {
-            $key                                          = array_search('available_features', array_column($data['last_oservice_settings'], 'name'));
+            $key                                           = array_search('available_features', array_column($data['last_oservice_settings'], 'name'));
             $data['last_oservice_settings'][$key]['value'] = unserialize($data['last_oservice_settings'][$key]['value']);
         }
         $data['settings'] = $this->other->get_settings();
@@ -104,21 +104,6 @@ class  Other_services_controller extends AdminController
         }
         redirect(admin_url("Service/$ServID"));
     }
-
-
-
-
-
-
-
-
-//    public function index()
-//    {
-//        close_setup_menu();
-//        $data['statuses'] = $this->other->get_oservice_statuses();
-//        $data['title']    = _l('projects');
-//        $this->load->view('admin/LegalServices/other_services/manage', $data);
-//    }
 
     public function table($clientid = '')
     {
@@ -210,7 +195,7 @@ class  Other_services_controller extends AdminController
 
     public function view($ServID, $id)
     {
-        if (has_permission('oservices', '', 'view') || $this->other->is_member($id)) {
+        if (has_permission('projects', '', 'view') || $this->other->is_member($id)) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             close_setup_menu();
             $oservice = $this->other->get($ServID,$id);
@@ -220,7 +205,7 @@ class  Other_services_controller extends AdminController
             $data['service_id']=$ServID;
             $data['service_slug']=$data['service']->slug;
             if (!$oservice) {
-                blank_page(_l('oservice_not_found'));
+                blank_page(_l('project_not_found'));
             }
 
             $oservice->settings->available_features = unserialize($oservice->settings->available_features);
@@ -399,7 +384,7 @@ class  Other_services_controller extends AdminController
 
             $data['oservices'] = $this->other->get('', $other_oservices_where);
             $data['title'] = $data['oservice']->name;
-            $data['bodyclass'] .= 'oservice invoices-total-manual estimates-total-manual';
+            $data['bodyclass'] .= 'project invoices-total-manual estimates-total-manual';
             $data['oservice_status'] = get_oservice_status_by_id($oservice->status);
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['ServID'] = $ServID;

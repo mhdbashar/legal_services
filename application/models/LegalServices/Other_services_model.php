@@ -179,18 +179,18 @@ class Other_services_model extends App_Model
             unset($data['deadline']);
         }
 
-        $data['oservice_created'] = date('Y-m-d');
+        $data['project_created'] = date('Y-m-d');
         if (isset($data['oservice_members'])) {
             $oservice_members = $data['oservice_members'];
             unset($data['oservice_members']);
         }
         if ($data['billing_type'] == 1) {
-            $data['oservice_rate_per_hour'] = 0;
+            $data['project_rate_per_hour'] = 0;
         } elseif ($data['billing_type'] == 2) {
-            $data['oservice_cost'] = 0;
+            $data['project_cost'] = 0;
         } else {
-            $data['oservice_rate_per_hour'] = 0;
-            $data['oservice_cost'] = 0;
+            $data['project_rate_per_hour'] = 0;
+            $data['project_cost'] = 0;
         }
         $data['service_id']= $ServID;
         $data['addedfrom'] = get_staff_user_id();
@@ -405,12 +405,12 @@ class Other_services_model extends App_Model
 
         $data['start_date'] = to_sql_date($data['start_date']);
         if ($data['billing_type'] == 1) {
-            $data['oservice_rate_per_hour'] = 0;
+            $data['project_rate_per_hour'] = 0;
         } elseif ($data['billing_type'] == 2) {
-            $data['oservice_cost'] = 0;
+            $data['project_cost'] = 0;
         } else {
-            $data['oservice_rate_per_hour'] = 0;
-            $data['oservice_cost'] = 0;
+            $data['project_rate_per_hour'] = 0;
+            $data['project_cost'] = 0;
         }
         if (isset($data['oservice_members'])) {
             $oservice_members = $data['oservice_members'];
@@ -551,34 +551,34 @@ class Other_services_model extends App_Model
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'oservice_activity');
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'expenses', [
-                'relid' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'invoices', [
-                'relid' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'creditnotes', [
-                'relid' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'estimates', [
-                'relid' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_type' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
-                'relid' => 0,
-                'rel_type' => '',
+                'rel_sid' => 0,
+                'rel_stype' => '',
             ]);
 
             $this->db->where('oservice_id', $id);
@@ -1617,7 +1617,7 @@ class Other_services_model extends App_Model
         $this->db->where('id', $id);
         $clientid = $this->db->get(db_prefix() . 'my_other_services')->row()->clientid;
         $sent = false;
-        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'oservice_emails' => 1]);
+        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'project_emails' => 1]);
         foreach ($contacts as $contact) {
             if (send_mail_template($template, $id, $clientid, $contact)) {
                 $sent = true;
@@ -2241,7 +2241,7 @@ class Other_services_model extends App_Model
             $_new_data['deadline'] = null;
         }
 
-        $_new_data['oservice_created'] = date('Y-m-d H:i:s');
+        $_new_data['project_created'] = date('Y-m-d H:i:s');
         $_new_data['addedfrom'] = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
@@ -2596,7 +2596,7 @@ class Other_services_model extends App_Model
             send_mail_template($staff_template, $oservice, $member, $additional_data['staff']);
         }
         if ($action_visible_to_customer == 1) {
-            $contacts = $this->clients_model->get_contacts($oservice->clientid, ['active' => 1, 'oservice_emails' => 1]);
+            $contacts = $this->clients_model->get_contacts($oservice->clientid, ['active' => 1, 'project_emails' => 1]);
 
             foreach ($contacts as $contact) {
                 if (is_client_logged_in() && $contact['id'] == get_contact_user_id()) {
@@ -2609,7 +2609,7 @@ class Other_services_model extends App_Model
 
     private function _get_oservice_billing_data($id)
     {
-        $this->db->select('billing_type,oservice_rate_per_hour');
+        $this->db->select('billing_type,project_rate_per_hour');
         $this->db->where('id', $id);
 
         return $this->db->get(db_prefix() . 'my_other_services')->row();
@@ -2622,7 +2622,7 @@ class Other_services_model extends App_Model
         $data         = [];
         if ($oservice_data->billing_type == 2) {
             $seconds             = $this->total_logged_time($slug, $id);
-            $data                = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->oservice_rate_per_hour);
+            $data                = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->project_rate_per_hour);
             $data['logged_time'] = $data['hours'];
         } elseif ($oservice_data->billing_type == 3) {
             $data = $this->_get_data_total_logged_time($slug, $id);
@@ -2680,7 +2680,7 @@ class Other_services_model extends App_Model
             foreach ($tasks as $task) {
                 $seconds += $task['total_logged_time'];
             }
-            $data = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->oservice_rate_per_hour);
+            $data = $this->calculate_total_by_oservice_hourly_rate($seconds, $oservice_data->project_rate_per_hour);
             $data['logged_time'] = $data['hours'];
         }
 

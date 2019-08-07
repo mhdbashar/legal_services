@@ -34,7 +34,7 @@ class Cases_model extends App_Model
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/case_movement_model', 'movement');
+        $this->load->model('LegalServices/Case_movement_model', 'movement');
     }
 
     public function get($id = '', $where = [])
@@ -412,8 +412,6 @@ class Cases_model extends App_Model
                 }
             }
         }
-
-
 
         if ($old_status == 4 && $data['status'] != 4) {
             $data['date_finished'] = null;

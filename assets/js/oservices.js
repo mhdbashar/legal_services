@@ -351,7 +351,7 @@
       $('.oservice-milestones-kanban').toggleClass('hide');
 	  
       if (!$.fn.DataTable.isDataTable('.table-milestones')) {
-          initDataTable('.table-milestones', admin_url + 'LegalServices/Other_services_Controller/milestones/' + oservice_id);
+          initDataTable('.table-milestones', admin_url + 'LegalServices/Other_services_Controller/milestones/' + oservice_id+"/"+service_id+"/"+service_slug);
       }
   }
 
@@ -459,13 +459,13 @@
   }
 
   function pre_invoice_oservice() {
-      requestGet('LegalServices/Other_services_controller/get_pre_invoice_oservice_info/' + oservice_id).done(function(response) {
+      requestGet('LegalServices/Other_services_controller/get_pre_invoice_oservice_info/'+ service_id + '/' + oservice_id).done(function(response) {
           $('#pre_invoice_oservice').html(response);
           $('#pre_invoice_oservice_settings').modal('show');
       });
   }
 
-  function invoice_oservicet(oservice_id) {
+  function invoice_oservice(ServID ,oservice_id) {
       $('#pre_invoice_oservice_settings').modal('hide');
       var data = {};
 
@@ -490,7 +490,7 @@
           return $(this).val();
       }).get();
 
-      $.post(admin_url + 'LegalServices/Other_services_controller/get_invoice_oservice_data/', data).done(function(response) {
+      $.post(admin_url + 'LegalServices/Other_services_controller/get_invoice_oservice_data/'+ServID, data).done(function(response) {
           $('#invoice_oservice').html(response);
           $('#invoice-oservice-modal').modal({
               show: true,
@@ -726,3 +726,56 @@
           }
       }
   }
+  function init2_ajax_search(type, selector, server_data, url) {
+    var ajaxSelector = $('body').find(selector);
+console.log(selector.val());
+    if (ajaxSelector.length) {
+        var options = {
+            ajax: {
+                url: (typeof(url) == 'undefined' ? admin_url + 'misc/get_relation_data' : url),
+                data: function() {
+                    var data = {};
+                    data.type = type;
+                    data.rel_id = selector.val();
+                    data.q = '{{{q}}}';
+                    if (typeof(server_data) != 'undefined') {
+                        jQuery.extend(data, server_data);
+                    }
+                    return data;
+                }
+            },
+            locale: {
+                emptyTitle: app.lang.search_ajax_empty,
+                statusInitialized: app.lang.search_ajax_initialized,
+                statusSearching: app.lang.search_ajax_searching,
+                statusNoResults: app.lang.not_results_found,
+                searchPlaceholder: app.lang.search_ajax_placeholder,
+                currentlySelected: app.lang.currently_selected
+            },
+            requestDelay: 500,
+            cache: false,
+            preprocessData: function(processData) {
+                var bs_data = [];
+                var len = processData.length;
+                for (var i = 0; i < len; i++) {
+                    var tmp_data = {
+                        'value': processData[i].id,
+                        'text': processData[i].name,
+                    };
+                    if (processData[i].subtext) {
+                        tmp_data.data = { subtext: processData[i].subtext };
+                    }
+                    bs_data.push(tmp_data);
+                }
+                return bs_data;
+            },
+            preserveSelectedPosition: 'after',
+            preserveSelected: true
+        };
+        if (ajaxSelector.data('empty-title')) {
+            options.locale.emptyTitle = ajaxSelector.data('empty-title');
+        }
+        ajaxSelector.selectpicker().ajaxSelectPicker(options);
+    }
+}
+

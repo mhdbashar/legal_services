@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class case_movement_model extends App_Model
+class Case_movement_model extends App_Model
 {
 
     public function __construct()

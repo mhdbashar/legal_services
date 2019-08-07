@@ -4,6 +4,7 @@
     <div class="content">
         <div class="row">
             <?php
+			
             $custom_fields = false;
             if (total_rows(db_prefix() . 'customfields', array('fieldto' => $service->slug, 'active' => 1)) > 0) {
                 $custom_fields = true;
@@ -19,9 +20,9 @@
                         <hr class="hr-panel-heading"/>
                         <?php
                         $disable_type_edit = '';
-                        if(isset($project)){
-                            if($project->billing_type != 1){
-                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$project->id,'rel_type'=>'project','billable'=>1,'billed'=>1)) > 0){
+                        if(isset($oservice)){
+                            if($oservice->billing_type != 1){
+                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$oservice->id,'rel_type'=>$service->slug,'billable'=>1,'billed'=>1)) > 0){
                                     $disable_type_edit = 'disabled';
                                 }
                             }
@@ -41,7 +42,7 @@
                             <div class="col-md-10">
                                 <div class="form-group select-placeholder">
                                     <label for="clientid"
-                                           class="control-label"><?php echo _l('project_customer'); ?></label>
+                                           class="control-label"><?php echo _l('oservice_customer'); ?></label>
                                     <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -54,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="<?php echo admin_url('clients')?>" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -86,15 +87,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <?php
-                                $staff_language = get_staff_default_language(get_staff_user_id());
-                                if($staff_language == 'arabic'){
-                                    $field = 'short_name_ar';
-                                }else{
-                                    $field = 'short_name';
-                                }
-                                ?>
-                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field )), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                <?php echo render_select('country', get_all_countries(), array('country_id', array('short_name')), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -110,13 +103,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
+                                    <label for="billing_type"><?php echo _l('oservice_billing_type'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option value=""></option>
-                                        <option value="1"><?php echo _l('project_billing_type_fixed_cost'); ?></option>
-                                        <option value="2"><?php echo _l('project_billing_type_project_hours'); ?></option>
-                                        <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>"><?php echo _l('project_billing_type_project_task_hours'); ?></option>
+                                        <option value="1"><?php echo _l('oservice_billing_type_fixed_cost'); ?></option>
+                                        <option value="2"><?php echo _l('oservice_billing_type_oservice_hours'); ?></option>
+                                        <option value="3" data-subtext="<?php echo _l('oservice_billing_type_oservice_task_hours_hourly_rate'); ?>"><?php echo _l('oservice_billing_type_oservice_task_hours'); ?></option>
                                     </select>
                                     <?php if($disable_type_edit != ''){
                                         echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
@@ -126,7 +119,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="status"><?php echo _l('project_status'); ?></label>
+                                    <label for="status"><?php echo _l('oservice_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php foreach($statuses as $status){ ?>
@@ -143,30 +136,30 @@
                             <div class="col-md-6">
                                 <?php
                                 $input_field_hide_class_total_cost = '';
-                                if(!isset($project)){
+                                if(!isset($oservice)){
                                     if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
                                         $input_field_hide_class_total_cost = 'hide';
                                     }
-                                } else if(isset($project) && $project->billing_type != 1){
+                                } else if(isset($oservice) && $oservice->billing_type != 1){
                                     $input_field_hide_class_total_cost = 'hide';
                                 }
                                 ?>
                                 <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                                    <?php $value = (isset($project) ? $project->project_cost : ''); ?>
-                                    <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
+                                    <?php $value = (isset($oservice) ? $oservice->project_cost : ''); ?>
+                                    <?php echo render_input('project_cost','oservice_total_cost',$value,'number'); ?>
                                 </div>
                                 <?php
                                 $input_field_hide_class_rate_per_hour = '';
-                                if(!isset($project)){
+                                if(!isset($oservice)){
                                     if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
                                         $input_field_hide_class_rate_per_hour = 'hide';
                                     }
-                                } else if(isset($project) && $project->billing_type != 2){
+                                } else if(isset($oservice) && $oservice->billing_type != 2){
                                     $input_field_hide_class_rate_per_hour = 'hide';
                                 }
                                 ?>
                                 <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
-                                    <?php $value = (isset($project) ? $project->project_rate_per_hour : ''); ?>
+                                    <?php $value = (isset($oservice) ? $oservice->project_rate_per_hour : ''); ?>
                                     <?php
                                     $input_disable = array();
                                     if($disable_type_edit != ''){
@@ -180,10 +173,10 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date'); ?>
+                                <?php echo render_date_input('start_date', 'oservice_start_date'); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'project_deadline'); ?>
+                                <?php echo render_date_input('deadline', 'oservice_deadline'); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -202,11 +195,11 @@
                                 <?php
                                 $selected = array();
                                 array_push($selected,get_staff_user_id());
-                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                echo render_select('oservice_members[]',$staff,array('staffid',array('firstname','lastname')),'oservice_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
                             <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="<?php echo admin_url('staff')?>" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
                             </div>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
@@ -220,11 +213,11 @@
                                 </select>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p class="bold"><?php echo _l('oservice_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
-                            <label for="send_created_email"><?php echo _l('project_send_created_email'); ?></label>
+                            <label for="send_created_email"><?php echo _l('oservice_send_created_email'); ?></label>
                         </div>
                         <!-- custom_fields -->
                         <?php if ($custom_fields) { ?>
@@ -243,18 +236,18 @@
             <div class="col-md-5">
                 <div class="panel_s">
                     <div class="panel-body" id="oservice-settings-area">
-                        <h4 class="no-margin">
-                            <?php echo _l('oservice_settings'); ?>
-                        </h4>
-                        <hr class="hr-panel-heading" />
-                        <?php  foreach($settings as $setting){
+           <h4 class="no-margin">
+               <?php echo _l('oservice_settings'); ?>
+           </h4>
+           <hr class="hr-panel-heading" />
+           <?php  foreach($settings as $setting){
 
-                            $checked = ' checked';
-                            if(isset($oservice)){
-                                if($oservice->settings->{$setting} == 0){
-                                    $checked = '';
-                                }
-                            } /*else {
+            $checked = ' checked';
+            if(isset($oservice)){
+                if($oservice->settings->{$setting} == 0){
+                    $checked = '';
+                }
+            } /*else {
                 foreach($last_oservice_settings as $last_setting) {
                     if($setting == $last_setting['name']){
                         // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
@@ -267,80 +260,80 @@
                     $checked = '';
                 }
             } */?>
-                            <?php if($setting != 'available_features'){ ?>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
-                                    <label for="<?php echo $setting; ?>">
-                                        <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
-                                            <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
-                                        <?php } else{ ?>
-                                            <?php echo _l('oservice_allow_client_to',_l('oservice_setting_'.$setting)); ?>
-                                        <?php } ?>
-                                    </label>
-                                </div>
-                            <?php } else { ?>
-                                <div class="form-group mtop15 select-placeholder oservice-available-features">
-                                    <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
-                                    <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
-                                        <?php   foreach(get_oservice_tabs_admin() as $tab) {
-                                            $selected = '';
-                                            if(isset($tab['collapse'])){ ?>
-                                                <optgroup label="<?php echo $tab['name']; ?>">
-                                                    <?php foreach($tab['children'] as $tab_dropdown) {
-                                                        $selected = '';
-                                                        if(isset($oservice) && (
-                                                                (isset($oservice->settings->available_features[$tab_dropdown['slug']])
-                                                                    && $oservice->settings->available_features[$tab_dropdown['slug']] == 1)
-                                                                || !isset($oservice->settings->available_features[$tab_dropdown['slug']]))) {
-                                                            $selected = ' selected';
-                                                        } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
-                                                            foreach($last_oservice_settings as $last_oservice_setting) {
-                                                                if($last_oservice_setting['name'] == $setting) {
-                                                                    if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
-                                                                        && $last_oservice_setting['value'][$tab_dropdown['slug']] == 1) {
-                                                                        $selected = ' selected';
-                                                                    }
-                                                                }
-                                                            }
-                                                        } else if(!isset($oservice)) {
-                                                            $selected = ' selected';
-                                                        }
-                                                        ?>
-                                                        <option value="<?php echo $tab_dropdown['slug']; ?>"<?php echo $selected; ?><?php if(isset($tab_dropdown['linked_to_customer_option']) && is_array($tab_dropdown['linked_to_customer_option']) && count($tab_dropdown['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab_dropdown['linked_to_customer_option']); ?>"<?php } ?>><?php echo $tab_dropdown['name']; ?></option>
-                                                    <?php } ?>
-                                                </optgroup>
-                                            <?php } else {
-                                                if(isset($oservice) && (
-                                                        (isset($oservice->settings->available_features[$tab['slug']])
-                                                            && $oservice->settings->available_features[$tab['slug']] == 1)
-                                                        || !isset($oservice->settings->available_features[$tab['slug']]))) {
-                                                    $selected = ' selected';
-                                                } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
-                                                    foreach($last_oservice_settings as $last_oservice_setting) {
-                                                        if($last_oservice_setting['name'] == $setting) {
-                                                            if(isset($last_oservice_setting['value'][$tab['slug']])
-                                                                && $last_oservice_setting['value'][$tab['slug']] == 1) {
-                                                                $selected = ' selected';
-                                                            }
-                                                        }
-                                                    }
-                                                } else if(!isset($oservice)) {
-                                                    $selected = ' selected';
-                                                }
-                                                ?>
-                                                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='oservice_overview'){echo ' disabled selected';} ?>
-                                                    <?php echo $selected; ?>
-                                                    <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
-                                                    <?php echo $tab['name']; ?>
-                                                </option>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            <?php } ?>
-                            <hr class="no-margin" />
+            <?php if($setting != 'available_features'){ ?>
+                <div class="checkbox">
+                    <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
+                    <label for="<?php echo $setting; ?>">
+                        <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
+                            <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
+                        <?php } else{ ?>
+                            <?php echo _l('oservice_allow_client_to',_l('oservice_setting_'.$setting)); ?>
                         <?php } ?>
-                    </div>
+                    </label>
+                </div>
+            <?php } else { ?>
+                <div class="form-group mtop15 select-placeholder oservice-available-features">
+                    <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
+                    <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
+                        <?php   foreach(get_oservice_tabs_admin() as $tab) {
+                            $selected = '';
+                            if(isset($tab['collapse'])){ ?>
+                                <optgroup label="<?php echo $tab['name']; ?>">
+                                    <?php foreach($tab['children'] as $tab_dropdown) {
+                                        $selected = '';
+                                        if(isset($oservice) && (
+                                            (isset($oservice->settings->available_features[$tab_dropdown['slug']])
+                                                && $oservice->settings->available_features[$tab_dropdown['slug']] == 1)
+                                            || !isset($oservice->settings->available_features[$tab_dropdown['slug']]))) {
+                                            $selected = ' selected';
+                                    } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
+                                        foreach($last_oservice_settings as $last_oservice_setting) {
+                                            if($last_oservice_setting['name'] == $setting) {
+                                                if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
+                                                    && $last_oservice_setting['value'][$tab_dropdown['slug']] == 1) {
+                                                    $selected = ' selected';
+                                            }
+                                        }
+                                    }
+                                } else if(!isset($oservice)) {
+                                    $selected = ' selected';
+                                }
+                                ?>
+                                <option value="<?php echo $tab_dropdown['slug']; ?>"<?php echo $selected; ?><?php if(isset($tab_dropdown['linked_to_customer_option']) && is_array($tab_dropdown['linked_to_customer_option']) && count($tab_dropdown['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab_dropdown['linked_to_customer_option']); ?>"<?php } ?>><?php echo $tab_dropdown['name']; ?></option>
+                            <?php } ?>
+                        </optgroup>
+                    <?php } else {
+                        if(isset($oservice) && (
+                            (isset($oservice->settings->available_features[$tab['slug']])
+                             && $oservice->settings->available_features[$tab['slug']] == 1)
+                            || !isset($oservice->settings->available_features[$tab['slug']]))) {
+                            $selected = ' selected';
+                    } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
+                        foreach($last_oservice_settings as $last_oservice_setting) {
+                            if($last_oservice_setting['name'] == $setting) {
+                                if(isset($last_oservice_setting['value'][$tab['slug']])
+                                    && $last_oservice_setting['value'][$tab['slug']] == 1) {
+                                    $selected = ' selected';
+                            }
+                        }
+                    }
+                } else if(!isset($oservice)) {
+                    $selected = ' selected';
+                }
+                ?>
+                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='oservice_overview'){echo ' disabled selected';} ?>
+                <?php echo $selected; ?>
+                <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
+                <?php echo $tab['name']; ?>
+            </option>
+        <?php } ?>
+    <?php } ?>
+</select>
+</div>
+<?php } ?>
+<hr class="no-margin" />
+<?php } ?>
+</div>
                 </div>
             </div>
             <?php echo form_close(); ?>
@@ -348,79 +341,8 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
-<div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo _l('client_company'); ?></span>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo render_input( 'company', 'client_company','','text'); ?>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button group="button" id="AddClient" class="btn btn-info"><?php echo _l('submit'); ?></button>
-            </div>
-        </div>
-    </div>
-</div>
 <?php init_tail(); ?>
 <script>
-
-    $("#AddClient").click(function () {
-        company = $('#company').val();
-        if(company == ''){
-            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
-        }else {
-            $.ajax({
-                url: '<?php echo admin_url('clients/add'); ?>',
-                data: {company : company},
-                type: "POST",
-                success: function (data) {
-                    if(data){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#add-client').modal('hide');
-                    }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
-                    }
-                }
-            });
-        }
-    });
-
-    $("#AddJudge").click(function () {
-        var judge_name = $('#judge_name_modal').val();
-        if(judge_name == ''){
-            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
-        }else {
-            $.ajax({
-                url: '<?php echo admin_url('judge/add'); ?>',
-                data: {name : judge_name},
-                type: "POST",
-                success: function (data) {
-                    if(data){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        var $option = $('<option></option>')
-                            .attr('value', data)
-                            .text(judge_name)
-                            .prop('selected', true);
-                        $('.judge_select').append($option).change();
-                        $('#add-judge').modal('hide');
-                    }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
-                    }
-                }
-            });
-        }
-    });
-
     function GetSubCat() {
         id = $('#cat_id').val();
         $.ajax({
@@ -428,7 +350,20 @@
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#subcat_id').html('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                });
+            }
+        });
+    }
+
+    function GetCourtJad() {
+        id = $('#court_id').val();
+        $.ajax({
+            url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
+            success: function (data) {
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#jud_num').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
                 });
             }
         });
@@ -460,7 +395,7 @@
             }
         });
 
-        var members = $("input[name='project_members[]']");
+        var members = $("input[name='oservice_members[]']");
 
         appValidateForm($('#form'), {
             code: 'required',
@@ -477,17 +412,17 @@
         $('select[name="status"]').on('change',function(){
             var status = $(this).val();
             var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
-            var notify_project_members_status_change = $('.notify_project_members_status_change');
+            var notify_oservice_members_status_change = $('.notify_oservice_members_status_change');
             mark_all_tasks_completed.removeClass('hide');
-            if(typeof(original_project_status) != 'undefined'){
-                if(original_project_status != status){
+            if(typeof(original_oservice_status) != 'undefined'){
+                if(original_oservice_status != status){
 
                     mark_all_tasks_completed.removeClass('hide');
-                    notify_project_members_status_change.removeClass('hide');
+                    notify_oservice_members_status_change.removeClass('hide');
 
                     if(status == 4 || status == 5 || status == 3) {
                         $('.recurring-tasks-notice').removeClass('hide');
-                        var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
+                        var notice = "<?php echo _l('oservice_changing_status_recurring_tasks_notice'); ?>";
                         notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
                         $('.recurring-tasks-notice').html(notice);
                         $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');
@@ -499,16 +434,16 @@
                 } else {
                     mark_all_tasks_completed.addClass('hide');
                     mark_all_tasks_completed.find('input').prop('checked',false);
-                    notify_project_members_status_change.addClass('hide');
+                    notify_oservice_members_status_change.addClass('hide');
                     $('.recurring-tasks-notice').html('').addClass('hide');
                 }
             }
 
             if(status == 4){
-                $('.project_marked_as_finished').removeClass('hide');
+                $('.oservice_marked_as_finished').removeClass('hide');
             } else {
-                $('.project_marked_as_finished').addClass('hide');
-                $('.project_marked_as_finished').prop('checked',false);
+                $('.oservice_marked_as_finished').addClass('hide');
+                $('.oservice_marked_as_finished').prop('checked',false);
             }
         });
 
@@ -522,7 +457,7 @@
         var progress_from_tasks = $('#progress_from_tasks');
         var progress = progress_input.val();
 
-        $('.project_progress_slider').slider({
+        $('.oservice_progress_slider').slider({
             min:0,
             max:100,
             value:progress,
@@ -535,7 +470,7 @@
 
         progress_from_tasks.on('change',function(){
             var _checked = $(this).prop('checked');
-            $('.project_progress_slider').slider({disabled:_checked});
+            $('.oservice_progress_slider').slider({disabled:_checked});
         });
 
         $('#oservice-settings-area input').on('change',function(){

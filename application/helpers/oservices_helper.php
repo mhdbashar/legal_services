@@ -2,6 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+hooks()->add_action('admin_init', 'app_init_oservice_tabs');
 hooks()->add_action('app_admin_assets', '_maybe_init_admin_oservice_assets', 5);
 
 function _maybe_init_admin_oservice_assets()
@@ -36,6 +37,7 @@ function get_oservice_tabs_admin()
  */
 function app_init_oservice_tabs()
 {
+
     $CI = &get_instance();
 
     $CI->app_tabs->add_oservice_tab('oservice_overview', [
@@ -131,7 +133,7 @@ function app_init_oservice_tabs()
         'name'     => _l('oservice_expenses'),
         'view'     => 'admin/LegalServices/other_services/oservice_expenses',
         'position' => 15,
-       'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
+        'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
@@ -290,11 +292,11 @@ function get_oservice_status_by_id($id)
     $statuses = $CI->oservice->get_oservice_statuses();
 
     $status = [
-          'id'    => 0,
-          'color' => '#333',
-          'name'  => '[Status Not Found]',
-          'order' => 1,
-      ];
+        'id'    => 0,
+        'color' => '#333',
+        'name'  => '[Status Not Found]',
+        'order' => 1,
+    ];
 
     foreach ($statuses as $s) {
         if ($s['id'] == $id) {
@@ -383,20 +385,20 @@ function oservice_has_recurring_tasks($id,$slug)
 function total_oservice_tasks_by_milestone($milestone_id, $oservice_id,$slug)
 {
     return total_rows(db_prefix() . 'tasks', [
-              'rel_type'  => $slug,
-              'rel_id'    => $oservice_id,
-              'milestone' => $milestone_id,
-             ]);
+        'rel_type'  => $slug,
+        'rel_id'    => $oservice_id,
+        'milestone' => $milestone_id,
+    ]);
 }
 
 function total_oservice_finished_tasks_by_milestone($milestone_id, $oservice_id,$slug)
 {
     return total_rows(db_prefix() . 'tasks', [
-             'rel_type'  =>$slug,
-             'rel_id'    => $oservice_id,
-             'status'    => 5,
-             'milestone' => $milestone_id,
-             ]);
+        'rel_type'  =>$slug,
+        'rel_id'    => $oservice_id,
+        'status'    => 5,
+        'milestone' => $milestone_id,
+    ]);
 }
 
 /**
@@ -415,13 +417,13 @@ function get_user_pinned_oservices()
     $CI->load->model('LegalServices/Other_services_model',"other");
 
     foreach ($oservices as $key => $oservice) {
-		$ServID = $CI->db->get_where('my_other_services', array('id' => $oservice['id']))->row()->service_id;
+        $ServID = $CI->db->get_where('my_other_services', array('id' => $oservice['id']))->row()->service_id;
 
-		$slug=$CI->db->get_where('my_basic_services', array('id' => $ServID))->row()->slug;
+        $slug=$CI->db->get_where('my_basic_services', array('id' => $ServID))->row()->slug;
 
         $oservices[$key]['progress'] = $CI->other->calc_progress($slug,$ServID,$oservice['id']);
-		$oservices[$key]['slug'] = $slug;
-		$oservices[$key]['service_id'] = $ServID;
+        $oservices[$key]['slug'] = $slug;
+        $oservices[$key]['service_id'] = $ServID;
     }
 
     return $oservices;

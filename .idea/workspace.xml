@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/case_movement_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Case_movement_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/case_session_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Case_session_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/oservices_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/oservices_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/relation_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/relation_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libraries/App_tabs.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/App_tabs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/case_movement_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/case_session_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Case_session_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tabs.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/oservices.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/oservices.js" afterDir="false" />
-    </list>
+    <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +146,7 @@
         <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
-              <caret line="217" column="43" lean-forward="true" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="43" />
+              <caret line="217" column="43" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="43" />
               <folding>
                 <element signature="n#add#0;n#Cases_controller#0;n#!!top" />
                 <element signature="e#768#913#0#PHP" />
@@ -442,7 +418,7 @@
         <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="143">
-              <caret line="312" column="33" lean-forward="true" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="33" />
+              <caret line="312" column="33" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -451,7 +427,7 @@
         <entry file="file://$PROJECT_DIR$/application/helpers/oservices_helper.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="527">
-              <caret line="413" column="83" lean-forward="true" selection-start-line="413" selection-start-column="83" selection-end-line="413" selection-end-column="83" />
+              <caret line="413" column="83" selection-start-line="413" selection-start-column="83" selection-end-line="413" selection-end-column="83" />
             </state>
           </provider>
         </entry>
@@ -460,7 +436,7 @@
         <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1836">
-              <caret line="81" column="118" lean-forward="true" selection-start-line="81" selection-start-column="79" selection-end-line="81" selection-end-column="118" />
+              <caret line="81" column="118" selection-start-line="81" selection-start-column="79" selection-end-line="81" selection-end-column="118" />
             </state>
           </provider>
         </entry>
@@ -638,60 +614,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="expenses" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="LegalServices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="LegalServices" type="462c0819:PsiDirectoryNode" />
-              <item name="other_services" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -731,16 +654,15 @@
       <workItem from="1564937214404" duration="9626000" />
       <workItem from="1565032507981" duration="4885000" />
       <workItem from="1565040808405" duration="2910000" />
-      <workItem from="1565123775306" duration="12191000" />
+      <workItem from="1565123775306" duration="12795000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53850000" />
+    <option name="totallyTimeSpent" value="54454000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1652452" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1052,7 +974,7 @@
     <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="217" column="43" lean-forward="true" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="43" />
+          <caret line="217" column="43" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="43" />
           <folding>
             <element signature="n#add#0;n#Cases_controller#0;n#!!top" />
             <element signature="e#768#913#0#PHP" />
@@ -1623,7 +1545,7 @@
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1836">
-          <caret line="81" column="118" lean-forward="true" selection-start-line="81" selection-start-column="79" selection-end-line="81" selection-end-column="118" />
+          <caret line="81" column="118" selection-start-line="81" selection-start-column="79" selection-end-line="81" selection-end-column="118" />
         </state>
       </provider>
     </entry>
@@ -1644,14 +1566,14 @@
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
-          <caret line="312" column="33" lean-forward="true" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="33" />
+          <caret line="312" column="33" selection-start-line="312" selection-start-column="33" selection-end-line="312" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/helpers/oservices_helper.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
-          <caret line="413" column="83" lean-forward="true" selection-start-line="413" selection-start-column="83" selection-end-line="413" selection-end-column="83" />
+          <caret line="413" column="83" selection-start-line="413" selection-start-column="83" selection-end-line="413" selection-end-column="83" />
         </state>
       </provider>
     </entry>

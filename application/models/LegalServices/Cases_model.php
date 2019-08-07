@@ -621,9 +621,9 @@ class Cases_model extends App_Model
                 'rel_stype' => '',
             ]);
 
-            $this->db->where(array('relid' => $id, 'rel_stype' => $slug));
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'tickets', [
-                'relid' => 0,
+                'rel_sid' => 0,
                 'rel_stype' => '',
             ]);
 

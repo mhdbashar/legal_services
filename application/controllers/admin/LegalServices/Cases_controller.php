@@ -315,7 +315,7 @@ class Cases_controller extends AdminController
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
 
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
-                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_sid' => $id, 'rel_stype' => $slug, 'milestone' => 0]) > 0);
+                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
             } elseif ($group == 'project_files') {
                 $data['files'] = $this->case->get_files($id);
             } elseif ($group == 'project_expenses') {

@@ -45,7 +45,7 @@ class Other_services_controller extends AdminController
           }
 
         $data['settings'] = $this->other->get_settings();
-        $data['statuses'] = $this->other->get_oservice_statuses();
+        $data['statuses'] = $this->other->get_project_statuses();
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $data['ServID'] = $ServID;
         $data['title'] = _l('permission_create').' '._l('LegalService');

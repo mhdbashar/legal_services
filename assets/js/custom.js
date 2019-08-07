@@ -1,10 +1,12 @@
 function appDatepicker(e) {
     // console.log(app.options.date_format);
         let obj = document.getElementsByClassName('datepicker');
+        let datetimeobj = document.getElementsByClassName('datetimepicker');
         let icon = document.getElementsByClassName('calendar-icon');
         let lang = "en";
         let dateType = "AD";
-        // console.log(admin_url + 'settings/get_date_options');
+    let isDatetime = false;
+        // console.log(datetimeobj);
 
         $.ajax({
             type: 'post',
@@ -27,7 +29,8 @@ function appDatepicker(e) {
 
             v.onclick = icon.onclick = function () {
                     // picker.setHijriMode('h');
-                    pickDate(event);
+                isDatetime = false;
+                    pickDate(event,isDatetime);
                     picker.setLanguage(lang);
                     if(dateType == 'hijri'){
                         picker.setHijriMode(true);
@@ -52,6 +55,10 @@ function appDatepicker(e) {
                                 HijriDate.toNDigit(date.getDate(),2);
                         console.log(formattedDaten)
                         elgd.value = formattedDaten;
+                        // elgd.value = formattedDaten+' '+ $('#mytime').val();
+
+
+
                         // if(dateType == 'hijri'){
                         //
                         // }else{
@@ -71,6 +78,62 @@ function appDatepicker(e) {
 
                 }
             });
+
+    $.each(datetimeobj,function (k,v) {
+        // console.log($(this).parent().find('.calendar-icon')[0]);
+        let icon = $(this).parent().find('.calendar-icon')[0]
+
+        v.onclick = icon.onclick = function () {
+            // picker.setHijriMode('h');
+             isDatetime = true;
+            pickDate(event,isDatetime);
+            picker.setLanguage(lang);
+            if(dateType == 'hijri'){
+                picker.setHijriMode(true);
+            }else{
+                picker.setHijriMode(false);
+            }
+
+            picker.onPicked=function(){
+
+
+                let elgd=document.getElementById(v.id);
+                // elgd.value=picker.getPickedDate().getDateString();
+
+                let date = picker.getPickedDate();
+                // console.log(elgd.value.split('ميلادي')[0]);
+
+                // let formattedDaten = HijriDate.toNDigit(date.getDate(),2)+'-'+
+                //     HijriDate.toNDigit(date.getMonth()+1,2)+'-'+
+                //     HijriDate.toNDigit(date.getFullYear(),4);
+                let formattedDaten = HijriDate.toNDigit(date.getFullYear(),4)+'-'+
+                    HijriDate.toNDigit(date.getMonth()+1,2)+'-'+
+                    HijriDate.toNDigit(date.getDate(),2);
+                console.log(formattedDaten)
+                // elgd.value = formattedDaten;
+                elgd.value = formattedDaten+' '+ $('#mytime').val();
+                console.log(elgd.value)
+
+
+                // if(dateType == 'hijri'){
+                //
+                // }else{
+                //     var date = elgd.value;
+                //     Date.parse(date.split('ميلادي')[0]);
+                // }
+
+                // let elhd=document.getElementById('deadline');
+                // if(picker.getPickedDate() instanceof Date){
+                //     elgd.value=picker.getPickedDate().getDateString();
+                //     // elhd.value=picker.getOppositePickedDate().getDateString()
+                // }else{
+                //     // elhd.value=picker.getPickedDate().getDateString();
+                //     elgd.value=picker.getOppositePickedDate().getDateString()
+                // }
+            };
+
+        }
+    });
 
 
         'use strict';
@@ -129,13 +192,49 @@ function appDatepicker(e) {
             }
         }
 
-        function pickDate(ev){
+        function pickDate(ev,isDatetime){
             ev=ev||window.event;
             let el=ev.target||ev.srcElement;
             pLeft=ev.pageX;
             fixWidth();
             pickElm.style.top=ev.pageY+'px';
             picker.setHijriMode(el.id=='hijrDate');
+
+            if(isDatetime){
+                var today = new Date();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var full_time =time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+
+                t = document.createElement('input',);
+                t.setAttribute("type", "time");
+                t.setAttribute("id", "mytime");
+                t.setAttribute("value", full_time);
+                t.setAttribute("step", "2");
+                t.style.width="50%";
+                t.style.marginLeft ="25%";
+                // console.log(full_time);
+                if(document.getElementById("mytime")  ){
+                    console.log(isDatetime+'gfhfg');
+
+                    var timeChild = document.getElementById("mytime");
+                    timeChild.parentNode.removeChild(timeChild);
+                }
+
+                // document.getElementsByClassName('zulns-datepicker')[0].appendChild(t);
+                var x = document.createElement('div');
+                document.getElementsByClassName('zulns-datepicker')[0].appendChild(x);
+                document.getElementsByClassName('zulns-datepicker')[0].lastChild.appendChild(t);
+
+            }else{
+                if(document.getElementById("mytime")  ){
+                    console.log(isDatetime+'gfhfg');
+
+                    var timeChild = document.getElementById("mytime");
+                    timeChild.parentNode.removeChild(timeChild);
+                }
+            }
+
+
             picker.show();
             el.blur()
         }

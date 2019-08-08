@@ -26,7 +26,7 @@ function resultName($id){
 
 $aColumns = [
     'subject',
-    'date',
+    'CONCAT(date, " ", time) as date',
     db_prefix() .'my_service_session.id as id',
     'status',
     'result'
@@ -58,7 +58,7 @@ foreach ($rResult as $aRow) {
 
     
 
-    $_data = '<a href="' . base_url() . 'session/session_info/session_detail/' . $aRow['id'] . '?tab=info">' . $aRow['subject'] . '</a>';
+    $_data = '<a href="' . base_url() . 'session/session_info/session_detail/' . $aRow['id'] . '/'.$service_id ."/".$rel_id . '?tab=info">' . $aRow['subject'] . '</a>';
 
     $row[] = $_data;
     

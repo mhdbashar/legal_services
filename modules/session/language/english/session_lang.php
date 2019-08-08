@@ -2,7 +2,8 @@
 
 # Version 2.3.0
 $lang['session_info']        			= 'Session Information';
-$lang['next_date']       				= 'Next Date';
+$lang['start_at']       				= 'Start At';
+$lang['created_at']       				= 'Created At';
 $lang['next_action']        			= 'Next Action';
 $lang['discussion']       				= 'Discussion';
 $lang['session_detail']        			= 'Session Detail';

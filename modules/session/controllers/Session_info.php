@@ -73,13 +73,24 @@ class Session_Info extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-	public function session_detail($id = '')
+	public function session_detail($id = '', $service_id = '', $rel_id = '')
     {
-        if ($this->input->is_ajax_request()) {
+        if($this->input->get('tab') == 'reminders')
+            {
+                if ($this->input->is_ajax_request()) {
+                    $this->app->get_table_data('reminders', [
+                        'id' => $rel_id,
+                        'rel_type' => $service_id,
+                    ]);
+                }
+            }
+        if($this->input->get('tab'))
+            if ($this->input->is_ajax_request()) {
                 $this->sessionapp->get_table_data('my_project_discussions', [
                     'session_id' => $id,
                 ]);
             }
+            
             $this->app_scripts->add(
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
@@ -95,6 +106,10 @@ class Session_Info extends AdminController{
         $data['contract'] = $this->file_model->get_session_file($id);
         $data['title'] = 'Sessions Detail';
         $data['session_id'] = $id;
+        $data['service_id'] = $service_id;
+        $data['rel_id'] = $rel_id;
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+        $data['members'] = $data['staff'];
         $data['session'] = $this->Service_sessions_model->get($id);
         $data['court_name'] = $this->Service_sessions_model->get_court($data['session']->court_id);
         $data['judge_name'] = $this->Service_sessions_model->get_judges($data['session']->judge_id);

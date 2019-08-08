@@ -31,7 +31,14 @@ class Service_sessions extends AdminController
     
 
     public function add($rel_id, $service_id, $staff){
-        $data = $this->input->get();
+
+        $data = [
+            "subject" => $this->input->get('subject'), 
+            "court_id" => $this->input->get('court_id'), 
+            "judge_id" => $this->input->get('judge_id'), 
+            "date" => $this->input->get('date'),
+            "time" => $this->input->get('time') 
+        ];
         $data['staff'] = $staff;
         $data['rel_id'] = $rel_id;
         $data['service_id'] = $service_id;
@@ -44,7 +51,14 @@ class Service_sessions extends AdminController
     }
 
     public function update($rel_id, $service_id){
-        $data = $this->input->get();
+        $data = [
+            "subject" => $this->input->get('subject'), 
+            "court_id" => $this->input->get('court_id'), 
+            "judge_id" => $this->input->get('judge_id'), 
+            "date" => $this->input->get('date'),
+            "time" => $this->input->get('time') 
+        ];
+
         $id = $this->input->get('id');
         $data['rel_id'] = $rel_id;
         $data['service_id'] = $service_id;

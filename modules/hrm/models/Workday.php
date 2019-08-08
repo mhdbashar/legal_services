@@ -30,7 +30,9 @@ class workday extends App_Model
 
     public function update_p($data){
         $this->db->update('tblmy_workdays_period', $data);
+        $this->db->inserted_id();
         if ($this->db->affected_rows() > 0) {
+            log_activity('Period Updated [ID: ' . $id . ']');
             return true;
         }
         return false;

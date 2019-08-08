@@ -14,7 +14,7 @@
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
                         _l('subject'),
-                        _l('date'),
+                        _l('start_at'),
                         _l('status'),
                         _l('result'),
                         _l('options'),
@@ -69,6 +69,7 @@ for($i = 0; $i < $num_session; $i++){ ?>
                 $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
                 $('[name="subject"]').val(data.subject);
                 $('[name="date"]').val(data.date);
+                $('[name="time"]').val(data.time);
                 $('[name="id"]').val(data.id);
                 $('[name="court_id"]').val(data.court_id);
                 $('[name="judge_id"]').val(data.judge_id);

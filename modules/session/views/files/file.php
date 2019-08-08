@@ -3,6 +3,9 @@
    $subject = 'subject'; // Your table title like subject, title, name ...etc
    $controllerName = "session_info";
 ?>
+
+
+
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/plugins/jquery-comments/css/jquery-comments.css'?>">
@@ -41,13 +44,13 @@
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
-                              <a href="#tab_next_date" aria-controls="tab_next_date" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 <?php echo _l('next_date') ?>
+                              <a href="#tab_discussion" aria-controls="tab_discussion" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
+                                 <?php echo _l('discussion') ?>
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
-                              <a href="#tab_discussion" aria-controls="tab_discussion" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
-                                 <?php echo _l('discussion') ?>
+                              <a href="<?php base_url() . 'session/session_info/session_detail'.$session->id.'/' . $service_id . '/' . $rel_id ?>?tab=reminders">
+                                 <?php echo _l('reminders') ?>
                               </a>
                            </li>
 
@@ -168,7 +171,11 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <?php echo '<b>'._l('session_date').'</b>' ?> : <?php echo $session->date ?>
+                                        <?php echo '<b>'._l('start_at').'</b>' ?> : <?php echo $session->date . " " . $session->time ?>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <?php echo '<b>'._l('created_at').'</b>' ?> : <?php echo $session->created ?>
                                     </div>
 
                                     <div class="col-md-6">
@@ -193,11 +200,6 @@
                                         <?php echo '<b>'._l('next_action').'</b>' ?> : <?php echo $session->next_action ?>
                                     </div>
                                 <?php } ?>
-                                <?php if ($session->next_date){ ?>
-                                    <div class="col-md-6">
-                                        <?php echo '<b>'._l('next_date').'</b>' ?> : <?php echo $session->next_date ?>
-                                    </div>
-                                <?php } ?>
                                 <?php if ($session->report){ ?>
                                     <div class="col-md-6">
                                         <?php echo '<b>'._l('report').'</b>' ?> : <?php echo $session->report ?>
@@ -211,32 +213,39 @@
                         <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_detail/' ?><?php echo $session->id ?>">
                            <div class="form-group">
                              <label for="details" class="col-form-label"><?php echo _l('session_detail') ?></label>
-                             <textarea type="text" class="form-control" id="details" name="details" value="<?php echo $detail ?>"></textarea>
+                             <?php $contents = ''; if(isset($detail)){$contents = $detail;} ?>
+                            <?php echo render_textarea('details','',$contents,array(),array(),'','tinymce'); ?>
                            </div>
                            <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
                         </form>
+                     </div>
+
+                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'reminders'){echo ' active';} ?>" id="tab_reminders">
+
+                        <a href="#" data-toggle="modal" data-target=".reminder-modal-<?php echo $service_id . '-' . $rel_id ?>" class="btn btn-info mbot25"><i class="fa fa-bell-o"></i> Set Reminder</a>
+                        
+                      <?php
+                        $this->load->view('admin/includes/modals/reminder', [
+                            'id' => $rel_id,
+                            'name' => $service_id,
+                            'reminder_title' => 'Session reminders',
+                            'members' => $members
+                        ]);
+                            render_datatable(array(
+                              'Description',
+                              'Date',
+                              'Remind',
+                              'Is Notified',
+                              ),'reminder');  
+                      ?>
                      </div>
                      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'next_action'){echo ' active';} ?>" id="tab_next_action">
                               <?php $detail = ($session->next_action) ? $session->next_action : '' ;  ?>
                         <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_next_action/' ?><?php echo $session->id ?>">
                            <div class="form-group">
                              <label for="subject" class="col-form-label"><?php echo _l('next_action') ?></label>
-                             <textarea type="text" class="form-control" id="subject" name="next_action" value="<?php echo $detail ?>"></textarea>
-                           </div>
-                           <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
-                        </form>
-                     </div>
-                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'next_date'){echo ' active';} ?>" id="tab_next_date">
-                              <?php $detail = ($session->next_date) ? $session->next_date : '' ;  ?>
-                        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/' . $controllerName . '/edit_next_date/' ?><?php echo $session->id ?>">
-                           <div class="form-group" app-field-wrapper="date">
-                            <label for="date" class="control-label"><?php echo _l('date') ?></label>
-                              <div class="input-group date">
-                                 <input type="text" id="date" name="next_date" class="form-control datepicker" value="<?php echo $detail ?>" autocomplete="off" aria-invalid="false">
-                                 <div class="input-group-addon">
-                                    <i class="fa fa-calendar calendar-icon"></i>
-                                 </div>
-                              </div>
+                             <?php $contents = ''; if(isset($detail)){$contents = $detail;} ?>
+                            <?php echo render_textarea('next_action','',$contents,array(),array(),'','tinymce'); ?>
                            </div>
                            <button type="submit" class="btn btn-primary"><?php echo _l('save') ?></button>
                         </form>
@@ -426,6 +435,10 @@
 
    $(function(){
         initDataTable('.table-customer-groups', window.location.href, [1], [1]);
+   });
+
+   $(function(){
+        initDataTable('.table-reminder', window.location.href, [1], [1]);
    });
    function edit_session_json(id){
 

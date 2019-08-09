@@ -202,7 +202,6 @@ class Other_services_model extends App_Model
             $tags = $data['tags'];
             unset($data['tags']);
         }
-
         $this->db->insert(db_prefix() . 'my_other_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -509,8 +508,8 @@ class Other_services_model extends App_Model
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'oservice_notes');
 
-            $this->db->where('rel_id', $id);
-            $this->db->where('rel_type', $slug);
+            $this->db->where('rel_sid', $id);
+            $this->db->where('rel_stype', $slug);
             $this->db->delete(db_prefix() . 'milestones');
 
             // Delete the custom field values
@@ -734,35 +733,35 @@ class Other_services_model extends App_Model
             [
                 'id' => 1,
                 'color' => '#989898',
-                'name' => _l('oservice_status_1'),
+                'name' => _l('project_status_1'),
                 'order' => 1,
                 'filter_default' => true,
             ],
             [
                 'id' => 2,
                 'color' => '#03a9f4',
-                'name' => _l('oservice_status_2'),
+                'name' => _l('project_status_2'),
                 'order' => 2,
                 'filter_default' => true,
             ],
             [
                 'id' => 3,
                 'color' => '#ff6f00',
-                'name' => _l('oservice_status_3'),
+                'name' => _l('project_status_3'),
                 'order' => 3,
                 'filter_default' => true,
             ],
             [
                 'id' => 4,
                 'color' => '#84c529',
-                'name' => _l('oservice_status_4'),
+                'name' => _l('project_status_4'),
                 'order' => 100,
                 'filter_default' => false,
             ],
             [
                 'id' => 5,
                 'color' => '#989898',
-                'name' => _l('oservice_status_5'),
+                'name' => _l('project_status_5'),
                 'order' => 4,
                 'filter_default' => false,
             ],
@@ -844,7 +843,6 @@ class Other_services_model extends App_Model
         $this->db->select('progress_from_tasks,progress,status');
         $this->db->where('id', $id);
         $oservice = $this->db->get(db_prefix() . 'my_other_services')->row();
-
         if ($oservice->status == 4) {
             return 100;
         }
@@ -1466,8 +1464,8 @@ class Other_services_model extends App_Model
     public function get_milestones($slug,$oservice_id)
     {
         $this->db->select('*, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id=' . $oservice_id . ' and milestone=' . db_prefix() . 'milestones.id) as total_tasks, (SELECT COUNT(id) FROM ' . db_prefix() . 'tasks WHERE '.db_prefix().'tasks.rel_type="'.$slug.'" AND '.db_prefix().'tasks.rel_id=' . $oservice_id . ' and milestone=' . db_prefix() . 'milestones.id AND status=5) as total_finished_tasks');
-        $this->db->where('rel_id', $oservice_id);
-        $this->db->where('rel_type', $slug);
+        $this->db->where('rel_sid', $oservice_id);
+        $this->db->where('rel_stype', $slug);
         $this->db->order_by('milestone_order', 'ASC');
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
         $i = 0;
@@ -1484,7 +1482,7 @@ class Other_services_model extends App_Model
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         //$data['rel_id']    = $data['oservice_id'];
-        $data['rel_type']    = $slug;
+        $data['rel_stype']    = $slug;
         $data['due_date'] = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
         $data['description'] = nl2br($data['description']);
@@ -2295,8 +2293,8 @@ class Other_services_model extends App_Model
 
                     $this->db->insert(db_prefix() . 'milestones', [
                         'name' => $milestone['name'],
-                        'rel_id' => $id,
-                        'rel_type' => $slug,
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug,
                         'milestone_order' => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
                         'description' => $milestone['description'],

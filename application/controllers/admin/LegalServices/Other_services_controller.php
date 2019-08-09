@@ -45,7 +45,7 @@ class Other_services_controller extends AdminController
           }
 
         $data['settings'] = $this->other->get_settings();
-        $data['statuses'] = $this->other->get_project_statuses();
+        $data['statuses'] = $this->other->get_oservice_statuses();
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
         $data['ServID'] = $ServID;
         $data['title'] = _l('permission_create').' '._l('LegalService');
@@ -211,7 +211,7 @@ class Other_services_controller extends AdminController
             $oservice->settings->available_features = unserialize($oservice->settings->available_features);
             $data['statuses'] = $this->other->get_oservice_statuses();
 
-            $group = !$this->input->get('group') ? 'oservice_overview' : $this->input->get('group');
+            $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');
 
             // Unable to load the requested file: admin/oservices/oservice_tasks#.php - FIX
             if (strpos($group, '#') !== false) {
@@ -234,12 +234,12 @@ class Other_services_controller extends AdminController
             $data['oservice_total_logged_time'] = $this->other->total_logged_time($slug,$id);
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-            $percent = $this->other->calc_progress($slug,$ServID,$id);
+            $percent = $this->other->calc_progress($slug,$id);
             $data['bodyclass'] = '';
 
 
 
-            if ($group == 'oservice_overview') {
+            if ($group == 'project_overview') {
                 $data['members'] = $this->other->get_oservice_members($id);
                 foreach ($data['members'] as $key => $member) {
                     $data['members'][$key]['total_logged_time'] = 0;
@@ -294,7 +294,7 @@ class Other_services_controller extends AdminController
 
 
                 $data['oservice_overview_chart'] = $this->other->get_oservice_overview_weekly_chart_data($id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart') : 'this_week'));
-            } elseif ($group == 'oservice_invoices') {
+            } elseif ($group == 'project_invoices') {
                 $this->load->model('invoices_model');
 
                 $data['invoiceid'] = '';
@@ -304,36 +304,36 @@ class Other_services_controller extends AdminController
                 $data['invoices_years'] = $this->invoices_model->get_invoices_years();
                 $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
                 $data['invoices_statuses'] = $this->invoices_model->get_statuses();
-            } elseif ($group == 'oservice_gantt') {
+            } elseif ($group == 'project_gantt') {
                 $gantt_type = (!$this->input->get('gantt_type') ? 'milestones' : $this->input->get('gantt_type'));
                 $taskStatus = (!$this->input->get('gantt_task_status') ? null : $this->input->get('gantt_task_status'));
                 $data['gantt_data'] = $this->other->get_gantt_data($id, $gantt_type, $taskStatus);
-            } elseif ($group == 'oservice_milestones') {
+            } elseif ($group == 'project_milestones') {
                 $data['bodyclass'] .= 'oservice-milestones ';
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
 
-                $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_id' => $id, 'rel_type' => $slug]);
+                $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
-            } elseif ($group == 'oservice_files') {
+            } elseif ($group == 'project_files') {
                 $data['files'] = $this->other->get_files($id);
-            } elseif ($group == 'oservice_expenses') {
+            } elseif ($group == 'project_expenses') {
                 $this->load->model('taxes_model');
                 $this->load->model('expenses_model');
                 $data['taxes'] = $this->taxes_model->get();
                 $data['expense_categories'] = $this->expenses_model->get_category();
                 $data['currencies'] = $this->currencies_model->get();
-            } elseif ($group == 'oservice_activity') {
+            } elseif ($group == 'project_activity') {
                 $data['activity'] = $this->other->get_activity($id);
-            } elseif ($group == 'oservice_notes') {
+            } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->other->get_staff_notes($id);
-            } elseif ($group == 'oservice_estimates') {
+            } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years'] = $this->estimates_model->get_estimates_years();
                 $data['estimates_sale_agents'] = $this->estimates_model->get_sale_agents();
                 $data['estimate_statuses'] = $this->estimates_model->get_statuses();
                 $data['estimateid'] = '';
                 $data['switch_pipeline'] = '';
-            } elseif ($group == 'oservice_tickets') {
+            } elseif ($group == 'project_tickets') {
                 $data['chosen_ticket_status'] = '';
                 $this->load->model('tickets_model');
                 $data['ticket_assignees'] = $this->tickets_model->get_tickets_assignes_disctinct();
@@ -341,7 +341,7 @@ class Other_services_controller extends AdminController
                 $this->load->model('departments_model');
                 $data['staff_deparments_ids'] = $this->departments_model->get_staff_departments(get_staff_user_id(), true);
                 $data['default_tickets_list_statuses'] = hooks()->apply_filters('default_tickets_list_statuses', [1, 2, 4]);
-            } elseif ($group == 'oservice_timesheets') {
+            } elseif ($group == 'project_timesheets') {
                 // Tasks are used in the timesheet dropdown
                 // Completed tasks are excluded from this list because you can't add timesheet on completed task.
                 $data['tasks'] = $this->other->get_tasks($slug,$id, 'status != ' . Tasks_model::STATUS_COMPLETE . ' AND billed=0');
@@ -401,7 +401,7 @@ class Other_services_controller extends AdminController
         $message = '';
         if ($this->input->is_ajax_request()) {
             if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
-                $status = get_project_status_by_id($this->input->post('status_id'));
+                $status = get_oservice_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
                 $success = $this->other->mark_as($this->input->post());
@@ -789,7 +789,7 @@ class Other_services_controller extends AdminController
     public function remove_team_member($ServID,$project_id, $staff_id)
     {
         if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
-            if ($this->other->remove_team_member($project_id, $staff_id)) {
+            if ($this->other->remove_team_member($ServID, $project_id, $staff_id)) {
                 set_alert('success', _l('project_member_removed'));
             }
         }

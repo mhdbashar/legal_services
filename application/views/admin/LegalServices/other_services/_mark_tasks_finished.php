@@ -30,7 +30,7 @@
         <?php } ?>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-info" id="project_mark_status_confirm" onclick="confirm_project_status_change(this); return false;"><?php echo _l('project_mark_tasks_finished_confirm'); ?></button>
+        <button class="btn btn-info" id="project_mark_status_confirm" onclick="confirm_oservice_status_change(this); return false;"><?php echo _l('project_mark_tasks_finished_confirm'); ?></button>
     </div>
 </div>
 </div>

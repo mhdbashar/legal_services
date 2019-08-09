@@ -23,7 +23,7 @@
                             <input type="checkbox" id="description_visible_to_customer" name="description_visible_to_customer">
                             <label for="description_visible_to_customer"><?php echo _l('description_visible_to_customer'); ?></label>
                         </div>
-                        <?php echo render_input('milestone_order','oservice_milestone_order',total_rows(db_prefix().'milestones',array('rel_id'=>$oservice->id,'rel_type'=> $service_slug)) + 1,'number'); ?>
+                        <?php echo render_input('milestone_order','oservice_milestone_order',total_rows(db_prefix().'milestones',array('rel_sid'=>$oservice->id,'rel_stype'=> $service_slug)) + 1,'number'); ?>
                     </div>
                 </div>
             </div>

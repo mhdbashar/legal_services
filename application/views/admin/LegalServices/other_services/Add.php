@@ -87,7 +87,15 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_select('country', get_all_countries(), array('country_id', array('short_name')), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                <?php
+                                $staff_language = get_staff_default_language(get_staff_user_id());
+                                if($staff_language == 'arabic'){
+                                    $field = 'short_name_ar';
+                                }else{
+                                    $field = 'short_name';
+                                }
+                                ?>
+                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -247,7 +255,7 @@
                 if($oservice->settings->{$setting} == 0){
                     $checked = '';
                 }
-            } /*else {
+            } else {
                 foreach($last_oservice_settings as $last_setting) {
                     if($setting == $last_setting['name']){
                         // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
@@ -259,7 +267,7 @@
                 if(count($last_oservice_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
-            } */?>
+            } ?>
             <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
@@ -379,6 +387,7 @@
             }
         });
     });
+
     $(function(){
 
         $('select[name="billing_type"]').on('change',function(){

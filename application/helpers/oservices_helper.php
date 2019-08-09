@@ -40,63 +40,63 @@ function app_init_oservice_tabs()
 
     $CI = &get_instance();
 
-    $CI->app_tabs->add_oservice_tab('oservice_overview', [
-        'name'     => _l('oservice_overview'),
+    $CI->app_tabs->add_oservice_tab('project_overview', [
+        'name'     => _l('project_overview'),
         'icon'     => 'fa fa-th',
         'view'     => 'admin/LegalServices/other_services/oservice_overview',
         'position' => 5,
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_tasks', [
-        'name'                      => _l('tasks'),
+    $CI->app_tabs->add_oservice_tab('project_tasks', [
+        'name'                      => _l('project_tasks'),
         'icon'                      => 'fa fa-check-circle',
         'view'                      => 'admin/LegalServices/other_services/oservice_tasks',
         'position'                  => 10,
         'linked_to_customer_option' => ['view_tasks'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_timesheets', [
-        'name'                      => _l('oservice_timesheets'),
+    $CI->app_tabs->add_oservice_tab('project_timesheets', [
+        'name'                      => _l('project_timesheets'),
         'icon'                      => 'fa fa-clock-o',
         'view'                      => 'admin/LegalServices/other_services/oservice_timesheets',
         'position'                  => 15,
         'linked_to_customer_option' => ['view_timesheets'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_milestones', [
-        'name'                      => _l('oservice_milestones'),
+    $CI->app_tabs->add_oservice_tab('project_milestones', [
+        'name'                      => _l('project_milestones'),
         'icon'                      => 'fa fa-rocket',
         'view'                      => 'admin/LegalServices/other_services/oservice_milestones',
         'position'                  => 20,
         'linked_to_customer_option' => ['view_milestones'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_files', [
-        'name'                      => _l('oservice_files'),
+    $CI->app_tabs->add_oservice_tab('project_files', [
+        'name'                      => _l('project_files'),
         'icon'                      => 'fa fa-files-o',
         'view'                      => 'admin/LegalServices/other_services/oservice_files',
         'position'                  => 25,
         'linked_to_customer_option' => ['upload_files'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_discussions', [
-        'name'                      => _l('oservice_discussions'),
+    $CI->app_tabs->add_oservice_tab('project_discussions', [
+        'name'                      => _l('project_discussions'),
         'icon'                      => 'fa fa-commenting',
         'view'                      => 'admin/LegalServices/other_services/oservice_discussions',
         'position'                  => 30,
         'linked_to_customer_option' => ['open_discussions'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_gantt', [
-        'name'                      => _l('oservice_gant'),
+    $CI->app_tabs->add_oservice_tab('project_gantt', [
+        'name'                      => _l('project_gantt'),
         'icon'                      => 'fa fa-align-left',
         'view'                      => 'admin/LegalServices/other_services/oservice_gantt',
         'position'                  => 35,
         'linked_to_customer_option' => ['view_gantt'],
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_tickets', [
-        'name'     => _l('oservice_tickets'),
+    $CI->app_tabs->add_oservice_tab('project_tickets', [
+        'name'     => _l('project_tickets'),
         'icon'     => 'fa fa-life-ring',
         'view'     => 'admin/LegalServices/other_services/oservice_tickets',
         'position' => 40,
@@ -113,15 +113,15 @@ function app_init_oservice_tabs()
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug'     => 'oservice_invoices',
-        'name'     => _l('oservice_invoices'),
+        'slug'     => 'project_invoices',
+        'name'     => _l('project_invoices'),
         'view'     => 'admin/LegalServices/other_services/oservice_invoices',
         'position' => 5,
         'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug'     => 'oservice_estimates',
+        'slug'     => 'project_estimates',
         'name'     => _l('estimates'),
         'view'     => 'admin/LegalServices/other_services/oservice_estimates',
         'position' => 10,
@@ -129,15 +129,15 @@ function app_init_oservice_tabs()
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug'     => 'oservice_expenses',
-        'name'     => _l('oservice_expenses'),
+        'slug'     => 'project_expenses',
+        'name'     => _l('project_expenses'),
         'view'     => 'admin/LegalServices/other_services/oservice_expenses',
         'position' => 15,
         'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug'     => 'oservice_credit_notes',
+        'slug'     => 'project_credit_notes',
         'name'     => _l('credit_notes'),
         'view'     => 'admin/LegalServices/other_services/oservice_credit_notes',
         'position' => 20,
@@ -145,22 +145,22 @@ function app_init_oservice_tabs()
     ]);
 
     $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug'     => 'oservice_subscriptions',
+        'slug'     => 'project_subscriptions',
         'name'     => _l('subscriptions'),
         'view'     => 'admin/LegalServices/other_services/oservice_subscriptions',
         'position' => 25,
         'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_notes', [
-        'name'     => _l('oservice_notes'),
+    $CI->app_tabs->add_oservice_tab('project_notes', [
+        'name'     => _l('project_notes'),
         'icon'     => 'fa fa-file-o',
         'view'     => 'admin/LegalServices/other_services/oservice_notes',
         'position' => 50,
     ]);
 
-    $CI->app_tabs->add_oservice_tab('oservice_activity', [
-        'name'                      => _l('oservice_activity'),
+    $CI->app_tabs->add_oservice_tab('project_activity', [
+        'name'                      => _l('project_activity'),
         'icon'                      => 'fa fa-exclamation',
         'view'                      => 'admin/LegalServices/other_services/oservice_activity',
         'position'                  => 55,

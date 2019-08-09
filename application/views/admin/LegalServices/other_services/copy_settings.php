@@ -2,7 +2,7 @@
 <!-- Copy Project -->
 <div class="modal fade" id="copy_project" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/Other_services_controller/copy/'.(isset($project) ? $project->id : '')),array('id'=>'copy_form','data-copy-url'=>admin_url('LegalServices/Other_services_controller/copy/'))); ?>
+        <?php echo form_open(admin_url('LegalServices/Other_services_controller/copy/'.$ServID.'/'.(isset($project) ? $project->id : '')),array('id'=>'copy_form','data-copy-url'=>admin_url('LegalServices/Other_services_controller/copy/'))); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

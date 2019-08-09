@@ -290,10 +290,10 @@
          <span class="caret"></span>
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuprojectLoggedTime">
-         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=oservice_overview&overview_chart=this_week'); ?>"><?php echo _l('this_week'); ?></a></li>
-         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=oservice_overview&overview_chart=last_week'); ?>"><?php echo _l('last_week'); ?></a></li>
-         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=oservice_overview&overview_chart=this_month'); ?>"><?php echo _l('this_month'); ?></a></li>
-         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=oservice_overview&overview_chart=last_month'); ?>"><?php echo _l('last_month'); ?></a></li>
+         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=project_overview&overview_chart=this_week'); ?>"><?php echo _l('this_week'); ?></a></li>
+         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=project_overview&overview_chart=last_week'); ?>"><?php echo _l('last_week'); ?></a></li>
+         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=project_overview&overview_chart=this_month'); ?>"><?php echo _l('this_month'); ?></a></li>
+         <li><a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$oservice->id.'?group=project_overview&overview_chart=last_month'); ?>"><?php echo _l('last_month'); ?></a></li>
       </ul>
    </div>
    <div class="clearfix"></div>

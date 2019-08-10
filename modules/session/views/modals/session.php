@@ -46,8 +46,8 @@
                             
                             </div>
                           </div>
-
-                          <div class="form-group" app-field-wrapper="date">
+                          <div class="row">
+                          <div class="form-group col-md-6" app-field-wrapper="date">
                             <label for="date" class="control-label">Date</label>
                             <div class="input-group date">
                               <input type="text" id="date" name="date" class="form-control datepicker" value="<?php echo '20' . date('y') . '-' . date('m') . '-' . date('d'); ?>" autocomplete="off" aria-invalid="false">
@@ -56,6 +56,12 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="col-md-6">
+                            <label for="ammount" class="col-form-label">Time</label>
+                            <input type="time" class="form-control" value="" name="time">
+                          </div>
+                        </div>
                     </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -115,15 +121,22 @@
                             </div>
                           </div>
 
-                          <div class="form-group" app-field-wrapper="date">
+                          <div class="row">
+                          <div class="form-group col-md-6" app-field-wrapper="date">
                             <label for="date" class="control-label">Date</label>
                             <div class="input-group date">
-                              <input type="text" id="date" name="date" class="form-control datepicker" value="2019-05-23" autocomplete="off" aria-invalid="false">
+                              <input type="text" id="date" name="date" class="form-control datepicker" value="<?php echo '20' . date('y') . '-' . date('m') . '-' . date('d'); ?>" autocomplete="off" aria-invalid="false">
                               <div class="input-group-addon">
                                 <i class="fa fa-calendar calendar-icon"></i>
                               </div>
                             </div>
                           </div>
+
+                          <div class="col-md-6">
+                            <label for="ammount" class="col-form-label">Time</label>
+                            <input type="time" class="form-control" value="" name="time">
+                            </div>
+                        </div>
                     </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

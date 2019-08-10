@@ -11,14 +11,15 @@ if (!$CI->db->table_exists(db_prefix() . 'my_service_session')) {
     `court_id` int(11) NOT NULL,
     `judge_id` int(11) NOT NULL,
     `date` date NOT NULL,
+    `time` time NOT NULL,
     `details` text NOT NULL,
     `next_action` text NOT NULL,
-    `next_date` date NOT NULL,
     `report` varchar(250) NOT NULL,
     `status` int(11) NOT NULL,
     `result` int(11) NOT NULL,
     `staff` int(11) NOT NULL,
-    `deleted` tinyint(4) NOT NULL
+    `deleted` tinyint(4) NOT NULL,
+    `created` timestamp NOT NULL
 
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }

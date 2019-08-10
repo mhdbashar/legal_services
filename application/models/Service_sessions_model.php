@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Case_session_model extends App_Model
+class Service_sessions_model extends App_Model
 {
     public function __construct()
     {

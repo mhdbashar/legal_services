@@ -7,18 +7,18 @@
 <?php
    $data_expenses_filter['total_unbilled'] = $this->db->query('SELECT count(*) as num_rows FROM '.db_prefix().'expenses WHERE (SELECT 1 from '.db_prefix().'invoices WHERE '.db_prefix().'invoices.id = '.db_prefix().'expenses.invoiceid AND status != 2)')->row()->num_rows;
    $data_expenses_filter['categories'] = $expense_categories;
-   $data_expenses_filter['filter_table_name'] = '.table-oservices-expenses';
+   $data_expenses_filter['filter_table_name'] = '.table-case-expenses';
    $data_expenses_filter['years'] = $this->expenses_model->get_expenses_years();
    $this->load->view('admin/expenses/filter_by_template',$data_expenses_filter); ?>
 <div class="clearfix"></div>
 <?php
    echo form_hidden('custom_view');
-   $this->load->view('admin/expenses/table_html_oservice', array('class'=>'oservice-expenses'));
+   $this->load->view('admin/expenses/table_html_case', array('class'=>'case-expenses'));
    ?>
 <div class="modal fade" id="new_project_expense" tabindex="-1" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
-         <?php echo form_open(admin_url('LegalServices/Other_services_controller/add_expense/'.$ServID),array('id'=>'project-expense-form','class'=>'dropzone dropzone-manual')); ?>
+         <?php echo form_open(admin_url('LegalServices/Cases_controller/add_expense/'.$ServID.'/'.$project->id),array('id'=>'project-expense-form','class'=>'dropzone dropzone-manual')); ?>
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title"><?php echo _l('add_new', _l('expense_lowercase')); ?></h4>
@@ -64,10 +64,10 @@
             <?php
                $customer_expense_data = array();
                $_customer_expense_data = array();
-               $_customer_expense_data['userid'] = $oservice->client_data->userid;
-               $_customer_expense_data['company'] = $oservice->client_data->company;
+               $_customer_expense_data['userid'] = $project->client_data->userid;
+               $_customer_expense_data['company'] = $project->client_data->company;
                $customer_expense_data[] = $_customer_expense_data;
-               echo render_select('clientid',$customer_expense_data,array('userid','company'),'expense_add_edit_customer',$oservice->clientid); ?>
+               echo render_select('clientid',$customer_expense_data,array('userid','company'),'expense_add_edit_customer',$project->clientid); ?>
             <div class="checkbox checkbox-primary">
                <input type="checkbox" id="billable" name="billable" checked>
                <label for="billable"><?php echo _l('expense_add_edit_billable'); ?></label>
@@ -88,10 +88,8 @@
             <?php echo render_select('paymentmode',$expenses_modes,array('id','name'),'payment_mode',$selected); ?>
             <div class="clearfix mbot15"></div>
             <?php echo render_custom_fields('expenses'); ?>
-			<?php echo form_hidden('rel_id',$oservice->id); ?>
-			<?php echo form_hidden('rel_type',$service->slug); ?>
-            <?php echo form_hidden('project_id',''); ?>
-            <?php echo form_hidden('clientid',$oservice->clientid); ?>
+            <?php echo form_hidden('project_id',$project->id); ?>
+            <?php echo form_hidden('clientid',$project->clientid); ?>
             <div class="clearfix"></div>
          </div>
          <div class="modal-footer">

@@ -1,67 +1,67 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <!-- Copy Project -->
-<div class="modal fade" id="pre_invoice_oservice_settings" tabindex="-1" role="dialog">
+<div class="modal fade" id="pre_invoice_project_settings" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
-                    <?php echo _l('invoice_oservice_info'); ?>
+                    <?php echo _l('invoice_project_info'); ?>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <?php
-                        $this->load->model('LegalServices/Other_services_model', 'other');
+                        $this->load->model('LegalServices/Cases_model', 'case');
                         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-                        if(!$this->other->timers_started_for_oservice($slug, $oservice_id,array('billable'=>1,'billed'=>0,'startdate <='=>date('Y-m-d')))){ ?>
+                        if(!$this->case->timers_started_for_project($slug, $project_id,array('billable'=>1,'billed'=>0,'startdate <='=>date('Y-m-d')))){ ?>
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="radio radio-primary">
                                     <input type="radio" <?php if($billing_type == 3){echo 'disabled';}else{echo 'checked';}?> name="invoice_data_type" value="single_line" id="single_line">
-                                    <label for="single_line"><?php echo _l('invoice_oservice_data_single_line'); ?> <?php if($billing_type == 1){echo ' [ '._l('oservice_billing_type_fixed_cost').' ]';} ?></label>
+                                    <label for="single_line"><?php echo _l('invoice_project_data_single_line'); ?> <?php if($billing_type == 1){echo ' [ '._l('project_billing_type_fixed_cost').' ]';} ?></label>
                                 </div>
                             </div>
                             <div class="col-md-2 mtop10 text-right">
-                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_oservice_item_name_data'); ?>:</b> <?php echo _l('invoice_project_project_name_data'); ?><br /><b><?php echo _l('invoice_oservice_description_data'); ?>:</b> <?php echo _l('invoice_oservice_all_tasks_total_logged_time'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
+                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_project_item_name_data'); ?>:</b> <?php echo _l('invoice_project_project_name_data'); ?><br /><b><?php echo _l('invoice_project_description_data'); ?>:</b> <?php echo _l('invoice_project_all_tasks_total_logged_time'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
                             </div>
                             <div class="col-md-10">
                                 <div class="radio radio-primary">
                                     <input type="radio" name="invoice_data_type" <?php if($billing_type == 3){echo 'checked';} if($billing_type == 1){echo 'disabled';} ?>  value="task_per_item" id="task_per_item">
-                                    <label for="task_per_item"><?php echo _l('invoice_oservice_data_task_per_item'); ?></label>
+                                    <label for="task_per_item"><?php echo _l('invoice_project_data_task_per_item'); ?></label>
                                 </div>
                             </div>
                             <div class="col-md-2 mtop10 text-right">
-                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_oservice_item_name_data'); ?>:</b> <?php echo _l('invoice_oservice_projectname_taskname'); ?><br /><b><?php echo _l('invoice_oservice_description_data'); ?>:</b> <?php echo _l('invoice_oservice_total_logged_time_data'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
+                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_project_item_name_data'); ?>:</b> <?php echo _l('invoice_project_projectname_taskname'); ?><br /><b><?php echo _l('invoice_project_description_data'); ?>:</b> <?php echo _l('invoice_project_total_logged_time_data'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
                             </div>
                             <div class="col-md-10">
                                 <div class="radio radio-primary">
                                     <input type="radio" name="invoice_data_type" <?php if($billing_type == 1){echo 'disabled';} ?> value="timesheets_individualy" id="timesheets_individualy">
-                                    <label for="timesheets_individualy"><?php echo _l('invoice_oservice_data_timesheets_individually'); ?></label>
+                                    <label for="timesheets_individualy"><?php echo _l('invoice_project_data_timesheets_individually'); ?></label>
                                 </div>
                                 <div id="timesheets_bill_include_notes" class="hide">
                                     <div class="checkbox checkbox-primary">
                                         <input type="checkbox" name="timesheets_include_notes" value="timesheets_include_notes" id="timesheets_include_notes">
-                                        <label for="timesheets_include_notes"><?php echo _l('invoice_oservice_include_timesheets_notes'); ?></label>
+                                        <label for="timesheets_include_notes"><?php echo _l('invoice_project_include_timesheets_notes'); ?></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-2 mtop10 text-right">
-                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_oservice_item_name_data'); ?>:</b> <?php echo _l('invoice_oservice_projectname_taskname'); ?><br /><b><?php echo _l('invoice_project_description_data'); ?>:</b> <?php echo _l('invoice_project_timesheet_individually_data'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
+                                <a href="#" class="text-muted" data-toggle="popover" data-placement="bottom" data-content="<b><?php echo _l('invoice_project_item_name_data'); ?>:</b> <?php echo _l('invoice_project_projectname_taskname'); ?><br /><b><?php echo _l('invoice_project_description_data'); ?>:</b> <?php echo _l('invoice_project_timesheet_individually_data'); ?>" data-html="true"><i class="fa fa-question-circle"></i></a>
                             </div>
                         </div>
 
                         <?php if(count($billable_tasks) == 0 && count($not_billable_tasks) == 0 && count($expenses) == 0){ ?>
-                        <p class="text-danger mtop15"><?php echo _l('invoice_oservice_nothing_to_bill'); ?></p>
+                        <p class="text-danger mtop15"><?php echo _l('invoice_project_nothing_to_bill'); ?></p>
                         <?php } else { ?>
                         <hr />
-                        <a href="#" onclick="slideToggle('#pre_invoice_oservice_tasks'); return false;"><b class="label label-info font-medium-xs inline-block"><?php echo _l('invoice_oservice_see_billed_tasks'); ?></b></a>
+                        <a href="#" onclick="slideToggle('#pre_invoice_project_tasks'); return false;"><b class="label label-info font-medium-xs inline-block"><?php echo _l('invoice_project_see_billed_tasks'); ?></b></a>
 
-                        <div style="display:none;" id="pre_invoice_oservice_tasks">
+                        <div style="display:none;" id="pre_invoice_project_tasks">
                             <div class="checkbox mtop15">
-                                <input type="checkbox" id="oservice_invoice_select_all_tasks" class="invoice_select_all_tasks">
-                                <label for="oservice_invoice_select_all_tasks"><?php echo _l('oservice_invoice_select_all_tasks'); ?></label>
+                                <input type="checkbox" id="project_invoice_select_all_tasks" class="invoice_select_all_tasks">
+                                <label for="project_invoice_select_all_tasks"><?php echo _l('project_invoice_select_all_tasks'); ?></label>
                             </div>
                             <hr />
                             <div id="tasks_who_will_be_billed">
@@ -69,17 +69,17 @@
                                 if($task['status'] != Tasks_model::STATUS_COMPLETE){ $not_finished_tasks_found = true; } ?>
                                 <div class="checkbox checkbox-primary mbot15">
                                     <input type="checkbox" name="tasks[]" value="<?php echo $task['id']; ?>" <?php if($task['status'] == Tasks_model::STATUS_COMPLETE){echo 'checked ';} ?>id="<?php echo $task['id']; ?>">
-                                    <label class="inline-block full-width" for="<?php echo $task['id']; ?>"><?php echo $task['name']; ?> <?php if(total_rows(db_prefix().'taskstimers',array('task_id'=>$task['id'])) == 0 && $billing_type != 1){echo '<small class="text-danger">'._l('oservice_invoice_task_no_timers_found').'</small>';}; ?><small class="pull-right valign"><?php echo format_task_status($task['status']); ?></small></label>
+                                    <label class="inline-block full-width" for="<?php echo $task['id']; ?>"><?php echo $task['name']; ?> <?php if(total_rows(db_prefix().'taskstimers',array('task_id'=>$task['id'])) == 0 && $billing_type != 1){echo '<small class="text-danger">'._l('project_invoice_task_no_timers_found').'</small>';}; ?><small class="pull-right valign"><?php echo format_task_status($task['status']); ?></small></label>
                                 </div>
                                 <?php } ?>
                                 </div>
                                 <?php if(count($not_billable_tasks) > 0){ ?>
                                 <hr />
-                                <p class="text-warning mtop10"><?php echo _l('invoice_oservice_start_date_tasks_not_passed'); ?></p>
+                                <p class="text-warning mtop10"><?php echo _l('invoice_project_start_date_tasks_not_passed'); ?></p>
                                 <?php foreach($not_billable_tasks as $task){ ?>
                                 <div class="checkbox checkbox-primary mbot15">
                                     <input type="checkbox" name="tasks[]" disabled  value="<?php echo $task['id']; ?>" id="<?php echo $task['id']; ?>">
-                                    <label for="<?php echo $task['id']; ?>"><?php echo $task['name']; ?> <small><?php echo _l('invoice_oservice_tasks_not_started',_d($task['startdate'])); ?></small></label>
+                                    <label for="<?php echo $task['id']; ?>"><?php echo $task['name']; ?> <small><?php echo _l('invoice_project_tasks_not_started',_d($task['startdate'])); ?></small></label>
                                 </div>
                                 <?php } ?>
                                 <?php } ?>
@@ -88,13 +88,13 @@
                             if(count($expenses) > 0){ ?>
                             <hr />
                             <a href="#" onclick="slideToggle('#expenses_who_will_be_billed'); return false;"><span class="label label-info font-medium-xs inline-block">
-                             <?php echo _l('invoice_oservice_see_billed_expenses'); ?>
+                             <?php echo _l('invoice_project_see_billed_expenses'); ?>
                          </span></a>
                          <div style="display:none;" id="expenses_who_will_be_billed">
 
                           <div class="checkbox mtop20">
-                            <input type="checkbox" id="oservice_invoice_select_all_expenses" class="invoice_select_all_expenses">
-                            <label for="oservice_invoice_select_all_expenses"><?php echo _l('oservice_invoice_select_all_expenses'); ?></label>
+                            <input type="checkbox" id="project_invoice_select_all_expenses" class="invoice_select_all_expenses">
+                            <label for="project_invoice_select_all_expenses"><?php echo _l('project_invoice_select_all_expenses'); ?></label>
                         </div>
                         <hr />
                         <?php
@@ -147,19 +147,19 @@
                     <?php } ?>
                     <?php if(isset($not_finished_tasks_found)){ ?>
                     <hr />
-                    <p class="text-danger"><?php echo _l('invoice_oservice_all_billable_tasks_marked_as_finished'); ?></p>
+                    <p class="text-danger"><?php echo _l('invoice_project_all_billable_tasks_marked_as_finished'); ?></p>
                     <?php } ?>
                     <?php } ?>
                     <?php } else { $timers_started = true; ?>
                     <p class="text-danger text-center">
-                        <?php echo _l('oservice_invoice_timers_started'); ?>
+                        <?php echo _l('project_invoice_timers_started'); ?>
                     </p>
                     <hr />
                     <div class="col-md-6 text-center">
-                        <a href="#" onclick="mass_stop_timers(true);return false;" class="btn btn-default"><?php echo _l('invoice_oservice_stop_billable_timers_only'); ?></a>
+                        <a href="#" onclick="mass_stop_timers(true);return false;" class="btn btn-default"><?php echo _l('invoice_project_stop_billable_timers_only'); ?></a>
                     </div>
                     <div class="col-md-6 text-center">
-                        <a href="#" onclick="mass_stop_timers(false);return false;" class="btn btn-danger"><?php echo _l('invoice_oservice_stop_all_timers'); ?></a>
+                        <a href="#" onclick="mass_stop_timers(false);return false;" class="btn btn-danger"><?php echo _l('invoice_project_stop_all_timers'); ?></a>
                     </div>
                     <?php } ?>
                 </div>
@@ -168,7 +168,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
             <?php if(!isset($timers_started)){ ?>
-            <button type="submit" class="btn btn-info" onclick="invoice_oservice(<?php echo $ServID; ?>, <?php echo $oservice_id; ?>)"><?php echo _l('invoice_oservice'); ?></button>
+            <button type="submit" class="btn btn-info" onclick="invoice_project(<?php echo $ServID; ?>, <?php echo $project_id; ?>)"><?php echo _l('invoice_project'); ?></button>
             <?php } ?>
         </div>
     </div>

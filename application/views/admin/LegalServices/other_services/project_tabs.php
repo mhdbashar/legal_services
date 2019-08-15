@@ -5,7 +5,7 @@
   <div class="horizontal-tabs">
     <ul class="nav nav-tabs no-margin project-tabs nav-tabs-horizontal" role="tablist">
         <?php
-        foreach(filter_case_visible_tabs($tabs, $project->settings->available_features) as $key => $tab){
+            foreach(filter_oservice_visible_tabs($tabs, $project->settings->available_features) as $key => $tab){
             $dropdown = isset($tab['collapse']) ? true : false;
             ?>
             <li class="<?php if($key == 'project_overview' && !$this->input->get('group')){echo 'active ';} ?>project_tab_<?php echo $key; ?><?php if($dropdown){echo ' nav-tabs-submenu-parent';} ?>">
@@ -19,7 +19,7 @@
                     class="dropdown-toggle"
                     href="#"
                     id="dropdown_<?php echo $key; ?>"<?php } else { ?>
-                    href="<?php echo admin_url('Case/view/'.$ServID.'/'.$project->id.'?group='.$key); ?>"
+                    href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$project->id.'?group='.$key); ?>"
                     <?php } ?>>
                     <i class="<?php echo $tab['icon']; ?>" aria-hidden="true"></i>
                     <?php echo $tab['name']; ?>
@@ -32,7 +32,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdown_<?php echo $key; ?>">
                             <?php
                             foreach($tab['children'] as $d){
-                                echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('Case/view/'.$ServID.'/'.$project->id.'?group='.$d['slug']).'" data-group="'.$d['slug'].'">'.$d['name'].'</a></li>';
+                                echo '<li class="nav-tabs-submenu-child"><a href="'.admin_url('SOther/view/'.$ServID.'/'.$project->id.'?group='.$d['slug']).'" data-group="'.$d['slug'].'">'.$d['name'].'</a></li>';
                             }
                             ?>
                         </ul>

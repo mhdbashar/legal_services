@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade invoice-project" id="invoice-project-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade invoice-oservice" id="invoice-oservice-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-xxl" role="document">
-        <?php echo form_open('admin/LegalServices/Cases_controller/invoice_project/'.$ServID .'/' .$project->id,array('id'=>'invoice_project_form','class'=>'_transaction_form invoice-form')); ?>
+        <?php echo form_open('admin/LegalServices/Other_services_controller/invoice_oservice/'.$ServID .'/' .$oservice->id,array('id'=>'invoice_oservice_form','class'=>'_transaction_form invoice-form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo _l('invoice_project'); ?></span>
+                    <span class="edit-title"><?php echo _l('invoice_oservice'); ?></span>
                 </h4>
             </div>
             <div class="modal-body">
@@ -21,7 +21,7 @@
                     <?php echo _l('save_as_draft'); ?>
                 </button>
                 <button class="btn btn-info invoice-form-submit save-and-send transaction-submit">
-                      <?php echo _l('save_and_send'); ?>
+                    <?php echo _l('save_and_send'); ?>
                 </button>
                 <button class="btn btn-info invoice-form-submit transaction-submit">
                     <?php echo _l('submit'); ?>
@@ -41,8 +41,8 @@
     init_datepicker();
     init_color_pickers();
     init_items_sortable();
-    validate_invoice_form('#invoice_project_form');
-    $('#invoice-project-modal #clientid').change();
+    validate_invoice_form('#invoice_oservice_form');
+    $('#invoice-oservice-modal #clientid').change();
     $('input[name="show_quantity_as"]:checked').change();
     calculate_total();
 

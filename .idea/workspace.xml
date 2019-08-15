@@ -2,19 +2,59 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_milestone_kanban_card.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestones_kan_ban.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussions.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_notes.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_subscriptions.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tabs.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tasks.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tickets.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/oservices_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/oservices_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/App_tags.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/App_tags.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_file.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_file.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/invoice_oservice.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/invoice_project.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_overview.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_tabs.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_activity.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_activity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_credit_notes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_credit_notes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_discussion.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_discussions.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_estimates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_estimates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_expenses.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_files.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_gantt.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_gantt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_invoices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_milestones.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_milestones.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_notes.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_pre_invoice_settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_pre_invoice_settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_subscriptions.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_tasks.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_tickets.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_timesheets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_timesheets.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/pinned.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/pinned.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/includes/my_aside.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/includes/my_aside.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/timesheet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/main.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/main.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/oservices.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/oservices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/plugins/elFinder/js/elfinder.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/plugins/elFinder/js/elfinder.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/plugins/form-builder/form-render.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/plugins/form-builder/form-render.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/plugins/tinymce/plugins/visualblocks/plugin.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/plugins/tinymce/plugins/visualblocks/plugin.min.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,10 +68,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="24190">
+              <caret line="1747" column="62" selection-start-line="1747" selection-start-column="45" selection-end-line="1747" selection-end-column="62" />
+              <folding>
+                <element signature="n#add_discussion_comment#0;n#Other_services_model#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="397" column="27" selection-start-line="397" selection-start-column="20" selection-end-line="397" selection-end-column="27" />
+            <state relative-caret-position="330">
+              <caret line="208" lean-forward="true" selection-start-line="208" selection-end-line="208" />
             </state>
           </provider>
         </entry>
@@ -39,65 +91,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="416" column="41" selection-start-line="416" selection-start-column="41" selection-end-line="416" selection-end-column="41" />
+            <state relative-caret-position="51">
+              <caret line="60" column="9" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
               <folding>
-                <element signature="n#add#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#768#913#0#PHP" />
-                <element signature="e#922#1292#0#PHP" />
-                <element signature="e#1135#1282#0#PHP" />
-                <element signature="e#1602#1911#0#PHP" />
-                <element signature="e#1977#2095#0#PHP" />
                 <element signature="n#delete#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#4412#4534#0#PHP" />
-                <element signature="e#4597#4755#0#PHP" />
-                <element signature="e#4681#4755#0#PHP" />
                 <element signature="n#table#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#4867#4952#0#PHP" />
-                <element signature="e#4903#4951#0#PHP" />
                 <element signature="n#staff_projects#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#expenses#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#5171#5288#0#PHP" />
-                <element signature="e#5215#5287#0#PHP" />
                 <element signature="n#add_expense#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#5372#6310#0#PHP" />
-                <element signature="e#5751#6108#0#PHP" />
-                <element signature="e#5862#6072#0#PHP" />
-                <element signature="e#5874#6071#1#PHP" />
-                <element signature="e#6126#6282#0#PHP" />
-                <element signature="e#6138#6281#1#PHP" />
                 <element signature="n#gantt#0;n#Cases_controller#0;n#!!top" />
-                <element signature="e#6692#7270#0#PHP" />
-                <element signature="e#6745#7260#0#PHP" />
-                <element signature="e#6974#7156#0#PHP" />
-                <element signature="e#7018#7142#0#PHP" />
-                <element signature="e#7157#7260#0#PHP" />
-                <element signature="e#7280#7377#0#PHP" />
-                <element signature="e#7445#7696#0#PHP" />
-                <element signature="e#7728#7866#0#PHP" />
-                <element signature="e#7769#7865#1#PHP" />
-                <element signature="e#8240#8323#0#PHP" />
-                <element signature="e#8705#8810#0#PHP" />
-                <element signature="e#8956#9018#0#PHP" />
-                <element signature="e#9563#9877#0#PHP" />
-                <element signature="e#10018#10673#0#PHP" />
-                <element signature="e#10411#10655#0#PHP" />
-                <element signature="e#11016#11861#0#PHP" />
-                <element signature="e#11070#11604#0#PHP" />
-                <element signature="e#11625#11843#0#PHP" />
-                <element signature="e#11962#12504#0#PHP" />
-                <element signature="e#12208#12486#0#PHP" />
-                <element signature="e#13899#14407#0#PHP" />
-                <element signature="e#14408#14815#0#PHP" />
                 <element signature="n#file#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#update_file_data#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#add_external_file#0;n#Cases_controller#0;n#!!top" />
-                <element signature="n#download_all_files#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#export_project_data#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#update_task_milestone#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#update_milestones_order#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#pin_action#0;n#Cases_controller#0;n#!!top" />
-                <element signature="n#add_edit_members#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#discussions#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#discussion#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#get_discussion_comments#0;n#Cases_controller#0;n#!!top" />
@@ -123,151 +132,9 @@
                 <element signature="n#save_note#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#copy#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#mass_stop_timers#0;n#Cases_controller#0;n#!!top" />
-                <element signature="n#get_pre_invoice_project_info#0;n#Cases_controller#0;n#!!top" />
-                <element signature="n#get_invoice_project_data#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#get_rel_project_data#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#invoice_project#0;n#Cases_controller#0;n#!!top" />
                 <element signature="n#view_project_as_client#0;n#Cases_controller#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="1679" column="59" selection-start-line="1679" selection-start-column="21" selection-end-line="1679" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Cases_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="533" column="64" selection-start-line="533" selection-start-column="27" selection-end-line="533" selection-end-column="64" />
-              <folding>
-                <element signature="n#get#0;n#Cases_model#0;n#!!top" />
-                <element signature="e#1234#5315#0#PHP" />
-                <element signature="e#1319#1571#0#PHP" />
-                <element signature="e#2549#5279#0#PHP" />
-                <element signature="e#3018#3571#0#PHP" />
-                <element signature="e#3080#3553#0#PHP" />
-                <element signature="e#3588#3932#0#PHP" />
-                <element signature="e#3634#3914#0#PHP" />
-                <element signature="e#3949#4765#0#PHP" />
-                <element signature="e#4029#4747#0#PHP" />
-                <element signature="e#4837#4968#0#PHP" />
-                <element signature="n#GetTopNumbering#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#GetClientsCases#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#GetMembersCases#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#GetJudgesCases#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#delete#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_edit_members#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_edit_judges#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_project_members#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_case_judges#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_project_statuses#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_distinct_tasks_timesheets_staff#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_distinct_projects_members#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_most_used_billing_type#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#timers_started_for_project#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#pin_action#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_currency#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#calc_progress#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#calc_progress_by_tasks#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_last_case_settings#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_settings#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#calculate_total_by_project_hourly_rate#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#calculate_total_by_task_hourly_rate#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_tasks#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#cancel_recurring_tasks#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#do_milestones_kanban_query#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_files#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_file#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_file_data#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#change_file_visibility#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#change_activity_visibility#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#remove_file#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_project_overview_weekly_chart_data#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_gantt_data#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_all_projects_gantt_data#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#calc_milestone_logged_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#total_logged_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_milestones#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_milestone#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_milestone#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_task_milestone#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_milestones_order#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_milestone_color#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#delete_milestone#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#send_project_customer_email#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_notify_project_members_status_change#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_mark_all_project_tasks_as_completed#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#is_member#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_projects_for_ticket#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_case_settings#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#remove_team_member#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_timesheets#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_discussion#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_discussion_comment#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_discussion_comments#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_discussions#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_discussion_comment#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#update_discussion_comment#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#delete_discussion_comment#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#delete_discussion_comment_attachment#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_discussion#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#edit_discussion#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#delete_discussion#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#copy#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_staff_notes#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#save_note#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#get_activity#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#log_activity#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#new_project_file_notification#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#add_external_file#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#send_project_email_template#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_get_project_billing_data#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#total_logged_time_by_billing_type#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#data_billable_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#data_billed_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#data_unbilled_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_delete_discussion_comments#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_get_data_total_logged_time#0;n#Cases_model#0;n#!!top" />
-                <element signature="n#_update_discussion_last_activity#0;n#Cases_model#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/helpers/oservices_helper.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="284" column="9" selection-start-line="284" selection-start-column="9" selection-end-line="284" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="74" column="158" selection-start-line="74" selection-start-column="136" selection-end-line="74" selection-end-column="158" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/js/oservices.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="517">
-              <caret line="648" column="73" selection-start-line="648" selection-start-column="66" selection-end-line="648" selection-end-column="73" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -277,41 +144,50 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>n add_project</find>
-      <find>city</find>
-      <find>coun</find>
-      <find>count</find>
-      <find>get_all_cities</find>
-      <find>countr</find>
-      <find>LegalServices/Other_services_controller/milestone/</find>
-      <find>calc_progress</find>
-      <find>n add</find>
-      <find>$group == '</find>
-      <find>status</find>
-      <find>_status</find>
-      <find>task-form</find>
-      <find>remove_team_member</find>
-      <find>cases/pin</find>
-      <find>view</find>
+      <find>project_overview</find>
+      <find>n add_edit_members</find>
+      <find>filter_case_visible_tabs</find>
+      <find>pin</find>
       <find>n view</find>
-      <find>n vi</find>
-      <find>rel_id</find>
+      <find>exit;</find>
+      <find>var</find>
+      <find>n ed</find>
+      <find>n upd</find>
       <find>oservice</find>
-      <find>copy_os</find>
-      <find>copy_</find>
-      <find>copy_project</find>
-      <find>rel_type</find>
-      <find>copy</find>
-      <find>oservice_overview</find>
-      <find>get_oservice_statuses</find>
-      <find>confirm_oservice_status_change</find>
-      <find>mark_as</find>
-      <find>_notify_project_members_status_change</find>
+      <find>n edit</find>
+      <find>var_d</find>
+      <find>n add(</find>
+      <find>get_oservice</find>
+      <find>get_project_statuses</find>
+      <find>calc_progress</find>
+      <find>case_has_recurring_tasks</find>
+      <find>get_case_countries</find>
+      <find>customer_id</find>
+      <find>n edi</find>
+      <find>new_project_file_notification</find>
+      <find>project</find>
+      <find>rel-tasks_case</find>
+      <find>slug_tasks_</find>
+      <find>init_rel_tasks_case_table</find>
+      <find>get_last_case_settings</find>
+      <find>init_rel_tasks_oservice_table</find>
+      <find>proje</find>
+      <find>project_tasks</find>
+      <find>get_last_project_settings</find>
     </findStrings>
     <replaceStrings>
       <replace>get_case_settings</replace>
       <replace>rel_stype</replace>
       <replace>rel_sid</replace>
+      <replace>Other_services_controller</replace>
+      <replace>oservice_</replace>
+      <replace>oservice</replace>
+      <replace>oservicediscussions</replace>
+      <replace>my_other_services</replace>
+      <replace>case_files</replace>
+      <replace>oservice_files</replace>
+      <replace>oservicediscussioncomments</replace>
+      <replace>pinned_oservices</replace>
       <replace>project</replace>
     </replaceStrings>
   </component>
@@ -321,57 +197,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/views/admin/tables/cases.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/milestones_case.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/credit_notes_case.php" />
-        <option value="$PROJECT_DIR$/application/helpers/invoices_helper.php" />
-        <option value="$PROJECT_DIR$/application/helpers/credit_notes_helper.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/case_session_model.php" />
-        <option value="$PROJECT_DIR$/modules/session/controllers/Service_sessions.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/tickets_case.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tickets/summary_case.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/invoices_case.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/invoice_project.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_invoices.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/invoices/invoices_top_stats_case.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/subscriptions_case.php" />
-        <option value="$PROJECT_DIR$/application/libraries/pdf/Case_data_pdf.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/export_data_pdf.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/milestone.php" />
-        <option value="$PROJECT_DIR$/application/helpers/cases_helper.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/case_movement_model.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/other_services_controller.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/other_services_model.php" />
-        <option value="$PROJECT_DIR$/../law/application/libraries/App_tabs.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Case_movement_controller.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Case_session_controller.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" />
         <option value="$PROJECT_DIR$/application/helpers/relation_helper.php" />
-        <option value="$PROJECT_DIR$/application/libraries/App_tabs.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" />
         <option value="$PROJECT_DIR$/application/config/app-config.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_tabs.php" />
-        <option value="$PROJECT_DIR$/application/helpers/oservices_helper.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php" />
         <option value="$PROJECT_DIR$/application/views/admin/includes/aside.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/pinned.php" />
         <option value="$PROJECT_DIR$/application/views/admin/includes/my_aside.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/pinned.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php" />
+        <option value="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" />
+        <option value="$PROJECT_DIR$/application/libraries/App_tabs.php" />
+        <option value="$PROJECT_DIR$/application/config/constants.php" />
+        <option value="$PROJECT_DIR$/application/helpers/cases_helper.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/view.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" />
+        <option value="$PROJECT_DIR$/application/libraries/App_tags.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tabs.php" />
+        <option value="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" />
+        <option value="$PROJECT_DIR$/../law/application/controllers/admin/LegalServices/Other_services_controller.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" />
         <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tasks.php" />
+        <option value="$PROJECT_DIR$/application/helpers/oservices_helper.php" />
+        <option value="$PROJECT_DIR$/assets/js/cases_main.js" />
+        <option value="$PROJECT_DIR$/assets/js/oservices.js" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/tasks_relations.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/pinned.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_file.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/invoice_project.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_activity.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussion.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussions.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_expenses.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_files.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_gantt.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_milestones.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_milestones.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_notes.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_pre_invoice_settings.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tickets.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_timesheets.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/timesheet.php" />
       </list>
     </option>
   </component>
@@ -445,6 +321,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -474,20 +351,6 @@
               <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
               <item name="legal_services" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="LegalServices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -509,14 +372,6 @@
               <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
@@ -541,7 +396,7 @@
               <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
+              <item name="tables" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
@@ -558,16 +413,24 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services\old" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -601,21 +464,22 @@
       <workItem from="1565123775306" duration="12795000" />
       <workItem from="1565178825814" duration="774000" />
       <workItem from="1565295265589" duration="11233000" />
+      <workItem from="1565442478667" duration="35961000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66461000" />
+    <option name="totallyTimeSpent" value="102422000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1380" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25378788" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Grunt " order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -636,572 +500,384 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_invoices.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="5" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/export_data_pdf.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="106" column="173" selection-start-line="106" selection-start-column="173" selection-end-line="106" selection-end-column="173" />
-          <folding>
-            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/milestone.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="71" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/pdf/Case_data_pdf.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="84" column="68" selection-start-line="84" selection-start-column="65" selection-end-line="84" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../technolink/application/helpers/files_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10379" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/upload_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="996" selection-start-line="996" selection-end-line="1063" selection-end-column="1" />
-          <folding>
-            <element signature="n#get_upload_path_by_type#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/files_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="161" column="9" selection-start-line="161" selection-start-column="9" selection-end-line="161" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="25" column="147" selection-start-line="25" selection-start-column="147" selection-end-line="25" selection-end-column="147" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/constants.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="210" column="8" selection-start-line="210" selection-start-column="8" selection-end-line="210" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="15" column="97" selection-start-line="15" selection-start-column="97" selection-end-line="15" selection-end-column="97" />
-          <folding>
-            <element signature="e#1#7#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../law/application/controllers/admin/LegalServices/Other_services_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="33" column="20" selection-end-line="1128" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../law/application/helpers/oservices_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" lean-forward="true" selection-end-line="428" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../law/application/models/LegalServices/Other_services_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="294" column="19" selection-end-line="2994" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../law/application/config/constants.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="106" column="11" selection-start-line="106" selection-start-column="7" selection-end-line="106" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../law/application/libraries/App_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
-          <folding>
-            <element signature="n#__construct#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_customer_profile_tab#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_customer_profile_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_project_tab#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_case_tab#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_project_tab_children_item#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_case_tab_children_item#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_project_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_case_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_oservice_tab#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_oservice_tab_children_item#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_oservice_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_settings_tab#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_settings_tab_children_item#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_settings_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get2#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#add_child#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#get_child#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#filter_visible_tabs#0;n#App_tabs#0;n#!!top" />
-            <element signature="n#filter_tab#0;n#App_tabs#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/App_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="88" column="44" lean-forward="true" selection-start-line="88" selection-start-column="44" selection-end-line="88" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/admin_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="179" column="9" selection-start-line="179" selection-start-column="9" selection-end-line="179" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-561" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/app-config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-918" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/announcements/announcement.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="42" lean-forward="true" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5668">
-          <caret line="647" lean-forward="true" selection-start-line="647" selection-end-line="657" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="258" column="47" selection-start-line="258" selection-start-column="24" selection-end-line="258" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/relation_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="218" selection-start-line="218" selection-end-line="218" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1865">
-          <caret line="116" column="199" selection-start-line="116" selection-start-column="199" selection-end-line="116" selection-end-column="199" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2312">
-          <caret line="170" column="190" selection-start-line="170" selection-start-column="190" selection-end-line="170" selection-end-column="190" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="141" selection-start-line="25" selection-start-column="141" selection-end-line="25" selection-end-column="141" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12">
-          <caret line="18" column="43" lean-forward="true" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_tabs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/cases_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="180" column="49" selection-start-line="180" selection-start-column="33" selection-end-line="180" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/includes/aside.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1423">
-          <caret column="5" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/projects/pinned.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/includes/my_aside.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="109" column="65" selection-start-line="109" selection-start-column="65" selection-end-line="109" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/pinned.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="178" selection-start-line="6" selection-start-column="178" selection-end-line="6" selection-end-column="178" />
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/pinned.php">
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/tasks_relations.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Projects.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1863">
-          <caret line="170" column="22" selection-start-line="170" selection-start-column="18" selection-end-line="170" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/oservice_overview.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5015">
-          <caret line="295" column="108" selection-start-line="295" selection-start-column="108" selection-end-line="295" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="97" selection-start-line="4" selection-start-column="97" selection-end-line="4" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/copy_settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="85" selection-start-line="4" selection-start-column="78" selection-end-line="4" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/_mark_tasks_finished.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="32" column="109" selection-start-line="32" selection-start-column="109" selection-end-line="32" selection-end-column="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="61" column="81" selection-start-line="61" selection-start-column="69" selection-end-line="61" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="74" column="158" selection-start-line="74" selection-start-column="136" selection-end-line="74" selection-end-column="158" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="397" column="27" selection-start-line="397" selection-start-column="20" selection-end-line="397" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Courts_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="416" column="41" selection-start-line="416" selection-start-column="41" selection-end-line="416" selection-end-column="41" />
-          <folding>
-            <element signature="n#add#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#768#913#0#PHP" />
-            <element signature="e#922#1292#0#PHP" />
-            <element signature="e#1135#1282#0#PHP" />
-            <element signature="e#1602#1911#0#PHP" />
-            <element signature="e#1977#2095#0#PHP" />
-            <element signature="n#delete#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#4412#4534#0#PHP" />
-            <element signature="e#4597#4755#0#PHP" />
-            <element signature="e#4681#4755#0#PHP" />
-            <element signature="n#table#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#4867#4952#0#PHP" />
-            <element signature="e#4903#4951#0#PHP" />
-            <element signature="n#staff_projects#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#expenses#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#5171#5288#0#PHP" />
-            <element signature="e#5215#5287#0#PHP" />
-            <element signature="n#add_expense#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#5372#6310#0#PHP" />
-            <element signature="e#5751#6108#0#PHP" />
-            <element signature="e#5862#6072#0#PHP" />
-            <element signature="e#5874#6071#1#PHP" />
-            <element signature="e#6126#6282#0#PHP" />
-            <element signature="e#6138#6281#1#PHP" />
-            <element signature="n#gantt#0;n#Cases_controller#0;n#!!top" />
-            <element signature="e#6692#7270#0#PHP" />
-            <element signature="e#6745#7260#0#PHP" />
-            <element signature="e#6974#7156#0#PHP" />
-            <element signature="e#7018#7142#0#PHP" />
-            <element signature="e#7157#7260#0#PHP" />
-            <element signature="e#7280#7377#0#PHP" />
-            <element signature="e#7445#7696#0#PHP" />
-            <element signature="e#7728#7866#0#PHP" />
-            <element signature="e#7769#7865#1#PHP" />
-            <element signature="e#8240#8323#0#PHP" />
-            <element signature="e#8705#8810#0#PHP" />
-            <element signature="e#8956#9018#0#PHP" />
-            <element signature="e#9563#9877#0#PHP" />
-            <element signature="e#10018#10673#0#PHP" />
-            <element signature="e#10411#10655#0#PHP" />
-            <element signature="e#11016#11861#0#PHP" />
-            <element signature="e#11070#11604#0#PHP" />
-            <element signature="e#11625#11843#0#PHP" />
-            <element signature="e#11962#12504#0#PHP" />
-            <element signature="e#12208#12486#0#PHP" />
-            <element signature="e#13899#14407#0#PHP" />
-            <element signature="e#14408#14815#0#PHP" />
-            <element signature="n#file#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#update_file_data#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#add_external_file#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#download_all_files#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#export_project_data#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#update_task_milestone#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#update_milestones_order#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#pin_action#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#add_edit_members#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#discussions#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#discussion#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#get_discussion_comments#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#add_discussion_comment#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#update_discussion_comment#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#delete_discussion_comment#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#delete_discussion#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#change_milestone_color#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#upload_file#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#change_file_visibility#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#change_activity_visibility#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#remove_file#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#milestones_kanban#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#milestones_kanban_load_more#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#milestones#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#milestone#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#delete_milestone#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#bulk_action_files#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#timesheets#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#timesheet#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#timesheet_task_assignees#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#remove_team_member#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#save_note#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#copy#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#mass_stop_timers#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#get_pre_invoice_project_info#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#get_invoice_project_data#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#get_rel_project_data#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#invoice_project#0;n#Cases_controller#0;n#!!top" />
-            <element signature="n#view_project_as_client#0;n#Cases_controller#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/oservices.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="648" column="73" selection-start-line="648" selection-start-column="66" selection-end-line="648" selection-end-column="73" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Cases_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="533" column="64" selection-start-line="533" selection-start-column="27" selection-end-line="533" selection-end-column="64" />
-          <folding>
-            <element signature="n#get#0;n#Cases_model#0;n#!!top" />
-            <element signature="e#1234#5315#0#PHP" />
-            <element signature="e#1319#1571#0#PHP" />
-            <element signature="e#2549#5279#0#PHP" />
-            <element signature="e#3018#3571#0#PHP" />
-            <element signature="e#3080#3553#0#PHP" />
-            <element signature="e#3588#3932#0#PHP" />
-            <element signature="e#3634#3914#0#PHP" />
-            <element signature="e#3949#4765#0#PHP" />
-            <element signature="e#4029#4747#0#PHP" />
-            <element signature="e#4837#4968#0#PHP" />
-            <element signature="n#GetTopNumbering#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#GetClientsCases#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#GetMembersCases#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#GetJudgesCases#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#delete#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_edit_members#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_edit_judges#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_project_members#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_case_judges#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_project_statuses#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_distinct_tasks_timesheets_staff#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_distinct_projects_members#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_most_used_billing_type#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#timers_started_for_project#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#pin_action#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_currency#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#calc_progress#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#calc_progress_by_tasks#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_last_case_settings#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_settings#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#calculate_total_by_project_hourly_rate#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#calculate_total_by_task_hourly_rate#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_tasks#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#cancel_recurring_tasks#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#do_milestones_kanban_query#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_files#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_file#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_file_data#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#change_file_visibility#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#change_activity_visibility#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#remove_file#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_project_overview_weekly_chart_data#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_gantt_data#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_all_projects_gantt_data#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#calc_milestone_logged_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#total_logged_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_milestones#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_milestone#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_milestone#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_task_milestone#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_milestones_order#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_milestone_color#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#delete_milestone#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#send_project_customer_email#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_notify_project_members_status_change#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_mark_all_project_tasks_as_completed#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#is_member#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_projects_for_ticket#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_case_settings#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#remove_team_member#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_timesheets#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_discussion#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_discussion_comment#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_discussion_comments#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_discussions#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_discussion_comment#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#update_discussion_comment#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#delete_discussion_comment#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#delete_discussion_comment_attachment#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_discussion#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#edit_discussion#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#delete_discussion#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#copy#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_staff_notes#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#save_note#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#get_activity#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#log_activity#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#new_project_file_notification#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#add_external_file#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#send_project_email_template#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_get_project_billing_data#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#total_logged_time_by_billing_type#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#data_billable_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#data_billed_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#data_unbilled_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_delete_discussion_comments#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_get_data_total_logged_time#0;n#Cases_model#0;n#!!top" />
-            <element signature="n#_update_discussion_last_activity#0;n#Cases_model#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="-68">
+          <caret line="32" column="44" lean-forward="true" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/helpers/oservices_helper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="284" column="9" selection-start-line="284" selection-start-column="9" selection-end-line="284" selection-end-column="9" />
+        <state relative-caret-position="280">
+          <caret line="989" column="48" lean-forward="true" selection-start-line="989" selection-start-column="48" selection-end-line="989" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php">
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tasks.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="1679" column="59" selection-start-line="1679" selection-start-column="21" selection-end-line="1679" selection-end-column="59" />
+        <state relative-caret-position="136">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_file.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/_file.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="50" selection-end-line="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/_mark_tasks_finished.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" column="14" lean-forward="true" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/_mark_tasks_finished.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/copy_settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1851" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/copy_settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1173">
+          <caret line="12" column="36" lean-forward="true" selection-end-line="136" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/export_data_pdf.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="191" column="1" lean-forward="true" selection-end-line="300" />
+          <folding>
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="300" selection-start-line="300" selection-end-line="300" />
+          <folding>
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/gantt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="24" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/invoice_oservice.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="44" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/invoice_project.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/milestone.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestone.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_activity.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="19" lean-forward="true" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_activity.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_credit_notes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_credit_notes.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_discussion.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="32" lean-forward="true" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussion.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_discussions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="44" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_discussions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_estimates.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_expenses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1122">
+          <caret selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_expenses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="784">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_files.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="57" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_files.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_gantt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="17" lean-forward="true" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_gantt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_invoices.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_milestones.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="35" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_milestones.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_notes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" lean-forward="true" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_notes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_overview.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_pre_invoice_settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="180" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_pre_invoice_settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="180" selection-start-line="180" selection-end-line="180" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_subscriptions.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tabs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-102" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_tickets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" lean-forward="true" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tickets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_timesheets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="21" lean-forward="true" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_timesheets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/timesheet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="33" lean-forward="true" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/timesheet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/old/oservice_tabs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-355">
+          <caret selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="208" lean-forward="true" selection-start-line="208" selection-end-line="208" />
         </state>
       </provider>
     </entry>

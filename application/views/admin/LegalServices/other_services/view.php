@@ -24,19 +24,18 @@
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
                             </div>
                             <div class="col-md-5 text-right">
-                                <a href="<?php echo admin_url('LegalServices/case_movement_controller/edit/' .$ServID.'/'. $project->id); ?>" class="btn btn-info"><?php echo _l('NewCaseMovement'); ?></a>
                                 <?php if(has_permission('tasks','','create')){ ?>
                                     <a href="#" onclick="new_task_from_relation(undefined,'<?php echo $service->slug; ?>',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
                                 <?php } ?>
                                 <?php
-                                $invoice_func = 'pre_invoice_case';
+                                $invoice_func = 'pre_invoice_oservice';
                                 ?>
                                 <?php if(has_permission('invoices','','create')){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>, <?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
-                                if(total_rows(db_prefix().'pinned_cases',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
+                                if(total_rows(db_prefix().'pinned_oservices',array('staff_id'=>get_staff_user_id(),'oservice_id'=>$project->id)) > 0){
                                     $project_pin_tooltip = _l('unpin_project');
                                 }
                                 ?>
@@ -46,13 +45,13 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                                         <li>
-                                            <a href="<?php echo admin_url('LegalServices/Cases_controller/pin_action/'.$project->id); ?>">
+                                            <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
                                                 <?php echo $project_pin_tooltip; ?>
                                             </a>
                                         </li>
                                         <?php if(has_permission('projects','','edit')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('Case/edit/'.$ServID.'/'.$project->id); ?>">
+                                                <a href="<?php echo admin_url('SOther/edit/'.$ServID.'/'.$project->id); ?>">
                                                     <?php echo _l('edit_project'); ?>
                                                 </a>
                                             </li>
@@ -77,17 +76,17 @@
                                         <li class="divider"></li>
                                         <?php if(has_permission('projects','','create')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/export_project_data/'.$ServID.'/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/export_project_data/'.$ServID.'/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(is_admin()){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('Case/delete/'.$ServID.'/'.$project->id); ?>" class="_delete">
+                                                <a href="<?php echo admin_url('SOther/delete/'.$ServID.'/'.$project->id); ?>" class="_delete">
                                                     <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                                 </a>
                                             </li>
@@ -101,13 +100,13 @@
                 <div class="panel_s project-menu-panel">
                     <div class="panel-body">
                         <?php hooks()->do_action('before_render_project_view', $project->id); ?>
-                        <?php $this->load->view('admin/LegalServices/cases/project_tabs'); ?>
+                        <?php $this->load->view('admin/LegalServices/other_services/project_tabs'); ?>
                     </div>
                 </div>
                 <?php
                 if((has_permission('projects','','create') || has_permission('projects','','edit'))
                     && $project->status == 1
-                    && $case_model->timers_started_for_project($service->slug, $project->id)
+                    && $oservice_model->timers_started_for_project($service->slug, $project->id)
                     && $tab['slug'] != 'project_milestones') {
                     ?>
                     <div class="alert alert-warning project-no-started-timers-found mbot15">
@@ -134,7 +133,7 @@
                 <?php } ?>
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/LegalServices/cases/project_overview')); ?>
+                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/LegalServices/other_services/project_overview')); ?>
                     </div>
                 </div>
             </div>

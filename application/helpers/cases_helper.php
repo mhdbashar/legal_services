@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('admin_init', 'app_init_case_tabs');
 hooks()->add_action('app_admin_assets', '_maybe_init_admin_case_assets', 5);
+hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 
 function _maybe_init_admin_case_assets()
 {
@@ -19,7 +20,7 @@ function _maybe_init_admin_case_assets()
         $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
 }
-hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+
 function my_module_menu_item_collapsible()
 {
     $CI = &get_instance();
@@ -841,7 +842,7 @@ function handle_case_discussion_comment_attachments($discussion_id, $post_data, 
 
     if (isset($_FILES['file']['name'])) {
         hooks()->do_action('before_upload_project_discussion_comment_attachment');
-        $path = PROJECT_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id . '/';
+        $path = CASE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id . '/';
 
         // Check for all cases if this extension is allowed
         if (!_upload_extension_allowed($_FILES['file']['name'])) {

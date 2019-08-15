@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <a href="#" onclick="new_timesheet();return false;" class="btn btn-info mbot25"><?php echo _l('record_timesheet'); ?></a>
-<?php if(has_permission('projects','','create')){ ?>
+<?php  if(has_permission('oservices','','create')){ ?>
     <div class="_filters _hidden_inputs timesheets_filters hidden">
         <?php
         foreach($timesheets_staff_ids as $t_staff_id){
@@ -14,27 +14,29 @@
                 <i class="fa fa-filter" aria-hidden="true"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-right width300">
-             <?php foreach($timesheets_staff_ids as $t_staff_id){ ?>
-                 <li class="active">
-                    <a href="#" data-cview="staff_id_<?php echo $t_staff_id['staff_id']; ?>" onclick="dt_custom_view(<?php echo $t_staff_id['staff_id']; ?>,'.table-timesheets_case','staff_id_<?php echo $t_staff_id['staff_id']; ?>'); return false;"><?php echo get_staff_full_name($t_staff_id['staff_id']); ?>
-                </a>
-            </li>
-        <?php } ?>
-    </ul>
-</div>
+                <?php foreach($timesheets_staff_ids as $t_staff_id){ ?>
+                    <li class="active">
+                        <a href="#" data-cview="staff_id_<?php echo $t_staff_id['staff_id']; ?>" onclick="dt_custom_view(<?php echo $t_staff_id['staff_id']; ?>,'.table-timesheets','staff_id_<?php echo $t_staff_id['staff_id']; ?>'); return false;"><?php echo get_staff_full_name($t_staff_id['staff_id']); ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    <?php } ?>
 <?php } ?>
-<?php } ?>
+<?php echo form_hidden('oservice_id',$oservice->id); ?>
+<?php echo form_hidden('service_id',$service->id); ?>
+<?php echo form_hidden('service_slug',$service->slug); ?>
 <?php $table_data = array(
-    _l('project_timesheet_user'),
-    _l('project_timesheet_task'),
+    _l('oservice_timesheet_user'),
+    _l('oservice_timesheet_task'),
     _l('timesheet_tags'),
-    _l('project_timesheet_start_time'),
-    _l('project_timesheet_end_time'),
+    _l('oservice_timesheet_start_time'),
+    _l('oservice_timesheet_end_time'),
     _l('note'),
     _l('time_h'),
     _l('time_decimal'));
-$table_data = hooks()->apply_filters('projects_timesheets_table_columns', $table_data);
-$table_attributes['data-new-rel-slug'] = $service->slug;
+$table_data = hooks()->apply_filters('oservices_timesheets_table_columns', $table_data);
 array_push($table_data,_l('options'));
-render_datatable($table_data,'timesheets_case', [] ,$table_attributes); ?>
-<?php $this->load->view('admin/LegalServices/cases/timesheet'); ?>
+render_datatable($table_data,'timesheets'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/timesheet'); ?>

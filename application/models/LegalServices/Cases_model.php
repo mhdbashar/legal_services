@@ -2196,7 +2196,7 @@ class Cases_model extends App_Model
 
     public function delete_discussion_comment_attachment($file_name, $discussion_id)
     {
-        $path = CASE_ATTACHMENTS_FOLDER . $discussion_id;
+        $path = CASE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id;
         if (!is_null($file_name)) {
             if (file_exists($path . '/' . $file_name)) {
                 unlink($path . '/' . $file_name);

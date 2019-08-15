@@ -152,34 +152,6 @@
             <td class="bold"><?php echo _l('SubCategories'); ?></td>
             <td><?php echo $project->subcat; ?></td>
         </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('Court'); ?></td>
-            <td><?php echo $project->court_name; ?></td>
-        </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('Judicial'); ?></td>
-            <td><?php echo $project->Jud_number; ?></td>
-        </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('judge'); ?></td>
-            <td>
-                <?php foreach($judges_case as $judge): ?>
-                    <?php echo $judge->name.',  '; ?>
-                <?php endforeach; ?>
-            </td>
-        </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('case_status'); ?></td>
-            <td><?php echo $project->StatusCase; ?></td>
-        </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('ResultCase'); ?></td>
-            <td><?php echo $project->case_result; ?></td>
-        </tr>
-        <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('customer_description'); ?></td>
-            <td><?php echo $project->Representative; ?></td>
-        </tr>
         </tbody>
     </table>
 </div>
@@ -226,7 +198,7 @@
       </div>
       <div class="media-body">
          <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
-         <a href="<?php echo admin_url('LegalServices/Cases_controller/remove_team_member/'.$ServID.'/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
+         <a href="<?php echo admin_url('LegalServices/other_services/remove_team_member/'.$ServID.'/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>
             <?php if(has_permission('projects','','create') || $member['staff_id'] == get_staff_user_id()){ ?>
@@ -291,28 +263,28 @@
    <div class="col-md-12 project-overview-logged-hours-finance">
       <div class="col-md-3">
          <?php
-         $data = $case_model->total_logged_time_by_billing_type($service->slug,$project->id);
+         $data = $oservice_model->total_logged_time_by_billing_type($service->slug,$project->id);
          ?>
          <p class="text-uppercase text-muted"><?php echo _l('project_overview_logged_hours'); ?> <span class="bold"><?php echo $data['logged_time']; ?></span></p>
          <p class="bold font-medium"><?php echo app_format_money($data['total_money'], $currency); ?></p>
       </div>
       <div class="col-md-3">
          <?php
-         $data = $case_model->data_billable_time($service->slug,$project->id);
+         $data = $oservice_model->data_billable_time($ServID,$project->id);
          ?>
          <p class="text-uppercase text-info"><?php echo _l('project_overview_billable_hours'); ?> <span class="bold"><?php echo $data['logged_time'] ?></span></p>
          <p class="bold font-medium"><?php echo app_format_money($data['total_money'], $currency); ?></p>
       </div>
       <div class="col-md-3">
          <?php
-         $data = $case_model->data_billed_time($service->slug,$project->id);
+         $data = $oservice_model->data_billed_time($ServID,$project->id);
          ?>
          <p class="text-uppercase text-success"><?php echo _l('project_overview_billed_hours'); ?> <span class="bold"><?php echo $data['logged_time']; ?></span></p>
          <p class="bold font-medium"><?php echo app_format_money($data['total_money'], $currency); ?></p>
       </div>
       <div class="col-md-3">
          <?php
-         $data = $case_model->data_unbilled_time($service->slug,$project->id);
+         $data = $oservice_model->data_unbilled_time($ServID,$project->id);
          ?>
          <p class="text-uppercase text-danger"><?php echo _l('project_overview_unbilled_hours'); ?> <span class="bold"><?php echo $data['logged_time']; ?></span></p>
          <p class="bold font-medium"><?php echo app_format_money($data['total_money'], $currency); ?></p>
@@ -356,10 +328,10 @@
          <span class="caret"></span>
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuProjectLoggedTime">
-         <li><a href="<?php echo admin_url('LegalServices/Cases_controller/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=this_week'); ?>"><?php echo _l('this_week'); ?></a></li>
-         <li><a href="<?php echo admin_url('LegalServices/Cases_controller/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=last_week'); ?>"><?php echo _l('last_week'); ?></a></li>
-         <li><a href="<?php echo admin_url('LegalServices/Cases_controller/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=this_month'); ?>"><?php echo _l('this_month'); ?></a></li>
-         <li><a href="<?php echo admin_url('LegalServices/Cases_controller/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=last_month'); ?>"><?php echo _l('last_month'); ?></a></li>
+         <li><a href="<?php echo admin_url('LegalServices/other_services/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=this_week'); ?>"><?php echo _l('this_week'); ?></a></li>
+         <li><a href="<?php echo admin_url('LegalServices/other_services/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=last_week'); ?>"><?php echo _l('last_week'); ?></a></li>
+         <li><a href="<?php echo admin_url('LegalServices/other_services/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=this_month'); ?>"><?php echo _l('this_month'); ?></a></li>
+         <li><a href="<?php echo admin_url('LegalServices/other_services/view/'.$ServID.'/'.$project->id.'?group=project_overview&overview_chart=last_month'); ?>"><?php echo _l('last_month'); ?></a></li>
       </ul>
    </div>
    <div class="clearfix"></div>
@@ -370,7 +342,7 @@
 </div>
 <div class="modal fade" id="add-edit-members" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-      <?php echo form_open(admin_url('LegalServices/Cases_controller/add_edit_members/'.$project->id)); ?>
+      <?php echo form_open(admin_url('LegalServices/Other_services_controller/add_edit_members/'.$project->id)); ?>
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

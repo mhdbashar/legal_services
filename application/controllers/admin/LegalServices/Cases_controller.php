@@ -18,6 +18,9 @@ class Cases_controller extends AdminController
 
     public function add($ServID)
     {
+        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+            access_denied('Projects');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -44,7 +47,6 @@ class Cases_controller extends AdminController
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
-        $data['last_project_settings'] = $this->case->get_last_case_settings();
         $data['statuses'] = $this->case->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
@@ -54,6 +56,9 @@ class Cases_controller extends AdminController
 
     public function edit($ServID,$id)
     {
+        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+            access_denied('Projects');
+        }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("Service/$ServID"));
@@ -74,14 +79,15 @@ class Cases_controller extends AdminController
         $data['case_judges'] = $this->case->get_case_judges($id);
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['case']->settings->available_features = unserialize($data['case']->settings->available_features);
-        $data['last_project_settings'] = $this->case->get_last_case_settings();
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_case_settings'], 'name'));
             $data['last_case_settings'][$key]['value'] = unserialize($data['last_case_settings'][$key]['value']);
         }
         $data['settings'] = $this->case->get_settings();
-
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
+        }
         $data['statuses'] = $this->case->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
@@ -245,7 +251,7 @@ class Cases_controller extends AdminController
                 $data['members'] = $this->case->get_project_members($id);
                 foreach ($data['members'] as $key => $member) {
                     $data['members'][$key]['total_logged_time'] = 0;
-                    $member_timesheets                          = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $id . '")');
+                    $member_timesheets = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $id . '")');
 
                     foreach ($member_timesheets as $member_task) {
                         $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
@@ -874,7 +880,7 @@ class Cases_controller extends AdminController
     {
         if (has_permission('invoices', '', 'create')) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-            $data['billable_tasks'] = $this->case->get_tasks($project_id, [
+            $data['billable_tasks'] = $this->case->get_tasks($ServID,$project_id, [
                 'billable'     => 1,
                 'billed'       => 0,
                 'startdate <=' => date('Y-m-d'),

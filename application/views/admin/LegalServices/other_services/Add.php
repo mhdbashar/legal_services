@@ -42,7 +42,7 @@
                             <div class="col-md-10">
                                 <div class="form-group select-placeholder">
                                     <label for="clientid"
-                                           class="control-label"><?php echo _l('oservice_customer'); ?></label>
+                                           class="control-label"><?php echo _l('project_customer'); ?></label>
                                     <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -111,13 +111,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="billing_type"><?php echo _l('oservice_billing_type'); ?></label>
+                                    <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option value=""></option>
-                                        <option value="1"><?php echo _l('oservice_billing_type_fixed_cost'); ?></option>
-                                        <option value="2"><?php echo _l('oservice_billing_type_oservice_hours'); ?></option>
-                                        <option value="3" data-subtext="<?php echo _l('oservice_billing_type_oservice_task_hours_hourly_rate'); ?>"><?php echo _l('oservice_billing_type_oservice_task_hours'); ?></option>
+                                        <option value="1"><?php echo _l('project_billing_type_fixed_cost'); ?></option>
+                                        <option value="2"><?php echo _l('project_billing_type_project_hours'); ?></option>
+                                        <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>"><?php echo _l('project_billing_type_project_task_hours'); ?></option>
                                     </select>
                                     <?php if($disable_type_edit != ''){
                                         echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
-                                    <label for="status"><?php echo _l('oservice_status'); ?></label>
+                                    <label for="status"><?php echo _l('project_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php foreach($statuses as $status){ ?>
@@ -154,7 +154,7 @@
                                 ?>
                                 <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
                                     <?php $value = (isset($oservice) ? $oservice->project_cost : ''); ?>
-                                    <?php echo render_input('project_cost','oservice_total_cost',$value,'number'); ?>
+                                    <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
                                 </div>
                                 <?php
                                 $input_field_hide_class_rate_per_hour = '';
@@ -181,10 +181,10 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'oservice_start_date'); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date'); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'oservice_deadline'); ?>
+                                <?php echo render_date_input('deadline', 'project_deadline'); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -203,7 +203,7 @@
                                 <?php
                                 $selected = array();
                                 array_push($selected,get_staff_user_id());
-                                echo render_select('oservice_members[]',$staff,array('staffid',array('firstname','lastname')),'oservice_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
                             <div class="col-md-1">
@@ -221,11 +221,11 @@
                                 </select>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('oservice_description'); ?></p>
+                        <p class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
-                            <label for="send_created_email"><?php echo _l('oservice_send_created_email'); ?></label>
+                            <label for="send_created_email"><?php echo _l('project_send_created_email'); ?></label>
                         </div>
                         <!-- custom_fields -->
                         <?php if ($custom_fields) { ?>
@@ -243,20 +243,20 @@
             </div>
             <div class="col-md-5">
                 <div class="panel_s">
-                    <div class="panel-body" id="oservice-settings-area">
+                    <div class="panel-body" id="project-settings-area">
            <h4 class="no-margin">
-               <?php echo _l('oservice_settings'); ?>
+               <?php echo _l('project_settings'); ?>
            </h4>
            <hr class="hr-panel-heading" />
-           <?php  foreach($settings as $setting){
+           <?php foreach($settings as $setting){
 
             $checked = ' checked';
-            if(isset($oservice)){
+               if(isset($oservice)){
                 if($oservice->settings->{$setting} == 0){
                     $checked = '';
                 }
             } else {
-                foreach($last_oservice_settings as $last_setting) {
+                foreach($last_project_settings as $last_setting) {
                     if($setting == $last_setting['name']){
                         // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
                         if($last_setting['value'] == 0 || $last_setting['name'] == 'hide_tasks_on_main_tasks_table'){
@@ -264,7 +264,8 @@
                         }
                     }
                 }
-                if(count($last_oservice_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
+
+                if(count($last_project_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
             } ?>
@@ -275,15 +276,15 @@
                         <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
                             <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
                         <?php } else{ ?>
-                            <?php echo _l('oservice_allow_client_to',_l('oservice_setting_'.$setting)); ?>
+                            <?php echo _l('project_allow_client_to',_l('project_setting_'.$setting)); ?>
                         <?php } ?>
                     </label>
                 </div>
             <?php } else { ?>
-                <div class="form-group mtop15 select-placeholder oservice-available-features">
+                <div class="form-group mtop15 select-placeholder project-available-features">
                     <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
                     <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
-                        <?php   foreach(get_oservice_tabs_admin() as $tab) {
+                        <?php foreach(get_oservice_tabs_admin() as $tab) {
                             $selected = '';
                             if(isset($tab['collapse'])){ ?>
                                 <optgroup label="<?php echo $tab['name']; ?>">
@@ -294,11 +295,11 @@
                                                 && $oservice->settings->available_features[$tab_dropdown['slug']] == 1)
                                             || !isset($oservice->settings->available_features[$tab_dropdown['slug']]))) {
                                             $selected = ' selected';
-                                    } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
-                                        foreach($last_oservice_settings as $last_oservice_setting) {
-                                            if($last_oservice_setting['name'] == $setting) {
+                                    } else if(!isset($oservice) && count($last_project_settings) > 0) {
+                                        foreach($last_project_settings as $last_project_settings) {
+                                            if($last_project_settings['name'] == $setting) {
                                                 if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
-                                                    && $last_oservice_setting['value'][$tab_dropdown['slug']] == 1) {
+                                                    && $last_project_settings['value'][$tab_dropdown['slug']] == 1) {
                                                     $selected = ' selected';
                                             }
                                         }
@@ -316,11 +317,11 @@
                              && $oservice->settings->available_features[$tab['slug']] == 1)
                             || !isset($oservice->settings->available_features[$tab['slug']]))) {
                             $selected = ' selected';
-                    } else if(!isset($oservice) && count($last_oservice_settings) > 0) {
-                        foreach($last_oservice_settings as $last_oservice_setting) {
+                    } else if(!isset($oservice) && count($last_project_settings) > 0) {
+                        foreach($last_project_settings as $last_oservice_setting) {
                             if($last_oservice_setting['name'] == $setting) {
-                                if(isset($last_oservice_setting['value'][$tab['slug']])
-                                    && $last_oservice_setting['value'][$tab['slug']] == 1) {
+                                if(isset($last_project_settings['value'][$tab['slug']])
+                                    && $last_project_settings['value'][$tab['slug']] == 1) {
                                     $selected = ' selected';
                             }
                         }
@@ -329,7 +330,7 @@
                     $selected = ' selected';
                 }
                 ?>
-                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='oservice_overview'){echo ' disabled selected';} ?>
+                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='project_overview'){echo ' disabled selected';} ?>
                 <?php echo $selected; ?>
                 <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
                 <?php echo $tab['name']; ?>
@@ -404,7 +405,7 @@
             }
         });
 
-        var members = $("input[name='oservice_members[]']");
+        var members = $("input[name='project_members[]']");
 
         appValidateForm($('#form'), {
             code: 'required',
@@ -421,17 +422,17 @@
         $('select[name="status"]').on('change',function(){
             var status = $(this).val();
             var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
-            var notify_oservice_members_status_change = $('.notify_oservice_members_status_change');
+            var notify_project_members_status_change = $('.notify_project_members_status_change');
             mark_all_tasks_completed.removeClass('hide');
-            if(typeof(original_oservice_status) != 'undefined'){
-                if(original_oservice_status != status){
+            if(typeof(original_project_status) != 'undefined'){
+                if(original_project_status != status){
 
                     mark_all_tasks_completed.removeClass('hide');
-                    notify_oservice_members_status_change.removeClass('hide');
+                    notify_project_members_status_change.removeClass('hide');
 
                     if(status == 4 || status == 5 || status == 3) {
                         $('.recurring-tasks-notice').removeClass('hide');
-                        var notice = "<?php echo _l('oservice_changing_status_recurring_tasks_notice'); ?>";
+                        var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
                         notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
                         $('.recurring-tasks-notice').html(notice);
                         $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');
@@ -443,16 +444,16 @@
                 } else {
                     mark_all_tasks_completed.addClass('hide');
                     mark_all_tasks_completed.find('input').prop('checked',false);
-                    notify_oservice_members_status_change.addClass('hide');
+                    notify_project_members_status_change.addClass('hide');
                     $('.recurring-tasks-notice').html('').addClass('hide');
                 }
             }
 
             if(status == 4){
-                $('.oservice_marked_as_finished').removeClass('hide');
+                $('.project_marked_as_finished').removeClass('hide');
             } else {
-                $('.oservice_marked_as_finished').addClass('hide');
-                $('.oservice_marked_as_finished').prop('checked',false);
+                $('.project_marked_as_finished').addClass('hide');
+                $('.project_marked_as_finished').prop('checked',false);
             }
         });
 
@@ -466,7 +467,7 @@
         var progress_from_tasks = $('#progress_from_tasks');
         var progress = progress_input.val();
 
-        $('.oservice_progress_slider').slider({
+        $('.project_progress_slider').slider({
             min:0,
             max:100,
             value:progress,
@@ -479,10 +480,10 @@
 
         progress_from_tasks.on('change',function(){
             var _checked = $(this).prop('checked');
-            $('.oservice_progress_slider').slider({disabled:_checked});
+            $('.project_progress_slider').slider({disabled:_checked});
         });
 
-        $('#oservice-settings-area input').on('change',function(){
+        $('#project-settings-area input').on('change',function(){
             if($(this).attr('id') == 'view_tasks' && $(this).prop('checked') == false){
                 $('#create_tasks').prop('checked',false).prop('disabled',true);
                 $('#edit_tasks').prop('checked',false).prop('disabled',true);
@@ -504,18 +505,18 @@
             }
         });
 
-        // Auto adjust customer permissions based on selected oservice visible tabs
-        // Eq oservice creator disable TASKS tab, then this function will auto turn off customer oservice option Allow customer to view tasks
+        // Auto adjust customer permissions based on selected project visible tabs
+        // Eq project creator disable TASKS tab, then this function will auto turn off customer project option Allow customer to view tasks
 
         $('#available_features').on('change',function(){
             $("#available_features option").each(function(){
                 if($(this).data('linked-customer-option') && !$(this).is(':selected')) {
                     var opts = $(this).data('linked-customer-option').split(',');
                     for(var i = 0; i<opts.length;i++) {
-                        var oservice_option = $('#'+opts[i]);
-                        oservice_option.prop('checked',false);
+                        var project_option = $('#'+opts[i]);
+                        project_option.prop('checked',false);
                         if(opts[i] == 'view_tasks') {
-                            oservice_option.trigger('change');
+                            project_option.trigger('change');
                         }
                     }
                 }

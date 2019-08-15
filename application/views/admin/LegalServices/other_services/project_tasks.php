@@ -5,6 +5,6 @@
         echo '<i class="fa fa-exclamation fa-2x pull-left" data-toggle="tooltip" data-title="'._l('project_hide_tasks_settings_info').'"></i>';
     }
 ?>
-<div class="tasks_case-table">
-    <?php init_relation_tasks_case_table(array( 'data-new-rel-id'=>$project->id,'data-new-rel-type'=> $service->slug, 'data-new-rel-slug'=> $service->slug)); ?>
+<div class="tasks_oservice-table">
+    <?php init_relation_tasks_oservice_table(array( 'data-new-rel-id'=>$project->id,'data-new-rel-type'=> $service->slug, 'data-new-rel-slug'=> $service->slug)); ?>
 </div>

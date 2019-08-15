@@ -21,7 +21,7 @@
                         $disable_type_edit = '';
                         if(isset($OtherServ)){
                             if($OtherServ->billing_type != 1){
-                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$OtherServ->id,'rel_type'=>'project','billable'=>1,'billed'=>1)) > 0){
+                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$OtherServ->id,'rel_type'=> $service->slug,'billable'=>1,'billed'=>1)) > 0){
                                     $disable_type_edit = 'disabled';
                                 }
                             }
@@ -169,7 +169,7 @@
                                 ?>
                                 <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
                                     <?php $value = (isset($OtherServ) ? $OtherServ->project_cost : ''); ?>
-                                    <?php echo render_input('project_cost','oservice_total_cost',$value,'number'); ?>
+                                    <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
                                 </div>
                                 <?php
                                 $input_field_hide_class_rate_per_hour = '';
@@ -196,10 +196,10 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'oservice_start_date',$OtherServ->start_date); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date',$OtherServ->start_date); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'oservice_deadline',$OtherServ->deadline); ?>
+                                <?php echo render_date_input('deadline', 'project_deadline',$OtherServ->deadline); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -222,7 +222,7 @@
                                 } else {
                                     array_push($selected,get_staff_user_id());
                                 }
-                                echo render_select('oservice_members[]',$staff,array('staffid',array('firstname','lastname')),'oservice_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
                             <div class="col-md-1">
@@ -264,9 +264,9 @@
             </div>
             <div class="col-md-5">
                 <div class="panel_s">
-                    <div class="panel-body" id="oservice-settings-area">
+                    <div class="panel-body" id="project-settings-area">
            <h4 class="no-margin">
-               <?php echo _l('oservice_settings'); ?>
+               <?php echo _l('project_settings'); ?>
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
@@ -277,7 +277,7 @@
                     $checked = '';
                 }
             } else {
-                foreach($last_oservice_settings as $last_setting) {
+                foreach($last_project_settings as $last_setting) {
                     if($setting == $last_setting['name']){
                         // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
                         if($last_setting['value'] == 0 || $last_setting['name'] == 'hide_tasks_on_main_tasks_table'){
@@ -285,7 +285,7 @@
                         }
                     }
                 }
-                if(count($last_oservice_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
+                if(count($last_project_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
             } ?>
@@ -296,15 +296,15 @@
                         <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
                             <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
                         <?php } else{ ?>
-                            <?php echo _l('oservice_allow_client_to',_l('oservice_setting_'.$setting)); ?>
+                            <?php echo _l('project_allow_client_to',_l('project_setting_'.$setting)); ?>
                         <?php } ?>
                     </label>
                 </div>
             <?php } else { ?>
-                <div class="form-group mtop15 select-placeholder oservice-available-features">
+                <div class="form-group mtop15 select-placeholder project-available-features">
                     <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
                     <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
-                        <?php   foreach(get_oservice_tabs_admin() as $tab) {
+                        <?php foreach(get_oservice_tabs_admin() as $tab) {
                             $selected = '';
                             if(isset($tab['collapse'])){ ?>
                                 <optgroup label="<?php echo $tab['name']; ?>">
@@ -316,16 +316,16 @@
                                             || !isset($OtherServ->settings->available_features[$tab_dropdown['slug']]))) {
 												
                                             $selected = ' selected';
-                                    } else if(!isset($OtherServ) && count($last_oservice_settings) > 0) { 
-                                        foreach($last_oservice_settings as $last_oservice_setting) {
-                                            if($last_oservice_setting['name'] == $setting) {
-                                                if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
-                                                    && $last_oservice_setting['value'][$tab_dropdown['slug']] == 1) {
+                                    } elseif(!isset($OtherServ) && count($last_project_settings) > 0) {
+                                        foreach($last_project_settings as $last_project_setting) {
+                                            if($last_project_settings['name'] == $setting) {
+                                                if(isset($last_project_settings['value'][$tab_dropdown['slug']])
+                                                    && $last_project_settings['value'][$tab_dropdown['slug']] == 1) {
                                                     $selected = ' selected';
                                             }
                                         }
                                     }
-                                } else if(!isset($OtherServ)) {
+                                } elseif(!isset($OtherServ)) {
                                     $selected = ' selected';
                                 }
                                 ?>
@@ -338,20 +338,20 @@
                              && $OtherServ->settings->available_features[$tab['slug']] == 1)
                             || !isset($OtherServ->settings->available_features[$tab['slug']]))) {
                             $selected = ' selected';
-                    } else if(!isset($OtherServ) && count($last_oservice_settings) > 0) {
-                        foreach($last_oservice_settings as $last_oservice_setting) {
-                            if($last_oservice_setting['name'] == $setting) {
-                                if(isset($last_oservice_setting['value'][$tab['slug']])
-                                    && $last_oservice_setting['value'][$tab['slug']] == 1) {
+                    } elseif(!isset($OtherServ) && count($last_project_settings) > 0) {
+                        foreach($last_project_settings as $last_project_setting) {
+                            if($last_project_settings['name'] == $setting) {
+                                if(isset($last_project_settings['value'][$tab['slug']])
+                                    && $last_project_settings['value'][$tab['slug']] == 1) {
                                     $selected = ' selected';
                             }
                         }
                     }
-                } else if(!isset($OtherServ)) {
+                } elseif(!isset($OtherServ)) {
                     $selected = ' selected';
                 }
                 ?>
-                <option value="<?php echo $tab['slug']; ?>"<?php  if($tab['slug'] =='oservice_overview'){ echo ' disabled selected';} ?>
+                <option value="<?php echo $tab['slug']; ?>"<?php  if($tab['slug'] =='project_overview'){ echo ' disabled selected';} ?>
                 <?php echo $selected; ?>
                 <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
                 <?php echo $tab['name']; ?>
@@ -359,11 +359,11 @@
         <?php } ?>
     <?php } ?>
 </select>
-</div>
-<?php } ?>
-<hr class="no-margin" />
-<?php } ?>
-</div>
+                </div>
+            <?php } ?>
+            <hr class="no-margin" />
+            <?php } ?>
+            </div>
                 </div>
             </div>
             <?php echo form_close(); ?>
@@ -418,33 +418,9 @@
         }
     });
 
-    $(function () {
-        _validate_form($('#form'), {
-            code: 'required',
-            title: 'required',
-            clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
-            //rate_per_hour: 'required',
-            members: 'required',
-            start_date: 'required',
-            end_date: 'required',
-        });
-
-        $('select[name="billing_type"]').on('change', function () {
-            var type = $(this).val();
-            if (type == 1) {
-                $('#project_rate_per_hour').addClass('hide');
-            } else if (type == 2) {
-                $('#project_rate_per_hour').removeClass('hide');
-            } else {
-                $('#project_rate_per_hour').addClass('hide');
-            }
-        });
-
-
-    });
+    <?php if(isset($OtherServ)){ ?>
+    var original_project_status = '<?php echo $OtherServ->status; ?>';
+    <?php } ?>
 
     function GetSubCat() {
         id = $('#cat_id').val();
@@ -468,7 +444,106 @@
                 $("#city").html(data);
             }
         });
-		 $('#oservice-settings-area input').on('change',function(){
+    });
+
+    $(function () {
+
+
+        $('select[name="billing_type"]').on('change',function(){
+            var type = $(this).val();
+            if(type == 1){
+                $('#project_cost').removeClass('hide');
+                $('#project_rate_per_hour').addClass('hide');
+            } else if(type == 2){
+                $('#project_cost').addClass('hide');
+                $('#project_rate_per_hour').removeClass('hide');
+            } else {
+                $('#project_cost').addClass('hide');
+                $('#project_rate_per_hour').addClass('hide');
+            }
+        });
+
+        var members = $("input[name='project_members[]']");
+
+        _validate_form($('#form'), {
+            code: 'required',
+            title: 'required',
+            clientid: 'required',
+            cat_id: 'required',
+            subcat_id: 'required',
+            billing_type: 'required',
+            //rate_per_hour: 'required',
+            members: 'required',
+            start_date: 'required',
+            end_date: 'required',
+        });
+
+
+        $('select[name="status"]').on('change',function(){
+            var status = $(this).val();
+            var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
+            var notify_project_members_status_change = $('.notify_project_members_status_change');
+            mark_all_tasks_completed.removeClass('hide');
+            if(typeof(original_project_status) != 'undefined'){
+                if(original_project_status != status){
+
+                    mark_all_tasks_completed.removeClass('hide');
+                    notify_project_members_status_change.removeClass('hide');
+
+                    if(status == 4 || status == 5 || status == 3) {
+                        $('.recurring-tasks-notice').removeClass('hide');
+                        var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
+                        notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
+                        $('.recurring-tasks-notice').html(notice);
+                        $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');
+                        mark_all_tasks_completed.find('input').prop('checked',true);
+                    } else {
+                        $('.recurring-tasks-notice').html('').addClass('hide');
+                        mark_all_tasks_completed.find('input').prop('checked',false);
+                    }
+                } else {
+                    mark_all_tasks_completed.addClass('hide');
+                    mark_all_tasks_completed.find('input').prop('checked',false);
+                    notify_project_members_status_change.addClass('hide');
+                    $('.recurring-tasks-notice').html('').addClass('hide');
+                }
+            }
+
+            if(status == 4){
+                $('.project_marked_as_finished').removeClass('hide');
+            } else {
+                $('.project_marked_as_finished').addClass('hide');
+                $('.project_marked_as_finished').prop('checked',false);
+            }
+        });
+
+        $('form').on('submit',function(){
+            $('select[name="billing_type"]').prop('disabled',false);
+            $('#available_features,#available_features option').prop('disabled',false);
+            $('input[name="project_rate_per_hour"]').prop('disabled',false);
+        });
+
+        var progress_input = $('input[name="progress"]');
+        var progress_from_tasks = $('#progress_from_tasks');
+        var progress = progress_input.val();
+
+        $('.project_progress_slider').slider({
+            min:0,
+            max:100,
+            value:progress,
+            disabled:progress_from_tasks.prop('checked'),
+            slide: function( event, ui ) {
+                progress_input.val( ui.value );
+                $('.label_progress').html(ui.value+'%');
+            }
+        });
+
+        progress_from_tasks.on('change',function(){
+            var _checked = $(this).prop('checked');
+            $('.project_progress_slider').slider({disabled:_checked});
+        });
+
+        $('#project-settings-area input').on('change',function(){
             if($(this).attr('id') == 'view_tasks' && $(this).prop('checked') == false){
                 $('#create_tasks').prop('checked',false).prop('disabled',true);
                 $('#edit_tasks').prop('checked',false).prop('disabled',true);
@@ -490,27 +565,30 @@
             }
         });
 
-            // Auto adjust customer permissions based on selected oservice visible tabs
-            // Eq oservice creator disable TASKS tab, then this function will auto turn off customer oservice option Allow customer to view tasks
 
-            $('#available_features').on('change',function(){
-                $("#available_features option").each(function(){
-                 if($(this).data('linked-customer-option') && !$(this).is(':selected')) {
+        // Auto adjust customer permissions based on selected project visible tabs
+        // Eq Project creator disable TASKS tab, then this function will auto turn off customer project option Allow customer to view tasks
+
+        $('#available_features').on('change',function(){
+            $("#available_features option").each(function(){
+                if($(this).data('linked-customer-option') && !$(this).is(':selected')) {
                     var opts = $(this).data('linked-customer-option').split(',');
                     for(var i = 0; i<opts.length;i++) {
-                        var oservice_option = $('#'+opts[i]);
-                        oservice_option.prop('checked',false);
+                        var project_option = $('#'+opts[i]);
+                        project_option.prop('checked',false);
                         if(opts[i] == 'view_tasks') {
-                            oservice_option.trigger('change');
+                            project_option.trigger('change');
                         }
                     }
                 }
             });
-            });
-            $("#view_tasks").trigger('change');
-            <?php if(!isset($oservice)) { ?>
-                $('#available_features').trigger('change');
-            <?php } ?>
+        });
+        $("#view_tasks").trigger('change');
+        <?php if(!isset($OtherServ)) { ?>
+        $('#available_features').trigger('change');
+        <?php } ?>
+
+
     });
 </script>
 </body>

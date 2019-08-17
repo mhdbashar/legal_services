@@ -27,7 +27,7 @@ function admin_assets()
 //
 function to_AD_date($date)
 {
-    if(strpos($date, ' ') != false){
+    if(strpos($date, ' ') != false){    //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -36,8 +36,16 @@ function to_AD_date($date)
     }
     $date_option = get_option('dateformat');
     $parts = explode('|', $date_option);
+
     if(isset($parts[2])){
         $date_mode = $parts[2]; //$this->app->get_option('date_format');
+        if(isset($parts[3])){
+            $adjust = intval($parts[3]);
+        }else{
+            $adjust = 0;
+        }
+
+
     }else{
         $date_mode = $parts[0]; //$this->app->get_option('date_format');
     }
@@ -46,13 +54,18 @@ function to_AD_date($date)
     if ($date_mode == 'hijri') {
         $hijriCalendar = new Calendar();
         $current_date = date_parse($date);
-        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day']);
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] + $adjust);
 
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
+    }else{ // AD date
+
+        $date = date($date_mode, strtotime($date));
+//        var_dump($date);exit();
     }
     if(isset($time)){
         $date = $date.' '.$time;
     }
+//    var_dump($date);exit();
     return $date;
 }
 
@@ -69,6 +82,7 @@ function to_hijri_date($date)
 
     $date_option = get_option('dateformat');
     $opt = explode('|', $date_option);
+//    var_dump($opt);exit();
 
     if(isset($opt[2]) && $opt[2]=='hijri'){
         $datetime = explode(' ', $date);
@@ -100,8 +114,12 @@ hooks()->add_filter('after_format_datetime', 'to_hijri_date');
 hooks()->add_filter('available_date_formats', 'add_hijri_option');
 function add_hijri_option($date_formats)
 {
-    $date_formats ['Y-m-d|%Y-%m-%d|hijri']='hijri';
-    return $date_formats;
+    $new_formats = [
+        'Y-m-d|%Y-%m-%d|hijri' => 'hijri',
+        'Y-m-d|%Y-%m-%d|hijri|+1' => 'hijri (+1)',
+        'Y-m-d|%Y-%m-%d|hijri|-1' => 'hijri (-1)',
+    ];
+    return array_merge($date_formats,$new_formats);
 }
 
 

@@ -7,6 +7,8 @@ function appDatepicker(e) {
         let dateType = "AD";
     let isDatetime = false;
         // console.log(datetimeobj);
+        // let h = new HijriDate();
+        // console.log(h.int());
 
         $.ajax({
             type: 'post',
@@ -22,9 +24,9 @@ function appDatepicker(e) {
 
         });
 
-
+    // console.log(dateType);
         $.each(obj,function (k,v) {
-            console.log($(this).parent().find('.calendar-icon')[0]);
+            // console.log($(this).parent().find('.calendar-icon')[0]);
             let icon = $(this).parent().find('.calendar-icon')[0]
 
             v.onclick = icon.onclick = function () {
@@ -53,7 +55,7 @@ function appDatepicker(e) {
                         let formattedDaten = HijriDate.toNDigit(date.getFullYear(),4)+'-'+
                                 HijriDate.toNDigit(date.getMonth()+1,2)+'-'+
                                 HijriDate.toNDigit(date.getDate(),2);
-                        console.log(formattedDaten)
+                        // console.log(formattedDaten)
                         elgd.value = formattedDaten;
                         // elgd.value = formattedDaten+' '+ $('#mytime').val();
 
@@ -109,10 +111,10 @@ function appDatepicker(e) {
                 let formattedDaten = HijriDate.toNDigit(date.getFullYear(),4)+'-'+
                     HijriDate.toNDigit(date.getMonth()+1,2)+'-'+
                     HijriDate.toNDigit(date.getDate(),2);
-                console.log(formattedDaten)
+                // console.log(formattedDaten)
                 // elgd.value = formattedDaten;
                 elgd.value = formattedDaten+' '+ $('#mytime').val();
-                console.log(elgd.value)
+                // console.log(elgd.value)
 
 
                 // if(dateType == 'hijri'){
@@ -205,29 +207,51 @@ function appDatepicker(e) {
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                 var full_time =time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
 
-                t = document.createElement('input',);
+                // to avoid any problem if there any modal
+                    $(document).off('focusin.modal');
+                //////////////////////////////////
+
+                var x = document.createElement('div');
+                x.setAttribute("id", "dev_time");
+                x.style.width="100%";
+                x.style.backgroundColor ="white";
+                // x.style.zIndex = 99999;
+                // x.style.marginLeft ="25%";
+
+                t = document.createElement('input');
+                t.style.width="50%";
+                t.style.marginLeft ="25%";
+                t.style.marginTop ="2%";
+                t.style.marginBottom ="2%";
+                t.style.border="none";
+                // t.style.backgroundColor ="transparent";
+                // t.style.zIndex = 9999999;
+                // t.style.webkitAppearance="none";
+                // t.style.color="transparent";
                 t.setAttribute("type", "time");
                 t.setAttribute("id", "mytime");
                 t.setAttribute("value", full_time);
                 t.setAttribute("step", "2");
-                t.style.width="50%";
-                t.style.marginLeft ="25%";
+
+                // t.css(
+                //     '-webkit-clear-button':'display'
+                // );
+
                 // console.log(full_time);
                 if(document.getElementById("mytime")  ){
-                    console.log(isDatetime+'gfhfg');
+                    // console.log(isDatetime+'gfhfg');
 
                     var timeChild = document.getElementById("mytime");
                     timeChild.parentNode.removeChild(timeChild);
                 }
 
-                // document.getElementsByClassName('zulns-datepicker')[0].appendChild(t);
-                var x = document.createElement('div');
+
                 document.getElementsByClassName('zulns-datepicker')[0].appendChild(x);
                 document.getElementsByClassName('zulns-datepicker')[0].lastChild.appendChild(t);
 
             }else{
                 if(document.getElementById("mytime")  ){
-                    console.log(isDatetime+'gfhfg');
+                    // console.log(isDatetime+'gfhfg');
 
                     var timeChild = document.getElementById("mytime");
                     timeChild.parentNode.removeChild(timeChild);

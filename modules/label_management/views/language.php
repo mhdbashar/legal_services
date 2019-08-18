@@ -13,7 +13,32 @@
                 <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/arabic"?>">Arabic</a>
 
                 <h2 class="m-5"><?php echo ucfirst($language) ?></h2>
-                <button type="button" class="btn btn-success m-2" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add New</button>
+                <div class="row">
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-success m-2" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add New</button>
+                  </div>
+                  <div class="col-md-4">
+                    <a class="btn <?php if ($custom == "custom_lang") echo "btn-info" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/custom_lang"?>">Custom</a>
+                    <a class="btn <?php if ($custom == $language."_lang") echo "btn-info" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/".$language."_lang"?>">Native</a>
+                  </div>
+                  <div class="col-md-4">
+                        
+                    <div id="" class=" pull-right">
+                      <label>
+                        <form id="form" action="<?php echo base_url() .'label_management/language/index/'.$language.'/'.$custom . '/' . $offset ?>">
+                          <div class="input-group">
+                            <span class="input-group-addon" id="link">
+                              <a href="#" class="fa fa-search"></a>
+                            </span>
+                            <input type="search" name="search" class="form-control" placeholder="Search...">
+                          </div>
+                        </form>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+
 
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -96,7 +121,7 @@
           <td>
 <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#EditModal" data-key="<?php echo $key ?>" data-value="<?php echo htmlspecialchars($value) ?>">Edit</button>
           </td>
-          <td><a class="btn btn-danger" href="<?php echo base_url() . "label_management/language/delete/" . $key . "/" . $language?>" role="button">Delete</a></td>
+          <td><a class="btn btn-danger" href="<?php echo base_url() . "label_management/language/delete/" . $key . "/" . $language . "/" . $custom ?>" role="button">Delete</a></td>
         </tr>
     <?php if ($i >= $start) break; ?>
 <?php endforeach; ?>        
@@ -118,7 +143,7 @@
 
   <?php if ($offset == ($i - 1) * $per_page) $active  = 'active'; else $active = '' ?>
 
-  <li class="<?php echo $active ?>"><a href="<?php echo base_url() . 'label_management/language/index/' . $language . '/' . ($i - 1) * $per_page?>"><?php echo $i ?></a></li>
+  <li class="<?php echo $active ?>"><a href="<?php echo base_url() . 'label_management/language/index/' . $language .  '/' . $custom . '/' . ($i - 1) * $per_page . "/". $search ?>"><?php echo $i ?></a></li>
 
 <?php endfor; ?>
 
@@ -143,6 +168,9 @@ $('#EditModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body input').val(key);
   modal.find('.modal-body textarea').val(value);
 })
+document.getElementById("link").onclick = function() {
+    document.getElementById("form").submit();
+}
 </script>
   </body>
 </html>

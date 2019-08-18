@@ -1,6 +1,6 @@
 <?php
+$lang['ahmad'] = "zaher";
 $lang['id'] = "ID";
-$lang['name'] = "Name";
 $lang['options'] = "Options";
 $lang['submit'] = "Save";
 $lang['added_successfully'] = "%s added successfully.";

@@ -1,6 +1,6 @@
 <?php
-$lang['ahkma'] = "abbodeh
-";
+$lang['ahkma'] = "asdsad";
+$lang['ahmad'] = "أحمد";
 $lang['id'] = "المعرف";
 $lang['name'] = "الاسم";
 $lang['options'] = "الخيارات";

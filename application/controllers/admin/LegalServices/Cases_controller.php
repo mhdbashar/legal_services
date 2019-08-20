@@ -691,7 +691,7 @@ class Cases_controller extends AdminController
         }
     }
 
-    public function milestone($ServID = '')
+    public function milestone($ServID = '', $id = '')
     {
         if ($this->input->post()) {
             $message = '';

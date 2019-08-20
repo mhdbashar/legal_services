@@ -1035,7 +1035,7 @@ class Other_services_model extends App_Model
         $file = $this->db->get(db_prefix() . 'oservice_files')->row();
 
         if ($file && $project_id) {
-            if ($file->project_id != $project_id) {
+            if ($file->oservice_id != $project_id) {
                 return false;
             }
         }
@@ -1303,6 +1303,7 @@ class Other_services_model extends App_Model
 
     public function get_gantt_data($slug, $project_id, $type = 'milestones', $taskStatus = null)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         $type_data = [];
         if ($type == 'milestones') {
             $type_data[] = [
@@ -1339,20 +1340,20 @@ class Other_services_model extends App_Model
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
 
-                $tasks = $this->get_tasks($slug,$project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+                $tasks = $this->get_tasks($ServID,$project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                 $name = $data['name'];
             } elseif ($type == 'members') {
                 if ($data['staff_id'] != 0) {
 
-                    $tasks = $this->get_tasks($slug,$project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                     $name = get_staff_full_name($data['staff_id']);
                 } else {
-                    $tasks = $this->get_tasks($slug,$project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+                    $tasks = $this->get_tasks($ServID,$project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
                     $name = $data['name'];
                 }
             } else {
 
-                $tasks = $this->get_tasks($slug,$project_id, [
+                $tasks = $this->get_tasks($ServID,$project_id, [
                     'status' => $data,
                 ], true);
 
@@ -1432,8 +1433,9 @@ class Other_services_model extends App_Model
 
     public function calc_milestone_logged_time($slug,$project_id, $id)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         $total = [];
-        $tasks = $this->get_tasks($slug,$project_id, [
+        $tasks = $this->get_tasks($ServID,$project_id, [
             'milestone' => $id,
         ]);
 
@@ -1479,31 +1481,28 @@ class Other_services_model extends App_Model
     public function add_milestone($ServID,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        //$data['rel_id']    = $data['project_id'];
-        $data['rel_stype']    = $slug;
-        $data['due_date'] = to_sql_date($data['due_date']);
+        $data['rel_stype']   = $slug;
+        $data['due_date']    = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
         $data['description'] = nl2br($data['description']);
-        var_dump($data);
         if (isset($data['description_visible_to_customer'])) {
             $data['description_visible_to_customer'] = 1;
         } else {
             $data['description_visible_to_customer'] = 0;
         }
-
         $this->db->insert(db_prefix() . 'milestones', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             $this->db->where('id', $insert_id);
             $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-            $project = $this->get($ServID,$milestone->rel_id);
+            $project   = $this->get($milestone->project_id);
             if ($project->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {
                 $show_to_customer = 0;
             }
-            $this->log_activity($milestone->id, 'project_activity_created_milestone', $milestone->name, $show_to_customer);
-            log_activity('oservice Milestone Created [ID:' . $insert_id . ']');
+            $this->log_activity($milestone->project_id, 'project_activity_created_milestone', $milestone->name, $show_to_customer);
+            log_activity('Project Milestone Created [ID:' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -2129,10 +2128,10 @@ class Other_services_model extends App_Model
         $this->db->insert(db_prefix() . 'oservicediscussions', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            $members = $this->get_project_members($data['project_id']);
+            $members = $this->get_project_members($data['oservice_id']);
             $notification_data = [
                 'description' => 'not_created_new_project_discussion',
-                'link' => 'SOther/view/' .$ServID.'/'. $data['project_id'] . '?group=project_discussions&discussion_id=' . $insert_id,
+                'link' => 'SOther/view/' .$ServID.'/'. $data['oservice_id'] . '?group=project_discussions&discussion_id=' . $insert_id,
             ];
 
             if (is_client_logged_in()) {
@@ -2152,7 +2151,7 @@ class Other_services_model extends App_Model
                 }
             }
             pusher_trigger_notification($notifiedUsers);
-            $this->send_project_email_template($data['project_id'], 'project_discussion_created_to_staff', 'project_discussion_created_to_customer', $data['show_to_customer'], [
+            $this->send_project_email_template($data['oservice_id'], 'project_discussion_created_to_staff', 'project_discussion_created_to_customer', $data['show_to_customer'], [
                 'staff' => [
                     'discussion_id' => $insert_id,
                     'discussion_type' => 'regular',
@@ -2163,7 +2162,7 @@ class Other_services_model extends App_Model
                     'discussion_type' => 'regular',
                 ],
             ]);
-            $this->log_activity($data['project_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
+            $this->log_activity($data['oservice_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
 
             return $insert_id;
         }
@@ -2182,7 +2181,7 @@ class Other_services_model extends App_Model
         $data['description'] = nl2br($data['description']);
         $this->db->update(db_prefix() . 'oservicediscussions', $data);
         if ($this->db->affected_rows() > 0) {
-            $this->log_activity($data['project_id'], 'project_activity_updated_discussion', $data['subject'], $data['show_to_customer']);
+            $this->log_activity($data['oservice_id'], 'project_activity_updated_discussion', $data['subject'], $data['show_to_customer']);
 
             return true;
         }
@@ -2538,7 +2537,7 @@ class Other_services_model extends App_Model
     public function add_external_file($data)
     {
         $insert['dateadded'] = date('Y-m-d H:i:s');
-        $insert['project_id'] = $data['project_id'];
+        $insert['oservice_id'] = $data['project_id'];
         $insert['external'] = $data['external'];
         $insert['visible_to_customer'] = $data['visible_to_customer'];
         $insert['file_name'] = $data['files'][0]['name'];

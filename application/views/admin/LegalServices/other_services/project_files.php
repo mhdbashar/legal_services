@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('LegalServices/Other_services_Controller/upload_file/'.$oservice_id),array('class'=>'dropzone','id'=>'oservice-files-upload')); ?>
+<?php echo form_open_multipart(admin_url('LegalServices/Other_services_Controller/upload_file/'.$ServID.'/'.$project->id),array('class'=>'dropzone','id'=>'project-files-upload')); ?>
 <input type="file" name="file" multiple />
 <?php echo form_close(); ?>
-<small class="mtop5"><?php echo _l('oservice_file_visible_to_customer'); ?></small><br />
+<small class="mtop5"><?php echo _l('project_file_visible_to_customer'); ?></small><br />
 <div class="onoffswitch">
     <input type="checkbox" name="visible_to_customer" id="pf_visible_to_customer" class="onoffswitch-checkbox">
     <label class="onoffswitch-label" for="pf_visible_to_customer"></label>
 </div>
 <div class="text-right" style="margin-top:-25px;">
-    <button class="gpicker" data-on-pick="oserviceFileGoogleDriveSave">
+    <button class="gpicker" data-on-pick="projectFileGoogleDriveSave">
         <i class="fa fa-google" aria-hidden="true"></i>
         <?php echo _l('choose_from_google_drive'); ?>
     </button>
@@ -16,7 +16,7 @@
 </div>
 <div class="clearfix"></div>
 <div class="mtop25"></div>
-<div class="modal fade bulk_actions" id="oservice_files_bulk_actions" tabindex="-1" role="dialog">
+<div class="modal fade bulk_actions" id="project_files_bulk_actions" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,7 +33,7 @@
                 <?php } ?>
                 <div id="bulk_change">
                     <div class="form-group">
-                        <label class="mtop5"><?php echo _l('oservice_file_visible_to_customer'); ?></label>
+                        <label class="mtop5"><?php echo _l('project_file_visible_to_customer'); ?></label>
                         <div class="onoffswitch">
                             <input type="checkbox" name="bulk_visible_to_customer" id="bulk_pf_visible_to_customer" class="onoffswitch-checkbox">
                             <label class="onoffswitch-label" for="bulk_pf_visible_to_customer"></label>
@@ -48,28 +48,28 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<a href="#" data-toggle="modal" data-target="#oservice_files_bulk_actions" class="bulk-actions-btn table-btn hide" data-table=".table-oservice-files">
+<a href="#" data-toggle="modal" data-target="#project_files_bulk_actions" class="bulk-actions-btn table-btn hide" data-table=".table-oservice-files">
     <?php echo _l('bulk_actions'); ?>
 </a>
-<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Other_services_Controller/download_all_files/'.$service->id.'/'.$oservice_id); ?>'; return false;" class="table-btn hide" data-table=".table-oservice-files"><?php echo _l('download_all'); ?></a>
+<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Other_services_Controller/download_all_files/'.$ServID.'/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-oservice-files"><?php echo _l('download_all'); ?></a>
 <div class="clearfix"></div>
 <table class="table dt-table scroll-responsive table-oservice-files" data-order-col="7" data-order-type="desc">
     <thead>
     <tr>
         <th data-orderable="false"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="oservice-files"><label></label></div></th>
-        <th><?php echo _l('oservice_file_filename'); ?></th>
-        <th><?php echo _l('oservice_file__filetype'); ?></th>
-        <th><?php echo _l('oservice_discussion_last_activity'); ?></th>
-        <th><?php echo _l('oservice_discussion_total_comments'); ?></th>
-        <th><?php echo _l('oservice_file_visible_to_customer'); ?></th>
-        <th><?php echo _l('oservice_file_uploaded_by'); ?></th>
-        <th><?php echo _l('oservice_file_dateadded'); ?></th>
+        <th><?php echo _l('project_file_filename'); ?></th>
+        <th><?php echo _l('project_file__filetype'); ?></th>
+        <th><?php echo _l('project_discussion_last_activity'); ?></th>
+        <th><?php echo _l('project_discussion_total_comments'); ?></th>
+        <th><?php echo _l('project_file_visible_to_customer'); ?></th>
+        <th><?php echo _l('project_file_uploaded_by'); ?></th>
+        <th><?php echo _l('project_file_dateadded'); ?></th>
         <th><?php echo _l('options'); ?></th>
     </tr>
     </thead>
     <tbody>
     <?php foreach($files as $file){
-        $path = get_upload_path_by_type('oservice') . $oservice_id . '/'. $file['file_name'];
+        $path = get_upload_path_by_type('oservice') . $project_id . '/'. $file['file_name'];
         ?>
         <tr>
             <td>
@@ -77,9 +77,9 @@
             </td>
             <td data-order="<?php echo $file['file_name']; ?>">
                 <a href="#" onclick="view_oservice_file(<?php echo $file['id']; ?>,<?php echo $file['oservice_id']; ?>); return false;">
-                    <?php if(is_image(OSERVICE_ATTACHMENTS_FOLDER .$oservice_id.'/'.$file['file_name']) || (!empty($file['external']) && !empty($file['thumbnail_link']))){
+                    <?php if(is_image(OSERVICE_ATTACHMENTS_FOLDER .$project_id.'/'.$file['file_name']) || (!empty($file['external']) && !empty($file['thumbnail_link']))){
                         echo '<div class="text-left"><i class="fa fa-spinner fa-spin mtop30"></i></div>';
-                        echo '<img class="oservice-file-image img-table-loading" src="#" data-orig="'.oservice_file_url($file,true).'" width="100">';
+                        echo '<img class="project-file-image img-table-loading" src="#" data-orig="'.oservice_file_url($file,true).'" width="100">';
                         echo '</div>';
                     }
                     echo $file['subject']; ?></a>
@@ -129,15 +129,15 @@
             <td data-order="<?php echo $file['dateadded']; ?>"><?php echo _dt($file['dateadded']); ?></td>
             <td>
                 <?php if(empty($file['external'])){ ?>
-                    <button type="button" data-toggle="modal" data-original-file-name="<?php echo $file['file_name']; ?>" data-filetype="<?php echo $file['filetype']; ?>" data-path="<?php echo OSERVICE_ATTACHMENTS_FOLDER .$oservice_id.'/'.$file['file_name']; ?>" data-target="#send_file" class="btn btn-info btn-icon"><i class="fa fa-envelope"></i></button>
+                    <button type="button" data-toggle="modal" data-original-file-name="<?php echo $file['file_name']; ?>" data-filetype="<?php echo $file['filetype']; ?>" data-path="<?php echo OSERVICE_ATTACHMENTS_FOLDER .$project_id.'/'.$file['file_name']; ?>" data-target="#send_file" class="btn btn-info btn-icon"><i class="fa fa-envelope"></i></button>
                 <?php } ?>
                 <?php if($file['staffid'] == get_staff_user_id() || has_permission('projects','','delete')){ ?>
-                    <a href="<?php echo admin_url('LegalServices/Other_services_Controller/remove_file/'.$service->id.'/'.$oservice_id.'/'.$file['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                    <a href="<?php echo admin_url('LegalServices/Other_services_Controller/remove_file/'.$ServID.'/'.$project_id.'/'.$file['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                 <?php } ?>
             </td>
         </tr>
     <?php } ?>
     </tbody>
 </table>
-<div id="oservice_file_data"></div>
+<div id="project_file_data"></div>
 <?php include_once(APPPATH . 'views/admin/clients/modals/send_file_modal.php'); ?>

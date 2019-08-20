@@ -25,7 +25,7 @@ $(function() {
     });
 
     $('body').on('show.bs.modal', '._project_file', function() {
-        discussion_comments_case('#case-file-discussion', discussion_id, 'file');
+        discussion_comments_oservice('#oservice-file-discussion', discussion_id, 'file');
     });
 
     $('body').on('shown.bs.modal', '#milestone', function() {
@@ -71,7 +71,7 @@ $(function() {
         timesheetsChart = new Chart(ctx, chartOptions);
     }
     milestones_kanban();
-    milestones_case_kanban();
+    milestones_oservice_kanban();
     $('#project_top').on('change', function() {
         var val = $(this).val();
         var servid = $('#project_top').attr('data-servid');
@@ -237,12 +237,12 @@ $(function() {
 
     initDataTable('.table-timesheets', admin_url + 'projects/timesheets/' + project_id, [8], [8], Timesheets_ServerParams, [3, 'desc']);
 
-    slug_timesheets_case = $(".table-timesheets_case").attr('data-new-rel-slug');
-    initDataTable('.table-timesheets_case', admin_url + 'LegalServices/Other_services_controller/timesheets/' + project_id + '/' + slug_timesheets_case , [8], [8], Timesheets_ServerParams, [3, 'desc']);
+    slug_timesheets_oservice = $(".table-timesheets_oservice").attr('data-new-rel-slug');
+    initDataTable('.table-timesheets_oservice', admin_url + 'LegalServices/Other_services_controller/timesheets/' + project_id + '/' + slug_timesheets_oservice , [8], [8], Timesheets_ServerParams, [3, 'desc']);
 
     initDataTable('.table-project-discussions', admin_url + 'projects/discussions/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
-    slug_case_discussions = $(".table-case-discussions").attr('data-new-rel-slug');
-    initDataTable('.table-case-discussions', admin_url + 'LegalServices/Other_services_controller/discussions/' + project_id + '/' + slug_case_discussions, undefined, undefined, 'undefined', [1, 'desc']);
+    slug_oservice_discussions = $(".table-oservice-discussions").attr('data-new-rel-slug');
+    initDataTable('.table-oservice-discussions', admin_url + 'LegalServices/Other_services_controller/discussions/' + project_id + '/' + slug_oservice_discussions, undefined, undefined, 'undefined', [1, 'desc']);
 
 
     appValidateForm($('#milestone_form'), {
@@ -402,11 +402,11 @@ function milestones_switch_view() {
     }
 }
 
-function milestones_case_switch_view(ServID, slug) {
+function milestones_oservice_switch_view(ServID, slug) {
     $('#milestones-table').toggleClass('hide');
-    $('.case-milestones-kanban').toggleClass('hide');
-    if (!$.fn.DataTable.isDataTable('.table-milestones_case')) {
-        initDataTable('.table-milestones_case', admin_url + 'LegalServices/Other_services_controller/milestones/' + project_id + '/' + ServID + '/' + slug);
+    $('.oservice-milestones-kanban').toggleClass('hide');
+    if (!$.fn.DataTable.isDataTable('.table-milestones_oservice')) {
+        initDataTable('.table-milestones_oservice', admin_url + 'LegalServices/Other_services_controller/milestones/' + project_id + '/' + ServID + '/' + slug);
     }
 }
 
@@ -418,7 +418,7 @@ function manage_discussion(form) {
         if (response.success == true) {
             alert_float('success', response.message);
         }
-        $('.table-case-discussions').DataTable().ajax.reload(null, false);
+        $('.table-oservice-discussions').DataTable().ajax.reload(null, false);
         $('#discussion').modal('hide');
         $('#discussion_form').find('button[type="submit"]').button('reset');
     });
@@ -571,11 +571,11 @@ function delete_project_discussion(id) {
     }
 }
 
-function delete_case_discussion(id) {
+function delete_oservice_discussion(id) {
     if (confirm_delete()) {
         requestGetJSON('LegalServices/Other_services_controller/delete_discussion/' + id).done(function(response) {
             alert_float(response.alert_type, response.message);
-            $('.table-case-discussions').DataTable().ajax.reload(null, false);
+            $('.table-oservice-discussions').DataTable().ajax.reload(null, false);
         });
     }
 }
@@ -610,7 +610,7 @@ function view_project_file(id, $project_id) {
     });
 }
 
-function view_case_file(id, $project_id) {
+function view_oservice_file(id, $project_id) {
     $('#project_file_data').empty();
     $("#project_file_data").load(admin_url + 'LegalServices/Other_services_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
         if (status == "error") {
@@ -689,7 +689,7 @@ function project_files_bulk_action(e) {
 
 }
 
-function case_files_bulk_action(e) {
+function oservice_files_bulk_action(e) {
     if (confirm_delete()) {
         var mass_delete = $('#mass_delete').prop('checked');
         var ids = [];
@@ -700,7 +700,7 @@ function case_files_bulk_action(e) {
             data.mass_delete = true;
         }
 
-        var rows = $('.table-project-files').find('tbody tr');
+        var rows = $('.table-oservice-files').find('tbody tr');
         $.each(rows, function() {
             var checkbox = $($(this).find('td').eq(0)).find('input');
             if (checkbox.prop('checked') == true) {
@@ -732,7 +732,7 @@ function gantt_filter() {
     window.location.href = buildUrl(admin_url + 'projects/view/' + project_id, params);
 }
 
-function gantt_case_filter(ServID) {
+function gantt_oservice_filter(ServID) {
     var status = $('select[name="gantt_task_status"]').selectpicker('val');
     var gantt_type = $('select[name="gantt_type"]').selectpicker('val');
     var params = [];
@@ -741,7 +741,7 @@ function gantt_case_filter(ServID) {
     if (status) {
         params['gantt_task_status'] = status;
     }
-    window.location.href = buildUrl(admin_url + 'Case/view/' + ServID + '/' + project_id, params);
+    window.location.href = buildUrl(admin_url + 'SOther/view/' + ServID + '/' + project_id, params);
 }
 
 function confirm_case_status_change(e, slug) {
@@ -802,7 +802,7 @@ function milestones_kanban_update(ui, object) {
     }
 }
 
-function milestones_case_kanban_update(ui, object) {
+function milestones_oservice_kanban_update(ui, object) {
     if (object === ui.item.parent()[0]) {
         data = {};
         data.order = [];
@@ -827,12 +827,12 @@ function milestones_kanban() {
     init_kanban('projects/milestones_kanban', milestones_kanban_update, '.project-milestone', 445, 360, after_milestones_kanban);
 }
 
-function milestones_case_kanban() {
-    slug_case_kanban = $(".table-milestones_case").attr('data-slug');
-    init_kanban('LegalServices/Other_services_controller/milestones_kanban/' + slug_case_kanban, milestones_case_kanban_update, '.case-milestone', 445, 360, after_milestones_case_kanban);
+function milestones_oservice_kanban() {
+    slug_oservice_kanban = $(".table-milestones_oservice").attr('data-slug');
+    init_kanban('LegalServices/Other_services_controller/milestones_kanban/' + slug_oservice_kanban, milestones_oservice_kanban_update, '.oservice-milestone', 445, 360, after_milestones_oservice_kanban);
 }
 
-function after_milestones_case_kanban() {
+function after_milestones_oservice_kanban() {
     $("#kan-ban").sortable({
         helper: 'clone',
         item: '.kan-ban-col',

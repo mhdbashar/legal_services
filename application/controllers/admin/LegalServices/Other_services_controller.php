@@ -308,7 +308,7 @@ class Other_services_controller extends AdminController
             } elseif ($group == 'project_gantt') {
                 $gantt_type = (!$this->input->get('gantt_type') ? 'milestones' : $this->input->get('gantt_type'));
                 $taskStatus = (!$this->input->get('gantt_task_status') ? null : $this->input->get('gantt_task_status'));
-                $data['gantt_data'] = $this->other->get_gantt_data($id, $gantt_type, $taskStatus);
+                $data['gantt_data'] = $this->other->get_gantt_data($slug, $id, $gantt_type, $taskStatus);
             } elseif ($group == 'project_milestones') {
                 $data['bodyclass'] .= 'project-milestones ';
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
@@ -506,24 +506,26 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function discussions($project_id)
+    public function discussions($project_id, $slug)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
             if ($this->input->is_ajax_request()) {
-                $this->app->get_table_data('project_discussions', [
+                $this->app->get_table_data('oservice_discussions', [
                     'project_id' => $project_id,
+                    'ServID' => $ServID
                 ]);
             }
         }
     }
 
-    public function discussion($id = '')
+    public function discussion($ServID = '',$id = '')
     {
         if ($this->input->post()) {
             $message = '';
             $success = false;
             if (!$this->input->post('id')) {
-                $id = $this->other->add_discussion($this->input->post());
+                $id = $this->other->add_discussion($this->input->post(), $ServID);
                 if ($id) {
                     $success = true;
                     $message = _l('added_successfully', _l('project_discussion'));
@@ -594,9 +596,9 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function upload_file($project_id)
+    public function upload_file($ServID = '',$project_id)
     {
-        handle_project_file_uploads($project_id);
+        handle_oservice_file_uploads($ServID, $project_id);
     }
 
     public function change_file_visibility($id, $visible)
@@ -621,7 +623,7 @@ class Other_services_controller extends AdminController
         redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id . '?group=project_files'));
     }
 
-    public function milestones_kanban()
+    public function milestones_kanban($slug = '')
     {
         $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed_tasks') && $this->input->get('exclude_completed_tasks') == 'yes';
 
@@ -631,11 +633,11 @@ class Other_services_controller extends AdminController
         $data['milestones'][] = [
             'name' => _l('milestones_uncategorized'),
             'id' => 0,
-            'total_logged_time' => $this->other->calc_milestone_logged_time($data['project_id'], 0),
+            'total_logged_time' => $this->other->calc_milestone_logged_time($slug, $data['project_id'], 0),
             'color' => null,
         ];
 
-        $_milestones = $this->other->get_milestones($data['project_id']);
+        $_milestones = $this->other->get_milestones($slug, $data['project_id']);
 
         foreach ($_milestones as $m) {
             $data['milestones'][] = $m;
@@ -661,30 +663,32 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function milestones($project_id)
+    public function milestones($project_id, $ServID, $slug)
     {
         if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
             if ($this->input->is_ajax_request()) {
-                $this->app->get_table_data('milestones', [
+                $this->app->get_table_data('milestones_oservice', [
                     'project_id' => $project_id,
+                    'ServID' => $ServID,
+                    'slug' => $slug
                 ]);
             }
         }
     }
 
-    public function milestone($id = '')
+    public function milestone($ServID = '', $id = '')
     {
         if ($this->input->post()) {
             $message = '';
             $success = false;
             if (!$this->input->post('id')) {
-                $id = $this->other->add_milestone($this->input->post());
+                $id = $this->other->add_milestone($ServID, $this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project_milestone')));
                 }
             } else {
                 $data = $this->input->post();
-                $id = $data['id'];
+                $id   = $data['id'];
                 unset($data['id']);
                 $success = $this->other->update_milestone($data, $id);
                 if ($success) {
@@ -692,18 +696,17 @@ class Other_services_controller extends AdminController
                 }
             }
         }
-
-        redirect(admin_url('LegalServices/other_services_controller/view/' . $this->input->post('project_id') . '?group=project_milestones'));
+        redirect(admin_url('SOther/view/'.$ServID. '/' . $this->input->post('rel_sid') . '?group=project_milestones'));
     }
 
-    public function delete_milestone($project_id, $id)
+    public function delete_milestone($ServID='',$project_id, $id)
     {
         if (has_permission('projects', '', 'delete')) {
             if ($this->other->delete_milestone($id)) {
                 set_alert('deleted', 'project_milestone');
             }
         }
-        redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id . '?group=project_milestones'));
+        redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_milestones'));
     }
 
     public function bulk_action_files()
@@ -730,12 +733,13 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function timesheets($project_id)
+    public function timesheets($project_id, $slug)
     {
         if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
             if ($this->input->is_ajax_request()) {
-                $this->app->get_table_data('timesheets', [
+                $this->app->get_table_data('timesheets_oservice', [
                     'project_id' => $project_id,
+                    'slug' => $slug
                 ]);
             }
         }

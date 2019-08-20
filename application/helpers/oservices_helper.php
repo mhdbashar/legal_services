@@ -1169,7 +1169,7 @@ function handle_oservice_file_uploads($ServID, $project_id)
                         $contact_id = 0;
                     }
                     $data = [
-                        'project_id' => $project_id,
+                        'oservice_id' => $project_id,
                         'file_name' => $filename,
                         'filetype' => $_FILES['file']['type'][$i],
                         'dateadded' => date('Y-m-d H:i:s'),

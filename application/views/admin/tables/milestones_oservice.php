@@ -28,7 +28,7 @@ foreach ($rResult as $aRow) {
 
             if (has_permission('projects', '', 'delete')) {
                 $_data .= '<div class="row-options">';
-                $_data .= '<a href="' . admin_url('LegalServices/Cases_controller/delete_milestone/' . $ServID . '/' . $project_id . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                $_data .= '<a href="' . admin_url('LegalServices/other_services_controller/delete_milestone/' . $ServID . '/' . $project_id . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
                 $_data .= '</div>';
             }
         } elseif ($aColumns[$i] == 'due_date') {

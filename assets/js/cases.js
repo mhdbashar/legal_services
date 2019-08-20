@@ -674,7 +674,7 @@ function case_files_bulk_action(e) {
             data.mass_delete = true;
         }
 
-        var rows = $('.table-project-files').find('tbody tr');
+        var rows = $('.table-case-files').find('tbody tr');
         $.each(rows, function() {
             var checkbox = $($(this).find('td').eq(0)).find('input');
             if (checkbox.prop('checked') == true) {

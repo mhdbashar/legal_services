@@ -151,9 +151,9 @@ echo form_hidden('project_percent',$percent);
 ?>
 <div id="invoice_project"></div>
 <div id="pre_invoice_project"></div>
-<?php $this->load->view('admin/LegalServices/cases/milestone'); ?>
-<?php $this->load->view('admin/LegalServices/cases/copy_settings'); ?>
-<?php $this->load->view('admin/LegalServices/cases/_mark_tasks_finished', array('slug' => $service->slug)); ?>
+<?php $this->load->view('admin/LegalServices/other_services/milestone'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/copy_settings'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->
 <script>
@@ -169,7 +169,7 @@ echo form_hidden('project_percent',$percent);
     var current_user_is_admin = $('input[name="current_user_is_admin"]').val();
     var project_id = $('input[name="project_id"]').val();
     if(typeof(discussion_id) != 'undefined'){
-        discussion_comments_case('#discussion-comments',discussion_id,'regular');
+        discussion_comments_oservice('#discussion-comments',discussion_id,'regular');
     }
     $(function(){
         var project_progress_color = '<?php echo hooks()->apply_filters('admin_project_progress_color','#84c529'); ?>';
@@ -180,19 +180,19 @@ echo form_hidden('project_percent',$percent);
         });
     });
 
-    function discussion_comments_case(selector,discussion_id,discussion_type){
+    function discussion_comments_oservice(selector,discussion_id,discussion_type){
         var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_case_discussions_language_array()); ?>);
         var options = {
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {
-                $.get(admin_url + 'LegalServices/Cases_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
+                $.get(admin_url + 'LegalServices/Other_services_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
                     success(response);
                 },'json');
             },
             postComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Cases_controller/add_discussion_comment/'+ <?php echo $ServID; ?> + '/' + discussion_id+'/'+discussion_type,
+                    url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> + '/' + discussion_id+'/'+discussion_type,
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -204,7 +204,7 @@ echo form_hidden('project_percent',$percent);
             putComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Cases_controller/update_discussion_comment',
+                    url: admin_url + 'LegalServices/Other_services_controller/update_discussion_comment',
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -216,7 +216,7 @@ echo form_hidden('project_percent',$percent);
             deleteComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/Cases_controller/delete_discussion_comment/'+commentJSON.id,
+                    url: admin_url + 'LegalServices/Other_services_controller/delete_discussion_comment/'+commentJSON.id,
                     success: success,
                     error: error
                 });
@@ -254,7 +254,7 @@ echo form_hidden('project_percent',$percent);
                             formData.append(csrfData['token_name'], csrfData['hash']);
                         }
                         $.ajax({
-                            url: admin_url + 'LegalServices/Cases_controller/add_discussion_comment/'+ <?php echo $ServID; ?> +'/'+ discussion_id+'/'+discussion_type,
+                            url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> +'/'+ discussion_id+'/'+discussion_type,
                             type: 'POST',
                             data: formData,
                             cache: false,
@@ -278,56 +278,5 @@ echo form_hidden('project_percent',$percent);
         $(selector).comments(settings);
     }
 </script>
-<script>
-    <?php
-    $num_session = isset($num_session) ? $num_session : 0;
-    for($i = 0; $i < $num_session; $i++){ ?>
-    function submitForm<?php echo $i ?>(){
-        document.getElementById('myform<?php echo $i ?>').submit();
-    }
-    function resultForm<?php echo $i ?>(){
-        document.getElementById('resultform<?php echo $i ?>').submit();
-    }
-
-    <?php } ?>
-
-    $(function(){
-        initDataTable('.table-case-session', admin_url + 'LegalServices/case_session_controller/session/<?php echo $ServID ?>/<?php echo $project->id; ?>', undefined, undefined, 'undefined', [0, 'asc']);
-    });
-
-    function update_session_json(id){
-
-        save_method = 'update';
-        $('#form_transout')[0].reset(); // reset form on modals
-        $('.form-group').removeClass('has-error'); // clear error class
-        $('.help-block').empty(); // clear error string
-
-        //Ajax Load data from ajax
-        $.ajax({
-            url : "<?php echo site_url('session/service_sessions/session_json') ?>/" + id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                console.log(data);
-                $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
-                $('[name="subject"]').val(data.subject);
-                $('[name="date"]').val(data.date);
-                $('[name="id"]').val(data.id);
-                $('[name="court_id"]').val(data.court_id);
-                $('[name="judge_id"]').val(data.judge_id);
-
-                // $('[name="dob"]').datepicker('update',data.dob);
-                $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
-
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    }
-</script>
-
 </body>
 </html>

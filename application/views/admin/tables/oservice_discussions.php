@@ -3,12 +3,12 @@
 $aColumns = [
     'subject',
     'last_activity',
-    '(SELECT COUNT(*) FROM '.db_prefix().'casediscussioncomments WHERE discussion_id = '.db_prefix().'casediscussions.id AND discussion_type="regular")',
+    '(SELECT COUNT(*) FROM '.db_prefix().'oservicediscussioncomments WHERE discussion_id = '.db_prefix().'oservicediscussions.id AND discussion_type="regular")',
     'show_to_customer',
 ];
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'casediscussions';
-$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], ['AND project_id=' . $project_id], [
+$sTable       = db_prefix().'oservicediscussions';
+$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], ['AND oservice_id=' . $project_id], [
     'id',
     'description',
 ]);
@@ -19,14 +19,14 @@ foreach ($rResult as $aRow) {
     for ($i = 0; $i < count($aColumns); $i++) {
         $_data = $aRow[$aColumns[$i]];
         if ($aColumns[$i] == 'subject') {
-            $_data = '<a href="' . admin_url('Case/view/' .$ServID .'/'. $project_id . '?group=project_discussions&discussion_id=' . $aRow['id']) . '">' . $_data . '</a>';
+            $_data = '<a href="' . admin_url('SOther/view/' .$ServID .'/'. $project_id . '?group=project_discussions&discussion_id=' . $aRow['id']) . '">' . $_data . '</a>';
             if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'delete')) {
                 $_data .= '<div class="row-options">';
                 if (has_permission('projects', '', 'edit')) {
                     $_data .= '<a href="#" onclick="edit_discussion(this,' . $aRow['id'] . '); return false;" data-subject="'.$aRow['subject'].'" data-description="'.htmlentities(clear_textarea_breaks($aRow['description'])).'" data-show-to-customer="'.$aRow['show_to_customer'].'">'._l('edit').'</a>';
                 }
                 if (has_permission('projects', '', 'delete')) {
-                    $_data .= (has_permission('projects', '', 'edit') ? ' | ' : '') . '<a href="#" onclick="delete_case_discussion(' . $aRow['id'] . '); return false;" class="text-danger">'._l('delete').'</a>';
+                    $_data .= (has_permission('projects', '', 'edit') ? ' | ' : '') . '<a href="#" onclick="delete_oservice_discussion(' . $aRow['id'] . '); return false;" class="text-danger">'._l('delete').'</a>';
                 }
                 $_data .= '</div>';
             }

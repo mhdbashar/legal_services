@@ -35,13 +35,13 @@
                             <br />
                         <?php } ?>
                         <?php
-                        $path = PROJECT_ATTACHMENTS_FOLDER .$file->project_id.'/'.$file->file_name;
+                        $path = OSERVICE_ATTACHMENTS_FOLDER .$file->oservice_id.'/'.$file->file_name;
                         if(is_image($path)){ ?>
-                            <img src="<?php echo base_url('uploads/projects/'.$file->project_id.'/'.$file->file_name); ?>" class="img img-responsive">
+                            <img src="<?php echo base_url('uploads/oservices/'.$file->oservice_id.'/'.$file->file_name); ?>" class="img img-responsive">
                         <?php } else if(!empty($file->external) && !empty($file->thumbnail_link) && $file->external == 'dropbox'){ ?>
                             <img src="<?php echo optimize_dropbox_thumbnail($file->thumbnail_link); ?>" class="img img-responsive">
                         <?php } else if(strpos($file->filetype,'pdf') !== false && empty($file->external)){ ?>
-                            <iframe src="<?php echo base_url('uploads/projects/'.$file->project_id.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
+                            <iframe src="<?php echo base_url('uploads/oservices/'.$file->oservice_id.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
                         <?php } else if(is_html5_video($path)) { ?>
                             <video width="100%" height="100%" src="<?php echo site_url('download/preview_video?path='.protected_file_url_by_path($path).'&type='.$file->filetype); ?>" controls>
                                 Your browser does not support the video tag.
@@ -50,7 +50,7 @@
                             echo $previewMarkdown;
                         } else {
                             if(empty($file->external)) {
-                                echo '<a href="'.site_url('uploads/projects/'.$file->project_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
+                                echo '<a href="'.site_url('uploads/projects/'.$file->oservice_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
                             } else {
                                 echo '<a href="'.$file->external_link.'" target="_blank">'.$file->file_name.'</a>';
                             }
@@ -58,7 +58,7 @@
                         } ?>
                     </div>
                     <div class="col-md-4 project_file_discusssions_area">
-                        <div id="project-file-discussion"></div>
+                        <div id="oservice-file-discussion"></div>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<?php $discussion_lang = get_project_discussions_language_array(); ?>
+<?php $discussion_lang = get_oservice_discussions_language_array(); ?>
 <script>
     var discussion_id = '<?php echo $file->id; ?>';
     var discussion_user_profile_image_url = '<?php echo $discussion_user_profile_image_url; ?>';

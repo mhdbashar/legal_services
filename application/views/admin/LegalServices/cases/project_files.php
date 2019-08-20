@@ -48,15 +48,15 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<a href="#" data-toggle="modal" data-target="#project_files_bulk_actions" class="bulk-actions-btn table-btn hide" data-table=".table-project-files">
+<a href="#" data-toggle="modal" data-target="#project_files_bulk_actions" class="bulk-actions-btn table-btn hide" data-table=".table-case-files">
   <?php echo _l('bulk_actions'); ?>
 </a>
-<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Cases_controller/download_all_files/'.$ServID.'/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-project-files"><?php echo _l('download_all'); ?></a>
+<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Cases_controller/download_all_files/'.$ServID.'/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-case-files"><?php echo _l('download_all'); ?></a>
 <div class="clearfix"></div>
-<table class="table dt-table scroll-responsive table-project-files" data-order-col="7" data-order-type="desc">
+<table class="table dt-table scroll-responsive table-case-files" data-order-col="7" data-order-type="desc">
   <thead>
     <tr>
-      <th data-orderable="false"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="project-files"><label></label></div></th>
+      <th data-orderable="false"><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="case-files"><label></label></div></th>
       <th><?php echo _l('project_file_filename'); ?></th>
       <th><?php echo _l('project_file__filetype'); ?></th>
       <th><?php echo _l('project_discussion_last_activity'); ?></th>
@@ -69,7 +69,7 @@
   </thead>
   <tbody>
     <?php foreach($files as $file){
-      $path = get_upload_path_by_type('case') . $project->id . '/'. $file['file_name'];
+      $path = get_upload_path_by_type_case('case') . $project->id . '/'. $file['file_name'];
       ?>
       <tr>
         <td>

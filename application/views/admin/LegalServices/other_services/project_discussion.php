@@ -8,19 +8,19 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
                     <span class="edit-title"><?php echo _l('edit_discussion'); ?></span>
-                    <span class="add-title"><?php echo _l('new_oservice_discussion'); ?></span>
+                    <span class="add-title"><?php echo _l('new_project_discussion'); ?></span>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo form_hidden('oservice_id',$oservice_id); ?>
+                        <?php echo form_hidden('oservice_id',$project_id); ?>
                         <div id="additional_discussion"></div>
-                        <?php echo render_input('subject','oservice_discussion_subject'); ?>
-                        <?php echo render_textarea('description','oservice_discussion_description'); ?>
+                        <?php echo render_input('subject','project_discussion_subject'); ?>
+                        <?php echo render_textarea('description','project_discussion_description'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="show_to_customer" checked id="show_to_customer">
-                            <label for="show_to_customer"><?php echo _l('oservice_discussion_show_to_customer'); ?></label>
+                            <label for="show_to_customer"><?php echo _l('project_discussion_show_to_customer'); ?></label>
                         </div>
                     </div>
                 </div>

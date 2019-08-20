@@ -2,7 +2,7 @@
 <div class="col-md-12">
     <div class="panel_s mbot10">
         <div class="panel-body _buttons">
-            <?php $this->load->view('admin/estimates/estimates_top_stats_case');
+            <?php $this->load->view('admin/estimates/estimates_top_stats_oservice');
             ?>
             <?php if(has_permission('estimates','','create')){ ?>
                 <a href="<?php echo admin_url('estimates/estimate'); ?>" class="btn btn-info pull-left new new-estimate-btn"><?php echo _l('create_new_estimate'); ?></a>
@@ -15,28 +15,28 @@
                     </button>
                     <ul class="dropdown-menu width300">
                         <li>
-                            <a href="#" data-cview="all" onclick="dt_custom_view('','.table-estimates_case',''); return false;">
+                            <a href="#" data-cview="all" onclick="dt_custom_view('','.table-estimates_oservice',''); return false;">
                                 <?php echo _l('estimates_list_all'); ?>
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li class="<?php if($this->input->get('filter') == 'not_sent'){echo 'active'; } ?>">
-                            <a href="#" data-cview="not_sent" onclick="dt_custom_view('not_sent','.table-estimates_case','not_sent'); return false;">
+                            <a href="#" data-cview="not_sent" onclick="dt_custom_view('not_sent','.table-estimates_oservice','not_sent'); return false;">
                                 <?php echo _l('not_sent_indicator'); ?>
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-cview="invoiced" onclick="dt_custom_view('invoiced','.table-estimates_case','invoiced'); return false;">
+                            <a href="#" data-cview="invoiced" onclick="dt_custom_view('invoiced','.table-estimates_oservice','invoiced'); return false;">
                                 <?php echo _l('estimate_invoiced'); ?>
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-cview="not_invoiced" onclick="dt_custom_view('not_invoiced','.table-estimates_case','not_invoiced'); return false;"><?php echo _l('estimates_not_invoiced'); ?></a>
+                            <a href="#" data-cview="not_invoiced" onclick="dt_custom_view('not_invoiced','.table-estimates_oservice','not_invoiced'); return false;"><?php echo _l('estimates_not_invoiced'); ?></a>
                         </li>
                         <li class="divider"></li>
                         <?php foreach($estimate_statuses as $status){ ?>
                             <li class="<?php if($this->input->get('status') == $status){echo 'active';} ?>">
-                                <a href="#" data-cview="estimates_<?php echo $status; ?>" onclick="dt_custom_view('estimates_<?php echo $status; ?>','.table-estimates_case','estimates_<?php echo $status; ?>'); return false;">
+                                <a href="#" data-cview="estimates_<?php echo $status; ?>" onclick="dt_custom_view('estimates_<?php echo $status; ?>','.table-estimates_oservice','estimates_<?php echo $status; ?>'); return false;">
                                     <?php echo format_estimate_status($status,'',false); ?>
                                 </a>
                             </li>
@@ -51,7 +51,7 @@
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     <?php foreach($estimates_sale_agents as $agent){ ?>
                                         <li>
-                                            <a href="#" data-cview="sale_agent_<?php echo $agent['sale_agent']; ?>" onclick="dt_custom_view(<?php echo $agent['sale_agent']; ?>,'.table-estimates_case','sale_agent_<?php echo $agent['sale_agent']; ?>'); return false;"><?php echo $agent['full_name']; ?>
+                                            <a href="#" data-cview="sale_agent_<?php echo $agent['sale_agent']; ?>" onclick="dt_custom_view(<?php echo $agent['sale_agent']; ?>,'.table-estimates_oservice','sale_agent_<?php echo $agent['sale_agent']; ?>'); return false;"><?php echo $agent['full_name']; ?>
                                             </a>
                                         </li>
                                     <?php } ?>
@@ -63,14 +63,14 @@
                             <li class="divider"></li>
                             <?php foreach($estimates_years as $year){ ?>
                                 <li class="active">
-                                    <a href="#" data-cview="year_<?php echo $year['year']; ?>" onclick="dt_custom_view(<?php echo $year['year']; ?>,'.table-estimates_case','year_<?php echo $year['year']; ?>'); return false;"><?php echo $year['year']; ?>
+                                    <a href="#" data-cview="year_<?php echo $year['year']; ?>" onclick="dt_custom_view(<?php echo $year['year']; ?>,'.table-estimates_oservice','year_<?php echo $year['year']; ?>'); return false;"><?php echo $year['year']; ?>
                                     </a>
                                 </li>
                             <?php } ?>
                         <?php } ?>
                     </ul>
                 </div>
-                <a href="#" class="btn btn-default btn-with-tooltip toggle-small-view hidden-xs" onclick="toggle_small_view('.table-estimates_case','#estimate'); return false;" data-toggle="tooltip" title="<?php echo _l('estimates_toggle_table_tooltip'); ?>"><i class="fa fa-angle-double-left"></i></a>
+                <a href="#" class="btn btn-default btn-with-tooltip toggle-small-view hidden-xs" onclick="toggle_small_view('.table-estimates_oservice','#estimate'); return false;" data-toggle="tooltip" title="<?php echo _l('estimates_toggle_table_tooltip'); ?>"><i class="fa fa-angle-double-left"></i></a>
                 <a href="#" class="btn btn-default btn-with-tooltip estimates-total" onclick="slideToggle('#stats-top'); init_estimates_total(true); return false;" data-toggle="tooltip" title="<?php echo _l('view_stats_tooltip'); ?>"><i class="fa fa-bar-chart"></i></a>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 <div class="panel-body">
                     <!-- if estimateid found in url -->
                     <?php echo form_hidden('estimateid',$estimateid); ?>
-                    <?php $this->load->view('admin/estimates/table_html_case'); ?>
+                    <?php $this->load->view('admin/estimates/table_html_oservice'); ?>
                 </div>
             </div>
         </div>

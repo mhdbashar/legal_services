@@ -19,10 +19,10 @@ foreach ($milestones as $milestone) {
    $milestone_color = ' style="background:'.$milestone["color"].';border:1px solid '.$milestone['color'].'"';
  }
 
- $this->load->model('LegalServices/Cases_model', 'case');
- $total_pages = ceil($this->case->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere, true)/get_option('tasks_kanban_limit'));
+ $this->load->model('LegalServices/Other_services_model', 'other');
+ $total_pages = ceil($this->other->do_milestones_kanban_query($ServID, $milestone['id'], $project_id, 1, $milestonesTasksWhere, true)/get_option('tasks_kanban_limit'));
 
- $tasks = $this->case->do_milestones_kanban_query($milestone['id'], $project_id, 1, $milestonesTasksWhere);
+ $tasks = $this->other->do_milestones_kanban_query($ServID, $milestone['id'], $project_id, 1, $milestonesTasksWhere);
  $total_tasks = count($tasks);
 
  if($milestone['id'] == 0 && count($tasks) == 0){
@@ -73,14 +73,14 @@ foreach ($milestones as $milestone) {
 </div>
 <div class="kan-ban-content-wrapper">
   <div class="kan-ban-content">
-   <ul class="status case-milestone milestone-tasks-wrapper sortable relative" data-task-status-id="<?php echo $milestone['id']; ?>">
+   <ul class="status oservice-milestone milestone-tasks-wrapper sortable relative" data-task-status-id="<?php echo $milestone['id']; ?>">
     <?php
     foreach ($tasks as $task) {
-     $this->load->view('admin/LegalServices/cases/_milestone_kanban_card', array('task'=>$task, 'milestone'=>$milestone['id']));
+     $this->load->view('admin/LegalServices/other_services/_milestone_kanban_card', array('task'=>$task, 'milestone'=>$milestone['id']));
    } ?>
    <?php if ($total_tasks > 0) { ?>
      <li class="text-center not-sortable kanban-load-more" data-load-status="<?php echo $milestone['id']; ?>">
-       <a href="#" class="btn btn-default btn-block<?php if ($total_pages <= 1) { echo ' disabled'; } ?>" data-page="1" onclick="kanban_load_more(<?php echo $milestone['id']; ?>,this,'LegalServices/Cases_controller/milestones_kanban_load_more',320,360); return false;";>
+       <a href="#" class="btn btn-default btn-block<?php if ($total_pages <= 1) { echo ' disabled'; } ?>" data-page="1" onclick="kanban_load_more(<?php echo $milestone['id']; ?>,this,'LegalServices/Other_services_controller/milestones_kanban_load_more/'.$ServID,320,360); return false;";>
         <?php echo _l('load_more'); ?>
       </a>
     </li>

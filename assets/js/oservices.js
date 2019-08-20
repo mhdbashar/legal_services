@@ -34,8 +34,8 @@ $(function() {
 
     initDataTable('.table-credit-notes', admin_url + 'credit_notes/table?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
-    slug_credit_notes_case = $(".table-credit-notes_case").attr('data-servid');
-    initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_case/'+slug_credit_notes_case+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+    slug_credit_notes_oservice = $(".table-credit-notes_oservice").attr('data-servid');
+    initDataTable('.table-credit-notes_oservice', admin_url + 'credit_notes/table_oservice/'+slug_credit_notes_oservice+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
     if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
         var chartOptions = {
@@ -187,14 +187,16 @@ $(function() {
     });
 
     _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
-    _table_api_case = initDataTable('.table-case-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+
+    slug_expenses_oservice = $(".table-oservice-expenses").attr('data-slug');
+    _table_api_oservice = initDataTable('.table-oservice-expenses', admin_url + 'LegalServices/Other_services_controller/expenses/' + project_id + '/' + slug_expenses_oservice, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 
     if (_table_api) {
         _table_api.column(0).visible(false, false).columns.adjust();
     }
 
-    if (_table_api_case) {
-        _table_api_case.column(0).visible(false, false).columns.adjust();
+    if (_table_api_oservice) {
+        _table_api_oservice.column(0).visible(false, false).columns.adjust();
     }
 
     init_rel_tasks_table(project_id, 'project');
@@ -501,8 +503,8 @@ function edit_discussion(invoker, id) {
     $('#discussion .add-title').addClass('hide');
 }
 
-function mass_stop_timers(only_billable) {
-    requestGetJSON('projects/mass_stop_timers/' + project_id + '/' + only_billable).done(function(response) {
+function mass_stop_timers(only_billable, ServID) {
+    requestGetJSON('projects/mass_stop_timers/' + project_id + '/' + only_billable + '/' + ServID).done(function(response) {
         alert_float(response.type, response.message);
         setTimeout(function() {
             $('body').find('.modal-backdrop').eq(0).remove();
@@ -526,6 +528,136 @@ function pre_invoice_oservice(servid) {
         $('#pre_invoice_project').html(response);
         $('#pre_invoice_project_settings').modal('show');
     });
+}
+
+function load_small_table_item(id, selector, input_name, url, table) {
+    var _tmpID = $('input[name="' + input_name + '"]').val();
+    // Check if id passed from url, hash is prioritized becuase is last
+    if (_tmpID !== '' && !window.location.hash) {
+        id = _tmpID;
+        // Clear the current id value in case user click on the left sidebar credit_note_ids
+        $('input[name="' + input_name + '"]').val('');
+    } else {
+        // check first if hash exists and not id is passed, becuase id is prioritized
+        if (window.location.hash && !id) {
+            id = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+        }
+    }
+    if (typeof(id) == 'undefined' || id === '') { return; }
+    destroy_dynamic_scripts_in_element($(selector))
+    if (!$("body").hasClass('small-table')) { toggle_small_view(table, selector); }
+    $('input[name="' + input_name + '"]').val(id);
+    do_hash_helper(id);
+    $(selector).load(admin_url + url + '/' + id);
+    if (is_mobile()) {
+        $('html, body').animate({
+            scrollTop: $(selector).offset().top + 150
+        }, 600);
+    }
+}
+
+function init_invoice_oservice(id) {
+    load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices_oservice');
+}
+
+// Init single credit note
+function init_credit_note_oservice(id) {
+    load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes_oservice');
+}
+
+function init_expense_oservice(id) {
+    load_small_table_item(id, '#expense', 'expenseid', 'expenses/get_expense_data_ajax', '.table-expenses_oservice');
+}
+
+// Delete credit note attachment
+function delete_credit_note_attachment(id) {
+    if (confirm_delete()) {
+        requestGet('credit_notes/delete_attachment/' + id).done(function(success) {
+            if (success == 1) {
+                $("body").find('[data-attachment-id="' + id + '"]').remove();
+                init_credit_note($("body").find('input[name="_attachment_sale_id"]').val());
+                init_credit_note_oservice($("body").find('input[name="_attachment_sale_id"]').val());
+            }
+        }).fail(function(error) {
+            alert_float('danger', error.responseText);
+        });
+    }
+}
+
+init_table_tickets_oservice();
+var table_invoices_oservice,
+    table_estimates_oservice;
+
+table_invoices_oservice = $('table.table-invoices_oservice');
+table_estimates_oservice = $('table.table-estimates_oservice');
+
+if (table_invoices_oservice.length > 0 || table_estimates_oservice.length > 0) {
+
+    // Invoices additional server params
+    var Invoices_Estimates_ServerParamsOservice = {};
+    var Invoices_Estimates_FilterOservice = $('._hidden_inputs._filters input');
+
+    $.each(Invoices_Estimates_FilterOservice, function() {
+        Invoices_Estimates_ServerParamsOservice[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    servid_invoices_oservice = $(".table-invoices_oservice").attr('data-servid');
+    slug_invoices_oservice = $(".table-invoices_oservice").attr('data-slug');
+    if (table_invoices_oservice.length) {
+        // Invoices tables
+        initDataTable(table_invoices_oservice, (admin_url + 'invoices/table_oservice/'+ servid_invoices_oservice +'/' + slug_invoices_oservice + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, !$('body').hasClass('recurring') ? [
+            [3, 'desc'],
+            [0, 'desc']
+        ] : [table_invoices_oservice.find('th.next-recurring-date').index(), 'asc']);
+    }
+
+    if (table_estimates_oservice.length) {
+        // Estimates table
+        servid_estimates_oservice = $(".table-estimates_oservice").attr('data-servid');
+        slug_estimates_oservice = $(".table-estimates_oservice").attr('data-slug');
+        initDataTable(table_estimates_oservice, admin_url + 'estimates/table_oservice/' + servid_estimates_oservice +'/' + slug_estimates_oservice , 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, [
+            [3, 'desc'],
+            [0, 'desc']
+        ]);
+    }
+}
+
+function init_table_tickets_oservice(manual) {
+
+    // Single ticket is for other tickets from user
+    if (typeof(manual) == 'undefined' &&
+        ($("body").hasClass('dashboard') || $('body').hasClass('single-ticket'))) {
+        return false;
+    }
+
+    if ($("body").find('.tickets_oservice-table').length === 0) { return; }
+
+    var TicketServerParamsOservice = {},
+        Tickets_FiltersOservice = $('._hidden_inputs._filters.tickets_filters input');
+    var tickets_date_created_index_oservice = $('table.tickets_oservice-table thead .ticket_created_column').index();
+    $.each(Tickets_FiltersOservice, function() {
+        TicketServerParamsOservice[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    slug_tickets_oservice = $(".tickets_oservice-table").attr('data-slug');
+    TicketServerParamsOservice['project_id'] = '[name="project_id"]';
+
+    var ticketsTableNotSortableOservice = [0]; // bulk actions
+    var _tickets_table_url_oservice = admin_url + 'tickets/table_tickets_oservice/'+slug_tickets_oservice;
+
+    if ($("body").hasClass('tickets-page')) {
+        _tickets_table_url_oservice += '?bulk_actions=true';
+    }
+
+    _table_api = initDataTable('.tickets_oservice-table', _tickets_table_url_oservice, ticketsTableNotSortableOservice, ticketsTableNotSortableOservice, TicketServerParamsOservice, [tickets_date_created_index_oservice, 'desc']);
+
+    if (_table_api && $("body").hasClass('dashboard')) {
+        var notVisibleDashboardDefault = [4, tickets_date_created_index_oservice, 5, 6];
+        for (var i in notVisibleDashboardDefault) {
+            _table_api.column(notVisibleDashboardDefault[i]).visible(false, false);
+        }
+        _table_api.columns.adjust();
+    }
 }
 
 function invoice_project(ServID , project_id) {
@@ -744,7 +876,7 @@ function gantt_oservice_filter(ServID) {
     window.location.href = buildUrl(admin_url + 'SOther/view/' + ServID + '/' + project_id, params);
 }
 
-function confirm_case_status_change(e, slug) {
+function confirm_oservice_status_change(e, slug) {
     var data = {};
 
     $(e).attr('disabled', true);

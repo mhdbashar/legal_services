@@ -53,6 +53,17 @@ class Expenses extends AdminController
         ]);
     }
 
+    public function table_oservice($clientid = '')
+    {
+        if (!has_permission('expenses', '', 'view') && !has_permission('expenses', '', 'view_own')) {
+            ajax_access_denied();
+        }
+
+        $this->app->get_table_data('oservice-expenses', [
+            'clientid' => $clientid,
+        ]);
+    }
+
     public function expense($id = '')
     {
         if ($this->input->post()) {

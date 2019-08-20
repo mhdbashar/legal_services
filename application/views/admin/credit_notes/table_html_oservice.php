@@ -8,8 +8,8 @@ $table_data = array(
         'th_attrs'=>array('class'=>'not_visible')
     )),
     _l('credit_note_status'),
-    (!isset($project) ? _l('Case') : array(
-        'name'=>_l('Case'),
+    (!isset($project) ? _l('LegalService') : array(
+        'name'=>_l('LegalService'),
         'th_attrs'=>array('class'=>'not_visible')
     )),
     _l('reference_no'),
@@ -23,5 +23,5 @@ foreach($custom_fields as $field){
 }
 $table_attributes['data-ServID'] = $ServID;
 $table_attributes['data-slug'] = $service->slug;
-render_datatable($table_data,'credit-notes_case', [], $table_attributes);
+render_datatable($table_data,'credit-notes_oservice', [], $table_attributes);
 ?>

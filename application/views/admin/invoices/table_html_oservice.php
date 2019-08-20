@@ -12,7 +12,7 @@ $table_data = array(
         'name'=>_l('invoice_dt_table_heading_client'),
         'th_attrs'=>array('class'=>(isset($client) ? 'not_visible' : ''))
     ),
-    _l('Case'),
+    _l('LegalService'),
     _l('tags'),
     _l('invoice_dt_table_heading_duedate'),
     _l('invoice_dt_table_heading_status'));
@@ -23,5 +23,5 @@ foreach($custom_fields as $field){
 $table_attributes['data-ServID'] = $ServID;
 $table_attributes['data-slug'] = $service->slug;
 $table_data = hooks()->apply_filters('invoices_table_columns', $table_data);
-render_datatable($table_data, (isset($class) ? $class : 'invoices_case'), [], $table_attributes);
+render_datatable($table_data, (isset($class) ? $class : 'invoices_oservice'), [], $table_attributes);
 ?>

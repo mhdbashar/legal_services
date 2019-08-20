@@ -65,6 +65,8 @@ class Cases_controller extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
+            $data['description'] = $this->input->post('description', false);
+            //echo "<pre>";print_r($data['judges']);exit;
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -74,10 +76,10 @@ class Cases_controller extends AdminController
                 redirect(admin_url("Service/$ServID"));
             }
         }
-        $data['case'] = $this->case->get($id);
         $data['case_members'] = $this->case->get_project_members($id);
         $data['case_judges'] = $this->case->get_case_judges($id);
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
+        $data['case'] = $this->case->get($id);
         $data['case']->settings->available_features = unserialize($data['case']->settings->available_features);
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
@@ -414,6 +416,7 @@ class Cases_controller extends AdminController
 
     public function mark_as($slug)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
@@ -421,7 +424,7 @@ class Cases_controller extends AdminController
                 $status = get_case_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
-                $success = $this->case->mark_as($this->input->post(), $slug);
+                $success = $this->case->mark_as($ServID, $this->input->post(), $slug);
 
                 if ($success) {
                     $message = _l('project_marked_as_success', $status['name']);
@@ -475,7 +478,7 @@ class Cases_controller extends AdminController
                 set_alert('warning', _l('no_files_found'));
                 redirect(admin_url('Case/view/'.$ServID.'/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type('case') . $id;
+            $path = get_upload_path_by_type_case('case') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);
@@ -1093,9 +1096,9 @@ class Cases_controller extends AdminController
             }
 
             $allow_to_view_tasks = 0;
-            $this->db->where('project_id', $id);
+            $this->db->where('case_id', $id);
             $this->db->where('name', 'view_tasks');
-            $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
+            $project_settings = $this->db->get(db_prefix() . 'case_settings')->row();
             if ($project_settings) {
                 $allow_to_view_tasks = $project_settings->value;
             }

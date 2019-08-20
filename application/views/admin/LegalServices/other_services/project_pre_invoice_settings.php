@@ -156,10 +156,10 @@
                             </p>
                             <hr />
                             <div class="col-md-6 text-center">
-                                <a href="#" onclick="mass_stop_timers(true);return false;" class="btn btn-default"><?php echo _l('invoice_oservice_stop_billable_timers_only'); ?></a>
+                                <a href="#" onclick="mass_stop_timers(true, <?php echo $ServID; ?>);return false;" class="btn btn-default"><?php echo _l('invoice_oservice_stop_billable_timers_only'); ?></a>
                             </div>
                             <div class="col-md-6 text-center">
-                                <a href="#" onclick="mass_stop_timers(false);return false;" class="btn btn-danger"><?php echo _l('invoice_oservice_stop_all_timers'); ?></a>
+                                <a href="#" onclick="mass_stop_timers(false,<?php echo $ServID; ?>);return false;" class="btn btn-danger"><?php echo _l('invoice_oservice_stop_all_timers'); ?></a>
                             </div>
                         <?php } ?>
                     </div>

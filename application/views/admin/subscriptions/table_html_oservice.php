@@ -14,7 +14,7 @@ $table_data = array(
         'th_attrs'=>array('class'=>'toggleable'.(isset($client)? ' not_visible' : ''), 'id'=>'th-company')
     ),
     array(
-        'name'=>_l('Case'),
+        'name'=>_l('LegalService'),
         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-project')
     ),
     array(
@@ -30,13 +30,13 @@ $table_data = array(
         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-subscribed')
     ),
 );
-render_datatable($table_data,'subscriptions_case',
+render_datatable($table_data,'subscriptions_oservice',
     array(),
     array(
-        'id'=>'table-subscriptions_case',
+        'id'=>'table-subscriptions_oservice',
         'data-url'                   =>  $url,
-        'data-last-order-identifier' => 'subscriptions_case',
-        'data-default-order'         => get_table_last_order('subscriptions_case'),
+        'data-last-order-identifier' => 'subscriptions_oservice',
+        'data-default-order'         => get_table_last_order('subscriptions_oservice'),
     ));
 
 hooks()->add_action('app_admin_footer', function(){
@@ -47,8 +47,8 @@ hooks()->add_action('app_admin_footer', function(){
             $.each($('._hidden_inputs._filters input'),function(){
                 SubscriptionsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
             });
-            var url = $('#table-subscriptions_case').data('url');
-            initDataTable('.table-subscriptions_case', url, undefined, undefined, SubscriptionsServerParams, <?php echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(6,'desc'))); ?>);
+            var url = $('#table-subscriptions_oservice').data('url');
+            initDataTable('.table-subscriptions_oservice', url, undefined, undefined, SubscriptionsServerParams, <?php echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(6,'desc'))); ?>);
         });
     </script>
     <?php

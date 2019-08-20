@@ -60,7 +60,7 @@
         }
         ?>
         <div class="col-md-2 col-xs-6 mbot15 border-right">
-            <a href="#" data-cview="ticket_status_<?php echo $status['ticketstatusid']; ?>" onclick="dt_custom_view('ticket_status_<?php echo $status['ticketstatusid']; ?>','.tickets_case-table','ticket_status_<?php echo $status['ticketstatusid']; ?>',true); return false;">
+            <a href="#" data-cview="ticket_status_<?php echo $status['ticketstatusid']; ?>" onclick="dt_custom_view('ticket_status_<?php echo $status['ticketstatusid']; ?>','.tickets_oservice-table','ticket_status_<?php echo $status['ticketstatusid']; ?>',true); return false;">
                 <h3 class="bold"><?php echo total_rows(db_prefix().'tickets',$_where); ?></h3>
                 <span style="color:<?php echo $status['statuscolor']; ?>">
         <?php echo ticket_status_translate($status['ticketstatusid']); ?>

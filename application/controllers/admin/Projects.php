@@ -105,7 +105,6 @@ class Projects extends AdminController
         }
 
         $data['last_project_settings'] = $this->projects_model->get_last_project_settings();
-
         if (count($data['last_project_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);

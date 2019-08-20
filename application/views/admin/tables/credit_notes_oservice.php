@@ -7,7 +7,7 @@ $aColumns = [
     'date',
     get_sql_select_client_company(),
     db_prefix() . 'creditnotes.status as status',
-    db_prefix() . 'my_cases.name as project_name',
+    db_prefix() . 'my_other_services.name as project_name',
     'reference_no',
     'total',
     '(SELECT ' . db_prefix() . 'creditnotes.total - (
@@ -21,7 +21,7 @@ $aColumns = [
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'creditnotes.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'creditnotes.currency',
-    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'creditnotes.project_id',
+    'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'creditnotes.project_id',
 ];
 
 $sIndexColumn = 'id';
@@ -107,7 +107,7 @@ foreach ($rResult as $aRow) {
     if (is_numeric($clientid) || $project_id) {
         $numberOutput = '<a href="' . admin_url('credit_notes/list_credit_notes/' . $aRow['id']) . '" target="_blank">' . format_credit_note_number($aRow['id']) . '</a>';
     } else {
-        $numberOutput = '<a href="' . admin_url('credit_notes/list_credit_notes/' . $aRow['id']) . '" onclick="init_credit_note_case(' . $aRow['id'] . '); return false;">' . format_credit_note_number($aRow['id']) . '</a>';
+        $numberOutput = '<a href="' . admin_url('credit_notes/list_credit_notes/' . $aRow['id']) . '" onclick="init_credit_note_oservice(' . $aRow['id'] . '); return false;">' . format_credit_note_number($aRow['id']) . '</a>';
     }
 
     $numberOutput .= '<div class="row-options">';
@@ -129,7 +129,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = format_credit_note_status($aRow['status']);
 
-    $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
 
     $row[] = $aRow['reference_no'];
 

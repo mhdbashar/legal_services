@@ -39,7 +39,7 @@
                     <div class="col-lg-5ths col-md-5ths">
                         <div class="row">
                             <div class="col-md-7">
-                                <a href="#" data-cview="invoices_<?php echo $status; ?>" onclick="dt_custom_view('invoices_<?php echo $status; ?>','.table-invoices','invoices_<?php echo $status; ?>',true); return false;">
+                                <a href="#" data-cview="invoices_<?php echo $status; ?>" onclick="dt_custom_view('invoices_<?php echo $status; ?>','.table-invoices_oservice','invoices_<?php echo $status; ?>',true); return false;">
                                     <h5><?php echo format_invoice_status($status,'',false); ?></h5>
                                 </a>
                             </div>

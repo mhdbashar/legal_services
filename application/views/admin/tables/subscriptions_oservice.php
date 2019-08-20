@@ -1,11 +1,10 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     db_prefix() . 'subscriptions.id as id',
     db_prefix() . 'subscriptions.name as name',
     get_sql_select_client_company(),
-    db_prefix() . 'my_cases.name as project_name',
+    db_prefix() . 'my_other_services.name as project_name',
     db_prefix() . 'subscriptions.status as status',
     'next_billing_cycle',
     'date_subscribed',
@@ -57,7 +56,7 @@ if (count($statusIds) > 0) {
 
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'subscriptions.clientid',
-    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'subscriptions.project_id',
+    'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'subscriptions.project_id',
 ];
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
@@ -95,7 +94,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
 
-    $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
 
     if (empty($aRow['status'])) {
         $row[] = _l('subscription_not_subscribed');

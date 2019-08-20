@@ -23,8 +23,8 @@ class Other_services_controller extends AdminController
             redirect(admin_url("Service/$ServID"));
         }
         if ($this->input->post()) {
-            $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
+            $data['description'] = $this->input->post('description', false);
             $added = $this->other->add($ServID,$data);
             if ($added) {
                 set_alert('success', _l('added_successfully'));
@@ -44,9 +44,9 @@ class Other_services_controller extends AdminController
         }
         $data['settings'] = $this->other->get_settings();
         $data['statuses'] = $this->other->get_project_statuses();
-        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-        $data['ServID'] = $ServID;
-        $data['title'] = _l('permission_create').' '._l('LegalService');
+        $data['staff']    = $this->staff_model->get('', ['active' => 1]);
+        $data['ServID']   = $ServID;
+        $data['title']    = _l('permission_create').' '._l('LegalService');
         $this->load->view('admin/LegalServices/other_services/Add',$data);
     }
 
@@ -117,29 +117,35 @@ class Other_services_controller extends AdminController
         $this->app->get_table_data('staff_projects');
     }
 
-    public function expenses($id)
+    public function expenses($id, $slug = '')
     {
         $this->load->model('expenses_model');
-        $this->app->get_table_data('project_expenses', [
+        $this->app->get_table_data('oservice_expenses', [
             'project_id' => $id,
+            'slug' => $slug
         ]);
     }
 
-    public function add_expense()
+    public function add_expense($ServID = '', $project_id = '')
     {
         if ($this->input->post()) {
             $this->load->model('expenses_model');
-            $id = $this->expenses_model->add($this->input->post());
+            $data = array();
+            $data = $this->input->post();
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['rel_stype'] = $slug;
+            $data['rel_sid'] = $project_id;
+            $id = $this->expenses_model->add_for_oservice($ServID, $data);
             if ($id) {
                 set_alert('success', _l('added_successfully', _l('expense')));
                 echo json_encode([
-                    'url' => admin_url('LegalServices/other_services_controller/view/' . $this->input->post('project_id') . '/?group=project_expenses'),
+                    'url'       => admin_url('SOther/view/' .$ServID. '/' . $this->input->post('project_id') . '/?group=project_expenses'),
                     'expenseid' => $id,
                 ]);
                 die;
             }
             echo json_encode([
-                'url' => admin_url('LegalServices/other_services_controller/view/' . $this->input->post('project_id') . '/?group=project_expenses'),
+                'url' => admin_url('SOther/view/' .$ServID. '/' . $this->input->post('project_id') . '/?group=project_expenses'),
             ]);
             die;
         }
@@ -148,8 +154,6 @@ class Other_services_controller extends AdminController
     public function gantt()
     {
         $data['title'] = _l('project_gant');
-
-
         $selected_statuses = [];
         $selectedMember = null;
         $data['statuses'] = $this->other->get_project_statuses();
@@ -398,8 +402,9 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function mark_as()
+    public function mark_as($slug)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
@@ -407,7 +412,7 @@ class Other_services_controller extends AdminController
                 $status = get_oservice_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
-                $success = $this->other->mark_as($this->input->post());
+                $success = $this->other->mark_as($ServID, $this->input->post(), $slug);
 
                 if ($success) {
                     $message = _l('project_marked_as_success', $status['name']);
@@ -453,28 +458,28 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function download_all_files($id)
+    public function download_all_files($ServID = '', $id)
     {
         if ($this->other->is_member($id) || has_permission('projects', '', 'view')) {
             $files = $this->other->get_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
-                redirect(admin_url('LegalServices/other_services_controller/view/' . $id . '?group=project_files'));
+                redirect(admin_url('SOther/view/'.$ServID.'/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type('project') . $id;
+            $path = get_upload_path_by_type_oservice('oservice') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);
             }
-            $this->zip->download(slug_it(get_project_name_by_id($id)) . '-files.zip');
+            $this->zip->download(slug_it(get_oservice_name_by_id($id)) . '-files.zip');
             $this->zip->clear_data();
         }
     }
 
-    public function export_project_data($id)
+    public function export_project_data($ServID, $id)
     {
         if (has_permission('projects', '', 'create')) {
-            app_pdf('project-data', LIBSPATH . 'pdf/Project_data_pdf', $id);
+            app_pdf('oservice-data', LIBSPATH . 'pdf/Oservice_data_pdf',$ServID, $id);
         }
     }
 
@@ -556,9 +561,9 @@ class Other_services_controller extends AdminController
         echo json_encode($this->other->get_discussion_comments($id, $type));
     }
 
-    public function add_discussion_comment($discussion_id, $type)
+    public function add_discussion_comment($ServID = '',$discussion_id, $type)
     {
-        echo json_encode($this->other->add_discussion_comment($this->input->post(), $discussion_id, $type));
+        echo json_encode($this->other->add_discussion_comment($ServID, $this->input->post(), $discussion_id, $type));
     }
 
     public function update_discussion_comment()
@@ -608,7 +613,7 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function change_activity_visibility($id, $visible)
+    public function project_invoices($id, $visible)
     {
         if (has_permission('projects', '', 'create')) {
             if ($this->input->is_ajax_request()) {
@@ -617,14 +622,16 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function remove_file($project_id, $id)
+    public function remove_file($ServID = '', $project_id, $id)
     {
-        $this->other->remove_file($id);
-        redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id . '?group=project_files'));
+        $this->case->remove_file($id);
+        redirect(admin_url('SOther/view/' .$ServID .'/'. $project_id . '?group=project_files'));
     }
 
     public function milestones_kanban($slug = '')
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
+        $data['ServID'] = $ServID;
         $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed_tasks') && $this->input->get('exclude_completed_tasks') == 'yes';
 
         $data['project_id'] = $this->input->get('project_id');
@@ -646,7 +653,7 @@ class Other_services_controller extends AdminController
         echo $this->load->view('admin/LegalServices/other_services/milestones_kan_ban', $data, true);
     }
 
-    public function milestones_kanban_load_more()
+    public function milestones_kanban_load_more($ServID)
     {
         $milestones_exclude_completed_tasks = $this->input->get('exclude_completed_tasks') && $this->input->get('exclude_completed_tasks') == 'yes';
 
@@ -657,7 +664,7 @@ class Other_services_controller extends AdminController
         if ($milestones_exclude_completed_tasks) {
             $where['status !='] = Tasks_model::STATUS_COMPLETE;
         }
-        $tasks = $this->other->do_milestones_kanban_query($status, $project_id, $page, $where);
+        $tasks = $this->other->do_milestones_kanban_query($ServID, $status, $project_id, $page, $where);
         foreach ($tasks as $task) {
             $this->load->view('admin/LegalServices/other_services/_milestone_kanban_card', ['task' => $task, 'milestone' => $status]);
         }
@@ -690,7 +697,7 @@ class Other_services_controller extends AdminController
                 $data = $this->input->post();
                 $id   = $data['id'];
                 unset($data['id']);
-                $success = $this->other->update_milestone($data, $id);
+                $success = $this->other->update_milestone($ServID, $data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('project_milestone')));
                 }
@@ -702,7 +709,7 @@ class Other_services_controller extends AdminController
     public function delete_milestone($ServID='',$project_id, $id)
     {
         if (has_permission('projects', '', 'delete')) {
-            if ($this->other->delete_milestone($id)) {
+            if ($this->other->delete_milestone($ServID, $id)) {
                 set_alert('deleted', 'project_milestone');
             }
         }
@@ -800,35 +807,35 @@ class Other_services_controller extends AdminController
                 set_alert('success', _l('project_member_removed'));
             }
         }
-        redirect(admin_url('LegalServices/other_services_controller/view/' .$ServID.'/'. $project_id));
+        redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
     }
 
-    public function save_note($project_id)
+    public function save_note($ServID = '', $project_id)
     {
         if ($this->input->post()) {
             $success = $this->other->save_note($this->input->post(null, false), $project_id);
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('project_note')));
             }
-            redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id . '?group=project_notes'));
+            redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_notes'));
         }
     }
 
-    public function copy($project_id)
+    public function copy($ServID,$project_id)
     {
         if (has_permission('projects', '', 'create')) {
-            $id = $this->other->copy($project_id, $this->input->post());
+            $id = $this->other->copy($ServID,$project_id, $this->input->post());
             if ($id) {
                 set_alert('success', _l('project_copied_successfully'));
-                redirect(admin_url('LegalServices/other_services_controller/view/' . $id));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $id));
             } else {
                 set_alert('danger', _l('failed_to_copy_project'));
-                redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
             }
         }
     }
 
-    public function mass_stop_timers($project_id, $billable = 'false')
+    public function mass_stop_timers($project_id, $billable = 'false', $ServID)
     {
         if (has_permission('invoices', '', 'create')) {
             $where = [
@@ -878,7 +885,7 @@ class Other_services_controller extends AdminController
 
             $data['project_id'] = $project_id;
             $data['ServID']     = $ServID;
-            $data['billing_type'] = get_oservice_billing_type($ServID, $project_id);
+            $data['billing_type'] = get_oservice_billing_type($project_id);
 
             $this->load->model('expenses_model');
             $this->db->where('invoiceid IS NULL');
@@ -976,7 +983,7 @@ class Other_services_controller extends AdminController
                         $items[] = $item;
                     }
                 } elseif ($type == 'timesheets_individualy') {
-                    $timesheets = $this->other->get_timesheets($project_id, $tasks);
+                    $timesheets = $this->other->get_timesheets($ServID, $project_id, $tasks);
                     $added_task_ids = [];
                     foreach ($timesheets as $timesheet) {
                         if ($timesheet['task_data']->billed == 0 && $timesheet['task_data']->billable == 1) {
@@ -1078,20 +1085,20 @@ class Other_services_controller extends AdminController
             }
 
             $allow_to_view_tasks = 0;
-            $this->db->where('project_id', $id);
+            $this->db->where('oservice_id', $id);
             $this->db->where('name', 'view_tasks');
-            $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
+            $project_settings = $this->db->get(db_prefix() . 'oservice_settings')->row();
             if ($project_settings) {
                 $allow_to_view_tasks = $project_settings->value;
             }
 
-            $deadline = get_project_deadline($id);
+            $deadline = get_oservice_deadline()($id);
 
             echo json_encode([
                 'deadline' => $deadline,
                 'deadline_formatted' => $deadline ? _d($deadline) : null,
                 'allow_to_view_tasks' => $allow_to_view_tasks,
-                'billing_type' => get_project_billing_type($id),
+                'billing_type' => get_oservice_billing_type($id),
                 'milestones' => render_select('milestone', $this->other->get_milestones($id), [
                     'id',
                     'name',
@@ -1100,18 +1107,18 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function invoice_project($project_id)
+    public function invoice_project($ServID, $project_id)
     {
         if (has_permission('invoices', '', 'create')) {
             $this->load->model('invoices_model');
-            $data = $this->input->post();
+            $data               = $this->input->post();
             $data['project_id'] = $project_id;
-            $invoice_id = $this->invoices_model->add($data);
+            $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
                 $this->other->log_activity($project_id, 'project_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
-            redirect(admin_url('LegalServices/other_services_controller/view/' . $project_id . '?group=project_invoices'));
+            redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));
         }
     }
 

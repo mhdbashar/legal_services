@@ -9,7 +9,7 @@ $aColumns = [
     'YEAR(date) as year',
     'date',
     get_sql_select_client_company(),
-    db_prefix() . 'my_cases.name as project_name',
+    db_prefix() . 'my_other_services.name as project_name',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'invoices.id and rel_type="invoice" ORDER by tag_order ASC) as tags',
     'duedate',
     db_prefix() . 'invoices.status',
@@ -21,7 +21,7 @@ $sTable       = db_prefix() . 'invoices';
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
-    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'invoices.rel_sid',
+    'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'invoices.rel_sid',
 ];
 
 $custom_fields = get_table_custom_fields('invoice');
@@ -136,7 +136,7 @@ foreach ($rResult as $aRow) {
     if (is_numeric($clientid) || $project_id) {
         $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" target="_blank">' . format_invoice_number($aRow['id']) . '</a>';
     } else {
-        $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" onclick="init_invoice_case(' . $aRow['id'] . '); return false;">' . format_invoice_number($aRow['id']) . '</a>';
+        $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" onclick="init_invoice_oservice(' . $aRow['id'] . '); return false;">' . format_invoice_number($aRow['id']) . '</a>';
     }
 
     if ($aRow['recurring'] > 0) {
@@ -167,7 +167,7 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
     ;
 
     $row[] = render_tags($aRow['tags']);

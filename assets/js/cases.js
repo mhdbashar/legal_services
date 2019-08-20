@@ -187,7 +187,9 @@ $(function() {
     });
 
     _table_api = initDataTable('.table-project-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
-    _table_api_case = initDataTable('.table-case-expenses', admin_url + 'projects/expenses/' + project_id, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
+
+    slug_expenses_case = $(".table-case-expenses").attr('data-slug');
+    _table_api_case = initDataTable('.table-case-expenses', admin_url + 'LegalServices/Cases_controller/expenses/' + project_id + '/' + slug_expenses_case, 'undefined', 'undefined', Expenses_ServerParams, [4, 'desc']);
 
     if (_table_api) {
         _table_api.column(0).visible(false, false).columns.adjust();

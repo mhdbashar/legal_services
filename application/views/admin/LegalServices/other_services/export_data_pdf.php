@@ -44,7 +44,7 @@ if ($project->billing_type == 1 || $project->billing_type == 2) {
         $html .= '<b>' . _l('project_rate_per_hour') . ': </b>' . app_format_money($project->project_rate_per_hour, $project->currency_data) . '<br />';
     }
 }
-$status = get_case_status_by_id($project->status);
+$status = get_oservice_status_by_id($project->status);
 // Project status
 $html .= '<b>' . _l('project_status') . ': </b>' . $status['name'] . '<br />';
 // Date created

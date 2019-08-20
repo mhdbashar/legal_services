@@ -37,7 +37,7 @@
               <div class="col-md-5ths col-xs-12">
                 <div class="row">
                     <div class="col-md-7">
-                        <a href="#" data-cview="estimates_<?php echo $status; ?>" onclick="dt_custom_view('estimates_<?php echo $status; ?>','.table-estimates_case','estimates_<?php echo $status; ?>',true); return false;">
+                        <a href="#" data-cview="estimates_<?php echo $status; ?>" onclick="dt_custom_view('estimates_<?php echo $status; ?>','.table-estimates_oservice','estimates_<?php echo $status; ?>',true); return false;">
                             <h5><?php echo format_estimate_status($status,'',false); ?></h5>
                         </a>
                     </div>

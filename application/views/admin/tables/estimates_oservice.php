@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
 
@@ -9,7 +8,7 @@ $aColumns = [
     'total_tax',
     'YEAR(date) as year',
     get_sql_select_client_company(),
-    db_prefix() . 'my_cases.name as project_name',
+    db_prefix() . 'my_other_services.name as project_name',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'estimates.id and rel_type="estimate" ORDER by tag_order ASC) as tags',
     'date',
     'expirydate',
@@ -20,7 +19,7 @@ $aColumns = [
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'estimates.currency',
-    'LEFT JOIN ' . db_prefix() . 'my_cases ON ' . db_prefix() . 'my_cases.id = ' . db_prefix() . 'estimates.project_id',
+    'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'estimates.project_id',
 ];
 
 $sIndexColumn = 'id';
@@ -90,8 +89,8 @@ if ($clientid != '') {
 }
 
 if ($project_id) {
-    array_push($where, 'AND rel_id=' . $project_id);
-    array_push($where, 'AND rel_type=' . "'" . $slug . "'");
+    array_push($where, 'AND rel_sid=' . $project_id);
+    array_push($where, 'AND rel_stype=' . "'" . $slug . "'");
 }
 
 if (!has_permission('estimates', '', 'view')) {
@@ -158,7 +157,7 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('Case/view/' .$ServID .'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID .'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
 
     $row[] = render_tags($aRow['tags']);
 

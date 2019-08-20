@@ -12,7 +12,7 @@ $table_data = array(
         'name'=>_l('estimate_dt_table_heading_client'),
         'th_attrs'=>array('class'=> (isset($client) ? 'not_visible' : ''))
     ),
-    _l('Case'),
+    _l('LegalService'),
     _l('tags'),
     _l('estimate_dt_table_heading_date'),
     _l('estimate_dt_table_heading_expirydate'),
@@ -25,5 +25,6 @@ foreach($custom_fields as $field){
     array_push($table_data,$field['name']);
 }
 $table_attributes['data-ServID'] = $ServID;
+$table_attributes['data-slug'] = $service->slug;
 $table_data = hooks()->apply_filters('estimates_table_columns', $table_data);
-render_datatable($table_data, isset($class) ? $class : 'estimates_case', [], $table_attributes);
+render_datatable($table_data, isset($class) ? $class : 'estimates_oservice', [], $table_attributes);

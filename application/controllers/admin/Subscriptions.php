@@ -44,6 +44,17 @@ class Subscriptions extends AdminController
         ]);
     }
 
+    public function table_oservice($ServID, $slug)
+    {
+        if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        $this->app->get_table_data('subscriptions_oservice', [
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
     public function create()
     {
         if (!has_permission('subscriptions', '', 'create')) {

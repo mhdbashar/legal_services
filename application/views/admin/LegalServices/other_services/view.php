@@ -181,7 +181,7 @@ echo form_hidden('project_percent',$percent);
     });
 
     function discussion_comments_oservice(selector,discussion_id,discussion_type){
-        var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_case_discussions_language_array()); ?>);
+        var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_oservice_discussions_language_array()); ?>);
         var options = {
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {

@@ -251,7 +251,7 @@
            <?php foreach($settings as $setting){
 
             $checked = ' checked';
-               if(isset($oservice)){
+            if(isset($oservice)){
                 if($oservice->settings->{$setting} == 0){
                     $checked = '';
                 }

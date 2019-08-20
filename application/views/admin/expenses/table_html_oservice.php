@@ -29,9 +29,9 @@ foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
 $table_data = hooks()->apply_filters('expenses_table_columns', $table_data);
-render_datatable($table_data, (isset($class) ? $class : 'case-expenses'), [], [
-    'data-last-order-identifier' => 'case-expenses',
-    'data-default-order'         => get_table_last_order('case-expenses'),
+render_datatable($table_data, (isset($class) ? $class : 'oservice-expenses'), [], [
+    'data-last-order-identifier' => 'oservice-expenses',
+    'data-default-order'         => get_table_last_order('oservice-expenses'),
     'data-ServID'                => $ServID,
     'data-slug'                  => $service->slug,
 ]);

@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     '1', // bulk actions
     db_prefix() . 'tickets.ticketid',

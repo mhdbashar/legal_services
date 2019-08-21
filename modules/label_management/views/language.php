@@ -135,18 +135,23 @@
   $f = round($count/$per_page);
   if ($count/$per_page > round($count/$per_page))
   $f += 1;
+  // echo $offset/$per_page + 1;
 ?>
 
-<ul class="pagination">
+<ul class="pagination pagination-right pagination-large">
 
-<?php for ($i = 1; $i <= $f; $i++): ?>
+<?php $active = ''; if ($offset/$per_page + 1 == 1) $active = 'active' ?>
+<li class="<?php echo $active ?> previous"><a href="<?php echo base_url() . 'label_management/language/index/' . $language .  '/' . $custom . '/' . 0 . "/". $search ?>">&larr; First</a></li>
 
-  <?php if ($offset == ($i - 1) * $per_page) $active  = 'active'; else $active = '' ?>
-
-  <li class="<?php echo $active ?>"><a href="<?php echo base_url() . 'label_management/language/index/' . $language .  '/' . $custom . '/' . ($i - 1) * $per_page . "/". $search ?>"><?php echo $i ?></a></li>
-
+<?php for ($i = 1; $i <= $f ; $i++): ?>
+  <?php if ($offset == $i * $per_page) $active  = 'active'; else $active = '' ?>
+  <?php if (($offset/$per_page + 1 <= $i + 6) and ($offset/$per_page + 1 >= $i - 8) and ($i + 1 < $f)){ ?>
+      <li class="<?php echo $active ?>"><a href="<?php echo base_url() . 'label_management/language/index/' . $language .  '/' . $custom . '/' . ($i) * $per_page . "/". $search ?>"><?php echo $i + 1 ?></a></li>
+  <?php } ?>
 <?php endfor; ?>
 
+<?php if ($offset/$per_page + 1 == $f) $active = 'active' ?>
+<li class="<?php echo $active ?> next"><a href="<?php echo base_url() . 'label_management/language/index/' . $language .  '/' . $custom . '/' . ($i - 2) * $per_page . "/". $search ?>">Last &rarr;</a></li>
 </ul>
                </div>
             </div>

@@ -1,6 +1,4 @@
 <?php
-$lang['ahkma'] = "abbodeh
-";
 $lang['id'] = "المعرف";
 $lang['name'] = "الاسم";
 $lang['options'] = "الخيارات";

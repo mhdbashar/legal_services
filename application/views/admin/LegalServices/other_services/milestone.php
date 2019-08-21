@@ -2,7 +2,7 @@
 <!-- Miles Stones -->
 <div class="modal fade" id="milestone" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('projects/milestone'),array('id'=>'milestone_form')); ?>
+        <?php echo form_open(admin_url('LegalServices/Other_services_controller/milestone/'.$ServID),array('id'=>'milestone_form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo form_hidden('project_id',$project->id); ?>
+                        <?php echo form_hidden('rel_sid',$project->id); ?>
                         <div id="additional_milestone"></div>
                         <?php echo render_input('name','milestone_name'); ?>
                         <?php echo render_date_input('due_date','milestone_due_date','',($project->deadline) ? array('data-date-end-date'=>$project->deadline) : array()); ?>
@@ -23,7 +23,7 @@
                             <input type="checkbox" id="description_visible_to_customer" name="description_visible_to_customer">
                             <label for="description_visible_to_customer"><?php echo _l('description_visible_to_customer'); ?></label>
                         </div>
-                        <?php echo render_input('milestone_order','project_milestone_order',total_rows(db_prefix().'milestones',array('project_id'=>$project->id)) + 1,'number'); ?>
+                        <?php echo render_input('milestone_order','project_milestone_order',total_rows(db_prefix().'milestones',array('rel_sid'=>$project->id)) + 1,'number'); ?>
                     </div>
                 </div>
             </div>

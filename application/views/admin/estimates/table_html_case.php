@@ -25,5 +25,6 @@ foreach($custom_fields as $field){
     array_push($table_data,$field['name']);
 }
 $table_attributes['data-ServID'] = $ServID;
+$table_attributes['data-slug'] = $service->slug;
 $table_data = hooks()->apply_filters('estimates_table_columns', $table_data);
 render_datatable($table_data, isset($class) ? $class : 'estimates_case', [], $table_attributes);

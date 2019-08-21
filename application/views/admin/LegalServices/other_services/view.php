@@ -11,7 +11,7 @@
                             <div class="col-md-7 project-heading">
                                 <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                                 <div id="project_view_name" class="pull-left">
-                                    <select class="selectpicker" id="project_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
+                                    <select class="selectpicker" id="project_top" data-servid="<?php echo $ServID; ?>" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
                                         <option value="<?php echo $project->id; ?>" selected><?php echo $project->name; ?></option>
                                         <?php foreach($other_projects as $op){ ?>
                                             <option value="<?php echo $op['id']; ?>" data-subtext="<?php echo $op['company']; ?>">#<?php echo $op['id']; ?> - <?php echo $op['name']; ?></option>
@@ -25,17 +25,17 @@
                             </div>
                             <div class="col-md-5 text-right">
                                 <?php if(has_permission('tasks','','create')){ ?>
-                                    <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
+                                    <a href="#" onclick="new_task_from_relation(undefined,'<?php echo $service->slug; ?>',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
                                 <?php } ?>
                                 <?php
-                                $invoice_func = 'pre_invoice_project';
+                                $invoice_func = 'pre_invoice_oservice';
                                 ?>
                                 <?php if(has_permission('invoices','','create')){ ?>
-                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>, <?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
-                                if(total_rows(db_prefix().'pinned_projects',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
+                                if(total_rows(db_prefix().'pinned_oservices',array('staff_id'=>get_staff_user_id(),'oservice_id'=>$project->id)) > 0){
                                     $project_pin_tooltip = _l('unpin_project');
                                 }
                                 ?>
@@ -45,7 +45,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                                         <li>
-                                            <a href="<?php echo admin_url('LegalServices/other_services_controller/pin_action/'.$project->id); ?>">
+                                            <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
                                                 <?php echo $project_pin_tooltip; ?>
                                             </a>
                                         </li>
@@ -76,12 +76,12 @@
                                         <li class="divider"></li>
                                         <?php if(has_permission('projects','','create')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/other_services_controller/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/export_project_data/'.$ServID.'/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(is_admin()){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/other_services_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
@@ -106,7 +106,7 @@
                 <?php
                 if((has_permission('projects','','create') || has_permission('projects','','edit'))
                     && $project->status == 1
-                    && $this->projects_model->timers_started_for_project($project->id)
+                    && $oservice_model->timers_started_for_project($service->slug, $project->id)
                     && $tab['slug'] != 'project_milestones') {
                     ?>
                     <div class="alert alert-warning project-no-started-timers-found mbot15">
@@ -133,7 +133,7 @@
                 <?php } ?>
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php $this->load->view('admin/LegalServices/other_services/project_overview'); //($tab ? $tab['view'] :?>
+                        <?php $this->load->view(($tab ? $tab['view'] : 'admin/LegalServices/other_services/project_overview')); ?>
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@ echo form_hidden('project_percent',$percent);
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/LegalServices/other_services/milestone'); ?>
 <?php $this->load->view('admin/LegalServices/other_services/copy_settings'); ?>
-<?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->
 <script>
@@ -169,7 +169,7 @@ echo form_hidden('project_percent',$percent);
     var current_user_is_admin = $('input[name="current_user_is_admin"]').val();
     var project_id = $('input[name="project_id"]').val();
     if(typeof(discussion_id) != 'undefined'){
-        discussion_comments('#discussion-comments',discussion_id,'regular');
+        discussion_comments_oservice('#discussion-comments',discussion_id,'regular');
     }
     $(function(){
         var project_progress_color = '<?php echo hooks()->apply_filters('admin_project_progress_color','#84c529'); ?>';
@@ -180,19 +180,19 @@ echo form_hidden('project_percent',$percent);
         });
     });
 
-    function discussion_comments(selector,discussion_id,discussion_type){
-        var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_project_discussions_language_array()); ?>);
+    function discussion_comments_oservice(selector,discussion_id,discussion_type){
+        var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_oservice_discussions_language_array()); ?>);
         var options = {
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {
-                $.get(admin_url + 'LegalServices/other_services_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
+                $.get(admin_url + 'LegalServices/Other_services_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
                     success(response);
                 },'json');
             },
             postComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/other_services_controller/add_discussion_comment/'+discussion_id+'/'+discussion_type,
+                    url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> + '/' + discussion_id+'/'+discussion_type,
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -204,7 +204,7 @@ echo form_hidden('project_percent',$percent);
             putComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/other_services_controller/update_discussion_comment',
+                    url: admin_url + 'LegalServices/Other_services_controller/update_discussion_comment',
                     data: commentJSON,
                     success: function(comment) {
                         comment = JSON.parse(comment);
@@ -216,7 +216,7 @@ echo form_hidden('project_percent',$percent);
             deleteComment: function(commentJSON, success, error) {
                 $.ajax({
                     type: 'post',
-                    url: admin_url + 'LegalServices/other_services_controller/delete_discussion_comment/'+commentJSON.id,
+                    url: admin_url + 'LegalServices/Other_services_controller/delete_discussion_comment/'+commentJSON.id,
                     success: success,
                     error: error
                 });
@@ -254,7 +254,7 @@ echo form_hidden('project_percent',$percent);
                             formData.append(csrfData['token_name'], csrfData['hash']);
                         }
                         $.ajax({
-                            url: admin_url + 'LegalServices/other_services_controller/add_discussion_comment/'+discussion_id+'/'+discussion_type,
+                            url: admin_url + 'LegalServices/Other_services_controller/add_discussion_comment/'+ <?php echo $ServID; ?> +'/'+ discussion_id+'/'+discussion_type,
                             type: 'POST',
                             data: formData,
                             cache: false,

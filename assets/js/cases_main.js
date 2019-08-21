@@ -6287,6 +6287,7 @@ function delete_invoice_attachment(id) {
             if (success == 1) {
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 init_invoice($("body").find('input[name="_attachment_sale_id"]').val());
+                init_invoice_case($("body").find('input[name="_attachment_sale_id"]').val());
             }
         }).fail(function(error) {
             alert_float('danger', error.responseText);

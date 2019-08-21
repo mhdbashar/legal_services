@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/case_session_model', 'case_session');
+        $this->load->model('LegalServices/Case_session_model', 'case_session');
     }
 
     public function session($service_id, $rel_id)

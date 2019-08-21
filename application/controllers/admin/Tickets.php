@@ -38,6 +38,31 @@ class Tickets extends AdminController
         }
     }
 
+    public function table_tickets_oservice($status = '', $userid = '')
+    {
+        if ($this->input->is_ajax_request()) {
+            if (!$this->input->post('filters_ticket_id')) {
+                $tableParams = [
+                    'status' => $status,
+                    'userid' => $userid,
+                    'slug' => $status,
+                ];
+            } else {
+                // request for othes tickets when single ticket is opened
+                $tableParams = [
+                    'userid'              => $this->input->post('filters_userid'),
+                    'where_not_ticket_id' => $this->input->post('filters_ticket_id'),
+                ];
+                if ($tableParams['userid'] == 0) {
+                    unset($tableParams['userid']);
+                    $tableParams['by_email'] = $this->input->post('filters_email');
+                }
+            }
+
+            $this->app->get_table_data('tickets_oservice', $tableParams);
+        }
+    }
+
     public function index($status = '', $userid = '')
     {
         close_setup_menu();

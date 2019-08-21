@@ -7,7 +7,7 @@ class  case_movement_controller extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LegalServices/case_movement_model', 'movement');
+        $this->load->model('LegalServices/Case_movement_model', 'movement');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Cases_model', 'case');
         $this->load->helper('date');

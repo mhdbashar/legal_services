@@ -175,7 +175,7 @@ function get_relation_data($type, $rel_id = '')
             $CI->load->model('LegalServices/Cases_model', 'case_serv');
             $data = $CI->case_serv->get($rel_id);
         }else{
-            $CI->load->model('LegalServices/other_services_model', 'other_serv');
+            $CI->load->model('LegalServices/Other_services_model', 'other_serv');
             $data = $CI->other_serv->get($service_id,$rel_id);
         }
     }

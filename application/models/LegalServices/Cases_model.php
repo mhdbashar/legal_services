@@ -34,7 +34,7 @@ class Cases_model extends App_Model
 
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/case_movement_model', 'movement');
+        $this->load->model('LegalServices/Case_movement_model', 'movement');
     }
 
     public function get($id = '', $where = [])
@@ -413,8 +413,6 @@ class Cases_model extends App_Model
             }
         }
 
-
-
         if ($old_status == 4 && $data['status'] != 4) {
             $data['date_finished'] = null;
         } elseif (isset($data['date_finished'])) {
@@ -533,7 +531,7 @@ class Cases_model extends App_Model
                 }
 
                 if (isset($notify_project_members_status_change)) {
-                    $this->_notify_project_members_status_change($id, $original_project->status, $data['status']);
+                    $this->_notify_project_members_status_change($ServID, $id, $original_project->status, $data['status']);
                 }
             }
             hooks()->do_action('after_update_project', $id);
@@ -774,6 +772,7 @@ class Cases_model extends App_Model
             $cases_judges = $data['judges'];
         }
         $cases_judges_in = $this->get_case_judges($id);
+
         if (sizeof($cases_judges_in) > 0) {
             foreach ($cases_judges_in as $case_judge) {
                 if (isset($cases_judges)) {
@@ -781,6 +780,9 @@ class Cases_model extends App_Model
                         $this->db->where('case_id', $id);
                         $this->db->where('judge_id', $case_judge['judge_id']);
                         $this->db->delete(db_prefix() . 'my_cases_judges');
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
                     }
                 } else {
                     $this->db->where('case_id', $id);
@@ -796,13 +798,16 @@ class Cases_model extends App_Model
                     $this->db->where('judge_id', $judge_id);
                     $_exists = $this->db->get(db_prefix() . 'my_cases_judges')->row();
                     if (!$_exists) {
-                        if (empty($staff_id)) {
+                        if (empty($judge_id)) {
                             continue;
                         }
                         $this->db->insert(db_prefix() . 'my_cases_judges', [
                             'case_id'   => $id,
                             'judge_id'  => $judge_id,
                         ]);
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
                     }
                 }
             }
@@ -816,6 +821,9 @@ class Cases_model extends App_Model
                         'case_id'  => $id,
                         'judge_id' => $judge_id,
                     ]);
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
                 }
             }
         }
@@ -902,7 +910,7 @@ class Cases_model extends App_Model
     public function get_most_used_billing_type()
     {
         return $this->db->query('SELECT billing_type, COUNT(*) AS total_usage
-                FROM ' . db_prefix() . 'projects
+                FROM ' . db_prefix() . 'my_cases
                 GROUP BY billing_type
                 ORDER BY total_usage DESC
                 LIMIT 1')->row();
@@ -1190,7 +1198,7 @@ class Cases_model extends App_Model
         $file = $this->db->get(db_prefix() . 'case_files')->row();
         if ($file) {
             if (empty($file->external)) {
-                $path     = get_upload_path_by_type('project') . $file->project_id . '/';
+                $path     = get_upload_path_by_type_case('case') . $file->project_id . '/';
                 $fullPath = $path . $file->file_name;
                 if (file_exists($fullPath)) {
                     unlink($fullPath);
@@ -1213,11 +1221,11 @@ class Cases_model extends App_Model
             // Delete discussion comments
             $this->_delete_discussion_comments($id, 'file');
 
-            if (is_dir(get_upload_path_by_type('project') . $file->project_id)) {
+            if (is_dir(get_upload_path_by_type_case('case') . $file->project_id)) {
                 // Check if no attachments left, so we can delete the folder also
-                $other_attachments = list_files(get_upload_path_by_type('project') . $file->project_id);
+                $other_attachments = list_files(get_upload_path_by_type_case('case') . $file->project_id);
                 if (count($other_attachments) == 0) {
-                    delete_dir(get_upload_path_by_type('project') . $file->project_id);
+                    delete_dir(get_upload_path_by_type_case('case') . $file->project_id);
                 }
             }
 
@@ -1499,11 +1507,11 @@ class Cases_model extends App_Model
             }
 
             if (!has_permission('projects', '', 'view')) {
-                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');
+                $this->db->where(db_prefix() . 'my_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');
             }
 
             if ($filters['member']) {
-                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . $filters['member'] . ')');
+                $this->db->where(db_prefix() . 'my_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . $filters['member'] . ')');
             }
 
             $this->db->where('status', $status['id']);
@@ -1728,7 +1736,7 @@ class Cases_model extends App_Model
         return $sent;
     }
 
-    public function mark_as($data, $slug)
+    public function mark_as($ServID, $data, $slug)
     {
         $this->db->select('status');
         $this->db->where('id', $data['project_id']);
@@ -1757,7 +1765,7 @@ class Cases_model extends App_Model
             }
 
             if ($data['notify_project_members_status_change'] == 1) {
-                $this->_notify_project_members_status_change($data['project_id'], $old_status, $data['status_id']);
+                $this->_notify_project_members_status_change($ServID, $data['project_id'], $old_status, $data['status_id']);
             }
 
             if ($data['mark_all_tasks_as_completed'] == 1) {
@@ -1780,7 +1788,7 @@ class Cases_model extends App_Model
         return false;
     }
 
-    private function _notify_project_members_status_change($id, $old_status, $new_status)
+    private function _notify_project_members_status_change($ServID , $id, $old_status, $new_status)
     {
         $members       = $this->get_project_members($id);
         $notifiedUsers = [];
@@ -1789,7 +1797,7 @@ class Cases_model extends App_Model
                 $notified = add_notification([
                     'fromuserid'      => get_staff_user_id(),
                     'description'     => 'not_project_status_updated',
-                    'link'            => 'Case/view/' . $id,
+                    'link'            => 'Case/view/'.$ServID.'/' . $id,
                     'touserid'        => $member['staff_id'],
                     'additional_data' => serialize([
                         '<lang>project_status_' . $old_status . '</lang>',
@@ -2198,7 +2206,7 @@ class Cases_model extends App_Model
 
     public function delete_discussion_comment_attachment($file_name, $discussion_id)
     {
-        $path = CASE_ATTACHMENTS_FOLDER . $discussion_id;
+        $path = CASE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id;
         if (!is_null($file_name)) {
             if (file_exists($path . '/' . $file_name)) {
                 unlink($path . '/' . $file_name);

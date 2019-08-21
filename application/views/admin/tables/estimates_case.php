@@ -90,8 +90,8 @@ if ($clientid != '') {
 }
 
 if ($project_id) {
-    array_push($where, 'AND rel_id=' . $project_id);
-    array_push($where, 'AND rel_type=' . "'" . $slug . "'");
+    array_push($where, 'AND rel_sid=' . $project_id);
+    array_push($where, 'AND rel_stype=' . "'" . $slug . "'");
 }
 
 if (!has_permission('estimates', '', 'view')) {

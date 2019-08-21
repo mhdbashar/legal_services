@@ -94,6 +94,25 @@ class Invoices extends AdminController
         ]);
     }
 
+    public function table_oservice($clientid = '', $slug = '')
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
+
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_oservice'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+            'ServID'   => $clientid,
+            'slug'     => $slug,
+        ]);
+    }
+
     public function client_change_data($customer_id, $current_invoice = '')
     {
         if ($this->input->is_ajax_request()) {

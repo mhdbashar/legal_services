@@ -11,13 +11,16 @@ class Cases_controller extends AdminController
         $this->load->model('LegalServices/Cases_model', 'case');
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
-        $this->load->model('LegalServices/case_movement_model', 'movement');
-        $this->load->model('LegalServices/case_session_model', 'case_session');
+        $this->load->model('LegalServices/Case_movement_model', 'movement');
+        $this->load->model('LegalServices/Case_session_model', 'case_session');
         $this->load->helper('date');
     }
 
     public function add($ServID)
     {
+        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+            access_denied('Projects');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -44,7 +47,6 @@ class Cases_controller extends AdminController
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
-        $data['last_project_settings'] = $this->case->get_last_case_settings();
         $data['statuses'] = $this->case->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
@@ -54,12 +56,17 @@ class Cases_controller extends AdminController
 
     public function edit($ServID,$id)
     {
+        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+            access_denied('Projects');
+        }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("Service/$ServID"));
         }
         if ($this->input->post()) {
             $data = $this->input->post();
+            $data['description'] = $this->input->post('description', false);
+            //echo "<pre>";print_r($data['judges']);exit;
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -69,19 +76,20 @@ class Cases_controller extends AdminController
                 redirect(admin_url("Service/$ServID"));
             }
         }
-        $data['case'] = $this->case->get($id);
         $data['case_members'] = $this->case->get_project_members($id);
         $data['case_judges'] = $this->case->get_case_judges($id);
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
-        $data['case']->settings->available_features = @unserialize($data['case']->settings->available_features);
-        $data['last_project_settings'] = $this->case->get_last_case_settings();
+        $data['case'] = $this->case->get($id);
+        $data['case']->settings->available_features = unserialize($data['case']->settings->available_features);
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_case_settings'], 'name'));
             $data['last_case_settings'][$key]['value'] = @unserialize($data['last_case_settings'][$key]['value']);
         }
         $data['settings'] = $this->case->get_settings();
-
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
+        }
         $data['statuses'] = $this->case->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
@@ -245,7 +253,7 @@ class Cases_controller extends AdminController
                 $data['members'] = $this->case->get_project_members($id);
                 foreach ($data['members'] as $key => $member) {
                     $data['members'][$key]['total_logged_time'] = 0;
-                    $member_timesheets                          = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $id . '")');
+                    $member_timesheets = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $id . '")');
 
                     foreach ($member_timesheets as $member_task) {
                         $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
@@ -408,6 +416,7 @@ class Cases_controller extends AdminController
 
     public function mark_as($slug)
     {
+        $ServID = $this->legal->get_service_id_by_slug($slug);
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
@@ -415,7 +424,7 @@ class Cases_controller extends AdminController
                 $status = get_case_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
-                $success = $this->case->mark_as($this->input->post(), $slug);
+                $success = $this->case->mark_as($ServID, $this->input->post(), $slug);
 
                 if ($success) {
                     $message = _l('project_marked_as_success', $status['name']);
@@ -469,7 +478,7 @@ class Cases_controller extends AdminController
                 set_alert('warning', _l('no_files_found'));
                 redirect(admin_url('Case/view/'.$ServID.'/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type('case') . $id;
+            $path = get_upload_path_by_type_case('case') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);
@@ -685,7 +694,7 @@ class Cases_controller extends AdminController
         }
     }
 
-    public function milestone($ServID = '')
+    public function milestone($ServID = '', $id = '')
     {
         if ($this->input->post()) {
             $message = '';
@@ -874,7 +883,7 @@ class Cases_controller extends AdminController
     {
         if (has_permission('invoices', '', 'create')) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-            $data['billable_tasks'] = $this->case->get_tasks($project_id, [
+            $data['billable_tasks'] = $this->case->get_tasks($ServID,$project_id, [
                 'billable'     => 1,
                 'billed'       => 0,
                 'startdate <=' => date('Y-m-d'),
@@ -1087,9 +1096,9 @@ class Cases_controller extends AdminController
             }
 
             $allow_to_view_tasks = 0;
-            $this->db->where('project_id', $id);
+            $this->db->where('case_id', $id);
             $this->db->where('name', 'view_tasks');
-            $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
+            $project_settings = $this->db->get(db_prefix() . 'case_settings')->row();
             if ($project_settings) {
                 $allow_to_view_tasks = $project_settings->value;
             }

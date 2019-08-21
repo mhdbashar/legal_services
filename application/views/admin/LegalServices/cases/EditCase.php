@@ -153,8 +153,10 @@
                                 $staff_language = get_staff_default_language(get_staff_user_id());
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
+                                    $field_city = 'Name_ar';
                                 }else{
                                     $field = 'short_name';
+                                    $field_city = 'Name_en';
                                 }
                                 ?>
                                 <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$case->country); ?>
@@ -166,7 +168,7 @@
                                     <select id="city" name="city" class="form-control">
                                         <option selected disabled></option>
                                        <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->Name_en; ?>" <?php echo $case->city == $row->Name_en ? 'selected': '' ?>><?php echo $row->Name_en; ?></option>
+                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $case->city == $row->Name_en ? 'selected': $case->city == $row->Name_ar ?  'selected' : '' ?>><?php echo $row->$field_city; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

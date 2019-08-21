@@ -190,6 +190,14 @@ define('PROJECT_ATTACHMENTS_FOLDER', FCPATH . 'uploads/projects' . '/');
  */
 define('PROJECT_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions' . '/');
 /**
+ * Project discussions attachments
+ */
+define('CASE_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions/cases' . '/');
+/**
+ * Project discussions attachments
+ */
+define('OSERVICE_DISCUSSION_ATTACHMENT_FOLDER', FCPATH . 'uploads/discussions/oservices' . '/');
+/**
  * Credit notes attachment folder
  */
 define('CREDIT_NOTES_ATTACHMENTS_FOLDER', FCPATH . 'uploads/credit_notes' . '/');
@@ -209,3 +217,7 @@ define('CASES_FOLDER', FCPATH . 'uploads/cases' . '/');
  * Case files attachments
  */
 define('CASE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cases' . '/');
+/**
+ * Case files attachments
+ */
+define('OSERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/oservices' . '/');

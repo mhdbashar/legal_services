@@ -9,7 +9,7 @@ let adjust = "0";
 // console.log(h.int());
 
 $.ajax({
-    type: 'post',
+    type: 'Get',
     url: admin_url + 'My_custom_controller/get_date_options',
     async: false,
     // data: ['<?php echo get_instance()->security->get_csrf_token_name();?> : <?php echo get_instance()->security->get_csrf_hash(); ?>'],
@@ -32,9 +32,19 @@ var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
 this_page =this_page.replace('/','\\/');   // to solve backslash in database
+function search_url(hijriPages, url){
+    var i = 0;
+    $.each(JSON.parse(hijriPages), function (index, page) {
+        if(url.search(page) != -1){
+            i++
+        }
+        // console.log(page);
+    });
+    return i;
+}
+console.log(search_url(hijriPages,this_page));
 
-
-if(hijriPages.includes(this_page)){
+if(search_url(hijriPages,this_page) != 0){
     if((dateType == 'hijri') && (isHijri == "on") ) {
         // console.log(dateType);
         function appDatepicker(e) {

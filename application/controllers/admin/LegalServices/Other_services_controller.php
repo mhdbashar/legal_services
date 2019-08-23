@@ -1092,7 +1092,7 @@ class Other_services_controller extends AdminController
                 $allow_to_view_tasks = $project_settings->value;
             }
 
-            $deadline = get_oservice_deadline()($id);
+            $deadline = get_oservice_deadline($id);
 
             echo json_encode([
                 'deadline' => $deadline,

@@ -41,6 +41,35 @@ class Tasks extends AdminController
         $this->load->view('admin/tasks/manage', $data);
     }
 
+    public function list_tasks_for_LegalServices($id = '')
+    {
+        close_setup_menu();
+        // If passed from url
+        $data['custom_view'] = $this->input->get('custom_view') ? $this->input->get('custom_view') : '';
+        $data['taskid']      = $id;
+        $data['rel_type']    = $this->input->get('rel_type');
+
+        if ($this->input->get('kanban')) {
+            $this->switch_kanban(0, true);
+        }
+
+        $data['switch_kanban'] = false;
+        $data['bodyclass']     = 'tasks-page';
+
+        if ($this->session->userdata('tasks_kanban_view') == 'true') {
+            $data['switch_kanban'] = true;
+            $data['bodyclass']     = 'tasks-page kan-ban-body';
+        }
+
+        $data['title'] = _l('tasks');
+        $this->load->view('admin/tasks/manage', $data);
+    }
+
+    public function kanban_for_LegalServices($rel_type)
+    {
+        echo $this->load->view('admin/tasks/my_kan_ban', ['rel_type' => $rel_type], true);
+    }
+
     public function table()
     {
         $this->app->get_table_data('tasks');

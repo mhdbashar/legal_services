@@ -30,7 +30,7 @@ function admin_assets()
 //
 function to_AD_date($date)
 {
-    if(strpos($date, ' ') != false){    //is datetime
+    if(strpos($date, ' ') !== false){    //is datetime
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
@@ -102,11 +102,14 @@ function to_AD_date($date)
 function search_url($pages, $url)
 {
     $i = 0;
+    
     foreach ($pages as $page){
 //        var_dump(strpos($url, $page),$page,$url);
-        if(strpos($url, $page) != false){
+        if($page != ''){
+        if(strpos($url, $page) !== false){
             $i++;
         }
+    }
 //        $search = $page;
 //        if(preg_match("/'.$search.'/i", $url)) {
 //
@@ -121,7 +124,7 @@ function search_url($pages, $url)
 function to_hijri_date($date)
 {
 //    var_dump($date);exit;
-    if(strpos($date, ' ') != false){
+    if(strpos($date, ' ') !== false){
         $datetime = true;
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];

@@ -38,7 +38,7 @@ function search_url(hijriPages, url){
         if(url.search(page) != -1){
             i++
         }
-        // console.log(page);
+        // console.log(page,url);
     });
     return i;
 }
@@ -330,7 +330,7 @@ if(search_url(hijriPages,this_page) != 0){
 }
 
 
-if(window.location.href == 'http://localhost/legal_services/admin/settings?group=Hijri'){
+if(window.location.href == 'http://localhost/legalserv/admin/settings?group=Hijri'){
     
 // $(document).on('click', '.flip-button', function () {
 //

@@ -81,8 +81,9 @@ function to_AD_date($date)
     }
 //    $date_mode = 'hijri'; //get_option('date_format');
     if ( ($date_mode == 'hijri') && $hijri_convert && $hijriStatus =="on") {
-        $hijriCalendar = new Calendar();
+
         $current_date = date_parse($date);
+        $hijriCalendar = new Calendar();
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] + $adjust);
 //        var_dump($AD_date);exit();
 
@@ -102,7 +103,6 @@ function to_AD_date($date)
 function search_url($pages, $url)
 {
     $i = 0;
-    
     foreach ($pages as $page){
 //        var_dump(strpos($url, $page),$page,$url);
         if($page != ''){

@@ -31,18 +31,19 @@ $.ajax({
 var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
-this_page =this_page.replace('/','\\/');   // to solve backslash in database
+// this_page =this_page.replace('/','\\/');   // to solve backslash in database
+console.log(this_page);
 function search_url(hijriPages, url){
     var i = 0;
     $.each(JSON.parse(hijriPages), function (index, page) {
         if(url.search(page) != -1){
             i++
         }
-        // console.log(page,url);
+        // console.log(page);
     });
     return i;
 }
-console.log(search_url(hijriPages,this_page));
+console.log(search_url(hijriPages,this_page),hijriPages,this_page);
 
 if(search_url(hijriPages,this_page) != 0){
     if((dateType == 'hijri') && (isHijri == "on") ) {
@@ -329,8 +330,9 @@ if(search_url(hijriPages,this_page) != 0){
 
 }
 
-
-if(window.location.href == 'http://localhost/legalserv/admin/settings?group=Hijri'){
+var hijri_page = window.location.href;
+hijri_page = hijri_page.replace(admin_url,'');
+if(hijri_page == 'settings?group=Hijri'){
     
 // $(document).on('click', '.flip-button', function () {
 //
@@ -449,7 +451,136 @@ if(window.location.href == 'http://localhost/legalserv/admin/settings?group=Hijr
         });
 
     });
+    // $('#year_adj').hide();
+    
+    $("#btn_add_adjust").click(function(){
+        console.log('btn_add_adjust')
+        var month = $('#month_adj').val();
+        var year = $('#year_adj').val();
+        // $('#year_adj').show();
+        $.ajax({
+                type: 'Get',
+                url: admin_url + 'My_custom_controller/add_adjust_form',
+                // async: false,
+                data: {
+                    add_month : month,
+                    add_year : year,
+                },
+                success: function(data) {
+                    $('#add_form_adj').append(data);
+                    console.log(document.getElementById('add_adjust_action'));
 
+                    // $(document).on('click',"#add_adjust_action", function () {
+                    //     console.log('add_adjust_action')
+                    //     // var month = $('#month_adj').val();
+                    //     // var year = $('#year_adj').val();
+                    //     // var target_value = $('#target_adjust').val();
+                    //     // $.ajax({
+                    //     //     type: 'Get',
+                    //     //     url: admin_url + 'My_custom_controller/set_hijri_adjust',
+                    //     //     // async: false,
+                    //     //     data: {
+                    //     //         add_month : month,
+                    //     //         add_year : year,
+                    //     //         add_value: target_value,
+                    //     //     },
+                    //     //     success: function(data) {
+                    //     //
+                    //     //         // $('#add_form_adj').append(data);
+                    //     //     },
+                    //
+                    //     // });
+                    // });
+                },
+
+            });
+    });
+
+    $(document).on('click',"#add_adjust_action", function () {
+            // console.log('add_adjust_action')
+            var month = $('#month_adj').val();
+            var year = $('#year_adj').val();
+            var target_value = $('#target_adjust').val();
+            $.ajax({
+                type: 'Get',
+                url: admin_url + 'My_custom_controller/set_hijri_adjust',
+                // async: false,
+                data: {
+                    add_month : month,
+                    add_year : year,
+                    add_value: target_value,
+                },
+                success: function(data) {
+                    var res_data = JSON.parse(data);
+                    console.log(JSON.parse(data).adjdata);
+                    $('#new_adjustement').append(res_data.new);
+                    $('#txt_adj').val(res_data.adjdata);
+                    $('#adjust_data').val(res_data.adjdata);
+
+
+                },
+
+            });
+        });
+
+    $(document).on('click',"#delete_btn", function () {
+        // console.log('add_adjust_action')
+        var month = $('#month_input').val();
+        var year = $('#year_input').val();
+        // var target_value = $('#target_adjust').val();
+        $.ajax({
+            type: 'Get',
+            url: admin_url + 'My_custom_controller/delete_hijri_adjust',
+            // async: false,
+            data: {
+                del_month : month,
+                del_year : year,
+            },
+            success: function(data) {
+                // var res_data = JSON.parse(data);
+                // console.log(JSON.parse(data).adjdata);
+                // $('#new_adjustement').append(res_data.new);
+                // $('#txt_adj').val(res_data.adjdata);
+                // $('#adjust_data').val(res_data.adjdata);
+
+
+            },
+
+        });
+    });
+
+    // $("#add_adjust_action").click(function(){
+    //     console.log('gdsfsd');
+    //     var month = $('#month_adj').val();
+    //     var year = $('#year_adj').val();
+    //     var target_value = $('#target_adjust').val();
+    //     $.ajax({
+    //         type: 'Get',
+    //         url: admin_url + 'My_custom_controller/set_hijri_adjust',
+    //         // async: false,
+    //         data: {
+    //             add_month : month,
+    //             add_year : year,
+    //             add_value: target_value,
+    //         },
+    //         success: function(data) {
+    //
+    //             // $('#add_form_adj').append(data);
+    //         },
+    //
+    //     });
+    // });
+    
+    // $.ajax({
+    //     type: 'Get',
+    //     url: admin_url + 'My_custom_controller/set_hijri_adjust',
+    //     // async: false,
+    //     // data: ['<?php echo get_instance()->security->get_csrf_token_name();?> : <?php echo get_instance()->security->get_csrf_hash(); ?>'],
+    //     success: function(data) {
+    //
+    //     },
+    //
+    // });
     // $(document).on('submit','settings-form',function(){
     //     console.log('sfdhjkshf')
     //     $.ajax({

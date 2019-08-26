@@ -24,8 +24,9 @@
           $.Shortcuts.start();
       });
 
+
       $('body').on('show.bs.modal', '._project_file', function() {
-          discussion_comments_case('#case-file-discussion', discussion_id, 'file');
+          discussion_comments('#project-file-discussion', discussion_id, 'file');
       });
 
       $('body').on('shown.bs.modal', '#milestone', function() {

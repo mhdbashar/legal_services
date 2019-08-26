@@ -236,7 +236,7 @@ class Other_services_controller extends AdminController
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
             $percent = $this->other->calc_progress($slug,$id);
             $data['bodyclass'] = '';
-
+            $this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
@@ -363,9 +363,6 @@ class Other_services_controller extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-
-            //$this->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js');
-            $this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
 
             $other_projects = [];
             $other_projects_where = 'id != ' . $id;

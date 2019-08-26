@@ -1,5 +1,15 @@
-<?php  defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<?php
+$rel_type = isset($rel_type) ? $rel_type : 'project';
+$this->load->model('LegalServices/LegalServicesModel', 'legal');
+$ServID = $this->legal->get_service_id_by_slug($rel_type);
+if($ServID == 1){
+    $route = 'Case';
+}else{
+    $route = 'SOther';
+}
+?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -9,9 +19,9 @@
                         <div class="row _buttons">
                             <div class="col-md-8">
                                 <?php if(has_permission('tasks','','create')){ ?>
-                                    <a href="#" onclick="new_task(<?php if($this->input->get('project_id')){ echo "'".admin_url('tasks/task?rel_id='.$this->input->get('project_id').'&rel_type=project')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_task'); ?></a>
+                                    <a href="#" onclick="new_task(<?php if($this->input->get('project_id')){ echo "'".admin_url('tasks/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_task'); ?></a>
                                 <?php } ?>
-                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('tasks/switch_kanban/'.$switch_kanban); } else { echo admin_url('projects/view/'.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
+                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('tasks/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.'/'.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
                                     <?php if($switch_kanban == 1){ echo _l('switch_to_list_view');}else{echo _l('leads_switch_to_kanban');}; ?>
                                 </a>
                             </div>
@@ -62,7 +72,7 @@
 
     // Init tasks kan ban
     function tasks_kanban() {
-        init_kanban('tasks/kanban_for_LegalServices/'+rel_type, '', '.tasks-status', 265, 360);
+        init_kanban('tasks/kanban_for_LegalServices/'+rel_type, tasks_kanban_update, '.tasks-status', 265, 360);
     }
 </script>
 </body>

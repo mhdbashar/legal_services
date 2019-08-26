@@ -179,7 +179,6 @@
                             </div>
                         </div>
                         <div class="row">
-
                             <div class="col-md-6">
                                 <?php echo render_date_input('start_date', 'project_start_date'); ?>
                             </div>
@@ -190,8 +189,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="tags" class="control-label"><i class="fa fa-tag"
-                                                                               aria-hidden="true"></i> <?php echo _l('tags'); ?>
+                                    <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?>
                                     </label>
                                     <input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
                                 </div>
@@ -251,7 +249,7 @@
            <?php foreach($settings as $setting){
 
             $checked = ' checked';
-            if(isset($oservice)){
+         /*  if(isset($oservice)){
                 if($oservice->settings->{$setting} == 0){
                     $checked = '';
                 }
@@ -268,7 +266,7 @@
                 if(count($last_project_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
-            } ?>
+            } */?>
             <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">

@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Case_movement_model extends App_Model
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -31,6 +30,23 @@ class Case_movement_model extends App_Model
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'case_movement.clientid');
         $this->db->order_by('case_movement.id', 'desc');
         return $this->db->get(db_prefix() . 'case_movement')->result_array();
+    }
+
+    public function get_row($id = '', $where = [])
+    {
+        $this->db->where($where);
+        if (is_numeric($id)) {
+            $this->db->where('case_movement.case_id', $id);
+            $this->db->select('case_movement.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
+            $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'case_movement.country', 'left');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'case_movement.cat_id' , 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'case_movement.subcat_id' , 'left');
+            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'case_movement.court_id' , 'left');
+            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'case_movement.jud_num' , 'left');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'case_movement.representative' , 'left');
+            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'case_movement.case_status' , 'left');
+            return $this->db->get(db_prefix() . 'case_movement')->row();
+        }
     }
 
     public function add($ServID,$id, $data)
@@ -121,7 +137,7 @@ class Case_movement_model extends App_Model
 
             if (isset($judges)) {
                 $cases_judges['judges'] = $judges;
-                $this->case->add_edit_judges($cases_judges, $insert_id);
+                $this->add_edit_judges_movement($cases_judges, $insert_id);
             }
 
             $this->case->log_activity($insert_id, 'project_activity_created');
@@ -136,7 +152,7 @@ class Case_movement_model extends App_Model
 
             hooks()->do_action('after_add_project', $insert_id);
 
-            log_activity ('New Cases Movement [id: ' . $insert_id . ']');
+            log_activity ('New Case Movement [id: ' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -257,7 +273,6 @@ class Case_movement_model extends App_Model
             }
             $affectedRows++;
         }
-
         if ($send_created_email == true) {
             if ($this->case->send_project_customer_email($id, 'project_created_to_customer')) {
                 $affectedRows++;
@@ -310,6 +325,92 @@ class Case_movement_model extends App_Model
             return true;
         }
         return false;
+    }
+
+    public function add_edit_judges_movement($data, $id)
+    {
+        $affectedRows = 0;
+        if (isset($data['judges'])) {
+            $cases_judges = $data['judges'];
+        }
+        $cases_judges_in = $this->get_case_mov_judges($id);
+
+        if (sizeof($cases_judges_in) > 0) {
+            foreach ($cases_judges_in as $case_judge) {
+                if (isset($cases_judges)) {
+                    if (!in_array($case_judge['judge_id'], $cases_judges)) {
+                        $this->db->where('case_mov_id', $id);
+                        $this->db->where('judge_id', $case_judge['judge_id']);
+                        $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                } else {
+                    $this->db->where('case_mov_id', $id);
+                    $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($cases_judges)) {
+                foreach ($cases_judges as $judge_id) {
+                    $this->db->where('case_mov_id', $id);
+                    $this->db->where('judge_id', $judge_id);
+                    $_exists = $this->db->get(db_prefix() . 'my_cases_movement_judges')->row();
+                    if (!$_exists) {
+                        if (empty($judge_id)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix() . 'my_cases_movement_judges', [
+                            'case_mov_id'   => $id,
+                            'judge_id'  => $judge_id,
+                        ]);
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (isset($cases_judges)) {
+                foreach ($cases_judges as $judge_id) {
+                    if (empty($judge_id)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'my_cases_movement_judges', [
+                        'case_mov_id'  => $id,
+                        'judge_id' => $judge_id,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+        }
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_case_mov_judges($id)
+    {
+        $this->db->select('my_cases_movement_judges.*,my_judges.*');
+        $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id=' . db_prefix() . 'my_cases_movement_judges.judge_id');
+        $this->db->where('my_cases_movement_judges.case_mov_id', $id);
+        return $this->db->get(db_prefix() . 'my_cases_movement_judges')->result_array();
+    }
+
+    public function GetJudgesCasesMovement($id)
+    {
+        $this->db->select('my_judges.name');
+        $this->db->from('my_cases_movement_judges');
+        $this->db->join('my_judges', 'my_judges.id = my_cases_movement_judges.judge_id');
+        $this->db->where('my_cases_movement_judges.case_mov_id', $id);
+        return $this->db->get()->result();
     }
 
 }

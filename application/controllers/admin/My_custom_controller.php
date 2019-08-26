@@ -98,7 +98,7 @@ class My_custom_controller extends AdminController
                     echo "</option>";
                 }
                 echo '</select><input type="button" id="add_adjust_action" value="إرسال" />';
-                echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '">إلغاء</a>';
+                echo '<input type="button" id="cancel_btn" value="إالغاء">';
 //        var_dump($_GET);exit();
     }
 

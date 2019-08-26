@@ -523,6 +523,33 @@ if(hijri_page == 'settings?group=Hijri'){
             });
         });
 
+    $(document).on('click',"#cancel_btn", function () {
+        // console.log('add_adjust_action')
+        // var month = $('#month_adj').val();
+        // var year = $('#year_adj').val();
+        // var target_value = $('#target_adjust').val();
+        // $.ajax({
+        //     type: 'Get',
+        //     url: admin_url + 'My_custom_controller/set_hijri_adjust',
+        //     // async: false,
+        //     data: {
+        //         add_month : month,
+        //         add_year : year,
+        //         add_value: target_value,
+        //     },
+        //     success: function(data) {
+        //         var res_data = JSON.parse(data);
+        //         console.log(JSON.parse(data).adjdata);
+        //         $('#new_adjustement').append(res_data.new);
+        //         $('#txt_adj').val(res_data.adjdata);
+        //         $('#adjust_data').val(res_data.adjdata);
+        //
+        //
+        //     },
+        //
+        // });
+    });
+
     $(document).on('click',"#delete_btn", function () {
         // console.log($(this).data('month'))
         var month = $(this).data('month');

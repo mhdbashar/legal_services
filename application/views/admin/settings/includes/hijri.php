@@ -104,7 +104,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     </div>
     <div id="current_adjust">
-        <input type="hidden" id="adjust_data">
+        <input type="hidden" id="adjust_data" name="adjust_data">
 <!--        --><?php
 //            echo '<h2>إضافة تعديل على تقويم أم القرى</h2>';
 //            echo $msg . '<br/>';
@@ -115,7 +115,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div id="add_adjust">
         <label>السنة</label>
-        <select name="year" id="year_adj">
+        <select  id="year_adj">
             <?php
 
             //echo 'السنة :< select name="year" >';
@@ -132,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             ?>
         </select>
         <label>الشهر</label>
-        <select name="month" id="month_adj">
+        <select  id="month_adj">
             <?php
 //            echo '</select> الشهر :<select name="month" id="month_adj">';
             for ($n = 1; $n < 13; $n++) {

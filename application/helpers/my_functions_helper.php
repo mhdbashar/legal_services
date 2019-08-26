@@ -202,11 +202,25 @@ hooks()->add_filter('available_date_formats', 'add_hijri_option');
 
 
 function set_my_options($data){
+//    var_dump($data);exit;
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
         $isHijrivar = "on";
     }else{
         $isHijrivar = "off";
     }
+
+
+    if(isset($data['adjust_data'])){
+        $adj_data = $data['adjust_data'];
+        if (get_option('adjust_data') != Null){
+            update_option('adjust_data',$adj_data);
+
+        }else{
+            add_option('adjust_data',$adj_data);
+//            var_dump(option_exists('isHijri'));exit();
+        }
+    }
+
 
     if(isset($data['hijri_adjust'])){
 

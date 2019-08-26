@@ -524,13 +524,41 @@ if(hijri_page == 'settings?group=Hijri'){
         });
 
     $(document).on('click',"#delete_btn", function () {
-        // console.log('add_adjust_action')
-        var month = $('#month_input').val();
-        var year = $('#year_input').val();
+        // console.log($(this).data('month'))
+        var month = $(this).data('month');
+        var year = $(this).data('year');
         // var target_value = $('#target_adjust').val();
+
         $.ajax({
             type: 'Get',
             url: admin_url + 'My_custom_controller/delete_hijri_adjust',
+            // async: false,
+            data: {
+                del_month : month,
+                del_year : year,
+            },
+            success: function(data) {
+                // var res_data = JSON.parse(data);
+                // console.log(JSON.parse(data).adjdata);
+                // $('#new_adjustement').append(res_data.new);
+                // $('#txt_adj').val(res_data.adjdata);
+                // $('#adjust_data').val(res_data.adjdata);
+
+
+            },
+
+        });
+    });
+
+    $(document).on('click',"#update_btn", function () {
+        // console.log($(this).data('month'))
+        var month = $(this).data('month');
+        var year = $(this).data('year');
+        // var target_value = $('#target_adjust').val();
+
+        $.ajax({
+            type: 'Get',
+            url: admin_url + 'My_custom_controller/update_hijri_adjust',
             // async: false,
             data: {
                 del_month : month,

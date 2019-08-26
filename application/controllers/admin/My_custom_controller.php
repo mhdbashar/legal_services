@@ -57,9 +57,8 @@ class My_custom_controller extends AdminController
 
         foreach ($adj->get_current_adjs() as $v) {
             $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " 
-            <input type='hidden' id='month_input' value='".$v['month']."'>
-            <input type='hidden' id='year_input' value='".$v['year']."'>
-            <input type='button' id='delete_btn' value='حذف'>  <input type='button' id='update_btn' value='تعديل'> <br/>";
+            <input type='button' id='delete_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'> 
+            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>";
 //            $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=del&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>حذف</a>] [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=edit&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>تعديل</a>]<br/>";
 //            $final_res.push($result);
             array_push($final_res,$result);
@@ -89,7 +88,7 @@ class My_custom_controller extends AdminController
         $hm = $_GET['add_month'];
                 $hy = $_GET['add_year'];
                 echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
-                echo '<select name="v" id="target_adjust">';
+                echo '<select  id="target_adjust">';
                 $starts = $adj->get_possible_starts($hm, $hy);
                 foreach ($starts as $start) {
                     echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];

@@ -31,7 +31,7 @@
                                 $invoice_func = 'pre_invoice_oservice';
                                 ?>
                                 <?php if(has_permission('invoices','','create')){ ?>
-                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>, <?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                                    <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');

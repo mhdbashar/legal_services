@@ -67,6 +67,10 @@
                                 <option value="proc_state" <?php if(isset($custom_field) && $custom_field->fieldto == 'proc_state'){echo 'selected';} ?>><?php echo _l('procuration_state'); ?></option>                                
                                 <option value="proc_type" <?php if(isset($custom_field) && $custom_field->fieldto == 'proc_type'){echo 'selected';} ?>><?php echo _l('procuration_type'); ?></option>
                                 <option value="cust_repres" <?php if(isset($custom_field) && $custom_field->fieldto == 'cust_repres'){echo 'selected';} ?>><?php echo _l('customer_representative'); ?></option>
+                                <option value="procurations" <?php if(isset($custom_field) && $custom_field->fieldto == 'procurations'){echo 'selected';} ?>><?php echo _l('procurations'); ?></option>
+                                <?php foreach ($legal_services as $service): ?>
+                                    <option value="<?php echo $service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $service->slug){echo 'selected';} ?>><?php echo $service->name; ?></option>
+                                <?php endforeach; ?>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>
                           </div>

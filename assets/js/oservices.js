@@ -517,7 +517,7 @@ function mass_stop_timers(only_billable, ServID) {
 }
 
 function pre_invoice_project() {
-    requestGet('projects/get_pre_invoice_project_info/' + project_id).done(function(response) {
+    requestGet('LegalServices/Other_services_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
         $('#pre_invoice_project').html(response);
         $('#pre_invoice_project_settings').modal('show');
     });
@@ -660,7 +660,7 @@ function init_table_tickets_oservice(manual) {
     }
 }
 
-function invoice_project(ServID , project_id) {
+function invoice_oservice(ServID , project_id) {
     $('#pre_invoice_project_settings').modal('hide');
     var data = {};
 

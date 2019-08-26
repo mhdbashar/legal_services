@@ -14,6 +14,7 @@ class Custom_fields extends AdminController
     {
         parent::__construct();
         $this->load->model('custom_fields_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
         if (!is_admin()) {
             access_denied('Access Custom Fields');
         }
@@ -61,6 +62,7 @@ class Custom_fields extends AdminController
         $data['pdf_fields']             = $this->pdf_fields;
         $data['client_portal_fields']   = $this->client_portal_fields;
         $data['client_editable_fields'] = $this->client_editable_fields;
+        $data['legal_services']         = $this->legal->get_all_services();
         $data['title']                  = $title;
         $this->load->view('admin/custom_fields/customfield', $data);
     }

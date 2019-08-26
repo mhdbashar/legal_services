@@ -1,14 +1,21 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <?php
-$rel_type = isset($rel_type) ? $rel_type : 'project';
-$this->load->model('LegalServices/LegalServicesModel', 'legal');
-$ServID = $this->legal->get_service_id_by_slug($rel_type);
-if($ServID == 1){
-    $route = 'Case';
+if(isset($rel_type)){
+    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $ServID = $this->legal->get_service_id_by_slug($rel_type);
+    if($ServID == 1){
+        $route = 'Case';
+        $ServID = $ServID.'/';
+    }else{
+        $route = 'SOther';
+        $ServID = $ServID.'/';
+    }
 }else{
-    $route = 'SOther';
+    $ServID = '';
+    $route = 'projects';
 }
+$rel_type = isset($rel_type) ? $rel_type : 'project';
 ?>
 <div id="wrapper">
     <div class="content">
@@ -21,7 +28,7 @@ if($ServID == 1){
                                 <?php if(has_permission('tasks','','create')){ ?>
                                     <a href="#" onclick="new_task(<?php if($this->input->get('project_id')){ echo "'".admin_url('tasks/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_task'); ?></a>
                                 <?php } ?>
-                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('tasks/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.'/'.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
+                                <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('tasks/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
                                     <?php if($switch_kanban == 1){ echo _l('switch_to_list_view');}else{echo _l('leads_switch_to_kanban');}; ?>
                                 </a>
                             </div>

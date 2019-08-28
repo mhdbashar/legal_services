@@ -53,5 +53,16 @@ class Case_session_model extends App_Model
         return $this->db->get('tblmy_judges')->result_array();
     }
 
+    public function link_session_with_case($ServID, $rel_id, $rel_type, $court_id){
+        $data = array(
+            'service_id' => $ServID,
+            'rel_id'     => $rel_id,
+            'rel_type'   => $rel_type,
+            'court_id'   => $court_id,
+            'date'       => date('Y-m-d'),
+        );
+        $this->db->insert(db_prefix() . 'my_service_session', $data);
+    }
+
 }
 

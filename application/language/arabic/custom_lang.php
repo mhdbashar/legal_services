@@ -94,3 +94,4 @@ $lang['actor_type'] = "النوع";
 $lang['new_actor_details'] = "إضافة متفاعل جديد";
 $lang['legal_services_settings'] = "إعدادات الخدمات القانونية";
 $lang['empty_case_mov'] = "لا حركات للقضية حتى الآن!";
+$lang['link_with_case_session'] = "ربط مع جلسة";

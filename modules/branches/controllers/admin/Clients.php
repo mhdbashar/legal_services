@@ -75,13 +75,6 @@ class Clients extends AdminController
         $this->load->view('admin/clients/all_contacts', $data);
     }
 
-    
-    public function add()
-    {
-        $data = $this->input->post();
-        echo $this->clients_model->add($data);
-    }
-
     /* Edit client or add new client*/
     public function client($id = '')
     {

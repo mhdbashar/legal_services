@@ -6,7 +6,7 @@
         <div class="feed-item">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="date"><span class="text-has-action" data-toggle="tooltip" data-title="<?php echo $movement['project_created']; ?>"><?php echo time_ago($movement['project_created']); ?></span>
+                    <div class="date"><span class="text-has-action" data-toggle="tooltip" data-title="<?php echo $movement['inserted_date']; ?>"><?php echo _d($movement['project_created']); ?></span>
                     </div>
                     <div class="text">
                         <p class="mtop10 no-mbot">

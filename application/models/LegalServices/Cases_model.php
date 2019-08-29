@@ -35,6 +35,7 @@ class Cases_model extends App_Model
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
+        $this->load->model('LegalServices/Case_session_model', 'case_session');
     }
 
     public function get($id = '', $where = [])
@@ -166,6 +167,12 @@ class Cases_model extends App_Model
             $send_created_email = true;
         }
 
+        if (isset($data['case_session_link'])) {
+            unset($data['case_session_link']);
+            $case_session_link = true;
+        }
+
+
         $send_project_marked_as_finished_email_to_contacts = false;
         if (isset($data['project_marked_as_finished_email_to_contacts'])) {
             unset($data['project_marked_as_finished_email_to_contacts']);
@@ -218,6 +225,7 @@ class Cases_model extends App_Model
         }
 
         $data['addedfrom'] = get_staff_user_id();
+        $court_id          = $data['court_id'];
 
         $data = hooks()->apply_filters('before_add_project', $data);
 
@@ -234,6 +242,11 @@ class Cases_model extends App_Model
             //Add Case Movement
             $this->movement->add($ServID, $insert_id, $data);
 
+            //Link With Case Session
+            if ($case_session_link == true) {
+                $this->case_session->link_session_with_case($ServID, $insert_id, $slug, $court_id);
+            }
+
             handle_tags_save($tags, $insert_id, $slug);
 
             if (isset($custom_fields)) {
@@ -248,6 +261,7 @@ class Cases_model extends App_Model
             if (isset($judges)) {
                 $cases_judges['judges'] = $judges;
                 $this->add_edit_judges($cases_judges, $insert_id);
+                $this->movement->add_edit_judges_movement($cases_judges, $insert_id);
             }
 
             $original_settings = $this->get_settings();

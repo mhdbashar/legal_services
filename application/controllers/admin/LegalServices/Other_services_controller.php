@@ -873,17 +873,14 @@ class Other_services_controller extends AdminController
                 'billed' => 0,
                 'startdate <=' => date('Y-m-d'),
             ]);
-
             $data['not_billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
                 'billable' => 1,
                 'billed' => 0,
                 'startdate >' => date('Y-m-d'),
             ]);
-
             $data['project_id'] = $project_id;
             $data['ServID']     = $ServID;
             $data['billing_type'] = get_oservice_billing_type($project_id);
-
             $this->load->model('expenses_model');
             $this->db->where('invoiceid IS NULL');
             $data['expenses'] = $this->expenses_model->get('', [
@@ -891,7 +888,6 @@ class Other_services_controller extends AdminController
                 'rel_stype'  => $slug,
                 'billable'   => 1,
             ]);
-
             $this->load->view('admin/LegalServices/other_services/project_pre_invoice_settings', $data);
         }
     }

@@ -62,7 +62,7 @@ class Tasks extends AdminController
         }
 
         $data['title'] = _l('tasks');
-        $this->load->view('admin/tasks/manage', $data);
+        $this->load->view('admin/tasks/my_manage', $data);
     }
 
     public function kanban_for_LegalServices($rel_type)

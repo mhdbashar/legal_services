@@ -498,12 +498,12 @@
       });
   }
 
-  function pre_invoice_case() {
-      requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
-          $('#pre_invoice_project').html(response);
-          $('#pre_invoice_project_settings').modal('show');
-      });
-  }
+  // function pre_invoice_case() {
+  //     requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
+  //         $('#pre_invoice_project').html(response);
+  //         $('#pre_invoice_project_settings').modal('show');
+  //     });
+  // }
 
   function invoice_project(project_id) {
       $('#pre_invoice_project_settings').modal('hide');

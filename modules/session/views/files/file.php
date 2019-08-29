@@ -44,7 +44,7 @@
                               </a>
                            </li>
                            <li role="presentation" class="tab-separator">
-                              <a href="<?php base_url() . 'session/session_info/session_detail'.$session->id.'/' . $service_id . '/' . $rel_id ?>?tab=discussion">
+                              <a href="#tab_discussion" aria-controls="tab_discussion" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract[$id]; ?>,'contract'); return false;">
                                  <?php echo _l('discussion') ?>
                               </a>
                            </li>

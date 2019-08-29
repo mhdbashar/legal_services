@@ -1,5 +1,6 @@
 <?php
 $lang['Id'] = "المعرف";
+$lang['ahmad'] = "%s أحمد";
 $lang['procuration'] = "الوكالة";
 $lang['procurations'] = "الوكالات";
 $lang['procuration_state'] = "حالة الوكالة";

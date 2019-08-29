@@ -187,12 +187,8 @@ function my_get_cities($country_id = '')
 }
 
 
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-    function add_hijri_option($date_formats)
-    {
-        $date_formats ['Y-m-d|%Y-%m-%d|hijri']='hijri';
-        return $date_formats;
-    }
+    
+
 
 function admin_assets()
 {

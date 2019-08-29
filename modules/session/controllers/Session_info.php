@@ -84,7 +84,7 @@ class Session_Info extends AdminController{
                     ]);
                 }
             }
-        if($this->input->get('tab') == 'discussion')
+        if($this->input->get('tab'))
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('my_project_discussions', [
                     'session_id' => $id,

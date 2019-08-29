@@ -3152,3 +3152,4 @@ $lang['new_judge'] = "New Judge";
 $lang['case_status'] = "Case Status";
 $lang['new_cstatus'] = "New Case Status";
 $lang['legal_services_settings'] = "Legal Services Settings";
+$lang['empty_case_mov'] = "No case movements yet!";

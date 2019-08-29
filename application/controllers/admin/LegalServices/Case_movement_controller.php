@@ -39,6 +39,7 @@ class  case_movement_controller extends AdminController
         $data['service']               = $this->legal->get_service_by_id($ServID)->row();
         $data['statuses']              = $this->case->get_project_statuses();
         $data['staff']                 = $this->staff_model->get('', ['active' => 1]);
+        $data['ServID']                = $ServID;
         $data['title']                 = _l("CaseMovement");
         $this->load->view('admin/LegalServices/cases/case_movement_edit', $data);
     }

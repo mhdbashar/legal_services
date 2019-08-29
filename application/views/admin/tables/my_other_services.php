@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 $custom_fields = get_table_custom_fields($service->slug);
 $aColumns = [
     db_prefix() .'my_other_services.id as id',

@@ -194,10 +194,10 @@ $(function() {
     if (_table_api) {
         _table_api.column(0).visible(false, false).columns.adjust();
     }
-
-    if (_table_api_case) {
-        _table_api_case.column(0).visible(false, false).columns.adjust();
-    }
+    //
+    // if (_table_api_case) {
+    //     _table_api_case.column(0).visible(false, false).columns.adjust();
+    // }
 
     init_rel_tasks_table(project_id, 'project');
 

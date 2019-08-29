@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="activity-feed">
-    <?php foreach ($movements as $movement) { ?>
+    <?php
+    if(!empty($movements)){
+    foreach ($movements as $movement) { ?>
         <div class="feed-item">
             <div class="row">
                 <div class="col-md-8">
@@ -23,8 +25,10 @@
                         </p>
                         <p class="mtop10 no-mbot">
                             <?php
+                            $this->load->model('LegalServices/Case_movement_model', 'movement');
+                            $data['judges_case_mov'] = $this->movement->GetJudgesCasesMovement($movement['id']);
                             echo _l('judge').' :';
-                            foreach ($judges_case as $judge){
+                            foreach ($data['judges_case_mov'] as $judge){
                                 echo ' &nbsp; <span class="label label-success inline-block mbot5">' . $judge->name. '</span>';
                             }
                             ?>
@@ -51,5 +55,9 @@
                 </div>
             </div>
         </div>
+    <?php } }else{ ?>
+    <div class="alert alert-danger bold project-due-notice mbot15">
+        <?php echo _l('empty_case_mov'); ?>
+    </div>
     <?php } ?>
 </div>

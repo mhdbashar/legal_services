@@ -23,17 +23,18 @@ class LegalServices_controller extends AdminController
     public function ViewSubService($ServID)
     {
         close_setup_menu();
-        $data['service']  = $this->legal->get_service_by_id($ServID)->row();
-        $data['statuses'] = $this->case->get_project_statuses();
-        $data['ServID']   = $ServID;
+        $data['service'] = $this->legal->get_service_by_id($ServID)->row();
+        $data['ServID']  = $ServID;
         if ($ServID == 1){
-            $data['model'] = $this->case;
-            $data['cases'] = $this->case->get();
+            $data['statuses'] = $this->case->get_project_statuses();
+            $data['model']    = $this->case;
+            //$data['cases'] = $this->case->get();
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('cases',$data);
             }
         }else{
-            $data['model'] = $this->other;
+            $data['statuses'] = $this->other->get_project_statuses();
+            $data['model']    = $this->other;
             //$data['cases'] = $this->case->get();
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('my_other_services',$data);

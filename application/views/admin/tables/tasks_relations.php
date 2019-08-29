@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-
+$this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+$ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
 $hasPermissionEdit   = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');
 $tasksPriorities     = get_tasks_priorities();
@@ -47,6 +48,10 @@ if (!$this->ci->input->post('tasks_related_to')) {
             $rel_to_query .= '(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $rel_id . ')';
         } elseif ($rel_to == 'project') {
             $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $rel_id . ')';
+        } elseif ($ServID == 1) {
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'my_cases WHERE clientid=' . $rel_id . ')';
+        }else{
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'my_other_services WHERE clientid=' . $rel_id . ')';
         }
 
         $rel_to_query .= ' AND rel_type="' . $rel_to . '")';

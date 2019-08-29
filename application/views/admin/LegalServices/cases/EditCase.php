@@ -140,7 +140,7 @@
                                         array_push($selected,$row['id']);
                                     }
                                 }
-                                echo render_select('judges[]',$judges,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                echo render_select('judges[]',$judges,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
                                 ?>
                             </div>
                             <div class="col-md-1">
@@ -601,6 +601,7 @@
         }
     });
 
+
     $("#AddJudge").click(function () {
         var judge_name = $('#judge_name_modal').val();
         if(judge_name == ''){
@@ -615,9 +616,9 @@
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
                         var $option = $('<option></option>')
                             .attr('value', data)
-                            .text(judge_name)
-                            .prop('selected', true);
+                            .text(judge_name);
                         $('.judge_select').append($option).change();
+                        $('.judge_select').selectpicker("refresh");
                         $('#add-judge').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');

@@ -241,7 +241,8 @@ class Cases_controller extends AdminController
             $data['staff']     = $this->staff_model->get('', ['active' => 1]);
             $percent           = $this->case->calc_progress($id, $slug);
             $data['bodyclass'] = '';
-
+            $this->app_scripts->add('cases-js', 'assets/js/cases.js');
+            // $this->app_scripts->add('cases-main-js', 'assets/js/cases_main.js');
             $this->app_scripts->add(
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
@@ -357,7 +358,8 @@ class Cases_controller extends AdminController
                 $data['tasks']                = $this->case->get_tasks($id, 'status != ' . Tasks_model::STATUS_COMPLETE . ' AND billed=0');
                 $data['timesheets_staff_ids'] = $this->case->get_distinct_tasks_timesheets_staff($id, $slug);
             } elseif ($group == 'CaseMovement'){
-                $data['members'] = $this->case->get_project_members($id);
+                $data['members']         = $this->case->get_project_members($id);
+                $data['movements']       = $this->movement->get($id);
             } elseif ($group == 'CaseSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
@@ -376,8 +378,6 @@ class Cases_controller extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('cases-js', 'assets/js/cases.js');
-           // $this->app_scripts->add('cases-main-js', 'assets/js/cases_main.js');
 
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;
@@ -405,7 +405,6 @@ class Cases_controller extends AdminController
             $data['bodyclass']     .= 'project invoices-total-manual estimates-total-manual';
             $data['project_status'] = get_case_status_by_id($project->status);
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
-            $data['movements']      = $this->movement->get($id);
             $data['case_model']     = $this->case;
             $data['ServID']         = $ServID;
             $this->load->view('admin/LegalServices/cases/view', $data);

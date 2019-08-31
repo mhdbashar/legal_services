@@ -140,7 +140,7 @@ class Case_movement_model extends App_Model
                 $this->add_edit_judges_movement($cases_judges, $insert_id);
             }
 
-            $this->case->log_activity($insert_id, 'project_activity_created');
+            $this->case->log_activity($insert_id, 'CaseMov_activity_created');
 
             if ($send_created_email == true) {
                 $this->case->send_project_customer_email($insert_id, 'project_created_to_customer');
@@ -285,7 +285,7 @@ class Case_movement_model extends App_Model
             }
         }
         if ($affectedRows > 0) {
-            $this->case->log_activity($id, 'project_activity_updated');
+            $this->case->log_activity($id, 'LService_activity_updated');
             log_activity('Case Updated [CaseID: ' . $id . ']');
 
             if ($original_project->status != $data['status']) {
@@ -296,11 +296,11 @@ class Case_movement_model extends App_Model
                 // Give space this log to be on top
                 sleep(1);
                 if ($data['status'] == 4) {
-                    $this->log_activity($id, 'project_marked_as_finished');
+                    $this->log_activity($id, 'LService_marked_as_finished');
                     $this->db->where('id', $id);
                     $this->db->update(db_prefix() . 'my_cases', ['date_finished' => date('Y-m-d H:i:s')]);
                 } else {
-                    $this->case->log_activity($id, 'project_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
+                    $this->case->log_activity($id, 'LService_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
                 }
 
                 if (isset($notify_project_members_status_change)) {

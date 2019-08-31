@@ -141,6 +141,7 @@ class Other_services_model extends App_Model
     public function add($ServID,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         if (isset($data['notify_project_members_status_change'])) {
             unset($data['notify_project_members_status_change']);
         }
@@ -148,6 +149,12 @@ class Other_services_model extends App_Model
         if (isset($data['send_created_email'])) {
             unset($data['send_created_email']);
             $send_created_email = true;
+        }
+
+        if (isset($data['service_session_link'])) {
+            $data['service_session_link'] = 1;
+        }else{
+            $data['service_session_link'] = 0;
         }
 
         $send_project_marked_as_finished_email_to_contacts = false;
@@ -269,7 +276,7 @@ class Other_services_model extends App_Model
                 }
             }
 
-            $this->log_activity($insert_id, 'project_activity_created');
+            $this->log_activity($insert_id, 'LService_activity_updated');
 
             if ($send_created_email == true) {
                 $this->send_project_customer_email($insert_id, 'project_created_to_customer');
@@ -281,7 +288,7 @@ class Other_services_model extends App_Model
 
             hooks()->do_action('after_add_project', $insert_id);
 
-            log_activity ('New Sub Service Added [ServiceID: ' . $insert_id . ']');
+            log_activity ('New '.$ServiceName.' Added [ServiceID: ' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -292,6 +299,7 @@ class Other_services_model extends App_Model
     public function update($ServID,$id, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->select('status');
         $this->db->where(array('id' => $id, 'service_id' => $ServID));
         $old_status = $this->db->get(db_prefix() . 'my_other_services')->row()->status;
@@ -300,6 +308,12 @@ class Other_services_model extends App_Model
         if (isset($data['send_created_email'])) {
             unset($data['send_created_email']);
             $send_created_email = true;
+        }
+
+        if (isset($data['service_session_link'])) {
+            $data['service_session_link'] = 1;
+        }else{
+            $data['service_session_link'] = 0;
         }
 
         $send_project_marked_as_finished_email_to_contacts = false;
@@ -462,8 +476,8 @@ class Other_services_model extends App_Model
             }
         }
         if ($affectedRows > 0) {
-            $this->log_activity($id, 'project_activity_updated');
-            logActivity('Sub Services Updated [ServID: ' . $id . ']');
+            $this->log_activity($id, 'LService_activity_updated');
+            logActivity($ServiceName.' Updated [ServID: ' . $id . ']');
 
             if ($original_project->status != $data['status']) {
                 hooks()->do_action('project_status_changed', [
@@ -473,11 +487,11 @@ class Other_services_model extends App_Model
                 // Give space this log to be on top
                 sleep(1);
                 if ($data['status'] == 4) {
-                    $this->log_activity($id, 'project_marked_as_finished');
+                    $this->log_activity($id, 'LService_marked_as_finished');
                     $this->db->where(array('id' => $id, 'service_id' => $ServID));
                     $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => date('Y-m-d H:i:s')]);
                 } else {
-                    $this->log_activity($id, 'project_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
+                    $this->log_activity($id, 'LService_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
                 }
 
                 if (isset($notify_project_members_status_change)) {
@@ -496,6 +510,7 @@ class Other_services_model extends App_Model
     public function delete($ServID, $id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->where(array('id' => $id, 'service_id' => $ServID));
         $this->db->delete(db_prefix() . 'my_other_services');
         if ($this->db->affected_rows() > 0) {
@@ -581,7 +596,7 @@ class Other_services_model extends App_Model
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'pinned_oservices');
 
-            log_activity('Sub Services Deleted [Service ID: ' . $id . ']');
+            log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
             return true;
         }
         return false;
@@ -723,7 +738,6 @@ class Other_services_model extends App_Model
         $this->db->where('oservice_id', $id);
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
     }
-
 
     public function get_project_statuses()
     {
@@ -1091,7 +1105,7 @@ class Other_services_model extends App_Model
             $this->db->where('id', $id);
             $this->db->delete(db_prefix() . 'oservice_files');
             if ($logActivity) {
-                $this->log_activity($file->oservice_id, 'project_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+                $this->log_activity($file->oservice_id, 'LService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
             }
 
             // Delete discussion comments
@@ -1480,6 +1494,7 @@ class Other_services_model extends App_Model
     public function add_milestone($ServID,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $data['rel_stype']   = $slug;
         $data['due_date']    = to_sql_date($data['due_date']);
         $data['datecreated'] = date('Y-m-d');
@@ -1501,7 +1516,7 @@ class Other_services_model extends App_Model
                 $show_to_customer = 0;
             }
             $this->log_activity($milestone->project_id, 'project_activity_created_milestone', $milestone->name, $show_to_customer);
-            log_activity('Project Milestone Created [ID:' . $insert_id . ']');
+            log_activity($ServiceName.' Milestone Created [ID:' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -1511,7 +1526,7 @@ class Other_services_model extends App_Model
 
     public function update_milestone($ServID, $data, $id)
     {
-
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->where('id', $id);
         $milestone = $this->db->get(db_prefix() . 'milestones')->row();
         $data['due_date'] = to_sql_date($data['due_date']);
@@ -1533,7 +1548,7 @@ class Other_services_model extends App_Model
                 $show_to_customer = 0;
             }
             $this->log_activity($milestone->id, 'project_activity_updated_milestone', $milestone->name, $show_to_customer);
-            log_activity('oservice Milestone Updated [ID:' . $id . ']');
+            log_activity($ServiceName.' Milestone Updated [ID:' . $id . ']');
 
             return true;
         }
@@ -1576,6 +1591,7 @@ class Other_services_model extends App_Model
 
     public function delete_milestone($ServID, $id)
     {
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->where('id', $id);
         $milestone = $this->db->get(db_prefix() . 'milestones')->row();
         $this->db->where('id', $id);
@@ -1592,7 +1608,7 @@ class Other_services_model extends App_Model
             $this->db->update(db_prefix() . 'tasks', [
                 'milestone' => 0,
             ]);
-            log_activity('oservice Milestone Deleted [' . $id . ']');
+            log_activity($ServiceName.' Milestone Deleted [ID:' . $id . ']');
 
             return true;
         }
@@ -1639,11 +1655,11 @@ class Other_services_model extends App_Model
 
 
             if ($data['status_id'] == 4) {
-                $this->log_activity($data['project_id'], 'project_marked_as_finished');
+                $this->log_activity($data['project_id'], 'LService_marked_as_finished');
                 $this->db->where('id', $data['project_id']);
                 $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => date('Y-m-d H:i:s')]);
             } else {
-                $this->log_activity($data['project_id'], 'project_status_updated', '<b><lang>project_status_' . $data['status_id'] . '</lang></b>');
+                $this->log_activity($data['project_id'], 'LService_status_updated', '<b><lang>project_status_' . $data['status_id'] . '</lang></b>');
                 if ($old_status == 4) {
                     $this->db->update(db_prefix() . 'my_other_services', ['date_finished' => null]);
                 }
@@ -2208,6 +2224,7 @@ class Other_services_model extends App_Model
     public function copy($ServID,$project_id, $data)
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $project = $this->get($ServID, $project_id);
         $settings = $this->get_project_settings($project_id);
         $_new_data = [];
@@ -2365,8 +2382,8 @@ class Other_services_model extends App_Model
                 }
             }
 
-            $this->log_activity($id, 'project_activity_created');
-            log_activity('oservice Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
+            $this->log_activity($id, 'LService_activity_created');
+            log_activity($ServiceName.' Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
 
             return $id;
         }
@@ -2486,7 +2503,6 @@ class Other_services_model extends App_Model
         $data['dateadded'] = date('Y-m-d H:i:s');
 
         $data = hooks()->apply_filters('before_log_project_activity', $data);
-
         $this->db->insert(db_prefix() . 'oservice_activity', $data);
     }
 
@@ -2495,7 +2511,7 @@ class Other_services_model extends App_Model
         $file = $this->get_file($file_id);
 
         $additional_data = $file->file_name;
-        $this->log_activity($project_id, 'project_activity_uploaded_file', $additional_data, $file->visible_to_customer);
+        $this->log_activity($project_id, 'LService_activity_uploaded_file', $additional_data, $file->visible_to_customer);
 
         $members = $this->get_project_members($project_id);
         $notification_data = [

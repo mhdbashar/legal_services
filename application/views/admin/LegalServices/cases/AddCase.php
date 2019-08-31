@@ -288,10 +288,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="checkbox checkbox-primary">
-                            <input type="checkbox" name="case_session_link" id="case_session_link">
-                            <label for="case_session_link"><?php echo _l('link_with_case_session'); ?></label>
-                        </div>
                         <p class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">

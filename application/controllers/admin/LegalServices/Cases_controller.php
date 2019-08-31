@@ -210,7 +210,7 @@ class Cases_controller extends AdminController
             $project = $this->case->get($id);
 
             if (!$project) {
-                blank_page(_l('project_not_found'));
+                blank_page(_l('LService_not_found'));
             }
 
             @$project->settings->available_features = @unserialize($project->settings->available_features);
@@ -1125,7 +1125,7 @@ class Cases_controller extends AdminController
             $data['project_id'] = $project_id;
             $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
-                $this->case->log_activity($project_id, 'project_activity_invoiced_project', format_invoice_number($invoice_id));
+                $this->case->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
             redirect(admin_url('Case/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));

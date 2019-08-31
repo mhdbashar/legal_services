@@ -48,7 +48,7 @@ class LegalServicesModel extends App_Model
         $this->db->insert('my_basic_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            log_activity('New Service Added [ServID: ' . $insert_id . ']');
+            log_activity('New Legal Service Added [ServID: ' . $insert_id . ']');
         }
         return $insert_id;
     }
@@ -58,7 +58,7 @@ class LegalServicesModel extends App_Model
         $this->db->where('id', $ServID);
         $this->db->update('my_basic_services', $data);
         if ($this->db->affected_rows() > 0) {
-            log_activity('Service Updated [ServID: ' . $ServID . ']');
+            log_activity('Legal Service Updated [ServID: ' . $ServID . ']');
             return true;
         }
         return false;
@@ -68,7 +68,7 @@ class LegalServicesModel extends App_Model
         $this->db->where('id', $ServID);
         $this->db->delete('my_basic_services');
         if ($this->db->affected_rows() > 0) {
-            log_activity('Service Deleted [ServID: ' . $ServID . ']');
+            log_activity('Legal Service Deleted [ServID: ' . $ServID . ']');
             return true;
         }
         return false;

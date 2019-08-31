@@ -205,7 +205,7 @@ class Other_services_controller extends AdminController
             $project = $this->other->get($ServID,$id);
 
             if (!$project) {
-                blank_page(_l('project_not_found'));
+                blank_page(_l('LService_not_found'));
             }
 
             $project->settings->available_features = unserialize($project->settings->available_features);
@@ -351,6 +351,9 @@ class Other_services_controller extends AdminController
                 // Completed tasks are excluded from this list because you can't add timesheet on completed task.
                 $data['tasks'] = $this->other->get_tasks($ServID, $id, 'status != ' . Tasks_model::STATUS_COMPLETE . ' AND billed=0');
                 $data['timesheets_staff_ids'] = $this->other->get_distinct_tasks_timesheets_staff($id, $slug);
+            } elseif ($group == 'OserviceSession'){
+                $data['service_id']  = $ServID;
+                $data['rel_id']      = $id;
             }
 
             // Discussions
@@ -1108,7 +1111,7 @@ class Other_services_controller extends AdminController
             $data['project_id'] = $project_id;
             $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
-                $this->other->log_activity($project_id, 'project_activity_invoiced_project', format_invoice_number($invoice_id));
+                $this->other->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
             redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));

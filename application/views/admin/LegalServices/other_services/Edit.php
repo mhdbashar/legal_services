@@ -240,6 +240,10 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" name="service_session_link" id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
+                            <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
+                        </div>
                         <p class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$OtherServ->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>

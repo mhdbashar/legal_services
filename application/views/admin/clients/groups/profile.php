@@ -147,13 +147,6 @@
                      echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                      ?>
                </div>
-               <div class="col-md-6">
-                  <?php if($this->app_modules->is_active('branches')){?>
-                        <br/>
-                       <?php $value = (isset($branch) ? $branch : ''); ?>
-                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
-                   <?php } ?>
-               </div>
             </div>
          </div>
          <?php if(isset($client)){ ?>

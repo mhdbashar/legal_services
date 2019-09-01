@@ -9220,3 +9220,42 @@ body.gantt {
   overflow:hidden;
   max-height:150px;
 }
+
+/* Added for rtl menu icon and arrwo */
+li a i.menu-icon-ar {
+    margin-left: 16px;
+    display: block;
+    float: right;
+    width: 18px;
+    font-size: 17px
+}
+
+.user-data .home-activity i.menu-icon-ar {
+    width: 10px;
+    font-size: 16px
+}
+
+.nav-tabs.navbar-pills-flat>li a i.menu-icon-ar {
+    font-size: 15px;
+    width: 12px;
+    margin-top: 1px
+}
+
+#setup-menu .arrow-ar,
+#side-menu .arrow-ar {
+    float: left;
+    padding-top: 3px
+}
+
+.fa.arrow-ar:before {
+    content: "\f104"
+}
+
+.active>a>.fa.arrow-ar:before {
+    content: "\f107"
+}
+
+body.rtl #setup-menu .arrow-ar,
+body.rtl #side-menu .arrow-ar {
+    margin-left: 15px
+}

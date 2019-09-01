@@ -1,10 +1,15 @@
 <?php
+$lang['Add Branch'] = "إضافة فرع جديد";
+$lang['Browse Branch'] = "استعراض الفروع";
+$lang['Branches'] = "الفروع";
+$lang['languages'] = "اللغات";
+$lang['Judges'] = "القضاة";
+$lang['procuration_type'] = "أنواع الوكالات";
+$lang['procuration_state'] = "حالات الوكالات";
+$lang['procuration'] = "الوكالات";
 $lang['Id'] = "المعرف";
 $lang['ahmad'] = "%s أحمد";
-$lang['procuration'] = "الوكالة";
 $lang['procurations'] = "الوكالات";
-$lang['procuration_state'] = "حالة الوكالة";
-$lang['procuration_type'] = "نوع الوكالة";
 $lang['new_procuration_type'] = "إضافة نوع وكالة";
 $lang['new_procuration_state'] = "إضافة حالة وكالة";
 $lang['new_procuration'] = "إضافة وكالة";

@@ -29,7 +29,7 @@ function my_module_menu_item_collapsible()
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 25, // The menu position
-        'icon'     => 'fa fa-balance-scale menu-icon', // Font awesome icon
+        'icon'     => 'fa fa-balance-scale', // Font awesome icon
     ]);
 foreach ($services as $service):
     // The first paremeter is the parent menu ID/Slug

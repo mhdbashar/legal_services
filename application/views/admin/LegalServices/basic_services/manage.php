@@ -1,5 +1,5 @@
-<?php  defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php  init_head(); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -18,14 +18,13 @@
                                 <h4 class="no-margin"><?php echo _l('summary').' '.$service->name ; ?></h4>
                                 <?php
                                 $_where = '';
-                                $cond = '';
                                 $TableStaff = $ServID == 1 ? 'my_members_cases' : 'my_members_services';
                                 $TableService = $ServID == 1 ? 'my_cases' : 'my_other_services';
                                 $field = $ServID == 1 ? 'project_id' : 'oservice_id';
                                 $class = $ServID == 1 ? '.table-cases' : '.table-my_other_services';
                                 $render_class = $ServID == 1 ? 'cases' : 'my_other_services';
                                 if(!has_permission('projects','','view')){
-                                    $_where = 'id IN (SELECT '.$field.' FROM '.db_prefix().$table.' WHERE staff_id='.get_staff_user_id().')';
+                                    $_where = 'id IN (SELECT '.$field.' FROM '.db_prefix().$TableStaff.' WHERE staff_id='.get_staff_user_id().')';
                                 }
                                 ?>
                             </div>
@@ -46,7 +45,7 @@
                                         <?php $where .= ($ServID == 1 ? '' : $_where.' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
                                        ?>
                                         <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
-                                            <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where,$cond); ?></h3>
+                                            <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">
                                             <?php echo $status['name']; ?>
                                             </span>
@@ -105,7 +104,11 @@
 <?php init_tail(); ?>
 <script>
     $(function(){
-        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        var ProjectsServerParams = {};
+        $.each($('._hidden_inputs._filters input'),function(){
+            ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
+        });
+        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, [0, 'asc']);
     });
 </script>
 </body>

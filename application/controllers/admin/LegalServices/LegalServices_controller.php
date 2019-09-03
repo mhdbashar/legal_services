@@ -28,14 +28,12 @@ class LegalServices_controller extends AdminController
         if ($ServID == 1){
             $data['statuses'] = $this->case->get_project_statuses();
             $data['model']    = $this->case;
-            //$data['cases'] = $this->case->get();
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('cases',$data);
             }
         }else{
             $data['statuses'] = $this->other->get_project_statuses();
             $data['model']    = $this->other;
-            //$data['cases'] = $this->case->get();
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('my_other_services',$data);
             }
@@ -205,4 +203,42 @@ class LegalServices_controller extends AdminController
         }
         redirect(admin_url("CategoryControl/$ServID"));
     }
+
+    public function legal_recycle_bin($ServID = '')
+    {
+        $data['ServID'] = $ServID;
+        if($ServID == ''){
+            //Do Nothing...
+        }else if ($ServID == 1){
+            if ($this->input->is_ajax_request()) {
+                $this->app->get_table_data('case_recycle_bin',$data);
+            }
+        }else{
+            if ($this->input->is_ajax_request()) {
+                $this->app->get_table_data('oservice_recycle_bin',$data);
+            }
+        }
+        $data['services'] = $this->legal->get_all_services();
+        $data['title']    = _l('LService_recycle_bin');
+        $this->load->view('admin/LegalServices/recycle_bin',$data);
+    }
+
+    public function restore_legal_services($ServID,$id)
+    {
+        $ExistServ = $this->legal->CheckExistService($ServID);
+        if($ExistServ == 0 || !$ServID){
+            set_alert('danger', _l('WrongEntry'));
+            redirect(admin_url('ServicesControl'));
+        }
+        $restore = $this->legal->restore_from_recycle_bin($ServID,$id);
+        if ($restore == true) {
+            set_alert('success', _l('LegalServicesRestored'));
+        } else {
+            set_alert('warning', _l('ProblemRestored'));
+        }
+        redirect(admin_url('LegalServices/LegalServices_controller/legal_recycle_bin/'.$ServID));
+
+    }
+
+
 }

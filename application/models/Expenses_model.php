@@ -23,10 +23,12 @@ class Expenses_model extends App_Model
         $this->db->join(db_prefix() . 'taxes', '' . db_prefix() . 'taxes.id = ' . db_prefix() . 'expenses.tax', 'left');
         $this->db->join('' . db_prefix() . 'taxes as ' . db_prefix() . 'taxes_2', '' . db_prefix() . 'taxes_2.id = ' . db_prefix() . 'expenses.tax2', 'left');
         $this->db->join(db_prefix() . 'expenses_categories', '' . db_prefix() . 'expenses_categories.id = ' . db_prefix() . 'expenses.category');
+        $this->db->where(db_prefix() . 'expenses.deleted', 0);
         $this->db->where($where);
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'expenses.id', $id);
+            $this->db->where(db_prefix() . 'expenses.deleted', 0);
             $expense = $this->db->get()->row();
             if ($expense) {
                 $expense->attachment            = '';

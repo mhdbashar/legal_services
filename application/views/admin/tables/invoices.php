@@ -78,6 +78,7 @@ foreach ($data['payment_modes'] as $mode) {
 }
 if (count($modesIds) > 0) {
     array_push($where, 'AND ' . db_prefix() . 'invoices.id IN (SELECT invoiceid FROM ' . db_prefix() . 'invoicepaymentrecords WHERE paymentmode IN ("' . implode('", "', $modesIds) . '"))');
+    array_push($where, 'AND ' . db_prefix() . 'invoices.deleted = 0');
 }
 
 $years     = $this->ci->invoices_model->get_invoices_years();

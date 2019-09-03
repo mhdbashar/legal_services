@@ -19,7 +19,7 @@ foreach ($custom_fields as $key => $field) {
 }
 $where  = [];
 $filter = [];
-array_push($where, '');
+array_push($where, 'AND ' . db_prefix() . 'my_cases.deleted = 0');
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_cases';
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
@@ -54,7 +54,7 @@ foreach ($rResult as $aRow) {
             ]) . '</a>';
     endforeach;
     $row[] = $membersOutput;
-    $status = get_project_status_by_id($aRow['status']);
+    $status = get_case_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

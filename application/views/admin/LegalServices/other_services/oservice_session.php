@@ -10,7 +10,7 @@
     _l('status'),
     _l('result'),
     _l('options'),
-),'case-session'); ?>
+),'oservice-session'); ?>
 <div class="modal fade" id="add_session" tabindex="-1" role="dialog" aria-labelledby="add_session" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

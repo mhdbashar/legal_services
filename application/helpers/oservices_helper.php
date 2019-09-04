@@ -170,13 +170,15 @@ function app_init_oservice_tabs()
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
 
-    if($service_session_link == 1):
-    $CI->app_tabs->add_oservice_tab('OserviceSession', [
-        'name'                      => _l('legal_services_session'),
-        'icon'                      => 'fa fa-map-marker',
-        'view'                      => 'admin/LegalServices/other_services/oservice_session',
-        'position'                  => 60,
-    ]);
+    if(isset($service_session_link)):
+        if($service_session_link == 1):
+            $CI->app_tabs->add_oservice_tab('OserviceSession', [
+                'name'     => _l('legal_services_session'),
+                'icon'     => 'fa fa-map-marker',
+                'view'     => 'admin/LegalServices/other_services/oservice_session',
+                'position' => 60,
+            ]);
+        endif;
     endif;
 }
 

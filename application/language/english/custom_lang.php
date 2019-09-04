@@ -3168,3 +3168,4 @@ $lang['restore'] = 'Restore';
 $lang['LegalServicesRestored'] = 'The legal service has been removed from the trash';
 $lang['ProblemRestored'] = 'There was a restor problem';
 $lang['ChooseLegalServices'] = 'Select the legal service to view';
+$lang['EmptyRecycleBin'] = 'Empty Recycle Bin after (days)';

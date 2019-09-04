@@ -95,9 +95,24 @@ class Other_services_controller extends AdminController
     {
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));
-            redirect(admin_url("Service/$ServID"));
+            redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
         }
         $response = $this->other->delete($ServID, $id);
+        if ($response == true) {
+            set_alert('success', _l('deleted'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
+    }
+
+    public function move_to_recycle_bin($ServID,$id)
+    {
+        if(!$id){
+            set_alert('danger', _l('WrongEntry'));
+            redirect(admin_url("Service/$ServID"));
+        }
+        $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
             set_alert('success', _l('deleted'));
         } else {

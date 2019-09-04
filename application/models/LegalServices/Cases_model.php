@@ -549,63 +549,112 @@ class Cases_model extends App_Model
     public function delete($ServID,$id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        $this->db->where(array('id' => $id, 'deleted' => 1));
+        $this->db->delete(db_prefix() . 'my_cases');
+
+        if ($this->db->affected_rows() > 0) {
+
+            $this->db->where('project_id', $id);
+            $this->db->delete(db_prefix() . 'my_members_cases');
+
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            $this->db->delete(db_prefix() . 'my_service_session');
+
+            $this->db->where('case_id', $id);
+            $this->db->delete(db_prefix() . 'case_movement');
+
+            $this->db->where('case_mov_id', $id);
+            $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+
+            $this->db->where('case_id', $id);
+            $this->db->delete(db_prefix() . 'my_cases_judges');
+
+            $this->db->where('project_id', $id);
+            $this->db->delete(db_prefix() . 'case_notes');
+
+            $this->db->where('rel_sid', $id);
+            $this->db->where('rel_stype', $slug);
+            $this->db->delete(db_prefix() . 'milestones');
+
+            // Delete the custom field values
+            $this->db->where('relid', $id);
+            $this->db->where('fieldto', $slug);
+            $this->db->delete('customfieldsvalues');
+
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', $slug);
+            $this->db->delete(db_prefix() . 'taggables');
+
+            $this->db->where('project_id', $id);
+            $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
+            foreach ($discussions as $discussion) {
+                $discussion_comments = $this->get_discussion_comments($discussion['id'], 'regular');
+                foreach ($discussion_comments as $comment) {
+                    $this->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+                }
+                $this->db->where('discussion_id', $discussion['id']);
+                $this->db->delete(db_prefix() . 'casediscussioncomments');
+            }
+            $this->db->where('project_id', $id);
+            $this->db->delete(db_prefix() . 'casediscussions');
+
+            $files = $this->get_files($id);
+            foreach ($files as $file) {
+                $this->remove_file($file['id']);
+            }
+
+            $tasks = $this->get_tasks($id);
+            foreach ($tasks as $task) {
+                $this->tasks_model->delete_task($task['id'], false);
+            }
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tasks');
+
+            $this->db->where('case_id', $id);
+            $this->db->delete(db_prefix() . 'case_settings');
+
+            $this->db->where('project_id', $id);
+            $this->db->delete(db_prefix() . 'case_activity');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'expenses');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'invoices');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'creditnotes');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'estimates');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tickets');
+
+            $this->db->where('project_id', $id);
+            $this->db->delete(db_prefix() . 'pinned_cases');
+
+            log_activity('Case Deleted [CaseID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function move_to_recycle_bin($ServID,$id)
+    {
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
         $this->db->set('deleted', 1);
         $this->db->where(array('id' => $id, 'deleted' => 0));
         $this->db->update(db_prefix() . 'my_cases');
+
         if ($this->db->affected_rows() > 0) {
 
-//            $this->db->where('project_id', $id);
-//            $this->db->delete(db_prefix() . 'my_members_cases');
-
-//            $this->db->where('project_id', $id);
-//            $this->db->delete(db_prefix() . 'case_notes');
-
-//            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-//            $this->db->update(db_prefix() . 'milestones', [
-//                'deleted' => 1,
-//            ]);
-
-            // Delete the custom field values
-//            $this->db->where('relid', $id);
-//            $this->db->where('fieldto', $slug);
-//            $this->db->delete('customfieldsvalues');
-
-//            $this->db->where('rel_id', $id);
-//            $this->db->where('rel_type', $slug);
-//            $this->db->delete(db_prefix() . 'taggables');
-
-//            $this->db->where('project_id', $id);
-//            $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
-//            foreach ($discussions as $discussion) {
-//                $discussion_comments = $this->get_discussion_comments($discussion['id'], 'regular');
-//                foreach ($discussion_comments as $comment) {
-//                    $this->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
-//                }
-//                $this->db->where('discussion_id', $discussion['id']);
-//                $this->db->delete(db_prefix() . 'casediscussioncomments');
-//            }
-//            $this->db->where('project_id', $id);
-//            $this->db->delete(db_prefix() . 'casediscussions');
-
-//            $files = $this->get_files($id);
-//            foreach ($files as $file) {
-//                $this->remove_file($file['id']);
-//            }
-
-//            $tasks = $this->get_tasks($id);
-//            foreach ($tasks as $task) {
-//                $this->tasks_model->delete_task($task['id'], false);
-//            }
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tasks', [
                 'deleted' => 1,
             ]);
-
-//            $this->db->where('case_id', $id);
-//            $this->db->delete(db_prefix() . 'case_settings');
-
-//            $this->db->where('project_id', $id);
-//            $this->db->delete(db_prefix() . 'case_activity');
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
             $this->db->update(db_prefix() . 'expenses', [
@@ -631,9 +680,6 @@ class Cases_model extends App_Model
             $this->db->update(db_prefix() . 'tickets', [
                 'deleted' => 1,
             ]);
-
-//            $this->db->where('project_id', $id);
-//            $this->db->delete(db_prefix() . 'pinned_cases');
 
             log_activity('Case Moved To Recycle Bin [CaseID: ' . $id . ']');
             return true;

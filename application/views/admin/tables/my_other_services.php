@@ -1,5 +1,13 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+$hasPermissionEdit   = has_permission('projects', '', 'edit');
+$hasPermissionDelete = has_permission('projects', '', 'delete');
+$hasPermissionCreate = has_permission('projects', '', 'create');
+
 $custom_fields = get_table_custom_fields($service->slug);
+
 $aColumns = [
     db_prefix() .'my_other_services.id as id',
     'name',
@@ -18,8 +26,25 @@ foreach ($custom_fields as $key => $field) {
 }
 $where  = [];
 $filter = [];
+$statusIds = [];
+
+foreach ($model->get_project_statuses() as $status) {
+    if ($this->ci->input->post('project_status_' . $status['id'])) {
+        array_push($statusIds, $status['id']);
+    }
+}
+
 array_push($where, ' AND service_id = '.$ServID.'');
 array_push($where, 'AND ' . db_prefix() . 'my_other_services.deleted = 0');
+
+if (count($statusIds) > 0) {
+    array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
+}
+
+if (count($filter) > 0) {
+    array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
+}
+
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_other_services';
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
@@ -32,7 +57,7 @@ foreach ($rResult as $aRow) {
     $_data =  '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
     $_data .= '  <a href="' . admin_url('SOther/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('SOther/delete/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $_data .= ' | <a href="' . admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
     $_data .= '</div>';
     $row[] = $_data;

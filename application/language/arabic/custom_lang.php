@@ -111,3 +111,4 @@ $lang['restore'] = 'إستعادة';
 $lang['LegalServicesRestored'] = 'تمت ازالة الخدمة القانونية من سلة المهملات';
 $lang['ProblemRestored'] = 'حدثت مشكلة في الإستعادة';
 $lang['ChooseLegalServices'] = 'اختر الخدمة القانونية المراد عرضها';
+$lang['EmptyRecycleBin'] = 'إفراغ سلة المحذوفات بعد (أيام)';

@@ -184,6 +184,13 @@ function app_init_customer_profile_tabs()
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/clients/groups/contacts',
+        'position' => 7,
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('procurations', [
+        'name'     => _l('procurations'),
+        'icon'     => 'fa fa-briefcase',
+        'view'     => 'admin/clients/groups/procurations',
         'position' => 10,
     ]);
 

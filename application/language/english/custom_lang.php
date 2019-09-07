@@ -3169,3 +3169,6 @@ $lang['LegalServicesRestored'] = 'The legal service has been removed from the tr
 $lang['ProblemRestored'] = 'There was a restor problem';
 $lang['ChooseLegalServices'] = 'Select the legal service to view';
 $lang['EmptyRecycleBin'] = 'Empty Recycle Bin after (days)';
+$lang['AlertEmptyRecycleBin'] = 'Alert before emptying recycle bin (days)';
+$lang['ConfirmEmptyLegalServicesRecycleBin'] = 'Confirm Empty Legal Service Recycle Bin';
+$lang['EmptyLegalServicesRecycleBinNote'] = 'Are you OK to automatically empty the Legal Services Recycle Bin in';

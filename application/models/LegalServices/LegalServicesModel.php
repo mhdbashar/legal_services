@@ -195,4 +195,32 @@ class LegalServicesModel extends App_Model
         }
         return false;
     }
+
+    public function confirm_empty_recycle_bin()
+    {
+        $this->db->where('deleted =', 1);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->num_rows();
+        if($cases > 0){
+            $this->db->set('deleted', 2);
+            $this->db->where('deleted', 1);
+            $this->db->update(db_prefix() . 'my_cases');
+            if ($this->db->affected_rows() > 0) {
+                log_activity(' Confirm Empty Legal Services Recycle Bin');
+                return true;
+            }
+        }
+
+        $this->db->where('deleted =', 1);
+        $oservices = $this->db->get(db_prefix() . 'my_other_services')->num_rows();
+        if($oservices > 0){
+            $this->db->set('deleted', 2);
+            $this->db->where('deleted', 1);
+            $this->db->update(db_prefix() . 'my_other_services');
+            if ($this->db->affected_rows() > 0) {
+                log_activity(' Confirm Empty Legal Services Recycle Bin');
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -67,6 +67,8 @@ class Cron_model extends App_Model
             $this->check_leads_email_integration();
             $this->delete_activity_log();
 
+            $this->legal_services_recycle_bin_reminders();
+
             /**
              * Finally send any emails in the email queue - if enabled and any
              */
@@ -1604,4 +1606,38 @@ class Cron_model extends App_Model
 
         return $body;
     }
+
+    public function legal_services_recycle_bin_reminders()
+    {
+        $empty_date    = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
+        $reminder_date = date('Y-m-d', strtotime($empty_date. ' - '.get_option('automatically_reminders_before_empty_recycle_bin_days').' days'));
+
+        $this->db->where('deleted =', 1);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->num_rows();
+
+        $this->db->where('deleted =', 1);
+        $oservices = $this->db->get(db_prefix() . 'my_other_services')->num_rows();
+
+        $notifiedUsers = [];
+
+        if($cases > 0 || $oservices > 0){
+            //Example today is : '2019-09-12'
+            if( date('Y-m-d') == $reminder_date){
+                $notified = add_notification([
+                    'fromcompany'     => true,
+                    'touserid'        => get_staff_user_id(),
+                    'description'     => 'ConfirmEmptyLegalServicesRecycleBin',
+                    'link'            => 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin',
+                ]);
+
+                if ($notified) {
+                    array_push($notifiedUsers, get_staff_user_id());
+                }
+
+                pusher_trigger_notification($notifiedUsers);
+
+            }
+        }
+    }
+
 }

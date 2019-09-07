@@ -113,7 +113,8 @@
     </div>
 
     <div role="tablpanel" class="tab-pane" id="LService_recycle_bin">
-        <?php echo render_input('settings[automatically_resend_invoice_overdue_reminder_after]','EmptyRecycleBin',get_option('automatically_resend_invoice_overdue_reminder_after'),'number'); ?>
+        <?php echo render_input('settings[automatically_reminders_before_empty_recycle_bin_days]','AlertEmptyRecycleBin',get_option('automatically_reminders_before_empty_recycle_bin_days'),'number'); ?>
+        <?php echo render_input('settings[automatically_empty_recycle_bin_after_days]','EmptyRecycleBin',get_option('automatically_empty_recycle_bin_after_days'),'number'); ?>
     </div>
 
     <?php hooks()->do_action('after_cron_settings_last_tab_content'); ?>

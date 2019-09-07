@@ -220,7 +220,7 @@ class LegalServices_controller extends AdminController
         }
         $data['services'] = $this->legal->get_all_services();
         $data['title']    = _l('LService_recycle_bin');
-        $this->load->view('admin/LegalServices/recycle_bin',$data);
+        $this->load->view('admin/LegalServices/recycle_bin/recycle_bin',$data);
     }
 
     public function restore_legal_services($ServID,$id)
@@ -240,5 +240,23 @@ class LegalServices_controller extends AdminController
 
     }
 
+    public function confirm_empty_recycle_bin($confirm = '')
+    {
+        if($confirm == 'yes'){
+            $confirmed = $this->legal->confirm_empty_recycle_bin();
+            if ($confirmed == true) {
+                set_alert('success', _l('Done'));
+                redirect(admin_url());
+            } else {
+                set_alert('warning', _l('Faild'));
+                redirect(admin_url());
+            }
+        }elseif ($confirm == 'no'){
+            set_alert('warning', _l('Done'));
+            redirect(admin_url());
+        }
+        $data['title'] = _l('ConfirmEmptyLegalServicesRecycleBin');
+        $this->load->view('admin/LegalServices/recycle_bin/confirm_empty', $data);
+    }
 
 }

@@ -25,6 +25,9 @@
     <a href="#tasks" aria-controls="tasks" role="tab" data-toggle="tab"><?php echo _l('tasks'); ?></a>
   </li>
   <li role="presentation">
+    <a href="#procurations" aria-controls="procurations" role="tab" data-toggle="tab"><?php echo _l('procurations'); ?></a>
+  </li>
+  <li role="presentation">
     <a href="#tickets" aria-controls="tickets" role="tab" data-toggle="tab"><?php echo _l('tickets'); ?></a>
   </li>
 
@@ -67,6 +70,10 @@
   <div role="tabpanel" class="tab-pane" id="tasks">
    <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('tasks_reminder_notification_before_help'); ?>"></i>
    <?php echo render_input('settings[tasks_reminder_notification_before]','tasks_reminder_notification_before',get_option('tasks_reminder_notification_before'),'number'); ?>
+ </div>
+ <div role="tabpanel" class="tab-pane" id="procurations">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
+   <?php echo render_input('settings[procurations_reminder_notification_before]','procurations_reminder_notification_before',get_option('procurations_reminder_notification_before'),'number'); ?>
  </div>
  <div role="tabpanel" class="tab-pane" id="contracts">
       <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>

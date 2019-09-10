@@ -1837,6 +1837,7 @@ $lang['invoice_marked_as_cancelled_successfully'] = "Invoice marked as cancelled
 $lang['invoice_unmarked_as_cancelled'] = "Invoice unmarked as cancelled successfully";
 $lang['tasks_reminder_notification_before'] = "Task deadline reminder before (Days)";
 $lang['not_task_deadline_reminder'] = "Task deadline reminder";
+$lang['not_procuration_deadline_reminder'] = "Procuration deadline reminder";
 $lang['dt_length_menu_all'] = "All";
 $lang['task_not_finished'] = "Not Completed";
 $lang['task_billed_cant_start_timer'] = "Task billed. Timer cant be start";

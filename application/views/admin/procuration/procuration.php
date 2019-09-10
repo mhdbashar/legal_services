@@ -187,178 +187,30 @@
       end_date:'required',
       start_date:'required',
       client: 'required',
-      repeat_every_custom: { min: 1},
     },expenseSubmitHandler);
 
-     $('input[name="billable"]').on('change',function(){
-       do_billable_checkbox();
-     });
-
-      $('#repeat_every').on('change',function(){
-         if($(this).selectpicker('val') != '' && $('input[name="billable"]').prop('checked') == true){
-            $('.billable_recurring_options').removeClass('hide');
-          } else {
-            $('.billable_recurring_options').addClass('hide');
-          }
-     });
-
-     // hide invoice recurring options on page load
-     $('#repeat_every').trigger('change');
-
-      $('select[name="clientid"]').on('change',function(){
-       customer_init();
-       do_billable_checkbox();
-       $('input[name="billable"]').trigger('change');
-     });
-
-     <?php if(!isset($expense)) { ?>
-        $('select[name="tax"], select[name="tax2"]').on('change', function () {
-
-            delay(function(){
-                var $amount = $('#amount'),
-                taxDropdown1 = $('select[name="tax"]'),
-                taxDropdown2 = $('select[name="tax2"]'),
-                taxPercent1 = parseFloat(taxDropdown1.find('option[value="'+taxDropdown1.val()+'"]').attr('data-percent')),
-                taxPercent2 = parseFloat(taxDropdown2.find('option[value="'+taxDropdown2.val()+'"]').attr('data-percent')),
-                total = $amount.val();
-
-                if(total == 0 || total == '') {
-                    return;
-                }
-
-                if($amount.attr('data-original-amount')) {
-                  total = $amount.attr('data-original-amount');
-                }
-
-                total = parseFloat(total);
-
-                if(taxDropdown1.val() || taxDropdown2.val()) {
-
-                    $('#tax_subtract').removeClass('hide');
-
-                    var totalTaxPercentExclude = taxPercent1;
-                    if(taxDropdown2.val()){
-                      totalTaxPercentExclude += taxPercent2;
-                    }
-
-                    var totalExclude = accounting.toFixed(total - exclude_tax_from_amount(totalTaxPercentExclude, total), app.options.decimal_places);
-                    $('#tax_subtract_total').html(accounting.toFixed(totalExclude, app.options.decimal_places));
-                } else {
-                   $('#tax_subtract').addClass('hide');
-                }
-                if($('#tax1_included').prop('checked') == true) {
-                    subtract_tax_amount_from_expense_total();
-                }
-              }, 200);
-        });
-
-        $('#amount').on('blur', function(){
-          $(this).removeAttr('data-original-amount');
-          if($(this).val() == '' || $(this).val() == '') {
-              $('#tax1_included').prop('checked', false);
-              $('#tax_subtract').addClass('hide');
-          } else {
-            var tax1 = $('select[name="tax"]').val();
-            var tax2 = $('select[name="tax2"]').val();
-            if(tax1 || tax2) {
-                setTimeout(function(){
-                    $('select[name="tax2"]').trigger('change');
-                }, 100);
-            }
-          }
-        })
-
-        $('#tax1_included').on('change', function() {
-
-          var $amount = $('#amount'),
-          total = parseFloat($amount.val());
-
-          // da pokazuva total za 2 taxes  Subtract TAX total (136.36) from expense amount
-          if(total == 0) {
-              return;
-          }
-
-          if($(this).prop('checked') == false) {
-              $amount.val($amount.attr('data-original-amount'));
-              return;
-          }
-
-          subtract_tax_amount_from_expense_total();
-        });
-      <?php } ?>
-    });
-
-    function subtract_tax_amount_from_expense_total(){
-         var $amount = $('#amount'),
-         total = parseFloat($amount.val()),
-         taxDropdown1 = $('select[name="tax"]'),
-         taxDropdown2 = $('select[name="tax2"]'),
-         taxRate1 = parseFloat(taxDropdown1.find('option[value="'+taxDropdown1.val()+'"]').attr('data-percent')),
-         taxRate2 = parseFloat(taxDropdown2.find('option[value="'+taxDropdown2.val()+'"]').attr('data-percent'));
-
-         var totalTaxPercentExclude = taxRate1;
-         if(taxRate2) {
-          totalTaxPercentExclude+= taxRate2;
-        }
-
-        if($amount.attr('data-original-amount')) {
-          total = parseFloat($amount.attr('data-original-amount'));
-        }
-
-        $amount.val(exclude_tax_from_amount(totalTaxPercentExclude, total));
-
-        if($amount.attr('data-original-amount') == undefined) {
-          $amount.attr('data-original-amount', total);
-        }
-    }
-
+     
      function expenseSubmitHandler(form){
 
 
       $.post(form.action, $(form).serialize()).done(function(response) {
-        <?php if(empty($id)) $id = $last_id ?>;
-        if (expenseDropzone.getQueuedFiles().length > 0) {
-        expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
-            expenseDropzone.processQueue();
-        }else {
-          window.location.assign(response.url);
+        var response = admin_url + "procuration/all";
+        if(typeof(expenseDropzone) !== 'undefined'){
+          <?php if(empty($id)) $id = $last_id ?>;
+          if (expenseDropzone.getQueuedFiles().length > 0) {
+          expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
+              expenseDropzone.processQueue();
+          }else {
+            window.location.assign(response);
+          }
+        } else {
+          window.location.assign(response);
         }
     });
       return false;
     }
-    function do_billable_checkbox(){
-      var val = $('select[name="clientid"]').val();
-      if(val != ''){
-        $('.billable').removeClass('hide');
-        if ($('input[name="billable"]').prop('checked') == true) {
-          if($('#repeat_every').selectpicker('val') != ''){
-            $('.billable_recurring_options').removeClass('hide');
-          } else {
-            $('.billable_recurring_options').addClass('hide');
-          }
-          if(customer_currency != ''){
-            selectCurrency.val(customer_currency);
-            selectCurrency.selectpicker('refresh');
-          } else {
-            set_base_currency();
-         }
-       } else {
-        $('.billable_recurring_options').addClass('hide');
-        // When project is selected, the project currency will be used, either customer currency or base currency
-        if($('#project_id').selectpicker('val') == ''){
-            set_base_currency();
-        }
-      }
-    } else {
-      set_base_currency();
-      $('.billable').addClass('hide');
-      $('.billable_recurring_options').addClass('hide');
-    }
-   }
-   function set_base_currency(){
-    selectCurrency.val(selectCurrency.data('base'));
-    selectCurrency.selectpicker('refresh');
-   }
+  })
+    
 </script>
 </body>
 </html>

@@ -211,7 +211,7 @@ class Procurations_model extends App_Model
 
     public function delete($id, $simpleDelete = false)
     {
-
+        $this->delete_procuration_attachment($id);
         $this->db->where('relid', $id);
 
         //table name in custom field table is procurations

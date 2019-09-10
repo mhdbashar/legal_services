@@ -17,7 +17,12 @@ class Procuration extends AdminController
     public function index()
     {
         $this->db->select('max(id)');
-        return ($this->db->get('tblprocurations')->row_array())['max(id)'] + 1;
+        $max = ($this->db->get('tblprocurations')->row_array())['max(id)'] + 1;
+        if($max != null){
+            return $max;
+        }else{
+            return 0;
+        }
     }
 
     public function all(){

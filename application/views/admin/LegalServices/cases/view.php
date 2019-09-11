@@ -87,7 +87,7 @@
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('Case/delete/'.$ServID.'/'.$project->id); ?>" class="_delete">
+                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/move_to_recycle_bin/'.$ServID.'/'.$project->id); ?>" class="_delete">
                                                     <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                                 </a>
                                             </li>

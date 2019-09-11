@@ -87,6 +87,7 @@ class Tasks_model extends App_Model
     {
         $is_admin = is_admin();
         $this->db->where('id', $id);
+        $this->db->where('deleted', 0);
         $this->db->where($where);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
         if ($task) {

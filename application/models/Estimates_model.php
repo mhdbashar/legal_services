@@ -41,9 +41,11 @@ class Estimates_model extends App_Model
         $this->db->select('*,' . db_prefix() . 'currencies.id as currencyid, ' . db_prefix() . 'estimates.id as id, ' . db_prefix() . 'currencies.name as currency_name');
         $this->db->from(db_prefix() . 'estimates');
         $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id = ' . db_prefix() . 'estimates.currency', 'left');
+        $this->db->where(db_prefix() . 'estimates.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'estimates.id', $id);
+            $this->db->where(db_prefix() . 'estimates.deleted', 0);
             $estimate = $this->db->get()->row();
             if ($estimate) {
                 $estimate->attachments                           = $this->get_attachments($id);

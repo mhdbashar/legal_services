@@ -1,6 +1,13 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
+
+$hasPermissionEdit   = has_permission('projects', '', 'edit');
+$hasPermissionDelete = has_permission('projects', '', 'delete');
+$hasPermissionCreate = has_permission('projects', '', 'create');
+
 $custom_fields = get_table_custom_fields($service->slug);
+
 $aColumns = [
     db_prefix() .'my_cases.id as id',
     'name',
@@ -19,7 +26,24 @@ foreach ($custom_fields as $key => $field) {
 }
 $where  = [];
 $filter = [];
-array_push($where, '');
+$statusIds = [];
+
+foreach ($model->get_project_statuses() as $status) {
+    if ($this->ci->input->post('project_status_' . $status['id'])) {
+        array_push($statusIds, $status['id']);
+    }
+}
+
+array_push($where, 'AND ' . db_prefix() . 'my_cases.deleted = 0');
+
+if (count($statusIds) > 0) {
+    array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
+}
+
+if (count($filter) > 0) {
+    array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
+}
+
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_cases';
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
@@ -33,7 +57,7 @@ foreach ($rResult as $aRow) {
     $_data .= '<div class="row-options">';
     $_data .= '  <a href="' . admin_url('LegalServices/case_movement_controller/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('CaseMovement') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('Case/delete/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
     $_data .= '</div>';
     $row[] = $_data;
@@ -54,7 +78,7 @@ foreach ($rResult as $aRow) {
             ]) . '</a>';
     endforeach;
     $row[] = $membersOutput;
-    $status = get_project_status_by_id($aRow['status']);
+    $status = get_case_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

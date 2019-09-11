@@ -43,7 +43,7 @@ if ($clientid != '') {
 if (!has_permission('expenses', '', 'view')) {
     array_push($where, 'AND ' . db_prefix() . 'expenses.addedfrom=' . get_staff_user_id());
 }
-
+array_push($where, 'AND ' . db_prefix() . 'expenses.deleted = 0');
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'expenses';
 

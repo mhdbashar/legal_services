@@ -86,7 +86,7 @@
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('SOther/delete/'.$ServID.'/'.$project->id); ?>" class="_delete">
+                                                <a href="<?php echo admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/'.$ServID.'/'.$project->id); ?>" class="_delete">
                                                     <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                                 </a>
                                             </li>
@@ -276,6 +276,56 @@ echo form_hidden('project_percent',$percent);
         }
         var settings = $.extend({}, defaults, options);
         $(selector).comments(settings);
+    }
+</script>
+<script>
+    <?php
+    $num_session = isset($num_session) ? $num_session : 0;
+    for($i = 0; $i < $num_session; $i++){ ?>
+    function submitForm<?php echo $i ?>(){
+        document.getElementById('myform<?php echo $i ?>').submit();
+    }
+    function resultForm<?php echo $i ?>(){
+        document.getElementById('resultform<?php echo $i ?>').submit();
+    }
+
+    <?php } ?>
+
+    $(function(){
+        initDataTable('.table-oservice-session', admin_url + 'LegalServices/case_session_controller/session/<?php echo $ServID ?>/<?php echo $project->id; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+    });
+
+    function update_session_json(id){
+
+        save_method = 'update';
+        $('#form_transout')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+        //Ajax Load data from ajax
+        $.ajax({
+            url : "<?php echo site_url('session/service_sessions/session_json') ?>/" + id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+                console.log(data);
+                $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
+                $('[name="subject"]').val(data.subject);
+                $('[name="date"]').val(data.date);
+                $('[name="id"]').val(data.id);
+                $('[name="court_id"]').val(data.court_id);
+                $('[name="judge_id"]').val(data.judge_id);
+
+                // $('[name="dob"]').datepicker('update',data.dob);
+                $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
     }
 </script>
 </body>

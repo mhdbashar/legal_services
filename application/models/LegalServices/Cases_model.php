@@ -42,7 +42,7 @@ class Cases_model extends App_Model
     {
         $this->db->where($where);
         if (is_numeric($id)) {
-            $this->db->where('my_cases.id', $id);
+            $this->db->where(array('my_cases.id' => $id, 'my_cases.deleted' => 0));
             $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id');
@@ -112,7 +112,7 @@ class Cases_model extends App_Model
 
             return null;
         }
-
+        $this->db->where('my_cases.deleted', 0);
         $this->db->select('*,' . get_sql_select_client_company());
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_cases.clientid');
         $this->db->order_by('my_cases.id', 'desc');
@@ -166,12 +166,6 @@ class Cases_model extends App_Model
             unset($data['send_created_email']);
             $send_created_email = true;
         }
-
-        if (isset($data['case_session_link'])) {
-            unset($data['case_session_link']);
-            $case_session_link = true;
-        }
-
 
         $send_project_marked_as_finished_email_to_contacts = false;
         if (isset($data['project_marked_as_finished_email_to_contacts'])) {
@@ -241,11 +235,6 @@ class Cases_model extends App_Model
 
             //Add Case Movement
             $this->movement->add($ServID, $insert_id, $data);
-
-            //Link With Case Session
-            if ($case_session_link == true) {
-                $this->case_session->link_session_with_case($ServID, $insert_id, $slug, $court_id);
-            }
 
             handle_tags_save($tags, $insert_id, $slug);
 
@@ -317,7 +306,7 @@ class Cases_model extends App_Model
                 }
             }
 
-            $this->log_activity($insert_id, 'project_activity_created');
+            $this->log_activity($insert_id, 'LService_activity_created');
 
             if ($send_created_email == true) {
                 $this->send_project_customer_email($insert_id, 'project_created_to_customer');
@@ -329,7 +318,7 @@ class Cases_model extends App_Model
 
             hooks()->do_action('after_add_project', $insert_id);
 
-            log_activity ('New Cases Added [CaseID: ' . $insert_id . ']');
+            log_activity ('New Case Added [CaseID: ' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -526,7 +515,7 @@ class Cases_model extends App_Model
             }
         }
         if ($affectedRows > 0) {
-            $this->log_activity($id, 'project_activity_updated');
+            $this->log_activity($id, 'LService_activity_updated');
             log_activity('Case Updated [CaseID: ' . $id . ']');
 
             if ($original_project->status != $data['status']) {
@@ -537,11 +526,11 @@ class Cases_model extends App_Model
                 // Give space this log to be on top
                 sleep(1);
                 if ($data['status'] == 4) {
-                    $this->log_activity($id, 'project_marked_as_finished');
+                    $this->log_activity($id, 'LService_marked_as_finished');
                     $this->db->where('id', $id);
                     $this->db->update(db_prefix() . 'my_cases', ['date_finished' => date('Y-m-d H:i:s')]);
                 } else {
-                    $this->log_activity($id, 'project_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
+                    $this->log_activity($id, 'LService_status_updated', '<b><lang>project_status_' . $data['status'] . '</lang></b>');
                 }
 
                 if (isset($notify_project_members_status_change)) {
@@ -560,17 +549,32 @@ class Cases_model extends App_Model
     public function delete($ServID,$id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $this->db->where('id', $id);
+
+        $this->db->where(array('id' => $id, 'deleted' => 1));
         $this->db->delete(db_prefix() . 'my_cases');
+
         if ($this->db->affected_rows() > 0) {
 
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'my_members_cases');
 
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            $this->db->delete(db_prefix() . 'my_service_session');
+
+            $this->db->where('case_id', $id);
+            $this->db->delete(db_prefix() . 'case_movement');
+
+            $this->db->where('case_mov_id', $id);
+            $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+
+            $this->db->where('case_id', $id);
+            $this->db->delete(db_prefix() . 'my_cases_judges');
+
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'case_notes');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->where('rel_sid', $id);
+            $this->db->where('rel_stype', $slug);
             $this->db->delete(db_prefix() . 'milestones');
 
             // Delete the custom field values
@@ -604,6 +608,8 @@ class Cases_model extends App_Model
             foreach ($tasks as $task) {
                 $this->tasks_model->delete_task($task['id'], false);
             }
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tasks');
 
             $this->db->where('case_id', $id);
             $this->db->delete(db_prefix() . 'case_settings');
@@ -611,40 +617,71 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'case_activity');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'expenses', [
-                'rel_sid' => 0,
-                'rel_stype' => '',
-            ]);
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'expenses');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'invoices', [
-                'rel_sid' => 0,
-                'rel_stype' => '',
-            ]);
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'invoices');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'creditnotes', [
-                'rel_sid' => 0,
-                'rel_stype' => '',
-            ]);
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'creditnotes');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'estimates', [
-                'rel_sid' => 0,
-                'rel_stype' => '',
-            ]);
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'estimates');
 
-            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
-            $this->db->update(db_prefix() . 'tickets', [
-                'rel_sid' => 0,
-                'rel_stype' => '',
-            ]);
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tickets');
 
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'pinned_cases');
 
             log_activity('Case Deleted [CaseID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function move_to_recycle_bin($ServID,$id)
+    {
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        $this->db->set('deleted', 1);
+        $this->db->where(array('id' => $id, 'deleted' => 0));
+        $this->db->update(db_prefix() . 'my_cases');
+
+        if ($this->db->affected_rows() > 0) {
+
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->update(db_prefix() . 'tasks', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'expenses', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'invoices', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'creditnotes', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'estimates', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'tickets', [
+                'deleted' => 1,
+            ]);
+
+            log_activity('Case Moved To Recycle Bin [CaseID: ' . $id . ']');
             return true;
         }
         return false;
@@ -1631,7 +1668,7 @@ class Cases_model extends App_Model
                 $show_to_customer = 0;
             }
             $this->log_activity($milestone->project_id, 'project_activity_created_milestone', $milestone->name, $show_to_customer);
-            log_activity('Project Milestone Created [ID:' . $insert_id . ']');
+            log_activity('Case Milestone Created [ID:' . $insert_id . ']');
 
             return $insert_id;
         }
@@ -1662,7 +1699,7 @@ class Cases_model extends App_Model
                 $show_to_customer = 0;
             }
             $this->log_activity($milestone->project_id, 'project_activity_updated_milestone', $milestone->name, $show_to_customer);
-            log_activity('Project Milestone Updated [ID:' . $id . ']');
+            log_activity('Case Milestone Updated [ID:' . $id . ']');
 
             return true;
         }
@@ -1721,7 +1758,7 @@ class Cases_model extends App_Model
             $this->db->update(db_prefix() . 'tasks', [
                 'milestone' => 0,
             ]);
-            log_activity('Project Milestone Deleted [' . $id . ']');
+            log_activity('Case Milestone Deleted [' . $id . ']');
 
             return true;
         }
@@ -2492,7 +2529,7 @@ class Cases_model extends App_Model
                 }
             }
 
-            $this->log_activity($id, 'project_activity_created');
+            $this->log_activity($id, 'LService_activity_created');
             log_activity('Case Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
 
             return $id;
@@ -2622,7 +2659,7 @@ class Cases_model extends App_Model
         $file = $this->get_file($file_id);
 
         $additional_data = $file->file_name;
-        $this->log_activity($project_id, 'project_activity_uploaded_file', $additional_data, $file->visible_to_customer);
+        $this->log_activity($project_id, 'LService_activity_uploaded_file', $additional_data, $file->visible_to_customer);
 
         $members           = $this->get_project_members($project_id);
         $notification_data = [

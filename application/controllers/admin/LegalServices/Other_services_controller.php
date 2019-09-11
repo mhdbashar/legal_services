@@ -8,6 +8,7 @@ class Other_services_controller extends AdminController
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('Customer_representative_model', 'representative');
+        $this->load->model('LegalServices/Case_session_model', 'case_session');
         $this->load->model('currencies_model');
         $this->load->helper('date');
     }
@@ -94,9 +95,24 @@ class Other_services_controller extends AdminController
     {
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));
-            redirect(admin_url("Service/$ServID"));
+            redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
         }
         $response = $this->other->delete($ServID, $id);
+        if ($response == true) {
+            set_alert('success', _l('deleted'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
+    }
+
+    public function move_to_recycle_bin($ServID,$id)
+    {
+        if(!$id){
+            set_alert('danger', _l('WrongEntry'));
+            redirect(admin_url("Service/$ServID"));
+        }
+        $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
             set_alert('success', _l('deleted'));
         } else {
@@ -205,7 +221,7 @@ class Other_services_controller extends AdminController
             $project = $this->other->get($ServID,$id);
 
             if (!$project) {
-                blank_page(_l('project_not_found'));
+                blank_page(_l('LService_not_found'));
             }
 
             $project->settings->available_features = unserialize($project->settings->available_features);
@@ -351,6 +367,12 @@ class Other_services_controller extends AdminController
                 // Completed tasks are excluded from this list because you can't add timesheet on completed task.
                 $data['tasks'] = $this->other->get_tasks($ServID, $id, 'status != ' . Tasks_model::STATUS_COMPLETE . ' AND billed=0');
                 $data['timesheets_staff_ids'] = $this->other->get_distinct_tasks_timesheets_staff($id, $slug);
+            } elseif ($group == 'OserviceSession'){
+                $data['service_id']  = $ServID;
+                $data['rel_id']      = $id;
+                $data['num_session'] = $this->case_session->count_sessions($ServID, $id);
+                $data['judges']      = $this->case_session->get_judges();
+                $data['courts']      = $this->case_session->get_court();
             }
 
             // Discussions
@@ -1108,7 +1130,7 @@ class Other_services_controller extends AdminController
             $data['project_id'] = $project_id;
             $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
-                $this->other->log_activity($project_id, 'project_activity_invoiced_project', format_invoice_number($invoice_id));
+                $this->other->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
             redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));

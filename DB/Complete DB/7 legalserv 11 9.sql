@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2019 at 06:20 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Generation Time: Sep 11, 2019 at 02:33 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -40,98 +40,84 @@ CREATE TABLE `tblactivity_log` (
 --
 
 INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
-(1, 'Vac Updated [ID: 2]', '2019-07-20 15:12:55', 'Mhdbashar Das'),
-(2, 'Holiday Deleted [2]', '2019-07-20 15:13:06', 'Mhdbashar Das'),
-(3, 'Vac Updated [ID: ]', '2019-07-20 15:14:12', 'Mhdbashar Das'),
-(4, 'Vac Updated [ID: ]', '2019-07-20 15:14:32', 'Mhdbashar Das'),
-(5, 'Vac Updated [ID: 2]', '2019-07-20 15:14:53', 'Mhdbashar Das'),
-(6, 'Vac Updated [ID: 2]', '2019-07-20 15:15:03', 'Mhdbashar Das'),
-(7, 'Vac Deleted [2]', '2019-07-20 15:15:08', 'Mhdbashar Das'),
-(8, 'New Staff Member Added [ID: 2, mohamad mohamad]', '2019-07-20 15:54:25', 'Mhdbashar Das'),
-(9, 'Vac Deleted [1]', '2019-07-21 13:50:20', 'Mhdbashar Das'),
-(10, 'Vac Deleted [2]', '2019-07-21 13:50:24', 'Mhdbashar Das'),
-(11, 'New Session [ID: 1]', '2019-07-22 11:16:07', 'Mhdbashar Das'),
-(12, 'New Customer Group Created [ID:1, Name:Web Developer]', '2019-07-23 18:19:40', 'Mhdbashar Das'),
-(13, 'New Department Added [Web Developers, ID: 1]', '2019-07-23 18:22:20', 'Mhdbashar Das'),
-(14, 'New Department Added [Web Developers, ID: 2]', '2019-07-23 18:22:22', 'Mhdbashar Das'),
-(15, 'Department Deleted [ID: 2]', '2019-07-23 18:24:17', 'Mhdbashar Das'),
-(16, 'Department Deleted [ID: 1]', '2019-07-23 18:24:24', 'Mhdbashar Das'),
-(17, 'New Department Added [Web Developers, ID: 3]', '2019-07-23 18:24:44', 'Mhdbashar Das'),
-(18, 'tblcountries updated [Country ID: 4]', '2019-07-23 19:58:30', 'Mhdbashar Das'),
-(19, 'tblcountries updated [Country ID: 4]', '2019-07-23 20:00:04', 'Mhdbashar Das'),
-(20, 'New Session [ID: 2]', '2019-07-23 20:17:58', 'Mhdbashar Das'),
-(21, 'Vac Deleted [2]', '2019-07-23 20:18:04', 'Mhdbashar Das'),
-(22, 'Vac Deleted [2]', '2019-07-23 20:18:09', 'Mhdbashar Das'),
-(23, 'Vac Deleted [2]', '2019-07-23 20:19:05', 'Mhdbashar Das'),
-(24, 'Vac Deleted [2]', '2019-07-23 21:09:14', 'Mhdbashar Das'),
-(25, 'Vac Deleted [2]', '2019-07-24 17:54:08', 'Mhdbashar Das'),
-(26, 'New Client Created [ID: 1, From Staff: 1]', '2019-07-25 13:56:59', 'Mhdbashar Das'),
-(27, 'New Client Created [ID: 2, From Staff: 1]', '2019-07-25 13:58:22', 'Mhdbashar Das'),
-(28, 'Customer Info Updated [ID: 2]', '2019-07-25 13:58:44', 'Mhdbashar Das'),
-(29, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:01', 'Mhdbashar Das'),
-(30, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:24', 'Mhdbashar Das'),
-(31, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:43', 'Mhdbashar Das'),
-(32, 'Procuration Type Deleted [3]', '2019-07-25 16:29:14', 'Mhdbashar Das'),
-(33, 'Procuration Type Updated [ID: 1]', '2019-07-25 16:29:23', 'Mhdbashar Das'),
-(34, 'Procuration Type Updated [ID: 1]', '2019-07-25 16:29:30', 'Mhdbashar Das'),
-(35, 'Customer Representative Deleted [3]', '2019-07-27 13:00:15', 'Mhdbashar Das'),
-(36, 'Customer Representative Updated [ID: 2]', '2019-07-27 13:00:25', 'Mhdbashar Das'),
-(37, 'Customer Representative Updated [ID: 2]', '2019-07-27 13:00:33', 'Mhdbashar Das'),
-(38, 'Customer Representative Updated [ID: 1]', '2019-07-27 14:30:31', 'Mhdbashar Das'),
-(39, 'Customer Representative Updated [ID: 1]', '2019-07-27 14:30:39', 'Mhdbashar Das'),
-(40, 'New Judge [ID: 2]', '2019-07-27 14:58:37', 'Mhdbashar Das'),
-(41, 'Judge Deleted [2]', '2019-07-27 14:58:42', 'Mhdbashar Das'),
-(42, 'Case Status Updated [ID: 1]', '2019-07-27 15:12:59', 'Mhdbashar Das'),
-(43, 'New Judge [ID: 4]', '2019-07-27 15:13:08', 'Mhdbashar Das'),
-(44, 'Case Status Deleted [4]', '2019-07-27 15:13:12', 'Mhdbashar Das'),
-(45, 'New Client Created [ID: 3, From Staff: 1]', '2019-07-27 15:21:46', 'Mhdbashar Das'),
-(46, 'New Court Added [JudID: 7 JudNumber: test]', '2019-07-28 20:58:03', 'Mhdbashar Das'),
-(47, 'New Court Added [JudID: 8 JudNumber: testt]', '2019-07-28 20:58:51', 'Mhdbashar Das'),
-(48, 'Judicial Deleted [JudID: 8]', '2019-07-28 21:00:13', 'Mhdbashar Das'),
-(49, 'Judicial Updated [JudID: 7]', '2019-07-28 21:00:22', 'Mhdbashar Das'),
-(50, 'New Judge [ID: 3]', '2019-07-28 21:02:13', 'Mhdbashar Das'),
-(51, 'New Cases Movement [id: 6]', '2019-07-28 21:03:46', 'Mhdbashar Das'),
-(52, 'New Cases Added [CaseID: 5]', '2019-07-28 21:03:47', 'Mhdbashar Das'),
-(53, 'Case Updated [CaseID: 5]', '2019-07-30 00:14:57', 'Mhdbashar Das'),
-(54, 'New Cases Movement [id: 7]', '2019-07-30 17:53:52', 'Mhdbashar Das'),
-(55, 'New Cases Added [CaseID: 6]', '2019-07-30 17:53:55', 'Mhdbashar Das'),
-(56, 'Case Updated [CaseID: 6]', '2019-07-30 17:55:13', 'Mhdbashar Das'),
-(57, 'Case Updated [CaseID: 6]', '2019-07-30 17:56:03', 'Mhdbashar Das'),
-(58, 'Case Deleted [CaseID: 6]', '2019-07-30 17:56:32', 'Mhdbashar Das'),
-(59, 'Case Deleted [CaseID: 5]', '2019-07-30 17:56:43', 'Mhdbashar Das'),
-(60, 'New Cases Movement [id: 8]', '2019-07-30 17:57:39', 'Mhdbashar Das'),
-(61, 'New Cases Added [CaseID: 7]', '2019-07-30 17:57:41', 'Mhdbashar Das'),
-(62, 'New Task Added [ID:1, Name: test]', '2019-07-30 17:59:10', 'Mhdbashar Das'),
-(63, 'New Task Added [ID:2, Name: test]', '2019-07-30 17:59:11', 'Mhdbashar Das'),
-(64, 'New Task Added [ID:3, Name: test]', '2019-07-30 17:59:47', 'Mhdbashar Das'),
-(65, 'New Task Added [ID:4, Name: test2]', '2019-07-30 18:00:02', 'Mhdbashar Das'),
-(66, 'Project Milestone Created [ID:6]', '2019-07-30 18:00:57', 'Mhdbashar Das'),
-(67, 'New Project Created [ID: 1]', '2019-07-30 18:12:01', 'Mhdbashar Das'),
-(68, 'Award Deleted [2]', '2019-07-30 18:45:29', 'Mhdbashar Das'),
-(69, 'Award Deleted [1]', '2019-07-30 18:45:34', 'Mhdbashar Das'),
-(70, 'Attachement Deleted [2]', '2019-07-30 18:46:24', 'Mhdbashar Das'),
-(71, 'Award Deleted [3]', '2019-07-30 18:49:22', 'Mhdbashar Das'),
-(72, 'New Project Created [ID: 2]', '2019-07-31 21:17:46', 'Mhdbashar Das'),
-(73, 'New Task Added [ID:5, Name: test]', '2019-07-31 21:18:04', 'Mhdbashar Das'),
-(74, 'Invoice Status Updated [Invoice Number: INV-000002, From: Unpaid To: Paid]', '2019-07-31 21:19:08', 'Mhdbashar Das'),
-(75, 'New Project Created [ID: 3]', '2019-08-01 14:22:46', 'Mhdbashar Das'),
-(76, 'New Invoice Item Added [ID:1, test]', '2019-08-01 14:32:59', 'Mhdbashar Das'),
-(77, 'Invoice Status Updated [Invoice Number: INV-000001, From: Unpaid To: Overdue]', '2019-08-01 14:33:30', 'Mhdbashar Das'),
-(78, 'Project Milestone Created [ID:7]', '2019-08-01 14:39:42', 'Mhdbashar Das'),
-(79, 'New Cases Movement [id: 9]', '2019-08-01 15:46:46', 'Mhdbashar Das'),
-(80, 'New Cases Added [CaseID: 8]', '2019-08-01 15:46:47', 'Mhdbashar Das'),
-(81, 'Case Updated [CaseID: 8]', '2019-08-01 15:48:20', 'Mhdbashar Das'),
-(82, 'Case Updated [CaseID: 8]', '2019-08-01 15:48:58', 'Mhdbashar Das'),
-(83, 'New Task Added [ID:6, Name: case task]', '2019-08-01 15:54:13', 'Mhdbashar Das'),
-(84, 'Case Updated [CaseID: 8]', '2019-08-01 16:06:38', 'Mhdbashar Das'),
-(85, 'Case Updated [CaseID: 8]', '2019-08-01 16:07:34', 'Mhdbashar Das'),
-(86, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:06', 'Mhdbashar Das'),
-(87, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:33', 'Mhdbashar Das'),
-(88, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:59', 'Mhdbashar Das'),
-(89, 'Case Updated [CaseID: 8]', '2019-08-01 16:09:50', 'Mhdbashar Das'),
-(90, 'Staff Updated [2]', '2019-08-01 16:17:24', 'Mhdbashar Das'),
-(91, 'Staff Updated [1]', '2019-08-01 18:02:03', 'Mhdbashar Das'),
-(92, 'Staff Updated [1]', '2019-08-01 18:02:47', 'Mhdbashar Das');
+(93, 'New Session [ID: 12]', '2019-08-18 14:42:10', 'Mhdbashar Das'),
+(94, 'Vac Deleted [12]', '2019-08-18 14:42:16', 'Mhdbashar Das'),
+(95, 'Vac Deleted [12]', '2019-08-18 14:42:22', 'Mhdbashar Das'),
+(96, 'Sub Services Deleted [Service ID: 2]', '2019-08-18 17:58:25', 'Mhdbashar Das'),
+(97, 'Sub Services Deleted [Service ID: 5]', '2019-08-18 17:58:36', 'Mhdbashar Das'),
+(98, 'Sub Services Deleted [Service ID: 4]', '2019-08-18 17:58:40', 'Mhdbashar Das'),
+(99, 'New Sub Service Added [ServiceID: 6]', '2019-08-18 18:53:54', 'Mhdbashar Das'),
+(100, 'New Task Added [ID:7, Name: عقد جديد]', '2019-08-18 19:01:37', 'Mhdbashar Das'),
+(101, 'New Sub Service Added [ServiceID: 7]', '2019-08-18 19:07:37', 'Mhdbashar Das'),
+(102, 'Case Updated [CaseID: 7]', '2019-08-18 19:18:11', 'Mhdbashar Das'),
+(103, 'Case Deleted [CaseID: 7]', '2019-08-20 23:01:25', 'Mhdbashar Das'),
+(104, 'Case Deleted [CaseID: 8]', '2019-08-20 23:01:33', 'Mhdbashar Das'),
+(105, 'New Cases Movement [id: 10]', '2019-08-20 23:03:01', 'Mhdbashar Das'),
+(106, 'New Cases Added [CaseID: 9]', '2019-08-20 23:03:02', 'Mhdbashar Das'),
+(107, 'Case Updated [CaseID: 9]', '2019-08-20 23:03:29', 'Mhdbashar Das'),
+(108, 'New Sub Service Added [ServiceID: 1]', '2019-08-20 23:06:37', 'Mhdbashar Das'),
+(109, 'Sub Services Deleted [Service ID: 1]', '2019-08-21 19:36:33', 'Mhdbashar Das'),
+(110, 'New Sub Service Added [ServiceID: 2]', '2019-08-21 19:37:34', 'Mhdbashar Das'),
+(111, 'Sub Services Deleted [Service ID: 2]', '2019-08-21 20:08:01', 'Mhdbashar Das'),
+(112, 'Project Deleted [ID: 3, Name: test]', '2019-08-22 18:08:40', 'Mhdbashar Das'),
+(113, 'New Project Created [ID: 4]', '2019-08-22 18:09:03', 'Mhdbashar Das'),
+(114, 'New Project Created [ID: 5]', '2019-08-24 12:06:57', 'Mhdbashar Das'),
+(115, 'New Task Added [ID:8, Name: test]', '2019-08-25 18:43:59', 'Mhdbashar Das'),
+(116, 'New Task Added [ID:9, Name: test]', '2019-08-25 18:45:06', 'Mhdbashar Das'),
+(117, 'New Case Movement [id: 11]', '2019-08-26 18:44:27', 'Mhdbashar Das'),
+(118, 'New Cases Added [CaseID: 1]', '2019-08-26 18:44:28', 'Mhdbashar Das'),
+(119, 'Case Deleted [CaseID: 1]', '2019-08-26 18:46:08', 'Mhdbashar Das'),
+(120, 'New Case Movement [id: 1]', '2019-08-26 18:47:05', 'Mhdbashar Das'),
+(121, 'New Cases Added [CaseID: 2]', '2019-08-26 18:47:06', 'Mhdbashar Das'),
+(122, 'Project Updated [ID: 4]', '2019-08-26 21:02:08', 'Mhdbashar Das'),
+(123, 'Invoice Status Updated [Invoice Number: INV-000001, From: Overdue To: Paid]', '2019-08-26 21:06:17', 'Mhdbashar Das'),
+(124, 'Payment Recorded [ID:1, Invoice Number: INV-000001, Total: $10.00]', '2019-08-26 21:06:17', 'Mhdbashar Das'),
+(125, 'Payment Updated [Number:1]', '2019-08-26 21:06:38', 'Mhdbashar Das'),
+(126, 'New Proposal Created [ID: 1]', '2019-08-26 21:10:39', 'Mhdbashar Das'),
+(127, 'Failed Login Attempt [Email: mhdbashard@gmail.com, Is Staff Member: Yes, IP: ::1]', '2019-08-29 09:46:20', NULL),
+(128, 'New Sub Service Added [ServiceID: 1]', '2019-08-29 09:48:54', 'Mhdbashar Das'),
+(129, 'Sub Services Updated [ServID: 1]', '2019-08-29 09:51:08', 'Mhdbashar Das'),
+(130, 'Sub Services Updated [ServID: 1]', '2019-08-29 09:51:27', 'Mhdbashar Das'),
+(131, 'Case Deleted [CaseID: 2]', '2019-08-29 09:59:16', 'Mhdbashar Das'),
+(132, 'New Case Movement [id: 2]', '2019-08-29 10:19:39', 'Mhdbashar Das'),
+(133, 'New Cases Added [CaseID: 3]', '2019-08-29 10:19:41', 'Mhdbashar Das'),
+(134, 'Case Deleted [CaseID: 3]', '2019-08-29 10:23:59', 'Mhdbashar Das'),
+(135, 'New Case Movement [id: 1]', '2019-08-29 10:25:28', 'Mhdbashar Das'),
+(136, 'New Cases Added [CaseID: 4]', '2019-08-29 10:25:29', 'Mhdbashar Das'),
+(137, 'New Case Movement [id: 1]', '2019-08-29 10:34:44', 'Mhdbashar Das'),
+(138, 'New Cases Added [CaseID: 1]', '2019-08-29 10:34:46', 'Mhdbashar Das'),
+(139, 'Case Updated [CaseID: 1]', '2019-08-29 10:35:24', 'Mhdbashar Das'),
+(140, 'New Case Movement [id: 2]', '2019-08-29 10:35:25', 'Mhdbashar Das'),
+(141, 'Sub Services Deleted [Service ID: 1]', '2019-08-29 11:04:15', 'Mhdbashar Das'),
+(142, 'New Sub Service Added [ServiceID: 2]', '2019-08-29 11:05:36', 'Mhdbashar Das'),
+(143, 'New Session [ID: 14]', '2019-08-29 12:11:58', 'Mhdbashar Das'),
+(144, 'New Branches Added []', '2019-08-29 14:44:56', 'Mhdbashar Das'),
+(145, 'Add Branch [1] To clients [3]', '2019-08-29 14:45:42', 'Mhdbashar Das'),
+(146, 'Customer Info Updated [ID: 3]', '2019-08-29 14:45:42', 'Mhdbashar Das'),
+(147, 'New Task Added [ID:10, Name: test]', '2019-08-29 21:45:58', 'Mhdbashar Das'),
+(148, 'Sub Services Updated [ServID: 2]', '2019-08-29 21:46:48', 'Mhdbashar Das'),
+(149, 'استشارات Deleted [ServiceID: 2]', '2019-09-01 17:30:30', 'Mhdbashar Das'),
+(150, 'New استشارات Added [ServiceID: 5]', '2019-09-01 17:43:17', 'Mhdbashar Das'),
+(151, 'New عقود Added [ServiceID: 6]', '2019-09-03 18:47:47', 'Mhdbashar Das'),
+(152, 'Project Updated [ID: 5]', '2019-09-03 18:50:31', 'Mhdbashar Das'),
+(153, 'New Task Added [ID:11, Name: test]', '2019-09-03 19:17:26', 'Mhdbashar Das'),
+(154, 'New Task Added [ID:12, Name: test]', '2019-09-03 19:17:27', 'Mhdbashar Das'),
+(155, 'عقود Restore From Recycle Bin [CaseID: 1]', '2019-09-04 16:25:47', 'Mhdbashar Das'),
+(156, 'عقود Moved To Recycle Bin [ServiceID: 2]', '2019-09-04 17:37:50', 'Mhdbashar Das'),
+(157, 'New عقود Added [ServiceID: 5]', '2019-09-04 17:39:59', 'Mhdbashar Das'),
+(158, 'New Expense Category Added [ID: 1]', '2019-09-04 18:49:18', 'Mhdbashar Das'),
+(159, 'New Expense Added [5]', '2019-09-04 18:49:29', 'Mhdbashar Das'),
+(160, 'Expense Deleted [1]', '2019-09-04 18:49:36', 'Mhdbashar Das'),
+(161, 'Expense Receipt Deleted [ExpenseID: 5]', '2019-09-04 18:49:59', 'Mhdbashar Das'),
+(162, 'عقود Deleted [ServiceID: 2]', '2019-09-04 19:36:30', 'Mhdbashar Das'),
+(163, 'عقود Deleted [ServiceID: 1]', '2019-09-04 19:36:36', 'Mhdbashar Das'),
+(164, 'استشارات Deleted [ServiceID: 3]', '2019-09-04 19:36:52', 'Mhdbashar Das'),
+(165, 'استشارات Deleted [ServiceID: 4]', '2019-09-04 19:37:09', 'Mhdbashar Das'),
+(166, 'New procuration [ID: 1] for client [ID: 3', '2019-09-07 17:16:29', 'Mhdbashar Das'),
+(167, 'عقود Moved To Recycle Bin [ServiceID: 5]', '2019-09-08 13:13:57', 'Mhdbashar Das'),
+(168, 'Cron Invoked Manually', '2019-09-08 14:15:11', 'Mhdbashar Das'),
+(169, 'Cron Invoked Manually', '2019-09-10 20:44:29', 'Mhdbashar Das'),
+(170, ' Confirm Empty Legal Services Recycle Bin', '2019-09-10 20:44:42', 'Mhdbashar Das');
 
 -- --------------------------------------------------------
 
@@ -142,13 +128,56 @@ INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
 CREATE TABLE `tblannouncements` (
   `announcementid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `showtousers` int(11) NOT NULL,
   `showtostaff` int(11) NOT NULL,
   `showname` int(11) NOT NULL,
   `dateadded` datetime NOT NULL,
   `userid` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblbranches`
+--
+
+CREATE TABLE `tblbranches` (
+  `id` int(11) NOT NULL,
+  `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblbranches`
+--
+
+INSERT INTO `tblbranches` (`id`, `title_en`, `title_ar`, `country_id`, `city_id`, `address`, `phone`) VALUES
+(1, 'test', 'test', 217, 336, 'test', 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblbranches_services`
+--
+
+CREATE TABLE `tblbranches_services` (
+  `id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `rel_type` varchar(25) NOT NULL,
+  `rel_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblbranches_services`
+--
+
+INSERT INTO `tblbranches_services` (`id`, `branch_id`, `rel_type`, `rel_id`) VALUES
+(1, 1, 'clients', 3);
 
 -- --------------------------------------------------------
 
@@ -165,18 +194,11 @@ CREATE TABLE `tblcasediscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblcasediscussioncomments`
---
-
-INSERT INTO `tblcasediscussioncomments` (`id`, `discussion_id`, `discussion_type`, `parent`, `created`, `modified`, `content`, `staff_id`, `contact_id`, `fullname`, `file_name`, `file_mime_type`) VALUES
-(1, 3, 'regular', NULL, '2019-07-31 21:03:57', NULL, 'tsetsss', 1, 0, 'Mhdbashar Das', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -189,11 +211,11 @@ CREATE TABLE `tblcasediscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0'
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -201,8 +223,7 @@ CREATE TABLE `tblcasediscussions` (
 --
 
 INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, `show_to_customer`, `datecreated`, `last_activity`, `staff_id`, `contact_id`) VALUES
-(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0),
-(3, 7, 'test', 'test', 1, '2019-07-31 20:39:06', '2019-07-31 21:03:57', 1, 0);
+(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -213,12 +234,12 @@ INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, 
 CREATE TABLE `tblcase_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -227,9 +248,6 @@ CREATE TABLE `tblcase_activity` (
 --
 
 INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(1, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:29:59'),
-(2, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:29:59'),
-(3, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:30:04'),
 (4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
 (5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
 (6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
@@ -261,12 +279,6 @@ INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `f
 (41, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:00:51'),
 (42, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:00:51'),
 (43, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:00:56'),
-(50, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:15'),
-(51, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:15'),
-(52, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:20'),
-(53, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:41'),
-(54, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:41'),
-(55, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:47'),
 (56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
 (57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
 (58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
@@ -282,29 +294,28 @@ INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `f
 (100, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-06-01 20:27:41'),
 (101, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-06-01 20:27:41'),
 (102, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-06-01 20:27:41'),
-(156, 2, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-07-09 17:16:52'),
-(157, 2, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-07-09 17:16:52'),
 (160, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-07-09 17:19:51'),
-(171, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:53:52'),
-(176, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:57:39'),
-(177, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-30 17:57:39'),
-(178, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:57:41'),
 (179, 0, 1, 0, 'Mhdbashar Das', 0, 'project_activity_created_milestone', 'milestone', '2019-07-30 18:00:57'),
-(180, 7, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '1984.txt', '2019-07-30 18:01:08'),
-(181, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created_discussion', 'test', '2019-07-31 20:39:06'),
-(182, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_commented_on_discussion', 'test', '2019-07-31 21:03:57'),
-(183, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_invoiced_project', 'INV-000002', '2019-07-31 21:19:09'),
 (184, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:46'),
-(185, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-01 15:46:46'),
-(186, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:47'),
-(187, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 15:48:20'),
-(188, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 15:48:58'),
-(189, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:06:38'),
-(190, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:07:34'),
-(191, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:06'),
-(192, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:33'),
-(193, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:59'),
-(194, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:09:50');
+(197, 10, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:01'),
+(198, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-20 23:03:01'),
+(199, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:02'),
+(200, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-20 23:03:29'),
+(201, 11, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-26 18:44:27'),
+(204, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-26 18:47:05'),
+(207, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:19:39'),
+(210, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:25:28'),
+(211, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:25:28'),
+(212, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:25:29'),
+(213, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:34:44'),
+(214, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:34:45'),
+(215, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:34:46'),
+(216, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-29 10:35:24'),
+(217, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:35:24'),
+(218, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:35:25'),
+(219, 1, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '15607969259684dd18b.txt', '2019-09-01 13:40:46'),
+(220, 1, 1, 0, 'Mhdbashar Das', 0, 'project_activity_project_file_removed', '15607969259684dd18b.txt', '2019-09-01 13:41:08'),
+(221, 1, 1, 0, 'Mhdbashar Das', 0, 'LService_activity_uploaded_file', 'Apache hadoop ecosystem.png', '2019-09-08 18:29:32');
 
 -- --------------------------------------------------------
 
@@ -316,17 +327,17 @@ CREATE TABLE `tblcase_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT '0',
+  `visible_to_customer` tinyint(1) DEFAULT 0,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -334,7 +345,7 @@ CREATE TABLE `tblcase_files` (
 --
 
 INSERT INTO `tblcase_files` (`id`, `file_name`, `subject`, `description`, `filetype`, `dateadded`, `last_activity`, `project_id`, `visible_to_customer`, `staffid`, `contact_id`, `external`, `external_link`, `thumbnail_link`) VALUES
-(1, '1984.txt', '1984.txt', 'test peopledsf fda', 'text/plain', '2019-07-30 18:01:08', NULL, 7, 0, 1, 0, NULL, NULL, NULL);
+(1, 'Apache hadoop ecosystem.png', 'Apache hadoop ecosystem.png', NULL, 'image/png', '2019-09-08 18:29:32', NULL, 1, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -362,14 +373,15 @@ CREATE TABLE `tblcase_movement` (
   `project_cost` decimal(15,2) DEFAULT NULL,
   `start_date` date NOT NULL,
   `project_created` date NOT NULL,
+  `inserted_date` datetime NOT NULL DEFAULT current_timestamp(),
   `deadline` date DEFAULT NULL,
   `date_finished` date DEFAULT NULL,
   `description` text NOT NULL,
   `case_result` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
   `addedfrom` int(11) NOT NULL,
   `case_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -378,16 +390,9 @@ CREATE TABLE `tblcase_movement` (
 -- Dumping data for table `tblcase_movement`
 --
 
-INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
-(1, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 1),
-(2, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test case moement&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(3, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(4, NULL, 'CASE1', 'test case moement after edit', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edit', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(5, NULL, 'CASE1', 'test case moement after edit test case moement after edit', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edit', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(6, 1, 'CASE1', 'Case 1', 3, 2, 1, 2, 2, 7, 217, 'damascus', 1, 2, 1, 0, '0.00', '2019-07-10', '2019-07-28', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 5),
-(7, 2, 'CASE2', 'قضية 1', 3, 1, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-10', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 6),
-(8, 1, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-17', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 7),
-(9, 2, 'CASE2', 'قضية 2', 2, 2, 1, 2, 2, 7, 66, 'giza', 1, 2, 1, 0, '0.00', '2019-08-01', '2019-08-01', '2019-08-15', NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 8);
+INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `inserted_date`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
+(1, 1, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 113, 'zarqa', 1, 2, 1, 0, '0.00', '2019-08-30', '2019-08-29', '2019-08-29 10:34:44', '2019-08-31', NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 1),
+(2, NULL, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 113, 'zarqa', 1, 2, 1, 0, '0.00', '2019-08-30', '2019-08-29', '2019-08-29 10:35:24', '2019-08-31', NULL, '', 'متداولة', 0, '0.00', 0, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -412,204 +417,8 @@ CREATE TABLE `tblcase_settings` (
   `id` int(11) NOT NULL,
   `case_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text
+  `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblcase_settings`
---
-
-INSERT INTO `tblcase_settings` (`id`, `case_id`, `name`, `value`) VALUES
-(58, 4, 'available_features', '0'),
-(59, 4, 'view_tasks', '0'),
-(60, 4, 'create_tasks', '0'),
-(61, 4, 'edit_tasks', '0'),
-(62, 4, 'comment_on_tasks', '0'),
-(63, 4, 'view_task_comments', '0'),
-(64, 4, 'view_task_attachments', '0'),
-(65, 4, 'view_task_checklist_items', '0'),
-(66, 4, 'upload_on_tasks', '0'),
-(67, 4, 'view_task_total_logged_time', '0'),
-(68, 4, 'view_finance_overview', '0'),
-(69, 4, 'upload_files', '0'),
-(70, 4, 'open_discussions', '0'),
-(71, 4, 'view_milestones', '0'),
-(72, 4, 'view_gantt', '0'),
-(73, 4, 'view_timesheets', '0'),
-(74, 4, 'view_activity_log', '0'),
-(75, 4, 'view_team_members', '0'),
-(76, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(115, 7, 'available_features', '0'),
-(116, 7, 'view_tasks', '0'),
-(117, 7, 'create_tasks', '0'),
-(118, 7, 'edit_tasks', '0'),
-(119, 7, 'comment_on_tasks', '0'),
-(120, 7, 'view_task_comments', '0'),
-(121, 7, 'view_task_attachments', '0'),
-(122, 7, 'view_task_checklist_items', '0'),
-(123, 7, 'upload_on_tasks', '0'),
-(124, 7, 'view_task_total_logged_time', '0'),
-(125, 7, 'view_finance_overview', '0'),
-(126, 7, 'upload_files', '0'),
-(127, 7, 'open_discussions', '0'),
-(128, 7, 'view_milestones', '0'),
-(129, 7, 'view_gantt', '0'),
-(130, 7, 'view_timesheets', '0'),
-(131, 7, 'view_activity_log', '0'),
-(132, 7, 'view_team_members', '0'),
-(133, 7, 'hide_tasks_on_main_tasks_table', '0'),
-(134, 8, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(135, 8, 'view_tasks', '0'),
-(136, 8, 'create_tasks', '0'),
-(137, 8, 'edit_tasks', '0'),
-(138, 8, 'comment_on_tasks', '0'),
-(139, 8, 'view_task_comments', '0'),
-(140, 8, 'view_task_attachments', '0'),
-(141, 8, 'view_task_checklist_items', '0'),
-(142, 8, 'upload_on_tasks', '0'),
-(143, 8, 'view_task_total_logged_time', '0'),
-(144, 8, 'view_finance_overview', '0'),
-(145, 8, 'upload_files', '0'),
-(146, 8, 'open_discussions', '0'),
-(147, 8, 'view_milestones', '0'),
-(148, 8, 'view_gantt', '0'),
-(149, 8, 'view_timesheets', '0'),
-(150, 8, 'view_activity_log', '0'),
-(151, 8, 'view_team_members', '0'),
-(152, 8, 'hide_tasks_on_main_tasks_table', '0'),
-(153, 9, 'available_features', '0'),
-(154, 9, 'view_tasks', '0'),
-(155, 9, 'create_tasks', '0'),
-(156, 9, 'edit_tasks', '0'),
-(157, 9, 'comment_on_tasks', '0'),
-(158, 9, 'view_task_comments', '0'),
-(159, 9, 'view_task_attachments', '0'),
-(160, 9, 'view_task_checklist_items', '0'),
-(161, 9, 'upload_on_tasks', '0'),
-(162, 9, 'view_task_total_logged_time', '0'),
-(163, 9, 'view_finance_overview', '0'),
-(164, 9, 'upload_files', '0'),
-(165, 9, 'open_discussions', '0'),
-(166, 9, 'view_milestones', '0'),
-(167, 9, 'view_gantt', '0'),
-(168, 9, 'view_timesheets', '0'),
-(169, 9, 'view_activity_log', '0'),
-(170, 9, 'view_team_members', '0'),
-(171, 9, 'hide_tasks_on_main_tasks_table', '0'),
-(191, 10, 'available_features', '0'),
-(192, 10, 'view_tasks', '0'),
-(193, 10, 'create_tasks', '0'),
-(194, 10, 'edit_tasks', '0'),
-(195, 10, 'comment_on_tasks', '0'),
-(196, 10, 'view_task_comments', '0'),
-(197, 10, 'view_task_attachments', '0'),
-(198, 10, 'view_task_checklist_items', '0'),
-(199, 10, 'upload_on_tasks', '0'),
-(200, 10, 'view_task_total_logged_time', '0'),
-(201, 10, 'view_finance_overview', '0'),
-(202, 10, 'upload_files', '0'),
-(203, 10, 'open_discussions', '0'),
-(204, 10, 'view_milestones', '0'),
-(205, 10, 'view_gantt', '0'),
-(206, 10, 'view_timesheets', '0'),
-(207, 10, 'view_activity_log', '0'),
-(208, 10, 'view_team_members', '0'),
-(209, 10, 'hide_tasks_on_main_tasks_table', '0'),
-(210, 11, 'available_features', '0'),
-(211, 11, 'view_tasks', '0'),
-(212, 11, 'create_tasks', '0'),
-(213, 11, 'edit_tasks', '0'),
-(214, 11, 'comment_on_tasks', '0'),
-(215, 11, 'view_task_comments', '0'),
-(216, 11, 'view_task_attachments', '0'),
-(217, 11, 'view_task_checklist_items', '0'),
-(218, 11, 'upload_on_tasks', '0'),
-(219, 11, 'view_task_total_logged_time', '0'),
-(220, 11, 'view_finance_overview', '0'),
-(221, 11, 'upload_files', '0'),
-(222, 11, 'open_discussions', '0'),
-(223, 11, 'view_milestones', '0'),
-(224, 11, 'view_gantt', '0'),
-(225, 11, 'view_timesheets', '0'),
-(226, 11, 'view_activity_log', '0'),
-(227, 11, 'view_team_members', '0'),
-(228, 11, 'hide_tasks_on_main_tasks_table', '0'),
-(343, 4, 'available_features', '0'),
-(344, 4, 'view_tasks', '0'),
-(345, 4, 'create_tasks', '0'),
-(346, 4, 'edit_tasks', '0'),
-(347, 4, 'comment_on_tasks', '0'),
-(348, 4, 'view_task_comments', '0'),
-(349, 4, 'view_task_attachments', '0'),
-(350, 4, 'view_task_checklist_items', '0'),
-(351, 4, 'upload_on_tasks', '0'),
-(352, 4, 'view_task_total_logged_time', '0'),
-(353, 4, 'view_finance_overview', '0'),
-(354, 4, 'upload_files', '0'),
-(355, 4, 'open_discussions', '0'),
-(356, 4, 'view_milestones', '0'),
-(357, 4, 'view_gantt', '0'),
-(358, 4, 'view_timesheets', '0'),
-(359, 4, 'view_activity_log', '0'),
-(360, 4, 'view_team_members', '0'),
-(361, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(362, 4, 'available_features', '0'),
-(363, 4, 'view_tasks', '0'),
-(364, 4, 'create_tasks', '0'),
-(365, 4, 'edit_tasks', '0'),
-(366, 4, 'comment_on_tasks', '0'),
-(367, 4, 'view_task_comments', '0'),
-(368, 4, 'view_task_attachments', '0'),
-(369, 4, 'view_task_checklist_items', '0'),
-(370, 4, 'upload_on_tasks', '0'),
-(371, 4, 'view_task_total_logged_time', '0'),
-(372, 4, 'view_finance_overview', '0'),
-(373, 4, 'upload_files', '0'),
-(374, 4, 'open_discussions', '0'),
-(375, 4, 'view_milestones', '0'),
-(376, 4, 'view_gantt', '0'),
-(377, 4, 'view_timesheets', '0'),
-(378, 4, 'view_activity_log', '0'),
-(379, 4, 'view_team_members', '0'),
-(380, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(457, 7, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(458, 7, 'view_tasks', '1'),
-(459, 7, 'create_tasks', '1'),
-(460, 7, 'edit_tasks', '1'),
-(461, 7, 'comment_on_tasks', '1'),
-(462, 7, 'view_task_comments', '1'),
-(463, 7, 'view_task_attachments', '1'),
-(464, 7, 'view_task_checklist_items', '1'),
-(465, 7, 'upload_on_tasks', '1'),
-(466, 7, 'view_task_total_logged_time', '1'),
-(467, 7, 'view_finance_overview', '1'),
-(468, 7, 'upload_files', '1'),
-(469, 7, 'open_discussions', '1'),
-(470, 7, 'view_milestones', '1'),
-(471, 7, 'view_gantt', '1'),
-(472, 7, 'view_timesheets', '1'),
-(473, 7, 'view_activity_log', '1'),
-(474, 7, 'view_team_members', '1'),
-(475, 7, 'hide_tasks_on_main_tasks_table', '0'),
-(476, 8, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(477, 8, 'view_tasks', '0'),
-(478, 8, 'create_tasks', '0'),
-(479, 8, 'edit_tasks', '0'),
-(480, 8, 'comment_on_tasks', '0'),
-(481, 8, 'view_task_comments', '0'),
-(482, 8, 'view_task_attachments', '0'),
-(483, 8, 'view_task_checklist_items', '0'),
-(484, 8, 'upload_on_tasks', '0'),
-(485, 8, 'view_task_total_logged_time', '0'),
-(486, 8, 'view_finance_overview', '0'),
-(487, 8, 'upload_files', '0'),
-(488, 8, 'open_discussions', '0'),
-(489, 8, 'view_milestones', '0'),
-(490, 8, 'view_gantt', '0'),
-(491, 8, 'view_timesheets', '0'),
-(492, 8, 'view_activity_log', '0'),
-(493, 8, 'view_team_members', '0'),
-(494, 8, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
@@ -850,44 +659,45 @@ CREATE TABLE `tblclients` (
   `company` varchar(191) DEFAULT NULL,
   `vat` varchar(50) DEFAULT NULL,
   `phonenumber` varchar(30) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `country` int(11) NOT NULL DEFAULT 0,
   `city` varchar(100) DEFAULT NULL,
   `zip` varchar(15) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
-  `active` int(11) NOT NULL DEFAULT '1',
+  `active` int(11) NOT NULL DEFAULT 1,
   `leadid` int(11) DEFAULT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
   `billing_zip` varchar(100) DEFAULT NULL,
-  `billing_country` int(11) DEFAULT '0',
+  `billing_country` int(11) DEFAULT 0,
   `shipping_street` varchar(200) DEFAULT NULL,
   `shipping_city` varchar(100) DEFAULT NULL,
   `shipping_state` varchar(100) DEFAULT NULL,
   `shipping_zip` varchar(100) DEFAULT NULL,
-  `shipping_country` int(11) DEFAULT '0',
+  `shipping_country` int(11) DEFAULT 0,
   `longitude` varchar(191) DEFAULT NULL,
   `latitude` varchar(191) DEFAULT NULL,
   `default_language` varchar(40) DEFAULT NULL,
-  `default_currency` int(11) NOT NULL DEFAULT '0',
-  `show_primary_contact` int(11) NOT NULL DEFAULT '0',
+  `default_currency` int(11) NOT NULL DEFAULT 0,
+  `show_primary_contact` int(11) NOT NULL DEFAULT 0,
   `stripe_id` varchar(40) DEFAULT NULL,
-  `registration_confirmed` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL DEFAULT '0',
-  `individual` tinyint(4) NOT NULL DEFAULT '1'
+  `registration_confirmed` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL DEFAULT 0,
+  `individual` tinyint(4) NOT NULL DEFAULT 1,
+  `branch_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblclients`
 --
 
-INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`) VALUES
-(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1),
-(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0),
-(3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', NULL, NULL, '', NULL, '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0);
+INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`) VALUES
+(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0),
+(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0),
+(3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', '', '', '', '', '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -900,10 +710,10 @@ CREATE TABLE `tblconsents` (
   `action` varchar(10) NOT NULL,
   `date` datetime NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `lead_id` int(11) NOT NULL DEFAULT '0',
-  `description` text,
-  `opt_in_purpose_description` text,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `lead_id` int(11) NOT NULL DEFAULT 0,
+  `description` text DEFAULT NULL,
+  `opt_in_purpose_description` text DEFAULT NULL,
   `purpose_id` int(11) NOT NULL,
   `staff_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -917,7 +727,7 @@ CREATE TABLE `tblconsents` (
 CREATE TABLE `tblconsent_purposes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date_created` datetime NOT NULL,
   `last_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -931,7 +741,7 @@ CREATE TABLE `tblconsent_purposes` (
 CREATE TABLE `tblcontacts` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `is_primary` int(11) NOT NULL DEFAULT '1',
+  `is_primary` int(11) NOT NULL DEFAULT 1,
   `firstname` varchar(191) NOT NULL,
   `lastname` varchar(191) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -947,16 +757,16 @@ CREATE TABLE `tblcontacts` (
   `last_ip` varchar(40) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_password_change` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `profile_image` varchar(191) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
-  `invoice_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `estimate_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `credit_note_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `contract_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `task_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `project_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `ticket_emails` tinyint(1) NOT NULL DEFAULT '1'
+  `invoice_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `estimate_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `credit_note_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `contract_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `task_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `project_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `ticket_emails` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -979,8 +789,8 @@ CREATE TABLE `tblcontact_permissions` (
 
 CREATE TABLE `tblcontracts` (
   `id` int(11) NOT NULL,
-  `content` longtext,
-  `description` text,
+  `content` longtext DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `subject` varchar(191) DEFAULT NULL,
   `client` int(11) NOT NULL,
   `datestart` date DEFAULT NULL,
@@ -988,12 +798,12 @@ CREATE TABLE `tblcontracts` (
   `contract_type` int(11) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL,
-  `isexpirynotified` int(11) NOT NULL DEFAULT '0',
+  `isexpirynotified` int(11) NOT NULL DEFAULT 0,
   `contract_value` decimal(15,2) DEFAULT NULL,
-  `trash` tinyint(1) DEFAULT '0',
-  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
+  `trash` tinyint(1) DEFAULT 0,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
   `hash` varchar(32) DEFAULT NULL,
-  `signed` tinyint(1) NOT NULL DEFAULT '0',
+  `signed` tinyint(1) NOT NULL DEFAULT 0,
   `signature` varchar(40) DEFAULT NULL,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
@@ -1021,7 +831,7 @@ CREATE TABLE `tblcontracts_types` (
 
 CREATE TABLE `tblcontract_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext,
+  `content` mediumtext DEFAULT NULL,
   `contract_id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -1044,8 +854,8 @@ CREATE TABLE `tblcontract_renewals` (
   `new_value` decimal(15,2) DEFAULT NULL,
   `date_renewed` datetime NOT NULL,
   `renewed_by` varchar(100) NOT NULL,
-  `renewed_by_staff_id` int(11) NOT NULL DEFAULT '0',
-  `is_on_old_expiry_notified` int(11) DEFAULT '0'
+  `renewed_by_staff_id` int(11) NOT NULL DEFAULT 0,
+  `is_on_old_expiry_notified` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1335,24 +1145,24 @@ CREATE TABLE `tblcreditnotes` (
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '1',
+  `number_format` int(11) NOT NULL DEFAULT 1,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
-  `adminnote` text,
-  `terms` text,
-  `clientnote` text,
+  `adminnote` text DEFAULT NULL,
+  `terms` text DEFAULT NULL,
+  `clientnote` text DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT '1',
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) DEFAULT 1,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) NOT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
@@ -1365,10 +1175,18 @@ CREATE TABLE `tblcreditnotes` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `reference_no` varchar(100) DEFAULT NULL
+  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `reference_no` varchar(100) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblcreditnotes`
+--
+
+INSERT INTO `tblcreditnotes` (`id`, `clientid`, `deleted_customer_name`, `number`, `prefix`, `number_format`, `datecreated`, `date`, `adminnote`, `terms`, `clientnote`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `status`, `project_id`, `rel_sid`, `rel_stype`, `discount_percent`, `discount_total`, `discount_type`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_credit_note`, `show_quantity_as`, `reference_no`, `deleted`) VALUES
+(1, 0, NULL, 0, NULL, 1, '0000-00-00 00:00:00', '0000-00-00', NULL, NULL, NULL, 0, '0.00', '0.00', '0.00', NULL, NULL, 1, 0, 1, 'kd-y', '0.00', '0.00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1382,7 +1200,7 @@ CREATE TABLE `tblcreditnote_refunds` (
   `staff_id` int(11) NOT NULL,
   `refunded_on` date NOT NULL,
   `payment_mode` varchar(40) NOT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `amount` decimal(15,2) NOT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1416,7 +1234,7 @@ CREATE TABLE `tblcurrencies` (
   `decimal_separator` varchar(5) DEFAULT NULL,
   `thousand_separator` varchar(5) DEFAULT NULL,
   `placement` varchar(10) DEFAULT NULL,
-  `isdefault` tinyint(1) NOT NULL DEFAULT '0'
+  `isdefault` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1480,19 +1298,19 @@ CREATE TABLE `tblcustomfields` (
   `fieldto` varchar(15) NOT NULL,
   `name` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   `type` varchar(20) NOT NULL,
-  `options` mediumtext,
-  `display_inline` tinyint(1) NOT NULL DEFAULT '0',
-  `field_order` int(11) DEFAULT '0',
-  `active` int(11) NOT NULL DEFAULT '1',
-  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
-  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT '0',
-  `only_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `show_on_table` tinyint(1) NOT NULL DEFAULT '0',
-  `show_on_client_portal` int(11) NOT NULL DEFAULT '0',
-  `disalow_client_to_edit` int(11) NOT NULL DEFAULT '0',
-  `bs_column` int(11) NOT NULL DEFAULT '12'
+  `options` mediumtext DEFAULT NULL,
+  `display_inline` tinyint(1) NOT NULL DEFAULT 0,
+  `field_order` int(11) DEFAULT 0,
+  `active` int(11) NOT NULL DEFAULT 1,
+  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
+  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT 0,
+  `only_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `show_on_table` tinyint(1) NOT NULL DEFAULT 0,
+  `show_on_client_portal` int(11) NOT NULL DEFAULT 0,
+  `disalow_client_to_edit` int(11) NOT NULL DEFAULT 0,
+  `bs_column` int(11) NOT NULL DEFAULT 12
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1520,21 +1338,22 @@ CREATE TABLE `tbldepartments` (
   `name` varchar(100) NOT NULL,
   `imap_username` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `email_from_header` tinyint(1) NOT NULL DEFAULT '0',
+  `email_from_header` tinyint(1) NOT NULL DEFAULT 0,
   `host` varchar(150) DEFAULT NULL,
-  `password` mediumtext,
+  `password` mediumtext DEFAULT NULL,
   `encryption` varchar(3) DEFAULT NULL,
-  `delete_after_import` int(11) NOT NULL DEFAULT '0',
-  `calendar_id` mediumtext,
-  `hidefromclient` tinyint(1) NOT NULL DEFAULT '0'
+  `delete_after_import` int(11) NOT NULL DEFAULT 0,
+  `calendar_id` mediumtext DEFAULT NULL,
+  `hidefromclient` tinyint(1) NOT NULL DEFAULT 0,
+  `branch_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tbldepartments`
 --
 
-INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, `email_from_header`, `host`, `password`, `encryption`, `delete_after_import`, `calendar_id`, `hidefromclient`) VALUES
-(3, 'Web Developers', 'mhdbashard@gmail.com', '', 0, '', '', '', 0, NULL, 0);
+INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, `email_from_header`, `host`, `password`, `encryption`, `delete_after_import`, `calendar_id`, `hidefromclient`, `branch_id`) VALUES
+(3, 'Web Developers', 'mhdbashard@gmail.com', '', 0, '', '', '', 0, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1565,8 +1384,8 @@ CREATE TABLE `tblemailtemplates` (
   `message` text NOT NULL,
   `fromname` mediumtext NOT NULL,
   `fromemail` varchar(100) DEFAULT NULL,
-  `plaintext` int(11) NOT NULL DEFAULT '0',
-  `active` tinyint(4) NOT NULL DEFAULT '0',
+  `plaintext` int(11) NOT NULL DEFAULT 0,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
   `order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1733,37 +1552,37 @@ INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, 
 
 CREATE TABLE `tblestimates` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT '0',
+  `sent` tinyint(1) NOT NULL DEFAULT 0,
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '0',
+  `number_format` int(11) NOT NULL DEFAULT 0,
   `hash` varchar(32) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `expirydate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
-  `clientnote` text,
-  `adminnote` text,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `status` int(11) NOT NULL DEFAULT 1,
+  `clientnote` text DEFAULT NULL,
+  `adminnote` text DEFAULT NULL,
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) DEFAULT NULL,
   `invoiceid` int(11) DEFAULT NULL,
   `invoiced_date` datetime DEFAULT NULL,
-  `terms` text,
+  `terms` text DEFAULT NULL,
   `reference_no` varchar(100) DEFAULT NULL,
-  `sale_agent` int(11) NOT NULL DEFAULT '0',
+  `sale_agent` int(11) NOT NULL DEFAULT 0,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -1775,24 +1594,25 @@ CREATE TABLE `tblestimates` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `pipeline_order` int(11) NOT NULL DEFAULT '0',
-  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
+  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `pipeline_order` int(11) NOT NULL DEFAULT 0,
+  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
   `acceptance_date` datetime DEFAULT NULL,
   `acceptance_ip` varchar(40) DEFAULT NULL,
-  `signature` varchar(40) DEFAULT NULL
+  `signature` varchar(40) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblestimates`
 --
 
-INSERT INTO `tblestimates` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `project_id`, `rel_sid`, `rel_stype`, `number`, `prefix`, `number_format`, `hash`, `datecreated`, `date`, `expirydate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `status`, `clientnote`, `adminnote`, `discount_percent`, `discount_total`, `discount_type`, `invoiceid`, `invoiced_date`, `terms`, `reference_no`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_estimate`, `show_quantity_as`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`) VALUES
-(1, 0, NULL, 0, NULL, 1, NULL, NULL, 0, NULL, 0, NULL, '0000-00-00 00:00:00', '0000-00-00', NULL, 0, '0.00', '0.00', '0.00', NULL, 0, 1, NULL, NULL, '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tblestimates` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `project_id`, `rel_sid`, `rel_stype`, `number`, `prefix`, `number_format`, `hash`, `datecreated`, `date`, `expirydate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `status`, `clientnote`, `adminnote`, `discount_percent`, `discount_total`, `discount_type`, `invoiceid`, `invoiced_date`, `terms`, `reference_no`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_estimate`, `show_quantity_as`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`, `deleted`) VALUES
+(1, 0, NULL, 0, NULL, 0, 1, 'kd-y', 0, NULL, 0, NULL, '0000-00-00 00:00:00', '0000-00-00', NULL, 0, '0.00', '0.00', '0.00', NULL, 0, 1, NULL, NULL, '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1803,14 +1623,14 @@ INSERT INTO `tblestimates` (`id`, `sent`, `datesend`, `clientid`, `deleted_custo
 CREATE TABLE `tblevents` (
   `eventid` int(11) NOT NULL,
   `title` mediumtext NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime DEFAULT NULL,
-  `public` int(11) NOT NULL DEFAULT '0',
+  `public` int(11) NOT NULL DEFAULT 0,
   `color` varchar(10) DEFAULT NULL,
-  `isstartnotified` tinyint(1) NOT NULL DEFAULT '0',
-  `reminder_before` int(11) NOT NULL DEFAULT '0',
+  `isstartnotified` tinyint(1) NOT NULL DEFAULT 0,
+  `reminder_before` int(11) NOT NULL DEFAULT 0,
   `reminder_before_type` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1826,41 +1646,39 @@ CREATE TABLE `tblexpenses` (
   `currency` int(11) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
-  `tax2` int(11) NOT NULL DEFAULT '0',
+  `tax2` int(11) NOT NULL DEFAULT 0,
   `reference_no` varchar(100) DEFAULT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `expense_name` varchar(191) DEFAULT NULL,
   `clientid` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `billable` int(11) DEFAULT '0',
+  `billable` int(11) DEFAULT 0,
   `invoiceid` int(11) DEFAULT NULL,
   `paymentmode` varchar(50) DEFAULT NULL,
   `date` date NOT NULL,
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
-  `custom_recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `custom_recurring` int(11) NOT NULL DEFAULT 0,
   `last_recurring_date` date DEFAULT NULL,
   `create_invoice_billable` tinyint(1) DEFAULT NULL,
   `send_invoice_to_customer` tinyint(1) NOT NULL,
   `recurring_from` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
-  `addedfrom` int(11) NOT NULL
+  `addedfrom` int(11) NOT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblexpenses`
 --
 
-INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`, `reference_no`, `note`, `expense_name`, `clientid`, `project_id`, `rel_sid`, `rel_stype`, `billable`, `invoiceid`, `paymentmode`, `date`, `recurring_type`, `repeat_every`, `recurring`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `create_invoice_billable`, `send_invoice_to_customer`, `recurring_from`, `dateadded`, `addedfrom`) VALUES
-(1, 1, 1, '12.00', 0, 0, '', '', 'test', 9, 1, NULL, NULL, 1, NULL, '', '2019-06-28', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-06-28 20:19:34', 1),
-(2, 1, 1, '123.00', 0, 0, '', '', 'test2', 9, 1, NULL, NULL, 1, NULL, '', '2019-06-28', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-06-28 20:38:29', 1),
-(3, 1, 1, '0.00', 0, 0, '', 'sdfsdf', 'sdfsdf', 9, 1, NULL, NULL, 1, NULL, '', '2019-07-09', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-07-09 01:08:04', 1),
-(4, 1, 1, '0.00', 0, 0, '', 'sdfsdf', 'sdfsdf', 9, 1, NULL, NULL, 1, NULL, '', '2019-07-09', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-07-09 01:08:09', 1);
+INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`, `reference_no`, `note`, `expense_name`, `clientid`, `project_id`, `rel_sid`, `rel_stype`, `billable`, `invoiceid`, `paymentmode`, `date`, `recurring_type`, `repeat_every`, `recurring`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `create_invoice_billable`, `send_invoice_to_customer`, `recurring_from`, `dateadded`, `addedfrom`, `deleted`) VALUES
+(5, 1, 1, '5.00', 0, 0, '', '', 'tes', 0, 0, NULL, NULL, 0, NULL, '', '2019-09-04', NULL, 0, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-09-04 18:49:29', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1871,8 +1689,15 @@ INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`
 CREATE TABLE `tblexpenses_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblexpenses_categories`
+--
+
+INSERT INTO `tblexpenses_categories` (`id`, `name`, `description`) VALUES
+(1, 'test', '');
 
 -- --------------------------------------------------------
 
@@ -1886,16 +1711,23 @@ CREATE TABLE `tblfiles` (
   `rel_type` varchar(20) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `filetype` varchar(40) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `attachment_key` varchar(32) DEFAULT NULL,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text COMMENT 'For external usage',
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL COMMENT 'For external usage',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
-  `task_comment_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
+  `task_comment_id` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblfiles`
+--
+
+INSERT INTO `tblfiles` (`id`, `rel_id`, `rel_type`, `file_name`, `filetype`, `visible_to_customer`, `attachment_key`, `external`, `external_link`, `thumbnail_link`, `staffid`, `contact_id`, `task_comment_id`, `dateadded`) VALUES
+(1, 1, 'procuration', 'Apache hadoop ecosystem.PNG', 'image/png', 0, '603a7ad6aef6d89f68902fb2d587c435', NULL, NULL, NULL, 1, 0, 0, '2019-09-07 17:16:31');
 
 -- --------------------------------------------------------
 
@@ -1908,7 +1740,7 @@ CREATE TABLE `tblform_questions` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `question` mediumtext NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   `question_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1950,7 +1782,7 @@ CREATE TABLE `tblform_results` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `questionid` int(11) NOT NULL,
-  `answer` text,
+  `answer` text DEFAULT NULL,
   `resultsetid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1962,14 +1794,14 @@ CREATE TABLE `tblform_results` (
 
 CREATE TABLE `tblgdpr_requests` (
   `id` int(11) NOT NULL,
-  `clientid` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `lead_id` int(11) NOT NULL DEFAULT '0',
+  `clientid` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `lead_id` int(11) NOT NULL DEFAULT 0,
   `request_type` varchar(191) DEFAULT NULL,
   `status` varchar(40) DEFAULT NULL,
   `request_date` datetime NOT NULL,
   `request_from` varchar(150) DEFAULT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1987,8 +1819,15 @@ CREATE TABLE `tblinvoicepaymentrecords` (
   `date` date NOT NULL,
   `daterecorded` datetime NOT NULL,
   `note` text NOT NULL,
-  `transactionid` mediumtext
+  `transactionid` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblinvoicepaymentrecords`
+--
+
+INSERT INTO `tblinvoicepaymentrecords` (`id`, `invoiceid`, `amount`, `paymentmode`, `paymentmethod`, `date`, `daterecorded`, `note`, `transactionid`) VALUES
+(1, 1, '10.00', '1', '', '2019-08-26', '2019-08-26 21:06:17', '', '');
 
 -- --------------------------------------------------------
 
@@ -1998,42 +1837,42 @@ CREATE TABLE `tblinvoicepaymentrecords` (
 
 CREATE TABLE `tblinvoices` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT '0',
+  `sent` tinyint(1) NOT NULL DEFAULT 0,
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '0',
+  `number_format` int(11) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
-  `status` int(11) DEFAULT '1',
-  `clientnote` text,
-  `adminnote` text,
+  `status` int(11) DEFAULT 1,
+  `clientnote` text DEFAULT NULL,
+  `adminnote` text DEFAULT NULL,
   `last_overdue_reminder` date DEFAULT NULL,
-  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT '0',
-  `allowed_payment_modes` mediumtext,
-  `token` mediumtext,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT 0,
+  `allowed_payment_modes` mediumtext DEFAULT NULL,
+  `token` mediumtext DEFAULT NULL,
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) NOT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
   `recurring_type` varchar(10) DEFAULT NULL,
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
   `is_recurring_from` int(11) DEFAULT NULL,
   `last_recurring_date` date DEFAULT NULL,
-  `terms` text,
-  `sale_agent` int(11) NOT NULL DEFAULT '0',
+  `terms` text DEFAULT NULL,
+  `sale_agent` int(11) NOT NULL DEFAULT 0,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -2045,21 +1884,21 @@ CREATE TABLE `tblinvoices` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `project_id` int(11) DEFAULT '0',
+  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `project_id` int(11) DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `subscription_id` int(11) NOT NULL DEFAULT '0'
+  `subscription_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblinvoices`
 --
 
-INSERT INTO `tblinvoices` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `number`, `prefix`, `number_format`, `datecreated`, `date`, `duedate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `hash`, `status`, `clientnote`, `adminnote`, `last_overdue_reminder`, `cancel_overdue_reminders`, `allowed_payment_modes`, `token`, `discount_percent`, `discount_total`, `discount_type`, `recurring`, `recurring_type`, `custom_recurring`, `cycles`, `total_cycles`, `is_recurring_from`, `last_recurring_date`, `terms`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_invoice`, `show_quantity_as`, `project_id`, `rel_sid`, `rel_stype`, `subscription_id`) VALUES
-(1, 0, NULL, 3, NULL, 1, 'INV-', 1, '2019-06-28 20:01:36', '2019-06-28', '2019-07-28', 1, '10.00', '0.00', '10.00', '0.00', 1, '1fef27f20969e11eab3e2706b36308fd', 4, '', '', NULL, 0, 'a:1:{i:0;s:1:\"1\";}', NULL, '0.00', '0.00', '', 0, NULL, 0, 0, 0, NULL, NULL, '', 0, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, 0, 1, 1, 3, NULL, NULL, 0),
-(2, 0, NULL, 3, NULL, 2, 'INV-', 1, '2019-07-31 21:19:08', '2019-07-31', '2019-08-30', 1, '0.00', '0.00', '0.00', '0.00', 1, '34333a0dea5488d483c4e1710cffb535', 2, '', '', NULL, 0, 'a:1:{i:0;s:1:\"1\";}', NULL, '0.00', '0.00', '', 0, NULL, 0, 0, 0, NULL, NULL, '', 0, '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 3, NULL, NULL, 0);
+INSERT INTO `tblinvoices` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `number`, `prefix`, `number_format`, `datecreated`, `date`, `duedate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `hash`, `status`, `clientnote`, `adminnote`, `last_overdue_reminder`, `cancel_overdue_reminders`, `allowed_payment_modes`, `token`, `discount_percent`, `discount_total`, `discount_type`, `recurring`, `recurring_type`, `custom_recurring`, `cycles`, `total_cycles`, `is_recurring_from`, `last_recurring_date`, `terms`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_invoice`, `show_quantity_as`, `project_id`, `rel_sid`, `rel_stype`, `subscription_id`, `deleted`) VALUES
+(1, 0, NULL, 0, NULL, 0, NULL, 0, '0000-00-00 00:00:00', '0000-00-00', NULL, 0, '0.00', '0.00', '0.00', NULL, NULL, '', 1, NULL, NULL, NULL, 0, NULL, NULL, '0.00', '0.00', '', 0, NULL, 0, 0, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 0, 1, 'kd-y', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2072,7 +1911,7 @@ CREATE TABLE `tblitemable` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(15) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` mediumtext,
+  `long_description` mediumtext DEFAULT NULL,
   `qty` decimal(15,2) NOT NULL,
   `rate` decimal(15,2) NOT NULL,
   `unit` varchar(40) DEFAULT NULL,
@@ -2085,7 +1924,8 @@ CREATE TABLE `tblitemable` (
 
 INSERT INTO `tblitemable` (`id`, `rel_id`, `rel_type`, `description`, `long_description`, `qty`, `rate`, `unit`, `item_order`) VALUES
 (1, 2, 'invoice', 'قضية 1', 'test - 505:00 Hours', '1.00', '0.00', '', 1),
-(2, 1, 'invoice', 'test', '', '1.00', '10.00', '', 1);
+(2, 1, 'invoice', 'test', '', '1.00', '10.00', '', 1),
+(3, 1, 'proposal', 'test', '', '1.00', '10.00', '', 1);
 
 -- --------------------------------------------------------
 
@@ -2096,12 +1936,12 @@ INSERT INTO `tblitemable` (`id`, `rel_id`, `rel_type`, `description`, `long_desc
 CREATE TABLE `tblitems` (
   `id` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` text,
+  `long_description` text DEFAULT NULL,
   `rate` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
   `tax2` int(11) DEFAULT NULL,
   `unit` varchar(40) DEFAULT NULL,
-  `group_id` int(11) NOT NULL DEFAULT '0'
+  `group_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2165,8 +2005,8 @@ CREATE TABLE `tblknowledge_base` (
   `slug` mediumtext NOT NULL,
   `active` tinyint(4) NOT NULL,
   `datecreated` datetime NOT NULL,
-  `article_order` int(11) NOT NULL DEFAULT '0',
-  `staff_article` int(11) NOT NULL DEFAULT '0'
+  `article_order` int(11) NOT NULL DEFAULT 0,
+  `staff_article` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2178,11 +2018,11 @@ CREATE TABLE `tblknowledge_base` (
 CREATE TABLE `tblknowledge_base_groups` (
   `groupid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `group_slug` text,
-  `description` mediumtext,
+  `group_slug` text DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
   `active` tinyint(4) NOT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `group_order` int(11) DEFAULT '0'
+  `group_order` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2197,15 +2037,15 @@ CREATE TABLE `tblleads` (
   `name` varchar(191) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
   `company` varchar(191) DEFAULT NULL,
-  `description` text,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `country` int(11) NOT NULL DEFAULT 0,
   `zip` varchar(15) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `assigned` int(11) NOT NULL DEFAULT '0',
+  `assigned` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL,
-  `from_form_id` int(11) NOT NULL DEFAULT '0',
+  `from_form_id` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `lastcontact` datetime DEFAULT NULL,
@@ -2214,17 +2054,17 @@ CREATE TABLE `tblleads` (
   `addedfrom` int(11) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
-  `leadorder` int(11) DEFAULT '1',
+  `leadorder` int(11) DEFAULT 1,
   `phonenumber` varchar(50) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `lost` tinyint(1) NOT NULL DEFAULT '0',
-  `junk` int(11) NOT NULL DEFAULT '0',
-  `last_lead_status` int(11) NOT NULL DEFAULT '0',
-  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT '0',
+  `lost` tinyint(1) NOT NULL DEFAULT 0,
+  `junk` int(11) NOT NULL DEFAULT 0,
+  `last_lead_status` int(11) NOT NULL DEFAULT 0,
+  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT 0,
   `email_integration_uid` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  `is_public` tinyint(1) NOT NULL DEFAULT 0,
   `default_language` varchar(40) DEFAULT NULL,
-  `client_id` int(11) NOT NULL DEFAULT '0'
+  `client_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2239,21 +2079,21 @@ CREATE TABLE `tblleads_email_integration` (
   `email` varchar(100) NOT NULL,
   `imap_server` varchar(100) NOT NULL,
   `password` mediumtext NOT NULL,
-  `check_every` int(11) NOT NULL DEFAULT '5',
+  `check_every` int(11) NOT NULL DEFAULT 5,
   `responsible` int(11) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
   `encryption` varchar(3) DEFAULT NULL,
   `folder` varchar(100) NOT NULL,
   `last_run` varchar(50) DEFAULT NULL,
-  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT '1',
-  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT '1',
+  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT 1,
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext,
-  `mark_public` int(11) NOT NULL DEFAULT '0',
-  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `delete_after_import` int(11) NOT NULL DEFAULT '0',
-  `create_task_if_customer` int(11) NOT NULL DEFAULT '0'
+  `notify_ids` mediumtext DEFAULT NULL,
+  `mark_public` int(11) NOT NULL DEFAULT 0,
+  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `delete_after_import` int(11) NOT NULL DEFAULT 0,
+  `create_task_if_customer` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2293,7 +2133,7 @@ CREATE TABLE `tblleads_status` (
   `name` varchar(50) NOT NULL,
   `statusorder` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `isdefault` int(11) NOT NULL DEFAULT '0'
+  `isdefault` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2313,11 +2153,11 @@ CREATE TABLE `tbllead_activity_log` (
   `id` int(11) NOT NULL,
   `leadid` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `date` datetime NOT NULL,
   `staffid` int(11) NOT NULL,
   `full_name` varchar(100) DEFAULT NULL,
-  `custom_activity` tinyint(1) NOT NULL DEFAULT '0'
+  `custom_activity` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2328,8 +2168,8 @@ CREATE TABLE `tbllead_activity_log` (
 
 CREATE TABLE `tbllead_integration_emails` (
   `id` int(11) NOT NULL,
-  `subject` mediumtext,
-  `body` mediumtext,
+  `subject` mediumtext DEFAULT NULL,
+  `body` mediumtext DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `leadid` int(11) NOT NULL,
   `emailid` int(11) NOT NULL
@@ -2345,14 +2185,14 @@ CREATE TABLE `tblmail_queue` (
   `id` int(11) NOT NULL,
   `engine` varchar(40) DEFAULT NULL,
   `email` varchar(191) NOT NULL,
-  `cc` text,
-  `bcc` text,
+  `cc` text DEFAULT NULL,
+  `bcc` text DEFAULT NULL,
   `message` mediumtext NOT NULL,
-  `alt_message` mediumtext,
+  `alt_message` mediumtext DEFAULT NULL,
   `status` enum('pending','sending','sent','failed') DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `headers` text,
-  `attachments` mediumtext
+  `headers` text DEFAULT NULL,
+  `attachments` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2381,14 +2221,14 @@ INSERT INTO `tblmigrations` (`version`) VALUES
 CREATE TABLE `tblmilestones` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `description_visible_to_customer` tinyint(1) DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `description_visible_to_customer` tinyint(1) DEFAULT 0,
   `due_date` date NOT NULL,
   `project_id` int(11) NOT NULL,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
-  `milestone_order` int(11) NOT NULL DEFAULT '0',
+  `milestone_order` int(11) NOT NULL DEFAULT 0,
   `datecreated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2397,8 +2237,7 @@ CREATE TABLE `tblmilestones` (
 --
 
 INSERT INTO `tblmilestones` (`id`, `name`, `description`, `description_visible_to_customer`, `due_date`, `project_id`, `rel_sid`, `rel_stype`, `color`, `milestone_order`, `datecreated`) VALUES
-(6, 'milestone', '', 0, '2019-07-17', 0, 7, 'kd-y', NULL, 1, '2019-07-30'),
-(7, 'tes', '', 0, '2019-08-01', 3, NULL, NULL, NULL, 1, '2019-08-01');
+(1, 'Case 1', '', 0, '2019-09-13', 0, 1, 'kd-y', NULL, 1, '2019-09-04');
 
 -- --------------------------------------------------------
 
@@ -2419,10 +2258,12 @@ CREATE TABLE `tblmodules` (
 
 INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VALUES
 (1, 'menu_setup', '2.3.0', 1),
-(2, 'hrm', '1.0.0', 1),
-(3, 'label_management', '2.3.0', 0),
+(2, 'hrm', '1.0.0', 0),
+(3, 'label_management', '2.3.0', 1),
 (4, 'location_module', '2.3.0', 0),
-(5, 'session', '2.3.0', 0);
+(5, 'session', '2.3.0', 0),
+(6, 'disputes', '1.0.0', 1),
+(7, 'branches', '2.3.0', 1);
 
 -- --------------------------------------------------------
 
@@ -2460,7 +2301,7 @@ CREATE TABLE `tblmy_bank` (
   `account_name` varchar(255) NOT NULL,
   `routing_number` int(11) NOT NULL,
   `account_number` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2475,7 +2316,7 @@ CREATE TABLE `tblmy_basic_services` (
   `slug` varchar(255) NOT NULL,
   `prefix` varchar(255) NOT NULL,
   `numbering` int(11) DEFAULT NULL,
-  `is_primary` int(2) NOT NULL DEFAULT '0',
+  `is_primary` int(2) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2520,18 +2361,19 @@ CREATE TABLE `tblmy_cases` (
   `case_result` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblmy_cases`
 --
 
-INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`) VALUES
-(7, 1, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-17', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 0, 1),
-(8, 2, 'CASE2', 'قضية 2', 2, 2, 1, 2, 2, 7, 66, 'giza', 1, 2, 1, 0, '0.00', '2019-07-16', '2019-08-01', '2019-07-19', NULL, '', 'متداولة', 0, '0.00', 0, 0, 1);
+INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
+(1, 1, 'CASE1', 'Case 1', 3, 1, 1, 2, 2, 7, 18, 'المحرق', 1, 2, 1, 0, '123.00', '2019-09-05', '2019-09-04', '2019-09-28', NULL, 'Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1Case 1', 'متداولة', 0, '123.00', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2569,14 +2411,33 @@ CREATE TABLE `tblmy_cases_judges` (
 --
 
 INSERT INTO `tblmy_cases_judges` (`id`, `judge_id`, `case_id`) VALUES
-(3, 3, 1),
-(5, 3, 4),
-(6, 3, 5),
-(7, 3, 6),
-(8, 1, 6),
-(9, 3, 7),
-(10, 1, 7),
-(11, 3, 8);
+(2, 1, 1),
+(3, 3, 2),
+(4, 1, 2),
+(5, 3, 3),
+(6, 3, 4),
+(7, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_cases_movement_judges`
+--
+
+CREATE TABLE `tblmy_cases_movement_judges` (
+  `id` int(11) NOT NULL,
+  `judge_id` int(11) NOT NULL,
+  `case_mov_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_cases_movement_judges`
+--
+
+INSERT INTO `tblmy_cases_movement_judges` (`id`, `judge_id`, `case_mov_id`) VALUES
+(1, 1, 1),
+(2, 3, 2),
+(3, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -2746,10 +2607,10 @@ CREATE TABLE `tblmy_members_cases` (
 --
 
 INSERT INTO `tblmy_members_cases` (`id`, `staff_id`, `project_id`) VALUES
-(10, 2, 2),
-(11, 1, 2),
-(15, 1, 7),
-(16, 1, 8);
+(17, 1, 9),
+(19, 1, 4),
+(20, 1, 1),
+(21, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -2760,16 +2621,16 @@ INSERT INTO `tblmy_members_cases` (`id`, `staff_id`, `project_id`) VALUES
 CREATE TABLE `tblmy_members_services` (
   `id` int(11) NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL
+  `oservice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblmy_members_services`
 --
 
-INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `project_id`) VALUES
-(3, 1, 4),
-(4, 1, 5);
+INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `oservice_id`) VALUES
+(3, 1, 5),
+(4, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -2812,6 +2673,7 @@ CREATE TABLE `tblmy_other_services` (
   `clientid` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
+  `service_session_link` int(11) NOT NULL DEFAULT 0,
   `billing_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `project_rate_per_hour` int(11) NOT NULL,
@@ -2825,18 +2687,19 @@ CREATE TABLE `tblmy_other_services` (
   `city` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblmy_other_services`
 --
 
-INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`) VALUES
-(4, 2, 'Akd3', 3, 'عقد جديد', 1, 5, 6, 1, 1, 0, '0.00', '2019-07-16', '2019-07-16', NULL, NULL, '', 217, 'hamah', 0, '0.00', 0, 0, 1),
-(5, 0, 'Akd4', 4, 'جديد', 3, 5, 6, 1, 1, 0, '0.00', '2019-07-10', '2019-07-17', NULL, NULL, '', 217, 'latakia', 0, '0.00', 0, 0, 1);
+INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `service_session_link`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
+(5, 2, 'Akd5', 5, 'عقد@عقد', 3, 5, 6, 0, 1, 1, 0, '0.00', '2019-09-27', '2019-09-04', NULL, NULL, '', 0, '', 0, '0.00', 0, 0, 1, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -2879,6 +2742,77 @@ INSERT INTO `tblmy_procurationtype` (`id`, `procurationtype`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblmy_projects_contacts`
+--
+
+CREATE TABLE `tblmy_projects_contacts` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL DEFAULT 0,
+  `contact_type` int(2) NOT NULL DEFAULT 0,
+  `contact_name` varchar(50) NOT NULL DEFAULT '',
+  `contact_address` varchar(250) NOT NULL DEFAULT '',
+  `contact_email` varchar(50) NOT NULL DEFAULT '',
+  `contact_phone` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_projects_contacts`
+--
+
+INSERT INTO `tblmy_projects_contacts` (`id`, `project_id`, `contact_type`, `contact_name`, `contact_address`, `contact_email`, `contact_phone`) VALUES
+(1, 5, 0, 'opppnent 1', 'test', 'test@mail.com', 'ds'),
+(2, 5, 1, 'opppnent lawyer', 'testt', 'test@mail.com', 'ds');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_projects_meta`
+--
+
+CREATE TABLE `tblmy_projects_meta` (
+  `id` int(11) NOT NULL,
+  `project_id` int(12) NOT NULL DEFAULT 0,
+  `meta_key` varchar(100) NOT NULL DEFAULT '',
+  `meta_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_projects_meta`
+--
+
+INSERT INTO `tblmy_projects_meta` (`id`, `project_id`, `meta_key`, `meta_value`) VALUES
+(1, 5, 'representative', '2'),
+(2, 5, 'country', '125'),
+(3, 5, 'city', 'yanbu'),
+(4, 5, 'address1', 'address'),
+(5, 5, 'address2', 'address'),
+(6, 5, 'addressed_to', 'address'),
+(7, 5, 'notes', ''),
+(8, 5, 'projects_status', ''),
+(9, 5, 'cat_id', ''),
+(10, 5, 'subcat_id', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_projects_statuses`
+--
+
+CREATE TABLE `tblmy_projects_statuses` (
+  `id` int(11) NOT NULL,
+  `status_name` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_projects_statuses`
+--
+
+INSERT INTO `tblmy_projects_statuses` (`id`, `status_name`) VALUES
+(1, 'حالة 1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblmy_salary`
 --
 
@@ -2888,7 +2822,7 @@ CREATE TABLE `tblmy_salary` (
   `comments` text NOT NULL,
   `ammount` double NOT NULL,
   `payment_month` varchar(20) NOT NULL,
-  `paid_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `paid_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2906,22 +2840,25 @@ CREATE TABLE `tblmy_service_session` (
   `court_id` int(11) NOT NULL,
   `judge_id` int(11) NOT NULL,
   `date` date NOT NULL,
+  `time` time NOT NULL,
   `details` text NOT NULL,
   `next_action` text NOT NULL,
-  `next_date` date NOT NULL,
   `report` varchar(250) NOT NULL,
   `status` int(11) NOT NULL,
   `result` int(11) NOT NULL,
   `staff` int(11) NOT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `deleted` tinyint(4) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblmy_service_session`
 --
 
-INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `details`, `next_action`, `next_date`, `report`, `status`, `result`, `staff`, `deleted`) VALUES
-(2, 1, 1, '', 'جلسة 1', 2, 1, '2019-07-23', 'تم الحكم', '', '2019-07-12', '', 1, 3, 1, 0);
+INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `time`, `details`, `next_action`, `report`, `status`, `result`, `staff`, `deleted`, `created`) VALUES
+(12, 1, 7, '', 'test', 2, 3, '2019-08-18', '17:30:00', '', '', '', 1, 1, 1, 0, '2019-08-18 11:42:22'),
+(13, 1, 4, 'kd-y', '', 2, 0, '2019-08-29', '00:00:00', '', '', '', 0, 0, 0, 0, '2019-08-29 07:25:28'),
+(14, 1, 1, '', 'test', 2, 3, '2019-08-29', '05:55:00', '', '', '', 0, 0, 1, 0, '2019-08-29 09:11:58');
 
 -- --------------------------------------------------------
 
@@ -2938,7 +2875,7 @@ CREATE TABLE `tblmy_sessiondiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -3111,7 +3048,7 @@ CREATE TABLE `tblnewsfeed_posts` (
 
 CREATE TABLE `tblnewsfeed_post_comments` (
   `id` int(11) NOT NULL,
-  `content` text,
+  `content` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `postid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3140,7 +3077,7 @@ CREATE TABLE `tblnotes` (
   `id` int(11) NOT NULL,
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date_contacted` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3154,18 +3091,26 @@ CREATE TABLE `tblnotes` (
 
 CREATE TABLE `tblnotifications` (
   `id` int(11) NOT NULL,
-  `isread` int(11) NOT NULL DEFAULT '0',
-  `isread_inline` tinyint(1) NOT NULL DEFAULT '0',
+  `isread` int(11) NOT NULL DEFAULT 0,
+  `isread_inline` tinyint(1) NOT NULL DEFAULT 0,
   `date` datetime NOT NULL,
   `description` text NOT NULL,
   `fromuserid` int(11) NOT NULL,
-  `fromclientid` int(11) NOT NULL DEFAULT '0',
+  `fromclientid` int(11) NOT NULL DEFAULT 0,
   `from_fullname` varchar(100) NOT NULL,
   `touserid` int(11) NOT NULL,
   `fromcompany` int(11) DEFAULT NULL,
-  `link` mediumtext,
-  `additional_data` text
+  `link` mediumtext DEFAULT NULL,
+  `additional_data` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblnotifications`
+--
+
+INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `description`, `fromuserid`, `fromclientid`, `from_fullname`, `touserid`, `fromcompany`, `link`, `additional_data`) VALUES
+(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL),
+(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL);
 
 -- --------------------------------------------------------
 
@@ -3177,7 +3122,7 @@ CREATE TABLE `tbloptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
   `value` longtext NOT NULL,
-  `autoload` tinyint(1) NOT NULL DEFAULT '1'
+  `autoload` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3185,7 +3130,7 @@ CREATE TABLE `tbloptions` (
 --
 
 INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
-(1, 'dateformat', 'Y-m-d|%Y-%m-%d|hijri', 1),
+(1, 'dateformat', 'Y-m-d|%Y-%m-%d', 1),
 (2, 'companyname', '', 1),
 (3, 'services', '1', 1),
 (4, 'maximum_allowed_ticket_attachments', '4', 1),
@@ -3221,7 +3166,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (34, 'view_invoice_only_logged_in', '0', 1),
 (35, 'invoice_number_format', '1', 1),
 (36, 'next_invoice_number', '2', 0),
-(37, 'active_language', 'arabic', 1),
+(37, 'active_language', 'english', 1),
 (38, 'invoice_number_decrement_on_delete', '1', 1),
 (39, 'automatically_send_invoice_overdue_reminder_after', '1', 1),
 (40, 'automatically_resend_invoice_overdue_reminder_after', '3', 1),
@@ -3239,7 +3184,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (52, 'estimate_auto_convert_to_invoice_on_client_accept', '1', 1),
 (53, 'exclude_estimate_from_client_area_with_draft_status', '1', 1),
 (54, 'rtl_support_admin', '0', 1),
-(55, 'last_cron_run', '', 1),
+(55, 'last_cron_run', '1568137469', 1),
 (56, 'show_sale_agent_on_estimates', '1', 1),
 (57, 'show_sale_agent_on_invoices', '1', 1),
 (58, 'predefined_terms_invoice', '', 1),
@@ -3390,7 +3335,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (203, 'default_task_status', 'auto', 1),
 (204, 'email_queue_skip_with_attachments', '1', 1),
 (205, 'email_queue_enabled', '0', 1),
-(206, 'last_email_queue_retry', '', 1),
+(206, 'last_email_queue_retry', '1568137470', 1),
 (207, 'auto_dismiss_desktop_notifications_after', '0', 1),
 (208, 'proposal_info_format', '{proposal_to}<br />\r\n{address}<br />\r\n{city} {state}<br />\r\n{country_code} {zip_code}<br />\r\n{phone}<br />\r\n{email}', 0),
 (209, 'ticket_replies_order', 'asc', 1),
@@ -3604,7 +3549,209 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (417, 'sms_trigger_contract_new_comment_to_customer', '', 0),
 (418, 'sms_trigger_contract_new_comment_to_staff', '', 0),
 (419, 'sms_trigger_contract_expiration_reminder', '', 0),
-(420, 'sms_trigger_staff_reminder', '', 0);
+(420, 'sms_trigger_staff_reminder', '', 0),
+(424, 'isHijri', 'off', 1),
+(425, 'hijri_format', 'Y-m-d|%Y-%m-%d|hijri', 1),
+(426, 'hijri_pages', '[\"Case\",\"\",\"\"]', 1),
+(427, 'adjust_data', '', 1),
+(428, 'automatically_reminders_before_empty_recycle_bin_days', '1', 1),
+(429, 'automatically_empty_recycle_bin_after_days', '1', 1),
+(430, 'procurations_reminder_notification_before', '1', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservicediscussioncomments`
+--
+
+CREATE TABLE `tbloservicediscussioncomments` (
+  `id` int(11) NOT NULL,
+  `discussion_id` int(11) NOT NULL,
+  `discussion_type` varchar(10) NOT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  `content` text NOT NULL,
+  `staff_id` int(11) NOT NULL,
+  `contact_id` int(11) DEFAULT 0,
+  `fullname` varchar(191) DEFAULT NULL,
+  `file_name` varchar(191) DEFAULT NULL,
+  `file_mime_type` varchar(70) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservicediscussions`
+--
+
+CREATE TABLE `tbloservicediscussions` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `subject` varchar(191) NOT NULL,
+  `description` text NOT NULL,
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `datecreated` datetime NOT NULL,
+  `last_activity` datetime DEFAULT NULL,
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservice_activity`
+--
+
+CREATE TABLE `tbloservice_activity` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `fullname` varchar(100) DEFAULT NULL,
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
+  `additional_data` text DEFAULT NULL,
+  `dateadded` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbloservice_activity`
+--
+
+INSERT INTO `tbloservice_activity` (`id`, `oservice_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
+(1, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:29:59'),
+(2, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:29:59'),
+(3, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:30:04'),
+(4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
+(5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
+(6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
+(7, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:43:13'),
+(8, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:43:13'),
+(9, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:47:16'),
+(10, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:47:16'),
+(11, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:47:21'),
+(12, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:48:50'),
+(13, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:48:51'),
+(14, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:48:56'),
+(15, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:10'),
+(16, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:10'),
+(17, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:49:15'),
+(18, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:58'),
+(19, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:58'),
+(20, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:11'),
+(21, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:11'),
+(22, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:51:16'),
+(23, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:24'),
+(24, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:24'),
+(25, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:52:40'),
+(26, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:52:40'),
+(27, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:53:06'),
+(28, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:53:06'),
+(29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
+(30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
+(31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
+(47, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:02:36'),
+(48, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:02:36'),
+(49, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:02:41'),
+(50, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:15'),
+(51, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:15'),
+(52, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:20'),
+(53, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:41'),
+(54, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:41'),
+(55, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:47'),
+(56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
+(57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
+(58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
+(62, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:06:54'),
+(63, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:06:54'),
+(64, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:06:59'),
+(65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
+(66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
+(67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
+(166, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 18:53:53'),
+(167, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 18:53:54'),
+(168, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 19:07:36'),
+(169, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 19:07:37'),
+(178, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-01 17:43:17'),
+(179, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-01 17:43:17'),
+(180, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-03 18:47:46'),
+(181, 6, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-03 18:47:47'),
+(182, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-04 17:39:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservice_files`
+--
+
+CREATE TABLE `tbloservice_files` (
+  `id` int(11) NOT NULL,
+  `file_name` varchar(191) NOT NULL,
+  `subject` varchar(191) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `filetype` varchar(50) DEFAULT NULL,
+  `dateadded` datetime NOT NULL,
+  `last_activity` datetime DEFAULT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `visible_to_customer` tinyint(1) DEFAULT 0,
+  `staffid` int(11) NOT NULL,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `external` varchar(40) DEFAULT NULL,
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservice_notes`
+--
+
+CREATE TABLE `tbloservice_notes` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `staff_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbloservice_settings`
+--
+
+CREATE TABLE `tbloservice_settings` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `value` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbloservice_settings`
+--
+
+INSERT INTO `tbloservice_settings` (`id`, `oservice_id`, `name`, `value`) VALUES
+(1, 5, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:15:\"OserviceSession\";i:1;}'),
+(2, 5, 'view_tasks', '1'),
+(3, 5, 'create_tasks', '1'),
+(4, 5, 'edit_tasks', '1'),
+(5, 5, 'comment_on_tasks', '1'),
+(6, 5, 'view_task_comments', '1'),
+(7, 5, 'view_task_attachments', '1'),
+(8, 5, 'view_task_checklist_items', '1'),
+(9, 5, 'upload_on_tasks', '1'),
+(10, 5, 'view_task_total_logged_time', '1'),
+(11, 5, 'view_finance_overview', '1'),
+(12, 5, 'upload_files', '1'),
+(13, 5, 'open_discussions', '1'),
+(14, 5, 'view_milestones', '1'),
+(15, 5, 'view_gantt', '1'),
+(16, 5, 'view_timesheets', '1'),
+(17, 5, 'view_activity_log', '1'),
+(18, 5, 'view_team_members', '1'),
+(19, 5, 'hide_tasks_on_main_tasks_table', '1');
 
 -- --------------------------------------------------------
 
@@ -3615,12 +3762,12 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 CREATE TABLE `tblpayment_modes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text,
-  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
-  `invoices_only` int(11) NOT NULL DEFAULT '0',
-  `expenses_only` int(11) NOT NULL DEFAULT '0',
-  `selected_by_default` int(11) NOT NULL DEFAULT '1',
-  `active` tinyint(1) NOT NULL DEFAULT '1'
+  `description` text DEFAULT NULL,
+  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
+  `invoices_only` int(11) NOT NULL DEFAULT 0,
+  `expenses_only` int(11) NOT NULL DEFAULT 0,
+  `selected_by_default` int(11) NOT NULL DEFAULT 1,
+  `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3642,12 +3789,17 @@ CREATE TABLE `tblpinned_cases` (
   `staff_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tblpinned_cases`
+-- Table structure for table `tblpinned_oservices`
 --
 
-INSERT INTO `tblpinned_cases` (`id`, `project_id`, `staff_id`) VALUES
-(6, 1, 1);
+CREATE TABLE `tblpinned_oservices` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3664,6 +3816,56 @@ CREATE TABLE `tblpinned_projects` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblprocurations`
+--
+
+CREATE TABLE `tblprocurations` (
+  `id` int(11) NOT NULL,
+  `NO` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `come_from` varchar(255) NOT NULL,
+  `folder_no` varchar(255) NOT NULL,
+  `file_doc` varchar(255) NOT NULL,
+  `recurring_from` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `addedfrom` int(11) NOT NULL,
+  `case_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblprocurations`
+--
+
+INSERT INTO `tblprocurations` (`id`, `NO`, `start_date`, `end_date`, `come_from`, `folder_no`, `file_doc`, `recurring_from`, `type`, `status`, `client`, `not_visible_to_client`, `addedfrom`, `case_id`) VALUES
+(1, '2522', '2019-09-09', '2019-09-10', 'come from', '', '', 0, 2, 2, 3, 0, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblprocuration_cases`
+--
+
+CREATE TABLE `tblprocuration_cases` (
+  `id` int(11) NOT NULL,
+  `procuration` int(11) NOT NULL,
+  `_case` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblprocuration_cases`
+--
+
+INSERT INTO `tblprocuration_cases` (`id`, `procuration`, `_case`) VALUES
+(1, 20, 1),
+(2, 20, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblprojectdiscussioncomments`
 --
 
@@ -3676,7 +3878,7 @@ CREATE TABLE `tblprojectdiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -3693,11 +3895,11 @@ CREATE TABLE `tblprojectdiscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0'
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3709,28 +3911,31 @@ CREATE TABLE `tblprojectdiscussions` (
 CREATE TABLE `tblprojects` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
   `clientid` int(11) NOT NULL,
   `billing_type` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `deadline` date DEFAULT NULL,
   `project_created` date NOT NULL,
   `date_finished` datetime DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
   `project_cost` decimal(15,2) DEFAULT NULL,
   `project_rate_per_hour` decimal(15,2) DEFAULT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `addedfrom` int(11) NOT NULL
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `project_type` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblprojects`
 --
 
-INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `billing_type`, `start_date`, `deadline`, `project_created`, `date_finished`, `progress`, `progress_from_tasks`, `project_cost`, `project_rate_per_hour`, `estimated_hours`, `addedfrom`) VALUES
-(3, 'test', '', 2, 3, 1, '2019-08-01', NULL, '2019-08-01', NULL, 0, 1, '0.00', '0.00', '0.00', 1);
+INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `billing_type`, `start_date`, `deadline`, `project_created`, `date_finished`, `progress`, `progress_from_tasks`, `project_cost`, `project_rate_per_hour`, `estimated_hours`, `addedfrom`, `branch_id`, `project_type`) VALUES
+(4, 'test', '', 2, 3, 1, '2019-08-22', NULL, '2019-08-22', NULL, 100, 1, '10.00', '0.00', '0.00', 1, 0, 0),
+(5, 'نزاع مالي 1', '', 3, 3, 1, '2019-08-24', NULL, '2019-08-24', NULL, 0, 0, '0.00', '0.00', '0.00', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -3741,12 +3946,12 @@ INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `b
 CREATE TABLE `tblproject_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3759,9 +3964,16 @@ INSERT INTO `tblproject_activity` (`id`, `project_id`, `staff_id`, `contact_id`,
 (2, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 18:12:01'),
 (3, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-31 21:17:45'),
 (4, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-31 21:17:46'),
-(5, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-01 14:22:44'),
-(6, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 14:22:46'),
-(7, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created_milestone', 'tes', '2019-08-01 14:39:42');
+(8, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-22 18:09:02'),
+(9, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-22 18:09:03'),
+(10, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-24 12:06:54'),
+(11, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-24 12:06:57'),
+(12, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-26 21:02:08'),
+(13, 5, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '15607969259684dd18b.txt', '2019-09-01 13:40:12'),
+(14, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_marked_all_tasks_as_complete', '', '2019-09-03 18:50:31'),
+(15, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-09-03 18:50:31'),
+(16, 5, 1, 0, 'Mhdbashar Das', 1, 'project_status_updated', '<b><lang>project_status_3</lang></b>', '2019-09-03 18:50:32'),
+(17, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_task_deleted', 'test', '2019-09-03 20:55:41');
 
 -- --------------------------------------------------------
 
@@ -3773,18 +3985,25 @@ CREATE TABLE `tblproject_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT '0',
+  `visible_to_customer` tinyint(1) DEFAULT 0,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblproject_files`
+--
+
+INSERT INTO `tblproject_files` (`id`, `file_name`, `subject`, `description`, `filetype`, `dateadded`, `last_activity`, `project_id`, `visible_to_customer`, `staffid`, `contact_id`, `external`, `external_link`, `thumbnail_link`) VALUES
+(1, '15607969259684dd18b.txt', '15607969259684dd18b.txt', NULL, 'text/plain', '2019-09-01 13:40:12', NULL, 5, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3803,7 +4022,8 @@ CREATE TABLE `tblproject_members` (
 --
 
 INSERT INTO `tblproject_members` (`id`, `project_id`, `staff_id`) VALUES
-(3, 3, 1);
+(4, 4, 1),
+(5, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -3828,7 +4048,7 @@ CREATE TABLE `tblproject_settings` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text
+  `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3874,25 +4094,44 @@ INSERT INTO `tblproject_settings` (`id`, `project_id`, `name`, `value`) VALUES
 (36, 2, 'view_activity_log', '1'),
 (37, 2, 'view_team_members', '1'),
 (38, 2, 'hide_tasks_on_main_tasks_table', '0'),
-(39, 3, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(40, 3, 'view_tasks', '1'),
-(41, 3, 'create_tasks', '1'),
-(42, 3, 'edit_tasks', '1'),
-(43, 3, 'comment_on_tasks', '1'),
-(44, 3, 'view_task_comments', '1'),
-(45, 3, 'view_task_attachments', '1'),
-(46, 3, 'view_task_checklist_items', '1'),
-(47, 3, 'upload_on_tasks', '1'),
-(48, 3, 'view_task_total_logged_time', '1'),
-(49, 3, 'view_finance_overview', '1'),
-(50, 3, 'upload_files', '1'),
-(51, 3, 'open_discussions', '1'),
-(52, 3, 'view_milestones', '1'),
-(53, 3, 'view_gantt', '1'),
-(54, 3, 'view_timesheets', '1'),
-(55, 3, 'view_activity_log', '1'),
-(56, 3, 'view_team_members', '1'),
-(57, 3, 'hide_tasks_on_main_tasks_table', '0');
+(58, 4, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
+(59, 4, 'view_tasks', '1'),
+(60, 4, 'create_tasks', '1'),
+(61, 4, 'edit_tasks', '1'),
+(62, 4, 'comment_on_tasks', '1'),
+(63, 4, 'view_task_comments', '1'),
+(64, 4, 'view_task_attachments', '1'),
+(65, 4, 'view_task_checklist_items', '1'),
+(66, 4, 'upload_on_tasks', '1'),
+(67, 4, 'view_task_total_logged_time', '1'),
+(68, 4, 'view_finance_overview', '1'),
+(69, 4, 'upload_files', '1'),
+(70, 4, 'open_discussions', '1'),
+(71, 4, 'view_milestones', '1'),
+(72, 4, 'view_gantt', '1'),
+(73, 4, 'view_timesheets', '1'),
+(74, 4, 'view_activity_log', '1'),
+(75, 4, 'view_team_members', '1'),
+(76, 4, 'hide_tasks_on_main_tasks_table', '0'),
+(77, 5, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
+(78, 5, 'view_tasks', '1'),
+(79, 5, 'create_tasks', '1'),
+(80, 5, 'edit_tasks', '1'),
+(81, 5, 'comment_on_tasks', '1'),
+(82, 5, 'view_task_comments', '1'),
+(83, 5, 'view_task_attachments', '1'),
+(84, 5, 'view_task_checklist_items', '1'),
+(85, 5, 'upload_on_tasks', '1'),
+(86, 5, 'view_task_total_logged_time', '1'),
+(87, 5, 'view_finance_overview', '1'),
+(88, 5, 'upload_files', '1'),
+(89, 5, 'open_discussions', '1'),
+(90, 5, 'view_milestones', '1'),
+(91, 5, 'view_gantt', '1'),
+(92, 5, 'view_timesheets', '1'),
+(93, 5, 'view_activity_log', '1'),
+(94, 5, 'view_team_members', '1'),
+(95, 5, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
@@ -3903,17 +4142,17 @@ INSERT INTO `tblproject_settings` (`id`, `project_id`, `name`, `value`) VALUES
 CREATE TABLE `tblproposals` (
   `id` int(11) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `content` longtext,
+  `content` longtext DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `datecreated` datetime NOT NULL,
   `total` decimal(15,2) DEFAULT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `discount_percent` decimal(15,2) NOT NULL,
   `discount_total` decimal(15,2) NOT NULL,
   `discount_type` varchar(30) DEFAULT NULL,
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
   `currency` int(11) NOT NULL,
   `open_till` date DEFAULT NULL,
   `date` date NOT NULL,
@@ -3922,20 +4161,20 @@ CREATE TABLE `tblproposals` (
   `assigned` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
   `proposal_to` varchar(191) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `country` int(11) NOT NULL DEFAULT 0,
   `zip` varchar(50) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `allow_comments` tinyint(1) NOT NULL DEFAULT '1',
+  `allow_comments` tinyint(1) NOT NULL DEFAULT 1,
   `status` int(11) NOT NULL,
   `estimate_id` int(11) DEFAULT NULL,
   `invoice_id` int(11) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `pipeline_order` int(11) NOT NULL DEFAULT '0',
-  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
+  `pipeline_order` int(11) NOT NULL DEFAULT 0,
+  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
@@ -3943,6 +4182,13 @@ CREATE TABLE `tblproposals` (
   `acceptance_ip` varchar(40) DEFAULT NULL,
   `signature` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblproposals`
+--
+
+INSERT INTO `tblproposals` (`id`, `subject`, `content`, `addedfrom`, `datecreated`, `total`, `subtotal`, `total_tax`, `adjustment`, `discount_percent`, `discount_total`, `discount_type`, `show_quantity_as`, `currency`, `open_till`, `date`, `rel_id`, `rel_type`, `assigned`, `hash`, `proposal_to`, `country`, `zip`, `state`, `city`, `address`, `email`, `phone`, `allow_comments`, `status`, `estimate_id`, `invoice_id`, `date_converted`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`) VALUES
+(1, 'test', '{proposal_items}', 1, '2019-08-26 21:10:38', '10.00', '10.00', '0.00', '0.00', '0.00', '0.00', '', 1, 1, '2019-09-02', '2019-08-26', 3, 'customer', 1, 'a5eb1af4a0f1064ceccff49756c07181', 'Al-Muslat Company', 194, '', '', 'yanbu', '', 'test@test.com', '', 1, 1, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3952,7 +4198,7 @@ CREATE TABLE `tblproposals` (
 
 CREATE TABLE `tblproposal_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext,
+  `content` mediumtext DEFAULT NULL,
   `proposalid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3971,13 +4217,6 @@ CREATE TABLE `tblrelated_items` (
   `item_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblrelated_items`
---
-
-INSERT INTO `tblrelated_items` (`id`, `rel_id`, `rel_type`, `item_id`) VALUES
-(1, 3, 'task', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -3986,13 +4225,13 @@ INSERT INTO `tblrelated_items` (`id`, `rel_id`, `rel_type`, `item_id`) VALUES
 
 CREATE TABLE `tblreminders` (
   `id` int(11) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date` datetime NOT NULL,
-  `isnotified` int(11) NOT NULL DEFAULT '0',
+  `isnotified` int(11) NOT NULL DEFAULT 0,
   `rel_id` int(11) NOT NULL,
   `staff` int(11) NOT NULL,
   `rel_type` varchar(40) NOT NULL,
-  `notify_by_email` int(11) NOT NULL DEFAULT '1',
+  `notify_by_email` int(11) NOT NULL DEFAULT 1,
   `creator` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4005,7 +4244,7 @@ CREATE TABLE `tblreminders` (
 CREATE TABLE `tblroles` (
   `roleid` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `permissions` longtext
+  `permissions` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4026,7 +4265,7 @@ CREATE TABLE `tblsales_activity` (
   `rel_type` varchar(20) DEFAULT NULL,
   `rel_id` int(11) NOT NULL,
   `description` text NOT NULL,
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `staffid` varchar(11) DEFAULT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `date` datetime NOT NULL
@@ -4040,7 +4279,9 @@ INSERT INTO `tblsales_activity` (`id`, `rel_type`, `rel_id`, `description`, `add
 (1, 'invoice', 2, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>2</new_status>\";}', '1', 'Mhdbashar Das', '2019-07-31 21:19:08'),
 (2, 'invoice', 2, 'invoice_activity_created', '', '1', 'Mhdbashar Das', '2019-07-31 21:19:09'),
 (3, 'invoice', 1, 'invoice_estimate_activity_added_item', 'a:1:{i:0;s:4:\"test\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30'),
-(4, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>4</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30');
+(4, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>4</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30'),
+(5, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>4</original_status>\";i:1;s:26:\"<new_status>2</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-26 21:06:17'),
+(6, 'invoice', 1, 'invoice_activity_payment_made_by_staff', 'a:2:{i:0;s:6:\"$10.00\";i:1;s:84:\"<a href=\"http://localhost/legalserv/admin/payments/payment/1\" target=\"_blank\">#1</a>\";}', '1', 'Mhdbashar Das', '2019-08-26 21:06:17');
 
 -- --------------------------------------------------------
 
@@ -4062,7 +4303,7 @@ CREATE TABLE `tblservices` (
 CREATE TABLE `tblsessions` (
   `id` varchar(128) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4071,140 +4312,107 @@ CREATE TABLE `tblsessions` (
 --
 
 INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('0e0mda01h76ti77ose38ptcm9v0pdiia', '::1', 1563707510, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730373531303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226e6577223b7d),
-('0gl3oi9stj6nlbhj5a89j6s7covm44u1', '::1', 1563895416, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839353431363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('15v79ck9ski5918mqruefp4jou8dr23o', '::1', 1563791199, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333739313139393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1aorkg61pl6dcrrd6c37vn3uho0d86ir', '::1', 1563992197, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939323039373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1jsebvfuem8aksh9p17hr99m7t95hvic', '::1', 1563727537, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373433383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('1o1b3oh55vrq4p99oh4r6jphapdrqv00', '::1', 1563812621, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333831323631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2rj0415d664slbiabsq3ccivqi17baao', '::1', 1563896175, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839363137353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2scof66k1irbg7he9e161aiql7bnrun5', '::1', 1564652552, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635323535323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('30hmrkdlr0pii6sv833o9hpf84do3p6u', '::1', 1564660656, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636303635363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('30rfk9u7frkdb44arltrke4imqmk4l6f', '::1', 1564419991, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393939313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3jkp4ptbdsvea0aaf50bcrcklvg6eidv', '::1', 1564658066, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383036363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3pc57d7qv9c8gcsesjh80sq5grg43gse', '::1', 1564420292, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343432303239323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('467lnquho7nc7for9m4ku8amm5aqmur1', '::1', 1564335987, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353938373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('49lg2m9e0v7daibdbfggfbgpmg79moim', '::1', 1564674224, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343232343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4glugc9b0k3bluh5j1mnj90i8c0jf0mu', '::1', 1563980003, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938303030333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4poha7orhguc7a71bv3i08fm5idaas8b', '::1', 1564646924, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363932343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('508ljm67ob9jkh4o4m6fkbdjom973gij', '::1', 1564672774, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637323737343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('53ccnbksqvsu0ub2i2r7lv796gulpdcn', '::1', 1564415592, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431353539323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('59j9bc2o6agshh52l60s8gru621857um', '::1', 1564653713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635333731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5k68k8v155k4pnafe1fgau1q6cmnubfj', '::1', 1564659873, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393837333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5odc379hevrc4r3hg60u2o6jikrdk38a', '::1', 1563990295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939303239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5utqpnjjqojl39ctl0qf720rtvs5d58g', '::1', 1564146407, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134363239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('74ajb9hff9fdeclem5uth2f5tscmmpuh', '::1', 1563987675, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938373637353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('74vk5qf2ldljus5qr9poi3iq2d8dmlov', '::1', 1564334240, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333343234303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7779ej6pj36csom4lq4css9gbgrupjq2', '::1', 1564226398, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232363339383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('78dls6i7ihovglpv2um01ueldqah6mip', '::1', 1564673115, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637333131353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7cdef6vn9oimm4hdfvjnur5p4v51fvpc', '::1', 1564324933, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343332343931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7eg80n9ubttgreksua2l06ua823vk631', '::1', 1564419306, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393330363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7fft8ouu32i6kiqemr6etqc09a944j6n', '::1', 1564345359, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353335393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7larptfpp0u66ela8jfh16hmjetgua90', '::1', 1564501261, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530313235393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('8mg86s9rbnc93domqmbl0o47sk3v2gil', '::1', 1564674599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343539373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('8n4822t0pfq423hah669atpn2cb2b12l', '::1', 1564597046, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539373034363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('91kd0erbtlj0qt239j785fmmk605or4o', '::1', 1564646133, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363133333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9atrvuhercibnrnhi0edqs8j4tt56bn8', '::1', 1564404283, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343430343238313b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
-('9b2hgl2g3mc413dsj6vp6itb5jgeo6e3', '::1', 1564665405, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636353430353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9ggk5ohahkqa85312fnu0vkqs9qc64rt', '::1', 1564219521, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343231393532313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('9ker4nr3iadvgrlph0ap9h27ptbo96ku', '::1', 1564662747, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636323734373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9tq2km3bjkrv3vcmfqefa34uaklauetf', '::1', 1563825304, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333832353238383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('a5jirgho83b2qh7jv8ic75t7p3d3blvb', '::1', 1564345720, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353732303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('a9cpig32kr1p8k36oon7l0ms3b03r8g7', '::1', 1564646508, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363530383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('aam2f7n1nunqggja1vpher764fsmabm0', '::1', 1564664441, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343434313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('acb86e0rc6eh611gbmvhsam0jn2dpgfc', '::1', 1563779446, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333737393434363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ail43ipn870gc72fq2415klg81v7kfhn', '::1', 1564230437, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303334383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('al762gj1m0dua64kv5qtoo5schd8frte', '::1', 1564498751, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383735303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('amcgrci99vs9hlse7sffuso41e99qqrr', '::1', 1564596241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539363234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('b6c4qk7lsddhnikp3bhneqs5gus6bjer', '::1', 1564055483, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035353438333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('bcj01kj1069asr5k9d2qgig7jfrk9rdt', '::1', 1564229363, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232393336333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('bivhpvuqqg2u90mjp37g0176gopdem2j', '::1', 1563905356, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930353039383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('c6s6fua6nqlmi6b36dq9h1gi49ec278i', '::1', 1564500139, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530303133393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ch2285feq5b3gprahe1j0o2debkljalm', '::1', 1564673831, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637333833313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ckn51nm7cmae0715dced0vov65drvo3o', '::1', 1563902531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930323533313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('cl0iqm0lgdt962h6vsjoap8nmrtsv4rj', '::1', 1564145144, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353134343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ct2332gr2k4u2odtnumf53madt1th1s4', '::1', 1564597266, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539373034363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('d2mnsmauf3t1f6e9q102gkc903dho5sb', '::1', 1564336652, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333363635323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('d41s3etkvtbie1deg4hb55ugfor6do7g', '::1', 1564509361, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530393336313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('da2nvqh7droa3sjlusguupu9qm06kq37', '::1', 1564517711, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343531373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('da3qc05el0anp66amqmpbqihkthh28fh', '::1', 1564061384, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313334343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('dtp2plgv2n2dscgq1ail9ob5uars20rl', '::1', 1564660353, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636303335333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('e3p6runaq93vr9dloo066s9qccvbr0i8', '::1', 1564335169, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353136393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ehoium2f1p13bsca9b7ud1bqehfncs30', '::1', 1564061040, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313034303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('esrufb4npf1a9pjkvt7rhckocdhda4hi', '::1', 1564221599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232313539393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('f0pitm4mtjs1mnea4he4sfo92t2btmrg', '::1', 1564227019, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232373031393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('f81ku0fr9p2a17rh06bmprnlm8jk9p13', '::1', 1564499778, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393737383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('fdqvs5gk36646tmh8e7di2gm3uilmg32', '::1', 1564664769, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343736393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gb9av9tgtbu4g94dg33mrripc7hvumqh', '::1', 1564672433, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637323433333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gehthmr1jq3fotvvkf1o3mrmd7vcnjfo', '::1', 1564657330, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635373333303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gik7o04c2perq1hjqui0bj4qi83nm1l4', '::1', 1564508570, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530383537303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('glof4grb996nvl1phcvbqpm0gkh6evdv', '::1', 1563725161, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732353136313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c733a313a2230223b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226e6577223b7d),
-('glotga05gb1mna6010e188n9tggbs91o', '::1', 1563727113, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373131333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('gro9knle8k6e7tkgcblpol641l7nbq5a', '::1', 1564663501, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333530313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h1jfkv3g774rkpefdlda7tfd3anb6fue', '::1', 1563812619, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333831323631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('h5dq93fm89e9ajp4mqaar47b8leu88jo', '::1', 1564434341, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343334313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h83j37qrol78aa3bel6p4prkmtq36d0n', '::1', 1564061344, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313334343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hkt83fc5be143aqj4l2eudjq3vqp8q5f', '::1', 1564337025, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333373032353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hpaeh6makkim85sukkcoasa27u6a86ao', '::1', 1564056710, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035363731303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('hv35q6cpm1a6dnssgb11gi6p746f89lg', '::1', 1564499428, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393432383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('i943btgn8botsnkseb2kbn97qspt73kh', '::1', 1563784253, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333738343235333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ik8c9ncc6f1dno79ihaotinpu5sttvhc', '::1', 1564663048, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333034383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ikq1gda3pe6ojqt87crn7j6tut9mkpls', '::1', 1564345746, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353732303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('imgvfqtb3l0m7b68hu04c2o0bo1gn5tq', '::1', 1564674597, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343539373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('iofrv9k81habj3b15lnssmhdf3ac53en', '::1', 1564658371, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383337313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('j0tfrj2g6r5psidsrp7ul6capd8fpkjc', '::1', 1564665099, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636353039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('j3lvp8u37sbmp2bn3topfnedh3suaii2', '::1', 1564517704, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343531373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('j6gu0ef9t9892qc0v8c91girv6rak9u8', '::1', 1563992097, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939323039373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('jmv6jprcs2mmucvmhqpom0cvtr4erk14', '::1', 1564659231, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393233313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('k529la188nkn9b2ia9ghoa0d28qk09q8', '::1', 1564145547, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353534373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('k9d3ies53bjgbsos1j7i8832ebrqs6o5', '::1', 1564145963, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353936333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kgdan4l56eal5rh0a51hpg7a0523hjf7', '::1', 1564498063, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383036313b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
-('ksijp1grppjt4as0l61tvr3n3udffq66', '::1', 1564228698, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232383639383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kucogu4hqc1aiqtko1lm0cs6ctodfb2t', '::1', 1564434903, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('kv97841lfts0j109ku7c0kmpa15lra0v', '::1', 1564146295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134363239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('l575tbek62qr5bidiqigogvhi2kt1fss', '::1', 1564417704, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('lscnvvtn90vqrb64k0lr93res1lrhu7j', '::1', 1564658926, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383932363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('m8kfkvc7eal10nn41382bj7rfarhjnrt', '::1', 1563727438, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373433383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('mc9bmk5ji55990lpbde16g82hvb6a1va', '::1', 1564671997, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637313939373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n04act6c7d70u4m5959rdkghg5c7prk3', '::1', 1564333900, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333333930303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n10ijta14uhh56okrvj747ija0f9e44o', '::1', 1563905098, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930353039383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nk0np9er64dh4vpgrc7s0dpsqng2jf3b', '::1', 1564418247, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431383234373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nmorjkoc3pjgajlaj2lhk8lrgknecl0s', '::1', 1564420602, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343432303630323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('np1gk5n0a9uibcurlihggar5aub2e7pe', '::1', 1564059972, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035393937323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('o5aik9h7r61qkvfn4087s25ncokjdntr', '::1', 1564659532, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393533323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('o5gt2n2gj7p7lgcukrug84k4hl77fj67', '::1', 1563902155, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930323135353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('obedo7qloluhh3a5qotcaqhuftnqavkh', '::1', 1564335471, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353437313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('og3vhsmqhnr1ju11vhu7vv4ridi7e51r', '::1', 1564664125, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343132353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('okepjs7v0ba0tdt08gtppkvt788snbsa', '::1', 1563707201, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730373230313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('opji9ij07e076fqgutg5gf74ctud3ip6', '::1', 1564498432, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383433323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('os0slddqt53u0at2qpkf2brj09k83s8o', '::1', 1563988052, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938383035323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6d6573736167652d737563636573737c733a31363a2253657474696e67732055706461746564223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('p42on0nb0hqmt5ae4kr5nofjmr474hcd', '::1', 1563726753, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732363735333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b),
-('p8vktncq599osrccgvci5gibih5smnmu', '::1', 1563895071, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839353037313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('pbc0ss6lka2e7gqbbugtqj70qhup6roo', '::1', 1563966882, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333936363838323b7265645f75726c7c733a37333a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f73657373696f6e2f73657373696f6e5f696e666f2f73657373696f6e5f64657461696c2f323f7461623d696e666f223b),
-('prml0s41vvm3u2kv08d0eakbq5vlmvgh', '::1', 1564223104, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232333130343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('q1rtar9lo1em3essiejind60u6a1e9i8', '::1', 1564419612, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393631323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('q3makdv5qt7q747durno227hco91q7oj', '::1', 1564434880, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r04h53she2cde7bpam8gvvft0uovtr59', '::1', 1564230348, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303334383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('r77ppji1odm97blhmb86u7fhmfpchufe', '::1', 1563778298, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333737383239383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r9ecsm2eclrsc91bb1kcl0bkkbj9f141', '::1', 1563901204, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930313230343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r9j44fi1il9f2fnnimmtcnl3ic4u82df', '::1', 1563706226, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730363232363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('rdm96ci9lets164vfn5na9fdcu4t5tcn', '::1', 1564324909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343332343930363b7265645f75726c7c733a34303a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f6d6f64756c6573223b),
-('rjoqp8755oh2riumalko2a7jkmfal0g0', '::1', 1564230045, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303034353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rsme8a9bc25edsgvvpv1p3d1monhasuo', '::1', 1563900881, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930303838313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('s8a9id6svneoofhh20dr98dlcir1nebh', '::1', 1564501564, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530313536343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('s8vfas6ohtpncdi15a55lj0195n8p53f', '::1', 1563896792, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839363739323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('saqsqbtao0esg41710b1dtrgqk9lt96p', '::1', 1564499124, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393132343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('sb8jd1v1855ami67f6ooaq6c0orcsib6', '::1', 1564057472, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035373437323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('skm8qjvomhe2t906fslkusvh0oq0nl64', '::1', 1563968912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333936383931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('slajldtc3eoajs3t4sf9chmsohdn382v', '::1', 1564058139, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035383133393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('tgq90bodfpcus5lcfthe2g50v0c0jl1v', '::1', 1563706849, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730363834393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ui3lv4fta2hrevvm653t5ahgj0c8d6il', '::1', 1564652249, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635323234393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('uk4s175d5491gj5tj1gosfjtlemk2ikk', '::1', 1564052102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035323130323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('v1814pek25vhcukeav2uh3amqqfbpt4c', '::1', 1564671657, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637313635363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('v2v50p8bi3nar4ro5gidfjll7o3p68ba', '::1', 1563783246, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333738333234363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('van5rkrl14b4s6evej5dfjbei2irpfq2', '::1', 1564057102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035373130323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('vemtqj3ti80shvugorm6oin31g75iit2', '::1', 1564663814, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333831343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('vqvkjvmc4or4hvg5qergbsgomcppc9mr', '::1', 1564215009, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343231353030393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
+('024idsdes9fcdt3l89r1le4q5lbk7qql', '::1', 1567345548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353333333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c733a313a2231223b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('0pmc20llhdfkraan1shpqt5akis8f63u', '::1', 1567339264, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333343337333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('1oh21tvtl5ibd2p555rorklqeqofeakd', '::1', 1567241442, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313434313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1s5uf282qaoh1s6qv5edffhgcv40meev', '::1', 1567527532, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532373134383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1up5ula47noggvtrem7budgoadaikbao', '::1', 1567104456, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130343139353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7461736b735f6b616e62616e5f766965777c733a343a2274727565223b),
+('2blen3iida8susgfqlhh0fv9lj9kkoru', '::1', 1567521662, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532313631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('2u2iqcgr9fltrii4hu3lorm83ehtrf9c', '::1', 1567603060, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630323539393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('3c2qta2n8ru1plke84n3j5s4smroali6', '::1', 1567332909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323634323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3d2fr9sa4ak89kivvccd5mqvaivb93bj', '::1', 1567861146, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836313035333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3hmjngehrp0qel26hdt5hldlsaff6eus', '::1', 1568197436, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373433363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('3jgl4ro6hrq16msj9feakqa0vhe8uk52', '::1', 1568133279, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133333233373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('4huqln6l966o2snbih57t676l3gb21if', '::1', 1567246565, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363536353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('4rt5l1g0oo20smsc3rchl48gcc1sj4jb', '::1', 1568204928, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230343932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('5dqhvn1gfegvhp3a5vp2f2hh2dssrram', '::1', 1567339879, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393837353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5j2tovb0c9bn49nhklbmurqggnemqueh', '::1', 1567700090, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730303032303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5jrf0qfhlo3ibo4rn77fk7ijvj6a4oj1', '::1', 1567524236, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343036383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('681f0ro4nromr5552gc8qjr4k1l254em', '::1', 1567526580, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363537303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6bni7k7ak428egp5ajc5pd31kigo1v5j', '::1', 1567101551, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313532323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6k186vojcln6hb1ecrtd8jlc35ivqdmv', '::1', 1567526233, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363233313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6vlaahabc4q1i74kkii2fvdsr32qg17h', '::1', 1567699691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393638313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('7te5s2ljqe1s2j9tbvo9ugknv2rl1kkh', '::1', 1567930985, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933303937363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
+('823qir8t7nvf1qbb9ac2i9d7d0q3t515', '::1', 1567341684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313338353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('88ofhord56ss6cgnfclntmundrqogaca', '::1', 1567525849, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('947auhn2vr5d827dj33opoj99pnttegf', '::1', 1567866071, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('9ljo2pv5nr52n8uetqu68crkhdq68btf', '::1', 1567609012, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630393030383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9lu1rude6hoougjhi1t9ua3hg13vhpqs', '::1', 1567333045, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9t6t5vsp89d8sl14mgt4fvnb8o1e7jha', '::1', 1567082757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037383937333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('9ubhpjcjif37qdert0gl5csev79486b8', '::1', 1567349037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383739323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9vq2g17710eq5jcbhsgngj1pb2gidbmu', '::1', 1568191921, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313932313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('am021pk8c55fon9khogm4gsbcbb4rn9g', '::1', 1567612213, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631323030313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('b8k5uq011f1c41ehvo65h19mdf6qhb9e', '::1', 1567247032, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234373032383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bd1fh5vugpacoosqi4ma24lgp43u6ka0', '::1', 1567328188, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332373930393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bm5mhncpm42qocb1q10i1qvka8bbv37e', '::1', 1567073909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333930363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('c37iuiq4aabmqhqslvj0p61indhr7csh', '::1', 1568191351, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313335313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('c9beia196epckm85tlc0n2peqh1h2vk5', '::1', 1567603399, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333036393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('cvlk146vkcjtb7q6c5pprq5r2so70i1c', '::1', 1568205030, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230343932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('ebijfob8c64ugcib64ncaovp2di99nka', '::1', 1567941901, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313639333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ehomubq0sfua1bmoq7afaibn2b9b39fb', '::1', 1567603622, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333430323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('erb3f463qipircf4n5sj4ffs2ufn4bpb', '::1', 1567699713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393639313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('es0pr8nrvk9l4d0oteikpir8eb6ruk3e', '::1', 1568196500, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139363530303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('f6gpth5ii95ne2vn94jtje0jqg157p7s', '::1', 1567599912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ftnvknioajgpvj8dsmdpqqb867amsr5v', '::1', 1567543096, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323938343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ga4jfbqu58pst03floqpfop2pqm0f8du', '::1', 1567541611, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313435363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gboskn8a8hljef566vfc1f6estaikoju', '::1', 1567542825, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323536343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gkp07cu02gt70lab96m7o5qa6tvafe85', '::1', 1567935828, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933353738313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('godqcpgmum905jp49j38oj7v2jiclt5l', '::1', 1567346679, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353635333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('gqsb0vjsu74ep3sd35uuhqg0ficsku5j', '::1', 1567342175, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313930333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('h1s2tfli30fojjggatb3og46000gsbdp', '::1', 1568190410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139303431303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('h2592vgof1ks9nv39ohbgb6vg21dv1h3', '::1', 1567458601, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383532333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hcbos13kkbrnmrkf8rr3t17otakp79o5', '::1', 1567100444, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130303339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hkign0hlfe6dr83825jq6nfh7aht7hva', '::1', 1568188624, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hplclhhou0ke8prdgie3gmr0lvbgvsql', '::1', 1567672971, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637323933343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hpoq5jnt3fif7plj52ag1iq1pv0p2r1e', '::1', 1567542010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('i39664rtogh2uhm6m4jnehgnbj60lmi7', '::1', 1567084535, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038343530393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('icnilfgtr9qspmfslklqa7u7evqpji6n', '::1', 1567525609, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343434393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('j42gk72ec2mr1hsg79ck0c57gvbv0015', '::1', 1567685061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373638353030353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('j6de67btqaiq8sk09ntf9oovtgsqk00i', '::1', 1568198960, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139383936303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('j6ropq90fdm9vfllh453t2jrecl8nh9a', '::1', 1567241440, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('jhqmdtbqvh35rdl5grj5u69lhtjvqnng', '::1', 1568138935, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133373339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('kjvagbqppc3a8iug64gcj3l7jdd2v7d9', '::1', 1567328509, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383235313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('lad06sp5lh1pqe3rrpofrsvnqjmc7il3', '::1', 1567533618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373533333334313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('lh7940shejshs2hvji3q2q7agasv0nub', '::1', 1567241757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313735363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('lrmstu0295rrndrh5nrl5hffa0iq0m9j', '::1', 1567931341, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933313239383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('m4hjcculihbm6enmfseap9jirq3p76bc', '::1', 1567865791, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353431393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('mg81prq1t3p7ft3os62nd8hnasio69es', '::1', 1567956542, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363533383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('mp5p7psm4oto200t0tete2b78hnrajrs', '::1', 1567325977, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('n0ol0m7apdhvuq1rqukmaiof7gmfov53', '::1', 1567619137, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631393132363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ndo3f695e539k5i3pui36cs9jojqohfi', '::1', 1567231627, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373233313439383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('neenkbdeip6616no5grv1lp2it00897b', '::1', 1567325666, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353437333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ni6ci6si542kiviscnhnd0sldnbam6vh', '::1', 1567937162, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373135303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nlk0fps769tf62pb216clgpjt97qlifm', '::1', 1568188949, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383934393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('nrac9a1qmvtdcqoabqhta3onqicci1h0', '::1', 1567346723, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334363638323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nslrrh3pj9qsb2ga706j97d0ich167dk', '::1', 1567329156, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383938383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('o91ejtd8ojh8bhq7is27qveeo3gkd7e7', '::1', 1567670531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637303532363b7265645f75726c7c733a34323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f536572766963652f33223b),
+('psks21s5b144c56m42lr23o5o5da2prt', '::1', 1567599873, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837323b7265645f75726c7c733a34313a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f73657474696e6773223b),
+('ptnlohrtj3c889k31a46c3rdql4qif1u', '::1', 1567600625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630303631353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('puunhtj918d2o2l98hm3ra08cj135hta', '::1', 1567608037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630373833343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('q508cdjounbd4niifc3hdmubvkife2ar', '::1', 1567701691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730313632393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qav46n6d8sj8ve0jnh2sodsjm3j6sshk', '::1', 1567541107, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534303932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qc3652v1gint152sngcn2d2c8s12ntk7', '::1', 1568130419, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133303338313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qjg211okb3annd5g3shomgba6t3nofb2', '::1', 1567459061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383835373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qna2p7tkqtv4kppv0ejdp25fioo00buv', '::1', 1567607830, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qnco6l1hrl0s809flmn0tnk4sn9hbj1f', '::1', 1567100043, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373039393938373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qoofeja45nen3u40cgff6a48vohea23k', '::1', 1567246511, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363235383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qv3okvcjrbjltsdhirdslbhr8qhq8rjd', '::1', 1567348218, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334373230333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r0f6efcghspvd4p0nl07e3i114d3kn6j', '::1', 1567956583, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r7t0hcdi8bffb3k17nl8rhgo2d00b8mt', '::1', 1567615150, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631343938313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r8a693n2crlfhnpskjfkq384gul8g34m', '::1', 1567345332, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353033303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('rcvcp3v97inahdahi8nrvcts7mgpn65g', '::1', 1567700019, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rfh20secovl9v5nt7a32jk6p9ktn49ad', '::1', 1567941268, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373630313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rt71epqbvp29bh2b33v2u2htnn92nlbn', '::1', 1567674102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637343039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('s20bp9ud3l16kqh9273ttlqsn251si3g', '::1', 1568139073, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393032323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('s875j4h3ll5lllrrqm15ulcls1sh7113', '::1', 1568139598, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393537393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('sb7j6gajjbe6e07hj36ir578vvcdk1di', '::1', 1567084503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038323736313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('sni5f97rlgaidbc9gt9ns2sa2kmc2mv5', '::1', 1567526219, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353932373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('to0e8i8un55g36155b2vk5v3gl0l73sp', '::1', 1567104191, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313936393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('tr3pg1unp5n975ub233b9300o6t88da9', '::1', 1567941325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313237303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('v5tgj3pnj37qdav6b46tsqlfvdet9ne4', '::1', 1567348325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383232323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('vebe6mb1vfenahd81lrsjqs3nstn7jvl', '::1', 1567339404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393236363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('vif1gn6ef9q9ep8mhp05i5hhto57lm1p', '::1', 1568197989, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373938393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('vq0l44prur779jhqh4t03jfh356n52o3', '::1', 1567073843, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
 
 -- --------------------------------------------------------
 
@@ -4241,8 +4449,8 @@ CREATE TABLE `tblstaff` (
   `email` varchar(100) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `facebook` mediumtext,
-  `linkedin` mediumtext,
+  `facebook` mediumtext DEFAULT NULL,
+  `linkedin` mediumtext DEFAULT NULL,
   `phonenumber` varchar(30) DEFAULT NULL,
   `skype` varchar(50) DEFAULT NULL,
   `password` varchar(250) NOT NULL,
@@ -4254,18 +4462,18 @@ CREATE TABLE `tblstaff` (
   `last_password_change` datetime DEFAULT NULL,
   `new_pass_key` varchar(32) DEFAULT NULL,
   `new_pass_key_requested` datetime DEFAULT NULL,
-  `admin` int(11) NOT NULL DEFAULT '0',
+  `admin` int(11) NOT NULL DEFAULT 0,
   `role` int(11) DEFAULT NULL,
-  `active` int(11) NOT NULL DEFAULT '1',
+  `active` int(11) NOT NULL DEFAULT 1,
   `default_language` varchar(40) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
   `media_path_slug` varchar(191) DEFAULT NULL,
-  `is_not_staff` int(11) NOT NULL DEFAULT '0',
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `two_factor_auth_enabled` tinyint(1) DEFAULT '0',
+  `is_not_staff` int(11) NOT NULL DEFAULT 0,
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `two_factor_auth_enabled` tinyint(1) DEFAULT 0,
   `two_factor_auth_code` varchar(100) DEFAULT NULL,
   `two_factor_auth_code_requested` datetime DEFAULT NULL,
-  `email_signature` text
+  `email_signature` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4273,7 +4481,7 @@ CREATE TABLE `tblstaff` (
 --
 
 INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`) VALUES
-(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-08-01 18:19:43', '2019-08-01 18:49:59', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
+(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-09-11 10:50:21', '2019-09-11 15:30:30', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
 (2, 'mohamad@gmail.com', 'mohamad', 'mohamad', '', '', '', '', '$2a$08$3U3Yq/bdVzixBFhr8sEWG.N64L8VEBgakihhEiQFdaXPJBbB47C06', '2019-07-20 15:54:20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, '', '', 'mohamad-mohamad', 0, '0.00', 0, NULL, NULL, '');
 
 -- --------------------------------------------------------
@@ -4309,19 +4517,19 @@ CREATE TABLE `tblstaff_permissions` (
 CREATE TABLE `tblsubscriptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `description_in_item` tinyint(1) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `description_in_item` tinyint(1) NOT NULL DEFAULT 0,
   `clientid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
-  `tax_id` int(11) NOT NULL DEFAULT '0',
-  `stripe_plan_id` text,
+  `tax_id` int(11) NOT NULL DEFAULT 0,
+  `stripe_plan_id` text DEFAULT NULL,
   `stripe_subscription_id` text NOT NULL,
   `next_billing_cycle` bigint(20) DEFAULT NULL,
   `ends_at` bigint(20) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `quantity` int(11) NOT NULL DEFAULT '1',
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
@@ -4340,7 +4548,7 @@ CREATE TABLE `tbltaggables` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
   `tag_id` int(11) NOT NULL,
-  `tag_order` int(11) NOT NULL DEFAULT '0'
+  `tag_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4362,47 +4570,45 @@ CREATE TABLE `tbltags` (
 
 CREATE TABLE `tbltasks` (
   `id` int(11) NOT NULL,
-  `name` mediumtext,
-  `description` text,
+  `name` mediumtext DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `startdate` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `datefinished` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT '0',
-  `status` int(11) NOT NULL DEFAULT '0',
+  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 0,
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
   `is_recurring_from` int(11) DEFAULT NULL,
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
   `last_recurring_date` date DEFAULT NULL,
   `rel_id` int(11) DEFAULT NULL,
   `rel_type` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT '0',
-  `billable` tinyint(1) NOT NULL DEFAULT '0',
-  `billed` tinyint(1) NOT NULL DEFAULT '0',
-  `invoice_id` int(11) NOT NULL DEFAULT '0',
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `milestone` int(11) DEFAULT '0',
-  `kanban_order` int(11) NOT NULL DEFAULT '0',
-  `milestone_order` int(11) NOT NULL DEFAULT '0',
-  `visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
-  `deadline_notified` int(11) NOT NULL DEFAULT '0'
+  `is_public` tinyint(1) NOT NULL DEFAULT 0,
+  `billable` tinyint(1) NOT NULL DEFAULT 0,
+  `billed` tinyint(1) NOT NULL DEFAULT 0,
+  `invoice_id` int(11) NOT NULL DEFAULT 0,
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `milestone` int(11) DEFAULT 0,
+  `kanban_order` int(11) NOT NULL DEFAULT 0,
+  `milestone_order` int(11) NOT NULL DEFAULT 0,
+  `visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `deadline_notified` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tbltasks`
 --
 
-INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `startdate`, `duedate`, `datefinished`, `addedfrom`, `is_added_from_contact`, `status`, `recurring_type`, `repeat_every`, `recurring`, `is_recurring_from`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `rel_id`, `rel_type`, `is_public`, `billable`, `billed`, `invoice_id`, `hourly_rate`, `milestone`, `kanban_order`, `milestone_order`, `visible_to_client`, `deadline_notified`) VALUES
-(3, 'test', '', 2, '2019-07-30 17:59:47', '2019-07-30', NULL, '2019-07-31 21:19:08', 1, 0, 5, NULL, 0, 0, NULL, 0, 0, 0, NULL, 7, 'kd-y', 0, 1, 1, 2, '0.00', 0, 0, 0, 0, 0),
-(4, 'test2', '', 2, '2019-07-30 18:00:02', '2019-07-30', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 7, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0),
-(5, 'test', '', 2, '2019-07-31 21:18:04', '2019-07-31', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'project', 0, 1, 0, 0, '0.00', 0, 0, 0, 1, 0),
-(6, 'case task', '', 2, '2019-08-01 15:54:13', '2019-08-01', '2019-08-15', NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 3, 'project', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0);
+INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `startdate`, `duedate`, `datefinished`, `addedfrom`, `is_added_from_contact`, `status`, `recurring_type`, `repeat_every`, `recurring`, `is_recurring_from`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `rel_id`, `rel_type`, `is_public`, `billable`, `billed`, `invoice_id`, `hourly_rate`, `milestone`, `kanban_order`, `milestone_order`, `visible_to_client`, `deadline_notified`, `deleted`) VALUES
+(1, 'Case 1', '', 2, '2019-09-04 00:46:31', '2019-09-04', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -4416,16 +4622,9 @@ CREATE TABLE `tbltaskstimers` (
   `start_time` varchar(64) NOT NULL,
   `end_time` varchar(64) DEFAULT NULL,
   `staff_id` int(11) NOT NULL,
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `note` text
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `note` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbltaskstimers`
---
-
-INSERT INTO `tbltaskstimers` (`id`, `task_id`, `start_time`, `end_time`, `staff_id`, `hourly_rate`, `note`) VALUES
-(1, 3, '1562688000', '1564506000', 1, '0.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -4435,7 +4634,7 @@ INSERT INTO `tbltaskstimers` (`id`, `task_id`, `start_time`, `end_time`, `staff_
 
 CREATE TABLE `tbltasks_checklist_templates` (
   `id` int(11) NOT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4448,8 +4647,8 @@ CREATE TABLE `tbltask_assigned` (
   `id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
-  `assigned_from` int(11) NOT NULL DEFAULT '0',
-  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT '0'
+  `assigned_from` int(11) NOT NULL DEFAULT 0,
+  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4457,10 +4656,11 @@ CREATE TABLE `tbltask_assigned` (
 --
 
 INSERT INTO `tbltask_assigned` (`id`, `staffid`, `taskid`, `assigned_from`, `is_assigned_from_contact`) VALUES
-(3, 1, 3, 1, 0),
-(4, 1, 4, 1, 0),
 (5, 1, 5, 1, 0),
-(6, 1, 6, 1, 0);
+(7, 1, 7, 1, 0),
+(8, 1, 8, 1, 0),
+(9, 1, 9, 1, 0),
+(11, 1, 11, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4472,11 +4672,11 @@ CREATE TABLE `tbltask_checklist_items` (
   `id` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
   `description` text NOT NULL,
-  `finished` int(11) NOT NULL DEFAULT '0',
+  `finished` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL,
   `addedfrom` int(11) NOT NULL,
-  `finished_from` int(11) DEFAULT '0',
-  `list_order` int(11) NOT NULL DEFAULT '0'
+  `finished_from` int(11) DEFAULT 0,
+  `list_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4490,8 +4690,8 @@ CREATE TABLE `tbltask_comments` (
   `content` text NOT NULL,
   `taskid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `file_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `file_id` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4527,35 +4727,36 @@ CREATE TABLE `tbltaxes` (
 
 CREATE TABLE `tbltickets` (
   `ticketid` int(11) NOT NULL,
-  `adminreplying` int(11) NOT NULL DEFAULT '0',
+  `adminreplying` int(11) NOT NULL DEFAULT 0,
   `userid` int(11) NOT NULL,
-  `contactid` int(11) NOT NULL DEFAULT '0',
-  `email` text,
-  `name` text,
+  `contactid` int(11) NOT NULL DEFAULT 0,
+  `email` text DEFAULT NULL,
+  `name` text DEFAULT NULL,
   `department` int(11) NOT NULL,
   `priority` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `service` int(11) DEFAULT NULL,
   `ticketkey` varchar(32) NOT NULL,
   `subject` varchar(191) NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `admin` int(11) DEFAULT NULL,
   `date` datetime NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `lastreply` datetime DEFAULT NULL,
-  `clientread` int(11) NOT NULL DEFAULT '0',
-  `adminread` int(11) NOT NULL DEFAULT '0',
-  `assigned` int(11) NOT NULL DEFAULT '0',
+  `clientread` int(11) NOT NULL DEFAULT 0,
+  `adminread` int(11) NOT NULL DEFAULT 0,
+  `assigned` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
-  `rel_stype` varchar(30) DEFAULT NULL
+  `rel_stype` varchar(30) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tbltickets`
 --
 
-INSERT INTO `tbltickets` (`ticketid`, `adminreplying`, `userid`, `contactid`, `email`, `name`, `department`, `priority`, `status`, `service`, `ticketkey`, `subject`, `message`, `admin`, `date`, `project_id`, `lastreply`, `clientread`, `adminread`, `assigned`, `rel_sid`, `rel_stype`) VALUES
-(1, 0, 0, 0, NULL, NULL, 0, 0, 1, NULL, '', 'sadasd', NULL, NULL, '0000-00-00 00:00:00', 0, NULL, 0, 0, 0, 1, 'kd-y');
+INSERT INTO `tbltickets` (`ticketid`, `adminreplying`, `userid`, `contactid`, `email`, `name`, `department`, `priority`, `status`, `service`, `ticketkey`, `subject`, `message`, `admin`, `date`, `project_id`, `lastreply`, `clientread`, `adminread`, `assigned`, `rel_sid`, `rel_stype`, `deleted`) VALUES
+(1, 0, 0, 0, NULL, 'Case 1', 0, 0, 0, NULL, '', '', NULL, NULL, '0000-00-00 00:00:00', 0, NULL, 0, 0, 0, 1, 'kd-y', 0);
 
 -- --------------------------------------------------------
 
@@ -4615,7 +4816,7 @@ INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
 CREATE TABLE `tbltickets_status` (
   `ticketstatusid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `isdefault` int(11) NOT NULL DEFAULT '0',
+  `isdefault` int(11) NOT NULL DEFAULT 0,
   `statuscolor` varchar(7) DEFAULT NULL,
   `statusorder` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4656,11 +4857,11 @@ CREATE TABLE `tblticket_replies` (
   `id` int(11) NOT NULL,
   `ticketid` int(11) NOT NULL,
   `userid` int(11) DEFAULT NULL,
-  `contactid` int(11) NOT NULL DEFAULT '0',
-  `name` text,
-  `email` text,
+  `contactid` int(11) NOT NULL DEFAULT 0,
+  `name` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
   `date` datetime NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `attachment` int(11) DEFAULT NULL,
   `admin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4694,9 +4895,9 @@ CREATE TABLE `tbltracked_mails` (
   `rel_type` varchar(40) NOT NULL,
   `date` datetime NOT NULL,
   `email` varchar(100) NOT NULL,
-  `opened` tinyint(1) NOT NULL DEFAULT '0',
+  `opened` tinyint(1) NOT NULL DEFAULT 0,
   `date_opened` datetime DEFAULT NULL,
-  `subject` mediumtext
+  `subject` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4710,7 +4911,7 @@ CREATE TABLE `tbluser_auto_login` (
   `user_id` int(11) NOT NULL,
   `user_agent` varchar(150) NOT NULL,
   `last_ip` varchar(40) NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `staff` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4722,11 +4923,11 @@ CREATE TABLE `tbluser_auto_login` (
 
 CREATE TABLE `tbluser_meta` (
   `umeta_id` bigint(20) UNSIGNED NOT NULL,
-  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `meta_key` varchar(191) DEFAULT NULL,
-  `meta_value` longtext
+  `meta_value` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4742,11 +4943,11 @@ CREATE TABLE `tblvault` (
   `port` int(11) DEFAULT NULL,
   `username` varchar(191) NOT NULL,
   `password` text NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `creator` int(11) NOT NULL,
   `creator_name` varchar(100) DEFAULT NULL,
-  `visibility` tinyint(1) NOT NULL DEFAULT '1',
-  `share_in_projects` tinyint(1) NOT NULL DEFAULT '0',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
+  `share_in_projects` tinyint(1) NOT NULL DEFAULT 0,
   `last_updated` datetime DEFAULT NULL,
   `last_updated_from` varchar(100) DEFAULT NULL,
   `date_created` datetime NOT NULL
@@ -4777,21 +4978,21 @@ CREATE TABLE `tblweb_to_lead` (
   `form_key` varchar(32) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
-  `notify_lead_imported` int(11) NOT NULL DEFAULT '1',
+  `notify_lead_imported` int(11) NOT NULL DEFAULT 1,
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext,
-  `responsible` int(11) NOT NULL DEFAULT '0',
+  `notify_ids` mediumtext DEFAULT NULL,
+  `responsible` int(11) NOT NULL DEFAULT 0,
   `name` varchar(191) NOT NULL,
-  `form_data` mediumtext,
-  `recaptcha` int(11) NOT NULL DEFAULT '0',
+  `form_data` mediumtext DEFAULT NULL,
+  `recaptcha` int(11) NOT NULL DEFAULT 0,
   `submit_btn_name` varchar(40) DEFAULT NULL,
-  `success_submit_msg` text,
+  `success_submit_msg` text DEFAULT NULL,
   `language` varchar(40) DEFAULT NULL,
-  `allow_duplicate` int(11) NOT NULL DEFAULT '1',
-  `mark_public` int(11) NOT NULL DEFAULT '0',
+  `allow_duplicate` int(11) NOT NULL DEFAULT 1,
+  `mark_public` int(11) NOT NULL DEFAULT 0,
   `track_duplicate_field` varchar(20) DEFAULT NULL,
   `track_duplicate_field_and` varchar(20) DEFAULT NULL,
-  `create_task_on_duplicate` int(11) NOT NULL DEFAULT '0',
+  `create_task_on_duplicate` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4811,6 +5012,18 @@ ALTER TABLE `tblactivity_log`
 --
 ALTER TABLE `tblannouncements`
   ADD PRIMARY KEY (`announcementid`);
+
+--
+-- Indexes for table `tblbranches`
+--
+ALTER TABLE `tblbranches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblbranches_services`
+--
+ALTER TABLE `tblbranches_services`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tblcasediscussioncomments`
@@ -5275,6 +5488,14 @@ ALTER TABLE `tblmy_cases_judges`
   ADD KEY `case_id` (`case_id`);
 
 --
+-- Indexes for table `tblmy_cases_movement_judges`
+--
+ALTER TABLE `tblmy_cases_movement_judges`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `judge_id` (`judge_id`),
+  ADD KEY `case_id` (`case_mov_id`);
+
+--
 -- Indexes for table `tblmy_categories`
 --
 ALTER TABLE `tblmy_categories`
@@ -5331,7 +5552,6 @@ ALTER TABLE `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_services`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `project_id` (`project_id`),
   ADD KEY `staff_id` (`staff_id`);
 
 --
@@ -5356,6 +5576,26 @@ ALTER TABLE `tblmy_procurationstate`
 -- Indexes for table `tblmy_procurationtype`
 --
 ALTER TABLE `tblmy_procurationtype`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblmy_projects_contacts`
+--
+ALTER TABLE `tblmy_projects_contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblmy_projects_meta`
+--
+ALTER TABLE `tblmy_projects_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblmy_projects_statuses`
+--
+ALTER TABLE `tblmy_projects_statuses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5446,6 +5686,43 @@ ALTER TABLE `tbloptions`
   ADD KEY `name` (`name`);
 
 --
+-- Indexes for table `tbloservicediscussioncomments`
+--
+ALTER TABLE `tbloservicediscussioncomments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservicediscussions`
+--
+ALTER TABLE `tbloservicediscussions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_activity`
+--
+ALTER TABLE `tbloservice_activity`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_files`
+--
+ALTER TABLE `tbloservice_files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_notes`
+--
+ALTER TABLE `tbloservice_notes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_settings`
+--
+ALTER TABLE `tbloservice_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oservice_id` (`oservice_id`);
+
+--
 -- Indexes for table `tblpayment_modes`
 --
 ALTER TABLE `tblpayment_modes`
@@ -5459,11 +5736,30 @@ ALTER TABLE `tblpinned_cases`
   ADD KEY `project_id` (`project_id`);
 
 --
+-- Indexes for table `tblpinned_oservices`
+--
+ALTER TABLE `tblpinned_oservices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oservice_id` (`oservice_id`);
+
+--
 -- Indexes for table `tblpinned_projects`
 --
 ALTER TABLE `tblpinned_projects`
   ADD PRIMARY KEY (`id`),
   ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblprocurations`
+--
+ALTER TABLE `tblprocurations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblprocuration_cases`
+--
+ALTER TABLE `tblprocuration_cases`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tblprojectdiscussioncomments`
@@ -5770,7 +6066,7 @@ ALTER TABLE `tblweb_to_lead`
 -- AUTO_INCREMENT for table `tblactivity_log`
 --
 ALTER TABLE `tblactivity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `tblannouncements`
@@ -5779,22 +6075,34 @@ ALTER TABLE `tblannouncements`
   MODIFY `announcementid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblbranches`
+--
+ALTER TABLE `tblbranches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblbranches_services`
+--
+ALTER TABLE `tblbranches_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tblcasediscussioncomments`
 --
 ALTER TABLE `tblcasediscussioncomments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcasediscussions`
 --
 ALTER TABLE `tblcasediscussions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcase_activity`
 --
 ALTER TABLE `tblcase_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT for table `tblcase_files`
@@ -5806,7 +6114,7 @@ ALTER TABLE `tblcase_files`
 -- AUTO_INCREMENT for table `tblcase_movement`
 --
 ALTER TABLE `tblcase_movement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblcase_notes`
@@ -5818,7 +6126,7 @@ ALTER TABLE `tblcase_notes`
 -- AUTO_INCREMENT for table `tblcase_settings`
 --
 ALTER TABLE `tblcase_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=495;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcities`
@@ -5890,7 +6198,7 @@ ALTER TABLE `tblcountries`
 -- AUTO_INCREMENT for table `tblcreditnotes`
 --
 ALTER TABLE `tblcreditnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcreditnote_refunds`
@@ -5968,19 +6276,19 @@ ALTER TABLE `tblevents`
 -- AUTO_INCREMENT for table `tblexpenses`
 --
 ALTER TABLE `tblexpenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblexpenses_categories`
 --
 ALTER TABLE `tblexpenses_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblfiles`
 --
 ALTER TABLE `tblfiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblform_questions`
@@ -6016,19 +6324,19 @@ ALTER TABLE `tblgdpr_requests`
 -- AUTO_INCREMENT for table `tblinvoicepaymentrecords`
 --
 ALTER TABLE `tblinvoicepaymentrecords`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblinvoices`
 --
 ALTER TABLE `tblinvoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblitemable`
 --
 ALTER TABLE `tblitemable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblitems`
@@ -6112,13 +6420,13 @@ ALTER TABLE `tblmail_queue`
 -- AUTO_INCREMENT for table `tblmilestones`
 --
 ALTER TABLE `tblmilestones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmodules`
 --
 ALTER TABLE `tblmodules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblmy_award`
@@ -6142,7 +6450,7 @@ ALTER TABLE `tblmy_basic_services`
 -- AUTO_INCREMENT for table `tblmy_cases`
 --
 ALTER TABLE `tblmy_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmy_casestatus`
@@ -6154,7 +6462,13 @@ ALTER TABLE `tblmy_casestatus`
 -- AUTO_INCREMENT for table `tblmy_cases_judges`
 --
 ALTER TABLE `tblmy_cases_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tblmy_cases_movement_judges`
+--
+ALTER TABLE `tblmy_cases_movement_judges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblmy_categories`
@@ -6202,7 +6516,7 @@ ALTER TABLE `tblmy_judicialdept`
 -- AUTO_INCREMENT for table `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tblmy_members_services`
@@ -6235,6 +6549,24 @@ ALTER TABLE `tblmy_procurationtype`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tblmy_projects_contacts`
+--
+ALTER TABLE `tblmy_projects_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tblmy_projects_meta`
+--
+ALTER TABLE `tblmy_projects_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `tblmy_projects_statuses`
+--
+ALTER TABLE `tblmy_projects_statuses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tblmy_salary`
 --
 ALTER TABLE `tblmy_salary`
@@ -6244,7 +6576,7 @@ ALTER TABLE `tblmy_salary`
 -- AUTO_INCREMENT for table `tblmy_service_session`
 --
 ALTER TABLE `tblmy_service_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblmy_sessiondiscussioncomments`
@@ -6310,13 +6642,49 @@ ALTER TABLE `tblnotes`
 -- AUTO_INCREMENT for table `tblnotifications`
 --
 ALTER TABLE `tblnotifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=431;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussioncomments`
+--
+ALTER TABLE `tbloservicediscussioncomments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussions`
+--
+ALTER TABLE `tbloservicediscussions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_activity`
+--
+ALTER TABLE `tbloservice_activity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_files`
+--
+ALTER TABLE `tbloservice_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_notes`
+--
+ALTER TABLE `tbloservice_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_settings`
+--
+ALTER TABLE `tbloservice_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tblpayment_modes`
@@ -6328,13 +6696,31 @@ ALTER TABLE `tblpayment_modes`
 -- AUTO_INCREMENT for table `tblpinned_cases`
 --
 ALTER TABLE `tblpinned_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpinned_oservices`
+--
+ALTER TABLE `tblpinned_oservices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblpinned_projects`
 --
 ALTER TABLE `tblpinned_projects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprocurations`
+--
+ALTER TABLE `tblprocurations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `tblprocuration_cases`
+--
+ALTER TABLE `tblprocuration_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblprojectdiscussioncomments`
@@ -6352,25 +6738,25 @@ ALTER TABLE `tblprojectdiscussions`
 -- AUTO_INCREMENT for table `tblprojects`
 --
 ALTER TABLE `tblprojects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblproject_activity`
 --
 ALTER TABLE `tblproject_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tblproject_files`
 --
 ALTER TABLE `tblproject_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblproject_members`
 --
 ALTER TABLE `tblproject_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblproject_notes`
@@ -6382,13 +6768,13 @@ ALTER TABLE `tblproject_notes`
 -- AUTO_INCREMENT for table `tblproject_settings`
 --
 ALTER TABLE `tblproject_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `tblproposals`
 --
 ALTER TABLE `tblproposals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblproposal_comments`
@@ -6400,7 +6786,7 @@ ALTER TABLE `tblproposal_comments`
 -- AUTO_INCREMENT for table `tblrelated_items`
 --
 ALTER TABLE `tblrelated_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblreminders`
@@ -6418,7 +6804,7 @@ ALTER TABLE `tblroles`
 -- AUTO_INCREMENT for table `tblsales_activity`
 --
 ALTER TABLE `tblsales_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblservices`
@@ -6460,13 +6846,13 @@ ALTER TABLE `tbltags`
 -- AUTO_INCREMENT for table `tbltasks`
 --
 ALTER TABLE `tbltasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbltaskstimers`
 --
 ALTER TABLE `tbltaskstimers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbltasks_checklist_templates`
@@ -6478,7 +6864,7 @@ ALTER TABLE `tbltasks_checklist_templates`
 -- AUTO_INCREMENT for table `tbltask_assigned`
 --
 ALTER TABLE `tbltask_assigned`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbltask_checklist_items`

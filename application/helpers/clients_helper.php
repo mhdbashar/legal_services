@@ -185,9 +185,9 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-users',
         'view'     => 'admin/clients/groups/contacts',
         'position' => 7,
-        ]);
-    
-        $CI->app_tabs->add_customer_profile_tab('procurations', [
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('procurations', [
         'name'     => _l('procurations'),
         'icon'     => 'fa fa-briefcase',
         'view'     => 'admin/clients/groups/procurations',

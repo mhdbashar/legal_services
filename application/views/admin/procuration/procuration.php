@@ -1,41 +1,216 @@
+<?php
+
+  if(empty($id)){
+    $start_date = '';
+    $end_date = '';
+    $NO = '';
+    $come_from = '';
+    $client = '';
+    $status = '';
+    $type = '';
+  }else{
+    $start_date = $procuration->start_date;
+    $end_date = $procuration->end_date;
+    $NO = $procuration->NO;
+    $come_from = $procuration->come_from;
+    $client = $procuration->client;
+    $status = $procuration->status;
+    $type = $procuration->type;
+  }
+
+?>
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <div id="wrapper">
-	<div class="content">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel_s">
-					<div class="panel-body">
-					<h4 class="no-margin">
-					<?php echo $title; ?>
-					</h4>
-					<hr class="hr-panel-heading" />
-						<?php echo form_open($this->uri->uri_string()); ?>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel_s">
+          <div class="panel-body">
+          <h4 class="no-margin">
+          <?php echo $title; ?>
+          </h4>
+          <hr class="hr-panel-heading" />
+            <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'expense-form','class'=>'dropzone dropzone-manual')) ;?>
 
-						<?php $value = (isset($procuration) ? $procuration->procuration : ''); ?>
-						<!-- enable language edit -->
-                        <?php echo render_input('procuration',_l('procuration'),$value); ?> 
+            <!-- enable language edit -->
+            <div class="row">
+              <div class="col-md-6">
+                <?php echo render_date_input('start_date','Start Date', $start_date, ['required' => 'required']); ?>
+              </div>
+              <div class="col-md-6">
+                <?php echo render_date_input('end_date','End Date', $end_date, ['required' => 'required']); ?>
+              </div>
+            </div>
+            <?php echo render_input('NO','Procuration Number', $NO, 'text', ['required' => 'required']); ?>
+            <?php echo render_input('come_from','Come From', $come_from, 'text', ['required' => 'required']); ?>
+            
+            <div class="form-group select-placeholder">
+                            <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                            <select id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                               <?php $selected = ((isset($client)) ? $client : '');
+                               if($selected == ''){
+                                   $selected = (isset($customer_id) ? $customer_id: '');
+                               }
+                               if($selected != ''){
+                                  $rel_data = get_relation_data('customer',$selected);
+                                  $rel_val = get_relation_values($rel_data,'customer');
+                                  echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                              } ?>
+                          </select>
+                      </div>
+
+                         <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status" class="col-form-label">Status</label>
+                                <div class="row-fluid">
+                                <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                  <?php foreach ($states as $key => $value){ ?>
+
+                                    <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
+                                    
+                                  <?php } ?>
+                                </select>
+                                
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="type" class="col-form-label">Type</label>
+                                <div class="row-fluid">
+                                <select name="type" data-width="100%" id="type" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                  <?php foreach ($types as $key => $value){ ?>
+
+                                    <option <?php if($type == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationtype'] ?></option>
+                                    
+                                  <?php } ?>
+                                </select>
+                                
+                                </div>
+                            </div>
+                          </div>
+                  <div style="padding-right: 15px; padding-left: 15px">
+                    <div class="clearfix"></div>
+                    <label class="col-form-label">
+                      <?php echo _l('procuration_file') ?>
+                    </label>
+                  <?php if(isset($procuration) && $procuration->attachment !== ''){ ?>
+                    <div class="row">
+                     <div class="col-md-10">
+                        <i class="<?php echo get_mime_class($procuration->filetype); ?>"></i> <a href="<?php echo site_url('download/file/procuration/'.$procuration->id); ?>"><?php echo $procuration->attachment; ?></a>
+                     </div>
+                     <?php if($procuration->attachment_added_from == get_staff_user_id() || is_admin()){ ?>
+                     <div class="col-md-2 text-right">
+                        <a href="<?php echo admin_url('procuration/delete_procuration_attachment/'.$procuration->id); ?>" class="text-danger _delete"><i class="fa fa fa-times"></i></a>
+                     </div>
+                     <?php } ?>
+                  </div>
+                  <?php } ?>
+                  <?php if(!isset($procuration) || (isset($procuration) && $procuration->attachment == '')){ ?>
+                  <div id="dropzoneDragArea" class="dz-default dz-message">
+                     <span><?php echo _l('expense_add_edit_attach_receipt'); ?></span>
+                  </div>
+                  <div class="dropzone-previews"></div>
+                  <?php } ?>
+                  </div>
+                            
+                         </div>
+                  <hr class="hr-panel-heading" />
+                         
 
                         <!-- for testing -->
                         
-						<!-- <p class="bold"><?php echo _l('procuration_message'); ?></p> -->
-						<!-- <?php $contents = ''; if(isset($procuration)){$contents = $procuration->message;} ?> -->
-						<!-- <?php echo render_textarea('message','',$contents,array(),array(),'','tinymce'); ?> -->
+            <!-- <p class="bold"><?php echo _l('procuration_message'); ?></p> -->
+            <!-- <?php $contents = ''; if(isset($procuration)){$contents = $procuration->message;} ?> -->
+            <!-- <?php echo render_textarea('message','',$contents,array(),array(),'','tinymce'); ?> -->
 
-					
-						<button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
-						<?php echo form_close(); ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+          
+            <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+            <?php echo form_close(); ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <?php init_tail(); ?>
 <script>
-	$(function(){
-		_validate_form($('form'),{procuration:'required'});
-	});
+  $(function(){
+    _validate_form($('form'),{procuration:'required'});
+  });
+
+</script>
+<script>
+   var customer_currency = '';
+   Dropzone.options.expenseForm = false;
+   var expenseDropzone;
+   init_ajax_project_search_by_customer_id();
+   var selectCurrency = $('select[name="currency"]');
+   <?php if(isset($customer_currency)){ ?>
+     var customer_currency = '<?php echo $customer_currency; ?>';
+   <?php } ?>
+     $(function(){
+        $('body').on('change','#project_id', function(){
+          var project_id = $(this).val();
+          if(project_id != '') {
+           if (customer_currency != 0) {
+             selectCurrency.val(customer_currency);
+             selectCurrency.selectpicker('refresh');
+           } else {
+             set_base_currency();
+           }
+         } else {
+          do_billable_checkbox();
+        }
+      });
+
+     if($('#dropzoneDragArea').length > 0){
+        expenseDropzone = new Dropzone("#expense-form", appCreateDropzoneOptions({
+          autoProcessQueue: false,
+          clickable: '#dropzoneDragArea',
+          previewsContainer: '.dropzone-previews',
+          addRemoveLinks: true,
+          maxFiles: 1,
+          success:function(file,response){
+           response = JSON.parse(response);
+           if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+             window.location.assign(response.url);
+           }
+         },
+       }));
+     }
+
+     appValidateForm($('#expense-form'),{
+      end_date:'required',
+      start_date:'required',
+      client: 'required',
+    },expenseSubmitHandler);
+
+     
+     function expenseSubmitHandler(form){
+
+
+      $.post(form.action, $(form).serialize()).done(function(response) {
+        var response = admin_url + "procuration/all";
+        if(typeof(expenseDropzone) !== 'undefined'){
+          <?php if(empty($id)) $id = $last_id ?>;
+          if (expenseDropzone.getQueuedFiles().length > 0) {
+          expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
+              expenseDropzone.processQueue();
+          }else {
+            window.location.assign(response);
+          }
+        } else {
+          window.location.assign(response);
+        }
+    });
+      return false;
+    }
+  })
+    
 </script>
 </body>
 </html>

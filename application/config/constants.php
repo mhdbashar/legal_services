@@ -177,6 +177,12 @@ define('PROPOSAL_ATTACHMENTS_FOLDER', FCPATH . 'uploads/proposals' . '/');
  * Expenses receipts
  */
 define('EXPENSE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/expenses' . '/');
+///////////////////////
+// Ahmad Zaher Khrezaty
+/**
+ * Procurations receipts
+ */
+define('PROCURATION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/procurations' . '/');
 /**
  * Lead attachments
  */

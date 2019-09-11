@@ -9,14 +9,25 @@ class Procuration extends AdminController
         parent::__construct();
         $this->load->model('procurationstate_model');
         $this->load->model('procurationtype_model');
-        // $this->load->model('procuration_model');
+        $this->load->model('procurations_model');
+        $this->load->model('Staff_model');
     }
 
     /* List all Procuration */
     public function index()
     {
+        $this->db->select('max(id)');
+        $max = ($this->db->get('tblprocurations')->row_array())['max(id)'] + 1;
+        if($max != null){
+            return $max;
+        }else{
+            return 0;
+        }
+    }
+
+    public function all(){
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('procuration');
+            $this->app->get_table_data('my_procurations', ['client_id' => '']);
         }
         $data['title'] = _l('procuration');
         $this->load->view('admin/procuration/manage', $data);
@@ -49,30 +60,40 @@ class Procuration extends AdminController
         if (!is_admin()) {
             access_denied('Procuration');
         }
+        
+        $last_id = $this->index();
+        
+
         if ($this->input->post()) {
             $data            = $this->input->post();
             // $data['message'] = $this->input->post('message', false);
             if ($id == '') {
-                $id = $this->procuration_model->add($data);
+                $data['id'] = $last_id;
+                $id = $this->procurations_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', 'Procuration'));
-                    redirect(admin_url('procuration'));
+                    redirect(admin_url('procuration/all'));
                 }
             } else {
-                $success = $this->procurationstate_model->update($data, $id);
+                $success = $this->procurations_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'Procuration'));
                 }
-                redirect(admin_url('procuration'));
+                redirect(admin_url('procuration/all'));
             }
         }
         if ($id == '') {
+            $data['last_id'] = $last_id;
             $title = _l('add_new', 'Procuration');
         } else {
-            $data['procuration'] = $this->procuration_model->get($id);
+            $data['procuration'] = $this->procurations_model->get($id);
             $title                = _l('edit', 'Procuration');
         }
+        $data['states'] = $this->procurationstate_model->get();
+        $data['types'] = $this->procurationtype_model->get();
+        $data['id'] = $id;
         $data['title'] = $title;
+
         $this->load->view('admin/procuration/procuration', $data);
     }
 
@@ -177,5 +198,49 @@ class Procuration extends AdminController
           }
           redirect($_SERVER['HTTP_REFERER']);
       }
+
+      public function delete($id)
+      {
+          if (!$id) {
+              redirect(admin_url('procuration/type'));
+          }
+          if (!is_admin()) {
+              access_denied('Procuration Type');
+          }
+          $response = $this->procurations_model->delete($id);
+          if ($response == true) {
+              set_alert('success', _l('deleted', 'Procuration'));
+          } else {
+              set_alert('warning', _l('problem_deleting', 'Procuration'));
+          }
+          redirect($_SERVER['HTTP_REFERER']);
+      }
+
+      public function add_procuration_attachment($id)
+    {
+        handle_procuration_attachments($id);
+        echo json_encode([
+            'url' => admin_url('procuration/all'),
+        ]);
+    }
+
+    public function delete_procuration_attachment($id, $preview = '')
+    {
+        $this->db->where('rel_id', $id);
+        $this->db->where('rel_type', 'procuration');
+        $file = $this->db->get(db_prefix().'files')->row();
+
+        if ($file->staffid == get_staff_user_id() || is_admin()) {
+            $success = $this->procurations_model->delete_procuration_attachment($id);
+            if ($success) {
+                set_alert('success', _l('deleted', _l('procuration_receipt')));
+            } else {
+                set_alert('warning', _l('problem_deleting', _l('procuration_receipt_lowercase')));
+            }
+            redirect(admin_url('procuration/all'));
+        } else {
+            access_denied('expenses');
+        }
+    }
 
 }

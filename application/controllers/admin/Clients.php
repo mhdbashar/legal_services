@@ -623,6 +623,13 @@ class Clients extends AdminController
         ]);
     }
 
+    public function procurations($client_id)
+    {
+        $this->app->get_table_data('my_procurations', [
+            'client_id' => $client_id,
+        ]);
+    }
+
     public function upload_attachment($id)
     {
         handle_client_attachments_upload($id);

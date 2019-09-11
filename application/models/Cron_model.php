@@ -58,6 +58,7 @@ class Cron_model extends App_Model
             $this->staff_reminders();
             $this->events();
             $this->tasks_reminders();
+            $this->procurations_reminders();
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();
@@ -838,6 +839,65 @@ class Cron_model extends App_Model
 
                             $this->db->where('id', $task['id']);
                             $this->db->update(db_prefix() . 'tasks', [
+                                'deadline_notified' => 1,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
+    private function procurations_reminders()
+    {
+        $reminder_before = get_option('procurations_reminder_notification_before');
+
+        // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
+
+        $this->db->where('end_date IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+
+        $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+        foreach ($procurations as $procuration) {
+            if (date('Y-m-d', strtotime($procuration['end_date'])) >= date('Y-m-d')) {
+                $end_date = new DateTime($procuration['end_date']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the procuration it too short
+                $start_date              = strtotime($procuration['start_date']);
+                $end_date                 = strtotime($procuration['end_date']);
+                $start_and_end_date_diff = $end_date - $start_date;
+                $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
+
+                if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                    $this->db->where('admin', 1);
+                    $assignees = $this->staff_model->get();
+
+                    foreach ($assignees as $member) {
+                        $row = $this->db->get(db_prefix() . 'staff')->row();
+                        if ($row) {
+                            $notified = add_notification([
+                                'description'     => 'not_procuration_deadline_reminder',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => null,
+                                'link'            => 'procuration/procurationcu/' . $procuration['id'],
+                                
+                            ]);
+
+                            if ($notified) {
+                                array_push($notifiedUsers, $member['staffid']);
+                            }
+
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+
+
+                            $this->db->where('id', $procuration['id']);
+                            $this->db->update(db_prefix() . 'procurations', [
                                 'deadline_notified' => 1,
                             ]);
                         }

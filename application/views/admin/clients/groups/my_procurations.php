@@ -1,32 +1,24 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <h4 class="customer-profile-group-heading"><?php echo _l('procurations'); ?></h4>
-<div class="row">
-   <?php echo form_open($this->uri->uri_string(),array('class'=>'client-form','autocomplete'=>'off')); ?>
-   <div class="additional"></div>
-   <div class="col-md-12">
-      <div class="horizontal-scrollable-tabs">
-         <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
-         <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
-         <div class="horizontal-tabs">
-            <ul class="nav nav-tabs profile-tabs row customer-profile-tabs nav-tabs-horizontal" role="tablist">
-               <li role="presentation" class="<?php if(!$this->input->get('tab')){echo 'active';}; ?>">
-                  <a href="#procuration" aria-controls="procuration" role="tab" data-toggle="tab">
-                  <?php echo _l('procuration'); ?>
-                  </a>
-               </li>
-
-            </ul>
-         </div>
-      </div>
-      <div class="tab-content">
-         <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="procuration">
-            
-         </div>
+                  <div class="_buttons">
+                     <?php if(is_admin()) { ?>
+                     <a href="<?php echo admin_url('procuration/procurationcu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
+                     <div class="clearfix"></div>
+                     <hr class="hr-panel-heading" />
+                     <?php } else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?>
+                  </div>
+            <div class="clearfix"></div>
+                    <?php render_datatable(array(
+                     _l('NO'),
+                     _l('start_date'),
+                     _l('end_date'),
+                     _l('added_from'),
+                     _l('type'),
+                     _l('state'),
+                     _l('control'),
+                  ),'procurations-single-client'); ?>
     
-      </div>
-   </div>
    <?php echo form_close(); ?>
-</div>
 <?php if(isset($client)){ ?>
 <?php if (has_permission('customers', '', 'create') || has_permission('customers', '', 'edit')) { ?>
 <div class="modal fade" id="customer_admins_assign" tabindex="-1" role="dialog">

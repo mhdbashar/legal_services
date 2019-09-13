@@ -84,6 +84,8 @@ function to_AD_date($date)
 
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar();
+        $adj = new CalendarAdjustment();
+        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
         $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] + $adjust);
 //        var_dump($AD_date);exit();
 
@@ -103,13 +105,16 @@ function to_AD_date($date)
 function search_url($pages, $url)
 {
     $i = 0;
-    foreach ($pages as $page){
+    if(isset($pages)){
+        foreach ($pages as $page){
 //        var_dump(strpos($url, $page),$page,$url);
-        if($page != ''){
-        if(strpos($url, $page) !== false){
-            $i++;
-        }
+            if($page != ''){
+                if(strpos($url, $page) !== false){
+                    $i++;
+                }
+            }
     }
+
 //        $search = $page;
 //        if(preg_match("/'.$search.'/i", $url)) {
 //
@@ -171,6 +176,9 @@ function to_hijri_date($date)
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
+        $adj = new CalendarAdjustment();
+        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
+
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
 
          $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
@@ -202,7 +210,6 @@ hooks()->add_filter('available_date_formats', 'add_hijri_option');
 
 
 function set_my_options($data){
-//    var_dump($data);exit;
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
         $isHijrivar = "on";
     }else{
@@ -211,12 +218,19 @@ function set_my_options($data){
 
 
     if(isset($data['adjust_data'])){
+
         $adj_data = $data['adjust_data'];
-        if (get_option('adjust_data') != Null){
+//        if (get_option('adjust_data') != Null){
+        if (option_exists('adjust_data') != Null){
             update_option('adjust_data',$adj_data);
 
+//            var_dump('uuuuuuu');exit;
+
         }else{
+//            var_dump(add_option('adjust_data',$adj_data));exit;
             add_option('adjust_data',$adj_data);
+//            var_dump($data['adjust_data']);exit;
+
 //            var_dump(option_exists('isHijri'));exit();
         }
     }
@@ -228,6 +242,8 @@ function set_my_options($data){
             update_option('isHijri',$isHijrivar);
 
         }else{
+//            var_dump('dfxgd');exit;
+
             add_option('isHijri',$isHijrivar);
 //            var_dump(option_exists('isHijri'));exit();
         }
@@ -244,6 +260,8 @@ function set_my_options($data){
             unset($data['isHijriVal']);
         }
         unset($data['hijri_adjust']);
+        unset($data['adjust_data']);
+
         foreach ($data as $key => $value ){
 //            $value = str_replace('/','\/',$value);
             array_push($links_array,$value );

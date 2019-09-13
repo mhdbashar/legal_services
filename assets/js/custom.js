@@ -32,15 +32,27 @@ var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
 // this_page =this_page.replace('/','\\/');   // to solve backslash in database
-console.log(this_page);
+function isJson(data){
+    try {
+        JSON.parse(data);
+    }catch (e) {
+        return false;
+    }
+    return true;
+}
+
+console.log(isJson(hijriPages));
 function search_url(hijriPages, url){
     var i = 0;
-    $.each(JSON.parse(hijriPages), function (index, page) {
-        if(url.search(page) != -1){
-            i++
-        }
-        // console.log(page);
-    });
+    if(isJson(hijriPages)){
+        $.each(JSON.parse(hijriPages), function (index, page) {
+            if(url.search(page) != -1){
+                i++
+            }
+            // console.log(page);
+        });
+    }
+
     return i;
 }
 console.log(search_url(hijriPages,this_page),hijriPages,this_page);
@@ -332,8 +344,9 @@ if(search_url(hijriPages,this_page) != 0){
 
 var hijri_page = window.location.href;
 hijri_page = hijri_page.replace(admin_url,'');
+
 if(hijri_page == 'settings?group=Hijri'){
-    
+    console.log(hijri_page)
 // $(document).on('click', '.flip-button', function () {
 //
 // })

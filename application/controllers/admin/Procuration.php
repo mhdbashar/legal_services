@@ -11,6 +11,7 @@ class Procuration extends AdminController
         $this->load->model('procurationtype_model');
         $this->load->model('procurations_model');
         $this->load->model('Staff_model');
+        $this->load->model('LegalServices/Cases_model', 'case');
     }
 
     /* List all Procuration */
@@ -55,7 +56,7 @@ class Procuration extends AdminController
     }
 
     /* Edit Procuration or add new if passed id */
-    public function procurationcu($id = '')
+    public function procurationcu($id = '', $request = '')
     {
         if (!is_admin()) {
             access_denied('Procuration');
@@ -89,8 +90,10 @@ class Procuration extends AdminController
             $data['procuration'] = $this->procurations_model->get($id);
             $title                = _l('edit', 'Procuration');
         }
+        $data['request'] = $request;
         $data['states'] = $this->procurationstate_model->get();
         $data['types'] = $this->procurationtype_model->get();
+        $data['cases'] = $this->case->get();
         $data['id'] = $id;
         $data['title'] = $title;
 

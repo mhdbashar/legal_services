@@ -8,6 +8,7 @@
     $client = '';
     $status = '';
     $type = '';
+    $case = '';
   }else{
     $start_date = $procuration->start_date;
     $end_date = $procuration->end_date;
@@ -16,6 +17,7 @@
     $client = $procuration->client;
     $status = $procuration->status;
     $type = $procuration->type;
+    $case = $procuration->case_id;
   }
 
 ?>
@@ -36,18 +38,18 @@
             <!-- enable language edit -->
             <div class="row">
               <div class="col-md-6">
-                <?php echo render_date_input('start_date','Start Date', $start_date, ['required' => 'required']); ?>
+                <?php echo render_date_input('start_date', _l('start_date'), $start_date, ['required' => 'required']); ?>
               </div>
               <div class="col-md-6">
-                <?php echo render_date_input('end_date','End Date', $end_date, ['required' => 'required']); ?>
+                <?php echo render_date_input('end_date', _l('end_date'), $end_date, ['required' => 'required']); ?>
               </div>
             </div>
-            <?php echo render_input('NO','Procuration Number', $NO, 'text', ['required' => 'required']); ?>
-            <?php echo render_input('come_from','Come From', $come_from, 'text', ['required' => 'required']); ?>
+            <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
+            <?php echo render_input('come_from', _l('come_from'), $come_from, 'text', ['required' => 'required']); ?>
             
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select <?php if($request == "client") echo 'disabled' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                <?php $selected = ((isset($client)) ? $client : '');
                                if($selected == ''){
                                    $selected = (isset($customer_id) ? $customer_id: '');
@@ -63,9 +65,10 @@
                          <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                                <label for="status" class="col-form-label">Status</label>
+                                <label for="status" class="col-form-label"><?php echo _l('status') ?>:</label>
                                 <div class="row-fluid">
                                 <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                  <option value=""><?php echo _l('not_selected') ?></option>
                                   <?php foreach ($states as $key => $value){ ?>
 
                                     <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
@@ -79,9 +82,10 @@
 
                           <div class="col-md-6">
                             <div class="form-group">
-                                <label for="type" class="col-form-label">Type</label>
+                                <label for="type" class="col-form-label"><?php echo _l('type') ?>:</label>
                                 <div class="row-fluid">
                                 <select name="type" data-width="100%" id="type" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                  <option value=""><?php echo _l('not_selected') ?></option>
                                   <?php foreach ($types as $key => $value){ ?>
 
                                     <option <?php if($type == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationtype'] ?></option>
@@ -92,7 +96,22 @@
                                 </div>
                             </div>
                           </div>
-                  <div style="padding-right: 15px; padding-left: 15px">
+                        </div>
+                            <div class="form-group">
+                                <label for="type" class="col-form-label"><?php echo _l('cases') ?>:</label>
+                                <div class="row-fluid">
+                                <select name="case_id" data-width="100%" id="type" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                                  <option value=""><?php echo _l('not_selected') ?></option>
+                                  <?php foreach ($cases as $key => $value){ ?>
+
+                                    <option <?php if($case == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                    
+                                  <?php } ?>
+                                </select>
+                                
+                                </div>
+                            </div>
+                  <div>
                     <div class="clearfix"></div>
                     <label class="col-form-label">
                       <?php echo _l('procuration_file') ?>
@@ -117,7 +136,7 @@
                   <?php } ?>
                   </div>
                             
-                         </div>
+                         
                   <hr class="hr-panel-heading" />
                          
 

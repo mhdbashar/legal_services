@@ -26,22 +26,22 @@
                             ?>
 
                             <?php $value = (isset($branch) ? $branch->title_en : ''); ?>
-                            <?php echo render_input('title_en','branch_title_en',$value); ?>
+                            <?php echo render_input('title_en', _l('branch_title_en'),$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
-                        <?php echo render_input('title_ar','branch_title_ar',$value); ?>
+                        <?php echo render_input('title_ar', _l('branch_title_ar'),$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
-                        <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],'branch_country_id',$value); ?>
+                        <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],_l('branch_country_id'),$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->city_id : ''); ?>
-                        <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'],'branch_city_id',$value); ?>
+                        <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'], _l('branch_city_id'),$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->address : ''); ?>
-                        <?php echo render_input('address','branch_address',$value); ?>
+                        <?php echo render_input('address',_l('branch_address'),$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->phone : ''); ?>
-                        <?php echo render_input('phone','branch_phone',$value); ?>
+                        <?php echo render_input('phone',_l('branch_phone'),$value); ?>
 
 
                             <div class="clearfix"></div>

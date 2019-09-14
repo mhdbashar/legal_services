@@ -16,7 +16,7 @@
                             array(
                                 _l('id'),
                                 _l('property_title'),
-                                _l('Country'),
+                                _l('country'),
                                 _l('Phone'),
                             ),'custom-fields'); ?>
                     </div>

@@ -151,7 +151,7 @@
                   <?php if($this->app_modules->is_active('branches')){?>
                         <br/>
                        <?php $value = (isset($branch) ? $branch : ''); ?>
-                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],_l('branch_name'),$value); ?>
                    <?php } ?>
                </div>
             </div>

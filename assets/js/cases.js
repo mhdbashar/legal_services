@@ -220,6 +220,8 @@ $(function() {
     slug_case_discussions = $(".table-case-discussions").attr('data-new-rel-slug');
     initDataTable('.table-case-discussions', admin_url + 'LegalServices/Cases_controller/discussions/' + project_id + '/' + slug_case_discussions, undefined, undefined, 'undefined', [1, 'desc']);
 
+    initDataTable('.table-case-procuration', admin_url + 'LegalServices/Cases_controller/procurations/' + project_id, undefined, undefined, 'undefined', [1, 'desc']);
+
 
     appValidateForm($('#milestone_form'), {
         name: 'required',

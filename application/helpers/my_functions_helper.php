@@ -67,7 +67,7 @@ function my_custom_setup_menu_items()
     $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("procuration"), // The name if the item
-        'href'     => admin_url('procuration'), // URL of the item
+        'href'     => admin_url('procuration/all'), // URL of the item
         'position' => 1, // The menu position
         // 'icon'     => 'fa fa-exclamation', // Font awesome icon
     ]);

@@ -13,6 +13,7 @@ class Cases_controller extends AdminController
         $this->load->model('currencies_model');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
         $this->load->model('LegalServices/Case_session_model', 'case_session');
+        $this->load->model('Branches_model');
         $this->load->helper('date');
     }
 
@@ -29,11 +30,36 @@ class Cases_controller extends AdminController
         if ($this->input->post()) {
             $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
+
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+                unset($data['branch_id']);
+            }
+
             $added = $this->case->add($ServID,$data);
             if ($added) {
+
+                if($this->app_modules->is_active('branches')){
+                    $branch_data = [
+                        'branch_id' => $branch_id, 
+                        'rel_type' => 'cases', 
+                        'rel_id' => $added
+                    ];
+                    $this->Branches_model->set_branch($branch_data);
+                }
+
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url("Service/$ServID"));
             }
+        }
+
+        if($this->app_modules->is_active('branches')){
+            
+        }
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
         }
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['Numbering'] = $this->case->GetTopNumbering();
@@ -64,6 +90,13 @@ class Cases_controller extends AdminController
             redirect(admin_url("Service/$ServID"));
         }
         if ($this->input->post()) {
+
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+                $this->Branches_model->update_branch('cases', $id, $branch_id);
+                unset($data['branch_id']);
+            }
+
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
             //echo "<pre>";print_r($data['judges']);exit;
@@ -94,6 +127,12 @@ class Cases_controller extends AdminController
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
         $data['title']    = _l('edit').' '._l('LegalService');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('cases', $id);
+        }
         $this->load->view('admin/LegalServices/cases/EditCase',$data);
     }
 
@@ -131,6 +170,14 @@ class Cases_controller extends AdminController
     {
         $this->app->get_table_data('cases', [
             'clientid' => $clientid,
+        ]);
+    }
+
+    public function procurations($case_id)
+    {
+        $this->app->get_table_data('my_procurations', [
+            'case_id' => $case_id,
+            'request' => 'case'
         ]);
     }
 

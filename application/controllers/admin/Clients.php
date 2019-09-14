@@ -627,6 +627,7 @@ class Clients extends AdminController
     {
         $this->app->get_table_data('my_procurations', [
             'client_id' => $client_id,
+            'request' => 'client'
         ]);
     }
 

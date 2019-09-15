@@ -117,6 +117,7 @@ class Calendar
     public function __construct($settings = array())
     {
         global $hijri_settings;
+        $hijri_settings['adj_data'] = get_option('adjust_data');
         $this->adj_data = array();
         if (!empty($hijri_settings)) {
             $settings = array_replace($hijri_settings, $settings);

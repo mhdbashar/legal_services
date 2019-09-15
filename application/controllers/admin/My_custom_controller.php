@@ -14,7 +14,7 @@ class My_custom_controller extends AdminController
     function get_date_options(){
 //        $json['lang'] ="ar";
         $json['lang'] = $this->app->get_option('active_language');
-//        $json['lang'] ="ar";
+        $json['lang'] ="ar";
         if($this->app->get_option('hijri_pages') != null){
             $json['hijri_pages'] =  $this->app->get_option('hijri_pages');
         }else{
@@ -56,9 +56,12 @@ class My_custom_controller extends AdminController
         $final_res = array();
 
         foreach ($adj->get_current_adjs() as $v) {
-            $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " 
+            $result = "<div id='delete_div'> " .$v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " 
+            
             <input type='button' id='delete_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'> 
-            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>";
+            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>
+            </div>";
+
 //            $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=del&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>حذف</a>] [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=edit&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>تعديل</a>]<br/>";
 //            $final_res.push($result);
             array_push($final_res,$result);
@@ -69,11 +72,18 @@ class My_custom_controller extends AdminController
         $res['new'] = $final_res;
 //        var_dump(json_encode($res));exit();
 //        return json_encode($res);
-        echo json_encode($res);;
+        echo json_encode($res);
     }
 
     function  delete_hijri_adjust(){
-        var_dump($_GET);exit;
+//        var_dump($_GET);exit;
+        $adj = new CalendarAdjustment();
+        $adj->del_adj($_GET['del_month'], $_GET['del_year']);
+
+        $res['adjdata']= $adj->get_adjdata(TRUE);
+//        var_dump(json_encode($res));exit();
+//        return json_encode($res);
+        echo json_encode($res);
     }
 
     function  update_hijri_adjust(){
@@ -87,6 +97,7 @@ class My_custom_controller extends AdminController
 
         $hm = $_GET['add_month'];
                 $hy = $_GET['add_year'];
+                echo '<div id="adjust_div">';
                 echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
                 echo '<select  id="target_adjust">';
                 $starts = $adj->get_possible_starts($hm, $hy);
@@ -99,6 +110,7 @@ class My_custom_controller extends AdminController
                 }
                 echo '</select><input type="button" id="add_adjust_action" value="إرسال" />';
                 echo '<input type="button" id="cancel_btn" value="إالغاء">';
+                echo '</div>';
 //        var_dump($_GET);exit();
     }
 

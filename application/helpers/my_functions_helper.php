@@ -81,12 +81,17 @@ function to_AD_date($date)
     }
 //    $date_mode = 'hijri'; //get_option('date_format');
     if ( ($date_mode == 'hijri') && $hijri_convert && $hijriStatus =="on") {
+        $hijri_settings['adj_data'] = get_option('adjust_data');
+//                var_dump($hijri_settings['adj_data'].'fghf');exit();
 
         $current_date = date_parse($date);
-        $hijriCalendar = new Calendar();
+        $hijriCalendar = new Calendar($hijri_settings);
+//        Calendar:$hijri_settings = $hijri_settings['adj_data'];
+//        $hijriCalendar-> ='gddfg';
         $adj = new CalendarAdjustment();
-        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
-        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] + $adjust);
+        //$adj->get_adjdata(TRUE);
+//        var_dump($hijri_settings['adj_data']);exit();
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
 //        var_dump($AD_date);exit();
 
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];

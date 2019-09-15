@@ -26,15 +26,15 @@ class My_custom_controller extends AdminController
             $json['isHijri'] = "off";
         }
 
-        $date_option = get_option('hijri_format');
+        $date_option = get_option('isHijri');
         $parts = explode('|', $date_option);
-        if(isset($parts[2])){
-            $json['mode'] = $parts[2]; //$this->app->get_option('date_format');
+        if($date_option == "on"){
+            $json['mode'] = "hijri"; //$this->app->get_option('date_format');
         }else{
-            $json['mode'] = $parts[0]; //$this->app->get_option('date_format');
+            $json['mode'] = ""; //$this->app->get_option('date_format');
         }
-        
-            $json['adjust'] = $date_option; //$this->app->get_option('date_format');
+//
+//            $json['adjust'] = $date_option; //$this->app->get_option('date_format');
 
 //        var_dump($json['hijri_pages']);exit;
 

@@ -13,32 +13,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </label>
 </div>
 <hr />
-<div class="form-group" id="adjust_div">
-    <div class="form-group">
-        <label  class="control-label clearfix" style="margin-bottom: 2%">
-            Hijri adjustment
-        </label>
-        <div class="radio radio-primary radio-inline" style="margin-right: 2%">
-            <input type="radio" id="zero" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri" checked>
-            <label for="zero">
-                0
-            </label>
-        </div>
-        <div class="radio radio-primary radio-inline" style="margin-right: 2%">
-            <input type="radio" id="one" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri|+1" >
-            <label for="one">
-                +1
-            </label>
-        </div>
-        <div class="radio radio-primary radio-inline" style="margin-right: 2%">
-            <input type="radio" id="minus" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri|-1" >
-            <label for="minus">
-                -1
-            </label>
-        </div>
-    </div>
-</div>
-<hr />
+<!--<div class="form-group" id="adjust_div">-->
+<!--    <div class="form-group">-->
+<!--        <label  class="control-label clearfix" style="margin-bottom: 2%">-->
+<!--            Hijri adjustment-->
+<!--        </label>-->
+<!--        <div class="radio radio-primary radio-inline" style="margin-right: 2%">-->
+<!--            <input type="radio" id="zero" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri" checked>-->
+<!--            <label for="zero">-->
+<!--                0-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="radio radio-primary radio-inline" style="margin-right: 2%">-->
+<!--            <input type="radio" id="one" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri|+1" >-->
+<!--            <label for="one">-->
+<!--                +1-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="radio radio-primary radio-inline" style="margin-right: 2%">-->
+<!--            <input type="radio" id="minus" name="hijri_adjust" value="Y-m-d|%Y-%m-%d|hijri|-1" >-->
+<!--            <label for="minus">-->
+<!--                -1-->
+<!--            </label>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<hr />-->
 <div class="form-group" id="tbl_div">
     <label  class="control-label clearfix">
         Hijri Pages
@@ -77,7 +77,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 </div>
 
-<div id="ummAlqura">
+<div id="adjust_div">
 
     <div id="adjust_list" style="margin-top: 100px">
         <?php

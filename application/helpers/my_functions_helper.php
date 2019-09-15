@@ -41,8 +41,8 @@ function to_AD_date($date)
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
 
-    $date_option = get_option('hijri_format');
-    $parts = explode('|', $date_option);
+//    $date_option = get_option('hijri_format');
+//    $parts = explode('|', $date_option);
 
     /** to check if this hijri status is on from database **/
     $hijriStatus= get_option('isHijri');
@@ -67,20 +67,20 @@ function to_AD_date($date)
 //    }
     /*******************************************************************/
 
-    if(isset($parts[2])){
-        $date_mode = $parts[2]; //$this->app->get_option('date_format');
-        if(isset($parts[3])){
-            $adjust = intval($parts[3]);
-        }else{
-            $adjust = 0;
-        }
-
-
-    }else{
-        $date_mode = $parts[0]; //$this->app->get_option('date_format');
-    }
+//    if(isset($parts[2])){
+//        $date_mode = $parts[2]; //$this->app->get_option('date_format');
+//        if(isset($parts[3])){
+//            $adjust = intval($parts[3]);
+//        }else{
+//            $adjust = 0;
+//        }
+//
+//
+//    }else{
+//        $date_mode = $parts[0]; //$this->app->get_option('date_format');
+//    }
 //    $date_mode = 'hijri'; //get_option('date_format');
-    if ( ($date_mode == 'hijri') && $hijri_convert && $hijriStatus =="on") {
+    if (  $hijri_convert && $hijriStatus =="on") {
         $hijri_settings['adj_data'] = get_option('adjust_data');
 //                var_dump($hijri_settings['adj_data'].'fghf');exit();
 
@@ -142,8 +142,8 @@ function to_hijri_date($date)
 //        var_dump($dateArray);exit;
     }
 
-    $date_option = get_option('hijri_format');
-    $opt = explode('|', $date_option);
+//    $date_option = get_option('hijri_format');
+//    $opt = explode('|', $date_option);
 
 
     /** to check if this hijri status is on from database **/
@@ -175,7 +175,7 @@ function to_hijri_date($date)
 /*******************************************************************/
 
 //    var_dump(isset($opt[2]), $opt[2]=='hijri', $hijri_convert, $hijriStatus);exit();
-    if(isset($opt[2]) && $opt[2]=='hijri' && $hijri_convert && $hijriStatus =="on"){
+    if($hijri_convert && $hijriStatus =="on"){
 //    var_dump($hijri_convert);exit();
 
         $datetime = explode(' ', $date);
@@ -226,22 +226,22 @@ function set_my_options($data){
 
         $adj_data = $data['adjust_data'];
 //        if (get_option('adjust_data') != Null){
-        if (option_exists('adjust_data') != Null){
-            update_option('adjust_data',$adj_data);
+        if($adj_data !=""){
+            if (option_exists('adjust_data') != Null){
+                update_option('adjust_data',$adj_data);
 
 //            var_dump('uuuuuuu');exit;
 
-        }else{
+            }else{
 //            var_dump(add_option('adjust_data',$adj_data));exit;
-            add_option('adjust_data',$adj_data);
+                add_option('adjust_data',$adj_data);
 //            var_dump($data['adjust_data']);exit;
 
 //            var_dump(option_exists('isHijri'));exit();
+            }
         }
-    }
 
 
-    if(isset($data['hijri_adjust'])){
 
         if (get_option('isHijri') != Null){
             update_option('isHijri',$isHijrivar);
@@ -253,18 +253,18 @@ function set_my_options($data){
 //            var_dump(option_exists('isHijri'));exit();
         }
 
-        if (get_option('hijri_format') != Null){
-            update_option('hijri_format',$data['hijri_adjust']);
-        }else{
-            add_option('hijri_format',$data['hijri_adjust']);
-        }
+//        if (get_option('hijri_format') != Null){
+//            update_option('hijri_format',$data['hijri_adjust']);
+//        }else{
+//            add_option('hijri_format',$data['hijri_adjust']);
+//        }
 
 
         $links_array = [];
         if(isset($data['isHijriVal'])){
             unset($data['isHijriVal']);
         }
-        unset($data['hijri_adjust']);
+//        unset($data['hijri_adjust']);
         unset($data['adjust_data']);
 
         foreach ($data as $key => $value ){

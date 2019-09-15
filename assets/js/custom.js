@@ -21,8 +21,9 @@ $.ajax({
         dateType = JSON.parse(data).mode;
         // comment = JSON.parse(comment);
         hijriPages = JSON.parse(data).hijri_pages;
-        adjust = JSON.parse(data).adjust;
+        // adjust = JSON.parse(data).adjust;
         // success(comment)
+        console.log(dateType)
     },
 
 });
@@ -371,15 +372,15 @@ if(hijri_page == 'settings?group=Hijri'){
         if(isHijriVal == "on"){
             // $("#hijri_check").attr('checked') = "checked";
             document.getElementById('hijri_check').checked =true;
-            console.log($("input[name=hijri_adjust]"));
-
-            var radios = $("input[name=hijri_adjust]");
-            $.each(radios,function(v,radio){
-
-                if(radio.value == adjust){
-                    radio.checked = true
-                }
-            })
+            // console.log($("input[name=hijri_adjust]"));
+            //
+            // var radios = $("input[name=hijri_adjust]");
+            // $.each(radios,function(v,radio){
+            //
+            //     if(radio.value == adjust){
+            //         radio.checked = true
+            //     }
+            // })
             //
             // console.log($("input[name=hijri_adjust][value="+1+"]"));
 

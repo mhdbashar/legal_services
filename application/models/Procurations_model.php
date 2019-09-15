@@ -21,6 +21,7 @@ class Procurations_model extends App_Model
                 $procuration->attachment            = '';
                 $procuration->filetype              = '';
                 $procuration->attachment_added_from = 0;
+                $procuration->cases = $this->get_procurations_cases($id);
 
                 $this->db->where('rel_id', $id);
                 $this->db->where('rel_type', 'procuration');
@@ -93,6 +94,14 @@ class Procurations_model extends App_Model
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
         }
+        if(isset($data['cases']))
+        {
+            $pcases=$data['cases'];
+            unset($data['cases']);
+        }
+
+        
+            
         $data['addedfrom'] = get_staff_user_id();
         $this->db->insert('tblprocurations', $data);
         $insert_id = $this->db->insert_id();
@@ -101,6 +110,22 @@ class Procurations_model extends App_Model
 
             if (isset($custom_fields)) {
                 handle_custom_fields_post($insert_id, $custom_fields);
+            }
+            if (isset($pcases)) {
+                foreach ($pcases as $pid) {
+                    if (empty($pid)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'procuration_cases', [
+                        'procuration' => $insert_id,
+                        '_case'   => $pid,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+
+                        $affectedRows++;
+                    }
+                }
+
             }
 
             return $insert_id;

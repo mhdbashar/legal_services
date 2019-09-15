@@ -2,7 +2,7 @@
 <h4 class="customer-profile-group-heading"><?php echo _l('procurations'); ?></h4>
                   <div class="_buttons">
                      <?php if(is_admin()) { ?>
-                     <a href="<?php echo admin_url('procuration/procurationcu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
+                     <a href="<?php echo admin_url('procuration/procurationcu/'.$id); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
                      <div class="clearfix"></div>
                      <hr class="hr-panel-heading" />
                      <?php } else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?>
@@ -12,9 +12,10 @@
                      _l('NO'),
                      _l('start_date'),
                      _l('end_date'),
+                     _l('case_id'),
                      _l('added_from'),
-                     _l('type'),
                      _l('state'),
+                     _l('type'),
                      _l('control'),
                   ),'procurations-single-client'); ?>
     

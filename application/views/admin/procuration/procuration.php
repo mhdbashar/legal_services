@@ -7,9 +7,11 @@
     $come_from = '';
     $client = '';
     $status = '';
+    $selected_cases = '';
     $type = '';
     $case = '';
   }else{
+    $selected_cases = $procuration->cases;
     $start_date = $procuration->start_date;
     $end_date = $procuration->end_date;
     $NO = $procuration->NO;
@@ -49,8 +51,8 @@
             
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select <?php if($request == "client") echo 'disabled' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                               <?php $selected = ((isset($client)) ? $client : '');
+                            <select <?php if(is_numeric($request)) echo 'disabled'; else $request = '' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                               <?php $selected = ((!empty($client)) ? $client : $request);
                                if($selected == ''){
                                    $selected = (isset($customer_id) ? $customer_id: '');
                                }
@@ -68,7 +70,6 @@
                                 <label for="status" class="col-form-label"><?php echo _l('status') ?>:</label>
                                 <div class="row-fluid">
                                 <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
-                                  <option value=""><?php echo _l('not_selected') ?></option>
                                   <?php foreach ($states as $key => $value){ ?>
 
                                     <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
@@ -97,20 +98,15 @@
                             </div>
                           </div>
                         </div>
-                            <div class="form-group">
-                                <label for="type" class="col-form-label"><?php echo _l('cases') ?>:</label>
-                                <div class="row-fluid">
-                                <select name="case_id" data-width="100%" id="type" class="selectpicker" data-show-subtext="true" data-live-search="true">
-                                  <option value=""><?php echo _l('not_selected') ?></option>
-                                  <?php foreach ($cases as $key => $value){ ?>
-
-                                    <option <?php if($case == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
-                                    
-                                  <?php } ?>
-                                </select>
-                                
-                                </div>
-                            </div>
+                            <?php
+                                $selected = array();
+                                if($selected_cases != ''){
+                                    foreach($selected_cases as $row){
+                                        array_push($selected,$row['id']);
+                                    }
+                                }
+                                echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                            ?>
                   <div>
                     <div class="clearfix"></div>
                     <label class="col-form-label">

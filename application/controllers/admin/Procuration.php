@@ -25,6 +25,14 @@ class Procuration extends AdminController
             return 0;
         }
     }
+    public function test(){
+        $id = $this->procurations_model->get_procurations_cases(4);
+        $string = '';
+        foreach($id as $case){
+            $string .= $this->case->get($case['id'])->name;
+        }
+        echo $string;
+    }
 
     public function all(){
         if ($this->input->is_ajax_request()) {
@@ -56,7 +64,7 @@ class Procuration extends AdminController
     }
 
     /* Edit Procuration or add new if passed id */
-    public function procurationcu($id = '', $request = '')
+    public function procurationcu($request = '', $id = '')
     {
         if (!is_admin()) {
             access_denied('Procuration');

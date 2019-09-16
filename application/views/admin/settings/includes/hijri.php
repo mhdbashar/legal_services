@@ -89,11 +89,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
         $msg='';
         echo '<h2>التعديلات الحالية على تقويم أم القرى</h2>';
 
-        echo DateHijri::createFromHijri(1436, 11, 0)->format('_d _M _Y=d M Y') . '<br/>';
-        echo DateHijri::createFromHijri(1436, 12, 0)->format('_d _M _Y=d M Y') . '<br/>';
-        echo DateHijri::createFromHijri(1437, 1, 0)->format('_d _M _Y=d M Y') . '<br/>';
-        echo DateHijri::createFromHijri(1437, 2, 0)->format('_d _M _Y=d M Y') . '<br/>';
-        echo DateHijri::createFromHijri(1437, 3, 0)->format('_d _M _Y=d M Y') . '<br/>';
+        $history = get_option('adjust_data');
+        $history = json_decode($history);
+        $myret = array();
+        foreach ($history as $k => $v) {
+            list($hm, $hy) = $adj->off2month($k);
+            $myret[] = array('month' => $hm, 'year' => $hy, 'current' => $adj->myjd2gre($v), 'default' => $adj->myjd2gre($adj->umdata_clear[$k]));
+//            var_dump($myret);exit();
+
+        }
+        foreach ($myret as $v){
+            echo "<div id='delete_his_div'>";
+            echo $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] ;
+            echo "<input type='button' id='delete_his_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'>";
+            echo '</div>';
+        }
+
+
+
+
+//        echo DateHijri::createFromHijri(1436, 11, 0)->format('_d _M _Y=d M Y') . '<br/>';
+//        echo DateHijri::createFromHijri(1436, 12, 0)->format('_d _M _Y=d M Y') . '<br/>';
+//        echo DateHijri::createFromHijri(1437, 1, 0)->format('_d _M _Y=d M Y') . '<br/>';
+//        echo DateHijri::createFromHijri(1437, 2, 0)->format('_d _M _Y=d M Y') . '<br/>';
+//        echo DateHijri::createFromHijri(1437, 3, 0)->format('_d _M _Y=d M Y') . '<br/>';
         ?>
     </div>
     <div id="new_adjustement">

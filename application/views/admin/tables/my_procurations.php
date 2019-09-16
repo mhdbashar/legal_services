@@ -49,6 +49,8 @@ foreach ($rResult as $aRow) {
         if(!in_array($case_id, $ca)){
             continue;
         }
+    }else{
+        $case_id = '';
     }
     $show_case = '';
     foreach($cases as $case){
@@ -80,9 +82,9 @@ foreach ($rResult as $aRow) {
     }
     $row[] = $procuration_state;
 
-    $request = (!empty($request)) ? $client_id : 'no_request' ;
-    $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] , 'pencil-square-o', 'btn-default');
-    $options .= icon_btn('procuration/procurationcu/' . $aRow['id'], 'home', 'btn-default');
+    $request = (is_numeric($client_id)) ? $client_id : $request ;
+    $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $case_id , 'pencil-square-o', 'btn-default');
+    $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $case_id , 'home', 'btn-default');
     $row[]   = $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     
 

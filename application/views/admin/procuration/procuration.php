@@ -23,6 +23,7 @@
   }
 
 ?>
+
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <div id="wrapper">
@@ -209,7 +210,7 @@
 
 
       $.post(form.action, $(form).serialize()).done(function(response) {
-        var response = admin_url + "procuration/all";
+        var response = <?php echo $_SERVER['PHP_REFERER'] ?>;
         if(typeof(expenseDropzone) !== 'undefined'){
           <?php if(empty($id)) $id = $last_id ?>;
           if (expenseDropzone.getQueuedFiles().length > 0) {

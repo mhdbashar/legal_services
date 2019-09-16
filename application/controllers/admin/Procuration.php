@@ -25,18 +25,13 @@ class Procuration extends AdminController
             return 0;
         }
     }
-    public function test(){
-        $id = $this->procurations_model->get_procurations_cases(4);
-        $string = '';
-        foreach($id as $case){
-            $string .= $this->case->get($case['id'])->name;
-        }
-        echo $string;
-    }
 
     public function all(){
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_procurations', ['client_id' => '']);
+            $this->app->get_table_data('my_procurations', [
+                'client_id' => '', 
+                'request' => 'no_request'
+            ]);
         }
         $data['title'] = _l('procuration');
         $this->load->view('admin/procuration/manage', $data);
@@ -64,7 +59,7 @@ class Procuration extends AdminController
     }
 
     /* Edit Procuration or add new if passed id */
-    public function procurationcu($request = '', $id = '')
+    public function procurationcu($request = '', $id = '', $case = '')
     {
         if (!is_admin()) {
             access_denied('Procuration');
@@ -76,19 +71,28 @@ class Procuration extends AdminController
         if ($this->input->post()) {
             $data            = $this->input->post();
             // $data['message'] = $this->input->post('message', false);
+            if(is_numeric($request)){
+                // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
+                $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
+            }elseif(is_numeric($case)){
+                // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
+                $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
+            }else{
+                $redirect = admin_url('procuration/all');
+            }
             if ($id == '') {
                 $data['id'] = $last_id;
                 $id = $this->procurations_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', 'Procuration'));
-                    redirect(admin_url('procuration/all'));
+                    redirect($redirect);
                 }
             } else {
                 $success = $this->procurations_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'Procuration'));
                 }
-                redirect(admin_url('procuration/all'));
+                redirect($redirect);
             }
         }
         if ($id == '') {

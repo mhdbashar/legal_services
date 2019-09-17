@@ -541,8 +541,8 @@ if(hijri_page == 'settings?group=Hijri'){
 
     $(document).on('click',"#cancel_btn", function () {
 
-        console.log($(this).parent());
-        $(this).parent().hide();
+        // console.log($(this).parent());
+        $('#form_div').hide();
     });
 
     $(document).on('click',"#delete_btn", function () {
@@ -568,8 +568,8 @@ if(hijri_page == 'settings?group=Hijri'){
             },
 
         });
-        console.log($(this).parent());
-        $(this).parent().hide();
+        // console.log($(this).parent());
+        $('#delete_div').hide();
     });
 
     $(document).on('click',"#delete_his_btn", function () {
@@ -596,8 +596,10 @@ if(hijri_page == 'settings?group=Hijri'){
 
         });
         console.log($(this).parent());
-        $(this).parent().hide();
+        // $(this).parent().hide();
+        $('#delete_his_div').hide();
     });
+
 
     $(document).on('click',"#update_btn", function () {
         // console.log($(this).data('month'))

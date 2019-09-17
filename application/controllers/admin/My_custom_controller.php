@@ -4,9 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class My_custom_controller extends AdminController
 {
+    public $lang;
+
     public function __construct()
     {
         parent::__construct();
+        $CI       = & get_instance();
+        $language = get_option('active_language');
+
+        $this->lang = $CI->lang->load($language . '_lang', $language);
 
     }
 
@@ -44,6 +50,7 @@ class My_custom_controller extends AdminController
 
     }
     function set_hijri_adjust(){
+        $lang = $this->lang;
         $adj = new CalendarAdjustment();
 //        var_dump($_GET);exit();
         $month = $_GET['add_month'];
@@ -56,12 +63,26 @@ class My_custom_controller extends AdminController
         $final_res = array();
 
         foreach ($adj->get_current_adjs() as $v) {
-            $result = "<div id='delete_div'> " .$v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " 
-            
-            <input type='button' id='delete_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'> 
-            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>
-            </div>";
-
+//            $result = "<div id='delete_div'> " .$v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . "
+//
+//            <input type='button' id='delete_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'>
+//            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>
+//            </div>";
+            $result= '<div  id="delete_div" class="col-sm-12" style="display: inline-flex;">
+                            <div class="col-sm-7" style="display: inline-flex;">
+                                <p>'.$v['year'] . "/" . $v['month'].'</p>
+                                <p> - </p>
+                                <p>'.$hmonths[$v['month']].'</p>
+                                <p>=></p>
+                                <p>'. $v['current'] .'</p>
+                                <p> '.$lang['default_adjust'].'</p>
+                                <p> '. $v['default'].'</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="button" id="delete_btn" class="form-control" 
+                                data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'.$lang['delete_adjust'].'">
+                            </div>
+                     </div>';
 //            $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=del&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>حذف</a>] [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=edit&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>تعديل</a>]<br/>";
 //            $final_res.push($result);
             array_push($final_res,$result);
@@ -91,26 +112,58 @@ class My_custom_controller extends AdminController
     }
 
     function add_adjust_form(){
+        $lang = $this->lang;
         $adj = new CalendarAdjustment();
         $hmonths = array(1 => "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة");
         $msg='';
 
         $hm = $_GET['add_month'];
                 $hy = $_GET['add_year'];
-                echo '<div id="adjust_div">';
-                echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
-                echo '<select  id="target_adjust">';
-                $starts = $adj->get_possible_starts($hm, $hy);
-                foreach ($starts as $start) {
-                    echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
-                    foreach ($start['alsoadjdata'] as $v) {
-                        echo " وسيتم أيضا تعديل بداية شهر " . $hmonths[$v['month']] . " من سنة " . $v['year'] . " إلى:" . $v['grdate'];
-                    }
-                    echo "</option>";
-                }
-                echo '</select><input type="button" id="add_adjust_action" value="إرسال" />';
-                echo '<input type="button" id="cancel_btn" value="إالغاء">';
-                echo '</div>';
+
+//                echo '<div id="adjust_div">';
+//                echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
+//                echo '<select  id="target_adjust">';
+//                $starts = $adj->get_possible_starts($hm, $hy);
+//                foreach ($starts as $start) {
+//                    echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
+//                    foreach ($start['alsoadjdata'] as $v) {
+//                        echo " وسيتم أيضا تعديل بداية شهر " . $hmonths[$v['month']] . " من سنة " . $v['year'] . " إلى:" . $v['grdate'];
+//                    }
+//                    echo "</option>";
+//                }
+//                echo '</select><input type="button" id="add_adjust_action" value="إرسال" />';
+//                echo '<input type="button" id="cancel_btn" value="إالغاء">';
+//                echo '</div>';
+
+        echo '<div id="form_div">
+                <div class="col-sm-12" style="display: inline-flex;">
+                    
+                        <p>'.$lang['start_month']. ' </p>
+                        <p>'. $hmonths[$hm] .'</p>
+                        <p>'.$lang['from_year'].'</p>
+                        <p>'.$hy.'</p>
+                        <p>'.$lang['to'].'</p>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-8">
+                        <select id="target_adjust" class="form-control col-sm-2">';
+                            $starts = $adj->get_possible_starts($hm, $hy);
+                            foreach ($starts as $start) {
+                                echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
+                                foreach ($start['alsoadjdata'] as $v) {
+                                    echo $lang['also_start_month'] . $hmonths[$v['month']] . $lang['from_year'] . $v['year'] . $lang['to'] . $v['grdate'];
+                                }
+                                echo "</option>";
+                            }
+                    echo '</select>
+                    </div>
+                    <div class="col-sm-4" style="display: inline-flex;">
+        
+                        <input type="button" class="form-control" id="add_adjust_action" value="'.$lang['send'].'">
+                        <input type="button" class="form-control" id="cancel_btn" value="'.$lang['cancel'].'">
+                    </div>
+                </div>
+        </div>';
 //        var_dump($_GET);exit();
     }
 

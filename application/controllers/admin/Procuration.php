@@ -80,6 +80,7 @@ class Procuration extends AdminController
             }else{
                 $redirect = admin_url('procuration/all');
             }
+            
             if ($id == '') {
                 $data['id'] = $last_id;
                 $id = $this->procurations_model->add($data);

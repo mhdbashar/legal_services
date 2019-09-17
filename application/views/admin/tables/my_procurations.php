@@ -41,6 +41,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['end_date'];
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
+    $addition = '';
     if(isset($case_id)){
         $ca = array();
         foreach($cases as $case){
@@ -48,9 +49,9 @@ foreach ($rResult as $aRow) {
         }
         if(!in_array($case_id, $ca)){
             continue;
+        }else{
+            $addition = $case_id;
         }
-    }else{
-        $case_id = '';
     }
     $show_case = '';
     foreach($cases as $case){
@@ -83,8 +84,8 @@ foreach ($rResult as $aRow) {
     $row[] = $procuration_state;
 
     $request = (is_numeric($client_id)) ? $client_id : $request ;
-    $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $case_id , 'pencil-square-o', 'btn-default');
-    $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $case_id , 'home', 'btn-default');
+    $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'pencil-square-o', 'btn-default');
+    $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
     $row[]   = $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     
 

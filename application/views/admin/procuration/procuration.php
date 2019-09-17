@@ -210,7 +210,7 @@
 
 
       $.post(form.action, $(form).serialize()).done(function(response) {
-        var response = <?php echo $_SERVER['PHP_REFERER'] ?>;
+        var response = admin_url + "procuration/all";
         if(typeof(expenseDropzone) !== 'undefined'){
           <?php if(empty($id)) $id = $last_id ?>;
           if (expenseDropzone.getQueuedFiles().length > 0) {

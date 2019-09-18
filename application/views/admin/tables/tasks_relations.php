@@ -71,6 +71,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, $rel_to_query);
 }
 
+array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 0');
+
 $join = [];
 
 $custom_fields = get_table_custom_fields('tasks');

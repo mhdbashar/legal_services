@@ -281,53 +281,155 @@ echo form_hidden('project_percent',$percent);
 </script>
 <script>
     <?php
-    $num_session = isset($num_session) ? $num_session : 0;
-    for($i = 0; $i < $num_session; $i++){ ?>
-    function submitForm<?php echo $i ?>(){
-        document.getElementById('myform<?php echo $i ?>').submit();
-    }
-    function resultForm<?php echo $i ?>(){
-        document.getElementById('resultform<?php echo $i ?>').submit();
-    }
+//    $num_session = isset($num_session) ? $num_session : 0;
+//    for($i = 0; $i < $num_session; $i++){ ?>
+//    function submitForm<?php //echo $i ?>//(){
+//        document.getElementById('myform<?php //echo $i ?>//').submit();
+//    }
+//    function resultForm<?php //echo $i ?>//(){
+//        document.getElementById('resultform<?php //echo $i ?>//').submit();
+//    }
+//
+//    <?php //} ?>
 
-    <?php } ?>
+    //$(function(){
+    //    initDataTable('.table-case-session', admin_url + 'LegalServices/case_session_controller/session/<?php //echo $ServID ?>///<?php //echo $project->id; ?>//', undefined, undefined, 'undefined', [0, 'asc']);
+    //});
 
     $(function(){
-        initDataTable('.table-case-session', admin_url + 'LegalServices/case_session_controller/session/<?php echo $ServID ?>/<?php echo $project->id; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-previous_sessions_log', admin_url + 'tasks/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'tasks/waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
     });
 
-    function update_session_json(id){
 
-        save_method = 'update';
-        $('#form_transout')[0].reset(); // reset form on modals
-        $('.form-group').removeClass('has-error'); // clear error class
-        $('.help-block').empty(); // clear error string
+    slug_previous_sessions = $(".table-previous_sessions_log").attr('data-new-rel-slug');
+    init_previous_sessions_log_table(project_id, slug_previous_sessions);
 
-        //Ajax Load data from ajax
-        $.ajax({
-            url : "<?php echo site_url('session/service_sessions/session_json') ?>/" + id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                console.log(data);
-                $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
-                $('[name="subject"]').val(data.subject);
-                $('[name="date"]').val(data.date);
-                $('[name="id"]').val(data.id);
-                $('[name="court_id"]').val(data.court_id);
-                $('[name="judge_id"]').val(data.judge_id);
+    slug_waiting_sessions = $(".table-waiting_sessions_log").attr('data-new-rel-slug');
+    init_waiting_sessions_log_table(project_id, slug_waiting_sessions);
 
-                // $('[name="dob"]').datepicker('update',data.dob);
-                $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
+    // Initing relation tasks tables
+    function init_previous_sessions_log_table(rel_id, rel_type, selector) {
+        if (typeof(selector) == 'undefined') { selector = '.table-previous_sessions_log'; }
+        var $selector = $("body").find(selector);
+        if ($selector.length === 0) { return; }
 
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
+        var TasksServerParamsCase = {},
+            tasksRelationTableNotSortableCase = [0], // bulk actions
+            TasksFiltersCase;
+
+        TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+        $.each(TasksFiltersCase, function() {
+            TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        var url = admin_url + 'tasks/init_previous_sessions_log/' + rel_id + '/' + rel_type;
+
+        if ($selector.attr('data-new-rel-type') == rel_type) {
+            url += '?bulk_actions=true';
+        }
+
+        initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    }
+
+    // Initing waiting_sessions_log tables
+    function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
+        if (typeof(selector) == 'undefined') { selector = '.table-waiting_sessions_log'; }
+        var $selector = $("body").find(selector);
+        if ($selector.length === 0) { return; }
+
+        var TasksServerParamsCase = {},
+            tasksRelationTableNotSortableCase = [0], // bulk actions
+            TasksFiltersCase;
+
+        TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+        $.each(TasksFiltersCase, function() {
+            TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        var url = admin_url + 'tasks/init_waiting_sessions_log/' + rel_id + '/' + rel_type;
+
+        if ($selector.attr('data-new-rel-type') == rel_type) {
+            url += '?bulk_actions=true';
+        }
+
+        initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+    }
+
+    // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
+    function reload_tasks_tables() {
+        var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];
+        $.each(av_tasks_tables, function(i, selector) {
+            if ($.fn.DataTable.isDataTable(selector)) {
+                $(selector).DataTable().ajax.reload(null, false);
             }
         });
     }
+
+    $("#edit_details").click(function () {
+        task_id           = $('#btn_stc').attr("task_id");
+        next_session_date = $('#next_session_date').val();
+        next_session_time = $('#next_session_time').val();
+        court_decision    = $('#edit_court_decision').val();
+        if(next_session_date == '' || next_session_time == '' || court_decision == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('LegalServices/ServicesSessions/edit_customer_report'); ?>' + '/' + task_id,
+                data: {
+                    next_session_date : next_session_date,
+                    next_session_time : next_session_time,
+                    court_decision : court_decision,
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data == 1){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#customer_report').modal('hide');
+                        $('#next_session_date').val('');
+                        $('#next_session_time').val('');
+                        $('#edit_court_decision').val('');
+                        reload_tasks_tables();
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+
+    //function update_session_json(id){
+    //
+    //    save_method = 'update';
+    //    $('#form_transout')[0].reset(); // reset form on modals
+    //    $('.form-group').removeClass('has-error'); // clear error class
+    //    $('.help-block').empty(); // clear error string
+    //
+    //    //Ajax Load data from ajax
+    //    $.ajax({
+    //        url : "<?php //echo site_url('session/old_service_sessions/session_json') ?>///" + id,
+    //        type: "POST",
+    //        dataType: "JSON",
+    //        success: function(data)
+    //        {
+    //            $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
+    //            $('[name="subject"]').val(data.subject);
+    //            $('[name="date"]').val(data.date);
+    //            $('[name="id"]').val(data.id);
+    //            $('[name="court_id"]').val(data.court_id);
+    //            $('[name="judge_id"]').val(data.judge_id);
+    //            // $('[name="dob"]').datepicker('update',data.dob);
+    //            $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
+    //
+    //        },
+    //        error: function (jqXHR, textStatus, errorThrown)
+    //        {
+    //            alert('Error get data from ajax');
+    //        }
+    //    });
+    //}
 </script>
 
 </body>

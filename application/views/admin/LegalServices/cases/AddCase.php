@@ -342,7 +342,7 @@
                                         <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
                                             <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
                                         <?php } else{ ?>
-                                            <?php echo _l('case_allow_client_to',_l('case_setting_'.$setting)); ?>
+                                            <?php echo _l('project_allow_client_to').' '._l('project_setting_'.$setting); ?>
                                         <?php } ?>
                                     </label>
                                 </div>

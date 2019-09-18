@@ -12,7 +12,7 @@ class Cases_controller extends AdminController
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
-        $this->load->model('LegalServices/Case_session_model', 'case_session');
+        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->helper('date');
     }
 
@@ -377,9 +377,9 @@ class Cases_controller extends AdminController
             } elseif ($group == 'CaseSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-                $data['num_session'] = $this->case_session->count_sessions($ServID, $id);
-                $data['judges']      = $this->case_session->get_judges();
-                $data['courts']      = $this->case_session->get_court();
+                $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
+                $data['judges']      = $this->service_sessions->get_judges();
+                $data['courts']      = $this->service_sessions->get_court();
             }
 
             // Discussions
@@ -393,7 +393,6 @@ class Cases_controller extends AdminController
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
             $this->app_scripts->add('cases-js', 'assets/js/cases.js');
-            // $this->app_scripts->add('cases-main-js', 'assets/js/cases_main.js');
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;
 

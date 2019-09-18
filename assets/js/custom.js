@@ -32,7 +32,7 @@ var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
 // this_page =this_page.replace('/','\\/');   // to solve backslash in database
-console.log(this_page);
+//console.log(this_page);
 function search_url(hijriPages, url){
     var i = 0;
     $.each(JSON.parse(hijriPages), function (index, page) {
@@ -43,7 +43,7 @@ function search_url(hijriPages, url){
     });
     return i;
 }
-console.log(search_url(hijriPages,this_page),hijriPages,this_page);
+//console.log(search_url(hijriPages,this_page),hijriPages,this_page);
 
 if(search_url(hijriPages,this_page) != 0){
     if((dateType == 'hijri') && (isHijri == "on") ) {
@@ -354,11 +354,11 @@ if(hijri_page == 'settings?group=Hijri'){
         var isHijriVal = isHijri; // from database
         var Hijrichange = "off";
         var checked= false;
-        console.log( isHijriVal );
+        //console.log( isHijriVal );
         if(isHijriVal == "on"){
             // $("#hijri_check").attr('checked') = "checked";
             document.getElementById('hijri_check').checked =true;
-            console.log($("input[name=hijri_adjust]"));
+           // console.log($("input[name=hijri_adjust]"));
 
             var radios = $("input[name=hijri_adjust]");
             $.each(radios,function(v,radio){
@@ -412,7 +412,7 @@ if(hijri_page == 'settings?group=Hijri'){
 
         });
 
-        console.log(hijriPages);
+        //console.log(hijriPages);
         var arr =[];
         if(hijriPages != []){
             arr = JSON.parse(hijriPages);//['sdsd','ddd','swwwwwsd','seeeeeesd'];
@@ -468,7 +468,7 @@ if(hijri_page == 'settings?group=Hijri'){
                 },
                 success: function(data) {
                     $('#add_form_adj').append(data);
-                    console.log(document.getElementById('add_adjust_action'));
+                    //console.log(document.getElementById('add_adjust_action'));
 
                     // $(document).on('click',"#add_adjust_action", function () {
                     //     console.log('add_adjust_action')
@@ -512,7 +512,7 @@ if(hijri_page == 'settings?group=Hijri'){
                 },
                 success: function(data) {
                     var res_data = JSON.parse(data);
-                    console.log(JSON.parse(data).adjdata);
+                    //console.log(JSON.parse(data).adjdata);
                     $('#new_adjustement').append(res_data.new);
                     $('#txt_adj').val(res_data.adjdata);
                     $('#adjust_data').val(res_data.adjdata);

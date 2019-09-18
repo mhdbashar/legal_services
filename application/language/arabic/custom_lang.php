@@ -57,6 +57,7 @@ $lang['Winning'] = "رابحة";
 $lang['Losing'] = "خاسرة";
 $lang['Circulated'] = "متداولة";
 $lang['CaseMovement'] = "حركة القضية";
+$lang['NewCaseMovement'] = "حركة قضية جديدة";
 $lang['customer_representative'] = "صفة العميل";
 $lang['new_customer_representative'] = "صفة عميل جديدة";
 $lang['ServiceCode'] = "كود الخدمة";
@@ -95,7 +96,6 @@ $lang['actor_type'] = "النوع";
 $lang['new_actor_details'] = "إضافة متفاعل جديد";
 $lang['legal_services_settings'] = "إعدادات الخدمات القانونية";
 $lang['empty_case_mov'] = "لا حركات للقضية حتى الآن!";
-$lang['link_with_service_session'] = "ربط مع جلسة";
 $lang['LService_activity_project_file_removed'] = "ازالة ملف الخدمة قانونية";
 $lang['LService_marked_as_finished'] = "إكتملت الخدمة قانونية";
 $lang['LService_status_updated'] = "تم تحديث حالة الخدمة قانونية";
@@ -104,7 +104,6 @@ $lang['LService_activity_created'] = "تم إنشاء خدمة قانونية";
 $lang['LService_activity_invoiced_project'] = "خدمة قانونية مفوترة";
 $lang['CaseMov_activity_created'] = "تم إنشاء حركة قضية";
 $lang['LService_activity_updated'] = "خدمة قانونية محدثة";
-$lang['legal_services_session'] = "جلسات خدمة قانونية";
 $lang['LService_not_found'] = 'الخدمة قانونية غير موجودة';
 $lang['LService_recycle_bin'] = 'سلة محذوفات الخدمات القانونية';
 $lang['restore'] = 'إستعادة';
@@ -115,3 +114,29 @@ $lang['EmptyRecycleBin'] = 'إفراغ سلة المحذوفات بعد (أيا�
 $lang['AlertEmptyRecycleBin'] = 'تنبيه قبل إفراغ سلة المحذوفات (أيام)';
 $lang['ConfirmEmptyLegalServicesRecycleBin'] = 'تأكيد إفراغ سلة محذوفات الخدمات القانونية';
 $lang['EmptyLegalServicesRecycleBinNote'] = 'هل انت موافق على إفراغ سلة محذوفات الخدمات القانونية تلقائياً في';
+
+//Sessions
+$lang['legal_services_session'] = "جلسات خدمة قانونية";
+$lang['SessionLog'] = "سجل الجلسات";
+$lang['link_with_service_session'] = "ربط مع جلسة";
+$lang['session_assigned'] = 'المكلف بالجلسة';
+$lang['Court_decision'] = 'قرار المحكمة';
+$lang['Customer_report'] = 'تقرير العميل';
+$lang['Send_to_customer'] = 'إرسال للعميل';
+$lang['session_date'] = 'تاريخ الجلسة';
+$lang['session_time'] = 'وقت الجلسة';
+$lang['Waiting_sessions'] = 'جلسات بالانتظار';
+$lang['Previous_Sessions'] = 'جلسات سابقة';
+$lang['add_new_session'] = 'إضافة جلسة';
+$lang['session_info'] = "معلومات عن الجلسة";
+$lang['session_type'] = "نوع الجلسة";
+$lang['judicial_office_number'] = "رقم مكتب قضائي";
+$lang['session_number'] = "رقم الجلسة";
+$lang['upcoming_actions'] = "الإجرائات القادمة";
+$lang['session'] =  'الجلسة';
+$lang['session_no_checklist_items_found'] = "عناصر الإجرائات القادمة غير موجودة لهذه الجلسة";
+$lang['no_reminders_for_this_session'] = "لا توجد تذكيرات لهذه الجلسة";
+$lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى";
+$lang['session_no_followers'] = "ليس هناك متابع لهذه الجلسة";
+$lang['session_is_private'] = "جلسة خاصة";
+$lang['session_report'] = 'تقرير جلسة';

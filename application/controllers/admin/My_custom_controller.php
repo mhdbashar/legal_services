@@ -68,8 +68,8 @@ class My_custom_controller extends AdminController
 //            <input type='button' id='delete_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='حذف'>
 //            <input type='button' id='update_btn' data-month='".$v['month']."' data-year='".$v['year']."' value='تعديل'> <br/>
 //            </div>";
-            $result= '<div  id="delete_div" class="col-sm-12" style="display: inline-flex;">
-                            <div class="col-sm-7" style="display: inline-flex;">
+            $result= '<div  id="delete_div" class="form-group col-sm-12" style="display: inline-flex;">
+                            <div class="form-group col-sm-7" style="display: inline-flex;">
                                 <p>'.$v['year'] . "/" . $v['month'].'</p>
                                 <p> - </p>
                                 <p>'.$hmonths[$v['month']].'</p>
@@ -78,7 +78,7 @@ class My_custom_controller extends AdminController
                                 <p> '.$lang['default_adjust'].'</p>
                                 <p> '. $v['default'].'</p>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="form-group col-sm-2">
                                 <input type="button" id="delete_btn" class="form-control" 
                                 data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'.$lang['delete_adjust'].'">
                             </div>
@@ -135,8 +135,8 @@ class My_custom_controller extends AdminController
 //                echo '<input type="button" id="cancel_btn" value="إالغاء">';
 //                echo '</div>';
 
-        echo '<div id="form_div">
-                <div class="col-sm-12" style="display: inline-flex;">
+        echo '<div id="form_div" class="form-group">
+                <div id="form_select" class="form-group col-sm-12" style="display: inline-flex;">
                     
                         <p>'.$lang['start_month']. ' </p>
                         <p>'. $hmonths[$hm] .'</p>
@@ -144,8 +144,8 @@ class My_custom_controller extends AdminController
                         <p>'.$hy.'</p>
                         <p>'.$lang['to'].'</p>
                 </div>
-                <div class="col-sm-12">
-                    <div class="col-sm-8">
+                <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-8">
                         <select id="target_adjust" class="form-control col-sm-2">';
                             $starts = $adj->get_possible_starts($hm, $hy);
                             foreach ($starts as $start) {
@@ -157,7 +157,7 @@ class My_custom_controller extends AdminController
                             }
                     echo '</select>
                     </div>
-                    <div class="col-sm-4" style="display: inline-flex;">
+                    <div class="form-group col-sm-4" style="display: inline-flex;">
         
                         <input type="button" class="form-control" id="add_adjust_action" value="'.$lang['send'].'">
                         <input type="button" class="form-control" id="cancel_btn" value="'.$lang['cancel'].'">

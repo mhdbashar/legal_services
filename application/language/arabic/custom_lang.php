@@ -94,16 +94,24 @@ $lang['actor_type'] = "النوع";
 $lang['new_actor_details'] = "إضافة متفاعل جديد";
 
 /** hijri settings **/
+$lang['hijri'] = "التقويم الهجري";
+
+
+$lang['hijri_pages'] = "الصفحات الهجرية";
+$lang['add_row'] = "إضافة سطر";
+$lang['delete_row'] = "حذف سطر";
+$lang['link'] = "الرابط";
+
 $lang['adjust_history'] = "جميع التعديلات";
 $lang['current_adjust'] = "التعديلات الحالية";
 $lang['default_adjust'] = "الإفتراضي";
 $lang['delete_adjust'] = "حذف";
-$lang['start_month'] = "تعديل بداية شهر";
-$lang['from_year'] = "من سنة";
-$lang['to'] = "الى:";
+$lang['start_month'] = "تعديل بداية شهر ";
+$lang['from_year'] = "  من سنة ";
+$lang['to'] = " الى: ";
 $lang['send']= "إرسال";
 $lang['cancel'] = "إالغاء";
-$lang['also_start_month'] = "وسيتم تعديل بداية شهر";
+$lang['also_start_month'] = " وسيتم تعديل بداية شهر ";
 $lang['year'] = "السنة";
 $lang['month'] = "الشهر";
 $lang['add_request'] = "إضافة";

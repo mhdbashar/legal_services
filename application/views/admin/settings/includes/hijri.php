@@ -14,7 +14,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 <!--    <input type="checkbox" name="hijri"  >Hijri-->
     <input type="checkbox"  id="hijri_check" data-toggle="toggle"  data-onstyle="primary" name="isHijriVal">
     <label for="hiri_check" style="margin-left: 5%">
-        Hijri
+        <?php echo $lang['hijri']?>
     </label>
 </div>
 <hr />
@@ -46,7 +46,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 <!--<hr />-->
 <div class="form-group" id="tbl_div">
     <label  class="control-label clearfix">
-        Hijri Pages
+        <?php echo $lang['hijri_pages']?>
     </label>
 
         <div class="row clearfix">
@@ -58,7 +58,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                             #
                         </th>
                         <th class="text-center">
-                            Link
+                            <?php echo $lang['link']?>
                         </th>
 
                     </tr>
@@ -78,7 +78,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                 </table>
             </div>
         </div>
-        <a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+        <a id="add_row" class="btn btn-default pull-left"><?php echo $lang['add_row']?></a><a id='delete_row' class="pull-right btn btn-default"><?php echo $lang['delete_row']?></a>
 
 </div>
 <!--<div  class="form-group">-->
@@ -146,7 +146,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 <!--</div>-->
 <div id="adjust_div" class="form-group">
 
-    <div id="adjust_list" style="margin-top: 100px">
+    <div id="adjust_list" class="form-group" style="margin-top: 100px">
         <?php
         $hijri_settings = array('umalqura' => TRUE, 'langecode' => 'ar');
 //        $hijri_settings['adj_data'] = $_SESSION['adj_data'];
@@ -167,7 +167,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 
             }
             foreach ($myret as $v){
-                echo '<div  id="delete_his_div" class="col-sm-12" style="display: inline-flex;">
+                echo '<div  id="delete_his_div" class="form-group col-sm-12" style="display: inline-flex;">
                             <div class="col-sm-7" style="display: inline-flex;">
                                 <p>'.$v['year'] . "/" . $v['month'].'</p>
                                 <p> - </p>
@@ -177,7 +177,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                                 <p> '.$lang['default_adjust'].'</p>
                                 <p> '. $v['default'].'</p>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="form-group col-sm-2">
                                 <input type="button" id="delete_his_btn" class="form-control" 
                                 data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'.$lang['delete_adjust'].'">
                             </div>
@@ -200,92 +200,90 @@ $lang = $CI->lang->load($language . '_lang', $language);
 //        echo DateHijri::createFromHijri(1437, 3, 0)->format('_d _M _Y=d M Y') . '<br/>';
         ?>
     </div>
-    <div id="new_adjustement" class="col-sm-12">
-        <h2><?php echo $lang['current_adjust']; ?></h2>
-        <?php
 
-        ?>
+    <div id="current_adjust" class="form-group">
+        <div id="new_adjustement" class="form-group col-sm-12">
+            <h2><?php echo $lang['current_adjust']; ?></h2>
+            <?php
 
-    </div>
-    <div id="current_adjust">
-        <input type="hidden" id="adjust_data" name="adjust_data">
-<!--        --><?php
-//            echo '<h2>إضافة تعديل على تقويم أم القرى</h2>';
-//            echo $msg . '<br/>';
-//            foreach ($adj->get_current_adjs() as $v) {
-//            echo $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=del&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>حذف</a>] [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=edit&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>تعديل</a>]<br/>";
-//            }
-//        ?>
-    </div>
-    <div id="add_adjust">
-        <div class="col-sm-12" style="display: inline-flex;">
-            <div class="col-sm-4" style="display: inline-flex;">
-                <label class="control-label" for="year_adj"><?php echo $lang['year']?></label>
-                <select  id="year_adj" class="form-control">
-                    <?php
-
-                    //echo 'السنة :< select name="year" >';
-                    $d = new DateHijri();
-                    list($mymonth, $myyear) = explode(' ', $d->format('_m _Y'));
-                    for ($n = Calendar::umstartyear; $n < Calendar::umendyear + 1; $n++) {
-                        echo "<option value='$n'";
-                        if ($n == $myyear) {
-                            echo " selected ";
-                        }
-                        echo ">$n</option>\n";
-                    }
-
-                    ?>
-                </select>
-
-            </div>
-            <div class="col-sm-4" style="display: inline-flex;">
-                <label class="control-label" for="month_adj"><?php echo $lang['month']?></label>
-                <select  id="month_adj" class="form-control">
-                    <?php
-                    //            echo '</select> الشهر :<select name="month" id="month_adj">';
-                    for ($n = 1; $n < 13; $n++) {
-                        echo "<option value='$n'";
-                        if ($n == $mymonth) {
-                            echo "selected";
-                        }
-                        echo ">" . $hmonths[$n] . "</option>\n";
-                    }
-                    echo '<input type="button" class="form-control" name="add" id="btn_add_adjust" value="'.$lang['add_request'].'" />';
-
-                    //        $hm = $_GET['month'];
-                    //        $hy = $_GET['year'];
-                    //        echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
-                    //        echo '<form method="post"><input type="hidden" name="addadj" value=1><input type="hidden" name="month" value=' . $hm . '><input type="hidden" name="year" value=' . $hy . '><select name="v">';
-                    //        $starts = $adj->get_possible_starts($hm, $hy);
-                    //        foreach ($starts as $start) {
-                    //            echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
-                    //            foreach ($start['alsoadjdata'] as $v) {
-                    //                echo " وسيتم أيضا تعديل بداية شهر " . $hmonths[$v['month']] . " من سنة " . $v['year'] . " إلى:" . $v['grdate'];
-                    //            }
-                    //            echo "</option>";
-                    //        }
-                    //        echo '</select><input type="submit" name="submit" value="إرسال" />';
-                    //        echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '">إلغاء</a>';
-
-                    ?>
-                </select>
-            </div>
-
+            ?>
 
         </div>
+        <input type="hidden" id="adjust_data" name="adjust_data">
+        <div id="add_adjust" class="form-group">
+            <div id="add_adjust_form" class="form-group col-sm-12" style="display: inline-flex;">
+                <div class="form-group col-sm-4" style="display: inline-flex;">
+                    <label class="control-label" for="year_adj"><?php echo $lang['year']?></label>
+                    <select  id="year_adj" class="form-control">
+                        <?php
 
+                        //echo 'السنة :< select name="year" >';
+                        $d = new DateHijri();
+                        list($mymonth, $myyear) = explode(' ', $d->format('_m _Y'));
+                        for ($n = Calendar::umstartyear; $n < Calendar::umendyear + 1; $n++) {
+                            echo "<option value='$n'";
+                            if ($n == $myyear) {
+                                echo " selected ";
+                            }
+                            echo ">$n</option>\n";
+                        }
+
+                        ?>
+                    </select>
+
+                </div>
+                <div class="form-group col-sm-4" style="display: inline-flex;">
+                    <label class="control-label" for="month_adj"><?php echo $lang['month']?></label>
+                    <select  id="month_adj" class="form-control">
+                        <?php
+                        //            echo '</select> الشهر :<select name="month" id="month_adj">';
+                        for ($n = 1; $n < 13; $n++) {
+                            echo "<option value='$n'";
+                            if ($n == $mymonth) {
+                                echo "selected";
+                            }
+                            echo ">" . $hmonths[$n] . "</option>\n";
+                        }
+
+                        //        $hm = $_GET['month'];
+                        //        $hy = $_GET['year'];
+                        //        echo "تعديل بداية الشهر " . $hmonths[$hm] . " من سنة $hy إلى:";
+                        //        echo '<form method="post"><input type="hidden" name="addadj" value=1><input type="hidden" name="month" value=' . $hm . '><input type="hidden" name="year" value=' . $hy . '><select name="v">';
+                        //        $starts = $adj->get_possible_starts($hm, $hy);
+                        //        foreach ($starts as $start) {
+                        //            echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
+                        //            foreach ($start['alsoadjdata'] as $v) {
+                        //                echo " وسيتم أيضا تعديل بداية شهر " . $hmonths[$v['month']] . " من سنة " . $v['year'] . " إلى:" . $v['grdate'];
+                        //            }
+                        //            echo "</option>";
+                        //        }
+                        //        echo '</select><input type="submit" name="submit" value="إرسال" />';
+                        //        echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '">إلغاء</a>';
+
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <?php echo '<input type="button" class="form-control" name="add" id="btn_add_adjust" value="'.$lang['add_request'].'" />';
+                    ?>
+                </div>
+
+            </div>
+
+        </div>
+        <div id="add_form_adj" class="form-group">
+
+        </div>
     </div>
-    <div id="add_form_adj">
-        
+
+    <div id="adjust_data" class="form-group">
+        <label class="control-label" id="data_lbl" for="txt_adj"><?php echo $lang['mod_data'] ?></label>
+        <?php
+        echo '<textarea id="txt_adj" class="form-control" rows="6" cols="50" style="text-align:left;direction: ltr;">';
+        //            echo $adj->get_adjdata(TRUE);
+        echo '</textarea><br/>';
+        ?>
     </div>
-<div id="adjust_data">
-    <?php
-    echo '<br/>'.$lang['mod_data'].'<br/><textarea id="txt_adj" class="form-control" rows="6" cols="50" style="text-align:left;direction: ltr;">';
-    //            echo $adj->get_adjdata(TRUE);
-    echo '</textarea><br/>';
-    ?>
-</div>
 
 <?php
 

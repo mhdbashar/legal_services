@@ -19,6 +19,14 @@ $lang['new_cstatus'] = "New Case Status";
 
 
 /** hijri settings **/
+
+$lang['hijri'] = "Hijri";
+
+$lang['hijri_pages'] = "Hijri Pages";
+$lang['add_row'] = "Add Row";
+$lang['delete_row'] = "Delete Row";
+$lang['link'] = "Link";
+
 $lang['adjust_history'] = "All adjustments";
 $lang['current_adjust'] = "Current Adjustments";
 $lang['default_adjust'] = "default";

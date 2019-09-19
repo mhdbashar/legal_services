@@ -20,7 +20,7 @@ class Service_sessions extends AdminController
         if ($this->input->is_ajax_request())
             $this->sessionapp->get_table_data('my_service_sessions', $data);
 
-        $this->load->view('session/admin/service_sessions/manage', $data);
+        $this->load->view('session/admin/old_service_sessions/manage', $data);
     }
 
     public function session_json($id){

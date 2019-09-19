@@ -103,7 +103,7 @@ foreach ($rResult as $aRow) {
     ';
 
     $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_session', 'id' => 'm', 'onclick' => 'update_session_json(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('session/service_sessions/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options .= icon_btn('session/old_service_sessions/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
 
     // $row['DT_RowClass'] = 'has-row-options';
 

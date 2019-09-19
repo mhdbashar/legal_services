@@ -261,7 +261,7 @@
                         </button>
                         <hr>
                         <?php
-                            $this->load->view('admin/legalServices/service_sessions/modals/discussion', ['session_id' => $session_id]);
+                            $this->load->view('admin/legalServices/old_service_sessions/modals/discussion', ['session_id' => $session_id]);
                             render_datatable(array(
                               'Subject',
                               'Last Activity',

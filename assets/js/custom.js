@@ -33,7 +33,6 @@ var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
 // this_page =this_page.replace('/','\\/');   // to solve backslash in database
-<<<<<<< HEAD
 function isJson(data){
     try {
         JSON.parse(data);
@@ -44,9 +43,6 @@ function isJson(data){
 }
 
 console.log(isJson(hijriPages));
-=======
-//console.log(this_page);
->>>>>>> baraa
 function search_url(hijriPages, url){
     var i = 0;
     if(isJson(hijriPages)){
@@ -60,7 +56,7 @@ function search_url(hijriPages, url){
 
     return i;
 }
-//console.log(search_url(hijriPages,this_page),hijriPages,this_page);
+console.log(search_url(hijriPages,this_page),hijriPages,this_page);
 
 if(search_url(hijriPages,this_page) != 0){
     if((dateType == 'hijri') && (isHijri == "on") ) {
@@ -448,11 +444,10 @@ if(hijri_page == 'settings?group=Hijri'){
         var isHijriVal = isHijri; // from database
         var Hijrichange = "off";
         var checked= false;
-        //console.log( isHijriVal );
+        console.log( isHijriVal );
         if(isHijriVal == "on"){
             // $("#hijri_check").attr('checked') = "checked";
             document.getElementById('hijri_check').checked =true;
-<<<<<<< HEAD
             // console.log($("input[name=hijri_adjust]"));
             //
             // var radios = $("input[name=hijri_adjust]");
@@ -462,17 +457,6 @@ if(hijri_page == 'settings?group=Hijri'){
             //         radio.checked = true
             //     }
             // })
-=======
-           // console.log($("input[name=hijri_adjust]"));
-
-            var radios = $("input[name=hijri_adjust]");
-            $.each(radios,function(v,radio){
-
-                if(radio.value == adjust){
-                    radio.checked = true
-                }
-            })
->>>>>>> baraa
             //
             // console.log($("input[name=hijri_adjust][value="+1+"]"));
 
@@ -518,7 +502,7 @@ if(hijri_page == 'settings?group=Hijri'){
 
         });
 
-        //console.log(hijriPages);
+        console.log(hijriPages);
         var arr =[];
         if(hijriPages != []){
             arr = JSON.parse(hijriPages);//['sdsd','ddd','swwwwwsd','seeeeeesd'];
@@ -575,12 +559,8 @@ if(hijri_page == 'settings?group=Hijri'){
                 },
                 success: function(data) {
                     $('#add_form_adj').append(data);
-<<<<<<< HEAD
 
                     $("#btn_add_adjust").attr('disabled','disabled');
-=======
-                    //console.log(document.getElementById('add_adjust_action'));
->>>>>>> baraa
 
                     // $(document).on('click',"#add_adjust_action", function () {
                     //     console.log('add_adjust_action')
@@ -644,11 +624,7 @@ if(hijri_page == 'settings?group=Hijri'){
                 },
                 success: function(data) {
                     var res_data = JSON.parse(data);
-<<<<<<< HEAD
                     console.log($(this));
-=======
-                    //console.log(JSON.parse(data).adjdata);
->>>>>>> baraa
                     $('#new_adjustement').append(res_data.new);
                     $('#txt_adj').val(res_data.adjdata);
                     $('#adjust_data').val(res_data.adjdata);

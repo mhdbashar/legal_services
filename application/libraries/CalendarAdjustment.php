@@ -35,7 +35,7 @@ class CalendarAdjustment extends Calendar
      *
      * @var array original Umm Al-Qura Data without any adjustments
      */
-    protected $umdata_clear;
+    public $umdata_clear;
     /**
      *
      * @var string The date format to get Gregorian dates form adjustment information
@@ -81,7 +81,7 @@ class CalendarAdjustment extends Calendar
      * @internal
      *
      */
-    protected function off2month($off)
+    public function off2month($off)
     {
         $ii = floor(($off) / 12);
         $hy = static::umstartyear + $ii;
@@ -328,7 +328,7 @@ class CalendarAdjustment extends Calendar
      * @internal
      *
      */
-    private function myjd2gre($jd)
+    public function myjd2gre($jd)
     {
         $jddate = jdtogregorian(static::mjd_factor + $jd);
 

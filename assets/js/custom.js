@@ -21,8 +21,9 @@ $.ajax({
         dateType = JSON.parse(data).mode;
         // comment = JSON.parse(comment);
         hijriPages = JSON.parse(data).hijri_pages;
-        adjust = JSON.parse(data).adjust;
+        // adjust = JSON.parse(data).adjust;
         // success(comment)
+        console.log(dateType)
     },
 
 });
@@ -32,15 +33,27 @@ var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
 // this_page =this_page.replace('/','\\/');   // to solve backslash in database
-console.log(this_page);
+function isJson(data){
+    try {
+        JSON.parse(data);
+    }catch (e) {
+        return false;
+    }
+    return true;
+}
+
+console.log(isJson(hijriPages));
 function search_url(hijriPages, url){
     var i = 0;
-    $.each(JSON.parse(hijriPages), function (index, page) {
-        if(url.search(page) != -1){
-            i++
-        }
-        // console.log(page);
-    });
+    if(isJson(hijriPages)){
+        $.each(JSON.parse(hijriPages), function (index, page) {
+            if(url.search(page) != -1){
+                i++
+            }
+            // console.log(page);
+        });
+    }
+
     return i;
 }
 console.log(search_url(hijriPages,this_page),hijriPages,this_page);
@@ -332,8 +345,9 @@ if(search_url(hijriPages,this_page) != 0){
 
 var hijri_page = window.location.href;
 hijri_page = hijri_page.replace(admin_url,'');
+
 if(hijri_page == 'settings?group=Hijri'){
-    
+    console.log(hijri_page)
 // $(document).on('click', '.flip-button', function () {
 //
 // })
@@ -358,15 +372,15 @@ if(hijri_page == 'settings?group=Hijri'){
         if(isHijriVal == "on"){
             // $("#hijri_check").attr('checked') = "checked";
             document.getElementById('hijri_check').checked =true;
-            console.log($("input[name=hijri_adjust]"));
-
-            var radios = $("input[name=hijri_adjust]");
-            $.each(radios,function(v,radio){
-
-                if(radio.value == adjust){
-                    radio.checked = true
-                }
-            })
+            // console.log($("input[name=hijri_adjust]"));
+            //
+            // var radios = $("input[name=hijri_adjust]");
+            // $.each(radios,function(v,radio){
+            //
+            //     if(radio.value == adjust){
+            //         radio.checked = true
+            //     }
+            // })
             //
             // console.log($("input[name=hijri_adjust][value="+1+"]"));
 
@@ -512,42 +526,23 @@ if(hijri_page == 'settings?group=Hijri'){
                 },
                 success: function(data) {
                     var res_data = JSON.parse(data);
-                    console.log(JSON.parse(data).adjdata);
+                    console.log($(this).parent());
                     $('#new_adjustement').append(res_data.new);
                     $('#txt_adj').val(res_data.adjdata);
                     $('#adjust_data').val(res_data.adjdata);
 
 
+
                 },
 
             });
+
         });
 
     $(document).on('click',"#cancel_btn", function () {
-        // console.log('add_adjust_action')
-        // var month = $('#month_adj').val();
-        // var year = $('#year_adj').val();
-        // var target_value = $('#target_adjust').val();
-        // $.ajax({
-        //     type: 'Get',
-        //     url: admin_url + 'My_custom_controller/set_hijri_adjust',
-        //     // async: false,
-        //     data: {
-        //         add_month : month,
-        //         add_year : year,
-        //         add_value: target_value,
-        //     },
-        //     success: function(data) {
-        //         var res_data = JSON.parse(data);
-        //         console.log(JSON.parse(data).adjdata);
-        //         $('#new_adjustement').append(res_data.new);
-        //         $('#txt_adj').val(res_data.adjdata);
-        //         $('#adjust_data').val(res_data.adjdata);
-        //
-        //
-        //     },
-        //
-        // });
+
+        // console.log($(this).parent());
+        $('#form_div').hide();
     });
 
     $(document).on('click',"#delete_btn", function () {
@@ -565,17 +560,46 @@ if(hijri_page == 'settings?group=Hijri'){
                 del_year : year,
             },
             success: function(data) {
-                // var res_data = JSON.parse(data);
-                // console.log(JSON.parse(data).adjdata);
-                // $('#new_adjustement').append(res_data.new);
-                // $('#txt_adj').val(res_data.adjdata);
-                // $('#adjust_data').val(res_data.adjdata);
-
-
+                var res_data = JSON.parse(data);
+                console.log(JSON.parse(data).adjdata);
+                $('#new_adjustement').append(res_data.new);
+                $('#txt_adj').val(res_data.adjdata);
+                $('#adjust_data').val(res_data.adjdata);
             },
 
         });
+        // console.log($(this).parent());
+        $('#delete_div').hide();
     });
+
+    $(document).on('click',"#delete_his_btn", function () {
+        // console.log($(this).data('month'))
+        var month = $(this).data('month');
+        var year = $(this).data('year');
+        // var target_value = $('#target_adjust').val();
+
+        $.ajax({
+            type: 'Get',
+            url: admin_url + 'My_custom_controller/delete_hijri_adjust',
+            // async: false,
+            data: {
+                del_month : month,
+                del_year : year,
+            },
+            success: function(data) {
+                var res_data = JSON.parse(data);
+                // console.log(JSON.parse(data).adjdata);
+                // $('#new_adjustement').append(res_data.new);
+                $('#txt_adj').val(res_data.adjdata);
+                $('#adjust_data').val(res_data.adjdata);
+            },
+
+        });
+        console.log($(this).parent());
+        // $(this).parent().hide();
+        $('#delete_his_div').hide();
+    });
+
 
     $(document).on('click',"#update_btn", function () {
         // console.log($(this).data('month'))

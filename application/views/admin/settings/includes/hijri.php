@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 //var_dump(get_option('active_language'));exit();
-$CI       = & get_instance();
-$language = get_option('active_language');
-
-$lang = $CI->lang->load($language . '_lang', $language);
+//$CI       = & get_instance();
+//$language = get_option('active_language');
+//
+//$lang = $CI->lang->load($language . '_lang', $language);
 //var_dump($CI->lang->load($language . 'custom_lang', 'custom_lang'))
 ?>
 <!-- Default switch -->
@@ -14,7 +14,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 <!--    <input type="checkbox" name="hijri"  >Hijri-->
     <input type="checkbox"  id="hijri_check" data-toggle="toggle"  data-onstyle="primary" name="isHijriVal">
     <label for="hiri_check" style="margin-left: 5%">
-        <?php echo $lang['hijri']?>
+        <?php echo _l('hijri')?>
     </label>
 </div>
 <hr />
@@ -46,7 +46,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 <!--<hr />-->
 <div class="form-group" id="tbl_div">
     <label  class="control-label clearfix">
-        <?php echo $lang['hijri_pages']?>
+        <?php echo _l('hijri_pages')?>
     </label>
 
         <div class="row clearfix">
@@ -58,7 +58,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                             #
                         </th>
                         <th class="text-center">
-                            <?php echo $lang['link']?>
+                            <?php echo _l('link')?>
                         </th>
 
                     </tr>
@@ -78,7 +78,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                 </table>
             </div>
         </div>
-        <a id="add_row" class="btn btn-default pull-left"><?php echo $lang['add_row']?></a><a id='delete_row' class="pull-right btn btn-default"><?php echo $lang['delete_row']?></a>
+        <a id="add_row" class="btn btn-default pull-left"><?php echo _l('add_row')?></a><a id='delete_row' class="pull-right btn btn-default"><?php echo _l('delete_row')?></a>
 
 </div>
 <!--<div  class="form-group">-->
@@ -155,7 +155,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
         $hmonths = array(1 => "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة");
         $msg='';
 //        echo '<h2>التعديلات الحالية على تقويم أم القرى</h2>';
-        echo '<h2>'.$lang['adjust_history'].'</h2>';
+        echo '<h2>'._l('adjust_history').'</h2>';
         $history = get_option('adjust_data');
         $history = json_decode($history);
         $myret = array();
@@ -174,12 +174,12 @@ $lang = $CI->lang->load($language . '_lang', $language);
                                 <p>'.$hmonths[$v['month']].'</p>
                                 <p>=></p>
                                 <p>'. $v['current'] .'</p>
-                                <p> '.$lang['default_adjust'].'</p>
+                                <p> '._l('default_adjust').'</p>
                                 <p> '. $v['default'].'</p>
                             </div>
                             <div class="form-group col-sm-2">
                                 <input type="button" id="delete_his_btn" class="form-control" 
-                                data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'.$lang['delete_adjust'].'">
+                                data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'._l('delete_adjust').'">
                             </div>
                      </div>';
 //                echo "<div id='delete_his_div'>";
@@ -203,7 +203,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 
     <div id="current_adjust" class="form-group">
         <div id="new_adjustement" class="form-group col-sm-12">
-            <h2><?php echo $lang['current_adjust']; ?></h2>
+            <h2><?php echo _l('current_adjust'); ?></h2>
             <?php
 
             ?>
@@ -213,7 +213,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
         <div id="add_adjust" class="form-group">
             <div id="add_adjust_form" class="form-group col-sm-12" style="display: inline-flex;">
                 <div class="form-group col-sm-4" style="display: inline-flex;">
-                    <label class="control-label" for="year_adj"><?php echo $lang['year']?></label>
+                    <label class="control-label" for="year_adj"><?php echo _l('year')?></label>
                     <select  id="year_adj" class="form-control">
                         <?php
 
@@ -233,7 +233,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
 
                 </div>
                 <div class="form-group col-sm-4" style="display: inline-flex;">
-                    <label class="control-label" for="month_adj"><?php echo $lang['month']?></label>
+                    <label class="control-label" for="month_adj"><?php echo _l('month')?></label>
                     <select  id="month_adj" class="form-control">
                         <?php
                         //            echo '</select> الشهر :<select name="month" id="month_adj">';
@@ -264,7 +264,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
                     </select>
                 </div>
                 <div class="form-group col-sm-4">
-                    <?php echo '<input type="button" class="form-control" name="add" id="btn_add_adjust" value="'.$lang['add_request'].'" />';
+                    <?php echo '<input type="button" class="form-control" name="add" id="btn_add_adjust" value="'._l('add_request').'" />';
                     ?>
                 </div>
 
@@ -277,7 +277,7 @@ $lang = $CI->lang->load($language . '_lang', $language);
     </div>
 
     <div id="adjust_data" class="form-group">
-        <label class="control-label" id="data_lbl" for="txt_adj"><?php echo $lang['mod_data'] ?></label>
+        <label class="control-label" id="data_lbl" for="txt_adj"><?php echo _l('mod_data') ?></label>
         <?php
         echo '<textarea id="txt_adj" class="form-control" rows="6" cols="50" style="text-align:left;direction: ltr;">';
         //            echo $adj->get_adjdata(TRUE);

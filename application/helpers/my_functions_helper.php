@@ -17,13 +17,29 @@ function getArr($lang){
 function admin_assets()
 {
     $CI = &get_instance();
-    $CI->app_css->add('w3-css', 'assets/css/w3.css');
+//    $CI->app_css->add('w3-css', 'assets/css/w3.css');
+//    $CI->app_css->add('custom_style-css', 'assets/css/custom.css');
+    $CI->app_css->add('bootstrap-datetimepicker-css', 'assets/css/bootstrap-datetimepicker.css');
+
     $CI->app_css->add('bootstrap4-toggle-css', 'assets/css/bootstrap4-toggle.css');
-    $CI->app_scripts->add('hijri-js', 'assets/js/hijri-date.js');
-    $CI->app_scripts->add('datepicker-js', 'assets/js/datepicker.js');
+//    $CI->app_scripts->add('hijri-js', 'assets/js/hijri-date.js');
+//    $CI->app_scripts->add('datepicker-js', 'assets/js/datepicker.js');
     $CI->app_scripts->add('bootstrap4-toggle-js', 'assets/js/bootstrap4-toggle.min.js');
 
+
+//    $CI->app_scripts->add('jquery-js', 'assets/js/jquery-3.3.1.js');
+//    $CI->app_scripts->add('bootstrap-js', 'assets/js/bootstrap.js');
+//    $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
+    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js');
+    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js');
+
+    $CI->app_scripts->add('moment-hijri-js', 'assets/js/moment-hijri.js');
+
+    $CI->app_scripts->add('bootstrap-hijri-datetimepicker-js', 'assets/js/bootstrap-hijri-datetimepicker.js');
+
     $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
+    
+
 }
 
 

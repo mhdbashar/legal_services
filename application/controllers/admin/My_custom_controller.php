@@ -4,15 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class My_custom_controller extends AdminController
 {
-    public $lang;
+//    public $lang;
 
     public function __construct()
     {
         parent::__construct();
-        $CI       = & get_instance();
-        $language = get_option('active_language');
+//        $CI       = & get_instance();
+//        $language = get_option('active_language');
 
-        $this->lang = $CI->lang->load($language . '_lang', $language);
+//        $this->lang = $CI->lang->load($language . '_lang', $language);
 
     }
 
@@ -50,7 +50,7 @@ class My_custom_controller extends AdminController
 
     }
     function set_hijri_adjust(){
-        $lang = $this->lang;
+//        $lang = $this->lang;
         $adj = new CalendarAdjustment();
 //        var_dump($_GET);exit();
         $month = $_GET['add_month'];
@@ -75,12 +75,12 @@ class My_custom_controller extends AdminController
                                 <p>'.$hmonths[$v['month']].'</p>
                                 <p>=></p>
                                 <p>'. $v['current'] .'</p>
-                                <p> '.$lang['default_adjust'].'</p>
+                                <p> '._l('default_adjust').'</p>
                                 <p> '. $v['default'].'</p>
                             </div>
                             <div class="form-group col-sm-2">
                                 <input type="button" id="delete_btn" class="form-control" 
-                                data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'.$lang['delete_adjust'].'">
+                                data-month="'.$v['month'].'" data-year="'.$v['year'].'" value="'._l('delete_adjust').'">
                             </div>
                      </div>';
 //            $result = $v['year'] . "/ " . $v['month'] . " - " . $hmonths[$v['month']] . " => " . $v['current'] . " الافتراضي هو " . $v['default'] . " [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=del&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>حذف</a>] [<a href='" . $_SERVER['SCRIPT_NAME'] . "?action=edit&amp;month=" . $v['month'] . "&amp;year=" . $v['year'] . "'>تعديل</a>]<br/>";
@@ -112,11 +112,11 @@ class My_custom_controller extends AdminController
     }
 
     function add_adjust_form(){
-        $lang = $this->lang;
+//        $lang = $this->lang;
         $adj = new CalendarAdjustment();
         $hmonths = array(1 => "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة");
         $msg='';
-
+//var_dump($adj->get_adjdata(TRUE));exit;
         $hm = $_GET['add_month'];
                 $hy = $_GET['add_year'];
 
@@ -138,11 +138,11 @@ class My_custom_controller extends AdminController
         echo '<div id="form_div" class="form-group">
                 <div id="form_select" class="form-group col-sm-12" style="display: inline-flex;">
                     
-                        <p>'.$lang['start_month']. ' </p>
+                        <p>'._l('start_month'). ' </p>
                         <p>'. $hmonths[$hm] .'</p>
-                        <p>'.$lang['from_year'].'</p>
+                        <p>'._l('from_year').'</p>
                         <p>'.$hy.'</p>
-                        <p>'.$lang['to'].'</p>
+                        <p>'._l('to').'</p>
                 </div>
                 <div class="form-group col-sm-12">
                     <div class="form-group col-sm-8">
@@ -151,7 +151,7 @@ class My_custom_controller extends AdminController
                             foreach ($starts as $start) {
                                 echo '<option value="' . $start['jd'] . '"' . (($start['currentset']) ? ' selected' : '') . ' >' . $start['grdate'];
                                 foreach ($start['alsoadjdata'] as $v) {
-                                    echo $lang['also_start_month'] . $hmonths[$v['month']] . $lang['from_year'] . $v['year'] . $lang['to'] . $v['grdate'];
+                                    echo _l('also_start_month') . $hmonths[$v['month']] . _l('from_year') . $v['year'] . _l('to') . $v['grdate'];
                                 }
                                 echo "</option>";
                             }
@@ -159,8 +159,8 @@ class My_custom_controller extends AdminController
                     </div>
                     <div class="form-group col-sm-4" style="display: inline-flex;">
         
-                        <input type="button" class="form-control" id="add_adjust_action" value="'.$lang['send'].'">
-                        <input type="button" class="form-control" id="cancel_btn" value="'.$lang['cancel'].'">
+                        <input type="button" class="form-control add_adjust_action" id="add_adjust_action" value="'._l('send').'">
+                        <input type="button" class="form-control" id="cancel_btn" value="'._l('cancel').'">
                     </div>
                 </div>
         </div>';

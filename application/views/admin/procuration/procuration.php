@@ -52,7 +52,7 @@
             
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select <?php if(is_numeric($request)) echo 'disabled'; else $request = '' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select <?php if(is_numeric($request)) echo 'readonly'; else $request = '' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                <?php $selected = ((!empty($client)) ? $client : $request);
                                if($selected == ''){
                                    $selected = (isset($customer_id) ? $customer_id: '');

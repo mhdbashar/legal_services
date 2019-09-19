@@ -12,7 +12,6 @@ class Cases_controller extends AdminController
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
-        $this->load->model('LegalServices/Case_session_model', 'case_session');
         $this->load->model('Branches_model');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->helper('date');

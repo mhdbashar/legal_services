@@ -1,4 +1,12 @@
 <?php
+$lang['start_date'] = "تاريخ البداية";
+$lang['end_date'] = "تاريخ النهاية";
+$lang['procuration_number'] = "رقم الوكالة";
+$lang['come_from'] = "صادرة عن";
+$lang['status'] = "حالة الوكالة";
+$lang['type'] = "نوع الوكالة";
+$lang['procuration_file'] = "ملف الوكالة";
+$lang['added_from'] = "أضيفت من قبل";
 $lang['Add Branch'] = "إضافة فرع جديد";
 $lang['Browse Branch'] = "استعراض الفروع";
 $lang['Branches'] = "الفروع";

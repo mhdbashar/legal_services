@@ -94,6 +94,8 @@ $lang['actor_type'] = "النوع";
 $lang['new_actor_details'] = "إضافة متفاعل جديد";
 
 /** hijri settings **/
+$lang['Hijri_managment'] = "إدارة التقويم الهجري";
+
 $lang['hijri'] = "التقويم الهجري";
 
 

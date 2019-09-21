@@ -19,7 +19,7 @@ $lang['new_cstatus'] = "New Case Status";
 
 
 /** hijri settings **/
-
+$lang['Hijri_managment'] = "Hijri Managment";
 $lang['hijri'] = "Hijri";
 
 $lang['hijri_pages'] = "Hijri Pages";

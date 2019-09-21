@@ -154,7 +154,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-                                $staff_language = get_staff_default_language(get_staff_user_id());
+//                                $staff_language = get_staff_default_language(get_staff_user_id());
+                                $staff_language = get_option('active_language');
+
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
                                     $field_city = 'Name_ar';

@@ -34,6 +34,20 @@ class App_tabs
         return $this;
     }
 
+    public function add_case_tab($slug, $tab)
+    {
+        $this->add($slug, $tab, 'case');
+
+        return $this;
+    }
+
+    public function add_oservice_tab($slug, $tab)
+    {
+        $this->add($slug, $tab, 'oservice');
+
+        return $this;
+    }
+
     public function add_project_tab_children_item($parent_slug, $tab)
     {
         $this->add_child($parent_slug, $tab, 'project');
@@ -41,9 +55,33 @@ class App_tabs
         return $this;
     }
 
+    public function add_case_tab_children_item($parent_slug, $tab)
+    {
+        $this->add_child($parent_slug, $tab, 'case');
+
+        return $this;
+    }
+
+    public function add_oservice_tab_children_item($parent_slug, $tab)
+    {
+        $this->add_child($parent_slug, $tab, 'oservice');
+
+        return $this;
+    }
+
     public function get_project_tabs()
     {
         return $this->get('project');
+    }
+
+    public function get_case_tabs()
+    {
+        return $this->get2('case');
+    }
+
+    public function get_oservice_tabs()
+    {
+        return $this->get3('oservice');
     }
 
     public function add_settings_tab($slug, $tab)
@@ -109,10 +147,38 @@ class App_tabs
 
     public function get($group)
     {
-        hooks()->do_action('before_get_tabs', $group);
-
+        hooks()->do_action('get_project_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
+        foreach ($tabs as $parent => $item) {
+            $tabs[$parent]['children'] = $this->get_child($parent, $group);
+        }
 
+        $tabs = hooks()->apply_filters("{$group}_tabs", $tabs);
+
+        $tabs = $this->filter_visible_tabs($tabs);
+
+        return app_sort_by_position($tabs);
+    }
+
+    public function get2($group)
+    {
+        hooks()->do_action('get_case_tabs', $group);
+        $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
+        foreach ($tabs as $parent => $item) {
+            $tabs[$parent]['children'] = $this->get_child($parent, $group);
+        }
+
+        $tabs = hooks()->apply_filters("{$group}_tabs", $tabs);
+
+        $tabs = $this->filter_visible_tabs($tabs);
+
+        return app_sort_by_position($tabs);
+    }
+
+    public function get3($group)
+    {
+        hooks()->do_action('get_oservice_tabs', $group);
+        $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);
         }
@@ -186,4 +252,5 @@ class App_tabs
 
         return false;
     }
+
 }

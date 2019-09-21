@@ -43,6 +43,32 @@ class Credit_notes extends AdminController
         ]);
     }
 
+    public function table_case($clientid = '', $slug = '')
+    {
+        if (!has_permission('credit_notes', '', 'view') && !has_permission('credit_notes', '', 'view_own')) {
+            ajax_access_denied();
+        }
+
+        $this->app->get_table_data('credit_notes_case', [
+            'clientid' => $clientid,
+            'ServID' => $clientid,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function table_oservice($clientid = '', $slug = '')
+    {
+        if (!has_permission('credit_notes', '', 'view') && !has_permission('credit_notes', '', 'view_own')) {
+            ajax_access_denied();
+        }
+
+        $this->app->get_table_data('credit_notes_oservice', [
+            'clientid' => $clientid,
+            'ServID' => $clientid,
+            'slug' => $slug,
+        ]);
+    }
+
     public function update_number_settings($id)
     {
         $response = [

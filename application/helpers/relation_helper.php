@@ -134,6 +134,50 @@ function get_relation_data($type, $rel_id = '')
         if ($rel_id != '') {
             $data = $CI->tasks_model->get($rel_id);
         }
+    } elseif ($type == 'mycategory') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $data = $CI->legal->GetCategoryByServId($rel_id);
+        }
+    } elseif ($type == 'childmycategory') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $data = $CI->legal->GetChildByCategory($rel_id);
+        }
+    }elseif ($type == 'mycourts') {
+        $CI->load->model('LegalServices/Courts_model', 'courts');
+        $data = $CI->courts->get_all_courts();
+    }elseif ($type == 'myjudicial') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/Courts_model', 'courts');
+            $data = $CI->courts->get_judicial_of_courts($rel_id)->result();
+        }
+    }elseif ($type == 'representative') {
+        $CI->load->model('Customer_representative_model', 'representative');
+        $data = $CI->representative->get();
+    }elseif ($type == 'build_dropdown_cities') {
+        $CI->load->model('countries_model', 'countries');
+        $data = $CI->countries->get_all_cities();
+    }elseif ($type == 'procurations') {
+        $CI->load->model('procurations_model', 'procurations');
+        $data = $CI->procurations->get();
+    }elseif ($type == 'Judges') {
+        $CI->load->model('Judges_model', 'Judges');
+        $data = $CI->Judges->get();
+    }elseif ($type == 'Case_status') {
+        $CI->load->model('CaseStatus_model');
+        $data = $CI->CaseStatus_model->get();
+    }
+    else{
+        $CI->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $service_id = $CI->legal->get_service_id_by_slug($type);
+        if($service_id == 1){
+            $CI->load->model('LegalServices/Cases_model', 'case_serv');
+            $data = $CI->case_serv->get($rel_id);
+        }else{
+            $CI->load->model('LegalServices/Other_services_model', 'other_serv');
+            $data = $CI->other_serv->get($service_id,$rel_id);
+        }
     }
 
     return $data;
@@ -318,6 +362,14 @@ function get_relation_values($relation, $type)
         $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
 
         $link = admin_url('projects/view/' . $id);
+    }else{
+        if (is_array($relation)) {
+            $id       = $relation['id'];
+            $name     = $relation['name'];
+        } else {
+            $id       = $relation->id;
+            $name     = $relation->name;
+        }
     }
 
     return hooks()->apply_filters('relation_values', [

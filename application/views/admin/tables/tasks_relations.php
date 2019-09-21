@@ -1,7 +1,4 @@
-<?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
-
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 $hasPermissionEdit   = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');
 $tasksPriorities     = get_tasks_priorities();
@@ -26,6 +23,7 @@ include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
     $tasks_related_to = explode(',', $this->ci->input->post('tasks_related_to'));
@@ -49,6 +47,18 @@ if (!$this->ci->input->post('tasks_related_to')) {
             $rel_to_query .= '(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $rel_id . ')';
         } elseif ($rel_to == 'project') {
             $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $rel_id . ')';
+        } else{
+
+            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
+
+            if($ServID == 1){
+                $table_rel = 'my_cases';
+            }else{
+                $table_rel = 'my_other_services';
+            }
+
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix(). $table_rel. ' WHERE clientid=' . $rel_id . ')';
         }
 
         $rel_to_query .= ' AND rel_type="' . $rel_to . '")';
@@ -60,6 +70,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
     $rel_to_query .= ')';
     array_push($where, $rel_to_query);
 }
+
+array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 0');
 
 $join = [];
 

@@ -16,7 +16,7 @@ class Session_Info extends AdminController{
     }
 
 
-    public function discussion($id = '')
+    public function discussion($id = "")
     {
         if ($this->input->get()) {
             $message = '';
@@ -73,13 +73,24 @@ class Session_Info extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-	public function session_detail($id = '')
+	public function session_detail($id = '', $service_id = '', $rel_id = '')
     {
-        if ($this->input->is_ajax_request()) {
-                $this->sessionapp->get_table_data('my_project_discussions', [
+        if($this->input->get('tab') == 'reminders')
+            {
+                if ($this->input->is_ajax_request()) {
+                    $this->app->get_table_data('reminders', [
+                        'id' => $rel_id,
+                        'rel_type' => $service_id,
+                    ]);
+                }
+            }
+        if($this->input->get('tab'))
+            if ($this->input->is_ajax_request()) {
+                $this->app->get_table_data('my_project_discussions', [
                     'session_id' => $id,
                 ]);
             }
+            
             $this->app_scripts->add(
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
@@ -95,6 +106,10 @@ class Session_Info extends AdminController{
         $data['contract'] = $this->file_model->get_session_file($id);
         $data['title'] = 'Sessions Detail';
         $data['session_id'] = $id;
+        $data['service_id'] = $service_id;
+        $data['rel_id'] = $rel_id;
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+        $data['members'] = $data['staff'];
         $data['session'] = $this->Service_sessions_model->get($id);
         $data['court_name'] = $this->Service_sessions_model->get_court($data['session']->court_id);
         $data['judge_name'] = $this->Service_sessions_model->get_judges($data['session']->judge_id);
@@ -102,7 +117,7 @@ class Session_Info extends AdminController{
         $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
         $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
 
-        $this->load->view('files/file', $data);
+        $this->load->view('admin/old_service_sessions/session', $data);
     }
 
     public function get_discussion_comments($id, $type)
@@ -130,9 +145,9 @@ class Session_Info extends AdminController{
     	$details = $this->input->get('details');
     	$success = $this->Service_sessions_model->update_details($id, ['details' => $details]);
     	if ($success){
-    		set_alert('success', 'Detail Updated Successfuly');
+    		set_alert('success', _l('detail_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }
@@ -140,9 +155,9 @@ class Session_Info extends AdminController{
         $status = $this->input->get('status');
         $success = $this->Service_sessions_model->update_details($id, ['status' => $status]);
         if ($success){
-            set_alert('success', 'Status Updated Successfuly');
+            set_alert('success', _l('status_updated_successfuly'));
         }else{
-            set_alert('danger', 'Problem Updating');
+            set_alert('danger', _l('problem_updating'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -151,9 +166,9 @@ class Session_Info extends AdminController{
         $result = $this->input->get('result');
         $success = $this->Service_sessions_model->update_details($id, ['result' => $result]);
         if ($success){
-            set_alert('success', 'Result Updated Successfuly');
+            set_alert('success', _l('result_updated_successfuly'));
         }else{
-            set_alert('danger', 'Problem Updating');
+            set_alert('danger', _l('problem_updating'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -163,9 +178,9 @@ class Session_Info extends AdminController{
     	$next_action = $this->input->get('next_action');
     	$success = $this->Service_sessions_model->update_details($id, ['next_action' => $next_action]);
     	if ($success){
-    		set_alert('success', 'Next Action Updated Successfuly');
+    		set_alert('success', _l('next_action_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }
@@ -175,9 +190,9 @@ class Session_Info extends AdminController{
     	$next_date = $this->input->get('next_date');
     	$success = $this->Service_sessions_model->update_details($id, ['next_date' => $next_date]);
     	if ($success){
-    		set_alert('success', 'Next Date Updated Successfuly');
+    		set_alert('success', _l('next_date_updated_successfuly'));
     	}else{
-    		set_alert('danger', 'Problem Updating');
+    		set_alert('danger', _l('problem_updating'));
     	}
     	redirect($_SERVER['HTTP_REFERER']);
     }

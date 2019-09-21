@@ -3,7 +3,7 @@
 <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <?php echo form_open("hrm/basic/edit/" . $info['staffid'], array('id' => 'basic-form', 'autocomplete' => 'off')); ?>
+            <?php echo form_open("hrm/details/edit_basic_details/" . $info['staffid'], array('id' => 'basic-form', 'autocomplete' => 'off')); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel"><?php echo 'Edit Staff Account'; ?></h4>
@@ -36,6 +36,23 @@
                                 <option value="female" <?php if (isset($info['gender']) && $info['gender'] == 'female') {
                             echo 'selected';
                         } ?>>Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="gender">Period</label>
+                            <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="period" id="direction">
+                                <option value="" <?php if (isset($info['period']) && empty($info['period'])) {
+                            echo 'selected';
+                        } ?>></option>
+                                <option value="m" <?php if (isset($info['period']) && $info['period'] == 'm') {
+                            echo 'selected';
+                        } ?>>Morning</option>
+                                <option value="e" <?php if (isset($info['period']) && $info['period'] == 'e') {
+                            echo 'selected';
+                        } ?>>Evening</option>
                             </select>
                         </div>
                     </div>

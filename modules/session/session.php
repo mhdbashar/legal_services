@@ -16,6 +16,13 @@ Requires at least: 2.3.*
 Author: Ahmad Zaher Khrezaty
 */
 
+
+/**
+* Register language files, must be registered if the module is using languages
+*/
+register_language_files(SESSION_MODULE_NAME, [SESSION_MODULE_NAME]);
+
+
 register_activation_hook('session', 'session_module_activation_hook');
 hooks()->add_action('admin_init', 'session_module_init_menu_item');
 hooks()->add_action('admin_init', 'session_init_Hr_tabs');
@@ -25,7 +32,7 @@ function session_module_init_menu_item() {
 
     $CI->app_menu->add_sidebar_menu_item('session', [
         'name' => 'Session',
-        'href' => base_url('session/service_sessions/session/1/1'),
+        'href' => base_url('session/old_service_sessions/session/1/1'),
         'position' => 10,
         'icon' => 'fa fa-map-marker',
     ]);

@@ -4,6 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Clients extends AdminController
 {
+    public function __construct(){
+        parent::__construct();
+        $this->load->model('Branches_model');
+    }
     /* List all clients */
     public function index()
     {
@@ -18,6 +22,7 @@ class Clients extends AdminController
         $data['groups']         = $this->clients_model->get_groups();
         $data['title']          = _l('clients');
 
+        
         $this->load->model('proposals_model');
         $data['proposal_statuses'] = $this->proposals_model->get_statuses();
 
@@ -70,6 +75,13 @@ class Clients extends AdminController
         $this->load->view('admin/clients/all_contacts', $data);
     }
 
+    
+    public function add()
+    {
+        $data = $this->input->post();
+        echo $this->clients_model->add($data);
+    }
+
     /* Edit client or add new client*/
     public function client($id = '')
     {
@@ -80,12 +92,21 @@ class Clients extends AdminController
         }
 
         if ($this->input->post() && !$this->input->is_ajax_request()) {
+
+
+            $data = $this->input->post();
+
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+
+                unset($data['branch_id']);
+            }
+
             if ($id == '') {
                 if (!has_permission('customers', '', 'create')) {
                     access_denied('customers');
                 }
-
-                $data = $this->input->post();
+                
 
                 $save_and_add_contact = false;
                 if (isset($data['save_and_add_contact'])) {
@@ -99,11 +120,20 @@ class Clients extends AdminController
                     $this->clients_model->assign_admins($assign, $id);
                 }
                 if ($id) {
+                    if($this->app_modules->is_active('branches')){
+                        $data = [
+                            'branch_id' => $branch_id, 
+                            'rel_type' => 'clients', 
+                            'rel_id' => $id
+                        ];
+                        $this->Branches_model->set_branch($data);
+                    }
+                    
                     set_alert('success', _l('added_successfully', _l('client')));
                     if ($save_and_add_contact == false) {
-                        redirect(admin_url('clients/client/' . $id));
+                        redirect(admin_url($_SERVER['HTTP_REFERER'] . '/' . $id));
                     } else {
-                        redirect(admin_url('clients/client/' . $id . '?group=contacts&new_contact=true'));
+                        redirect($_SERVER['HTTP_REFERER'] . '?group=contacts&new_contact=true');
                     }
                 }
             } else {
@@ -112,11 +142,14 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
-                $success = $this->clients_model->update($this->input->post(), $id);
+                if($this->app_modules->is_active('branches'))
+                    $this->Branches_model->update_branch('clients', $id, $branch_id);
+
+                $success = $this->clients_model->update($data, $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));
                 }
-                redirect(admin_url('clients/client/' . $id));
+                redirect($_SERVER['HTTP_REFERER']);
             }
         }
 
@@ -206,6 +239,7 @@ class Clients extends AdminController
 
             $data['client'] = $client;
             $title          = $client->company;
+            $data['id'] = $id;
 
             // Get all active staff members (used to add reminder)
             $data['members'] = $data['staff'];
@@ -221,6 +255,12 @@ class Clients extends AdminController
 
         $this->load->model('currencies_model');
         $data['currencies'] = $this->currencies_model->get();
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('clients', $id);
+        }
 
         if ($id != '') {
             $customer_currency = $data['client']->default_currency;
@@ -580,6 +620,14 @@ class Clients extends AdminController
     {
         $this->app->get_table_data('contacts', [
             'client_id' => $client_id,
+        ]);
+    }
+
+    public function procurations($client_id)
+    {
+        $this->app->get_table_data('my_procurations', [
+            'client_id' => $client_id,
+            'request' => 'client'
         ]);
     }
 

@@ -23,21 +23,36 @@
          <?php echo form_hidden('memberid',$member->staffid); ?>
       </div>
       <?php } ?>
-
+     
+        <div class="col-md-3">
+       <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked">
+      <?php
+      $i = 0;
+      foreach($tabs as $group){
+        ?>
+        <li<?php if($i == 0){echo " class='active'"; } ?>>
+        <a href="<?php echo admin_url('hrm/employees/member/'.$member->staffid.'?group='.$group['slug']); ?>" data-group="<?php echo $group['slug']; ?>">
+          <?php echo $group['name']; ?></a>
+        </li>
+        <?php $i++; } ?>
+      </ul>
+     
+   </div>
 
   <?php
-$arr = $this->basic_details->getstaff($id);
-      $a = $this->basic_details->getnewstaff($id);
+$arr = $this->Details_model->getstaff($id);
+      $a = $this->Details_model->getnewstaff($id);
       if(!empty($a)){
             foreach ($a as $key => $value){
             $arr[$key] = $value;
         }
         }
+        $pageName = $this->input->get('group');
       $data['info'] = $arr;
       $data['page'] = 'basic';
       $data['user_id'] = $id;
         $data['title'] = "Basic Details";
-      $this->load->view('details/basic_details', $data);
+      $this->load->view('details/'.$pageName, $data);
   ?>
 
 
@@ -487,23 +502,7 @@ $arr = $this->basic_details->getstaff($id);
                   </table>
             </div>
          </div>
-         <div class="panel_s">
-            <div class="panel-body">
-               <h4 class="no-margin">
-                  <?php echo _l('projects'); ?>
-               </h4>
-               <hr class="hr-panel-heading" />
-               <div class="_filters _hidden_inputs hidden staff_projects_filter">
-                  <?php echo form_hidden('staff_id',$member->staffid); ?>
-               </div>
-               <?php render_datatable(array(
-                  _l('project_name'),
-                  _l('project_start_date'),
-                  _l('project_deadline'),
-                  _l('project_status'),
-                  ),'staff-projects'); ?>
-            </div>
-         </div>
+         
       </div>
       <?php } ?>
    </div>
@@ -511,6 +510,60 @@ $arr = $this->basic_details->getstaff($id);
 </div>
 <?php init_tail(); ?>
 <script>
+
+   
+
+   $(function(){
+        initDataTable('.table-make_payment', window.location.href, [1], [1]);
+   });
+
+   $(function(){
+        initDataTable('.table-bank', window.location.href);
+   });
+
+   $(function(){
+        initDataTable('.table-leave', window.location.href);
+   });
+
+   $(function(){
+        initDataTable('.table-activity', window.location.href);
+   });
+
+   function edit_bank_json(id){
+
+        save_method = 'update';
+        $('#form_transout')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+
+        //Ajax Load data from ajax
+        $.ajax({
+            url : "<?php echo site_url('hrm/details/get_bank') ?>/" + id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+
+                console.log(data);
+                $('[name="id"]').val(data.id);
+                $('[name="bank_name"]').val(data.bank_name);
+                $('[name="account_name"]').val(data.account_name);
+                $('[name="routing_number"]').val(data.routing_number);
+                $('[name="account_number"]').val(data.account_number);
+                
+                
+                // $('[name="dob"]').datepicker('update',data.dob);
+                $('#edit_bank').modal('show'); // show bootstrap modal when complete loaded
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+    }
+
    $(function() {
 
        $('select[name="role"]').on('change', function() {

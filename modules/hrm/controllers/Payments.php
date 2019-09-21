@@ -40,7 +40,7 @@ class Payments extends AdminController{
                     set_alert('warning', 'Problem Updating Payment');
                 }
             
-            redirect('hrm/payments');
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
     public function delete($id)
@@ -57,6 +57,6 @@ class Payments extends AdminController{
         } else {
             set_alert('warning', _l('problem_deleting', "Payment"));
         }
-        redirect('hrm/payments');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
@@ -98,7 +97,7 @@ if (!has_permission('estimates', '', 'view')) {
     $userWhere = 'AND ' . get_estimates_where_sql_for_staff(get_staff_user_id());
     array_push($where, $userWhere);
 }
-
+array_push($where, 'AND ' . db_prefix() . 'estimates.deleted = 0');
 $aColumns = hooks()->apply_filters('estimates_table_sql_columns', $aColumns);
 
 // Fix for big queries. Some hosting have max_join_limit

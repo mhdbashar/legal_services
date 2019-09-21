@@ -216,7 +216,7 @@ function get_estimate_item_taxes($itemid)
 {
     $CI = & get_instance();
     $CI->db->where('itemid', $itemid);
-    $CI->db->where('rel_type', 'estimate');
+    $CI->db->where('rel_stype', 'estimate');
     $taxes = $CI->db->get(db_prefix().'item_tax')->result_array();
     $i     = 0;
     foreach ($taxes as $tax) {

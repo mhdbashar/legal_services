@@ -14,6 +14,7 @@
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
                         'Country Name',
+                        'Arabic Country Name',
                         'Options',
                         ),'countries'); ?>
                     </div>
@@ -26,7 +27,7 @@
 <?php init_tail(); ?>
 <script>
    $(function(){
-        initDataTable('.table-countries', window.location.href, [1], [1]);
+        initDataTable('.table-countries', window.location.href);
    });
 </script>
 </body>

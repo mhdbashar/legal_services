@@ -1,6 +1,7 @@
+.idea/
 logs/
 system/
 plugins/
 themes/
 vendor/
-app-config.php
+application/config/app-config.php

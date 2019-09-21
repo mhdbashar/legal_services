@@ -251,9 +251,11 @@ class Tickets_model extends App_Model
         $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = ' . db_prefix() . 'tickets.contactid', 'left');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.admin', 'left');
         $this->db->join(db_prefix() . 'tickets_priorities', db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority', 'left');
+        $this->db->where(db_prefix() . 'tickets.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'tickets.ticketid', $id);
+            $this->db->where(db_prefix() . 'tickets.deleted', 0);
 
             return $this->db->get(db_prefix() . 'tickets')->row();
         }

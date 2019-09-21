@@ -9,18 +9,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/add/'.$rel_id.'/'.$service_id . '/' . get_staff_user_id() ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/old_service_sessions/add/'.$rel_id.'/'.$service_id . '/' . get_staff_user_id() ?>">
                    <div class="form-group">
                         
                           <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" name="subject">
+                            <input type="text" class="form-control" id="subject" name="subject" required>
                           </div>
                           
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
-                              <select name="court_id" id="court_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select required style="padding: 6px 9px; border-radius: 3px; width: 100%" name="court_id">
+                                <option value="">Not Selected</option>
                                 <?php foreach ($courts as $court){ ?>
 
                                   <option value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
@@ -34,7 +35,8 @@
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
-                              <select name="judge_id" id="judge_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
+                                <option value="">Not Selected</option>
                                 <?php foreach ($judges as $judge){ ?>
 
                                   <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>
@@ -44,8 +46,8 @@
                             
                             </div>
                           </div>
-
-                          <div class="form-group" app-field-wrapper="date">
+                          <div class="row">
+                          <div class="form-group col-md-6" app-field-wrapper="date">
                             <label for="date" class="control-label">Date</label>
                             <div class="input-group date">
                               <input type="text" id="date" name="date" class="form-control datepicker" value="<?php echo '20' . date('y') . '-' . date('m') . '-' . date('d'); ?>" autocomplete="off" aria-invalid="false">
@@ -54,6 +56,12 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="col-md-6">
+                            <label for="ammount" class="col-form-label">Time</label>
+                            <input type="time" class="form-control" value="" name="time">
+                          </div>
+                        </div>
                     </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -75,23 +83,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/update/'.$rel_id.'/'.$service_id ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/old_service_sessions/update/'.$rel_id.'/'.$service_id ?>">
                    <div class="form-group">
                         
                           <input aria-hidden="true" type="hidden" class="form-control" id="id" name="id">
 
                           <div class="form-group">
                             <label for="subject" class="col-form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" name="subject">
+                            <input type="text" class="form-control" id="subject" name="subject" required>
                           </div>
 
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Court</label>
                             <div class="row-fluid">
-                              <select id="selection" name="court_id" id="court_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select required style="padding: 6px 9px; border-radius: 3px; width: 100%" name="court_id">
                                 <?php foreach ($courts as $court){ ?>
 
-                                  <option class="<?php echo $court['c_id'] ?>" value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
+                                  <option value="<?php echo $court['c_id'] ?>"><?php echo $court['court_name'] ?></option>
                                   
                                 <?php } ?>
                               </select>
@@ -102,7 +110,7 @@
                           <div class="form-group">
                             <label for="staff_id" class="col-form-label">Judge</label>
                             <div class="row-fluid">
-                              <select name="judge_id" id="judge_id" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                              <select name="judge_id" required style="padding: 6px 9px; border-radius: 3px; width: 100%" >
                                 <?php foreach ($judges as $judge){ ?>
 
                                   <option value="<?php echo $judge['id'] ?>"><?php echo $judge['name'] ?></option>
@@ -113,15 +121,22 @@
                             </div>
                           </div>
 
-                          <div class="form-group" app-field-wrapper="date">
+                          <div class="row">
+                          <div class="form-group col-md-6" app-field-wrapper="date">
                             <label for="date" class="control-label">Date</label>
                             <div class="input-group date">
-                              <input type="text" id="date" name="date" class="form-control datepicker" value="2019-05-23" autocomplete="off" aria-invalid="false">
+                              <input type="text" id="date" name="date" class="form-control datepicker" value="<?php echo '20' . date('y') . '-' . date('m') . '-' . date('d'); ?>" autocomplete="off" aria-invalid="false">
                               <div class="input-group-addon">
                                 <i class="fa fa-calendar calendar-icon"></i>
                               </div>
                             </div>
                           </div>
+
+                          <div class="col-md-6">
+                            <label for="ammount" class="col-form-label">Time</label>
+                            <input type="time" class="form-control" value="" name="time">
+                            </div>
+                        </div>
                     </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -32,6 +32,10 @@ class Cron_model extends App_Model
         parent::__construct();
         $this->load->model('emails_model');
         $this->load->model('staff_model');
+        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
+        $this->load->model('LegalServices/Cases_model', 'case');
+        $this->load->model('LegalServices/Other_services_model', 'other');
+        $this->load->model('tasks_model');
     }
 
     public function run($manually = false)
@@ -54,6 +58,7 @@ class Cron_model extends App_Model
             $this->staff_reminders();
             $this->events();
             $this->tasks_reminders();
+            $this->procurations_reminders();
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();
@@ -66,6 +71,9 @@ class Cron_model extends App_Model
             $this->auto_import_imap_tickets();
             $this->check_leads_email_integration();
             $this->delete_activity_log();
+
+            $this->legal_services_recycle_bin_reminders();
+            $this->empty_legal_services_recycle_bin();
 
             /**
              * Finally send any emails in the email queue - if enabled and any
@@ -841,6 +849,65 @@ class Cron_model extends App_Model
 
         pusher_trigger_notification($notifiedUsers);
     }
+    private function procurations_reminders()
+    {
+        $reminder_before = get_option('procurations_reminder_notification_before');
+
+        // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
+
+        $this->db->where('end_date IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+
+        $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+        foreach ($procurations as $procuration) {
+            if (date('Y-m-d', strtotime($procuration['end_date'])) >= date('Y-m-d')) {
+                $end_date = new DateTime($procuration['end_date']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and end_date is the same like the reminder before
+                // In this case reminder wont be sent becuase the procuration it too short
+                $start_date              = strtotime($procuration['start_date']);
+                $end_date                 = strtotime($procuration['end_date']);
+                $start_and_end_date_diff = $end_date - $start_date;
+                $start_and_end_date_diff = floor($start_and_end_date_diff / (60 * 60 * 24));
+
+                if ($diff <= $reminder_before && $start_and_end_date_diff > $reminder_before) {
+                    $this->db->where('admin', 1);
+                    $assignees = $this->staff_model->get();
+
+                    foreach ($assignees as $member) {
+                        $row = $this->db->get(db_prefix() . 'staff')->row();
+                        if ($row) {
+                            $notified = add_notification([
+                                'description'     => 'not_procuration_deadline_reminder',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => null,
+                                'link'            => 'procuration/procurationcu/' . $procuration['id'],
+                                
+                            ]);
+
+                            if ($notified) {
+                                array_push($notifiedUsers, $member['staffid']);
+                            }
+
+                            send_mail_template('procuration_deadline_reminder_to_staff', $row->email, $member['staffid'], $procuration['id']);
+
+
+                            $this->db->where('id', $procuration['id']);
+                            $this->db->update(db_prefix() . 'procurations', [
+                                'deadline_notified' => 1,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+    }
 
     private function staff_reminders()
     {
@@ -1604,4 +1671,243 @@ class Cron_model extends App_Model
 
         return $body;
     }
+
+    public function legal_services_recycle_bin_reminders()
+    {
+        $empty_date    = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
+        $reminder_date = date('Y-m-d', strtotime($empty_date. ' - '.get_option('automatically_reminders_before_empty_recycle_bin_days').' days'));
+
+        $this->db->where('deleted =', 1);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->num_rows();
+
+        $this->db->where('deleted =', 1);
+        $oservices = $this->db->get(db_prefix() . 'my_other_services')->num_rows();
+
+        $notifiedUsers = [];
+
+        if($cases > 0 || $oservices > 0){
+            if(date('Y-m-d') == $reminder_date){
+                $notified = add_notification([
+                    'fromcompany'     => true,
+                    'touserid'        => get_staff_user_id(),
+                    'description'     => 'ConfirmEmptyLegalServicesRecycleBin',
+                    'link'            => 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin',
+                ]);
+
+                if ($notified) {
+                    array_push($notifiedUsers, get_staff_user_id());
+                }
+
+                pusher_trigger_notification($notifiedUsers);
+
+            }
+        }
+    }
+
+    public function empty_legal_services_recycle_bin()
+    {
+        $empty_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
+
+        if(date('Y-m-d') == $empty_date){
+
+            //For Cases
+            $this->db->where('deleted =', 2);
+            $cases          = $this->db->get(db_prefix() . 'my_cases');
+            $cases_num_rows = $cases->num_rows();
+            $cases_result   = $cases->result();
+
+            //For Other Services
+            $this->db->where('deleted =', 2);
+            $oservices          = $this->db->get(db_prefix() . 'my_other_services');
+            $oservices_num_rows = $oservices->num_rows();
+            $oservices_result   = $oservices->result();
+
+            if($cases_num_rows > 0){
+                foreach ($cases_result as $row){
+
+                    $this->db->where(array('id' => $row->id , 'deleted' => 2));
+                    $this->db->delete(db_prefix() . 'my_cases');
+
+                    $slug = $this->legal->get_service_by_id(1)->row()->slug;
+
+                    if ($this->db->affected_rows() > 0) {
+
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_cases');
+
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => 1));
+                        $this->db->delete(db_prefix() . 'my_service_session');
+
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_movement');
+
+                        $this->db->where('case_mov_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_cases_movement_judges');
+
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_cases_judges');
+
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_notes');
+
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the custom field values
+                        $this->db->where('relid', $row->id);
+                        $this->db->where('fieldto', $slug);
+                        $this->db->delete('customfieldsvalues');
+
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'taggables');
+
+                        $this->db->where('project_id', $row->id);
+                        $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
+                        foreach ($discussions as $discussion) {
+                            $discussion_comments = $this->case->get_discussion_comments($discussion['id'], 'regular');
+                            foreach ($discussion_comments as $comment) {
+                                $this->case->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+                            }
+                            $this->db->where('discussion_id', $discussion['id']);
+                            $this->db->delete(db_prefix() . 'casediscussioncomments');
+                        }
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'casediscussions');
+
+                        $files = $this->case->get_files($row->id);
+                        foreach ($files as $file) {
+                            $this->case->remove_file($file['id']);
+                        }
+
+                        $tasks = $this->case->get_tasks($row->id);
+                        foreach ($tasks as $task) {
+                            $this->tasks_model->delete_task($task['id'], false);
+                        }
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tasks');
+
+                        $this->db->where('case_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_settings');
+
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'case_activity');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'expenses');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'invoices');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'creditnotes');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'estimates');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tickets');
+
+                        $this->db->where('project_id', $row->id);
+                        $this->db->delete(db_prefix() . 'pinned_cases');
+
+                        log_activity('Case Deleted [CaseID: ' . $row->id . ']');
+                    }
+                    return true;
+                }
+            }
+
+            if ($oservices_num_rows > 0){
+                foreach ($oservices_result as $row) {
+
+                    $this->db->where(array('id' => $row->id, 'service_id' => $row->service_id, 'deleted' => 2));
+                    $this->db->delete(db_prefix() . 'my_other_services');
+
+                    $service_row = $this->legal->get_service_by_id($row->service_id)->row();
+                    $slug        = $service_row->slug;
+                    $ServiceName = $service_row->name;
+
+                    if ($this->db->affected_rows() > 0) {
+
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_services');
+
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => $row->service_id));
+                        $this->db->delete(db_prefix() . 'my_service_session');
+
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_notes');
+
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the custom field values
+                        $this->db->where('relid', $row->id);
+                        $this->db->where('fieldto', $slug);
+                        $this->db->delete('customfieldsvalues');
+
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'taggables');
+
+                        $this->db->where('oservice_id', $row->id);
+                        $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
+                        foreach ($discussions as $discussion) {
+                            $discussion_comments = $this->other->get_discussion_comments($discussion['id'], 'regular');
+                            foreach ($discussion_comments as $comment) {
+                                $this->other->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+                            }
+                            $this->db->where('discussion_id', $discussion['id']);
+                            $this->db->delete(db_prefix() . 'oservicediscussioncomments');
+                        }
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservicediscussions');
+
+                        $files = $this->other->get_files($row->id);
+                        foreach ($files as $file) {
+                            $this->other->remove_file($file['id']);
+                        }
+
+                        $tasks = $this->other->get_tasks($row->service_id, $row->id);
+                        foreach ($tasks as $task) {
+                            $this->tasks_model->delete_task($task['id'], false);
+                        }
+
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_settings');
+
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'oservice_activity');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'expenses');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'invoices');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'creditnotes');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'estimates');
+
+                        $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tickets');
+
+                        $this->db->where('oservice_id', $row->id);
+                        $this->db->delete(db_prefix() . 'pinned_oservices');
+
+                        log_activity($ServiceName.' Deleted [ServiceID: ' . $row->id . ']');
+                    }
+                    return true;
+                }
+            }
+
+            log_activity('Empty Legal Services Recycle Bin');
+        }
+        return false;
+    }
+
 }

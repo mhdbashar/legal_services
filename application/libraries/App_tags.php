@@ -112,7 +112,6 @@ class App_tags
         $this->ci->db->where('rel_type', $rel_type);
         $this->ci->db->order_by('tag_order', 'ASC');
         $tags = $this->ci->db->get(db_prefix().'taggables')->result_array();
-
         $tag_names = [];
         foreach ($tags as $tag) {
             $tag_row = $this->get($tag['tag_id']);
@@ -120,7 +119,6 @@ class App_tags
                 array_push($tag_names, $tag_row->name);
             }
         }
-
         return $tag_names;
     }
 

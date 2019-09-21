@@ -7,14 +7,16 @@ class Language extends AdminController
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->model('Language_model');
 	}
-	public function index($language = 'english', $offset = 0){
+	public function index($language = 'english', $custom = 'custom_lang', $offset = 0, $search = ''){
 
-		$file = FCPATH . 'application/language/' . $language .'/custom_lang.php';
+
+		$file = FCPATH . 'application/language/' . $language .'/'. $custom .'.php';
 
 		if(!file_exists($file)){
 			require FCPATH . 'application/language/' . $language . '/' . $language . '_lang.php';
-			$a = getArr($lang);
+			$a = $this->getArr($lang);
 			$handle = fopen($file, 'w+');
 			fwrite($handle, $a);
 		}
@@ -30,19 +32,49 @@ class Language extends AdminController
 			$handle = fopen($file, 'w+');
 
 			$key = $this->input->get('key'); $value = $this->input->get('value');
-			$lang[$key] = $value;
 
-			$a = getArr($lang);
+			unset($lang[$key]);
+
+			$new = array_merge([$key => $value], $lang);
+
+			$lang = $new;
+
+
+
+			$a = $this->getArr($lang);
 			fwrite($handle,  $a);
 			
 			fclose($handle);
 		}
-    	
-    	$data['lang'] = $lang ;
+
+		$filter_lang = [];
+
+
+		if (!empty($this->input->get('search'))){
+
+			redirect(base_url().'label_management/language/index/'.$language.'/'.$custom.'/0/'.$this->input->get('search'));
+
+		}
+
+		if (!empty($search)){
+
+			$phrese = $search;
+			$result = $this->Language_model->search($lang, urldecode($phrese));
+
+			foreach ($result as $key){
+				$filter_lang[$key] = $lang[$key];
+			}
+		}else{
+			$filter_lang = $lang;
+		}
+
+		$data['custom'] = $custom;
+    	$data['lang'] = $filter_lang ;
     	$data['language'] = $language;
+    	$data['search'] = $search;
 
     	// Pagination
-    	$data['per_page'] = 200;
+    	$data['per_page'] = 20;
     	$data['offset'] = $offset + 1;
     	$data['start'] = $offset + $data['per_page'];
     	$this->session->set_flashdata(['offset' => $offset]);
@@ -51,19 +83,29 @@ class Language extends AdminController
     	$this->load->view('language', $data);
 	}
 
-	public function delete($key, $language = 'english'){
-		$file = FCPATH . 'application/language/' . $language .'/custom_lang.php';
+	public function delete($key, $language = 'english', $custom){
+		$file = FCPATH . 'application/language/' . $language .'/'. $custom .'.php';
     	require $file;
 		unset($lang[$key]);
 
-		$a = getArr($lang);
+		$a = $this->getArr($lang);
 
 		$handle = fopen($file, 'w+');
 		fwrite($handle,  $a);
 		fclose($handle);
 
 		$offset = $this->session->flashdata('offset');
-		redirect('label_management/Language/index/' . $language . '/' . $offset);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
+	public function getArr($lang){
+	    $str = '<?php';
+	   foreach($lang as $key => $value){
+
+	       $str .= "\n$" . "lang['" . $key . "']" . ' = "' . str_replace('"', '\"', $value) . '";';
+	   }
+	   return $str;
+	}
+
+
 
 }

@@ -22,8 +22,13 @@ class Service_sessions_model extends App_Model
         return false;
     }
 
-   
-    
+    public function count_sessions($service_id, $rel_id){
+        $this->db->select('id');
+        $this->db->from(db_prefix() . 'my_service_session');
+        $this->db->where(['service_id' => $service_id, 'rel_id' => $rel_id]);
+        return $this->db->count_all_results();
+    }
+
     // tblmy_service_sessions, `id`, `service_id`, `red_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `details`, `next_action`, `next_date`, `report`, `deleted`
 
     public function get($id = '')
@@ -49,7 +54,6 @@ class Service_sessions_model extends App_Model
         $this->db->order_by('id', 'desc');
         return $this->db->get('tblprojectdiscussions')->result_array();
     }
-    
 
     public function getStaffName($id){
         $this->db->select('*');
@@ -67,6 +71,7 @@ class Service_sessions_model extends App_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
     public function add($data)
     {
 
@@ -119,8 +124,6 @@ class Service_sessions_model extends App_Model
         return false;
     }
 
-
-    
     public function delete($id, $simpleDelete = false)
     {
         $this->db->where('id', $id);

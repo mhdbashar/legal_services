@@ -4,12 +4,25 @@ if (!$CI->db->table_exists(db_prefix() . 'my_newstaff')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_newstaff` (
     `user_id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `staff_id` int(11) NOT NULL,
+    `period` varchar(1) NOT NULL,
     `gender` varchar(20) NOT NULL,
     `main_salary` int(11) NOT NULL,
     `transportation_expenses` int(11) NOT NULL,
     `other_expenses` int(11) NOT NULL, 
     `job_title` varchar(255) NOT NULL, 
     `created` date NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'my_bank')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_bank` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `staff_id` int(11) NOT NULL,
+    `bank_name` varchar(255) NOT NULL, 
+    `account_name` varchar(255) NOT NULL, 
+    `routing_number` int(11) NOT NULL, 
+    `account_number` int(11) NOT NULL, 
+    `created` timestamp NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
@@ -35,6 +48,31 @@ if (!$CI->db->table_exists(db_prefix() . 'my_workday')) {
 	  `friday` int(11) NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 	$CI->db->query("INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES ('1', '1', '1', '1', '1', '1', '1');");
+}
+/*
+if (!$CI->db->table_exists(db_prefix() . 'my_workdays')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_workdays` (
+	  `day` varchar(10) NOT NULL,
+	  `work` int(11) NOT NULL,
+	  `period` varchar(1) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+	$CI->db->query("INSERT INTO `".db_prefix() . 'my_workdays'."` (`day`, `work`, `period`) VALUES
+		('saturday', '1', 'e'),
+		('sunday', '0', 'm'),
+		('monday', '1', 'e'),
+		('tuesday', '0', 'e'),
+		('wednesday', '1', 'm'),
+		('thursday', '1', 'm'),
+		('friday', '0', 'm');");
+}
+*/
+if (!$CI->db->table_exists(db_prefix() . 'my_workdays_period')) {
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_workdays_period` (
+	    `morning` varchar(50) NOT NULL,
+ 		`evening` varchar(50) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+	$CI->db->query("INSERT INTO `".db_prefix() . 'my_workdays_period'."` (`morning`, `evening`) VALUES
+		('9:30-13:30', '2:00-12:00');");
 }
 
 if (!$CI->db->table_exists(db_prefix() . 'my_holiday')) {           
@@ -83,4 +121,34 @@ if (!$CI->db->table_exists(db_prefix() . 'my_employee_basic')) {
 	`address` varchar(150) DEFAULT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
-  
+
+
+
+
+// ShababSy.com Added This Table
+if (!$CI->db->table_exists(db_prefix() . 'my_training')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_training` (
+	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	  `staff_id` int(11) NOT NULL,
+	  `training` varchar(20) NOT NULL,
+	  `vendor` varchar(20) NOT NULL,
+	  `start_date` date NOT NULL,
+	  `end_date` date NOT NULL,
+	  `cost` double NOT NULL,
+	  `status` varchar(20) NOT NULL,
+	  `performance` varchar(20) NOT NULL,
+	  `remarks` text NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+
+// ShababSy.com Added This Table
+if (!$CI->db->table_exists(db_prefix() . 'my_training_attachments')) {           
+	$CI->db->query('CREATE TABLE `' . db_prefix() .  'my_training_attachments` (
+	  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	  `trainid` int(11) NOT NULL,
+	  `file_name` text NOT NULL,
+	  `filetype` text NOT NULL,
+	  `dateadded` date NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

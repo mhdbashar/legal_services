@@ -12,7 +12,8 @@ class Employees extends AdminController {
         $ci->load->library(['hr_tabs']);
         //$ci->load->library(['hr_tabs']);
         $this->load->model('hr');
-        $this->load->model('basic_details');
+        $this->load->model('Details_model');
+        $this->load->model('Workday');
     }
 
     /* List all Employees */
@@ -34,6 +35,40 @@ class Employees extends AdminController {
         if (!has_permission('hr', '', 'view')) {
             access_denied('hr');
         }
+        
+        if($this->input->get('group') == 'salary'){
+            
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_payment_table', ['staff_id' => $id]);
+            }
+        }
+
+        if($this->input->get('group') == 'activities'){
+            
+            $staff = $this->Details_model->get_staff_name($id);
+            $staffname = $staff['firstname'] . ' ' . $staff['lastname'];
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_activity_table', ['staffname' => $staffname]);
+            }
+        }
+
+        if($this->input->get('group') == 'bank'){
+            
+            if ($this->input->is_ajax_request()) {
+                $this->hrmapp->get_table_data('my_bank_table', ['staff_id' => $id]);
+            }
+        }
+
+        if($this->input->get('group') == 'leave'){
+            
+            if($this->input->is_ajax_request()){
+                $this->hrmapp->get_table_data('my_vac_table', ['staff_id' => $id]);
+            }
+        }
+        
+
+        
+
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
         $this->load->model('departments_model');
@@ -109,7 +144,7 @@ class Employees extends AdminController {
 
         $tab = $this->input->get('group');
         $data['tab']['slug'] = $tab;
-        $data['tab']['view'] = 'hr/includes/' . $tab;
+        $data['tab']['view'] = 'hrm/details/' . $tab;
         $data['tab']['info'] = $this->hr_tabs->filter_tab($this->hr_tabs->get_employeedetails_tabs(), $tab);
 
         if (!$data['tab']) {
@@ -176,5 +211,7 @@ class Employees extends AdminController {
         ]);
 
     }
+
+    
 
 }

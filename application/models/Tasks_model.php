@@ -83,12 +83,63 @@ class Tasks_model extends App_Model
      * @param  mixed $id task id
      * @return object
      */
-    public function get($id, $where = [])
+    public function get($id, $where = [], $is_session = 0)
     {
         $is_admin = is_admin();
-        $this->db->where('id', $id);
+        $this->db->where( array('id' => $id, 'deleted' => 0, 'is_session' => $is_session));
         $this->db->where($where);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
+        if ($task) {
+            $task->comments      = $this->get_task_comments($id);
+            $task->assignees     = $this->get_task_assignees($id);
+            $task->assignees_ids = [];
+
+            foreach ($task->assignees as $follower) {
+                array_push($task->assignees_ids, $follower['assigneeid']);
+            }
+
+            $task->followers     = $this->get_task_followers($id);
+            $task->followers_ids = [];
+            foreach ($task->followers as $follower) {
+                array_push($task->followers_ids, $follower['followerid']);
+            }
+
+            $task->attachments     = $this->get_task_attachments($id);
+            $task->timesheets      = $this->get_timesheeets($id);
+            $task->checklist_items = $this->get_checklist_items($id);
+
+            if (is_staff_logged_in()) {
+                $task->current_user_is_assigned = $this->is_task_assignee(get_staff_user_id(), $id);
+                $task->current_user_is_creator  = $this->is_task_creator(get_staff_user_id(), $id);
+            }
+
+            $task->milestone_name = '';
+
+            if ($task->rel_type == 'project') {
+                $task->project_data = $this->projects_model->get($task->rel_id);
+                if ($task->milestone != 0) {
+                    $milestone = $this->get_milestone($task->milestone);
+                    if ($milestone) {
+                        $task->milestone_name = $milestone->name;
+                    }
+                }
+            }
+        }
+
+        return hooks()->apply_filters('get_task', $task);
+    }
+
+    public function get_with_session_info($id, $where = [])
+    {
+        $is_admin = is_admin();
+        $this->db->select('*');
+        $this->db->from(db_prefix() . 'tasks');
+        $this->db->join(db_prefix() . 'my_session_info', 'my_session_info.task_id = '.db_prefix() . 'tasks.id');
+        $this->db->where(db_prefix() . 'tasks.id', $id);
+        $this->db->where('deleted', 0);
+        $this->db->where('is_session', 1);
+        $this->db->where($where);
+        $task = $this->db->get()->row();
         if ($task) {
             $task->comments      = $this->get_task_comments($id);
             $task->assignees     = $this->get_task_assignees($id);
@@ -147,7 +198,7 @@ class Tasks_model extends App_Model
 
         $this->db->from(db_prefix() . 'tasks');
         $this->db->where('status', $status);
-
+        $this->db->where('is_session', 0);
         $this->db->where($where);
 
         if ($tasks_where != '') {
@@ -563,9 +614,51 @@ class Tasks_model extends App_Model
             unset($data['tags']);
         }
 
+        //Start Block For Legal Services Session
+        if (isset($data['session_number'])) {
+            $session['session_number'] = $data['session_number'];
+            unset($data['session_number']);
+        }
+        if (isset($data['judicial_office_number'])) {
+            $session['judicial_office_number'] = $data['judicial_office_number'];
+            unset($data['judicial_office_number']);
+        }
+        if (isset($data['dept'])) {
+            $session['dept'] = $data['dept'];
+            unset($data['dept']);
+        }
+        if (isset($data['session_type'])) {
+            $session['session_type'] = $data['session_type'];
+            unset($data['session_type']);
+        }
+        if (isset($data['time'])) {
+            $session['time'] = $data['time'];
+            unset($data['time']);
+        }
+        if (isset($data['court_id'])) {
+            $session['court_id'] = $data['court_id'];
+            unset($data['court_id']);
+        }
+        if (isset($data['judge_id'])) {
+            $session['judge_id'] = $data['judge_id'];
+            unset($data['judge_id']);
+        }
+        if (isset($data['session_information'])) {
+            $session['session_information'] = $data['session_information'];
+            unset($data['session_information']);
+        }
+        //End Block For Legal Services Session
+
         $this->db->insert(db_prefix() . 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+
+            //Add session info to DB
+            $session['task_id'] = $insert_id;
+            //Start Block For Legal Services Session
+            $this->db->insert(db_prefix() . 'my_session_info', $session);
+            //End Block For Legal Services Session
+
             foreach ($checklistItems as $key => $chkID) {
                 if ($chkID != '') {
                     $itemTemplate = $this->get_checklist_template($chkID);
@@ -688,7 +781,13 @@ class Tasks_model extends App_Model
         if ($clientRequest == false) {
             $data['cycles'] = !isset($data['cycles']) ? 0 : $data['cycles'];
 
-            $original_task = $this->get($id);
+            if(isset($data['is_session'])){
+                $original_task = $this->get($id, [], 1);
+                unset($data['is_session']);
+            }else{
+                $original_task = $this->get($id);
+                unset($data['is_session']);
+            }
 
             // Recurring task set to NO, Cancelled
             if ($original_task->repeat_every != '' && $data['repeat_every'] == '') {
@@ -776,8 +875,49 @@ class Tasks_model extends App_Model
             $affectedRows++;
         }
 
+
+        //Start Block For Legal Services Session
+        if (isset($data['session_number'])) {
+            $session['session_number'] = $data['session_number'];
+            unset($data['session_number']);
+        }
+        if (isset($data['judicial_office_number'])) {
+            $session['judicial_office_number'] = $data['judicial_office_number'];
+            unset($data['judicial_office_number']);
+        }
+        if (isset($data['dept'])) {
+            $session['dept'] = $data['dept'];
+            unset($data['dept']);
+        }
+        if (isset($data['session_type'])) {
+            $session['session_type'] = $data['session_type'];
+            unset($data['session_type']);
+        }
+        if (isset($data['time'])) {
+            $session['time'] = $data['time'];
+            unset($data['time']);
+        }
+        if (isset($data['court_id'])) {
+            $session['court_id'] = $data['court_id'];
+            unset($data['court_id']);
+        }
+        if (isset($data['judge_id'])) {
+            $session['judge_id'] = $data['judge_id'];
+            unset($data['judge_id']);
+        }
+        if (isset($data['session_information'])) {
+            $session['session_information'] = $data['session_information'];
+            unset($data['session_information']);
+        }
+        //End Block For Legal Services Session
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);
+
+        //Start Block For Legal Services Session
+        $this->db->where('task_id', $id);
+        $this->db->update(db_prefix() . 'my_session_info', $session);
+        //End Block For Legal Services Session
+
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
@@ -1584,6 +1724,11 @@ class Tasks_model extends App_Model
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'tasks');
         if ($this->db->affected_rows() > 0) {
+
+            //Start Block For Legal Services Session
+            $this->db->where('task_id', $id);
+            $this->db->delete(db_prefix() . 'my_session_info');
+            //End Block For Legal Services Session
 
             // Log activity only if task is deleted indivudual not when deleting all projects
             if ($task->rel_type == 'project' && $log_activity == true) {

@@ -161,6 +161,13 @@
                         echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                         ?>
                     </div>
+                    <div class="col-md-6">
+                      <?php if($this->app_modules->is_active('branches')){?>
+                            <br/>
+                           <?php $value = (isset($branch) ? $branch : ''); ?>
+                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+                       <?php } ?>
+                   </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">

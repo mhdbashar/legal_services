@@ -468,6 +468,7 @@ class Cases_controller extends AdminController
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['case_model']     = $this->case;
             $data['ServID']         = $ServID;
+            $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
             access_denied('Project View');

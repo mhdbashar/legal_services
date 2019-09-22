@@ -11,7 +11,8 @@ class Countries extends Admin_controller {
         foreach ($cities as $row)
         {
             if($row->Id==$select)$selected="selected";else $selected="";
-            $staff_language = get_staff_default_language(get_staff_user_id());
+//            $staff_language = get_staff_default_language(get_staff_user_id());
+            $staff_language = get_option('active_language');
             if($staff_language == 'arabic'){
                 $output .= '<option value="'.$row->Name_ar.'" '.$selected.' >'.$row->Name_ar.'</option>';
             }else{

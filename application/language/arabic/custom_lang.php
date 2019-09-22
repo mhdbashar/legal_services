@@ -129,6 +129,8 @@ $lang['ConfirmEmptyLegalServicesRecycleBin'] = 'تأكيد إفراغ سلة م�
 $lang['EmptyLegalServicesRecycleBinNote'] = 'هل انت موافق على إفراغ سلة محذوفات الخدمات القانونية تلقائياً في';
 
 /** hijri settings **/
+$lang['Hijri_managment'] = "إدارة التقويم الهجري";
+
 $lang['hijri'] = "التقويم الهجري";
 
 

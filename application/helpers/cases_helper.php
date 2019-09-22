@@ -202,9 +202,9 @@ function app_init_case_tabs()
     ]);
 
     $CI->app_tabs->add_case_tab('CaseSession', [
-        'name'                      => _l('CaseSession'),
-        'icon'                      => 'fa fa-map-marker',
-        'view'                      => 'admin/LegalServices/cases/case_session',
+        'name'                      => _l('SessionLog'),
+        'icon'                      => 'fa fa-gavel',
+        'view'                      => 'admin/LegalServices/services_sessions/services_sessions',
         'position'                  => 65,
     ]);
 }

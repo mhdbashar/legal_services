@@ -59,7 +59,7 @@ for($i = 0; $i < $num_session; $i++){ ?>
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "<?php echo site_url('session/service_sessions/session_json') ?>/" + id,
+            url : "<?php echo site_url('session/old_service_sessions/session_json') ?>/" + id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -93,7 +93,7 @@ for($i = 0; $i < $num_session; $i++){ ?>
             if(confirm('Delete Session?'))
             {
                 $.ajax({
-                    url : "<?php echo site_url('session/service_sessions/delete_session_json') ?>/"+id,
+                    url : "<?php echo site_url('session/old_service_sessions/delete_session_json') ?>/"+id,
                     type: "POST",
                     dataType: "JSON",
                     success: function(data)

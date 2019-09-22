@@ -10,38 +10,13 @@ class file_model extends App_Model{
         }
     }
 
-
-
-
-    
     public $Folder = "sessions"; // folder Name
-
-
-
-
 
     public $Path = FCPATH . 'uploads/sessions' . '/';
 
-
-
-
-
-
     public $TableName = 'my_service_session'; // Your Table
 
-
-
-
-
-
     public $IdName = 'id'; // Your table id like session_id, staffid ...etc
-
-
-
-
-
-
-
 
     public function get_sessions_attachments($attachment_id = '', $id = '')
     {

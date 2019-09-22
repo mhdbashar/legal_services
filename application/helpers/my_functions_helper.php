@@ -202,13 +202,29 @@ function my_get_cities($country_id = '')
 function admin_assets()
 {
     $CI = &get_instance();
-    $CI->app_css->add('w3-css', 'assets/css/w3.css');
+//    $CI->app_css->add('w3-css', 'assets/css/w3.css');
+//    $CI->app_css->add('custom_style-css', 'assets/css/custom.css');
+    $CI->app_css->add('bootstrap-datetimepicker-css', 'assets/css/bootstrap-datetimepicker.css');
+
     $CI->app_css->add('bootstrap4-toggle-css', 'assets/css/bootstrap4-toggle.css');
-    $CI->app_scripts->add('hijri-js', 'assets/js/hijri-date.js');
-    $CI->app_scripts->add('datepicker-js', 'assets/js/datepicker.js');
+//    $CI->app_scripts->add('hijri-js', 'assets/js/hijri-date.js');
+//    $CI->app_scripts->add('datepicker-js', 'assets/js/datepicker.js');
     $CI->app_scripts->add('bootstrap4-toggle-js', 'assets/js/bootstrap4-toggle.min.js');
 
+
+//    $CI->app_scripts->add('jquery-js', 'assets/js/jquery-3.3.1.js');
+//    $CI->app_scripts->add('bootstrap-js', 'assets/js/bootstrap.js');
+//    $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
+    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js');
+    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js');
+
+    $CI->app_scripts->add('moment-hijri-js', 'assets/js/moment-hijri.js');
+
+    $CI->app_scripts->add('bootstrap-hijri-datetimepicker-js', 'assets/js/bootstrap-hijri-datetimepicker.js');
+
     $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
+    
+
 }
 
 
@@ -226,8 +242,8 @@ function to_AD_date($date)
     $formats = explode('|', $sys_format);
     $formatMode =$formats[0];  //for general dateformat
 
-    $date_option = get_option('hijri_format');
-    $parts = explode('|', $date_option);
+//    $date_option = get_option('hijri_format');
+//    $parts = explode('|', $date_option);
 
     /** to check if this hijri status is on from database **/
     $hijriStatus= get_option('isHijri');
@@ -252,24 +268,31 @@ function to_AD_date($date)
 //    }
     /*******************************************************************/
 
-    if(isset($parts[2])){
-        $date_mode = $parts[2]; //$this->app->get_option('date_format');
-        if(isset($parts[3])){
-            $adjust = intval($parts[3]);
-        }else{
-            $adjust = 0;
-        }
-
-
-    }else{
-        $date_mode = $parts[0]; //$this->app->get_option('date_format');
-    }
+//    if(isset($parts[2])){
+//        $date_mode = $parts[2]; //$this->app->get_option('date_format');
+//        if(isset($parts[3])){
+//            $adjust = intval($parts[3]);
+//        }else{
+//            $adjust = 0;
+//        }
+//
+//
+//    }else{
+//        $date_mode = $parts[0]; //$this->app->get_option('date_format');
+//    }
 //    $date_mode = 'hijri'; //get_option('date_format');
-    if ( ($date_mode == 'hijri') && $hijri_convert && $hijriStatus =="on") {
+    if (  $hijri_convert && $hijriStatus =="on") {
+        $hijri_settings['adj_data'] = get_option('adjust_data');
+//                var_dump($hijri_settings['adj_data'].'fghf');exit();
 
         $current_date = date_parse($date);
-        $hijriCalendar = new Calendar();
-        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] + $adjust);
+        $hijriCalendar = new Calendar($hijri_settings);
+//        Calendar:$hijri_settings = $hijri_settings['adj_data'];
+//        $hijriCalendar-> ='gddfg';
+        $adj = new CalendarAdjustment();
+        //$adj->get_adjdata(TRUE);
+//        var_dump($hijri_settings['adj_data']);exit();
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
 //        var_dump($AD_date);exit();
 
         $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
@@ -288,13 +311,16 @@ function to_AD_date($date)
 function search_url($pages, $url)
 {
     $i = 0;
-    foreach ($pages as $page){
+    if(isset($pages)){
+        foreach ($pages as $page){
 //        var_dump(strpos($url, $page),$page,$url);
-        if($page != ''){
-        if(strpos($url, $page) !== false){
-            $i++;
-        }
+            if($page != ''){
+                if(strpos($url, $page) !== false){
+                    $i++;
+                }
+            }
     }
+
 //        $search = $page;
 //        if(preg_match("/'.$search.'/i", $url)) {
 //
@@ -317,8 +343,8 @@ function to_hijri_date($date)
 //        var_dump($dateArray);exit;
     }
 
-    $date_option = get_option('hijri_format');
-    $opt = explode('|', $date_option);
+//    $date_option = get_option('hijri_format');
+//    $opt = explode('|', $date_option);
 
 
     /** to check if this hijri status is on from database **/
@@ -350,12 +376,15 @@ function to_hijri_date($date)
 /*******************************************************************/
 
 //    var_dump(isset($opt[2]), $opt[2]=='hijri', $hijri_convert, $hijriStatus);exit();
-    if(isset($opt[2]) && $opt[2]=='hijri' && $hijri_convert && $hijriStatus =="on"){
+    if($hijri_convert && $hijriStatus =="on"){
 //    var_dump($hijri_convert);exit();
 
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
         $hijriCalendar = new Calendar();
+        $adj = new CalendarAdjustment();
+        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
+
         $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
 
          $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
@@ -387,7 +416,6 @@ hooks()->add_filter('available_date_formats', 'add_hijri_option');
 
 
 function set_my_options($data){
-//    var_dump($data);exit;
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
         $isHijrivar = "on";
     }else{
@@ -396,39 +424,50 @@ function set_my_options($data){
 
 
     if(isset($data['adjust_data'])){
+
         $adj_data = $data['adjust_data'];
-        if (get_option('adjust_data') != Null){
-            update_option('adjust_data',$adj_data);
+//        if (get_option('adjust_data') != Null){
+        if($adj_data !=""){
+            if (option_exists('adjust_data') != Null){
+                update_option('adjust_data',$adj_data);
 
-        }else{
-            add_option('adjust_data',$adj_data);
+//            var_dump('uuuuuuu');exit;
+
+            }else{
+//            var_dump(add_option('adjust_data',$adj_data));exit;
+                add_option('adjust_data',$adj_data);
+//            var_dump($data['adjust_data']);exit;
+
 //            var_dump(option_exists('isHijri'));exit();
+            }
         }
-    }
 
 
-    if(isset($data['hijri_adjust'])){
 
         if (get_option('isHijri') != Null){
             update_option('isHijri',$isHijrivar);
 
         }else{
+//            var_dump('dfxgd');exit;
+
             add_option('isHijri',$isHijrivar);
 //            var_dump(option_exists('isHijri'));exit();
         }
 
-        if (get_option('hijri_format') != Null){
-            update_option('hijri_format',$data['hijri_adjust']);
-        }else{
-            add_option('hijri_format',$data['hijri_adjust']);
-        }
+//        if (get_option('hijri_format') != Null){
+//            update_option('hijri_format',$data['hijri_adjust']);
+//        }else{
+//            add_option('hijri_format',$data['hijri_adjust']);
+//        }
 
 
         $links_array = [];
         if(isset($data['isHijriVal'])){
             unset($data['isHijriVal']);
         }
-        unset($data['hijri_adjust']);
+//        unset($data['hijri_adjust']);
+        unset($data['adjust_data']);
+
         foreach ($data as $key => $value ){
 //            $value = str_replace('/','\/',$value);
             array_push($links_array,$value );

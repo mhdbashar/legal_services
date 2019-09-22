@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/add/'.$rel_id.'/'.$service_id . '/' . get_staff_user_id() ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/old_service_sessions/add/'.$rel_id.'/'.$service_id . '/' . get_staff_user_id() ?>">
                    <div class="form-group">
                         
                           <div class="form-group">
@@ -83,7 +83,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/service_sessions/update/'.$rel_id.'/'.$service_id ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'session/old_service_sessions/update/'.$rel_id.'/'.$service_id ?>">
                    <div class="form-group">
                         
                           <input aria-hidden="true" type="hidden" class="form-control" id="id" name="id">

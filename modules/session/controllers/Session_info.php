@@ -117,7 +117,7 @@ class Session_Info extends AdminController{
         $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
         $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
 
-        $this->load->view('admin/service_sessions/session', $data);
+        $this->load->view('admin/old_service_sessions/session', $data);
     }
 
     public function get_discussion_comments($id, $type)

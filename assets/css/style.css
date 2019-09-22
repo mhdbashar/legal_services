@@ -9259,3 +9259,5 @@ body.rtl #setup-menu .arrow-ar,
 body.rtl #side-menu .arrow-ar {
     margin-left: 15px
 }
+
+body.rtl .bootstrap-select .dropdown-toggle .caret { right: unset; left: 12px;}

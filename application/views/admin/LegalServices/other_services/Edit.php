@@ -197,10 +197,10 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date',$OtherServ->start_date); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date',_d($OtherServ->start_date)); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'project_deadline',$OtherServ->deadline); ?>
+                                <?php echo render_date_input('deadline', 'project_deadline',_d($OtherServ->deadline)); ?>
                             </div>
                         </div>
                         <div class="row">

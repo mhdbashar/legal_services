@@ -12,8 +12,8 @@
     $case = '';
   }else{
     $selected_cases = $procuration->cases;
-    $start_date = $procuration->start_date;
-    $end_date = $procuration->end_date;
+    $start_date = _d($procuration->start_date);
+    $end_date = _d($procuration->end_date);
     $NO = $procuration->NO;
     $come_from = $procuration->come_from;
     $client = $procuration->client;

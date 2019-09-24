@@ -58,7 +58,7 @@
                                         }
 
                                         $copy_template .= "<div class='text-center'>";
-                                        $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_task_action'>"._l('copy_task_confirm')."</button>";
+                                        $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_session_action' onclick='copy_session_action()'>"._l('copy_task_confirm')."</button>";
                                         $copy_template .= "</div>";
                                         ?>
                                         <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a>
@@ -219,11 +219,11 @@
                                 $date_attrs['disabled'] = true;
                             }
                             ?>
-                            <?php echo render_date_input('startdate','task_add_edit_start_date',$value, $date_attrs); ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                            <?php echo render_date_input('duedate','task_add_edit_due_date',$value,$project_end_date_attrs); ?>
+                            <?php echo render_date_input('startdate','session_date',$value, $date_attrs); ?>
+                            <div class="col-md-6 hide">
+                                <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
+                                <?php echo render_date_input('duedate','task_add_edit_due_date',$value,$project_end_date_attrs); ?>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -236,7 +236,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 hide">
                             <div class="form-group">
                                 <label for="repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label>
                                 <select name="repeat_every" id="repeat_every" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -364,7 +364,7 @@
             court_id: 'required',
             time: 'required',
             repeat_every_custom: { min: 1},
-        },task_form_handler);
+        },session_form_handler);
 
         $('.rel_id_label').html(_rel_type.find('option:selected').text());
 
@@ -482,4 +482,35 @@
         $duedate.datetimepicker('destroy');
         init_datepicker($duedate);
     }
+
+    // Copy task href/button event.
+    // $("body").on('click', '.copy_session_action', function() {
+    //
+    // });
+
+    function copy_session_action(){
+        var data = {};
+        $(this).prop('disabled', true);
+        data.copy_from = $('.copy_session_action').data('task-copy-from');
+        data.copy_task_assignees = $("body").find('#copy_task_assignees').prop('checked');
+        data.copy_task_followers = $("body").find('#copy_task_followers').prop('checked');
+        data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
+        data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
+        data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
+        $.post(admin_url + 'tasks/copy_session', data).done(function(response) {
+            response = JSON.parse(response);
+            if (response.success === true || response.success == 'true') {
+                var $taskModal = $('#_task_modal');
+                if ($taskModal.is(':visible')) {
+                    $taskModal.modal('hide');
+                }
+                init_task_modal(response.new_task_id);
+                reload_tasks_tables();
+
+            }
+            alert_float(response.alert_type, response.message);
+        });
+        return false;
+    }
+
 </script>

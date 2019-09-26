@@ -81,7 +81,7 @@ class Procuration extends AdminController
                 $redirect = admin_url('procuration/all');
             }
             
-            if ($id == '') {
+            if ($id == '' or !is_numeric($id)) {
                 $data['id'] = $last_id;
                 $id = $this->procurations_model->add($data);
                 if ($id) {
@@ -97,12 +97,13 @@ class Procuration extends AdminController
             }
         }
         if ($id == '') {
-            $data['last_id'] = $last_id;
             $title = _l('add_new', 'Procuration');
         } else {
             $data['procuration'] = $this->procurations_model->get($id);
             $title                = _l('edit', 'Procuration');
         }
+        $data['last_id'] = $last_id;
+        $data['case_r'] = $case;
         $data['request'] = $request;
         $data['states'] = $this->procurationstate_model->get();
         $data['types'] = $this->procurationtype_model->get();
@@ -253,7 +254,7 @@ class Procuration extends AdminController
             } else {
                 set_alert('warning', _l('problem_deleting', _l('procuration_receipt_lowercase')));
             }
-            redirect(admin_url('procuration/all'));
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             access_denied('expenses');
         }

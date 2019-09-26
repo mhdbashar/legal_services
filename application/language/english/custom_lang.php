@@ -3255,7 +3255,7 @@ $lang['EmptyLegalServicesRecycleBinNote'] = 'Are you OK to automatically empty t
 
 
 /** hijri settings **/
-
+$lang['Hijri_managment'] = "Hijri Managment";
 $lang['hijri'] = "Hijri";
 
 $lang['hijri_pages'] = "Hijri Pages";

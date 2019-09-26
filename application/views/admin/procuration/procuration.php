@@ -1,6 +1,8 @@
 <?php
 
-  if(empty($id)){
+  if(!is_numeric($id)){
+    $id = null;
+    $procuration = null;
     $start_date = '';
     $end_date = '';
     $NO = '';
@@ -52,7 +54,17 @@
             
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select <?php if(is_numeric($request)) echo 'readonly'; else $request = '' ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <?php
+                            if(is_numeric($request)) {
+                              $disabled =  'disabled'; 
+                              echo form_hidden('client', $request);
+                            }
+                            else {
+                              $request = '';
+                              $disabled = '';
+                            }
+                            ?>
+                            <select <?php echo $disabled ?> id="clientid" required="required" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                <?php $selected = ((!empty($client)) ? $client : $request);
                                if($selected == ''){
                                    $selected = (isset($customer_id) ? $customer_id: '');
@@ -210,12 +222,25 @@
 
 
       $.post(form.action, $(form).serialize()).done(function(response) {
-        var response = admin_url + "procuration/all";
+        <?php
+        if(is_numeric($request)){
+                // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
+                $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
+            }elseif(is_numeric($case_r)){
+                // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
+                $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
+            }else{
+                $redirect = admin_url('procuration/all');
+            }
+        ?>
+        var response = '<?php echo $redirect ?>'
         if(typeof(expenseDropzone) !== 'undefined'){
           <?php if(empty($id)) $id = $last_id ?>;
           if (expenseDropzone.getQueuedFiles().length > 0) {
           expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
-              expenseDropzone.processQueue();
+          expenseDropzone.processQueue();
+
+          window.location.assign(response);
           }else {
             window.location.assign(response);
           }

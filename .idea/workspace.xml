@@ -54,6 +54,9 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/application/composer.json</pharConfigPath>
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="legalserv" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
@@ -136,13 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>console.log(</find>
-      <find>delete_task</find>
-      <find>مهمة خاصة</find>
-      <find>timer_action</find>
-      <find>repeat_every</find>
-      <find>priva</find>
-      <find>project_setting_open_discussions</find>
       <find>project_allow_client_to</find>
       <find>project_setting_</find>
       <find>services_sessions</find>
@@ -166,6 +162,13 @@
       <find>edit_cu</find>
       <find>edit_detail</find>
       <find>reload_tasks_tables</find>
+      <find>car</find>
+      <find>city</find>
+      <find>country</find>
+      <find>staff</find>
+      <find>build_dropdown_cities</find>
+      <find>sta</find>
+      <find>get_cases_countries</find>
     </findStrings>
     <replaceStrings>
       <replace>get_case_settings</replace>
@@ -186,6 +189,7 @@
     </replaceStrings>
     <dirStrings>
       <dir>C:\xampp\htdocs\legal_services\application\views\admin\LegalServices</dir>
+      <dir>C:\xampp\htdocs\legalserv\assets\css</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -309,8 +313,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1380" />
+    <option name="width" value="1300" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectView">

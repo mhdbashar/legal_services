@@ -143,6 +143,29 @@ function my_custom_setup_menu_items()
 
     ]);
 
+
+    $CI->app_menu->add_setup_menu_item('3', [
+        'name'     => _l("transactions"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 3, // The menu position
+        //'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("incoming"), // The name if the item
+        'href'     => admin_url('#'), // URL of the item
+        'position' => 1, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+    $CI->app_menu->add_setup_children_item('3', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("outgoing"), // The name if the item
+        'href'     => admin_url('#'), // URL of the item
+        'position' => 1, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
 }
 
 

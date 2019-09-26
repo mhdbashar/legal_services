@@ -3304,3 +3304,9 @@ $lang['session_single_assignees_select_title'] = "Refer session to";
 $lang['session_no_followers'] = "There is no follower for this session";
 $lang['session_is_private'] = "Private session";
 $lang['session_report'] = 'Session report';
+
+/**  transactions **/
+$lang['transactions'] = 'Transactions';
+$lang['incoming'] = 'Incoming Transactions';
+$lang['outgoing'] = 'Outgoing Transactions';
+

@@ -178,3 +178,12 @@ $lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى
 $lang['session_no_followers'] = "ليس هناك متابع لهذه الجلسة";
 $lang['session_is_private'] = "جلسة خاصة";
 $lang['session_report'] = 'تقرير جلسة';
+
+
+/**  transactions **/
+$lang['transactions'] = 'المعاملات';
+$lang['incoming'] = 'المعاملات الواردة';
+$lang['outgoing'] = 'المعاملات الصادرة';
+
+
+

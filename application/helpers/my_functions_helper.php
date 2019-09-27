@@ -51,10 +51,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // add_action('after_render_single_aside_menu', 'my_custom_menu_items'); 
 hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
+hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 
 function my_custom_setup_menu_items()
 {
     $CI = &get_instance();
+
+    $CI->app_menu->add_sidebar_menu_item('opponents', [
+        'name'     => _l('opponents'), // The name if the item
+        'href'     => admin_url('opponents'), // URL of the item
+        'position' => 5, // The menu position
+        'icon'     => 'fa fa-user-times', // Font awesome icon
+    ]);
 
     $CI->app_menu->add_setup_menu_item('1', [
         'name'     => _l("procuration"), // The name if the item
@@ -145,6 +153,182 @@ function my_custom_setup_menu_items()
 
 }
 
+function app_init_opponent_profile_tabs()
+{
+    $client_id = null;
+
+    $remindersText = _l('client_reminders_tab');
+
+    if ($client = get_client()) {
+        $client_id = $client->userid;
+
+        $total_reminders = total_rows(
+            db_prefix() . 'reminders',
+            [
+                'isnotified' => 0,
+                'staff'      => get_staff_user_id(),
+                'rel_type'   => 'customer',
+                'rel_id'     => $client_id,
+            ]
+        );
+
+        if ($total_reminders > 0) {
+            $remindersText .= ' <span class="badge">' . $total_reminders . '</span>';
+        }
+    }
+
+    $CI = &get_instance();
+
+    $CI->app_tabs->add_opponent_profile_tab('profile', [
+        'name'     => _l('client_add_edit_profile'),
+        'icon'     => 'fa fa-user-circle',
+        'view'     => 'admin/opponent/groups/profile',
+        'position' => 5,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('contacts', [
+        'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
+        'icon'     => 'fa fa-users',
+        'view'     => 'admin/opponent/groups/contacts',
+        'position' => 7,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('procurations', [
+        'name'     => _l('procurations'),
+        'icon'     => 'fa fa-briefcase',
+        'view'     => 'admin/opponent/groups/procurations',
+        'position' => 10,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('notes', [
+        'name'     => _l('contracts_notes_tab'),
+        'icon'     => 'fa fa-sticky-note-o',
+        'view'     => 'admin/opponent/groups/notes',
+        'position' => 15,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('statement', [
+        'name'     => _l('customer_statement'),
+        'icon'     => 'fa fa-area-chart',
+        'view'     => 'admin/opponent/groups/statement',
+        'visible'  => (has_permission('invoices', '', 'view') && has_permission('payments', '', 'view')),
+        'position' => 20,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('invoices', [
+        'name'     => _l('client_invoices_tab'),
+        'icon'     => 'fa fa-file-text',
+        'view'     => 'admin/opponent/groups/invoices',
+        'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
+        'position' => 25,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('payments', [
+        'name'     => _l('client_payments_tab'),
+        'icon'     => 'fa fa-line-chart',
+        'view'     => 'admin/opponent/groups/payments',
+        'visible'  => (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
+        'position' => 30,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('proposals', [
+        'name'     => _l('proposals'),
+        'icon'     => 'fa fa-file-powerpoint-o',
+        'view'     => 'admin/opponent/groups/proposals',
+        'visible'  => (has_permission('proposals', '', 'view') || has_permission('proposals', '', 'view_own') || (get_option('allow_staff_view_proposals_assigned') == 1 && staff_has_assigned_proposals())),
+        'position' => 35,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('credit_notes', [
+        'name'     => _l('credit_notes'),
+        'icon'     => 'fa fa-sticky-note-o',
+        'view'     => 'admin/opponent/groups/credit_notes',
+        'visible'  => (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')),
+        'position' => 40,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('estimates', [
+        'name'     => _l('estimates'),
+        'icon'     => 'fa fa-clipboard',
+        'view'     => 'admin/opponent/groups/estimates',
+        'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
+        'position' => 45,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('subscriptions', [
+        'name'     => _l('subscriptions'),
+        'icon'     => 'fa fa-repeat',
+        'view'     => 'admin/opponent/groups/subscriptions',
+        'visible'  => (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')),
+        'position' => 50,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('expenses', [
+        'name'     => _l('expenses'),
+        'icon'     => 'fa fa-file-text-o',
+        'view'     => 'admin/opponent/groups/expenses',
+        'visible'  => (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
+        'position' => 55,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('contracts', [
+        'name'     => _l('contracts'),
+        'icon'     => 'fa fa-file',
+        'view'     => 'admin/opponent/groups/contracts',
+        'visible'  => (has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own')),
+        'position' => 60,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('projects', [
+        'name'     => _l('projects'),
+        'icon'     => 'fa fa-bars',
+        'view'     => 'admin/opponent/groups/projects',
+        'position' => 65,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('tasks', [
+        'name'     => _l('tasks'),
+        'icon'     => 'fa fa-tasks',
+        'view'     => 'admin/opponent/groups/tasks',
+        'position' => 70,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('tickets', [
+        'name'     => _l('tickets'),
+        'icon'     => 'fa fa-ticket',
+        'view'     => 'admin/opponent/groups/tickets',
+        'visible'  => ((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()),
+        'position' => 75,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('attachments', [
+        'name'     => _l('customer_attachments'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/opponent/groups/attachments',
+        'position' => 80,
+    ]);
+
+    // $CI->app_tabs->add_opponent_profile_tab('vault', [
+    //     'name'     => _l('vault'),
+    //     'icon'     => 'fa fa-lock',
+    //     'view'     => 'admin/opponent/groups/vault',
+    //     'position' => 85,
+    // ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('reminders', [
+        'name'     => $remindersText,
+        'icon'     => 'fa fa-clock-o',
+        'view'     => 'admin/opponent/groups/reminders',
+        'position' => 90,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('map', [
+        'name'     => _l('customer_map'),
+        'icon'     => 'fa fa-map-marker',
+        'view'     => 'admin/opponent/groups/map',
+        'position' => 95,
+    ]);
+}
 
 // hooks()->add_action('after_format_datetime', 'my_custom_date'); 
 // hooks()->add_action('after_format_date', 'my_custom_date'); 
@@ -207,7 +391,6 @@ function admin_assets()
     $CI->app_scripts->add('hijri-js', 'assets/js/hijri-date.js');
     $CI->app_scripts->add('datepicker-js', 'assets/js/datepicker.js');
     $CI->app_scripts->add('bootstrap4-toggle-js', 'assets/js/bootstrap4-toggle.min.js');
-
     $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
 }
 

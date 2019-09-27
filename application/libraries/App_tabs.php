@@ -22,9 +22,21 @@ class App_tabs
         return $this;
     }
 
+    public function add_opponent_profile_tab($slug, $tab)
+    {
+        $this->add($slug, $tab, 'opponent_profile');
+
+        return $this;
+    }
+
     public function get_customer_profile_tabs()
     {
         return $this->get('customer_profile');
+    }
+
+    public function get_opponent_profile_tabs()
+    {
+        return $this->get('opponent_profile');
     }
 
     public function add_project_tab($slug, $tab)

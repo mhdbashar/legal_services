@@ -21,9 +21,8 @@ function get_relation_data($type, $rel_id = '')
         $where_clients = '';
 
         if ($q) {
-            $where_clients .= '(company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%") AND '.db_prefix().'clients.active = 1';
+            $where_clients .= '(company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%") AND '.db_prefix().'clients.active = 1 AND '.db_prefix().'clients.client_type = 0';
         }
-
         $data = $CI->clients_model->get($rel_id, $where_clients);
     } elseif ($type == 'contact' || $type == 'contacts') {
         if ($rel_id != '') {
@@ -167,8 +166,16 @@ function get_relation_data($type, $rel_id = '')
     }elseif ($type == 'Case_status') {
         $CI->load->model('CaseStatus_model');
         $data = $CI->CaseStatus_model->get();
-    }
-    else{
+    }elseif ($type == 'opponents'){
+
+        $where_clients = '';
+
+        if ($q) {
+            $where_clients .= '(company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%") AND '.db_prefix().'clients.active = 1 AND '.db_prefix().'clients.client_type = 1';
+        }
+
+        $data = $CI->clients_model->get($rel_id, $where_clients);
+    }else{
         $CI->load->model('LegalServices/LegalServicesModel' , 'legal');
         $service_id = $CI->legal->get_service_id_by_slug($type);
         if($service_id == 1){
@@ -217,7 +224,16 @@ function get_relation_values($relation, $type)
             $name = $relation->company;
         }
         $link = admin_url('clients/client/' . $id);
-    } elseif ($type == 'contact' || $type == 'contacts') {
+    }elseif ($type == 'opponents') {
+        if (is_array($relation)) {
+            $id   = $relation['userid'];
+            $name = $relation['company'];
+        } else {
+            $id   = $relation->userid;
+            $name = $relation->company;
+        }
+        $link = admin_url('opponents/client/' . $id);
+    }elseif ($type == 'contact' || $type == 'contacts') {
         if (is_array($relation)) {
             $userid = isset($relation['userid']) ? $relation['userid'] : $relation['relid'];
             $id     = $relation['id'];

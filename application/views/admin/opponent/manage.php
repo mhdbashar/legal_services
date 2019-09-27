@@ -38,12 +38,12 @@
                <div class="panel-body">
                   <div class="_buttons">
                      <?php if (has_permission('customers','','create')) { ?>
-                     <a href="<?php echo admin_url('clients/client'); ?>" class="btn btn-info mright5 test pull-left display-block">
-                     <?php echo _l('new_client'); ?></a>
-                     <a href="<?php echo admin_url('clients/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
-                     <?php echo _l('import_customers'); ?></a>
+                     <a href="<?php echo admin_url('opponents/client'); ?>" class="btn btn-info mright5 test pull-left display-block">
+                     <?php echo _l('new_opponent'); ?></a>
+                     <a href="<?php echo admin_url('opponents/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
+                     <?php echo _l('import_opponent'); ?></a>
                      <?php } ?>
-                     <a href="<?php echo admin_url('clients/all_contacts'); ?>" class="btn btn-info pull-left display-block mright5">
+                     <a href="<?php echo admin_url('opponents/all_contacts'); ?>" class="btn btn-info pull-left display-block mright5">
                      <?php echo _l('customer_contacts'); ?></a>
                      <div class="visible-xs">
                         <div class="clearfix"></div>
@@ -66,7 +66,7 @@
                            <li class="divider"></li>
                            <li>
                               <a href="#" data-cview="my_customers" onclick="dt_custom_view('my_customers','.table-clients','my_customers'); return false;">
-                              <?php echo _l('customers_assigned_to_me'); ?>
+                              <?php echo _l('opponents_assigned_to_me'); ?>
                               </a>
                            </li>
                            <li class="divider"></li>
@@ -191,19 +191,19 @@
                   <hr class="hr-panel-heading" />
                   <div class="row mbot15">
                      <div class="col-md-12">
-                        <h4 class="no-margin"><?php echo _l('customers_summary'); ?></h4>
+                        <h4 class="no-margin"><?php echo _l('opponents_summary'); ?></h4>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_summary != '' ? substr($where_summary,5) : ' client_type = 0')); ?></h3>
-                        <span class="text-dark"><?php echo _l('customers_summary_total'); ?></span>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_summary != '' ? substr($where_summary,5) : ' client_type = 1')); ?></h3>
+                        <span class="text-dark"><?php echo _l('opponents_summary_total'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1 AND client_type = 0'.$where_summary); ?></h3>
-                        <span class="text-success"><?php echo _l('active_customers'); ?></span>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1 AND client_type = 1'.$where_summary); ?></h3>
+                        <span class="text-success"><?php echo _l('active_opponents'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0 AND client_type = 0'.$where_summary); ?></h3>
-                        <span class="text-danger"><?php echo _l('inactive_active_customers'); ?></span>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0 AND client_type = 1'.$where_summary); ?></h3>
+                        <span class="text-danger"><?php echo _l('inactive_active_opponents'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
                         <h3 class="bold"><?php echo total_rows(db_prefix().'contacts','active=1'.$where_summary); ?></h3>
@@ -220,7 +220,7 @@
                            $contactsTemplate = '';
                            if(count($contacts_logged_in_today)> 0){
                               foreach($contacts_logged_in_today as $contact){
-                               $url = admin_url('clients/client/'.$contact['userid'].'?contactid='.$contact['id']);
+                               $url = admin_url('opponents/client/'.$contact['userid'].'?contactid='.$contact['id']);
                                $fullName = $contact['firstname'] . ' ' . $contact['lastname'];
                                $dateLoggedIn = _dt($contact['last_login']);
                                $html = "<a href='$url' target='_blank'>$fullName</a><br /><small>$dateLoggedIn</small><br />";
@@ -267,50 +267,50 @@
                   <!-- /.modal -->
                   <div class="checkbox">
                      <input type="checkbox" checked id="exclude_inactive" name="exclude_inactive">
-                     <label for="exclude_inactive"><?php echo _l('exclude_inactive'); ?> <?php echo _l('clients'); ?></label>
+                     <label for="exclude_inactive"><?php echo _l('exclude_inactive'); ?> <?php echo _l('opponents'); ?></label>
                   </div>
                   <div class="clearfix mtop20"></div>
                   <?php
                      $table_data = array();
-                     $_table_data = array(
+                  $_table_data = array(
                       '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
-                       array(
-                         'name'=>_l('the_number_sign'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
-                        ),
-                         array(
-                         'name'=>_l('clients_list_company'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company')
-                        ),
-                         array(
-                         'name'=>_l('contact_primary'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact')
-                        ),
-                         array(
-                         'name'=>_l('company_primary_email'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact-email')
-                        ),
-                        array(
-                         'name'=>_l('clients_list_phone'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-phone')
-                        ),
-                         array(
-                         'name'=>_l('customer_active'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-active')
-                        ),
-                        array(
-                         'name'=>_l('customer_groups'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
-                        ),
-                        array(
-                         'name'=>_l('date_created'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')
-                        ),
-                        array(
-                           'name'=>_l('customer_type'),
-                           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
-                        ),
-                      );
+                      array(
+                          'name'=>_l('the_number_sign'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
+                      ),
+                      array(
+                          'name'=>_l('clients_list_company'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company')
+                      ),
+                      array(
+                          'name'=>_l('contact_primary'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact')
+                      ),
+                      array(
+                          'name'=>_l('company_primary_email'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact-email')
+                      ),
+                      array(
+                          'name'=>_l('clients_list_phone'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-phone')
+                      ),
+                      array(
+                          'name'=>_l('customer_active'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-active')
+                      ),
+                      array(
+                          'name'=>_l('customer_groups'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
+                      ),
+                      array(
+                          'name'=>_l('date_created'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')
+                      ),
+                      array(
+                          'name'=>_l('opponent_type'),
+                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
+                      ),
+                  );
                      foreach($_table_data as $_t){
                       array_push($table_data,$_t);
                      }
@@ -322,7 +322,7 @@
 
                      $table_data = hooks()->apply_filters('customers_table_columns', $table_data);
 
-                     render_datatable($table_data,'clients',[],[
+                     render_datatable($table_data,'opponents',[],[
                            'data-last-order-identifier' => 'customers',
                            'data-default-order'         => get_table_last_order('customers'),
                      ]);
@@ -342,7 +342,7 @@
       });
        CustomersServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
 
-       var tAPI = initDataTable('.table-clients', admin_url+'clients/table', [0], [0], CustomersServerParams,<?php echo hooks()->apply_filters('customers_table_default_order', json_encode(array(2,'asc'))); ?>);
+       var tAPI = initDataTable('.table-opponents', admin_url+'opponents/table', [0], [0], CustomersServerParams,<?php echo hooks()->apply_filters('customers_table_default_order', json_encode(array(2,'asc'))); ?>);
        $('input[name="exclude_inactive"]').on('change',function(){
            tAPI.ajax.reload();
        });

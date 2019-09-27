@@ -148,3 +148,19 @@ $lang['session_report'] = 'تقرير جلسة';
 $lang['Current_session_date'] = 'موعد الجلسة الحالي';
 $lang['Next_session_date'] = 'موعد الجلسة القادم';
 $lang['Proceedings_of_session'] = 'وقائع الجلسة';
+
+//Opponent
+$lang['opponents'] =  'الخصوم';
+$lang['opponent'] =  'الخصم';
+$lang['new_opponent'] =  'خصم جديد';
+$lang['import_opponent'] =  'إستيراد الخصوم';
+$lang['opponents_summary'] = 'ملخص الخصوم';
+$lang['opponents_summary_total'] = "إجمالي الخصوم";
+$lang['active_opponents'] = "خصم نشط";
+$lang['inactive_active_opponents'] = "خصم غير نشط";
+$lang['opponent_type'] =  'نوع الخصم';
+$lang['opponents_assigned_to_me'] = "الخصوم المخصصين لي";
+$lang['opponent_admin_login_as_client_message'] = "مرحبًا %s . لقد تم إضافتك كمدير حساب لهذا الخصم.";
+$lang['opponent_inactive_message'] = "هذا ملف تعريف خصم غير نشط وقد يتم تعطيل بعض الميزات";
+$lang['opponent_profile_details'] = "بيانات الخصم";
+$lang['opponent_admins'] = "مدير حساب الخصم";

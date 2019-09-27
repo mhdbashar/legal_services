@@ -113,6 +113,15 @@ function get_customer_profile_tabs()
 }
 
 /**
+ * Get predefined tabs array, used in opponent profile
+ * @return array
+ */
+function get_opponent_profile_tabs()
+{
+    return get_instance()->app_tabs->get_opponent_profile_tabs();
+}
+
+/**
  * Filter only visible tabs selected from the profile
  * @param  array $tabs available tabs
  * @return array

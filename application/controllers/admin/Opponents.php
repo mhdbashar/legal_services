@@ -2,12 +2,15 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clients extends AdminController
+class Opponents extends AdminController
 {
-    public function __construct(){
+
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('Branches_model');
     }
+
     /* List all clients */
     public function index()
     {
@@ -20,9 +23,9 @@ class Clients extends AdminController
         $this->load->model('contracts_model');
         $data['contract_types'] = $this->contracts_model->get_contract_types();
         $data['groups']         = $this->clients_model->get_groups();
-        $data['title']          = _l('clients');
+        $data['title']          = _l('opponents');
 
-        
+
         $this->load->model('proposals_model');
         $data['proposal_statuses'] = $this->proposals_model->get_statuses();
 
@@ -46,7 +49,7 @@ class Clients extends AdminController
 
         $data['countries'] = $this->clients_model->get_clients_distinct_countries();
 
-        $this->load->view('admin/clients/manage', $data);
+        $this->load->view('admin/opponent/manage', $data);
     }
 
     public function table()
@@ -57,7 +60,7 @@ class Clients extends AdminController
             }
         }
 
-        $this->app->get_table_data('clients');
+        $this->app->get_table_data('opponents');
     }
 
     public function all_contacts()
@@ -72,9 +75,9 @@ class Clients extends AdminController
         }
 
         $data['title'] = _l('customer_contacts');
-        $this->load->view('admin/clients/all_contacts', $data);
+        $this->load->view('admin/opponent/all_contacts', $data);
     }
-    
+
     public function add()
     {
         $data = $this->input->post();
@@ -97,7 +100,6 @@ class Clients extends AdminController
 
             if($this->app_modules->is_active('branches')){
                 $branch_id = $this->input->post('branch_id');
-
                 unset($data['branch_id']);
             }
 
@@ -105,13 +107,16 @@ class Clients extends AdminController
                 if (!has_permission('customers', '', 'create')) {
                     access_denied('customers');
                 }
-                
+
 
                 $save_and_add_contact = false;
                 if (isset($data['save_and_add_contact'])) {
                     unset($data['save_and_add_contact']);
                     $save_and_add_contact = true;
                 }
+
+                $data['client_type'] = 1;
+
                 $id = $this->clients_model->add($data);
                 if (!has_permission('customers', '', 'view')) {
                     $assign['customer_admins']   = [];
@@ -120,15 +125,17 @@ class Clients extends AdminController
                 }
                 if ($id) {
                     if($this->app_modules->is_active('branches')){
+                        if(isset($branch_id)):
                         $data = [
-                            'branch_id' => $branch_id, 
-                            'rel_type' => 'clients', 
+                            'branch_id' => $branch_id,
+                            'rel_type' => 'clients',
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);
+                        endif;
                     }
-                    
-                    set_alert('success', _l('added_successfully', _l('client')));
+
+                    set_alert('success', _l('added_successfully', _l('opponent')));
                     if ($save_and_add_contact == false) {
                         redirect(admin_url($_SERVER['HTTP_REFERER'] . '/' . $id));
                     } else {
@@ -148,7 +155,7 @@ class Clients extends AdminController
                 }
                 $success = $this->clients_model->update($data, $id);
                 if ($success == true) {
-                    set_alert('success', _l('updated_successfully', _l('client')));
+                    set_alert('success', _l('updated_successfully', _l('opponent')));
                 }
                 redirect($_SERVER['HTTP_REFERER']);
             }
@@ -158,7 +165,7 @@ class Clients extends AdminController
         $data['group'] = $group;
 
         if ($group != 'contacts' && $contact_id = $this->input->get('contactid')) {
-            redirect(admin_url('clients/client/' . $id . '?group=contacts&contactid=' . $contact_id));
+            redirect(admin_url('opponents/client/' . $id . '?group=contacts&contactid=' . $contact_id));
         }
 
         // Customer groups
@@ -168,7 +175,7 @@ class Clients extends AdminController
             $title = _l('add_new', _l('client_lowercase'));
         } else {
             $client                = $this->clients_model->get($id);
-            $data['customer_tabs'] = get_customer_profile_tabs();
+            $data['customer_tabs'] = get_opponent_profile_tabs();
 
             if (!$client) {
                 show_404();
@@ -214,7 +221,7 @@ class Clients extends AdminController
             } elseif ($group == 'statement') {
                 if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
                     set_alert('danger', _l('access_denied'));
-                    redirect(admin_url('clients/client/' . $id));
+                    redirect(admin_url('opponents/client/' . $id));
                 }
 
                 $data = array_merge($data, prepare_mail_preview_data('customer_statement', $id));
@@ -232,7 +239,7 @@ class Clients extends AdminController
                             'longitude'      => "$client->longitude",
                             'mapMarkerTitle' => "$client->company",
                         ],
-                        ]);
+                    ]);
                 }
             }
 
@@ -289,7 +296,7 @@ class Clients extends AdminController
             $data['customer_currency'] = $customer_currency;
 
             $slug_zip_folder = (
-                $client->company != ''
+            $client->company != ''
                 ? $client->company
                 : get_contact_full_name(get_primary_contact_user_id($client->userid))
             );
@@ -300,7 +307,7 @@ class Clients extends AdminController
         $data['bodyclass'] = 'customer-profile dynamic-create-groups';
         $data['title']     = $title;
 
-        $this->load->view('admin/clients/client', $data);
+        $this->load->view('admin/opponent/client', $data);
     }
 
     public function export($contact_id)
@@ -390,9 +397,9 @@ class Clients extends AdminController
                 if (!is_customer_admin($customer_id)) {
                     header('HTTP/1.0 400 Bad error');
                     echo json_encode([
-                            'success' => false,
-                            'message' => _l('access_denied'),
-                        ]);
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
                     die;
                 }
             }
@@ -431,12 +438,12 @@ class Clients extends AdminController
                 }
             }
             echo json_encode([
-                    'success'             => $success,
-                    'proposal_warning'    => $proposal_warning,
-                    'message'             => $message,
-                    'original_email'      => $original_email,
-                    'has_primary_contact' => (total_rows(db_prefix().'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
-                ]);
+                'success'             => $success,
+                'proposal_warning'    => $proposal_warning,
+                'message'             => $message,
+                'original_email'      => $original_email,
+                'has_primary_contact' => (total_rows(db_prefix().'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
+            ]);
             die;
         }
         if ($contact_id == '') {
@@ -457,7 +464,7 @@ class Clients extends AdminController
 
         $data['customer_permissions'] = get_contact_permissions();
         $data['title']                = $title;
-        $this->load->view('admin/clients/modals/contact', $data);
+        $this->load->view('admin/opponent/modals/contact', $data);
     }
 
     public function confirm_registration($client_id)
@@ -510,7 +517,7 @@ class Clients extends AdminController
         $this->db->update(db_prefix().'clients', [
             'active' => 1,
         ]);
-        redirect(admin_url('clients/client/' . $id));
+        redirect(admin_url('opponents/client/' . $id));
     }
 
     public function consents($id)
@@ -577,10 +584,10 @@ class Clients extends AdminController
         }
         $success = $this->clients_model->assign_admins($this->input->post(), $id);
         if ($success == true) {
-            set_alert('success', _l('updated_successfully', _l('client')));
+            set_alert('success', _l('updated_successfully', _l('opponent')));
         }
 
-        redirect(admin_url('clients/client/' . $id . '?tab=customer_admins'));
+        redirect(admin_url('opponents/client/' . $id . '?tab=customer_admins'));
     }
 
     public function delete_customer_admin($customer_id, $staff_id)
@@ -592,7 +599,7 @@ class Clients extends AdminController
         $this->db->where('customer_id', $customer_id);
         $this->db->where('staff_id', $staff_id);
         $this->db->delete(db_prefix().'customer_admins');
-        redirect(admin_url('clients/client/' . $customer_id) . '?tab=customer_admins');
+        redirect(admin_url('opponents/client/' . $customer_id) . '?tab=customer_admins');
     }
 
     public function delete_contact($customer_id, $id)
@@ -614,7 +621,7 @@ class Clients extends AdminController
         if ($hasProposals) {
             $this->session->set_flashdata('gdpr_delete_warning', true);
         }
-        redirect(admin_url('clients/client/' . $customer_id . '?group=contacts'));
+        redirect(admin_url('opponents/client/' . $customer_id . '?group=contacts'));
     }
 
     public function contacts($client_id)
@@ -651,17 +658,17 @@ class Clients extends AdminController
             access_denied('customers');
         }
         if (!$id) {
-            redirect(admin_url('clients'));
+            redirect(admin_url('opponents'));
         }
         $response = $this->clients_model->delete($id);
         if (is_array($response) && isset($response['referenced'])) {
             set_alert('warning', _l('customer_delete_transactions_warning', _l('invoices') . ', ' . _l('estimates') . ', ' . _l('credit_notes')));
         } elseif ($response == true) {
-            set_alert('success', _l('deleted', _l('client')));
+            set_alert('success', _l('deleted', _l('opponent')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('client_lowercase')));
         }
-        redirect(admin_url('clients'));
+        redirect(admin_url('opponents'));
     }
 
     /* Staff can login as client */
@@ -712,7 +719,7 @@ class Clients extends AdminController
                 'status'            => $this->input->post('credit_note_zip_status'),
                 'date_from'         => $this->input->post('zip-from'),
                 'date_to'           => $this->input->post('zip-to'),
-                'redirect_on_error' => admin_url('clients/client/' . $id . '?group=credit_notes'),
+                'redirect_on_error' => admin_url('opponents/client/' . $id . '?group=credit_notes'),
             ]);
 
             $this->app_bulk_pdf_export->set_client_id($id);
@@ -735,7 +742,7 @@ class Clients extends AdminController
                 'status'            => $this->input->post('invoice_zip_status'),
                 'date_from'         => $this->input->post('zip-from'),
                 'date_to'           => $this->input->post('zip-to'),
-                'redirect_on_error' => admin_url('clients/client/' . $id . '?group=invoices'),
+                'redirect_on_error' => admin_url('opponents/client/' . $id . '?group=invoices'),
             ]);
 
             $this->app_bulk_pdf_export->set_client_id($id);
@@ -759,7 +766,7 @@ class Clients extends AdminController
                 'status'            => $this->input->post('estimate_zip_status'),
                 'date_from'         => $this->input->post('zip-from'),
                 'date_to'           => $this->input->post('zip-to'),
-                'redirect_on_error' => admin_url('clients/client/' . $id . '?group=estimates'),
+                'redirect_on_error' => admin_url('opponents/client/' . $id . '?group=estimates'),
             ]);
 
             $this->app_bulk_pdf_export->set_client_id($id);
@@ -778,12 +785,12 @@ class Clients extends AdminController
         }
 
         $this->load->library('app_bulk_pdf_export', [
-                'export_type'       => 'payments',
-                'payment_mode'      => $this->input->post('paymentmode'),
-                'date_from'         => $this->input->post('zip-from'),
-                'date_to'           => $this->input->post('zip-to'),
-                'redirect_on_error' => admin_url('clients/client/' . $id . '?group=payments'),
-            ]);
+            'export_type'       => 'payments',
+            'payment_mode'      => $this->input->post('paymentmode'),
+            'date_from'         => $this->input->post('zip-from'),
+            'date_to'           => $this->input->post('zip-to'),
+            'redirect_on_error' => admin_url('opponents/client/' . $id . '?group=payments'),
+        ]);
 
         $this->app_bulk_pdf_export->set_client_id($id);
         $this->app_bulk_pdf_export->set_client_id_column(db_prefix().'clients.userid');
@@ -809,7 +816,7 @@ class Clients extends AdminController
         $this->load->library('import/import_customers', [], 'import');
 
         $this->import->setDatabaseFields($dbFields)
-                     ->setCustomFields(get_custom_fields('customers'));
+            ->setCustomFields(get_custom_fields('customers'));
 
         if ($this->input->post('download_sample') === 'true') {
             $this->import->downloadSample();
@@ -818,9 +825,9 @@ class Clients extends AdminController
         if ($this->input->post()
             && isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
             $this->import->setSimulation($this->input->post('simulate'))
-                          ->setTemporaryFileLocation($_FILES['file_csv']['tmp_name'])
-                          ->setFilename($_FILES['file_csv']['name'])
-                          ->perform();
+                ->setTemporaryFileLocation($_FILES['file_csv']['tmp_name'])
+                ->setFilename($_FILES['file_csv']['name'])
+                ->perform();
 
 
             $data['total_rows_post'] = $this->import->totalRows();
@@ -833,7 +840,7 @@ class Clients extends AdminController
         $data['groups']    = $this->clients_model->get_groups();
         $data['title']     = _l('import');
         $data['bodyclass'] = 'dynamic-create-groups';
-        $this->load->view('admin/clients/import', $data);
+        $this->load->view('admin/opponent/import', $data);
     }
 
     public function groups()
@@ -845,7 +852,7 @@ class Clients extends AdminController
             $this->app->get_table_data('customers_groups');
         }
         $data['title'] = _l('customer_groups');
-        $this->load->view('admin/clients/groups_manage', $data);
+        $this->load->view('admin/opponent/groups_manage', $data);
     }
 
     public function group()
@@ -1035,7 +1042,7 @@ class Clients extends AdminController
 
         if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
             set_alert('danger', _l('access_denied'));
-            redirect(admin_url('clients/client/' . $customer_id));
+            redirect(admin_url('opponents/client/' . $customer_id));
         }
 
         $from = $this->input->get('from');
@@ -1068,7 +1075,7 @@ class Clients extends AdminController
 
         if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
             set_alert('danger', _l('access_denied'));
-            redirect(admin_url('clients/client/' . $customer_id));
+            redirect(admin_url('opponents/client/' . $customer_id));
         }
 
         $from = $this->input->get('from');
@@ -1086,7 +1093,7 @@ class Clients extends AdminController
             set_alert('danger', _l('statement_sent_to_client_fail'));
         }
 
-        redirect(admin_url('clients/client/' . $customer_id . '?group=statement'));
+        redirect(admin_url('opponents/client/' . $customer_id . '?group=statement'));
     }
 
     public function statement()
@@ -1106,8 +1113,9 @@ class Clients extends AdminController
         $data['from'] = $from;
         $data['to']   = $to;
 
-        $viewData['html'] = $this->load->view('admin/clients/groups/_statement', $data, true);
+        $viewData['html'] = $this->load->view('admin/opponent/groups/_statement', $data, true);
 
         echo json_encode($viewData);
     }
+
 }

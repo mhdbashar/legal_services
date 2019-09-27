@@ -159,7 +159,7 @@ if ($this->ci->input->post('my_customers')) {
     array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
-array_push($where, 'AND '.db_prefix().'clients.client_type = 0');
+array_push($where, 'AND '.db_prefix().'clients.client_type = 1');
 
 $aColumns = hooks()->apply_filters('customers_table_sql_columns', $aColumns);
 
@@ -177,14 +177,15 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+$i = 1;
 foreach ($rResult as $aRow) {
     $row = [];
 
     // Bulk actions
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
     // User id
-    $row[] = $aRow['userid'];
+    //$row[] = $aRow['userid'];
+    $row[] = $i;
 
     // Company
     $company  = $aRow['company'];
@@ -195,7 +196,7 @@ foreach ($rResult as $aRow) {
         $isPerson = true;
     }
 
-    $url = admin_url('clients/client/' . $aRow['userid']);
+    $url = admin_url('opponents/client/' . $aRow['userid']);
 
     if ($isPerson && $aRow['contact_id']) {
         $url .= '?contactid=' . $aRow['contact_id'];
@@ -207,13 +208,13 @@ foreach ($rResult as $aRow) {
     $company .= '<a href="' . $url . '">' . _l('view') . '</a>';
 
     if ($aRow['registration_confirmed'] == 0 && is_admin()) {
-        $company .= ' | <a href="' . admin_url('clients/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';
+        $company .= ' | <a href="' . admin_url('opponents/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';
     }
     if (!$isPerson) {
-        $company .= ' | <a href="' . admin_url('clients/client/' . $aRow['userid'] . '?group=contacts') . '">' . _l('customer_contacts') . '</a>';
+        $company .= ' | <a href="' . admin_url('opponents/client/' . $aRow['userid'] . '?group=contacts') . '">' . _l('customer_contacts') . '</a>';
     }
     if ($hasPermissionDelete) {
-        $company .= ' | <a href="' . admin_url('clients/delete/' . $aRow['userid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $company .= ' | <a href="' . admin_url('opponents/delete/' . $aRow['userid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 
     $company .= '</div>';
@@ -221,7 +222,7 @@ foreach ($rResult as $aRow) {
     $row[] = $company;
 
     // Primary contact
-    $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>' : '');
+    $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('opponents/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>' : '');
 
     // Primary contact email
     $row[] = ($aRow['email'] ? '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>' : '');
@@ -272,4 +273,5 @@ foreach ($rResult as $aRow) {
     $row = hooks()->apply_filters('customers_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
+    $i++;
 }

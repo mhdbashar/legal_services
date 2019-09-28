@@ -3304,3 +3304,45 @@ $lang['session_single_assignees_select_title'] = "Refer session to";
 $lang['session_no_followers'] = "There is no follower for this session";
 $lang['session_is_private'] = "Private session";
 $lang['session_report'] = 'Session report';
+
+/**  transactions **/
+$lang['transactions'] = 'Transactions';
+$lang['incoming'] = 'Incoming Transactions';
+$lang['outgoing'] = 'Outgoing Transactions';
+$lang['incoming_data'] = 'Incoming Transaction Data';
+$lang['trans_id'] = 'Transaction ID';
+$lang['importance'] = 'Transaction Importance';
+$lang['low'] = 'Low';
+$lang['high'] = 'High';
+$lang['description'] = 'Transaction Description';
+$lang['classification'] = 'Transaction Classification';
+$lang['type'] = 'Transaction Type';
+$lang['internal'] = 'Internal';
+$lang['external'] = 'External';
+$lang['owner_name'] = 'Owner Name';
+$lang['origin'] = 'Owner Origin';
+$lang['normal_paper'] = 'Normal Paper';
+$lang['notnormal_paper'] = 'Not Normal Paper';
+$lang['owner_phone'] = 'Owner Phone';
+$lang['incoming_num'] = 'Incoming Number';
+$lang['reporter_name'] = 'Reporter Name';
+$lang['incoming_source'] = 'Incoming Transaction Origin Source';
+$lang['reporter_phone'] = 'Reporter Phone';
+$lang['incoming_type'] = 'Incoming Type';
+$lang['electronic_incoming'] = 'Electronic Incoming';
+$lang['paper_incoming'] = 'Paper Incoming';
+$lang['email'] = 'Email';
+$lang['secret'] = 'Is Secret';
+$lang['incoming_date'] = 'Incoming Date';
+$lang['hijri_date'] = 'Hijri Date';
+$lang['AD_date'] = 'AD Date';
+
+
+
+
+
+
+
+
+
+

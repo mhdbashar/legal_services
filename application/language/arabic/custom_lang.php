@@ -178,3 +178,36 @@ $lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى
 $lang['session_no_followers'] = "ليس هناك متابع لهذه الجلسة";
 $lang['session_is_private'] = "جلسة خاصة";
 $lang['session_report'] = 'تقرير جلسة';
+
+
+/**  transactions **/
+$lang['transactions'] = 'المعاملات';
+$lang['incoming'] = 'المعاملات الواردة';
+$lang['outgoing'] = 'المعاملات الصادرة';
+$lang['incoming_data'] = 'بيانات المعاملة الواردة';
+$lang['trans_id'] = 'رقم القيد';
+$lang['importance'] = 'أهمية المعاملة';
+$lang['low'] = 'منخفضة';
+$lang['high'] = 'عالية';
+$lang['description'] = 'موضوع المعاملة';
+$lang['classification'] = 'تصنيف المعاملة';
+$lang['type'] = 'نوع المعاملة';
+$lang['internal'] = 'قيد داخلي';
+$lang['external'] = 'قيد خارجي';
+$lang['owner_name'] = 'اسم صاحب المعاملة';
+$lang['origin'] = 'طبيعة أصل المعاملة';
+$lang['normal_paper'] = 'ورق عادي';
+$lang['notnormal_paper'] = 'ورق غير عادي';
+$lang['owner_phone'] = 'جوال صاحب المعاملة';
+$lang['incoming_num'] = 'رقم الخطاب الوارد';
+$lang['reporter_name'] = 'اسم مراسل الجهة الواردة';
+$lang['incoming_source'] = 'الجهة الوارد منها';
+$lang['reporter_phone'] = 'جوال مراسل الجهة الواردة';
+$lang['incoming_type'] = 'نوع الوارد';
+$lang['electronic_incoming'] = 'وارد الكتروني';
+$lang['paper_incoming'] = 'وارد ورقي';
+$lang['email'] = 'البريد الالكتروني';
+$lang['secret'] = 'سرية المعاملة';
+$lang['incoming_date'] = 'تاريخ الوارد';
+$lang['hijri_date'] = 'هجري';
+$lang['AD_date'] = 'ميلادي';

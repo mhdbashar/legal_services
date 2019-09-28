@@ -15,6 +15,10 @@ class Transactions extends AdminController
 
         $this->load->view('admin/transactions/incoming');
     }
+    public function outgoing(){
+
+        $this->load->view('admin/transactions/outgoing');
+    }
 
     public function table($type = '')
     {

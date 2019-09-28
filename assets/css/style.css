@@ -9260,4 +9260,19 @@ body.rtl #side-menu .arrow-ar {
     margin-left: 15px
 }
 
-body.rtl .bootstrap-select .dropdown-toggle .caret { right: unset; left: 12px;}
+body.rtl .bootstrap-select .dropdown-toggle .caret 
+{
+     right: unset; left: 12px;
+    }
+body.rtl .input-group .bs3.bootstrap-select .dropdown-toggle .filter-option 
+{
+    margin-right: 0px
+}
+body.rtl .bootstrap-select.show-tick .dropdown-menu .selected span.check-mark 
+{
+    right: unset; left: 15px;
+}
+body.rtl .bootstrap-select.show-tick .dropdown-menu li a span.text 
+{
+     margin-right: unset; margin-left: 34px;
+    }

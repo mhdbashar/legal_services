@@ -209,5 +209,4 @@ $lang['paper_incoming'] = 'وارد ورقي';
 $lang['email'] = 'البريد الالكتروني';
 $lang['secret'] = 'سرية المعاملة';
 $lang['incoming_date'] = 'تاريخ الوارد';
-$lang['hijri_date'] = 'هجري';
-$lang['AD_date'] = 'ميلادي';
+$lang['date'] = 'التاريخ';

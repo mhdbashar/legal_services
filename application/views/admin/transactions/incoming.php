@@ -15,6 +15,13 @@
                         <hr class="hr-panel-heading" />
                         <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'incoming-form','class'=>'')) ;?>
                         <div class="row">
+                            <div class="col-md-12">
+                                <?php echo render_input('trans_type', '',0,'hidden'); ?>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <?php echo render_input('trans_id', _l('trans_id')); ?>
                             </div>
@@ -155,9 +162,7 @@
                             <div class="col-md-6">
                                 <label for="incoming_date"> <?php echo _l('incoming_date') ?></label>
                                 <div id="incoming_date" style="display: inline-flex">
-                                    <?php echo render_date_input('hijri_date', _l('hijri_date')); ?>
-
-                                    <?php echo render_date_input('AD_date', _l('AD_date')); ?>
+                                    <?php echo render_date_input('date', _l('date')); ?>
 
                                 </div>
 

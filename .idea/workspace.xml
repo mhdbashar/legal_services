@@ -3,6 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f9c38206-4f24-4b22-abc3-0c8198024268" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Transactions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Transactions_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,20 +25,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/procuration.php">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Transactions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-549">
-              <caret line="112" column="42" selection-start-line="112" selection-start-column="38" selection-end-line="112" selection-end-column="42" />
+            <state relative-caret-position="816">
+              <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Transactions.php">
+        <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
+            <state relative-caret-position="54">
+              <caret line="18" column="67" selection-start-line="18" selection-start-column="67" selection-end-line="18" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/Transactions_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/Procurations_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/helpers/general_helper.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="191">
+              <caret line="408" column="9" selection-start-line="408" selection-start-column="9" selection-end-line="408" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -39,62 +73,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="163" column="54" selection-start-line="163" selection-start-column="46" selection-end-line="163" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/language/english/custom_lang.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89397">
-              <caret line="3311" selection-start-line="3311" selection-end-line="3312" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="438">
-              <caret line="187" column="32" selection-start-line="187" selection-start-column="32" selection-end-line="187" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="478">
-              <caret line="153" column="34" selection-start-line="153" selection-start-column="34" selection-end-line="153" selection-end-column="34" />
+              <caret line="172" column="18" lean-forward="true" selection-start-line="172" selection-start-column="18" selection-end-line="172" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/outgoing.php">
+        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Procuration.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="104" selection-end-column="34" />
+            <state relative-caret-position="297">
+              <caret line="11" column="46" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/helpers/admin_helper.php">
+        <entry file="file://$PROJECT_DIR$/system/helpers/form_helper.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+            <state relative-caret-position="198">
+              <caret line="153" column="13" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/helpers/fields_helper.php">
+        <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/procuration.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="282" column="9" selection-start-line="282" selection-start-column="9" selection-end-line="282" selection-end-column="9" />
+            <state relative-caret-position="-945">
+              <caret line="10" column="9" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -103,7 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>car</find>
       <find>city</find>
       <find>country</find>
       <find>staff</find>
@@ -133,6 +139,7 @@
       <find>Jud_number</find>
       <find>procuration</find>
       <find>form</find>
+      <find>procurations_model</find>
     </findStrings>
     <replaceStrings>
       <replace>get_case_settings</replace>
@@ -164,7 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/views/admin/tables/old_sessions.php" />
         <option value="$PROJECT_DIR$/assets/js/main.js" />
         <option value="$PROJECT_DIR$/application/views/admin/tables/tasks.php" />
         <option value="$PROJECT_DIR$/application/views/admin/tasks/kan_ban.php" />
@@ -205,16 +211,17 @@
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_pre_invoice_settings.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/procuration/procuration.php" />
-        <option value="$PROJECT_DIR$/application/models/Transactions_model.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/transactions/transactions.php" />
         <option value="$PROJECT_DIR$/application/helpers/fields_helper.php" />
-        <option value="$PROJECT_DIR$/application/language/english/custom_lang.php" />
         <option value="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
-        <option value="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/Transactions.php" />
+        <option value="$PROJECT_DIR$/application/language/english/custom_lang.php" />
         <option value="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" />
+        <option value="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/transactions/transactions.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/procuration/procuration.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Procuration.php" />
+        <option value="$PROJECT_DIR$/application/models/Transactions_model.php" />
         <option value="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Transactions.php" />
       </list>
     </option>
   </component>
@@ -287,7 +294,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -304,14 +310,7 @@
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
               <item name="legalserv" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="language" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
-              <item name="legalserv" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="language" type="462c0819:PsiDirectoryNode" />
-              <item name="arabic" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
@@ -334,10 +333,19 @@
               <item name="admin" type="462c0819:PsiDirectoryNode" />
               <item name="procuration" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legalserv" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="transactions" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -355,19 +363,19 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legalserv\DB\waseem" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tasks" />
+      <recent name="C:\xampp\htdocs\legal_services\application\libraries\pdf" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\services_sessions" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\recycle_bin" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services\old" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tasks" />
-      <recent name="C:\xampp\htdocs\legal_services\application\libraries\pdf" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\subscriptions" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -446,6 +454,8 @@
       <workItem from="1569527907122" duration="1739000" />
       <workItem from="1569594229917" duration="12258000" />
       <workItem from="1569686304926" duration="2840000" />
+      <workItem from="1569761529489" duration="786000" />
+      <workItem from="1569790623889" duration="6571000" />
     </task>
     <task id="LOCAL-00001" summary="fix country + arrow">
       <created>1569103506512</created>
@@ -482,17 +492,25 @@
       <option name="project" value="LOCAL" />
       <updated>1569689556060</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="my db">
+      <created>1569761715863</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1569761715863</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="443947000" />
+    <option name="totallyTimeSpent" value="451304000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" order="0" weight="0.24848485" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21641791" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22068231" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Grunt " order="3" side_tool="true" />
       <window_info id="Favorites" order="4" side_tool="true" />
@@ -564,72 +582,10 @@
     <MESSAGE value="create transactions" />
     <MESSAGE value="incoming transaction design" />
     <MESSAGE value="outgoing transaction design" />
-    <option name="LAST_COMMIT_MESSAGE" value="outgoing transaction design" />
+    <MESSAGE value="my db" />
+    <option name="LAST_COMMIT_MESSAGE" value="my db" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_discussions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="15" column="86" selection-start-line="15" selection-start-column="82" selection-end-line="15" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_estimates.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_expenses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="34" column="79" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_files.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="128" column="86" selection-start-line="128" selection-start-column="82" selection-end-line="128" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_gantt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_invoices.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_milestones.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
-          <caret line="37" column="28" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_notes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="7" selection-start-column="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="89" column="41" selection-start-line="89" selection-start-column="37" selection-end-line="89" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_pre_invoice_settings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="17" column="129" selection-start-line="17" selection-start-column="125" selection-end-line="17" selection-end-column="129" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_subscriptions.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_tabs.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31" />
@@ -699,13 +655,6 @@
     <entry file="file://$PROJECT_DIR$/application/views/admin/index.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/general_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="408" column="9" selection-start-line="408" selection-start-column="9" selection-end-line="408" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_procurationtype.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -748,71 +697,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Procurations_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="236" column="4" selection-start-line="236" selection-start-column="4" selection-end-line="256" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Procurations.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Transactions_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/table_html.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/transactions.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/manage.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Procuration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="37" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/english/custom_lang.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89397">
-          <caret line="3311" selection-start-line="3311" selection-end-line="3312" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="187" column="32" selection-start-line="187" selection-start-column="32" selection-end-line="187" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="163" column="54" selection-start-line="163" selection-start-column="46" selection-end-line="163" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Transactions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/tickets/predefined_replies/reply.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -824,20 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/admin_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/fields_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="282" column="9" selection-start-line="282" selection-start-column="9" selection-end-line="282" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -855,24 +725,163 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/procuration.php">
+    <entry file="file://$PROJECT_DIR$/DB/Mhdbashar/tblcities.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/waseem/legalserv2909.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-549">
-          <caret line="112" column="42" selection-start-line="112" selection-start-column="38" selection-end-line="112" selection-end-column="42" />
+        <state relative-caret-position="-7776" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/Complete DB/3 legalserv alter client table.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/admin_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/fields_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7614">
+          <caret line="282" column="9" selection-start-line="282" selection-start-column="9" selection-end-line="282" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/english/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="3336" column="23" lean-forward="true" selection-start-line="3336" selection-start-column="23" selection-end-line="3336" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="210" column="40" selection-start-line="210" selection-start-column="40" selection-end-line="210" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/outgoing.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="104" selection-end-column="34" />
+        <state relative-caret-position="324">
+          <caret line="18" column="74" selection-start-line="18" selection-start-column="74" selection-end-line="18" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/table_html.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_judges.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/projects.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/payments.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_procurationstate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-926" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_procurations.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-108">
+          <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-648">
+          <caret selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/custom_fields_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="344" column="9" selection-start-line="344" selection-start-column="9" selection-end-line="344" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/transactions.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/helpers/form_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="153" column="13" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Procurations.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1431">
+          <caret line="80" column="25" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/procuration.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-945">
+          <caret line="10" column="9" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/general_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="408" column="9" selection-start-line="408" selection-start-column="9" selection-end-line="408" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="172" column="18" lean-forward="true" selection-start-line="172" selection-start-column="18" selection-end-line="172" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Procuration.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="11" column="46" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/sms_helper.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Procurations_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Transactions_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="153" column="34" selection-start-line="153" selection-start-column="34" selection-end-line="153" selection-end-column="34" />
+        <state relative-caret-position="54">
+          <caret line="18" column="67" selection-start-line="18" selection-start-column="67" selection-end-line="18" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Transactions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
         </state>
       </provider>
     </entry>

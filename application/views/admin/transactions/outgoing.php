@@ -15,6 +15,13 @@
                         <hr class="hr-panel-heading" />
                         <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'incoming-form','class'=>'')) ;?>
                         <div class="row">
+                            <div class="col-md-12">
+                                <?php echo render_input('trans_type', '',1,'hidden'); ?>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <?php echo render_input('trans_id', _l('trans_id')); ?>
                             </div>

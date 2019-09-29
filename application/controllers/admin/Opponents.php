@@ -137,7 +137,7 @@ class Opponents extends AdminController
 
                     set_alert('success', _l('added_successfully', _l('opponent')));
                     if ($save_and_add_contact == false) {
-                        redirect(admin_url($_SERVER['HTTP_REFERER'] . '/' . $id));
+                        redirect($_SERVER['HTTP_REFERER'] . '/' . $id);
                     } else {
                         redirect($_SERVER['HTTP_REFERER'] . '?group=contacts&new_contact=true');
                     }

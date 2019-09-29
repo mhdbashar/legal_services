@@ -29,6 +29,16 @@ class Authentication_model extends App_Model
             }
             $this->db->where('email', $email);
             $user = $this->db->get($table)->row();
+            //Prevent Opponents from Login
+            if($table == 'tblcontacts'){
+                $userid = $user->userid;
+                $this->db->where('userid', $userid);
+                $client_type = $this->db->get(db_prefix() . 'clients')->row()->client_type;
+                if($client_type == 1){
+                    log_activity('Cant Login Opponents [Opponent ID: ' .$userid. ', IP: ' . $this->input->ip_address() . ']');
+                    return false;
+                }
+            }
             if ($user) {
                 // Email is okey lets check the password now
                 if (!app_hasher()->CheckPassword($password, $user->password)) {

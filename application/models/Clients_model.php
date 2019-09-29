@@ -115,6 +115,11 @@ class Clients_model extends App_Model
             unset($data['groups_in']);
         }
 
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
+        }
+
         $data = $this->check_zero_columns($data);
 
         $data['datecreated'] = date('Y-m-d H:i:s');
@@ -156,6 +161,15 @@ class Clients_model extends App_Model
                     $this->db->insert(db_prefix() . 'customer_groups', [
                         'customer_id' => $userid,
                         'groupid'     => $group,
+                    ]);
+                }
+            }
+
+            if (isset($groups_company_in)) {
+                foreach ($groups_company_in as $group_company) {
+                    $this->db->insert(db_prefix() . 'customer_groups', [
+                        'customer_id' => $userid,
+                        'groupid'     => $group_company,
                     ]);
                 }
             }
@@ -210,6 +224,11 @@ class Clients_model extends App_Model
         if (isset($data['groups_in'])) {
             $groups_in = $data['groups_in'];
             unset($data['groups_in']);
+        }
+
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
         }
 
         $data = $this->check_zero_columns($data);
@@ -267,7 +286,15 @@ class Clients_model extends App_Model
             $groups_in = false;
         }
 
+        if (!isset($groups_company_in)) {
+            $groups_company_in = false;
+        }
+
         if ($this->client_groups_model->sync_customer_groups($id, $groups_in)) {
+            $affectedRows++;
+        }
+
+        if ($this->client_groups_model->sync_company_customer_groups($id, $groups_company_in)) {
             $affectedRows++;
         }
 
@@ -1277,6 +1304,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get customer groups where customer belongs
+     * @param  mixed $id customer id
+     * @return array
+     */
+    public function get_company_customer_groups($id)
+    {
+        return $this->client_groups_model->get_company_customer_groups($id);
+    }
+
+    /**
      * Get all customer groups
      * @param  string $id
      * @return mixed
@@ -1287,6 +1324,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get all customer groups
+     * @param  string $id
+     * @return mixed
+     */
+    public function get_company_groups($id = '')
+    {
+        return $this->client_groups_model->get_company_groups($id);
+    }
+
+    /**
      * Delete customer groups
      * @param  mixed $id group id
      * @return boolean
@@ -1294,6 +1341,16 @@ class Clients_model extends App_Model
     public function delete_group($id)
     {
         return $this->client_groups_model->delete($id);
+    }
+
+    /**
+     * Delete customer groups
+     * @param  mixed $id group id
+     * @return boolean
+     */
+    public function delete_company_group($id)
+    {
+        return $this->client_groups_model->company_delete($id);
     }
 
     /**
@@ -1313,6 +1370,24 @@ class Clients_model extends App_Model
     public function edit_group($data)
     {
         return $this->client_groups_model->edit($data);
+    }
+    /**
+     * Add new customer groups
+     * @param array $data $_POST data
+     */
+    public function add_company_group($data)
+    {
+        return $this->client_groups_model->company_add($data);
+    }
+
+    /**
+     * Edit customer group
+     * @param  array $data $_POST data
+     * @return boolean
+     */
+    public function edit_company_group($data)
+    {
+        return $this->client_groups_model->company_edit($data);
     }
 
     /**

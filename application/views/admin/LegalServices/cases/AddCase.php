@@ -64,11 +64,6 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if($this->app_modules->is_active('branches')){?>
-                            <br/>
-                           <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],_l('branch_name'),$value); ?>
-                       <?php } ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

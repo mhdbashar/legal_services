@@ -5,9 +5,36 @@
  */
 ?>
 <script>
+var company_select = $(".company_select");
+var individual_select = $(".individual_select");
+$('.onoffswitch-label').on('click', function() {
+
+    
+    var visible = company_select.is(":visible");
+    if (visible){
+        company_select.hide();
+    }else{
+        company_select.show();
+    }
+
+    var visible = individual_select.is(":visible");
+    if (visible){
+        individual_select.hide();
+    }else{
+        individual_select.show();
+    }
+});
+
 Dropzone.options.clientAttachmentsUpload = false;
 var customer_id = $('input[name="userid"]').val();
+var individual = $('input[name="individual"]').val();
 $(function() {
+
+    if(individual == 1){
+        company_select.hide();
+    }else{
+        individual_select.hide();
+    }
 
     if ($('#client-attachments-upload').length > 0) {
         new Dropzone('#client-attachments-upload', appCreateDropzoneOptions({

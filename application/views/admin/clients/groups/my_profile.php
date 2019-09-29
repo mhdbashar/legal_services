@@ -74,7 +74,8 @@
                   <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
                   
                   
-                  <?php 
+                     <div class="individual_select">
+                     <?php 
                      $selected = array();
                      if(isset($customer_groups)){
                        foreach($customer_groups as $group){
@@ -87,6 +88,11 @@
                         echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                       }
 
+                     ?>
+                     </div>
+                     <div class="company_select">
+                     <?php
+
                      $selected_company = array();
                      if(isset($customer_company_groups)){
                        foreach($customer_company_groups as $group2){
@@ -94,12 +100,24 @@
                        }
                      }
                      if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
-                      echo render_select_with_input_group('groups_company_in[]',$company_groups,array('id','name'),'customer_company
-                        _groups',$selected_company,'<a href="#" data-toggle="modal" data-target="#customer_company_group_modal"><i class="fa fa-plus"></i></a>',array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                      echo render_select_with_input_group(
+                        'groups_company_in[]',
+                        $company_groups,
+                        array('id','name'),
+                        'customer_company_groups',
+                        $selected_company,
+                        '<a href="#" data-toggle="modal" data-target="#customer_company_group_modal"><i class="fa fa-plus"></i></a>',
+                        array('multiple'=>true,'data-actions-box'=>true),
+                        array(),
+                        '',
+                        '',
+                        false
+                     );
                       } else {
                         echo render_select('groups_company_in[]',$company_groups,array('id','name'),'customer_company_groups',$selected_company,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                       }
                      ?>
+                     </div>
                   <?php if(!isset($client)){ ?>
                   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_currency_change_notice'); ?>"></i>
                   <?php }

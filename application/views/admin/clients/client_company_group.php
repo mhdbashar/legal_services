@@ -58,7 +58,7 @@
                     $('.table-customer-groups').DataTable().ajax.reload();
                 }
                 if($('body').hasClass('dynamic-create-groups') && typeof(response.id) != 'undefined') {
-                    var groups = $('select[name="groups_in[]"]');
+                    var groups = $('select[name="groups_company_in[]"]');
                     groups.prepend('<option value="'+response.id+'">'+response.name+'</option>');
                     groups.selectpicker('refresh');
                 }

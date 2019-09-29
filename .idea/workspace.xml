@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f9c38206-4f24-4b22-abc3-0c8198024268" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -352,7 +348,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/DB/waseem" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -449,7 +445,7 @@
       <workItem from="1569483832985" duration="2625000" />
       <workItem from="1569527907122" duration="1739000" />
       <workItem from="1569594229917" duration="12258000" />
-      <workItem from="1569686304926" duration="2707000" />
+      <workItem from="1569686304926" duration="2840000" />
     </task>
     <task id="LOCAL-00001" summary="fix country + arrow">
       <created>1569103506512</created>
@@ -479,15 +475,21 @@
       <option name="project" value="LOCAL" />
       <updated>1569617761745</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="outgoing transaction design">
+      <created>1569689556060</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1569689556060</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="443814000" />
+    <option name="totallyTimeSpent" value="443947000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Remote Host" order="0" weight="0.24848485" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21641791" />
@@ -561,7 +563,8 @@
     <MESSAGE value="not selected+checkbox+_d" />
     <MESSAGE value="create transactions" />
     <MESSAGE value="incoming transaction design" />
-    <option name="LAST_COMMIT_MESSAGE" value="incoming transaction design" />
+    <MESSAGE value="outgoing transaction design" />
+    <option name="LAST_COMMIT_MESSAGE" value="outgoing transaction design" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_discussions.php">

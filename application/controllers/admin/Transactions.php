@@ -29,7 +29,7 @@ class Transactions extends AdminController
         if (!is_admin()) {
             access_denied('incoming');
         }
-        $redirect = admin_url('transactions/transactions');
+        $redirect = admin_url('transactions/incoming_list');
         $last_id = $this->index();
         if ($this->input->post()) {
             $data            = $this->input->post();
@@ -38,9 +38,9 @@ class Transactions extends AdminController
             $dataRow['description']= $data['description'];
             $dataRow['type']= $data['type'];
             $dataRow['origin']= $data['origin'];
-            $dataRow['incomming_num']= $data['incoming_num'];
-            $dataRow['incomming_source']= $data['incoming_source'];
-            $dataRow['incomming_type']= $data['incoming_type'];
+            $dataRow['incoming_num']= $data['incoming_num'];
+            $dataRow['incoming_source']= $data['incoming_source'];
+            $dataRow['incoming_type']= $data['incoming_type'];
             $dataRow['is_secret']= $data['secret'];
             $dataRow['importance']= $data['importance'];
             $dataRow['classification']= $data['class'];
@@ -79,13 +79,81 @@ class Transactions extends AdminController
 
 
 
-    public function outgoing(){
+    public function outgoing($id=''){
+
+        if (!is_admin()) {
+            access_denied('outgoing');
+        }
+        $redirect = admin_url('transactions/outgoing_list');
+        $last_id = $this->index();
+        if ($this->input->post()) {
+            $data            = $this->input->post();
+
+            $dataRow['definition']= $data['trans_type'];
+            $dataRow['description']= $data['description'];
+            $dataRow['type']= $data['type'];
+            $dataRow['origin']= $data['origin'];
+            $dataRow['is_secret']= $data['secret'];
+            $dataRow['importance']= $data['importance'];
+            $dataRow['classification']= $data['class'];
+            $dataRow['owner']= $data['owner_name'];
+            $dataRow['owner_phone']= $data['owner_phone'];
+            $dataRow['isDeleted']= 0;
+            if ($id == '') {
+                $data['id'] = $last_id;
+                $id = $this->transactions_model->add($dataRow);
+                if ($id) {
+                    set_alert('success', _l('added_successfully', 'outgoing'));
+                    redirect($redirect);
+                }
+            } else {
+                $success = $this->transactions_model->update($data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', 'outgoing'));
+                }
+                redirect($redirect);
+            }
+        }
+
+        if ($id == '') {
+            $data['last_id'] = $last_id;
+            $title = _l('add_new', 'outgoing');
+        } else {
+            $data['outgoing'] = $this->transactions_model->get($id);
+            $title                = _l('edit', 'outgoing');
+        }
 
         $this->load->view('admin/transactions/outgoing');
     }
-    public function transactions(){
+    public function incoming_list(){
+//
 
-        $this->load->view('admin/transactions/transactions');
+        if ($this->input->is_ajax_request()) {
+
+            $this->app->get_table_data('my_incoming_transactions');
+        }
+//        var_dump('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgjk');exit();
+//        var_dump(_l('procuration'));exit();
+        $data['title'] = _l('incoming');
+//        $this->load->view('admin/procuration/manage', $data);
+
+
+        $this->load->view('admin/transactions/manage_incoming',$data);
+    }
+    public function outgoing_list(){
+//
+
+        if ($this->input->is_ajax_request()) {
+
+            $this->app->get_table_data('my_outgoing_transactions');
+        }
+//        var_dump('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgjk');exit();
+//        var_dump(_l('procuration'));exit();
+        $data['title'] = _l('outgoing');
+//        $this->load->view('admin/procuration/manage', $data);
+
+
+        $this->load->view('admin/transactions/manage_outgoing',$data);
     }
 
     public function table($type = '')
@@ -94,9 +162,7 @@ class Transactions extends AdminController
     }
 
     public function transaction($id = ''){
-
-
-
+//
     }
 
     public function delete_transaction($id = ''){

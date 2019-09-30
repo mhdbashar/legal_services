@@ -3335,7 +3335,8 @@ $lang['email'] = 'Email';
 $lang['secret'] = 'Is Secret';
 $lang['incoming_date'] = 'Incoming Date';
 $lang['date'] = 'Date';
-
+$lang['new_incoming'] = 'Add New Incoming Transaction';
+$lang['new_outgoing'] = 'Add New Outgoing Transaction';
 
 
 

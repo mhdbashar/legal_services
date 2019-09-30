@@ -153,7 +153,7 @@ function my_custom_setup_menu_items()
     $CI->app_menu->add_setup_children_item('3', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("incoming"), // The name if the item
-        'href'     => admin_url('transactions/incoming'), // URL of the item
+        'href'     => admin_url('transactions/incoming_list'), // URL of the item
         'position' => 1, // The menu position
         // 'icon'     => 'fa fa-adjust', // Font awesome icon
 
@@ -161,19 +161,12 @@ function my_custom_setup_menu_items()
     $CI->app_menu->add_setup_children_item('3', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("outgoing"), // The name if the item
-        'href'     => admin_url('transactions/outgoing'), // URL of the item
+        'href'     => admin_url('transactions/outgoing_list'), // URL of the item
         'position' => 1, // The menu position
         // 'icon'     => 'fa fa-adjust', // Font awesome icon
 
     ]);
-    $CI->app_menu->add_setup_children_item('3', [
-    'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-    'name'     => _l("all"), // The name if the item
-    'href'     => admin_url('transactions/transactions'), // URL of the item
-    'position' => 1, // The menu position
-    // 'icon'     => 'fa fa-adjust', // Font awesome icon
 
-]);
 }
 
 

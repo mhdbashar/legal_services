@@ -210,3 +210,5 @@ $lang['email'] = 'البريد الالكتروني';
 $lang['secret'] = 'سرية المعاملة';
 $lang['incoming_date'] = 'تاريخ الوارد';
 $lang['date'] = 'التاريخ';
+$lang['new_incoming'] = 'اضافة معاملة واردة';
+$lang['new_outgoing'] = 'اضافة معاملة صادرة';

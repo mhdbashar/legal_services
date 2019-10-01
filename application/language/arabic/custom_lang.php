@@ -235,3 +235,6 @@ $lang['opponent_admin_login_as_client_message'] = "مرحبًا %s . لقد تم
 $lang['opponent_inactive_message'] = "هذا ملف تعريف خصم غير نشط وقد يتم تعطيل بعض الميزات";
 $lang['opponent_profile_details'] = "بيانات الخصم";
 $lang['opponent_admins'] = "مدير حساب الخصم";
+$lang['date'] = 'التاريخ';
+$lang['new_incoming'] = 'اضافة معاملة واردة';
+$lang['new_outgoing'] = 'اضافة معاملة صادرة';

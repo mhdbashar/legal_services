@@ -15,6 +15,13 @@
                         <hr class="hr-panel-heading" />
                         <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'incoming-form','class'=>'')) ;?>
                         <div class="row">
+                            <div class="col-md-12">
+                                <?php echo render_input('trans_type', '',0,'hidden'); ?>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <?php echo render_input('trans_id', _l('trans_id')); ?>
                             </div>
@@ -36,7 +43,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('description', _l('description')); ?>
+                                <?php echo render_input('description', _l('description'),'','',['required' => 'required']); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php
@@ -50,7 +57,7 @@
                                         'value' => _l('high')
                                     ),
                                 ) ;
-                                echo render_select('class', $options,['key','value'],_l('classification'));
+                                echo render_select('class', $options,['key','value'],_l('classification'),'',['required' => 'required']);
                                 ?>                            </div>
                         </div>
                         <div class="row">
@@ -71,7 +78,7 @@
 
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_input('owner_name', _l('owner_name')); ?>
+                                <?php echo render_input('owner_name', _l('owner_name'),'','',['required' => 'required']); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -87,7 +94,7 @@
                                         'value' => _l('notnormal_paper')
                                     ),
                                 ) ;
-                                echo render_select('origin', $options,['key','value'],_l('origin'));
+                                echo render_select('origin', $options,['key','value'],_l('origin'),'',['required' => 'required']);
                                 ?>
 
                             </div>
@@ -97,10 +104,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('incoming_num', _l('incoming_num')); ?>
+                                <?php echo render_input('incoming_num', _l('incoming_num'),'','',['required' => 'required']); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_input('reporter_name', _l('reporter_name')); ?>
+                                <?php echo render_input('reporter_name', _l('reporter_name'),'','',['required' => 'required']); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -116,7 +123,7 @@
                                         'value' => _l('notnormal_paper')
                                     ),
                                 ) ;
-                                echo render_select('incoming_source', $options,['key','value'],_l('incoming_source'));
+                                echo render_select('incoming_source', $options,['key','value'],_l('incoming_source'),'',['required' => 'required']);
                                 ?>
 
                             </div>
@@ -145,17 +152,17 @@
                                 <?php echo render_input('email', _l('email'),'','email'); ?>
                             </div>
                         </div>
-                        <!-- enable language edit -->
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('secret', _l('secret'),'','checkbox',[],[],'','pull-left'); ?>
+                                <div class="pull-left">
+                                    <?php echo render_input('secret', _l('secret'),'','checkbox',[],[],'','pull-left'); ?>
+
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="incoming_date"> <?php echo _l('incoming_date') ?></label>
                                 <div id="incoming_date" style="display: inline-flex">
-                                    <?php echo render_date_input('hijri_date', _l('hijri_date'), '', ['required' => 'required']); ?>
-
-                                    <?php echo render_date_input('AD_date', _l('AD_date'), '', ['required' => 'required']); ?>
+                                    <?php echo render_date_input('date', _l('date')); ?>
 
                                 </div>
 
@@ -171,7 +178,12 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<script>
+    $(function(){
+        _validate_form($('form'),{transaction:'required'});
+    });
 
+</script>
 <script>
 
 </script>

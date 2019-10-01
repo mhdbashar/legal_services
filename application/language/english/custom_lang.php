@@ -3339,9 +3339,9 @@ $lang['paper_incoming'] = 'Paper Incoming';
 $lang['email'] = 'Email';
 $lang['secret'] = 'Is Secret';
 $lang['incoming_date'] = 'Incoming Date';
-$lang['hijri_date'] = 'Hijri Date';
-$lang['AD_date'] = 'AD Date';
-
+$lang['date'] = 'Date';
+$lang['new_incoming'] = 'Add New Incoming Transaction';
+$lang['new_outgoing'] = 'Add New Outgoing Transaction';
 
 
 

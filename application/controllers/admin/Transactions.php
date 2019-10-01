@@ -33,7 +33,7 @@ class Transactions extends AdminController
         $last_id = $this->index();
         if ($this->input->post()) {
             $data            = $this->input->post();
-
+//            var_dump($data);exit;
             $dataRow['definition']= $data['trans_type'];
             $dataRow['description']= $data['description'];
             $dataRow['type']= $data['type'];
@@ -41,7 +41,7 @@ class Transactions extends AdminController
             $dataRow['incoming_num']= $data['incoming_num'];
             $dataRow['incoming_source']= $data['incoming_source'];
             $dataRow['incoming_type']= $data['incoming_type'];
-            $dataRow['is_secret']= $data['secret'];
+            $dataRow['is_secret']= isset($data['secret'])? 1 : 0;
             $dataRow['importance']= $data['importance'];
             $dataRow['classification']= $data['class'];
             $dataRow['owner']= $data['owner_name'];
@@ -51,6 +51,7 @@ class Transactions extends AdminController
             $dataRow['email']= $data['email'];
             $dataRow['date']= $data['date'];
             $dataRow['isDeleted']= 0;
+//            var_dump($dataRow);exit;
             if ($id == '') {
                 $data['id'] = $last_id;
                 $id = $this->transactions_model->add($dataRow);
@@ -59,7 +60,7 @@ class Transactions extends AdminController
                     redirect($redirect);
                 }
             } else {
-                $success = $this->transactions_model->update($data, $id);
+                $success = $this->transactions_model->update($dataRow, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'incoming'));
                 }
@@ -74,13 +75,14 @@ class Transactions extends AdminController
             $data['incoming'] = $this->transactions_model->get($id);
             $title                = _l('edit', 'incoming');
         }
-        $this->load->view('admin/transactions/incoming');
+        $data['id'] = $id;
+        $data['title'] = $title;
+        $this->load->view('admin/transactions/incoming', $data);
     }
 
 
 
     public function outgoing($id=''){
-
         if (!is_admin()) {
             access_denied('outgoing');
         }
@@ -88,12 +90,11 @@ class Transactions extends AdminController
         $last_id = $this->index();
         if ($this->input->post()) {
             $data            = $this->input->post();
-
             $dataRow['definition']= $data['trans_type'];
             $dataRow['description']= $data['description'];
             $dataRow['type']= $data['type'];
             $dataRow['origin']= $data['origin'];
-            $dataRow['is_secret']= $data['secret'];
+            $dataRow['is_secret']= isset($data['secret'])? 1 : 0;
             $dataRow['importance']= $data['importance'];
             $dataRow['classification']= $data['class'];
             $dataRow['owner']= $data['owner_name'];
@@ -107,7 +108,7 @@ class Transactions extends AdminController
                     redirect($redirect);
                 }
             } else {
-                $success = $this->transactions_model->update($data, $id);
+                $success = $this->transactions_model->update($dataRow, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', 'outgoing'));
                 }
@@ -119,11 +120,14 @@ class Transactions extends AdminController
             $data['last_id'] = $last_id;
             $title = _l('add_new', 'outgoing');
         } else {
+
             $data['outgoing'] = $this->transactions_model->get($id);
             $title                = _l('edit', 'outgoing');
         }
-
-        $this->load->view('admin/transactions/outgoing');
+        $data['id'] = $id;
+        $data['title'] = $title;
+        
+        $this->load->view('admin/transactions/outgoing',$data);
     }
     public function incoming_list(){
 //
@@ -165,8 +169,16 @@ class Transactions extends AdminController
 //
     }
 
-    public function delete_transaction($id = ''){
+    public function delete_transaction(){
+//        var_dump();exit();
+        $id = $_GET["del_id"];
+        $success = $this->transactions_model->changeStatus($id);
+        if ($success) {
+            return set_alert('success', _l('deleted', _l('incoming')));
+        } else {
+            return set_alert('warning', _l('problem_deleting', _l('incoming')));
 
+        }
     }
 
 }

@@ -134,7 +134,7 @@ class Tasks_model extends App_Model
         $is_admin = is_admin();
         $this->db->select('*');
         $this->db->from(db_prefix() . 'tasks');
-        $this->db->join(db_prefix() . 'my_session_info', 'my_session_info.task_id = '.db_prefix() . 'tasks.id');
+        $this->db->join(db_prefix() . 'my_session_info', 'my_session_info.task_id = '.db_prefix() . 'tasks.id', 'left');
         $this->db->where(db_prefix() . 'tasks.id', $id);
         $this->db->where('deleted', 0);
         $this->db->where('is_session', 1);
@@ -144,7 +144,6 @@ class Tasks_model extends App_Model
             $task->comments      = $this->get_task_comments($id);
             $task->assignees     = $this->get_task_assignees($id);
             $task->assignees_ids = [];
-
             foreach ($task->assignees as $follower) {
                 array_push($task->assignees_ids, $follower['assigneeid']);
             }
@@ -261,7 +260,15 @@ class Tasks_model extends App_Model
 
     public function copy($data, $overwrites = [])
     {
-        $task           = $this->get($data['copy_from']);
+        if(isset($data['is_session'])){
+            $task = $this->get($data['copy_from'], [], 1);
+            $session_info = true;
+            unset($data['is_session']);
+        }else{
+            $task = $this->get($data['copy_from']);
+            $session_info = false;
+            unset($data['is_session']);
+        }
         $fields_tasks   = $this->db->list_fields(db_prefix() . 'tasks');
         $_new_task_data = [];
         foreach ($fields_tasks as $field) {
@@ -305,6 +312,13 @@ class Tasks_model extends App_Model
         $this->db->insert(db_prefix() . 'tasks', $_new_task_data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+
+            if ($session_info){
+                $session['task_id'] = $data['copy_from'];
+                $this->db->insert(db_prefix() . 'my_session_info', $session);
+                $this->db->insert_id();
+            }
+
             $tags = get_tags_in($data['copy_from'], 'task');
             handle_tags_save($tags, $insert_id, 'task');
             if (isset($data['copy_task_assignees']) && $data['copy_task_assignees'] == 'true') {
@@ -506,7 +520,7 @@ class Tasks_model extends App_Model
     public function add($data, $clientRequest = false)
     {
         $ticket_to_task = false;
-
+        $session_info = false;
         if (isset($data['ticket_to_task'])) {
             $ticket_to_task = true;
             unset($data['ticket_to_task']);
@@ -637,6 +651,7 @@ class Tasks_model extends App_Model
         }
         if (isset($data['court_id'])) {
             $session['court_id'] = $data['court_id'];
+            $session_info = true;
             unset($data['court_id']);
         }
         if (isset($data['judge_id'])) {
@@ -653,11 +668,13 @@ class Tasks_model extends App_Model
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
 
-            //Add session info to DB
-            $session['task_id'] = $insert_id;
-            //Start Block For Legal Services Session
-            $this->db->insert(db_prefix() . 'my_session_info', $session);
-            //End Block For Legal Services Session
+            if ($session_info){
+                //Add session info to DB
+                $session['task_id'] = $insert_id;
+                //Start Block For Legal Services Session
+                $this->db->insert(db_prefix() . 'my_session_info', $session);
+                //End Block For Legal Services Session
+            }
 
             foreach ($checklistItems as $key => $chkID) {
                 if ($chkID != '') {

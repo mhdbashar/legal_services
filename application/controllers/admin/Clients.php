@@ -74,7 +74,6 @@ class Clients extends AdminController
         $data['title'] = _l('customer_contacts');
         $this->load->view('admin/clients/all_contacts', $data);
     }
-
     
     public function add()
     {
@@ -97,7 +96,7 @@ class Clients extends AdminController
             $data = $this->input->post();
 
             if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
+                $branch_id = $this->input->post('branch_id');
 
                 unset($data['branch_id']);
             }
@@ -142,9 +141,11 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
-                if($this->app_modules->is_active('branches'))
-                    $this->Branches_model->update_branch('clients', $id, $branch_id);
-
+                if($this->app_modules->is_active('branches')){
+                    if(isset($branch_id)):
+                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                    endif;
+                }
                 $success = $this->clients_model->update($data, $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));

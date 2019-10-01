@@ -159,6 +159,8 @@ if ($this->ci->input->post('my_customers')) {
     array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
+array_push($where, 'AND '.db_prefix().'clients.client_type = 0');
+
 $aColumns = hooks()->apply_filters('customers_table_sql_columns', $aColumns);
 
 // Fix for big queries. Some hosting have max_join_limit

@@ -3228,8 +3228,11 @@ $lang['customer_type'] = "Customer Type";
 $lang['customer_representative'] = "Customer Representative";
 $lang['new_customer_representative'] = "New Customer Representative";
 $lang['new_judge'] = "New Judge";
+$lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
+$lang['Parties_case'] = "Parties to the case";
 $lang['new_cstatus'] = "New Case Status";
+$lang['court_competent_follow'] = "The court competent to follow up the case";
 $lang['legal_services_settings'] = "Legal Services Settings";
 $lang['empty_case_mov'] = "No case movements yet!";
 $lang['LService_activity_updated'] = "Legal Service Updated";
@@ -3288,7 +3291,9 @@ $lang['Court_decision'] = 'Court decision';
 $lang['Customer_report'] = 'Customer report';
 $lang['Send_to_customer'] = 'Send to customer';
 $lang['session_date'] = 'Session Date';
+$lang['next_session_date'] = 'Next Session Date';
 $lang['session_time'] = 'Session time';
+$lang['next_session_time'] = 'Next Session time';
 $lang['Waiting_sessions'] = 'Waiting sessions';
 $lang['Previous_Sessions'] = 'Previous sessions';
 $lang['add_new_session'] = 'Add session';
@@ -3346,3 +3351,22 @@ $lang['AD_date'] = 'AD Date';
 
 
 
+$lang['Current_session_date'] = 'Current session date';
+$lang['Next_session_date'] = 'Current session date';
+$lang['Proceedings_of_session'] = 'Proceedings of the session';
+
+//Opponent
+$lang['opponents'] =  'Opponents';
+$lang['opponent'] =  'Opponent';
+$lang['new_opponent'] =  'New opponent';
+$lang['import_opponent'] = 'Import Opponents';
+$lang['opponents_summary'] = 'Opponents Summary';
+$lang['opponents_summary_total'] = 'Total Opponents';
+$lang['active_opponents']  = 'Active Opponents';
+$lang['inactive_active_opponents'] = 'Inactive Opponents';
+$lang['opponent_type'] =  'Opponent Type';
+$lang['opponents_assigned_to_me'] = 'Opponents assigned to me';
+$lang['opponent_admin_login_as_client_message'] = 'Hello %s. You are added as admin to this opponent.';
+$lang['opponent_inactive_message']               = 'This is inactive opponent profile and some features may be disabled';
+$lang['opponent_profile_details']           = 'Opponent Details';
+$lang['opponent_admins'] = "Opponent Admins";

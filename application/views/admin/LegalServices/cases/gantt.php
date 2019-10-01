@@ -46,10 +46,12 @@
 			        <div class="clearfix"></div>
 			        <hr />
 			    </div>
-			    <div id="gantt"></div>
+			        <div id="gantt"></div>
 			</div>
 		</div>
 	</div>
+    </div>
+</div>
 	<?php init_tail(); ?>
 	<script>
 		var gantt_data = <?php echo json_encode($gantt_data); ?>;

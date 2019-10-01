@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="f9c38206-4f24-4b22-abc3-0c8198024268" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/application/models/Transactions_model.php" afterDir="false" />
@@ -10,6 +11,11 @@
       <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/transactions.php" afterDir="false" />
+=======
+    <list default="true" id="870bc828-4b08-4f26-8a25-74cf013aacc4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Opponents.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Opponents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Authentication_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Authentication_model.php" afterDir="false" />
+>>>>>>> baraa
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,17 +30,71 @@
     <favorites_list name="legalserv" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/procuration.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="262">
               <caret line="35" column="27" selection-end-line="232" />
+=======
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Opponents.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="33">
+              <caret line="666" column="25" selection-start-line="666" selection-start-column="25" selection-end-line="666" selection-end-column="25" />
+              <folding>
+                <element signature="n#__construct#0;n#Opponents#0;n#!!top" />
+                <element signature="n#index#0;n#Opponents#0;n#!!top" />
+                <element signature="n#table#0;n#Opponents#0;n#!!top" />
+                <element signature="n#all_contacts#0;n#Opponents#0;n#!!top" />
+                <element signature="n#add#0;n#Opponents#0;n#!!top" />
+                <element signature="n#export#0;n#Opponents#0;n#!!top" />
+                <element signature="n#check_duplicate_customer_name#0;n#Opponents#0;n#!!top" />
+                <element signature="n#save_longitude_and_latitude#0;n#Opponents#0;n#!!top" />
+                <element signature="n#form_contact#0;n#Opponents#0;n#!!top" />
+                <element signature="n#confirm_registration#0;n#Opponents#0;n#!!top" />
+                <element signature="n#update_file_share_visibility#0;n#Opponents#0;n#!!top" />
+                <element signature="n#delete_contact_profile_image#0;n#Opponents#0;n#!!top" />
+                <element signature="n#mark_as_active#0;n#Opponents#0;n#!!top" />
+                <element signature="n#consents#0;n#Opponents#0;n#!!top" />
+                <element signature="n#update_all_proposal_emails_linked_to_customer#0;n#Opponents#0;n#!!top" />
+                <element signature="n#assign_admins#0;n#Opponents#0;n#!!top" />
+                <element signature="n#delete_customer_admin#0;n#Opponents#0;n#!!top" />
+                <element signature="n#delete_contact#0;n#Opponents#0;n#!!top" />
+                <element signature="n#contacts#0;n#Opponents#0;n#!!top" />
+                <element signature="n#upload_attachment#0;n#Opponents#0;n#!!top" />
+                <element signature="n#add_external_attachment#0;n#Opponents#0;n#!!top" />
+                <element signature="n#delete_attachment#0;n#Opponents#0;n#!!top" />
+                <element signature="n#get_customer_billing_and_shipping_details#0;n#Opponents#0;n#!!top" />
+                <element signature="n#change_contact_status#0;n#Opponents#0;n#!!top" />
+                <element signature="n#change_client_status#0;n#Opponents#0;n#!!top" />
+                <element signature="n#zip_credit_notes#0;n#Opponents#0;n#!!top" />
+                <element signature="n#zip_invoices#0;n#Opponents#0;n#!!top" />
+                <element signature="n#zip_estimates#0;n#Opponents#0;n#!!top" />
+                <element signature="n#zip_payments#0;n#Opponents#0;n#!!top" />
+                <element signature="n#import#0;n#Opponents#0;n#!!top" />
+                <element signature="n#groups#0;n#Opponents#0;n#!!top" />
+                <element signature="n#group#0;n#Opponents#0;n#!!top" />
+                <element signature="n#delete_group#0;n#Opponents#0;n#!!top" />
+                <element signature="n#bulk_action#0;n#Opponents#0;n#!!top" />
+                <element signature="n#vault_entry_create#0;n#Opponents#0;n#!!top" />
+                <element signature="n#vault_entry_update#0;n#Opponents#0;n#!!top" />
+                <element signature="n#vault_entry_delete#0;n#Opponents#0;n#!!top" />
+                <element signature="n#vault_encrypt_password#0;n#Opponents#0;n#!!top" />
+                <element signature="n#get_vault_entry#0;n#Opponents#0;n#!!top" />
+                <element signature="n#statement_pdf#0;n#Opponents#0;n#!!top" />
+                <element signature="n#send_statement#0;n#Opponents#0;n#!!top" />
+                <element signature="n#statement#0;n#Opponents#0;n#!!top" />
+              </folding>
+>>>>>>> baraa
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/application/views/admin/procuration/manage.php">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
@@ -44,20 +104,34 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
               <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="37" selection-end-column="5" />
+=======
+        <entry file="file://$PROJECT_DIR$/application/models/Clients_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="27" column="18" lean-forward="true" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+>>>>>>> baraa
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/application/controllers/admin/Transactions.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
               <caret line="13" column="25" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="28" />
+=======
+        <entry file="file://$PROJECT_DIR$/application/models/Authentication_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+>>>>>>> baraa
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="488">
@@ -80,10 +154,17 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="411">
               <caret line="186" column="49" selection-start-line="186" selection-start-column="49" selection-end-line="186" selection-end-column="49" />
+=======
+        <entry file="file://$PROJECT_DIR$/application/controllers/Authentication.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="50" column="42" lean-forward="true" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
+>>>>>>> baraa
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -92,6 +173,13 @@
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#7;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
+=======
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/client.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+>>>>>>> baraa
             </state>
           </provider>
         </entry>
@@ -116,8 +204,16 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
+<<<<<<< HEAD
       <find>edit_det</find>
       <find>edit_cu</find>
       <find>edit_detail</find>
@@ -148,6 +244,38 @@
       <find>$judges</find>
       <find>render_select</find>
       <find>trans_</find>
+=======
+      <find>customer_admin_login_as_client_message</find>
+      <find>customer_inactive_message</find>
+      <find>clie</find>
+      <find>clients/</find>
+      <find>customer_requires_registration_confirmation</find>
+      <find>get_customer_profile_tabs</find>
+      <find>rofile_tabs</find>
+      <find>/clients/</find>
+      <find>customer_profile</find>
+      <find>app_init_customer_profile_tabs</find>
+      <find>get_opponent_profile_tabs</find>
+      <find>add_customer_profile_tab</find>
+      <find>app_init_opponent_profile_tabs</find>
+      <find>customer_profile_details</find>
+      <find>opponent_profile_details</find>
+      <find>admin/opponents/</find>
+      <find>admin_url('clients/</find>
+      <find>admin/clients/</find>
+      <find>'client'</find>
+      <find>customer_admins</find>
+      <find>customer_profile_tab_custom_fields_text</find>
+      <find>opponent_admins</find>
+      <find>clientid</find>
+      <find>#clientid</find>
+      <find>opponent_id</find>
+      <find>add-client</find>
+      <find>opponents</find>
+      <find>opponent</find>
+      <find>set_announcements_as_read_except_last_one</find>
+      <find>login_as_client</find>
+>>>>>>> baraa
     </findStrings>
     <replaceStrings>
       <replace>get_case_settings</replace>
@@ -165,6 +293,16 @@
       <replace>oservice_id</replace>
       <replace>other</replace>
       <replace>project</replace>
+      <replace>admin_url('opponent/</replace>
+      <replace>$this-&gt;load-&gt;view('admin/opponent/</replace>
+      <replace>_l('client')</replace>
+      <replace>_l('opponent')</replace>
+      <replace>admin_url('opponents/client/</replace>
+      <replace>/opponents/</replace>
+      <replace>add_opponent_profile_tab</replace>
+      <replace>admin_url('opponents')</replace>
+      <replace>admin_url('opponents/</replace>
+      <replace>admin/opponent/</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\xampp\htdocs\legal_services\application\views\admin\LegalServices</dir>
@@ -179,6 +317,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/application/helpers/oservices_helper.php" />
         <option value="$PROJECT_DIR$/application/views/admin/tables/old_sessions.php" />
         <option value="$PROJECT_DIR$/assets/js/main.js" />
@@ -192,15 +331,13 @@
         <option value="$PROJECT_DIR$/application/views/admin/tasks/view_task_template.php" />
         <option value="$PROJECT_DIR$/application/helpers/tasks_helper.php" />
         <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Case_session_controller.php" />
+=======
+>>>>>>> baraa
         <option value="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" />
         <option value="$PROJECT_DIR$/assets/js/services_sessions.js" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
         <option value="$PROJECT_DIR$/assets/js/custom.js" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" />
-        <option value="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" />
         <option value="$PROJECT_DIR$/application/helpers/general_helper.php" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
         <option value="$PROJECT_DIR$/application/controllers/admin/Tasks.php" />
         <option value="$PROJECT_DIR$/application/models/Tasks_model.php" />
@@ -208,8 +345,24 @@
         <option value="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" />
         <option value="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
+=======
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/customer_report.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/gantt.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" />
+        <option value="$PROJECT_DIR$/assets/js/main.min.js" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Tasks.php" />
+        <option value="$PROJECT_DIR$/application/models/Tasks_model.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" />
+>>>>>>> baraa
         <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" />
         <option value="$PROJECT_DIR$/application/controllers/admin/Countries.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" />
@@ -230,6 +383,40 @@
         <option value="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" />
         <option value="$PROJECT_DIR$/application/language/english/custom_lang.php" />
         <option value="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
+=======
+        <option value="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
+        <option value="$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php" />
+        <option value="$PROJECT_DIR$/assets/js/test.js" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Opponent.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/opponent/manage.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Opponent.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/clients.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/my_clients.php" />
+        <option value="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/tables/opponents.php" />
+        <option value="$PROJECT_DIR$/application/language/english/english_lang.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/tabs.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Clients.php" />
+        <option value="$PROJECT_DIR$/application/migrations/230_version_230.php" />
+        <option value="$PROJECT_DIR$/application/helpers/core_hooks_helper.php" />
+        <option value="$PROJECT_DIR$/application/libraries/App_tabs.php" />
+        <option value="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
+        <option value="$PROJECT_DIR$/application/language/english/custom_lang.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/manage.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/clients/my_manage.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/all_contacts.php" />
+        <option value="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
+        <option value="$PROJECT_DIR$/application/helpers/relation_helper.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Opponents.php" />
+        <option value="$PROJECT_DIR$/application/models/Authentication_model.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/client.php" />
+        <option value="$PROJECT_DIR$/application/helpers/clients_helper.php" />
+>>>>>>> baraa
       </list>
     </option>
   </component>
@@ -293,8 +480,14 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+<<<<<<< HEAD
     <option name="x" value="-8" />
     <option name="width" value="1300" />
+=======
+    <option name="x" value="-101" />
+    <option name="y" value="286" />
+    <option name="width" value="1380" />
+>>>>>>> baraa
     <option name="height" value="744" />
   </component>
   <component name="ProjectView">
@@ -306,8 +499,36 @@
         <subPane>
           <expand>
             <path>
+<<<<<<< HEAD
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
               <item name="legalserv" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+>>>>>>> baraa
             </path>
             <path>
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
@@ -324,8 +545,28 @@
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
               <item name="legalserv" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="language" type="462c0819:PsiDirectoryNode" />
               <item name="arabic" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="LegalServices" type="462c0819:PsiDirectoryNode" />
+              <item name="other_services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="opponent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legal_services" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legal_services" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+>>>>>>> baraa
             </path>
           </expand>
           <select />
@@ -342,7 +583,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/opponent" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -350,18 +591,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin" />
+      <recent name="C:\xampp\htdocs\legal_services\application\controllers\admin" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\services_sessions" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\recycle_bin" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services\old" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\opponent" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\opponent" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\other_services" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tasks" />
-      <recent name="C:\xampp\htdocs\legal_services\application\libraries\pdf" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\subscriptions" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -433,6 +674,7 @@
       <workItem from="1568235750355" duration="9446000" />
       <workItem from="1568286126988" duration="14197000" />
       <workItem from="1568469158396" duration="15407000" />
+<<<<<<< HEAD
       <workItem from="1568553825977" duration="66590000" />
       <workItem from="1569185219133" duration="3633000" />
       <workItem from="1569482561683" duration="814000" />
@@ -453,6 +695,17 @@
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
       <updated>1569188618875</updated>
+=======
+      <workItem from="1568553825977" duration="66760000" />
+      <workItem from="1569096332712" duration="36387000" />
+      <workItem from="1569273146460" duration="10357000" />
+      <workItem from="1569314010204" duration="1121000" />
+      <workItem from="1569331138116" duration="2000" />
+      <workItem from="1569401311438" duration="138000" />
+      <workItem from="1569436622965" duration="10407000" />
+      <workItem from="1569604554492" duration="13115000" />
+      <workItem from="1569753261786" duration="4039000" />
+>>>>>>> baraa
     </task>
     <task id="LOCAL-00003" summary="create transactions">
       <created>1569531912221</created>
@@ -465,14 +718,22 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="440964000" />
+=======
+    <option name="totallyTimeSpent" value="489509000" />
+>>>>>>> baraa
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" order="0" weight="0.24848485" />
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21428572" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.28939393" />
+>>>>>>> baraa
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Grunt " order="3" side_tool="true" />
       <window_info id="Favorites" order="4" side_tool="true" />
@@ -495,6 +756,31 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Remote Host" order="0" weight="0.24848485" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.31136364" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info id="Grunt " order="3" side_tool="true" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Command Line Tools Console" order="12" weight="0.3289689" />
+      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.32936078" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -545,6 +831,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="create transactions" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/pinned.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -644,11 +931,164 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="34" column="62" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="62" />
+=======
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/App_mail_template.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="511" column="20" selection-start-line="511" selection-start-column="20" selection-end-line="511" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php">
+    <entry file="file://$PROJECT_DIR$/application/libraries/merge_fields/Staff_merge_fields.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3249">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Subscription_send_to_customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="6" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Cron_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="171" column="42" selection-start-line="171" selection-start-column="24" selection-end-line="171" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Staff_event_notification.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="1174" column="34" selection-start-line="1174" selection-start-column="16" selection-end-line="1174" selection-end-column="34" />
+          <folding>
+            <element signature="e#288#449#0#PHP" />
+            <element signature="e#472#818#0#PHP" />
+            <element signature="e#824#2492#0#PHP" />
+            <element signature="e#881#2354#0#PHP" />
+            <element signature="e#932#2353#0#PHP" />
+            <element signature="e#946#1212#1#PHP" />
+            <element signature="e#1227#1493#1#PHP" />
+            <element signature="e#1508#1770#1#PHP" />
+            <element signature="e#1786#2058#1#PHP" />
+            <element signature="e#2072#2338#1#PHP" />
+            <element signature="e#2365#2458#0#PHP" />
+            <element signature="e#2382#2457#1#PHP" />
+            <element signature="e#2498#2586#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/email_templates_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9">
+          <caret line="174" column="40" lean-forward="true" selection-start-line="174" selection-start-column="40" selection-end-line="174" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="4" column="37" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="626">
+          <caret line="290" column="41" selection-start-line="290" selection-start-column="35" selection-end-line="290" selection-end-column="41" />
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#2;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#3;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#4;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#5;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#6;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#7;n#thead#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="e#5350#5622#0#HTML" />
+            <element signature="e#5730#6713#0#HTML" />
+            <element signature="e#6855#8131#0#HTML" />
+            <element signature="e#8192#9480#0#HTML" />
+            <element signature="e#10367#12405#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="56" column="14" selection-start-line="56" selection-start-column="14" selection-end-line="56" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/test.js" />
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/import.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/gdpr_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/client_js.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1836" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/cases_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="39" column="7" lean-forward="true" selection-start-line="34" selection-start-column="4" selection-end-line="39" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/clients.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="156" column="1" lean-forward="true" selection-start-line="156" selection-start-column="1" selection-end-line="156" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_clients.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="161" selection-start-line="161" selection-end-line="161" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Branches_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="40" column="30" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="30" />
+>>>>>>> baraa
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/cases.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="3159">
           <caret line="117" column="45" selection-start-line="117" selection-start-column="41" selection-end-line="117" selection-end-column="45" />
         </state>
@@ -840,6 +1280,367 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="411">
           <caret line="186" column="49" selection-start-line="186" selection-start-column="49" selection-end-line="186" selection-end-column="49" />
+=======
+        <state relative-caret-position="437">
+          <caret line="88" column="9" lean-forward="true" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/opponents.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="801">
+          <caret line="275" column="9" selection-start-line="275" selection-start-column="9" selection-end-line="275" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/groups/map.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/client_js.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/client_group.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/tabs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="79" selection-start-line="6" selection-start-column="79" selection-end-line="6" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/groups/my_profile.php" />
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/groups_manage.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/migrations/230_version_230.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/App_tabs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-103">
+          <caret line="327" column="38" selection-start-line="327" selection-start-column="23" selection-end-line="327" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18">
+          <caret line="32" column="69" selection-start-line="32" selection-start-column="69" selection-end-line="32" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/all_contacts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="48" column="8" lean-forward="true" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/arabic/arabic_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="2137" column="22" selection-start-line="2137" selection-start-column="7" selection-end-line="2137" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/english/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="3223" column="22" selection-start-line="3223" selection-start-column="7" selection-end-line="3223" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/my_manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="196" column="138" selection-start-line="196" selection-start-column="138" selection-end-line="196" selection-end-column="138" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/english/english_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="1367" column="65" selection-start-line="1367" selection-end-line="1367" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/relation_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2451">
+          <caret line="23" column="226" selection-start-line="23" selection-start-column="226" selection-end-line="23" selection-end-column="226" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="153" column="15" selection-start-line="153" selection-start-column="7" selection-end-line="153" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="301" column="40" selection-start-line="301" selection-start-column="40" selection-end-line="301" selection-end-column="40" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="284" column="40" selection-start-line="284" selection-start-column="40" selection-end-line="284" selection-end-column="40" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="405" column="44" selection-start-line="405" selection-start-column="44" selection-end-line="405" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="365" column="44" selection-start-line="365" selection-start-column="44" selection-end-line="365" selection-end-column="124" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Clients.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="134" column="57" lean-forward="true" selection-start-line="134" selection-start-column="23" selection-end-line="134" selection-end-column="57" />
+          <folding>
+            <element signature="n#__construct#0;n#Clients#0;n#!!top" />
+            <element signature="n#index#0;n#Clients#0;n#!!top" />
+            <element signature="e#299#506#0#PHP" />
+            <element signature="e#359#496#0#PHP" />
+            <element signature="e#1403#1615#0#PHP" />
+            <element signature="n#table#0;n#Clients#0;n#!!top" />
+            <element signature="e#1964#2165#0#PHP" />
+            <element signature="e#2024#2155#0#PHP" />
+            <element signature="e#2270#2374#0#PHP" />
+            <element signature="e#2384#2596#0#PHP" />
+            <element signature="n#export#0;n#Clients#0;n#!!top" />
+            <element signature="n#check_duplicate_customer_name#0;n#Clients#0;n#!!top" />
+            <element signature="n#save_longitude_and_latitude#0;n#Clients#0;n#!!top" />
+            <element signature="n#form_contact#0;n#Clients#0;n#!!top" />
+            <element signature="n#confirm_registration#0;n#Clients#0;n#!!top" />
+            <element signature="n#update_file_share_visibility#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete_contact_profile_image#0;n#Clients#0;n#!!top" />
+            <element signature="n#mark_as_active#0;n#Clients#0;n#!!top" />
+            <element signature="n#consents#0;n#Clients#0;n#!!top" />
+            <element signature="n#update_all_proposal_emails_linked_to_customer#0;n#Clients#0;n#!!top" />
+            <element signature="n#assign_admins#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete_customer_admin#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete_contact#0;n#Clients#0;n#!!top" />
+            <element signature="n#contacts#0;n#Clients#0;n#!!top" />
+            <element signature="n#upload_attachment#0;n#Clients#0;n#!!top" />
+            <element signature="n#add_external_attachment#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete_attachment#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete#0;n#Clients#0;n#!!top" />
+            <element signature="n#login_as_client#0;n#Clients#0;n#!!top" />
+            <element signature="n#get_customer_billing_and_shipping_details#0;n#Clients#0;n#!!top" />
+            <element signature="n#change_contact_status#0;n#Clients#0;n#!!top" />
+            <element signature="n#change_client_status#0;n#Clients#0;n#!!top" />
+            <element signature="n#zip_credit_notes#0;n#Clients#0;n#!!top" />
+            <element signature="n#zip_invoices#0;n#Clients#0;n#!!top" />
+            <element signature="n#zip_estimates#0;n#Clients#0;n#!!top" />
+            <element signature="n#zip_payments#0;n#Clients#0;n#!!top" />
+            <element signature="n#groups#0;n#Clients#0;n#!!top" />
+            <element signature="n#group#0;n#Clients#0;n#!!top" />
+            <element signature="n#delete_group#0;n#Clients#0;n#!!top" />
+            <element signature="n#bulk_action#0;n#Clients#0;n#!!top" />
+            <element signature="n#vault_entry_create#0;n#Clients#0;n#!!top" />
+            <element signature="n#vault_entry_update#0;n#Clients#0;n#!!top" />
+            <element signature="n#vault_entry_delete#0;n#Clients#0;n#!!top" />
+            <element signature="n#vault_encrypt_password#0;n#Clients#0;n#!!top" />
+            <element signature="n#get_vault_entry#0;n#Clients#0;n#!!top" />
+            <element signature="n#statement_pdf#0;n#Clients#0;n#!!top" />
+            <element signature="n#send_statement#0;n#Clients#0;n#!!top" />
+            <element signature="n#statement#0;n#Clients#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2502">
+          <caret line="200" column="114" selection-start-line="200" selection-start-column="95" selection-end-line="200" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Announcements_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="169" column="36" selection-start-line="169" selection-start-column="23" selection-end-line="169" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/clients_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="820" lean-forward="true" selection-start-line="820" selection-end-line="820" />
+          <folding>
+            <element signature="e#72#195#0#PHP" />
+            <element signature="n#is_contact_email_verified#0;n#!!top" />
+            <element signature="e#296#434#0#PHP" />
+            <element signature="e#604#648#0#PHP" />
+            <element signature="e#703#797#0#PHP" />
+            <element signature="n#is_email_verification_enabled#0;n#!!top" />
+            <element signature="e#960#1062#0#PHP" />
+            <element signature="n#is_client_id_used#0;n#!!top" />
+            <element signature="e#1311#1437#0#PHP" />
+            <element signature="e#1370#1430#0#PHP" />
+            <element signature="e#1389#1429#0#PHP" />
+            <element signature="e#1453#1524#0#PHP" />
+            <element signature="e#1491#1523#0#PHP" />
+            <element signature="e#1541#1648#0#PHP" />
+            <element signature="e#1579#1647#0#PHP" />
+            <element signature="e#1665#1734#0#PHP" />
+            <element signature="e#1701#1733#0#PHP" />
+            <element signature="e#1751#1854#0#PHP" />
+            <element signature="e#1785#1853#0#PHP" />
+            <element signature="e#1947#2045#0#PHP" />
+            <element signature="n#customer_has_subscriptions#0;n#!!top" />
+            <element signature="e#2224#2325#0#PHP" />
+            <element signature="n#get_client#0;n#!!top" />
+            <element signature="e#2364#2451#0#PHP" />
+            <element signature="e#2493#2537#0#PHP" />
+            <element signature="e#2617#2696#0#PHP" />
+            <element signature="n#get_customer_profile_tabs#0;n#!!top" />
+            <element signature="e#2805#2884#0#PHP" />
+            <element signature="n#get_opponent_profile_tabs#0;n#!!top" />
+            <element signature="n#filter_client_visible_tabs#0;n#!!top" />
+            <element signature="n#app_init_customer_profile_tabs#0;n#!!top" />
+            <element signature="n#get_client_id_by_lead_id#0;n#!!top" />
+            <element signature="n#is_primary_contact#0;n#!!top" />
+            <element signature="n#is_client_using_multiple_currencies#0;n#!!top" />
+            <element signature="n#is_empty_customer_company#0;n#!!top" />
+            <element signature="n#get_customer_profile_file_sharing#0;n#!!top" />
+            <element signature="n#get_user_id_by_contact_id#0;n#!!top" />
+            <element signature="n#get_primary_contact_user_id#0;n#!!top" />
+            <element signature="n#get_contact_full_name#0;n#!!top" />
+            <element signature="n#contact_profile_image_url#0;n#!!top" />
+            <element signature="n#get_company_name#0;n#!!top" />
+            <element signature="n#get_client_default_language#0;n#!!top" />
+            <element signature="n#is_customer_admin#0;n#!!top" />
+            <element signature="n#have_assigned_customers#0;n#!!top" />
+            <element signature="n#has_contact_permission#0;n#!!top" />
+            <element signature="n#load_client_language#0;n#!!top" />
+            <element signature="n#client_have_transactions#0;n#!!top" />
+            <element signature="n#get_contact_permissions#0;n#!!top" />
+            <element signature="n#get_contact_permission#0;n#!!top" />
+            <element signature="n#can_contact_view_email_notifications_options#0;n#!!top" />
+            <element signature="n#send_customer_registered_email_to_administrators#0;n#!!top" />
+            <element signature="n#contact_consent_url#0;n#!!top" />
+            <element signature="n#get_all_customer_attachments#0;n#!!top" />
+            <element signature="n#_check_vault_entries_visibility#0;n#!!top" />
+            <element signature="n#get_sql_select_client_company#0;n#!!top" />
+            <element signature="n#can_logged_in_contact_change_language#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Clients_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="27" column="18" lean-forward="true" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Opponents.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="666" column="25" selection-start-line="666" selection-start-column="25" selection-end-line="666" selection-end-column="25" />
+          <folding>
+            <element signature="n#__construct#0;n#Opponents#0;n#!!top" />
+            <element signature="n#index#0;n#Opponents#0;n#!!top" />
+            <element signature="n#table#0;n#Opponents#0;n#!!top" />
+            <element signature="n#all_contacts#0;n#Opponents#0;n#!!top" />
+            <element signature="n#add#0;n#Opponents#0;n#!!top" />
+            <element signature="n#export#0;n#Opponents#0;n#!!top" />
+            <element signature="n#check_duplicate_customer_name#0;n#Opponents#0;n#!!top" />
+            <element signature="n#save_longitude_and_latitude#0;n#Opponents#0;n#!!top" />
+            <element signature="n#form_contact#0;n#Opponents#0;n#!!top" />
+            <element signature="n#confirm_registration#0;n#Opponents#0;n#!!top" />
+            <element signature="n#update_file_share_visibility#0;n#Opponents#0;n#!!top" />
+            <element signature="n#delete_contact_profile_image#0;n#Opponents#0;n#!!top" />
+            <element signature="n#mark_as_active#0;n#Opponents#0;n#!!top" />
+            <element signature="n#consents#0;n#Opponents#0;n#!!top" />
+            <element signature="n#update_all_proposal_emails_linked_to_customer#0;n#Opponents#0;n#!!top" />
+            <element signature="n#assign_admins#0;n#Opponents#0;n#!!top" />
+            <element signature="n#delete_customer_admin#0;n#Opponents#0;n#!!top" />
+            <element signature="n#delete_contact#0;n#Opponents#0;n#!!top" />
+            <element signature="n#contacts#0;n#Opponents#0;n#!!top" />
+            <element signature="n#upload_attachment#0;n#Opponents#0;n#!!top" />
+            <element signature="n#add_external_attachment#0;n#Opponents#0;n#!!top" />
+            <element signature="n#delete_attachment#0;n#Opponents#0;n#!!top" />
+            <element signature="n#get_customer_billing_and_shipping_details#0;n#Opponents#0;n#!!top" />
+            <element signature="n#change_contact_status#0;n#Opponents#0;n#!!top" />
+            <element signature="n#change_client_status#0;n#Opponents#0;n#!!top" />
+            <element signature="n#zip_credit_notes#0;n#Opponents#0;n#!!top" />
+            <element signature="n#zip_invoices#0;n#Opponents#0;n#!!top" />
+            <element signature="n#zip_estimates#0;n#Opponents#0;n#!!top" />
+            <element signature="n#zip_payments#0;n#Opponents#0;n#!!top" />
+            <element signature="n#import#0;n#Opponents#0;n#!!top" />
+            <element signature="n#groups#0;n#Opponents#0;n#!!top" />
+            <element signature="n#group#0;n#Opponents#0;n#!!top" />
+            <element signature="n#delete_group#0;n#Opponents#0;n#!!top" />
+            <element signature="n#bulk_action#0;n#Opponents#0;n#!!top" />
+            <element signature="n#vault_entry_create#0;n#Opponents#0;n#!!top" />
+            <element signature="n#vault_entry_update#0;n#Opponents#0;n#!!top" />
+            <element signature="n#vault_entry_delete#0;n#Opponents#0;n#!!top" />
+            <element signature="n#vault_encrypt_password#0;n#Opponents#0;n#!!top" />
+            <element signature="n#get_vault_entry#0;n#Opponents#0;n#!!top" />
+            <element signature="n#statement_pdf#0;n#Opponents#0;n#!!top" />
+            <element signature="n#send_statement#0;n#Opponents#0;n#!!top" />
+            <element signature="n#statement#0;n#Opponents#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Authentication.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="50" column="42" lean-forward="true" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Authentication_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+>>>>>>> baraa
         </state>
       </provider>
     </entry>

@@ -556,6 +556,27 @@ class Tasks extends AdminController
             echo json_encode($response);
         }
     }
+    public function copy_session()
+    {
+        if (has_permission('tasks', '', 'create')) {
+            $data = $this->input->post();
+            $data['is_session'] = 1;
+            $new_task_id = $this->tasks_model->copy($data);
+            $response    = [
+                'new_task_id' => '',
+                'alert_type'  => 'warning',
+                'message'     => _l('failed_to_copy_task'),
+                'success'     => false,
+            ];
+            if ($new_task_id) {
+                $response['message']     = _l('task_copied_successfully');
+                $response['new_task_id'] = $new_task_id;
+                $response['success']     = true;
+                $response['alert_type']  = 'success';
+            }
+            echo json_encode($response);
+        }
+    }
 
     public function get_billable_task_data($task_id)
     {

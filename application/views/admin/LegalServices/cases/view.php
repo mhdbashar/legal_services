@@ -299,6 +299,9 @@ echo form_hidden('project_percent',$percent);
     $(function(){
         initDataTable('.table-previous_sessions_log', admin_url + 'tasks/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
         initDataTable('.table-waiting_sessions_log', admin_url + 'tasks/waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
+
+        // Init single task data
+        if (typeof(taskid) !== 'undefined' && taskid !== '') { init_task_modal_session(taskid); }
     });
 
 
@@ -368,11 +371,10 @@ echo form_hidden('project_percent',$percent);
         });
     }
 
-    $("#edit_details").click(function () {
-        task_id           = $('#btn_stc').attr("task_id");
-        next_session_date = $('#next_session_date').val();
-        next_session_time = $('#next_session_time').val();
-        court_decision    = $('#edit_court_decision').val();
+    function edit_customer_report(task_id) {
+        next_session_date = $('#next_session_date'+task_id).val();
+        next_session_time = $('#next_session_time'+task_id).val();
+        court_decision    = $('#edit_court_decision'+task_id).val();
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
@@ -387,10 +389,10 @@ echo form_hidden('project_percent',$percent);
                 success: function (data) {
                     if(data == 1){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#customer_report').modal('hide');
-                        $('#next_session_date').val('');
-                        $('#next_session_time').val('');
-                        $('#edit_court_decision').val('');
+                        $('#customer_report'+task_id).modal('hide');
+                        $('#next_session_date'+task_id).val('');
+                        $('#next_session_time'+task_id).val('');
+                        $('#edit_court_decision'+task_id).val('');
                         reload_tasks_tables();
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
@@ -398,7 +400,7 @@ echo form_hidden('project_percent',$percent);
                 }
             });
         }
-    });
+    }
 
     //function update_session_json(id){
     //

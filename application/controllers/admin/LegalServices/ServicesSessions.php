@@ -47,11 +47,25 @@ class ServicesSessions extends AdminController{
         }
     }
 
-    public function get_session_data_to_print($task_id)
+    public function send_report_to_customer($task_id)
+    {
+        $success = $this->service_sessions->update_send_to_customer($task_id);
+        if ($success) {
+            echo 1;
+        }else {
+            echo 0;
+        }
+    }
+
+    public function print_report($task_id)
     {
         $response = $this->service_sessions->get_session_data($task_id);
-        $this->service_sessions->update_send_to_customer($task_id);
         echo json_encode($response);
     }
 
+    public function checklist_items($task_id)
+    {
+        $response = $this->service_sessions->get_checklist_items($task_id);
+        echo json_encode($response);
+    }
 }

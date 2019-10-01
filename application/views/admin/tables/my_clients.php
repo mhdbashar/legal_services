@@ -15,7 +15,9 @@ $aColumns = [
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
     db_prefix().'clients.active',
-    '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerGroups',
+    '(SELECT IF('.db_prefix().'clients.individual="0", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerGroups',
+
+    '(SELECT IF('.db_prefix().'clients.individual="1", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'my_customer_company_groups JOIN '.db_prefix().'my_customers_company_groups ON '.db_prefix().'my_customer_company_groups.groupid = '.db_prefix().'my_customers_company_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerCompanyGroups',
     db_prefix().'clients.datecreated as datecreated',
 
     //Add to database (clients table)indvidual column
@@ -249,6 +251,17 @@ foreach ($rResult as $aRow) {
     $groupsRow = '';
     if ($aRow['customerGroups']) {
         $groups = explode(',', $aRow['customerGroups']);
+        foreach ($groups as $group) {
+            $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
+        }
+    }
+
+    $row[] = $groupsRow;
+
+    // Customer groups parsing
+    $groupsRow = '';
+    if ($aRow['customerCompanyGroups']) {
+        $groups = explode(',', $aRow['customerCompanyGroups']);
         foreach ($groups as $group) {
             $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
         }

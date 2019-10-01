@@ -302,6 +302,11 @@
                          'name'=>_l('customer_groups'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
                         ),
+                        
+                        array(
+                         'name'=>_l('customer_company_groups'),
+                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
+                        ),
                         array(
                          'name'=>_l('date_created'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')

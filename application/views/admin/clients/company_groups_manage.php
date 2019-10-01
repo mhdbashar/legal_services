@@ -6,14 +6,21 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <a href="#" class="btn mright5 btn-info pull-left display-block" data-toggle="modal" data-target="#customer_group_modal"><?php echo _l('new_customer_group'); ?></a>
+                        
+                        <a href="#" class="btn mright5 btn-info pull-left display-block" data-toggle="modal" data-target="#customer_company_group_modal">
+                            <?php echo _l('new_company_customer_group'); ?>
+                        </a>
+
                         <a href="<?php echo admin_url('clients/company_groups') ?>" class="btn mright5 btn-info pull-left display-block" style="">
                                 Company                          
                         </a>
                      <div class="_buttons">
+                        
+
                         <a href="<?php echo admin_url('clients/personal_groups') ?>" class="btn mright5 btn-info pull-left display-block" style="">
                                 Individual                          
                         </a>
+
                     </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
@@ -28,7 +35,7 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('admin/clients/client_group'); ?>
+<?php $this->load->view('admin/clients/client_company_group'); ?>
 <?php init_tail(); ?>
 <script>
    $(function(){

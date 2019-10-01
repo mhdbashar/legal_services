@@ -15,7 +15,9 @@ $aColumns = [
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
     db_prefix().'clients.active',
-    '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerGroups',
+    '(SELECT IF('.db_prefix().'clients.individual="0", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerGroups',
+
+    '(SELECT IF('.db_prefix().'clients.individual="1", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'my_customer_company_groups JOIN '.db_prefix().'my_customers_company_groups ON '.db_prefix().'my_customer_company_groups.groupid = '.db_prefix().'my_customers_company_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerCompanyGroups',
     db_prefix().'clients.datecreated as datecreated',
 
     //Add to database (clients table)indvidual column
@@ -31,6 +33,13 @@ $filter = [];
 $join = [
     'LEFT JOIN '.db_prefix().'contacts ON '.db_prefix().'contacts.userid='.db_prefix().'clients.userid AND '.db_prefix().'contacts.is_primary=1',
 ];
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
@@ -251,6 +260,17 @@ foreach ($rResult as $aRow) {
 
     $row[] = $groupsRow;
 
+    // Customer groups parsing
+    $groupsRow = '';
+    if ($aRow['customerCompanyGroups']) {
+        $groups = explode(',', $aRow['customerCompanyGroups']);
+        foreach ($groups as $group) {
+            $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
+        }
+    }
+
+    $row[] = $groupsRow;
+
     $row[] = _dt($aRow['datecreated']);
 
     //Added for indvidual column
@@ -270,6 +290,8 @@ foreach ($rResult as $aRow) {
     }
 
     $row = hooks()->apply_filters('customers_table_row_data', $row, $aRow);
-
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
     $output['aaData'][] = $row;
 }

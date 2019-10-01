@@ -1,4 +1,5 @@
 <?php
+$lang['client_full_name'] = "Full Name";
 $lang['start_date'] = "Start Date";
 $lang['end_date'] = "End Date";
 $lang['procuration_number'] = "Procuration Number";
@@ -23,7 +24,7 @@ $lang['branch_name'] = "Branch Name";
 $lang['case_id'] = "Cases";
 $lang['not_selected'] = "Not Selected";
 $lang['cases'] = "Cases";
-$lang['control'] = "Control";
+$lang['customer_company_groups'] = "Company Groups";
 $lang['control'] = "Control";
 $lang['control'] = "Control";
 $lang['control'] = "Control";

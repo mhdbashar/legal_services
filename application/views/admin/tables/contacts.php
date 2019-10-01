@@ -6,7 +6,7 @@ $total_client_contacts = total_rows(db_prefix() . 'contacts', ['userid' => $clie
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = [ 'CONCAT(firstname, \' \', lastname) as full_name'];
+$aColumns        = [ 'full_name'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }

@@ -59,7 +59,14 @@ class ServicesSessions extends AdminController{
 
     public function print_report($task_id)
     {
+        $response = array();
         $response = $this->service_sessions->get_session_data($task_id);
+        $client_id = get_client_id_by_case_id($response->tbl1);
+        $opponent_id = get_opponent_id_by_case_id($response->tbl1);
+        $client_name = get_company_name($client_id);
+        $opponent_name = get_company_name($opponent_id);
+        $response->tbl2 = $client_name;
+        $response->tbl3 = $opponent_name;
         echo json_encode($response);
     }
 

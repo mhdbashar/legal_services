@@ -3206,6 +3206,8 @@ $lang['session_report'] = 'Session report';
 $lang['Current_session_date'] = 'Current session date';
 $lang['Next_session_date'] = 'Current session date';
 $lang['Proceedings_of_session'] = 'Proceedings of the session';
+$lang['accused'] = 'accused: ';
+$lang['claimant'] = 'claimant: ';
 
 //Opponent
 $lang['opponents'] =  'Opponents';
@@ -3222,3 +3224,4 @@ $lang['opponent_admin_login_as_client_message'] = 'Hello %s. You are added as ad
 $lang['opponent_inactive_message']               = 'This is inactive opponent profile and some features may be disabled';
 $lang['opponent_profile_details']           = 'Opponent Details';
 $lang['opponent_admins'] = "Opponent Admins";
+$lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";

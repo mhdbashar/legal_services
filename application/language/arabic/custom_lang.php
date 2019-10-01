@@ -148,6 +148,8 @@ $lang['session_report'] = 'تقرير جلسة';
 $lang['Current_session_date'] = 'موعد الجلسة الحالي';
 $lang['Next_session_date'] = 'موعد الجلسة القادم';
 $lang['Proceedings_of_session'] = 'وقائع الجلسة';
+$lang['accused'] = 'المدعى عليه: ';
+$lang['claimant'] = 'المدعي: ';
 
 //Opponent
 $lang['opponents'] =  'الخصوم';
@@ -164,3 +166,4 @@ $lang['opponent_admin_login_as_client_message'] = "مرحبًا %s . لقد تم
 $lang['opponent_inactive_message'] = "هذا ملف تعريف خصم غير نشط وقد يتم تعطيل بعض الميزات";
 $lang['opponent_profile_details'] = "بيانات الخصم";
 $lang['opponent_admins'] = "مدير حساب الخصم";
+$lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";

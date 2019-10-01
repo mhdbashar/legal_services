@@ -29,7 +29,7 @@ function my_module_menu_item_collapsible()
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 25, // The menu position
-        'icon'     => 'fa fa-balance-scale menu-icon', // Font awesome icon
+        'icon'     => 'fa fa-gavel', // Font awesome icon
     ]);
 foreach ($services as $service):
     // The first paremeter is the parent menu ID/Slug
@@ -376,6 +376,19 @@ function get_client_id_by_case_id($id)
     $project = $CI->db->get(db_prefix() . 'my_cases')->row();
     if ($project) {
         return $project->clientid;
+    }
+
+    return false;
+}
+
+function get_opponent_id_by_case_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('opponent_id');
+    $CI->db->where('id', $id);
+    $project = $CI->db->get(db_prefix() . 'my_cases')->row();
+    if ($project) {
+        return $project->opponent_id;
     }
 
     return false;

@@ -19,11 +19,11 @@
 </div><!-- /.modal -->
 <h4 class="no-mtop bold"><?php echo _l('customer_attachments'); ?>
 <br />
-<small class="text-info"><?php echo _l('customer_files_info_message'); ?></small>
+<small class="text-info"><?php echo _l('opponent_files_info_message'); ?></small>
 </h4>
 <hr />
 <?php if(isset($client)){ ?>
-    <?php echo form_open_multipart(admin_url('clients/upload_attachment/'.$client->userid),array('class'=>'dropzone','id'=>'client-attachments-upload')); ?>
+    <?php echo form_open_multipart(admin_url('opponents/upload_attachment/'.$client->userid),array('class'=>'dropzone','id'=>'client-attachments-upload')); ?>
     <input type="file" name="file" multiple />
     <?php echo form_close(); ?>
     <div class="text-right mtop15">
@@ -152,7 +152,7 @@
                                 echo '<a href="'.$_att['external_link'].'" class="btn btn-info btn-icon" target="_blank">'.($_att['external'] == 'dropbox' ? '<i class="fa fa-dropbox"></i>' : '<i class="fa fa-google"></i>').'</a>';
                             } ?>
                             <?php if($type == 'customer'){ ?>
-                                <a href="<?php echo admin_url('clients/delete_attachment/'.$_att['rel_id'].'/'.$_att['id']); ?>"  class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                <a href="<?php echo admin_url('opponents/delete_attachment/'.$_att['rel_id'].'/'.$_att['id']); ?>"  class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                             <?php } ?>
                         </td>
                     <?php } ?>
@@ -164,5 +164,5 @@
 
 </div>
 <?php
-include_once(APPPATH . 'views/admin/clients/modals/send_file_modal.php');
+include_once(APPPATH . 'views/admin/opponent/modals/send_file_modal.php');
 } ?>

@@ -140,7 +140,7 @@ foreach ($rResult as $aRow) {
         $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border:1px solid #84c529">مرسل</span>';
     endif;
     $row[] = $send;
-    $row[] = $aRow['startdate'];
+    $row[] = _d($aRow['startdate']);
     $row[] = $aRow['time'];
     $output['aaData'][] = $row;
     $i++;

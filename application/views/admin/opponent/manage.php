@@ -373,7 +373,7 @@
            data.ids = ids;
            $(event).addClass('disabled');
            setTimeout(function(){
-             $.post(admin_url + 'clients/bulk_action', data).done(function() {
+             $.post(admin_url + 'opponents/bulk_action', data).done(function() {
               window.location.reload();
           });
          },50);

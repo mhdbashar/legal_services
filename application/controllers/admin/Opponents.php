@@ -577,7 +577,7 @@ class Opponents extends AdminController
         ]);
     }
 
-    public function assign_admins($id)
+    /*public function assign_admins($id)
     {
         if (!has_permission('customers', '', 'create') && !has_permission('customers', '', 'edit')) {
             access_denied('customers');
@@ -588,7 +588,7 @@ class Opponents extends AdminController
         }
 
         redirect(admin_url('opponents/client/' . $id . '?tab=customer_admins'));
-    }
+    }*/
 
     public function delete_customer_admin($customer_id, $staff_id)
     {
@@ -672,14 +672,14 @@ class Opponents extends AdminController
     }
 
     /* Staff can login as client */
-    public function login_as_client($id)
+   /* public function login_as_client($id)
     {
         if (is_admin()) {
             login_as_client($id);
         }
         hooks()->do_action('after_contact_login');
         redirect(site_url());
-    }
+    }*/
 
     public function get_customer_billing_and_shipping_details($id)
     {
@@ -705,7 +705,7 @@ class Opponents extends AdminController
     }
 
     /* Zip function for credit notes */
-    public function zip_credit_notes($id)
+   /* public function zip_credit_notes($id)
     {
         $has_permission_view = has_permission('credit_notes', '', 'view');
 
@@ -726,9 +726,9 @@ class Opponents extends AdminController
             $this->app_bulk_pdf_export->in_folder($this->input->post('file_name'));
             $this->app_bulk_pdf_export->export();
         }
-    }
+    }*/
 
-    public function zip_invoices($id)
+   /* public function zip_invoices($id)
     {
         $has_permission_view = has_permission('invoices', '', 'view');
         if (!$has_permission_view && !has_permission('invoices', '', 'view_own')
@@ -749,10 +749,10 @@ class Opponents extends AdminController
             $this->app_bulk_pdf_export->in_folder($this->input->post('file_name'));
             $this->app_bulk_pdf_export->export();
         }
-    }
+    }*/
 
     /* Since version 1.0.2 zip client estimates */
-    public function zip_estimates($id)
+    /*public function zip_estimates($id)
     {
         $has_permission_view = has_permission('estimates', '', 'view');
         if (!$has_permission_view && !has_permission('estimates', '', 'view_own')
@@ -773,9 +773,9 @@ class Opponents extends AdminController
             $this->app_bulk_pdf_export->in_folder($this->input->post('file_name'));
             $this->app_bulk_pdf_export->export();
         }
-    }
+    }*/
 
-    public function zip_payments($id)
+    /*public function zip_payments($id)
     {
         $has_permission_view = has_permission('payments', '', 'view');
 
@@ -796,7 +796,7 @@ class Opponents extends AdminController
         $this->app_bulk_pdf_export->set_client_id_column(db_prefix().'clients.userid');
         $this->app_bulk_pdf_export->in_folder($this->input->post('file_name'));
         $this->app_bulk_pdf_export->export();
-    }
+    }*/
 
     public function import()
     {
@@ -932,7 +932,7 @@ class Opponents extends AdminController
         }
     }
 
-    public function vault_entry_create($customer_id)
+   /* public function vault_entry_create($customer_id)
     {
         $data = $this->input->post();
 
@@ -957,9 +957,9 @@ class Opponents extends AdminController
         $this->clients_model->vault_entry_create($data, $customer_id);
         set_alert('success', _l('added_successfully', _l('vault_entry')));
         redirect($_SERVER['HTTP_REFERER']);
-    }
+    }*/
 
-    public function vault_entry_update($entry_id)
+   /* public function vault_entry_update($entry_id)
     {
         $entry = $this->clients_model->get_vault_entry($entry_id);
 
@@ -990,18 +990,18 @@ class Opponents extends AdminController
             set_alert('success', _l('updated_successfully', _l('vault_entry')));
         }
         redirect($_SERVER['HTTP_REFERER']);
-    }
+    }*/
 
-    public function vault_entry_delete($id)
+   /* public function vault_entry_delete($id)
     {
         $entry = $this->clients_model->get_vault_entry($id);
         if ($entry->creator == get_staff_user_id() || is_admin()) {
             $this->clients_model->vault_entry_delete($id);
         }
         redirect($_SERVER['HTTP_REFERER']);
-    }
+    }*/
 
-    public function vault_encrypt_password()
+   /* public function vault_encrypt_password()
     {
         $id            = $this->input->post('id');
         $user_password = $this->input->post('user_password', false);
@@ -1026,17 +1026,17 @@ class Opponents extends AdminController
         }
 
         echo json_encode(['password' => $password]);
-    }
+    }*/
 
-    public function get_vault_entry($id)
+    /*public function get_vault_entry($id)
     {
         $entry = $this->clients_model->get_vault_entry($id);
         unset($entry->password);
         $entry->description = clear_textarea_breaks($entry->description);
         echo json_encode($entry);
-    }
+    }*/
 
-    public function statement_pdf()
+   /* public function statement_pdf()
     {
         $customer_id = $this->input->get('customer_id');
 
@@ -1067,9 +1067,9 @@ class Opponents extends AdminController
         }
 
         $pdf->Output(slug_it(_l('customer_statement') . '-' . $data['statement']['client']->company) . '.pdf', $type);
-    }
+    }*/
 
-    public function send_statement()
+   /* public function send_statement()
     {
         $customer_id = $this->input->get('customer_id');
 
@@ -1094,9 +1094,9 @@ class Opponents extends AdminController
         }
 
         redirect(admin_url('opponents/client/' . $customer_id . '?group=statement'));
-    }
+    }*/
 
-    public function statement()
+    /*public function statement()
     {
         if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
             header('HTTP/1.0 400 Bad error');
@@ -1116,6 +1116,6 @@ class Opponents extends AdminController
         $viewData['html'] = $this->load->view('admin/opponent/groups/_statement', $data, true);
 
         echo json_encode($viewData);
-    }
+    }*/
 
 }

@@ -70,42 +70,42 @@
 
 
 <div id="session_report_data" class="hide">
-    <h3 class="text-center"><u><?php echo _l('session_report'); ?></u></h3>
-    <table class="table scroll-responsive">
+    <h3><u><?php echo _l('session_report'); ?></u></h3>
+    <table class="table scroll-responsive" style="width: 40%;">
         <thead>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('case_number'); ?></th>
+            <th style="width: 30%"><?php echo _l('case_number'); ?></th>
             <td id="tbl1" style="border: 1px solid #ebf5ff"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('Parties_case'); ?></th>
-            <td style="border: 1px solid #ebf5ff">
-                <p> :المدعي<b id="tbl2"></b></p>
-                <p> :المدعى عليه<b id="tbl3"></b></p>
+            <th style="width: 30%"><?php echo _l('Parties_case'); ?></th>
+            <td style="border: 1px solid #ebf5ff;">
+                <p> <?php echo _l('claimant'); ?> <b id="tbl2"></b></p>
+                <p> <?php echo _l('accused'); ?> <b id="tbl3"></b></p>
             </td>
         </tr>
         <tr>
-            <th style="width: 20%;;text-align: center"><?php echo _l('court_competent_follow'); ?></th>
+            <th style="width: 30%;"><?php echo _l('court_competent_follow'); ?></th>
             <td id="tbl4"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('Current_session_date'); ?></th>
+            <th style="width: 30%;"><?php echo _l('Current_session_date'); ?></th>
             <td id="tbl5"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('Next_session_date'); ?></th>
+            <th style="width: 30%;"><?php echo _l('Next_session_date'); ?></th>
             <td id="tbl6"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('Proceedings_of_session'); ?></th>
+            <th style="width: 30%;"><?php echo _l('Proceedings_of_session'); ?></th>
             <td id="tbl7"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('Court_decision'); ?></th>
+            <th style="width: 30%;"><?php echo _l('Court_decision'); ?></th>
             <td id="tbl8"></td>
         </tr>
         <tr>
-            <th style="width: 20%;text-align: center"><?php echo _l('upcoming_actions'); ?></th>
+            <th style="width: 30%;"><?php echo _l('upcoming_actions'); ?></th>
             <td id="tbl9"></td>
         </tr>
         </thead>

@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('admin/clients/client_group'); ?>
+<?php $this->load->view('admin/opponent/client_group'); ?>
 <?php init_tail(); ?>
 <script>
    $(function(){

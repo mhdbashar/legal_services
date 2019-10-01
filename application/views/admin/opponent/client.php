@@ -47,13 +47,6 @@
                         <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                           <?php /*if(is_admin()){ ?>
-                           <li>
-                              <a href="<?php echo admin_url('opponents/login_as_client/'.$client->userid); ?>" target="_blank">
-                              <i class="fa fa-share-square-o"></i> <?php echo _l('login_as_client'); ?>
-                              </a>
-                           </li>
-                           <?php }*/ ?>
                            <?php if(has_permission('customers','','delete')){ ?>
                            <li>
                               <a href="<?php echo admin_url('opponents/delete/'.$client->userid); ?>" class="text-danger delete-text _delete"><i class="fa fa-remove"></i> <?php echo _l('delete'); ?>

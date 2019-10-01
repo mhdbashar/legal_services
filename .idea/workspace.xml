@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9c38206-4f24-4b22-abc3-0c8198024268" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/DB/waseem/legalserv.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB/waseem/table/tblmy_transactions.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Transactions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Transactions_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_incoming_transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_incoming_transactions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_outgoing_transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_outgoing_transactions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/manage_incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/manage_incoming.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/manage_outgoing.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/manage_outgoing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/outgoing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB/waseem/legalserv3009.sql" beforeDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,8 +58,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3008">
-              <caret line="230" column="4" selection-start-line="230" selection-start-column="4" selection-end-line="230" selection-end-column="4" />
+            <state relative-caret-position="146">
+              <caret line="124" column="26" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="26" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#div#8;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -94,7 +89,7 @@
         <entry file="file://$PROJECT_DIR$/assets/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
+              <caret column="2" selection-start-column="2" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -103,7 +98,7 @@
         <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="385">
-              <caret line="238" lean-forward="true" selection-start-line="238" selection-end-line="238" />
+              <caret line="238" selection-start-line="238" selection-end-line="238" />
             </state>
           </provider>
         </entry>
@@ -327,13 +322,20 @@
             <path>
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
               <item name="legalserv" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="DB" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
               <item name="legalserv" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
+              <item name="DB" type="462c0819:PsiDirectoryNode" />
+              <item name="waseem" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="legalserv" type="b2602c69:ProjectViewProjectNode" />
+              <item name="legalserv" type="462c0819:PsiDirectoryNode" />
+              <item name="DB" type="462c0819:PsiDirectoryNode" />
+              <item name="waseem" type="462c0819:PsiDirectoryNode" />
+              <item name="table" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -447,7 +449,7 @@
       <workItem from="1569790623889" duration="6674000" />
       <workItem from="1569857380758" duration="7633000" />
       <workItem from="1569932332393" duration="4419000" />
-      <workItem from="1569948998241" duration="14379000" />
+      <workItem from="1569948998241" duration="15355000" />
     </task>
     <task id="LOCAL-00001" summary="fix country + arrow">
       <created>1569103506512</created>
@@ -505,15 +507,21 @@
       <option name="project" value="LOCAL" />
       <updated>1569865647686</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update in_out">
+      <created>1569967831544</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1569967831544</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="477838000" />
+    <option name="totallyTimeSpent" value="478814000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17697228" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -597,7 +605,8 @@
     <MESSAGE value="my db" />
     <MESSAGE value="add incoming" />
     <MESSAGE value="in_out_list" />
-    <option name="LAST_COMMIT_MESSAGE" value="in_out_list" />
+    <MESSAGE value="update in_out" />
+    <option name="LAST_COMMIT_MESSAGE" value="update in_out" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php">
@@ -919,14 +928,14 @@
     <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
-          <caret line="238" lean-forward="true" selection-start-line="238" selection-end-line="238" />
+          <caret line="238" selection-start-line="238" selection-end-line="238" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -939,8 +948,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/transactions/incoming.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3008">
-          <caret line="230" column="4" selection-start-line="230" selection-start-column="4" selection-end-line="230" selection-end-column="4" />
+        <state relative-caret-position="146">
+          <caret line="124" column="26" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="26" />
           <folding>
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#div#0;n#div#8;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>

@@ -33,10 +33,26 @@
 </div>
 <?php init_tail(); ?>
 <script>
-    console.log(window.location.href)
     $(function(){
         initDataTable('.table-trans_outgoing', window.location.href);
     });
+
+    $(document).on('click',"._delete", function () {
+        var id = $(this).data('id');
+
+        $.ajax({
+            type: 'Get',
+            url: admin_url + 'transactions/delete_transaction',
+            data: {
+                del_id : id,
+            },
+            success: function(data) {
+                $('.table-trans_outgoing').DataTable().ajax.reload(null, false);
+            },
+
+        });
+
+    })
 </script>
 </body>
 </html>

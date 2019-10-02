@@ -16,7 +16,7 @@ $aColumns = [
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'my_transactions';
 
-$where = ['WHERE definition = 1'];
+$where = ['WHERE definition = 1 AND isDeleted = 0'];
 
 
 $join = [];
@@ -42,7 +42,7 @@ foreach ($rResult as $aRow) {
 
     $options = icon_btn('transactions/outgoing/' . $aRow['id']  , 'pencil-square-o', 'btn-default');
     // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
-    $row[]   = $options .= icon_btn('transactions/outgoing/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options .= icon_btn('#' , 'remove', 'btn-danger _delete',['data-id'=> $aRow['id']]);
 
 
     $output['aaData'][] = $row;

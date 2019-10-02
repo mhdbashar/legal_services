@@ -59,6 +59,31 @@ class Transactions_model extends App_Model
     }
 
 
+    public function changeStatus($id)
+    {
+        $affectedRows = 0;
+        //var_dump($data);
+        $data['isDeleted'] = 1;
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix().'my_transactions', $data);
+        if ($this->db->affected_rows() > 0) {
+
+            $affectedRows++;
+
+            log_activity(' transaction Updated [ID: ' . $id . ']');
+
+            return true;
+        }
+
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+
+
+    }
+
     public function delete($id, $simpleDelete = false)
     {
 

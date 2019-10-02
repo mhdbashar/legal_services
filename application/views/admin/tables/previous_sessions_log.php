@@ -142,7 +142,7 @@ foreach ($rResult as $aRow) {
         $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border: 1px solid #84c529">مرسل</span>';
     endif;
     $row[] = $send;
-    $row[] = $aRow['startdate'];
+    $row[] = _d($aRow['startdate']);
     $row[] = $aRow['time'];
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):
         $stc = '<a href="#" data-toggle="modal" data-target="#customer_report'.$aRow['id'].'" class="btn btn-info pull-left display-block">';

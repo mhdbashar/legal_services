@@ -219,6 +219,8 @@ $lang['AD_date'] = 'ميلادي';
 $lang['Current_session_date'] = 'موعد الجلسة الحالي';
 $lang['Next_session_date'] = 'موعد الجلسة القادم';
 $lang['Proceedings_of_session'] = 'وقائع الجلسة';
+$lang['accused'] = 'المدعى عليه: ';
+$lang['claimant'] = 'المدعي: ';
 
 //Opponent
 $lang['opponents'] =  'الخصوم';
@@ -238,3 +240,4 @@ $lang['opponent_admins'] = "مدير حساب الخصم";
 $lang['date'] = 'التاريخ';
 $lang['new_incoming'] = 'اضافة معاملة واردة';
 $lang['new_outgoing'] = 'اضافة معاملة صادرة';
+$lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";

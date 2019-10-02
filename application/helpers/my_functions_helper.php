@@ -181,24 +181,8 @@ function app_init_opponent_profile_tabs()
 {
     $client_id = null;
 
-    $remindersText = _l('client_reminders_tab');
-
     if ($client = get_client()) {
         $client_id = $client->userid;
-
-        $total_reminders = total_rows(
-            db_prefix() . 'reminders',
-            [
-                'isnotified' => 0,
-                'staff'      => get_staff_user_id(),
-                'rel_type'   => 'customer',
-                'rel_id'     => $client_id,
-            ]
-        );
-
-        if ($total_reminders > 0) {
-            $remindersText .= ' <span class="badge">' . $total_reminders . '</span>';
-        }
     }
 
     $CI = &get_instance();
@@ -214,13 +198,6 @@ function app_init_opponent_profile_tabs()
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/opponent/groups/contacts',
-        'position' => 7,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('procurations', [
-        'name'     => _l('procurations'),
-        'icon'     => 'fa fa-briefcase',
-        'view'     => 'admin/opponent/groups/procurations',
         'position' => 10,
     ]);
 
@@ -231,126 +208,18 @@ function app_init_opponent_profile_tabs()
         'position' => 15,
     ]);
 
-    $CI->app_tabs->add_opponent_profile_tab('statement', [
-        'name'     => _l('customer_statement'),
-        'icon'     => 'fa fa-area-chart',
-        'view'     => 'admin/opponent/groups/statement',
-        'visible'  => (has_permission('invoices', '', 'view') && has_permission('payments', '', 'view')),
-        'position' => 20,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('invoices', [
-        'name'     => _l('client_invoices_tab'),
-        'icon'     => 'fa fa-file-text',
-        'view'     => 'admin/opponent/groups/invoices',
-        'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
-        'position' => 25,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('payments', [
-        'name'     => _l('client_payments_tab'),
-        'icon'     => 'fa fa-line-chart',
-        'view'     => 'admin/opponent/groups/payments',
-        'visible'  => (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
-        'position' => 30,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('proposals', [
-        'name'     => _l('proposals'),
-        'icon'     => 'fa fa-file-powerpoint-o',
-        'view'     => 'admin/opponent/groups/proposals',
-        'visible'  => (has_permission('proposals', '', 'view') || has_permission('proposals', '', 'view_own') || (get_option('allow_staff_view_proposals_assigned') == 1 && staff_has_assigned_proposals())),
-        'position' => 35,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('credit_notes', [
-        'name'     => _l('credit_notes'),
-        'icon'     => 'fa fa-sticky-note-o',
-        'view'     => 'admin/opponent/groups/credit_notes',
-        'visible'  => (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')),
-        'position' => 40,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('estimates', [
-        'name'     => _l('estimates'),
-        'icon'     => 'fa fa-clipboard',
-        'view'     => 'admin/opponent/groups/estimates',
-        'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
-        'position' => 45,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('subscriptions', [
-        'name'     => _l('subscriptions'),
-        'icon'     => 'fa fa-repeat',
-        'view'     => 'admin/opponent/groups/subscriptions',
-        'visible'  => (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')),
-        'position' => 50,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('expenses', [
-        'name'     => _l('expenses'),
-        'icon'     => 'fa fa-file-text-o',
-        'view'     => 'admin/opponent/groups/expenses',
-        'visible'  => (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
-        'position' => 55,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('contracts', [
-        'name'     => _l('contracts'),
-        'icon'     => 'fa fa-file',
-        'view'     => 'admin/opponent/groups/contracts',
-        'visible'  => (has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own')),
-        'position' => 60,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('projects', [
-        'name'     => _l('projects'),
-        'icon'     => 'fa fa-bars',
-        'view'     => 'admin/opponent/groups/projects',
-        'position' => 65,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('tasks', [
-        'name'     => _l('tasks'),
-        'icon'     => 'fa fa-tasks',
-        'view'     => 'admin/opponent/groups/tasks',
-        'position' => 70,
-    ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('tickets', [
-        'name'     => _l('tickets'),
-        'icon'     => 'fa fa-ticket',
-        'view'     => 'admin/opponent/groups/tickets',
-        'visible'  => ((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()),
-        'position' => 75,
-    ]);
-
     $CI->app_tabs->add_opponent_profile_tab('attachments', [
         'name'     => _l('customer_attachments'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/opponent/groups/attachments',
-        'position' => 80,
-    ]);
-
-    // $CI->app_tabs->add_opponent_profile_tab('vault', [
-    //     'name'     => _l('vault'),
-    //     'icon'     => 'fa fa-lock',
-    //     'view'     => 'admin/opponent/groups/vault',
-    //     'position' => 85,
-    // ]);
-
-    $CI->app_tabs->add_opponent_profile_tab('reminders', [
-        'name'     => $remindersText,
-        'icon'     => 'fa fa-clock-o',
-        'view'     => 'admin/opponent/groups/reminders',
-        'position' => 90,
+        'position' => 20,
     ]);
 
     $CI->app_tabs->add_opponent_profile_tab('map', [
         'name'     => _l('customer_map'),
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/opponent/groups/map',
-        'position' => 95,
+        'position' => 25,
     ]);
 }
 
@@ -403,16 +272,6 @@ function my_get_cities($country_id = '')
     return $CI->db->get('cities')->result_array();
 }
 
-hooks()->add_action('admin_init', 'add_hijri_settings');
-hooks()->add_action('app_admin_assets_added', 'admin_assets');
-hooks()->add_filter('before_sql_date_format', 'to_AD_date');
-hooks()->add_filter('after_format_date', 'to_hijri_date');
-hooks()->add_filter('after_format_datetime', 'to_hijri_date');
-
-hooks()->add_filter('before_settings_updated', 'set_my_options');
-
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-
 function admin_assets()
 {
     $CI = &get_instance();
@@ -439,8 +298,6 @@ function admin_assets()
 
 }
 
-
-//
 function to_AD_date($date)
 {
     if(strpos($date, ' ') !== false){    //is datetime
@@ -494,6 +351,7 @@ function to_AD_date($date)
 
     return $date;
 }
+
 function search_url($pages, $url)
 {
     $i = 0;
@@ -564,12 +422,17 @@ function to_hijri_date($date)
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
         return $date;
 }
 
-
-
+//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
+hooks()->add_action('admin_init', 'add_hijri_settings');
+hooks()->add_action('app_admin_assets_added', 'admin_assets');
+hooks()->add_filter('before_sql_date_format', 'to_AD_date');
+hooks()->add_filter('after_format_date', 'to_hijri_date');
+hooks()->add_filter('after_format_datetime', 'to_hijri_date');
+hooks()->add_filter('before_settings_updated', 'set_my_options');
+hooks()->add_filter('available_date_formats', 'add_hijri_option');
 
 function set_my_options($data){
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
@@ -577,7 +440,6 @@ function set_my_options($data){
     }else{
         $isHijrivar = "off";
     }
-
 
     if(isset($data['adjust_data'])){
 
@@ -595,8 +457,8 @@ function set_my_options($data){
 
             }
         }
-
-
+    }
+    if(isset($data['hijri_adjust'])){
 
         if (get_option('isHijri') != Null){
             update_option('isHijri',$isHijrivar);
@@ -605,7 +467,6 @@ function set_my_options($data){
 
             add_option('isHijri',$isHijrivar);
         }
-
         $links_array = [];
         if(isset($data['isHijriVal'])){
             unset($data['isHijriVal']);
@@ -616,15 +477,13 @@ function set_my_options($data){
         foreach ($data as $key => $value ){
             array_push($links_array,$value );
         }
-
         if (get_option('hijri_pages') != Null){
             update_option('hijri_pages',json_encode($links_array));
         }else{
             add_option('hijri_pages',json_encode($links_array));
         }
-
-
-
+//    var_dump(json_encode($links_array));exit();
+//    add_option('dateformat',$data['dateformat']);
     }else{
         return $data;
     }
@@ -633,19 +492,14 @@ function set_my_options($data){
 function add_hijri_settings(){
 
     $CI = &get_instance();
-
+//  var_dump(add_option('dateformat'));exit();
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
         'position' => 20,
     ]);
-
-
-
-
-
-
 }
+
 function add_hijri_option($date_formats)
 {
     $new_formats = [
@@ -655,5 +509,3 @@ function add_hijri_option($date_formats)
     ];
     return array_merge($date_formats,$new_formats);
 }
-
-

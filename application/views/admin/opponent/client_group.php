@@ -9,7 +9,7 @@
                     <span class="add-title"><?php echo _l('customer_group_add_heading'); ?></span>
                 </h4>
             </div>
-            <?php echo form_open('admin/clients/group',array('id'=>'customer-group-modal')); ?>
+            <?php echo form_open('admin/opponents/group',array('id'=>'customer-group-modal')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">

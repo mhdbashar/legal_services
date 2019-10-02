@@ -110,7 +110,7 @@ $(function() {
     <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
         contactsNotSortable.push($('#th-consent').index());
     <?php } ?>
-    _table_api = initDataTable('.table-contacts', admin_url + 'clients/contacts/' + customer_id, contactsNotSortable, contactsNotSortable);
+    _table_api = initDataTable('.table-contacts', admin_url + 'opponents/contacts/' + customer_id, contactsNotSortable, contactsNotSortable);
     if(_table_api) {
           <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
         _table_api.on('draw', function () {
@@ -187,7 +187,7 @@ $(function() {
                 return;
             }
 
-            $.post(admin_url+'clients/check_duplicate_customer_name', {company:company})
+            $.post(admin_url+'opponents/check_duplicate_customer_name', {company:company})
             .done(function(response) {
                 if(response) {
                     response = JSON.parse(response);
@@ -231,7 +231,7 @@ $(function() {
 });
 
 function delete_contact_profile_image(contact_id) {
-    requestGet('clients/delete_contact_profile_image/'+contact_id).done(function(){
+    requestGet('opponents/delete_contact_profile_image/'+contact_id).done(function(){
         $('body').find('#contact-profile-image').removeClass('hide');
         $('body').find('#contact-remove-img').addClass('hide');
         $('body').find('#contact-img').attr('src', '<?php echo base_url('assets/images/user-placeholder.jpg'); ?>');
@@ -243,7 +243,7 @@ function customerGoogleDriveSave(pickData) {
 }
 
 function saveCustomerProfileExternalFile(files, externalType) {
-    $.post(admin_url + 'clients/add_external_attachment', {
+    $.post(admin_url + 'opponents/add_external_attachment', {
         files: files,
         clientid: customer_id,
         external: externalType
@@ -349,7 +349,7 @@ function contact(client_id, contact_id) {
     if (typeof(contact_id) == 'undefined') {
         contact_id = '';
     }
-    requestGet('clients/form_contact/' + client_id + '/' + contact_id).done(function(response) {
+    requestGet('opponents/form_contact/' + client_id + '/' + contact_id).done(function(response) {
         $('#contact_data').html(response);
         $('#contact').modal({
             show: true,
@@ -376,7 +376,7 @@ function update_all_proposal_emails_linked_to_contact(contact_id) {
     var data = {};
     data.update = true;
     data.original_email = $('body').find('#contact_update_proposals_emails').data('original-email');
-    $.post(admin_url + 'clients/update_all_proposal_emails_linked_to_customer/' + contact_id, data).done(function(response) {
+    $.post(admin_url + 'opponents/update_all_proposal_emails_linked_to_customer/' + contact_id, data).done(function(response) {
         response = JSON.parse(response);
         if (response.success) {
             alert_float('success', response.message);
@@ -400,7 +400,7 @@ function do_share_file_contacts(edit_contacts, file_id) {
         return;
     }
     var file_id = $('input[name="file_id"]').val();
-    $.post(admin_url + 'clients/update_file_share_visibility', {
+    $.post(admin_url + 'opponents/update_file_share_visibility', {
         file_id: file_id,
         share_contacts_id: contacts_shared_ids_selected,
         customer_id: $('input[name="userid"]').val()
@@ -413,7 +413,7 @@ function save_longitude_and_latitude(clientid) {
     var data = {};
     data.latitude = $('#latitude').val();
     data.longitude = $('#longitude').val();
-    $.post(admin_url + 'clients/save_longitude_and_latitude/'+clientid, data).done(function(response) {
+    $.post(admin_url + 'opponents/save_longitude_and_latitude/'+clientid, data).done(function(response) {
        if(response == 'success') {
             alert_float('success', "<?php echo _l('updated_successfully', _l('client')); ?>");
        }

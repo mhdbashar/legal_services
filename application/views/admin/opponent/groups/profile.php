@@ -25,16 +25,7 @@
                                 </a>
                             </li>
                         <?php } ?>
-
                         <?php hooks()->do_action('after_customer_billing_and_shipping_tab', isset($client) ? $client : false); ?>
-                        <?php if(isset($client)){ ?>
-                            <li role="presentation">
-                                <a href="#customer_admins" aria-controls="customer_admins" role="tab" data-toggle="tab">
-                                    <?php echo _l( 'opponent_admins' ); ?>
-                                </a>
-                            </li>
-                            <?php hooks()->do_action('after_customer_admins_tab',$client); ?>
-                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -148,43 +139,6 @@
                         </div>
                     </div>
                 </div>
-                <?php if(isset($client)){ ?>
-                    <div role="tabpanel" class="tab-pane" id="customer_admins">
-                        <?php if (has_permission('customers', '', 'create') || has_permission('customers', '', 'edit')) { ?>
-                            <a href="#" data-toggle="modal" data-target="#customer_admins_assign" class="btn btn-info mbot30"><?php echo _l('assign_admin'); ?></a>
-                        <?php } ?>
-                        <table class="table dt-table">
-                            <thead>
-                            <tr>
-                                <th><?php echo _l('staff_member'); ?></th>
-                                <th><?php echo _l('customer_admin_date_assigned'); ?></th>
-                                <?php if(has_permission('customers','','create') || has_permission('customers','','edit')){ ?>
-                                    <th><?php echo _l('options'); ?></th>
-                                <?php } ?>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach($customer_admins as $c_admin){ ?>
-                                <tr>
-                                    <td><a href="<?php echo admin_url('profile/'.$c_admin['staff_id']); ?>">
-                                            <?php echo staff_profile_image($c_admin['staff_id'], array(
-                                                'staff-profile-image-small',
-                                                'mright5'
-                                            ));
-                                            echo get_staff_full_name($c_admin['staff_id']); ?></a>
-                                    </td>
-                                    <td data-order="<?php echo $c_admin['date_assigned']; ?>"><?php echo _dt($c_admin['date_assigned']); ?></td>
-                                    <?php if(has_permission('customers','','create') || has_permission('customers','','edit')){ ?>
-                                        <td>
-                                            <a href="<?php echo admin_url('clients/delete_customer_admin/'.$client->userid.'/'.$c_admin['staff_id']); ?>" class="btn btn-danger _delete btn-icon"><i class="fa fa-remove"></i></a>
-                                        </td>
-                                    <?php } ?>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php } ?>
                 <div role="tabpanel" class="tab-pane" id="billing_and_shipping">
                     <div class="row">
                         <div class="col-md-12">
@@ -248,35 +202,4 @@
         </div>
         <?php echo form_close(); ?>
     </div>
-<?php if(isset($client)){ ?>
-    <?php if (has_permission('customers', '', 'create') || has_permission('customers', '', 'edit')) { ?>
-        <div class="modal fade" id="customer_admins_assign" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-                <?php echo form_open(admin_url('clients/assign_admins/'.$client->userid)); ?>
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><?php echo _l('assign_admin'); ?></h4>
-                    </div>
-                    <div class="modal-body">
-                        <?php
-                        $selected = array();
-                        foreach($customer_admins as $c_admin){
-                            array_push($selected,$c_admin['staff_id']);
-                        }
-                        echo render_select('customer_admins[]',$staff,array('staffid',array('firstname','lastname')),'',$selected,array('multiple'=>true),array(),'','',false); ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                        <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-                <?php echo form_close(); ?>
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-    <?php } ?>
-<?php } ?>
-<?php $this->load->view('admin/clients/client_group'); ?>
+<?php $this->load->view('admin/opponent/client_group'); ?>

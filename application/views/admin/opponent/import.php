@@ -40,7 +40,7 @@
     </div>
   </div>
 </div>
-<?php $this->load->view('admin/clients/client_group'); ?>
+<?php $this->load->view('admin/opponent/client_group'); ?>
 <?php init_tail(); ?>
 <script src="<?php echo base_url('assets/plugins/jquery-validation/additional-methods.min.js'); ?>"></script>
 <script>

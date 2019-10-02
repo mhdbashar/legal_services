@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
 
@@ -9,10 +10,19 @@ $aColumns = [
     'YEAR(date) as year',
     'date',
     get_sql_select_client_company(),
-    db_prefix() . 'my_other_services.name as project_name',
+    db_prefix() . 'projects.name as project_name',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'invoices.id and rel_type="invoice" ORDER by tag_order ASC) as tags',
     'duedate',
     db_prefix() . 'invoices.status',
+    ];
+
+$sIndexColumn = 'id';
+$sTable       = db_prefix() . 'invoices';
+
+$join = [
+    'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
+    'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
+    'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'invoices.project_id',
 ];
 
 $ci = &get_instance();
@@ -22,15 +32,6 @@ if($ci->app_modules->is_active('branches')){
 
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
 }
-
-$sIndexColumn = 'id';
-$sTable       = db_prefix() . 'invoices';
-
-$join = [
-    'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
-    'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
-    'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'invoices.rel_sid',
-];
 
 $custom_fields = get_table_custom_fields('invoice');
 
@@ -85,6 +86,7 @@ foreach ($data['payment_modes'] as $mode) {
 }
 if (count($modesIds) > 0) {
     array_push($where, 'AND ' . db_prefix() . 'invoices.id IN (SELECT invoiceid FROM ' . db_prefix() . 'invoicepaymentrecords WHERE paymentmode IN ("' . implode('", "', $modesIds) . '"))');
+    array_push($where, 'AND ' . db_prefix() . 'invoices.deleted = 0');
 }
 
 $years     = $this->ci->invoices_model->get_invoices_years();
@@ -107,8 +109,7 @@ if ($clientid != '') {
 }
 
 if ($project_id) {
-    array_push($where, 'AND rel_sid=' . $project_id);
-    array_push($where, 'AND rel_stype=' . "'" . $slug . "'");
+    array_push($where, 'AND project_id=' . $project_id);
 }
 
 if (!has_permission('invoices', '', 'view')) {
@@ -131,7 +132,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'hash',
     'recurring',
     'deleted_customer_name',
-]);
+    ]);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -144,7 +145,7 @@ foreach ($rResult as $aRow) {
     if (is_numeric($clientid) || $project_id) {
         $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" target="_blank">' . format_invoice_number($aRow['id']) . '</a>';
     } else {
-        $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" onclick="init_invoice_oservice(' . $aRow['id'] . '); return false;">' . format_invoice_number($aRow['id']) . '</a>';
+        $numberOutput = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['id']) . '" onclick="init_invoice(' . $aRow['id'] . '); return false;">' . format_invoice_number($aRow['id']) . '</a>';
     }
 
     if ($aRow['recurring'] > 0) {
@@ -175,7 +176,7 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
     ;
 
     $row[] = render_tags($aRow['tags']);
@@ -190,6 +191,7 @@ foreach ($rResult as $aRow) {
     }
 
     $row['DT_RowClass'] = 'has-row-options';
+
     if($ci->app_modules->is_active('branches')){
         $row[] = $aRow['branch_id'];
     }

@@ -241,3 +241,4 @@ $lang['date'] = 'التاريخ';
 $lang['new_incoming'] = 'اضافة معاملة واردة';
 $lang['new_outgoing'] = 'اضافة معاملة صادرة';
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
+$lang['branch_name'] = "اسم الفرع";

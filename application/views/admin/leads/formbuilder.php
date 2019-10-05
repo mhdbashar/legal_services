@@ -42,7 +42,7 @@
                          </span>
                         </a>
                        </p>
-                        <textarea readonly class="form-control" rows="5"><iframe width="600" height="850" src="<?php echo site_url('forms/wtl/'.$form->form_key); ?>" frameborder="0" allowfullscreen></iframe></textarea>
+                        <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/wtl/'.$form->form_key); ?>" frameborder="0" allowfullscreen></iframe></textarea>
                      </div>
                      <?php } ?>
                      <div role="tabpanel" class="tab-pane<?php if (!isset($form)) { echo ' active'; } ?>" id="tab_form_information">

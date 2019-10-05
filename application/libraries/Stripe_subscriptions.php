@@ -11,9 +11,9 @@ class Stripe_subscriptions extends Stripe_core
         parent::__construct();
     }
 
-    public function get_upcoming_invoice($customer_id, $subscription_id)
+    public function get_upcoming_invoice($subscription_id)
     {
-        return \Stripe\Invoice::upcoming(['customer' => $customer_id, 'subscription' => $subscription_id]);
+        return \Stripe\Invoice::upcoming(['subscription' => $subscription_id]);
     }
 
     public function get_plans()
@@ -31,9 +31,9 @@ class Stripe_subscriptions extends Stripe_core
         return \Stripe\Product::retrieve($id);
     }
 
-    public function get_subscription($id)
+    public function get_subscription($data)
     {
-        return \Stripe\Subscription::retrieve($id);
+        return \Stripe\Subscription::retrieve($data);
     }
 
     public function cancel($id)
@@ -80,19 +80,18 @@ class Stripe_subscriptions extends Stripe_core
             return false;
         }
 
-        if ($update_values['tax_id'] != $db_subscription->tax_id
+        if ($update_values['stripe_tax_id'] != $db_subscription->stripe_tax_id
                     || $update_values['quantity'] != $db_subscription->quantity
                     || $update_values['stripe_plan_id'] != $db_subscription->stripe_plan_id
                 ) {
+
             $stripeSubscription = $this->get_subscription($subscription_id);
 
-            if ($update_values['tax_id'] != $db_subscription->tax_id) {
-                if (empty($update_values['tax_id'])) {
-                    $stripeSubscription->tax_percent = 0.00;
+            if ($update_values['stripe_tax_id'] != $db_subscription->stripe_tax_id) {
+                if (empty($update_values['stripe_tax_id'])) {
+                    $stripeSubscription->default_tax_rates = null;
                 } else {
-                    $this->ci->load->model('taxes_model');
-                    $tax                             = $this->ci->taxes_model->get($update_values['tax_id']);
-                    $stripeSubscription->tax_percent = $tax->taxrate;
+                    $stripeSubscription->default_tax_rates = [$update_values['stripe_tax_id']];
                 }
             }
 
@@ -108,10 +107,12 @@ class Stripe_subscriptions extends Stripe_core
                                 'plan' => $update_values['stripe_plan_id'],
                             ],
                          ];
+
                 // If quantity is changed, update quantity too
                 if ($update_values['quantity'] != $db_subscription->quantity) {
                     $items[0]['quantity'] = $update_values['quantity'];
                 }
+
                 $stripeSubscription->items = $items;
             }
 
@@ -122,20 +123,8 @@ class Stripe_subscriptions extends Stripe_core
 
     public function subscribe($customer_id, $params = [])
     {
-        if (isset($params['tax_percent']) && empty($params['tax_percent'])) {
-            unset($params['tax_percent']);
-        }
-
         return \Stripe\Subscription::create(array_merge([
             'customer' => $customer_id,
         ], $params));
-    }
-
-    /**
-     * @todo
-     * Perhaps when Paypal is added make is as contract? E.q. for preview invoice add new method and use this to insert the invoice in database
-     */
-    public function create_invoice($data) {
-
     }
 }

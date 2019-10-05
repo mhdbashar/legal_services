@@ -71,7 +71,7 @@ function update_option($name, $value, $autoload = null)
      * @since  2.3.3
      */
     if (!option_exists($name)) {
-        return add_option($name, $value, $autoload);
+        return add_option($name, $value, $autoload === null ? 1 : 0);
     }
 
     $CI = & get_instance();

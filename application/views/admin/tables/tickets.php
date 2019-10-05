@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
@@ -60,7 +61,7 @@ if (isset($where_not_ticket_id)) {
 if ($this->ci->input->post('project_id')) {
     array_push($where, 'AND project_id = ' . $this->ci->input->post('project_id'));
 }
-array_push($where, 'AND ' . db_prefix() . 'tickets.deleted = 0');
+
 $statuses  = $this->ci->tickets_model->get_ticket_status();
 $_statuses = [];
 foreach ($statuses as $__status) {

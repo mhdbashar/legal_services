@@ -66,7 +66,7 @@
     <hr />
     <h4 class="bold">Embed form</h4>
     <p><?php echo _l('form_integration_code_help'); ?></p>
-    <textarea readonly class="form-control" rows="5"><iframe width="600" height="850" src="<?php echo site_url('forms/ticket'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
+    <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/ticket'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
     <p class="bold mtop15">When placing the iframe snippet code consider the following:</p>
     <p class="<?php if(strpos(site_url(),'http://') !== false){echo 'bold text-success';} ?>">1. If the protocol of your installation is http use a http page inside the iframe.</p>
     <p class="<?php if(strpos(site_url(),'https://') !== false){echo 'bold text-success';} ?>">2. If the protocol of your installation is https use a https page inside the iframe.</p>

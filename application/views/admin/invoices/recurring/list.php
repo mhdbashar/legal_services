@@ -16,8 +16,6 @@
 <script>
 	$(function(){
 		init_invoice();
-		init_invoice_case();
-		init_invoice_oservice();
 	});
 </script>
 </body>

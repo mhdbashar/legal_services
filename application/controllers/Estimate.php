@@ -62,7 +62,10 @@ class Estimate extends ClientsController
             if ($companyname != '') {
                 $estimate_number .= '-' . mb_strtoupper(slug_it($companyname), 'UTF-8');
             }
-            $pdf->Output(mb_strtoupper(slug_it($estimate_number), 'UTF-8') . '.pdf', 'D');
+
+            $filename = hooks()->apply_filters('customers_area_download_estimate_filename', mb_strtoupper(slug_it($estimate_number), 'UTF-8') . '.pdf', $estimate);
+
+            $pdf->Output($filename, 'D');
             die();
         }
         $this->load->library('app_number_to_word', [

@@ -819,7 +819,7 @@ function login_as_client($id)
 {
     $CI = &get_instance();
 
-    $CI->db->select(db_prefix() . 'contacts.id')
+    $CI->db->select(db_prefix() . 'contacts.id, active')
     ->where('userid', $id)
     ->where('is_primary', 1);
 
@@ -827,6 +827,9 @@ function login_as_client($id)
 
     if (!$primary) {
         set_alert('danger', _l('no_primary_contact'));
+        redirect($_SERVER['HTTP_REFERER']);
+    } else if($primary->active == '0') {
+        set_alert('danger', 'Customer primary contact is not active, please set the primary contact as active in order to login as client');
         redirect($_SERVER['HTTP_REFERER']);
     }
 

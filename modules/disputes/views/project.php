@@ -25,20 +25,7 @@
                         <?php echo render_input('name','project_name',$value); ?>
                         
 
-                        <!--<div class="form-group select-placeholder">
-                            <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                             <?php $selected = (isset($project) ? $project->clientid : '');
-                             if($selected == ''){
-                                 $selected = (isset($customer_id) ? $customer_id: '');
-                             }
-                             if($selected != ''){
-                                $rel_data = get_relation_data('customer',$selected);
-                                $rel_val = get_relation_values($rel_data,'customer');
-                                echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                            } ?>
-                            </select>
-                        </div>-->
+                        
                         <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?>
                         <?php echo render_input('address1','project_address1',$value); ?>
                         <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?>
@@ -85,8 +72,8 @@
                                          $selected = (isset($customer_id) ? $customer_id: '');
                                         }
                                         if ($selected != '') {
-                                            $rel_data = get_relation_data('customer', $selected);
-                                            $rel_val = get_relation_values($rel_data, 'customer');
+                                            $rel_data = get_relation_data('customers', $selected);
+                                            $rel_val = get_relation_values($rel_data, 'customers');
                                             echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
                                         } ?>
                                     </select>
@@ -150,6 +137,64 @@
 
                         <?php $value = (isset($meta['notes']) ? $meta['notes'] : ''); ?>
                         <?php echo render_input('notes','project_notes',$value); ?>
+
+
+                    <?php
+                    $opponent_id = (isset($meta['opponent_id']) ? explode(',',$meta['opponent_id']) : array()); 
+                    for($i=0; $i<10; $i++) : ?>
+
+                        <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
+                            <div class="col-md-10">
+                                <div class="form-group select-placeholder">
+                                    <label for="opponent_id[<?php echo $i; ?>]"
+                                           class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
+                                    <select id="opponent_id[<?php echo $i; ?>]" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
+                                            class="ajax-search opponent"
+                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <?php
+                                        $selected = (isset($opponent_id[$i]) ? $opponent_id[$i] : '');
+                                        if ($selected != '') {
+                                            $rel_data = get_relation_data('opponents', $selected);
+                                            $rel_val = get_relation_values($rel_data, 'opponents');
+                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+
+                    <?php endfor; ?>
+
+
+                        <div class="row opponent_lawyer">
+                            <div class="col-md-10">
+                                <div class="form-group select-placeholder">
+                                    <label for="opponent_lawyer_id"
+                                           class="control-label"><?php echo _l('opponent_lawyer'); ?></label>
+                                    <select id="opponent_lawyer_id" name="opponent_lawyer_id" data-live-search="true" data-width="100%"
+                                            class="ajax-search"
+                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <?php $opponent_lawyer_id = (isset($meta['opponent_lawyer_id']) ? $meta['opponent_lawyer_id'] : ''); ?>
+                                        <?php
+                                        $selected = (isset($opponent_lawyer_id) ? $opponent_lawyer_id : '');
+                                        if ($selected != '') {
+                                            $rel_data = get_relation_data('opponents', $selected);
+                                            $rel_val = get_relation_values($rel_data, 'opponents');
+                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+
 
                         <div class="row">
                             <div class="col-md-10 form-group">
@@ -451,7 +496,29 @@
 <div class="btn-bottom-pusher"></div>
 </div>
 </div>
-
+<div class="modal fade" id="add-opponent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l('client_company'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input( 'opponent_company_modal', 'client_company','','text'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="button" id="AddOpponent" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -519,6 +586,48 @@
     <?php if(isset($project)){ ?>
         var original_project_status = '<?php echo $project->status; ?>';
     <?php } ?>
+
+    init_ajax_search('opponents', '.ajax-search');
+    $("#AddOpponent").click(function () {
+        company = $('#opponent_company_modal').val();
+        if(company == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('opponents/add'); ?>',
+                data: {
+                    company : company,
+                    client_type : 1
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#add-opponent').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+
+
+    $(".opponent").on('change',function () {
+        var selected_counts = 1;
+        $(".opponent").each(function(index){
+            if($(this).val()>0)
+                selected_counts++;
+        });
+        $(".row.opponents").each(function(index){
+            if(index<selected_counts)
+                $(this).removeClass('hidden');
+            else
+                $(this).addClass('hidden');
+        });
+    });
+    $(".opponent").change();
+
     $(function(){
 
         $('select[name="billing_type"]').on('change',function(){

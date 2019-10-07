@@ -1767,7 +1767,24 @@ class Invoices_model extends App_Model
             'last_overdue_reminder' => date('Y-m-d'),
         ]);
 
-        $contacts = $this->clients_model->get_contacts($invoice->clientid, ['active' => 1, 'invoice_emails' => 1]);
+
+
+$client_ids = array($invoice->clientid);
+$meta = $this->Disputes_model->get_project_meta($invoice->project_id);
+foreach ($meta as $array) {
+    if($array['meta_key']=='opponent_lawyer_id') array_push($client_ids, $array['meta_value']);
+    elseif($array['meta_key']=='opponent_id'){
+        $opponent_ids = explode(',', $array['meta_value']);
+        foreach ($opponent_ids as $opponent_id) {
+            array_push($client_ids, $opponent_id);
+        }
+    }
+}
+
+foreach ($client_ids as $clientid) {
+
+        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'invoice_emails' => 1]);
+
         foreach ($contacts as $contact) {
             $template = mail_template('invoice_overdue_notice', $invoice, $contact);
 
@@ -1792,6 +1809,8 @@ class Invoices_model extends App_Model
                 array_push($sms_reminder_log, $contact['firstname'] . ' (' . $contact['phonenumber'] . ')');
             }
         }
+}
+
 
         if ($email_sent || $sms_sent) {
             if ($email_sent) {

@@ -587,7 +587,8 @@ class Invoices extends AdminController
             $billing_type = $project_data->billing_type;
             $project_percent = $project_data->project_rate_per_hour;
             $project_cost = $project_data->project_cost;
-            $percent = $invoice_data->total * $project_percent / 100;
+            //$percent = $invoice_data->total * $project_percent / 100;
+            $percent = $data['amount'] * $project_percent / 100;
 
             //[newitems] => Array ( [1] => Array ( [order] => 1 [description] => Disputes static fees [long_description] => [qty] => 1 [unit] => [rate] => 500 ) [2] => Array ( [order] => 2 [description] => Disputes percent fees [long_description] => [qty] => 1 [unit] => [rate] => 25 ) [3] => Array ( [order] => 3 [description] => test [long_description] => [qty] => 1 [unit] => [rate] => 5 ) )
             

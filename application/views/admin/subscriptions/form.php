@@ -4,13 +4,18 @@
    <?php echo $subscription_error; ?>
 </div>
 <?php } ?>
-<?php echo form_open('',array('id'=>'subscriptionForm','class'=>'_transaction_form')); ?>
+<?php echo form_open('', array('id'=>'subscriptionForm','class'=>'_transaction_form')); ?>
 <div class="row">
    <div class="col-md-12">
          <div class="bg-stripe mbot15">
          <div class="form-group select-placeholder">
          <label for="stripe_plan_id"><?php echo _l('billing_plan'); ?></label>
-         <select id="stripe_plan_id" name="stripe_plan_id" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="Select Stripe Plan">
+         <select id="stripe_plan_id"
+          name="stripe_plan_id"
+          class="selectpicker"
+          data-live-search="true"
+          data-width="100%"
+          data-none-selected-text="<?php echo _l('stripe_subscription_select_plan'); ?>">
             <option value=""></option>
             <?php if(isset($plans->data)){ ?>
             <?php foreach($plans->data as $plan) {
@@ -38,15 +43,15 @@
             <?php } ?>
          </select>
       </div>
-      <?php echo render_input('quantity',_l('item_quantity_placeholder'),isset($subscription) ? $subscription->quantity : 1,'number'); ?>
+      <?php echo render_input('quantity', _l('item_quantity_placeholder'), isset($subscription) ? $subscription->quantity : 1, 'number'); ?>
       <?php
-        $params = array('data-lazy'=>'false','data-date-min-date'=>date('Y-m-d',strtotime('+1 days',strtotime(date('Y-m-d')))));
+        $params = array('data-lazy'=>'false', 'data-date-min-date' => date('Y-m-d', strtotime('+1 days', strtotime(date('Y-m-d')))));
         if(isset($subscription) && !empty($subscription->stripe_subscription_id)){
             $params['disabled'] = true;
         }
        echo '<div id="first_billing_date_wrapper">';
         if(!isset($params['disabled'])){
-          echo '<i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-placement="right" data-title="Leave blank to use date when the customer is subscribed to the subscription. This field must be future date, if you select date and the date is passed but customer is not yet subscribed, the date when the customer will subscribe will be used."></i>';
+          echo '<i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-placement="right" data-title="'._l('subscription_first_billing_date_info').'"></i>';
         }
         echo render_date_input('date', 'first_billing_date', isset($subscription) ? _d($subscription->date) : '', $params);
         echo '</div>';
@@ -114,20 +119,25 @@
       <?php
       if(strtolower($subscription->currency_name) != strtolower($stripeSubscription->plan->currency)) {  ?>
         <div class="alert alert-warning">
-           Selected plan currency does not match currency selected below.
+           <?php echo _l('subscription_plan_currency_does_not_match'); ?>
         </div>
       <?php } ?>
       <?php } ?>
-      <?php echo render_select('currency',$currencies,array('id','name','symbol'),'currency',$selected, $s_attrs,[],'','ays-ignore'); ?>
+      <?php echo render_select('currency', $currencies, array('id', 'name', 'symbol'), 'currency', $selected,  $s_attrs, [], '', 'ays-ignore'); ?>
       <div class="form-group select-placeholder">
-         <label class="control-label" for="tax"><?php echo _l('tax'); ?></label>
-         <select class="selectpicker" data-width="100%" name="tax_id" data-none-selected-text="<?php echo _l('no_tax'); ?>">
+         <label class="control-label" for="tax"><?php echo _l('tax'); ?> (Stripe)</label>
+         <select class="selectpicker" data-width="100%" name="stripe_tax_id" data-none-selected-text="<?php echo _l('no_tax'); ?>">
             <option value=""></option>
-            <?php foreach($taxes as $tax){ ?>
-            <option value="<?php echo $tax['id']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if(isset($subscription) && $subscription->tax_id == $tax['id']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
+            <?php foreach($stripe_tax_rates->data as $tax){
+                if($tax->inclusive) {
+                  continue;
+                }
+             ?>
+            <option value="<?php echo $tax->id; ?>" data-subtext="<?php echo $tax->display_name; ?>"<?php if(isset($subscription) && $subscription->stripe_tax_id == $tax->id){echo ' selected';} ?>><?php echo $tax->percentage; ?>%</option>
             <?php } ?>
          </select>
       </div>
+     <?php echo render_textarea('terms', 'terms_and_conditions', $value, [ 'placeholder'=> _l('subscriptions_terms_info') ], [], '','ays-ignore'); ?>
    </div>
 </div>
 <?php if((isset($subscription) && has_permission('subscriptions','','edit')) || !isset($subscription)){ ?>

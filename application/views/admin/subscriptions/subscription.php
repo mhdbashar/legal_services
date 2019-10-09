@@ -7,7 +7,8 @@
     <div class="panel_s">
      <div class="panel-body accounting-template">
       <?php if(isset($subscription)) {
-       if(!empty($subscription->stripe_subscription_id) && $subscription->status != 'canceled'){
+       if(!empty($subscription->stripe_subscription_id)
+        && $subscription->status != 'canceled' && $subscription->status != 'incomplete_expired' && $subscription->status != 'incomplete'){
          ?>
          <div class="alert alert-success">
           <b><?php echo _l('customer_is_subscribed_to_subscription_info'); ?></b><br />
@@ -25,7 +26,7 @@
             </a>
             <?php } ?>
             <?php
-            if(!empty($subscription->stripe_subscription_id) && $subscription->status != 'canceled' && empty($subscription->ends_at)){ ?>
+            if(!empty($subscription->stripe_subscription_id) && $subscription->status != 'canceled' && $subscription->status != 'incomplete_expired' && empty($subscription->ends_at)){ ?>
              <?php if(has_permission('subscriptions','','edit')){ ?>
               <div class="btn-group">
                <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,6 +98,10 @@
                   <?php } else if(!empty($subscription->stripe_subscription_id) && $subscription->status == 'canceled') { ?>
                     <div class="alert alert-info">
                      <a href="https://stripe.com/docs/subscriptions/canceling-pausing#reactivating-canceled-subscriptions" target="_blank"><i class="fa fa-link"></i></a> <?php echo _l('subscription_is_canceled_no_resume'); ?>
+                   </div>
+                   <?php } else if(!empty($subscription->stripe_subscription_id) && $subscription->status == 'incomplete_expired') { ?>
+                   <div class="alert alert-warning">
+                     <a href="https://stripe.com/docs/billing/lifecycle#incomplete" target="_blank"><i class="fa fa-link"></i></a> <?php echo _l('subscription_is_subscription_is_expired'); ?>
                    </div>
                    <?php } else if(empty($subscription->stripe_subscription_id)) { ?>
                      <div class="alert alert-info no-mbot">

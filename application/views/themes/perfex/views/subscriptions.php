@@ -62,8 +62,12 @@
                         <a href="<?php echo site_url('subscription/'.$subscription['hash']); ?>" class="btn btn-success btn-xs">
                             <?php echo _l('subscribe'); ?>
                         </a>
+                    <?php } elseif($subscription['status'] == 'incomplete') { ?>
+                        <a href="<?php echo site_url('subscription/'.$subscription['hash']); ?>?complete=true" class="btn btn-success btn-xs">
+                            <?php echo _l('subscription_complete_payment'); ?>
+                        </a>
                     <?php } ?>
-                         <?php
+                      <?php
                      if(!empty($subscription['stripe_subscription_id'])
                           && $subscription['status'] != 'canceled'
                           && empty($subscription['ends_at'])){ ?>

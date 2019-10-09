@@ -6,7 +6,18 @@
     <ul class="nav nav-tabs no-margin project-tabs nav-tabs-horizontal" role="tablist">
         <?php
         $visible_tabs = filter_project_visible_tabs($tabs, $project->settings->available_features);
-
+/*
+        $visible_tabs['sales']['children']['5'] = array(
+                            'parent_slug' => 'sales',
+                            'slug' => 'disputes_invoices',
+                            'name' => _l('disputes_invoices'),
+                            'view' => 'disputes/disputes_invoices',
+                            'position' => '30',
+                            'visible' => '1',
+                            'icon' => '',
+                            'href' => '#'
+                        );
+*/
         foreach($visible_tabs as $key => $tab){
 
             $dropdown = isset($tab['collapse']) ? true : false;

@@ -52,7 +52,7 @@ function _init_admin_assets()
     add_jquery_validation_js_assets();
 
     if (get_option('pusher_realtime_notifications') == 1) {
-        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/4.1/pusher.min.js');
+        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0.1/pusher.min.js');
     }
 
     add_dropbox_js_assets();

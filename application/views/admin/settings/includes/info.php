@@ -396,6 +396,14 @@
 			</td>
 		</tr>
 		<tr>
+			<td class="bold">Temp DIR (get_temp_dir())</td>
+			<td>
+				<?php
+					echo get_temp_dir();
+				?>
+			</td>
+		</tr>
+		<tr>
 			<td class="bold">Base URL</td>
 			<td>
 				<?php

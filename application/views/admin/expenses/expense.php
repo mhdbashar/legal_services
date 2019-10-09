@@ -39,6 +39,9 @@
                   <div class="dropzone-previews"></div>
                   <?php } ?>
                   <hr class="hr-panel-heading" />
+
+                  <?php hooks()->do_action('before_expense_form_name', isset($expense) ? $expense : null); ?>
+
                   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('expense_name_help'); ?> - <?php echo _l('expense_field_billable_help',_l('expense_name')); ?>"></i>
                   <?php $value = (isset($expense) ? $expense->expense_name : ''); ?>
                   <?php echo render_input('expense_name','expense_name',$value); ?>

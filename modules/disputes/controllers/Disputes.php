@@ -159,7 +159,10 @@ class Disputes extends AdminController
             $meta['cat_id'] = $data['cat_id'];
             $meta['subcat_id'] = $data['subcat_id'];
             $meta['disputes_total'] = $data['disputes_total'];
-            unset($data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total']);
+            $meta['opponent_id'] = implode(',',$data['opponent_id']);
+            $meta['opponent_lawyer_id'] = $data['opponent_lawyer_id'];
+
+            unset($data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total'],$data['opponent_id'],$data['opponent_lawyer_id']);
 
             if ($id == '') {
                 if (!has_permission('projects', '', 'create')) {
@@ -362,6 +365,14 @@ class Disputes extends AdminController
                         $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
                     }
                 }
+
+                $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+                $data['opponents'] = array();
+                foreach ($opponents as $opponent) {
+                    if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+                }
+                
+                if(isset($data['meta']['opponent_lawyer_id'])) $data['opponent_lawyer'] = $this->clients_model->get($data['meta']['opponent_lawyer_id']);
 
                 $data['project_total_days']        = round((human_to_unix($data['project']->deadline . ' 00:00') - human_to_unix($data['project']->start_date . ' 00:00')) / 3600 / 24);
                 $data['project_days_left']         = $data['project_total_days'];

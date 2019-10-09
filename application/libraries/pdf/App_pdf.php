@@ -206,6 +206,9 @@ abstract class App_pdf extends TCPDF
         $content = preg_replace('/(<img[^>]+>(?:<\/img>)?)/i', '<div>$1</div>', $content);
         // Fix BLOG images from TinyMCE Mobile Upload, could help with desktop too
         $content = preg_replace('/data:image\/jpeg;base64/m', '@', $content);
+        // Replace <img src="" width="100%" height="auto">
+        $content = str_replace('width="100%" height="auto"', '', $content);
+
         // Add cellpadding to all tables inside the html
         $content = preg_replace('/(<table\b[^><]*)>/i', '$1 cellpadding="4">', $content);
 

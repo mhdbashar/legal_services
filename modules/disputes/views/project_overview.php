@@ -156,6 +156,29 @@
    </div>-->
    <table class="table no-margin project-overview-table">
           <tbody>
+
+          
+          <tr class="project-overview-customer">
+              <td class="bold"><?php echo _l('opponent'); ?></td>
+              <td>
+                <?php foreach ($opponents as $opponent) : ?>
+                  <a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent->userid; ?>">
+                    <?php echo $opponent->company; ?>
+                  </a>, 
+                  <?php endforeach; ?>
+              </td>
+          </tr>
+
+          <?php if(isset($opponent_lawyer)){ ?>
+          <tr class="project-overview-customer">
+              <td class="bold"><?php echo _l('opponent_lawyer'); ?></td>
+              <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent_lawyer->userid; ?>">
+                    <?php echo $opponent_lawyer->company; ?>
+                  </a></td>
+          </tr>
+          <?php } ?>
+              
+
           <?php if(isset($meta['representative']) && $meta['representative']){ ?>
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('representative'); ?></td>

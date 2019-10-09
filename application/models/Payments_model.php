@@ -321,16 +321,15 @@ class Payments_model extends App_Model
                         if ($notified) {
                             array_push($notifiedUsers, $member['staffid']);
                         }
+                        send_mail_template(
+                            'invoice_payment_recorded_to_staff',
+                            $member['email'],
+                            $member['staffid'],
+                            $invoice,
+                            $attach,
+                            $payment->id
+                        );
                     }
-
-                    send_mail_template(
-                        'invoice_payment_recorded_to_staff',
-                        $member['email'],
-                        $member['staffid'],
-                        $invoice,
-                        $attach,
-                        $payment->id
-                    );
                 }
             }
 

@@ -185,7 +185,20 @@ class Download extends App_Controller
             $file = $this->db->get(db_prefix().'files')->row();
             $path = get_upload_path_by_type('procuration') . $file->rel_id . '/' . $file->file_name;
         // l_attachment_key is if request is coming from public form
-        } elseif ($folder_indicator == 'lead_attachment' || $folder_indicator == 'l_attachment_key') {
+        }
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        elseif ($folder_indicator == 'transaction') {
+            if (!is_staff_logged_in()) {
+                show_404();
+            }
+            $this->db->where('rel_id', $attachmentid);
+            $this->db->where('rel_type', 'transaction');
+            $file = $this->db->get(db_prefix().'files')->row();
+            $path = get_upload_path_by_type('transaction') . $file->rel_id . '/' . $file->file_name;
+            // l_attachment_key is if request is coming from public form
+        }
+        elseif ($folder_indicator == 'lead_attachment' || $folder_indicator == 'l_attachment_key') {
             if (!is_staff_logged_in() && strpos($_SERVER['HTTP_REFERER'], 'forms/l/') === false) {
                 show_404();
             }

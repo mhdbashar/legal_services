@@ -21,6 +21,7 @@
         $email = '';
         $date = '';
     }else{
+//        var_dump($title);exit();
         $id = $incoming->id;
         $description = $incoming->description;
         $type = $incoming->type;
@@ -49,10 +50,10 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <h4 class="no-margin">
-                            <?php echo  _l('incoming_data'); ?>
+                            <?php echo  $title; ?>
                         </h4>
                         <hr class="hr-panel-heading" />
-                        <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'incoming-form','class'=>'')) ;?>
+                        <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'expense-form','class'=>'dropzone dropzone-manual')) ;?>
                         <div class="row">
                             <div class="col-md-12">
                                 <?php echo render_input('trans_type', '',0,'hidden'); ?>
@@ -68,11 +69,11 @@
                                 <?php
                                     $options = array(
                                         0 => array(
-                                            'key' => 1,
+                                            'key' => _l('low'),
                                             'value' => _l('low')
                                         ),
                                         1 => array(
-                                            'key' => 2,
+                                            'key' => _l('high'),
                                             'value' => _l('high')
                                         ),
                                     ) ;
@@ -88,11 +89,11 @@
                                 <?php
                                 $options = array(
                                     0 => array(
-                                        'key' => 1,
+                                        'key' =>  _l('low'),
                                         'value' => _l('low')
                                     ),
                                     1 => array(
-                                        'key' => 2,
+                                        'key' => _l('high'),
                                         'value' => _l('high')
                                     ),
                                 ) ;
@@ -104,11 +105,11 @@
                                 <?php
                                 $options = array(
                                     0 => array(
-                                        'key' => 1,
+                                        'key' => _l('internal'),
                                         'value' => _l('internal')
                                     ),
                                     1 => array(
-                                        'key' => 2,
+                                        'key' => _l('external'),
                                         'value' => _l('external')
                                     ),
                                 ) ;
@@ -125,11 +126,11 @@
                                 <?php
                                 $options = array(
                                     0 => array(
-                                        'key' => 1,
+                                        'key' => _l('normal_paper'),
                                         'value' => _l('normal_paper')
                                     ),
                                     1 => array(
-                                        'key' => 2,
+                                        'key' => _l('notnormal_paper'),
                                         'value' => _l('notnormal_paper')
                                     ),
                                 ) ;
@@ -138,7 +139,7 @@
 
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_input('owner_phone', _l('owner_phone'),$owner_phone); ?>
+                                <?php echo render_input('owner_phone', _l('owner_phone'),$owner_phone,'number'); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -152,22 +153,35 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-                                $options = array(
-                                    0 => array(
-                                        'key' => 1,
-                                        'value' => _l('normal_paper')
-                                    ),
-                                    1 => array(
-                                        'key' => 2,
-                                        'value' => _l('notnormal_paper')
-                                    ),
-                                ) ;
-                                echo render_select('incoming_source', $options,['key','value'],_l('incoming_source'),$incoming_source,['required' => 'required']);
+//                                $options = array(
+//                                    0 => array(
+//                                        'key' => 1,
+//                                        'value' => _l('normal_paper')
+//                                    ),
+//                                    1 => array(
+//                                        'key' => 2,
+//                                        'value' => _l('notnormal_paper')
+//                                    ),
+//                                ) ;
+                                //                                echo render_select('incoming_source', $options,['key','value'],_l('incoming_source'),$incoming_source,['required' => 'required']);
+
+                                if(option_exists('incoming_side_En')){
+                                    $data =array();
+                                    $ad_opts = json_decode(get_option('incoming_side_En')) ;
+
+                                    foreach ($ad_opts as $option){
+                                        $sids = json_decode(json_encode($option),true);
+                                        array_push($data,$sids);
+                                    }
+                                }else{
+                                    $data =array();
+                                }
+                                echo  render_select_with_input_group('incoming_source',$data,array('key','value'),_l('incoming_source'),$incoming_source,'<a href="#" onclick="new_incoming_side();return false;"><i class="fa fa-plus"></i></a>',[],[],'','show-menu-arrow')
                                 ?>
 
                             </div>
                             <div class="col-md-6">
-                                <?php echo render_input('reporter_phone', _l('reporter_phone'),$source_reporter_phone); ?>
+                                <?php echo render_input('reporter_phone', _l('reporter_phone'),$source_reporter_phone,'number'); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -175,11 +189,11 @@
                                 <?php
                                 $options = array(
                                     0 => array(
-                                        'key' => 1,
+                                        'key' => _l('electronic_incoming'),
                                         'value' => _l('electronic_incoming')
                                     ),
                                     1 => array(
-                                        'key' => 2,
+                                        'key' => _l('paper_incoming'),
                                         'value' => _l('paper_incoming')
                                     ),
                                 ) ;
@@ -206,14 +220,40 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="incoming_date"> <?php echo _l('incoming_date') ?></label>
                                 <div id="incoming_date" style="display: inline-flex">
-                                    <?php echo render_date_input('date', _l('date'),$date); ?>
+                                    <?php echo render_date_input('date', _l('incoming_date'),$date); ?>
 
                                 </div>
 
                             </div>
                         </div>
+                        <div class="row">
+                            <!--                            --><?php //echo form_open_multipart(admin_url('projects/upload_file'),array('class'=>'dropzone','id'=>'project-files-upload')); ?>
+                            <!--                            <input type="file" name="file" multiple />-->
+                            <!--                            --><?php //echo form_close(); ?>
+                            <div class="clearfix"></div>
+                            <label class="col-form-label">
+                                <?php echo _l('incoming_transaction_file') ?>
+                            </label>
+                            <?php if(isset($incoming) && $incoming->attachment !== ''){ ?>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <i class="<?php echo get_mime_class($incoming->filetype); ?>"></i> <a href="<?php echo site_url('download/file/transaction/'.$incoming->id); ?>"><?php echo $incoming->attachment; ?></a>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <a href="<?php $type = 0; // trans type 0 if incoming or 1 if outgoing
+                                        echo admin_url('transactions/delete_transaction_attachment/'.$incoming->id.'/'.$type); ?>" class="text-danger _delete"><i class="fa fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if(!isset($incoming) || (isset($incoming) && $incoming->attachment == '')){ ?>
+                                <div id="dropzoneDragArea" class="dz-default dz-message">
+                                    <span><?php echo _l('expense_add_edit_attach_receipt'); ?></span>
+                                </div>
+                                <div class="dropzone-previews"></div>
+                            <?php } ?>
+                        </div>
+                        <hr class="hr-panel-heading" />
 
                         <button type="submit" class="btn btn-info pull-left"><?php echo _l('submit'); ?></button>
                         <?php echo form_close(); ?>
@@ -223,6 +263,7 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('admin/transactions/incoming_side_modal'); ?>
 <?php init_tail(); ?>
 <script>
     $(function(){
@@ -230,9 +271,54 @@
     });
 
 
+
 </script>
 <script>
+    Dropzone.options.expenseForm = false;
+    var expenseDropzone;
 
+    $(function(){
+        $
+
+        if($('#dropzoneDragArea').length > 0){
+            expenseDropzone = new Dropzone("#expense-form", appCreateDropzoneOptions({
+                autoProcessQueue: false,
+                clickable: '#dropzoneDragArea',
+                previewsContainer: '.dropzone-previews',
+                addRemoveLinks: true,
+                maxFiles: 1,
+                success:function(file,response){
+                    response = JSON.parse(response);
+                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                        window.location.assign(response.url);
+                    }
+                },
+            }));
+        }
+
+        appValidateForm($('#expense-form'),{},expenseSubmitHandler);
+
+
+        function expenseSubmitHandler(form){
+
+
+            $.post(form.action, $(form).serialize()).done(function(response) {
+                var response = admin_url + "transactions/incoming_list";
+                if(typeof(expenseDropzone) !== 'undefined'){
+                    <?php if(empty($id)) $id = $last_id ?>;
+                    if (expenseDropzone.getQueuedFiles().length > 0) {
+                        expenseDropzone.options.url = admin_url + 'transactions/add_transaction_attachment/' + <?php echo $id ?>;
+                        expenseDropzone.processQueue();
+                    }else {
+                        window.location.assign(response);
+                    }
+                } else {
+                    window.location.assign(response);
+                }
+            });
+            return false;
+        }
+    })
 </script>
 </body>
 </html>

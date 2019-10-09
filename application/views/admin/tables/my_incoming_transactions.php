@@ -41,7 +41,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['incoming_num'];
     $row[] = $aRow['incoming_source'];
     $row[] = $aRow['incoming_type'];
-    $row[] = $aRow['is_secret'];
+    $row[] = $aRow['is_secret'] ==1 ? _l('secret_trans') : _l('normal_trans');
     $row[] = $aRow['importance'];
     $row[] = $aRow['classification'];
     $row[] = $aRow['owner'];

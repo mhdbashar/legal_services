@@ -7,6 +7,7 @@ class ServicesSessions_model extends App_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
     }
 
     public function count_sessions($service_id, $rel_id){
@@ -54,8 +55,32 @@ class ServicesSessions_model extends App_Model
         $this->db->set(array('send_to_customer' => 1));
         $this->db->update(db_prefix() .'my_session_info');
         if ($this->db->affected_rows() > 0) {
-            //send_mail_template('task_added_as_follower_to_staff', 'baraa-alhalabi@hotmail.com', 1, 1);
+            //for send email to client
+            $this->send_mail_to_client($id);
             log_activity(' Send Report To Customer [ Session ID ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function send_mail_to_client($id)
+    {
+        $this->db->where('id', $id);
+        $service_data = $this->db->get(db_prefix() .'tasks')->row();
+        $rel_type = $service_data->rel_type;
+        $rel_id = $service_data->rel_id;
+        $service_id = $this->legal->get_service_id_by_slug($rel_type);
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+            $this->db->where('userid', $client_id);
+            $email = $this->db->get(db_prefix() . 'contacts')->row()->email;
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+            $this->db->where('userid', $client_id);
+            $email = $this->db->get(db_prefix() . 'contacts')->row()->email;
+        }
+        if(isset($email)){
+            send_mail_template('send_report_session_to_customer',[], $email);
             return true;
         }
         return false;

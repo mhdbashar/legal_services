@@ -172,7 +172,6 @@ class App_merge_fields
         }
 
         $registered = $this->get_registered();
-
         $available = [];
 
         foreach ($registered as $merge_field) {

@@ -75,4 +75,5 @@ class ServicesSessions extends AdminController{
         $response = $this->service_sessions->get_checklist_items($task_id);
         echo json_encode($response);
     }
+
 }

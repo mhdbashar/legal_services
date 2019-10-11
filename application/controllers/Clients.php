@@ -1118,28 +1118,88 @@ class Clients extends ClientsController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function credit_card()
+    public function update_credit_card()
     {
         if (!can_logged_in_contact_update_credit_card()) {
             redirect(site_url());
         }
 
         $this->load->library('stripe_subscriptions');
-        $client = $this->clients_model->get(get_client_user_id());
+        $this->load->library('stripe_core');
+        $this->load->model('subscriptions_model');
 
-        if ($this->input->post('stripeToken')) {
-            try {
-                $this->stripe_subscriptions->update_customer_source($client->stripe_id, $this->input->post('stripeToken'));
-                set_alert('success', _l('updated_successfully', _l('credit_card')));
-            } catch (Exception $e) {
-                set_alert('success', $e->getMessage());
-            }
+        $sessionData = [
+              'payment_method_types' => ['card'],
+              'mode'                 => 'setup',
+              'setup_intent_data'    => [
+                'metadata' => [
+                  'customer_id' => $this->clients_model->get(get_client_user_id())->stripe_id,
+                ],
+              ],
+              'success_url' => site_url('clients/success_update_card?session_id={CHECKOUT_SESSION_ID}'),
+              'cancel_url'  => $cancelUrl = site_url('clients/credit_card'),
+            ];
 
-            redirect(site_url('clients/credit_card'));
+        $contact = $this->clients_model->get_contact(get_contact_user_id());
+
+        if ($contact->email) {
+            $sessionData['customer_email'] = $contact->email;
         }
 
-        $data['stripe_customer'] = $this->stripe_subscriptions->get_customer_with_default_source($client->stripe_id);
-        $data['stripe_pk']       = $this->stripe_subscriptions->get_publishable_key();
+        try {
+            $session = $this->stripe_core->create_session($sessionData);
+            redirect_to_stripe_checkout($session->id);
+        } catch (Exception $e) {
+            set_alert('warning', $e->getMessage());
+            redirect($cancelUrl);
+        }
+    }
+
+    public function success_update_card()
+    {
+        if (!can_logged_in_contact_update_credit_card()) {
+            redirect(site_url());
+        }
+
+        $this->load->library('stripe_core');
+
+        try {
+            $session = $this->stripe_core->retrieve_session([
+                'id'     => $this->input->get('session_id'),
+                'expand' => ['setup_intent.payment_method'],
+            ]);
+
+            $session->setup_intent->payment_method->attach(['customer' => $session->setup_intent->metadata->customer_id]);
+
+            $this->stripe_core->update_customer($session->setup_intent->metadata->customer_id, [
+                'invoice_settings' => [
+                    'default_payment_method' => $session->setup_intent->payment_method->id,
+                  ],
+              ]);
+
+            set_alert('success', _l('updated_successfully', _l('credit_card')));
+        } catch (Exception $e) {
+            set_alert('warning', $e->getMessage());
+        }
+
+        redirect(site_url('clients/credit_card'));
+    }
+
+    public function credit_card()
+    {
+        if (!can_logged_in_contact_update_credit_card()) {
+            redirect(site_url());
+        }
+
+        $this->load->library('stripe_core');
+        $client = $this->clients_model->get(get_client_user_id());
+
+        $data['stripe_customer'] = $this->stripe_core->get_customer($client->stripe_id);
+        $data['payment_method']  = null;
+
+        if (!empty($data['stripe_customer']->invoice_settings->default_payment_method)) {
+            $data['payment_method'] = $this->stripe_core->retrieve_payment_method($data['stripe_customer']->invoice_settings->default_payment_method);
+        }
 
         $data['bodyclass'] = 'customer-credit-card';
         $data['title']     = _l('credit_card');
@@ -1147,6 +1207,28 @@ class Clients extends ClientsController
         $this->data($data);
         $this->view('credit_card');
         $this->layout();
+    }
+
+    public function delete_credit_card()
+    {
+        if (customer_can_delete_credit_card()) {
+            $client = $this->clients_model->get(get_client_user_id());
+
+            $this->load->library('stripe_core');
+
+            $stripeCustomer = $this->stripe_core->get_customer($client->stripe_id);
+
+            try {
+                $payment_method = $this->stripe_core->retrieve_payment_method($stripeCustomer->invoice_settings->default_payment_method);
+                $payment_method->detach();
+
+                set_alert('success', _l('credit_card_successfully_deleted'));
+            } catch (Exception $e) {
+                set_alert('warning', $e->getMessage());
+            }
+        }
+
+        redirect(site_url('clients/credit_card'));
     }
 
     public function subscriptions()

@@ -62,13 +62,20 @@
          ?>
       <li class="menu-item-<?php echo $item['slug']; ?>">
          <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>" aria-expanded="false">
-             <i class="<?php echo $item['icon']; ?> menu-icon"></i>
+         <?php if (is_rtl()){?>
+               <i class="<?php echo $item['icon']; ?> menu-icon-ar"></i>
+         <?php }else{?>
+               <i class="<?php echo $item['icon']; ?> menu-icon"></i>
+             <?php } ?>
              <span class="menu-text">
              <?php echo _l($item['name'],'', false); ?>
              </span>
              <?php if(count($item['children']) > 0){ ?>
-             <span class="fa arrow"></span>
-             <?php } ?>
+               <?php if (is_rtl()){?>
+                     <span class="fa arrow-ar"></span>
+               <?php }else { ?>
+                     <span class="fa arrow"></span>
+             <?php }} ?>
          </a>
          <?php if(count($item['children']) > 0){ ?>
          <ul class="nav nav-second-level collapse" aria-expanded="false">
@@ -77,8 +84,11 @@
             <li class="sub-menu-item-<?php echo $submenu['slug']; ?>">
               <a href="<?php echo $submenu['href']; ?>">
                <?php if(!empty($submenu['icon'])){ ?>
+                  <?php if (is_rtl()){?>
+               <i class="<?php echo $submenu['icon']; ?> menu-icon-ar"></i>
+                  <?php }else{?>
                <i class="<?php echo $submenu['icon']; ?> menu-icon"></i>
-               <?php } ?>
+               <?php }} ?>
                <span class="sub-menu-text">
                   <?php echo _l($submenu['name'],'',false); ?>
                </span>
@@ -106,7 +116,5 @@
       </li>
       <?php hooks()->do_action('after_render_aside_menu'); ?>
       <?php $this->load->view('admin/projects/pinned'); ?>
-      <?php $this->load->view('admin/LegalServices/cases/pinned'); ?>
-      <?php $this->load->view('admin/LegalServices/other_services/pinned'); ?>
    </ul>
 </aside>

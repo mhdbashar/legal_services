@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2019 at 06:20 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Generation Time: 02 أكتوبر 2019 الساعة 00:23
+-- إصدار الخادم: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblactivity_log`
+-- بنية الجدول `tblactivity_log`
 --
 
 CREATE TABLE `tblactivity_log` (
@@ -36,113 +36,194 @@ CREATE TABLE `tblactivity_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblactivity_log`
+-- إرجاع أو استيراد بيانات الجدول `tblactivity_log`
 --
 
 INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
-(1, 'Vac Updated [ID: 2]', '2019-07-20 15:12:55', 'Mhdbashar Das'),
-(2, 'Holiday Deleted [2]', '2019-07-20 15:13:06', 'Mhdbashar Das'),
-(3, 'Vac Updated [ID: ]', '2019-07-20 15:14:12', 'Mhdbashar Das'),
-(4, 'Vac Updated [ID: ]', '2019-07-20 15:14:32', 'Mhdbashar Das'),
-(5, 'Vac Updated [ID: 2]', '2019-07-20 15:14:53', 'Mhdbashar Das'),
-(6, 'Vac Updated [ID: 2]', '2019-07-20 15:15:03', 'Mhdbashar Das'),
-(7, 'Vac Deleted [2]', '2019-07-20 15:15:08', 'Mhdbashar Das'),
-(8, 'New Staff Member Added [ID: 2, mohamad mohamad]', '2019-07-20 15:54:25', 'Mhdbashar Das'),
-(9, 'Vac Deleted [1]', '2019-07-21 13:50:20', 'Mhdbashar Das'),
-(10, 'Vac Deleted [2]', '2019-07-21 13:50:24', 'Mhdbashar Das'),
-(11, 'New Session [ID: 1]', '2019-07-22 11:16:07', 'Mhdbashar Das'),
-(12, 'New Customer Group Created [ID:1, Name:Web Developer]', '2019-07-23 18:19:40', 'Mhdbashar Das'),
-(13, 'New Department Added [Web Developers, ID: 1]', '2019-07-23 18:22:20', 'Mhdbashar Das'),
-(14, 'New Department Added [Web Developers, ID: 2]', '2019-07-23 18:22:22', 'Mhdbashar Das'),
-(15, 'Department Deleted [ID: 2]', '2019-07-23 18:24:17', 'Mhdbashar Das'),
-(16, 'Department Deleted [ID: 1]', '2019-07-23 18:24:24', 'Mhdbashar Das'),
-(17, 'New Department Added [Web Developers, ID: 3]', '2019-07-23 18:24:44', 'Mhdbashar Das'),
-(18, 'tblcountries updated [Country ID: 4]', '2019-07-23 19:58:30', 'Mhdbashar Das'),
-(19, 'tblcountries updated [Country ID: 4]', '2019-07-23 20:00:04', 'Mhdbashar Das'),
-(20, 'New Session [ID: 2]', '2019-07-23 20:17:58', 'Mhdbashar Das'),
-(21, 'Vac Deleted [2]', '2019-07-23 20:18:04', 'Mhdbashar Das'),
-(22, 'Vac Deleted [2]', '2019-07-23 20:18:09', 'Mhdbashar Das'),
-(23, 'Vac Deleted [2]', '2019-07-23 20:19:05', 'Mhdbashar Das'),
-(24, 'Vac Deleted [2]', '2019-07-23 21:09:14', 'Mhdbashar Das'),
-(25, 'Vac Deleted [2]', '2019-07-24 17:54:08', 'Mhdbashar Das'),
-(26, 'New Client Created [ID: 1, From Staff: 1]', '2019-07-25 13:56:59', 'Mhdbashar Das'),
-(27, 'New Client Created [ID: 2, From Staff: 1]', '2019-07-25 13:58:22', 'Mhdbashar Das'),
-(28, 'Customer Info Updated [ID: 2]', '2019-07-25 13:58:44', 'Mhdbashar Das'),
-(29, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:01', 'Mhdbashar Das'),
-(30, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:24', 'Mhdbashar Das'),
-(31, 'Customer Info Updated [ID: 1]', '2019-07-25 13:59:43', 'Mhdbashar Das'),
-(32, 'Procuration Type Deleted [3]', '2019-07-25 16:29:14', 'Mhdbashar Das'),
-(33, 'Procuration Type Updated [ID: 1]', '2019-07-25 16:29:23', 'Mhdbashar Das'),
-(34, 'Procuration Type Updated [ID: 1]', '2019-07-25 16:29:30', 'Mhdbashar Das'),
-(35, 'Customer Representative Deleted [3]', '2019-07-27 13:00:15', 'Mhdbashar Das'),
-(36, 'Customer Representative Updated [ID: 2]', '2019-07-27 13:00:25', 'Mhdbashar Das'),
-(37, 'Customer Representative Updated [ID: 2]', '2019-07-27 13:00:33', 'Mhdbashar Das'),
-(38, 'Customer Representative Updated [ID: 1]', '2019-07-27 14:30:31', 'Mhdbashar Das'),
-(39, 'Customer Representative Updated [ID: 1]', '2019-07-27 14:30:39', 'Mhdbashar Das'),
-(40, 'New Judge [ID: 2]', '2019-07-27 14:58:37', 'Mhdbashar Das'),
-(41, 'Judge Deleted [2]', '2019-07-27 14:58:42', 'Mhdbashar Das'),
-(42, 'Case Status Updated [ID: 1]', '2019-07-27 15:12:59', 'Mhdbashar Das'),
-(43, 'New Judge [ID: 4]', '2019-07-27 15:13:08', 'Mhdbashar Das'),
-(44, 'Case Status Deleted [4]', '2019-07-27 15:13:12', 'Mhdbashar Das'),
-(45, 'New Client Created [ID: 3, From Staff: 1]', '2019-07-27 15:21:46', 'Mhdbashar Das'),
-(46, 'New Court Added [JudID: 7 JudNumber: test]', '2019-07-28 20:58:03', 'Mhdbashar Das'),
-(47, 'New Court Added [JudID: 8 JudNumber: testt]', '2019-07-28 20:58:51', 'Mhdbashar Das'),
-(48, 'Judicial Deleted [JudID: 8]', '2019-07-28 21:00:13', 'Mhdbashar Das'),
-(49, 'Judicial Updated [JudID: 7]', '2019-07-28 21:00:22', 'Mhdbashar Das'),
-(50, 'New Judge [ID: 3]', '2019-07-28 21:02:13', 'Mhdbashar Das'),
-(51, 'New Cases Movement [id: 6]', '2019-07-28 21:03:46', 'Mhdbashar Das'),
-(52, 'New Cases Added [CaseID: 5]', '2019-07-28 21:03:47', 'Mhdbashar Das'),
-(53, 'Case Updated [CaseID: 5]', '2019-07-30 00:14:57', 'Mhdbashar Das'),
-(54, 'New Cases Movement [id: 7]', '2019-07-30 17:53:52', 'Mhdbashar Das'),
-(55, 'New Cases Added [CaseID: 6]', '2019-07-30 17:53:55', 'Mhdbashar Das'),
-(56, 'Case Updated [CaseID: 6]', '2019-07-30 17:55:13', 'Mhdbashar Das'),
-(57, 'Case Updated [CaseID: 6]', '2019-07-30 17:56:03', 'Mhdbashar Das'),
-(58, 'Case Deleted [CaseID: 6]', '2019-07-30 17:56:32', 'Mhdbashar Das'),
-(59, 'Case Deleted [CaseID: 5]', '2019-07-30 17:56:43', 'Mhdbashar Das'),
-(60, 'New Cases Movement [id: 8]', '2019-07-30 17:57:39', 'Mhdbashar Das'),
-(61, 'New Cases Added [CaseID: 7]', '2019-07-30 17:57:41', 'Mhdbashar Das'),
-(62, 'New Task Added [ID:1, Name: test]', '2019-07-30 17:59:10', 'Mhdbashar Das'),
-(63, 'New Task Added [ID:2, Name: test]', '2019-07-30 17:59:11', 'Mhdbashar Das'),
-(64, 'New Task Added [ID:3, Name: test]', '2019-07-30 17:59:47', 'Mhdbashar Das'),
-(65, 'New Task Added [ID:4, Name: test2]', '2019-07-30 18:00:02', 'Mhdbashar Das'),
-(66, 'Project Milestone Created [ID:6]', '2019-07-30 18:00:57', 'Mhdbashar Das'),
-(67, 'New Project Created [ID: 1]', '2019-07-30 18:12:01', 'Mhdbashar Das'),
-(68, 'Award Deleted [2]', '2019-07-30 18:45:29', 'Mhdbashar Das'),
-(69, 'Award Deleted [1]', '2019-07-30 18:45:34', 'Mhdbashar Das'),
-(70, 'Attachement Deleted [2]', '2019-07-30 18:46:24', 'Mhdbashar Das'),
-(71, 'Award Deleted [3]', '2019-07-30 18:49:22', 'Mhdbashar Das'),
-(72, 'New Project Created [ID: 2]', '2019-07-31 21:17:46', 'Mhdbashar Das'),
-(73, 'New Task Added [ID:5, Name: test]', '2019-07-31 21:18:04', 'Mhdbashar Das'),
-(74, 'Invoice Status Updated [Invoice Number: INV-000002, From: Unpaid To: Paid]', '2019-07-31 21:19:08', 'Mhdbashar Das'),
-(75, 'New Project Created [ID: 3]', '2019-08-01 14:22:46', 'Mhdbashar Das'),
-(76, 'New Invoice Item Added [ID:1, test]', '2019-08-01 14:32:59', 'Mhdbashar Das'),
-(77, 'Invoice Status Updated [Invoice Number: INV-000001, From: Unpaid To: Overdue]', '2019-08-01 14:33:30', 'Mhdbashar Das'),
-(78, 'Project Milestone Created [ID:7]', '2019-08-01 14:39:42', 'Mhdbashar Das'),
-(79, 'New Cases Movement [id: 9]', '2019-08-01 15:46:46', 'Mhdbashar Das'),
-(80, 'New Cases Added [CaseID: 8]', '2019-08-01 15:46:47', 'Mhdbashar Das'),
-(81, 'Case Updated [CaseID: 8]', '2019-08-01 15:48:20', 'Mhdbashar Das'),
-(82, 'Case Updated [CaseID: 8]', '2019-08-01 15:48:58', 'Mhdbashar Das'),
-(83, 'New Task Added [ID:6, Name: case task]', '2019-08-01 15:54:13', 'Mhdbashar Das'),
-(84, 'Case Updated [CaseID: 8]', '2019-08-01 16:06:38', 'Mhdbashar Das'),
-(85, 'Case Updated [CaseID: 8]', '2019-08-01 16:07:34', 'Mhdbashar Das'),
-(86, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:06', 'Mhdbashar Das'),
-(87, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:33', 'Mhdbashar Das'),
-(88, 'Case Updated [CaseID: 8]', '2019-08-01 16:08:59', 'Mhdbashar Das'),
-(89, 'Case Updated [CaseID: 8]', '2019-08-01 16:09:50', 'Mhdbashar Das'),
-(90, 'Staff Updated [2]', '2019-08-01 16:17:24', 'Mhdbashar Das'),
-(91, 'Staff Updated [1]', '2019-08-01 18:02:03', 'Mhdbashar Das'),
-(92, 'Staff Updated [1]', '2019-08-01 18:02:47', 'Mhdbashar Das');
+(93, 'New Session [ID: 12]', '2019-08-18 14:42:10', 'Mhdbashar Das'),
+(94, 'Vac Deleted [12]', '2019-08-18 14:42:16', 'Mhdbashar Das'),
+(95, 'Vac Deleted [12]', '2019-08-18 14:42:22', 'Mhdbashar Das'),
+(96, 'Sub Services Deleted [Service ID: 2]', '2019-08-18 17:58:25', 'Mhdbashar Das'),
+(97, 'Sub Services Deleted [Service ID: 5]', '2019-08-18 17:58:36', 'Mhdbashar Das'),
+(98, 'Sub Services Deleted [Service ID: 4]', '2019-08-18 17:58:40', 'Mhdbashar Das'),
+(99, 'New Sub Service Added [ServiceID: 6]', '2019-08-18 18:53:54', 'Mhdbashar Das'),
+(100, 'New Task Added [ID:7, Name: عقد جديد]', '2019-08-18 19:01:37', 'Mhdbashar Das'),
+(101, 'New Sub Service Added [ServiceID: 7]', '2019-08-18 19:07:37', 'Mhdbashar Das'),
+(102, 'Case Updated [CaseID: 7]', '2019-08-18 19:18:11', 'Mhdbashar Das'),
+(103, 'Case Deleted [CaseID: 7]', '2019-08-20 23:01:25', 'Mhdbashar Das'),
+(104, 'Case Deleted [CaseID: 8]', '2019-08-20 23:01:33', 'Mhdbashar Das'),
+(105, 'New Cases Movement [id: 10]', '2019-08-20 23:03:01', 'Mhdbashar Das'),
+(106, 'New Cases Added [CaseID: 9]', '2019-08-20 23:03:02', 'Mhdbashar Das'),
+(107, 'Case Updated [CaseID: 9]', '2019-08-20 23:03:29', 'Mhdbashar Das'),
+(108, 'New Sub Service Added [ServiceID: 1]', '2019-08-20 23:06:37', 'Mhdbashar Das'),
+(109, 'Sub Services Deleted [Service ID: 1]', '2019-08-21 19:36:33', 'Mhdbashar Das'),
+(110, 'New Sub Service Added [ServiceID: 2]', '2019-08-21 19:37:34', 'Mhdbashar Das'),
+(111, 'Sub Services Deleted [Service ID: 2]', '2019-08-21 20:08:01', 'Mhdbashar Das'),
+(112, 'Project Deleted [ID: 3, Name: test]', '2019-08-22 18:08:40', 'Mhdbashar Das'),
+(113, 'New Project Created [ID: 4]', '2019-08-22 18:09:03', 'Mhdbashar Das'),
+(114, 'New Project Created [ID: 5]', '2019-08-24 12:06:57', 'Mhdbashar Das'),
+(115, 'New Task Added [ID:8, Name: test]', '2019-08-25 18:43:59', 'Mhdbashar Das'),
+(116, 'New Task Added [ID:9, Name: test]', '2019-08-25 18:45:06', 'Mhdbashar Das'),
+(117, 'New Case Movement [id: 11]', '2019-08-26 18:44:27', 'Mhdbashar Das'),
+(118, 'New Cases Added [CaseID: 1]', '2019-08-26 18:44:28', 'Mhdbashar Das'),
+(119, 'Case Deleted [CaseID: 1]', '2019-08-26 18:46:08', 'Mhdbashar Das'),
+(120, 'New Case Movement [id: 1]', '2019-08-26 18:47:05', 'Mhdbashar Das'),
+(121, 'New Cases Added [CaseID: 2]', '2019-08-26 18:47:06', 'Mhdbashar Das'),
+(122, 'Project Updated [ID: 4]', '2019-08-26 21:02:08', 'Mhdbashar Das'),
+(123, 'Invoice Status Updated [Invoice Number: INV-000001, From: Overdue To: Paid]', '2019-08-26 21:06:17', 'Mhdbashar Das'),
+(124, 'Payment Recorded [ID:1, Invoice Number: INV-000001, Total: $10.00]', '2019-08-26 21:06:17', 'Mhdbashar Das'),
+(125, 'Payment Updated [Number:1]', '2019-08-26 21:06:38', 'Mhdbashar Das'),
+(126, 'New Proposal Created [ID: 1]', '2019-08-26 21:10:39', 'Mhdbashar Das'),
+(127, 'Failed Login Attempt [Email: mhdbashard@gmail.com, Is Staff Member: Yes, IP: ::1]', '2019-08-29 09:46:20', NULL),
+(128, 'New Sub Service Added [ServiceID: 1]', '2019-08-29 09:48:54', 'Mhdbashar Das'),
+(129, 'Sub Services Updated [ServID: 1]', '2019-08-29 09:51:08', 'Mhdbashar Das'),
+(130, 'Sub Services Updated [ServID: 1]', '2019-08-29 09:51:27', 'Mhdbashar Das'),
+(131, 'Case Deleted [CaseID: 2]', '2019-08-29 09:59:16', 'Mhdbashar Das'),
+(132, 'New Case Movement [id: 2]', '2019-08-29 10:19:39', 'Mhdbashar Das'),
+(133, 'New Cases Added [CaseID: 3]', '2019-08-29 10:19:41', 'Mhdbashar Das'),
+(134, 'Case Deleted [CaseID: 3]', '2019-08-29 10:23:59', 'Mhdbashar Das'),
+(135, 'New Case Movement [id: 1]', '2019-08-29 10:25:28', 'Mhdbashar Das'),
+(136, 'New Cases Added [CaseID: 4]', '2019-08-29 10:25:29', 'Mhdbashar Das'),
+(137, 'New Case Movement [id: 1]', '2019-08-29 10:34:44', 'Mhdbashar Das'),
+(138, 'New Cases Added [CaseID: 1]', '2019-08-29 10:34:46', 'Mhdbashar Das'),
+(139, 'Case Updated [CaseID: 1]', '2019-08-29 10:35:24', 'Mhdbashar Das'),
+(140, 'New Case Movement [id: 2]', '2019-08-29 10:35:25', 'Mhdbashar Das'),
+(141, 'Sub Services Deleted [Service ID: 1]', '2019-08-29 11:04:15', 'Mhdbashar Das'),
+(142, 'New Sub Service Added [ServiceID: 2]', '2019-08-29 11:05:36', 'Mhdbashar Das'),
+(143, 'New Session [ID: 14]', '2019-08-29 12:11:58', 'Mhdbashar Das'),
+(144, 'New Branches Added []', '2019-08-29 14:44:56', 'Mhdbashar Das'),
+(145, 'Add Branch [1] To clients [3]', '2019-08-29 14:45:42', 'Mhdbashar Das'),
+(146, 'Customer Info Updated [ID: 3]', '2019-08-29 14:45:42', 'Mhdbashar Das'),
+(147, 'New Task Added [ID:10, Name: test]', '2019-08-29 21:45:58', 'Mhdbashar Das'),
+(148, 'Sub Services Updated [ServID: 2]', '2019-08-29 21:46:48', 'Mhdbashar Das'),
+(149, 'استشارات Deleted [ServiceID: 2]', '2019-09-01 17:30:30', 'Mhdbashar Das'),
+(150, 'New استشارات Added [ServiceID: 5]', '2019-09-01 17:43:17', 'Mhdbashar Das'),
+(151, 'New عقود Added [ServiceID: 6]', '2019-09-03 18:47:47', 'Mhdbashar Das'),
+(152, 'Project Updated [ID: 5]', '2019-09-03 18:50:31', 'Mhdbashar Das'),
+(153, 'New Task Added [ID:11, Name: test]', '2019-09-03 19:17:26', 'Mhdbashar Das'),
+(154, 'New Task Added [ID:12, Name: test]', '2019-09-03 19:17:27', 'Mhdbashar Das'),
+(155, 'عقود Restore From Recycle Bin [CaseID: 1]', '2019-09-04 16:25:47', 'Mhdbashar Das'),
+(156, 'عقود Moved To Recycle Bin [ServiceID: 2]', '2019-09-04 17:37:50', 'Mhdbashar Das'),
+(157, 'New عقود Added [ServiceID: 5]', '2019-09-04 17:39:59', 'Mhdbashar Das'),
+(158, 'New Expense Category Added [ID: 1]', '2019-09-04 18:49:18', 'Mhdbashar Das'),
+(159, 'New Expense Added [5]', '2019-09-04 18:49:29', 'Mhdbashar Das'),
+(160, 'Expense Deleted [1]', '2019-09-04 18:49:36', 'Mhdbashar Das'),
+(161, 'Expense Receipt Deleted [ExpenseID: 5]', '2019-09-04 18:49:59', 'Mhdbashar Das'),
+(162, 'عقود Deleted [ServiceID: 2]', '2019-09-04 19:36:30', 'Mhdbashar Das'),
+(163, 'عقود Deleted [ServiceID: 1]', '2019-09-04 19:36:36', 'Mhdbashar Das'),
+(164, 'استشارات Deleted [ServiceID: 3]', '2019-09-04 19:36:52', 'Mhdbashar Das'),
+(165, 'استشارات Deleted [ServiceID: 4]', '2019-09-04 19:37:09', 'Mhdbashar Das'),
+(166, 'New procuration [ID: 1] for client [ID: 3', '2019-09-07 17:16:29', 'Mhdbashar Das'),
+(167, 'عقود Moved To Recycle Bin [ServiceID: 5]', '2019-09-08 13:13:57', 'Mhdbashar Das'),
+(168, 'Cron Invoked Manually', '2019-09-08 14:15:11', 'Mhdbashar Das'),
+(169, 'Cron Invoked Manually', '2019-09-10 20:44:29', 'Mhdbashar Das'),
+(170, ' Confirm Empty Legal Services Recycle Bin', '2019-09-10 20:44:42', 'Mhdbashar Das'),
+(171, 'New Project Created [ID: 6]', '2019-09-12 19:22:28', 'Mhdbashar Das'),
+(172, 'New Invoice Item Added [ID:2, المبلغ المدين شهريا]', '2019-09-12 20:57:11', 'Mhdbashar Das'),
+(173, 'New Project Created [ID: 7]', '2019-09-15 20:21:26', 'Mhdbashar Das'),
+(174, 'Project Updated [ID: 7]', '2019-09-15 20:26:33', 'Mhdbashar Das'),
+(175, 'Case Moved To Recycle Bin [CaseID: 1]', '2019-09-15 20:35:08', 'Mhdbashar Das'),
+(176, 'Case Deleted [CaseID: 1]', '2019-09-15 20:35:38', 'Mhdbashar Das'),
+(177, 'New Case Movement [id: 3]', '2019-09-16 17:53:06', 'Mhdbashar Das'),
+(178, 'New Case Added [CaseID: 2]', '2019-09-16 17:53:07', 'Mhdbashar Das'),
+(179, 'Add Branch [1] To cases [2]', '2019-09-16 17:53:08', 'Mhdbashar Das'),
+(180, 'Procuration State Updated [ID: 2]', '2019-09-16 17:54:52', 'Mhdbashar Das'),
+(181, 'Procuration State Updated [ID: 1]', '2019-09-16 17:55:01', 'Mhdbashar Das'),
+(182, 'Procuration Type Updated [ID: 1]', '2019-09-16 17:55:40', 'Mhdbashar Das'),
+(183, 'Procuration Type Updated [ID: 2]', '2019-09-16 17:55:50', 'Mhdbashar Das'),
+(184, 'New procuration [ID: 1] for client [ID: ', '2019-09-16 17:56:46', 'Mhdbashar Das'),
+(185, 'New procuration [ID: 2] for client [ID: ', '2019-09-17 00:03:18', 'Mhdbashar Das'),
+(186, 'New procuration [ID: 3] for client [ID: ', '2019-09-17 13:44:46', 'Mhdbashar Das'),
+(187, ' procuration Deleted [ID: 3]', '2019-09-17 13:46:18', 'Mhdbashar Das'),
+(188, 'Procuration Doc Deleted [ProcID: 1]', '2019-09-17 13:46:31', 'Mhdbashar Das'),
+(189, ' procuration Deleted [ID: 1]', '2019-09-17 13:46:31', 'Mhdbashar Das'),
+(190, 'Procuration Doc Deleted [ProcID: 2]', '2019-09-17 13:46:44', 'Mhdbashar Das'),
+(191, ' procuration Deleted [ID: 2]', '2019-09-17 13:46:44', 'Mhdbashar Das'),
+(192, 'New procuration [ID: 1] for client [ID: ', '2019-09-17 18:38:18', 'Mhdbashar Das'),
+(193, 'New procuration [ID: 2] for client [ID: ', '2019-09-17 20:14:29', 'Mhdbashar Das'),
+(194, 'New procuration [ID: 2] for client [ID: ', '2019-09-17 21:13:35', 'Mhdbashar Das'),
+(195, 'New procuration [ID: 3] for client [ID: ', '2019-09-17 21:13:36', 'Mhdbashar Das'),
+(196, 'New procuration [ID: 4] for client [ID: ', '2019-09-17 21:13:41', 'Mhdbashar Das'),
+(197, ' procuration Deleted [ID: 4]', '2019-09-17 21:13:50', 'Mhdbashar Das'),
+(198, ' procuration Deleted [ID: 3]', '2019-09-17 21:13:56', 'Mhdbashar Das'),
+(199, ' procuration Deleted [ID: 2]', '2019-09-17 21:14:00', 'Mhdbashar Das'),
+(200, 'New procuration [ID: 2] for client [ID: ', '2019-09-17 21:14:54', 'Mhdbashar Das'),
+(201, 'New procuration [ID: 3] for client [ID: ', '2019-09-17 21:17:11', 'Mhdbashar Das'),
+(202, ' procuration Updated [ID: ] for client [ID: ', '2019-09-19 13:50:05', 'Mhdbashar Das'),
+(203, 'Procuration Doc Deleted [ProcID: 3]', '2019-09-19 13:50:41', 'Mhdbashar Das'),
+(204, ' procuration Deleted [ID: 3]', '2019-09-19 13:50:42', 'Mhdbashar Das'),
+(205, ' procuration Deleted [ID: 2]', '2019-09-19 13:50:50', 'Mhdbashar Das'),
+(206, 'New procuration [ID: 2] for client [ID: ', '2019-09-19 13:55:50', 'Mhdbashar Das'),
+(207, 'New procuration [ID: 3] for client [ID: ', '2019-09-19 13:57:00', 'Mhdbashar Das'),
+(208, ' procuration Updated [ID: ] for client [ID: ', '2019-09-19 13:59:03', 'Mhdbashar Das'),
+(209, ' procuration Deleted [ID: 2]', '2019-09-19 14:07:28', 'Mhdbashar Das'),
+(210, ' procuration Deleted [ID: 3]', '2019-09-19 14:07:38', 'Mhdbashar Das'),
+(211, ' procuration Updated [ID: ] for client [ID: 1', '2019-09-19 14:07:59', 'Mhdbashar Das'),
+(212, 'New procuration [ID: 2] for client [ID: ', '2019-09-19 17:58:11', 'Mhdbashar Das'),
+(213, ' procuration Deleted [ID: 2]', '2019-09-19 18:01:47', 'Mhdbashar Das'),
+(214, ' procuration Updated [ID: ] for client [ID: 1', '2019-09-19 18:02:01', 'Mhdbashar Das'),
+(215, 'New procuration [ID: 2] for client [ID: ', '2019-09-19 18:03:20', 'Mhdbashar Das'),
+(216, 'Procuration Doc Deleted [ProcID: 2]', '2019-09-19 18:04:30', 'Mhdbashar Das'),
+(217, ' procuration Deleted [ID: 2]', '2019-09-19 18:04:30', 'Mhdbashar Das'),
+(218, 'Procuration Doc Deleted [ProcID: 1]', '2019-09-19 18:04:34', 'Mhdbashar Das'),
+(219, ' procuration Deleted [ID: 1]', '2019-09-19 18:04:34', 'Mhdbashar Das'),
+(220, 'New procuration [ID: 1] for client [ID: ', '2019-09-19 18:05:18', 'Mhdbashar Das'),
+(221, 'New procuration [ID: 2] for client [ID: ', '2019-09-19 18:16:19', 'Mhdbashar Das'),
+(222, 'Procuration Doc Deleted [ProcID: 1]', '2019-09-19 18:17:26', 'Mhdbashar Das'),
+(223, ' procuration Deleted [ID: 1]', '2019-09-19 18:17:27', 'Mhdbashar Das'),
+(224, 'Procuration Doc Deleted [ProcID: 2]', '2019-09-19 18:17:32', 'Mhdbashar Das'),
+(225, ' procuration Deleted [ID: 2]', '2019-09-19 18:17:32', 'Mhdbashar Das'),
+(226, 'New procuration [ID: 1] for client [ID: 3', '2019-09-19 18:19:56', 'Mhdbashar Das'),
+(227, 'New procuration [ID: 2] for client [ID: ', '2019-09-19 18:20:55', 'Mhdbashar Das'),
+(228, 'New procuration [ID: 3] for client [ID: ', '2019-09-19 19:04:15', 'Mhdbashar Das'),
+(229, 'New procuration [ID: 1] for client [ID: ', '2019-09-19 19:15:05', 'Mhdbashar Das'),
+(230, 'New Case Movement [id: 4]', '2019-09-19 19:32:45', 'Mhdbashar Das'),
+(231, 'New Case Added [CaseID: 3]', '2019-09-19 19:32:46', 'Mhdbashar Das'),
+(232, 'Add Branch [1] To cases [3]', '2019-09-19 19:32:46', 'Mhdbashar Das'),
+(233, 'New Case Movement [id: 5]', '2019-09-19 19:37:45', 'Mhdbashar Das'),
+(234, 'New Case Added [CaseID: 4]', '2019-09-19 19:37:47', 'Mhdbashar Das'),
+(235, 'Add Branch [1] To cases [4]', '2019-09-19 19:37:47', 'Mhdbashar Das'),
+(236, 'Case Moved To Recycle Bin [CaseID: 4]', '2019-09-19 19:38:13', 'Mhdbashar Das'),
+(237, 'Case Moved To Recycle Bin [CaseID: 3]', '2019-09-19 19:38:19', 'Mhdbashar Das'),
+(238, 'Case Deleted [CaseID: 3]', '2019-09-19 19:48:01', 'Mhdbashar Das'),
+(239, 'Case Deleted [CaseID: 4]', '2019-09-19 19:48:07', 'Mhdbashar Das'),
+(240, 'New transaction [ID: 1]', '2019-09-30 01:25:25', 'Mhdbashar Das'),
+(241, 'New transaction [ID: 2]', '2019-09-30 01:26:36', 'Mhdbashar Das'),
+(242, 'New transaction [ID: 3]', '2019-09-30 01:37:21', 'Mhdbashar Das'),
+(243, 'New transaction [ID: 4]', '2019-09-30 20:25:10', 'Mhdbashar Das'),
+(244, 'New transaction [ID: 5]', '2019-10-01 19:57:14', 'Mhdbashar Das'),
+(245, 'New transaction [ID: 6]', '2019-10-01 20:00:17', 'Mhdbashar Das'),
+(246, 'New transaction [ID: 7]', '2019-10-01 20:02:36', 'Mhdbashar Das'),
+(247, ' transaction Updated [ID: 6]', '2019-10-01 20:12:03', 'Mhdbashar Das'),
+(248, ' transaction Updated [ID: 5]', '2019-10-01 20:25:46', 'Mhdbashar Das'),
+(249, ' transaction Updated [ID: 7]', '2019-10-01 20:26:02', 'Mhdbashar Das'),
+(250, ' transaction Updated [ID: 6]', '2019-10-01 20:27:18', 'Mhdbashar Das'),
+(251, ' transaction Updated [ID: 5]', '2019-10-01 21:21:40', 'Mhdbashar Das'),
+(252, ' transaction Updated [ID: 7]', '2019-10-01 21:23:34', 'Mhdbashar Das'),
+(253, ' transaction Updated [ID: 6]', '2019-10-01 21:24:54', 'Mhdbashar Das'),
+(254, ' transaction Updated [ID: 5]', '2019-10-01 21:27:34', 'Mhdbashar Das'),
+(255, ' transaction Updated [ID: 6]', '2019-10-01 21:28:04', 'Mhdbashar Das'),
+(256, ' transaction Updated [ID: 5]', '2019-10-01 21:28:54', 'Mhdbashar Das'),
+(257, ' transaction Updated [ID: 6]', '2019-10-01 21:32:34', 'Mhdbashar Das'),
+(258, ' transaction Updated [ID: 7]', '2019-10-01 21:35:48', 'Mhdbashar Das'),
+(259, 'New transaction [ID: 8]', '2019-10-01 21:38:18', 'Mhdbashar Das'),
+(260, ' transaction Updated [ID: 8]', '2019-10-01 21:38:34', 'Mhdbashar Das'),
+(261, ' transaction Updated [ID: 8]', '2019-10-01 21:38:47', 'Mhdbashar Das'),
+(262, 'New transaction [ID: 9]', '2019-10-01 21:39:43', 'Mhdbashar Das'),
+(263, ' transaction Updated [ID: 9]', '2019-10-01 21:39:53', 'Mhdbashar Das'),
+(264, 'New transaction [ID: 10]', '2019-10-01 21:44:57', 'Mhdbashar Das'),
+(265, ' transaction Updated [ID: 10]', '2019-10-01 21:45:06', 'Mhdbashar Das');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblannouncements`
+-- بنية الجدول `tblannouncements`
 --
 
 CREATE TABLE `tblannouncements` (
   `announcementid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `showtousers` int(11) NOT NULL,
   `showtostaff` int(11) NOT NULL,
   `showname` int(11) NOT NULL,
@@ -153,7 +234,53 @@ CREATE TABLE `tblannouncements` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcasediscussioncomments`
+-- بنية الجدول `tblbranches`
+--
+
+CREATE TABLE `tblbranches` (
+  `id` int(11) NOT NULL,
+  `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblbranches`
+--
+
+INSERT INTO `tblbranches` (`id`, `title_en`, `title_ar`, `country_id`, `city_id`, `address`, `phone`) VALUES
+(1, 'test', 'test', 217, 336, 'test', 'test');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblbranches_services`
+--
+
+CREATE TABLE `tblbranches_services` (
+  `id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `rel_type` varchar(25) NOT NULL,
+  `rel_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblbranches_services`
+--
+
+INSERT INTO `tblbranches_services` (`id`, `branch_id`, `rel_type`, `rel_id`) VALUES
+(1, 1, 'clients', 3),
+(2, 1, 'cases', 2),
+(3, 1, 'cases', 3),
+(4, 1, 'cases', 4);
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblcasediscussioncomments`
 --
 
 CREATE TABLE `tblcasediscussioncomments` (
@@ -165,23 +292,16 @@ CREATE TABLE `tblcasediscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblcasediscussioncomments`
---
-
-INSERT INTO `tblcasediscussioncomments` (`id`, `discussion_id`, `discussion_type`, `parent`, `created`, `modified`, `content`, `staff_id`, `contact_id`, `fullname`, `file_name`, `file_mime_type`) VALUES
-(1, 3, 'regular', NULL, '2019-07-31 21:03:57', NULL, 'tsetsss', 1, 0, 'Mhdbashar Das', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcasediscussions`
+-- بنية الجدول `tblcasediscussions`
 --
 
 CREATE TABLE `tblcasediscussions` (
@@ -189,47 +309,43 @@ CREATE TABLE `tblcasediscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0'
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcasediscussions`
+-- إرجاع أو استيراد بيانات الجدول `tblcasediscussions`
 --
 
 INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, `show_to_customer`, `datecreated`, `last_activity`, `staff_id`, `contact_id`) VALUES
-(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0),
-(3, 7, 'test', 'test', 1, '2019-07-31 20:39:06', '2019-07-31 21:03:57', 1, 0);
+(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcase_activity`
+-- بنية الجدول `tblcase_activity`
 --
 
 CREATE TABLE `tblcase_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcase_activity`
+-- إرجاع أو استيراد بيانات الجدول `tblcase_activity`
 --
 
 INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(1, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:29:59'),
-(2, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:29:59'),
-(3, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:30:04'),
 (4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
 (5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
 (6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
@@ -258,15 +374,6 @@ INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `f
 (29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
 (30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
 (31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
-(41, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:00:51'),
-(42, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:00:51'),
-(43, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:00:56'),
-(50, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:15'),
-(51, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:15'),
-(52, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:20'),
-(53, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:41'),
-(54, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:41'),
-(55, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:47'),
 (56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
 (57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
 (58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
@@ -276,70 +383,46 @@ INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `f
 (65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
 (66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
 (67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
-(97, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-31 20:29:30'),
-(98, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-31 20:29:30'),
-(99, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-31 20:29:30'),
-(100, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-06-01 20:27:41'),
-(101, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-06-01 20:27:41'),
-(102, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-06-01 20:27:41'),
-(156, 2, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-07-09 17:16:52'),
-(157, 2, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-07-09 17:16:52'),
-(160, 4, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-07-09 17:19:51'),
-(171, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:53:52'),
-(176, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:57:39'),
-(177, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-30 17:57:39'),
-(178, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 17:57:41'),
 (179, 0, 1, 0, 'Mhdbashar Das', 0, 'project_activity_created_milestone', 'milestone', '2019-07-30 18:00:57'),
-(180, 7, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '1984.txt', '2019-07-30 18:01:08'),
-(181, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created_discussion', 'test', '2019-07-31 20:39:06'),
-(182, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_commented_on_discussion', 'test', '2019-07-31 21:03:57'),
-(183, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_invoiced_project', 'INV-000002', '2019-07-31 21:19:09'),
 (184, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:46'),
-(185, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-01 15:46:46'),
-(186, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:47'),
-(187, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 15:48:20'),
-(188, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 15:48:58'),
-(189, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:06:38'),
-(190, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:07:34'),
-(191, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:06'),
-(192, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:33'),
-(193, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:08:59'),
-(194, 8, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-01 16:09:50');
+(197, 10, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:01'),
+(198, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-20 23:03:01'),
+(199, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:02'),
+(200, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-20 23:03:29'),
+(201, 11, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-26 18:44:27'),
+(207, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:19:39'),
+(217, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:35:24'),
+(218, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:35:25'),
+(224, 2, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_created', '', '2019-09-16 17:53:07'),
+(228, 5, 1, 0, 'Mhdbashar Das', 1, 'CaseMov_activity_created', '', '2019-09-19 19:37:45');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcase_files`
+-- بنية الجدول `tblcase_files`
 --
 
 CREATE TABLE `tblcase_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT '0',
+  `visible_to_customer` tinyint(1) DEFAULT 0,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblcase_files`
---
-
-INSERT INTO `tblcase_files` (`id`, `file_name`, `subject`, `description`, `filetype`, `dateadded`, `last_activity`, `project_id`, `visible_to_customer`, `staffid`, `contact_id`, `external`, `external_link`, `thumbnail_link`) VALUES
-(1, '1984.txt', '1984.txt', 'test peopledsf fda', 'text/plain', '2019-07-30 18:01:08', NULL, 7, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcase_movement`
+-- بنية الجدول `tblcase_movement`
 --
 
 CREATE TABLE `tblcase_movement` (
@@ -362,37 +445,30 @@ CREATE TABLE `tblcase_movement` (
   `project_cost` decimal(15,2) DEFAULT NULL,
   `start_date` date NOT NULL,
   `project_created` date NOT NULL,
+  `inserted_date` datetime NOT NULL DEFAULT current_timestamp(),
   `deadline` date DEFAULT NULL,
   `date_finished` date DEFAULT NULL,
   `description` text NOT NULL,
   `case_result` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
   `addedfrom` int(11) NOT NULL,
   `case_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcase_movement`
+-- إرجاع أو استيراد بيانات الجدول `tblcase_movement`
 --
 
-INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
-(1, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 1),
-(2, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test case moement&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(3, NULL, 'CASE1', 'test case moement', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement test case moement&nbsp;', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(4, NULL, 'CASE1', 'test case moement after edit', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edit', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(5, NULL, 'CASE1', 'test case moement after edit test case moement after edit', 9, 3, 1, 2, 1, 5, 194, 'Khobar', 1, 2, 2, 0, '123.00', '2019-05-01', '2019-07-09', NULL, NULL, 'test&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edittest&nbsp;case moement after edit', 'متداولة', 1, '2.00', 0, 0, 1, 0),
-(6, 1, 'CASE1', 'Case 1', 3, 2, 1, 2, 2, 7, 217, 'damascus', 1, 2, 1, 0, '0.00', '2019-07-10', '2019-07-28', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 5),
-(7, 2, 'CASE2', 'قضية 1', 3, 1, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-10', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 6),
-(8, 1, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-17', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 7),
-(9, 2, 'CASE2', 'قضية 2', 2, 2, 1, 2, 2, 7, 66, 'giza', 1, 2, 1, 0, '0.00', '2019-08-01', '2019-08-01', '2019-08-15', NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 8);
+INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `inserted_date`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
+(3, 1, 'CASE1', 'قضية 1', 3, 2, 3, 4, 2, 7, 105, 'karkouk', 1, 2, 1, 0, '0.00', '2581-02-17', '2019-09-16', '2019-09-16 17:53:06', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcase_notes`
+-- بنية الجدول `tblcase_notes`
 --
 
 CREATE TABLE `tblcase_notes` (
@@ -405,216 +481,45 @@ CREATE TABLE `tblcase_notes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcase_settings`
+-- بنية الجدول `tblcase_settings`
 --
 
 CREATE TABLE `tblcase_settings` (
   `id` int(11) NOT NULL,
   `case_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text
+  `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcase_settings`
+-- إرجاع أو استيراد بيانات الجدول `tblcase_settings`
 --
 
 INSERT INTO `tblcase_settings` (`id`, `case_id`, `name`, `value`) VALUES
-(58, 4, 'available_features', '0'),
-(59, 4, 'view_tasks', '0'),
-(60, 4, 'create_tasks', '0'),
-(61, 4, 'edit_tasks', '0'),
-(62, 4, 'comment_on_tasks', '0'),
-(63, 4, 'view_task_comments', '0'),
-(64, 4, 'view_task_attachments', '0'),
-(65, 4, 'view_task_checklist_items', '0'),
-(66, 4, 'upload_on_tasks', '0'),
-(67, 4, 'view_task_total_logged_time', '0'),
-(68, 4, 'view_finance_overview', '0'),
-(69, 4, 'upload_files', '0'),
-(70, 4, 'open_discussions', '0'),
-(71, 4, 'view_milestones', '0'),
-(72, 4, 'view_gantt', '0'),
-(73, 4, 'view_timesheets', '0'),
-(74, 4, 'view_activity_log', '0'),
-(75, 4, 'view_team_members', '0'),
-(76, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(115, 7, 'available_features', '0'),
-(116, 7, 'view_tasks', '0'),
-(117, 7, 'create_tasks', '0'),
-(118, 7, 'edit_tasks', '0'),
-(119, 7, 'comment_on_tasks', '0'),
-(120, 7, 'view_task_comments', '0'),
-(121, 7, 'view_task_attachments', '0'),
-(122, 7, 'view_task_checklist_items', '0'),
-(123, 7, 'upload_on_tasks', '0'),
-(124, 7, 'view_task_total_logged_time', '0'),
-(125, 7, 'view_finance_overview', '0'),
-(126, 7, 'upload_files', '0'),
-(127, 7, 'open_discussions', '0'),
-(128, 7, 'view_milestones', '0'),
-(129, 7, 'view_gantt', '0'),
-(130, 7, 'view_timesheets', '0'),
-(131, 7, 'view_activity_log', '0'),
-(132, 7, 'view_team_members', '0'),
-(133, 7, 'hide_tasks_on_main_tasks_table', '0'),
-(134, 8, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(135, 8, 'view_tasks', '0'),
-(136, 8, 'create_tasks', '0'),
-(137, 8, 'edit_tasks', '0'),
-(138, 8, 'comment_on_tasks', '0'),
-(139, 8, 'view_task_comments', '0'),
-(140, 8, 'view_task_attachments', '0'),
-(141, 8, 'view_task_checklist_items', '0'),
-(142, 8, 'upload_on_tasks', '0'),
-(143, 8, 'view_task_total_logged_time', '0'),
-(144, 8, 'view_finance_overview', '0'),
-(145, 8, 'upload_files', '0'),
-(146, 8, 'open_discussions', '0'),
-(147, 8, 'view_milestones', '0'),
-(148, 8, 'view_gantt', '0'),
-(149, 8, 'view_timesheets', '0'),
-(150, 8, 'view_activity_log', '0'),
-(151, 8, 'view_team_members', '0'),
-(152, 8, 'hide_tasks_on_main_tasks_table', '0'),
-(153, 9, 'available_features', '0'),
-(154, 9, 'view_tasks', '0'),
-(155, 9, 'create_tasks', '0'),
-(156, 9, 'edit_tasks', '0'),
-(157, 9, 'comment_on_tasks', '0'),
-(158, 9, 'view_task_comments', '0'),
-(159, 9, 'view_task_attachments', '0'),
-(160, 9, 'view_task_checklist_items', '0'),
-(161, 9, 'upload_on_tasks', '0'),
-(162, 9, 'view_task_total_logged_time', '0'),
-(163, 9, 'view_finance_overview', '0'),
-(164, 9, 'upload_files', '0'),
-(165, 9, 'open_discussions', '0'),
-(166, 9, 'view_milestones', '0'),
-(167, 9, 'view_gantt', '0'),
-(168, 9, 'view_timesheets', '0'),
-(169, 9, 'view_activity_log', '0'),
-(170, 9, 'view_team_members', '0'),
-(171, 9, 'hide_tasks_on_main_tasks_table', '0'),
-(191, 10, 'available_features', '0'),
-(192, 10, 'view_tasks', '0'),
-(193, 10, 'create_tasks', '0'),
-(194, 10, 'edit_tasks', '0'),
-(195, 10, 'comment_on_tasks', '0'),
-(196, 10, 'view_task_comments', '0'),
-(197, 10, 'view_task_attachments', '0'),
-(198, 10, 'view_task_checklist_items', '0'),
-(199, 10, 'upload_on_tasks', '0'),
-(200, 10, 'view_task_total_logged_time', '0'),
-(201, 10, 'view_finance_overview', '0'),
-(202, 10, 'upload_files', '0'),
-(203, 10, 'open_discussions', '0'),
-(204, 10, 'view_milestones', '0'),
-(205, 10, 'view_gantt', '0'),
-(206, 10, 'view_timesheets', '0'),
-(207, 10, 'view_activity_log', '0'),
-(208, 10, 'view_team_members', '0'),
-(209, 10, 'hide_tasks_on_main_tasks_table', '0'),
-(210, 11, 'available_features', '0'),
-(211, 11, 'view_tasks', '0'),
-(212, 11, 'create_tasks', '0'),
-(213, 11, 'edit_tasks', '0'),
-(214, 11, 'comment_on_tasks', '0'),
-(215, 11, 'view_task_comments', '0'),
-(216, 11, 'view_task_attachments', '0'),
-(217, 11, 'view_task_checklist_items', '0'),
-(218, 11, 'upload_on_tasks', '0'),
-(219, 11, 'view_task_total_logged_time', '0'),
-(220, 11, 'view_finance_overview', '0'),
-(221, 11, 'upload_files', '0'),
-(222, 11, 'open_discussions', '0'),
-(223, 11, 'view_milestones', '0'),
-(224, 11, 'view_gantt', '0'),
-(225, 11, 'view_timesheets', '0'),
-(226, 11, 'view_activity_log', '0'),
-(227, 11, 'view_team_members', '0'),
-(228, 11, 'hide_tasks_on_main_tasks_table', '0'),
-(343, 4, 'available_features', '0'),
-(344, 4, 'view_tasks', '0'),
-(345, 4, 'create_tasks', '0'),
-(346, 4, 'edit_tasks', '0'),
-(347, 4, 'comment_on_tasks', '0'),
-(348, 4, 'view_task_comments', '0'),
-(349, 4, 'view_task_attachments', '0'),
-(350, 4, 'view_task_checklist_items', '0'),
-(351, 4, 'upload_on_tasks', '0'),
-(352, 4, 'view_task_total_logged_time', '0'),
-(353, 4, 'view_finance_overview', '0'),
-(354, 4, 'upload_files', '0'),
-(355, 4, 'open_discussions', '0'),
-(356, 4, 'view_milestones', '0'),
-(357, 4, 'view_gantt', '0'),
-(358, 4, 'view_timesheets', '0'),
-(359, 4, 'view_activity_log', '0'),
-(360, 4, 'view_team_members', '0'),
-(361, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(362, 4, 'available_features', '0'),
-(363, 4, 'view_tasks', '0'),
-(364, 4, 'create_tasks', '0'),
-(365, 4, 'edit_tasks', '0'),
-(366, 4, 'comment_on_tasks', '0'),
-(367, 4, 'view_task_comments', '0'),
-(368, 4, 'view_task_attachments', '0'),
-(369, 4, 'view_task_checklist_items', '0'),
-(370, 4, 'upload_on_tasks', '0'),
-(371, 4, 'view_task_total_logged_time', '0'),
-(372, 4, 'view_finance_overview', '0'),
-(373, 4, 'upload_files', '0'),
-(374, 4, 'open_discussions', '0'),
-(375, 4, 'view_milestones', '0'),
-(376, 4, 'view_gantt', '0'),
-(377, 4, 'view_timesheets', '0'),
-(378, 4, 'view_activity_log', '0'),
-(379, 4, 'view_team_members', '0'),
-(380, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(457, 7, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(458, 7, 'view_tasks', '1'),
-(459, 7, 'create_tasks', '1'),
-(460, 7, 'edit_tasks', '1'),
-(461, 7, 'comment_on_tasks', '1'),
-(462, 7, 'view_task_comments', '1'),
-(463, 7, 'view_task_attachments', '1'),
-(464, 7, 'view_task_checklist_items', '1'),
-(465, 7, 'upload_on_tasks', '1'),
-(466, 7, 'view_task_total_logged_time', '1'),
-(467, 7, 'view_finance_overview', '1'),
-(468, 7, 'upload_files', '1'),
-(469, 7, 'open_discussions', '1'),
-(470, 7, 'view_milestones', '1'),
-(471, 7, 'view_gantt', '1'),
-(472, 7, 'view_timesheets', '1'),
-(473, 7, 'view_activity_log', '1'),
-(474, 7, 'view_team_members', '1'),
-(475, 7, 'hide_tasks_on_main_tasks_table', '0'),
-(476, 8, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(477, 8, 'view_tasks', '0'),
-(478, 8, 'create_tasks', '0'),
-(479, 8, 'edit_tasks', '0'),
-(480, 8, 'comment_on_tasks', '0'),
-(481, 8, 'view_task_comments', '0'),
-(482, 8, 'view_task_attachments', '0'),
-(483, 8, 'view_task_checklist_items', '0'),
-(484, 8, 'upload_on_tasks', '0'),
-(485, 8, 'view_task_total_logged_time', '0'),
-(486, 8, 'view_finance_overview', '0'),
-(487, 8, 'upload_files', '0'),
-(488, 8, 'open_discussions', '0'),
-(489, 8, 'view_milestones', '0'),
-(490, 8, 'view_gantt', '0'),
-(491, 8, 'view_timesheets', '0'),
-(492, 8, 'view_activity_log', '0'),
-(493, 8, 'view_team_members', '0'),
-(494, 8, 'hide_tasks_on_main_tasks_table', '0');
+(1, 2, 'available_features', 'a:18:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
+(2, 2, 'view_tasks', '1'),
+(3, 2, 'create_tasks', '1'),
+(4, 2, 'edit_tasks', '1'),
+(5, 2, 'comment_on_tasks', '1'),
+(6, 2, 'view_task_comments', '1'),
+(7, 2, 'view_task_attachments', '1'),
+(8, 2, 'view_task_checklist_items', '1'),
+(9, 2, 'upload_on_tasks', '1'),
+(10, 2, 'view_task_total_logged_time', '1'),
+(11, 2, 'view_finance_overview', '1'),
+(12, 2, 'upload_files', '1'),
+(13, 2, 'open_discussions', '1'),
+(14, 2, 'view_milestones', '1'),
+(15, 2, 'view_gantt', '1'),
+(16, 2, 'view_timesheets', '1'),
+(17, 2, 'view_activity_log', '1'),
+(18, 2, 'view_team_members', '1'),
+(19, 2, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcities`
+-- بنية الجدول `tblcities`
 --
 
 CREATE TABLE `tblcities` (
@@ -625,7 +530,7 @@ CREATE TABLE `tblcities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcities`
+-- إرجاع أو استيراد بيانات الجدول `tblcities`
 --
 
 INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
@@ -842,7 +747,7 @@ INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblclients`
+-- بنية الجدول `tblclients`
 --
 
 CREATE TABLE `tblclients` (
@@ -850,49 +755,50 @@ CREATE TABLE `tblclients` (
   `company` varchar(191) DEFAULT NULL,
   `vat` varchar(50) DEFAULT NULL,
   `phonenumber` varchar(30) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `country` int(11) NOT NULL DEFAULT 0,
   `city` varchar(100) DEFAULT NULL,
   `zip` varchar(15) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
-  `active` int(11) NOT NULL DEFAULT '1',
+  `active` int(11) NOT NULL DEFAULT 1,
   `leadid` int(11) DEFAULT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
   `billing_zip` varchar(100) DEFAULT NULL,
-  `billing_country` int(11) DEFAULT '0',
+  `billing_country` int(11) DEFAULT 0,
   `shipping_street` varchar(200) DEFAULT NULL,
   `shipping_city` varchar(100) DEFAULT NULL,
   `shipping_state` varchar(100) DEFAULT NULL,
   `shipping_zip` varchar(100) DEFAULT NULL,
-  `shipping_country` int(11) DEFAULT '0',
+  `shipping_country` int(11) DEFAULT 0,
   `longitude` varchar(191) DEFAULT NULL,
   `latitude` varchar(191) DEFAULT NULL,
   `default_language` varchar(40) DEFAULT NULL,
-  `default_currency` int(11) NOT NULL DEFAULT '0',
-  `show_primary_contact` int(11) NOT NULL DEFAULT '0',
+  `default_currency` int(11) NOT NULL DEFAULT 0,
+  `show_primary_contact` int(11) NOT NULL DEFAULT 0,
   `stripe_id` varchar(40) DEFAULT NULL,
-  `registration_confirmed` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL DEFAULT '0',
-  `individual` tinyint(4) NOT NULL DEFAULT '1'
+  `registration_confirmed` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL DEFAULT 0,
+  `individual` tinyint(4) NOT NULL DEFAULT 1,
+  `branch_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblclients`
+-- إرجاع أو استيراد بيانات الجدول `tblclients`
 --
 
-INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`) VALUES
-(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1),
-(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0),
-(3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', NULL, NULL, '', NULL, '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0);
+INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`) VALUES
+(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0),
+(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0),
+(3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', '', '', '', '', '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblconsents`
+-- بنية الجدول `tblconsents`
 --
 
 CREATE TABLE `tblconsents` (
@@ -900,10 +806,10 @@ CREATE TABLE `tblconsents` (
   `action` varchar(10) NOT NULL,
   `date` datetime NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `lead_id` int(11) NOT NULL DEFAULT '0',
-  `description` text,
-  `opt_in_purpose_description` text,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `lead_id` int(11) NOT NULL DEFAULT 0,
+  `description` text DEFAULT NULL,
+  `opt_in_purpose_description` text DEFAULT NULL,
   `purpose_id` int(11) NOT NULL,
   `staff_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -911,13 +817,13 @@ CREATE TABLE `tblconsents` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblconsent_purposes`
+-- بنية الجدول `tblconsent_purposes`
 --
 
 CREATE TABLE `tblconsent_purposes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date_created` datetime NOT NULL,
   `last_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -925,13 +831,13 @@ CREATE TABLE `tblconsent_purposes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontacts`
+-- بنية الجدول `tblcontacts`
 --
 
 CREATE TABLE `tblcontacts` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `is_primary` int(11) NOT NULL DEFAULT '1',
+  `is_primary` int(11) NOT NULL DEFAULT 1,
   `firstname` varchar(191) NOT NULL,
   `lastname` varchar(191) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -947,22 +853,22 @@ CREATE TABLE `tblcontacts` (
   `last_ip` varchar(40) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_password_change` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `profile_image` varchar(191) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
-  `invoice_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `estimate_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `credit_note_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `contract_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `task_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `project_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `ticket_emails` tinyint(1) NOT NULL DEFAULT '1'
+  `invoice_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `estimate_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `credit_note_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `contract_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `task_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `project_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `ticket_emails` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontact_permissions`
+-- بنية الجدول `tblcontact_permissions`
 --
 
 CREATE TABLE `tblcontact_permissions` (
@@ -974,13 +880,13 @@ CREATE TABLE `tblcontact_permissions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontracts`
+-- بنية الجدول `tblcontracts`
 --
 
 CREATE TABLE `tblcontracts` (
   `id` int(11) NOT NULL,
-  `content` longtext,
-  `description` text,
+  `content` longtext DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `subject` varchar(191) DEFAULT NULL,
   `client` int(11) NOT NULL,
   `datestart` date DEFAULT NULL,
@@ -988,12 +894,12 @@ CREATE TABLE `tblcontracts` (
   `contract_type` int(11) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL,
-  `isexpirynotified` int(11) NOT NULL DEFAULT '0',
+  `isexpirynotified` int(11) NOT NULL DEFAULT 0,
   `contract_value` decimal(15,2) DEFAULT NULL,
-  `trash` tinyint(1) DEFAULT '0',
-  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
+  `trash` tinyint(1) DEFAULT 0,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
   `hash` varchar(32) DEFAULT NULL,
-  `signed` tinyint(1) NOT NULL DEFAULT '0',
+  `signed` tinyint(1) NOT NULL DEFAULT 0,
   `signature` varchar(40) DEFAULT NULL,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
@@ -1005,7 +911,7 @@ CREATE TABLE `tblcontracts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontracts_types`
+-- بنية الجدول `tblcontracts_types`
 --
 
 CREATE TABLE `tblcontracts_types` (
@@ -1016,12 +922,12 @@ CREATE TABLE `tblcontracts_types` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontract_comments`
+-- بنية الجدول `tblcontract_comments`
 --
 
 CREATE TABLE `tblcontract_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext,
+  `content` mediumtext DEFAULT NULL,
   `contract_id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -1030,7 +936,7 @@ CREATE TABLE `tblcontract_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcontract_renewals`
+-- بنية الجدول `tblcontract_renewals`
 --
 
 CREATE TABLE `tblcontract_renewals` (
@@ -1044,14 +950,14 @@ CREATE TABLE `tblcontract_renewals` (
   `new_value` decimal(15,2) DEFAULT NULL,
   `date_renewed` datetime NOT NULL,
   `renewed_by` varchar(100) NOT NULL,
-  `renewed_by_staff_id` int(11) NOT NULL DEFAULT '0',
-  `is_on_old_expiry_notified` int(11) DEFAULT '0'
+  `renewed_by_staff_id` int(11) NOT NULL DEFAULT 0,
+  `is_on_old_expiry_notified` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcountries`
+-- بنية الجدول `tblcountries`
 --
 
 CREATE TABLE `tblcountries` (
@@ -1068,7 +974,7 @@ CREATE TABLE `tblcountries` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcountries`
+-- إرجاع أو استيراد بيانات الجدول `tblcountries`
 --
 
 INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
@@ -1326,7 +1232,7 @@ INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcreditnotes`
+-- بنية الجدول `tblcreditnotes`
 --
 
 CREATE TABLE `tblcreditnotes` (
@@ -1335,24 +1241,24 @@ CREATE TABLE `tblcreditnotes` (
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '1',
+  `number_format` int(11) NOT NULL DEFAULT 1,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
-  `adminnote` text,
-  `terms` text,
-  `clientnote` text,
+  `adminnote` text DEFAULT NULL,
+  `terms` text DEFAULT NULL,
+  `clientnote` text DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT '1',
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) DEFAULT 1,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) NOT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
@@ -1365,15 +1271,16 @@ CREATE TABLE `tblcreditnotes` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `reference_no` varchar(100) DEFAULT NULL
+  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `reference_no` varchar(100) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcreditnote_refunds`
+-- بنية الجدول `tblcreditnote_refunds`
 --
 
 CREATE TABLE `tblcreditnote_refunds` (
@@ -1382,7 +1289,7 @@ CREATE TABLE `tblcreditnote_refunds` (
   `staff_id` int(11) NOT NULL,
   `refunded_on` date NOT NULL,
   `payment_mode` varchar(40) NOT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `amount` decimal(15,2) NOT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1390,7 +1297,7 @@ CREATE TABLE `tblcreditnote_refunds` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcredits`
+-- بنية الجدول `tblcredits`
 --
 
 CREATE TABLE `tblcredits` (
@@ -1406,7 +1313,7 @@ CREATE TABLE `tblcredits` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcurrencies`
+-- بنية الجدول `tblcurrencies`
 --
 
 CREATE TABLE `tblcurrencies` (
@@ -1416,11 +1323,11 @@ CREATE TABLE `tblcurrencies` (
   `decimal_separator` varchar(5) DEFAULT NULL,
   `thousand_separator` varchar(5) DEFAULT NULL,
   `placement` varchar(10) DEFAULT NULL,
-  `isdefault` tinyint(1) NOT NULL DEFAULT '0'
+  `isdefault` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcurrencies`
+-- إرجاع أو استيراد بيانات الجدول `tblcurrencies`
 --
 
 INSERT INTO `tblcurrencies` (`id`, `symbol`, `name`, `decimal_separator`, `thousand_separator`, `placement`, `isdefault`) VALUES
@@ -1430,7 +1337,7 @@ INSERT INTO `tblcurrencies` (`id`, `symbol`, `name`, `decimal_separator`, `thous
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcustomers_groups`
+-- بنية الجدول `tblcustomers_groups`
 --
 
 CREATE TABLE `tblcustomers_groups` (
@@ -1439,7 +1346,7 @@ CREATE TABLE `tblcustomers_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblcustomers_groups`
+-- إرجاع أو استيراد بيانات الجدول `tblcustomers_groups`
 --
 
 INSERT INTO `tblcustomers_groups` (`id`, `name`) VALUES
@@ -1448,7 +1355,7 @@ INSERT INTO `tblcustomers_groups` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcustomer_admins`
+-- بنية الجدول `tblcustomer_admins`
 --
 
 CREATE TABLE `tblcustomer_admins` (
@@ -1460,7 +1367,7 @@ CREATE TABLE `tblcustomer_admins` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcustomer_groups`
+-- بنية الجدول `tblcustomer_groups`
 --
 
 CREATE TABLE `tblcustomer_groups` (
@@ -1472,7 +1379,7 @@ CREATE TABLE `tblcustomer_groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcustomfields`
+-- بنية الجدول `tblcustomfields`
 --
 
 CREATE TABLE `tblcustomfields` (
@@ -1480,25 +1387,25 @@ CREATE TABLE `tblcustomfields` (
   `fieldto` varchar(15) NOT NULL,
   `name` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   `type` varchar(20) NOT NULL,
-  `options` mediumtext,
-  `display_inline` tinyint(1) NOT NULL DEFAULT '0',
-  `field_order` int(11) DEFAULT '0',
-  `active` int(11) NOT NULL DEFAULT '1',
-  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
-  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT '0',
-  `only_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `show_on_table` tinyint(1) NOT NULL DEFAULT '0',
-  `show_on_client_portal` int(11) NOT NULL DEFAULT '0',
-  `disalow_client_to_edit` int(11) NOT NULL DEFAULT '0',
-  `bs_column` int(11) NOT NULL DEFAULT '12'
+  `options` mediumtext DEFAULT NULL,
+  `display_inline` tinyint(1) NOT NULL DEFAULT 0,
+  `field_order` int(11) DEFAULT 0,
+  `active` int(11) NOT NULL DEFAULT 1,
+  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
+  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT 0,
+  `only_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `show_on_table` tinyint(1) NOT NULL DEFAULT 0,
+  `show_on_client_portal` int(11) NOT NULL DEFAULT 0,
+  `disalow_client_to_edit` int(11) NOT NULL DEFAULT 0,
+  `bs_column` int(11) NOT NULL DEFAULT 12
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblcustomfieldsvalues`
+-- بنية الجدول `tblcustomfieldsvalues`
 --
 
 CREATE TABLE `tblcustomfieldsvalues` (
@@ -1512,7 +1419,7 @@ CREATE TABLE `tblcustomfieldsvalues` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbldepartments`
+-- بنية الجدول `tbldepartments`
 --
 
 CREATE TABLE `tbldepartments` (
@@ -1520,26 +1427,27 @@ CREATE TABLE `tbldepartments` (
   `name` varchar(100) NOT NULL,
   `imap_username` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `email_from_header` tinyint(1) NOT NULL DEFAULT '0',
+  `email_from_header` tinyint(1) NOT NULL DEFAULT 0,
   `host` varchar(150) DEFAULT NULL,
-  `password` mediumtext,
+  `password` mediumtext DEFAULT NULL,
   `encryption` varchar(3) DEFAULT NULL,
-  `delete_after_import` int(11) NOT NULL DEFAULT '0',
-  `calendar_id` mediumtext,
-  `hidefromclient` tinyint(1) NOT NULL DEFAULT '0'
+  `delete_after_import` int(11) NOT NULL DEFAULT 0,
+  `calendar_id` mediumtext DEFAULT NULL,
+  `hidefromclient` tinyint(1) NOT NULL DEFAULT 0,
+  `branch_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbldepartments`
+-- إرجاع أو استيراد بيانات الجدول `tbldepartments`
 --
 
-INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, `email_from_header`, `host`, `password`, `encryption`, `delete_after_import`, `calendar_id`, `hidefromclient`) VALUES
-(3, 'Web Developers', 'mhdbashard@gmail.com', '', 0, '', '', '', 0, NULL, 0);
+INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, `email_from_header`, `host`, `password`, `encryption`, `delete_after_import`, `calendar_id`, `hidefromclient`, `branch_id`) VALUES
+(3, 'Web Developers', 'mhdbashard@gmail.com', '', 0, '', '', '', 0, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbldismissed_announcements`
+-- بنية الجدول `tbldismissed_announcements`
 --
 
 CREATE TABLE `tbldismissed_announcements` (
@@ -1552,7 +1460,7 @@ CREATE TABLE `tbldismissed_announcements` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblemailtemplates`
+-- بنية الجدول `tblemailtemplates`
 --
 
 CREATE TABLE `tblemailtemplates` (
@@ -1565,13 +1473,13 @@ CREATE TABLE `tblemailtemplates` (
   `message` text NOT NULL,
   `fromname` mediumtext NOT NULL,
   `fromemail` varchar(100) DEFAULT NULL,
-  `plaintext` int(11) NOT NULL DEFAULT '0',
-  `active` tinyint(4) NOT NULL DEFAULT '0',
+  `plaintext` int(11) NOT NULL DEFAULT 0,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
   `order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblemailtemplates`
+-- إرجاع أو استيراد بيانات الجدول `tblemailtemplates`
 --
 
 INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
@@ -1728,42 +1636,42 @@ INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblestimates`
+-- بنية الجدول `tblestimates`
 --
 
 CREATE TABLE `tblestimates` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT '0',
+  `sent` tinyint(1) NOT NULL DEFAULT 0,
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '0',
+  `number_format` int(11) NOT NULL DEFAULT 0,
   `hash` varchar(32) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `expirydate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
-  `clientnote` text,
-  `adminnote` text,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `status` int(11) NOT NULL DEFAULT 1,
+  `clientnote` text DEFAULT NULL,
+  `adminnote` text DEFAULT NULL,
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) DEFAULT NULL,
   `invoiceid` int(11) DEFAULT NULL,
   `invoiced_date` datetime DEFAULT NULL,
-  `terms` text,
+  `terms` text DEFAULT NULL,
   `reference_no` varchar(100) DEFAULT NULL,
-  `sale_agent` int(11) NOT NULL DEFAULT '0',
+  `sale_agent` int(11) NOT NULL DEFAULT 0,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -1775,49 +1683,43 @@ CREATE TABLE `tblestimates` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `pipeline_order` int(11) NOT NULL DEFAULT '0',
-  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
+  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `pipeline_order` int(11) NOT NULL DEFAULT 0,
+  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
   `acceptance_date` datetime DEFAULT NULL,
   `acceptance_ip` varchar(40) DEFAULT NULL,
-  `signature` varchar(40) DEFAULT NULL
+  `signature` varchar(40) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblestimates`
---
-
-INSERT INTO `tblestimates` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `project_id`, `rel_sid`, `rel_stype`, `number`, `prefix`, `number_format`, `hash`, `datecreated`, `date`, `expirydate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `status`, `clientnote`, `adminnote`, `discount_percent`, `discount_total`, `discount_type`, `invoiceid`, `invoiced_date`, `terms`, `reference_no`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_estimate`, `show_quantity_as`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`) VALUES
-(1, 0, NULL, 0, NULL, 1, NULL, NULL, 0, NULL, 0, NULL, '0000-00-00 00:00:00', '0000-00-00', NULL, 0, '0.00', '0.00', '0.00', NULL, 0, 1, NULL, NULL, '0.00', '0.00', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblevents`
+-- بنية الجدول `tblevents`
 --
 
 CREATE TABLE `tblevents` (
   `eventid` int(11) NOT NULL,
   `title` mediumtext NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime DEFAULT NULL,
-  `public` int(11) NOT NULL DEFAULT '0',
+  `public` int(11) NOT NULL DEFAULT 0,
   `color` varchar(10) DEFAULT NULL,
-  `isstartnotified` tinyint(1) NOT NULL DEFAULT '0',
-  `reminder_before` int(11) NOT NULL DEFAULT '0',
+  `isstartnotified` tinyint(1) NOT NULL DEFAULT 0,
+  `reminder_before` int(11) NOT NULL DEFAULT 0,
   `reminder_before_type` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblexpenses`
+-- بنية الجدول `tblexpenses`
 --
 
 CREATE TABLE `tblexpenses` (
@@ -1826,58 +1728,63 @@ CREATE TABLE `tblexpenses` (
   `currency` int(11) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
-  `tax2` int(11) NOT NULL DEFAULT '0',
+  `tax2` int(11) NOT NULL DEFAULT 0,
   `reference_no` varchar(100) DEFAULT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `expense_name` varchar(191) DEFAULT NULL,
   `clientid` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `billable` int(11) DEFAULT '0',
+  `billable` int(11) DEFAULT 0,
   `invoiceid` int(11) DEFAULT NULL,
   `paymentmode` varchar(50) DEFAULT NULL,
   `date` date NOT NULL,
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
-  `custom_recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `custom_recurring` int(11) NOT NULL DEFAULT 0,
   `last_recurring_date` date DEFAULT NULL,
   `create_invoice_billable` tinyint(1) DEFAULT NULL,
   `send_invoice_to_customer` tinyint(1) NOT NULL,
   `recurring_from` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
-  `addedfrom` int(11) NOT NULL
+  `addedfrom` int(11) NOT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblexpenses`
+-- إرجاع أو استيراد بيانات الجدول `tblexpenses`
 --
 
-INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`, `reference_no`, `note`, `expense_name`, `clientid`, `project_id`, `rel_sid`, `rel_stype`, `billable`, `invoiceid`, `paymentmode`, `date`, `recurring_type`, `repeat_every`, `recurring`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `create_invoice_billable`, `send_invoice_to_customer`, `recurring_from`, `dateadded`, `addedfrom`) VALUES
-(1, 1, 1, '12.00', 0, 0, '', '', 'test', 9, 1, NULL, NULL, 1, NULL, '', '2019-06-28', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-06-28 20:19:34', 1),
-(2, 1, 1, '123.00', 0, 0, '', '', 'test2', 9, 1, NULL, NULL, 1, NULL, '', '2019-06-28', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-06-28 20:38:29', 1),
-(3, 1, 1, '0.00', 0, 0, '', 'sdfsdf', 'sdfsdf', 9, 1, NULL, NULL, 1, NULL, '', '2019-07-09', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-07-09 01:08:04', 1),
-(4, 1, 1, '0.00', 0, 0, '', 'sdfsdf', 'sdfsdf', 9, 1, NULL, NULL, 1, NULL, '', '2019-07-09', NULL, NULL, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-07-09 01:08:09', 1);
+INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`, `reference_no`, `note`, `expense_name`, `clientid`, `project_id`, `rel_sid`, `rel_stype`, `billable`, `invoiceid`, `paymentmode`, `date`, `recurring_type`, `repeat_every`, `recurring`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `create_invoice_billable`, `send_invoice_to_customer`, `recurring_from`, `dateadded`, `addedfrom`, `deleted`) VALUES
+(5, 1, 1, '5.00', 0, 0, '', '', 'tes', 0, 0, NULL, NULL, 0, NULL, '', '2019-09-04', NULL, 0, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-09-04 18:49:29', 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblexpenses_categories`
+-- بنية الجدول `tblexpenses_categories`
 --
 
 CREATE TABLE `tblexpenses_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblexpenses_categories`
+--
+
+INSERT INTO `tblexpenses_categories` (`id`, `name`, `description`) VALUES
+(1, 'test', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblfiles`
+-- بنية الجدول `tblfiles`
 --
 
 CREATE TABLE `tblfiles` (
@@ -1886,21 +1793,21 @@ CREATE TABLE `tblfiles` (
   `rel_type` varchar(20) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `filetype` varchar(40) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `attachment_key` varchar(32) DEFAULT NULL,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text COMMENT 'For external usage',
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL COMMENT 'For external usage',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
-  `task_comment_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
+  `task_comment_id` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblform_questions`
+-- بنية الجدول `tblform_questions`
 --
 
 CREATE TABLE `tblform_questions` (
@@ -1908,14 +1815,14 @@ CREATE TABLE `tblform_questions` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `question` mediumtext NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   `question_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblform_question_box`
+-- بنية الجدول `tblform_question_box`
 --
 
 CREATE TABLE `tblform_question_box` (
@@ -1927,7 +1834,7 @@ CREATE TABLE `tblform_question_box` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblform_question_box_description`
+-- بنية الجدول `tblform_question_box_description`
 --
 
 CREATE TABLE `tblform_question_box_description` (
@@ -1940,7 +1847,7 @@ CREATE TABLE `tblform_question_box_description` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblform_results`
+-- بنية الجدول `tblform_results`
 --
 
 CREATE TABLE `tblform_results` (
@@ -1950,32 +1857,32 @@ CREATE TABLE `tblform_results` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `questionid` int(11) NOT NULL,
-  `answer` text,
+  `answer` text DEFAULT NULL,
   `resultsetid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblgdpr_requests`
+-- بنية الجدول `tblgdpr_requests`
 --
 
 CREATE TABLE `tblgdpr_requests` (
   `id` int(11) NOT NULL,
-  `clientid` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `lead_id` int(11) NOT NULL DEFAULT '0',
+  `clientid` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `lead_id` int(11) NOT NULL DEFAULT 0,
   `request_type` varchar(191) DEFAULT NULL,
   `status` varchar(40) DEFAULT NULL,
   `request_date` datetime NOT NULL,
   `request_from` varchar(150) DEFAULT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblinvoicepaymentrecords`
+-- بنية الجدول `tblinvoicepaymentrecords`
 --
 
 CREATE TABLE `tblinvoicepaymentrecords` (
@@ -1987,53 +1894,60 @@ CREATE TABLE `tblinvoicepaymentrecords` (
   `date` date NOT NULL,
   `daterecorded` datetime NOT NULL,
   `note` text NOT NULL,
-  `transactionid` mediumtext
+  `transactionid` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblinvoicepaymentrecords`
+--
+
+INSERT INTO `tblinvoicepaymentrecords` (`id`, `invoiceid`, `amount`, `paymentmode`, `paymentmethod`, `date`, `daterecorded`, `note`, `transactionid`) VALUES
+(1, 1, '10.00', '1', '', '2019-08-26', '2019-08-26 21:06:17', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblinvoices`
+-- بنية الجدول `tblinvoices`
 --
 
 CREATE TABLE `tblinvoices` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT '0',
+  `sent` tinyint(1) NOT NULL DEFAULT 0,
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT '0',
+  `number_format` int(11) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
-  `status` int(11) DEFAULT '1',
-  `clientnote` text,
-  `adminnote` text,
+  `status` int(11) DEFAULT 1,
+  `clientnote` text DEFAULT NULL,
+  `adminnote` text DEFAULT NULL,
   `last_overdue_reminder` date DEFAULT NULL,
-  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT '0',
-  `allowed_payment_modes` mediumtext,
-  `token` mediumtext,
-  `discount_percent` decimal(15,2) DEFAULT '0.00',
-  `discount_total` decimal(15,2) DEFAULT '0.00',
+  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT 0,
+  `allowed_payment_modes` mediumtext DEFAULT NULL,
+  `token` mediumtext DEFAULT NULL,
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
   `discount_type` varchar(30) NOT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
   `recurring_type` varchar(10) DEFAULT NULL,
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
   `is_recurring_from` int(11) DEFAULT NULL,
   `last_recurring_date` date DEFAULT NULL,
-  `terms` text,
-  `sale_agent` int(11) NOT NULL DEFAULT '0',
+  `terms` text DEFAULT NULL,
+  `sale_agent` int(11) NOT NULL DEFAULT 0,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -2045,26 +1959,19 @@ CREATE TABLE `tblinvoices` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT '1',
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
-  `project_id` int(11) DEFAULT '0',
+  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `project_id` int(11) DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `subscription_id` int(11) NOT NULL DEFAULT '0'
+  `subscription_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblinvoices`
---
-
-INSERT INTO `tblinvoices` (`id`, `sent`, `datesend`, `clientid`, `deleted_customer_name`, `number`, `prefix`, `number_format`, `datecreated`, `date`, `duedate`, `currency`, `subtotal`, `total_tax`, `total`, `adjustment`, `addedfrom`, `hash`, `status`, `clientnote`, `adminnote`, `last_overdue_reminder`, `cancel_overdue_reminders`, `allowed_payment_modes`, `token`, `discount_percent`, `discount_total`, `discount_type`, `recurring`, `recurring_type`, `custom_recurring`, `cycles`, `total_cycles`, `is_recurring_from`, `last_recurring_date`, `terms`, `sale_agent`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `include_shipping`, `show_shipping_on_invoice`, `show_quantity_as`, `project_id`, `rel_sid`, `rel_stype`, `subscription_id`) VALUES
-(1, 0, NULL, 3, NULL, 1, 'INV-', 1, '2019-06-28 20:01:36', '2019-06-28', '2019-07-28', 1, '10.00', '0.00', '10.00', '0.00', 1, '1fef27f20969e11eab3e2706b36308fd', 4, '', '', NULL, 0, 'a:1:{i:0;s:1:\"1\";}', NULL, '0.00', '0.00', '', 0, NULL, 0, 0, 0, NULL, NULL, '', 0, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, 0, 1, 1, 3, NULL, NULL, 0),
-(2, 0, NULL, 3, NULL, 2, 'INV-', 1, '2019-07-31 21:19:08', '2019-07-31', '2019-08-30', 1, '0.00', '0.00', '0.00', '0.00', 1, '34333a0dea5488d483c4e1710cffb535', 2, '', '', NULL, 0, 'a:1:{i:0;s:1:\"1\";}', NULL, '0.00', '0.00', '', 0, NULL, 0, 0, 0, NULL, NULL, '', 0, '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, 3, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblitemable`
+-- بنية الجدول `tblitemable`
 --
 
 CREATE TABLE `tblitemable` (
@@ -2072,7 +1979,7 @@ CREATE TABLE `tblitemable` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(15) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` mediumtext,
+  `long_description` mediumtext DEFAULT NULL,
   `qty` decimal(15,2) NOT NULL,
   `rate` decimal(15,2) NOT NULL,
   `unit` varchar(40) DEFAULT NULL,
@@ -2080,41 +1987,43 @@ CREATE TABLE `tblitemable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblitemable`
+-- إرجاع أو استيراد بيانات الجدول `tblitemable`
 --
 
 INSERT INTO `tblitemable` (`id`, `rel_id`, `rel_type`, `description`, `long_description`, `qty`, `rate`, `unit`, `item_order`) VALUES
 (1, 2, 'invoice', 'قضية 1', 'test - 505:00 Hours', '1.00', '0.00', '', 1),
-(2, 1, 'invoice', 'test', '', '1.00', '10.00', '', 1);
+(2, 1, 'invoice', 'test', '', '1.00', '10.00', '', 1),
+(3, 1, 'proposal', 'test', '', '1.00', '10.00', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblitems`
+-- بنية الجدول `tblitems`
 --
 
 CREATE TABLE `tblitems` (
   `id` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` text,
+  `long_description` text DEFAULT NULL,
   `rate` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
   `tax2` int(11) DEFAULT NULL,
   `unit` varchar(40) DEFAULT NULL,
-  `group_id` int(11) NOT NULL DEFAULT '0'
+  `group_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblitems`
+-- إرجاع أو استيراد بيانات الجدول `tblitems`
 --
 
 INSERT INTO `tblitems` (`id`, `description`, `long_description`, `rate`, `tax`, `tax2`, `unit`, `group_id`) VALUES
-(1, 'test', '', '10.00', NULL, NULL, '', 0);
+(1, 'test', '', '10.00', NULL, NULL, '', 0),
+(2, 'المبلغ المدين شهريا', '', '10000.00', NULL, NULL, '', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblitems_groups`
+-- بنية الجدول `tblitems_groups`
 --
 
 CREATE TABLE `tblitems_groups` (
@@ -2125,7 +2034,7 @@ CREATE TABLE `tblitems_groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblitem_tax`
+-- بنية الجدول `tblitem_tax`
 --
 
 CREATE TABLE `tblitem_tax` (
@@ -2140,7 +2049,7 @@ CREATE TABLE `tblitem_tax` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblknowedge_base_article_feedback`
+-- بنية الجدول `tblknowedge_base_article_feedback`
 --
 
 CREATE TABLE `tblknowedge_base_article_feedback` (
@@ -2154,7 +2063,7 @@ CREATE TABLE `tblknowedge_base_article_feedback` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblknowledge_base`
+-- بنية الجدول `tblknowledge_base`
 --
 
 CREATE TABLE `tblknowledge_base` (
@@ -2165,30 +2074,30 @@ CREATE TABLE `tblknowledge_base` (
   `slug` mediumtext NOT NULL,
   `active` tinyint(4) NOT NULL,
   `datecreated` datetime NOT NULL,
-  `article_order` int(11) NOT NULL DEFAULT '0',
-  `staff_article` int(11) NOT NULL DEFAULT '0'
+  `article_order` int(11) NOT NULL DEFAULT 0,
+  `staff_article` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblknowledge_base_groups`
+-- بنية الجدول `tblknowledge_base_groups`
 --
 
 CREATE TABLE `tblknowledge_base_groups` (
   `groupid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `group_slug` text,
-  `description` mediumtext,
+  `group_slug` text DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
   `active` tinyint(4) NOT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `group_order` int(11) DEFAULT '0'
+  `group_order` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblleads`
+-- بنية الجدول `tblleads`
 --
 
 CREATE TABLE `tblleads` (
@@ -2197,15 +2106,15 @@ CREATE TABLE `tblleads` (
   `name` varchar(191) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
   `company` varchar(191) DEFAULT NULL,
-  `description` text,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `country` int(11) NOT NULL DEFAULT 0,
   `zip` varchar(15) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `assigned` int(11) NOT NULL DEFAULT '0',
+  `assigned` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL,
-  `from_form_id` int(11) NOT NULL DEFAULT '0',
+  `from_form_id` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `lastcontact` datetime DEFAULT NULL,
@@ -2214,23 +2123,23 @@ CREATE TABLE `tblleads` (
   `addedfrom` int(11) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
-  `leadorder` int(11) DEFAULT '1',
+  `leadorder` int(11) DEFAULT 1,
   `phonenumber` varchar(50) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `lost` tinyint(1) NOT NULL DEFAULT '0',
-  `junk` int(11) NOT NULL DEFAULT '0',
-  `last_lead_status` int(11) NOT NULL DEFAULT '0',
-  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT '0',
+  `lost` tinyint(1) NOT NULL DEFAULT 0,
+  `junk` int(11) NOT NULL DEFAULT 0,
+  `last_lead_status` int(11) NOT NULL DEFAULT 0,
+  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT 0,
   `email_integration_uid` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  `is_public` tinyint(1) NOT NULL DEFAULT 0,
   `default_language` varchar(40) DEFAULT NULL,
-  `client_id` int(11) NOT NULL DEFAULT '0'
+  `client_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblleads_email_integration`
+-- بنية الجدول `tblleads_email_integration`
 --
 
 CREATE TABLE `tblleads_email_integration` (
@@ -2239,25 +2148,25 @@ CREATE TABLE `tblleads_email_integration` (
   `email` varchar(100) NOT NULL,
   `imap_server` varchar(100) NOT NULL,
   `password` mediumtext NOT NULL,
-  `check_every` int(11) NOT NULL DEFAULT '5',
+  `check_every` int(11) NOT NULL DEFAULT 5,
   `responsible` int(11) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
   `encryption` varchar(3) DEFAULT NULL,
   `folder` varchar(100) NOT NULL,
   `last_run` varchar(50) DEFAULT NULL,
-  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT '1',
-  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT '1',
+  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT 1,
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext,
-  `mark_public` int(11) NOT NULL DEFAULT '0',
-  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT '1',
-  `delete_after_import` int(11) NOT NULL DEFAULT '0',
-  `create_task_if_customer` int(11) NOT NULL DEFAULT '0'
+  `notify_ids` mediumtext DEFAULT NULL,
+  `mark_public` int(11) NOT NULL DEFAULT 0,
+  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT 1,
+  `delete_after_import` int(11) NOT NULL DEFAULT 0,
+  `create_task_if_customer` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblleads_email_integration`
+-- إرجاع أو استيراد بيانات الجدول `tblleads_email_integration`
 --
 
 INSERT INTO `tblleads_email_integration` (`id`, `active`, `email`, `imap_server`, `password`, `check_every`, `responsible`, `lead_source`, `lead_status`, `encryption`, `folder`, `last_run`, `notify_lead_imported`, `notify_lead_contact_more_times`, `notify_type`, `notify_ids`, `mark_public`, `only_loop_on_unseen_emails`, `delete_after_import`, `create_task_if_customer`) VALUES
@@ -2266,7 +2175,7 @@ INSERT INTO `tblleads_email_integration` (`id`, `active`, `email`, `imap_server`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblleads_sources`
+-- بنية الجدول `tblleads_sources`
 --
 
 CREATE TABLE `tblleads_sources` (
@@ -2275,7 +2184,7 @@ CREATE TABLE `tblleads_sources` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblleads_sources`
+-- إرجاع أو استيراد بيانات الجدول `tblleads_sources`
 --
 
 INSERT INTO `tblleads_sources` (`id`, `name`) VALUES
@@ -2285,7 +2194,7 @@ INSERT INTO `tblleads_sources` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblleads_status`
+-- بنية الجدول `tblleads_status`
 --
 
 CREATE TABLE `tblleads_status` (
@@ -2293,11 +2202,11 @@ CREATE TABLE `tblleads_status` (
   `name` varchar(50) NOT NULL,
   `statusorder` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `isdefault` int(11) NOT NULL DEFAULT '0'
+  `isdefault` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblleads_status`
+-- إرجاع أو استيراد بيانات الجدول `tblleads_status`
 --
 
 INSERT INTO `tblleads_status` (`id`, `name`, `statusorder`, `color`, `isdefault`) VALUES
@@ -2306,30 +2215,30 @@ INSERT INTO `tblleads_status` (`id`, `name`, `statusorder`, `color`, `isdefault`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbllead_activity_log`
+-- بنية الجدول `tbllead_activity_log`
 --
 
 CREATE TABLE `tbllead_activity_log` (
   `id` int(11) NOT NULL,
   `leadid` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `date` datetime NOT NULL,
   `staffid` int(11) NOT NULL,
   `full_name` varchar(100) DEFAULT NULL,
-  `custom_activity` tinyint(1) NOT NULL DEFAULT '0'
+  `custom_activity` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbllead_integration_emails`
+-- بنية الجدول `tbllead_integration_emails`
 --
 
 CREATE TABLE `tbllead_integration_emails` (
   `id` int(11) NOT NULL,
-  `subject` mediumtext,
-  `body` mediumtext,
+  `subject` mediumtext DEFAULT NULL,
+  `body` mediumtext DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `leadid` int(11) NOT NULL,
   `emailid` int(11) NOT NULL
@@ -2338,27 +2247,27 @@ CREATE TABLE `tbllead_integration_emails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmail_queue`
+-- بنية الجدول `tblmail_queue`
 --
 
 CREATE TABLE `tblmail_queue` (
   `id` int(11) NOT NULL,
   `engine` varchar(40) DEFAULT NULL,
   `email` varchar(191) NOT NULL,
-  `cc` text,
-  `bcc` text,
+  `cc` text DEFAULT NULL,
+  `bcc` text DEFAULT NULL,
   `message` mediumtext NOT NULL,
-  `alt_message` mediumtext,
+  `alt_message` mediumtext DEFAULT NULL,
   `status` enum('pending','sending','sent','failed') DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `headers` text,
-  `attachments` mediumtext
+  `headers` text DEFAULT NULL,
+  `attachments` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmigrations`
+-- بنية الجدول `tblmigrations`
 --
 
 CREATE TABLE `tblmigrations` (
@@ -2366,7 +2275,7 @@ CREATE TABLE `tblmigrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmigrations`
+-- إرجاع أو استيراد بيانات الجدول `tblmigrations`
 --
 
 INSERT INTO `tblmigrations` (`version`) VALUES
@@ -2375,35 +2284,27 @@ INSERT INTO `tblmigrations` (`version`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmilestones`
+-- بنية الجدول `tblmilestones`
 --
 
 CREATE TABLE `tblmilestones` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `description_visible_to_customer` tinyint(1) DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `description_visible_to_customer` tinyint(1) DEFAULT 0,
   `due_date` date NOT NULL,
   `project_id` int(11) NOT NULL,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
-  `milestone_order` int(11) NOT NULL DEFAULT '0',
+  `milestone_order` int(11) NOT NULL DEFAULT 0,
   `datecreated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmilestones`
---
-
-INSERT INTO `tblmilestones` (`id`, `name`, `description`, `description_visible_to_customer`, `due_date`, `project_id`, `rel_sid`, `rel_stype`, `color`, `milestone_order`, `datecreated`) VALUES
-(6, 'milestone', '', 0, '2019-07-17', 0, 7, 'kd-y', NULL, 1, '2019-07-30'),
-(7, 'tes', '', 0, '2019-08-01', 3, NULL, NULL, NULL, 1, '2019-08-01');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmodules`
+-- بنية الجدول `tblmodules`
 --
 
 CREATE TABLE `tblmodules` (
@@ -2414,20 +2315,22 @@ CREATE TABLE `tblmodules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmodules`
+-- إرجاع أو استيراد بيانات الجدول `tblmodules`
 --
 
 INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VALUES
 (1, 'menu_setup', '2.3.0', 1),
-(2, 'hrm', '1.0.0', 1),
-(3, 'label_management', '2.3.0', 0),
+(2, 'hrm', '1.0.0', 0),
+(3, 'label_management', '2.3.0', 1),
 (4, 'location_module', '2.3.0', 0),
-(5, 'session', '2.3.0', 0);
+(5, 'session', '2.3.0', 0),
+(6, 'disputes', '1.0.0', 1),
+(7, 'branches', '2.3.0', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_award`
+-- بنية الجدول `tblmy_award`
 --
 
 CREATE TABLE `tblmy_award` (
@@ -2439,7 +2342,7 @@ CREATE TABLE `tblmy_award` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_award`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_award`
 --
 
 INSERT INTO `tblmy_award` (`id`, `staff_id`, `award`, `reason`, `date`) VALUES
@@ -2450,7 +2353,7 @@ INSERT INTO `tblmy_award` (`id`, `staff_id`, `award`, `reason`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_bank`
+-- بنية الجدول `tblmy_bank`
 --
 
 CREATE TABLE `tblmy_bank` (
@@ -2460,13 +2363,13 @@ CREATE TABLE `tblmy_bank` (
   `account_name` varchar(255) NOT NULL,
   `routing_number` int(11) NOT NULL,
   `account_number` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_basic_services`
+-- بنية الجدول `tblmy_basic_services`
 --
 
 CREATE TABLE `tblmy_basic_services` (
@@ -2475,12 +2378,12 @@ CREATE TABLE `tblmy_basic_services` (
   `slug` varchar(255) NOT NULL,
   `prefix` varchar(255) NOT NULL,
   `numbering` int(11) DEFAULT NULL,
-  `is_primary` int(2) NOT NULL DEFAULT '0',
+  `is_primary` int(2) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_basic_services`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_basic_services`
 --
 
 INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `datecreated`) VALUES
@@ -2491,7 +2394,7 @@ INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_cases`
+-- بنية الجدول `tblmy_cases`
 --
 
 CREATE TABLE `tblmy_cases` (
@@ -2520,23 +2423,24 @@ CREATE TABLE `tblmy_cases` (
   `case_result` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_cases`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_cases`
 --
 
-INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`) VALUES
-(7, 1, 'CASE1', 'قضية 1', 3, 2, 1, 2, 2, 7, 217, 'دمشق', 1, 2, 1, 0, '0.00', '2019-07-17', '2019-07-30', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 0, 1),
-(8, 2, 'CASE2', 'قضية 2', 2, 2, 1, 2, 2, 7, 66, 'giza', 1, 2, 1, 0, '0.00', '2019-07-16', '2019-08-01', '2019-07-19', NULL, '', 'متداولة', 0, '0.00', 0, 0, 1);
+INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
+(2, 1, 'CASE1', 'قضية 1', 3, 2, 3, 4, 2, 7, 105, 'karkouk', 1, 2, 1, 0, '0.00', '2019-09-13', '2019-09-16', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_casestatus`
+-- بنية الجدول `tblmy_casestatus`
 --
 
 CREATE TABLE `tblmy_casestatus` (
@@ -2545,7 +2449,7 @@ CREATE TABLE `tblmy_casestatus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_casestatus`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_casestatus`
 --
 
 INSERT INTO `tblmy_casestatus` (`id`, `name`) VALUES
@@ -2555,7 +2459,7 @@ INSERT INTO `tblmy_casestatus` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_cases_judges`
+-- بنية الجدول `tblmy_cases_judges`
 --
 
 CREATE TABLE `tblmy_cases_judges` (
@@ -2565,23 +2469,37 @@ CREATE TABLE `tblmy_cases_judges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_cases_judges`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_cases_judges`
 --
 
 INSERT INTO `tblmy_cases_judges` (`id`, `judge_id`, `case_id`) VALUES
-(3, 3, 1),
-(5, 3, 4),
-(6, 3, 5),
-(7, 3, 6),
-(8, 1, 6),
-(9, 3, 7),
-(10, 1, 7),
-(11, 3, 8);
+(3, 3, 2),
+(4, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_categories`
+-- بنية الجدول `tblmy_cases_movement_judges`
+--
+
+CREATE TABLE `tblmy_cases_movement_judges` (
+  `id` int(11) NOT NULL,
+  `judge_id` int(11) NOT NULL,
+  `case_mov_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_cases_movement_judges`
+--
+
+INSERT INTO `tblmy_cases_movement_judges` (`id`, `judge_id`, `case_mov_id`) VALUES
+(2, 3, 2),
+(3, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_categories`
 --
 
 CREATE TABLE `tblmy_categories` (
@@ -2593,7 +2511,7 @@ CREATE TABLE `tblmy_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_categories`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_categories`
 --
 
 INSERT INTO `tblmy_categories` (`id`, `name`, `service_id`, `parent_id`, `datecreated`) VALUES
@@ -2613,7 +2531,7 @@ INSERT INTO `tblmy_categories` (`id`, `name`, `service_id`, `parent_id`, `datecr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_courts`
+-- بنية الجدول `tblmy_courts`
 --
 
 CREATE TABLE `tblmy_courts` (
@@ -2623,7 +2541,7 @@ CREATE TABLE `tblmy_courts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_courts`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_courts`
 --
 
 INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`) VALUES
@@ -2632,7 +2550,7 @@ INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_customer_representative`
+-- بنية الجدول `tblmy_customer_representative`
 --
 
 CREATE TABLE `tblmy_customer_representative` (
@@ -2641,7 +2559,7 @@ CREATE TABLE `tblmy_customer_representative` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_customer_representative`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_customer_representative`
 --
 
 INSERT INTO `tblmy_customer_representative` (`id`, `representative`) VALUES
@@ -2651,7 +2569,7 @@ INSERT INTO `tblmy_customer_representative` (`id`, `representative`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_employee_basic`
+-- بنية الجدول `tblmy_employee_basic`
 --
 
 CREATE TABLE `tblmy_employee_basic` (
@@ -2671,7 +2589,7 @@ CREATE TABLE `tblmy_employee_basic` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_holiday`
+-- بنية الجدول `tblmy_holiday`
 --
 
 CREATE TABLE `tblmy_holiday` (
@@ -2683,7 +2601,7 @@ CREATE TABLE `tblmy_holiday` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_holiday`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_holiday`
 --
 
 INSERT INTO `tblmy_holiday` (`id`, `event_name`, `description`, `start_date`, `end_date`) VALUES
@@ -2692,7 +2610,7 @@ INSERT INTO `tblmy_holiday` (`id`, `event_name`, `description`, `start_date`, `e
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_judges`
+-- بنية الجدول `tblmy_judges`
 --
 
 CREATE TABLE `tblmy_judges` (
@@ -2702,7 +2620,7 @@ CREATE TABLE `tblmy_judges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_judges`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_judges`
 --
 
 INSERT INTO `tblmy_judges` (`id`, `name`, `note`) VALUES
@@ -2712,7 +2630,7 @@ INSERT INTO `tblmy_judges` (`id`, `name`, `note`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_judicialdept`
+-- بنية الجدول `tblmy_judicialdept`
 --
 
 CREATE TABLE `tblmy_judicialdept` (
@@ -2723,7 +2641,7 @@ CREATE TABLE `tblmy_judicialdept` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_judicialdept`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_judicialdept`
 --
 
 INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `datecreated`) VALUES
@@ -2732,7 +2650,7 @@ INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `datecreated`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_members_cases`
+-- بنية الجدول `tblmy_members_cases`
 --
 
 CREATE TABLE `tblmy_members_cases` (
@@ -2742,39 +2660,37 @@ CREATE TABLE `tblmy_members_cases` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_members_cases`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_members_cases`
 --
 
 INSERT INTO `tblmy_members_cases` (`id`, `staff_id`, `project_id`) VALUES
-(10, 2, 2),
-(11, 1, 2),
-(15, 1, 7),
-(16, 1, 8);
+(17, 1, 9),
+(21, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_members_services`
+-- بنية الجدول `tblmy_members_services`
 --
 
 CREATE TABLE `tblmy_members_services` (
   `id` int(11) NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL
+  `oservice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_members_services`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_members_services`
 --
 
-INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `project_id`) VALUES
-(3, 1, 4),
-(4, 1, 5);
+INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `oservice_id`) VALUES
+(3, 1, 5),
+(4, 1, 6);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_newstaff`
+-- بنية الجدول `tblmy_newstaff`
 --
 
 CREATE TABLE `tblmy_newstaff` (
@@ -2790,7 +2706,7 @@ CREATE TABLE `tblmy_newstaff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_newstaff`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_newstaff`
 --
 
 INSERT INTO `tblmy_newstaff` (`user_id`, `staff_id`, `period`, `gender`, `main_salary`, `transportation_expenses`, `other_expenses`, `job_title`, `created`) VALUES
@@ -2800,7 +2716,7 @@ INSERT INTO `tblmy_newstaff` (`user_id`, `staff_id`, `period`, `gender`, `main_s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_other_services`
+-- بنية الجدول `tblmy_other_services`
 --
 
 CREATE TABLE `tblmy_other_services` (
@@ -2812,6 +2728,7 @@ CREATE TABLE `tblmy_other_services` (
   `clientid` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
+  `service_session_link` int(11) NOT NULL DEFAULT 0,
   `billing_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `project_rate_per_hour` int(11) NOT NULL,
@@ -2825,23 +2742,24 @@ CREATE TABLE `tblmy_other_services` (
   `city` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
-  `addedfrom` int(11) NOT NULL
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_other_services`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_other_services`
 --
 
-INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`) VALUES
-(4, 2, 'Akd3', 3, 'عقد جديد', 1, 5, 6, 1, 1, 0, '0.00', '2019-07-16', '2019-07-16', NULL, NULL, '', 217, 'hamah', 0, '0.00', 0, 0, 1),
-(5, 0, 'Akd4', 4, 'جديد', 3, 5, 6, 1, 1, 0, '0.00', '2019-07-10', '2019-07-17', NULL, NULL, '', 217, 'latakia', 0, '0.00', 0, 0, 1);
+INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `service_session_link`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
+(5, 2, 'Akd5', 5, 'عقد@عقد', 3, 5, 6, 0, 1, 1, 0, '0.00', '2019-09-27', '2019-09-04', NULL, NULL, '', 0, '', 0, '0.00', 0, 0, 1, 0, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_procurationstate`
+-- بنية الجدول `tblmy_procurationstate`
 --
 
 CREATE TABLE `tblmy_procurationstate` (
@@ -2850,17 +2768,17 @@ CREATE TABLE `tblmy_procurationstate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `tblmy_procurationstate`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_procurationstate`
 --
 
 INSERT INTO `tblmy_procurationstate` (`id`, `procurationstate`) VALUES
-(1, 'Public'),
-(2, 'Private');
+(1, 'Finished'),
+(2, 'Ongoing');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_procurationtype`
+-- بنية الجدول `tblmy_procurationtype`
 --
 
 CREATE TABLE `tblmy_procurationtype` (
@@ -2869,17 +2787,180 @@ CREATE TABLE `tblmy_procurationtype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `tblmy_procurationtype`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_procurationtype`
 --
 
 INSERT INTO `tblmy_procurationtype` (`id`, `procurationtype`) VALUES
-(1, 'Ongoing'),
-(2, 'Finished');
+(1, 'Private'),
+(2, 'Public');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_salary`
+-- بنية الجدول `tblmy_projects_contacts`
+--
+
+CREATE TABLE `tblmy_projects_contacts` (
+  `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL DEFAULT 0,
+  `contact_type` int(2) NOT NULL DEFAULT 0,
+  `contact_name` varchar(50) NOT NULL DEFAULT '',
+  `contact_address` varchar(250) NOT NULL DEFAULT '',
+  `contact_email` varchar(50) NOT NULL DEFAULT '',
+  `contact_phone` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_projects_contacts`
+--
+
+INSERT INTO `tblmy_projects_contacts` (`id`, `project_id`, `contact_type`, `contact_name`, `contact_address`, `contact_email`, `contact_phone`) VALUES
+(1, 5, 0, 'opppnent 1', 'test', 'test@mail.com', 'ds'),
+(2, 5, 1, 'opppnent lawyer', 'testt', 'test@mail.com', 'ds'),
+(3, 6, 0, 'tt', 'tt', 'tt', 'tt');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_projects_meta`
+--
+
+CREATE TABLE `tblmy_projects_meta` (
+  `id` int(11) NOT NULL,
+  `project_id` int(12) NOT NULL DEFAULT 0,
+  `meta_key` varchar(100) NOT NULL DEFAULT '',
+  `meta_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_projects_meta`
+--
+
+INSERT INTO `tblmy_projects_meta` (`id`, `project_id`, `meta_key`, `meta_value`) VALUES
+(1, 5, 'representative', '2'),
+(2, 5, 'country', '125'),
+(3, 5, 'city', 'yanbu'),
+(4, 5, 'address1', 'address'),
+(5, 5, 'address2', 'address'),
+(6, 5, 'addressed_to', 'address'),
+(7, 5, 'notes', ''),
+(8, 5, 'projects_status', ''),
+(9, 5, 'cat_id', ''),
+(10, 5, 'subcat_id', ''),
+(11, 6, 'representative', '2'),
+(12, 6, 'country', '169'),
+(13, 6, 'city', 'damascus'),
+(14, 6, 'address1', 'tt'),
+(15, 6, 'address2', 'tt'),
+(16, 6, 'addressed_to', 'tt'),
+(17, 6, 'notes', ''),
+(18, 6, 'projects_status', '1'),
+(19, 6, 'cat_id', ''),
+(20, 6, 'subcat_id', '');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_projects_statuses`
+--
+
+CREATE TABLE `tblmy_projects_statuses` (
+  `id` int(11) NOT NULL,
+  `status_name` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_projects_statuses`
+--
+
+INSERT INTO `tblmy_projects_statuses` (`id`, `status_name`) VALUES
+(1, 'حالة 1');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_project_invoicepaymentrecords`
+--
+
+CREATE TABLE `tblmy_project_invoicepaymentrecords` (
+  `id` int(11) NOT NULL,
+  `invoiceid` int(11) NOT NULL,
+  `amount` decimal(15,2) NOT NULL,
+  `paymentmode` varchar(40) DEFAULT NULL,
+  `paymentmethod` varchar(191) DEFAULT NULL,
+  `date` date NOT NULL,
+  `daterecorded` datetime NOT NULL,
+  `note` text NOT NULL,
+  `transactionid` mediumtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_project_invoices`
+--
+
+CREATE TABLE `tblmy_project_invoices` (
+  `id` int(11) NOT NULL,
+  `sent` tinyint(1) NOT NULL DEFAULT 0,
+  `datesend` datetime DEFAULT NULL,
+  `clientid` int(11) NOT NULL,
+  `deleted_customer_name` varchar(100) DEFAULT NULL,
+  `number` int(11) NOT NULL,
+  `prefix` varchar(50) DEFAULT NULL,
+  `number_format` int(11) NOT NULL DEFAULT 0,
+  `datecreated` datetime NOT NULL,
+  `date` date NOT NULL,
+  `duedate` date DEFAULT NULL,
+  `currency` int(11) NOT NULL,
+  `subtotal` decimal(15,2) NOT NULL,
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `total` decimal(15,2) NOT NULL,
+  `adjustment` decimal(15,2) DEFAULT NULL,
+  `addedfrom` int(11) DEFAULT NULL,
+  `hash` varchar(32) NOT NULL,
+  `status` int(11) DEFAULT 1,
+  `clientnote` text DEFAULT NULL,
+  `adminnote` text DEFAULT NULL,
+  `last_overdue_reminder` date DEFAULT NULL,
+  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT 0,
+  `allowed_payment_modes` mediumtext DEFAULT NULL,
+  `token` mediumtext DEFAULT NULL,
+  `discount_percent` decimal(15,2) DEFAULT 0.00,
+  `discount_total` decimal(15,2) DEFAULT 0.00,
+  `discount_type` varchar(30) NOT NULL,
+  `recurring` int(11) NOT NULL DEFAULT 0,
+  `recurring_type` varchar(10) DEFAULT NULL,
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `is_recurring_from` int(11) DEFAULT NULL,
+  `last_recurring_date` date DEFAULT NULL,
+  `terms` text DEFAULT NULL,
+  `sale_agent` int(11) NOT NULL DEFAULT 0,
+  `billing_street` varchar(200) DEFAULT NULL,
+  `billing_city` varchar(100) DEFAULT NULL,
+  `billing_state` varchar(100) DEFAULT NULL,
+  `billing_zip` varchar(100) DEFAULT NULL,
+  `billing_country` int(11) DEFAULT NULL,
+  `shipping_street` varchar(200) DEFAULT NULL,
+  `shipping_city` varchar(100) DEFAULT NULL,
+  `shipping_state` varchar(100) DEFAULT NULL,
+  `shipping_zip` varchar(100) DEFAULT NULL,
+  `shipping_country` int(11) DEFAULT NULL,
+  `include_shipping` tinyint(1) NOT NULL,
+  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `project_id` int(11) DEFAULT 0,
+  `rel_sid` int(11) DEFAULT NULL,
+  `rel_stype` varchar(20) DEFAULT NULL,
+  `subscription_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_salary`
 --
 
 CREATE TABLE `tblmy_salary` (
@@ -2888,13 +2969,13 @@ CREATE TABLE `tblmy_salary` (
   `comments` text NOT NULL,
   `ammount` double NOT NULL,
   `payment_month` varchar(20) NOT NULL,
-  `paid_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `paid_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_service_session`
+-- بنية الجدول `tblmy_service_session`
 --
 
 CREATE TABLE `tblmy_service_session` (
@@ -2906,27 +2987,29 @@ CREATE TABLE `tblmy_service_session` (
   `court_id` int(11) NOT NULL,
   `judge_id` int(11) NOT NULL,
   `date` date NOT NULL,
+  `time` time NOT NULL,
   `details` text NOT NULL,
   `next_action` text NOT NULL,
-  `next_date` date NOT NULL,
   `report` varchar(250) NOT NULL,
   `status` int(11) NOT NULL,
   `result` int(11) NOT NULL,
   `staff` int(11) NOT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `deleted` tinyint(4) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_service_session`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_service_session`
 --
 
-INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `details`, `next_action`, `next_date`, `report`, `status`, `result`, `staff`, `deleted`) VALUES
-(2, 1, 1, '', 'جلسة 1', 2, 1, '2019-07-23', 'تم الحكم', '', '2019-07-12', '', 1, 3, 1, 0);
+INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `time`, `details`, `next_action`, `report`, `status`, `result`, `staff`, `deleted`, `created`) VALUES
+(12, 1, 7, '', 'test', 2, 3, '2019-08-18', '17:30:00', '', '', '', 1, 1, 1, 0, '2019-08-18 11:42:22'),
+(14, 1, 1, '', 'test', 2, 3, '2019-08-29', '05:55:00', '', '', '', 0, 0, 1, 0, '2019-08-29 09:11:58');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_sessiondiscussioncomments`
+-- بنية الجدول `tblmy_sessiondiscussioncomments`
 --
 
 CREATE TABLE `tblmy_sessiondiscussioncomments` (
@@ -2938,7 +3021,7 @@ CREATE TABLE `tblmy_sessiondiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -2947,7 +3030,7 @@ CREATE TABLE `tblmy_sessiondiscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_sessiondiscussions`
+-- بنية الجدول `tblmy_sessiondiscussions`
 --
 
 CREATE TABLE `tblmy_sessiondiscussions` (
@@ -2965,7 +3048,42 @@ CREATE TABLE `tblmy_sessiondiscussions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_training`
+-- بنية الجدول `tblmy_session_info`
+--
+
+CREATE TABLE `tblmy_session_info` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `session_number` int(11) DEFAULT NULL,
+  `judicial_office_number` int(11) NOT NULL,
+  `court_id` int(11) NOT NULL,
+  `dept` int(11) NOT NULL,
+  `court_decision` text NOT NULL,
+  `session_information` text NOT NULL,
+  `judge_id` int(11) NOT NULL,
+  `session_type` text NOT NULL,
+  `customer_report` int(11) NOT NULL,
+  `send_to_customer` int(11) NOT NULL,
+  `session_status` int(11) NOT NULL,
+  `time` time NOT NULL,
+  `next_session_date` date DEFAULT NULL,
+  `next_session_time` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_session_info`
+--
+
+INSERT INTO `tblmy_session_info` (`id`, `task_id`, `session_number`, `judicial_office_number`, `court_id`, `dept`, `court_decision`, `session_information`, `judge_id`, `session_type`, `customer_report`, `send_to_customer`, `session_status`, `time`, `next_session_date`, `next_session_time`) VALUES
+(7, 7, 123, 123, 2, 123, 'qqwqwqwqwqwqw', 'جلسة تجريبية جلسة تجريبية جلسة تجريبية', 1, 'جلسة قضائية', 1, 1, 0, '03:00:00', '2019-09-20', '01:00:00'),
+(8, 8, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '14:01:00', NULL, NULL),
+(9, 9, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL),
+(11, 11, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_training`
 --
 
 CREATE TABLE `tblmy_training` (
@@ -2982,7 +3100,7 @@ CREATE TABLE `tblmy_training` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_training`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_training`
 --
 
 INSERT INTO `tblmy_training` (`id`, `staff_id`, `training`, `vendor`, `start_date`, `end_date`, `cost`, `status`, `performance`, `remarks`) VALUES
@@ -2991,7 +3109,7 @@ INSERT INTO `tblmy_training` (`id`, `staff_id`, `training`, `vendor`, `start_dat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_training_attachments`
+-- بنية الجدول `tblmy_training_attachments`
 --
 
 CREATE TABLE `tblmy_training_attachments` (
@@ -3003,7 +3121,7 @@ CREATE TABLE `tblmy_training_attachments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_training_attachments`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_training_attachments`
 --
 
 INSERT INTO `tblmy_training_attachments` (`id`, `trainid`, `file_name`, `filetype`, `dateadded`) VALUES
@@ -3014,7 +3132,46 @@ INSERT INTO `tblmy_training_attachments` (`id`, `trainid`, `file_name`, `filetyp
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_vac`
+-- بنية الجدول `tblmy_transactions`
+--
+
+CREATE TABLE `tblmy_transactions` (
+  `id` int(11) NOT NULL,
+  `definition` int(11) NOT NULL,
+  `description` varchar(225) NOT NULL,
+  `type` int(11) NOT NULL,
+  `origin` int(11) NOT NULL,
+  `incoming_num` int(11) DEFAULT NULL,
+  `incoming_source` int(11) DEFAULT NULL,
+  `incoming_type` int(11) DEFAULT NULL,
+  `is_secret` tinyint(1) NOT NULL,
+  `importance` int(11) NOT NULL,
+  `classification` int(11) NOT NULL,
+  `owner` varchar(225) NOT NULL,
+  `owner_phone` int(25) NOT NULL,
+  `source_reporter` varchar(225) DEFAULT NULL,
+  `source_reporter_phone` int(25) DEFAULT NULL,
+  `email` varchar(225) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `isDeleted` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblmy_transactions`
+--
+
+INSERT INTO `tblmy_transactions` (`id`, `definition`, `description`, `type`, `origin`, `incoming_num`, `incoming_source`, `incoming_type`, `is_secret`, `importance`, `classification`, `owner`, `owner_phone`, `source_reporter`, `source_reporter_phone`, `email`, `date`, `isDeleted`) VALUES
+(5, 0, 'ghfghfhgfhg', 1, 1, 654, 1, 1, 0, 1, 2, '0', 651, '0', 9655, 'mhdbashard@gmail.com', '2019-10-14', 0),
+(6, 0, 'ghfghfhgfhg', 2, 1, 94789, 1, 1, 1, 1, 1, 'wassss', 6, '0', 6, 'mhdbashard@gmail.com', '2019-10-06', 0),
+(7, 0, 'ghfghfhgfhg', 1, 1, 94789, 1, 0, 0, 0, 1, 'waseem', 0, 'jhv', 0, '', '0000-00-00', 0),
+(8, 1, 'cxvxcvxc', 1, 1, NULL, NULL, NULL, 1, 0, 1, 'cxvxcvxcv', 0, NULL, NULL, NULL, NULL, 1),
+(9, 1, 'ghfghfhgfhg', 0, 1, NULL, NULL, NULL, 1, 0, 1, 'dfsd', 0, NULL, NULL, NULL, NULL, 1),
+(10, 1, 'ghfghfhgfhg', 0, 2, NULL, NULL, NULL, 0, 0, 2, 'waseem', 0, NULL, NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblmy_vac`
 --
 
 CREATE TABLE `tblmy_vac` (
@@ -3026,7 +3183,7 @@ CREATE TABLE `tblmy_vac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_vac`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_vac`
 --
 
 INSERT INTO `tblmy_vac` (`id`, `staff_id`, `description`, `start_date`, `end_date`) VALUES
@@ -3035,7 +3192,7 @@ INSERT INTO `tblmy_vac` (`id`, `staff_id`, `description`, `start_date`, `end_dat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_workday`
+-- بنية الجدول `tblmy_workday`
 --
 
 CREATE TABLE `tblmy_workday` (
@@ -3049,7 +3206,7 @@ CREATE TABLE `tblmy_workday` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_workday`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_workday`
 --
 
 INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES
@@ -3058,7 +3215,7 @@ INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesd
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblmy_workdays_period`
+-- بنية الجدول `tblmy_workdays_period`
 --
 
 CREATE TABLE `tblmy_workdays_period` (
@@ -3067,7 +3224,7 @@ CREATE TABLE `tblmy_workdays_period` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblmy_workdays_period`
+-- إرجاع أو استيراد بيانات الجدول `tblmy_workdays_period`
 --
 
 INSERT INTO `tblmy_workdays_period` (`morning`, `evening`) VALUES
@@ -3076,7 +3233,7 @@ INSERT INTO `tblmy_workdays_period` (`morning`, `evening`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnewsfeed_comment_likes`
+-- بنية الجدول `tblnewsfeed_comment_likes`
 --
 
 CREATE TABLE `tblnewsfeed_comment_likes` (
@@ -3090,7 +3247,7 @@ CREATE TABLE `tblnewsfeed_comment_likes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnewsfeed_posts`
+-- بنية الجدول `tblnewsfeed_posts`
 --
 
 CREATE TABLE `tblnewsfeed_posts` (
@@ -3106,12 +3263,12 @@ CREATE TABLE `tblnewsfeed_posts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnewsfeed_post_comments`
+-- بنية الجدول `tblnewsfeed_post_comments`
 --
 
 CREATE TABLE `tblnewsfeed_post_comments` (
   `id` int(11) NOT NULL,
-  `content` text,
+  `content` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `postid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3120,7 +3277,7 @@ CREATE TABLE `tblnewsfeed_post_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnewsfeed_post_likes`
+-- بنية الجدول `tblnewsfeed_post_likes`
 --
 
 CREATE TABLE `tblnewsfeed_post_likes` (
@@ -3133,14 +3290,14 @@ CREATE TABLE `tblnewsfeed_post_likes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnotes`
+-- بنية الجدول `tblnotes`
 --
 
 CREATE TABLE `tblnotes` (
   `id` int(11) NOT NULL,
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date_contacted` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3149,43 +3306,51 @@ CREATE TABLE `tblnotes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblnotifications`
+-- بنية الجدول `tblnotifications`
 --
 
 CREATE TABLE `tblnotifications` (
   `id` int(11) NOT NULL,
-  `isread` int(11) NOT NULL DEFAULT '0',
-  `isread_inline` tinyint(1) NOT NULL DEFAULT '0',
+  `isread` int(11) NOT NULL DEFAULT 0,
+  `isread_inline` tinyint(1) NOT NULL DEFAULT 0,
   `date` datetime NOT NULL,
   `description` text NOT NULL,
   `fromuserid` int(11) NOT NULL,
-  `fromclientid` int(11) NOT NULL DEFAULT '0',
+  `fromclientid` int(11) NOT NULL DEFAULT 0,
   `from_fullname` varchar(100) NOT NULL,
   `touserid` int(11) NOT NULL,
   `fromcompany` int(11) DEFAULT NULL,
-  `link` mediumtext,
-  `additional_data` text
+  `link` mediumtext DEFAULT NULL,
+  `additional_data` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblnotifications`
+--
+
+INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `description`, `fromuserid`, `fromclientid`, `from_fullname`, `touserid`, `fromcompany`, `link`, `additional_data`) VALUES
+(1, 1, 1, '2019-09-08 14:15:11', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL),
+(2, 1, 1, '2019-09-10 20:44:30', 'ConfirmEmptyLegalServicesRecycleBin', 0, 0, '', 1, 1, 'LegalServices/LegalServices_controller/confirm_empty_recycle_bin', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbloptions`
+-- بنية الجدول `tbloptions`
 --
 
 CREATE TABLE `tbloptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
   `value` longtext NOT NULL,
-  `autoload` tinyint(1) NOT NULL DEFAULT '1'
+  `autoload` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbloptions`
+-- إرجاع أو استيراد بيانات الجدول `tbloptions`
 --
 
 INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
-(1, 'dateformat', 'Y-m-d|%Y-%m-%d|hijri', 1),
+(1, 'dateformat', 'Y-m-d|%Y-%m-%d', 1),
 (2, 'companyname', '', 1),
 (3, 'services', '1', 1),
 (4, 'maximum_allowed_ticket_attachments', '4', 1),
@@ -3230,7 +3395,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (43, 'delete_only_on_last_estimate', '1', 1),
 (44, 'create_invoice_from_recurring_only_on_paid_invoices', '0', 1),
 (45, 'allow_payment_amount_to_be_modified', '1', 1),
-(46, 'rtl_support_client', '0', 1),
+(46, 'rtl_support_client', '1', 1),
 (47, 'limit_top_search_bar_results_to', '10', 1),
 (48, 'estimate_prefix', 'EST-', 1),
 (49, 'next_estimate_number', '1', 0),
@@ -3238,8 +3403,8 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (51, 'estimate_number_format', '1', 1),
 (52, 'estimate_auto_convert_to_invoice_on_client_accept', '1', 1),
 (53, 'exclude_estimate_from_client_area_with_draft_status', '1', 1),
-(54, 'rtl_support_admin', '0', 1),
-(55, 'last_cron_run', '', 1),
+(54, 'rtl_support_admin', '1', 1),
+(55, 'last_cron_run', '1568137469', 1),
 (56, 'show_sale_agent_on_estimates', '1', 1),
 (57, 'show_sale_agent_on_invoices', '1', 1),
 (58, 'predefined_terms_invoice', '', 1),
@@ -3390,7 +3555,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (203, 'default_task_status', 'auto', 1),
 (204, 'email_queue_skip_with_attachments', '1', 1),
 (205, 'email_queue_enabled', '0', 1),
-(206, 'last_email_queue_retry', '', 1),
+(206, 'last_email_queue_retry', '1568137470', 1),
 (207, 'auto_dismiss_desktop_notifications_after', '0', 1),
 (208, 'proposal_info_format', '{proposal_to}<br />\r\n{address}<br />\r\n{city} {state}<br />\r\n{country_code} {zip_code}<br />\r\n{phone}<br />\r\n{email}', 0),
 (209, 'ticket_replies_order', 'asc', 1),
@@ -3604,27 +3769,229 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (417, 'sms_trigger_contract_new_comment_to_customer', '', 0),
 (418, 'sms_trigger_contract_new_comment_to_staff', '', 0),
 (419, 'sms_trigger_contract_expiration_reminder', '', 0),
-(420, 'sms_trigger_staff_reminder', '', 0);
+(420, 'sms_trigger_staff_reminder', '', 0),
+(424, 'isHijri', 'on', 1),
+(425, 'hijri_format', 'Y-m-d|%Y-%m-%d|hijri', 1),
+(426, 'hijri_pages', '[\"Case\"]', 1),
+(427, 'adjust_data', '[]', 1),
+(428, 'automatically_reminders_before_empty_recycle_bin_days', '1', 1),
+(429, 'automatically_empty_recycle_bin_after_days', '1', 1),
+(430, 'procurations_reminder_notification_before', '1', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblpayment_modes`
+-- بنية الجدول `tbloservicediscussioncomments`
+--
+
+CREATE TABLE `tbloservicediscussioncomments` (
+  `id` int(11) NOT NULL,
+  `discussion_id` int(11) NOT NULL,
+  `discussion_type` varchar(10) NOT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  `content` text NOT NULL,
+  `staff_id` int(11) NOT NULL,
+  `contact_id` int(11) DEFAULT 0,
+  `fullname` varchar(191) DEFAULT NULL,
+  `file_name` varchar(191) DEFAULT NULL,
+  `file_mime_type` varchar(70) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tbloservicediscussions`
+--
+
+CREATE TABLE `tbloservicediscussions` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `subject` varchar(191) NOT NULL,
+  `description` text NOT NULL,
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `datecreated` datetime NOT NULL,
+  `last_activity` datetime DEFAULT NULL,
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tbloservice_activity`
+--
+
+CREATE TABLE `tbloservice_activity` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `fullname` varchar(100) DEFAULT NULL,
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
+  `additional_data` text DEFAULT NULL,
+  `dateadded` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tbloservice_activity`
+--
+
+INSERT INTO `tbloservice_activity` (`id`, `oservice_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
+(1, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:29:59'),
+(2, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:29:59'),
+(3, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:30:04'),
+(4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
+(5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
+(6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
+(7, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:43:13'),
+(8, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:43:13'),
+(9, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:47:16'),
+(10, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:47:16'),
+(11, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:47:21'),
+(12, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:48:50'),
+(13, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:48:51'),
+(14, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:48:56'),
+(15, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:10'),
+(16, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:10'),
+(17, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:49:15'),
+(18, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:58'),
+(19, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:58'),
+(20, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:11'),
+(21, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:11'),
+(22, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:51:16'),
+(23, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:24'),
+(24, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:24'),
+(25, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:52:40'),
+(26, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:52:40'),
+(27, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:53:06'),
+(28, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:53:06'),
+(29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
+(30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
+(31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
+(47, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:02:36'),
+(48, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:02:36'),
+(49, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:02:41'),
+(50, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:15'),
+(51, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:15'),
+(52, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:20'),
+(53, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:41'),
+(54, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:41'),
+(55, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:47'),
+(56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
+(57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
+(58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
+(62, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:06:54'),
+(63, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:06:54'),
+(64, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:06:59'),
+(65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
+(66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
+(67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
+(166, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 18:53:53'),
+(167, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 18:53:54'),
+(168, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 19:07:36'),
+(169, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 19:07:37'),
+(178, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-01 17:43:17'),
+(179, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-01 17:43:17'),
+(180, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-03 18:47:46'),
+(181, 6, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-03 18:47:47'),
+(182, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-04 17:39:59');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tbloservice_files`
+--
+
+CREATE TABLE `tbloservice_files` (
+  `id` int(11) NOT NULL,
+  `file_name` varchar(191) NOT NULL,
+  `subject` varchar(191) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `filetype` varchar(50) DEFAULT NULL,
+  `dateadded` datetime NOT NULL,
+  `last_activity` datetime DEFAULT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `visible_to_customer` tinyint(1) DEFAULT 0,
+  `staffid` int(11) NOT NULL,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `external` varchar(40) DEFAULT NULL,
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tbloservice_notes`
+--
+
+CREATE TABLE `tbloservice_notes` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `staff_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tbloservice_settings`
+--
+
+CREATE TABLE `tbloservice_settings` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `value` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tbloservice_settings`
+--
+
+INSERT INTO `tbloservice_settings` (`id`, `oservice_id`, `name`, `value`) VALUES
+(1, 5, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:15:\"OserviceSession\";i:1;}'),
+(2, 5, 'view_tasks', '1'),
+(3, 5, 'create_tasks', '1'),
+(4, 5, 'edit_tasks', '1'),
+(5, 5, 'comment_on_tasks', '1'),
+(6, 5, 'view_task_comments', '1'),
+(7, 5, 'view_task_attachments', '1'),
+(8, 5, 'view_task_checklist_items', '1'),
+(9, 5, 'upload_on_tasks', '1'),
+(10, 5, 'view_task_total_logged_time', '1'),
+(11, 5, 'view_finance_overview', '1'),
+(12, 5, 'upload_files', '1'),
+(13, 5, 'open_discussions', '1'),
+(14, 5, 'view_milestones', '1'),
+(15, 5, 'view_gantt', '1'),
+(16, 5, 'view_timesheets', '1'),
+(17, 5, 'view_activity_log', '1'),
+(18, 5, 'view_team_members', '1'),
+(19, 5, 'hide_tasks_on_main_tasks_table', '1');
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblpayment_modes`
 --
 
 CREATE TABLE `tblpayment_modes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text,
-  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
-  `invoices_only` int(11) NOT NULL DEFAULT '0',
-  `expenses_only` int(11) NOT NULL DEFAULT '0',
-  `selected_by_default` int(11) NOT NULL DEFAULT '1',
-  `active` tinyint(1) NOT NULL DEFAULT '1'
+  `description` text DEFAULT NULL,
+  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
+  `invoices_only` int(11) NOT NULL DEFAULT 0,
+  `expenses_only` int(11) NOT NULL DEFAULT 0,
+  `selected_by_default` int(11) NOT NULL DEFAULT 1,
+  `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblpayment_modes`
+-- إرجاع أو استيراد بيانات الجدول `tblpayment_modes`
 --
 
 INSERT INTO `tblpayment_modes` (`id`, `name`, `description`, `show_on_pdf`, `invoices_only`, `expenses_only`, `selected_by_default`, `active`) VALUES
@@ -3633,7 +4000,7 @@ INSERT INTO `tblpayment_modes` (`id`, `name`, `description`, `show_on_pdf`, `inv
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblpinned_cases`
+-- بنية الجدول `tblpinned_cases`
 --
 
 CREATE TABLE `tblpinned_cases` (
@@ -3642,17 +4009,22 @@ CREATE TABLE `tblpinned_cases` (
   `staff_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tblpinned_cases`
+-- بنية الجدول `tblpinned_oservices`
 --
 
-INSERT INTO `tblpinned_cases` (`id`, `project_id`, `staff_id`) VALUES
-(6, 1, 1);
+CREATE TABLE `tblpinned_oservices` (
+  `id` int(11) NOT NULL,
+  `oservice_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblpinned_projects`
+-- بنية الجدول `tblpinned_projects`
 --
 
 CREATE TABLE `tblpinned_projects` (
@@ -3664,7 +4036,49 @@ CREATE TABLE `tblpinned_projects` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblprojectdiscussioncomments`
+-- بنية الجدول `tblprocurations`
+--
+
+CREATE TABLE `tblprocurations` (
+  `id` int(11) NOT NULL,
+  `NO` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `come_from` varchar(255) NOT NULL,
+  `folder_no` varchar(255) NOT NULL,
+  `file_doc` varchar(255) NOT NULL,
+  `recurring_from` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `addedfrom` int(11) NOT NULL,
+  `case_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblprocuration_cases`
+--
+
+CREATE TABLE `tblprocuration_cases` (
+  `id` int(11) NOT NULL,
+  `procuration` int(11) NOT NULL,
+  `_case` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblprocuration_cases`
+--
+
+INSERT INTO `tblprocuration_cases` (`id`, `procuration`, `_case`) VALUES
+(1, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `tblprojectdiscussioncomments`
 --
 
 CREATE TABLE `tblprojectdiscussioncomments` (
@@ -3676,7 +4090,7 @@ CREATE TABLE `tblprojectdiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT '0',
+  `contact_id` int(11) DEFAULT 0,
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -3685,7 +4099,7 @@ CREATE TABLE `tblprojectdiscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblprojectdiscussions`
+-- بنية الجدول `tblprojectdiscussions`
 --
 
 CREATE TABLE `tblprojectdiscussions` (
@@ -3693,65 +4107,70 @@ CREATE TABLE `tblprojectdiscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0'
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblprojects`
+-- بنية الجدول `tblprojects`
 --
 
 CREATE TABLE `tblprojects` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
   `clientid` int(11) NOT NULL,
   `billing_type` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `deadline` date DEFAULT NULL,
   `project_created` date NOT NULL,
   `date_finished` datetime DEFAULT NULL,
-  `progress` int(11) DEFAULT '0',
-  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
+  `progress` int(11) DEFAULT 0,
+  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
   `project_cost` decimal(15,2) DEFAULT NULL,
   `project_rate_per_hour` decimal(15,2) DEFAULT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `addedfrom` int(11) NOT NULL
+  `addedfrom` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `project_type` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblprojects`
+-- إرجاع أو استيراد بيانات الجدول `tblprojects`
 --
 
-INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `billing_type`, `start_date`, `deadline`, `project_created`, `date_finished`, `progress`, `progress_from_tasks`, `project_cost`, `project_rate_per_hour`, `estimated_hours`, `addedfrom`) VALUES
-(3, 'test', '', 2, 3, 1, '2019-08-01', NULL, '2019-08-01', NULL, 0, 1, '0.00', '0.00', '0.00', 1);
+INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `billing_type`, `start_date`, `deadline`, `project_created`, `date_finished`, `progress`, `progress_from_tasks`, `project_cost`, `project_rate_per_hour`, `estimated_hours`, `addedfrom`, `branch_id`, `project_type`) VALUES
+(4, 'test', '', 2, 3, 1, '2019-08-22', NULL, '2019-08-22', NULL, 100, 1, '10.00', '0.00', '0.00', 1, 0, 0),
+(5, 'نزاع مالي 1', '', 3, 3, 1, '2019-08-24', NULL, '2019-08-24', NULL, 0, 0, '0.00', '0.00', '0.00', 1, 0, 1),
+(6, 'tt', '', 2, 3, 1, '2019-09-12', '2019-09-13', '2019-09-12', NULL, 0, 0, '5000.00', '0.00', NULL, 1, 0, 1),
+(7, 'tt', '', 2, 3, 1, '2019-09-15', NULL, '2019-09-15', NULL, 100, 1, '0.00', '0.00', '0.00', 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproject_activity`
+-- بنية الجدول `tblproject_activity`
 --
 
 CREATE TABLE `tblproject_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT '0',
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `staff_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
+  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblproject_activity`
+-- إرجاع أو استيراد بيانات الجدول `tblproject_activity`
 --
 
 INSERT INTO `tblproject_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
@@ -3759,37 +4178,56 @@ INSERT INTO `tblproject_activity` (`id`, `project_id`, `staff_id`, `contact_id`,
 (2, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 18:12:01'),
 (3, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-31 21:17:45'),
 (4, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-31 21:17:46'),
-(5, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-01 14:22:44'),
-(6, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 14:22:46'),
-(7, 3, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created_milestone', 'tes', '2019-08-01 14:39:42');
+(8, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-22 18:09:02'),
+(9, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-22 18:09:03'),
+(10, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-24 12:06:54'),
+(11, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-24 12:06:57'),
+(12, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-26 21:02:08'),
+(13, 5, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '15607969259684dd18b.txt', '2019-09-01 13:40:12'),
+(14, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_marked_all_tasks_as_complete', '', '2019-09-03 18:50:31'),
+(15, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-09-03 18:50:31'),
+(16, 5, 1, 0, 'Mhdbashar Das', 1, 'project_status_updated', '<b><lang>project_status_3</lang></b>', '2019-09-03 18:50:32'),
+(17, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_task_deleted', 'test', '2019-09-03 20:55:41'),
+(18, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-12 19:22:13'),
+(19, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-09-12 19:22:28'),
+(20, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-15 20:21:25'),
+(21, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-09-15 20:21:25'),
+(22, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-09-15 20:26:33');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproject_files`
+-- بنية الجدول `tblproject_files`
 --
 
 CREATE TABLE `tblproject_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT '0',
+  `visible_to_customer` tinyint(1) DEFAULT 0,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text,
-  `thumbnail_link` text
+  `external_link` text DEFAULT NULL,
+  `thumbnail_link` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `tblproject_files`
+--
+
+INSERT INTO `tblproject_files` (`id`, `file_name`, `subject`, `description`, `filetype`, `dateadded`, `last_activity`, `project_id`, `visible_to_customer`, `staffid`, `contact_id`, `external`, `external_link`, `thumbnail_link`) VALUES
+(1, '15607969259684dd18b.txt', '15607969259684dd18b.txt', NULL, 'text/plain', '2019-09-01 13:40:12', NULL, 5, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproject_members`
+-- بنية الجدول `tblproject_members`
 --
 
 CREATE TABLE `tblproject_members` (
@@ -3799,16 +4237,19 @@ CREATE TABLE `tblproject_members` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblproject_members`
+-- إرجاع أو استيراد بيانات الجدول `tblproject_members`
 --
 
 INSERT INTO `tblproject_members` (`id`, `project_id`, `staff_id`) VALUES
-(3, 3, 1);
+(4, 4, 1),
+(5, 5, 1),
+(6, 6, 1),
+(7, 7, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproject_notes`
+-- بنية الجدول `tblproject_notes`
 --
 
 CREATE TABLE `tblproject_notes` (
@@ -3821,18 +4262,18 @@ CREATE TABLE `tblproject_notes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproject_settings`
+-- بنية الجدول `tblproject_settings`
 --
 
 CREATE TABLE `tblproject_settings` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text
+  `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblproject_settings`
+-- إرجاع أو استيراد بيانات الجدول `tblproject_settings`
 --
 
 INSERT INTO `tblproject_settings` (`id`, `project_id`, `name`, `value`) VALUES
@@ -3874,46 +4315,103 @@ INSERT INTO `tblproject_settings` (`id`, `project_id`, `name`, `value`) VALUES
 (36, 2, 'view_activity_log', '1'),
 (37, 2, 'view_team_members', '1'),
 (38, 2, 'hide_tasks_on_main_tasks_table', '0'),
-(39, 3, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(40, 3, 'view_tasks', '1'),
-(41, 3, 'create_tasks', '1'),
-(42, 3, 'edit_tasks', '1'),
-(43, 3, 'comment_on_tasks', '1'),
-(44, 3, 'view_task_comments', '1'),
-(45, 3, 'view_task_attachments', '1'),
-(46, 3, 'view_task_checklist_items', '1'),
-(47, 3, 'upload_on_tasks', '1'),
-(48, 3, 'view_task_total_logged_time', '1'),
-(49, 3, 'view_finance_overview', '1'),
-(50, 3, 'upload_files', '1'),
-(51, 3, 'open_discussions', '1'),
-(52, 3, 'view_milestones', '1'),
-(53, 3, 'view_gantt', '1'),
-(54, 3, 'view_timesheets', '1'),
-(55, 3, 'view_activity_log', '1'),
-(56, 3, 'view_team_members', '1'),
-(57, 3, 'hide_tasks_on_main_tasks_table', '0');
+(58, 4, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
+(59, 4, 'view_tasks', '1'),
+(60, 4, 'create_tasks', '1'),
+(61, 4, 'edit_tasks', '1'),
+(62, 4, 'comment_on_tasks', '1'),
+(63, 4, 'view_task_comments', '1'),
+(64, 4, 'view_task_attachments', '1'),
+(65, 4, 'view_task_checklist_items', '1'),
+(66, 4, 'upload_on_tasks', '1'),
+(67, 4, 'view_task_total_logged_time', '1'),
+(68, 4, 'view_finance_overview', '1'),
+(69, 4, 'upload_files', '1'),
+(70, 4, 'open_discussions', '1'),
+(71, 4, 'view_milestones', '1'),
+(72, 4, 'view_gantt', '1'),
+(73, 4, 'view_timesheets', '1'),
+(74, 4, 'view_activity_log', '1'),
+(75, 4, 'view_team_members', '1'),
+(76, 4, 'hide_tasks_on_main_tasks_table', '0'),
+(77, 5, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
+(78, 5, 'view_tasks', '1'),
+(79, 5, 'create_tasks', '1'),
+(80, 5, 'edit_tasks', '1'),
+(81, 5, 'comment_on_tasks', '1'),
+(82, 5, 'view_task_comments', '1'),
+(83, 5, 'view_task_attachments', '1'),
+(84, 5, 'view_task_checklist_items', '1'),
+(85, 5, 'upload_on_tasks', '1'),
+(86, 5, 'view_task_total_logged_time', '1'),
+(87, 5, 'view_finance_overview', '1'),
+(88, 5, 'upload_files', '1'),
+(89, 5, 'open_discussions', '1'),
+(90, 5, 'view_milestones', '1'),
+(91, 5, 'view_gantt', '1'),
+(92, 5, 'view_timesheets', '1'),
+(93, 5, 'view_activity_log', '1'),
+(94, 5, 'view_team_members', '1'),
+(95, 5, 'hide_tasks_on_main_tasks_table', '0'),
+(96, 6, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:17:\"disputes_invoices\";i:0;}'),
+(97, 6, 'view_tasks', '1'),
+(98, 6, 'create_tasks', '1'),
+(99, 6, 'edit_tasks', '1'),
+(100, 6, 'comment_on_tasks', '1'),
+(101, 6, 'view_task_comments', '1'),
+(102, 6, 'view_task_attachments', '1'),
+(103, 6, 'view_task_checklist_items', '1'),
+(104, 6, 'upload_on_tasks', '1'),
+(105, 6, 'view_task_total_logged_time', '1'),
+(106, 6, 'view_finance_overview', '1'),
+(107, 6, 'upload_files', '1'),
+(108, 6, 'open_discussions', '1'),
+(109, 6, 'view_milestones', '1'),
+(110, 6, 'view_gantt', '1'),
+(111, 6, 'view_timesheets', '1'),
+(112, 6, 'view_activity_log', '1'),
+(113, 6, 'view_team_members', '1'),
+(114, 6, 'hide_tasks_on_main_tasks_table', '0'),
+(115, 7, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
+(116, 7, 'view_tasks', '1'),
+(117, 7, 'create_tasks', '1'),
+(118, 7, 'edit_tasks', '1'),
+(119, 7, 'comment_on_tasks', '1'),
+(120, 7, 'view_task_comments', '1'),
+(121, 7, 'view_task_attachments', '1'),
+(122, 7, 'view_task_checklist_items', '1'),
+(123, 7, 'upload_on_tasks', '1'),
+(124, 7, 'view_task_total_logged_time', '1'),
+(125, 7, 'view_finance_overview', '1'),
+(126, 7, 'upload_files', '1'),
+(127, 7, 'open_discussions', '1'),
+(128, 7, 'view_milestones', '1'),
+(129, 7, 'view_gantt', '1'),
+(130, 7, 'view_timesheets', '1'),
+(131, 7, 'view_activity_log', '1'),
+(132, 7, 'view_team_members', '1'),
+(133, 7, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproposals`
+-- بنية الجدول `tblproposals`
 --
 
 CREATE TABLE `tblproposals` (
   `id` int(11) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `content` longtext,
+  `content` longtext DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `datecreated` datetime NOT NULL,
   `total` decimal(15,2) DEFAULT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `discount_percent` decimal(15,2) NOT NULL,
   `discount_total` decimal(15,2) NOT NULL,
   `discount_type` varchar(30) DEFAULT NULL,
-  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
+  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
   `currency` int(11) NOT NULL,
   `open_till` date DEFAULT NULL,
   `date` date NOT NULL,
@@ -3922,20 +4420,20 @@ CREATE TABLE `tblproposals` (
   `assigned` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
   `proposal_to` varchar(191) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT '0',
+  `country` int(11) NOT NULL DEFAULT 0,
   `zip` varchar(50) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `allow_comments` tinyint(1) NOT NULL DEFAULT '1',
+  `allow_comments` tinyint(1) NOT NULL DEFAULT 1,
   `status` int(11) NOT NULL,
   `estimate_id` int(11) DEFAULT NULL,
   `invoice_id` int(11) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `pipeline_order` int(11) NOT NULL DEFAULT '0',
-  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
+  `pipeline_order` int(11) NOT NULL DEFAULT 0,
+  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
@@ -3944,15 +4442,22 @@ CREATE TABLE `tblproposals` (
   `signature` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- إرجاع أو استيراد بيانات الجدول `tblproposals`
+--
+
+INSERT INTO `tblproposals` (`id`, `subject`, `content`, `addedfrom`, `datecreated`, `total`, `subtotal`, `total_tax`, `adjustment`, `discount_percent`, `discount_total`, `discount_type`, `show_quantity_as`, `currency`, `open_till`, `date`, `rel_id`, `rel_type`, `assigned`, `hash`, `proposal_to`, `country`, `zip`, `state`, `city`, `address`, `email`, `phone`, `allow_comments`, `status`, `estimate_id`, `invoice_id`, `date_converted`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`) VALUES
+(1, 'test', '{proposal_items}', 1, '2019-08-26 21:10:38', '10.00', '10.00', '0.00', '0.00', '0.00', '0.00', '', 1, 1, '2019-09-02', '2019-08-26', 3, 'customer', 1, 'a5eb1af4a0f1064ceccff49756c07181', 'Al-Muslat Company', 194, '', '', 'yanbu', '', 'test@test.com', '', 1, 1, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblproposal_comments`
+-- بنية الجدول `tblproposal_comments`
 --
 
 CREATE TABLE `tblproposal_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext,
+  `content` mediumtext DEFAULT NULL,
   `proposalid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3961,7 +4466,7 @@ CREATE TABLE `tblproposal_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblrelated_items`
+-- بنية الجدول `tblrelated_items`
 --
 
 CREATE TABLE `tblrelated_items` (
@@ -3971,45 +4476,38 @@ CREATE TABLE `tblrelated_items` (
   `item_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblrelated_items`
---
-
-INSERT INTO `tblrelated_items` (`id`, `rel_id`, `rel_type`, `item_id`) VALUES
-(1, 3, 'task', 1);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblreminders`
+-- بنية الجدول `tblreminders`
 --
 
 CREATE TABLE `tblreminders` (
   `id` int(11) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `date` datetime NOT NULL,
-  `isnotified` int(11) NOT NULL DEFAULT '0',
+  `isnotified` int(11) NOT NULL DEFAULT 0,
   `rel_id` int(11) NOT NULL,
   `staff` int(11) NOT NULL,
   `rel_type` varchar(40) NOT NULL,
-  `notify_by_email` int(11) NOT NULL DEFAULT '1',
+  `notify_by_email` int(11) NOT NULL DEFAULT 1,
   `creator` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblroles`
+-- بنية الجدول `tblroles`
 --
 
 CREATE TABLE `tblroles` (
   `roleid` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `permissions` longtext
+  `permissions` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblroles`
+-- إرجاع أو استيراد بيانات الجدول `tblroles`
 --
 
 INSERT INTO `tblroles` (`roleid`, `name`, `permissions`) VALUES
@@ -4018,7 +4516,7 @@ INSERT INTO `tblroles` (`roleid`, `name`, `permissions`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblsales_activity`
+-- بنية الجدول `tblsales_activity`
 --
 
 CREATE TABLE `tblsales_activity` (
@@ -4026,26 +4524,28 @@ CREATE TABLE `tblsales_activity` (
   `rel_type` varchar(20) DEFAULT NULL,
   `rel_id` int(11) NOT NULL,
   `description` text NOT NULL,
-  `additional_data` text,
+  `additional_data` text DEFAULT NULL,
   `staffid` varchar(11) DEFAULT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblsales_activity`
+-- إرجاع أو استيراد بيانات الجدول `tblsales_activity`
 --
 
 INSERT INTO `tblsales_activity` (`id`, `rel_type`, `rel_id`, `description`, `additional_data`, `staffid`, `full_name`, `date`) VALUES
 (1, 'invoice', 2, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>2</new_status>\";}', '1', 'Mhdbashar Das', '2019-07-31 21:19:08'),
 (2, 'invoice', 2, 'invoice_activity_created', '', '1', 'Mhdbashar Das', '2019-07-31 21:19:09'),
 (3, 'invoice', 1, 'invoice_estimate_activity_added_item', 'a:1:{i:0;s:4:\"test\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30'),
-(4, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>4</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30');
+(4, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>1</original_status>\";i:1;s:26:\"<new_status>4</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-01 14:33:30'),
+(5, 'invoice', 1, 'invoice_activity_status_updated', 'a:2:{i:0;s:36:\"<original_status>4</original_status>\";i:1;s:26:\"<new_status>2</new_status>\";}', '1', 'Mhdbashar Das', '2019-08-26 21:06:17'),
+(6, 'invoice', 1, 'invoice_activity_payment_made_by_staff', 'a:2:{i:0;s:6:\"$10.00\";i:1;s:84:\"<a href=\"http://localhost/legalserv/admin/payments/payment/1\" target=\"_blank\">#1</a>\";}', '1', 'Mhdbashar Das', '2019-08-26 21:06:17');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblservices`
+-- بنية الجدول `tblservices`
 --
 
 CREATE TABLE `tblservices` (
@@ -4056,160 +4556,307 @@ CREATE TABLE `tblservices` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblsessions`
+-- بنية الجدول `tblsessions`
 --
 
 CREATE TABLE `tblsessions` (
   `id` varchar(128) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblsessions`
+-- إرجاع أو استيراد بيانات الجدول `tblsessions`
 --
 
 INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('0e0mda01h76ti77ose38ptcm9v0pdiia', '::1', 1563707510, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730373531303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226e6577223b7d),
-('0gl3oi9stj6nlbhj5a89j6s7covm44u1', '::1', 1563895416, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839353431363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('15v79ck9ski5918mqruefp4jou8dr23o', '::1', 1563791199, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333739313139393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1aorkg61pl6dcrrd6c37vn3uho0d86ir', '::1', 1563992197, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939323039373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1jsebvfuem8aksh9p17hr99m7t95hvic', '::1', 1563727537, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373433383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('1o1b3oh55vrq4p99oh4r6jphapdrqv00', '::1', 1563812621, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333831323631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2rj0415d664slbiabsq3ccivqi17baao', '::1', 1563896175, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839363137353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2scof66k1irbg7he9e161aiql7bnrun5', '::1', 1564652552, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635323535323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('30hmrkdlr0pii6sv833o9hpf84do3p6u', '::1', 1564660656, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636303635363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('30rfk9u7frkdb44arltrke4imqmk4l6f', '::1', 1564419991, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393939313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3jkp4ptbdsvea0aaf50bcrcklvg6eidv', '::1', 1564658066, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383036363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3pc57d7qv9c8gcsesjh80sq5grg43gse', '::1', 1564420292, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343432303239323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('467lnquho7nc7for9m4ku8amm5aqmur1', '::1', 1564335987, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353938373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('49lg2m9e0v7daibdbfggfbgpmg79moim', '::1', 1564674224, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343232343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4glugc9b0k3bluh5j1mnj90i8c0jf0mu', '::1', 1563980003, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938303030333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4poha7orhguc7a71bv3i08fm5idaas8b', '::1', 1564646924, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363932343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('508ljm67ob9jkh4o4m6fkbdjom973gij', '::1', 1564672774, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637323737343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('53ccnbksqvsu0ub2i2r7lv796gulpdcn', '::1', 1564415592, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431353539323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('59j9bc2o6agshh52l60s8gru621857um', '::1', 1564653713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635333731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5k68k8v155k4pnafe1fgau1q6cmnubfj', '::1', 1564659873, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393837333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5odc379hevrc4r3hg60u2o6jikrdk38a', '::1', 1563990295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939303239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5utqpnjjqojl39ctl0qf720rtvs5d58g', '::1', 1564146407, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134363239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('74ajb9hff9fdeclem5uth2f5tscmmpuh', '::1', 1563987675, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938373637353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('74vk5qf2ldljus5qr9poi3iq2d8dmlov', '::1', 1564334240, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333343234303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7779ej6pj36csom4lq4css9gbgrupjq2', '::1', 1564226398, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232363339383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('78dls6i7ihovglpv2um01ueldqah6mip', '::1', 1564673115, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637333131353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7cdef6vn9oimm4hdfvjnur5p4v51fvpc', '::1', 1564324933, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343332343931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7eg80n9ubttgreksua2l06ua823vk631', '::1', 1564419306, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393330363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7fft8ouu32i6kiqemr6etqc09a944j6n', '::1', 1564345359, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353335393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7larptfpp0u66ela8jfh16hmjetgua90', '::1', 1564501261, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530313235393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('8mg86s9rbnc93domqmbl0o47sk3v2gil', '::1', 1564674599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343539373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('8n4822t0pfq423hah669atpn2cb2b12l', '::1', 1564597046, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539373034363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('91kd0erbtlj0qt239j785fmmk605or4o', '::1', 1564646133, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363133333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9atrvuhercibnrnhi0edqs8j4tt56bn8', '::1', 1564404283, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343430343238313b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
-('9b2hgl2g3mc413dsj6vp6itb5jgeo6e3', '::1', 1564665405, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636353430353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9ggk5ohahkqa85312fnu0vkqs9qc64rt', '::1', 1564219521, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343231393532313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('9ker4nr3iadvgrlph0ap9h27ptbo96ku', '::1', 1564662747, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636323734373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9tq2km3bjkrv3vcmfqefa34uaklauetf', '::1', 1563825304, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333832353238383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('a5jirgho83b2qh7jv8ic75t7p3d3blvb', '::1', 1564345720, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353732303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('a9cpig32kr1p8k36oon7l0ms3b03r8g7', '::1', 1564646508, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343634363530383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('aam2f7n1nunqggja1vpher764fsmabm0', '::1', 1564664441, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343434313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('acb86e0rc6eh611gbmvhsam0jn2dpgfc', '::1', 1563779446, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333737393434363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ail43ipn870gc72fq2415klg81v7kfhn', '::1', 1564230437, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303334383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('al762gj1m0dua64kv5qtoo5schd8frte', '::1', 1564498751, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383735303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('amcgrci99vs9hlse7sffuso41e99qqrr', '::1', 1564596241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539363234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('b6c4qk7lsddhnikp3bhneqs5gus6bjer', '::1', 1564055483, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035353438333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('bcj01kj1069asr5k9d2qgig7jfrk9rdt', '::1', 1564229363, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232393336333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('bivhpvuqqg2u90mjp37g0176gopdem2j', '::1', 1563905356, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930353039383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('c6s6fua6nqlmi6b36dq9h1gi49ec278i', '::1', 1564500139, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530303133393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ch2285feq5b3gprahe1j0o2debkljalm', '::1', 1564673831, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637333833313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ckn51nm7cmae0715dced0vov65drvo3o', '::1', 1563902531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930323533313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('cl0iqm0lgdt962h6vsjoap8nmrtsv4rj', '::1', 1564145144, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353134343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ct2332gr2k4u2odtnumf53madt1th1s4', '::1', 1564597266, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343539373034363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('d2mnsmauf3t1f6e9q102gkc903dho5sb', '::1', 1564336652, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333363635323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('d41s3etkvtbie1deg4hb55ugfor6do7g', '::1', 1564509361, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530393336313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('da2nvqh7droa3sjlusguupu9qm06kq37', '::1', 1564517711, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343531373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('da3qc05el0anp66amqmpbqihkthh28fh', '::1', 1564061384, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313334343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('dtp2plgv2n2dscgq1ail9ob5uars20rl', '::1', 1564660353, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636303335333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('e3p6runaq93vr9dloo066s9qccvbr0i8', '::1', 1564335169, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353136393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ehoium2f1p13bsca9b7ud1bqehfncs30', '::1', 1564061040, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313034303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('esrufb4npf1a9pjkvt7rhckocdhda4hi', '::1', 1564221599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232313539393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('f0pitm4mtjs1mnea4he4sfo92t2btmrg', '::1', 1564227019, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232373031393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('f81ku0fr9p2a17rh06bmprnlm8jk9p13', '::1', 1564499778, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393737383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('fdqvs5gk36646tmh8e7di2gm3uilmg32', '::1', 1564664769, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343736393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gb9av9tgtbu4g94dg33mrripc7hvumqh', '::1', 1564672433, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637323433333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gehthmr1jq3fotvvkf1o3mrmd7vcnjfo', '::1', 1564657330, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635373333303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gik7o04c2perq1hjqui0bj4qi83nm1l4', '::1', 1564508570, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530383537303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('glof4grb996nvl1phcvbqpm0gkh6evdv', '::1', 1563725161, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732353136313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c733a313a2230223b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226e6577223b7d),
-('glotga05gb1mna6010e188n9tggbs91o', '::1', 1563727113, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373131333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('gro9knle8k6e7tkgcblpol641l7nbq5a', '::1', 1564663501, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333530313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h1jfkv3g774rkpefdlda7tfd3anb6fue', '::1', 1563812619, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333831323631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('h5dq93fm89e9ajp4mqaar47b8leu88jo', '::1', 1564434341, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343334313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h83j37qrol78aa3bel6p4prkmtq36d0n', '::1', 1564061344, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343036313334343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hkt83fc5be143aqj4l2eudjq3vqp8q5f', '::1', 1564337025, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333373032353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hpaeh6makkim85sukkcoasa27u6a86ao', '::1', 1564056710, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035363731303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('hv35q6cpm1a6dnssgb11gi6p746f89lg', '::1', 1564499428, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393432383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('i943btgn8botsnkseb2kbn97qspt73kh', '::1', 1563784253, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333738343235333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ik8c9ncc6f1dno79ihaotinpu5sttvhc', '::1', 1564663048, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333034383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ikq1gda3pe6ojqt87crn7j6tut9mkpls', '::1', 1564345746, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343334353732303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('imgvfqtb3l0m7b68hu04c2o0bo1gn5tq', '::1', 1564674597, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637343539373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('iofrv9k81habj3b15lnssmhdf3ac53en', '::1', 1564658371, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383337313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('j0tfrj2g6r5psidsrp7ul6capd8fpkjc', '::1', 1564665099, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636353039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('j3lvp8u37sbmp2bn3topfnedh3suaii2', '::1', 1564517704, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343531373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('j6gu0ef9t9892qc0v8c91girv6rak9u8', '::1', 1563992097, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333939323039373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('jmv6jprcs2mmucvmhqpom0cvtr4erk14', '::1', 1564659231, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393233313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('k529la188nkn9b2ia9ghoa0d28qk09q8', '::1', 1564145547, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353534373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('k9d3ies53bjgbsos1j7i8832ebrqs6o5', '::1', 1564145963, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134353936333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kgdan4l56eal5rh0a51hpg7a0523hjf7', '::1', 1564498063, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383036313b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
-('ksijp1grppjt4as0l61tvr3n3udffq66', '::1', 1564228698, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232383639383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kucogu4hqc1aiqtko1lm0cs6ctodfb2t', '::1', 1564434903, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('kv97841lfts0j109ku7c0kmpa15lra0v', '::1', 1564146295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343134363239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('l575tbek62qr5bidiqigogvhi2kt1fss', '::1', 1564417704, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431373730343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('lscnvvtn90vqrb64k0lr93res1lrhu7j', '::1', 1564658926, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635383932363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('m8kfkvc7eal10nn41382bj7rfarhjnrt', '::1', 1563727438, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732373433383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32393a22687474703a2f2f6c6f63616c686f73742f61686d61647065726665782f223b),
-('mc9bmk5ji55990lpbde16g82hvb6a1va', '::1', 1564671997, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637313939373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n04act6c7d70u4m5959rdkghg5c7prk3', '::1', 1564333900, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333333930303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n10ijta14uhh56okrvj747ija0f9e44o', '::1', 1563905098, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930353039383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nk0np9er64dh4vpgrc7s0dpsqng2jf3b', '::1', 1564418247, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431383234373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nmorjkoc3pjgajlaj2lhk8lrgknecl0s', '::1', 1564420602, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343432303630323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('np1gk5n0a9uibcurlihggar5aub2e7pe', '::1', 1564059972, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035393937323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('o5aik9h7r61qkvfn4087s25ncokjdntr', '::1', 1564659532, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635393533323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('o5gt2n2gj7p7lgcukrug84k4hl77fj67', '::1', 1563902155, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930323135353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('obedo7qloluhh3a5qotcaqhuftnqavkh', '::1', 1564335471, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343333353437313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('og3vhsmqhnr1ju11vhu7vv4ridi7e51r', '::1', 1564664125, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636343132353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('okepjs7v0ba0tdt08gtppkvt788snbsa', '::1', 1563707201, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730373230313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('opji9ij07e076fqgutg5gf74ctud3ip6', '::1', 1564498432, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439383433323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('os0slddqt53u0at2qpkf2brj09k83s8o', '::1', 1563988052, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333938383035323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6d6573736167652d737563636573737c733a31363a2253657474696e67732055706461746564223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('p42on0nb0hqmt5ae4kr5nofjmr474hcd', '::1', 1563726753, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333732363735333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a33313a22687474703a2f2f6c6f63616c686f73742f746573746c6567616c736572762f223b),
-('p8vktncq599osrccgvci5gibih5smnmu', '::1', 1563895071, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839353037313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('pbc0ss6lka2e7gqbbugtqj70qhup6roo', '::1', 1563966882, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333936363838323b7265645f75726c7c733a37333a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f73657373696f6e2f73657373696f6e5f696e666f2f73657373696f6e5f64657461696c2f323f7461623d696e666f223b),
-('prml0s41vvm3u2kv08d0eakbq5vlmvgh', '::1', 1564223104, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343232333130343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('q1rtar9lo1em3essiejind60u6a1e9i8', '::1', 1564419612, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343431393631323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('q3makdv5qt7q747durno227hco91q7oj', '::1', 1564434880, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343433343838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r04h53she2cde7bpam8gvvft0uovtr59', '::1', 1564230348, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303334383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('r77ppji1odm97blhmb86u7fhmfpchufe', '::1', 1563778298, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333737383239383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r9ecsm2eclrsc91bb1kcl0bkkbj9f141', '::1', 1563901204, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930313230343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r9j44fi1il9f2fnnimmtcnl3ic4u82df', '::1', 1563706226, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730363232363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('rdm96ci9lets164vfn5na9fdcu4t5tcn', '::1', 1564324909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343332343930363b7265645f75726c7c733a34303a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f6d6f64756c6573223b),
-('rjoqp8755oh2riumalko2a7jkmfal0g0', '::1', 1564230045, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343233303034353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rsme8a9bc25edsgvvpv1p3d1monhasuo', '::1', 1563900881, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333930303838313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('s8a9id6svneoofhh20dr98dlcir1nebh', '::1', 1564501564, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343530313536343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('s8vfas6ohtpncdi15a55lj0195n8p53f', '::1', 1563896792, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333839363739323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('saqsqbtao0esg41710b1dtrgqk9lt96p', '::1', 1564499124, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343439393132343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('sb8jd1v1855ami67f6ooaq6c0orcsib6', '::1', 1564057472, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035373437323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('skm8qjvomhe2t906fslkusvh0oq0nl64', '::1', 1563968912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333936383931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('slajldtc3eoajs3t4sf9chmsohdn382v', '::1', 1564058139, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035383133393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('tgq90bodfpcus5lcfthe2g50v0c0jl1v', '::1', 1563706849, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333730363834393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ui3lv4fta2hrevvm653t5ahgj0c8d6il', '::1', 1564652249, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343635323234393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('uk4s175d5491gj5tj1gosfjtlemk2ikk', '::1', 1564052102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035323130323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('v1814pek25vhcukeav2uh3amqqfbpt4c', '::1', 1564671657, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343637313635363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('v2v50p8bi3nar4ro5gidfjll7o3p68ba', '::1', 1563783246, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536333738333234363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('van5rkrl14b4s6evej5dfjbei2irpfq2', '::1', 1564057102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343035373130323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('vemtqj3ti80shvugorm6oin31g75iit2', '::1', 1564663814, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343636333831343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('vqvkjvmc4or4hvg5qergbsgomcppc9mr', '::1', 1564215009, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536343231353030393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
+('015mlt7heg92svpmm8vv50b2i0grrrvi', '::1', 1568906152, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930363135323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('024idsdes9fcdt3l89r1le4q5lbk7qql', '::1', 1567345548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353333333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c733a313a2231223b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('09une47dgcm2edgkjvvqbtjs7up4mpdd', '::1', 1568713986, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731333938323b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
+('0acj4vk0hvrrr2ve67gicinpoice29ut', '::1', 1569612486, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631323438363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('0bp6ic1u73c3lvc8trpfprs9fu9cmqq6', '::1', 1568905010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930353031303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('0dvg3nloufhl4r077269sl9vb9dbdj64', '::1', 1569794721, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739343732313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('0mepmf8emmdk3dgeceqgnegn11rr9eqq', '::1', 1568718306, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731383330363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('0pmc20llhdfkraan1shpqt5akis8f63u', '::1', 1567339264, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333343337333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('0r34bkaqgn3orudlg1hvnimajsvoj9kg', '::1', 1568650548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303534383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1g1nmstu62hqtj47ho2lbccsflu650ou', '::1', 1569861645, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313634353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('1g26o5u011fid34nve86239tk6ie2dk8', '::1', 1569792728, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739323732383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('1hllr24p8v7202vfut9l1gukmkhjutc3', '::1', 1568732275, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323237353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('1n6rbi78tdi1t03angapqg3v4b05d8so', '::1', 1569863168, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836333136383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('1oh21tvtl5ibd2p555rorklqeqofeakd', '::1', 1567241442, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313434313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1s5uf282qaoh1s6qv5edffhgcv40meev', '::1', 1567527532, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532373134383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1up5ula47noggvtrem7budgoadaikbao', '::1', 1567104456, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130343139353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7461736b735f6b616e62616e5f766965777c733a343a2274727565223b),
+('2888d0eiath2potgotpt0j5i9f1afg10', '::1', 1568668109, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636383031383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('29dhupcsp0acfr6hgq30k010ojprb9au', '::1', 1568910950, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303935303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('2blen3iida8susgfqlhh0fv9lj9kkoru', '::1', 1567521662, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532313631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('2p8sfk81ff2buotjl0r7h8chg020ocd2', '::1', 1568733203, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733333230333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('2s72k7rof7iepq8avt7tdt9f49lt8kok', '::1', 1569616106, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363130363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('2slkh0i58l7qv6bcr4m9kfokkdhj8e1j', '::1', 1569613594, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333539343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('2u2iqcgr9fltrii4hu3lorm83ehtrf9c', '::1', 1567603060, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630323539393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('36gnps0g2mmp9in8sbvij7ctg6ckb9eh', '::1', 1569956422, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935363432323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a34353a22d8aad98520d8add8b0d98120d8a7d984d985d8b9d8a7d985d984d8a7d8aa20d8a7d984d988d8a7d8b1d8afd8a9223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
+('386vnragojj17lqcpqnqhm8ef6cvu53p', '::1', 1569860440, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836303434303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('3c2qta2n8ru1plke84n3j5s4smroali6', '::1', 1567332909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323634323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3cr2mj3eqb80k07pksm1no7tjmp9qh1p', '::1', 1569863811, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836333831313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('3d2fr9sa4ak89kivvccd5mqvaivb93bj', '::1', 1567861146, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836313035333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3hmjngehrp0qel26hdt5hldlsaff6eus', '::1', 1568197436, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373433363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('3hsr8ogfb1lltjdpokofbnfn9hl6rfr6', '::1', 1568651944, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313934343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3jgl4ro6hrq16msj9feakqa0vhe8uk52', '::1', 1568133279, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133333233373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('3r0dmur1f84g87cgfmpv5cn8dhd4kauh', '::1', 1568650228, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303232383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('4f1jnmmnd53oml28a87oks2qlthd12sa', '::1', 1569796583, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363538333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('4huqln6l966o2snbih57t676l3gb21if', '::1', 1567246565, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363536353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('4rt5l1g0oo20smsc3rchl48gcc1sj4jb', '::1', 1568204928, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230343932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('5491df8rfflj8e7lb9kadhltjr28rmkn', '::1', 1568911300, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313330303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5bgo03co5rmq67ddfc47bv8djspcdh0j', '::1', 1569687268, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638373236383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('5dcor2je25ljt236ruhugfo55bea8hfp', '::1', 1568721229, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732313232393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5dqhvn1gfegvhp3a5vp2f2hh2dssrram', '::1', 1567339879, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393837353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5dukneuofqddat79lp1jth2q99vn3007', '::1', 1568910607, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303630373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5fh383sv8rcpujhj4bkmev2vmrhuqbjt', '::1', 1569951780, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313738303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('5j2tovb0c9bn49nhklbmurqggnemqueh', '::1', 1567700090, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730303032303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5jrf0qfhlo3ibo4rn77fk7ijvj6a4oj1', '::1', 1567524236, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343036383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('5ua3fe7678likol4iu8q5f041v3mhqpe', '::1', 1569528067, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383036373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('5v6sptrf5nj5igiohbovgvfg3t76f7ra', '::1', 1569616763, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363736333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('64eedgoi3nrs0vom8v4c15gna2tt8tfi', '::1', 1569966862, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('681f0ro4nromr5552gc8qjr4k1l254em', '::1', 1567526580, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363537303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('68orh1dkusplrueh1ac4uh1slmn6uu3k', '::1', 1568734697, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733343639373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6bni7k7ak428egp5ajc5pd31kigo1v5j', '::1', 1567101551, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313532323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6ckus2367i6skqiasqarcnl5kvns3utt', '::1', 1569613904, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333930343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('6k186vojcln6hb1ecrtd8jlc35ivqdmv', '::1', 1567526233, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363233313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6k8fljp6enguecag3bosmnv5au2bke5q', '::1', 1569485476, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438353437363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6u1137bf31r8hj6j1tvctrroar09ic43', '::1', 1568651533, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313533333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6vf2rqhb8n540fpf7mvblqck2ka2kj78', '::1', 1568720387, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732303338373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6vi6k2ar7njr81kl5m5e184uvdmc0c8k', '::1', 1568716764, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731363736343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6vlaahabc4q1i74kkii2fvdsr32qg17h', '::1', 1567699691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393638313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('7etkgs17p6bm3dpqrrp2o5nksqutviel', '::1', 1568910227, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303232373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('7fpt7d6ne73vib2oo4kpfh30un253cua', '::1', 1568567847, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536373834373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('7gamn6hg1jinft8hq4abv5c3phqfatg0', '::1', 1568310321, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331303332313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('7hftjdvclunnlfh9f17hk4fkoom4iga5', '::1', 1568739939, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393933393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('7m0rmv2sj9j689e9cn1rplbuo1e58nut', '::1', 1569955256, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935353235363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('7te5s2ljqe1s2j9tbvo9ugknv2rl1kkh', '::1', 1567930985, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933303937363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
+('823ot8qqbauv2quahr01tj4hqa2kl9o6', '::1', 1569953294, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333239343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('823qir8t7nvf1qbb9ac2i9d7d0q3t515', '::1', 1567341684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313338353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('824ben37964n6lvbt9mp55mefvcmj2us', '::1', 1568890241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839303234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('88ofhord56ss6cgnfclntmundrqogaca', '::1', 1567525849, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('8acpn6i53cvbi9r68g31os35ciof0l6k', '::1', 1569795501, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353530313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('8cfrvsn4rkoinieilt4hdsj8fs46evv5', '::1', 1569796221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363232313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('8dug5sa1d1hmd8m3l4a4enva5bvh98kg', '::1', 1569959296, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935393239363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('8q62ofcfrctt25n3ig9gfeui0ep7j27g', '::1', 1568569506, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536393530363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('90pasbnf0ncb3kec6ngqorbc1cah1hf4', '::1', 1568739274, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393237343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('947auhn2vr5d827dj33opoj99pnttegf', '::1', 1567866071, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('963ka0ercjett26c3f8thunmk46k1omk', '::1', 1569862684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836323638343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('9ljo2pv5nr52n8uetqu68crkhdq68btf', '::1', 1567609012, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630393030383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9lu1rude6hoougjhi1t9ua3hg13vhpqs', '::1', 1567333045, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9nm57t1k7lut2r17v7kpgne5na86lpm2', '::1', 1568909010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930393031303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9t6t5vsp89d8sl14mgt4fvnb8o1e7jha', '::1', 1567082757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037383937333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('9ubhpjcjif37qdert0gl5csev79486b8', '::1', 1567349037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383739323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9vq2g17710eq5jcbhsgngj1pb2gidbmu', '::1', 1568191921, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313932313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('a6jud61dkoq9cj0ffdnulg13341agjtt', '::1', 1568567251, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536373235313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('abevqdqgdivu7t4i8nonmmqpi67ad85d', '::1', 1568568539, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383533393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('absu3sl3o7sonvdqsuc3bp3rk36bpts7', '::1', 1568568845, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383834353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('af79a4f8frtvsmkapl236ajnnet7smv3', '::1', 1569864282, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343238323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ajdbm9l98ompfro5ec2jv2e0jhqdi5m4', '::1', 1568649334, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634393333343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('am021pk8c55fon9khogm4gsbcbb4rn9g', '::1', 1567612213, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631323030313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('at3lcpt8r1lis5u0atdfd35qrqnogeop', '::1', 1569792237, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739323233373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('atbfv6s5r0os6cb6810op59givcdrkmv', '::1', 1569617142, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631373134323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('b1e8tob3t1d2r3253tgbgcnvb76430an', '::1', 1568320673, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383332303637333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('b8k5uq011f1c41ehvo65h19mdf6qhb9e', '::1', 1567247032, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234373032383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bd1fh5vugpacoosqi4ma24lgp43u6ka0', '::1', 1567328188, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332373930393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bdnfn8o0nqfouf85gme2k1v9fha5rra4', '::1', 1568720775, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732303737353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bgv1esbt9gpd908n16ef04gpocu0jmft', '::1', 1569614649, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631343634393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('bkpd49rglpg8fc8ch0ec03pq3tilnm3r', '::1', 1569688115, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638383131353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('bm5mhncpm42qocb1q10i1qvka8bbv37e', '::1', 1567073909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333930363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('c37iuiq4aabmqhqslvj0p61indhr7csh', '::1', 1568191351, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313335313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('c3rnsk5akjfagl4nc53cmu584amfhrj9', '::1', 1568306860, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330363836303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('c9beia196epckm85tlc0n2peqh1h2vk5', '::1', 1567603399, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333036393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('cfdn6kmhciea6oqroq8j75h5hk3s7jir', '::1', 1568307398, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330373339383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('cg70h68atu4klgtmt5p6n7i8kcfilir6', '::1', 1569485174, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438353137343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('csdibjl7lu11i8dbsb1b3vrvh0iv2vfm', '::1', 1569953602, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333630323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('cuqa6o4t0puf2gctc0jn9gvee8r5vmcq', '::1', 1568648925, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383932353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('cvlk146vkcjtb7q6c5pprq5r2so70i1c', '::1', 1568206293, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230363239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('d9ldj5qiqeamf0s7plqo7j23li7fot5u', '::1', 1568651200, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313230303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('dgfdftv55bve5eh51cusdbnp910ht9me', '::1', 1568228945, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232383934353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('dijv999jbuam32sej8ciekge3vanlh5q', '::1', 1569527351, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373334363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('drpauasam0i0o5h1lobn8iqll50gdr4k', '::1', 1569793650, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739333635303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('e4l1q2qgh6bq39ppt2mdatu9furvppc6', '::1', 1568648233, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383233333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('e66c0kitfigqjccl68ri2k5v80t7or7i', '::1', 1569861994, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313939343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('e8cbsue7980etd1g3s206hnsc8ol9cmi', '::1', 1568650899, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303839393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('e8n22kdvkql96hsg4lrjcpg3dn7ag5ln', '::1', 1569617220, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631373134323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('e9t0u4h8s59gu37udqkghsp644svjus8', '::1', 1568740386, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734303338363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ebijfob8c64ugcib64ncaovp2di99nka', '::1', 1567941901, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313639333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('eg96tlj0ud7vlqs3qr8nc9fellb4p2qj', '::1', 1568667643, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636373633393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ehhsoehsb7ctik9amceil2krrdfjs82r', '::1', 1568731689, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733313638393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ehomubq0sfua1bmoq7afaibn2b9b39fb', '::1', 1567603622, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333430323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('erb3f463qipircf4n5sj4ffs2ufn4bpb', '::1', 1567699713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393639313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('es0pr8nrvk9l4d0oteikpir8eb6ruk3e', '::1', 1568196500, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139363530303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('f6gpth5ii95ne2vn94jtje0jqg157p7s', '::1', 1567599912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ffdq8qbjjfgfvm54kkbmhm5g12r3hnub', '::1', 1568229738, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232393733383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('fg9il70vmh402o877rbk50ic8sa5oa2t', '::1', 1568305445, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330353434353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('foc4hpm235kbn6tmhto13pkcnktj44j6', '::1', 1569958143, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383134333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('fql12dupsh5tcobsmgdmuj4ebdk7ufks', '::1', 1568744400, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734343138353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ftnvknioajgpvj8dsmdpqqb867amsr5v', '::1', 1567543096, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323938343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('g63cs10jrtgnjb4g3ibbhibbokq9cjkq', '::1', 1569486145, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438363134353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('g95e24bul92ls9lij65l0gc2ne5li13o', '::1', 1569795088, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353038383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ga4jfbqu58pst03floqpfop2pqm0f8du', '::1', 1567541611, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313435363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gboskn8a8hljef566vfc1f6estaikoju', '::1', 1567542825, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323536343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gdl9l1a18pl4vltjrqvdjbskn685jo2e', '::1', 1568740982, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734303938323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ghavg66olbqi3uasgi4tkfq4p3k0cha5', '::1', 1569956791, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935363739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('gkp07cu02gt70lab96m7o5qa6tvafe85', '::1', 1567935828, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933353738313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('gn061riv2ecpb2fsgmb775d4u0m12o7p', '::1', 1569954221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343232313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a32373a22d8aad98520d8add8b0d9812070726f6375726174696f6e5f646f63223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226e6577223b7d),
+('godqcpgmum905jp49j38oj7v2jiclt5l', '::1', 1567346679, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353635333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('gqsb0vjsu74ep3sd35uuhqg0ficsku5j', '::1', 1567342175, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313930333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gu3fcs9vt8lva9cqn2luhoufr6c57o3m', '::1', 1568320767, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383332303637333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('gvm72p5tpbkplsbb56lov6dllgeude2s', '::1', 1568735931, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733353933313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('h1s2tfli30fojjggatb3og46000gsbdp', '::1', 1568190410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139303431303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('h2592vgof1ks9nv39ohbgb6vg21dv1h3', '::1', 1567458601, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383532333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('h3v0d21fmc8t4121u26felef62d60snl', '::1', 1568911720, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313632353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('h4g6i8e08c7d85d9cd6scikdn5qmqbdp', '::1', 1569793962, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739333936323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('hap5c3jti31lg5l091lk5ttjcmh6ooqc', '::1', 1569864641, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343634313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('hcbos13kkbrnmrkf8rr3t17otakp79o5', '::1', 1567100444, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130303339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hkign0hlfe6dr83825jq6nfh7aht7hva', '::1', 1568188624, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hkni83av4v1thgbnporems14j87acful', '::1', 1568652826, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635323832363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hplclhhou0ke8prdgie3gmr0lvbgvsql', '::1', 1567672971, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637323933343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hpoq5jnt3fif7plj52ag1iq1pv0p2r1e', '::1', 1567542010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hq5lf0jt6diae8kajtl3j97c9euelnqf', '::1', 1569613103, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333130333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('hslkdsuh7r8kdn1pv0dqa11u8d370q6q', '::1', 1568647420, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634373432303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('hvcu1k2dr1cjeauobq25pjt7ocpmakkt', '::1', 1568568176, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383137363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('i39664rtogh2uhm6m4jnehgnbj60lmi7', '::1', 1567084535, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038343530393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('iajuo5h9ci76vi2c6rf4sn3f1vbban07', '::1', 1568729949, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732393934393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ib2qgnbhfaetoaj1usmjqn3ib47p2k53', '::1', 1569951410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313431303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ic12f101qd1iof6gb86n3p5fqf2qj9l5', '::1', 1569858942, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393835383934323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('icnilfgtr9qspmfslklqa7u7evqpji6n', '::1', 1567525609, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343434393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('id1pbu87omnt1flsgnvipg7gogd9pgok', '::1', 1568891246, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839313234363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('idmsjctoqm9l17desvn60tpeudng3rd3', '::1', 1568743540, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734333534303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('iu1g5hfvv1rinqrkf3rh8eeechrqgmp2', '::1', 1569958994, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383939343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('j42gk72ec2mr1hsg79ck0c57gvbv0015', '::1', 1567685061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373638353030353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('j6de67btqaiq8sk09ntf9oovtgsqk00i', '::1', 1568198960, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139383936303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('j6ropq90fdm9vfllh453t2jrecl8nh9a', '::1', 1567241440, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('j8elvqk6l0pq32lnur714oga4ms05ejt', '::1', 1569610840, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631303834303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('jdknnqjqanth17skv00ajgbrmm5okecf', '::1', 1569614241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631343234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('jglla1cmrtp9285s5uuumgjsd2td1rd8', '::1', 1568731317, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733313331373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('jhqmdtbqvh35rdl5grj5u69lhtjvqnng', '::1', 1568138935, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133373339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ji497tjaoof64fudntdv5lufs6m5asjs', '::1', 1568732585, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323538353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('jj4icmllp1gdsuhi8om4ehpg871eu1qh', '::1', 1568310790, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331303739303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('jp7v8jh0sidjueflv4h8gko9ikm5vp4c', '::1', 1569864948, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('jrg961bn2tnau7ivm8nr3h17859h1gua', '::1', 1568744185, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734343138353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('k2r76eav3lbheukiikjm720vmihudest', '::1', 1569689293, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638393239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('k6b9ect61sruulja1d3pqt204ctu4ga0', '::1', 1568305052, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330353035323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('k8ege4pk0qr2sch36im25nuk85023faa', '::1', 1568897023, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839373032333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('kadukrus0iv889lvqma9j4v4mbh6r9o6', '::1', 1569965120, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936353132303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('kbnmdi86poa1entlqt68v7237l35c404', '::1', 1568570313, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537303331333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('keuqcm8quf0tmpketolb4a6cmfdpvhv9', '::1', 1568905311, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930353331313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('khr561j0ojrdiof9u8706cltih68csom', '::1', 1569612787, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631323738373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('kjvagbqppc3a8iug64gcj3l7jdd2v7d9', '::1', 1567328509, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383235313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('l2djp6tq7hda9r80jbvkkr10a35bgdgp', '::1', 1569862321, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836323332313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('l47najcf9lj0v0ujig1u4tl5afr0ckav', '::1', 1569615728, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631353732383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('l9cm3r5b1u99vi23ud6oppvb5422mj0g', '::1', 1568890552, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839303535323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6d6573736167652d737563636573737c733a33383a22d8aad98520d8a5d8b6d8a7d981d8a92050726f6375726174696f6e20d8a8d986d8acd8a7d8ad223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
+('lad06sp5lh1pqe3rrpofrsvnqjmc7il3', '::1', 1567533618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373533333334313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('lakek818lptst801og760hgvptadtv3b', '::1', 1569528727, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383432353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('lcbqqj4p6anc9d11rd0lod3jpj4jvmtl', '::1', 1569861295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('lh7940shejshs2hvji3q2q7agasv0nub', '::1', 1567241757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313735363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('lrmstu0295rrndrh5nrl5hffa0iq0m9j', '::1', 1567931341, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933313239383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('lrv0mf6t5g48j766lsu0mahmei85mumt', '::1', 1568652489, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635323438393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('m2n0ahd60scno63t7e2efk05npdh711o', '::1', 1569611958, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631313935383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('m4hjcculihbm6enmfseap9jirq3p76bc', '::1', 1567865791, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353431393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('mb2rpi066t9q283nqef8n1np99o4lkid', '::1', 1569967140, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('merrfag0hled8ljg38jigdja9ul9rh03', '::1', 1569791171, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739313137313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('mftq940auppqthikfoh5nvrvf3ogci07', '::1', 1568738596, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733383539363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('mg81prq1t3p7ft3os62nd8hnasio69es', '::1', 1567956542, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363533383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
+INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
+('mp5p7psm4oto200t0tete2b78hnrajrs', '::1', 1567325977, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('n0ol0m7apdhvuq1rqukmaiof7gmfov53', '::1', 1567619137, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631393132363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('n2s7emmlvepvvv7njdugndvbocccc2t4', '::1', 1568739585, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393538353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('n2tlo1i8ee5ksjhp1e6bumns2keqne4f', '::1', 1568743880, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734333838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('n5mhgatoeaef4fsh6j00777m5ah8n316', '::1', 1568228580, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232383538303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('ndo3f695e539k5i3pui36cs9jojqohfi', '::1', 1567231627, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373233313439383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('neenkbdeip6616no5grv1lp2it00897b', '::1', 1567325666, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353437333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nfrjss4ptiuvgh3hohosc0333gfvs9r4', '::1', 1569611149, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631313134393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ni6ci6si542kiviscnhnd0sldnbam6vh', '::1', 1567937162, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373135303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nlk0fps769tf62pb216clgpjt97qlifm', '::1', 1568188949, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383934393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('nplk2atm7e2d68j3rg7krpa2mvhvhiqm', '::1', 1569951021, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313032313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nrac9a1qmvtdcqoabqhta3onqicci1h0', '::1', 1567346723, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334363638323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('nslrrh3pj9qsb2ga706j97d0ich167dk', '::1', 1567329156, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383938383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('nu65i4t7c0ojdb6dns9vbp2868e4bptp', '::1', 1569958531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383533313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('o37nb0iltrfivt1egbdhd996ifbm1df2', '::1', 1569950713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935303731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('o4gkvp6knipf2pmvo5sk4sh33e38c0ck', '::1', 1569528425, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383432353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('o88j7ho990jlnfs6v7isd8kr5gkraek5', '::1', 1569949895, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393934393839353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('o91ejtd8ojh8bhq7is27qveeo3gkd7e7', '::1', 1567670531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637303532363b7265645f75726c7c733a34323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f536572766963652f33223b),
+('ofoa2e40d2vcf7st5as072qkkntenes5', '::1', 1569527692, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373639323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('oou0m6pk2o323ed0ciejcnlbkirba9dj', '::1', 1568738925, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733383932353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('oqdmijaicbjb145ceoc19sm07v9ulplm', '::1', 1569796642, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363538333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a33353a22d8aad98520d8a5d8b6d8a7d981d8a920696e636f6d696e6720d8a8d986d8acd8a7d8ad223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
+('orfs432d22m3l8kb5t5nsitsl9fm4ctt', '::1', 1569615133, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631353133333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('p64ammhjenguvlle4gq0qug1bupg6l7o', '::1', 1569794301, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739343330313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('p9e5i0h4bnfrmj99l4vn475a372v86tk', '::1', 1569954936, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343933363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('pa61k7olij0vmkd0fv7a2q448m5d20eg', '::1', 1569687793, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638373739333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('pitm5p8idrjvik549jqmt3obfebiics6', '::1', 1568906457, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930363435373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('plg69cjv5uq6to46fi9ej18r9fv2jar7', '::1', 1569954524, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343532343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a32373a22d8aad98520d8add8b0d9812070726f6375726174696f6e5f646f63223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
+('pnj2sjv3t832air444bj2pkjv47gm2u2', '::1', 1568648542, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('psks21s5b144c56m42lr23o5o5da2prt', '::1', 1567599873, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837323b7265645f75726c7c733a34313a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f73657474696e6773223b),
+('ptnlohrtj3c889k31a46c3rdql4qif1u', '::1', 1567600625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630303631353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('punuqvbi4gnrjo9e8kh76d76hd0ed0fj', '::1', 1569865100, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('puunhtj918d2o2l98hm3ra08cj135hta', '::1', 1567608037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630373833343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('q1e2u8m36l8fn55qm1s74faehmaf0hfu', '::1', 1568732892, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323839323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('q508cdjounbd4niifc3hdmubvkife2ar', '::1', 1567701691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730313632393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('q9u9vt8b6t2ntqi05oovngvcpiajmt7r', '::1', 1569949319, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393934393331393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qav46n6d8sj8ve0jnh2sodsjm3j6sshk', '::1', 1567541107, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534303932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qc3652v1gint152sngcn2d2c8s12ntk7', '::1', 1568130419, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133303338313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qejcdkvcsmk15k0qt5gaddnmasgvc61m', '::1', 1568306086, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330363038363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qiggrssotkmaedguk83h0fi6k496pi4u', '::1', 1568721713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732313731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qjg211okb3annd5g3shomgba6t3nofb2', '::1', 1567459061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383835373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qjrv2ojvnhpfk99ljj6a3km59tdh4ghq', '::1', 1568717085, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731373038353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qna2p7tkqtv4kppv0ejdp25fioo00buv', '::1', 1567607830, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qnco6l1hrl0s809flmn0tnk4sn9hbj1f', '::1', 1567100043, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373039393938373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qoofeja45nen3u40cgff6a48vohea23k', '::1', 1567246511, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363235383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qt1dgrmeeljr67va5u7dcjog877jr3hj', '::1', 1569689480, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638393239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('qv3okvcjrbjltsdhirdslbhr8qhq8rjd', '::1', 1567348218, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334373230333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r0f6efcghspvd4p0nl07e3i114d3kn6j', '::1', 1567956583, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r5m886ailvabqp2dgcgpkjnde3qe9eop', '::1', 1569860856, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836303835363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('r7t0hcdi8bffb3k17nl8rhgo2d00b8mt', '::1', 1567615150, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631343938313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('r8a693n2crlfhnpskjfkq384gul8g34m', '::1', 1567345332, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353033303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
+('rav43mmudoc6vh6umoecjkv6rqvigfhu', '::1', 1568645686, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634353638363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('rbmbo4inrsjibqno6gdhd1mq177q08sm', '::1', 1569950362, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935303336323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('rcpuc9aaihdmrknfkqikoesrlmggh2n1', '::1', 1568722192, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732323139323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rcvcp3v97inahdahi8nrvcts7mgpn65g', '::1', 1567700019, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rfh20secovl9v5nt7a32jk6p9ktn49ad', '::1', 1567941268, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373630313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rkcceq73n3uuculvchfc3fmtur1frev2', '::1', 1568897372, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839373337323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rlr3bpo7kk68djmllc3mt2g7lj8gcscn', '::1', 1569964759, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936343735393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('rr8qpit2dte72kcrsvkc7scl5p1jgbu7', '::1', 1569966503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363530333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('rt71epqbvp29bh2b33v2u2htnn92nlbn', '::1', 1567674102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637343039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rvrda7k6p6umr88gp980d5uibvfaah0o', '::1', 1568733548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733333534383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('s20bp9ud3l16kqh9273ttlqsn251si3g', '::1', 1568139073, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393032323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('s875j4h3ll5lllrrqm15ulcls1sh7113', '::1', 1568139598, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393537393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('sb7j6gajjbe6e07hj36ir578vvcdk1di', '::1', 1567084503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038323736313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('sjivbkic84vvve3af5k996ed5l17e38f', '::1', 1569957385, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935373338353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('skdc58sf9vr5o2pn3vpso1t17j60c8lo', '::1', 1569953919, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333931393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('sni5f97rlgaidbc9gt9ns2sa2kmc2mv5', '::1', 1567526219, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353932373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('so9e102isgm6ie85u2j5pif7d44thmo1', '::1', 1568229883, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232393733383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('sqgv334uqt45va6i445bk42847l7er7o', '::1', 1568909684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930393638343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('su1v0hvrpiacp45ge3q62v6sg9hhq5gh', '::1', 1568311836, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331313833363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('t1bt63see95gdgs2f2le3gj0r7oslen2', '::1', 1569790819, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739303831393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('t4gvnmqq409dpp5oeakedct5ftmpc7ci', '::1', 1569616457, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363435373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('t9qcljr8gva9bs0v9t6d4slru34c32qp', '::1', 1569527346, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373334363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('tlj4j3id701snbehh4n458el152ktshm', '::1', 1568575327, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537353330353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('tnl78slum8v8l2e4oh311ndsbc4le6r4', '::1', 1568647912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634373931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('to0e8i8un55g36155b2vk5v3gl0l73sp', '::1', 1567104191, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313936393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('tomfk1lf68tmue1ml3065ampld429hmj', '::1', 1568668018, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636383031383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('tr3pg1unp5n975ub233b9300o6t88da9', '::1', 1567941325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313237303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ts5f1qqonr89g3seh2ov3mt5i1e98d5g', '::1', 1568718618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731383631383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ttvh52robgon9pr69ufslg375sobhvp3', '::1', 1568575305, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537353330353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('u1k83s9er220i10v3rqq427ufagkmu37', '::1', 1568653200, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635333230303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('u9p9td04a74dvfukcb5l4jor2sov07ku', '::1', 1569964333, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936343333333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('ulrsgc9dhllq6j6i7e7uchcdtqrktheq', '::1', 1569858099, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393835383039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('uppicq57eid1ipduj1s55i0eg40s80n7', '::1', 1569966195, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363139353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('utaili7u5rvr0b6kfd61v7bmido2mokg', '::1', 1568911625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313632353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('v5tgj3pnj37qdav6b46tsqlfvdet9ne4', '::1', 1567348325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383232323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('v65191q7gehccbpo312arau1lhha9l7k', '::1', 1569795886, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353838363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('v6oj2scvs9t1avo3mv40lhfuv1ic1goj', '::1', 1569686634, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638363633343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('vebe6mb1vfenahd81lrsjqs3nstn7jvl', '::1', 1567339404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393236363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('vif1gn6ef9q9ep8mhp05i5hhto57lm1p', '::1', 1568197989, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373938393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
+('vq0l44prur779jhqh4t03jfh356n52o3', '::1', 1567073843, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblshared_customer_files`
+-- بنية الجدول `tblshared_customer_files`
 --
 
 CREATE TABLE `tblshared_customer_files` (
@@ -4220,7 +4867,7 @@ CREATE TABLE `tblshared_customer_files` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblspam_filters`
+-- بنية الجدول `tblspam_filters`
 --
 
 CREATE TABLE `tblspam_filters` (
@@ -4233,7 +4880,7 @@ CREATE TABLE `tblspam_filters` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblstaff`
+-- بنية الجدول `tblstaff`
 --
 
 CREATE TABLE `tblstaff` (
@@ -4241,8 +4888,8 @@ CREATE TABLE `tblstaff` (
   `email` varchar(100) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `facebook` mediumtext,
-  `linkedin` mediumtext,
+  `facebook` mediumtext DEFAULT NULL,
+  `linkedin` mediumtext DEFAULT NULL,
   `phonenumber` varchar(30) DEFAULT NULL,
   `skype` varchar(50) DEFAULT NULL,
   `password` varchar(250) NOT NULL,
@@ -4254,32 +4901,32 @@ CREATE TABLE `tblstaff` (
   `last_password_change` datetime DEFAULT NULL,
   `new_pass_key` varchar(32) DEFAULT NULL,
   `new_pass_key_requested` datetime DEFAULT NULL,
-  `admin` int(11) NOT NULL DEFAULT '0',
+  `admin` int(11) NOT NULL DEFAULT 0,
   `role` int(11) DEFAULT NULL,
-  `active` int(11) NOT NULL DEFAULT '1',
+  `active` int(11) NOT NULL DEFAULT 1,
   `default_language` varchar(40) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
   `media_path_slug` varchar(191) DEFAULT NULL,
-  `is_not_staff` int(11) NOT NULL DEFAULT '0',
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `two_factor_auth_enabled` tinyint(1) DEFAULT '0',
+  `is_not_staff` int(11) NOT NULL DEFAULT 0,
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `two_factor_auth_enabled` tinyint(1) DEFAULT 0,
   `two_factor_auth_code` varchar(100) DEFAULT NULL,
   `two_factor_auth_code_requested` datetime DEFAULT NULL,
-  `email_signature` text
+  `email_signature` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tblstaff`
+-- إرجاع أو استيراد بيانات الجدول `tblstaff`
 --
 
 INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`) VALUES
-(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-08-01 18:19:43', '2019-08-01 18:49:59', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
+(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-10-01 19:55:53', '2019-10-02 00:58:59', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
 (2, 'mohamad@gmail.com', 'mohamad', 'mohamad', '', '', '', '', '$2a$08$3U3Yq/bdVzixBFhr8sEWG.N64L8VEBgakihhEiQFdaXPJBbB47C06', '2019-07-20 15:54:20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, '', '', 'mohamad-mohamad', 0, '0.00', 0, NULL, NULL, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblstaff_departments`
+-- بنية الجدول `tblstaff_departments`
 --
 
 CREATE TABLE `tblstaff_departments` (
@@ -4291,7 +4938,7 @@ CREATE TABLE `tblstaff_departments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblstaff_permissions`
+-- بنية الجدول `tblstaff_permissions`
 --
 
 CREATE TABLE `tblstaff_permissions` (
@@ -4303,25 +4950,25 @@ CREATE TABLE `tblstaff_permissions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblsubscriptions`
+-- بنية الجدول `tblsubscriptions`
 --
 
 CREATE TABLE `tblsubscriptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text,
-  `description_in_item` tinyint(1) NOT NULL DEFAULT '0',
+  `description` text DEFAULT NULL,
+  `description_in_item` tinyint(1) NOT NULL DEFAULT 0,
   `clientid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
-  `tax_id` int(11) NOT NULL DEFAULT '0',
-  `stripe_plan_id` text,
+  `tax_id` int(11) NOT NULL DEFAULT 0,
+  `stripe_plan_id` text DEFAULT NULL,
   `stripe_subscription_id` text NOT NULL,
   `next_billing_cycle` bigint(20) DEFAULT NULL,
   `ends_at` bigint(20) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `quantity` int(11) NOT NULL DEFAULT '1',
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
@@ -4333,20 +4980,20 @@ CREATE TABLE `tblsubscriptions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltaggables`
+-- بنية الجدول `tbltaggables`
 --
 
 CREATE TABLE `tbltaggables` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
   `tag_id` int(11) NOT NULL,
-  `tag_order` int(11) NOT NULL DEFAULT '0'
+  `tag_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltags`
+-- بنية الجدول `tbltags`
 --
 
 CREATE TABLE `tbltags` (
@@ -4357,57 +5004,59 @@ CREATE TABLE `tbltags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltasks`
+-- بنية الجدول `tbltasks`
 --
 
 CREATE TABLE `tbltasks` (
   `id` int(11) NOT NULL,
-  `name` mediumtext,
-  `description` text,
+  `name` mediumtext DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `startdate` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `datefinished` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT '0',
-  `status` int(11) NOT NULL DEFAULT '0',
+  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 0,
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT '0',
+  `recurring` int(11) NOT NULL DEFAULT 0,
   `is_recurring_from` int(11) DEFAULT NULL,
-  `cycles` int(11) NOT NULL DEFAULT '0',
-  `total_cycles` int(11) NOT NULL DEFAULT '0',
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `cycles` int(11) NOT NULL DEFAULT 0,
+  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
   `last_recurring_date` date DEFAULT NULL,
   `rel_id` int(11) DEFAULT NULL,
   `rel_type` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT '0',
-  `billable` tinyint(1) NOT NULL DEFAULT '0',
-  `billed` tinyint(1) NOT NULL DEFAULT '0',
-  `invoice_id` int(11) NOT NULL DEFAULT '0',
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `milestone` int(11) DEFAULT '0',
-  `kanban_order` int(11) NOT NULL DEFAULT '0',
-  `milestone_order` int(11) NOT NULL DEFAULT '0',
-  `visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
-  `deadline_notified` int(11) NOT NULL DEFAULT '0'
+  `is_public` tinyint(1) NOT NULL DEFAULT 0,
+  `billable` tinyint(1) NOT NULL DEFAULT 0,
+  `billed` tinyint(1) NOT NULL DEFAULT 0,
+  `invoice_id` int(11) NOT NULL DEFAULT 0,
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `milestone` int(11) DEFAULT 0,
+  `kanban_order` int(11) NOT NULL DEFAULT 0,
+  `milestone_order` int(11) NOT NULL DEFAULT 0,
+  `visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `deadline_notified` int(11) NOT NULL DEFAULT 0,
+  `is_session` int(11) DEFAULT 0,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbltasks`
+-- إرجاع أو استيراد بيانات الجدول `tbltasks`
 --
 
-INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `startdate`, `duedate`, `datefinished`, `addedfrom`, `is_added_from_contact`, `status`, `recurring_type`, `repeat_every`, `recurring`, `is_recurring_from`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `rel_id`, `rel_type`, `is_public`, `billable`, `billed`, `invoice_id`, `hourly_rate`, `milestone`, `kanban_order`, `milestone_order`, `visible_to_client`, `deadline_notified`) VALUES
-(3, 'test', '', 2, '2019-07-30 17:59:47', '2019-07-30', NULL, '2019-07-31 21:19:08', 1, 0, 5, NULL, 0, 0, NULL, 0, 0, 0, NULL, 7, 'kd-y', 0, 1, 1, 2, '0.00', 0, 0, 0, 0, 0),
-(4, 'test2', '', 2, '2019-07-30 18:00:02', '2019-07-30', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 7, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0),
-(5, 'test', '', 2, '2019-07-31 21:18:04', '2019-07-31', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'project', 0, 1, 0, 0, '0.00', 0, 0, 0, 1, 0),
-(6, 'case task', '', 2, '2019-08-01 15:54:13', '2019-08-01', '2019-08-15', NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 3, 'project', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0);
+INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `startdate`, `duedate`, `datefinished`, `addedfrom`, `is_added_from_contact`, `status`, `recurring_type`, `repeat_every`, `recurring`, `is_recurring_from`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `rel_id`, `rel_type`, `is_public`, `billable`, `billed`, `invoice_id`, `hourly_rate`, `milestone`, `kanban_order`, `milestone_order`, `visible_to_client`, `deadline_notified`, `is_session`, `deleted`) VALUES
+(7, 'جلسة تجريبية', NULL, 2, '2019-09-18 15:33:12', '2019-09-17', '2019-09-20', NULL, 1, 0, 4, 'week', 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '100.00', 0, 0, 0, 0, 0, 1, 0),
+(8, 'test', NULL, 2, '2019-09-18 17:57:45', '2019-09-28', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(9, 'جلسة تجريبية 2', NULL, 2, '2019-09-18 17:59:14', '2019-09-17', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(11, 'qwqw', NULL, 2, '2019-09-18 18:32:30', '2019-09-18', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltaskstimers`
+-- بنية الجدول `tbltaskstimers`
 --
 
 CREATE TABLE `tbltaskstimers` (
@@ -4416,73 +5065,67 @@ CREATE TABLE `tbltaskstimers` (
   `start_time` varchar(64) NOT NULL,
   `end_time` varchar(64) DEFAULT NULL,
   `staff_id` int(11) NOT NULL,
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `note` text
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `note` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbltaskstimers`
---
-
-INSERT INTO `tbltaskstimers` (`id`, `task_id`, `start_time`, `end_time`, `staff_id`, `hourly_rate`, `note`) VALUES
-(1, 3, '1562688000', '1564506000', 1, '0.00', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltasks_checklist_templates`
+-- بنية الجدول `tbltasks_checklist_templates`
 --
 
 CREATE TABLE `tbltasks_checklist_templates` (
   `id` int(11) NOT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltask_assigned`
+-- بنية الجدول `tbltask_assigned`
 --
 
 CREATE TABLE `tbltask_assigned` (
   `id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
-  `assigned_from` int(11) NOT NULL DEFAULT '0',
-  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT '0'
+  `assigned_from` int(11) NOT NULL DEFAULT 0,
+  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbltask_assigned`
+-- إرجاع أو استيراد بيانات الجدول `tbltask_assigned`
 --
 
 INSERT INTO `tbltask_assigned` (`id`, `staffid`, `taskid`, `assigned_from`, `is_assigned_from_contact`) VALUES
-(3, 1, 3, 1, 0),
-(4, 1, 4, 1, 0),
 (5, 1, 5, 1, 0),
-(6, 1, 6, 1, 0);
+(7, 1, 7, 1, 0),
+(8, 1, 8, 1, 0),
+(9, 1, 9, 1, 0),
+(11, 1, 11, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltask_checklist_items`
+-- بنية الجدول `tbltask_checklist_items`
 --
 
 CREATE TABLE `tbltask_checklist_items` (
   `id` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
   `description` text NOT NULL,
-  `finished` int(11) NOT NULL DEFAULT '0',
+  `finished` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL,
   `addedfrom` int(11) NOT NULL,
-  `finished_from` int(11) DEFAULT '0',
-  `list_order` int(11) NOT NULL DEFAULT '0'
+  `finished_from` int(11) DEFAULT 0,
+  `list_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltask_comments`
+-- بنية الجدول `tbltask_comments`
 --
 
 CREATE TABLE `tbltask_comments` (
@@ -4490,15 +5133,15 @@ CREATE TABLE `tbltask_comments` (
   `content` text NOT NULL,
   `taskid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT '0',
-  `file_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `file_id` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltask_followers`
+-- بنية الجدول `tbltask_followers`
 --
 
 CREATE TABLE `tbltask_followers` (
@@ -4510,7 +5153,7 @@ CREATE TABLE `tbltask_followers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltaxes`
+-- بنية الجدول `tbltaxes`
 --
 
 CREATE TABLE `tbltaxes` (
@@ -4522,45 +5165,39 @@ CREATE TABLE `tbltaxes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltickets`
+-- بنية الجدول `tbltickets`
 --
 
 CREATE TABLE `tbltickets` (
   `ticketid` int(11) NOT NULL,
-  `adminreplying` int(11) NOT NULL DEFAULT '0',
+  `adminreplying` int(11) NOT NULL DEFAULT 0,
   `userid` int(11) NOT NULL,
-  `contactid` int(11) NOT NULL DEFAULT '0',
-  `email` text,
-  `name` text,
+  `contactid` int(11) NOT NULL DEFAULT 0,
+  `email` text DEFAULT NULL,
+  `name` text DEFAULT NULL,
   `department` int(11) NOT NULL,
   `priority` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `service` int(11) DEFAULT NULL,
   `ticketkey` varchar(32) NOT NULL,
   `subject` varchar(191) NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `admin` int(11) DEFAULT NULL,
   `date` datetime NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `lastreply` datetime DEFAULT NULL,
-  `clientread` int(11) NOT NULL DEFAULT '0',
-  `adminread` int(11) NOT NULL DEFAULT '0',
-  `assigned` int(11) NOT NULL DEFAULT '0',
+  `clientread` int(11) NOT NULL DEFAULT 0,
+  `adminread` int(11) NOT NULL DEFAULT 0,
+  `assigned` int(11) NOT NULL DEFAULT 0,
   `rel_sid` int(11) DEFAULT NULL,
-  `rel_stype` varchar(30) DEFAULT NULL
+  `rel_stype` varchar(30) DEFAULT NULL,
+  `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbltickets`
---
-
-INSERT INTO `tbltickets` (`ticketid`, `adminreplying`, `userid`, `contactid`, `email`, `name`, `department`, `priority`, `status`, `service`, `ticketkey`, `subject`, `message`, `admin`, `date`, `project_id`, `lastreply`, `clientread`, `adminread`, `assigned`, `rel_sid`, `rel_stype`) VALUES
-(1, 0, 0, 0, NULL, NULL, 0, 0, 1, NULL, '', 'sadasd', NULL, NULL, '0000-00-00 00:00:00', 0, NULL, 0, 0, 0, 1, 'kd-y');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltickets_pipe_log`
+-- بنية الجدول `tbltickets_pipe_log`
 --
 
 CREATE TABLE `tbltickets_pipe_log` (
@@ -4577,7 +5214,7 @@ CREATE TABLE `tbltickets_pipe_log` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltickets_predefined_replies`
+-- بنية الجدول `tbltickets_predefined_replies`
 --
 
 CREATE TABLE `tbltickets_predefined_replies` (
@@ -4589,7 +5226,7 @@ CREATE TABLE `tbltickets_predefined_replies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltickets_priorities`
+-- بنية الجدول `tbltickets_priorities`
 --
 
 CREATE TABLE `tbltickets_priorities` (
@@ -4598,7 +5235,7 @@ CREATE TABLE `tbltickets_priorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbltickets_priorities`
+-- إرجاع أو استيراد بيانات الجدول `tbltickets_priorities`
 --
 
 INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
@@ -4609,19 +5246,19 @@ INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltickets_status`
+-- بنية الجدول `tbltickets_status`
 --
 
 CREATE TABLE `tbltickets_status` (
   `ticketstatusid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `isdefault` int(11) NOT NULL DEFAULT '0',
+  `isdefault` int(11) NOT NULL DEFAULT 0,
   `statuscolor` varchar(7) DEFAULT NULL,
   `statusorder` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbltickets_status`
+-- إرجاع أو استيراد بيانات الجدول `tbltickets_status`
 --
 
 INSERT INTO `tbltickets_status` (`ticketstatusid`, `name`, `isdefault`, `statuscolor`, `statusorder`) VALUES
@@ -4634,7 +5271,7 @@ INSERT INTO `tbltickets_status` (`ticketstatusid`, `name`, `isdefault`, `statusc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblticket_attachments`
+-- بنية الجدول `tblticket_attachments`
 --
 
 CREATE TABLE `tblticket_attachments` (
@@ -4649,18 +5286,18 @@ CREATE TABLE `tblticket_attachments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblticket_replies`
+-- بنية الجدول `tblticket_replies`
 --
 
 CREATE TABLE `tblticket_replies` (
   `id` int(11) NOT NULL,
   `ticketid` int(11) NOT NULL,
   `userid` int(11) DEFAULT NULL,
-  `contactid` int(11) NOT NULL DEFAULT '0',
-  `name` text,
-  `email` text,
+  `contactid` int(11) NOT NULL DEFAULT 0,
+  `name` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
   `date` datetime NOT NULL,
-  `message` text,
+  `message` text DEFAULT NULL,
   `attachment` int(11) DEFAULT NULL,
   `admin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4668,7 +5305,7 @@ CREATE TABLE `tblticket_replies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltodos`
+-- بنية الجدول `tbltodos`
 --
 
 CREATE TABLE `tbltodos` (
@@ -4684,7 +5321,7 @@ CREATE TABLE `tbltodos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltracked_mails`
+-- بنية الجدول `tbltracked_mails`
 --
 
 CREATE TABLE `tbltracked_mails` (
@@ -4694,15 +5331,15 @@ CREATE TABLE `tbltracked_mails` (
   `rel_type` varchar(40) NOT NULL,
   `date` datetime NOT NULL,
   `email` varchar(100) NOT NULL,
-  `opened` tinyint(1) NOT NULL DEFAULT '0',
+  `opened` tinyint(1) NOT NULL DEFAULT 0,
   `date_opened` datetime DEFAULT NULL,
-  `subject` mediumtext
+  `subject` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbluser_auto_login`
+-- بنية الجدول `tbluser_auto_login`
 --
 
 CREATE TABLE `tbluser_auto_login` (
@@ -4710,29 +5347,29 @@ CREATE TABLE `tbluser_auto_login` (
   `user_id` int(11) NOT NULL,
   `user_agent` varchar(150) NOT NULL,
   `last_ip` varchar(40) NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `staff` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbluser_meta`
+-- بنية الجدول `tbluser_meta`
 --
 
 CREATE TABLE `tbluser_meta` (
   `umeta_id` bigint(20) UNSIGNED NOT NULL,
-  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `meta_key` varchar(191) DEFAULT NULL,
-  `meta_value` longtext
+  `meta_value` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblvault`
+-- بنية الجدول `tblvault`
 --
 
 CREATE TABLE `tblvault` (
@@ -4742,11 +5379,11 @@ CREATE TABLE `tblvault` (
   `port` int(11) DEFAULT NULL,
   `username` varchar(191) NOT NULL,
   `password` text NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `creator` int(11) NOT NULL,
   `creator_name` varchar(100) DEFAULT NULL,
-  `visibility` tinyint(1) NOT NULL DEFAULT '1',
-  `share_in_projects` tinyint(1) NOT NULL DEFAULT '0',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
+  `share_in_projects` tinyint(1) NOT NULL DEFAULT 0,
   `last_updated` datetime DEFAULT NULL,
   `last_updated_from` varchar(100) DEFAULT NULL,
   `date_created` datetime NOT NULL
@@ -4755,7 +5392,7 @@ CREATE TABLE `tblvault` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblviews_tracking`
+-- بنية الجدول `tblviews_tracking`
 --
 
 CREATE TABLE `tblviews_tracking` (
@@ -4769,7 +5406,7 @@ CREATE TABLE `tblviews_tracking` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblweb_to_lead`
+-- بنية الجدول `tblweb_to_lead`
 --
 
 CREATE TABLE `tblweb_to_lead` (
@@ -4777,21 +5414,21 @@ CREATE TABLE `tblweb_to_lead` (
   `form_key` varchar(32) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
-  `notify_lead_imported` int(11) NOT NULL DEFAULT '1',
+  `notify_lead_imported` int(11) NOT NULL DEFAULT 1,
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext,
-  `responsible` int(11) NOT NULL DEFAULT '0',
+  `notify_ids` mediumtext DEFAULT NULL,
+  `responsible` int(11) NOT NULL DEFAULT 0,
   `name` varchar(191) NOT NULL,
-  `form_data` mediumtext,
-  `recaptcha` int(11) NOT NULL DEFAULT '0',
+  `form_data` mediumtext DEFAULT NULL,
+  `recaptcha` int(11) NOT NULL DEFAULT 0,
   `submit_btn_name` varchar(40) DEFAULT NULL,
-  `success_submit_msg` text,
+  `success_submit_msg` text DEFAULT NULL,
   `language` varchar(40) DEFAULT NULL,
-  `allow_duplicate` int(11) NOT NULL DEFAULT '1',
-  `mark_public` int(11) NOT NULL DEFAULT '0',
+  `allow_duplicate` int(11) NOT NULL DEFAULT 1,
+  `mark_public` int(11) NOT NULL DEFAULT 0,
   `track_duplicate_field` varchar(20) DEFAULT NULL,
   `track_duplicate_field_and` varchar(20) DEFAULT NULL,
-  `create_task_on_duplicate` int(11) NOT NULL DEFAULT '0',
+  `create_task_on_duplicate` int(11) NOT NULL DEFAULT 0,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4811,6 +5448,18 @@ ALTER TABLE `tblactivity_log`
 --
 ALTER TABLE `tblannouncements`
   ADD PRIMARY KEY (`announcementid`);
+
+--
+-- Indexes for table `tblbranches`
+--
+ALTER TABLE `tblbranches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblbranches_services`
+--
+ALTER TABLE `tblbranches_services`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tblcasediscussioncomments`
@@ -5275,6 +5924,14 @@ ALTER TABLE `tblmy_cases_judges`
   ADD KEY `case_id` (`case_id`);
 
 --
+-- Indexes for table `tblmy_cases_movement_judges`
+--
+ALTER TABLE `tblmy_cases_movement_judges`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `judge_id` (`judge_id`),
+  ADD KEY `case_id` (`case_mov_id`);
+
+--
 -- Indexes for table `tblmy_categories`
 --
 ALTER TABLE `tblmy_categories`
@@ -5331,7 +5988,6 @@ ALTER TABLE `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_services`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `project_id` (`project_id`),
   ADD KEY `staff_id` (`staff_id`);
 
 --
@@ -5359,6 +6015,47 @@ ALTER TABLE `tblmy_procurationtype`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblmy_projects_contacts`
+--
+ALTER TABLE `tblmy_projects_contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblmy_projects_meta`
+--
+ALTER TABLE `tblmy_projects_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblmy_projects_statuses`
+--
+ALTER TABLE `tblmy_projects_statuses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblmy_project_invoicepaymentrecords`
+--
+ALTER TABLE `tblmy_project_invoicepaymentrecords`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoiceid` (`invoiceid`),
+  ADD KEY `paymentmethod` (`paymentmethod`);
+
+--
+-- Indexes for table `tblmy_project_invoices`
+--
+ALTER TABLE `tblmy_project_invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `currency` (`currency`),
+  ADD KEY `clientid` (`clientid`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `sale_agent` (`sale_agent`),
+  ADD KEY `total` (`total`),
+  ADD KEY `rel_stype` (`rel_stype`),
+  ADD KEY `rel_sid` (`rel_sid`);
+
+--
 -- Indexes for table `tblmy_salary`
 --
 ALTER TABLE `tblmy_salary`
@@ -5383,6 +6080,13 @@ ALTER TABLE `tblmy_sessiondiscussions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblmy_session_info`
+--
+ALTER TABLE `tblmy_session_info`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`);
+
+--
 -- Indexes for table `tblmy_training`
 --
 ALTER TABLE `tblmy_training`
@@ -5392,6 +6096,12 @@ ALTER TABLE `tblmy_training`
 -- Indexes for table `tblmy_training_attachments`
 --
 ALTER TABLE `tblmy_training_attachments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblmy_transactions`
+--
+ALTER TABLE `tblmy_transactions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5446,6 +6156,43 @@ ALTER TABLE `tbloptions`
   ADD KEY `name` (`name`);
 
 --
+-- Indexes for table `tbloservicediscussioncomments`
+--
+ALTER TABLE `tbloservicediscussioncomments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservicediscussions`
+--
+ALTER TABLE `tbloservicediscussions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_activity`
+--
+ALTER TABLE `tbloservice_activity`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_files`
+--
+ALTER TABLE `tbloservice_files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_notes`
+--
+ALTER TABLE `tbloservice_notes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbloservice_settings`
+--
+ALTER TABLE `tbloservice_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oservice_id` (`oservice_id`);
+
+--
 -- Indexes for table `tblpayment_modes`
 --
 ALTER TABLE `tblpayment_modes`
@@ -5459,11 +6206,30 @@ ALTER TABLE `tblpinned_cases`
   ADD KEY `project_id` (`project_id`);
 
 --
+-- Indexes for table `tblpinned_oservices`
+--
+ALTER TABLE `tblpinned_oservices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oservice_id` (`oservice_id`);
+
+--
 -- Indexes for table `tblpinned_projects`
 --
 ALTER TABLE `tblpinned_projects`
   ADD PRIMARY KEY (`id`),
   ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tblprocurations`
+--
+ALTER TABLE `tblprocurations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblprocuration_cases`
+--
+ALTER TABLE `tblprocuration_cases`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tblprojectdiscussioncomments`
@@ -5770,7 +6536,7 @@ ALTER TABLE `tblweb_to_lead`
 -- AUTO_INCREMENT for table `tblactivity_log`
 --
 ALTER TABLE `tblactivity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
 
 --
 -- AUTO_INCREMENT for table `tblannouncements`
@@ -5779,22 +6545,34 @@ ALTER TABLE `tblannouncements`
   MODIFY `announcementid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblbranches`
+--
+ALTER TABLE `tblbranches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblbranches_services`
+--
+ALTER TABLE `tblbranches_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `tblcasediscussioncomments`
 --
 ALTER TABLE `tblcasediscussioncomments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcasediscussions`
 --
 ALTER TABLE `tblcasediscussions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcase_activity`
 --
 ALTER TABLE `tblcase_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
 
 --
 -- AUTO_INCREMENT for table `tblcase_files`
@@ -5806,7 +6584,7 @@ ALTER TABLE `tblcase_files`
 -- AUTO_INCREMENT for table `tblcase_movement`
 --
 ALTER TABLE `tblcase_movement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblcase_notes`
@@ -5818,7 +6596,7 @@ ALTER TABLE `tblcase_notes`
 -- AUTO_INCREMENT for table `tblcase_settings`
 --
 ALTER TABLE `tblcase_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=495;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `tblcities`
@@ -5890,7 +6668,7 @@ ALTER TABLE `tblcountries`
 -- AUTO_INCREMENT for table `tblcreditnotes`
 --
 ALTER TABLE `tblcreditnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcreditnote_refunds`
@@ -5968,13 +6746,13 @@ ALTER TABLE `tblevents`
 -- AUTO_INCREMENT for table `tblexpenses`
 --
 ALTER TABLE `tblexpenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblexpenses_categories`
 --
 ALTER TABLE `tblexpenses_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblfiles`
@@ -6016,25 +6794,25 @@ ALTER TABLE `tblgdpr_requests`
 -- AUTO_INCREMENT for table `tblinvoicepaymentrecords`
 --
 ALTER TABLE `tblinvoicepaymentrecords`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblinvoices`
 --
 ALTER TABLE `tblinvoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblitemable`
 --
 ALTER TABLE `tblitemable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblitems`
 --
 ALTER TABLE `tblitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblitems_groups`
@@ -6112,13 +6890,13 @@ ALTER TABLE `tblmail_queue`
 -- AUTO_INCREMENT for table `tblmilestones`
 --
 ALTER TABLE `tblmilestones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmodules`
 --
 ALTER TABLE `tblmodules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblmy_award`
@@ -6142,7 +6920,7 @@ ALTER TABLE `tblmy_basic_services`
 -- AUTO_INCREMENT for table `tblmy_cases`
 --
 ALTER TABLE `tblmy_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tblmy_casestatus`
@@ -6154,7 +6932,13 @@ ALTER TABLE `tblmy_casestatus`
 -- AUTO_INCREMENT for table `tblmy_cases_judges`
 --
 ALTER TABLE `tblmy_cases_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tblmy_cases_movement_judges`
+--
+ALTER TABLE `tblmy_cases_movement_judges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tblmy_categories`
@@ -6202,7 +6986,7 @@ ALTER TABLE `tblmy_judicialdept`
 -- AUTO_INCREMENT for table `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tblmy_members_services`
@@ -6235,6 +7019,36 @@ ALTER TABLE `tblmy_procurationtype`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tblmy_projects_contacts`
+--
+ALTER TABLE `tblmy_projects_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tblmy_projects_meta`
+--
+ALTER TABLE `tblmy_projects_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `tblmy_projects_statuses`
+--
+ALTER TABLE `tblmy_projects_statuses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblmy_project_invoicepaymentrecords`
+--
+ALTER TABLE `tblmy_project_invoicepaymentrecords`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_project_invoices`
+--
+ALTER TABLE `tblmy_project_invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tblmy_salary`
 --
 ALTER TABLE `tblmy_salary`
@@ -6244,7 +7058,7 @@ ALTER TABLE `tblmy_salary`
 -- AUTO_INCREMENT for table `tblmy_service_session`
 --
 ALTER TABLE `tblmy_service_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblmy_sessiondiscussioncomments`
@@ -6259,6 +7073,12 @@ ALTER TABLE `tblmy_sessiondiscussions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblmy_session_info`
+--
+ALTER TABLE `tblmy_session_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `tblmy_training`
 --
 ALTER TABLE `tblmy_training`
@@ -6269,6 +7089,12 @@ ALTER TABLE `tblmy_training`
 --
 ALTER TABLE `tblmy_training_attachments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tblmy_transactions`
+--
+ALTER TABLE `tblmy_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tblmy_vac`
@@ -6310,13 +7136,49 @@ ALTER TABLE `tblnotes`
 -- AUTO_INCREMENT for table `tblnotifications`
 --
 ALTER TABLE `tblnotifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=431;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussioncomments`
+--
+ALTER TABLE `tbloservicediscussioncomments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussions`
+--
+ALTER TABLE `tbloservicediscussions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_activity`
+--
+ALTER TABLE `tbloservice_activity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_files`
+--
+ALTER TABLE `tbloservice_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_notes`
+--
+ALTER TABLE `tbloservice_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_settings`
+--
+ALTER TABLE `tbloservice_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tblpayment_modes`
@@ -6328,13 +7190,31 @@ ALTER TABLE `tblpayment_modes`
 -- AUTO_INCREMENT for table `tblpinned_cases`
 --
 ALTER TABLE `tblpinned_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpinned_oservices`
+--
+ALTER TABLE `tblpinned_oservices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblpinned_projects`
 --
 ALTER TABLE `tblpinned_projects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprocurations`
+--
+ALTER TABLE `tblprocurations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprocuration_cases`
+--
+ALTER TABLE `tblprocuration_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblprojectdiscussioncomments`
@@ -6352,25 +7232,25 @@ ALTER TABLE `tblprojectdiscussions`
 -- AUTO_INCREMENT for table `tblprojects`
 --
 ALTER TABLE `tblprojects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblproject_activity`
 --
 ALTER TABLE `tblproject_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tblproject_files`
 --
 ALTER TABLE `tblproject_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblproject_members`
 --
 ALTER TABLE `tblproject_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblproject_notes`
@@ -6382,13 +7262,13 @@ ALTER TABLE `tblproject_notes`
 -- AUTO_INCREMENT for table `tblproject_settings`
 --
 ALTER TABLE `tblproject_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `tblproposals`
 --
 ALTER TABLE `tblproposals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblproposal_comments`
@@ -6400,7 +7280,7 @@ ALTER TABLE `tblproposal_comments`
 -- AUTO_INCREMENT for table `tblrelated_items`
 --
 ALTER TABLE `tblrelated_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblreminders`
@@ -6418,7 +7298,7 @@ ALTER TABLE `tblroles`
 -- AUTO_INCREMENT for table `tblsales_activity`
 --
 ALTER TABLE `tblsales_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblservices`
@@ -6460,13 +7340,13 @@ ALTER TABLE `tbltags`
 -- AUTO_INCREMENT for table `tbltasks`
 --
 ALTER TABLE `tbltasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbltaskstimers`
 --
 ALTER TABLE `tbltaskstimers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbltasks_checklist_templates`
@@ -6478,7 +7358,7 @@ ALTER TABLE `tbltasks_checklist_templates`
 -- AUTO_INCREMENT for table `tbltask_assigned`
 --
 ALTER TABLE `tbltask_assigned`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbltask_checklist_items`
@@ -6583,17 +7463,17 @@ ALTER TABLE `tblweb_to_lead`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- قيود الجداول المحفوظة
 --
 
 --
--- Constraints for table `tblmy_categories`
+-- القيود للجدول `tblmy_categories`
 --
 ALTER TABLE `tblmy_categories`
   ADD CONSTRAINT `CateServKey` FOREIGN KEY (`service_id`) REFERENCES `tblmy_basic_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tblmy_judicialdept`
+-- القيود للجدول `tblmy_judicialdept`
 --
 ALTER TABLE `tblmy_judicialdept`
   ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `tblmy_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;

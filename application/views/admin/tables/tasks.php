@@ -27,8 +27,6 @@ $join  = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 array_push($where, 'AND CASE WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1) THEN rel_type != "project" ELSE 1=1 END');
-array_push($where, 'AND deleted = 0');
-array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 0');
 
 $custom_fields = get_table_custom_fields('tasks');
 

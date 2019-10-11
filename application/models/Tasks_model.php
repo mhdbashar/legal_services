@@ -353,6 +353,7 @@ class Tasks_model extends App_Model
             $this->copy_task_custom_fields($data['copy_from'], $insert_id);
 
             hooks()->do_action('after_add_task', $insert_id);
+
             return $insert_id;
         }
 
@@ -1446,6 +1447,7 @@ class Tasks_model extends App_Model
         $this->db->from(db_prefix() . 'task_assigned');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid');
         $this->db->where('taskid', $id);
+        $this->db->order_by('firstname', 'asc');
 
         return $this->db->get()->result_array();
     }
@@ -1505,6 +1507,12 @@ class Tasks_model extends App_Model
                     'content' => $data['content'],
                 ]);
                 if ($this->db->affected_rows() > 0) {
+
+                    hooks()->do_action('task_comment_updated', [
+                        'comment_id' => $comment->id,
+                        'task_id'    => $comment->taskid,
+                    ]);
+
                     return true;
                 }
             } else {
@@ -1546,6 +1554,8 @@ class Tasks_model extends App_Model
                     foreach ($commentAttachments as $attachment) {
                         $this->remove_task_attachment($attachment['id']);
                     }
+
+                    hooks()->do_action('task_comment_deleted', [ 'task_id' => $comment->taskid, 'comment_id' => $id ]);
 
                     return true;
                 }
@@ -2307,6 +2317,8 @@ class Tasks_model extends App_Model
                 $additional_data .= '<br /><seconds>' . $total . '</seconds>';
                 $this->projects_model->log_activity($task->rel_id, 'project_activity_task_timesheet_deleted', $additional_data, $task->visible_to_client);
             }
+
+            hooks()->do_action('task_timer_deleted', $timesheet);
 
             log_activity('Timesheet Deleted [' . $id . ']');
 

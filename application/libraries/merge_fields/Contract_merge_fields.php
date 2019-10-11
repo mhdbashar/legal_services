@@ -60,10 +60,10 @@ class Contract_merge_fields extends App_merge_fields
     }
 
     /**
- * Merge field for contracts
- * @param  mixed $contract_id contract id
- * @return array
- */
+     * Merge field for contracts
+     * @param  mixed $contract_id contract id
+     * @return array
+     */
     public function format($contract_id)
     {
         $fields = [];

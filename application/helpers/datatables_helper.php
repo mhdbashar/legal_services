@@ -70,7 +70,7 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
                 ) {
                 $sOrder .= $columnName . ' IS NULL ' . $dir . ', ' . $columnName;
             } else {
-                $sOrder .= hooks()->apply_filters('datatables_query_order_column', $columnName);
+                $sOrder .= hooks()->apply_filters('datatables_query_order_column', $columnName, $sTable);
             }
             $sOrder .= ' ' . $dir . ', ';
         }

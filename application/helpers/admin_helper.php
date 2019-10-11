@@ -127,6 +127,7 @@ function staff_can($capability, $feature = null, $staff_id = '')
         if (!class_exists('staff_model', false)) {
             $CI->load->model('staff_model');
         }
+
         $permissions = $CI->staff_model->get_staff_permissions($staff_id);
     }
 

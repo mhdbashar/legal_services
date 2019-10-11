@@ -1,10 +1,23 @@
 <?php
+$lang['start_date'] = "تاريخ البداية";
+$lang['end_date'] = "تاريخ النهاية";
+$lang['procuration_number'] = "رقم الوكالة";
+$lang['come_from'] = "صادرة عن";
+$lang['status'] = "حالة الوكالة";
+$lang['type'] = "نوع الوكالة";
+$lang['procuration_file'] = "ملف الوكالة";
+$lang['added_from'] = "أضيفت من قبل";
+$lang['Add Branch'] = "إضافة فرع جديد";
+$lang['Browse Branch'] = "استعراض الفروع";
+$lang['Branches'] = "الفروع";
+$lang['languages'] = "اللغات";
+$lang['Judges'] = "القضاة";
+$lang['procuration_type'] = "أنواع الوكالات";
+$lang['procuration_state'] = "حالات الوكالات";
+$lang['procuration'] = "الوكالات";
 $lang['Id'] = "المعرف";
 $lang['ahmad'] = "%s أحمد";
-$lang['procuration'] = "الوكالة";
 $lang['procurations'] = "الوكالات";
-$lang['procuration_state'] = "حالة الوكالة";
-$lang['procuration_type'] = "نوع الوكالة";
 $lang['new_procuration_type'] = "إضافة نوع وكالة";
 $lang['new_procuration_state'] = "إضافة حالة وكالة";
 $lang['new_procuration'] = "إضافة وكالة";
@@ -118,6 +131,31 @@ $lang['AlertEmptyRecycleBin'] = 'تنبيه قبل إفراغ سلة المحذ�
 $lang['ConfirmEmptyLegalServicesRecycleBin'] = 'تأكيد إفراغ سلة محذوفات الخدمات القانونية';
 $lang['EmptyLegalServicesRecycleBinNote'] = 'هل انت موافق على إفراغ سلة محذوفات الخدمات القانونية تلقائياً في';
 
+/** hijri settings **/
+$lang['Hijri_managment'] = "إدارة التقويم الهجري";
+
+$lang['hijri'] = "التقويم الهجري";
+
+
+$lang['hijri_pages'] = "الصفحات الهجرية";
+$lang['add_row'] = "إضافة سطر";
+$lang['delete_row'] = "حذف سطر";
+$lang['link'] = "الرابط";
+
+$lang['adjust_history'] = "جميع التعديلات";
+$lang['current_adjust'] = "التعديلات الحالية";
+$lang['default_adjust'] = "الإفتراضي";
+$lang['delete_adjust'] = "حذف";
+$lang['start_month'] = "تعديل بداية شهر ";
+$lang['from_year'] = "  من سنة ";
+$lang['to'] = " الى: ";
+$lang['send']= "إرسال";
+$lang['cancel'] = "إالغاء";
+$lang['also_start_month'] = " وسيتم تعديل بداية شهر ";
+$lang['year'] = "السنة";
+$lang['month'] = "الشهر";
+$lang['add_request'] = "إضافة";
+$lang['mod_data'] = "بيانات التعديل";
 //Sessions
 $lang['legal_services_session'] = "جلسات خدمة قانونية";
 $lang['SessionLog'] = "سجل الجلسات";
@@ -146,6 +184,39 @@ $lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى
 $lang['session_no_followers'] = "ليس هناك متابع لهذه الجلسة";
 $lang['session_is_private'] = "جلسة خاصة";
 $lang['session_report'] = 'تقرير جلسة';
+
+
+/**  transactions **/
+$lang['transactions'] = 'المعاملات';
+$lang['incoming'] = 'المعاملات الواردة';
+$lang['outgoing'] = 'المعاملات الصادرة';
+$lang['incoming_data'] = 'بيانات المعاملة الواردة';
+$lang['trans_id'] = 'رقم القيد';
+$lang['importance'] = 'أهمية المعاملة';
+$lang['low'] = 'منخفضة';
+$lang['high'] = 'عالية';
+$lang['description'] = 'موضوع المعاملة';
+$lang['classification'] = 'تصنيف المعاملة';
+$lang['type'] = 'نوع المعاملة';
+$lang['internal'] = 'قيد داخلي';
+$lang['external'] = 'قيد خارجي';
+$lang['owner_name'] = 'اسم صاحب المعاملة';
+$lang['origin'] = 'طبيعة أصل المعاملة';
+$lang['normal_paper'] = 'ورق عادي';
+$lang['notnormal_paper'] = 'ورق غير عادي';
+$lang['owner_phone'] = 'جوال صاحب المعاملة';
+$lang['incoming_num'] = 'رقم الخطاب الوارد';
+$lang['reporter_name'] = 'اسم مراسل الجهة الواردة';
+$lang['incoming_source'] = 'الجهة الوارد منها';
+$lang['reporter_phone'] = 'جوال مراسل الجهة الواردة';
+$lang['incoming_type'] = 'نوع الوارد';
+$lang['electronic_incoming'] = 'وارد الكتروني';
+$lang['paper_incoming'] = 'وارد ورقي';
+$lang['email'] = 'البريد الالكتروني';
+$lang['secret'] = 'سرية المعاملة';
+$lang['incoming_date'] = 'تاريخ الوارد';
+$lang['hijri_date'] = 'هجري';
+$lang['AD_date'] = 'ميلادي';
 $lang['Current_session_date'] = 'موعد الجلسة الحالي';
 $lang['Next_session_date'] = 'موعد الجلسة القادم';
 $lang['Proceedings_of_session'] = 'وقائع الجلسة';
@@ -167,4 +238,8 @@ $lang['opponent_admin_login_as_client_message'] = "مرحبًا %s . لقد تم
 $lang['opponent_inactive_message'] = "هذا ملف تعريف خصم غير نشط وقد يتم تعطيل بعض الميزات";
 $lang['opponent_profile_details'] = "بيانات الخصم";
 $lang['opponent_admins'] = "مدير حساب الخصم";
+$lang['date'] = 'التاريخ';
+$lang['new_incoming'] = 'اضافة معاملة واردة';
+$lang['new_outgoing'] = 'اضافة معاملة صادرة';
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
+$lang['branch_name'] = "اسم الفرع";

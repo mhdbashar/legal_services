@@ -32,7 +32,7 @@ class Branches_model extends App_Model
         $this->db->insert('tblbranches', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            logActivity('New Branches Added [' . $data['title'] . ']');
+            log_activity('New Branches Added [' . $data['title'] . ']');
             return $insert_id;
         }
         return false;
@@ -44,7 +44,7 @@ class Branches_model extends App_Model
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
-            logActivity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
+            log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
             return $insert_id;
         }
         return false;
@@ -56,7 +56,7 @@ class Branches_model extends App_Model
         $this->db->update('tblbranches_services', ['branch_id' => $branch_id]);
 
         if ($this->db->affected_rows() > 0) {
-            logActivity('Update Branch In '.$rel_type.' [' . $rel_id . ']');
+            log_activity('Update Branch In '.$rel_type.' [' . $rel_id . ']');
             return true;
         }
         $this->set_branch(['rel_type' => $rel_type, 'rel_id' => $rel_id, 'branch_id' => $branch_id]);
@@ -81,7 +81,7 @@ class Branches_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update('tblbranches', $data);
         if ($this->db->affected_rows() > 0) {
-            logActivity('Branches Updated [' . $data['title'] . ']');
+            log_activity('Branches Updated [' . $data['title'] . ']');
             return true;
         }
         return false;
@@ -98,7 +98,7 @@ class Branches_model extends App_Model
         $this->db->delete('tblbranches');
         if ($this->db->affected_rows() > 0) {
             // Delete the values
-            logActivity('Branch Deleted [' . $id . ']');
+            log_activity('Branch Deleted [' . $id . ']');
             return true;
         }
         return false;

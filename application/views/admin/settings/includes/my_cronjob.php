@@ -30,6 +30,9 @@
     <li role="presentation">
         <a href="#LService_recycle_bin" aria-controls="LService_recycle_bin" role="tab" data-toggle="tab"><?php echo _l('LService_recycle_bin'); ?></a>
     </li>
+    <li role="presentation">
+    <a href="#procurations" aria-controls="procurations" role="tab" data-toggle="tab"><?php echo _l('procurations'); ?></a>
+  </li>
 
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 
@@ -71,6 +74,12 @@
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('tasks_reminder_notification_before_help'); ?>"></i>
         <?php echo render_input('settings[tasks_reminder_notification_before]','tasks_reminder_notification_before',get_option('tasks_reminder_notification_before'),'number'); ?>
     </div>
+
+    <div role="tabpanel" class="tab-pane" id="procurations">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
+   <?php echo render_input('settings[procurations_reminder_notification_before]','procurations_reminder_notification_before',get_option('procurations_reminder_notification_before'),'number'); ?>
+ </div>
+ 
     <div role="tabpanel" class="tab-pane" id="contracts">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
         <?php echo render_input('settings[contracts_auto_operations_hour]','hour_of_day_perform_auto_operations',get_option('contracts_auto_operations_hour'),'number',array('max'=>23)); ?>

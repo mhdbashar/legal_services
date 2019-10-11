@@ -67,6 +67,13 @@ function app_init_case_tabs()
         'position' => 5,
     ]);
 
+    $CI->app_tabs->add_case_tab('procuration', [
+        'name'     => _l('procuration'),
+        'icon'     => 'fa fa-th',
+        'view'     => 'admin/LegalServices/cases/case_procuration',
+        'position' => 6,
+    ]);
+
     $CI->app_tabs->add_case_tab('project_tasks', [
         'name'                      => _l('tasks'),
         'icon'                      => 'fa fa-check-circle',

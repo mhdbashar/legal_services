@@ -554,7 +554,22 @@ class Invoices extends AdminController
         }
 
         try {
-            $success = $this->invoices_model->send_invoice_to_client($id, '', $this->input->post('attach_pdf'), $this->input->post('cc'));
+
+            $statementData = [];
+            if($this->input->post('attach_statement')) {
+                $statementData['attach'] = true;
+                $statementData['from'] = to_sql_date($this->input->post('statement_from'));
+                $statementData['to'] = to_sql_date($this->input->post('statement_to'));
+            }
+
+            $success = $this->invoices_model->send_invoice_to_client(
+                $id,
+                '',
+                $this->input->post('attach_pdf'),
+                $this->input->post('cc'),
+                false,
+                $statementData
+            );
         } catch (Exception $e) {
             $message = $e->getMessage();
             echo $message;

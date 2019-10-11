@@ -14,7 +14,16 @@
 							<?php } else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?>
 						</div>
 						<div class="clearfix"></div>
-						<!-- <?php render_datatable(array(_l('Id'),_l('procuration_state')),'procurationstate'); ?> -->
+						<?php render_datatable(array(
+							_l('NO'),
+							_l('start_date'),
+							_l('end_date'),
+							_l('case_id'),
+							_l('added_from'),
+							_l('type'),
+							_l('state'),
+							_l('control'),
+						),'procurations'); ?>
 					</div>
 				</div>
 			</div>
@@ -22,5 +31,10 @@
 	</div>
 </div>
 <?php init_tail(); ?>
+<script>
+   $(function(){
+        initDataTable('.table-procurations', window.location.href);
+   });
+</script>
 </body>
 </html>

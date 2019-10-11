@@ -506,6 +506,40 @@ function handle_expense_attachments($id)
         }
     }
 }
+//////////////////
+// Ahmad Zaher Khrezaty
+function handle_procuration_attachments($id)
+{
+    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _perfex_upload_error($_FILES['file']['error']);
+        die;
+    }
+    $path = get_upload_path_by_type('procuration') . $id . '/';
+    $CI   = & get_instance();
+
+    if (isset($_FILES['file']['name'])) {
+        hooks()->do_action('before_upload_expense_attachment', $id);
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = $_FILES['file']['name'];
+            $newFilePath = $path . $filename;
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                    ];
+
+                $CI->misc_model->add_attachment_to_database($id, 'procuration', $attachment);
+            }
+        }
+    }
+}
 /**
  * Check for ticket attachment after inserting ticket to database
  * @param  mixed $ticketid
@@ -1004,6 +1038,12 @@ function get_upload_path_by_type($type)
         break;
         case 'expense':
             $path = EXPENSE_ATTACHMENTS_FOLDER;
+
+        break;
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        case 'procuration':
+            $path = PROCURATION_ATTACHMENTS_FOLDER;
 
         break;
         case 'project':

@@ -9,6 +9,7 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 $custom_fields = get_table_custom_fields($service->slug);
 
 $aColumns = [
+    '1',
     db_prefix() .'my_cases.id as id',
     'name',
     'clientid',
@@ -17,7 +18,16 @@ $aColumns = [
     'deadline',
     'status',
 ];
-$join = [];
+$join = [
+    'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_cases.clientid',
+];
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
     array_push($customFieldsColumns, $selectAs);
@@ -85,6 +95,9 @@ foreach ($rResult as $aRow) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
     $row['DT_RowClass'] = 'has-row-options';
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
     $output['aaData'][] = $row;
     $i++;
 }

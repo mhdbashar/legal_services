@@ -103,7 +103,6 @@ $(function() {
     // Fix for dropdown overlay in .table-responsive, last rows are overlapping e.q. on tasks table
     $("body").on('click', '.table-responsive .dropdown-toggle', function(event) {
         if ($(this).next().hasClass('dropdown-menu')) {
-            console.log('ok')
             var elm = $(this).next(),
                 docHeight = $(document).height(),
                 docWidth = $(document).width(),
@@ -324,9 +323,11 @@ function _simple_editor_config() {
             'table advlist codesample autosave' + (!is_mobile() ? ' autoresize ' : ' ') + 'lists link image textcolor media contextmenu paste',
         ],
         toolbar: 'insert formatselect bold forecolor backcolor' + (is_mobile() ? ' | ' : ' ') + 'alignleft aligncenter alignright bullist numlist | restoredraft',
+        contextmenu: "link image imagetools table spellchecker inserttable | cell row column deletetable | paste pastetext",
         insert_button_items: 'image media link codesample',
         toolbar1: ''
     };
+
 }
 
 function _create_print_window(name) {
@@ -815,14 +816,14 @@ function get_datatable_buttons(table) {
             }
 
             if (data) {
-                // 300,00 becomes 300.00 because excel does not support decimal as coma
+         /*       // 300,00 becomes 300.00 because excel does not support decimal as coma
                 var regexFixExcelExport = new RegExp("([0-9]{1,3})(,)([0-9]{" + app.options.decimal_places + ',' + app.options.decimal_places + "})", "gm");
                 // Convert to string because matchAll won't work on integers in case datatables convert the text to integer
                 var _stringData = data.toString();
                 var found = _stringData.matchAll(regexFixExcelExport);
                 if (found) {
                     data = data.replace(regexFixExcelExport, "$1.$3");
-                }
+                }*/
             }
 
             // Datatables use the same implementation to strip the html.

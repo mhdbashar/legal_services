@@ -118,6 +118,10 @@
                      <?php $value = (isset($member) ? $member->lastname : ''); ?>
                      <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      <?php $value = (isset($member) ? $member->email : ''); ?>
+                     <?php if($this->app_modules->is_active('branches')){?>
+                        <?php $value = (isset($branch) ? $branch : ''); ?>
+                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+                     <?php } ?>
                      <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
                      <div class="form-group">
                         <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>

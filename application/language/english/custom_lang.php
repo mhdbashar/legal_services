@@ -1,4 +1,84 @@
 <?php
+$lang['client_full_name'] = "Full Name";
+$lang['start_date'] = "Start Date";
+$lang['end_date'] = "End Date";
+$lang['procuration_number'] = "Procuration Number";
+$lang['come_from'] = "Come From";
+$lang['status'] = "Status";
+$lang['type'] = "Type";
+$lang['procuration_file'] = "Procuration File";
+$lang['added_from'] = "Added From";
+$lang['control'] = "Control";
+
+$lang['property_title'] = "Property Title";
+$lang['country'] = "Country";
+$lang['phone'] = "Phone";
+$lang['new_branch'] = "New Branch";
+$lang['branch_title_en'] = "Branch Title English";
+$lang['branch_title_ar'] = "Branch Title Arabic";
+$lang['branch_country_id'] = "Branch Country ID";
+$lang['branch_city_id'] = "Branch City ID";
+$lang['branch_address'] = "Branch Address";
+$lang['branch_phone'] = "Branch Phone";
+$lang['branch_name'] = "Branch Name";
+$lang['case_id'] = "Cases";
+$lang['not_selected'] = "Not Selected";
+$lang['cases'] = "Cases";
+$lang['customer_company_groups'] = "Company Groups";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+$lang['control'] = "Control";
+
+$lang['session_info']        			= 'Session Information';
+$lang['start_at']       				= 'Start At';
+$lang['created_at']       				= 'Created At';
+$lang['next_action']        			= 'Next Action';
+$lang['discussion']       				= 'Discussion';
+$lang['session_detail']        			= 'Session Detail';
+$lang['subject']        				= 'Subject';
+$lang['court']       					= 'Court';
+$lang['judge']        					= 'Judge';
+$lang['result']       					= 'Result';
+$lang['service_id']        				= 'Service ID';
+$lang['service_session']       		 	= 'Service Session';
+$lang['next_date']       				= 'Next Date';
+$lang['save']        					= 'Save';
+$lang['add_new_session']        		= 'Add New Session';
+$lang['discussion']        				= 'Discussion';
+$lang['subject']        				= 'Subject';
+$lang['date']        					= 'Date';
+$lang['status']        					= 'Status';
+$lang['result']        					= 'Result';
+$lang['option']        					= 'Option';
+$lang['session_added_successfuly'] 		= 'Session Added Successfully';
+$lang['problem_deleting']        		= 'Problem Deletion';
+$lang['session_updated_successfuly']    = 'Session Updated Successfully';
+$lang['problem_updating']       		= 'Problem Updaing';
+$lang['problem_creating']        		= 'Problem Creating';
+$lang['session_deleted_successfuly']    = 'Session Deleted Successfully';
+$lang['problem_deleting']        		= 'Problem Deleting';
+$lang['discussion']        				= 'Discussion';
+$lang['detail_updated_successfuly']     = 'Detail Updated Successfully';
+$lang['status_updated_successfuly']     = 'Status Updated Successfully';
+$lang['result_updated_successfuly']     = 'Result Updated Successfully';
+$lang['next_action_updated_successfuly']= 'Next Action Updated Successfully';
+$lang['next_date_updated_successfuly']  = 'Next Date Updated Successfully';
+$lang['detail_updated_successfuly']     = 'Detail Updated Successfully';
+$lang['session_date']     				= 'Session Date';
 $lang['id'] = "ID";
 $lang['options'] = "Options";
 $lang['submit'] = "Save";
@@ -1836,6 +1916,7 @@ $lang['invoice_marked_as_cancelled_successfully'] = "Invoice marked as cancelled
 $lang['invoice_unmarked_as_cancelled'] = "Invoice unmarked as cancelled successfully";
 $lang['tasks_reminder_notification_before'] = "Task deadline reminder before (Days)";
 $lang['not_task_deadline_reminder'] = "Task deadline reminder";
+$lang['not_procuration_deadline_reminder'] = "Procuration deadline reminder";
 $lang['dt_length_menu_all'] = "All";
 $lang['task_not_finished'] = "Not Completed";
 $lang['task_billed_cant_start_timer'] = "Task billed. Timer cant be start";
@@ -3176,6 +3257,32 @@ $lang['AlertEmptyRecycleBin'] = 'Alert before emptying recycle bin (days)';
 $lang['ConfirmEmptyLegalServicesRecycleBin'] = 'Confirm Empty Legal Service Recycle Bin';
 $lang['EmptyLegalServicesRecycleBinNote'] = 'Are you OK to automatically empty the Legal Services Recycle Bin in';
 
+
+/** hijri settings **/
+$lang['Hijri_managment'] = "Hijri Managment";
+$lang['hijri'] = "Hijri";
+
+$lang['hijri_pages'] = "Hijri Pages";
+$lang['add_row'] = "Add Row";
+$lang['delete_row'] = "Delete Row";
+$lang['link'] = "Link";
+
+$lang['adjust_history'] = "All adjustments";
+$lang['current_adjust'] = "Current Adjustments";
+$lang['default_adjust'] = "default";
+$lang['delete_adjust'] = "delete";
+$lang['start_month'] = "Modify the beginning of Month";
+$lang['from_year'] = "From Year";
+$lang['to'] = "To:";
+$lang['send']= "send";
+$lang['cancel'] = "cancel";
+$lang['also_start_month'] = "and we will Modify the beginning of Month";
+$lang['year'] = "Year";
+$lang['month'] = "Month";
+$lang['add_request'] = "add";
+$lang['mod_data'] = "Modification details";
+
+
 //Sessions
 $lang['legal_services_session'] = "Legal Service Sessions";
 $lang['link_with_service_session'] = "Link With Session";
@@ -3204,6 +3311,48 @@ $lang['session_single_assignees_select_title'] = "Refer session to";
 $lang['session_no_followers'] = "There is no follower for this session";
 $lang['session_is_private'] = "Private session";
 $lang['session_report'] = 'Session report';
+
+/**  transactions **/
+$lang['transactions'] = 'Transactions';
+$lang['incoming'] = 'Incoming Transactions';
+$lang['outgoing'] = 'Outgoing Transactions';
+$lang['incoming_data'] = 'Incoming Transaction Data';
+$lang['trans_id'] = 'Transaction ID';
+$lang['importance'] = 'Transaction Importance';
+$lang['low'] = 'Low';
+$lang['high'] = 'High';
+$lang['description'] = 'Transaction Description';
+$lang['classification'] = 'Transaction Classification';
+$lang['type'] = 'Transaction Type';
+$lang['internal'] = 'Internal';
+$lang['external'] = 'External';
+$lang['owner_name'] = 'Owner Name';
+$lang['origin'] = 'Owner Origin';
+$lang['normal_paper'] = 'Normal Paper';
+$lang['notnormal_paper'] = 'Not Normal Paper';
+$lang['owner_phone'] = 'Owner Phone';
+$lang['incoming_num'] = 'Incoming Number';
+$lang['reporter_name'] = 'Reporter Name';
+$lang['incoming_source'] = 'Incoming Transaction Origin Source';
+$lang['reporter_phone'] = 'Reporter Phone';
+$lang['incoming_type'] = 'Incoming Type';
+$lang['electronic_incoming'] = 'Electronic Incoming';
+$lang['paper_incoming'] = 'Paper Incoming';
+$lang['email'] = 'Email';
+$lang['secret'] = 'Is Secret';
+$lang['incoming_date'] = 'Incoming Date';
+$lang['date'] = 'Date';
+$lang['new_incoming'] = 'Add New Incoming Transaction';
+$lang['new_outgoing'] = 'Add New Outgoing Transaction';
+
+
+
+
+
+
+
+
+
 $lang['Current_session_date'] = 'Current session date';
 $lang['Next_session_date'] = 'Current session date';
 $lang['Proceedings_of_session'] = 'Proceedings of the session';

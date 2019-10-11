@@ -12,6 +12,7 @@ class Cases_controller extends AdminController
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('currencies_model');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
+        $this->load->model('Branches_model');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->helper('date');
     }
@@ -29,12 +30,15 @@ class Cases_controller extends AdminController
         if ($this->input->post()) {
             $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
+
+
             $added = $this->case->add($ServID,$data);
             if ($added) {
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url("Service/$ServID"));
             }
         }
+
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['Numbering'] = $this->case->GetTopNumbering();
         $data['auto_select_billing_type'] = $this->case->get_most_used_billing_type();
@@ -64,6 +68,7 @@ class Cases_controller extends AdminController
             redirect(admin_url("Service/$ServID"));
         }
         if ($this->input->post()) {
+
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
             //echo "<pre>";print_r($data['judges']);exit;
@@ -131,6 +136,14 @@ class Cases_controller extends AdminController
     {
         $this->app->get_table_data('cases', [
             'clientid' => $clientid,
+        ]);
+    }
+
+    public function procurations($case_id)
+    {
+        $this->app->get_table_data('my_procurations', [
+            'case_id' => $case_id,
+            'request' => 'case'
         ]);
     }
 
@@ -421,6 +434,7 @@ class Cases_controller extends AdminController
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['case_model']     = $this->case;
             $data['ServID']         = $ServID;
+            $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
             access_denied('Project View');

@@ -302,6 +302,11 @@
                          'name'=>_l('customer_groups'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
                         ),
+                        
+                        // array(
+                        //  'name'=>_l('customer_company_groups'),
+                        //  'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
+                        // ),
                         array(
                          'name'=>_l('date_created'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')
@@ -310,7 +315,14 @@
                            'name'=>_l('customer_type'),
                            'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
                         ),
+                        
                       );
+                     if($this->app_modules->is_active('branches')){
+                        $_table_data[] = array(
+                           'name'=>_l('branch_name'),
+                           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
+                        );
+                     }
                      foreach($_table_data as $_t){
                       array_push($table_data,$_t);
                      }

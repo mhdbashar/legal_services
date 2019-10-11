@@ -120,6 +120,12 @@
                                     'name' => _l('project_status'),
                                 )
                             );
+                            if($this->app_modules->is_active('branches')){
+                                $_table_data[] = array(
+                                   'name'=>_l('branch_name'),
+                                   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
+                                );
+                            }
                             foreach($_table_data as $_t){
                                 array_push($table_data,$_t);
                             }
@@ -143,7 +149,7 @@
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, [0, 'asc']);
+        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>');
     });
 </script>
 </body>

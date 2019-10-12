@@ -29,7 +29,7 @@ function my_module_menu_item_collapsible()
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 25, // The menu position
-        'icon'     => 'fa fa-balance-scale', // Font awesome icon
+        'icon'     => 'fa fa-gavel', // Font awesome icon
     ]);
 foreach ($services as $service):
     // The first paremeter is the parent menu ID/Slug
@@ -202,9 +202,9 @@ function app_init_case_tabs()
     ]);
 
     $CI->app_tabs->add_case_tab('CaseSession', [
-        'name'                      => _l('CaseSession'),
-        'icon'                      => 'fa fa-map-marker',
-        'view'                      => 'admin/LegalServices/cases/case_session',
+        'name'                      => _l('SessionLog'),
+        'icon'                      => 'fa fa-gavel',
+        'view'                      => 'admin/LegalServices/services_sessions/services_sessions',
         'position'                  => 65,
     ]);
 }
@@ -383,6 +383,19 @@ function get_client_id_by_case_id($id)
     $project = $CI->db->get(db_prefix() . 'my_cases')->row();
     if ($project) {
         return $project->clientid;
+    }
+
+    return false;
+}
+
+function get_opponent_id_by_case_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('opponent_id');
+    $CI->db->where('id', $id);
+    $project = $CI->db->get(db_prefix() . 'my_cases')->row();
+    if ($project) {
+        return $project->opponent_id;
     }
 
     return false;

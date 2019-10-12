@@ -229,12 +229,15 @@ class App_Email extends App_mailer
             $this->set_alt_message($email->alt_message);
 
             $status = ($this->send(true) ? 'sent' : 'failed');
+            $this->clear(true);
 
             if ($email->engine == 'codeigniter') {
                 $this->_attachments = [];
             } else {
                 $this->phpmailer->clearAttachments();
             }
+
+            $this->clear(true);
 
             $this->CI->db->where('id', $email->id);
             $this->CI->db->set('status', $status);

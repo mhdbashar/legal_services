@@ -101,6 +101,12 @@ class Settings_model extends App_Model
                 }
             } elseif ($name == 'email_signature') {
                 $val = html_entity_decode($val);
+
+                if($val == strip_tags($val)) {
+                    // not contains HTML, add break lines
+                    $val = nl2br_save_html($val);
+                }
+
             } elseif ($name == 'email_header' || $name == 'email_footer') {
                 $val = html_entity_decode($val);
             } elseif ($name == 'default_tax') {

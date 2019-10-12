@@ -146,8 +146,8 @@ function app_external_form_footer($form)
         });
 
         appColorPicker();
-        appSelectPicker();
         appDatepicker();
+        appSelectPicker($('select'));
     });
 </script>
 <?php

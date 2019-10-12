@@ -85,7 +85,7 @@ foreach ($rResult as $aRow) {
 
     $request = (is_numeric($client_id)) ? $client_id : $request ;
     $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'pencil-square-o', 'btn-default');
-    $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
+    // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
     $row[]   = $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
     
 

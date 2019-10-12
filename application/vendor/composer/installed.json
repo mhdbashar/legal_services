@@ -2458,17 +2458,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v6.30.4",
-        "version_normalized": "6.30.4.0",
+        "version": "v6.43.1",
+        "version_normalized": "6.43.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "0d9e2773b1df27d4f0c590b15bed3a1433e0414c"
+            "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0d9e2773b1df27d4f0c590b15bed3a1433e0414c",
-            "reference": "0d9e2773b1df27d4f0c590b15bed3a1433e0414c",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/42fcdaf99c44bb26937223f8eae1f263491d5ab8",
+            "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8",
             "shasum": ""
         },
         "require": {
@@ -2483,7 +2483,7 @@
             "squizlabs/php_codesniffer": "~2.0",
             "symfony/process": "~2.8"
         },
-        "time": "2019-02-27T18:07:30+00:00",
+        "time": "2019-08-29T16:56:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

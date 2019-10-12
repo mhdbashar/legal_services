@@ -3229,11 +3229,13 @@ $lang['customer_type'] = "Customer Type";
 $lang['customer_representative'] = "Customer Representative";
 $lang['new_customer_representative'] = "New Customer Representative";
 $lang['new_judge'] = "New Judge";
+$lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
+$lang['Parties_case'] = "Parties to the case";
 $lang['new_cstatus'] = "New Case Status";
+$lang['court_competent_follow'] = "The court competent to follow up the case";
 $lang['legal_services_settings'] = "Legal Services Settings";
 $lang['empty_case_mov'] = "No case movements yet!";
-$lang['link_with_service_session'] = "Link With Session";
 $lang['LService_activity_updated'] = "Legal Service Updated";
 $lang['LService_status_updated']          = 'Legal Service status updated';
 $lang['LService_activity_project_file_removed'] = "Removed Legal Service file";
@@ -3242,7 +3244,8 @@ $lang['LService_activity_created'] = "Created the Legal Service";
 $lang['LService_activity_uploaded_file']                = 'Uploaded Legal Service file';
 $lang['LService_activity_invoiced_project']             = 'Invoiced Legal Service';
 $lang['CaseMov_activity_created'] = "Created the Case Movement";
-$lang['legal_services_session'] = "Legal Service Sessions";
+
+$lang['NewCaseMovement'] = "New Case Movement";
 $lang['LService_not_found'] = 'Legal Service not found';
 $lang['LService_recycle_bin'] = 'Legal Service Trash';
 $lang['restore'] = 'Restore';
@@ -3253,3 +3256,121 @@ $lang['EmptyRecycleBin'] = 'Empty Recycle Bin after (days)';
 $lang['AlertEmptyRecycleBin'] = 'Alert before emptying recycle bin (days)';
 $lang['ConfirmEmptyLegalServicesRecycleBin'] = 'Confirm Empty Legal Service Recycle Bin';
 $lang['EmptyLegalServicesRecycleBinNote'] = 'Are you OK to automatically empty the Legal Services Recycle Bin in';
+
+
+/** hijri settings **/
+$lang['Hijri_managment'] = "Hijri Managment";
+$lang['hijri'] = "Hijri";
+
+$lang['hijri_pages'] = "Hijri Pages";
+$lang['add_row'] = "Add Row";
+$lang['delete_row'] = "Delete Row";
+$lang['link'] = "Link";
+
+$lang['adjust_history'] = "All adjustments";
+$lang['current_adjust'] = "Current Adjustments";
+$lang['default_adjust'] = "default";
+$lang['delete_adjust'] = "delete";
+$lang['start_month'] = "Modify the beginning of Month";
+$lang['from_year'] = "From Year";
+$lang['to'] = "To:";
+$lang['send']= "send";
+$lang['cancel'] = "cancel";
+$lang['also_start_month'] = "and we will Modify the beginning of Month";
+$lang['year'] = "Year";
+$lang['month'] = "Month";
+$lang['add_request'] = "add";
+$lang['mod_data'] = "Modification details";
+
+
+//Sessions
+$lang['legal_services_session'] = "Legal Service Sessions";
+$lang['link_with_service_session'] = "Link With Session";
+$lang['SessionLog'] = "Session Log";
+$lang['session_assigned'] = 'Session assigned';
+$lang['Court_decision'] = 'Court decision';
+$lang['Customer_report'] = 'Customer report';
+$lang['Send_to_customer'] = 'Send to customer';
+$lang['session_date'] = 'Session Date';
+$lang['next_session_date'] = 'Next Session Date';
+$lang['session_time'] = 'Session time';
+$lang['next_session_time'] = 'Next Session time';
+$lang['Waiting_sessions'] = 'Waiting sessions';
+$lang['Previous_Sessions'] = 'Previous sessions';
+$lang['add_new_session'] = 'Add session';
+$lang['session_info'] = "Session Information";
+$lang['session_type'] = "Session Type";
+$lang['judicial_office_number'] = "Judicial office number";
+$lang['session_number'] = "Session number";
+$lang['upcoming_actions'] = "Upcoming actions";
+$lang['session'] =  'Session';
+$lang['session_no_checklist_items_found'] = "Elements of upcoming actions are missing for this session";
+$lang['no_reminders_for_this_session'] = "There are no reminders for this session";
+$lang['session_single_assignees_select_title'] = "Refer session to";
+$lang['session_no_followers'] = "There is no follower for this session";
+$lang['session_is_private'] = "Private session";
+$lang['session_report'] = 'Session report';
+
+/**  transactions **/
+$lang['transactions'] = 'Transactions';
+$lang['incoming'] = 'Incoming Transactions';
+$lang['outgoing'] = 'Outgoing Transactions';
+$lang['incoming_data'] = 'Incoming Transaction Data';
+$lang['trans_id'] = 'Transaction ID';
+$lang['importance'] = 'Transaction Importance';
+$lang['low'] = 'Low';
+$lang['high'] = 'High';
+$lang['description'] = 'Transaction Description';
+$lang['classification'] = 'Transaction Classification';
+$lang['type'] = 'Transaction Type';
+$lang['internal'] = 'Internal';
+$lang['external'] = 'External';
+$lang['owner_name'] = 'Owner Name';
+$lang['origin'] = 'Owner Origin';
+$lang['normal_paper'] = 'Normal Paper';
+$lang['notnormal_paper'] = 'Not Normal Paper';
+$lang['owner_phone'] = 'Owner Phone';
+$lang['incoming_num'] = 'Incoming Number';
+$lang['reporter_name'] = 'Reporter Name';
+$lang['incoming_source'] = 'Incoming Transaction Origin Source';
+$lang['reporter_phone'] = 'Reporter Phone';
+$lang['incoming_type'] = 'Incoming Type';
+$lang['electronic_incoming'] = 'Electronic Incoming';
+$lang['paper_incoming'] = 'Paper Incoming';
+$lang['email'] = 'Email';
+$lang['secret'] = 'Is Secret';
+$lang['incoming_date'] = 'Incoming Date';
+$lang['date'] = 'Date';
+$lang['new_incoming'] = 'Add New Incoming Transaction';
+$lang['new_outgoing'] = 'Add New Outgoing Transaction';
+
+
+
+
+
+
+
+
+
+$lang['Current_session_date'] = 'Current session date';
+$lang['Next_session_date'] = 'Current session date';
+$lang['Proceedings_of_session'] = 'Proceedings of the session';
+$lang['accused'] = 'accused: ';
+$lang['claimant'] = 'claimant: ';
+
+//Opponent
+$lang['opponents'] =  'Opponents';
+$lang['opponent'] =  'Opponent';
+$lang['new_opponent'] =  'New opponent';
+$lang['import_opponent'] = 'Import Opponents';
+$lang['opponents_summary'] = 'Opponents Summary';
+$lang['opponents_summary_total'] = 'Total Opponents';
+$lang['active_opponents']  = 'Active Opponents';
+$lang['inactive_active_opponents'] = 'Inactive Opponents';
+$lang['opponent_type'] =  'Opponent Type';
+$lang['opponents_assigned_to_me'] = 'Opponents assigned to me';
+$lang['opponent_admin_login_as_client_message'] = 'Hello %s. You are added as admin to this opponent.';
+$lang['opponent_inactive_message']               = 'This is inactive opponent profile and some features may be disabled';
+$lang['opponent_profile_details']           = 'Opponent Details';
+$lang['opponent_admins'] = "Opponent Admins";
+$lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";

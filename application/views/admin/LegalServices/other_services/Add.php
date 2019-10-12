@@ -88,7 +88,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-                                $staff_language = get_staff_default_language(get_staff_user_id());
+//                                $staff_language = get_staff_default_language(get_staff_user_id());
+                                $staff_language = get_option('active_language');
+
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
                                 }else{
@@ -283,7 +285,7 @@
                         <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
                             <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
                         <?php } else{ ?>
-                            <?php echo _l('project_allow_client_to',_l('project_setting_'.$setting)); ?>
+                            <?php echo _l('project_allow_client_to').' '._l('project_setting_'.$setting); ?>
                         <?php } ?>
                     </label>
                 </div>

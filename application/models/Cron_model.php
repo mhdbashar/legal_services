@@ -224,6 +224,12 @@ class Cron_model extends App_Model
                     'status' => 5,
                 ]);
                 if ($this->db->affected_rows() > 0) {
+
+                    hooks()->do_action('after_ticket_status_changed', [
+                        'id'     => $ticket['ticketid'],
+                        'status' => 5,
+                    ]);
+
                     $isContact = false;
                     if ($ticket['userid'] != 0 && $ticket['contactid'] != 0) {
                         $email     = $this->clients_model->get_contact($ticket['contactid'])->email;

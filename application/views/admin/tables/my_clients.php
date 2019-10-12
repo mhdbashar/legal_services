@@ -15,9 +15,10 @@ $aColumns = [
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
     db_prefix().'clients.active',
-    '(SELECT IF('.db_prefix().'clients.individual="0", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerGroups',
-
-    '(SELECT IF('.db_prefix().'clients.individual="1", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'my_customer_company_groups JOIN '.db_prefix().'my_customers_company_groups ON '.db_prefix().'my_customer_company_groups.groupid = '.db_prefix().'my_customers_company_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC) as customerCompanyGroups',
+    'IF(individual=1,
+    (SELECT IF('.db_prefix().'clients.individual="0", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC),
+    (SELECT IF('.db_prefix().'clients.individual="1", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'my_customer_company_groups JOIN '.db_prefix().'my_customers_company_groups ON '.db_prefix().'my_customer_company_groups.groupid = '.db_prefix().'my_customers_company_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC)) AS client_Group',
+    
     db_prefix().'clients.datecreated as datecreated',
 
     //Add to database (clients table)indvidual column
@@ -168,6 +169,8 @@ if ($this->ci->input->post('my_customers')) {
     array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
+array_push($where, 'AND '.db_prefix().'clients.client_type = 0');
+
 $aColumns = hooks()->apply_filters('customers_table_sql_columns', $aColumns);
 
 // Fix for big queries. Some hosting have max_join_limit
@@ -249,8 +252,8 @@ foreach ($rResult as $aRow) {
 
     // Customer groups parsing
     $groupsRow = '';
-    if ($aRow['customerGroups']) {
-        $groups = explode(',', $aRow['customerGroups']);
+    if ($aRow['client_Group']) {
+        $groups = explode(',', $aRow['client_Group']);
         foreach ($groups as $group) {
             $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
         }
@@ -259,15 +262,15 @@ foreach ($rResult as $aRow) {
     $row[] = $groupsRow;
 
     // Customer groups parsing
-    $groupsRow = '';
-    if ($aRow['customerCompanyGroups']) {
-        $groups = explode(',', $aRow['customerCompanyGroups']);
-        foreach ($groups as $group) {
-            $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
-        }
-    }
+    // $groupsRow = '';
+    // if ($aRow['customerCompanyGroups']) {
+    //     $groups = explode(',', $aRow['customerCompanyGroups']);
+    //     foreach ($groups as $group) {
+    //         $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
+    //     }
+    // }
 
-    $row[] = $groupsRow;
+    // $row[] = $groupsRow;
 
     $row[] = _dt($aRow['datecreated']);
 

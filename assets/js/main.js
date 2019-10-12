@@ -7,9 +7,11 @@
  * Not recommened to edit this file directly if you plan to upgrade the script when new versions are released.
  * Use hooks to inject custom javascript code
  */
+
 $(window).on('load', function() {
     init_btn_with_tooltips();
 });
+
 // Set datatables error throw console log
 $.fn.dataTable.ext.errMode = 'throw';
 $.fn.dataTableExt.oStdClasses.sWrapper = 'dataTables_wrapper form-inline dt-bootstrap table-loading';
@@ -99,7 +101,6 @@ $(window).on("load resize", function(e) {
         // Add special class to minimalize page elements when screen is less than 768px
         set_body_small();
     }
-
     // Wait until metsiMenu, collapse and other effect finish and set wrapper height
     setTimeout(function() {
         mainWrapperHeightFix();
@@ -445,6 +446,10 @@ $(function() {
         if (setup_menu.hasClass('display-block')) {
             $('.close-customizer').click();
         }
+        // Fix columns going out of the table
+        delay(function(){
+            $($.fn.dataTable.tables(true)).DataTable().responsive.recalc();
+        }, 300)
     });
 
     // Hide sidebar on content click on mobile
@@ -4881,14 +4886,23 @@ function update_checklist_order() {
 }
 
 // New task checklist item
-function add_task_checklist_item(task_id, description) {
+function add_task_checklist_item(task_id, description, e) {
+    if (e) {
+        $(e).addClass('disabled');
+    }
+
     description = typeof(description) == 'undefined' ? '' : description;
+
     $.post(admin_url + 'tasks/add_checklist_item', {
         taskid: task_id,
         description: description
     }).done(function() {
         init_tasks_checklist_items(true, task_id);
-    });
+    }).always(function() {
+        if (e) {
+            $(e).removeClass('disabled');
+        }
+    })
 }
 
 function update_task_checklist_item(textArea) {
@@ -5173,7 +5187,10 @@ function edit_task(task_id) {
 function task_form_handler(form) {
 
     tinymce.triggerSave();
+
     $('#_task_modal').find('input[name="startdate"]').prop('disabled', false);
+    // Disable the save button in cases od duplicate clicks
+    $('#_task_modal').find('button[type="submit"]').prop('disabled', true);
 
     $("#_task_modal input[type=file]").each(function() {
         if ($(this).val() === "") {

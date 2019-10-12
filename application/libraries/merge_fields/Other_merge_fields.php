@@ -102,7 +102,7 @@ class Other_merge_fields extends App_merge_fields
             $fields['{dark_logo_image_with_url}'] = '<a href="' . site_url() . '" target="_blank"><img src="' . base_url('uploads/company/' . get_option('company_logo_dark')) . '"' . ($logo_width != '' ? ' width="' . $logo_width . '"' : '') . '></a>';
         }
 
-        $fields['{crm_url}']     = site_url();
+        $fields['{crm_url}']     = rtrim(site_url(), '/');
         $fields['{admin_url}']   = admin_url();
         $fields['{main_domain}'] = get_option('main_domain');
         $fields['{companyname}'] = get_option('companyname');
@@ -117,6 +117,10 @@ class Other_merge_fields extends App_merge_fields
             } else {
                 $fields['{email_signature}'] = $signature;
             }
+        }
+
+        if(!is_html($fields['{email_signature}'])) {
+            $fields['{email_signature}'] = nl2br($fields['{email_signature}']);
         }
 
         $fields['{terms_and_conditions_url}'] = terms_url();

@@ -40,6 +40,11 @@ class Staff extends AdminController
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
 
+            if ($data['email_signature'] == strip_tags($data['email_signature'])) {
+                // not contains HTML, add break lines
+                $data['email_signature'] = nl2br_save_html($data['email_signature']);
+            }
+
             $data['password'] = $this->input->post('password', false);
 
             if ($id == '') {
@@ -214,12 +219,14 @@ class Staff extends AdminController
         if (!is_admin() && is_admin($this->input->post('id'))) {
             die('Busted, you can\'t delete administrators');
         }
+
         if (has_permission('staff', '', 'delete')) {
             $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
             if ($success) {
                 set_alert('success', _l('deleted', _l('staff_member')));
             }
         }
+
         redirect(admin_url('staff'));
     }
 
@@ -232,7 +239,13 @@ class Staff extends AdminController
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
-            $success                 = $this->staff_model->update_profile($data, get_staff_user_id());
+
+            if ($data['email_signature'] == strip_tags($data['email_signature'])) {
+                // not contains HTML, add break lines
+                $data['email_signature'] = nl2br_save_html($data['email_signature']);
+            }
+
+            $success = $this->staff_model->update_profile($data, get_staff_user_id());
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
             }

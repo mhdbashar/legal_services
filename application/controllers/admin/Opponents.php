@@ -24,6 +24,7 @@ class Opponents extends AdminController
         $data['contract_types'] = $this->contracts_model->get_contract_types();
         $data['groups']         = $this->clients_model->get_groups();
         $data['title']          = _l('opponents');
+        $data['company_groups']    = $this->clients_model->get_company_groups();
 
 
         $this->load->model('proposals_model');
@@ -128,7 +129,7 @@ class Opponents extends AdminController
                         if(isset($branch_id)):
                         $data = [
                             'branch_id' => $branch_id,
-                            'rel_type' => 'clients',
+                            'rel_type' => 'opponent',
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);
@@ -150,7 +151,7 @@ class Opponents extends AdminController
                 }
                 if($this->app_modules->is_active('branches')){
                     if(isset($branch_id)):
-                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                        $this->Branches_model->update_branch('opponent', $id, $branch_id);
                     endif;
                 }
                 $success = $this->clients_model->update($data, $id);
@@ -170,6 +171,7 @@ class Opponents extends AdminController
 
         // Customer groups
         $data['groups'] = $this->clients_model->get_groups();
+        $data['company_groups']    = $this->clients_model->get_company_groups();
 
         if ($id == '') {
             $title = _l('add_new', _l('client_lowercase'));
@@ -191,6 +193,7 @@ class Opponents extends AdminController
             // Fetch data based on groups
             if ($group == 'profile') {
                 $data['customer_groups'] = $this->clients_model->get_customer_groups($id);
+                $data['customer_company_groups'] = $this->clients_model->get_company_customer_groups($id);
                 $data['customer_admins'] = $this->clients_model->get_admins($id);
             } elseif ($group == 'attachments') {
                 $data['attachments'] = get_all_customer_attachments($id);
@@ -267,7 +270,7 @@ class Opponents extends AdminController
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
-            $data['branch'] = $this->Branches_model->get_branch('clients', $id);
+            $data['branch'] = $this->Branches_model->get_branch('opponent', $id);
         }
 
         if ($id != '') {

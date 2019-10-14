@@ -360,7 +360,7 @@
                  var excludeCompletedTasks = get_url_param('exclude_completed');
                  if (group) { params['group'] = group; }
                  if (excludeCompletedTasks) { params['exclude_completed'] = excludeCompletedTasks; }
-                 params['taskid'] = response.id;
+                 params['sessionid'] = response.id;
                  window.location.href = buildUrl(location[0], params);
              }
          }).fail(function(error) {

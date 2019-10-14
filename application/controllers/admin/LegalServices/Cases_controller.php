@@ -436,7 +436,7 @@ class Cases_controller extends AdminController
             $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
-            access_denied('Project View');
+            access_denied('Case View');
         }
     }
 

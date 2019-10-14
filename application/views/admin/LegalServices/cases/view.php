@@ -159,6 +159,7 @@ echo form_hidden('project_percent',$percent);
 <!-- For invoices table -->
 <script>
     taskid = '<?php echo $this->input->get('taskid'); ?>';
+    sessionid = '<?php echo $this->input->get('sessionid'); ?>';
 </script>
 <script>
     var gantt_data = {};
@@ -280,28 +281,13 @@ echo form_hidden('project_percent',$percent);
     }
 </script>
 <script>
-    <?php
-//    $num_session = isset($num_session) ? $num_session : 0;
-//    for($i = 0; $i < $num_session; $i++){ ?>
-//    function submitForm<?php //echo $i ?>//(){
-//        document.getElementById('myform<?php //echo $i ?>//').submit();
-//    }
-//    function resultForm<?php //echo $i ?>//(){
-//        document.getElementById('resultform<?php //echo $i ?>//').submit();
-//    }
-//
-//    <?php //} ?>
-
-    //$(function(){
-    //    initDataTable('.table-case-session', admin_url + 'LegalServices/case_session_controller/session/<?php //echo $ServID ?>///<?php //echo $project->id; ?>//', undefined, undefined, 'undefined', [0, 'asc']);
-    //});
 
     $(function(){
         initDataTable('.table-previous_sessions_log', admin_url + 'tasks/init_previous_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
         initDataTable('.table-waiting_sessions_log', admin_url + 'tasks/waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
 
         // Init single task data
-        if (typeof(taskid) !== 'undefined' && taskid !== '') { init_task_modal_session(taskid); }
+        if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_task_modal_session(sessionid); }
     });
 
 
@@ -402,36 +388,6 @@ echo form_hidden('project_percent',$percent);
         }
     }
 
-    //function update_session_json(id){
-    //
-    //    save_method = 'update';
-    //    $('#form_transout')[0].reset(); // reset form on modals
-    //    $('.form-group').removeClass('has-error'); // clear error class
-    //    $('.help-block').empty(); // clear error string
-    //
-    //    //Ajax Load data from ajax
-    //    $.ajax({
-    //        url : "<?php //echo site_url('session/old_service_sessions/session_json') ?>///" + id,
-    //        type: "POST",
-    //        dataType: "JSON",
-    //        success: function(data)
-    //        {
-    //            $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
-    //            $('[name="subject"]').val(data.subject);
-    //            $('[name="date"]').val(data.date);
-    //            $('[name="id"]').val(data.id);
-    //            $('[name="court_id"]').val(data.court_id);
-    //            $('[name="judge_id"]').val(data.judge_id);
-    //            // $('[name="dob"]').datepicker('update',data.dob);
-    //            $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
-    //
-    //        },
-    //        error: function (jqXHR, textStatus, errorThrown)
-    //        {
-    //            alert('Error get data from ajax');
-    //        }
-    //    });
-    //}
 </script>
 
 </body>

@@ -691,7 +691,7 @@
                         <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
                             <?php echo _l('billable_amount'); ?>:
                             <span class="bold">
-               <?php echo $this->tasks_model->get_billable_amount($task->id); ?>
+               <?php $this->tasks_model->get_billable_amount($task->id); ?>
                </span>
                         </h5>
                     </div>

@@ -137,7 +137,7 @@ $(function() {
     <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
         contactsNotSortable.push($('#th-consent').index());
     <?php } ?>
-    _table_api = initDataTable('.table-contacts', admin_url + 'clients/contacts/' + customer_id, contactsNotSortable, contactsNotSortable);
+    _table_api = initDataTable('.table-contacts', admin_url + 'opponents/contacts/' + customer_id, contactsNotSortable, contactsNotSortable);
     if(_table_api) {
           <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
         _table_api.on('draw', function () {
@@ -386,7 +386,7 @@ function contact(client_id, contact_id) {
     if (typeof(contact_id) == 'undefined') {
         contact_id = '';
     }
-    requestGet('clients/form_contact/' + client_id + '/' + contact_id).done(function(response) {
+    requestGet('opponents/form_contact/' + client_id + '/' + contact_id).done(function(response) {
         $('#contact_data').html(response);
         $('#contact').modal({
             show: true,

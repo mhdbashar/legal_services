@@ -33,7 +33,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['id'];
     $row[] = $aRow['type'];
     $row[] = $aRow['origin'];
-    $row[] = $aRow['is_secret'];
+    $row[] = $aRow['is_secret'] ==1 ? _l('secret_trans') : _l('normal_trans');
     $row[] = $aRow['importance'];
     $row[] = $aRow['classification'];
     $row[] = $aRow['owner'];

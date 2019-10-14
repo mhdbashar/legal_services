@@ -14,6 +14,21 @@ class Transactions_model extends App_Model
 
             $this->db->where('id', $id);
             $transaction = $this->db->get(db_prefix() . 'my_transactions')->row();
+            if ($transaction) {
+                $transaction->attachment            = '';
+                $transaction->filetype              = '';
+
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'transaction');
+                $file = $this->db->get(db_prefix() . 'files')->row();
+
+                if ($file) {
+                    $transaction->attachment            = $file->file_name;
+                    $transaction->filetype              = $file->filetype;
+
+                }
+            }
+
 
             return $transaction;
         }
@@ -95,6 +110,23 @@ class Transactions_model extends App_Model
             log_activity(' transaction Deleted [ID: ' . $id . ']');
 
             return true;
+        }
+
+        return false;
+    }
+
+
+    public function delete_transaction_attachment($id)
+    {
+        if (is_dir(get_upload_path_by_type('transaction') . $id)) {
+            if (delete_dir(get_upload_path_by_type('transaction') . $id)) {
+                $this->db->where('rel_id', $id);
+                $this->db->where('rel_type', 'transaction');
+                $this->db->delete(db_prefix() . 'files');
+                log_activity('transaction Doc Deleted [ProcID: ' . $id . ']');
+
+                return true;
+            }
         }
 
         return false;

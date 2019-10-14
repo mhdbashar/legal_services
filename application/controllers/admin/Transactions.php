@@ -29,11 +29,12 @@ class Transactions extends AdminController
         if (!is_admin()) {
             access_denied('incoming');
         }
+//        var_dump($this->input->post());exit;
         $redirect = admin_url('transactions/incoming_list');
         $last_id = $this->index();
         if ($this->input->post()) {
             $data            = $this->input->post();
-//            var_dump($data);exit;
+
             $dataRow['definition']= $data['trans_type'];
             $dataRow['description']= $data['description'];
             $dataRow['type']= $data['type'];
@@ -51,7 +52,7 @@ class Transactions extends AdminController
             $dataRow['email']= $data['email'];
             $dataRow['date']= $data['date'];
             $dataRow['isDeleted']= 0;
-//            var_dump($dataRow);exit;
+
             if ($id == '') {
                 $data['id'] = $last_id;
                 $id = $this->transactions_model->add($dataRow);
@@ -67,16 +68,16 @@ class Transactions extends AdminController
                 redirect($redirect);
             }
         }
-
         if ($id == '') {
             $data['last_id'] = $last_id;
-            $title = _l('add_new', 'incoming');
+            $title = _l('add_new', _l('incoming_transaction'));
         } else {
             $data['incoming'] = $this->transactions_model->get($id);
-            $title                = _l('edit', 'incoming');
+            $title                = _l('edit', _l('incoming_transaction'));
         }
         $data['id'] = $id;
         $data['title'] = $title;
+
         $this->load->view('admin/transactions/incoming', $data);
     }
 
@@ -118,11 +119,11 @@ class Transactions extends AdminController
 
         if ($id == '') {
             $data['last_id'] = $last_id;
-            $title = _l('add_new', 'outgoing');
+            $title = _l('add_new', _l('outgoing_transaction'));
         } else {
 
             $data['outgoing'] = $this->transactions_model->get($id);
-            $title                = _l('edit', 'outgoing');
+            $title                = _l('edit', _l('outgoing_transaction'));
         }
         $data['id'] = $id;
         $data['title'] = $title;
@@ -165,9 +166,45 @@ class Transactions extends AdminController
 
     }
 
-    public function transaction($id = ''){
-//
+    public function incoming_side($id = ''){
+//var_dump(is_array('ghjghj'));exit();
+        $enArray=array();
+
+        if ($this->input->is_ajax_request()) {
+            if (option_exists('incoming_side_En') != Null){
+                $enArray = json_decode(get_option('incoming_side_En'));
+            }else{
+                $enArray=array();
+            }
+//        var_dump($this->input->post('nameEn'));exit();
+            if ($this->input->get()) {
+                $nameEn['key'] = $this->input->get('nameEn');
+                $nameEn['value'] = $this->input->get('nameEn');
+            }
+
+
+            array_push($enArray,$nameEn );
+            if (option_exists('incoming_side_En') != Null){
+                $en = update_option('incoming_side_En',json_encode($enArray));
+            }else{
+                $en = add_option('incoming_side_En',json_encode($enArray));
+            }
+//        var_dump($enArray,$nameEn);exit();
+
+
+
+
+            $success = $en ?true:false;
+            $message = $success ? _l('added_successfully', _l('incoming_side')) : '';
+            echo json_encode([
+                'success' => $success,
+                'message' => $message,
+                'data' => $nameEn,
+            ]);
+        }
+
     }
+
 
     public function delete_transaction(){
 //        var_dump();exit();
@@ -180,5 +217,37 @@ class Transactions extends AdminController
 
         }
     }
+
+    public function add_transaction_attachment($id)
+    {
+        $direction = $_POST['trans_type'] == 1 ? "outgoing_list" :"incoming_list";
+        handle_transaction_attachments($id);
+        echo json_encode([
+            'url' => admin_url('transactions/'.$direction),
+        ]);
+    }
+
+    public function delete_transaction_attachment($id, $type = '')
+    {
+        $direction = $type == 1 ? 'outgoing': 'incoming' ;
+//        var_dump();exit();
+        $this->db->where('rel_id', $id);
+        $this->db->where('rel_type', 'transaction');
+        $file = $this->db->get(db_prefix().'files')->row();
+
+        if ($file->staffid == get_staff_user_id() || is_admin()) {
+            $success = $this->transactions_model->delete_transaction_attachment($id);
+            if ($success) {
+                set_alert('success', _l('deleted', _l($direction.'_transaction_file')));
+            } else {
+                set_alert('warning', _l('problem_deleting', _l('transaction_receipt_lowercase')));
+            }
+            redirect(admin_url('transactions/'.$direction.'/'.$id));
+        } else {
+            access_denied('expenses');
+        }
+    }
+
+
 
 }

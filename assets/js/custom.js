@@ -123,7 +123,6 @@ if(search_url(hijriPages,this_page) != 0){
         });
     }
 }else{
-    console.log('noooooooo')
 
 }
 

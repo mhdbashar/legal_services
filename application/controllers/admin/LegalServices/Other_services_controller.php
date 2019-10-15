@@ -417,7 +417,7 @@ class Other_services_controller extends AdminController
             $data['oservice_model']  = $this->other;
             $this->load->view('admin/LegalServices/other_services/view', $data);
         } else {
-            access_denied('project View');
+            access_denied('Other services View');
         }
     }
 

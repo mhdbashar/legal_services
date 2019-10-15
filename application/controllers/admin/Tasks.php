@@ -472,7 +472,7 @@ class Tasks extends AdminController
                 if ($id) {
                     $success       = true;
                     $_id           = $id;
-                    $message       = _l('added_successfully', _l('task'));
+                    $message       = _l('added_successfully', _l('session'));
                     $uploadedFiles = handle_task_attachments_array($id);
                     if ($uploadedFiles && is_array($uploadedFiles)) {
                         foreach ($uploadedFiles as $file) {
@@ -556,6 +556,7 @@ class Tasks extends AdminController
             echo json_encode($response);
         }
     }
+
     public function copy_session()
     {
         if (has_permission('tasks', '', 'create')) {
@@ -638,7 +639,7 @@ class Tasks extends AdminController
 
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
-            echo 'Task not found';
+            echo 'Session not found';
             die();
         }
 

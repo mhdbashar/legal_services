@@ -293,6 +293,7 @@ function validate_contact_form() {
     appValidateForm('#contact-form', {
         firstname: 'required',
         lastname: 'required',
+        full_name: 'required',
         password: {
             required: {
                 depends: function(element) {

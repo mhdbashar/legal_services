@@ -77,10 +77,8 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
 foreach ($rResult as $aRow) {
-   // echo "<pre>";print_r($rResult);exit;
     $row = [];
     $row[] = $i;
-
     $outputName = '';
     if ($aRow['not_finished_timer_by_current_staff']) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';

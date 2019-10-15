@@ -33,7 +33,7 @@
                         <?php } ?>
                         <!-- // For email exist check -->
                         <?php $value=( isset($contact) ? $contact->full_name : ''); ?>
-                        <?php echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
+                        <?php echo render_input( 'full_name', 'clients_list_full_name',$value); ?>
                         <?php echo form_hidden('contactid',$contactid); ?>
                         <?php $value=( isset($contact) ? $contact->title : ''); ?>
                         <?php echo render_input( 'title', 'contact_position',$value); ?>

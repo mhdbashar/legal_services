@@ -71,7 +71,6 @@ class Cases_controller extends AdminController
 
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
-            //echo "<pre>";print_r($data['judges']);exit;
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -437,7 +436,7 @@ class Cases_controller extends AdminController
             $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
-            access_denied('Project View');
+            access_denied('Case View');
         }
     }
 

@@ -478,7 +478,6 @@ class Tasks_model extends App_Model
     public function get_billable_amount($taskId)
     {
         $data = $this->get_billable_task_data($taskId);
-
         return app_format_number($data->total_hours * $data->hourly_rate);
     }
 
@@ -675,6 +674,10 @@ class Tasks_model extends App_Model
                 //Start Block For Legal Services Session
                 $this->db->insert(db_prefix() . 'my_session_info', $session);
                 //End Block For Legal Services Session
+
+                $log_text = 'Session';
+            }else{
+                $log_text = 'Task';
             }
 
             foreach ($checklistItems as $key => $chkID) {
@@ -757,8 +760,8 @@ class Tasks_model extends App_Model
                 }
             }
 
-            log_activity('New Task Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
-            hooks()->do_action('after_add_task', $insert_id);
+            log_activity('New '.$log_text.' Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
+                hooks()->do_action('after_add_task', $insert_id);
 
             return $insert_id;
         }
@@ -931,15 +934,20 @@ class Tasks_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);
 
-        //Start Block For Legal Services Session
-        $this->db->where('task_id', $id);
-        $this->db->update(db_prefix() . 'my_session_info', $session);
-        //End Block For Legal Services Session
+        if (!empty($session)){
+            //Start Block For Legal Services Session
+            $this->db->where('task_id', $id);
+            $this->db->update(db_prefix() . 'my_session_info', $session);
+            //End Block For Legal Services Session
+            $log_text = 'Session';
+        }else{
+            $log_text = 'Task';
+        }
 
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
-            log_activity('Task Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
+            log_activity(''.$log_text.' Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
         }
 
         if ($affectedRows > 0) {

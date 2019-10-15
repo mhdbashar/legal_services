@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2019 at 07:06 PM
+-- Generation Time: Oct 15, 2019 at 01:37 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -225,7 +225,27 @@ INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
 (275, 'New Project Created [ID: 1]', '2019-10-07 20:31:26', 'Mhdbashar Das'),
 (276, 'Project Updated [ID: 1]', '2019-10-07 20:32:59', 'Mhdbashar Das'),
 (277, 'Failed to send SMS via Sms_twilio: [HTTP 451] Unable to create record', '2019-10-07 21:12:46', 'Mhdbashar Das'),
-(278, 'Failed to send SMS via Sms_twilio: [HTTP 451] Unable to create record', '2019-10-07 21:17:38', 'Mhdbashar Das');
+(278, 'Failed to send SMS via Sms_twilio: [HTTP 451] Unable to create record', '2019-10-07 21:17:38', 'Mhdbashar Das'),
+(279, 'New Case Movement [id: 1]', '2019-10-13 23:32:25', 'Mhdbashar Das'),
+(280, 'New Case Added [CaseID: 1]', '2019-10-13 23:32:27', 'Mhdbashar Das'),
+(281, 'New Session Added [ID:12, Name: session test]', '2019-10-14 00:03:06', 'Mhdbashar Das'),
+(282, 'New Session Added [ID:13, Name: Baraa Alhalabi]', '2019-10-14 00:40:40', 'Mhdbashar Das'),
+(283, 'New Session Added [ID:14, Name: asdasdasd]', '2019-10-14 00:42:03', 'Mhdbashar Das'),
+(284, 'New Session Added [ID:15, Name: session test]', '2019-10-14 00:58:14', 'Mhdbashar Das'),
+(285, 'New transaction [ID: 14]', '2019-10-14 19:30:57', 'Mhdbashar Das'),
+(286, ' transaction Updated [ID: 14]', '2019-10-14 19:31:13', 'Mhdbashar Das'),
+(287, 'transaction Doc Deleted [ProcID: 14]', '2019-10-14 19:31:30', 'Mhdbashar Das'),
+(288, ' transaction Updated [ID: 14]', '2019-10-14 19:32:18', 'Mhdbashar Das'),
+(289, 'New transaction [ID: 15]', '2019-10-14 19:32:53', 'Mhdbashar Das'),
+(290, 'Add Branch [] To clients [2]', '2019-10-14 20:37:21', 'Mhdbashar Das'),
+(291, 'Customer Info Updated [ID: 2]', '2019-10-14 20:37:22', 'Mhdbashar Das'),
+(292, 'Add Branch [] To clients [2]', '2019-10-14 20:37:39', 'Mhdbashar Das'),
+(293, 'Customer Info Updated [ID: 2]', '2019-10-14 20:37:39', 'Mhdbashar Das'),
+(294, 'Client Deleted [ID: 2]', '2019-10-15 14:26:00', 'Mhdbashar Das'),
+(295, 'Add Branch [] To clients [1]', '2019-10-15 14:27:57', 'Mhdbashar Das'),
+(296, 'Customer Info Updated [ID: 1]', '2019-10-15 14:27:58', 'Mhdbashar Das'),
+(297, 'Add Branch [] To clients [1]', '2019-10-15 14:28:38', 'Mhdbashar Das'),
+(298, 'Customer Info Updated [ID: 1]', '2019-10-15 14:28:38', 'Mhdbashar Das');
 
 -- --------------------------------------------------------
 
@@ -294,7 +314,11 @@ INSERT INTO `tblbranches_services` (`id`, `branch_id`, `rel_type`, `rel_id`) VAL
 (7, 1, 'clients', 6),
 (8, 1, 'clients', 7),
 (9, 1, 'clients', 8),
-(10, 1, 'clients', 8);
+(10, 1, 'clients', 8),
+(11, 0, 'clients', 2),
+(12, 0, 'clients', 2),
+(13, 0, 'clients', 1),
+(14, 0, 'clients', 1);
 
 -- --------------------------------------------------------
 
@@ -335,13 +359,6 @@ CREATE TABLE `tblcasediscussions` (
   `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblcasediscussions`
---
-
-INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, `show_to_customer`, `datecreated`, `last_activity`, `staff_id`, `contact_id`) VALUES
-(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -365,55 +382,9 @@ CREATE TABLE `tblcase_activity` (
 --
 
 INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
-(5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
-(6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
-(7, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:43:13'),
-(8, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:43:13'),
-(9, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:47:16'),
-(10, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:47:16'),
-(11, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:47:21'),
-(12, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:48:50'),
-(13, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:48:51'),
-(14, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:48:56'),
-(15, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:10'),
-(16, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:10'),
-(17, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:49:15'),
-(18, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:58'),
-(19, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:58'),
-(20, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:11'),
-(21, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:11'),
-(22, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:51:16'),
-(23, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:24'),
-(24, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:24'),
-(25, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:52:40'),
-(26, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:52:40'),
-(27, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:53:06'),
-(28, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:53:06'),
-(29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
-(30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
-(31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
-(56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
-(57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
-(58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
-(62, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:06:54'),
-(63, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:06:54'),
-(64, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:06:59'),
-(65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
-(66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
-(67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
-(179, 0, 1, 0, 'Mhdbashar Das', 0, 'project_activity_created_milestone', 'milestone', '2019-07-30 18:00:57'),
-(184, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:46'),
-(197, 10, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:01'),
-(198, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-20 23:03:01'),
-(199, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:02'),
-(200, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-20 23:03:29'),
-(201, 11, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-26 18:44:27'),
-(207, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:19:39'),
-(217, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:35:24'),
-(218, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:35:25'),
-(224, 2, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_created', '', '2019-09-16 17:53:07'),
-(228, 5, 1, 0, 'Mhdbashar Das', 1, 'CaseMov_activity_created', '', '2019-09-19 19:37:45');
+(1, 1, 1, 0, 'Mhdbashar Das', 1, 'CaseMov_activity_created', '', '2019-10-13 23:32:25'),
+(2, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-10-13 23:32:25'),
+(3, 1, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_created', '', '2019-10-13 23:32:27');
 
 -- --------------------------------------------------------
 
@@ -483,7 +454,7 @@ CREATE TABLE `tblcase_movement` (
 --
 
 INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `opponent_id`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `inserted_date`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
-(3, 1, 'CASE1', 'قضية 1', 4, 3, 2, 3, 4, 2, 7, 105, 'karkouk', 1, 2, 1, 0, '0.00', '2581-02-17', '2019-09-16', '2019-09-16 17:53:06', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 2);
+(1, 1, 'CASE1', 'Baraa Alhalabi', 4, 3, 2, 1, 2, 2, 7, 217, 'damascus', 1, 2, 1, 0, '0.00', '1970-01-01', '2019-10-13', '2019-10-13 23:32:25', NULL, NULL, '<span>ExecTimeLimit ExecTimeLimit ExecTimeLimit</span>', 'رابحة', 0, '0.00', 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -516,25 +487,25 @@ CREATE TABLE `tblcase_settings` (
 --
 
 INSERT INTO `tblcase_settings` (`id`, `case_id`, `name`, `value`) VALUES
-(1, 2, 'available_features', 'a:18:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(2, 2, 'view_tasks', '1'),
-(3, 2, 'create_tasks', '1'),
-(4, 2, 'edit_tasks', '1'),
-(5, 2, 'comment_on_tasks', '1'),
-(6, 2, 'view_task_comments', '1'),
-(7, 2, 'view_task_attachments', '1'),
-(8, 2, 'view_task_checklist_items', '1'),
-(9, 2, 'upload_on_tasks', '1'),
-(10, 2, 'view_task_total_logged_time', '1'),
-(11, 2, 'view_finance_overview', '1'),
-(12, 2, 'upload_files', '1'),
-(13, 2, 'open_discussions', '1'),
-(14, 2, 'view_milestones', '1'),
-(15, 2, 'view_gantt', '1'),
-(16, 2, 'view_timesheets', '1'),
-(17, 2, 'view_activity_log', '1'),
-(18, 2, 'view_team_members', '1'),
-(19, 2, 'hide_tasks_on_main_tasks_table', '0');
+(1, 1, 'available_features', 'a:18:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
+(2, 1, 'view_tasks', '1'),
+(3, 1, 'create_tasks', '1'),
+(4, 1, 'edit_tasks', '1'),
+(5, 1, 'comment_on_tasks', '1'),
+(6, 1, 'view_task_comments', '1'),
+(7, 1, 'view_task_attachments', '1'),
+(8, 1, 'view_task_checklist_items', '1'),
+(9, 1, 'upload_on_tasks', '1'),
+(10, 1, 'view_task_total_logged_time', '1'),
+(11, 1, 'view_finance_overview', '1'),
+(12, 1, 'upload_files', '1'),
+(13, 1, 'open_discussions', '1'),
+(14, 1, 'view_milestones', '1'),
+(15, 1, 'view_gantt', '1'),
+(16, 1, 'view_timesheets', '1'),
+(17, 1, 'view_activity_log', '1'),
+(18, 1, 'view_team_members', '1'),
+(19, 1, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
@@ -812,8 +783,7 @@ CREATE TABLE `tblclients` (
 --
 
 INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`, `client_type`) VALUES
-(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0, 0),
-(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0, 0),
+(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0, 0),
 (3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', '', '', '', '', '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0, 0),
 (4, 'Baraa Alhalabi', NULL, '+963994562551', 217, 'دمشق', NULL, NULL, 'Damascus, Syria', NULL, '2019-09-23 11:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, 'arabic', 1, 0, NULL, 1, 1, 1, 0, 1),
 (9, 'test asda', NULL, '123', 0, NULL, NULL, NULL, 'test test test test test test test test test', NULL, '2019-09-27 20:44:30', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0, 1),
@@ -866,7 +836,6 @@ CREATE TABLE `tblcontacts` (
   `is_primary` int(11) NOT NULL DEFAULT 1,
   `firstname` varchar(191) DEFAULT NULL,
   `lastname` varchar(191) DEFAULT NULL,
-  `full_name` varchar(191) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phonenumber` varchar(100) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
@@ -1409,7 +1378,8 @@ CREATE TABLE `tblcustomer_groups` (
 --
 
 INSERT INTO `tblcustomer_groups` (`id`, `groupid`, `customer_id`) VALUES
-(1, 3, 3);
+(1, 3, 3),
+(3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1857,7 +1827,8 @@ CREATE TABLE `tblfiles` (
 --
 
 INSERT INTO `tblfiles` (`id`, `rel_id`, `rel_type`, `file_name`, `filetype`, `visible_to_customer`, `attachment_key`, `external`, `external_link`, `thumbnail_link`, `staffid`, `contact_id`, `task_comment_id`, `dateadded`) VALUES
-(1, 1, 'procuration', 'lorem-ipsum.png', 'image/png', 0, '70d5c5c08fbd9ee6de14057d6378b5ac', NULL, NULL, NULL, 1, 0, 0, '2019-09-22 15:25:44');
+(1, 1, 'procuration', 'lorem-ipsum.png', 'image/png', 0, '70d5c5c08fbd9ee6de14057d6378b5ac', NULL, NULL, NULL, 1, 0, 0, '2019-09-22 15:25:44'),
+(3, 14, 'transaction', 'Capture.PNG', 'image/png', 0, '196c35034b02f253a58d0d76f82369c7', NULL, NULL, NULL, 1, 0, 0, '2019-10-14 19:31:56');
 
 -- --------------------------------------------------------
 
@@ -2476,7 +2447,7 @@ CREATE TABLE `tblmy_cases` (
 --
 
 INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `opponent_id`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
-(1, 1, 'CASE1', 'CASE1', 3, 4, 1, 1, 2, 2, 7, 0, '', 2, 2, 1, 0, '0.00', '2019-09-11', '2019-09-09', NULL, NULL, 'CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1CASE1', 'متداولة', 0, '0.00', 0, 0, 1, 0, 0);
+(1, 1, 'CASE1', 'Baraa Alhalabi', 3, 4, 2, 1, 2, 2, 7, 217, 'damascus', 1, 2, 1, 0, '0.00', '2019-10-09', '2019-10-13', NULL, NULL, '<span>ExecTimeLimit ExecTimeLimit ExecTimeLimit</span>', 'رابحة', 0, '0.00', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2514,8 +2485,8 @@ CREATE TABLE `tblmy_cases_judges` (
 --
 
 INSERT INTO `tblmy_cases_judges` (`id`, `judge_id`, `case_id`) VALUES
-(3, 3, 2),
-(4, 1, 2);
+(1, 3, 1),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2534,8 +2505,8 @@ CREATE TABLE `tblmy_cases_movement_judges` (
 --
 
 INSERT INTO `tblmy_cases_movement_judges` (`id`, `judge_id`, `case_mov_id`) VALUES
-(2, 3, 2),
-(3, 1, 2);
+(1, 3, 1),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2625,7 +2596,10 @@ CREATE TABLE `tblmy_customer_company_groups` (
 
 INSERT INTO `tblmy_customer_company_groups` (`id`, `groupid`, `customer_id`) VALUES
 (2, 2, 3),
-(3, 1, 3);
+(3, 1, 3),
+(4, 1, 2),
+(5, 1, 1),
+(6, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -2744,8 +2718,7 @@ CREATE TABLE `tblmy_members_cases` (
 --
 
 INSERT INTO `tblmy_members_cases` (`id`, `staff_id`, `project_id`) VALUES
-(17, 1, 9),
-(21, 1, 2);
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2758,14 +2731,6 @@ CREATE TABLE `tblmy_members_services` (
   `staff_id` int(11) NOT NULL,
   `oservice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmy_members_services`
---
-
-INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `oservice_id`) VALUES
-(3, 1, 5),
-(4, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -2828,13 +2793,6 @@ CREATE TABLE `tblmy_other_services` (
   `branch_id` int(11) NOT NULL DEFAULT 0,
   `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmy_other_services`
---
-
-INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `service_session_link`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
-(5, 2, 'Akd5', 5, 'عقد@عقد', 3, 5, 6, 0, 1, 1, 0, '0.00', '2019-09-27', '2019-09-04', NULL, NULL, '', 0, '', 0, '0.00', 0, 0, 1, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -3091,14 +3049,6 @@ CREATE TABLE `tblmy_service_session` (
   `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblmy_service_session`
---
-
-INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `time`, `details`, `next_action`, `report`, `status`, `result`, `staff`, `deleted`, `created`) VALUES
-(12, 1, 7, '', 'test', 2, 3, '2019-08-18', '17:30:00', '', '', '', 1, 1, 1, 0, '2019-08-18 11:42:22'),
-(14, 1, 1, '', 'test', 2, 3, '2019-08-29', '05:55:00', '', '', '', 0, 0, 1, 0, '2019-08-29 09:11:58');
-
 -- --------------------------------------------------------
 
 --
@@ -3145,7 +3095,7 @@ CREATE TABLE `tblmy_sessiondiscussions` (
 --
 
 CREATE TABLE `tblmy_session_info` (
-  `id` int(11) NOT NULL,
+  `s_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL,
   `session_number` int(11) DEFAULT NULL,
   `judicial_office_number` int(11) NOT NULL,
@@ -3167,11 +3117,11 @@ CREATE TABLE `tblmy_session_info` (
 -- Dumping data for table `tblmy_session_info`
 --
 
-INSERT INTO `tblmy_session_info` (`id`, `task_id`, `session_number`, `judicial_office_number`, `court_id`, `dept`, `court_decision`, `session_information`, `judge_id`, `session_type`, `customer_report`, `send_to_customer`, `session_status`, `time`, `next_session_date`, `next_session_time`) VALUES
-(7, 7, 123, 123, 2, 123, 'qqwqwqwqwqwqw', 'جلسة تجريبية جلسة تجريبية جلسة تجريبية', 1, 'جلسة قضائية', 1, 1, 0, '03:00:00', '2019-09-20', '01:00:00'),
-(8, 8, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '14:01:00', NULL, NULL),
-(9, 9, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL),
-(11, 11, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL);
+INSERT INTO `tblmy_session_info` (`s_id`, `task_id`, `session_number`, `judicial_office_number`, `court_id`, `dept`, `court_decision`, `session_information`, `judge_id`, `session_type`, `customer_report`, `send_to_customer`, `session_status`, `time`, `next_session_date`, `next_session_time`) VALUES
+(1, 12, 123, 123, 2, 123, '', '<span>services_sessions services_sessions</span>', 3, 'جلسة قضائية', 0, 0, 0, '01:00:00', NULL, NULL),
+(2, 13, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '02:00:00', NULL, NULL),
+(3, 14, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL),
+(4, 15, 0, 0, 2, 0, '', 'asdasd', 3, '', 0, 0, 0, '02:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3232,14 +3182,14 @@ CREATE TABLE `tblmy_transactions` (
   `id` int(11) NOT NULL,
   `definition` int(11) NOT NULL,
   `description` varchar(225) NOT NULL,
-  `type` int(11) NOT NULL,
-  `origin` int(11) NOT NULL,
+  `type` varchar(225) NOT NULL,
+  `origin` varchar(225) NOT NULL,
   `incoming_num` int(11) DEFAULT NULL,
-  `incoming_source` int(11) DEFAULT NULL,
-  `incoming_type` int(11) DEFAULT NULL,
+  `incoming_source` varchar(225) DEFAULT NULL,
+  `incoming_type` varchar(225) DEFAULT NULL,
   `is_secret` tinyint(1) NOT NULL,
-  `importance` int(11) NOT NULL,
-  `classification` int(11) NOT NULL,
+  `importance` varchar(225) NOT NULL,
+  `classification` varchar(225) NOT NULL,
   `owner` varchar(225) NOT NULL,
   `owner_phone` int(25) NOT NULL,
   `source_reporter` varchar(225) DEFAULT NULL,
@@ -3254,12 +3204,17 @@ CREATE TABLE `tblmy_transactions` (
 --
 
 INSERT INTO `tblmy_transactions` (`id`, `definition`, `description`, `type`, `origin`, `incoming_num`, `incoming_source`, `incoming_type`, `is_secret`, `importance`, `classification`, `owner`, `owner_phone`, `source_reporter`, `source_reporter_phone`, `email`, `date`, `isDeleted`) VALUES
-(5, 0, 'ghfghfhgfhg', 1, 1, 654, 1, 1, 0, 1, 2, '0', 651, '0', 9655, 'mhdbashard@gmail.com', '2019-10-14', 0),
-(6, 0, 'ghfghfhgfhg', 2, 1, 94789, 1, 1, 1, 1, 1, 'wassss', 6, '0', 6, 'mhdbashard@gmail.com', '2019-10-06', 0),
-(7, 0, 'ghfghfhgfhg', 1, 1, 94789, 1, 0, 0, 0, 1, 'waseem', 0, 'jhv', 0, '', '0000-00-00', 0),
-(8, 1, 'cxvxcvxc', 1, 1, NULL, NULL, NULL, 1, 0, 1, 'cxvxcvxcv', 0, NULL, NULL, NULL, NULL, 1),
-(9, 1, 'ghfghfhgfhg', 0, 1, NULL, NULL, NULL, 1, 0, 1, 'dfsd', 0, NULL, NULL, NULL, NULL, 1),
-(10, 1, 'ghfghfhgfhg', 0, 2, NULL, NULL, NULL, 0, 0, 2, 'waseem', 0, NULL, NULL, NULL, NULL, 1);
+(5, 0, 'ghfghfhgfhg', '1', '1', 654, '1', '1', 0, '1', '2', '0', 651, '0', 9655, 'mhdbashard@gmail.com', '2019-10-14', 1),
+(6, 0, 'ghfghfhgfhg', '2', '1', 94789, '1', '1', 1, '1', '1', 'wassss', 6, '0', 6, 'mhdbashard@gmail.com', '2019-10-06', 1),
+(7, 0, 'ghfghfhgfhg', '1', '1', 94789, '1', '0', 0, '0', '1', 'waseem', 0, 'jhv', 0, '', '0000-00-00', 1),
+(8, 1, 'cxvxcvxc', '1', '1', NULL, NULL, NULL, 1, '0', '1', 'cxvxcvxcv', 0, NULL, NULL, NULL, NULL, 1),
+(9, 1, 'ghfghfhgfhg', '0', '1', NULL, NULL, NULL, 1, '0', '1', 'dfsd', 0, NULL, NULL, NULL, NULL, 1),
+(10, 1, 'ghfghfhgfhg', '0', '2', NULL, NULL, NULL, 0, '0', '2', 'waseem', 0, NULL, NULL, NULL, NULL, 1),
+(11, 0, 'ghfghfhgfhg', 'قيد داخلي', '1', 94789, 'qqqq', '0', 0, '0', '1', 'ghc', 6, 'dsf', 0, '', '0000-00-00', 1),
+(12, 0, 'ghfghfhgfhg', 'قيد داخلي', 'ورق عادي', 94789, 'wwww', 'وارد ورقي', 1, 'منخفضة', 'منخفضة', 'waseem', 6, 'dsf', 6, 'mhdbashard@gmail.com', '2019-10-21', 0),
+(13, 1, 'ghfghfhgfhg', 'قيد داخلي', 'ورق غير عادي', NULL, NULL, NULL, 1, 'منخفضة', 'منخفضة', 'ghc', 0, NULL, NULL, NULL, NULL, 0),
+(14, 0, 'موضوع المعاملة', 'قيد داخلي', 'ورق عادي', 111, 'جهة 1', '', 1, 'منخفضة', 'منخفضة', 'test', 0, 'test', 0, '', '2019-10-15', 1),
+(15, 1, 'test', '', 'ورق عادي', NULL, NULL, NULL, 0, '', 'منخفضة', 'test', 0, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3872,7 +3827,8 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (431, 'next_disputes_invoice_number', '1', 1),
 (433, 'automatically_resend_disputes_invoice_overdue_reminder_after', '-3', 1),
 (434, 'automatically_send_disputes_invoice_overdue_reminder_after', '1', 1),
-(436, 'upgraded_from_version', '239', 1);
+(438, 'incoming_side_En', '[{\"key\":\"\\u062c\\u0647\\u0629 1\",\"value\":\"\\u062c\\u0647\\u0629 1\"},{\"key\":\"\\u062c\\u0647\\u0629 2\",\"value\":\"\\u062c\\u0647\\u0629 2\"}]', 1),
+(439, 'upgraded_from_version', '235', 1);
 
 -- --------------------------------------------------------
 
@@ -4567,27 +4523,51 @@ CREATE TABLE `tblsessions` (
 --
 
 INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
+('0d39eut076pj95vnq8ia74hil7k3m0s2', '::1', 1571000586, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303939383738383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1bav6t0edqv00ctq7j88nask6bt6gja4', '::1', 1570998485, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303939383438333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1mv2908585gs890jig77ipgd4r3plpvg', '::1', 1571069678, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313036393637383b),
 ('1o78u75kqkvm5d9vdg75acpp26rl1srr', '::1', 1570645215, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303634353231353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('1vtdn7hd0rejcnuam1flpsjs768l0g1v', '::1', 1571004027, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030333832373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('2li3ormegfvrqrlq05dbhisr1avja9nm', '::1', 1570472285, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437323135333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('2mbbsjou2026p3usufbf9rst247rqjlk', '::1', 1570644616, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303634343631363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
 ('4s2cni2j0tqksfnbk46umln2eedq3p8v', '::1', 1570557678, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303535373637363b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
 ('63o23kd1ob7ca7toql1mhaihmpudhdki', '::1', 1570645219, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303634353231353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6f753hk3o6083u7n78m0dj9geh2h9o7r', '::1', 1571002955, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030323739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('6jj4drneemofarhc1r4l21tjjuobu122', '::1', 1570998185, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303939383136383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('70o3ec9bkbhpauldm012iemubjebmbsd', '::1', 1571074933, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037343933333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9o81k3j2fu4svrku8im1e5jb18dkgokb', '::1', 1570991237, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303939303935323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('ac5a0ius0ago06o8a109c96l7gpursou', '::1', 1570468578, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436383537383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('ag0e9ismv2aac0jv6fkip20adkater6b', '::1', 1570641725, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303634313732353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('amnkaei4ralk6rtt8pn27stpu8lpo4ml', '::1', 1570465028, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436353032383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bvq1c5a44flb54hjjifs4os44okcep3b', '::1', 1571139096, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313133393039363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('d8vk2qe74j8o5v3obpb2vfevtu272eqe', '::1', 1570998780, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303939383438353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('dkkmscog6tu21j4g7djsoomblubehdqt', '::1', 1571001212, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030303538373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ea6aisc2cn4ci7cibfr5m6kq3h67ge4f', '::1', 1571070374, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037303337343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('fcijqfi5aro5ifg4ic4v64ldo3uskfcn', '::1', 1571138744, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313133383734343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
 ('g3dsfnt8up382ll9s4g7bekin0ekjlsi', '::1', 1570470742, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437303734323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('gou0khjlvqdcgk71n25j3rpt9m5ug069', '::1', 1570465845, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436353834353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('hj31vblsh1itden4n485281k42qbsbjd', '::1', 1570470411, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437303431313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
 ('ic42mdgef7o36k51jbrsttr3qehdalfn', '::1', 1570471845, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437313834353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('l0ku37glvit4m0u5ai6s05l17k0dt83f', '::1', 1571071881, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037313838313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('lmq2mq78qbli2tfqnbasl2aakv4j3gdl', '::1', 1570557809, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303535373730323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('lqjoqime5hra67u8uosh59va33lpj2a9', '::1', 1570466967, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436363936373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('m96vi53a8uh6ku1tlcjhko3i0h1s03mh', '::1', 1571073851, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037333835313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('mjlmnvg67dsa08ld9g38citeia0gk98a', '::1', 1571002596, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030323230303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('npmi2imoc8eo4566vt02n16herabm6k2', '::1', 1571139407, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313133393430343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('nq126nh6rsfj7efmgspfgaq7m42qd9an', '::1', 1570465374, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436353337343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('okrsieqetdq04v45gi3ggftiltbklgqb', '::1', 1571001256, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030313233363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('p5dc07ql7oc0q0i7egdec7e6m271v5b8', '::1', 1570472153, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437323135333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('psdjgj0s2u8jivpop724g5duk2hlb0d2', '::1', 1571076464, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037363134373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('qaj3liao5o5bgmkq9ijolgep1nlv32kr', '::1', 1570471073, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303437313037333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qkpq4fb12qdo1a6g34fft7mrgvmo01oh', '::1', 1571139404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313133393430343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('qrdjt6lp165jpj4rm89jjp3g6u94tgvj', '::1', 1570467601, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436373630313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('rkfs74j0dg3p1cj66gthp2qj2qbalgmr', '::1', 1571076147, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037363134373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('rlrnm3cl1511oa31fs45v2o4togpm0e8', '::1', 1571074573, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037343537333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
 ('smlpe2224qhb976kjmts3p8pejjgat5a', '::1', 1570469484, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436393438343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('up0lejd236vv20qjqd8ua7ltqrq5li4g', '::1', 1571004403, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313030343339373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('upn0i53q7cu3e1bck2b3dpjb7b75sh9d', '::1', 1570622181, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303632323138313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('vddk1hpsh1dmt8acislusp7ook2r1805', '::1', 1570468889, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436383838393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('vg2kqk1kuiua3snhojkn99ln3q7tq5ov', '::1', 1571070678, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313037303637383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
 ('vg4mgbrns2p2klqpt69mnge33aaa90r9', '::1', 1570621094, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303632313039343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
 ('vusv9r1kjnlbmme1mvtso2h15nm14vcj', '::1', 1570468151, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537303436383135313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
 
@@ -4658,7 +4638,7 @@ CREATE TABLE `tblstaff` (
 --
 
 INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`) VALUES
-(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-10-09 14:06:04', '2019-10-09 21:20:19', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
+(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-10-15 12:25:53', '2019-10-15 14:36:47', NULL, NULL, NULL, 1, NULL, 1, 'arabic', NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
 (2, 'mohamad@gmail.com', 'mohamad', 'mohamad', '', '', '', '', '$2a$08$3U3Yq/bdVzixBFhr8sEWG.N64L8VEBgakihhEiQFdaXPJBbB47C06', '2019-07-20 15:54:20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, '', '', 'mohamad-mohamad', 0, '0.00', 0, NULL, NULL, '');
 
 -- --------------------------------------------------------
@@ -4792,7 +4772,11 @@ INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `s
 (7, 'جلسة تجريبية', NULL, 2, '2019-09-18 15:33:12', '2019-09-17', '2019-09-20', NULL, 1, 0, 4, 'week', 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '100.00', 0, 0, 0, 0, 0, 1, 0),
 (8, 'test', NULL, 2, '2019-09-18 17:57:45', '2019-09-28', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
 (9, 'جلسة تجريبية 2', NULL, 2, '2019-09-18 17:59:14', '2019-09-17', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
-(11, 'qwqw', NULL, 2, '2019-09-18 18:32:30', '2019-09-18', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0);
+(11, 'qwqw', NULL, 2, '2019-09-18 18:32:30', '2019-09-18', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(12, 'session test', NULL, 2, '2019-10-14 00:03:06', '2019-10-13', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(13, 'Baraa Alhalabi', NULL, 2, '2019-10-14 00:40:40', '2019-10-14', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(14, 'asdasdasd', NULL, 2, '2019-10-14 00:42:03', '2019-10-14', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(15, 'session test', NULL, 2, '2019-10-14 00:58:14', '2019-10-14', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4844,7 +4828,11 @@ INSERT INTO `tbltask_assigned` (`id`, `staffid`, `taskid`, `assigned_from`, `is_
 (7, 1, 7, 1, 0),
 (8, 1, 8, 1, 0),
 (9, 1, 9, 1, 0),
-(11, 1, 11, 1, 0);
+(11, 1, 11, 1, 0),
+(12, 1, 12, 1, 0),
+(13, 1, 13, 1, 0),
+(14, 1, 14, 1, 0),
+(15, 1, 15, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -5282,7 +5270,6 @@ ALTER TABLE `tblconsent_purposes`
 ALTER TABLE `tblcontacts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
-  ADD KEY `firstname` (`full_name`),
   ADD KEY `email` (`email`),
   ADD KEY `is_primary` (`is_primary`);
 
@@ -5835,7 +5822,7 @@ ALTER TABLE `tblmy_sessiondiscussions`
 -- Indexes for table `tblmy_session_info`
 --
 ALTER TABLE `tblmy_session_info`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`s_id`),
   ADD KEY `task_id` (`task_id`);
 
 --
@@ -6288,7 +6275,7 @@ ALTER TABLE `tblweb_to_lead`
 -- AUTO_INCREMENT for table `tblactivity_log`
 --
 ALTER TABLE `tblactivity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
 
 --
 -- AUTO_INCREMENT for table `tblannouncements`
@@ -6306,7 +6293,7 @@ ALTER TABLE `tblbranches`
 -- AUTO_INCREMENT for table `tblbranches_services`
 --
 ALTER TABLE `tblbranches_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblcasediscussioncomments`
@@ -6318,13 +6305,13 @@ ALTER TABLE `tblcasediscussioncomments`
 -- AUTO_INCREMENT for table `tblcasediscussions`
 --
 ALTER TABLE `tblcasediscussions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcase_activity`
 --
 ALTER TABLE `tblcase_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblcase_files`
@@ -6336,7 +6323,7 @@ ALTER TABLE `tblcase_files`
 -- AUTO_INCREMENT for table `tblcase_movement`
 --
 ALTER TABLE `tblcase_movement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcase_notes`
@@ -6450,7 +6437,7 @@ ALTER TABLE `tblcustomers_groups`
 -- AUTO_INCREMENT for table `tblcustomer_groups`
 --
 ALTER TABLE `tblcustomer_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblcustomfields`
@@ -6480,7 +6467,7 @@ ALTER TABLE `tbldismissed_announcements`
 -- AUTO_INCREMENT for table `tblemailtemplates`
 --
 ALTER TABLE `tblemailtemplates`
-  MODIFY `emailtemplateid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1801;
+  MODIFY `emailtemplateid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `tblestimates`
@@ -6510,7 +6497,7 @@ ALTER TABLE `tblexpenses_categories`
 -- AUTO_INCREMENT for table `tblfiles`
 --
 ALTER TABLE `tblfiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblform_questions`
@@ -6684,13 +6671,13 @@ ALTER TABLE `tblmy_casestatus`
 -- AUTO_INCREMENT for table `tblmy_cases_judges`
 --
 ALTER TABLE `tblmy_cases_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblmy_cases_movement_judges`
 --
 ALTER TABLE `tblmy_cases_movement_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblmy_categories`
@@ -6714,7 +6701,7 @@ ALTER TABLE `tblmy_customers_company_groups`
 -- AUTO_INCREMENT for table `tblmy_customer_company_groups`
 --
 ALTER TABLE `tblmy_customer_company_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblmy_customer_representative`
@@ -6750,13 +6737,13 @@ ALTER TABLE `tblmy_judicialdept`
 -- AUTO_INCREMENT for table `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmy_members_services`
 --
 ALTER TABLE `tblmy_members_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_newstaff`
@@ -6768,7 +6755,7 @@ ALTER TABLE `tblmy_newstaff`
 -- AUTO_INCREMENT for table `tblmy_other_services`
 --
 ALTER TABLE `tblmy_other_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_procurationstate`
@@ -6822,7 +6809,7 @@ ALTER TABLE `tblmy_salary`
 -- AUTO_INCREMENT for table `tblmy_service_session`
 --
 ALTER TABLE `tblmy_service_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_sessiondiscussioncomments`
@@ -6840,7 +6827,7 @@ ALTER TABLE `tblmy_sessiondiscussions`
 -- AUTO_INCREMENT for table `tblmy_session_info`
 --
 ALTER TABLE `tblmy_session_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tblmy_training`
@@ -6858,7 +6845,7 @@ ALTER TABLE `tblmy_training_attachments`
 -- AUTO_INCREMENT for table `tblmy_transactions`
 --
 ALTER TABLE `tblmy_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tblmy_vac`
@@ -6906,7 +6893,7 @@ ALTER TABLE `tblnotifications`
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=437;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=440;
 
 --
 -- AUTO_INCREMENT for table `tbloservicediscussioncomments`
@@ -7104,7 +7091,7 @@ ALTER TABLE `tbltags`
 -- AUTO_INCREMENT for table `tbltasks`
 --
 ALTER TABLE `tbltasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbltaskstimers`
@@ -7122,7 +7109,7 @@ ALTER TABLE `tbltasks_checklist_templates`
 -- AUTO_INCREMENT for table `tbltask_assigned`
 --
 ALTER TABLE `tbltask_assigned`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbltask_checklist_items`

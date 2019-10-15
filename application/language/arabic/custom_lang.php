@@ -231,3 +231,22 @@ $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
 $lang['branch_name'] = "اسم الفرع";
+
+$lang['incoming_file'] = 'ملف المعاملة الواردة';
+
+$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
+
+
+$lang['add_incoming_side'] = 'إضافة جهة واردة';
+$lang['incoming_side'] = 'الجهة الواردة';
+$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
+$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
+$lang['incoming_transaction'] = 'معاملة واردة';
+$lang['outgoing_transaction'] = 'معاملة صادرة';
+$lang['secret_trans'] = 'سرية';
+$lang['normal_trans'] = 'عادية';
+
+
+
+
+

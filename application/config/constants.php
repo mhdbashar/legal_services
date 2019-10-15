@@ -183,6 +183,12 @@ define('EXPENSE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/expenses' . '/');
  * Procurations receipts
  */
 define('PROCURATION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/procurations' . '/');
+///////////////////////
+// waseem abdallah
+/**
+ * Transaction receipts
+ */
+define('TRANSACTION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/transactions' . '/');
 /**
  * Lead attachments
  */

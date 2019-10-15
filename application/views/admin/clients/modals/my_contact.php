@@ -32,8 +32,8 @@
                         </div>
                         <?php } ?>
                         <!-- // For email exist check -->
-                        <?php $value=( isset($contact) ? $contact->full_name : ''); ?>
-                        <?php echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
+                        <?php $value=( isset($contact) ? $contact->firstname : ''); ?>
+                        <?php echo render_input( 'firstname', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
                         <?php echo form_hidden('contactid',$contactid); ?>
                         <?php $value=( isset($contact) ? $contact->title : ''); ?>
                         <?php echo render_input( 'title', 'contact_position',$value); ?>

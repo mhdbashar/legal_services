@@ -320,6 +320,11 @@ class Clients_model extends App_Model
     {
         $affectedRows = 0;
         $contact      = $this->get_contact($id);
+
+        $data['firstname'] = strtok($data['full_name'], ' ');
+        $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+        $data['lastname'] = $lastname != '' ? $lastname : NULL;
+
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -439,6 +444,14 @@ class Clients_model extends App_Model
      */
     public function add_contact($data, $customer_id, $not_manual_request = false)
     {
+        $data['firstname'] = strtok($data['full_name'], ' ');
+        $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+        if($lastname == ' ' || $lastname == ''){
+            $data['lastname'] = NULL;
+        }else{
+            $data['lastname'] = $lastname;
+        }
+
         $send_set_password_email = isset($data['send_set_password_email']) ? true : false;
 
         if (isset($data['custom_fields'])) {

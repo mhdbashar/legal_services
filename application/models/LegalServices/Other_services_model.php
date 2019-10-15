@@ -1911,7 +1911,7 @@ class Other_services_model extends App_Model
             $comment->modified = (strtotime($comment->modified) * 1000);
         }
         if (!is_null($comment->file_name)) {
-            $comment->file_url = site_url('uploads/discussions/' . $comment->discussion_id . '/' . $comment->file_name);
+            $comment->file_url = site_url('uploads/discussions/oservices/' . $comment->discussion_id . '/' . $comment->file_name);
         }
 
         return $comment;
@@ -1964,7 +1964,7 @@ class Other_services_model extends App_Model
                 $comments[$i]['profile_picture_url'] = staff_profile_image_url($comment['staff_id']);
             }
             if (!is_null($comment['file_name'])) {
-                $comments[$i]['file_url'] = site_url('uploads/discussions/' . $id . '/' . $comment['file_name']);
+                $comments[$i]['file_url'] = site_url('uploads/discussions/oservices/' . $id . '/' . $comment['file_name']);
             }
             $comments[$i]['created'] = (strtotime($comment['created']) * 1000);
             if (!empty($comment['modified'])) {

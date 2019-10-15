@@ -54,9 +54,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="<?php echo admin_url('clients')?>" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="<?php echo admin_url('clients')?>" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
 
                         <div class="row">
@@ -206,9 +206,8 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="<?php echo admin_url('staff')?>" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
                                 <select class="form-control" name="contract"

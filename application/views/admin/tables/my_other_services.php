@@ -80,6 +80,7 @@ foreach ($rResult as $aRow) {
     $row[] = $membersOutput;
     $status = get_oservice_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
+    $row[]  = '---';
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);

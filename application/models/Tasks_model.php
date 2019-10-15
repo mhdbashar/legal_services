@@ -2384,4 +2384,15 @@ class Tasks_model extends App_Model
                 || $this->is_task_creator($staffid, $taskid)
                 || $this->staff_has_commented_on_task($staffid, $taskid));
     }
+
+    public function new_task_to_select_timesheet($data)
+    {
+        $this->db->insert(db_prefix(). 'tasks', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Task Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
+            return $insert_id;
+        }
+        return false;
+    }
 }

@@ -10,6 +10,7 @@ class Projects extends AdminController
         $this->load->model('projects_model');
         $this->load->model('currencies_model');
         $this->load->helper('date');
+        $this->load->model('tasks_model');
     }
 
     public function index()
@@ -1098,5 +1099,11 @@ class Projects extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 }

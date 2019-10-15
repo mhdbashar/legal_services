@@ -14,6 +14,7 @@ class Cases_controller extends AdminController
         $this->load->model('LegalServices/Case_movement_model', 'movement');
         $this->load->model('Branches_model');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+        $this->load->model('tasks_model');
         $this->load->helper('date');
     }
 
@@ -1165,6 +1166,12 @@ class Cases_controller extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 
 }

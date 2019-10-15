@@ -388,6 +388,39 @@ echo form_hidden('project_percent',$percent);
         }
     }
 
+    $("#add_task_timesheet").click(function () {
+        name = $('#task_name_timesheet').val();
+        startdate = $('#task_startdate_timesheet').val();
+        rel_id = <?php echo $project->id; ?>;
+        rel_type = '<?php echo $service->slug; ?>';
+        if(name == '' || startdate == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('LegalServices/Cases_controller/add_task_to_select_timesheet'); ?>',
+                data: {
+                        name : name,
+                        startdate: startdate,
+                        rel_id: rel_id,
+                        rel_type: rel_type
+                      },
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var $option = $('<option></option>')
+                            .attr('value', data)
+                            .text(name)
+                            .prop('selected', true);
+                        $('#timesheet_task_id').append($option).change();
+                        $('#add_task_to_select').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
 </script>
 
 </body>

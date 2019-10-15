@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = [ 'full_name'];
+$aColumns        = [ 'firstname'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }
@@ -21,7 +21,7 @@ $aColumns = array_merge($aColumns, [
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'contacts';
-$join         = ['JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid=' . db_prefix() . 'contacts.userid'];
+$join[] = 'INNER JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'contacts.userid AND '.db_prefix().'clients.client_type = 0';
 
 $custom_fields = get_table_custom_fields('contacts');
 
@@ -58,7 +58,7 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
-    $rowName = '<img src="' . contact_profile_image_url($aRow['id']) . '" class="client-profile-image-small mright5"><a href="#" onclick="contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . $aRow['full_name'] . '</a>';
+    $rowName = '<img src="' . contact_profile_image_url($aRow['id']) . '" class="client-profile-image-small mright5"><a href="#" onclick="contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . $aRow['firstname'] . '</a>';
 
     $rowName .= '<div class="row-options">';
 

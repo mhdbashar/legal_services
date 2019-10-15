@@ -24,7 +24,7 @@
         <?php } ?>
         <div class="clearfix"></div>
         <?php
-        $table_data = array(_l('client_firstname'),_l('client_lastname'));
+        $table_data = array(_l('full_name'));
         if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){
          array_push($table_data, array(
           'name'=>_l('gdpr_consent') .' ('._l('gdpr_short').')',
@@ -68,7 +68,7 @@
   if(_table_api) {
    <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
     _table_api.on('draw', function () {
-      var tableData = $('.table-all-contacts').find('tbody tr');
+      var tableData = $('.table-all-contacts_opponent').find('tbody tr');
       $.each(tableData, function() {
         $(this).find('td:eq(2)').addClass('bg-light-gray');
       });

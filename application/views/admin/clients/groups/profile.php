@@ -281,3 +281,4 @@
 <?php } ?>
 <?php } ?>
 <?php $this->load->view('admin/clients/client_group'); ?>
+<?php $this->load->view('admin/clients/client_company_group'); ?>

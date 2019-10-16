@@ -59,9 +59,16 @@ class Branches_model extends App_Model
             log_activity('Update Branch In '.$rel_type.' [' . $rel_id . ']');
             return true;
         }
+        if (!is_numeric($this->get_branch($rel_type, $rel_id))){
+            $data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'clients', 
+                'rel_id' => $rel_id
+            ];
+            $this->Branches_model->set_branch($data);
+        }
         return false;
     }
-
     public function get_branch($rel_type, $rel_id)
     {
         $data = [];
@@ -72,7 +79,7 @@ class Branches_model extends App_Model
         }
         return false;
     }
-    /**
+    /** vvvv vvvvccc639
      * Update custom field
      * @param mixed $data All $_POST data
      * @return  boolean

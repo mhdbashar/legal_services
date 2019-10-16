@@ -59,8 +59,7 @@ class Branches_model extends App_Model
             log_activity('Update Branch In '.$rel_type.' [' . $rel_id . ']');
             return true;
         }
-        if(!$this->get_branch($rel_type, $rel_id) )
-            $this->set_branch(['rel_type' => $rel_type, 'rel_id' => $rel_id, 'branch_id' => $branch_id]);
+        return false;
     }
 
     public function get_branch($rel_type, $rel_id)

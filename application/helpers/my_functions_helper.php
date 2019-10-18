@@ -241,9 +241,11 @@ function admin_assets()
 
 //    $CI->app_scripts->add('jquery-js', 'assets/js/jquery-3.3.1.js');
 //    $CI->app_scripts->add('bootstrap-js', 'assets/js/bootstrap.js');
-//    $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
-    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js');
-    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js');
+    $CI->app_scripts->add('momentjs-js', 'assets/js/momentjs.js');
+//    $CI->app_scripts->add('moment-with-locales-js', 'assets/js/moment-with-locales.js'); // ddd
+    $CI->app_scripts->add('moment-with-data-js', 'assets/js/moment-with-data.js');
+//    $CI->app_scripts->add('moment-timezone-js', 'assets/js/moment-timezone.min.js'); // ddd
+
 //    $CI->app_scripts->add('moment-hijri-js', 'https://raw.githubusercontent.com/xsoh/moment-hijri/master/moment-hijri.js');
 
     $CI->app_scripts->add('moment-hijri-js', 'assets/js/moment-hijri.js');

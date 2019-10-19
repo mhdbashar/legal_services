@@ -308,6 +308,7 @@
         $.ajax({
             url: '<?php echo admin_url("LegalServices/ServicesSessions/send_report_to_customer/"); ?>' + task_id,
             success: function (data) {
+                console.log(data);
                 if(data == 1){
                     alert_float('success', '<?php echo _l('updated_successfully'); ?>');
                     reload_tasks_tables();

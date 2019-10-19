@@ -61,6 +61,10 @@ class ServicesSessions_model extends App_Model
             return true;
         }
         return false;
+        // if($this->send_mail_to_client($id)){
+        //     return true;
+        // }
+        // return false;
     }
 
     public function send_mail_to_client($id)
@@ -73,14 +77,15 @@ class ServicesSessions_model extends App_Model
         if($service_id == 1){
             $client_id = get_client_id_by_case_id($rel_id);
             $this->db->where('userid', $client_id);
-            $email = $this->db->get(db_prefix() . 'contacts')->row()->email;
+            $contact = $this->db->get(db_prefix() . 'contacts')->row();
+            // var_dump($contact,"1");
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
             $this->db->where('userid', $client_id);
-            $email = $this->db->get(db_prefix() . 'contacts')->row()->email;
+            $contact = $this->db->get(db_prefix() . 'contacts')->row();
         }
-        if(isset($email)){
-            send_mail_template('send_report_session_to_customer',[], $email);
+        if(isset($contact)){
+            send_mail_template('send_report_session_to_customer', $contact, $service_data);
             return true;
         }
         return false;

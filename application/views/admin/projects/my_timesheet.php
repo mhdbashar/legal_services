@@ -2,7 +2,7 @@
 <!-- Timesheet Modal -->
 <div class="modal fade" id="timesheet" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <?php echo form_open(admin_url('LegalServices/Cases_controller/timesheet'),array('id'=>'timesheet_form')); ?>
+        <?php echo form_open(admin_url('projects/timesheet'),array('id'=>'timesheet_form')); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -181,5 +181,3 @@
         </div>
     </div>
 </div>
-
-

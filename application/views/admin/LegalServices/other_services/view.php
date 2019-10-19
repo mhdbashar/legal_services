@@ -401,38 +401,40 @@ echo form_hidden('project_percent',$percent);
         }
     });
 
-    //function update_session_json(id){
-    //
-    //    save_method = 'update';
-    //    $('#form_transout')[0].reset(); // reset form on modals
-    //    $('.form-group').removeClass('has-error'); // clear error class
-    //    $('.help-block').empty(); // clear error string
-    //
-    //    //Ajax Load data from ajax
-    //    $.ajax({
-    //        url : "<?php //echo site_url('session/old_service_sessions/session_json') ?>///" + id,
-    //        type: "POST",
-    //        dataType: "JSON",
-    //        success: function(data)
-    //        {
-    //            console.log(data);
-    //            $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
-    //            $('[name="subject"]').val(data.subject);
-    //            $('[name="date"]').val(data.date);
-    //            $('[name="id"]').val(data.id);
-    //            $('[name="court_id"]').val(data.court_id);
-    //            $('[name="judge_id"]').val(data.judge_id);
-    //
-    //            // $('[name="dob"]').datepicker('update',data.dob);
-    //            $('#edit_vac').modal('show'); // show bootstrap modal when complete loaded
-    //
-    //        },
-    //        error: function (jqXHR, textStatus, errorThrown)
-    //        {
-    //            alert('Error get data from ajax');
-    //        }
-    //    });
-    //}
+    $("#add_task_timesheet").click(function () {
+        name = $('#task_name_timesheet').val();
+        startdate = $('#task_startdate_timesheet').val();
+        rel_id = <?php echo $project->id; ?>;
+        rel_type = '<?php echo $service->slug; ?>';
+        if(name == '' || startdate == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('LegalServices/Other_services_controller/add_task_to_select_timesheet'); ?>',
+                data: {
+                    name : name,
+                    startdate: startdate,
+                    rel_id: rel_id,
+                    rel_type: rel_type
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var $option = $('<option></option>')
+                            .attr('value', data)
+                            .text(name)
+                            .prop('selected', true);
+                        $('#timesheet_task_id').append($option).change();
+                        $('#add_task_to_select').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+
 </script>
 </body>
 </html>

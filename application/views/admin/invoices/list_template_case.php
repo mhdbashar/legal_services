@@ -4,7 +4,7 @@
         <div class="panel-body _buttons">
             <?php $this->load->view('admin/invoices/invoices_top_stats_case'); ?>
             <?php if(has_permission('invoices','','create')){ ?>
-                <a href="<?php echo admin_url('invoices/invoice'); ?>" class="btn btn-info pull-left new new-invoice-list mright5"><?php echo _l('create_new_invoice'); ?></a>
+                <a href="<?php echo admin_url('invoices/invoice'); ?>" class="btn btn-info pull-left new mright5"><?php echo _l('create_new_invoice'); ?></a>
             <?php } ?>
             <?php if(!isset($project)){ ?>
                 <a href="<?php echo admin_url('invoices/recurring'); ?>" class="btn btn-info pull-left">

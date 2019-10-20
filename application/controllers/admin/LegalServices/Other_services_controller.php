@@ -10,6 +10,7 @@ class Other_services_controller extends AdminController
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
+        $this->load->model('tasks_model');
         $this->load->helper('date');
     }
 
@@ -417,7 +418,7 @@ class Other_services_controller extends AdminController
             $data['oservice_model']  = $this->other;
             $this->load->view('admin/LegalServices/other_services/view', $data);
         } else {
-            access_denied('project View');
+            access_denied('Other services View');
         }
     }
 
@@ -1143,5 +1144,11 @@ class Other_services_controller extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 }

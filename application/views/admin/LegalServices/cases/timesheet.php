@@ -90,7 +90,7 @@
                                     <div class="col-md-3">
                                         <label for="timesheet_task_id"><?php echo _l('project_timesheet_task'); ?></label>
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                          <div class="form-group">
                                                 <select name="timesheet_task_id" id="timesheet_task_id" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="-">
                                             <option value=""></option>
@@ -105,6 +105,7 @@
                                         </select>
                                          </div>
                                     </div>
+                                    <a href="#" data-toggle="modal" data-target="#add_task_to_select" class="btn btn-info btn_plus"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -114,13 +115,14 @@
                                     <div class="col-md-3">
                                         <label for="timesheet_staff_id"><?php echo _l('project_timesheet_user'); ?></label>
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                       <div class="form-group">
                                             <select name="timesheet_staff_id" id="timesheet_staff_id" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="-">
                                             <option value=""></option>
                                         </select>
                                       </div>
                                     </div>
+                                    <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info btn_plus"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -151,3 +153,33 @@
 </div>
 <!-- /.modal -->
 <!-- Timesheet Modal End -->
+
+<div class="modal fade" id="add_task_to_select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l('new_task'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php echo render_input('task_name_timesheet','task_add_edit_subject'); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php $value = _d(date('Y-m-d')); ?>
+                        <?php echo render_date_input('task_startdate_timesheet','task_add_edit_start_date',$value); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="button" id="add_task_timesheet" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

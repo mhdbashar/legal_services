@@ -14,6 +14,7 @@ class Cases_controller extends AdminController
         $this->load->model('LegalServices/Case_movement_model', 'movement');
         $this->load->model('Branches_model');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+        $this->load->model('tasks_model');
         $this->load->helper('date');
     }
 
@@ -71,7 +72,6 @@ class Cases_controller extends AdminController
 
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
-            //echo "<pre>";print_r($data['judges']);exit;
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -437,7 +437,7 @@ class Cases_controller extends AdminController
             $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
-            access_denied('Project View');
+            access_denied('Case View');
         }
     }
 
@@ -1166,6 +1166,12 @@ class Cases_controller extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 
 }

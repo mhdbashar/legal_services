@@ -1,5 +1,4 @@
 <?php
-$lang['سشي'] = "شسي";
 $lang['client_full_name'] = "الأسم الكامل";
 $lang['start_date'] = "تاريخ البداية";
 $lang['end_date'] = "تاريخ النهاية";
@@ -171,7 +170,8 @@ $lang['session_type'] = "نوع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
 $lang['session_number'] = "رقم الجلسة";
 $lang['upcoming_actions'] = "الإجرائات القادمة";
-$lang['session'] = "الجلسة";
+$lang['session'] =  'الجلسة';
+$lang['sessions'] =  'الجلسات';
 $lang['session_no_checklist_items_found'] = "عناصر الإجرائات القادمة غير موجودة لهذه الجلسة";
 $lang['no_reminders_for_this_session'] = "لا توجد تذكيرات لهذه الجلسة";
 $lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى";

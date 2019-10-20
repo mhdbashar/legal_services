@@ -3304,6 +3304,7 @@ $lang['judicial_office_number'] = "Judicial office number";
 $lang['session_number'] = "Session number";
 $lang['upcoming_actions'] = "Upcoming actions";
 $lang['session'] =  'Session';
+$lang['sessions'] =  'Sessions';
 $lang['session_no_checklist_items_found'] = "Elements of upcoming actions are missing for this session";
 $lang['no_reminders_for_this_session'] = "There are no reminders for this session";
 $lang['session_single_assignees_select_title'] = "Refer session to";

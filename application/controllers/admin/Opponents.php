@@ -364,10 +364,10 @@ class Opponents extends AdminController
         }
         $data['customer_id'] = $customer_id;
         $data['contactid']   = $contact_id;
+
         if ($this->input->post()) {
             $data             = $this->input->post();
             $data['password'] = $this->input->post('password', false);
-
             unset($data['contactid']);
             if ($contact_id == '') {
                 if (!has_permission('customers', '', 'create')) {

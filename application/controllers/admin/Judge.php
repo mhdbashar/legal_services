@@ -24,6 +24,7 @@ class Judge extends AdminController
         $data = $this->input->post();
         echo  $this->Judges_model->add($data);
     }
+
     public function judgecu($id = '')
     {
         if (!is_admin()) {

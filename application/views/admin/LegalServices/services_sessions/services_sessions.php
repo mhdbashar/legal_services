@@ -308,6 +308,7 @@
         $.ajax({
             url: '<?php echo admin_url("LegalServices/ServicesSessions/send_report_to_customer/"); ?>' + task_id,
             success: function (data) {
+                console.log(data);
                 if(data == 1){
                     alert_float('success', '<?php echo _l('updated_successfully'); ?>');
                     reload_tasks_tables();
@@ -360,7 +361,7 @@
                  var excludeCompletedTasks = get_url_param('exclude_completed');
                  if (group) { params['group'] = group; }
                  if (excludeCompletedTasks) { params['exclude_completed'] = excludeCompletedTasks; }
-                 params['taskid'] = response.id;
+                 params['sessionid'] = response.id;
                  window.location.href = buildUrl(location[0], params);
              }
          }).fail(function(error) {

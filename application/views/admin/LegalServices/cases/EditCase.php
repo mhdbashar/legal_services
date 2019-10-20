@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
 
                             <div class="col-md-5">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                         <div class="row">
@@ -134,9 +134,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -152,9 +152,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -169,9 +169,8 @@
                                 echo render_select('judges[]',$judges,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -317,9 +316,7 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                         </div>
                         <div class="row">
                             <div class="col-md-6">

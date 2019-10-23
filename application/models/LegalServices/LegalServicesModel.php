@@ -50,7 +50,8 @@ class LegalServicesModel extends App_Model
     public function InsertServices($data)
     {
         $data['datecreated'] = date('Y-m-d H:i:s');
-        $data['slug'] = slug_it($data['name']);
+        $data['slug'] = slug_it($data['name'], ['separator' => '_']);
+
         $this->db->insert('my_basic_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -61,7 +62,6 @@ class LegalServicesModel extends App_Model
 
     public function update_service_data($ServID,$data)
     {
-        $data['slug'] = slug_it($data['name']);
         $this->db->where('id', $ServID);
         $this->db->update('my_basic_services', $data);
         if ($this->db->affected_rows() > 0) {

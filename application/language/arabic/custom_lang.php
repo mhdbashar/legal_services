@@ -137,6 +137,7 @@ $lang['Hijri_managment'] = "إدارة التقويم الهجري";
 $lang['hijri'] = "التقويم الهجري";
 
 
+
 $lang['hijri_pages'] = "الصفحات الهجرية";
 $lang['add_row'] = "إضافة سطر";
 $lang['delete_row'] = "حذف سطر";
@@ -243,3 +244,33 @@ $lang['new_incoming'] = 'اضافة معاملة واردة';
 $lang['new_outgoing'] = 'اضافة معاملة صادرة';
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
 $lang['branch_name'] = "اسم الفرع";
+
+
+//Phase
+$lang['legal_services_phases'] =  'مراحل الخدمات القانونية';
+$lang['phases'] =  'المراحل';
+$lang['phase'] =  'مرحلة قانونية';
+$lang['new_phase'] =  'مرحلة جديدة';
+$lang['active_phase'] =  'تفعيل المرحلة';
+$lang['phase_not_compleate'] =  'المرحلة غير مكتلمة';
+$lang['phase_compleate'] =  'المرحلة مكتملة';
+$lang['phase_neworder'] =  'تقديم الطلب';
+$lang['phase_assign'] =  'الإحالة';
+$lang['phase_decision34'] =  'القرار 34';
+$lang['phase_announcement'] =  'تم الإعلان';
+$lang['phase_decision46'] =  'القرار 46';
+$lang['phase_decision83'] =  'القرار 83';
+$lang['phase_order_number'] =  'رقم الطلب';
+$lang['phase_registration_number'] =  'رقم القيد';
+$lang['hijri_date'] = "التاريخ الهجري";
+$lang['gregorian_date'] = "التاريخ الميلادي";
+$lang['assign_department'] = "الدائرة";
+$lang['delay'] = "امهال";
+$lang['month'] = "شهر";
+$lang['phase_note'] = "ملاحظات";
+$lang['decision_number'] = "رقم القرار";
+$lang['announcement_type'] = "طريقة التبليغ";
+$lang['back_to_previous_phase'] = "العودة للمرحلة السابقة";
+$lang['waiver'] = "تنازل";
+$lang['file_phase'] = "في حال وجود مرفقات يرجى رفعها في تاب الملفات";
+$lang['create_fields'] = "قم بإنشاء حقول من ادارة الحقول المخصصة لهذه المرحلة";

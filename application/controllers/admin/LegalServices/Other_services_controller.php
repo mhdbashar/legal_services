@@ -11,6 +11,7 @@ class Other_services_controller extends AdminController
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
+        $this->load->model('LegalServices/Phase_model','phase');
         $this->load->helper('date');
     }
 
@@ -374,6 +375,8 @@ class Other_services_controller extends AdminController
                 $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
                 $data['judges']      = $this->service_sessions->get_judges();
                 $data['courts']      = $this->service_sessions->get_court();
+            } elseif ($group == 'Phase'){
+                $data['phases'] = $this->phase->get_all();
             }
 
             // Discussions

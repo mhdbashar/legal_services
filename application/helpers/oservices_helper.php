@@ -180,6 +180,13 @@ function app_init_oservice_tabs()
             ]);
         endif;
     endif;
+
+    $CI->app_tabs->add_oservice_tab('Phase', [
+        'name'                      => _l('phases'),
+        'icon'                      => 'fa fa-list-ol',
+        'view'                      => 'admin/LegalServices/phases/tab',
+        'position'                  => 65,
+    ]);
 }
 
 /**

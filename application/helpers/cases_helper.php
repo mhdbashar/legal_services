@@ -207,6 +207,13 @@ function app_init_case_tabs()
         'view'                      => 'admin/LegalServices/services_sessions/services_sessions',
         'position'                  => 65,
     ]);
+
+    $CI->app_tabs->add_case_tab('Phase', [
+        'name'                      => _l('phases'),
+        'icon'                      => 'fa fa-list-ol',
+        'view'                      => 'admin/LegalServices/phases/tab',
+        'position'                  => 70,
+    ]);
 }
 
 /**

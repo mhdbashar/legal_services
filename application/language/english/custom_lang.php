@@ -3375,3 +3375,33 @@ $lang['opponent_inactive_message']               = 'This is inactive opponent pr
 $lang['opponent_profile_details']           = 'Opponent Details';
 $lang['opponent_admins'] = "Opponent Admins";
 $lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";
+
+
+//Phase
+$lang['legal_services_phases'] =  'Phases of legal services';
+$lang['phases'] =  'Phases';
+$lang['phase'] =  'Legal Phase';
+$lang['new_phase'] =  'New Phase';
+$lang['active_phase'] =  'Active Phase';
+$lang['phase_not_compleate'] =  'Phase not completed';
+$lang['phase_compleate'] =  'Phase completed';
+$lang['phase_neworder'] =  'New Order';
+$lang['phase_assign'] =  'Assign';
+$lang['phase_decision34'] =  'Decision 34';
+$lang['phase_announcement'] =  'Announcement';
+$lang['phase_decision46'] =  'Decision 46';
+$lang['phase_decision83'] =  'Decision 83';
+$lang['phase_order_number'] =  'Order number';
+$lang['phase_registration_number'] =  'Registration number';
+$lang['hijri_date'] = "Hijri date";
+$lang['gregorian_date'] = "Gregorian date";
+$lang['assign_department'] = "Department";
+$lang['delay'] = "Selay";
+$lang['month'] = "Month";
+$lang['phase_note'] = "Note";
+$lang['decision_number'] = "Decision number";
+$lang['announcement_type'] = "Announcement type";
+$lang['back_to_previous_phase'] = "Back to previous phase";
+$lang['waiver'] = "Waiver";
+$lang['file_phase'] = "If there are attachments please upload them in tab files";
+$lang['create_fields'] = "Create fields from Manage Custom Fields for this phase";

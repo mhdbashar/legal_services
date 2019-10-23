@@ -421,6 +421,10 @@ echo form_hidden('project_percent',$percent);
             });
         }
     });
+
+    $(function(){
+        appValidateForm($('#form_phases'), {});
+    });
 </script>
 
 </body>

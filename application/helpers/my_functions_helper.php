@@ -144,9 +144,18 @@ function my_custom_setup_menu_items()
 
     $CI->app_menu->add_setup_children_item('2', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("legal_services_phases"), // The name if the item
+        'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
+        'position' => 6, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('2', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("LService_recycle_bin"), // The name if the item
         'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
-        'position' => 5, // The menu position
+        'position' => 7, // The menu position
         // 'icon'     => 'fa fa-adjust', // Font awesome icon
 
     ]);
@@ -294,7 +303,7 @@ function admin_assets()
     $CI->app_scripts->add('bootstrap-hijri-datetimepicker-js', 'assets/js/bootstrap-hijri-datetimepicker.js');
 
     $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
-    
+
 
 }
 
@@ -416,7 +425,7 @@ function to_hijri_date($date)
         // First condition for date and datetime
         // Second condition for 12 or 24 (Time Format)
         if (isset($datetime[1])){
-        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1]; 
+        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
         }
     }
     if(isset($time)){

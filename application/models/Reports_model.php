@@ -279,7 +279,7 @@ class Reports_model extends App_Model
                     'addedfrom' => $member['staffid'],
                 ]);
 
-                $this->db->where('CASE WHEN assigned=0 THEN addedfrom=' . $member['staffid'] . ' ELSE assigned=' . get_staff_user_id() . ' END
+                $this->db->where('CASE WHEN assigned=0 THEN addedfrom=' . $member['staffid'] . ' ELSE assigned=' . $member['staffid'] . ' END
                     AND lost=1', '', false);
                 $total_rows_lost = $this->db->count_all_results(db_prefix() . 'leads');
             } else {

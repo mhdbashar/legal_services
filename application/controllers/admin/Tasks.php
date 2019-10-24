@@ -472,7 +472,7 @@ class Tasks extends AdminController
                 if ($id) {
                     $success       = true;
                     $_id           = $id;
-                    $message       = _l('added_successfully', _l('task'));
+                    $message       = _l('added_successfully', _l('session'));
                     $uploadedFiles = handle_task_attachments_array($id);
                     if ($uploadedFiles && is_array($uploadedFiles)) {
                         foreach ($uploadedFiles as $file) {
@@ -557,6 +557,28 @@ class Tasks extends AdminController
         }
     }
 
+    public function copy_session()
+    {
+        if (has_permission('tasks', '', 'create')) {
+            $data = $this->input->post();
+            $data['is_session'] = 1;
+            $new_task_id = $this->tasks_model->copy($data);
+            $response    = [
+                'new_task_id' => '',
+                'alert_type'  => 'warning',
+                'message'     => _l('failed_to_copy_task'),
+                'success'     => false,
+            ];
+            if ($new_task_id) {
+                $response['message']     = _l('task_copied_successfully');
+                $response['new_task_id'] = $new_task_id;
+                $response['success']     = true;
+                $response['alert_type']  = 'success';
+            }
+            echo json_encode($response);
+        }
+    }
+
     public function get_billable_task_data($task_id)
     {
         $task              = $this->tasks_model->get_billable_task_data($task_id);
@@ -617,7 +639,7 @@ class Tasks extends AdminController
 
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
-            echo 'Task not found';
+            echo 'Session not found';
             die();
         }
 

@@ -20,6 +20,7 @@ class Clients extends AdminController
         $this->load->model('contracts_model');
         $data['contract_types'] = $this->contracts_model->get_contract_types();
         $data['groups']         = $this->clients_model->get_groups();
+        $data['company_groups']    = $this->clients_model->get_company_groups();
         $data['title']          = _l('clients');
 
         
@@ -74,7 +75,6 @@ class Clients extends AdminController
         $data['title'] = _l('customer_contacts');
         $this->load->view('admin/clients/all_contacts', $data);
     }
-
     
     public function add()
     {
@@ -97,7 +97,7 @@ class Clients extends AdminController
             $data = $this->input->post();
 
             if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
+                $branch_id = $this->input->post('branch_id');
 
                 unset($data['branch_id']);
             }
@@ -131,7 +131,7 @@ class Clients extends AdminController
                     
                     set_alert('success', _l('added_successfully', _l('client')));
                     if ($save_and_add_contact == false) {
-                        redirect(admin_url($_SERVER['HTTP_REFERER'] . '/' . $id));
+                        redirect($_SERVER['HTTP_REFERER'] . '/' . $id);
                     } else {
                         redirect($_SERVER['HTTP_REFERER'] . '?group=contacts&new_contact=true');
                     }
@@ -142,9 +142,11 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
-                if($this->app_modules->is_active('branches'))
-                    $this->Branches_model->update_branch('clients', $id, $branch_id);
-
+                if($this->app_modules->is_active('branches')){
+                    if(isset($branch_id)):
+                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                    endif;
+                }
                 $success = $this->clients_model->update($data, $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));
@@ -162,6 +164,7 @@ class Clients extends AdminController
 
         // Customer groups
         $data['groups'] = $this->clients_model->get_groups();
+        $data['company_groups']    = $this->clients_model->get_company_groups();
 
         if ($id == '') {
             $title = _l('add_new', _l('client_lowercase'));
@@ -183,6 +186,7 @@ class Clients extends AdminController
             // Fetch data based on groups
             if ($group == 'profile') {
                 $data['customer_groups'] = $this->clients_model->get_customer_groups($id);
+                $data['customer_company_groups'] = $this->clients_model->get_company_customer_groups($id);
                 $data['customer_admins'] = $this->clients_model->get_admins($id);
             } elseif ($group == 'attachments') {
                 $data['attachments'] = get_all_customer_attachments($id);
@@ -451,7 +455,7 @@ class Clients extends AdminController
                 ]);
                 die;
             }
-            $title = $data['contact']->firstname . ' ' . $data['contact']->lastname;
+            $title = $data['contact']->full_name;
         }
 
         $data['customer_permissions'] = get_contact_permissions();
@@ -838,12 +842,16 @@ class Clients extends AdminController
         }
 
         $data['groups']    = $this->clients_model->get_groups();
+        $data['company_groups']    = $this->clients_model->get_company_groups();
         $data['title']     = _l('import');
         $data['bodyclass'] = 'dynamic-create-groups';
         $this->load->view('admin/clients/import', $data);
     }
+    public function groups(){
+        $this->personal_groups();
+    }
 
-    public function groups()
+    public function personal_groups()
     {
         if (!is_admin()) {
             access_denied('Customer Groups');
@@ -853,6 +861,18 @@ class Clients extends AdminController
         }
         $data['title'] = _l('customer_groups');
         $this->load->view('admin/clients/groups_manage', $data);
+    }
+
+    public function company_groups()
+    {
+        if (!is_admin()) {
+            access_denied('Customer Groups');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('my_customers_company_groups');
+        }
+        $data['title'] = _l('customer_company_groups');
+        $this->load->view('admin/clients/company_groups_manage', $data);
     }
 
     public function group()
@@ -885,6 +905,36 @@ class Clients extends AdminController
             }
         }
     }
+    public function group_company()
+    {
+        if (!is_admin() && get_option('staff_members_create_inline_customer_groups') == '0') {
+            access_denied('Customer Groups');
+        }
+
+        if ($this->input->is_ajax_request()) {
+            $data = $this->input->post();
+            if ($data['id'] == '') {
+                $id      = $this->clients_model->add_company_group($data);
+                $message = $id ? _l('added_successfully', _l('customer_group')) : '';
+                echo json_encode([
+                    'success' => $id ? true : false,
+                    'message' => $message,
+                    'id'      => $id,
+                    'name'    => $data['name'],
+                ]);
+            } else {
+                $success = $this->clients_model->edit_company_group($data);
+                $message = '';
+                if ($success == true) {
+                    $message = _l('updated_successfully', _l('customer_group'));
+                }
+                echo json_encode([
+                    'success' => $success,
+                    'message' => $message,
+                ]);
+            }
+        }
+    }
 
     public function delete_group($id)
     {
@@ -892,7 +942,7 @@ class Clients extends AdminController
             access_denied('Delete Customer Group');
         }
         if (!$id) {
-            redirect(admin_url('clients/groups'));
+            redirect($_SERVER['HTTP_REFERER']);
         }
         $response = $this->clients_model->delete_group($id);
         if ($response == true) {
@@ -901,6 +951,23 @@ class Clients extends AdminController
             set_alert('warning', _l('problem_deleting', _l('customer_group_lowercase')));
         }
         redirect(admin_url('clients/groups'));
+    }
+
+    public function delete_company_group($id)
+    {
+        if (!is_admin()) {
+            access_denied('Delete Customer Group');
+        }
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->clients_model->delete_company_group($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted', _l('customer_group')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('customer_group_lowercase')));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function bulk_action()

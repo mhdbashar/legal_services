@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function get_all_countries()
 {
-    return hooks()->apply_filters('all_countries', get_instance()->db->get(db_prefix().'countries')->result_array());
+    return hooks()->apply_filters('all_countries', get_instance()->db->order_by('short_name', 'asc')->get(db_prefix().'countries')->result_array());
 }
 /**
  * Get country row from database based on passed country id

@@ -32,10 +32,9 @@
                         <?php echo render_input('name', 'CaseTitle'); ?>
                         <input type="hidden" name="numbering" value="<?php echo $CodeValue; ?>">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group select-placeholder">
-                                    <label for="clientid"
-                                           class="control-label"><?php echo _l('project_customer'); ?></label>
+                                    <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
                                     <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -48,8 +47,29 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group select-placeholder">
+                                    <label for="opponent_id"
+                                           class="control-label"><?php echo _l('opponent'); ?></label>
+                                    <select id="opponent_id" name="opponent_id" data-live-search="true" data-width="100%"
+                                            class="ajax-search"
+                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <?php
+                                        $rel_data = get_relation_data('opponents', '');
+                                        $rel_val = get_relation_values($rel_data, 'opponents');
+                                        echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
@@ -64,11 +84,6 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if($this->app_modules->is_active('branches')){?>
-                            <br/>
-                           <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],_l('branch_name'),$value); ?>
-                       <?php } ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -107,9 +122,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -121,9 +136,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -133,9 +148,9 @@
                                 echo render_select('judges[]',$data,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -266,9 +281,7 @@
                                     echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -445,6 +458,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="add-opponent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l('client_company'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input( 'opponent_company_modal', 'client_company','','text'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="button" id="AddOpponent" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="add-court" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -529,6 +565,9 @@
 </div>
 <?php init_tail(); ?>
 <script>
+
+    init_ajax_search('opponents', '#opponent_id.ajax-search');
+
     $("#AddClient").click(function () {
         company = $('#company_modal').val();
         if(company == ''){
@@ -542,6 +581,30 @@
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
                         $('#add-client').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+
+    $("#AddOpponent").click(function () {
+        company = $('#opponent_company_modal').val();
+        if(company == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('opponents/add'); ?>',
+                data: {
+                    company : company,
+                    client_type : 1
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#add-opponent').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
                     }
@@ -684,6 +747,7 @@
                 code: 'required',
                 name: 'required',
                 clientid: 'required',
+                opponent_id: 'required',
                 representative: 'required',
                 cat_id: 'required',
                 subcat_id: 'required',

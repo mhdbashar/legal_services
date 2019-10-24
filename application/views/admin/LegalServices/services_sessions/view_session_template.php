@@ -519,7 +519,7 @@
                     <ul>
                         <?php if(has_permission('tasks','','edit')) { ?>
                             <li>
-                                <a href="#" onclick="edit_task(<?php echo $task->id; ?>); return false;">
+                                <a href="#" onclick="edit_session(<?php echo $task->id; ?>); return false;">
                                     <?php echo _l('task_single_edit'); ?>
                                 </a>
                             </li>
@@ -547,7 +547,7 @@
                             }
 
                             $copy_template .= "<div class='text-center'>";
-                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_task_action'>"._l('copy_task_confirm')."</button>";
+                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_session_action' onclick='copy_session_action()'>"._l('copy_task_confirm')."</button>";
                             $copy_template .= "</div>";
                             ?>
                             <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a></li>
@@ -592,7 +592,7 @@
                     <?php if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('tasks','','edit')) { ?>
                         <span class="task-single-menu task-menu-status">
                   <span class="trigger pointer manual-popover text-has-action">
-                  <?php echo format_task_status($task->status,true); //echo "<pre>";print_r($task->status);exit;  ?>
+                  <?php echo format_task_status($task->status,true);  ?>
                   </span>
                   <span class="content-menu hide">
                      <ul>
@@ -624,7 +624,7 @@
             <?php } ?>
             <div class="task-info task-single-inline-wrap task-info-start-date">
                 <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
-                    <?php echo _l('task_single_start_date'); ?>:
+                    <?php echo _l('session_date'); ?>:
                     <?php if(has_permission('tasks','','edit') && $task->status !=5) { ?>
                         <input name="startdate" tabindex="-1" value="<?php echo _d($task->startdate); ?>" id="task-single-startdate" class="task-info-inline-input-edit datepicker pointer task-single-inline-field">
                     <?php } else { ?>
@@ -632,24 +632,7 @@
                     <?php } ?>
                 </h5>
             </div>
-            <div class="task-info task-info-due-date task-single-inline-wrap<?php if(!$task->duedate && !has_permission('edit','','tasks')){echo ' hide';} ?>"<?php if(!$task->duedate){ echo ' style="opacity:0.5;"';} ?>>
-                <h5>
-                    <i class="fa fa-calendar-check-o task-info-icon fa-fw fa-lg pull-left"></i>
-                    <?php echo _l('task_single_due_date'); ?>:
-                    <?php if(has_permission('tasks','','edit') && $task->status !=5) { ?>
-                        <input
-                            name="duedate"
-                            tabindex="-1"
-                            value="<?php echo _d($task->duedate); ?>"
-                            id="task-single-duedate"
-                            class="task-info-inline-input-edit datepicker pointer task-single-inline-field"
-                            autocomplete="off"
-                            <?php if($project_deadline){echo ' data-date-end-date="'.$project_deadline.'"';} ?>>
-                    <?php } else { ?>
-                        <?php echo _d($task->duedate); ?>
-                    <?php } ?>
-                </h5>
-            </div>
+
             <div class="task-info task-info-priority">
                 <h5>
                     <i class="fa task-info-icon fa-fw fa-lg pull-left fa-bolt"></i>
@@ -708,7 +691,7 @@
                         <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
                             <?php echo _l('billable_amount'); ?>:
                             <span class="bold">
-               <?php echo $this->tasks_model->get_billable_amount($task->id); ?>
+               <?php $this->tasks_model->get_billable_amount($task->id); ?>
                </span>
                         </h5>
                     </div>
@@ -831,7 +814,7 @@
             <h4 class="task-info-heading font-normal font-medium-xs"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo _l('task_single_assignees'); ?></h4>
             <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
                 <div class="simple-bootstrap-select">
-                    <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-assignees" data-live-search="true" title='<?php echo _l('session_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                    <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-assignees_session" onchange="assign_staff_to_session()" data-live-search="true" title='<?php echo _l('session_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                         <?php
                         $options = '';
                         foreach ($staff as $assignee) {
@@ -877,7 +860,7 @@
             </h4>
             <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
                 <div class="simple-bootstrap-select">
-                    <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-followers" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                    <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-followers_session" onchange="add_follower_to_session()" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                         <?php
                         $options = '';
                         foreach ($staff as $follower) {
@@ -1187,12 +1170,13 @@
     }
 
     // Assign task to staff member
-    $("body").on('change', 'select[name="select-assignees"]', function() {
+
+    function assign_staff_to_session(){
         $("body").append('<div class="dt-loader"></div>');
         var data = {};
-        data.assignee = $('select[name="select-assignees"]').val();
+        data.assignee = $('select[name="select-assignees_session"]').val();
         if (data.assignee !== '') {
-            data.taskid = $(this).attr('data-task-id');
+            data.taskid = $('select[name="select-assignees_session"]').attr('data-task-id');
             $.post(admin_url + 'tasks/add_session_assignees', data).done(function(response) {
                 $("body").find('.dt-loader').remove();
                 response = JSON.parse(response);
@@ -1200,7 +1184,22 @@
                 _task_append_html(response.taskHtml);
             });
         }
-    });
+    }
+
+    // $("body").on('change', 'select[name="select-assignees_session"]', function() {
+    //     $("body").append('<div class="dt-loader"></div>');
+    //     var data = {};
+    //     data.assignee = $('select[name="select-assignees_session"]').val();
+    //     if (data.assignee !== '') {
+    //         data.taskid = $(this).attr('data-task-id');
+    //         $.post(admin_url + 'tasks/add_session_assignees', data).done(function(response) {
+    //             $("body").find('.dt-loader').remove();
+    //             response = JSON.parse(response);
+    //             reload_tasks_tables();
+    //             _task_append_html(response.taskHtml);
+    //         });
+    //     }
+    // });
 
     function remove_assignee(id, task_id) {
         if (confirm_delete()) {
@@ -1214,11 +1213,26 @@
     }
 
     // Add follower to task
-    $("body").on('change', 'select[name="select-followers"]', function() {
+    // $("body").on('change', 'select[name="select-followers_session"]', function() {
+    //     console.log("asd");
+    //     var data = {};
+    //     data.follower = $('select[name="select-followers_session"]').val();
+    //     if (data.follower !== '') {
+    //         data.taskid = $(this).attr('data-task-id');
+    //         $("body").append('<div class="dt-loader"></div>');
+    //         $.post(admin_url + 'tasks/add_session_followers', data).done(function(response) {
+    //             response = JSON.parse(response);
+    //             $("body").find('.dt-loader').remove();
+    //             _task_append_html(response.taskHtml);
+    //         });
+    //     }
+    // });
+
+    function add_follower_to_session() {
         var data = {};
-        data.follower = $('select[name="select-followers"]').val();
+        data.follower = $('select[name="select-followers_session"]').val();
         if (data.follower !== '') {
-            data.taskid = $(this).attr('data-task-id');
+            data.taskid = $('select[name="select-followers_session"]').attr('data-task-id');
             $("body").append('<div class="dt-loader"></div>');
             $.post(admin_url + 'tasks/add_session_followers', data).done(function(response) {
                 response = JSON.parse(response);
@@ -1226,7 +1240,7 @@
                 _task_append_html(response.taskHtml);
             });
         }
-    });
+    }
 
     // Remove task follower
     function remove_follower(id, task_id) {
@@ -1299,5 +1313,34 @@
             reload_tasks_tables();
         });
     }
+
+    // Copy task href/button event.
+    function copy_session_action(){
+        var data = {};
+        $(this).prop('disabled', true);
+        data.copy_from = $('.copy_session_action').data('task-copy-from');
+        data.copy_task_assignees = $("body").find('#copy_task_assignees').prop('checked');
+        data.copy_task_followers = $("body").find('#copy_task_followers').prop('checked');
+        data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
+        data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
+        data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
+        $.post(admin_url + 'tasks/copy_session', data).done(function(response) {
+            response = JSON.parse(response);
+            if (response.success === true || response.success == 'true') {
+                var $taskModal = $('#_task_modal');
+                if ($taskModal.is(':visible')) {
+                    $taskModal.modal('hide');
+                }
+                init_task_modal(response.new_task_id);
+                reload_tasks_tables();
+
+            }
+            alert_float(response.alert_type, response.message);
+        });
+        return false;
+    }
+    // $("body").on('click', '.copy_session_action', function() {
+    //
+    // });
 
 </script>

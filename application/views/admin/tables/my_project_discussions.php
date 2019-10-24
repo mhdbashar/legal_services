@@ -9,7 +9,11 @@ $aColumns = [
     ];
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'my_sessiondiscussions';
-$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], ['AND session_id=' . $session_id], [
+$where        = [];
+if (isset($session_id)):
+    array_push($where, 'AND session_id = '.$session_id);
+endif;
+$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, [
     'id',
     'description',
     ]);

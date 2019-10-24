@@ -14,6 +14,7 @@ class Cases_controller extends AdminController
         $this->load->model('LegalServices/Case_movement_model', 'movement');
         $this->load->model('Branches_model');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+        $this->load->model('tasks_model');
         $this->load->helper('date');
     }
 
@@ -31,36 +32,14 @@ class Cases_controller extends AdminController
             $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
 
-            if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
-                unset($data['branch_id']);
-            }
 
             $added = $this->case->add($ServID,$data);
             if ($added) {
-
-                if($this->app_modules->is_active('branches')){
-                    $branch_data = [
-                        'branch_id' => $branch_id, 
-                        'rel_type' => 'cases', 
-                        'rel_id' => $added
-                    ];
-                    $this->Branches_model->set_branch($branch_data);
-                }
-
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url("Service/$ServID"));
             }
         }
 
-        if($this->app_modules->is_active('branches')){
-            
-        }
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-        }
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['Numbering'] = $this->case->GetTopNumbering();
         $data['auto_select_billing_type'] = $this->case->get_most_used_billing_type();
@@ -91,15 +70,8 @@ class Cases_controller extends AdminController
         }
         if ($this->input->post()) {
 
-            if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
-                $this->Branches_model->update_branch('cases', $id, $branch_id);
-                unset($data['branch_id']);
-            }
-
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
-            //echo "<pre>";print_r($data['judges']);exit;
             $success = $this->case->update($ServID,$id,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully'));
@@ -127,12 +99,6 @@ class Cases_controller extends AdminController
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
         $data['ServID']   = $ServID;
         $data['title']    = _l('edit').' '._l('LegalService');
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-            $data['branch'] = $this->Branches_model->get_branch('cases', $id);
-        }
         $this->load->view('admin/LegalServices/cases/EditCase',$data);
     }
 
@@ -385,7 +351,7 @@ class Cases_controller extends AdminController
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
 
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
-                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
+                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0, 'is_session' => 0]) > 0);
             } elseif ($group == 'project_files') {
                 $data['files'] = $this->case->get_files($id);
             } elseif ($group == 'project_expenses') {
@@ -468,9 +434,10 @@ class Cases_controller extends AdminController
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['case_model']     = $this->case;
             $data['ServID']         = $ServID;
+            $data['id'] = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
-            access_denied('Project View');
+            access_denied('Case View');
         }
     }
 
@@ -1199,6 +1166,12 @@ class Cases_controller extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 
 }

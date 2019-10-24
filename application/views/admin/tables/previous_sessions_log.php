@@ -51,14 +51,15 @@ if (!$this->ci->input->post('tasks_related_to')) {
     $rel_to_query .= ')';
     array_push($where, $rel_to_query);
 }
-array_push($where, 'AND ' . db_prefix() . 'tasks.startdate < CURDATE()');
+array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [
-    ' JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
-    ' JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
-    ' JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
+    'LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
+    'LEFT JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
+    'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
+
 
 $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
@@ -128,7 +129,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputName;
     $row[] = $aRow['judge'];
     $row[] = $aRow['court_name'];
-    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,30).'...' : '';
+    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border: 1px solid #989898">لايوجد</span>';
     else:
@@ -141,18 +142,65 @@ foreach ($rResult as $aRow) {
         $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border: 1px solid #84c529">مرسل</span>';
     endif;
     $row[] = $send;
-    $row[] = $aRow['startdate'];
+    $row[] = _d($aRow['startdate']);
     $row[] = $aRow['time'];
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):
-        $stc = '<a href="#" id="btn_stc" task_id="'.$aRow['id'].'" data-toggle="modal" data-target="#customer_report" class="btn btn-info pull-left display-block">';
+        $stc = '<a href="#" data-toggle="modal" data-target="#customer_report'.$aRow['id'].'" class="btn btn-info pull-left display-block">';
         $stc .=  _l('add_new') . '<i class="fa fa-plus"></i>  ';
         $stc .= '</a>';
+        $stc .= '<div class="modal fade" id="customer_report'.$aRow['id'].'" tabindex="-1" role="dialog" aria-labelledby="customer_report" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    <span class="add-title">'._l('Customer_report').'</span>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" app-field-wrapper="date">
+                                            <label for="next_session_date'.$aRow['id'].'" class="control-label">'._l('next_session_date').'</label>
+                                            <div class="input-group date">
+                                                <input type="text" id="next_session_date'.$aRow['id'].'" name="next_session_date" class="form-control datepicker"  autocomplete="off" aria-invalid="false">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar calendar-icon"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">                                       
+                                        <label for="next_session_time'.$aRow['id'].'" class="control-label">'. _l('next_session_time').'</label>                                           
+                                        <input type="time" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" style="display: block;width: 100%;">                                                                               
+                                    </div>                      
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="bold">'._l('Court_decision').'</p>
+                                        <textarea type="text" class="form-control" id="edit_court_decision'.$aRow['id'].'" name="edit_court_decision" rows="4" placeholder="'. _l('Court_decision').'"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close').'</button>
+                                <button type="button" onclick="edit_customer_report(' . $aRow['id'] . ')" class="btn btn-info">'. _l('submit').'</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                 init_datepicker();
+                </script>';
     elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0):
-        $stc = '<a href="#" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
+        $stc = '<a href="#/" onclick="send_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
         $stc .= '<i class="fa fa-envelope-o"></i>  </br> '._l('send');
         $stc .= '</a>';
-    else:
-        $stc = '';
+    elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1):
+        $stc = '<a href="#/" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
+        $stc .= '<i class="fa fa-print"></i>  </br> '._l('dt_button_print');
+        $stc .= '</a>';
     endif;
     $row[] = $stc;
     $output['aaData'][] = $row;

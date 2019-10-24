@@ -10,7 +10,7 @@ class Projects extends AdminController
         $this->load->model('projects_model');
         $this->load->model('currencies_model');
         $this->load->helper('date');
-        $this->load->model('Branches_model');
+        $this->load->model('tasks_model');
     }
 
     public function index()
@@ -23,7 +23,7 @@ class Projects extends AdminController
 
     public function table($clientid = '')
     {
-        $this->branchapp->get_table_data('projects', [
+        $this->app->get_table_data('projects', [
             'clientid' => $clientid,
         ]);
     }
@@ -69,12 +69,6 @@ class Projects extends AdminController
 
         if ($this->input->post()) {
             $data                = $this->input->post();
-            if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
-
-                unset($data['branch_id']);
-            }
-            
             $data['description'] = $this->input->post('description', false);
             if ($id == '') {
                 if (!has_permission('projects', '', 'create')) {
@@ -82,14 +76,6 @@ class Projects extends AdminController
                 }
                 $id = $this->projects_model->add($data);
                 if ($id) {
-                    if($this->app_modules->is_active('branches')){
-                        $data = [
-                            'branch_id' => $branch_id, 
-                            'rel_type' => 'projects', 
-                            'rel_id' => $id
-                        ];
-                        $this->Branches_model->set_branch($data);
-                    }
                     set_alert('success', _l('added_successfully', _l('project')));
                     redirect(admin_url('projects/view/' . $id));
                 }
@@ -97,9 +83,6 @@ class Projects extends AdminController
                 if (!has_permission('projects', '', 'edit')) {
                     access_denied('Projects');
                 }
-                if($this->app_modules->is_active('branches'))
-                    $this->Branches_model->update_branch('projects', $id, $branch_id);
-
                 $success = $this->projects_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('project')));
@@ -123,6 +106,7 @@ class Projects extends AdminController
         }
 
         $data['last_project_settings'] = $this->projects_model->get_last_project_settings();
+
         if (count($data['last_project_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
@@ -132,12 +116,6 @@ class Projects extends AdminController
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
 
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-            $data['branch'] = $this->Branches_model->get_branch('projects', $id);
-        }
         $data['title'] = $title;
         $this->load->view('admin/projects/project', $data);
     }
@@ -1121,5 +1099,11 @@ class Projects extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
+    }
+
+    function add_task_to_select_timesheet()
+    {
+        $data = $this->input->post();
+        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 }

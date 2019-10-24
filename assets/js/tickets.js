@@ -14,6 +14,7 @@ $(function() {
 
     $('#ticket_no_contact').on('click', function(e) {
         e.preventDefault();
+        validate_new_ticket_form();
         $('#name, #email').prop('disabled', false);
         $('#name').val('').rules('add', { required: true });
         $('#email').val('').rules('add', { required: true });
@@ -23,7 +24,7 @@ $(function() {
         $('#contactid').removeAttr('required');
         $('#contactid').selectpicker('val', '');
         $('input[name="userid"]').val('');
-        validate_new_ticket_form();
+
         $('#ticket_to_contact').removeClass('hide');
         $('#ticket_contact_w').addClass('hide');
     });

@@ -132,16 +132,6 @@ $(function() {
         ]);
 
    initDataTable('.table-credit-notes', admin_url+'credit_notes/table/'+customer_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
-   /* Customer profile Procurations table */
-    initDataTable('.table-procurations-single-client',
-        admin_url + 'clients/procurations/' + customer_id,
-        ['undefined'],
-        ['undefined'],
-        undefined, 
-            [0, 'desc']
-        );
-
-   
 
     /* Customer profile Estimates table */
     initDataTable('.table-estimates-single-client',

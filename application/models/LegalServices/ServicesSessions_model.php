@@ -7,6 +7,7 @@ class ServicesSessions_model extends App_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('LegalServices/LegalServicesModel' , 'legal');
     }
 
     public function count_sessions($service_id, $rel_id){
@@ -54,7 +55,37 @@ class ServicesSessions_model extends App_Model
         $this->db->set(array('send_to_customer' => 1));
         $this->db->update(db_prefix() .'my_session_info');
         if ($this->db->affected_rows() > 0) {
+            //for send email to client
+            $this->send_mail_to_client($id);
             log_activity(' Send Report To Customer [ Session ID ' . $id . ']');
+            return true;
+        }
+        return false;
+        // if($this->send_mail_to_client($id)){
+        //     return true;
+        // }
+        // return false;
+    }
+
+    public function send_mail_to_client($id)
+    {
+        $this->db->where('id', $id);
+        $service_data = $this->db->get(db_prefix() .'tasks')->row();
+        $rel_type = $service_data->rel_type;
+        $rel_id = $service_data->rel_id;
+        $service_id = $this->legal->get_service_id_by_slug($rel_type);
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+            $this->db->where('userid', $client_id);
+            $contact = $this->db->get(db_prefix() . 'contacts')->row();
+            // var_dump($contact,"1");
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+            $this->db->where('userid', $client_id);
+            $contact = $this->db->get(db_prefix() . 'contacts')->row();
+        }
+        if(isset($contact)){
+            send_mail_template('send_report_session_to_customer', $contact, $service_data);
             return true;
         }
         return false;
@@ -62,13 +93,18 @@ class ServicesSessions_model extends App_Model
 
     public function get_session_data($task_id)
     {
-
-        $this->db->where(array('task_id' => $task_id));
-        $this->db->select('rel_id as tbl3, startdate as tbl4, court_name as tbl2, session_information as tbl5, next_session_date as tbl6');
+        $this->db->where('task_id' , $task_id);
+        $this->db->select('rel_id as tbl1, startdate as tbl5, court_name as tbl4, session_information as tbl7, next_session_date as tbl6, court_decision as tbl8');
         $this->db->join(db_prefix() . 'tasks',  'tasks.id=' . db_prefix() . 'my_session_info.task_id');
         $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_session_info.court_id');
         return $this->db->get(db_prefix() . 'my_session_info')->row();
+    }
 
+    public function get_checklist_items($task_id)
+    {
+        $this->db->where('taskid' , $task_id);
+        $this->db->select('description');
+        return $this->db->get(db_prefix() . 'task_checklist_items')->result();
     }
 
 }

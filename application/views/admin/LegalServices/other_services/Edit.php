@@ -55,9 +55,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
 
                         </div>
 
@@ -226,9 +226,9 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-                            <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                            </div>
+
+                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
                                 <select class="form-control" name="contract"
@@ -301,7 +301,7 @@
                         <?php if($setting == 'hide_tasks_on_main_tasks_table'){ ?>
                             <?php echo _l('hide_tasks_on_main_tasks_table'); ?>
                         <?php } else{ ?>
-                            <?php echo _l('project_allow_client_to',_l('project_setting_'.$setting)); ?>
+                            <?php echo _l('project_allow_client_to').' '._l('project_setting_'.$setting); ?>
                         <?php } ?>
                     </label>
                 </div>

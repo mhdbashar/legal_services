@@ -63,6 +63,7 @@ $join = [
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'subscriptions.id',
     db_prefix() . 'subscriptions.clientid as clientid',
+    'in_test_environment',
     'stripe_subscription_id',
     'project_id',
     'hash',
@@ -86,7 +87,10 @@ foreach ($rResult as $aRow) {
     if (has_permission('subscriptions', '', 'edit')) {
         $outputName .= ' | <a href="' . admin_url('subscriptions/edit/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
-    if (empty($aRow['stripe_subscription_id']) && has_permission('subscriptions', '', 'delete')) {
+    if ((empty($aRow['stripe_subscription_id'])
+        || (!is_null($aRow['in_test_environment'])
+        && $aRow['in_test_environment'] == 1))
+        && has_permission('subscriptions', '', 'delete')) {
         $outputName .= ' | <a href="' . admin_url('subscriptions/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';

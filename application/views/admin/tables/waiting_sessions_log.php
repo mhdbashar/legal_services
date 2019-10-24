@@ -51,7 +51,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, $rel_to_query);
 }
 
-array_push($where, 'AND ' . db_prefix() . 'tasks.startdate >= CURDATE()');
+array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [
@@ -77,10 +77,8 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
 foreach ($rResult as $aRow) {
-   // echo "<pre>";print_r($rResult);exit;
     $row = [];
     $row[] = $i;
-
     $outputName = '';
     if ($aRow['not_finished_timer_by_current_staff']) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
@@ -140,7 +138,7 @@ foreach ($rResult as $aRow) {
         $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border:1px solid #84c529">مرسل</span>';
     endif;
     $row[] = $send;
-    $row[] = $aRow['startdate'];
+    $row[] = _d($aRow['startdate']);
     $row[] = $aRow['time'];
     $output['aaData'][] = $row;
     $i++;

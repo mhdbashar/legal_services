@@ -194,15 +194,15 @@
                         <h4 class="no-margin"><?php echo _l('customers_summary'); ?></h4>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_summary != '' ? substr($where_summary,5) : '')); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_summary != '' ? substr($where_summary,5) : ' client_type = 0')); ?></h3>
                         <span class="text-dark"><?php echo _l('customers_summary_total'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1'.$where_summary); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1 AND client_type = 0'.$where_summary); ?></h3>
                         <span class="text-success"><?php echo _l('active_customers'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0'.$where_summary); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0 AND client_type = 0'.$where_summary); ?></h3>
                         <span class="text-danger"><?php echo _l('inactive_active_customers'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
@@ -302,6 +302,11 @@
                          'name'=>_l('customer_groups'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
                         ),
+                        
+                        // array(
+                        //  'name'=>_l('customer_company_groups'),
+                        //  'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
+                        // ),
                         array(
                          'name'=>_l('date_created'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')
@@ -310,7 +315,14 @@
                            'name'=>_l('customer_type'),
                            'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
                         ),
+                        
                       );
+                     if($this->app_modules->is_active('branches')){
+                        $_table_data[] = array(
+                           'name'=>_l('branch_name'),
+                           'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
+                        );
+                     }
                      foreach($_table_data as $_t){
                       array_push($table_data,$_t);
                      }

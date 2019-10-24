@@ -51,10 +51,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // add_action('after_render_single_aside_menu', 'my_custom_menu_items');
 hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
+hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 
 function my_custom_setup_menu_items()
 {
     $CI = &get_instance();
+
+    $CI->app_menu->add_sidebar_menu_item('opponents', [
+        'name'     => _l('opponents'), // The name if the item
+        'href'     => admin_url('opponents'), // URL of the item
+        'position' => 5, // The menu position
+        'icon'     => 'fa fa-user-times', // Font awesome icon
+    ]);
 
     $CI->app_menu->add_setup_menu_item('1', [
         'name'     => _l("procuration"), // The name if the item
@@ -169,6 +177,51 @@ function my_custom_setup_menu_items()
 
 }
 
+function app_init_opponent_profile_tabs()
+{
+    $client_id = null;
+
+    if ($client = get_client()) {
+        $client_id = $client->userid;
+    }
+
+    $CI = &get_instance();
+
+    $CI->app_tabs->add_opponent_profile_tab('profile', [
+        'name'     => _l('client_add_edit_profile'),
+        'icon'     => 'fa fa-user-circle',
+        'view'     => 'admin/opponent/groups/profile',
+        'position' => 5,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('contacts', [
+        'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
+        'icon'     => 'fa fa-users',
+        'view'     => 'admin/opponent/groups/contacts',
+        'position' => 10,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('notes', [
+        'name'     => _l('contracts_notes_tab'),
+        'icon'     => 'fa fa-sticky-note-o',
+        'view'     => 'admin/opponent/groups/notes',
+        'position' => 15,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('attachments', [
+        'name'     => _l('customer_attachments'),
+        'icon'     => 'fa fa-paperclip',
+        'view'     => 'admin/opponent/groups/attachments',
+        'position' => 20,
+    ]);
+
+    $CI->app_tabs->add_opponent_profile_tab('map', [
+        'name'     => _l('customer_map'),
+        'icon'     => 'fa fa-map-marker',
+        'view'     => 'admin/opponent/groups/map',
+        'position' => 25,
+    ]);
+}
 
 // hooks()->add_action('after_format_datetime', 'my_custom_date');
 // hooks()->add_action('after_format_date', 'my_custom_date');
@@ -219,16 +272,6 @@ function my_get_cities($country_id = '')
     return $CI->db->get('cities')->result_array();
 }
 
-hooks()->add_action('admin_init', 'add_hijri_settings');
-hooks()->add_action('app_admin_assets_added', 'admin_assets');
-hooks()->add_filter('before_sql_date_format', 'to_AD_date');
-hooks()->add_filter('after_format_date', 'to_hijri_date');
-hooks()->add_filter('after_format_datetime', 'to_hijri_date');
-
-hooks()->add_filter('before_settings_updated', 'set_my_options');
-
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-
 function admin_assets()
 {
     $CI = &get_instance();
@@ -257,8 +300,6 @@ function admin_assets()
 
 }
 
-
-//
 function to_AD_date($date)
 {
     if(strpos($date, ' ') !== false){    //is datetime
@@ -312,6 +353,7 @@ function to_AD_date($date)
 
     return $date;
 }
+
 function search_url($pages, $url)
 {
     $i = 0;
@@ -382,12 +424,17 @@ function to_hijri_date($date)
     if(isset($time)){
         $date = $date.' '.$time;
     }
-
         return $date;
 }
 
-
-
+//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
+hooks()->add_action('admin_init', 'add_hijri_settings');
+hooks()->add_action('app_admin_assets_added', 'admin_assets');
+hooks()->add_filter('before_sql_date_format', 'to_AD_date');
+hooks()->add_filter('after_format_date', 'to_hijri_date');
+hooks()->add_filter('after_format_datetime', 'to_hijri_date');
+hooks()->add_filter('before_settings_updated', 'set_my_options');
+hooks()->add_filter('available_date_formats', 'add_hijri_option');
 
 function set_my_options($data){
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
@@ -395,7 +442,6 @@ function set_my_options($data){
     }else{
         $isHijrivar = "off";
     }
-
 
     if(isset($data['adjust_data'])){
 
@@ -414,8 +460,6 @@ function set_my_options($data){
             }
         }
 
-
-
         if (get_option('isHijri') != Null){
             update_option('isHijri',$isHijrivar);
 
@@ -423,7 +467,6 @@ function set_my_options($data){
 
             add_option('isHijri',$isHijrivar);
         }
-
         $links_array = [];
         if(isset($data['isHijriVal'])){
             unset($data['isHijriVal']);
@@ -434,15 +477,13 @@ function set_my_options($data){
         foreach ($data as $key => $value ){
             array_push($links_array,$value );
         }
-
         if (get_option('hijri_pages') != Null){
             update_option('hijri_pages',json_encode($links_array));
         }else{
             add_option('hijri_pages',json_encode($links_array));
         }
-
-
-
+//    var_dump(json_encode($links_array));exit();
+//    add_option('dateformat',$data['dateformat']);
     }else{
         return $data;
     }
@@ -451,19 +492,14 @@ function set_my_options($data){
 function add_hijri_settings(){
 
     $CI = &get_instance();
-
+//  var_dump(add_option('dateformat'));exit();
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
         'position' => 20,
     ]);
-
-
-
-
-
-
 }
+
 function add_hijri_option($date_formats)
 {
     $new_formats = [
@@ -473,5 +509,3 @@ function add_hijri_option($date_formats)
     ];
     return array_merge($date_formats,$new_formats);
 }
-
-

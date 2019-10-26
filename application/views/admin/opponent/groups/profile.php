@@ -65,19 +65,50 @@
                             <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
 
 
-                            <?php
-                            $selected = array();
-                            if(isset($customer_groups)){
-                                foreach($customer_groups as $group){
-                                    array_push($selected,$group['groupid']);
-                                }
-                            }
-                            if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
-                                echo render_select_with_input_group('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,'<a href="#" data-toggle="modal" data-target="#customer_group_modal"><i class="fa fa-plus"></i></a>',array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                            } else {
-                                echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                            }
-                            ?>
+                            <div class="individual_select">
+                     <?php 
+                     $selected = array();
+                     if(isset($customer_groups)){
+                       foreach($customer_groups as $group){
+                          array_push($selected,$group['groupid']);
+                       }
+                     }
+                     if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
+                      echo render_select_with_input_group('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,'<a href="#" data-toggle="modal" data-target="#customer_group_modal"><i class="fa fa-plus"></i></a>',array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                      } else {
+                        echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                      }
+
+                     ?>
+                     </div>
+                     <div class="company_select">
+                     <?php
+
+                     $selected_company = array();
+                     if(isset($customer_company_groups)){
+                       foreach($customer_company_groups as $group2){
+                          array_push($selected_company,$group2['groupid']);
+                       }
+                     }
+                     if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
+                      echo render_select_with_input_group(
+                        'groups_company_in[]',
+                        $company_groups,
+                        array('id','name'),
+                        'customer_company_groups',
+                        $selected_company,
+                        '<a href="#" data-toggle="modal" data-target="#customer_company_group_modal"><i class="fa fa-plus"></i></a>',
+                        array('multiple'=>true,'data-actions-box'=>true),
+                        array(),
+                        '',
+                        '',
+                        false
+                     );
+                      } else {
+                        echo render_select('groups_company_in[]',$company_groups,array('id','name'),'customer_company_groups',$selected_company,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                      }
+                     ?>
+                 </div>
                             <?php if(!isset($client)){ ?>
                                 <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_currency_change_notice'); ?>"></i>
                             <?php }
@@ -137,6 +168,13 @@
                             echo form_dropdown('city', $options, $selected, 'disabled id="city" class="form-control" ');
                             ?>
                         </div>
+                        <div class="col-md-6">
+                  <?php if($this->app_modules->is_active('branches')){?>
+                        <br/>
+                       <?php $value = (isset($branch) ? $branch : ''); ?>
+                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+                   <?php } ?>
+               </div>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="billing_and_shipping">
@@ -203,3 +241,4 @@
         <?php echo form_close(); ?>
     </div>
 <?php $this->load->view('admin/opponent/client_group'); ?>
+<?php $this->load->view('admin/clients/client_company_group'); ?>

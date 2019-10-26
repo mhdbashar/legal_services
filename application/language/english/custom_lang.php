@@ -3345,9 +3345,21 @@ $lang['date'] = 'Date';
 $lang['new_incoming'] = 'Add New Incoming Transaction';
 $lang['new_outgoing'] = 'Add New Outgoing Transaction';
 
+$lang['incoming_file'] = 'Incoming Transaction File';
+$lang['outgoing_file'] = 'Outgoing Transaction File';
+
+$lang['add_incoming_side'] = 'Add Incoming Side';
+$lang['incoming_side'] = 'Incoming Side';
+
+$lang['incoming_transaction_file'] = 'Incoming Transaction File';
+$lang['outgoing_transaction_file'] = 'Outgoing Transaction File';
+
+$lang['incoming_transaction'] = 'Incoming Transaction';
+$lang['outgoing_transaction'] = 'Outgoing Transaction';
 
 
-
+$lang['secret_trans'] = 'Secret';
+$lang['normal_trans'] = 'Normal';
 
 
 

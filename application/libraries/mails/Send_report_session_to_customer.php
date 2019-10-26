@@ -6,7 +6,7 @@ class Send_report_session_to_customer extends App_mail_template
 {
     protected $for = 'sessions';
 
-    protected $subscription;
+    protected $session;
 
     protected $contact;
 
@@ -14,11 +14,11 @@ class Send_report_session_to_customer extends App_mail_template
 
     public $rel_type = 'sessions';
 
-    public function __construct($subscription, $contact, $cc = '')
+    public function __construct($contact,$session, $cc = '')
     {
         parent::__construct();
 
-        $this->subscription = $subscription;
+        $this->session = $session;
         $this->contact      = $contact;
         $this->cc           = $cc;
     }
@@ -26,7 +26,6 @@ class Send_report_session_to_customer extends App_mail_template
     public function build()
     {
         $this->to($this->contact->email)
-            ->set_rel_id($this->subscription->id)
-            ->set_merge_fields('sessions_merge_fields', $this->subscription->id);
+            ->set_merge_fields('sessions_merge_fields',$this->session->id);
     }
 }

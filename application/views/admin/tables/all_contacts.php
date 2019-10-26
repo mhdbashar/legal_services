@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = [ 'firstname', 'lastname'];
+$aColumns        = [ 'firstname'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }
@@ -21,7 +21,7 @@ $aColumns = array_merge($aColumns, [
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'contacts';
-$join         = ['JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid=' . db_prefix() . 'contacts.userid'];
+$join[] = 'INNER JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'contacts.userid AND '.db_prefix().'clients.client_type = 0';
 
 $custom_fields = get_table_custom_fields('contacts');
 
@@ -79,8 +79,6 @@ foreach ($rResult as $aRow) {
     $rowName .= '</div>';
 
     $row[] = $rowName;
-
-    $row[] = $aRow['lastname'];
 
     if (is_gdpr() && $consentContacts == '1') {
         $consentHTML = '<p class="bold"><a href="#" onclick="view_contact_consent(' . $aRow['id'] . '); return false;">' . _l('view_consent') . '</a></p>';

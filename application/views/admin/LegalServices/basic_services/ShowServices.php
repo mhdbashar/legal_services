@@ -36,7 +36,7 @@
                                         </td>
                                         <td>
                                             <a href="<?php echo admin_url("edit_service/$service->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                                            <?php if (is_admin() || $service->id != 1): ?>
+                                            <?php if ($service->id != 1): ?>
                                             <a href="<?php echo admin_url("delete_service/$service->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                                             <?php endif; ?>
                                             <a href="<?php echo admin_url("CategoryControl/$service->id"); ?>" class="btn btn-info btn-icon">

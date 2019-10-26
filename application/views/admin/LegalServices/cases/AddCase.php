@@ -142,11 +142,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <?php
-                                $selected = array();
-                                $data = get_relation_data('Judges', '');
-                                echo render_select('judges[]',$data,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
-                                ?>
+                               te
                             </div>
 
                                 <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>

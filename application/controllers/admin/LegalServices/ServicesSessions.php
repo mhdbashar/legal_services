@@ -49,12 +49,7 @@ class ServicesSessions extends AdminController{
 
     public function send_report_to_customer($task_id)
     {
-        $success = $this->service_sessions->update_send_to_customer($task_id);
-        if ($success) {
-            echo 1;
-        }else {
-            echo 0;
-        }
+       echo $this->service_sessions->update_send_to_customer($task_id);
     }
 
     public function print_report($task_id)

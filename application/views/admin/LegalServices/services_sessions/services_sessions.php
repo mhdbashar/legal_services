@@ -310,8 +310,10 @@
             success: function (data) {
                 console.log(data);
                 if(data == 1){
-                    alert_float('success', '<?php echo _l('updated_successfully'); ?>');
+                    alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
                     reload_tasks_tables();
+                }else if (data == 2){
+                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                 }else {
                     alert_float('danger', '<?php echo _l('faild'); ?>');
                 }

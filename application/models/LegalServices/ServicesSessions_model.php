@@ -51,20 +51,20 @@ class ServicesSessions_model extends App_Model
 
     public function update_send_to_customer($id)
     {
-        $this->db->where(array('task_id' => $id));
-        $this->db->set(array('send_to_customer' => 1));
-        $this->db->update(db_prefix() .'my_session_info');
-        if ($this->db->affected_rows() > 0) {
-            //for send email to client
-            $this->send_mail_to_client($id);
-            log_activity(' Send Report To Customer [ Session ID ' . $id . ']');
-            return true;
+        //for send email to client
+        $sent = $this->send_mail_to_client($id);
+        if ($sent == 1){
+            $this->db->where(array('task_id' => $id));
+            $this->db->set(array('send_to_customer' => 1));
+            $this->db->update(db_prefix() .'my_session_info');
+            if ($this->db->affected_rows() > 0) {
+                log_activity(' Send Report To Customer [ Session ID ' . $id . ']');
+                return true;
+            }
+        }elseif ($sent == 2){
+            return 2;
         }
         return false;
-        // if($this->send_mail_to_client($id)){
-        //     return true;
-        // }
-        // return false;
     }
 
     public function send_mail_to_client($id)
@@ -78,7 +78,6 @@ class ServicesSessions_model extends App_Model
             $client_id = get_client_id_by_case_id($rel_id);
             $this->db->where('userid', $client_id);
             $contact = $this->db->get(db_prefix() . 'contacts')->row();
-            // var_dump($contact,"1");
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
             $this->db->where('userid', $client_id);
@@ -88,7 +87,7 @@ class ServicesSessions_model extends App_Model
             send_mail_template('send_report_session_to_customer', $contact, $service_data);
             return true;
         }
-        return false;
+        return 2; // This customer doesn't have primary contact
     }
 
     public function get_session_data($task_id)

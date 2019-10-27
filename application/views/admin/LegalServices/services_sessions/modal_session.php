@@ -166,7 +166,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                <select name="court_id" class="selectpicker" id="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                <select name="court_id" onchange="GetCourtJad()" class="selectpicker" id="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option value=""></option>
                                     <?php $value = (isset($task) ? $task->court_id : ''); ?>
                                     <?php foreach($courts as $court) { ?>
@@ -175,6 +175,21 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
+                                <select class="form-control" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected disabled></option>
+                                    <?php $data = get_relation_data('myjudicial',$task->court_id);
+                                    foreach ($data as $row) {
+                                        if($task->dept == $row->j_id) { ?>
+                                            <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
+                                        <?php } } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="judge_id" class="control-label"><?php echo _l('judge'); ?></label>
@@ -186,12 +201,6 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?php $value = isset($task->dept) ? $task->dept : ''; ?>
-                            <?php echo render_input('dept','NumJudicialDept',$value,'number'); ?>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -512,6 +521,20 @@
             alert_float(response.alert_type, response.message);
         });
         return false;
+    }
+
+    function GetCourtJad() {
+        $('#dept').html('');
+        id = $('#court_id').val();
+        $.ajax({
+            url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
+            success: function (data) {
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    $('#dept').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
+                });
+            }
+        });
     }
 
 </script>

@@ -207,19 +207,19 @@ if(hijri_page == 'settings?group=Hijri'){
         var month = $('#month_adj').val();
         var year = $('#year_adj').val();
         $.ajax({
-                type: 'Get',
-                url: admin_url + 'My_custom_controller/add_adjust_form',
-                data: {
-                    add_month : month,
-                    add_year : year,
-                },
-                success: function(data) {
-                    $('#add_form_adj').append(data);
+            type: 'Get',
+            url: admin_url + 'My_custom_controller/add_adjust_form',
+            data: {
+                add_month : month,
+                add_year : year,
+            },
+            success: function(data) {
+                $('#add_form_adj').append(data);
 
-                    $("#btn_add_adjust").attr('disabled','disabled');
-                },
+                $("#btn_add_adjust").attr('disabled','disabled');
+            },
 
-            });
+        });
 
     });
 
@@ -228,29 +228,29 @@ if(hijri_page == 'settings?group=Hijri'){
         $(this).attr('disabled','disabled');
 
         var month = $('#month_adj').val();
-            var year = $('#year_adj').val();
-            var target_value = $('#target_adjust').val();
-            $.ajax({
-                type: 'Get',
-                url: admin_url + 'My_custom_controller/set_hijri_adjust',
-                data: {
-                    add_month : month,
-                    add_year : year,
-                    add_value: target_value,
-                },
-                success: function(data) {
-                    var res_data = JSON.parse(data);
-                    $('#new_adjustement').append(res_data.new);
-                    $('#txt_adj').val(res_data.adjdata);
-                    $('#adjust_data').val(res_data.adjdata);
+        var year = $('#year_adj').val();
+        var target_value = $('#target_adjust').val();
+        $.ajax({
+            type: 'Get',
+            url: admin_url + 'My_custom_controller/set_hijri_adjust',
+            data: {
+                add_month : month,
+                add_year : year,
+                add_value: target_value,
+            },
+            success: function(data) {
+                var res_data = JSON.parse(data);
+                $('#new_adjustement').append(res_data.new);
+                $('#txt_adj').val(res_data.adjdata);
+                $('#adjust_data').val(res_data.adjdata);
 
 
 
-                },
-
-            });
+            },
 
         });
+
+    });
 
     $(document).on('click',"#cancel_btn", function () {
         $(this).parents('#form_div').hide();

@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/moment-with-data.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/Complete DB/desktop.ini" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 14 10.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/waseem/bk/0310/legalserv.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/waseem/table/tblmy_transactions .sql" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/DB/Complete DB/legalserv.sql" afterPath="$PROJECT_DIR$/DB/Complete DB/legalserv 26 10.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" afterPath="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/english/english.php" afterPath="$PROJECT_DIR$/application/language/english/english.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 15 10.sql" afterPath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 15 10.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/waseem/bk/0310/table/tblmy_transactions.sql" afterPath="$PROJECT_DIR$/DB/waseem/bk/0310/table/tblmy_transactions.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/waseem/legalserv.sql" afterPath="$PROJECT_DIR$/DB/waseem/legalserv.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/custom.js" afterPath="$PROJECT_DIR$/assets/js/custom.js" />
     </list>
     <ignored path="$PROJECT_DIR$/application/vendor/2checkout/2checkout-php/" />
     <ignored path="$PROJECT_DIR$/application/vendor/bainternet/php-hooks/" />
@@ -74,250 +80,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="services_sessions.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="310" column="34" lean-forward="false" selection-start-line="310" selection-start-column="34" selection-end-line="310" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServicesSessions.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="82">
-              <caret line="51" column="71" lean-forward="false" selection-start-line="51" selection-start-column="71" selection-end-line="51" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServicesSessions_model.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="86" column="30" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tasks_model.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="1183" column="16" lean-forward="false" selection-start-line="1183" selection-start-column="16" selection-end-line="1183" selection-end-column="16" />
-              <folding>
-                <marker date="1571175361065" expanded="true" signature="28715:28948" ph="SELECT * FRO... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="28859:28923" ph="SELECT id FR... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="83563:83639" ph="SELECT DISTI... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="84472:84806" ph="SELECT id,no... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="85528:85613" ph="SELECT DISTI... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="88250:88882" ph="SELECT * FRO... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="88372:88450" ph="SELECT staff... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="88487:88566" ph="SELECT staff... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="88603:88699" ph="SELECT added... ${db_prefix()}" />
-                <marker date="1571175361065" expanded="true" signature="88735:88838" ph="SELECT staff... ${db_prefix()}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Staff_model.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/models/Staff_model.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="459" column="0" lean-forward="true" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
-              <folding>
-                <element signature="n#delete#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#175#248#0#PHP" expanded="false" />
-                <element signature="e#258#325#0#PHP" expanded="false" />
-                <element signature="e#335#488#0#PHP" expanded="false" />
-                <element signature="e#384#487#0#PHP" expanded="false" />
-                <element signature="e#662#765#0#PHP" expanded="false" />
-                <element signature="e#707#764#0#PHP" expanded="false" />
-                <element signature="e#821#925#0#PHP" expanded="false" />
-                <element signature="e#866#924#0#PHP" expanded="false" />
-                <element signature="e#980#1082#0#PHP" expanded="false" />
-                <element signature="e#1024#1081#0#PHP" expanded="false" />
-                <element signature="e#1138#1241#0#PHP" expanded="false" />
-                <element signature="e#1182#1240#0#PHP" expanded="false" />
-                <element signature="e#1296#1398#0#PHP" expanded="false" />
-                <element signature="e#1340#1397#0#PHP" expanded="false" />
-                <element signature="e#1453#1552#0#PHP" expanded="false" />
-                <element signature="e#1494#1551#0#PHP" expanded="false" />
-                <element signature="e#1604#1717#0#PHP" expanded="false" />
-                <element signature="e#1662#1716#0#PHP" expanded="false" />
-                <element signature="e#1770#1876#0#PHP" expanded="false" />
-                <element signature="e#1820#1875#0#PHP" expanded="false" />
-                <element signature="e#1930#2041#0#PHP" expanded="false" />
-                <element signature="e#1984#2040#0#PHP" expanded="false" />
-                <element signature="e#2096#2198#0#PHP" expanded="false" />
-                <element signature="e#2140#2197#0#PHP" expanded="false" />
-                <element signature="e#2253#2358#0#PHP" expanded="false" />
-                <element signature="e#2300#2357#0#PHP" expanded="false" />
-                <element signature="e#2412#2512#0#PHP" expanded="false" />
-                <element signature="e#2455#2511#0#PHP" expanded="false" />
-                <element signature="e#2565#2670#0#PHP" expanded="false" />
-                <element signature="e#2614#2669#0#PHP" expanded="false" />
-                <element signature="e#2723#2832#0#PHP" expanded="false" />
-                <element signature="e#2776#2831#0#PHP" expanded="false" />
-                <element signature="e#2887#2990#0#PHP" expanded="false" />
-                <element signature="e#2932#2989#0#PHP" expanded="false" />
-                <element signature="e#3043#3148#0#PHP" expanded="false" />
-                <element signature="e#3092#3147#0#PHP" expanded="false" />
-                <element signature="e#3257#3356#0#PHP" expanded="false" />
-                <element signature="e#3298#3355#0#PHP" expanded="false" />
-                <element signature="e#3409#3506#0#PHP" expanded="false" />
-                <element signature="e#3450#3505#0#PHP" expanded="false" />
-                <element signature="e#3571#3692#0#PHP" expanded="false" />
-                <element signature="e#3624#3691#0#PHP" expanded="false" />
-                <element signature="e#3747#3861#0#PHP" expanded="false" />
-                <element signature="e#3803#3860#0#PHP" expanded="false" />
-                <element signature="e#3920#4038#0#PHP" expanded="false" />
-                <element signature="e#3976#4037#0#PHP" expanded="false" />
-                <element signature="e#4089#4193#0#PHP" expanded="false" />
-                <element signature="e#4139#4192#0#PHP" expanded="false" />
-                <element signature="e#4244#4341#0#PHP" expanded="false" />
-                <element signature="e#4287#4340#0#PHP" expanded="false" />
-                <element signature="e#4396#4495#0#PHP" expanded="false" />
-                <element signature="e#4437#4494#0#PHP" expanded="false" />
-                <element signature="e#4549#4647#0#PHP" expanded="false" />
-                <element signature="e#4590#4646#0#PHP" expanded="false" />
-                <element signature="e#4701#4805#0#PHP" expanded="false" />
-                <element signature="e#4748#4804#0#PHP" expanded="false" />
-                <element signature="e#4860#4963#0#PHP" expanded="false" />
-                <element signature="e#4905#4962#0#PHP" expanded="false" />
-                <element signature="e#5079#5190#0#PHP" expanded="false" />
-                <element signature="e#5128#5189#0#PHP" expanded="false" />
-                <element signature="e#5247#5366#0#PHP" expanded="false" />
-                <element signature="e#5306#5365#0#PHP" expanded="false" />
-                <element signature="e#5423#5530#0#PHP" expanded="false" />
-                <element signature="e#5470#5529#0#PHP" expanded="false" />
-                <element signature="e#5588#5698#0#PHP" expanded="false" />
-                <element signature="e#5637#5697#0#PHP" expanded="false" />
-                <element signature="e#5853#6596#0#PHP" expanded="false" />
-                <element signature="e#5899#6586#0#PHP" expanded="false" />
-                <element signature="e#6009#6572#0#PHP" expanded="false" />
-                <element signature="e#6053#6554#0#PHP" expanded="false" />
-                <element signature="e#6106#6532#0#PHP" expanded="false" />
-                <element signature="e#6370#6505#0#PHP" expanded="false" />
-                <element signature="e#6417#6504#0#PHP" expanded="false" />
-                <element signature="e#6741#7551#0#PHP" expanded="false" />
-                <element signature="e#6818#7541#0#PHP" expanded="false" />
-                <element signature="e#6962#7527#0#PHP" expanded="false" />
-                <element signature="e#7006#7509#0#PHP" expanded="false" />
-                <element signature="e#7059#7487#0#PHP" expanded="false" />
-                <element signature="e#7313#7460#0#PHP" expanded="false" />
-                <element signature="e#7372#7459#0#PHP" expanded="false" />
-                <element signature="e#7604#7688#0#PHP" expanded="false" />
-                <element signature="e#7647#7687#0#PHP" expanded="false" />
-                <element signature="e#9914#10061#0#PHP" expanded="false" />
-                <element signature="e#9957#10060#0#PHP" expanded="false" />
-                <element signature="e#10096#10283#0#PHP" expanded="false" />
-                <element signature="n#get#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#10548#10933#0#PHP" expanded="false" />
-                <element signature="e#11018#11305#0#PHP" expanded="false" />
-                <element signature="e#11167#11267#0#PHP" expanded="false" />
-                <element signature="e#11438#11533#0#PHP" expanded="false" />
-                <element signature="n#get_staff_permissions#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#11643#11716#0#PHP" expanded="false" />
-                <element signature="e#11813#12087#0#PHP" expanded="false" />
-                <element signature="e#12129#12212#0#PHP" expanded="false" />
-                <element signature="e#16061#16201#0#PHP" expanded="false" />
-                <element signature="n#update#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#16255#16362#0#PHP" expanded="false" />
-                <element signature="e#16371#16478#0#PHP" expanded="false" />
-                <element signature="e#16571#17193#0#PHP" expanded="false" />
-                <element signature="e#16601#17183#0#PHP" expanded="false" />
-                <element signature="e#16735#17183#0#PHP" expanded="false" />
-                <element signature="e#16758#17133#0#PHP" expanded="false" />
-                <element signature="e#16812#16971#0#PHP" expanded="false" />
-                <element signature="e#16859#16948#0#PHP" expanded="false" />
-                <element signature="e#16990#17133#0#PHP" expanded="false" />
-                <element signature="e#17024#17114#0#PHP" expanded="false" />
-                <element signature="e#17230#17364#0#PHP" expanded="false" />
-                <element signature="e#17401#17535#0#PHP" expanded="false" />
-                <element signature="e#17545#17800#0#PHP" expanded="false" />
-                <element signature="e#17647#17747#0#PHP" expanded="false" />
-                <element signature="e#17809#18052#0#PHP" expanded="false" />
-                <element signature="e#17889#18052#0#PHP" expanded="false" />
-                <element signature="e#18108#18353#0#PHP" expanded="false" />
-                <element signature="e#18287#18353#0#PHP" expanded="false" />
-                <element signature="e#18363#18503#0#PHP" expanded="false" />
-                <element signature="e#18448#18503#0#PHP" expanded="false" />
-                <element signature="e#18513#18613#0#PHP" expanded="false" />
-                <element signature="e#18834#20953#0#PHP" expanded="false" />
-                <element signature="e#18884#19731#0#PHP" expanded="false" />
-                <element signature="e#19054#19731#0#PHP" expanded="false" />
-                <element signature="e#19077#19717#0#PHP" expanded="false" />
-                <element signature="e#19149#19699#0#PHP" expanded="false" />
-                <element signature="e#19200#19677#0#PHP" expanded="false" />
-                <element signature="e#19535#19651#0#PHP" expanded="false" />
-                <element signature="e#19744#20477#0#PHP" expanded="false" />
-                <element signature="e#19787#20463#0#PHP" expanded="false" />
-                <element signature="e#20057#20445#0#PHP" expanded="false" />
-                <element signature="e#20098#20289#0#PHP" expanded="false" />
-                <element signature="e#20151#20288#0#PHP" expanded="false" />
-                <element signature="e#20315#20423#0#PHP" expanded="false" />
-                <element signature="e#20488#20953#0#PHP" expanded="false" />
-                <element signature="e#20507#20943#0#PHP" expanded="false" />
-                <element signature="e#20550#20929#0#PHP" expanded="false" />
-                <element signature="e#20610#20789#0#PHP" expanded="false" />
-                <element signature="e#20663#20788#0#PHP" expanded="false" />
-                <element signature="e#20811#20911#0#PHP" expanded="false" />
-                <element signature="e#21064#21140#0#PHP" expanded="false" />
-                <element signature="e#21150#21294#0#PHP" expanded="false" />
-                <element signature="e#21304#21547#0#PHP" expanded="false" />
-                <element signature="n#update_permissions#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#21792#22208#0#PHP" expanded="false" />
-                <element signature="e#21858#22198#0#PHP" expanded="false" />
-                <element signature="e#21959#22054#0#PHP" expanded="false" />
-                <element signature="n#update_profile#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#22383#22626#0#PHP" expanded="false" />
-                <element signature="e#22463#22626#0#PHP" expanded="false" />
-                <element signature="e#22688#22933#0#PHP" expanded="false" />
-                <element signature="e#22867#22933#0#PHP" expanded="false" />
-                <element signature="e#23043#23278#0#PHP" expanded="false" />
-                <element signature="e#23313#23456#0#PHP" expanded="false" />
-                <element signature="n#change_password#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#23688#23844#0#PHP" expanded="false" />
-                <element signature="e#23735#23833#0#PHP" expanded="false" />
-                <element signature="e#23753#23818#1#PHP" expanded="false" />
-                <element signature="e#23888#24095#0#PHP" expanded="false" />
-                <element signature="e#23984#24084#0#PHP" expanded="false" />
-                <element signature="e#24002#24069#1#PHP" expanded="false" />
-                <element signature="e#24226#24399#0#PHP" expanded="false" />
-                <element signature="e#24267#24398#0#PHP" expanded="false" />
-                <element signature="e#24409#24552#0#PHP" expanded="false" />
-                <element signature="e#24587#24724#0#PHP" expanded="false" />
-                <element signature="n#change_staff_status#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#24922#25008#0#PHP" expanded="false" />
-                <element signature="e#24963#25007#0#PHP" expanded="false" />
-                <element signature="n#get_logged_time_data#0;n#Staff_model#0;n#!!top" expanded="false" />
-                <element signature="e#25214#25279#0#PHP" expanded="false" />
-                <element signature="e#26651#27107#0#PHP" expanded="false" />
-                <element signature="e#27117#29243#0#PHP" expanded="false" />
-                <element signature="e#27311#27445#0#PHP" expanded="false" />
-                <element signature="e#27705#28028#0#PHP" expanded="false" />
-                <element signature="e#27854#28014#0#PHP" expanded="false" />
-                <element signature="e#28041#28364#0#PHP" expanded="false" />
-                <element signature="e#28190#28350#0#PHP" expanded="false" />
-                <element signature="e#28377#28695#0#PHP" expanded="false" />
-                <element signature="e#28523#28681#0#PHP" expanded="false" />
-                <element signature="e#28708#29026#0#PHP" expanded="false" />
-                <element signature="e#28854#29012#0#PHP" expanded="false" />
-                <element signature="e#29040#29233#0#PHP" expanded="false" />
-                <element signature="e#29086#29219#0#PHP" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -582,6 +345,59 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="js.eslint.eslintPackage" value="" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpSpecConfigurationType" factoryName="PHPSpec">
+      <PhpTestRunnerSettings />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -594,19 +410,19 @@
       <option name="presentableId" value="Default" />
       <updated>1572105291510</updated>
       <workItem from="1572105302169" duration="5576000" />
-      <workItem from="1572160232433" duration="3808000" />
+      <workItem from="1572160232433" duration="4752000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9384000" />
+    <option name="totallyTimeSpent" value="10328000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -721,62 +537,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="52" column="11" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="310" column="34" lean-forward="false" selection-start-line="310" selection-start-column="34" selection-end-line="310" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="51" column="71" lean-forward="false" selection-start-line="51" selection-start-column="71" selection-end-line="51" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/helpers/email_templates_helper.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="106" column="9" lean-forward="false" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="86" column="30" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="1183" column="16" lean-forward="false" selection-start-line="1183" selection-start-column="16" selection-end-line="1183" selection-end-column="16" />
-          <folding>
-            <marker date="1571175361065" expanded="true" signature="28715:28948" ph="SELECT * FRO... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="28859:28923" ph="SELECT id FR... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="83563:83639" ph="SELECT DISTI... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="84472:84806" ph="SELECT id,no... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="85528:85613" ph="SELECT DISTI... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88250:88882" ph="SELECT * FRO... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88372:88450" ph="SELECT staff... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88487:88566" ph="SELECT staff... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88603:88699" ph="SELECT added... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88735:88838" ph="SELECT staff... ${db_prefix()}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -966,6 +731,57 @@
             <element signature="e#29040#29233#0#PHP" expanded="false" />
             <element signature="e#29086#29219#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="310" column="34" lean-forward="false" selection-start-line="310" selection-start-column="34" selection-end-line="310" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="59" column="42" lean-forward="false" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="86" column="30" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="1183" column="16" lean-forward="false" selection-start-line="1183" selection-start-column="16" selection-end-line="1183" selection-end-column="16" />
+          <folding>
+            <marker date="1571175361065" expanded="true" signature="28715:28948" ph="SELECT * FRO... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="28859:28923" ph="SELECT id FR... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="83563:83639" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="84472:84806" ph="SELECT id,no... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="85528:85613" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="88250:88882" ph="SELECT * FRO... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="88372:88450" ph="SELECT staff... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="88487:88566" ph="SELECT staff... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="88603:88699" ph="SELECT added... ${db_prefix()}" />
+            <marker date="1571175361065" expanded="true" signature="88735:88838" ph="SELECT staff... ${db_prefix()}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-130">
+          <caret line="52" column="11" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>

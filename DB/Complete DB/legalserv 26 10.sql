@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 02 أكتوبر 2019 الساعة 00:23
--- إصدار الخادم: 10.4.6-MariaDB
+-- Generation Time: Oct 26, 2019 at 07:13 PM
+-- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblactivity_log`
+-- Table structure for table `tblactivity_log`
 --
 
 CREATE TABLE `tblactivity_log` (
@@ -36,7 +36,7 @@ CREATE TABLE `tblactivity_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblactivity_log`
+-- Dumping data for table `tblactivity_log`
 --
 
 INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
@@ -187,37 +187,121 @@ INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
 (237, 'Case Moved To Recycle Bin [CaseID: 3]', '2019-09-19 19:38:19', 'Mhdbashar Das'),
 (238, 'Case Deleted [CaseID: 3]', '2019-09-19 19:48:01', 'Mhdbashar Das'),
 (239, 'Case Deleted [CaseID: 4]', '2019-09-19 19:48:07', 'Mhdbashar Das'),
-(240, 'New transaction [ID: 1]', '2019-09-30 01:25:25', 'Mhdbashar Das'),
-(241, 'New transaction [ID: 2]', '2019-09-30 01:26:36', 'Mhdbashar Das'),
-(242, 'New transaction [ID: 3]', '2019-09-30 01:37:21', 'Mhdbashar Das'),
-(243, 'New transaction [ID: 4]', '2019-09-30 20:25:10', 'Mhdbashar Das'),
-(244, 'New transaction [ID: 5]', '2019-10-01 19:57:14', 'Mhdbashar Das'),
-(245, 'New transaction [ID: 6]', '2019-10-01 20:00:17', 'Mhdbashar Das'),
-(246, 'New transaction [ID: 7]', '2019-10-01 20:02:36', 'Mhdbashar Das'),
-(247, ' transaction Updated [ID: 6]', '2019-10-01 20:12:03', 'Mhdbashar Das'),
-(248, ' transaction Updated [ID: 5]', '2019-10-01 20:25:46', 'Mhdbashar Das'),
-(249, ' transaction Updated [ID: 7]', '2019-10-01 20:26:02', 'Mhdbashar Das'),
-(250, ' transaction Updated [ID: 6]', '2019-10-01 20:27:18', 'Mhdbashar Das'),
-(251, ' transaction Updated [ID: 5]', '2019-10-01 21:21:40', 'Mhdbashar Das'),
-(252, ' transaction Updated [ID: 7]', '2019-10-01 21:23:34', 'Mhdbashar Das'),
-(253, ' transaction Updated [ID: 6]', '2019-10-01 21:24:54', 'Mhdbashar Das'),
-(254, ' transaction Updated [ID: 5]', '2019-10-01 21:27:34', 'Mhdbashar Das'),
-(255, ' transaction Updated [ID: 6]', '2019-10-01 21:28:04', 'Mhdbashar Das'),
-(256, ' transaction Updated [ID: 5]', '2019-10-01 21:28:54', 'Mhdbashar Das'),
-(257, ' transaction Updated [ID: 6]', '2019-10-01 21:32:34', 'Mhdbashar Das'),
-(258, ' transaction Updated [ID: 7]', '2019-10-01 21:35:48', 'Mhdbashar Das'),
-(259, 'New transaction [ID: 8]', '2019-10-01 21:38:18', 'Mhdbashar Das'),
-(260, ' transaction Updated [ID: 8]', '2019-10-01 21:38:34', 'Mhdbashar Das'),
-(261, ' transaction Updated [ID: 8]', '2019-10-01 21:38:47', 'Mhdbashar Das'),
-(262, 'New transaction [ID: 9]', '2019-10-01 21:39:43', 'Mhdbashar Das'),
-(263, ' transaction Updated [ID: 9]', '2019-10-01 21:39:53', 'Mhdbashar Das'),
-(264, 'New transaction [ID: 10]', '2019-10-01 21:44:57', 'Mhdbashar Das'),
-(265, ' transaction Updated [ID: 10]', '2019-10-01 21:45:06', 'Mhdbashar Das');
+(240, 'New procuration [ID: 1] for client [ID: 3', '2019-09-22 15:25:43', 'Mhdbashar Das'),
+(241, 'Invoice Item Deleted [ID: 2]', '2019-09-22 15:28:33', 'Mhdbashar Das'),
+(242, 'Invoice Item Deleted [ID: 1]', '2019-09-22 15:28:38', 'Mhdbashar Das'),
+(243, 'New Client Created [ID: 4, From Staff: 1]', '2019-09-28 08:16:12', 'Mhdbashar Das'),
+(244, 'Add Branch [1] To clients [4]', '2019-09-28 08:16:12', 'Mhdbashar Das'),
+(245, 'New Client Created [ID: 5, From Staff: 1]', '2019-09-28 08:16:39', 'Mhdbashar Das'),
+(246, 'Add Branch [] To clients [5]', '2019-09-28 08:16:40', 'Mhdbashar Das'),
+(247, 'Client Deleted [ID: 5]', '2019-09-28 08:17:05', 'Mhdbashar Das'),
+(248, 'Client Deleted [ID: 4]', '2019-09-28 08:17:29', 'Mhdbashar Das'),
+(249, 'New Client Created [ID: 6, From Staff: 1]', '2019-09-28 08:30:26', 'Mhdbashar Das'),
+(250, 'Add Branch [1] To clients [6]', '2019-09-28 08:30:26', 'Mhdbashar Das'),
+(251, 'Client Deleted [ID: 6]', '2019-09-28 08:34:08', 'Mhdbashar Das'),
+(252, 'New Client Created [ID: 7, From Staff: 1]', '2019-09-28 08:34:47', 'Mhdbashar Das'),
+(253, 'Add Branch [1] To clients [7]', '2019-09-28 08:34:47', 'Mhdbashar Das'),
+(254, 'Client Deleted [ID: 7]', '2019-09-28 12:25:24', 'Mhdbashar Das'),
+(255, 'New Client Created [ID: 8, From Staff: 1]', '2019-09-28 12:25:38', 'Mhdbashar Das'),
+(256, 'Add Branch [] To clients [8]', '2019-09-28 12:25:38', 'Mhdbashar Das'),
+(257, 'Update Branch In clients [8]', '2019-09-28 12:25:53', 'Mhdbashar Das'),
+(258, 'Add Branch [1] To clients [8]', '2019-09-28 12:26:03', 'Mhdbashar Das'),
+(259, 'New Client Created [ID: 11, From Staff: 1]', '2019-09-30 22:25:02', 'Mhdbashar Das'),
+(260, 'Project Deleted [ID: 7, Name: tt]', '2019-10-02 11:45:54', 'Mhdbashar Das'),
+(261, 'Project Deleted [ID: 5, Name: نزاع مالي 1]', '2019-10-02 11:46:00', 'Mhdbashar Das'),
+(262, 'Project Deleted [ID: 4, Name: test]', '2019-10-02 11:46:06', 'Mhdbashar Das'),
+(263, 'Project Deleted [ID: 6, Name: tt]', '2019-10-02 11:46:10', 'Mhdbashar Das'),
+(264, 'New Customer Company Group Created [ID:1, Name:شركة]', '2019-10-02 19:06:00', 'Mhdbashar Das'),
+(265, 'New Customer Company Group Created [ID:2, Name:مؤسسة]', '2019-10-02 19:06:20', 'Mhdbashar Das'),
+(266, 'New Customer Group Created [ID:2, Name:DevOps]', '2019-10-02 19:07:14', 'Mhdbashar Das'),
+(267, 'Customer Group Updated [ID:2]', '2019-10-02 19:09:54', 'Mhdbashar Das'),
+(268, 'Customer Group Deleted [ID:2]', '2019-10-02 19:10:02', 'Mhdbashar Das'),
+(269, 'New Customer Group Created [ID:3, Name:DevOps]', '2019-10-02 19:10:17', 'Mhdbashar Das'),
+(270, 'Customer Info Updated [ID: 3]', '2019-10-02 19:32:47', 'Mhdbashar Das'),
+(271, 'Customer Info Updated [ID: 3]', '2019-10-02 19:33:11', 'Mhdbashar Das'),
+(272, 'Customer Info Updated [ID: 3]', '2019-10-02 19:33:42', 'Mhdbashar Das'),
+(273, 'Customer Info Updated [ID: 3]', '2019-10-02 19:35:12', 'Mhdbashar Das'),
+(274, 'New Client Created [ID: 12, From Staff: 1]', '2019-10-07 19:51:26', 'Mhdbashar Das'),
+(275, 'New Project Created [ID: 1]', '2019-10-07 20:31:26', 'Mhdbashar Das'),
+(276, 'Project Updated [ID: 1]', '2019-10-07 20:32:59', 'Mhdbashar Das'),
+(277, 'Failed to send SMS via Sms_twilio: [HTTP 451] Unable to create record', '2019-10-07 21:12:46', 'Mhdbashar Das'),
+(278, 'Failed to send SMS via Sms_twilio: [HTTP 451] Unable to create record', '2019-10-07 21:17:38', 'Mhdbashar Das'),
+(279, 'New Case Movement [id: 1]', '2019-10-13 23:32:25', 'Mhdbashar Das'),
+(280, 'New Case Added [CaseID: 1]', '2019-10-13 23:32:27', 'Mhdbashar Das'),
+(281, 'New Session Added [ID:12, Name: session test]', '2019-10-14 00:03:06', 'Mhdbashar Das'),
+(282, 'New Session Added [ID:13, Name: Baraa Alhalabi]', '2019-10-14 00:40:40', 'Mhdbashar Das'),
+(283, 'New Session Added [ID:14, Name: asdasdasd]', '2019-10-14 00:42:03', 'Mhdbashar Das'),
+(284, 'New Session Added [ID:15, Name: session test]', '2019-10-14 00:58:14', 'Mhdbashar Das'),
+(285, 'New transaction [ID: 14]', '2019-10-14 19:30:57', 'Mhdbashar Das'),
+(286, ' transaction Updated [ID: 14]', '2019-10-14 19:31:13', 'Mhdbashar Das'),
+(287, 'transaction Doc Deleted [ProcID: 14]', '2019-10-14 19:31:30', 'Mhdbashar Das'),
+(288, ' transaction Updated [ID: 14]', '2019-10-14 19:32:18', 'Mhdbashar Das'),
+(289, 'New transaction [ID: 15]', '2019-10-14 19:32:53', 'Mhdbashar Das'),
+(290, 'Add Branch [] To clients [2]', '2019-10-14 20:37:21', 'Mhdbashar Das'),
+(291, 'Customer Info Updated [ID: 2]', '2019-10-14 20:37:22', 'Mhdbashar Das'),
+(292, 'Add Branch [] To clients [2]', '2019-10-14 20:37:39', 'Mhdbashar Das'),
+(293, 'Customer Info Updated [ID: 2]', '2019-10-14 20:37:39', 'Mhdbashar Das'),
+(294, 'Client Deleted [ID: 2]', '2019-10-15 14:26:00', 'Mhdbashar Das'),
+(295, 'Add Branch [] To clients [1]', '2019-10-15 14:27:57', 'Mhdbashar Das'),
+(296, 'Customer Info Updated [ID: 1]', '2019-10-15 14:27:58', 'Mhdbashar Das'),
+(297, 'Add Branch [] To clients [1]', '2019-10-15 14:28:38', 'Mhdbashar Das'),
+(298, 'Customer Info Updated [ID: 1]', '2019-10-15 14:28:38', 'Mhdbashar Das'),
+(299, 'Add Branch [] To clients [1]', '2019-10-15 18:30:25', 'Mhdbashar Das'),
+(300, 'Customer Info Updated [ID: 1]', '2019-10-15 18:30:25', 'Mhdbashar Das'),
+(301, 'Add Branch [] To clients [1]', '2019-10-15 18:30:45', 'Mhdbashar Das'),
+(302, 'Customer Info Updated [ID: 1]', '2019-10-15 18:30:45', 'Mhdbashar Das'),
+(303, 'Customer Info Updated [ID: 3]', '2019-10-15 18:31:34', 'Mhdbashar Das'),
+(304, 'Add Branch [] To clients [11]', '2019-10-15 18:32:08', 'Mhdbashar Das'),
+(305, 'Customer Info Updated [ID: 11]', '2019-10-15 18:32:09', 'Mhdbashar Das'),
+(306, 'Add Branch [] To clients [11]', '2019-10-15 18:32:28', 'Mhdbashar Das'),
+(307, 'Customer Info Updated [ID: 11]', '2019-10-15 18:32:28', 'Mhdbashar Das'),
+(308, 'Customer Info Updated [ID: 3]', '2019-10-15 18:33:00', 'Mhdbashar Das'),
+(309, 'Add Branch [1] To clients [12]', '2019-10-15 18:34:57', 'Mhdbashar Das'),
+(310, 'Customer Info Updated [ID: 12]', '2019-10-15 18:34:57', 'Mhdbashar Das'),
+(311, 'Customer Info Updated [ID: 12]', '2019-10-15 18:35:26', 'Mhdbashar Das'),
+(312, 'Update Branch In clients [1]', '2019-10-15 18:37:38', 'Mhdbashar Das'),
+(313, 'Customer Info Updated [ID: 12]', '2019-10-15 18:38:24', 'Mhdbashar Das'),
+(314, 'Customer Info Updated [ID: 12]', '2019-10-15 18:38:55', 'Mhdbashar Das'),
+(315, 'New Session Added [ID:16, Name: tets]', '2019-10-15 19:48:22', 'Mhdbashar Das'),
+(316, ' Customer report added [ Session ID 16]', '2019-10-15 19:49:09', 'Mhdbashar Das'),
+(317, ' Send Report To Customer [ Session ID 16]', '2019-10-15 19:58:09', 'Mhdbashar Das'),
+(318, ' Customer report added [ Session ID 16]', '2019-10-15 20:02:14', 'Mhdbashar Das'),
+(319, ' Customer report added [ Session ID 16]', '2019-10-15 20:03:30', 'Mhdbashar Das'),
+(320, 'Failed to send email template [Template Not Found]', '2019-10-15 20:50:28', 'Mhdbashar Das'),
+(321, 'Email Send To [Email: mhdbashard@gmail.com, Template: New Contact Added/Registered (Welcome Email)]', '2019-10-15 20:54:30', 'Mhdbashar Das'),
+(322, 'Contact Created [ID: 1]', '2019-10-15 20:54:30', 'Mhdbashar Das'),
+(323, 'Failed to send email template [Template Not Found]', '2019-10-15 21:04:50', 'Mhdbashar Das'),
+(324, 'New Client Created [ID: 1, From Staff: 1]', '2019-10-19 19:59:58', 'Mhdbashar Das'),
+(325, 'New Client Created [ID: 2, From Staff: 1]', '2019-10-19 20:00:17', 'Mhdbashar Das'),
+(326, 'New Case Movement [id: 1]', '2019-10-19 20:02:15', 'Mhdbashar Das'),
+(327, 'New Case Added [CaseID: 1]', '2019-10-19 20:02:16', 'Mhdbashar Das'),
+(328, 'Add Branch [1] To clients [1]', '2019-10-19 20:03:10', 'Mhdbashar Das'),
+(329, 'Customer Info Updated [ID: 1]', '2019-10-19 20:03:11', 'Mhdbashar Das'),
+(330, 'New Session Added [ID:1, Name: 1]', '2019-10-19 20:12:57', 'Mhdbashar Das'),
+(331, ' Customer report added [ Session ID 1]', '2019-10-19 20:14:05', 'Mhdbashar Das'),
+(332, ' Send Report To Customer [ Session ID 1]', '2019-10-19 20:21:28', 'Mhdbashar Das'),
+(333, 'Email Send To [Email: hiastskype@gmail.com, Template: New Contact Added/Registered (Welcome Email)]', '2019-10-19 20:37:38', 'Mhdbashar Das'),
+(334, 'Contact Created [ID: 1]', '2019-10-19 20:37:38', 'Mhdbashar Das'),
+(335, 'Failed to send email template [Template Not Found]', '2019-10-19 20:45:22', 'Mhdbashar Das'),
+(336, 'Failed to send email template [Template Not Found]', '2019-10-19 20:46:55', 'Mhdbashar Das'),
+(337, 'Failed to send email template [Template Not Found]', '2019-10-19 20:51:06', 'Mhdbashar Das'),
+(338, 'Failed to send email template [Template Not Found]', '2019-10-19 20:53:16', 'Mhdbashar Das'),
+(339, 'Failed to send email template - SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting<br /><pre>\n\n</pre>', '2019-10-19 21:14:29', 'Mhdbashar Das'),
+(340, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:14:42', 'Mhdbashar Das'),
+(341, 'Email Template Updated [send_report_session]', '2019-10-19 21:17:55', 'Mhdbashar Das'),
+(342, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:18:25', 'Mhdbashar Das'),
+(343, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:18:31', 'Mhdbashar Das'),
+(344, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:32:10', 'Mhdbashar Das'),
+(345, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:33:30', 'Mhdbashar Das'),
+(346, 'Email Template Updated [send_report_session]', '2019-10-19 21:35:13', 'Mhdbashar Das'),
+(347, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:35:41', 'Mhdbashar Das'),
+(348, 'Email Send To [Email: hiastskype@gmail.com, Template: send_report_session]', '2019-10-19 21:36:59', 'Mhdbashar Das'),
+(349, 'New Session Added [ID:2, Name: تحديث]', '2019-10-26 16:08:42', 'Mhdbashar Das');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblannouncements`
+-- Table structure for table `tblannouncements`
 --
 
 CREATE TABLE `tblannouncements` (
@@ -234,7 +318,7 @@ CREATE TABLE `tblannouncements` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblbranches`
+-- Table structure for table `tblbranches`
 --
 
 CREATE TABLE `tblbranches` (
@@ -248,7 +332,7 @@ CREATE TABLE `tblbranches` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblbranches`
+-- Dumping data for table `tblbranches`
 --
 
 INSERT INTO `tblbranches` (`id`, `title_en`, `title_ar`, `country_id`, `city_id`, `address`, `phone`) VALUES
@@ -257,7 +341,7 @@ INSERT INTO `tblbranches` (`id`, `title_en`, `title_ar`, `country_id`, `city_id`
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblbranches_services`
+-- Table structure for table `tblbranches_services`
 --
 
 CREATE TABLE `tblbranches_services` (
@@ -268,19 +352,16 @@ CREATE TABLE `tblbranches_services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblbranches_services`
+-- Dumping data for table `tblbranches_services`
 --
 
 INSERT INTO `tblbranches_services` (`id`, `branch_id`, `rel_type`, `rel_id`) VALUES
-(1, 1, 'clients', 3),
-(2, 1, 'cases', 2),
-(3, 1, 'cases', 3),
-(4, 1, 'cases', 4);
+(1, 1, 'clients', 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcasediscussioncomments`
+-- Table structure for table `tblcasediscussioncomments`
 --
 
 CREATE TABLE `tblcasediscussioncomments` (
@@ -301,7 +382,7 @@ CREATE TABLE `tblcasediscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcasediscussions`
+-- Table structure for table `tblcasediscussions`
 --
 
 CREATE TABLE `tblcasediscussions` (
@@ -316,17 +397,10 @@ CREATE TABLE `tblcasediscussions` (
   `contact_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblcasediscussions`
---
-
-INSERT INTO `tblcasediscussions` (`id`, `project_id`, `subject`, `description`, `show_to_customer`, `datecreated`, `last_activity`, `staff_id`, `contact_id`) VALUES
-(1, 5, '1', '1111111111111111111', 1, '2019-07-30 22:54:37', '2019-07-30 23:06:26', 3, 0);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcase_activity`
+-- Table structure for table `tblcase_activity`
 --
 
 CREATE TABLE `tblcase_activity` (
@@ -342,64 +416,18 @@ CREATE TABLE `tblcase_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcase_activity`
+-- Dumping data for table `tblcase_activity`
 --
 
 INSERT INTO `tblcase_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
-(5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
-(6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
-(7, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:43:13'),
-(8, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:43:13'),
-(9, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:47:16'),
-(10, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:47:16'),
-(11, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:47:21'),
-(12, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:48:50'),
-(13, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:48:51'),
-(14, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:48:56'),
-(15, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:10'),
-(16, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:10'),
-(17, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:49:15'),
-(18, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:58'),
-(19, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:58'),
-(20, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:11'),
-(21, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:11'),
-(22, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:51:16'),
-(23, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:24'),
-(24, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:24'),
-(25, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:52:40'),
-(26, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:52:40'),
-(27, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:53:06'),
-(28, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:53:06'),
-(29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
-(30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
-(31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
-(56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
-(57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
-(58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
-(62, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:06:54'),
-(63, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:06:54'),
-(64, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:06:59'),
-(65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
-(66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
-(67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
-(179, 0, 1, 0, 'Mhdbashar Das', 0, 'project_activity_created_milestone', 'milestone', '2019-07-30 18:00:57'),
-(184, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-01 15:46:46'),
-(197, 10, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:01'),
-(198, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-20 23:03:01'),
-(199, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-20 23:03:02'),
-(200, 9, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-20 23:03:29'),
-(201, 11, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-26 18:44:27'),
-(207, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:19:39'),
-(217, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-29 10:35:24'),
-(218, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-29 10:35:25'),
-(224, 2, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_created', '', '2019-09-16 17:53:07'),
-(228, 5, 1, 0, 'Mhdbashar Das', 1, 'CaseMov_activity_created', '', '2019-09-19 19:37:45');
+(1, 1, 1, 0, 'Mhdbashar Das', 1, 'CaseMov_activity_created', '', '2019-10-19 20:02:15'),
+(2, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-10-19 20:02:15'),
+(3, 1, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_created', '', '2019-10-19 20:02:16');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcase_files`
+-- Table structure for table `tblcase_files`
 --
 
 CREATE TABLE `tblcase_files` (
@@ -422,7 +450,7 @@ CREATE TABLE `tblcase_files` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcase_movement`
+-- Table structure for table `tblcase_movement`
 --
 
 CREATE TABLE `tblcase_movement` (
@@ -430,6 +458,7 @@ CREATE TABLE `tblcase_movement` (
   `numbering` int(11) DEFAULT NULL,
   `code` varchar(255) NOT NULL,
   `name` varchar(191) NOT NULL,
+  `opponent_id` int(11) NOT NULL,
   `clientid` int(11) NOT NULL,
   `representative` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
@@ -459,16 +488,16 @@ CREATE TABLE `tblcase_movement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcase_movement`
+-- Dumping data for table `tblcase_movement`
 --
 
-INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `inserted_date`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
-(3, 1, 'CASE1', 'قضية 1', 3, 2, 3, 4, 2, 7, 105, 'karkouk', 1, 2, 1, 0, '0.00', '2581-02-17', '2019-09-16', '2019-09-16 17:53:06', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 2);
+INSERT INTO `tblcase_movement` (`id`, `numbering`, `code`, `name`, `opponent_id`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `inserted_date`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `case_id`) VALUES
+(1, 1, 'CASE1', 'قضية 1', 2, 1, 2, 1, 2, 2, 7, 66, 'Beheira', 1, 2, 1, 0, '0.00', '2581-03-25', '2019-10-19', '2019-10-19 20:02:14', '2581-03-26', NULL, '', 'متداولة', 0, '0.00', 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcase_notes`
+-- Table structure for table `tblcase_notes`
 --
 
 CREATE TABLE `tblcase_notes` (
@@ -481,7 +510,7 @@ CREATE TABLE `tblcase_notes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcase_settings`
+-- Table structure for table `tblcase_settings`
 --
 
 CREATE TABLE `tblcase_settings` (
@@ -492,34 +521,34 @@ CREATE TABLE `tblcase_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcase_settings`
+-- Dumping data for table `tblcase_settings`
 --
 
 INSERT INTO `tblcase_settings` (`id`, `case_id`, `name`, `value`) VALUES
-(1, 2, 'available_features', 'a:18:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
-(2, 2, 'view_tasks', '1'),
-(3, 2, 'create_tasks', '1'),
-(4, 2, 'edit_tasks', '1'),
-(5, 2, 'comment_on_tasks', '1'),
-(6, 2, 'view_task_comments', '1'),
-(7, 2, 'view_task_attachments', '1'),
-(8, 2, 'view_task_checklist_items', '1'),
-(9, 2, 'upload_on_tasks', '1'),
-(10, 2, 'view_task_total_logged_time', '1'),
-(11, 2, 'view_finance_overview', '1'),
-(12, 2, 'upload_files', '1'),
-(13, 2, 'open_discussions', '1'),
-(14, 2, 'view_milestones', '1'),
-(15, 2, 'view_gantt', '1'),
-(16, 2, 'view_timesheets', '1'),
-(17, 2, 'view_activity_log', '1'),
-(18, 2, 'view_team_members', '1'),
-(19, 2, 'hide_tasks_on_main_tasks_table', '0');
+(1, 1, 'available_features', 'a:18:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;}'),
+(2, 1, 'view_tasks', '1'),
+(3, 1, 'create_tasks', '1'),
+(4, 1, 'edit_tasks', '1'),
+(5, 1, 'comment_on_tasks', '1'),
+(6, 1, 'view_task_comments', '1'),
+(7, 1, 'view_task_attachments', '1'),
+(8, 1, 'view_task_checklist_items', '1'),
+(9, 1, 'upload_on_tasks', '1'),
+(10, 1, 'view_task_total_logged_time', '1'),
+(11, 1, 'view_finance_overview', '1'),
+(12, 1, 'upload_files', '1'),
+(13, 1, 'open_discussions', '1'),
+(14, 1, 'view_milestones', '1'),
+(15, 1, 'view_gantt', '1'),
+(16, 1, 'view_timesheets', '1'),
+(17, 1, 'view_activity_log', '1'),
+(18, 1, 'view_team_members', '1'),
+(19, 1, 'hide_tasks_on_main_tasks_table', '0');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcities`
+-- Table structure for table `tblcities`
 --
 
 CREATE TABLE `tblcities` (
@@ -530,7 +559,7 @@ CREATE TABLE `tblcities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcities`
+-- Dumping data for table `tblcities`
 --
 
 INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
@@ -747,7 +776,7 @@ INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblclients`
+-- Table structure for table `tblclients`
 --
 
 CREATE TABLE `tblclients` (
@@ -783,22 +812,22 @@ CREATE TABLE `tblclients` (
   `registration_confirmed` int(11) NOT NULL DEFAULT 1,
   `addedfrom` int(11) NOT NULL DEFAULT 0,
   `individual` tinyint(4) NOT NULL DEFAULT 1,
-  `branch_id` int(11) NOT NULL DEFAULT 0
+  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `client_type` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblclients`
+-- Dumping data for table `tblclients`
 --
 
-INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`) VALUES
-(1, 'Client individual ', NULL, '', 217, 'homs', NULL, NULL, '', NULL, '2019-07-25 13:56:59', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0),
-(2, 'Client company', NULL, '', 194, 'al-baha', NULL, NULL, '', NULL, '2019-07-25 13:58:22', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0),
-(3, 'Al-Muslat Company', NULL, '', 194, 'yanbu', '', '', '', '', '2019-07-27 15:21:46', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 0, 0);
+INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`, `client_type`) VALUES
+(1, 'عميل 1', NULL, '', 0, NULL, NULL, NULL, '', NULL, '2019-10-19 19:59:58', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 1, 1, 0, 0),
+(2, 'خصم 1', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2019-10-19 20:00:17', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL, 1, 1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblconsents`
+-- Table structure for table `tblconsents`
 --
 
 CREATE TABLE `tblconsents` (
@@ -817,7 +846,7 @@ CREATE TABLE `tblconsents` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblconsent_purposes`
+-- Table structure for table `tblconsent_purposes`
 --
 
 CREATE TABLE `tblconsent_purposes` (
@@ -831,15 +860,15 @@ CREATE TABLE `tblconsent_purposes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontacts`
+-- Table structure for table `tblcontacts`
 --
 
 CREATE TABLE `tblcontacts` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `is_primary` int(11) NOT NULL DEFAULT 1,
-  `firstname` varchar(191) NOT NULL,
-  `lastname` varchar(191) NOT NULL,
+  `firstname` varchar(191) DEFAULT NULL,
+  `lastname` varchar(191) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `phonenumber` varchar(100) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
@@ -865,10 +894,17 @@ CREATE TABLE `tblcontacts` (
   `ticket_emails` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblcontacts`
+--
+
+INSERT INTO `tblcontacts` (`id`, `userid`, `is_primary`, `firstname`, `lastname`, `email`, `phonenumber`, `title`, `datecreated`, `password`, `new_pass_key`, `new_pass_key_requested`, `email_verified_at`, `email_verification_key`, `email_verification_sent_at`, `last_ip`, `last_login`, `last_password_change`, `active`, `profile_image`, `direction`, `invoice_emails`, `estimate_emails`, `credit_note_emails`, `contract_emails`, `task_emails`, `project_emails`, `ticket_emails`) VALUES
+(1, 1, 1, '0', NULL, 'hiastskype@gmail.com', '', '', '2019-10-19 20:37:26', '$2a$08$Op3mYnPmqzDABn6tYnnodeMrucs9l4KCffzB.fufwkJf98Q/sfYLC', NULL, NULL, '2019-10-19 20:37:26', NULL, NULL, NULL, NULL, NULL, 1, NULL, '', 1, 1, 1, 1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontact_permissions`
+-- Table structure for table `tblcontact_permissions`
 --
 
 CREATE TABLE `tblcontact_permissions` (
@@ -877,10 +913,22 @@ CREATE TABLE `tblcontact_permissions` (
   `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblcontact_permissions`
+--
+
+INSERT INTO `tblcontact_permissions` (`id`, `permission_id`, `userid`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 1),
+(6, 6, 1);
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontracts`
+-- Table structure for table `tblcontracts`
 --
 
 CREATE TABLE `tblcontracts` (
@@ -911,7 +959,7 @@ CREATE TABLE `tblcontracts` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontracts_types`
+-- Table structure for table `tblcontracts_types`
 --
 
 CREATE TABLE `tblcontracts_types` (
@@ -922,7 +970,7 @@ CREATE TABLE `tblcontracts_types` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontract_comments`
+-- Table structure for table `tblcontract_comments`
 --
 
 CREATE TABLE `tblcontract_comments` (
@@ -936,7 +984,7 @@ CREATE TABLE `tblcontract_comments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcontract_renewals`
+-- Table structure for table `tblcontract_renewals`
 --
 
 CREATE TABLE `tblcontract_renewals` (
@@ -957,7 +1005,7 @@ CREATE TABLE `tblcontract_renewals` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcountries`
+-- Table structure for table `tblcountries`
 --
 
 CREATE TABLE `tblcountries` (
@@ -974,7 +1022,7 @@ CREATE TABLE `tblcountries` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcountries`
+-- Dumping data for table `tblcountries`
 --
 
 INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
@@ -1232,7 +1280,7 @@ INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`,
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcreditnotes`
+-- Table structure for table `tblcreditnotes`
 --
 
 CREATE TABLE `tblcreditnotes` (
@@ -1280,7 +1328,7 @@ CREATE TABLE `tblcreditnotes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcreditnote_refunds`
+-- Table structure for table `tblcreditnote_refunds`
 --
 
 CREATE TABLE `tblcreditnote_refunds` (
@@ -1297,7 +1345,7 @@ CREATE TABLE `tblcreditnote_refunds` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcredits`
+-- Table structure for table `tblcredits`
 --
 
 CREATE TABLE `tblcredits` (
@@ -1313,7 +1361,7 @@ CREATE TABLE `tblcredits` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcurrencies`
+-- Table structure for table `tblcurrencies`
 --
 
 CREATE TABLE `tblcurrencies` (
@@ -1327,7 +1375,7 @@ CREATE TABLE `tblcurrencies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcurrencies`
+-- Dumping data for table `tblcurrencies`
 --
 
 INSERT INTO `tblcurrencies` (`id`, `symbol`, `name`, `decimal_separator`, `thousand_separator`, `placement`, `isdefault`) VALUES
@@ -1337,7 +1385,7 @@ INSERT INTO `tblcurrencies` (`id`, `symbol`, `name`, `decimal_separator`, `thous
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcustomers_groups`
+-- Table structure for table `tblcustomers_groups`
 --
 
 CREATE TABLE `tblcustomers_groups` (
@@ -1346,16 +1394,17 @@ CREATE TABLE `tblcustomers_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblcustomers_groups`
+-- Dumping data for table `tblcustomers_groups`
 --
 
 INSERT INTO `tblcustomers_groups` (`id`, `name`) VALUES
+(3, 'DevOps'),
 (1, 'Web Developer');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcustomer_admins`
+-- Table structure for table `tblcustomer_admins`
 --
 
 CREATE TABLE `tblcustomer_admins` (
@@ -1367,7 +1416,7 @@ CREATE TABLE `tblcustomer_admins` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcustomer_groups`
+-- Table structure for table `tblcustomer_groups`
 --
 
 CREATE TABLE `tblcustomer_groups` (
@@ -1376,15 +1425,26 @@ CREATE TABLE `tblcustomer_groups` (
   `customer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblcustomer_groups`
+--
+
+INSERT INTO `tblcustomer_groups` (`id`, `groupid`, `customer_id`) VALUES
+(1, 3, 3),
+(3, 1, 1),
+(4, 3, 11),
+(5, 1, 11),
+(6, 1, 3);
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcustomfields`
+-- Table structure for table `tblcustomfields`
 --
 
 CREATE TABLE `tblcustomfields` (
   `id` int(11) NOT NULL,
-  `fieldto` varchar(15) NOT NULL,
+  `fieldto` varchar(50) NOT NULL,
   `name` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
   `required` tinyint(1) NOT NULL DEFAULT 0,
@@ -1402,30 +1462,43 @@ CREATE TABLE `tblcustomfields` (
   `bs_column` int(11) NOT NULL DEFAULT 12
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblcustomfields`
+--
+
+INSERT INTO `tblcustomfields` (`id`, `fieldto`, `name`, `slug`, `required`, `type`, `options`, `display_inline`, `field_order`, `active`, `show_on_pdf`, `show_on_ticket_form`, `only_admin`, `show_on_table`, `show_on_client_portal`, `disalow_client_to_edit`, `bs_column`) VALUES
+(1, 'legal_phase_1_kd_y', 'رقم الطلب', 'legal_phase_1_kd_y_rkm_ltlb', 1, 'number', '', 0, 0, 1, 0, 0, 0, 0, 0, 0, 12),
+(2, 'legal_phase_1_kd_y', 'المحكمة', 'legal_phase_1_kd_y_lmhkm', 1, 'select', 'test', 0, 1, 1, 0, 0, 0, 0, 0, 0, 12),
+(3, 'legal_phase_1_kd_y', 'ملاحظات', 'legal_phase_1_kd_y_ml_hth_t', 0, 'textarea', '', 0, 2, 1, 0, 0, 0, 0, 0, 0, 12),
+(4, 'legal_phase_2_kd_y', 'رقم القيد', 'legal_phase_2_kd_y_rkm_lkyd', 1, 'number', '', 0, 0, 1, 0, 0, 0, 0, 0, 0, 12),
+(5, 'legal_phase_2_kd_y', 'تاريخ الإحالة', 'legal_phase_2_kd_y_t_rykh_l_h_l', 1, 'date_picker', '', 0, 1, 1, 0, 0, 0, 0, 0, 0, 12),
+(6, 'legal_phase_1_aakod', 'test', 'legal_phase_1_aakod_test', 1, 'number', '', 0, 0, 1, 0, 0, 0, 0, 0, 0, 12),
+(7, 'legal_phase_3_kd_y', 'رقم القرار', 'legal_phase_3_kd_y_rkm_lkr_r', 1, 'number', '', 0, 0, 1, 0, 0, 0, 0, 0, 0, 12);
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblcustomfieldsvalues`
+-- Table structure for table `tblcustomfieldsvalues`
 --
 
 CREATE TABLE `tblcustomfieldsvalues` (
   `id` int(11) NOT NULL,
   `relid` int(11) NOT NULL,
   `fieldid` int(11) NOT NULL,
-  `fieldto` varchar(15) NOT NULL,
+  `fieldto` varchar(50) NOT NULL,
   `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbldepartments`
+-- Table structure for table `tbldepartments`
 --
 
 CREATE TABLE `tbldepartments` (
   `departmentid` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `imap_username` varchar(50) DEFAULT NULL,
+  `imap_username` varchar(191) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `email_from_header` tinyint(1) NOT NULL DEFAULT 0,
   `host` varchar(150) DEFAULT NULL,
@@ -1438,7 +1511,7 @@ CREATE TABLE `tbldepartments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbldepartments`
+-- Dumping data for table `tbldepartments`
 --
 
 INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, `email_from_header`, `host`, `password`, `encryption`, `delete_after_import`, `calendar_id`, `hidefromclient`, `branch_id`) VALUES
@@ -1447,7 +1520,7 @@ INSERT INTO `tbldepartments` (`departmentid`, `name`, `imap_username`, `email`, 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbldismissed_announcements`
+-- Table structure for table `tbldismissed_announcements`
 --
 
 CREATE TABLE `tbldismissed_announcements` (
@@ -1460,7 +1533,7 @@ CREATE TABLE `tbldismissed_announcements` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblemailtemplates`
+-- Table structure for table `tblemailtemplates`
 --
 
 CREATE TABLE `tblemailtemplates` (
@@ -1479,7 +1552,7 @@ CREATE TABLE `tblemailtemplates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblemailtemplates`
+-- Dumping data for table `tblemailtemplates`
 --
 
 INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
@@ -1631,12 +1704,34 @@ INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, 
 (145, 'subscriptions', 'customer-subscribed-to-staff', 'arabic', 'Customer Subscribed to a Subscription (Sent to administrators and subscription creator) [arabic]', 'Customer Subscribed to a Subscription', '', '{companyname} | CRM', NULL, 0, 1, 0),
 (146, 'client', 'contact-verification-email', 'arabic', 'Email Verification (Sent to Contact After Registration) [arabic]', 'Verify Email Address', '', '{companyname} | CRM', NULL, 0, 1, 0),
 (147, 'client', 'new-customer-profile-file-uploaded-to-staff', 'arabic', 'New Customer Profile File(s) Uploaded (Sent to Staff) [arabic]', 'Customer Uploaded New File(s) in Profile', '', '{companyname} | CRM', NULL, 0, 1, 0),
-(148, 'staff', 'event-notification-to-staff', 'arabic', 'Event Notification (Calendar) [arabic]', 'Upcoming Event - {event_title}', '', '', NULL, 0, 1, 0);
+(148, 'staff', 'event-notification-to-staff', 'arabic', 'Event Notification (Calendar) [arabic]', 'Upcoming Event - {event_title}', '', '', NULL, 0, 1, 0),
+(149, 'subscriptions', 'subscription-payment-requires-action', 'english', 'Credit Card Authorization Required - SCA', 'Important: Confirm your subscription {subscription_name} payment', '<p>Hello {contact_firstname}</p>\r\n<p><strong>Your bank sometimes requires an additional step to make sure an online transaction was authorized.</strong><br /><br />Because of European regulation to protect consumers, many online payments now require two-factor authentication. Your bank ultimately decides when authentication is required to confirm a payment, but you may notice this step when you start paying for a service or when the cost changes.<br /><br />In order to pay the subscription <strong>{subscription_name}</strong>, you will need to&nbsp;confirm your payment by clicking on the follow link: <strong><a href=\"{subscription_authorize_payment_link}\">{subscription_authorize_payment_link}</a></strong><br /><br />To view the subscription, please click at the following link: <a href=\"{subscription_link}\"><span>{subscription_link}</span></a><br />or you can login in our dedicated area here: <a href=\"{crm_url}/login\">{crm_url}/login</a> in case you want to update your credit card or view the subscriptions you are subscribed.<br /><br />Best Regards,<br />{email_signature}</p>', '{companyname} | CRM', '', 0, 1, 0),
+(150, 'subscriptions', 'subscription-payment-requires-action', 'arabic', 'Credit Card Authorization Required - SCA [arabic]', 'Important: Confirm your subscription {subscription_name} payment', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(151, 'sessions', 'session-added-as-follower', 'english', 'Staff Member Added as Follower on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(152, 'sessions', 'session-added-as-follower', 'arabic', 'Staff Member Added as Follower on Session (Sent to Staff) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(153, 'sessions', 'session-assigned', 'english', 'New Session Assigned (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(154, 'sessions', 'session-assigned', 'arabic', 'New Session Assigned (Sent to Staff) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(155, 'sessions', 'session-deadline-notification', 'english', 'Session Deadline Reminder - Sent to Assigned Members', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(156, 'sessions', 'session-deadline-notification', 'arabic', 'Session Deadline Reminder - Sent to Assigned Members [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(157, 'sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(158, 'sessions', 'session-added-attachment-to-contacts', 'arabic', 'New Attachment(s) on Session (Sent to Customer Contacts) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(159, 'sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(160, 'sessions', 'session-added-attachment', 'arabic', 'New Attachment(s) on Session (Sent to Staff) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(161, 'sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(162, 'sessions', 'session-commented-to-contacts', 'arabic', 'New Comment on Task (Sent to Customer Contacts) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(163, 'sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(164, 'sessions', 'session-commented', 'arabic', 'New Comment on Session (Sent to Staff) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(165, 'sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(166, 'sessions', 'session-status-change-to-contacts', 'arabic', 'Session Status Changed (Sent to Customer Contacts) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(167, 'sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(168, 'sessions', 'session-status-change-to-staff', 'arabic', 'Session Status Changed (Sent to Staff) [arabic]', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+(169, 'sessions', 'send_report_session', 'arabic', 'send_report_session', 'send_report_session', 'arabic<br />{session_name}{session_user_take_action}{session_link}{session_description}{session_status}{session_priority}{session_startdate}{session_duedate}{session_related}send_report_session', '{companyname} | CRM', '', 0, 1, 0),
+(170, 'sessions', 'send_report_session', 'english', 'send_report_session', 'send_report_session', 'english<br />{session_name} <br />{session_user_take_action}<br />{session_link}<br />{session_description}<br />{session_status}<br />{session_priority}<br />{session_startdate}<br />{session_duedate}<br />{session_related}<br /><br />send_report_session', '{companyname} | CRM', '', 0, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblestimates`
+-- Table structure for table `tblestimates`
 --
 
 CREATE TABLE `tblestimates` (
@@ -1699,7 +1794,7 @@ CREATE TABLE `tblestimates` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblevents`
+-- Table structure for table `tblevents`
 --
 
 CREATE TABLE `tblevents` (
@@ -1719,7 +1814,7 @@ CREATE TABLE `tblevents` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblexpenses`
+-- Table structure for table `tblexpenses`
 --
 
 CREATE TABLE `tblexpenses` (
@@ -1755,17 +1850,10 @@ CREATE TABLE `tblexpenses` (
   `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblexpenses`
---
-
-INSERT INTO `tblexpenses` (`id`, `category`, `currency`, `amount`, `tax`, `tax2`, `reference_no`, `note`, `expense_name`, `clientid`, `project_id`, `rel_sid`, `rel_stype`, `billable`, `invoiceid`, `paymentmode`, `date`, `recurring_type`, `repeat_every`, `recurring`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `create_invoice_billable`, `send_invoice_to_customer`, `recurring_from`, `dateadded`, `addedfrom`, `deleted`) VALUES
-(5, 1, 1, '5.00', 0, 0, '', '', 'tes', 0, 0, NULL, NULL, 0, NULL, '', '2019-09-04', NULL, 0, 0, 0, 0, 0, NULL, 0, 0, NULL, '2019-09-04 18:49:29', 1, 0);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblexpenses_categories`
+-- Table structure for table `tblexpenses_categories`
 --
 
 CREATE TABLE `tblexpenses_categories` (
@@ -1775,7 +1863,7 @@ CREATE TABLE `tblexpenses_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblexpenses_categories`
+-- Dumping data for table `tblexpenses_categories`
 --
 
 INSERT INTO `tblexpenses_categories` (`id`, `name`, `description`) VALUES
@@ -1784,7 +1872,7 @@ INSERT INTO `tblexpenses_categories` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblfiles`
+-- Table structure for table `tblfiles`
 --
 
 CREATE TABLE `tblfiles` (
@@ -1807,7 +1895,7 @@ CREATE TABLE `tblfiles` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblform_questions`
+-- Table structure for table `tblform_questions`
 --
 
 CREATE TABLE `tblform_questions` (
@@ -1822,7 +1910,7 @@ CREATE TABLE `tblform_questions` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblform_question_box`
+-- Table structure for table `tblform_question_box`
 --
 
 CREATE TABLE `tblform_question_box` (
@@ -1834,7 +1922,7 @@ CREATE TABLE `tblform_question_box` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblform_question_box_description`
+-- Table structure for table `tblform_question_box_description`
 --
 
 CREATE TABLE `tblform_question_box_description` (
@@ -1847,7 +1935,7 @@ CREATE TABLE `tblform_question_box_description` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblform_results`
+-- Table structure for table `tblform_results`
 --
 
 CREATE TABLE `tblform_results` (
@@ -1864,7 +1952,7 @@ CREATE TABLE `tblform_results` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblgdpr_requests`
+-- Table structure for table `tblgdpr_requests`
 --
 
 CREATE TABLE `tblgdpr_requests` (
@@ -1882,7 +1970,7 @@ CREATE TABLE `tblgdpr_requests` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblinvoicepaymentrecords`
+-- Table structure for table `tblinvoicepaymentrecords`
 --
 
 CREATE TABLE `tblinvoicepaymentrecords` (
@@ -1897,17 +1985,10 @@ CREATE TABLE `tblinvoicepaymentrecords` (
   `transactionid` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblinvoicepaymentrecords`
---
-
-INSERT INTO `tblinvoicepaymentrecords` (`id`, `invoiceid`, `amount`, `paymentmode`, `paymentmethod`, `date`, `daterecorded`, `note`, `transactionid`) VALUES
-(1, 1, '10.00', '1', '', '2019-08-26', '2019-08-26 21:06:17', '', '');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblinvoices`
+-- Table structure for table `tblinvoices`
 --
 
 CREATE TABLE `tblinvoices` (
@@ -1971,7 +2052,7 @@ CREATE TABLE `tblinvoices` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblitemable`
+-- Table structure for table `tblitemable`
 --
 
 CREATE TABLE `tblitemable` (
@@ -1987,7 +2068,7 @@ CREATE TABLE `tblitemable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblitemable`
+-- Dumping data for table `tblitemable`
 --
 
 INSERT INTO `tblitemable` (`id`, `rel_id`, `rel_type`, `description`, `long_description`, `qty`, `rate`, `unit`, `item_order`) VALUES
@@ -1998,7 +2079,7 @@ INSERT INTO `tblitemable` (`id`, `rel_id`, `rel_type`, `description`, `long_desc
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblitems`
+-- Table structure for table `tblitems`
 --
 
 CREATE TABLE `tblitems` (
@@ -2012,18 +2093,10 @@ CREATE TABLE `tblitems` (
   `group_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblitems`
---
-
-INSERT INTO `tblitems` (`id`, `description`, `long_description`, `rate`, `tax`, `tax2`, `unit`, `group_id`) VALUES
-(1, 'test', '', '10.00', NULL, NULL, '', 0),
-(2, 'المبلغ المدين شهريا', '', '10000.00', NULL, NULL, '', 0);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblitems_groups`
+-- Table structure for table `tblitems_groups`
 --
 
 CREATE TABLE `tblitems_groups` (
@@ -2034,7 +2107,7 @@ CREATE TABLE `tblitems_groups` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblitem_tax`
+-- Table structure for table `tblitem_tax`
 --
 
 CREATE TABLE `tblitem_tax` (
@@ -2049,7 +2122,7 @@ CREATE TABLE `tblitem_tax` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblknowedge_base_article_feedback`
+-- Table structure for table `tblknowedge_base_article_feedback`
 --
 
 CREATE TABLE `tblknowedge_base_article_feedback` (
@@ -2063,7 +2136,7 @@ CREATE TABLE `tblknowedge_base_article_feedback` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblknowledge_base`
+-- Table structure for table `tblknowledge_base`
 --
 
 CREATE TABLE `tblknowledge_base` (
@@ -2081,7 +2154,7 @@ CREATE TABLE `tblknowledge_base` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblknowledge_base_groups`
+-- Table structure for table `tblknowledge_base_groups`
 --
 
 CREATE TABLE `tblknowledge_base_groups` (
@@ -2097,7 +2170,7 @@ CREATE TABLE `tblknowledge_base_groups` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblleads`
+-- Table structure for table `tblleads`
 --
 
 CREATE TABLE `tblleads` (
@@ -2139,7 +2212,7 @@ CREATE TABLE `tblleads` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblleads_email_integration`
+-- Table structure for table `tblleads_email_integration`
 --
 
 CREATE TABLE `tblleads_email_integration` (
@@ -2166,7 +2239,7 @@ CREATE TABLE `tblleads_email_integration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblleads_email_integration`
+-- Dumping data for table `tblleads_email_integration`
 --
 
 INSERT INTO `tblleads_email_integration` (`id`, `active`, `email`, `imap_server`, `password`, `check_every`, `responsible`, `lead_source`, `lead_status`, `encryption`, `folder`, `last_run`, `notify_lead_imported`, `notify_lead_contact_more_times`, `notify_type`, `notify_ids`, `mark_public`, `only_loop_on_unseen_emails`, `delete_after_import`, `create_task_if_customer`) VALUES
@@ -2175,7 +2248,7 @@ INSERT INTO `tblleads_email_integration` (`id`, `active`, `email`, `imap_server`
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblleads_sources`
+-- Table structure for table `tblleads_sources`
 --
 
 CREATE TABLE `tblleads_sources` (
@@ -2184,7 +2257,7 @@ CREATE TABLE `tblleads_sources` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblleads_sources`
+-- Dumping data for table `tblleads_sources`
 --
 
 INSERT INTO `tblleads_sources` (`id`, `name`) VALUES
@@ -2194,7 +2267,7 @@ INSERT INTO `tblleads_sources` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblleads_status`
+-- Table structure for table `tblleads_status`
 --
 
 CREATE TABLE `tblleads_status` (
@@ -2206,7 +2279,7 @@ CREATE TABLE `tblleads_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblleads_status`
+-- Dumping data for table `tblleads_status`
 --
 
 INSERT INTO `tblleads_status` (`id`, `name`, `statusorder`, `color`, `isdefault`) VALUES
@@ -2215,7 +2288,7 @@ INSERT INTO `tblleads_status` (`id`, `name`, `statusorder`, `color`, `isdefault`
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbllead_activity_log`
+-- Table structure for table `tbllead_activity_log`
 --
 
 CREATE TABLE `tbllead_activity_log` (
@@ -2232,7 +2305,7 @@ CREATE TABLE `tbllead_activity_log` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbllead_integration_emails`
+-- Table structure for table `tbllead_integration_emails`
 --
 
 CREATE TABLE `tbllead_integration_emails` (
@@ -2247,7 +2320,7 @@ CREATE TABLE `tbllead_integration_emails` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmail_queue`
+-- Table structure for table `tblmail_queue`
 --
 
 CREATE TABLE `tblmail_queue` (
@@ -2267,7 +2340,7 @@ CREATE TABLE `tblmail_queue` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmigrations`
+-- Table structure for table `tblmigrations`
 --
 
 CREATE TABLE `tblmigrations` (
@@ -2275,16 +2348,16 @@ CREATE TABLE `tblmigrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmigrations`
+-- Dumping data for table `tblmigrations`
 --
 
 INSERT INTO `tblmigrations` (`version`) VALUES
-(235);
+(240);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmilestones`
+-- Table structure for table `tblmilestones`
 --
 
 CREATE TABLE `tblmilestones` (
@@ -2304,7 +2377,7 @@ CREATE TABLE `tblmilestones` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmodules`
+-- Table structure for table `tblmodules`
 --
 
 CREATE TABLE `tblmodules` (
@@ -2315,7 +2388,7 @@ CREATE TABLE `tblmodules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmodules`
+-- Dumping data for table `tblmodules`
 --
 
 INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VALUES
@@ -2330,7 +2403,7 @@ INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VA
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_award`
+-- Table structure for table `tblmy_award`
 --
 
 CREATE TABLE `tblmy_award` (
@@ -2342,7 +2415,7 @@ CREATE TABLE `tblmy_award` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_award`
+-- Dumping data for table `tblmy_award`
 --
 
 INSERT INTO `tblmy_award` (`id`, `staff_id`, `award`, `reason`, `date`) VALUES
@@ -2353,7 +2426,7 @@ INSERT INTO `tblmy_award` (`id`, `staff_id`, `award`, `reason`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_bank`
+-- Table structure for table `tblmy_bank`
 --
 
 CREATE TABLE `tblmy_bank` (
@@ -2369,7 +2442,7 @@ CREATE TABLE `tblmy_bank` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_basic_services`
+-- Table structure for table `tblmy_basic_services`
 --
 
 CREATE TABLE `tblmy_basic_services` (
@@ -2383,7 +2456,7 @@ CREATE TABLE `tblmy_basic_services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_basic_services`
+-- Dumping data for table `tblmy_basic_services`
 --
 
 INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `datecreated`) VALUES
@@ -2394,7 +2467,7 @@ INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`,
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_cases`
+-- Table structure for table `tblmy_cases`
 --
 
 CREATE TABLE `tblmy_cases` (
@@ -2403,6 +2476,7 @@ CREATE TABLE `tblmy_cases` (
   `code` varchar(255) NOT NULL,
   `name` varchar(191) NOT NULL,
   `clientid` int(11) NOT NULL,
+  `opponent_id` int(11) NOT NULL,
   `representative` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
@@ -2431,16 +2505,16 @@ CREATE TABLE `tblmy_cases` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_cases`
+-- Dumping data for table `tblmy_cases`
 --
 
-INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
-(2, 1, 'CASE1', 'قضية 1', 3, 2, 3, 4, 2, 7, 105, 'karkouk', 1, 2, 1, 0, '0.00', '2019-09-13', '2019-09-16', NULL, NULL, '', 'متداولة', 0, '0.00', 0, 0, 1, 0, 0);
+INSERT INTO `tblmy_cases` (`id`, `numbering`, `code`, `name`, `clientid`, `opponent_id`, `representative`, `cat_id`, `subcat_id`, `court_id`, `jud_num`, `country`, `city`, `billing_type`, `case_status`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `case_result`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
+(1, 1, 'CASE1', 'قضية 1', 1, 2, 2, 1, 2, 2, 7, 66, 'Beheira', 1, 2, 1, 0, '0.00', '2019-10-19', '2019-10-19', '2019-10-20', NULL, '', 'متداولة', 0, '0.00', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_casestatus`
+-- Table structure for table `tblmy_casestatus`
 --
 
 CREATE TABLE `tblmy_casestatus` (
@@ -2449,7 +2523,7 @@ CREATE TABLE `tblmy_casestatus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_casestatus`
+-- Dumping data for table `tblmy_casestatus`
 --
 
 INSERT INTO `tblmy_casestatus` (`id`, `name`) VALUES
@@ -2459,7 +2533,7 @@ INSERT INTO `tblmy_casestatus` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_cases_judges`
+-- Table structure for table `tblmy_cases_judges`
 --
 
 CREATE TABLE `tblmy_cases_judges` (
@@ -2469,17 +2543,17 @@ CREATE TABLE `tblmy_cases_judges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_cases_judges`
+-- Dumping data for table `tblmy_cases_judges`
 --
 
 INSERT INTO `tblmy_cases_judges` (`id`, `judge_id`, `case_id`) VALUES
-(3, 3, 2),
-(4, 1, 2);
+(1, 3, 1),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_cases_movement_judges`
+-- Table structure for table `tblmy_cases_movement_judges`
 --
 
 CREATE TABLE `tblmy_cases_movement_judges` (
@@ -2489,17 +2563,17 @@ CREATE TABLE `tblmy_cases_movement_judges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_cases_movement_judges`
+-- Dumping data for table `tblmy_cases_movement_judges`
 --
 
 INSERT INTO `tblmy_cases_movement_judges` (`id`, `judge_id`, `case_mov_id`) VALUES
-(2, 3, 2),
-(3, 1, 2);
+(1, 3, 1),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_categories`
+-- Table structure for table `tblmy_categories`
 --
 
 CREATE TABLE `tblmy_categories` (
@@ -2511,7 +2585,7 @@ CREATE TABLE `tblmy_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_categories`
+-- Dumping data for table `tblmy_categories`
 --
 
 INSERT INTO `tblmy_categories` (`id`, `name`, `service_id`, `parent_id`, `datecreated`) VALUES
@@ -2531,7 +2605,7 @@ INSERT INTO `tblmy_categories` (`id`, `name`, `service_id`, `parent_id`, `datecr
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_courts`
+-- Table structure for table `tblmy_courts`
 --
 
 CREATE TABLE `tblmy_courts` (
@@ -2541,7 +2615,7 @@ CREATE TABLE `tblmy_courts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_courts`
+-- Dumping data for table `tblmy_courts`
 --
 
 INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`) VALUES
@@ -2550,7 +2624,38 @@ INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_customer_representative`
+-- Table structure for table `tblmy_customers_company_groups`
+--
+
+CREATE TABLE `tblmy_customers_company_groups` (
+  `id` int(11) NOT NULL,
+  `name` varchar(191) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_customers_company_groups`
+--
+
+INSERT INTO `tblmy_customers_company_groups` (`id`, `name`) VALUES
+(1, 'شركة'),
+(2, 'مؤسسة');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_customer_company_groups`
+--
+
+CREATE TABLE `tblmy_customer_company_groups` (
+  `id` int(11) NOT NULL,
+  `groupid` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_customer_representative`
 --
 
 CREATE TABLE `tblmy_customer_representative` (
@@ -2559,7 +2664,7 @@ CREATE TABLE `tblmy_customer_representative` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_customer_representative`
+-- Dumping data for table `tblmy_customer_representative`
 --
 
 INSERT INTO `tblmy_customer_representative` (`id`, `representative`) VALUES
@@ -2569,7 +2674,7 @@ INSERT INTO `tblmy_customer_representative` (`id`, `representative`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_employee_basic`
+-- Table structure for table `tblmy_employee_basic`
 --
 
 CREATE TABLE `tblmy_employee_basic` (
@@ -2589,7 +2694,7 @@ CREATE TABLE `tblmy_employee_basic` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_holiday`
+-- Table structure for table `tblmy_holiday`
 --
 
 CREATE TABLE `tblmy_holiday` (
@@ -2601,7 +2706,7 @@ CREATE TABLE `tblmy_holiday` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_holiday`
+-- Dumping data for table `tblmy_holiday`
 --
 
 INSERT INTO `tblmy_holiday` (`id`, `event_name`, `description`, `start_date`, `end_date`) VALUES
@@ -2610,7 +2715,7 @@ INSERT INTO `tblmy_holiday` (`id`, `event_name`, `description`, `start_date`, `e
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_judges`
+-- Table structure for table `tblmy_judges`
 --
 
 CREATE TABLE `tblmy_judges` (
@@ -2620,7 +2725,7 @@ CREATE TABLE `tblmy_judges` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_judges`
+-- Dumping data for table `tblmy_judges`
 --
 
 INSERT INTO `tblmy_judges` (`id`, `name`, `note`) VALUES
@@ -2630,7 +2735,7 @@ INSERT INTO `tblmy_judges` (`id`, `name`, `note`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_judicialdept`
+-- Table structure for table `tblmy_judicialdept`
 --
 
 CREATE TABLE `tblmy_judicialdept` (
@@ -2641,7 +2746,7 @@ CREATE TABLE `tblmy_judicialdept` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_judicialdept`
+-- Dumping data for table `tblmy_judicialdept`
 --
 
 INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `datecreated`) VALUES
@@ -2650,7 +2755,7 @@ INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `datecreated`) V
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_members_cases`
+-- Table structure for table `tblmy_members_cases`
 --
 
 CREATE TABLE `tblmy_members_cases` (
@@ -2660,17 +2765,16 @@ CREATE TABLE `tblmy_members_cases` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_members_cases`
+-- Dumping data for table `tblmy_members_cases`
 --
 
 INSERT INTO `tblmy_members_cases` (`id`, `staff_id`, `project_id`) VALUES
-(17, 1, 9),
-(21, 1, 2);
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_members_services`
+-- Table structure for table `tblmy_members_services`
 --
 
 CREATE TABLE `tblmy_members_services` (
@@ -2679,18 +2783,10 @@ CREATE TABLE `tblmy_members_services` (
   `oservice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblmy_members_services`
---
-
-INSERT INTO `tblmy_members_services` (`id`, `staff_id`, `oservice_id`) VALUES
-(3, 1, 5),
-(4, 1, 6);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_newstaff`
+-- Table structure for table `tblmy_newstaff`
 --
 
 CREATE TABLE `tblmy_newstaff` (
@@ -2706,7 +2802,7 @@ CREATE TABLE `tblmy_newstaff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_newstaff`
+-- Dumping data for table `tblmy_newstaff`
 --
 
 INSERT INTO `tblmy_newstaff` (`user_id`, `staff_id`, `period`, `gender`, `main_salary`, `transportation_expenses`, `other_expenses`, `job_title`, `created`) VALUES
@@ -2716,7 +2812,7 @@ INSERT INTO `tblmy_newstaff` (`user_id`, `staff_id`, `period`, `gender`, `main_s
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_other_services`
+-- Table structure for table `tblmy_other_services`
 --
 
 CREATE TABLE `tblmy_other_services` (
@@ -2749,17 +2845,25 @@ CREATE TABLE `tblmy_other_services` (
   `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_other_services`
+-- Table structure for table `tblmy_phase_data`
 --
 
-INSERT INTO `tblmy_other_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `service_session_link`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`) VALUES
-(5, 2, 'Akd5', 5, 'عقد@عقد', 3, 5, 6, 0, 1, 1, 0, '0.00', '2019-09-27', '2019-09-04', NULL, NULL, '', 0, '', 0, '0.00', 0, 0, 1, 0, 2);
+CREATE TABLE `tblmy_phase_data` (
+  `id` int(11) NOT NULL,
+  `phase_id` int(11) NOT NULL,
+  `rel_id` int(11) DEFAULT NULL,
+  `rel_type` varchar(30) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `is_complete` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_procurationstate`
+-- Table structure for table `tblmy_procurationstate`
 --
 
 CREATE TABLE `tblmy_procurationstate` (
@@ -2768,7 +2872,7 @@ CREATE TABLE `tblmy_procurationstate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_procurationstate`
+-- Dumping data for table `tblmy_procurationstate`
 --
 
 INSERT INTO `tblmy_procurationstate` (`id`, `procurationstate`) VALUES
@@ -2778,7 +2882,7 @@ INSERT INTO `tblmy_procurationstate` (`id`, `procurationstate`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_procurationtype`
+-- Table structure for table `tblmy_procurationtype`
 --
 
 CREATE TABLE `tblmy_procurationtype` (
@@ -2787,7 +2891,7 @@ CREATE TABLE `tblmy_procurationtype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_procurationtype`
+-- Dumping data for table `tblmy_procurationtype`
 --
 
 INSERT INTO `tblmy_procurationtype` (`id`, `procurationtype`) VALUES
@@ -2797,7 +2901,7 @@ INSERT INTO `tblmy_procurationtype` (`id`, `procurationtype`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_projects_contacts`
+-- Table structure for table `tblmy_projects_contacts`
 --
 
 CREATE TABLE `tblmy_projects_contacts` (
@@ -2810,19 +2914,10 @@ CREATE TABLE `tblmy_projects_contacts` (
   `contact_phone` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblmy_projects_contacts`
---
-
-INSERT INTO `tblmy_projects_contacts` (`id`, `project_id`, `contact_type`, `contact_name`, `contact_address`, `contact_email`, `contact_phone`) VALUES
-(1, 5, 0, 'opppnent 1', 'test', 'test@mail.com', 'ds'),
-(2, 5, 1, 'opppnent lawyer', 'testt', 'test@mail.com', 'ds'),
-(3, 6, 0, 'tt', 'tt', 'tt', 'tt');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_projects_meta`
+-- Table structure for table `tblmy_projects_meta`
 --
 
 CREATE TABLE `tblmy_projects_meta` (
@@ -2832,36 +2927,10 @@ CREATE TABLE `tblmy_projects_meta` (
   `meta_value` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblmy_projects_meta`
---
-
-INSERT INTO `tblmy_projects_meta` (`id`, `project_id`, `meta_key`, `meta_value`) VALUES
-(1, 5, 'representative', '2'),
-(2, 5, 'country', '125'),
-(3, 5, 'city', 'yanbu'),
-(4, 5, 'address1', 'address'),
-(5, 5, 'address2', 'address'),
-(6, 5, 'addressed_to', 'address'),
-(7, 5, 'notes', ''),
-(8, 5, 'projects_status', ''),
-(9, 5, 'cat_id', ''),
-(10, 5, 'subcat_id', ''),
-(11, 6, 'representative', '2'),
-(12, 6, 'country', '169'),
-(13, 6, 'city', 'damascus'),
-(14, 6, 'address1', 'tt'),
-(15, 6, 'address2', 'tt'),
-(16, 6, 'addressed_to', 'tt'),
-(17, 6, 'notes', ''),
-(18, 6, 'projects_status', '1'),
-(19, 6, 'cat_id', ''),
-(20, 6, 'subcat_id', '');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_projects_statuses`
+-- Table structure for table `tblmy_projects_statuses`
 --
 
 CREATE TABLE `tblmy_projects_statuses` (
@@ -2869,17 +2938,10 @@ CREATE TABLE `tblmy_projects_statuses` (
   `status_name` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblmy_projects_statuses`
---
-
-INSERT INTO `tblmy_projects_statuses` (`id`, `status_name`) VALUES
-(1, 'حالة 1');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_project_invoicepaymentrecords`
+-- Table structure for table `tblmy_project_invoicepaymentrecords`
 --
 
 CREATE TABLE `tblmy_project_invoicepaymentrecords` (
@@ -2897,7 +2959,7 @@ CREATE TABLE `tblmy_project_invoicepaymentrecords` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_project_invoices`
+-- Table structure for table `tblmy_project_invoices`
 --
 
 CREATE TABLE `tblmy_project_invoices` (
@@ -2960,7 +3022,7 @@ CREATE TABLE `tblmy_project_invoices` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_salary`
+-- Table structure for table `tblmy_salary`
 --
 
 CREATE TABLE `tblmy_salary` (
@@ -2975,7 +3037,33 @@ CREATE TABLE `tblmy_salary` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_service_session`
+-- Table structure for table `tblmy_service_phases`
+--
+
+CREATE TABLE `tblmy_service_phases` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `slug` varchar(30) DEFAULT NULL,
+  `is_active` int(1) NOT NULL DEFAULT 0,
+  `deleted` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_service_phases`
+--
+
+INSERT INTO `tblmy_service_phases` (`id`, `name`, `slug`, `is_active`, `deleted`) VALUES
+(1, 'مرحلة الطلب', 'legal_phase_1', 1, 0),
+(2, 'الإحالة', 'legal_phase_2', 1, 0),
+(3, 'قرار 34', 'legal_phase_3', 1, 0),
+(4, 'تم الإعلان', 'legal_phase_4', 0, 0),
+(5, 'قرار 46', 'legal_phase_5', 0, 0),
+(6, 'قرار 83', 'legal_phase_6', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmy_service_session`
 --
 
 CREATE TABLE `tblmy_service_session` (
@@ -2998,18 +3086,10 @@ CREATE TABLE `tblmy_service_session` (
   `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblmy_service_session`
---
-
-INSERT INTO `tblmy_service_session` (`id`, `service_id`, `rel_id`, `rel_type`, `subject`, `court_id`, `judge_id`, `date`, `time`, `details`, `next_action`, `report`, `status`, `result`, `staff`, `deleted`, `created`) VALUES
-(12, 1, 7, '', 'test', 2, 3, '2019-08-18', '17:30:00', '', '', '', 1, 1, 1, 0, '2019-08-18 11:42:22'),
-(14, 1, 1, '', 'test', 2, 3, '2019-08-29', '05:55:00', '', '', '', 0, 0, 1, 0, '2019-08-29 09:11:58');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_sessiondiscussioncomments`
+-- Table structure for table `tblmy_sessiondiscussioncomments`
 --
 
 CREATE TABLE `tblmy_sessiondiscussioncomments` (
@@ -3030,7 +3110,7 @@ CREATE TABLE `tblmy_sessiondiscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_sessiondiscussions`
+-- Table structure for table `tblmy_sessiondiscussions`
 --
 
 CREATE TABLE `tblmy_sessiondiscussions` (
@@ -3048,11 +3128,11 @@ CREATE TABLE `tblmy_sessiondiscussions` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_session_info`
+-- Table structure for table `tblmy_session_info`
 --
 
 CREATE TABLE `tblmy_session_info` (
-  `id` int(11) NOT NULL,
+  `s_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL,
   `session_number` int(11) DEFAULT NULL,
   `judicial_office_number` int(11) NOT NULL,
@@ -3071,19 +3151,17 @@ CREATE TABLE `tblmy_session_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_session_info`
+-- Dumping data for table `tblmy_session_info`
 --
 
-INSERT INTO `tblmy_session_info` (`id`, `task_id`, `session_number`, `judicial_office_number`, `court_id`, `dept`, `court_decision`, `session_information`, `judge_id`, `session_type`, `customer_report`, `send_to_customer`, `session_status`, `time`, `next_session_date`, `next_session_time`) VALUES
-(7, 7, 123, 123, 2, 123, 'qqwqwqwqwqwqw', 'جلسة تجريبية جلسة تجريبية جلسة تجريبية', 1, 'جلسة قضائية', 1, 1, 0, '03:00:00', '2019-09-20', '01:00:00'),
-(8, 8, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '14:01:00', NULL, NULL),
-(9, 9, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL),
-(11, 11, 0, 0, 2, 0, '', '', 3, '', 0, 0, 0, '01:00:00', NULL, NULL);
+INSERT INTO `tblmy_session_info` (`s_id`, `task_id`, `session_number`, `judicial_office_number`, `court_id`, `dept`, `court_decision`, `session_information`, `judge_id`, `session_type`, `customer_report`, `send_to_customer`, `session_status`, `time`, `next_session_date`, `next_session_time`) VALUES
+(6, 1, 1, 1, 2, 1, '1111', '', 3, 'جلسة قضائية', 1, 0, 0, '11:11:00', '2019-10-02', '11:11:00'),
+(7, 2, 111, 1111, 2, 0, '', '', 3, 'جلسة قضائية', 0, 0, 0, '11:11:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_training`
+-- Table structure for table `tblmy_training`
 --
 
 CREATE TABLE `tblmy_training` (
@@ -3100,7 +3178,7 @@ CREATE TABLE `tblmy_training` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_training`
+-- Dumping data for table `tblmy_training`
 --
 
 INSERT INTO `tblmy_training` (`id`, `staff_id`, `training`, `vendor`, `start_date`, `end_date`, `cost`, `status`, `performance`, `remarks`) VALUES
@@ -3109,7 +3187,7 @@ INSERT INTO `tblmy_training` (`id`, `staff_id`, `training`, `vendor`, `start_dat
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_training_attachments`
+-- Table structure for table `tblmy_training_attachments`
 --
 
 CREATE TABLE `tblmy_training_attachments` (
@@ -3121,7 +3199,7 @@ CREATE TABLE `tblmy_training_attachments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_training_attachments`
+-- Dumping data for table `tblmy_training_attachments`
 --
 
 INSERT INTO `tblmy_training_attachments` (`id`, `trainid`, `file_name`, `filetype`, `dateadded`) VALUES
@@ -3132,21 +3210,21 @@ INSERT INTO `tblmy_training_attachments` (`id`, `trainid`, `file_name`, `filetyp
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_transactions`
+-- Table structure for table `tblmy_transactions`
 --
 
 CREATE TABLE `tblmy_transactions` (
   `id` int(11) NOT NULL,
   `definition` int(11) NOT NULL,
   `description` varchar(225) NOT NULL,
-  `type` int(11) NOT NULL,
-  `origin` int(11) NOT NULL,
+  `type` varchar(225) NOT NULL,
+  `origin` varchar(225) NOT NULL,
   `incoming_num` int(11) DEFAULT NULL,
-  `incoming_source` int(11) DEFAULT NULL,
-  `incoming_type` int(11) DEFAULT NULL,
+  `incoming_source` varchar(225) DEFAULT NULL,
+  `incoming_type` varchar(225) DEFAULT NULL,
   `is_secret` tinyint(1) NOT NULL,
-  `importance` int(11) NOT NULL,
-  `classification` int(11) NOT NULL,
+  `importance` varchar(225) NOT NULL,
+  `classification` varchar(225) NOT NULL,
   `owner` varchar(225) NOT NULL,
   `owner_phone` int(25) NOT NULL,
   `source_reporter` varchar(225) DEFAULT NULL,
@@ -3157,21 +3235,26 @@ CREATE TABLE `tblmy_transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_transactions`
+-- Dumping data for table `tblmy_transactions`
 --
 
 INSERT INTO `tblmy_transactions` (`id`, `definition`, `description`, `type`, `origin`, `incoming_num`, `incoming_source`, `incoming_type`, `is_secret`, `importance`, `classification`, `owner`, `owner_phone`, `source_reporter`, `source_reporter_phone`, `email`, `date`, `isDeleted`) VALUES
-(5, 0, 'ghfghfhgfhg', 1, 1, 654, 1, 1, 0, 1, 2, '0', 651, '0', 9655, 'mhdbashard@gmail.com', '2019-10-14', 0),
-(6, 0, 'ghfghfhgfhg', 2, 1, 94789, 1, 1, 1, 1, 1, 'wassss', 6, '0', 6, 'mhdbashard@gmail.com', '2019-10-06', 0),
-(7, 0, 'ghfghfhgfhg', 1, 1, 94789, 1, 0, 0, 0, 1, 'waseem', 0, 'jhv', 0, '', '0000-00-00', 0),
-(8, 1, 'cxvxcvxc', 1, 1, NULL, NULL, NULL, 1, 0, 1, 'cxvxcvxcv', 0, NULL, NULL, NULL, NULL, 1),
-(9, 1, 'ghfghfhgfhg', 0, 1, NULL, NULL, NULL, 1, 0, 1, 'dfsd', 0, NULL, NULL, NULL, NULL, 1),
-(10, 1, 'ghfghfhgfhg', 0, 2, NULL, NULL, NULL, 0, 0, 2, 'waseem', 0, NULL, NULL, NULL, NULL, 1);
+(5, 0, 'ghfghfhgfhg', '1', '1', 654, '1', '1', 0, '1', '2', '0', 651, '0', 9655, 'mhdbashard@gmail.com', '2019-10-14', 1),
+(6, 0, 'ghfghfhgfhg', '2', '1', 94789, '1', '1', 1, '1', '1', 'wassss', 6, '0', 6, 'mhdbashard@gmail.com', '2019-10-06', 1),
+(7, 0, 'ghfghfhgfhg', '1', '1', 94789, '1', '0', 0, '0', '1', 'waseem', 0, 'jhv', 0, '', '0000-00-00', 1),
+(8, 1, 'cxvxcvxc', '1', '1', NULL, NULL, NULL, 1, '0', '1', 'cxvxcvxcv', 0, NULL, NULL, NULL, NULL, 1),
+(9, 1, 'ghfghfhgfhg', '0', '1', NULL, NULL, NULL, 1, '0', '1', 'dfsd', 0, NULL, NULL, NULL, NULL, 1),
+(10, 1, 'ghfghfhgfhg', '0', '2', NULL, NULL, NULL, 0, '0', '2', 'waseem', 0, NULL, NULL, NULL, NULL, 1),
+(11, 0, 'ghfghfhgfhg', 'قيد داخلي', '1', 94789, 'qqqq', '0', 0, '0', '1', 'ghc', 6, 'dsf', 0, '', '0000-00-00', 1),
+(12, 0, 'ghfghfhgfhg', 'قيد داخلي', 'ورق عادي', 94789, 'wwww', 'وارد ورقي', 1, 'منخفضة', 'منخفضة', 'waseem', 6, 'dsf', 6, 'mhdbashard@gmail.com', '2019-10-21', 0),
+(13, 1, 'ghfghfhgfhg', 'قيد داخلي', 'ورق غير عادي', NULL, NULL, NULL, 1, 'منخفضة', 'منخفضة', 'ghc', 0, NULL, NULL, NULL, NULL, 0),
+(14, 0, 'موضوع المعاملة', 'قيد داخلي', 'ورق عادي', 111, 'جهة 1', '', 1, 'منخفضة', 'منخفضة', 'test', 0, 'test', 0, '', '2019-10-15', 1),
+(15, 1, 'test', '', 'ورق عادي', NULL, NULL, NULL, 0, '', 'منخفضة', 'test', 0, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_vac`
+-- Table structure for table `tblmy_vac`
 --
 
 CREATE TABLE `tblmy_vac` (
@@ -3183,7 +3266,7 @@ CREATE TABLE `tblmy_vac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_vac`
+-- Dumping data for table `tblmy_vac`
 --
 
 INSERT INTO `tblmy_vac` (`id`, `staff_id`, `description`, `start_date`, `end_date`) VALUES
@@ -3192,7 +3275,7 @@ INSERT INTO `tblmy_vac` (`id`, `staff_id`, `description`, `start_date`, `end_dat
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_workday`
+-- Table structure for table `tblmy_workday`
 --
 
 CREATE TABLE `tblmy_workday` (
@@ -3206,7 +3289,7 @@ CREATE TABLE `tblmy_workday` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_workday`
+-- Dumping data for table `tblmy_workday`
 --
 
 INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES
@@ -3215,7 +3298,7 @@ INSERT INTO `tblmy_workday` (`saturday`, `sunday`, `monday`, `tuesday`, `wednesd
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblmy_workdays_period`
+-- Table structure for table `tblmy_workdays_period`
 --
 
 CREATE TABLE `tblmy_workdays_period` (
@@ -3224,7 +3307,7 @@ CREATE TABLE `tblmy_workdays_period` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblmy_workdays_period`
+-- Dumping data for table `tblmy_workdays_period`
 --
 
 INSERT INTO `tblmy_workdays_period` (`morning`, `evening`) VALUES
@@ -3233,7 +3316,7 @@ INSERT INTO `tblmy_workdays_period` (`morning`, `evening`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnewsfeed_comment_likes`
+-- Table structure for table `tblnewsfeed_comment_likes`
 --
 
 CREATE TABLE `tblnewsfeed_comment_likes` (
@@ -3247,7 +3330,7 @@ CREATE TABLE `tblnewsfeed_comment_likes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnewsfeed_posts`
+-- Table structure for table `tblnewsfeed_posts`
 --
 
 CREATE TABLE `tblnewsfeed_posts` (
@@ -3263,7 +3346,7 @@ CREATE TABLE `tblnewsfeed_posts` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnewsfeed_post_comments`
+-- Table structure for table `tblnewsfeed_post_comments`
 --
 
 CREATE TABLE `tblnewsfeed_post_comments` (
@@ -3277,7 +3360,7 @@ CREATE TABLE `tblnewsfeed_post_comments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnewsfeed_post_likes`
+-- Table structure for table `tblnewsfeed_post_likes`
 --
 
 CREATE TABLE `tblnewsfeed_post_likes` (
@@ -3290,7 +3373,7 @@ CREATE TABLE `tblnewsfeed_post_likes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnotes`
+-- Table structure for table `tblnotes`
 --
 
 CREATE TABLE `tblnotes` (
@@ -3306,7 +3389,7 @@ CREATE TABLE `tblnotes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblnotifications`
+-- Table structure for table `tblnotifications`
 --
 
 CREATE TABLE `tblnotifications` (
@@ -3325,7 +3408,7 @@ CREATE TABLE `tblnotifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblnotifications`
+-- Dumping data for table `tblnotifications`
 --
 
 INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `description`, `fromuserid`, `fromclientid`, `from_fullname`, `touserid`, `fromcompany`, `link`, `additional_data`) VALUES
@@ -3335,7 +3418,7 @@ INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `descri
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloptions`
+-- Table structure for table `tbloptions`
 --
 
 CREATE TABLE `tbloptions` (
@@ -3346,7 +3429,7 @@ CREATE TABLE `tbloptions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbloptions`
+-- Dumping data for table `tbloptions`
 --
 
 INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
@@ -3360,8 +3443,8 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (8, 'smtp_email', '', 1),
 (9, 'smtp_password', '', 1),
 (10, 'company_info_format', '{company_name}<br />\r\n{address}<br />\r\n{city} {state}<br />\r\n{country_code} {zip_code}<br />\r\n{vat_number_with_label}', 0),
-(11, 'smtp_port', '', 1),
-(12, 'smtp_host', '', 1),
+(11, 'smtp_port', '465', 1),
+(12, 'smtp_host', 'smtp.gmail.com', 1),
 (13, 'smtp_email_charset', 'utf-8', 1),
 (14, 'default_timezone', 'Asia/Damascus', 1),
 (15, 'clients_default_theme', 'perfex', 1),
@@ -3386,7 +3469,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (34, 'view_invoice_only_logged_in', '0', 1),
 (35, 'invoice_number_format', '1', 1),
 (36, 'next_invoice_number', '2', 0),
-(37, 'active_language', 'arabic', 1),
+(37, 'active_language', 'english', 1),
 (38, 'invoice_number_decrement_on_delete', '1', 1),
 (39, 'automatically_send_invoice_overdue_reminder_after', '1', 1),
 (40, 'automatically_resend_invoice_overdue_reminder_after', '3', 1),
@@ -3395,7 +3478,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (43, 'delete_only_on_last_estimate', '1', 1),
 (44, 'create_invoice_from_recurring_only_on_paid_invoices', '0', 1),
 (45, 'allow_payment_amount_to_be_modified', '1', 1),
-(46, 'rtl_support_client', '1', 1),
+(46, 'rtl_support_client', '0', 1),
 (47, 'limit_top_search_bar_results_to', '10', 1),
 (48, 'estimate_prefix', 'EST-', 1),
 (49, 'next_estimate_number', '1', 0),
@@ -3403,7 +3486,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (51, 'estimate_number_format', '1', 1),
 (52, 'estimate_auto_convert_to_invoice_on_client_accept', '1', 1),
 (53, 'exclude_estimate_from_client_area_with_draft_status', '1', 1),
-(54, 'rtl_support_admin', '1', 1),
+(54, 'rtl_support_admin', '0', 1),
 (55, 'last_cron_run', '1568137469', 1),
 (56, 'show_sale_agent_on_estimates', '1', 1),
 (57, 'show_sale_agent_on_invoices', '1', 1),
@@ -3466,7 +3549,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (114, 'recaptcha_secret_key', '', 1),
 (115, 'show_help_on_setup_menu', '1', 1),
 (116, 'show_proposals_on_calendar', '1', 1),
-(117, 'smtp_encryption', '', 1),
+(117, 'smtp_encryption', 'ssl', 1),
 (118, 'recaptcha_site_key', '', 1),
 (119, 'smtp_username', '', 1),
 (120, 'auto_stop_tasks_timers_on_new_timer', '1', 1),
@@ -3528,12 +3611,12 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (176, 'delete_activity_log_older_then', '1', 1),
 (177, 'disable_language', '0', 1),
 (178, 'company_state', '', 1),
-(179, 'email_header', '<!doctype html>\n                            <html>\n                            <head>\n                              <meta name=\"viewport\" content=\"width=device-width\" />\n                              <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n                              <style>\n                                body {\n                                 background-color: #f6f6f6;\n                                 font-family: sans-serif;\n                                 -webkit-font-smoothing: antialiased;\n                                 font-size: 14px;\n                                 line-height: 1.4;\n                                 margin: 0;\n                                 padding: 0;\n                                 -ms-text-size-adjust: 100%;\n                                 -webkit-text-size-adjust: 100%;\n                               }\n                               table {\n                                 border-collapse: separate;\n                                 mso-table-lspace: 0pt;\n                                 mso-table-rspace: 0pt;\n                                 width: 100%;\n                               }\n                               table td {\n                                 font-family: sans-serif;\n                                 font-size: 14px;\n                                 vertical-align: top;\n                               }\n                                   /* -------------------------------------\n                                     BODY & CONTAINER\n                                     ------------------------------------- */\n                                     .body {\n                                       background-color: #f6f6f6;\n                                       width: 100%;\n                                     }\n                                     /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */\n\n                                     .container {\n                                       display: block;\n                                       margin: 0 auto !important;\n                                       /* makes it centered */\n                                       max-width: 680px;\n                                       padding: 10px;\n                                       width: 680px;\n                                     }\n                                     /* This should also be a block element, so that it will fill 100% of the .container */\n\n                                     .content {\n                                       box-sizing: border-box;\n                                       display: block;\n                                       margin: 0 auto;\n                                       max-width: 680px;\n                                       padding: 10px;\n                                     }\n                                   /* -------------------------------------\n                                     HEADER, FOOTER, MAIN\n                                     ------------------------------------- */\n\n                                     .main {\n                                       background: #fff;\n                                       border-radius: 3px;\n                                       width: 100%;\n                                     }\n                                     .wrapper {\n                                       box-sizing: border-box;\n                                       padding: 20px;\n                                     }\n                                     .footer {\n                                       clear: both;\n                                       padding-top: 10px;\n                                       text-align: center;\n                                       width: 100%;\n                                     }\n                                     .footer td,\n                                     .footer p,\n                                     .footer span,\n                                     .footer a {\n                                       color: #999999;\n                                       font-size: 12px;\n                                       text-align: center;\n                                     }\n                                     hr {\n                                       border: 0;\n                                       border-bottom: 1px solid #f6f6f6;\n                                       margin: 20px 0;\n                                     }\n                                   /* -------------------------------------\n                                     RESPONSIVE AND MOBILE FRIENDLY STYLES\n                                     ------------------------------------- */\n\n                                     @media only screen and (max-width: 620px) {\n                                       table[class=body] .content {\n                                         padding: 0 !important;\n                                       }\n                                       table[class=body] .container {\n                                         padding: 0 !important;\n                                         width: 100% !important;\n                                       }\n                                       table[class=body] .main {\n                                         border-left-width: 0 !important;\n                                         border-radius: 0 !important;\n                                         border-right-width: 0 !important;\n                                       }\n                                     }\n                                   </style>\n                                 </head>\n                                 <body class=\"\">\n                                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"body\">\n                                    <tr>\n                                     <td>&nbsp;</td>\n                                     <td class=\"container\">\n                                      <div class=\"content\">\n                                        <!-- START CENTERED WHITE CONTAINER -->\n                                        <table class=\"main\">\n                                          <!-- START MAIN CONTENT AREA -->\n                                          <tr>\n                                           <td class=\"wrapper\">\n                                            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                                              <tr>\n                                               <td>', 1),
+(179, 'email_header', '<!doctype html>\r\n                            <html>\r\n                            <head>\r\n                              <meta name=\"viewport\" content=\"width=device-width\" />\r\n                              <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n                              <style>\r\n                                body {\r\n                                 background-color: #f6f6f6;\r\n                                 font-family: sans-serif;\r\n                                 -webkit-font-smoothing: antialiased;\r\n                                 font-size: 14px;\r\n                                 line-height: 1.4;\r\n                                 margin: 0;\r\n                                 padding: 0;\r\n                                 -ms-text-size-adjust: 100%;\r\n                                 -webkit-text-size-adjust: 100%;\r\n                               }\r\n                               table {\r\n                                 border-collapse: separate;\r\n                                 mso-table-lspace: 0pt;\r\n                                 mso-table-rspace: 0pt;\r\n                                 width: 100%;\r\n                               }\r\n                               table td {\r\n                                 font-family: sans-serif;\r\n                                 font-size: 14px;\r\n                                 vertical-align: top;\r\n                               }\r\n                                   /* -------------------------------------\r\n                                     BODY & CONTAINER\r\n                                     ------------------------------------- */\r\n                                     .body {\r\n                                       background-color: #f6f6f6;\r\n                                       width: 100%;\r\n                                     }\r\n                                     /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */\r\n\r\n                                     .container {\r\n                                       display: block;\r\n                                       margin: 0 auto !important;\r\n                                       /* makes it centered */\r\n                                       max-width: 680px;\r\n                                       padding: 10px;\r\n                                       width: 680px;\r\n                                     }\r\n                                     /* This should also be a block element, so that it will fill 100% of the .container */\r\n\r\n                                     .content {\r\n                                       box-sizing: border-box;\r\n                                       display: block;\r\n                                       margin: 0 auto;\r\n                                       max-width: 680px;\r\n                                       padding: 10px;\r\n                                     }\r\n                                   /* -------------------------------------\r\n                                     HEADER, FOOTER, MAIN\r\n                                     ------------------------------------- */\r\n\r\n                                     .main {\r\n                                       background: #fff;\r\n                                       border-radius: 3px;\r\n                                       width: 100%;\r\n                                     }\r\n                                     .wrapper {\r\n                                       box-sizing: border-box;\r\n                                       padding: 20px;\r\n                                     }\r\n                                     .footer {\r\n                                       clear: both;\r\n                                       padding-top: 10px;\r\n                                       text-align: center;\r\n                                       width: 100%;\r\n                                     }\r\n                                     .footer td,\r\n                                     .footer p,\r\n                                     .footer span,\r\n                                     .footer a {\r\n                                       color: #999999;\r\n                                       font-size: 12px;\r\n                                       text-align: center;\r\n                                     }\r\n                                     hr {\r\n                                       border: 0;\r\n                                       border-bottom: 1px solid #f6f6f6;\r\n                                       margin: 20px 0;\r\n                                     }\r\n                                   /* -------------------------------------\r\n                                     RESPONSIVE AND MOBILE FRIENDLY STYLES\r\n                                     ------------------------------------- */\r\n\r\n                                     @media only screen and (max-width: 620px) {\r\n                                       table[class=body] .content {\r\n                                         padding: 0 !important;\r\n                                       }\r\n                                       table[class=body] .container {\r\n                                         padding: 0 !important;\r\n                                         width: 100% !important;\r\n                                       }\r\n                                       table[class=body] .main {\r\n                                         border-left-width: 0 !important;\r\n                                         border-radius: 0 !important;\r\n                                         border-right-width: 0 !important;\r\n                                       }\r\n                                     }\r\n                                   </style>\r\n                                 </head>\r\n                                 <body class=\"\">\r\n                                  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"body\">\r\n                                    <tr>\r\n                                     <td>&nbsp;</td>\r\n                                     <td class=\"container\">\r\n                                      <div class=\"content\">\r\n                                        <!-- START CENTERED WHITE CONTAINER -->\r\n                                        <table class=\"main\">\r\n                                          <!-- START MAIN CONTENT AREA -->\r\n                                          <tr>\r\n                                           <td class=\"wrapper\">\r\n                                            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n                                              <tr>\r\n                                               <td>', 1),
 (180, 'show_pdf_signature_invoice', '1', 0),
 (181, 'show_pdf_signature_estimate', '1', 0),
 (182, 'signature_image', '', 0),
 (183, 'scroll_responsive_tables', '0', 1),
-(184, 'email_footer', '</td>\n                             </tr>\n                           </table>\n                         </td>\n                       </tr>\n                       <!-- END MAIN CONTENT AREA -->\n                     </table>\n                     <!-- START FOOTER -->\n                     <div class=\"footer\">\n                      <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                        <tr>\n                          <td class=\"content-block\">\n                            <span>{companyname}</span>\n                          </td>\n                        </tr>\n                      </table>\n                    </div>\n                    <!-- END FOOTER -->\n                    <!-- END CENTERED WHITE CONTAINER -->\n                  </div>\n                </td>\n                <td>&nbsp;</td>\n              </tr>\n            </table>\n            </body>\n            </html>', 1),
+(184, 'email_footer', '</td>\r\n                             </tr>\r\n                           </table>\r\n                         </td>\r\n                       </tr>\r\n                       <!-- END MAIN CONTENT AREA -->\r\n                     </table>\r\n                     <!-- START FOOTER -->\r\n                     <div class=\"footer\">\r\n                      <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n                        <tr>\r\n                          <td class=\"content-block\">\r\n                            <span>{companyname}</span>\r\n                          </td>\r\n                        </tr>\r\n                      </table>\r\n                    </div>\r\n                    <!-- END FOOTER -->\r\n                    <!-- END CENTERED WHITE CONTAINER -->\r\n                  </div>\r\n                </td>\r\n                <td>&nbsp;</td>\r\n              </tr>\r\n            </table>\r\n            </body>\r\n            </html>', 1),
 (185, 'exclude_proposal_from_client_area_with_draft_status', '1', 1),
 (186, 'pusher_app_key', '', 1),
 (187, 'pusher_app_secret', '', 1),
@@ -3560,8 +3643,10 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (208, 'proposal_info_format', '{proposal_to}<br />\r\n{address}<br />\r\n{city} {state}<br />\r\n{country_code} {zip_code}<br />\r\n{phone}<br />\r\n{email}', 0),
 (209, 'ticket_replies_order', 'asc', 1),
 (210, 'new_recurring_invoice_action', 'generate_and_send', 0),
-(211, 'bcc_emails', '', 0),
-(212, 'email_templates_language_checks', 'a:74:{s:25:\"new-client-created-arabic\";i:1;s:29:\"invoice-send-to-client-arabic\";i:1;s:30:\"new-ticket-opened-admin-arabic\";i:1;s:19:\"ticket-reply-arabic\";i:1;s:26:\"ticket-autoresponse-arabic\";i:1;s:31:\"invoice-payment-recorded-arabic\";i:1;s:29:\"invoice-overdue-notice-arabic\";i:1;s:27:\"invoice-already-send-arabic\";i:1;s:31:\"new-ticket-created-staff-arabic\";i:1;s:30:\"estimate-send-to-client-arabic\";i:1;s:28:\"ticket-reply-to-admin-arabic\";i:1;s:28:\"estimate-already-send-arabic\";i:1;s:26:\"contract-expiration-arabic\";i:1;s:20:\"task-assigned-arabic\";i:1;s:29:\"task-added-as-follower-arabic\";i:1;s:21:\"task-commented-arabic\";i:1;s:28:\"task-added-attachment-arabic\";i:1;s:33:\"estimate-declined-to-staff-arabic\";i:1;s:33:\"estimate-accepted-to-staff-arabic\";i:1;s:31:\"proposal-client-accepted-arabic\";i:1;s:32:\"proposal-send-to-customer-arabic\";i:1;s:31:\"proposal-client-declined-arabic\";i:1;s:32:\"proposal-client-thank-you-arabic\";i:1;s:33:\"proposal-comment-to-client-arabic\";i:1;s:32:\"proposal-comment-to-admin-arabic\";i:1;s:37:\"estimate-thank-you-to-customer-arabic\";i:1;s:33:\"task-deadline-notification-arabic\";i:1;s:20:\"send-contract-arabic\";i:1;s:40:\"invoice-payment-recorded-to-staff-arabic\";i:1;s:24:\"auto-close-ticket-arabic\";i:1;s:46:\"new-project-discussion-created-to-staff-arabic\";i:1;s:49:\"new-project-discussion-created-to-customer-arabic\";i:1;s:44:\"new-project-file-uploaded-to-customer-arabic\";i:1;s:41:\"new-project-file-uploaded-to-staff-arabic\";i:1;s:49:\"new-project-discussion-comment-to-customer-arabic\";i:1;s:46:\"new-project-discussion-comment-to-staff-arabic\";i:1;s:36:\"staff-added-as-project-member-arabic\";i:1;s:31:\"estimate-expiry-reminder-arabic\";i:1;s:31:\"proposal-expiry-reminder-arabic\";i:1;s:24:\"new-staff-created-arabic\";i:1;s:30:\"contact-forgot-password-arabic\";i:1;s:31:\"contact-password-reseted-arabic\";i:1;s:27:\"contact-set-password-arabic\";i:1;s:28:\"staff-forgot-password-arabic\";i:1;s:29:\"staff-password-reseted-arabic\";i:1;s:26:\"assigned-to-project-arabic\";i:1;s:40:\"task-added-attachment-to-contacts-arabic\";i:1;s:33:\"task-commented-to-contacts-arabic\";i:1;s:24:\"new-lead-assigned-arabic\";i:1;s:23:\"client-statement-arabic\";i:1;s:31:\"ticket-assigned-to-admin-arabic\";i:1;s:37:\"new-client-registered-to-admin-arabic\";i:1;s:37:\"new-web-to-lead-form-submitted-arabic\";i:1;s:32:\"two-factor-authentication-arabic\";i:1;s:35:\"project-finished-to-customer-arabic\";i:1;s:33:\"credit-note-send-to-client-arabic\";i:1;s:34:\"task-status-change-to-staff-arabic\";i:1;s:37:\"task-status-change-to-contacts-arabic\";i:1;s:27:\"reminder-email-staff-arabic\";i:1;s:33:\"contract-comment-to-client-arabic\";i:1;s:32:\"contract-comment-to-admin-arabic\";i:1;s:24:\"send-subscription-arabic\";i:1;s:34:\"subscription-payment-failed-arabic\";i:1;s:28:\"subscription-canceled-arabic\";i:1;s:37:\"subscription-payment-succeeded-arabic\";i:1;s:35:\"contract-expiration-to-staff-arabic\";i:1;s:27:\"gdpr-removal-request-arabic\";i:1;s:32:\"gdpr-removal-request-lead-arabic\";i:1;s:36:\"client-registration-confirmed-arabic\";i:1;s:31:\"contract-signed-to-staff-arabic\";i:1;s:35:\"customer-subscribed-to-staff-arabic\";i:1;s:33:\"contact-verification-email-arabic\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-arabic\";i:1;s:34:\"event-notification-to-staff-arabic\";i:1;}', 0),
+(211, 'bcc_emails', '', 0);
+INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
+(212, 'email_templates_language_checks', 'a:1933:{s:25:\"new-client-created-arabic\";i:1;s:29:\"invoice-send-to-client-arabic\";i:1;s:30:\"new-ticket-opened-admin-arabic\";i:1;s:19:\"ticket-reply-arabic\";i:1;s:26:\"ticket-autoresponse-arabic\";i:1;s:31:\"invoice-payment-recorded-arabic\";i:1;s:29:\"invoice-overdue-notice-arabic\";i:1;s:27:\"invoice-already-send-arabic\";i:1;s:31:\"new-ticket-created-staff-arabic\";i:1;s:30:\"estimate-send-to-client-arabic\";i:1;s:28:\"ticket-reply-to-admin-arabic\";i:1;s:28:\"estimate-already-send-arabic\";i:1;s:26:\"contract-expiration-arabic\";i:1;s:20:\"task-assigned-arabic\";i:1;s:29:\"task-added-as-follower-arabic\";i:1;s:21:\"task-commented-arabic\";i:1;s:28:\"task-added-attachment-arabic\";i:1;s:33:\"estimate-declined-to-staff-arabic\";i:1;s:33:\"estimate-accepted-to-staff-arabic\";i:1;s:31:\"proposal-client-accepted-arabic\";i:1;s:32:\"proposal-send-to-customer-arabic\";i:1;s:31:\"proposal-client-declined-arabic\";i:1;s:32:\"proposal-client-thank-you-arabic\";i:1;s:33:\"proposal-comment-to-client-arabic\";i:1;s:32:\"proposal-comment-to-admin-arabic\";i:1;s:37:\"estimate-thank-you-to-customer-arabic\";i:1;s:33:\"task-deadline-notification-arabic\";i:1;s:20:\"send-contract-arabic\";i:1;s:40:\"invoice-payment-recorded-to-staff-arabic\";i:1;s:24:\"auto-close-ticket-arabic\";i:1;s:46:\"new-project-discussion-created-to-staff-arabic\";i:1;s:49:\"new-project-discussion-created-to-customer-arabic\";i:1;s:44:\"new-project-file-uploaded-to-customer-arabic\";i:1;s:41:\"new-project-file-uploaded-to-staff-arabic\";i:1;s:49:\"new-project-discussion-comment-to-customer-arabic\";i:1;s:46:\"new-project-discussion-comment-to-staff-arabic\";i:1;s:36:\"staff-added-as-project-member-arabic\";i:1;s:31:\"estimate-expiry-reminder-arabic\";i:1;s:31:\"proposal-expiry-reminder-arabic\";i:1;s:24:\"new-staff-created-arabic\";i:1;s:30:\"contact-forgot-password-arabic\";i:1;s:31:\"contact-password-reseted-arabic\";i:1;s:27:\"contact-set-password-arabic\";i:1;s:28:\"staff-forgot-password-arabic\";i:1;s:29:\"staff-password-reseted-arabic\";i:1;s:26:\"assigned-to-project-arabic\";i:1;s:40:\"task-added-attachment-to-contacts-arabic\";i:1;s:33:\"task-commented-to-contacts-arabic\";i:1;s:24:\"new-lead-assigned-arabic\";i:1;s:23:\"client-statement-arabic\";i:1;s:31:\"ticket-assigned-to-admin-arabic\";i:1;s:37:\"new-client-registered-to-admin-arabic\";i:1;s:37:\"new-web-to-lead-form-submitted-arabic\";i:1;s:32:\"two-factor-authentication-arabic\";i:1;s:35:\"project-finished-to-customer-arabic\";i:1;s:33:\"credit-note-send-to-client-arabic\";i:1;s:34:\"task-status-change-to-staff-arabic\";i:1;s:37:\"task-status-change-to-contacts-arabic\";i:1;s:27:\"reminder-email-staff-arabic\";i:1;s:33:\"contract-comment-to-client-arabic\";i:1;s:32:\"contract-comment-to-admin-arabic\";i:1;s:24:\"send-subscription-arabic\";i:1;s:34:\"subscription-payment-failed-arabic\";i:1;s:28:\"subscription-canceled-arabic\";i:1;s:37:\"subscription-payment-succeeded-arabic\";i:1;s:35:\"contract-expiration-to-staff-arabic\";i:1;s:27:\"gdpr-removal-request-arabic\";i:1;s:32:\"gdpr-removal-request-lead-arabic\";i:1;s:36:\"client-registration-confirmed-arabic\";i:1;s:31:\"contract-signed-to-staff-arabic\";i:1;s:35:\"customer-subscribed-to-staff-arabic\";i:1;s:33:\"contact-verification-email-arabic\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-arabic\";i:1;s:34:\"event-notification-to-staff-arabic\";i:1;s:28:\"new-client-created-bulgarian\";i:1;s:32:\"invoice-send-to-client-bulgarian\";i:1;s:33:\"new-ticket-opened-admin-bulgarian\";i:1;s:22:\"ticket-reply-bulgarian\";i:1;s:29:\"ticket-autoresponse-bulgarian\";i:1;s:34:\"invoice-payment-recorded-bulgarian\";i:1;s:32:\"invoice-overdue-notice-bulgarian\";i:1;s:30:\"invoice-already-send-bulgarian\";i:1;s:34:\"new-ticket-created-staff-bulgarian\";i:1;s:33:\"estimate-send-to-client-bulgarian\";i:1;s:31:\"ticket-reply-to-admin-bulgarian\";i:1;s:31:\"estimate-already-send-bulgarian\";i:1;s:29:\"contract-expiration-bulgarian\";i:1;s:23:\"task-assigned-bulgarian\";i:1;s:32:\"task-added-as-follower-bulgarian\";i:1;s:24:\"task-commented-bulgarian\";i:1;s:31:\"task-added-attachment-bulgarian\";i:1;s:36:\"estimate-declined-to-staff-bulgarian\";i:1;s:36:\"estimate-accepted-to-staff-bulgarian\";i:1;s:34:\"proposal-client-accepted-bulgarian\";i:1;s:35:\"proposal-send-to-customer-bulgarian\";i:1;s:34:\"proposal-client-declined-bulgarian\";i:1;s:35:\"proposal-client-thank-you-bulgarian\";i:1;s:36:\"proposal-comment-to-client-bulgarian\";i:1;s:35:\"proposal-comment-to-admin-bulgarian\";i:1;s:40:\"estimate-thank-you-to-customer-bulgarian\";i:1;s:36:\"task-deadline-notification-bulgarian\";i:1;s:23:\"send-contract-bulgarian\";i:1;s:43:\"invoice-payment-recorded-to-staff-bulgarian\";i:1;s:27:\"auto-close-ticket-bulgarian\";i:1;s:49:\"new-project-discussion-created-to-staff-bulgarian\";i:1;s:52:\"new-project-discussion-created-to-customer-bulgarian\";i:1;s:47:\"new-project-file-uploaded-to-customer-bulgarian\";i:1;s:44:\"new-project-file-uploaded-to-staff-bulgarian\";i:1;s:52:\"new-project-discussion-comment-to-customer-bulgarian\";i:1;s:49:\"new-project-discussion-comment-to-staff-bulgarian\";i:1;s:39:\"staff-added-as-project-member-bulgarian\";i:1;s:34:\"estimate-expiry-reminder-bulgarian\";i:1;s:34:\"proposal-expiry-reminder-bulgarian\";i:1;s:27:\"new-staff-created-bulgarian\";i:1;s:33:\"contact-forgot-password-bulgarian\";i:1;s:34:\"contact-password-reseted-bulgarian\";i:1;s:30:\"contact-set-password-bulgarian\";i:1;s:31:\"staff-forgot-password-bulgarian\";i:1;s:32:\"staff-password-reseted-bulgarian\";i:1;s:29:\"assigned-to-project-bulgarian\";i:1;s:43:\"task-added-attachment-to-contacts-bulgarian\";i:1;s:36:\"task-commented-to-contacts-bulgarian\";i:1;s:27:\"new-lead-assigned-bulgarian\";i:1;s:26:\"client-statement-bulgarian\";i:1;s:34:\"ticket-assigned-to-admin-bulgarian\";i:1;s:40:\"new-client-registered-to-admin-bulgarian\";i:1;s:40:\"new-web-to-lead-form-submitted-bulgarian\";i:1;s:35:\"two-factor-authentication-bulgarian\";i:1;s:38:\"project-finished-to-customer-bulgarian\";i:1;s:36:\"credit-note-send-to-client-bulgarian\";i:1;s:37:\"task-status-change-to-staff-bulgarian\";i:1;s:40:\"task-status-change-to-contacts-bulgarian\";i:1;s:30:\"reminder-email-staff-bulgarian\";i:1;s:36:\"contract-comment-to-client-bulgarian\";i:1;s:35:\"contract-comment-to-admin-bulgarian\";i:1;s:27:\"send-subscription-bulgarian\";i:1;s:37:\"subscription-payment-failed-bulgarian\";i:1;s:31:\"subscription-canceled-bulgarian\";i:1;s:40:\"subscription-payment-succeeded-bulgarian\";i:1;s:38:\"contract-expiration-to-staff-bulgarian\";i:1;s:30:\"gdpr-removal-request-bulgarian\";i:1;s:35:\"gdpr-removal-request-lead-bulgarian\";i:1;s:39:\"client-registration-confirmed-bulgarian\";i:1;s:34:\"contract-signed-to-staff-bulgarian\";i:1;s:38:\"customer-subscribed-to-staff-bulgarian\";i:1;s:36:\"contact-verification-email-bulgarian\";i:1;s:53:\"new-customer-profile-file-uploaded-to-staff-bulgarian\";i:1;s:37:\"event-notification-to-staff-bulgarian\";i:1;s:26:\"new-client-created-catalan\";i:1;s:30:\"invoice-send-to-client-catalan\";i:1;s:31:\"new-ticket-opened-admin-catalan\";i:1;s:20:\"ticket-reply-catalan\";i:1;s:27:\"ticket-autoresponse-catalan\";i:1;s:32:\"invoice-payment-recorded-catalan\";i:1;s:30:\"invoice-overdue-notice-catalan\";i:1;s:28:\"invoice-already-send-catalan\";i:1;s:32:\"new-ticket-created-staff-catalan\";i:1;s:31:\"estimate-send-to-client-catalan\";i:1;s:29:\"ticket-reply-to-admin-catalan\";i:1;s:29:\"estimate-already-send-catalan\";i:1;s:27:\"contract-expiration-catalan\";i:1;s:21:\"task-assigned-catalan\";i:1;s:30:\"task-added-as-follower-catalan\";i:1;s:22:\"task-commented-catalan\";i:1;s:29:\"task-added-attachment-catalan\";i:1;s:34:\"estimate-declined-to-staff-catalan\";i:1;s:34:\"estimate-accepted-to-staff-catalan\";i:1;s:32:\"proposal-client-accepted-catalan\";i:1;s:33:\"proposal-send-to-customer-catalan\";i:1;s:32:\"proposal-client-declined-catalan\";i:1;s:33:\"proposal-client-thank-you-catalan\";i:1;s:34:\"proposal-comment-to-client-catalan\";i:1;s:33:\"proposal-comment-to-admin-catalan\";i:1;s:38:\"estimate-thank-you-to-customer-catalan\";i:1;s:34:\"task-deadline-notification-catalan\";i:1;s:21:\"send-contract-catalan\";i:1;s:41:\"invoice-payment-recorded-to-staff-catalan\";i:1;s:25:\"auto-close-ticket-catalan\";i:1;s:47:\"new-project-discussion-created-to-staff-catalan\";i:1;s:50:\"new-project-discussion-created-to-customer-catalan\";i:1;s:45:\"new-project-file-uploaded-to-customer-catalan\";i:1;s:42:\"new-project-file-uploaded-to-staff-catalan\";i:1;s:50:\"new-project-discussion-comment-to-customer-catalan\";i:1;s:47:\"new-project-discussion-comment-to-staff-catalan\";i:1;s:37:\"staff-added-as-project-member-catalan\";i:1;s:32:\"estimate-expiry-reminder-catalan\";i:1;s:32:\"proposal-expiry-reminder-catalan\";i:1;s:25:\"new-staff-created-catalan\";i:1;s:31:\"contact-forgot-password-catalan\";i:1;s:32:\"contact-password-reseted-catalan\";i:1;s:28:\"contact-set-password-catalan\";i:1;s:29:\"staff-forgot-password-catalan\";i:1;s:30:\"staff-password-reseted-catalan\";i:1;s:27:\"assigned-to-project-catalan\";i:1;s:41:\"task-added-attachment-to-contacts-catalan\";i:1;s:34:\"task-commented-to-contacts-catalan\";i:1;s:25:\"new-lead-assigned-catalan\";i:1;s:24:\"client-statement-catalan\";i:1;s:32:\"ticket-assigned-to-admin-catalan\";i:1;s:38:\"new-client-registered-to-admin-catalan\";i:1;s:38:\"new-web-to-lead-form-submitted-catalan\";i:1;s:33:\"two-factor-authentication-catalan\";i:1;s:36:\"project-finished-to-customer-catalan\";i:1;s:34:\"credit-note-send-to-client-catalan\";i:1;s:35:\"task-status-change-to-staff-catalan\";i:1;s:38:\"task-status-change-to-contacts-catalan\";i:1;s:28:\"reminder-email-staff-catalan\";i:1;s:34:\"contract-comment-to-client-catalan\";i:1;s:33:\"contract-comment-to-admin-catalan\";i:1;s:25:\"send-subscription-catalan\";i:1;s:35:\"subscription-payment-failed-catalan\";i:1;s:29:\"subscription-canceled-catalan\";i:1;s:38:\"subscription-payment-succeeded-catalan\";i:1;s:36:\"contract-expiration-to-staff-catalan\";i:1;s:28:\"gdpr-removal-request-catalan\";i:1;s:33:\"gdpr-removal-request-lead-catalan\";i:1;s:37:\"client-registration-confirmed-catalan\";i:1;s:32:\"contract-signed-to-staff-catalan\";i:1;s:36:\"customer-subscribed-to-staff-catalan\";i:1;s:34:\"contact-verification-email-catalan\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-catalan\";i:1;s:35:\"event-notification-to-staff-catalan\";i:1;s:26:\"new-client-created-chinese\";i:1;s:30:\"invoice-send-to-client-chinese\";i:1;s:31:\"new-ticket-opened-admin-chinese\";i:1;s:20:\"ticket-reply-chinese\";i:1;s:27:\"ticket-autoresponse-chinese\";i:1;s:32:\"invoice-payment-recorded-chinese\";i:1;s:30:\"invoice-overdue-notice-chinese\";i:1;s:28:\"invoice-already-send-chinese\";i:1;s:32:\"new-ticket-created-staff-chinese\";i:1;s:31:\"estimate-send-to-client-chinese\";i:1;s:29:\"ticket-reply-to-admin-chinese\";i:1;s:29:\"estimate-already-send-chinese\";i:1;s:27:\"contract-expiration-chinese\";i:1;s:21:\"task-assigned-chinese\";i:1;s:30:\"task-added-as-follower-chinese\";i:1;s:22:\"task-commented-chinese\";i:1;s:29:\"task-added-attachment-chinese\";i:1;s:34:\"estimate-declined-to-staff-chinese\";i:1;s:34:\"estimate-accepted-to-staff-chinese\";i:1;s:32:\"proposal-client-accepted-chinese\";i:1;s:33:\"proposal-send-to-customer-chinese\";i:1;s:32:\"proposal-client-declined-chinese\";i:1;s:33:\"proposal-client-thank-you-chinese\";i:1;s:34:\"proposal-comment-to-client-chinese\";i:1;s:33:\"proposal-comment-to-admin-chinese\";i:1;s:38:\"estimate-thank-you-to-customer-chinese\";i:1;s:34:\"task-deadline-notification-chinese\";i:1;s:21:\"send-contract-chinese\";i:1;s:41:\"invoice-payment-recorded-to-staff-chinese\";i:1;s:25:\"auto-close-ticket-chinese\";i:1;s:47:\"new-project-discussion-created-to-staff-chinese\";i:1;s:50:\"new-project-discussion-created-to-customer-chinese\";i:1;s:45:\"new-project-file-uploaded-to-customer-chinese\";i:1;s:42:\"new-project-file-uploaded-to-staff-chinese\";i:1;s:50:\"new-project-discussion-comment-to-customer-chinese\";i:1;s:47:\"new-project-discussion-comment-to-staff-chinese\";i:1;s:37:\"staff-added-as-project-member-chinese\";i:1;s:32:\"estimate-expiry-reminder-chinese\";i:1;s:32:\"proposal-expiry-reminder-chinese\";i:1;s:25:\"new-staff-created-chinese\";i:1;s:31:\"contact-forgot-password-chinese\";i:1;s:32:\"contact-password-reseted-chinese\";i:1;s:28:\"contact-set-password-chinese\";i:1;s:29:\"staff-forgot-password-chinese\";i:1;s:30:\"staff-password-reseted-chinese\";i:1;s:27:\"assigned-to-project-chinese\";i:1;s:41:\"task-added-attachment-to-contacts-chinese\";i:1;s:34:\"task-commented-to-contacts-chinese\";i:1;s:25:\"new-lead-assigned-chinese\";i:1;s:24:\"client-statement-chinese\";i:1;s:32:\"ticket-assigned-to-admin-chinese\";i:1;s:38:\"new-client-registered-to-admin-chinese\";i:1;s:38:\"new-web-to-lead-form-submitted-chinese\";i:1;s:33:\"two-factor-authentication-chinese\";i:1;s:36:\"project-finished-to-customer-chinese\";i:1;s:34:\"credit-note-send-to-client-chinese\";i:1;s:35:\"task-status-change-to-staff-chinese\";i:1;s:38:\"task-status-change-to-contacts-chinese\";i:1;s:28:\"reminder-email-staff-chinese\";i:1;s:34:\"contract-comment-to-client-chinese\";i:1;s:33:\"contract-comment-to-admin-chinese\";i:1;s:25:\"send-subscription-chinese\";i:1;s:35:\"subscription-payment-failed-chinese\";i:1;s:29:\"subscription-canceled-chinese\";i:1;s:38:\"subscription-payment-succeeded-chinese\";i:1;s:36:\"contract-expiration-to-staff-chinese\";i:1;s:28:\"gdpr-removal-request-chinese\";i:1;s:33:\"gdpr-removal-request-lead-chinese\";i:1;s:37:\"client-registration-confirmed-chinese\";i:1;s:32:\"contract-signed-to-staff-chinese\";i:1;s:36:\"customer-subscribed-to-staff-chinese\";i:1;s:34:\"contact-verification-email-chinese\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-chinese\";i:1;s:35:\"event-notification-to-staff-chinese\";i:1;s:24:\"new-client-created-czech\";i:1;s:28:\"invoice-send-to-client-czech\";i:1;s:29:\"new-ticket-opened-admin-czech\";i:1;s:18:\"ticket-reply-czech\";i:1;s:25:\"ticket-autoresponse-czech\";i:1;s:30:\"invoice-payment-recorded-czech\";i:1;s:28:\"invoice-overdue-notice-czech\";i:1;s:26:\"invoice-already-send-czech\";i:1;s:30:\"new-ticket-created-staff-czech\";i:1;s:29:\"estimate-send-to-client-czech\";i:1;s:27:\"ticket-reply-to-admin-czech\";i:1;s:27:\"estimate-already-send-czech\";i:1;s:25:\"contract-expiration-czech\";i:1;s:19:\"task-assigned-czech\";i:1;s:28:\"task-added-as-follower-czech\";i:1;s:20:\"task-commented-czech\";i:1;s:27:\"task-added-attachment-czech\";i:1;s:32:\"estimate-declined-to-staff-czech\";i:1;s:32:\"estimate-accepted-to-staff-czech\";i:1;s:30:\"proposal-client-accepted-czech\";i:1;s:31:\"proposal-send-to-customer-czech\";i:1;s:30:\"proposal-client-declined-czech\";i:1;s:31:\"proposal-client-thank-you-czech\";i:1;s:32:\"proposal-comment-to-client-czech\";i:1;s:31:\"proposal-comment-to-admin-czech\";i:1;s:36:\"estimate-thank-you-to-customer-czech\";i:1;s:32:\"task-deadline-notification-czech\";i:1;s:19:\"send-contract-czech\";i:1;s:39:\"invoice-payment-recorded-to-staff-czech\";i:1;s:23:\"auto-close-ticket-czech\";i:1;s:45:\"new-project-discussion-created-to-staff-czech\";i:1;s:48:\"new-project-discussion-created-to-customer-czech\";i:1;s:43:\"new-project-file-uploaded-to-customer-czech\";i:1;s:40:\"new-project-file-uploaded-to-staff-czech\";i:1;s:48:\"new-project-discussion-comment-to-customer-czech\";i:1;s:45:\"new-project-discussion-comment-to-staff-czech\";i:1;s:35:\"staff-added-as-project-member-czech\";i:1;s:30:\"estimate-expiry-reminder-czech\";i:1;s:30:\"proposal-expiry-reminder-czech\";i:1;s:23:\"new-staff-created-czech\";i:1;s:29:\"contact-forgot-password-czech\";i:1;s:30:\"contact-password-reseted-czech\";i:1;s:26:\"contact-set-password-czech\";i:1;s:27:\"staff-forgot-password-czech\";i:1;s:28:\"staff-password-reseted-czech\";i:1;s:25:\"assigned-to-project-czech\";i:1;s:39:\"task-added-attachment-to-contacts-czech\";i:1;s:32:\"task-commented-to-contacts-czech\";i:1;s:23:\"new-lead-assigned-czech\";i:1;s:22:\"client-statement-czech\";i:1;s:30:\"ticket-assigned-to-admin-czech\";i:1;s:36:\"new-client-registered-to-admin-czech\";i:1;s:36:\"new-web-to-lead-form-submitted-czech\";i:1;s:31:\"two-factor-authentication-czech\";i:1;s:34:\"project-finished-to-customer-czech\";i:1;s:32:\"credit-note-send-to-client-czech\";i:1;s:33:\"task-status-change-to-staff-czech\";i:1;s:36:\"task-status-change-to-contacts-czech\";i:1;s:26:\"reminder-email-staff-czech\";i:1;s:32:\"contract-comment-to-client-czech\";i:1;s:31:\"contract-comment-to-admin-czech\";i:1;s:23:\"send-subscription-czech\";i:1;s:33:\"subscription-payment-failed-czech\";i:1;s:27:\"subscription-canceled-czech\";i:1;s:36:\"subscription-payment-succeeded-czech\";i:1;s:34:\"contract-expiration-to-staff-czech\";i:1;s:26:\"gdpr-removal-request-czech\";i:1;s:31:\"gdpr-removal-request-lead-czech\";i:1;s:35:\"client-registration-confirmed-czech\";i:1;s:30:\"contract-signed-to-staff-czech\";i:1;s:34:\"customer-subscribed-to-staff-czech\";i:1;s:32:\"contact-verification-email-czech\";i:1;s:49:\"new-customer-profile-file-uploaded-to-staff-czech\";i:1;s:33:\"event-notification-to-staff-czech\";i:1;s:24:\"new-client-created-dutch\";i:1;s:28:\"invoice-send-to-client-dutch\";i:1;s:29:\"new-ticket-opened-admin-dutch\";i:1;s:18:\"ticket-reply-dutch\";i:1;s:25:\"ticket-autoresponse-dutch\";i:1;s:30:\"invoice-payment-recorded-dutch\";i:1;s:28:\"invoice-overdue-notice-dutch\";i:1;s:26:\"invoice-already-send-dutch\";i:1;s:30:\"new-ticket-created-staff-dutch\";i:1;s:29:\"estimate-send-to-client-dutch\";i:1;s:27:\"ticket-reply-to-admin-dutch\";i:1;s:27:\"estimate-already-send-dutch\";i:1;s:25:\"contract-expiration-dutch\";i:1;s:19:\"task-assigned-dutch\";i:1;s:28:\"task-added-as-follower-dutch\";i:1;s:20:\"task-commented-dutch\";i:1;s:27:\"task-added-attachment-dutch\";i:1;s:32:\"estimate-declined-to-staff-dutch\";i:1;s:32:\"estimate-accepted-to-staff-dutch\";i:1;s:30:\"proposal-client-accepted-dutch\";i:1;s:31:\"proposal-send-to-customer-dutch\";i:1;s:30:\"proposal-client-declined-dutch\";i:1;s:31:\"proposal-client-thank-you-dutch\";i:1;s:32:\"proposal-comment-to-client-dutch\";i:1;s:31:\"proposal-comment-to-admin-dutch\";i:1;s:36:\"estimate-thank-you-to-customer-dutch\";i:1;s:32:\"task-deadline-notification-dutch\";i:1;s:19:\"send-contract-dutch\";i:1;s:39:\"invoice-payment-recorded-to-staff-dutch\";i:1;s:23:\"auto-close-ticket-dutch\";i:1;s:45:\"new-project-discussion-created-to-staff-dutch\";i:1;s:48:\"new-project-discussion-created-to-customer-dutch\";i:1;s:43:\"new-project-file-uploaded-to-customer-dutch\";i:1;s:40:\"new-project-file-uploaded-to-staff-dutch\";i:1;s:48:\"new-project-discussion-comment-to-customer-dutch\";i:1;s:45:\"new-project-discussion-comment-to-staff-dutch\";i:1;s:35:\"staff-added-as-project-member-dutch\";i:1;s:30:\"estimate-expiry-reminder-dutch\";i:1;s:30:\"proposal-expiry-reminder-dutch\";i:1;s:23:\"new-staff-created-dutch\";i:1;s:29:\"contact-forgot-password-dutch\";i:1;s:30:\"contact-password-reseted-dutch\";i:1;s:26:\"contact-set-password-dutch\";i:1;s:27:\"staff-forgot-password-dutch\";i:1;s:28:\"staff-password-reseted-dutch\";i:1;s:25:\"assigned-to-project-dutch\";i:1;s:39:\"task-added-attachment-to-contacts-dutch\";i:1;s:32:\"task-commented-to-contacts-dutch\";i:1;s:23:\"new-lead-assigned-dutch\";i:1;s:22:\"client-statement-dutch\";i:1;s:30:\"ticket-assigned-to-admin-dutch\";i:1;s:36:\"new-client-registered-to-admin-dutch\";i:1;s:36:\"new-web-to-lead-form-submitted-dutch\";i:1;s:31:\"two-factor-authentication-dutch\";i:1;s:34:\"project-finished-to-customer-dutch\";i:1;s:32:\"credit-note-send-to-client-dutch\";i:1;s:33:\"task-status-change-to-staff-dutch\";i:1;s:36:\"task-status-change-to-contacts-dutch\";i:1;s:26:\"reminder-email-staff-dutch\";i:1;s:32:\"contract-comment-to-client-dutch\";i:1;s:31:\"contract-comment-to-admin-dutch\";i:1;s:23:\"send-subscription-dutch\";i:1;s:33:\"subscription-payment-failed-dutch\";i:1;s:27:\"subscription-canceled-dutch\";i:1;s:36:\"subscription-payment-succeeded-dutch\";i:1;s:34:\"contract-expiration-to-staff-dutch\";i:1;s:26:\"gdpr-removal-request-dutch\";i:1;s:31:\"gdpr-removal-request-lead-dutch\";i:1;s:35:\"client-registration-confirmed-dutch\";i:1;s:30:\"contract-signed-to-staff-dutch\";i:1;s:34:\"customer-subscribed-to-staff-dutch\";i:1;s:32:\"contact-verification-email-dutch\";i:1;s:49:\"new-customer-profile-file-uploaded-to-staff-dutch\";i:1;s:33:\"event-notification-to-staff-dutch\";i:1;s:25:\"new-client-created-french\";i:1;s:29:\"invoice-send-to-client-french\";i:1;s:30:\"new-ticket-opened-admin-french\";i:1;s:19:\"ticket-reply-french\";i:1;s:26:\"ticket-autoresponse-french\";i:1;s:31:\"invoice-payment-recorded-french\";i:1;s:29:\"invoice-overdue-notice-french\";i:1;s:27:\"invoice-already-send-french\";i:1;s:31:\"new-ticket-created-staff-french\";i:1;s:30:\"estimate-send-to-client-french\";i:1;s:28:\"ticket-reply-to-admin-french\";i:1;s:28:\"estimate-already-send-french\";i:1;s:26:\"contract-expiration-french\";i:1;s:20:\"task-assigned-french\";i:1;s:29:\"task-added-as-follower-french\";i:1;s:21:\"task-commented-french\";i:1;s:28:\"task-added-attachment-french\";i:1;s:33:\"estimate-declined-to-staff-french\";i:1;s:33:\"estimate-accepted-to-staff-french\";i:1;s:31:\"proposal-client-accepted-french\";i:1;s:32:\"proposal-send-to-customer-french\";i:1;s:31:\"proposal-client-declined-french\";i:1;s:32:\"proposal-client-thank-you-french\";i:1;s:33:\"proposal-comment-to-client-french\";i:1;s:32:\"proposal-comment-to-admin-french\";i:1;s:37:\"estimate-thank-you-to-customer-french\";i:1;s:33:\"task-deadline-notification-french\";i:1;s:20:\"send-contract-french\";i:1;s:40:\"invoice-payment-recorded-to-staff-french\";i:1;s:24:\"auto-close-ticket-french\";i:1;s:46:\"new-project-discussion-created-to-staff-french\";i:1;s:49:\"new-project-discussion-created-to-customer-french\";i:1;s:44:\"new-project-file-uploaded-to-customer-french\";i:1;s:41:\"new-project-file-uploaded-to-staff-french\";i:1;s:49:\"new-project-discussion-comment-to-customer-french\";i:1;s:46:\"new-project-discussion-comment-to-staff-french\";i:1;s:36:\"staff-added-as-project-member-french\";i:1;s:31:\"estimate-expiry-reminder-french\";i:1;s:31:\"proposal-expiry-reminder-french\";i:1;s:24:\"new-staff-created-french\";i:1;s:30:\"contact-forgot-password-french\";i:1;s:31:\"contact-password-reseted-french\";i:1;s:27:\"contact-set-password-french\";i:1;s:28:\"staff-forgot-password-french\";i:1;s:29:\"staff-password-reseted-french\";i:1;s:26:\"assigned-to-project-french\";i:1;s:40:\"task-added-attachment-to-contacts-french\";i:1;s:33:\"task-commented-to-contacts-french\";i:1;s:24:\"new-lead-assigned-french\";i:1;s:23:\"client-statement-french\";i:1;s:31:\"ticket-assigned-to-admin-french\";i:1;s:37:\"new-client-registered-to-admin-french\";i:1;s:37:\"new-web-to-lead-form-submitted-french\";i:1;s:32:\"two-factor-authentication-french\";i:1;s:35:\"project-finished-to-customer-french\";i:1;s:33:\"credit-note-send-to-client-french\";i:1;s:34:\"task-status-change-to-staff-french\";i:1;s:37:\"task-status-change-to-contacts-french\";i:1;s:27:\"reminder-email-staff-french\";i:1;s:33:\"contract-comment-to-client-french\";i:1;s:32:\"contract-comment-to-admin-french\";i:1;s:24:\"send-subscription-french\";i:1;s:34:\"subscription-payment-failed-french\";i:1;s:28:\"subscription-canceled-french\";i:1;s:37:\"subscription-payment-succeeded-french\";i:1;s:35:\"contract-expiration-to-staff-french\";i:1;s:27:\"gdpr-removal-request-french\";i:1;s:32:\"gdpr-removal-request-lead-french\";i:1;s:36:\"client-registration-confirmed-french\";i:1;s:31:\"contract-signed-to-staff-french\";i:1;s:35:\"customer-subscribed-to-staff-french\";i:1;s:33:\"contact-verification-email-french\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-french\";i:1;s:34:\"event-notification-to-staff-french\";i:1;s:25:\"new-client-created-german\";i:1;s:29:\"invoice-send-to-client-german\";i:1;s:30:\"new-ticket-opened-admin-german\";i:1;s:19:\"ticket-reply-german\";i:1;s:26:\"ticket-autoresponse-german\";i:1;s:31:\"invoice-payment-recorded-german\";i:1;s:29:\"invoice-overdue-notice-german\";i:1;s:27:\"invoice-already-send-german\";i:1;s:31:\"new-ticket-created-staff-german\";i:1;s:30:\"estimate-send-to-client-german\";i:1;s:28:\"ticket-reply-to-admin-german\";i:1;s:28:\"estimate-already-send-german\";i:1;s:26:\"contract-expiration-german\";i:1;s:20:\"task-assigned-german\";i:1;s:29:\"task-added-as-follower-german\";i:1;s:21:\"task-commented-german\";i:1;s:28:\"task-added-attachment-german\";i:1;s:33:\"estimate-declined-to-staff-german\";i:1;s:33:\"estimate-accepted-to-staff-german\";i:1;s:31:\"proposal-client-accepted-german\";i:1;s:32:\"proposal-send-to-customer-german\";i:1;s:31:\"proposal-client-declined-german\";i:1;s:32:\"proposal-client-thank-you-german\";i:1;s:33:\"proposal-comment-to-client-german\";i:1;s:32:\"proposal-comment-to-admin-german\";i:1;s:37:\"estimate-thank-you-to-customer-german\";i:1;s:33:\"task-deadline-notification-german\";i:1;s:20:\"send-contract-german\";i:1;s:40:\"invoice-payment-recorded-to-staff-german\";i:1;s:24:\"auto-close-ticket-german\";i:1;s:46:\"new-project-discussion-created-to-staff-german\";i:1;s:49:\"new-project-discussion-created-to-customer-german\";i:1;s:44:\"new-project-file-uploaded-to-customer-german\";i:1;s:41:\"new-project-file-uploaded-to-staff-german\";i:1;s:49:\"new-project-discussion-comment-to-customer-german\";i:1;s:46:\"new-project-discussion-comment-to-staff-german\";i:1;s:36:\"staff-added-as-project-member-german\";i:1;s:31:\"estimate-expiry-reminder-german\";i:1;s:31:\"proposal-expiry-reminder-german\";i:1;s:24:\"new-staff-created-german\";i:1;s:30:\"contact-forgot-password-german\";i:1;s:31:\"contact-password-reseted-german\";i:1;s:27:\"contact-set-password-german\";i:1;s:28:\"staff-forgot-password-german\";i:1;s:29:\"staff-password-reseted-german\";i:1;s:26:\"assigned-to-project-german\";i:1;s:40:\"task-added-attachment-to-contacts-german\";i:1;s:33:\"task-commented-to-contacts-german\";i:1;s:24:\"new-lead-assigned-german\";i:1;s:23:\"client-statement-german\";i:1;s:31:\"ticket-assigned-to-admin-german\";i:1;s:37:\"new-client-registered-to-admin-german\";i:1;s:37:\"new-web-to-lead-form-submitted-german\";i:1;s:32:\"two-factor-authentication-german\";i:1;s:35:\"project-finished-to-customer-german\";i:1;s:33:\"credit-note-send-to-client-german\";i:1;s:34:\"task-status-change-to-staff-german\";i:1;s:37:\"task-status-change-to-contacts-german\";i:1;s:27:\"reminder-email-staff-german\";i:1;s:33:\"contract-comment-to-client-german\";i:1;s:32:\"contract-comment-to-admin-german\";i:1;s:24:\"send-subscription-german\";i:1;s:34:\"subscription-payment-failed-german\";i:1;s:28:\"subscription-canceled-german\";i:1;s:37:\"subscription-payment-succeeded-german\";i:1;s:35:\"contract-expiration-to-staff-german\";i:1;s:27:\"gdpr-removal-request-german\";i:1;s:32:\"gdpr-removal-request-lead-german\";i:1;s:36:\"client-registration-confirmed-german\";i:1;s:31:\"contract-signed-to-staff-german\";i:1;s:35:\"customer-subscribed-to-staff-german\";i:1;s:33:\"contact-verification-email-german\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-german\";i:1;s:34:\"event-notification-to-staff-german\";i:1;s:24:\"new-client-created-greek\";i:1;s:28:\"invoice-send-to-client-greek\";i:1;s:29:\"new-ticket-opened-admin-greek\";i:1;s:18:\"ticket-reply-greek\";i:1;s:25:\"ticket-autoresponse-greek\";i:1;s:30:\"invoice-payment-recorded-greek\";i:1;s:28:\"invoice-overdue-notice-greek\";i:1;s:26:\"invoice-already-send-greek\";i:1;s:30:\"new-ticket-created-staff-greek\";i:1;s:29:\"estimate-send-to-client-greek\";i:1;s:27:\"ticket-reply-to-admin-greek\";i:1;s:27:\"estimate-already-send-greek\";i:1;s:25:\"contract-expiration-greek\";i:1;s:19:\"task-assigned-greek\";i:1;s:28:\"task-added-as-follower-greek\";i:1;s:20:\"task-commented-greek\";i:1;s:27:\"task-added-attachment-greek\";i:1;s:32:\"estimate-declined-to-staff-greek\";i:1;s:32:\"estimate-accepted-to-staff-greek\";i:1;s:30:\"proposal-client-accepted-greek\";i:1;s:31:\"proposal-send-to-customer-greek\";i:1;s:30:\"proposal-client-declined-greek\";i:1;s:31:\"proposal-client-thank-you-greek\";i:1;s:32:\"proposal-comment-to-client-greek\";i:1;s:31:\"proposal-comment-to-admin-greek\";i:1;s:36:\"estimate-thank-you-to-customer-greek\";i:1;s:32:\"task-deadline-notification-greek\";i:1;s:19:\"send-contract-greek\";i:1;s:39:\"invoice-payment-recorded-to-staff-greek\";i:1;s:23:\"auto-close-ticket-greek\";i:1;s:45:\"new-project-discussion-created-to-staff-greek\";i:1;s:48:\"new-project-discussion-created-to-customer-greek\";i:1;s:43:\"new-project-file-uploaded-to-customer-greek\";i:1;s:40:\"new-project-file-uploaded-to-staff-greek\";i:1;s:48:\"new-project-discussion-comment-to-customer-greek\";i:1;s:45:\"new-project-discussion-comment-to-staff-greek\";i:1;s:35:\"staff-added-as-project-member-greek\";i:1;s:30:\"estimate-expiry-reminder-greek\";i:1;s:30:\"proposal-expiry-reminder-greek\";i:1;s:23:\"new-staff-created-greek\";i:1;s:29:\"contact-forgot-password-greek\";i:1;s:30:\"contact-password-reseted-greek\";i:1;s:26:\"contact-set-password-greek\";i:1;s:27:\"staff-forgot-password-greek\";i:1;s:28:\"staff-password-reseted-greek\";i:1;s:25:\"assigned-to-project-greek\";i:1;s:39:\"task-added-attachment-to-contacts-greek\";i:1;s:32:\"task-commented-to-contacts-greek\";i:1;s:23:\"new-lead-assigned-greek\";i:1;s:22:\"client-statement-greek\";i:1;s:30:\"ticket-assigned-to-admin-greek\";i:1;s:36:\"new-client-registered-to-admin-greek\";i:1;s:36:\"new-web-to-lead-form-submitted-greek\";i:1;s:31:\"two-factor-authentication-greek\";i:1;s:34:\"project-finished-to-customer-greek\";i:1;s:32:\"credit-note-send-to-client-greek\";i:1;s:33:\"task-status-change-to-staff-greek\";i:1;s:36:\"task-status-change-to-contacts-greek\";i:1;s:26:\"reminder-email-staff-greek\";i:1;s:32:\"contract-comment-to-client-greek\";i:1;s:31:\"contract-comment-to-admin-greek\";i:1;s:23:\"send-subscription-greek\";i:1;s:33:\"subscription-payment-failed-greek\";i:1;s:27:\"subscription-canceled-greek\";i:1;s:36:\"subscription-payment-succeeded-greek\";i:1;s:34:\"contract-expiration-to-staff-greek\";i:1;s:26:\"gdpr-removal-request-greek\";i:1;s:31:\"gdpr-removal-request-lead-greek\";i:1;s:35:\"client-registration-confirmed-greek\";i:1;s:30:\"contract-signed-to-staff-greek\";i:1;s:34:\"customer-subscribed-to-staff-greek\";i:1;s:32:\"contact-verification-email-greek\";i:1;s:49:\"new-customer-profile-file-uploaded-to-staff-greek\";i:1;s:33:\"event-notification-to-staff-greek\";i:1;s:28:\"new-client-created-indonesia\";i:1;s:32:\"invoice-send-to-client-indonesia\";i:1;s:33:\"new-ticket-opened-admin-indonesia\";i:1;s:22:\"ticket-reply-indonesia\";i:1;s:29:\"ticket-autoresponse-indonesia\";i:1;s:34:\"invoice-payment-recorded-indonesia\";i:1;s:32:\"invoice-overdue-notice-indonesia\";i:1;s:30:\"invoice-already-send-indonesia\";i:1;s:34:\"new-ticket-created-staff-indonesia\";i:1;s:33:\"estimate-send-to-client-indonesia\";i:1;s:31:\"ticket-reply-to-admin-indonesia\";i:1;s:31:\"estimate-already-send-indonesia\";i:1;s:29:\"contract-expiration-indonesia\";i:1;s:23:\"task-assigned-indonesia\";i:1;s:32:\"task-added-as-follower-indonesia\";i:1;s:24:\"task-commented-indonesia\";i:1;s:31:\"task-added-attachment-indonesia\";i:1;s:36:\"estimate-declined-to-staff-indonesia\";i:1;s:36:\"estimate-accepted-to-staff-indonesia\";i:1;s:34:\"proposal-client-accepted-indonesia\";i:1;s:35:\"proposal-send-to-customer-indonesia\";i:1;s:34:\"proposal-client-declined-indonesia\";i:1;s:35:\"proposal-client-thank-you-indonesia\";i:1;s:36:\"proposal-comment-to-client-indonesia\";i:1;s:35:\"proposal-comment-to-admin-indonesia\";i:1;s:40:\"estimate-thank-you-to-customer-indonesia\";i:1;s:36:\"task-deadline-notification-indonesia\";i:1;s:23:\"send-contract-indonesia\";i:1;s:43:\"invoice-payment-recorded-to-staff-indonesia\";i:1;s:27:\"auto-close-ticket-indonesia\";i:1;s:49:\"new-project-discussion-created-to-staff-indonesia\";i:1;s:52:\"new-project-discussion-created-to-customer-indonesia\";i:1;s:47:\"new-project-file-uploaded-to-customer-indonesia\";i:1;s:44:\"new-project-file-uploaded-to-staff-indonesia\";i:1;s:52:\"new-project-discussion-comment-to-customer-indonesia\";i:1;s:49:\"new-project-discussion-comment-to-staff-indonesia\";i:1;s:39:\"staff-added-as-project-member-indonesia\";i:1;s:34:\"estimate-expiry-reminder-indonesia\";i:1;s:34:\"proposal-expiry-reminder-indonesia\";i:1;s:27:\"new-staff-created-indonesia\";i:1;s:33:\"contact-forgot-password-indonesia\";i:1;s:34:\"contact-password-reseted-indonesia\";i:1;s:30:\"contact-set-password-indonesia\";i:1;s:31:\"staff-forgot-password-indonesia\";i:1;s:32:\"staff-password-reseted-indonesia\";i:1;s:29:\"assigned-to-project-indonesia\";i:1;s:43:\"task-added-attachment-to-contacts-indonesia\";i:1;s:36:\"task-commented-to-contacts-indonesia\";i:1;s:27:\"new-lead-assigned-indonesia\";i:1;s:26:\"client-statement-indonesia\";i:1;s:34:\"ticket-assigned-to-admin-indonesia\";i:1;s:40:\"new-client-registered-to-admin-indonesia\";i:1;s:40:\"new-web-to-lead-form-submitted-indonesia\";i:1;s:35:\"two-factor-authentication-indonesia\";i:1;s:38:\"project-finished-to-customer-indonesia\";i:1;s:36:\"credit-note-send-to-client-indonesia\";i:1;s:37:\"task-status-change-to-staff-indonesia\";i:1;s:40:\"task-status-change-to-contacts-indonesia\";i:1;s:30:\"reminder-email-staff-indonesia\";i:1;s:36:\"contract-comment-to-client-indonesia\";i:1;s:35:\"contract-comment-to-admin-indonesia\";i:1;s:27:\"send-subscription-indonesia\";i:1;s:37:\"subscription-payment-failed-indonesia\";i:1;s:31:\"subscription-canceled-indonesia\";i:1;s:40:\"subscription-payment-succeeded-indonesia\";i:1;s:38:\"contract-expiration-to-staff-indonesia\";i:1;s:30:\"gdpr-removal-request-indonesia\";i:1;s:35:\"gdpr-removal-request-lead-indonesia\";i:1;s:39:\"client-registration-confirmed-indonesia\";i:1;s:34:\"contract-signed-to-staff-indonesia\";i:1;s:38:\"customer-subscribed-to-staff-indonesia\";i:1;s:36:\"contact-verification-email-indonesia\";i:1;s:53:\"new-customer-profile-file-uploaded-to-staff-indonesia\";i:1;s:37:\"event-notification-to-staff-indonesia\";i:1;s:26:\"new-client-created-italian\";i:1;s:30:\"invoice-send-to-client-italian\";i:1;s:31:\"new-ticket-opened-admin-italian\";i:1;s:20:\"ticket-reply-italian\";i:1;s:27:\"ticket-autoresponse-italian\";i:1;s:32:\"invoice-payment-recorded-italian\";i:1;s:30:\"invoice-overdue-notice-italian\";i:1;s:28:\"invoice-already-send-italian\";i:1;s:32:\"new-ticket-created-staff-italian\";i:1;s:31:\"estimate-send-to-client-italian\";i:1;s:29:\"ticket-reply-to-admin-italian\";i:1;s:29:\"estimate-already-send-italian\";i:1;s:27:\"contract-expiration-italian\";i:1;s:21:\"task-assigned-italian\";i:1;s:30:\"task-added-as-follower-italian\";i:1;s:22:\"task-commented-italian\";i:1;s:29:\"task-added-attachment-italian\";i:1;s:34:\"estimate-declined-to-staff-italian\";i:1;s:34:\"estimate-accepted-to-staff-italian\";i:1;s:32:\"proposal-client-accepted-italian\";i:1;s:33:\"proposal-send-to-customer-italian\";i:1;s:32:\"proposal-client-declined-italian\";i:1;s:33:\"proposal-client-thank-you-italian\";i:1;s:34:\"proposal-comment-to-client-italian\";i:1;s:33:\"proposal-comment-to-admin-italian\";i:1;s:38:\"estimate-thank-you-to-customer-italian\";i:1;s:34:\"task-deadline-notification-italian\";i:1;s:21:\"send-contract-italian\";i:1;s:41:\"invoice-payment-recorded-to-staff-italian\";i:1;s:25:\"auto-close-ticket-italian\";i:1;s:47:\"new-project-discussion-created-to-staff-italian\";i:1;s:50:\"new-project-discussion-created-to-customer-italian\";i:1;s:45:\"new-project-file-uploaded-to-customer-italian\";i:1;s:42:\"new-project-file-uploaded-to-staff-italian\";i:1;s:50:\"new-project-discussion-comment-to-customer-italian\";i:1;s:47:\"new-project-discussion-comment-to-staff-italian\";i:1;s:37:\"staff-added-as-project-member-italian\";i:1;s:32:\"estimate-expiry-reminder-italian\";i:1;s:32:\"proposal-expiry-reminder-italian\";i:1;s:25:\"new-staff-created-italian\";i:1;s:31:\"contact-forgot-password-italian\";i:1;s:32:\"contact-password-reseted-italian\";i:1;s:28:\"contact-set-password-italian\";i:1;s:29:\"staff-forgot-password-italian\";i:1;s:30:\"staff-password-reseted-italian\";i:1;s:27:\"assigned-to-project-italian\";i:1;s:41:\"task-added-attachment-to-contacts-italian\";i:1;s:34:\"task-commented-to-contacts-italian\";i:1;s:25:\"new-lead-assigned-italian\";i:1;s:24:\"client-statement-italian\";i:1;s:32:\"ticket-assigned-to-admin-italian\";i:1;s:38:\"new-client-registered-to-admin-italian\";i:1;s:38:\"new-web-to-lead-form-submitted-italian\";i:1;s:33:\"two-factor-authentication-italian\";i:1;s:36:\"project-finished-to-customer-italian\";i:1;s:34:\"credit-note-send-to-client-italian\";i:1;s:35:\"task-status-change-to-staff-italian\";i:1;s:38:\"task-status-change-to-contacts-italian\";i:1;s:28:\"reminder-email-staff-italian\";i:1;s:34:\"contract-comment-to-client-italian\";i:1;s:33:\"contract-comment-to-admin-italian\";i:1;s:25:\"send-subscription-italian\";i:1;s:35:\"subscription-payment-failed-italian\";i:1;s:29:\"subscription-canceled-italian\";i:1;s:38:\"subscription-payment-succeeded-italian\";i:1;s:36:\"contract-expiration-to-staff-italian\";i:1;s:28:\"gdpr-removal-request-italian\";i:1;s:33:\"gdpr-removal-request-lead-italian\";i:1;s:37:\"client-registration-confirmed-italian\";i:1;s:32:\"contract-signed-to-staff-italian\";i:1;s:36:\"customer-subscribed-to-staff-italian\";i:1;s:34:\"contact-verification-email-italian\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-italian\";i:1;s:35:\"event-notification-to-staff-italian\";i:1;s:27:\"new-client-created-japanese\";i:1;s:31:\"invoice-send-to-client-japanese\";i:1;s:32:\"new-ticket-opened-admin-japanese\";i:1;s:21:\"ticket-reply-japanese\";i:1;s:28:\"ticket-autoresponse-japanese\";i:1;s:33:\"invoice-payment-recorded-japanese\";i:1;s:31:\"invoice-overdue-notice-japanese\";i:1;s:29:\"invoice-already-send-japanese\";i:1;s:33:\"new-ticket-created-staff-japanese\";i:1;s:32:\"estimate-send-to-client-japanese\";i:1;s:30:\"ticket-reply-to-admin-japanese\";i:1;s:30:\"estimate-already-send-japanese\";i:1;s:28:\"contract-expiration-japanese\";i:1;s:22:\"task-assigned-japanese\";i:1;s:31:\"task-added-as-follower-japanese\";i:1;s:23:\"task-commented-japanese\";i:1;s:30:\"task-added-attachment-japanese\";i:1;s:35:\"estimate-declined-to-staff-japanese\";i:1;s:35:\"estimate-accepted-to-staff-japanese\";i:1;s:33:\"proposal-client-accepted-japanese\";i:1;s:34:\"proposal-send-to-customer-japanese\";i:1;s:33:\"proposal-client-declined-japanese\";i:1;s:34:\"proposal-client-thank-you-japanese\";i:1;s:35:\"proposal-comment-to-client-japanese\";i:1;s:34:\"proposal-comment-to-admin-japanese\";i:1;s:39:\"estimate-thank-you-to-customer-japanese\";i:1;s:35:\"task-deadline-notification-japanese\";i:1;s:22:\"send-contract-japanese\";i:1;s:42:\"invoice-payment-recorded-to-staff-japanese\";i:1;s:26:\"auto-close-ticket-japanese\";i:1;s:48:\"new-project-discussion-created-to-staff-japanese\";i:1;s:51:\"new-project-discussion-created-to-customer-japanese\";i:1;s:46:\"new-project-file-uploaded-to-customer-japanese\";i:1;s:43:\"new-project-file-uploaded-to-staff-japanese\";i:1;s:51:\"new-project-discussion-comment-to-customer-japanese\";i:1;s:48:\"new-project-discussion-comment-to-staff-japanese\";i:1;s:38:\"staff-added-as-project-member-japanese\";i:1;s:33:\"estimate-expiry-reminder-japanese\";i:1;s:33:\"proposal-expiry-reminder-japanese\";i:1;s:26:\"new-staff-created-japanese\";i:1;s:32:\"contact-forgot-password-japanese\";i:1;s:33:\"contact-password-reseted-japanese\";i:1;s:29:\"contact-set-password-japanese\";i:1;s:30:\"staff-forgot-password-japanese\";i:1;s:31:\"staff-password-reseted-japanese\";i:1;s:28:\"assigned-to-project-japanese\";i:1;s:42:\"task-added-attachment-to-contacts-japanese\";i:1;s:35:\"task-commented-to-contacts-japanese\";i:1;s:26:\"new-lead-assigned-japanese\";i:1;s:25:\"client-statement-japanese\";i:1;s:33:\"ticket-assigned-to-admin-japanese\";i:1;s:39:\"new-client-registered-to-admin-japanese\";i:1;s:39:\"new-web-to-lead-form-submitted-japanese\";i:1;s:34:\"two-factor-authentication-japanese\";i:1;s:37:\"project-finished-to-customer-japanese\";i:1;s:35:\"credit-note-send-to-client-japanese\";i:1;s:36:\"task-status-change-to-staff-japanese\";i:1;s:39:\"task-status-change-to-contacts-japanese\";i:1;s:29:\"reminder-email-staff-japanese\";i:1;s:35:\"contract-comment-to-client-japanese\";i:1;s:34:\"contract-comment-to-admin-japanese\";i:1;s:26:\"send-subscription-japanese\";i:1;s:36:\"subscription-payment-failed-japanese\";i:1;s:30:\"subscription-canceled-japanese\";i:1;s:39:\"subscription-payment-succeeded-japanese\";i:1;s:37:\"contract-expiration-to-staff-japanese\";i:1;s:29:\"gdpr-removal-request-japanese\";i:1;s:34:\"gdpr-removal-request-lead-japanese\";i:1;s:38:\"client-registration-confirmed-japanese\";i:1;s:33:\"contract-signed-to-staff-japanese\";i:1;s:37:\"customer-subscribed-to-staff-japanese\";i:1;s:35:\"contact-verification-email-japanese\";i:1;s:52:\"new-customer-profile-file-uploaded-to-staff-japanese\";i:1;s:36:\"event-notification-to-staff-japanese\";i:1;s:26:\"new-client-created-persian\";i:1;s:30:\"invoice-send-to-client-persian\";i:1;s:31:\"new-ticket-opened-admin-persian\";i:1;s:20:\"ticket-reply-persian\";i:1;s:27:\"ticket-autoresponse-persian\";i:1;s:32:\"invoice-payment-recorded-persian\";i:1;s:30:\"invoice-overdue-notice-persian\";i:1;s:28:\"invoice-already-send-persian\";i:1;s:32:\"new-ticket-created-staff-persian\";i:1;s:31:\"estimate-send-to-client-persian\";i:1;s:29:\"ticket-reply-to-admin-persian\";i:1;s:29:\"estimate-already-send-persian\";i:1;s:27:\"contract-expiration-persian\";i:1;s:21:\"task-assigned-persian\";i:1;s:30:\"task-added-as-follower-persian\";i:1;s:22:\"task-commented-persian\";i:1;s:29:\"task-added-attachment-persian\";i:1;s:34:\"estimate-declined-to-staff-persian\";i:1;s:34:\"estimate-accepted-to-staff-persian\";i:1;s:32:\"proposal-client-accepted-persian\";i:1;s:33:\"proposal-send-to-customer-persian\";i:1;s:32:\"proposal-client-declined-persian\";i:1;s:33:\"proposal-client-thank-you-persian\";i:1;s:34:\"proposal-comment-to-client-persian\";i:1;s:33:\"proposal-comment-to-admin-persian\";i:1;s:38:\"estimate-thank-you-to-customer-persian\";i:1;s:34:\"task-deadline-notification-persian\";i:1;s:21:\"send-contract-persian\";i:1;s:41:\"invoice-payment-recorded-to-staff-persian\";i:1;s:25:\"auto-close-ticket-persian\";i:1;s:47:\"new-project-discussion-created-to-staff-persian\";i:1;s:50:\"new-project-discussion-created-to-customer-persian\";i:1;s:45:\"new-project-file-uploaded-to-customer-persian\";i:1;s:42:\"new-project-file-uploaded-to-staff-persian\";i:1;s:50:\"new-project-discussion-comment-to-customer-persian\";i:1;s:47:\"new-project-discussion-comment-to-staff-persian\";i:1;s:37:\"staff-added-as-project-member-persian\";i:1;s:32:\"estimate-expiry-reminder-persian\";i:1;s:32:\"proposal-expiry-reminder-persian\";i:1;s:25:\"new-staff-created-persian\";i:1;s:31:\"contact-forgot-password-persian\";i:1;s:32:\"contact-password-reseted-persian\";i:1;s:28:\"contact-set-password-persian\";i:1;s:29:\"staff-forgot-password-persian\";i:1;s:30:\"staff-password-reseted-persian\";i:1;s:27:\"assigned-to-project-persian\";i:1;s:41:\"task-added-attachment-to-contacts-persian\";i:1;s:34:\"task-commented-to-contacts-persian\";i:1;s:25:\"new-lead-assigned-persian\";i:1;s:24:\"client-statement-persian\";i:1;s:32:\"ticket-assigned-to-admin-persian\";i:1;s:38:\"new-client-registered-to-admin-persian\";i:1;s:38:\"new-web-to-lead-form-submitted-persian\";i:1;s:33:\"two-factor-authentication-persian\";i:1;s:36:\"project-finished-to-customer-persian\";i:1;s:34:\"credit-note-send-to-client-persian\";i:1;s:35:\"task-status-change-to-staff-persian\";i:1;s:38:\"task-status-change-to-contacts-persian\";i:1;s:28:\"reminder-email-staff-persian\";i:1;s:34:\"contract-comment-to-client-persian\";i:1;s:33:\"contract-comment-to-admin-persian\";i:1;s:25:\"send-subscription-persian\";i:1;s:35:\"subscription-payment-failed-persian\";i:1;s:29:\"subscription-canceled-persian\";i:1;s:38:\"subscription-payment-succeeded-persian\";i:1;s:36:\"contract-expiration-to-staff-persian\";i:1;s:28:\"gdpr-removal-request-persian\";i:1;s:33:\"gdpr-removal-request-lead-persian\";i:1;s:37:\"client-registration-confirmed-persian\";i:1;s:32:\"contract-signed-to-staff-persian\";i:1;s:36:\"customer-subscribed-to-staff-persian\";i:1;s:34:\"contact-verification-email-persian\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-persian\";i:1;s:35:\"event-notification-to-staff-persian\";i:1;s:25:\"new-client-created-polish\";i:1;s:29:\"invoice-send-to-client-polish\";i:1;s:30:\"new-ticket-opened-admin-polish\";i:1;s:19:\"ticket-reply-polish\";i:1;s:26:\"ticket-autoresponse-polish\";i:1;s:31:\"invoice-payment-recorded-polish\";i:1;s:29:\"invoice-overdue-notice-polish\";i:1;s:27:\"invoice-already-send-polish\";i:1;s:31:\"new-ticket-created-staff-polish\";i:1;s:30:\"estimate-send-to-client-polish\";i:1;s:28:\"ticket-reply-to-admin-polish\";i:1;s:28:\"estimate-already-send-polish\";i:1;s:26:\"contract-expiration-polish\";i:1;s:20:\"task-assigned-polish\";i:1;s:29:\"task-added-as-follower-polish\";i:1;s:21:\"task-commented-polish\";i:1;s:28:\"task-added-attachment-polish\";i:1;s:33:\"estimate-declined-to-staff-polish\";i:1;s:33:\"estimate-accepted-to-staff-polish\";i:1;s:31:\"proposal-client-accepted-polish\";i:1;s:32:\"proposal-send-to-customer-polish\";i:1;s:31:\"proposal-client-declined-polish\";i:1;s:32:\"proposal-client-thank-you-polish\";i:1;s:33:\"proposal-comment-to-client-polish\";i:1;s:32:\"proposal-comment-to-admin-polish\";i:1;s:37:\"estimate-thank-you-to-customer-polish\";i:1;s:33:\"task-deadline-notification-polish\";i:1;s:20:\"send-contract-polish\";i:1;s:40:\"invoice-payment-recorded-to-staff-polish\";i:1;s:24:\"auto-close-ticket-polish\";i:1;s:46:\"new-project-discussion-created-to-staff-polish\";i:1;s:49:\"new-project-discussion-created-to-customer-polish\";i:1;s:44:\"new-project-file-uploaded-to-customer-polish\";i:1;s:41:\"new-project-file-uploaded-to-staff-polish\";i:1;s:49:\"new-project-discussion-comment-to-customer-polish\";i:1;s:46:\"new-project-discussion-comment-to-staff-polish\";i:1;s:36:\"staff-added-as-project-member-polish\";i:1;s:31:\"estimate-expiry-reminder-polish\";i:1;s:31:\"proposal-expiry-reminder-polish\";i:1;s:24:\"new-staff-created-polish\";i:1;s:30:\"contact-forgot-password-polish\";i:1;s:31:\"contact-password-reseted-polish\";i:1;s:27:\"contact-set-password-polish\";i:1;s:28:\"staff-forgot-password-polish\";i:1;s:29:\"staff-password-reseted-polish\";i:1;s:26:\"assigned-to-project-polish\";i:1;s:40:\"task-added-attachment-to-contacts-polish\";i:1;s:33:\"task-commented-to-contacts-polish\";i:1;s:24:\"new-lead-assigned-polish\";i:1;s:23:\"client-statement-polish\";i:1;s:31:\"ticket-assigned-to-admin-polish\";i:1;s:37:\"new-client-registered-to-admin-polish\";i:1;s:37:\"new-web-to-lead-form-submitted-polish\";i:1;s:32:\"two-factor-authentication-polish\";i:1;s:35:\"project-finished-to-customer-polish\";i:1;s:33:\"credit-note-send-to-client-polish\";i:1;s:34:\"task-status-change-to-staff-polish\";i:1;s:37:\"task-status-change-to-contacts-polish\";i:1;s:27:\"reminder-email-staff-polish\";i:1;s:33:\"contract-comment-to-client-polish\";i:1;s:32:\"contract-comment-to-admin-polish\";i:1;s:24:\"send-subscription-polish\";i:1;s:34:\"subscription-payment-failed-polish\";i:1;s:28:\"subscription-canceled-polish\";i:1;s:37:\"subscription-payment-succeeded-polish\";i:1;s:35:\"contract-expiration-to-staff-polish\";i:1;s:27:\"gdpr-removal-request-polish\";i:1;s:32:\"gdpr-removal-request-lead-polish\";i:1;s:36:\"client-registration-confirmed-polish\";i:1;s:31:\"contract-signed-to-staff-polish\";i:1;s:35:\"customer-subscribed-to-staff-polish\";i:1;s:33:\"contact-verification-email-polish\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-polish\";i:1;s:34:\"event-notification-to-staff-polish\";i:1;s:29:\"new-client-created-portuguese\";i:1;s:33:\"invoice-send-to-client-portuguese\";i:1;s:34:\"new-ticket-opened-admin-portuguese\";i:1;s:23:\"ticket-reply-portuguese\";i:1;s:30:\"ticket-autoresponse-portuguese\";i:1;s:35:\"invoice-payment-recorded-portuguese\";i:1;s:33:\"invoice-overdue-notice-portuguese\";i:1;s:31:\"invoice-already-send-portuguese\";i:1;s:35:\"new-ticket-created-staff-portuguese\";i:1;s:34:\"estimate-send-to-client-portuguese\";i:1;s:32:\"ticket-reply-to-admin-portuguese\";i:1;s:32:\"estimate-already-send-portuguese\";i:1;s:30:\"contract-expiration-portuguese\";i:1;s:24:\"task-assigned-portuguese\";i:1;s:33:\"task-added-as-follower-portuguese\";i:1;s:25:\"task-commented-portuguese\";i:1;s:32:\"task-added-attachment-portuguese\";i:1;s:37:\"estimate-declined-to-staff-portuguese\";i:1;s:37:\"estimate-accepted-to-staff-portuguese\";i:1;s:35:\"proposal-client-accepted-portuguese\";i:1;s:36:\"proposal-send-to-customer-portuguese\";i:1;s:35:\"proposal-client-declined-portuguese\";i:1;s:36:\"proposal-client-thank-you-portuguese\";i:1;s:37:\"proposal-comment-to-client-portuguese\";i:1;s:36:\"proposal-comment-to-admin-portuguese\";i:1;s:41:\"estimate-thank-you-to-customer-portuguese\";i:1;s:37:\"task-deadline-notification-portuguese\";i:1;s:24:\"send-contract-portuguese\";i:1;s:44:\"invoice-payment-recorded-to-staff-portuguese\";i:1;s:28:\"auto-close-ticket-portuguese\";i:1;s:50:\"new-project-discussion-created-to-staff-portuguese\";i:1;s:53:\"new-project-discussion-created-to-customer-portuguese\";i:1;s:48:\"new-project-file-uploaded-to-customer-portuguese\";i:1;s:45:\"new-project-file-uploaded-to-staff-portuguese\";i:1;s:53:\"new-project-discussion-comment-to-customer-portuguese\";i:1;s:50:\"new-project-discussion-comment-to-staff-portuguese\";i:1;s:40:\"staff-added-as-project-member-portuguese\";i:1;s:35:\"estimate-expiry-reminder-portuguese\";i:1;s:35:\"proposal-expiry-reminder-portuguese\";i:1;s:28:\"new-staff-created-portuguese\";i:1;s:34:\"contact-forgot-password-portuguese\";i:1;s:35:\"contact-password-reseted-portuguese\";i:1;s:31:\"contact-set-password-portuguese\";i:1;s:32:\"staff-forgot-password-portuguese\";i:1;s:33:\"staff-password-reseted-portuguese\";i:1;s:30:\"assigned-to-project-portuguese\";i:1;s:44:\"task-added-attachment-to-contacts-portuguese\";i:1;s:37:\"task-commented-to-contacts-portuguese\";i:1;s:28:\"new-lead-assigned-portuguese\";i:1;s:27:\"client-statement-portuguese\";i:1;s:35:\"ticket-assigned-to-admin-portuguese\";i:1;s:41:\"new-client-registered-to-admin-portuguese\";i:1;s:41:\"new-web-to-lead-form-submitted-portuguese\";i:1;s:36:\"two-factor-authentication-portuguese\";i:1;s:39:\"project-finished-to-customer-portuguese\";i:1;s:37:\"credit-note-send-to-client-portuguese\";i:1;s:38:\"task-status-change-to-staff-portuguese\";i:1;s:41:\"task-status-change-to-contacts-portuguese\";i:1;s:31:\"reminder-email-staff-portuguese\";i:1;s:37:\"contract-comment-to-client-portuguese\";i:1;s:36:\"contract-comment-to-admin-portuguese\";i:1;s:28:\"send-subscription-portuguese\";i:1;s:38:\"subscription-payment-failed-portuguese\";i:1;s:32:\"subscription-canceled-portuguese\";i:1;s:41:\"subscription-payment-succeeded-portuguese\";i:1;s:39:\"contract-expiration-to-staff-portuguese\";i:1;s:31:\"gdpr-removal-request-portuguese\";i:1;s:36:\"gdpr-removal-request-lead-portuguese\";i:1;s:40:\"client-registration-confirmed-portuguese\";i:1;s:35:\"contract-signed-to-staff-portuguese\";i:1;s:39:\"customer-subscribed-to-staff-portuguese\";i:1;s:37:\"contact-verification-email-portuguese\";i:1;s:54:\"new-customer-profile-file-uploaded-to-staff-portuguese\";i:1;s:38:\"event-notification-to-staff-portuguese\";i:1;s:32:\"new-client-created-portuguese_br\";i:1;s:36:\"invoice-send-to-client-portuguese_br\";i:1;s:37:\"new-ticket-opened-admin-portuguese_br\";i:1;s:26:\"ticket-reply-portuguese_br\";i:1;s:33:\"ticket-autoresponse-portuguese_br\";i:1;s:38:\"invoice-payment-recorded-portuguese_br\";i:1;s:36:\"invoice-overdue-notice-portuguese_br\";i:1;s:34:\"invoice-already-send-portuguese_br\";i:1;s:38:\"new-ticket-created-staff-portuguese_br\";i:1;s:37:\"estimate-send-to-client-portuguese_br\";i:1;s:35:\"ticket-reply-to-admin-portuguese_br\";i:1;s:35:\"estimate-already-send-portuguese_br\";i:1;s:33:\"contract-expiration-portuguese_br\";i:1;s:27:\"task-assigned-portuguese_br\";i:1;s:36:\"task-added-as-follower-portuguese_br\";i:1;s:28:\"task-commented-portuguese_br\";i:1;s:35:\"task-added-attachment-portuguese_br\";i:1;s:40:\"estimate-declined-to-staff-portuguese_br\";i:1;s:40:\"estimate-accepted-to-staff-portuguese_br\";i:1;s:38:\"proposal-client-accepted-portuguese_br\";i:1;s:39:\"proposal-send-to-customer-portuguese_br\";i:1;s:38:\"proposal-client-declined-portuguese_br\";i:1;s:39:\"proposal-client-thank-you-portuguese_br\";i:1;s:40:\"proposal-comment-to-client-portuguese_br\";i:1;s:39:\"proposal-comment-to-admin-portuguese_br\";i:1;s:44:\"estimate-thank-you-to-customer-portuguese_br\";i:1;s:40:\"task-deadline-notification-portuguese_br\";i:1;s:27:\"send-contract-portuguese_br\";i:1;s:47:\"invoice-payment-recorded-to-staff-portuguese_br\";i:1;s:31:\"auto-close-ticket-portuguese_br\";i:1;s:53:\"new-project-discussion-created-to-staff-portuguese_br\";i:1;s:56:\"new-project-discussion-created-to-customer-portuguese_br\";i:1;s:51:\"new-project-file-uploaded-to-customer-portuguese_br\";i:1;s:48:\"new-project-file-uploaded-to-staff-portuguese_br\";i:1;s:56:\"new-project-discussion-comment-to-customer-portuguese_br\";i:1;s:53:\"new-project-discussion-comment-to-staff-portuguese_br\";i:1;s:43:\"staff-added-as-project-member-portuguese_br\";i:1;s:38:\"estimate-expiry-reminder-portuguese_br\";i:1;s:38:\"proposal-expiry-reminder-portuguese_br\";i:1;s:31:\"new-staff-created-portuguese_br\";i:1;s:37:\"contact-forgot-password-portuguese_br\";i:1;s:38:\"contact-password-reseted-portuguese_br\";i:1;s:34:\"contact-set-password-portuguese_br\";i:1;s:35:\"staff-forgot-password-portuguese_br\";i:1;s:36:\"staff-password-reseted-portuguese_br\";i:1;s:33:\"assigned-to-project-portuguese_br\";i:1;s:47:\"task-added-attachment-to-contacts-portuguese_br\";i:1;s:40:\"task-commented-to-contacts-portuguese_br\";i:1;s:31:\"new-lead-assigned-portuguese_br\";i:1;s:30:\"client-statement-portuguese_br\";i:1;s:38:\"ticket-assigned-to-admin-portuguese_br\";i:1;s:44:\"new-client-registered-to-admin-portuguese_br\";i:1;s:44:\"new-web-to-lead-form-submitted-portuguese_br\";i:1;s:39:\"two-factor-authentication-portuguese_br\";i:1;s:42:\"project-finished-to-customer-portuguese_br\";i:1;s:40:\"credit-note-send-to-client-portuguese_br\";i:1;s:41:\"task-status-change-to-staff-portuguese_br\";i:1;s:44:\"task-status-change-to-contacts-portuguese_br\";i:1;s:34:\"reminder-email-staff-portuguese_br\";i:1;s:40:\"contract-comment-to-client-portuguese_br\";i:1;s:39:\"contract-comment-to-admin-portuguese_br\";i:1;s:31:\"send-subscription-portuguese_br\";i:1;s:41:\"subscription-payment-failed-portuguese_br\";i:1;s:35:\"subscription-canceled-portuguese_br\";i:1;s:44:\"subscription-payment-succeeded-portuguese_br\";i:1;s:42:\"contract-expiration-to-staff-portuguese_br\";i:1;s:34:\"gdpr-removal-request-portuguese_br\";i:1;s:39:\"gdpr-removal-request-lead-portuguese_br\";i:1;s:43:\"client-registration-confirmed-portuguese_br\";i:1;s:38:\"contract-signed-to-staff-portuguese_br\";i:1;s:42:\"customer-subscribed-to-staff-portuguese_br\";i:1;s:40:\"contact-verification-email-portuguese_br\";i:1;s:57:\"new-customer-profile-file-uploaded-to-staff-portuguese_br\";i:1;s:41:\"event-notification-to-staff-portuguese_br\";i:1;s:27:\"new-client-created-romanian\";i:1;s:31:\"invoice-send-to-client-romanian\";i:1;s:32:\"new-ticket-opened-admin-romanian\";i:1;s:21:\"ticket-reply-romanian\";i:1;s:28:\"ticket-autoresponse-romanian\";i:1;s:33:\"invoice-payment-recorded-romanian\";i:1;s:31:\"invoice-overdue-notice-romanian\";i:1;s:29:\"invoice-already-send-romanian\";i:1;s:33:\"new-ticket-created-staff-romanian\";i:1;s:32:\"estimate-send-to-client-romanian\";i:1;s:30:\"ticket-reply-to-admin-romanian\";i:1;s:30:\"estimate-already-send-romanian\";i:1;s:28:\"contract-expiration-romanian\";i:1;s:22:\"task-assigned-romanian\";i:1;s:31:\"task-added-as-follower-romanian\";i:1;s:23:\"task-commented-romanian\";i:1;s:30:\"task-added-attachment-romanian\";i:1;s:35:\"estimate-declined-to-staff-romanian\";i:1;s:35:\"estimate-accepted-to-staff-romanian\";i:1;s:33:\"proposal-client-accepted-romanian\";i:1;s:34:\"proposal-send-to-customer-romanian\";i:1;s:33:\"proposal-client-declined-romanian\";i:1;s:34:\"proposal-client-thank-you-romanian\";i:1;s:35:\"proposal-comment-to-client-romanian\";i:1;s:34:\"proposal-comment-to-admin-romanian\";i:1;s:39:\"estimate-thank-you-to-customer-romanian\";i:1;s:35:\"task-deadline-notification-romanian\";i:1;s:22:\"send-contract-romanian\";i:1;s:42:\"invoice-payment-recorded-to-staff-romanian\";i:1;s:26:\"auto-close-ticket-romanian\";i:1;s:48:\"new-project-discussion-created-to-staff-romanian\";i:1;s:51:\"new-project-discussion-created-to-customer-romanian\";i:1;s:46:\"new-project-file-uploaded-to-customer-romanian\";i:1;s:43:\"new-project-file-uploaded-to-staff-romanian\";i:1;s:51:\"new-project-discussion-comment-to-customer-romanian\";i:1;s:48:\"new-project-discussion-comment-to-staff-romanian\";i:1;s:38:\"staff-added-as-project-member-romanian\";i:1;s:33:\"estimate-expiry-reminder-romanian\";i:1;s:33:\"proposal-expiry-reminder-romanian\";i:1;s:26:\"new-staff-created-romanian\";i:1;s:32:\"contact-forgot-password-romanian\";i:1;s:33:\"contact-password-reseted-romanian\";i:1;s:29:\"contact-set-password-romanian\";i:1;s:30:\"staff-forgot-password-romanian\";i:1;s:31:\"staff-password-reseted-romanian\";i:1;s:28:\"assigned-to-project-romanian\";i:1;s:42:\"task-added-attachment-to-contacts-romanian\";i:1;s:35:\"task-commented-to-contacts-romanian\";i:1;s:26:\"new-lead-assigned-romanian\";i:1;s:25:\"client-statement-romanian\";i:1;s:33:\"ticket-assigned-to-admin-romanian\";i:1;s:39:\"new-client-registered-to-admin-romanian\";i:1;s:39:\"new-web-to-lead-form-submitted-romanian\";i:1;s:34:\"two-factor-authentication-romanian\";i:1;s:37:\"project-finished-to-customer-romanian\";i:1;s:35:\"credit-note-send-to-client-romanian\";i:1;s:36:\"task-status-change-to-staff-romanian\";i:1;s:39:\"task-status-change-to-contacts-romanian\";i:1;s:29:\"reminder-email-staff-romanian\";i:1;s:35:\"contract-comment-to-client-romanian\";i:1;s:34:\"contract-comment-to-admin-romanian\";i:1;s:26:\"send-subscription-romanian\";i:1;s:36:\"subscription-payment-failed-romanian\";i:1;s:30:\"subscription-canceled-romanian\";i:1;s:39:\"subscription-payment-succeeded-romanian\";i:1;s:37:\"contract-expiration-to-staff-romanian\";i:1;s:29:\"gdpr-removal-request-romanian\";i:1;s:34:\"gdpr-removal-request-lead-romanian\";i:1;s:38:\"client-registration-confirmed-romanian\";i:1;s:33:\"contract-signed-to-staff-romanian\";i:1;s:37:\"customer-subscribed-to-staff-romanian\";i:1;s:35:\"contact-verification-email-romanian\";i:1;s:52:\"new-customer-profile-file-uploaded-to-staff-romanian\";i:1;s:36:\"event-notification-to-staff-romanian\";i:1;s:26:\"new-client-created-russian\";i:1;s:30:\"invoice-send-to-client-russian\";i:1;s:31:\"new-ticket-opened-admin-russian\";i:1;s:20:\"ticket-reply-russian\";i:1;s:27:\"ticket-autoresponse-russian\";i:1;s:32:\"invoice-payment-recorded-russian\";i:1;s:30:\"invoice-overdue-notice-russian\";i:1;s:28:\"invoice-already-send-russian\";i:1;s:32:\"new-ticket-created-staff-russian\";i:1;s:31:\"estimate-send-to-client-russian\";i:1;s:29:\"ticket-reply-to-admin-russian\";i:1;s:29:\"estimate-already-send-russian\";i:1;s:27:\"contract-expiration-russian\";i:1;s:21:\"task-assigned-russian\";i:1;s:30:\"task-added-as-follower-russian\";i:1;s:22:\"task-commented-russian\";i:1;s:29:\"task-added-attachment-russian\";i:1;s:34:\"estimate-declined-to-staff-russian\";i:1;s:34:\"estimate-accepted-to-staff-russian\";i:1;s:32:\"proposal-client-accepted-russian\";i:1;s:33:\"proposal-send-to-customer-russian\";i:1;s:32:\"proposal-client-declined-russian\";i:1;s:33:\"proposal-client-thank-you-russian\";i:1;s:34:\"proposal-comment-to-client-russian\";i:1;s:33:\"proposal-comment-to-admin-russian\";i:1;s:38:\"estimate-thank-you-to-customer-russian\";i:1;s:34:\"task-deadline-notification-russian\";i:1;s:21:\"send-contract-russian\";i:1;s:41:\"invoice-payment-recorded-to-staff-russian\";i:1;s:25:\"auto-close-ticket-russian\";i:1;s:47:\"new-project-discussion-created-to-staff-russian\";i:1;s:50:\"new-project-discussion-created-to-customer-russian\";i:1;s:45:\"new-project-file-uploaded-to-customer-russian\";i:1;s:42:\"new-project-file-uploaded-to-staff-russian\";i:1;s:50:\"new-project-discussion-comment-to-customer-russian\";i:1;s:47:\"new-project-discussion-comment-to-staff-russian\";i:1;s:37:\"staff-added-as-project-member-russian\";i:1;s:32:\"estimate-expiry-reminder-russian\";i:1;s:32:\"proposal-expiry-reminder-russian\";i:1;s:25:\"new-staff-created-russian\";i:1;s:31:\"contact-forgot-password-russian\";i:1;s:32:\"contact-password-reseted-russian\";i:1;s:28:\"contact-set-password-russian\";i:1;s:29:\"staff-forgot-password-russian\";i:1;s:30:\"staff-password-reseted-russian\";i:1;s:27:\"assigned-to-project-russian\";i:1;s:41:\"task-added-attachment-to-contacts-russian\";i:1;s:34:\"task-commented-to-contacts-russian\";i:1;s:25:\"new-lead-assigned-russian\";i:1;s:24:\"client-statement-russian\";i:1;s:32:\"ticket-assigned-to-admin-russian\";i:1;s:38:\"new-client-registered-to-admin-russian\";i:1;s:38:\"new-web-to-lead-form-submitted-russian\";i:1;s:33:\"two-factor-authentication-russian\";i:1;s:36:\"project-finished-to-customer-russian\";i:1;s:34:\"credit-note-send-to-client-russian\";i:1;s:35:\"task-status-change-to-staff-russian\";i:1;s:38:\"task-status-change-to-contacts-russian\";i:1;s:28:\"reminder-email-staff-russian\";i:1;s:34:\"contract-comment-to-client-russian\";i:1;s:33:\"contract-comment-to-admin-russian\";i:1;s:25:\"send-subscription-russian\";i:1;s:35:\"subscription-payment-failed-russian\";i:1;s:29:\"subscription-canceled-russian\";i:1;s:38:\"subscription-payment-succeeded-russian\";i:1;s:36:\"contract-expiration-to-staff-russian\";i:1;s:28:\"gdpr-removal-request-russian\";i:1;s:33:\"gdpr-removal-request-lead-russian\";i:1;s:37:\"client-registration-confirmed-russian\";i:1;s:32:\"contract-signed-to-staff-russian\";i:1;s:36:\"customer-subscribed-to-staff-russian\";i:1;s:34:\"contact-verification-email-russian\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-russian\";i:1;s:35:\"event-notification-to-staff-russian\";i:1;s:25:\"new-client-created-slovak\";i:1;s:29:\"invoice-send-to-client-slovak\";i:1;s:30:\"new-ticket-opened-admin-slovak\";i:1;s:19:\"ticket-reply-slovak\";i:1;s:26:\"ticket-autoresponse-slovak\";i:1;s:31:\"invoice-payment-recorded-slovak\";i:1;s:29:\"invoice-overdue-notice-slovak\";i:1;s:27:\"invoice-already-send-slovak\";i:1;s:31:\"new-ticket-created-staff-slovak\";i:1;s:30:\"estimate-send-to-client-slovak\";i:1;s:28:\"ticket-reply-to-admin-slovak\";i:1;s:28:\"estimate-already-send-slovak\";i:1;s:26:\"contract-expiration-slovak\";i:1;s:20:\"task-assigned-slovak\";i:1;s:29:\"task-added-as-follower-slovak\";i:1;s:21:\"task-commented-slovak\";i:1;s:28:\"task-added-attachment-slovak\";i:1;s:33:\"estimate-declined-to-staff-slovak\";i:1;s:33:\"estimate-accepted-to-staff-slovak\";i:1;s:31:\"proposal-client-accepted-slovak\";i:1;s:32:\"proposal-send-to-customer-slovak\";i:1;s:31:\"proposal-client-declined-slovak\";i:1;s:32:\"proposal-client-thank-you-slovak\";i:1;s:33:\"proposal-comment-to-client-slovak\";i:1;s:32:\"proposal-comment-to-admin-slovak\";i:1;s:37:\"estimate-thank-you-to-customer-slovak\";i:1;s:33:\"task-deadline-notification-slovak\";i:1;s:20:\"send-contract-slovak\";i:1;s:40:\"invoice-payment-recorded-to-staff-slovak\";i:1;s:24:\"auto-close-ticket-slovak\";i:1;s:46:\"new-project-discussion-created-to-staff-slovak\";i:1;s:49:\"new-project-discussion-created-to-customer-slovak\";i:1;s:44:\"new-project-file-uploaded-to-customer-slovak\";i:1;s:41:\"new-project-file-uploaded-to-staff-slovak\";i:1;s:49:\"new-project-discussion-comment-to-customer-slovak\";i:1;s:46:\"new-project-discussion-comment-to-staff-slovak\";i:1;s:36:\"staff-added-as-project-member-slovak\";i:1;s:31:\"estimate-expiry-reminder-slovak\";i:1;s:31:\"proposal-expiry-reminder-slovak\";i:1;s:24:\"new-staff-created-slovak\";i:1;s:30:\"contact-forgot-password-slovak\";i:1;s:31:\"contact-password-reseted-slovak\";i:1;s:27:\"contact-set-password-slovak\";i:1;s:28:\"staff-forgot-password-slovak\";i:1;s:29:\"staff-password-reseted-slovak\";i:1;s:26:\"assigned-to-project-slovak\";i:1;s:40:\"task-added-attachment-to-contacts-slovak\";i:1;s:33:\"task-commented-to-contacts-slovak\";i:1;s:24:\"new-lead-assigned-slovak\";i:1;s:23:\"client-statement-slovak\";i:1;s:31:\"ticket-assigned-to-admin-slovak\";i:1;s:37:\"new-client-registered-to-admin-slovak\";i:1;s:37:\"new-web-to-lead-form-submitted-slovak\";i:1;s:32:\"two-factor-authentication-slovak\";i:1;s:35:\"project-finished-to-customer-slovak\";i:1;s:33:\"credit-note-send-to-client-slovak\";i:1;s:34:\"task-status-change-to-staff-slovak\";i:1;s:37:\"task-status-change-to-contacts-slovak\";i:1;s:27:\"reminder-email-staff-slovak\";i:1;s:33:\"contract-comment-to-client-slovak\";i:1;s:32:\"contract-comment-to-admin-slovak\";i:1;s:24:\"send-subscription-slovak\";i:1;s:34:\"subscription-payment-failed-slovak\";i:1;s:28:\"subscription-canceled-slovak\";i:1;s:37:\"subscription-payment-succeeded-slovak\";i:1;s:35:\"contract-expiration-to-staff-slovak\";i:1;s:27:\"gdpr-removal-request-slovak\";i:1;s:32:\"gdpr-removal-request-lead-slovak\";i:1;s:36:\"client-registration-confirmed-slovak\";i:1;s:31:\"contract-signed-to-staff-slovak\";i:1;s:35:\"customer-subscribed-to-staff-slovak\";i:1;s:33:\"contact-verification-email-slovak\";i:1;s:50:\"new-customer-profile-file-uploaded-to-staff-slovak\";i:1;s:34:\"event-notification-to-staff-slovak\";i:1;s:26:\"new-client-created-spanish\";i:1;s:30:\"invoice-send-to-client-spanish\";i:1;s:31:\"new-ticket-opened-admin-spanish\";i:1;s:20:\"ticket-reply-spanish\";i:1;s:27:\"ticket-autoresponse-spanish\";i:1;s:32:\"invoice-payment-recorded-spanish\";i:1;s:30:\"invoice-overdue-notice-spanish\";i:1;s:28:\"invoice-already-send-spanish\";i:1;s:32:\"new-ticket-created-staff-spanish\";i:1;s:31:\"estimate-send-to-client-spanish\";i:1;s:29:\"ticket-reply-to-admin-spanish\";i:1;s:29:\"estimate-already-send-spanish\";i:1;s:27:\"contract-expiration-spanish\";i:1;s:21:\"task-assigned-spanish\";i:1;s:30:\"task-added-as-follower-spanish\";i:1;s:22:\"task-commented-spanish\";i:1;s:29:\"task-added-attachment-spanish\";i:1;s:34:\"estimate-declined-to-staff-spanish\";i:1;s:34:\"estimate-accepted-to-staff-spanish\";i:1;s:32:\"proposal-client-accepted-spanish\";i:1;s:33:\"proposal-send-to-customer-spanish\";i:1;s:32:\"proposal-client-declined-spanish\";i:1;s:33:\"proposal-client-thank-you-spanish\";i:1;s:34:\"proposal-comment-to-client-spanish\";i:1;s:33:\"proposal-comment-to-admin-spanish\";i:1;s:38:\"estimate-thank-you-to-customer-spanish\";i:1;s:34:\"task-deadline-notification-spanish\";i:1;s:21:\"send-contract-spanish\";i:1;s:41:\"invoice-payment-recorded-to-staff-spanish\";i:1;s:25:\"auto-close-ticket-spanish\";i:1;s:47:\"new-project-discussion-created-to-staff-spanish\";i:1;s:50:\"new-project-discussion-created-to-customer-spanish\";i:1;s:45:\"new-project-file-uploaded-to-customer-spanish\";i:1;s:42:\"new-project-file-uploaded-to-staff-spanish\";i:1;s:50:\"new-project-discussion-comment-to-customer-spanish\";i:1;s:47:\"new-project-discussion-comment-to-staff-spanish\";i:1;s:37:\"staff-added-as-project-member-spanish\";i:1;s:32:\"estimate-expiry-reminder-spanish\";i:1;s:32:\"proposal-expiry-reminder-spanish\";i:1;s:25:\"new-staff-created-spanish\";i:1;s:31:\"contact-forgot-password-spanish\";i:1;s:32:\"contact-password-reseted-spanish\";i:1;s:28:\"contact-set-password-spanish\";i:1;s:29:\"staff-forgot-password-spanish\";i:1;s:30:\"staff-password-reseted-spanish\";i:1;s:27:\"assigned-to-project-spanish\";i:1;s:41:\"task-added-attachment-to-contacts-spanish\";i:1;s:34:\"task-commented-to-contacts-spanish\";i:1;s:25:\"new-lead-assigned-spanish\";i:1;s:24:\"client-statement-spanish\";i:1;s:32:\"ticket-assigned-to-admin-spanish\";i:1;s:38:\"new-client-registered-to-admin-spanish\";i:1;s:38:\"new-web-to-lead-form-submitted-spanish\";i:1;s:33:\"two-factor-authentication-spanish\";i:1;s:36:\"project-finished-to-customer-spanish\";i:1;s:34:\"credit-note-send-to-client-spanish\";i:1;s:35:\"task-status-change-to-staff-spanish\";i:1;s:38:\"task-status-change-to-contacts-spanish\";i:1;s:28:\"reminder-email-staff-spanish\";i:1;s:34:\"contract-comment-to-client-spanish\";i:1;s:33:\"contract-comment-to-admin-spanish\";i:1;s:25:\"send-subscription-spanish\";i:1;s:35:\"subscription-payment-failed-spanish\";i:1;s:29:\"subscription-canceled-spanish\";i:1;s:38:\"subscription-payment-succeeded-spanish\";i:1;s:36:\"contract-expiration-to-staff-spanish\";i:1;s:28:\"gdpr-removal-request-spanish\";i:1;s:33:\"gdpr-removal-request-lead-spanish\";i:1;s:37:\"client-registration-confirmed-spanish\";i:1;s:32:\"contract-signed-to-staff-spanish\";i:1;s:36:\"customer-subscribed-to-staff-spanish\";i:1;s:34:\"contact-verification-email-spanish\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-spanish\";i:1;s:35:\"event-notification-to-staff-spanish\";i:1;s:26:\"new-client-created-swedish\";i:1;s:30:\"invoice-send-to-client-swedish\";i:1;s:31:\"new-ticket-opened-admin-swedish\";i:1;s:20:\"ticket-reply-swedish\";i:1;s:27:\"ticket-autoresponse-swedish\";i:1;s:32:\"invoice-payment-recorded-swedish\";i:1;s:30:\"invoice-overdue-notice-swedish\";i:1;s:28:\"invoice-already-send-swedish\";i:1;s:32:\"new-ticket-created-staff-swedish\";i:1;s:31:\"estimate-send-to-client-swedish\";i:1;s:29:\"ticket-reply-to-admin-swedish\";i:1;s:29:\"estimate-already-send-swedish\";i:1;s:27:\"contract-expiration-swedish\";i:1;s:21:\"task-assigned-swedish\";i:1;s:30:\"task-added-as-follower-swedish\";i:1;s:22:\"task-commented-swedish\";i:1;s:29:\"task-added-attachment-swedish\";i:1;s:34:\"estimate-declined-to-staff-swedish\";i:1;s:34:\"estimate-accepted-to-staff-swedish\";i:1;s:32:\"proposal-client-accepted-swedish\";i:1;s:33:\"proposal-send-to-customer-swedish\";i:1;s:32:\"proposal-client-declined-swedish\";i:1;s:33:\"proposal-client-thank-you-swedish\";i:1;s:34:\"proposal-comment-to-client-swedish\";i:1;s:33:\"proposal-comment-to-admin-swedish\";i:1;s:38:\"estimate-thank-you-to-customer-swedish\";i:1;s:34:\"task-deadline-notification-swedish\";i:1;s:21:\"send-contract-swedish\";i:1;s:41:\"invoice-payment-recorded-to-staff-swedish\";i:1;s:25:\"auto-close-ticket-swedish\";i:1;s:47:\"new-project-discussion-created-to-staff-swedish\";i:1;s:50:\"new-project-discussion-created-to-customer-swedish\";i:1;s:45:\"new-project-file-uploaded-to-customer-swedish\";i:1;s:42:\"new-project-file-uploaded-to-staff-swedish\";i:1;s:50:\"new-project-discussion-comment-to-customer-swedish\";i:1;s:47:\"new-project-discussion-comment-to-staff-swedish\";i:1;s:37:\"staff-added-as-project-member-swedish\";i:1;s:32:\"estimate-expiry-reminder-swedish\";i:1;s:32:\"proposal-expiry-reminder-swedish\";i:1;s:25:\"new-staff-created-swedish\";i:1;s:31:\"contact-forgot-password-swedish\";i:1;s:32:\"contact-password-reseted-swedish\";i:1;s:28:\"contact-set-password-swedish\";i:1;s:29:\"staff-forgot-password-swedish\";i:1;s:30:\"staff-password-reseted-swedish\";i:1;s:27:\"assigned-to-project-swedish\";i:1;s:41:\"task-added-attachment-to-contacts-swedish\";i:1;s:34:\"task-commented-to-contacts-swedish\";i:1;s:25:\"new-lead-assigned-swedish\";i:1;s:24:\"client-statement-swedish\";i:1;s:32:\"ticket-assigned-to-admin-swedish\";i:1;s:38:\"new-client-registered-to-admin-swedish\";i:1;s:38:\"new-web-to-lead-form-submitted-swedish\";i:1;s:33:\"two-factor-authentication-swedish\";i:1;s:36:\"project-finished-to-customer-swedish\";i:1;s:34:\"credit-note-send-to-client-swedish\";i:1;s:35:\"task-status-change-to-staff-swedish\";i:1;s:38:\"task-status-change-to-contacts-swedish\";i:1;s:28:\"reminder-email-staff-swedish\";i:1;s:34:\"contract-comment-to-client-swedish\";i:1;s:33:\"contract-comment-to-admin-swedish\";i:1;s:25:\"send-subscription-swedish\";i:1;s:35:\"subscription-payment-failed-swedish\";i:1;s:29:\"subscription-canceled-swedish\";i:1;s:38:\"subscription-payment-succeeded-swedish\";i:1;s:36:\"contract-expiration-to-staff-swedish\";i:1;s:28:\"gdpr-removal-request-swedish\";i:1;s:33:\"gdpr-removal-request-lead-swedish\";i:1;s:37:\"client-registration-confirmed-swedish\";i:1;s:32:\"contract-signed-to-staff-swedish\";i:1;s:36:\"customer-subscribed-to-staff-swedish\";i:1;s:34:\"contact-verification-email-swedish\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-swedish\";i:1;s:35:\"event-notification-to-staff-swedish\";i:1;s:26:\"new-client-created-turkish\";i:1;s:30:\"invoice-send-to-client-turkish\";i:1;s:31:\"new-ticket-opened-admin-turkish\";i:1;s:20:\"ticket-reply-turkish\";i:1;s:27:\"ticket-autoresponse-turkish\";i:1;s:32:\"invoice-payment-recorded-turkish\";i:1;s:30:\"invoice-overdue-notice-turkish\";i:1;s:28:\"invoice-already-send-turkish\";i:1;s:32:\"new-ticket-created-staff-turkish\";i:1;s:31:\"estimate-send-to-client-turkish\";i:1;s:29:\"ticket-reply-to-admin-turkish\";i:1;s:29:\"estimate-already-send-turkish\";i:1;s:27:\"contract-expiration-turkish\";i:1;s:21:\"task-assigned-turkish\";i:1;s:30:\"task-added-as-follower-turkish\";i:1;s:22:\"task-commented-turkish\";i:1;s:29:\"task-added-attachment-turkish\";i:1;s:34:\"estimate-declined-to-staff-turkish\";i:1;s:34:\"estimate-accepted-to-staff-turkish\";i:1;s:32:\"proposal-client-accepted-turkish\";i:1;s:33:\"proposal-send-to-customer-turkish\";i:1;s:32:\"proposal-client-declined-turkish\";i:1;s:33:\"proposal-client-thank-you-turkish\";i:1;s:34:\"proposal-comment-to-client-turkish\";i:1;s:33:\"proposal-comment-to-admin-turkish\";i:1;s:38:\"estimate-thank-you-to-customer-turkish\";i:1;s:34:\"task-deadline-notification-turkish\";i:1;s:21:\"send-contract-turkish\";i:1;s:41:\"invoice-payment-recorded-to-staff-turkish\";i:1;s:25:\"auto-close-ticket-turkish\";i:1;s:47:\"new-project-discussion-created-to-staff-turkish\";i:1;s:50:\"new-project-discussion-created-to-customer-turkish\";i:1;s:45:\"new-project-file-uploaded-to-customer-turkish\";i:1;s:42:\"new-project-file-uploaded-to-staff-turkish\";i:1;s:50:\"new-project-discussion-comment-to-customer-turkish\";i:1;s:47:\"new-project-discussion-comment-to-staff-turkish\";i:1;s:37:\"staff-added-as-project-member-turkish\";i:1;s:32:\"estimate-expiry-reminder-turkish\";i:1;s:32:\"proposal-expiry-reminder-turkish\";i:1;s:25:\"new-staff-created-turkish\";i:1;s:31:\"contact-forgot-password-turkish\";i:1;s:32:\"contact-password-reseted-turkish\";i:1;s:28:\"contact-set-password-turkish\";i:1;s:29:\"staff-forgot-password-turkish\";i:1;s:30:\"staff-password-reseted-turkish\";i:1;s:27:\"assigned-to-project-turkish\";i:1;s:41:\"task-added-attachment-to-contacts-turkish\";i:1;s:34:\"task-commented-to-contacts-turkish\";i:1;s:25:\"new-lead-assigned-turkish\";i:1;s:24:\"client-statement-turkish\";i:1;s:32:\"ticket-assigned-to-admin-turkish\";i:1;s:38:\"new-client-registered-to-admin-turkish\";i:1;s:38:\"new-web-to-lead-form-submitted-turkish\";i:1;s:33:\"two-factor-authentication-turkish\";i:1;s:36:\"project-finished-to-customer-turkish\";i:1;s:34:\"credit-note-send-to-client-turkish\";i:1;s:35:\"task-status-change-to-staff-turkish\";i:1;s:38:\"task-status-change-to-contacts-turkish\";i:1;s:28:\"reminder-email-staff-turkish\";i:1;s:34:\"contract-comment-to-client-turkish\";i:1;s:33:\"contract-comment-to-admin-turkish\";i:1;s:25:\"send-subscription-turkish\";i:1;s:35:\"subscription-payment-failed-turkish\";i:1;s:29:\"subscription-canceled-turkish\";i:1;s:38:\"subscription-payment-succeeded-turkish\";i:1;s:36:\"contract-expiration-to-staff-turkish\";i:1;s:28:\"gdpr-removal-request-turkish\";i:1;s:33:\"gdpr-removal-request-lead-turkish\";i:1;s:37:\"client-registration-confirmed-turkish\";i:1;s:32:\"contract-signed-to-staff-turkish\";i:1;s:36:\"customer-subscribed-to-staff-turkish\";i:1;s:34:\"contact-verification-email-turkish\";i:1;s:51:\"new-customer-profile-file-uploaded-to-staff-turkish\";i:1;s:35:\"event-notification-to-staff-turkish\";i:1;s:29:\"new-client-created-vietnamese\";i:1;s:33:\"invoice-send-to-client-vietnamese\";i:1;s:34:\"new-ticket-opened-admin-vietnamese\";i:1;s:23:\"ticket-reply-vietnamese\";i:1;s:30:\"ticket-autoresponse-vietnamese\";i:1;s:35:\"invoice-payment-recorded-vietnamese\";i:1;s:33:\"invoice-overdue-notice-vietnamese\";i:1;s:31:\"invoice-already-send-vietnamese\";i:1;s:35:\"new-ticket-created-staff-vietnamese\";i:1;s:34:\"estimate-send-to-client-vietnamese\";i:1;s:32:\"ticket-reply-to-admin-vietnamese\";i:1;s:32:\"estimate-already-send-vietnamese\";i:1;s:30:\"contract-expiration-vietnamese\";i:1;s:24:\"task-assigned-vietnamese\";i:1;s:33:\"task-added-as-follower-vietnamese\";i:1;s:25:\"task-commented-vietnamese\";i:1;s:32:\"task-added-attachment-vietnamese\";i:1;s:37:\"estimate-declined-to-staff-vietnamese\";i:1;s:37:\"estimate-accepted-to-staff-vietnamese\";i:1;s:35:\"proposal-client-accepted-vietnamese\";i:1;s:36:\"proposal-send-to-customer-vietnamese\";i:1;s:35:\"proposal-client-declined-vietnamese\";i:1;s:36:\"proposal-client-thank-you-vietnamese\";i:1;s:37:\"proposal-comment-to-client-vietnamese\";i:1;s:36:\"proposal-comment-to-admin-vietnamese\";i:1;s:41:\"estimate-thank-you-to-customer-vietnamese\";i:1;s:37:\"task-deadline-notification-vietnamese\";i:1;s:24:\"send-contract-vietnamese\";i:1;s:44:\"invoice-payment-recorded-to-staff-vietnamese\";i:1;s:28:\"auto-close-ticket-vietnamese\";i:1;s:50:\"new-project-discussion-created-to-staff-vietnamese\";i:1;s:53:\"new-project-discussion-created-to-customer-vietnamese\";i:1;s:48:\"new-project-file-uploaded-to-customer-vietnamese\";i:1;s:45:\"new-project-file-uploaded-to-staff-vietnamese\";i:1;s:53:\"new-project-discussion-comment-to-customer-vietnamese\";i:1;s:50:\"new-project-discussion-comment-to-staff-vietnamese\";i:1;s:40:\"staff-added-as-project-member-vietnamese\";i:1;s:35:\"estimate-expiry-reminder-vietnamese\";i:1;s:35:\"proposal-expiry-reminder-vietnamese\";i:1;s:28:\"new-staff-created-vietnamese\";i:1;s:34:\"contact-forgot-password-vietnamese\";i:1;s:35:\"contact-password-reseted-vietnamese\";i:1;s:31:\"contact-set-password-vietnamese\";i:1;s:32:\"staff-forgot-password-vietnamese\";i:1;s:33:\"staff-password-reseted-vietnamese\";i:1;s:30:\"assigned-to-project-vietnamese\";i:1;s:44:\"task-added-attachment-to-contacts-vietnamese\";i:1;s:37:\"task-commented-to-contacts-vietnamese\";i:1;s:28:\"new-lead-assigned-vietnamese\";i:1;s:27:\"client-statement-vietnamese\";i:1;s:35:\"ticket-assigned-to-admin-vietnamese\";i:1;s:41:\"new-client-registered-to-admin-vietnamese\";i:1;s:41:\"new-web-to-lead-form-submitted-vietnamese\";i:1;s:36:\"two-factor-authentication-vietnamese\";i:1;s:39:\"project-finished-to-customer-vietnamese\";i:1;s:37:\"credit-note-send-to-client-vietnamese\";i:1;s:38:\"task-status-change-to-staff-vietnamese\";i:1;s:41:\"task-status-change-to-contacts-vietnamese\";i:1;s:31:\"reminder-email-staff-vietnamese\";i:1;s:37:\"contract-comment-to-client-vietnamese\";i:1;s:36:\"contract-comment-to-admin-vietnamese\";i:1;s:28:\"send-subscription-vietnamese\";i:1;s:38:\"subscription-payment-failed-vietnamese\";i:1;s:32:\"subscription-canceled-vietnamese\";i:1;s:41:\"subscription-payment-succeeded-vietnamese\";i:1;s:39:\"contract-expiration-to-staff-vietnamese\";i:1;s:31:\"gdpr-removal-request-vietnamese\";i:1;s:36:\"gdpr-removal-request-lead-vietnamese\";i:1;s:40:\"client-registration-confirmed-vietnamese\";i:1;s:35:\"contract-signed-to-staff-vietnamese\";i:1;s:39:\"customer-subscribed-to-staff-vietnamese\";i:1;s:37:\"contact-verification-email-vietnamese\";i:1;s:54:\"new-customer-profile-file-uploaded-to-staff-vietnamese\";i:1;s:38:\"event-notification-to-staff-vietnamese\";i:1;s:43:\"subscription-payment-requires-action-arabic\";i:1;s:46:\"subscription-payment-requires-action-bulgarian\";i:1;s:44:\"subscription-payment-requires-action-catalan\";i:1;s:44:\"subscription-payment-requires-action-chinese\";i:1;s:42:\"subscription-payment-requires-action-czech\";i:1;s:42:\"subscription-payment-requires-action-dutch\";i:1;s:43:\"subscription-payment-requires-action-french\";i:1;s:43:\"subscription-payment-requires-action-german\";i:1;s:42:\"subscription-payment-requires-action-greek\";i:1;s:46:\"subscription-payment-requires-action-indonesia\";i:1;s:44:\"subscription-payment-requires-action-italian\";i:1;s:45:\"subscription-payment-requires-action-japanese\";i:1;s:44:\"subscription-payment-requires-action-persian\";i:1;s:43:\"subscription-payment-requires-action-polish\";i:1;s:47:\"subscription-payment-requires-action-portuguese\";i:1;s:50:\"subscription-payment-requires-action-portuguese_br\";i:1;s:45:\"subscription-payment-requires-action-romanian\";i:1;s:44:\"subscription-payment-requires-action-russian\";i:1;s:43:\"subscription-payment-requires-action-slovak\";i:1;s:44:\"subscription-payment-requires-action-spanish\";i:1;s:44:\"subscription-payment-requires-action-swedish\";i:1;s:44:\"subscription-payment-requires-action-turkish\";i:1;s:47:\"subscription-payment-requires-action-vietnamese\";i:1;s:32:\"session-added-as-follower-arabic\";i:1;s:23:\"session-assigned-arabic\";i:1;s:36:\"session-deadline-notification-arabic\";i:1;s:43:\"session-added-attachment-to-contacts-arabic\";i:1;s:31:\"session-added-attachment-arabic\";i:1;s:36:\"session-commented-to-contacts-arabic\";i:1;s:24:\"session-commented-arabic\";i:1;s:40:\"session-status-change-to-contacts-arabic\";i:1;s:37:\"session-status-change-to-staff-arabic\";i:1;s:35:\"session-added-as-follower-bulgarian\";i:1;s:26:\"session-assigned-bulgarian\";i:1;s:39:\"session-deadline-notification-bulgarian\";i:1;s:46:\"session-added-attachment-to-contacts-bulgarian\";i:1;s:34:\"session-added-attachment-bulgarian\";i:1;s:39:\"session-commented-to-contacts-bulgarian\";i:1;s:27:\"session-commented-bulgarian\";i:1;s:43:\"session-status-change-to-contacts-bulgarian\";i:1;s:40:\"session-status-change-to-staff-bulgarian\";i:1;s:33:\"session-added-as-follower-catalan\";i:1;s:24:\"session-assigned-catalan\";i:1;s:37:\"session-deadline-notification-catalan\";i:1;s:44:\"session-added-attachment-to-contacts-catalan\";i:1;s:32:\"session-added-attachment-catalan\";i:1;s:37:\"session-commented-to-contacts-catalan\";i:1;s:25:\"session-commented-catalan\";i:1;s:41:\"session-status-change-to-contacts-catalan\";i:1;s:38:\"session-status-change-to-staff-catalan\";i:1;s:33:\"session-added-as-follower-chinese\";i:1;s:24:\"session-assigned-chinese\";i:1;s:37:\"session-deadline-notification-chinese\";i:1;s:44:\"session-added-attachment-to-contacts-chinese\";i:1;s:32:\"session-added-attachment-chinese\";i:1;s:37:\"session-commented-to-contacts-chinese\";i:1;s:25:\"session-commented-chinese\";i:1;s:41:\"session-status-change-to-contacts-chinese\";i:1;s:38:\"session-status-change-to-staff-chinese\";i:1;s:31:\"session-added-as-follower-czech\";i:1;s:22:\"session-assigned-czech\";i:1;s:35:\"session-deadline-notification-czech\";i:1;s:42:\"session-added-attachment-to-contacts-czech\";i:1;s:30:\"session-added-attachment-czech\";i:1;s:35:\"session-commented-to-contacts-czech\";i:1;s:23:\"session-commented-czech\";i:1;s:39:\"session-status-change-to-contacts-czech\";i:1;s:36:\"session-status-change-to-staff-czech\";i:1;s:31:\"session-added-as-follower-dutch\";i:1;s:22:\"session-assigned-dutch\";i:1;s:35:\"session-deadline-notification-dutch\";i:1;s:42:\"session-added-attachment-to-contacts-dutch\";i:1;s:30:\"session-added-attachment-dutch\";i:1;s:35:\"session-commented-to-contacts-dutch\";i:1;s:23:\"session-commented-dutch\";i:1;s:39:\"session-status-change-to-contacts-dutch\";i:1;s:36:\"session-status-change-to-staff-dutch\";i:1;s:32:\"session-added-as-follower-french\";i:1;s:23:\"session-assigned-french\";i:1;s:36:\"session-deadline-notification-french\";i:1;s:43:\"session-added-attachment-to-contacts-french\";i:1;s:31:\"session-added-attachment-french\";i:1;s:36:\"session-commented-to-contacts-french\";i:1;s:24:\"session-commented-french\";i:1;s:40:\"session-status-change-to-contacts-french\";i:1;s:37:\"session-status-change-to-staff-french\";i:1;s:32:\"session-added-as-follower-german\";i:1;s:23:\"session-assigned-german\";i:1;s:36:\"session-deadline-notification-german\";i:1;s:43:\"session-added-attachment-to-contacts-german\";i:1;s:31:\"session-added-attachment-german\";i:1;s:36:\"session-commented-to-contacts-german\";i:1;s:24:\"session-commented-german\";i:1;s:40:\"session-status-change-to-contacts-german\";i:1;s:37:\"session-status-change-to-staff-german\";i:1;s:31:\"session-added-as-follower-greek\";i:1;s:22:\"session-assigned-greek\";i:1;s:35:\"session-deadline-notification-greek\";i:1;s:42:\"session-added-attachment-to-contacts-greek\";i:1;s:30:\"session-added-attachment-greek\";i:1;s:35:\"session-commented-to-contacts-greek\";i:1;s:23:\"session-commented-greek\";i:1;s:39:\"session-status-change-to-contacts-greek\";i:1;s:36:\"session-status-change-to-staff-greek\";i:1;s:35:\"session-added-as-follower-indonesia\";i:1;s:26:\"session-assigned-indonesia\";i:1;s:39:\"session-deadline-notification-indonesia\";i:1;s:46:\"session-added-attachment-to-contacts-indonesia\";i:1;s:34:\"session-added-attachment-indonesia\";i:1;s:39:\"session-commented-to-contacts-indonesia\";i:1;s:27:\"session-commented-indonesia\";i:1;s:43:\"session-status-change-to-contacts-indonesia\";i:1;s:40:\"session-status-change-to-staff-indonesia\";i:1;s:33:\"session-added-as-follower-italian\";i:1;s:24:\"session-assigned-italian\";i:1;s:37:\"session-deadline-notification-italian\";i:1;s:44:\"session-added-attachment-to-contacts-italian\";i:1;s:32:\"session-added-attachment-italian\";i:1;s:37:\"session-commented-to-contacts-italian\";i:1;s:25:\"session-commented-italian\";i:1;s:41:\"session-status-change-to-contacts-italian\";i:1;s:38:\"session-status-change-to-staff-italian\";i:1;s:34:\"session-added-as-follower-japanese\";i:1;s:25:\"session-assigned-japanese\";i:1;s:38:\"session-deadline-notification-japanese\";i:1;s:45:\"session-added-attachment-to-contacts-japanese\";i:1;s:33:\"session-added-attachment-japanese\";i:1;s:38:\"session-commented-to-contacts-japanese\";i:1;s:26:\"session-commented-japanese\";i:1;s:42:\"session-status-change-to-contacts-japanese\";i:1;s:39:\"session-status-change-to-staff-japanese\";i:1;s:33:\"session-added-as-follower-persian\";i:1;s:24:\"session-assigned-persian\";i:1;s:37:\"session-deadline-notification-persian\";i:1;s:44:\"session-added-attachment-to-contacts-persian\";i:1;s:32:\"session-added-attachment-persian\";i:1;s:37:\"session-commented-to-contacts-persian\";i:1;s:25:\"session-commented-persian\";i:1;s:41:\"session-status-change-to-contacts-persian\";i:1;s:38:\"session-status-change-to-staff-persian\";i:1;s:32:\"session-added-as-follower-polish\";i:1;s:23:\"session-assigned-polish\";i:1;s:36:\"session-deadline-notification-polish\";i:1;s:43:\"session-added-attachment-to-contacts-polish\";i:1;s:31:\"session-added-attachment-polish\";i:1;s:36:\"session-commented-to-contacts-polish\";i:1;s:24:\"session-commented-polish\";i:1;s:40:\"session-status-change-to-contacts-polish\";i:1;s:37:\"session-status-change-to-staff-polish\";i:1;s:36:\"session-added-as-follower-portuguese\";i:1;s:27:\"session-assigned-portuguese\";i:1;s:40:\"session-deadline-notification-portuguese\";i:1;s:47:\"session-added-attachment-to-contacts-portuguese\";i:1;s:35:\"session-added-attachment-portuguese\";i:1;s:40:\"session-commented-to-contacts-portuguese\";i:1;s:28:\"session-commented-portuguese\";i:1;s:44:\"session-status-change-to-contacts-portuguese\";i:1;s:41:\"session-status-change-to-staff-portuguese\";i:1;s:39:\"session-added-as-follower-portuguese_br\";i:1;s:30:\"session-assigned-portuguese_br\";i:1;s:43:\"session-deadline-notification-portuguese_br\";i:1;s:50:\"session-added-attachment-to-contacts-portuguese_br\";i:1;s:38:\"session-added-attachment-portuguese_br\";i:1;s:43:\"session-commented-to-contacts-portuguese_br\";i:1;s:31:\"session-commented-portuguese_br\";i:1;s:47:\"session-status-change-to-contacts-portuguese_br\";i:1;s:44:\"session-status-change-to-staff-portuguese_br\";i:1;s:34:\"session-added-as-follower-romanian\";i:1;s:25:\"session-assigned-romanian\";i:1;s:38:\"session-deadline-notification-romanian\";i:1;s:45:\"session-added-attachment-to-contacts-romanian\";i:1;s:33:\"session-added-attachment-romanian\";i:1;s:38:\"session-commented-to-contacts-romanian\";i:1;s:26:\"session-commented-romanian\";i:1;s:42:\"session-status-change-to-contacts-romanian\";i:1;s:39:\"session-status-change-to-staff-romanian\";i:1;s:33:\"session-added-as-follower-russian\";i:1;s:24:\"session-assigned-russian\";i:1;s:37:\"session-deadline-notification-russian\";i:1;s:44:\"session-added-attachment-to-contacts-russian\";i:1;s:32:\"session-added-attachment-russian\";i:1;s:37:\"session-commented-to-contacts-russian\";i:1;s:25:\"session-commented-russian\";i:1;s:41:\"session-status-change-to-contacts-russian\";i:1;s:38:\"session-status-change-to-staff-russian\";i:1;s:32:\"session-added-as-follower-slovak\";i:1;s:23:\"session-assigned-slovak\";i:1;s:36:\"session-deadline-notification-slovak\";i:1;s:43:\"session-added-attachment-to-contacts-slovak\";i:1;s:31:\"session-added-attachment-slovak\";i:1;s:36:\"session-commented-to-contacts-slovak\";i:1;s:24:\"session-commented-slovak\";i:1;s:40:\"session-status-change-to-contacts-slovak\";i:1;s:37:\"session-status-change-to-staff-slovak\";i:1;s:33:\"session-added-as-follower-spanish\";i:1;s:24:\"session-assigned-spanish\";i:1;s:37:\"session-deadline-notification-spanish\";i:1;s:44:\"session-added-attachment-to-contacts-spanish\";i:1;s:32:\"session-added-attachment-spanish\";i:1;s:37:\"session-commented-to-contacts-spanish\";i:1;s:25:\"session-commented-spanish\";i:1;s:41:\"session-status-change-to-contacts-spanish\";i:1;s:38:\"session-status-change-to-staff-spanish\";i:1;s:33:\"session-added-as-follower-swedish\";i:1;s:24:\"session-assigned-swedish\";i:1;s:37:\"session-deadline-notification-swedish\";i:1;s:44:\"session-added-attachment-to-contacts-swedish\";i:1;s:32:\"session-added-attachment-swedish\";i:1;s:37:\"session-commented-to-contacts-swedish\";i:1;s:25:\"session-commented-swedish\";i:1;s:41:\"session-status-change-to-contacts-swedish\";i:1;s:38:\"session-status-change-to-staff-swedish\";i:1;s:33:\"session-added-as-follower-turkish\";i:1;s:24:\"session-assigned-turkish\";i:1;s:37:\"session-deadline-notification-turkish\";i:1;s:44:\"session-added-attachment-to-contacts-turkish\";i:1;s:32:\"session-added-attachment-turkish\";i:1;s:37:\"session-commented-to-contacts-turkish\";i:1;s:25:\"session-commented-turkish\";i:1;s:41:\"session-status-change-to-contacts-turkish\";i:1;s:38:\"session-status-change-to-staff-turkish\";i:1;s:36:\"session-added-as-follower-vietnamese\";i:1;s:27:\"session-assigned-vietnamese\";i:1;s:40:\"session-deadline-notification-vietnamese\";i:1;s:47:\"session-added-attachment-to-contacts-vietnamese\";i:1;s:35:\"session-added-attachment-vietnamese\";i:1;s:40:\"session-commented-to-contacts-vietnamese\";i:1;s:28:\"session-commented-vietnamese\";i:1;s:44:\"session-status-change-to-contacts-vietnamese\";i:1;s:41:\"session-status-change-to-staff-vietnamese\";i:1;s:26:\"send_report_session-arabic\";i:1;}', 0);
+INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (213, 'proposal_accept_identity_confirmation', '1', 0),
 (214, 'estimate_accept_identity_confirmation', '1', 0),
 (215, 'new_task_auto_follower_current_member', '0', 1),
@@ -3636,7 +3721,6 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (284, 'show_project_on_invoice', '1', 1),
 (285, 'show_project_on_estimate', '1', 1),
 (286, 'staff_members_create_inline_lead_source', '1', 1),
-(287, 'upgraded_from_version', '', 0),
 (288, 'lead_unique_validation', '[\"email\"]', 1),
 (289, 'last_upgrade_copy_data', '', 1),
 (290, 'sms_clickatell_api_key', '', 1),
@@ -3646,10 +3730,10 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (294, 'sms_msg91_auth_key', '', 1),
 (295, 'sms_msg91_active', '0', 1),
 (296, 'sms_msg91_initialized', '1', 1),
-(297, 'sms_twilio_account_sid', '', 1),
-(298, 'sms_twilio_auth_token', '', 1),
-(299, 'sms_twilio_phone_number', '', 1),
-(300, 'sms_twilio_active', '0', 1),
+(297, 'sms_twilio_account_sid', 'AC91428174bd1b06c4d90214ebea59fc66', 1),
+(298, 'sms_twilio_auth_token', '92f95d72fcb40efd5a608ab9f82dd97d', 1),
+(299, 'sms_twilio_phone_number', '+12054488292', 1),
+(300, 'sms_twilio_active', '1', 1),
 (301, 'sms_twilio_initialized', '1', 1),
 (302, 'aside_menu_active', '[]', 1),
 (303, 'setup_menu_active', '[]', 1),
@@ -3734,7 +3818,6 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (382, 'paymentmethod_stripe_api_secret_key', '', 0),
 (383, 'paymentmethod_stripe_api_publishable_key', '', 0),
 (384, 'paymentmethod_stripe_description_dashboard', 'Payment for Invoice {invoice_number}', 0),
-(385, 'paymentmethod_stripe_webhook_key', 'c7e1e018ba178eaf64dffd46d99cd417', 0),
 (386, 'paymentmethod_stripe_currencies', 'USD,CAD', 0),
 (387, 'paymentmethod_stripe_allow_primary_contact_to_update_credit_card', '1', 0),
 (388, 'paymentmethod_stripe_test_mode_enabled', '1', 0),
@@ -3746,7 +3829,6 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (394, 'paymentmethod_stripe_ideal_api_publishable_key', '', 0),
 (395, 'paymentmethod_stripe_ideal_description_dashboard', 'Payment for Invoice {invoice_number}', 0),
 (396, 'paymentmethod_stripe_ideal_statement_descriptor', 'Payment for Invoice {invoice_number}', 0),
-(397, 'paymentmethod_stripe_ideal_webhook_key', '3ea02397aecacf1fa3adb74c7ff60ff2', 0),
 (398, 'paymentmethod_stripe_ideal_currencies', 'EUR', 0),
 (399, 'paymentmethod_stripe_ideal_test_mode_enabled', '1', 0),
 (400, 'paymentmethod_stripe_ideal_default_selected', '1', 1),
@@ -3772,16 +3854,21 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (420, 'sms_trigger_staff_reminder', '', 0),
 (424, 'isHijri', 'on', 1),
 (425, 'hijri_format', 'Y-m-d|%Y-%m-%d|hijri', 1),
-(426, 'hijri_pages', '[\"Case\"]', 1),
+(426, 'hijri_pages', '[\"Case\\/add\",\"group=CaseSession\"]', 1),
 (427, 'adjust_data', '[]', 1),
 (428, 'automatically_reminders_before_empty_recycle_bin_days', '1', 1),
 (429, 'automatically_empty_recycle_bin_after_days', '1', 1),
-(430, 'procurations_reminder_notification_before', '1', 1);
+(430, 'procurations_reminder_notification_before', '1', 1),
+(431, 'next_disputes_invoice_number', '1', 1),
+(433, 'automatically_resend_disputes_invoice_overdue_reminder_after', '-3', 1),
+(434, 'automatically_send_disputes_invoice_overdue_reminder_after', '1', 1),
+(438, 'incoming_side_En', '[{\"key\":\"\\u062c\\u0647\\u0629 1\",\"value\":\"\\u062c\\u0647\\u0629 1\"},{\"key\":\"\\u062c\\u0647\\u0629 2\",\"value\":\"\\u062c\\u0647\\u0629 2\"}]', 1),
+(441, 'upgraded_from_version', '235', 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservicediscussioncomments`
+-- Table structure for table `tbloservicediscussioncomments`
 --
 
 CREATE TABLE `tbloservicediscussioncomments` (
@@ -3802,7 +3889,7 @@ CREATE TABLE `tbloservicediscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservicediscussions`
+-- Table structure for table `tbloservicediscussions`
 --
 
 CREATE TABLE `tbloservicediscussions` (
@@ -3820,7 +3907,7 @@ CREATE TABLE `tbloservicediscussions` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservice_activity`
+-- Table structure for table `tbloservice_activity`
 --
 
 CREATE TABLE `tbloservice_activity` (
@@ -3835,74 +3922,10 @@ CREATE TABLE `tbloservice_activity` (
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tbloservice_activity`
---
-
-INSERT INTO `tbloservice_activity` (`id`, `oservice_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(1, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:29:59'),
-(2, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:29:59'),
-(3, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:30:04'),
-(4, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:41:16'),
-(5, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:41:16'),
-(6, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:41:21'),
-(7, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:43:13'),
-(8, 12, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:43:13'),
-(9, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:47:16'),
-(10, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:47:16'),
-(11, 15, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:47:21'),
-(12, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:48:50'),
-(13, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:48:51'),
-(14, 17, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:48:56'),
-(15, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:10'),
-(16, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:10'),
-(17, 18, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:49:15'),
-(18, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:49:58'),
-(19, 19, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:49:58'),
-(20, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:11'),
-(21, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:11'),
-(22, 20, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:51:16'),
-(23, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:51:24'),
-(24, 21, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:51:24'),
-(25, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:52:40'),
-(26, 22, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:52:40'),
-(27, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:53:06'),
-(28, 23, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:53:06'),
-(29, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 03:54:31'),
-(30, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 03:54:31'),
-(31, 24, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 03:54:36'),
-(47, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:02:36'),
-(48, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:02:36'),
-(49, 6, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:02:41'),
-(50, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:15'),
-(51, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:15'),
-(52, 7, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:20'),
-(53, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:41'),
-(54, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:41'),
-(55, 8, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:47'),
-(56, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:03:50'),
-(57, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:03:50'),
-(58, 9, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:03:55'),
-(62, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:06:54'),
-(63, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:06:54'),
-(64, 10, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:06:59'),
-(65, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'essa aned', '2019-05-28 04:08:34'),
-(66, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_added_team_member', 'Baraa Alhalabi', '2019-05-28 04:08:34'),
-(67, 11, 1, 0, 'Baraa Alhalabi', 1, 'project_activity_created', '', '2019-05-28 04:08:34'),
-(166, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 18:53:53'),
-(167, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 18:53:54'),
-(168, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-18 19:07:36'),
-(169, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-18 19:07:37'),
-(178, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-01 17:43:17'),
-(179, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-01 17:43:17'),
-(180, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-03 18:47:46'),
-(181, 6, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-03 18:47:47'),
-(182, 5, 1, 0, 'Mhdbashar Das', 1, 'LService_activity_updated', '', '2019-09-04 17:39:59');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservice_files`
+-- Table structure for table `tbloservice_files`
 --
 
 CREATE TABLE `tbloservice_files` (
@@ -3925,7 +3948,7 @@ CREATE TABLE `tbloservice_files` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservice_notes`
+-- Table structure for table `tbloservice_notes`
 --
 
 CREATE TABLE `tbloservice_notes` (
@@ -3938,7 +3961,7 @@ CREATE TABLE `tbloservice_notes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbloservice_settings`
+-- Table structure for table `tbloservice_settings`
 --
 
 CREATE TABLE `tbloservice_settings` (
@@ -3948,35 +3971,10 @@ CREATE TABLE `tbloservice_settings` (
   `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tbloservice_settings`
---
-
-INSERT INTO `tbloservice_settings` (`id`, `oservice_id`, `name`, `value`) VALUES
-(1, 5, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:15:\"OserviceSession\";i:1;}'),
-(2, 5, 'view_tasks', '1'),
-(3, 5, 'create_tasks', '1'),
-(4, 5, 'edit_tasks', '1'),
-(5, 5, 'comment_on_tasks', '1'),
-(6, 5, 'view_task_comments', '1'),
-(7, 5, 'view_task_attachments', '1'),
-(8, 5, 'view_task_checklist_items', '1'),
-(9, 5, 'upload_on_tasks', '1'),
-(10, 5, 'view_task_total_logged_time', '1'),
-(11, 5, 'view_finance_overview', '1'),
-(12, 5, 'upload_files', '1'),
-(13, 5, 'open_discussions', '1'),
-(14, 5, 'view_milestones', '1'),
-(15, 5, 'view_gantt', '1'),
-(16, 5, 'view_timesheets', '1'),
-(17, 5, 'view_activity_log', '1'),
-(18, 5, 'view_team_members', '1'),
-(19, 5, 'hide_tasks_on_main_tasks_table', '1');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblpayment_modes`
+-- Table structure for table `tblpayment_modes`
 --
 
 CREATE TABLE `tblpayment_modes` (
@@ -3991,7 +3989,7 @@ CREATE TABLE `tblpayment_modes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblpayment_modes`
+-- Dumping data for table `tblpayment_modes`
 --
 
 INSERT INTO `tblpayment_modes` (`id`, `name`, `description`, `show_on_pdf`, `invoices_only`, `expenses_only`, `selected_by_default`, `active`) VALUES
@@ -4000,7 +3998,7 @@ INSERT INTO `tblpayment_modes` (`id`, `name`, `description`, `show_on_pdf`, `inv
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblpinned_cases`
+-- Table structure for table `tblpinned_cases`
 --
 
 CREATE TABLE `tblpinned_cases` (
@@ -4012,7 +4010,7 @@ CREATE TABLE `tblpinned_cases` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblpinned_oservices`
+-- Table structure for table `tblpinned_oservices`
 --
 
 CREATE TABLE `tblpinned_oservices` (
@@ -4024,7 +4022,7 @@ CREATE TABLE `tblpinned_oservices` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblpinned_projects`
+-- Table structure for table `tblpinned_projects`
 --
 
 CREATE TABLE `tblpinned_projects` (
@@ -4036,7 +4034,7 @@ CREATE TABLE `tblpinned_projects` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblprocurations`
+-- Table structure for table `tblprocurations`
 --
 
 CREATE TABLE `tblprocurations` (
@@ -4056,10 +4054,17 @@ CREATE TABLE `tblprocurations` (
   `case_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblprocurations`
+--
+
+INSERT INTO `tblprocurations` (`id`, `NO`, `start_date`, `end_date`, `come_from`, `folder_no`, `file_doc`, `recurring_from`, `type`, `status`, `client`, `not_visible_to_client`, `addedfrom`, `case_id`) VALUES
+(1, '1234', '2019-09-17', '2019-09-25', 'techon', '', '', 0, 2, 1, 3, 0, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblprocuration_cases`
+-- Table structure for table `tblprocuration_cases`
 --
 
 CREATE TABLE `tblprocuration_cases` (
@@ -4068,17 +4073,10 @@ CREATE TABLE `tblprocuration_cases` (
   `_case` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblprocuration_cases`
---
-
-INSERT INTO `tblprocuration_cases` (`id`, `procuration`, `_case`) VALUES
-(1, 1, 2);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblprojectdiscussioncomments`
+-- Table structure for table `tblprojectdiscussioncomments`
 --
 
 CREATE TABLE `tblprojectdiscussioncomments` (
@@ -4099,7 +4097,7 @@ CREATE TABLE `tblprojectdiscussioncomments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblprojectdiscussions`
+-- Table structure for table `tblprojectdiscussions`
 --
 
 CREATE TABLE `tblprojectdiscussions` (
@@ -4117,7 +4115,7 @@ CREATE TABLE `tblprojectdiscussions` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblprojects`
+-- Table structure for table `tblprojects`
 --
 
 CREATE TABLE `tblprojects` (
@@ -4141,20 +4139,10 @@ CREATE TABLE `tblprojects` (
   `project_type` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblprojects`
---
-
-INSERT INTO `tblprojects` (`id`, `name`, `description`, `status`, `clientid`, `billing_type`, `start_date`, `deadline`, `project_created`, `date_finished`, `progress`, `progress_from_tasks`, `project_cost`, `project_rate_per_hour`, `estimated_hours`, `addedfrom`, `branch_id`, `project_type`) VALUES
-(4, 'test', '', 2, 3, 1, '2019-08-22', NULL, '2019-08-22', NULL, 100, 1, '10.00', '0.00', '0.00', 1, 0, 0),
-(5, 'نزاع مالي 1', '', 3, 3, 1, '2019-08-24', NULL, '2019-08-24', NULL, 0, 0, '0.00', '0.00', '0.00', 1, 0, 1),
-(6, 'tt', '', 2, 3, 1, '2019-09-12', '2019-09-13', '2019-09-12', NULL, 0, 0, '5000.00', '0.00', NULL, 1, 0, 1),
-(7, 'tt', '', 2, 3, 1, '2019-09-15', NULL, '2019-09-15', NULL, 100, 1, '0.00', '0.00', '0.00', 1, 0, 0);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproject_activity`
+-- Table structure for table `tblproject_activity`
 --
 
 CREATE TABLE `tblproject_activity` (
@@ -4169,35 +4157,10 @@ CREATE TABLE `tblproject_activity` (
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblproject_activity`
---
-
-INSERT INTO `tblproject_activity` (`id`, `project_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(1, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-30 18:11:59'),
-(2, 1, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-30 18:12:01'),
-(3, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-07-31 21:17:45'),
-(4, 2, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-07-31 21:17:46'),
-(8, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-22 18:09:02'),
-(9, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-22 18:09:03'),
-(10, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-08-24 12:06:54'),
-(11, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-08-24 12:06:57'),
-(12, 4, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-08-26 21:02:08'),
-(13, 5, 1, 0, 'Mhdbashar Das', 0, 'project_activity_uploaded_file', '15607969259684dd18b.txt', '2019-09-01 13:40:12'),
-(14, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_marked_all_tasks_as_complete', '', '2019-09-03 18:50:31'),
-(15, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-09-03 18:50:31'),
-(16, 5, 1, 0, 'Mhdbashar Das', 1, 'project_status_updated', '<b><lang>project_status_3</lang></b>', '2019-09-03 18:50:32'),
-(17, 5, 1, 0, 'Mhdbashar Das', 1, 'project_activity_task_deleted', 'test', '2019-09-03 20:55:41'),
-(18, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-12 19:22:13'),
-(19, 6, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-09-12 19:22:28'),
-(20, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_added_team_member', 'Mhdbashar Das', '2019-09-15 20:21:25'),
-(21, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_created', '', '2019-09-15 20:21:25'),
-(22, 7, 1, 0, 'Mhdbashar Das', 1, 'project_activity_updated', '', '2019-09-15 20:26:33');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproject_files`
+-- Table structure for table `tblproject_files`
 --
 
 CREATE TABLE `tblproject_files` (
@@ -4217,17 +4180,10 @@ CREATE TABLE `tblproject_files` (
   `thumbnail_link` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblproject_files`
---
-
-INSERT INTO `tblproject_files` (`id`, `file_name`, `subject`, `description`, `filetype`, `dateadded`, `last_activity`, `project_id`, `visible_to_customer`, `staffid`, `contact_id`, `external`, `external_link`, `thumbnail_link`) VALUES
-(1, '15607969259684dd18b.txt', '15607969259684dd18b.txt', NULL, 'text/plain', '2019-09-01 13:40:12', NULL, 5, 0, 1, 0, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproject_members`
+-- Table structure for table `tblproject_members`
 --
 
 CREATE TABLE `tblproject_members` (
@@ -4236,20 +4192,10 @@ CREATE TABLE `tblproject_members` (
   `staff_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblproject_members`
---
-
-INSERT INTO `tblproject_members` (`id`, `project_id`, `staff_id`) VALUES
-(4, 4, 1),
-(5, 5, 1),
-(6, 6, 1),
-(7, 7, 1);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproject_notes`
+-- Table structure for table `tblproject_notes`
 --
 
 CREATE TABLE `tblproject_notes` (
@@ -4262,7 +4208,7 @@ CREATE TABLE `tblproject_notes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproject_settings`
+-- Table structure for table `tblproject_settings`
 --
 
 CREATE TABLE `tblproject_settings` (
@@ -4272,130 +4218,10 @@ CREATE TABLE `tblproject_settings` (
   `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblproject_settings`
---
-
-INSERT INTO `tblproject_settings` (`id`, `project_id`, `name`, `value`) VALUES
-(1, 1, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(2, 1, 'view_tasks', '1'),
-(3, 1, 'create_tasks', '1'),
-(4, 1, 'edit_tasks', '1'),
-(5, 1, 'comment_on_tasks', '1'),
-(6, 1, 'view_task_comments', '1'),
-(7, 1, 'view_task_attachments', '1'),
-(8, 1, 'view_task_checklist_items', '1'),
-(9, 1, 'upload_on_tasks', '1'),
-(10, 1, 'view_task_total_logged_time', '1'),
-(11, 1, 'view_finance_overview', '1'),
-(12, 1, 'upload_files', '1'),
-(13, 1, 'open_discussions', '1'),
-(14, 1, 'view_milestones', '1'),
-(15, 1, 'view_gantt', '1'),
-(16, 1, 'view_timesheets', '1'),
-(17, 1, 'view_activity_log', '1'),
-(18, 1, 'view_team_members', '1'),
-(19, 1, 'hide_tasks_on_main_tasks_table', '0'),
-(20, 2, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(21, 2, 'view_tasks', '1'),
-(22, 2, 'create_tasks', '1'),
-(23, 2, 'edit_tasks', '1'),
-(24, 2, 'comment_on_tasks', '1'),
-(25, 2, 'view_task_comments', '1'),
-(26, 2, 'view_task_attachments', '1'),
-(27, 2, 'view_task_checklist_items', '1'),
-(28, 2, 'upload_on_tasks', '1'),
-(29, 2, 'view_task_total_logged_time', '1'),
-(30, 2, 'view_finance_overview', '1'),
-(31, 2, 'upload_files', '1'),
-(32, 2, 'open_discussions', '1'),
-(33, 2, 'view_milestones', '1'),
-(34, 2, 'view_gantt', '1'),
-(35, 2, 'view_timesheets', '1'),
-(36, 2, 'view_activity_log', '1'),
-(37, 2, 'view_team_members', '1'),
-(38, 2, 'hide_tasks_on_main_tasks_table', '0'),
-(58, 4, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(59, 4, 'view_tasks', '1'),
-(60, 4, 'create_tasks', '1'),
-(61, 4, 'edit_tasks', '1'),
-(62, 4, 'comment_on_tasks', '1'),
-(63, 4, 'view_task_comments', '1'),
-(64, 4, 'view_task_attachments', '1'),
-(65, 4, 'view_task_checklist_items', '1'),
-(66, 4, 'upload_on_tasks', '1'),
-(67, 4, 'view_task_total_logged_time', '1'),
-(68, 4, 'view_finance_overview', '1'),
-(69, 4, 'upload_files', '1'),
-(70, 4, 'open_discussions', '1'),
-(71, 4, 'view_milestones', '1'),
-(72, 4, 'view_gantt', '1'),
-(73, 4, 'view_timesheets', '1'),
-(74, 4, 'view_activity_log', '1'),
-(75, 4, 'view_team_members', '1'),
-(76, 4, 'hide_tasks_on_main_tasks_table', '0'),
-(77, 5, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(78, 5, 'view_tasks', '1'),
-(79, 5, 'create_tasks', '1'),
-(80, 5, 'edit_tasks', '1'),
-(81, 5, 'comment_on_tasks', '1'),
-(82, 5, 'view_task_comments', '1'),
-(83, 5, 'view_task_attachments', '1'),
-(84, 5, 'view_task_checklist_items', '1'),
-(85, 5, 'upload_on_tasks', '1'),
-(86, 5, 'view_task_total_logged_time', '1'),
-(87, 5, 'view_finance_overview', '1'),
-(88, 5, 'upload_files', '1'),
-(89, 5, 'open_discussions', '1'),
-(90, 5, 'view_milestones', '1'),
-(91, 5, 'view_gantt', '1'),
-(92, 5, 'view_timesheets', '1'),
-(93, 5, 'view_activity_log', '1'),
-(94, 5, 'view_team_members', '1'),
-(95, 5, 'hide_tasks_on_main_tasks_table', '0'),
-(96, 6, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:17:\"disputes_invoices\";i:0;}'),
-(97, 6, 'view_tasks', '1'),
-(98, 6, 'create_tasks', '1'),
-(99, 6, 'edit_tasks', '1'),
-(100, 6, 'comment_on_tasks', '1'),
-(101, 6, 'view_task_comments', '1'),
-(102, 6, 'view_task_attachments', '1'),
-(103, 6, 'view_task_checklist_items', '1'),
-(104, 6, 'upload_on_tasks', '1'),
-(105, 6, 'view_task_total_logged_time', '1'),
-(106, 6, 'view_finance_overview', '1'),
-(107, 6, 'upload_files', '1'),
-(108, 6, 'open_discussions', '1'),
-(109, 6, 'view_milestones', '1'),
-(110, 6, 'view_gantt', '1'),
-(111, 6, 'view_timesheets', '1'),
-(112, 6, 'view_activity_log', '1'),
-(113, 6, 'view_team_members', '1'),
-(114, 6, 'hide_tasks_on_main_tasks_table', '0'),
-(115, 7, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(116, 7, 'view_tasks', '1'),
-(117, 7, 'create_tasks', '1'),
-(118, 7, 'edit_tasks', '1'),
-(119, 7, 'comment_on_tasks', '1'),
-(120, 7, 'view_task_comments', '1'),
-(121, 7, 'view_task_attachments', '1'),
-(122, 7, 'view_task_checklist_items', '1'),
-(123, 7, 'upload_on_tasks', '1'),
-(124, 7, 'view_task_total_logged_time', '1'),
-(125, 7, 'view_finance_overview', '1'),
-(126, 7, 'upload_files', '1'),
-(127, 7, 'open_discussions', '1'),
-(128, 7, 'view_milestones', '1'),
-(129, 7, 'view_gantt', '1'),
-(130, 7, 'view_timesheets', '1'),
-(131, 7, 'view_activity_log', '1'),
-(132, 7, 'view_team_members', '1'),
-(133, 7, 'hide_tasks_on_main_tasks_table', '0');
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproposals`
+-- Table structure for table `tblproposals`
 --
 
 CREATE TABLE `tblproposals` (
@@ -4442,17 +4268,10 @@ CREATE TABLE `tblproposals` (
   `signature` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- إرجاع أو استيراد بيانات الجدول `tblproposals`
---
-
-INSERT INTO `tblproposals` (`id`, `subject`, `content`, `addedfrom`, `datecreated`, `total`, `subtotal`, `total_tax`, `adjustment`, `discount_percent`, `discount_total`, `discount_type`, `show_quantity_as`, `currency`, `open_till`, `date`, `rel_id`, `rel_type`, `assigned`, `hash`, `proposal_to`, `country`, `zip`, `state`, `city`, `address`, `email`, `phone`, `allow_comments`, `status`, `estimate_id`, `invoice_id`, `date_converted`, `pipeline_order`, `is_expiry_notified`, `acceptance_firstname`, `acceptance_lastname`, `acceptance_email`, `acceptance_date`, `acceptance_ip`, `signature`) VALUES
-(1, 'test', '{proposal_items}', 1, '2019-08-26 21:10:38', '10.00', '10.00', '0.00', '0.00', '0.00', '0.00', '', 1, 1, '2019-09-02', '2019-08-26', 3, 'customer', 1, 'a5eb1af4a0f1064ceccff49756c07181', 'Al-Muslat Company', 194, '', '', 'yanbu', '', 'test@test.com', '', 1, 1, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblproposal_comments`
+-- Table structure for table `tblproposal_comments`
 --
 
 CREATE TABLE `tblproposal_comments` (
@@ -4466,7 +4285,7 @@ CREATE TABLE `tblproposal_comments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblrelated_items`
+-- Table structure for table `tblrelated_items`
 --
 
 CREATE TABLE `tblrelated_items` (
@@ -4479,7 +4298,7 @@ CREATE TABLE `tblrelated_items` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblreminders`
+-- Table structure for table `tblreminders`
 --
 
 CREATE TABLE `tblreminders` (
@@ -4497,7 +4316,7 @@ CREATE TABLE `tblreminders` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblroles`
+-- Table structure for table `tblroles`
 --
 
 CREATE TABLE `tblroles` (
@@ -4507,7 +4326,7 @@ CREATE TABLE `tblroles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblroles`
+-- Dumping data for table `tblroles`
 --
 
 INSERT INTO `tblroles` (`roleid`, `name`, `permissions`) VALUES
@@ -4516,7 +4335,7 @@ INSERT INTO `tblroles` (`roleid`, `name`, `permissions`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblsales_activity`
+-- Table structure for table `tblsales_activity`
 --
 
 CREATE TABLE `tblsales_activity` (
@@ -4531,7 +4350,7 @@ CREATE TABLE `tblsales_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblsales_activity`
+-- Dumping data for table `tblsales_activity`
 --
 
 INSERT INTO `tblsales_activity` (`id`, `rel_type`, `rel_id`, `description`, `additional_data`, `staffid`, `full_name`, `date`) VALUES
@@ -4545,7 +4364,7 @@ INSERT INTO `tblsales_activity` (`id`, `rel_type`, `rel_id`, `description`, `add
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblservices`
+-- Table structure for table `tblservices`
 --
 
 CREATE TABLE `tblservices` (
@@ -4556,7 +4375,7 @@ CREATE TABLE `tblservices` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblsessions`
+-- Table structure for table `tblsessions`
 --
 
 CREATE TABLE `tblsessions` (
@@ -4567,296 +4386,37 @@ CREATE TABLE `tblsessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblsessions`
+-- Dumping data for table `tblsessions`
 --
 
 INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('015mlt7heg92svpmm8vv50b2i0grrrvi', '::1', 1568906152, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930363135323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('024idsdes9fcdt3l89r1le4q5lbk7qql', '::1', 1567345548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353333333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c733a313a2231223b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('09une47dgcm2edgkjvvqbtjs7up4mpdd', '::1', 1568713986, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731333938323b7265645f75726c7c733a33323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e223b),
-('0acj4vk0hvrrr2ve67gicinpoice29ut', '::1', 1569612486, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631323438363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('0bp6ic1u73c3lvc8trpfprs9fu9cmqq6', '::1', 1568905010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930353031303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('0dvg3nloufhl4r077269sl9vb9dbdj64', '::1', 1569794721, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739343732313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('0mepmf8emmdk3dgeceqgnegn11rr9eqq', '::1', 1568718306, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731383330363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('0pmc20llhdfkraan1shpqt5akis8f63u', '::1', 1567339264, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333343337333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('0r34bkaqgn3orudlg1hvnimajsvoj9kg', '::1', 1568650548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303534383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1g1nmstu62hqtj47ho2lbccsflu650ou', '::1', 1569861645, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313634353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('1g26o5u011fid34nve86239tk6ie2dk8', '::1', 1569792728, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739323732383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('1hllr24p8v7202vfut9l1gukmkhjutc3', '::1', 1568732275, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323237353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('1n6rbi78tdi1t03angapqg3v4b05d8so', '::1', 1569863168, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836333136383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('1oh21tvtl5ibd2p555rorklqeqofeakd', '::1', 1567241442, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313434313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1s5uf282qaoh1s6qv5edffhgcv40meev', '::1', 1567527532, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532373134383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('1up5ula47noggvtrem7budgoadaikbao', '::1', 1567104456, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130343139353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7461736b735f6b616e62616e5f766965777c733a343a2274727565223b),
-('2888d0eiath2potgotpt0j5i9f1afg10', '::1', 1568668109, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636383031383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('29dhupcsp0acfr6hgq30k010ojprb9au', '::1', 1568910950, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303935303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('2blen3iida8susgfqlhh0fv9lj9kkoru', '::1', 1567521662, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532313631393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('2p8sfk81ff2buotjl0r7h8chg020ocd2', '::1', 1568733203, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733333230333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2s72k7rof7iepq8avt7tdt9f49lt8kok', '::1', 1569616106, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363130363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2slkh0i58l7qv6bcr4m9kfokkdhj8e1j', '::1', 1569613594, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333539343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('2u2iqcgr9fltrii4hu3lorm83ehtrf9c', '::1', 1567603060, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630323539393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('36gnps0g2mmp9in8sbvij7ctg6ckb9eh', '::1', 1569956422, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935363432323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a34353a22d8aad98520d8add8b0d98120d8a7d984d985d8b9d8a7d985d984d8a7d8aa20d8a7d984d988d8a7d8b1d8afd8a9223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('386vnragojj17lqcpqnqhm8ef6cvu53p', '::1', 1569860440, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836303434303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('3c2qta2n8ru1plke84n3j5s4smroali6', '::1', 1567332909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323634323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3cr2mj3eqb80k07pksm1no7tjmp9qh1p', '::1', 1569863811, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836333831313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('3d2fr9sa4ak89kivvccd5mqvaivb93bj', '::1', 1567861146, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836313035333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3hmjngehrp0qel26hdt5hldlsaff6eus', '::1', 1568197436, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373433363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('3hsr8ogfb1lltjdpokofbnfn9hl6rfr6', '::1', 1568651944, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313934343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3jgl4ro6hrq16msj9feakqa0vhe8uk52', '::1', 1568133279, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133333233373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('3r0dmur1f84g87cgfmpv5cn8dhd4kauh', '::1', 1568650228, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303232383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4f1jnmmnd53oml28a87oks2qlthd12sa', '::1', 1569796583, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363538333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('4huqln6l966o2snbih57t676l3gb21if', '::1', 1567246565, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363536353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('4rt5l1g0oo20smsc3rchl48gcc1sj4jb', '::1', 1568204928, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230343932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('5491df8rfflj8e7lb9kadhltjr28rmkn', '::1', 1568911300, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313330303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5bgo03co5rmq67ddfc47bv8djspcdh0j', '::1', 1569687268, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638373236383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('5dcor2je25ljt236ruhugfo55bea8hfp', '::1', 1568721229, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732313232393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5dqhvn1gfegvhp3a5vp2f2hh2dssrram', '::1', 1567339879, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393837353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5dukneuofqddat79lp1jth2q99vn3007', '::1', 1568910607, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303630373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5fh383sv8rcpujhj4bkmev2vmrhuqbjt', '::1', 1569951780, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313738303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('5j2tovb0c9bn49nhklbmurqggnemqueh', '::1', 1567700090, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730303032303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5jrf0qfhlo3ibo4rn77fk7ijvj6a4oj1', '::1', 1567524236, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343036383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('5ua3fe7678likol4iu8q5f041v3mhqpe', '::1', 1569528067, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383036373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('5v6sptrf5nj5igiohbovgvfg3t76f7ra', '::1', 1569616763, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363736333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('64eedgoi3nrs0vom8v4c15gna2tt8tfi', '::1', 1569966862, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('681f0ro4nromr5552gc8qjr4k1l254em', '::1', 1567526580, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363537303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('68orh1dkusplrueh1ac4uh1slmn6uu3k', '::1', 1568734697, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733343639373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6bni7k7ak428egp5ajc5pd31kigo1v5j', '::1', 1567101551, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313532323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6ckus2367i6skqiasqarcnl5kvns3utt', '::1', 1569613904, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333930343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('6k186vojcln6hb1ecrtd8jlc35ivqdmv', '::1', 1567526233, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532363233313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6k8fljp6enguecag3bosmnv5au2bke5q', '::1', 1569485476, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438353437363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6u1137bf31r8hj6j1tvctrroar09ic43', '::1', 1568651533, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313533333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6vf2rqhb8n540fpf7mvblqck2ka2kj78', '::1', 1568720387, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732303338373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6vi6k2ar7njr81kl5m5e184uvdmc0c8k', '::1', 1568716764, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731363736343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('6vlaahabc4q1i74kkii2fvdsr32qg17h', '::1', 1567699691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393638313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('7etkgs17p6bm3dpqrrp2o5nksqutviel', '::1', 1568910227, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931303232373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('7fpt7d6ne73vib2oo4kpfh30un253cua', '::1', 1568567847, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536373834373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7gamn6hg1jinft8hq4abv5c3phqfatg0', '::1', 1568310321, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331303332313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('7hftjdvclunnlfh9f17hk4fkoom4iga5', '::1', 1568739939, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393933393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('7m0rmv2sj9j689e9cn1rplbuo1e58nut', '::1', 1569955256, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935353235363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('7te5s2ljqe1s2j9tbvo9ugknv2rl1kkh', '::1', 1567930985, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933303937363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b),
-('823ot8qqbauv2quahr01tj4hqa2kl9o6', '::1', 1569953294, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333239343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('823qir8t7nvf1qbb9ac2i9d7d0q3t515', '::1', 1567341684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313338353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('824ben37964n6lvbt9mp55mefvcmj2us', '::1', 1568890241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839303234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('88ofhord56ss6cgnfclntmundrqogaca', '::1', 1567525849, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('8acpn6i53cvbi9r68g31os35ciof0l6k', '::1', 1569795501, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353530313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('8cfrvsn4rkoinieilt4hdsj8fs46evv5', '::1', 1569796221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363232313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('8dug5sa1d1hmd8m3l4a4enva5bvh98kg', '::1', 1569959296, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935393239363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('8q62ofcfrctt25n3ig9gfeui0ep7j27g', '::1', 1568569506, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536393530363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('90pasbnf0ncb3kec6ngqorbc1cah1hf4', '::1', 1568739274, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393237343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('947auhn2vr5d827dj33opoj99pnttegf', '::1', 1567866071, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('963ka0ercjett26c3f8thunmk46k1omk', '::1', 1569862684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836323638343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('9ljo2pv5nr52n8uetqu68crkhdq68btf', '::1', 1567609012, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630393030383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9lu1rude6hoougjhi1t9ua3hg13vhpqs', '::1', 1567333045, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333323936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9nm57t1k7lut2r17v7kpgne5na86lpm2', '::1', 1568909010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930393031303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9t6t5vsp89d8sl14mgt4fvnb8o1e7jha', '::1', 1567082757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037383937333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('9ubhpjcjif37qdert0gl5csev79486b8', '::1', 1567349037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383739323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('9vq2g17710eq5jcbhsgngj1pb2gidbmu', '::1', 1568191921, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313932313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('a6jud61dkoq9cj0ffdnulg13341agjtt', '::1', 1568567251, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536373235313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('abevqdqgdivu7t4i8nonmmqpi67ad85d', '::1', 1568568539, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383533393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('absu3sl3o7sonvdqsuc3bp3rk36bpts7', '::1', 1568568845, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383834353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('af79a4f8frtvsmkapl236ajnnet7smv3', '::1', 1569864282, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343238323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ajdbm9l98ompfro5ec2jv2e0jhqdi5m4', '::1', 1568649334, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634393333343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('am021pk8c55fon9khogm4gsbcbb4rn9g', '::1', 1567612213, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631323030313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('at3lcpt8r1lis5u0atdfd35qrqnogeop', '::1', 1569792237, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739323233373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('atbfv6s5r0os6cb6810op59givcdrkmv', '::1', 1569617142, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631373134323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('b1e8tob3t1d2r3253tgbgcnvb76430an', '::1', 1568320673, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383332303637333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('b8k5uq011f1c41ehvo65h19mdf6qhb9e', '::1', 1567247032, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234373032383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('bd1fh5vugpacoosqi4ma24lgp43u6ka0', '::1', 1567328188, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332373930393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('bdnfn8o0nqfouf85gme2k1v9fha5rra4', '::1', 1568720775, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732303737353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('bgv1esbt9gpd908n16ef04gpocu0jmft', '::1', 1569614649, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631343634393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('bkpd49rglpg8fc8ch0ec03pq3tilnm3r', '::1', 1569688115, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638383131353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('bm5mhncpm42qocb1q10i1qvka8bbv37e', '::1', 1567073909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333930363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('c37iuiq4aabmqhqslvj0p61indhr7csh', '::1', 1568191351, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139313335313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('c3rnsk5akjfagl4nc53cmu584amfhrj9', '::1', 1568306860, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330363836303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('c9beia196epckm85tlc0n2peqh1h2vk5', '::1', 1567603399, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333036393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('cfdn6kmhciea6oqroq8j75h5hk3s7jir', '::1', 1568307398, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330373339383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('cg70h68atu4klgtmt5p6n7i8kcfilir6', '::1', 1569485174, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438353137343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('csdibjl7lu11i8dbsb1b3vrvh0iv2vfm', '::1', 1569953602, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333630323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('cuqa6o4t0puf2gctc0jn9gvee8r5vmcq', '::1', 1568648925, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383932353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('cvlk146vkcjtb7q6c5pprq5r2so70i1c', '::1', 1568206293, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383230363239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('d9ldj5qiqeamf0s7plqo7j23li7fot5u', '::1', 1568651200, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635313230303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('dgfdftv55bve5eh51cusdbnp910ht9me', '::1', 1568228945, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232383934353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('dijv999jbuam32sej8ciekge3vanlh5q', '::1', 1569527351, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373334363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('drpauasam0i0o5h1lobn8iqll50gdr4k', '::1', 1569793650, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739333635303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('e4l1q2qgh6bq39ppt2mdatu9furvppc6', '::1', 1568648233, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383233333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('e66c0kitfigqjccl68ri2k5v80t7or7i', '::1', 1569861994, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313939343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('e8cbsue7980etd1g3s206hnsc8ol9cmi', '::1', 1568650899, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635303839393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('e8n22kdvkql96hsg4lrjcpg3dn7ag5ln', '::1', 1569617220, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631373134323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('e9t0u4h8s59gu37udqkghsp644svjus8', '::1', 1568740386, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734303338363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ebijfob8c64ugcib64ncaovp2di99nka', '::1', 1567941901, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313639333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('eg96tlj0ud7vlqs3qr8nc9fellb4p2qj', '::1', 1568667643, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636373633393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ehhsoehsb7ctik9amceil2krrdfjs82r', '::1', 1568731689, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733313638393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ehomubq0sfua1bmoq7afaibn2b9b39fb', '::1', 1567603622, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333430323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('erb3f463qipircf4n5sj4ffs2ufn4bpb', '::1', 1567699713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393639313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('es0pr8nrvk9l4d0oteikpir8eb6ruk3e', '::1', 1568196500, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139363530303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('f6gpth5ii95ne2vn94jtje0jqg157p7s', '::1', 1567599912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ffdq8qbjjfgfvm54kkbmhm5g12r3hnub', '::1', 1568229738, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232393733383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('fg9il70vmh402o877rbk50ic8sa5oa2t', '::1', 1568305445, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330353434353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('foc4hpm235kbn6tmhto13pkcnktj44j6', '::1', 1569958143, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383134333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('fql12dupsh5tcobsmgdmuj4ebdk7ufks', '::1', 1568744400, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734343138353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ftnvknioajgpvj8dsmdpqqb867amsr5v', '::1', 1567543096, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323938343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('g63cs10jrtgnjb4g3ibbhibbokq9cjkq', '::1', 1569486145, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393438363134353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('g95e24bul92ls9lij65l0gc2ne5li13o', '::1', 1569795088, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353038383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ga4jfbqu58pst03floqpfop2pqm0f8du', '::1', 1567541611, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313435363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gboskn8a8hljef566vfc1f6estaikoju', '::1', 1567542825, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534323536343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gdl9l1a18pl4vltjrqvdjbskn685jo2e', '::1', 1568740982, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734303938323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ghavg66olbqi3uasgi4tkfq4p3k0cha5', '::1', 1569956791, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935363739313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('gkp07cu02gt70lab96m7o5qa6tvafe85', '::1', 1567935828, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933353738313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('gn061riv2ecpb2fsgmb775d4u0m12o7p', '::1', 1569954221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343232313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a32373a22d8aad98520d8add8b0d9812070726f6375726174696f6e5f646f63223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226e6577223b7d),
-('godqcpgmum905jp49j38oj7v2jiclt5l', '::1', 1567346679, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353635333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('gqsb0vjsu74ep3sd35uuhqg0ficsku5j', '::1', 1567342175, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334313930333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gu3fcs9vt8lva9cqn2luhoufr6c57o3m', '::1', 1568320767, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383332303637333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('gvm72p5tpbkplsbb56lov6dllgeude2s', '::1', 1568735931, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733353933313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h1s2tfli30fojjggatb3og46000gsbdp', '::1', 1568190410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139303431303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('h2592vgof1ks9nv39ohbgb6vg21dv1h3', '::1', 1567458601, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383532333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h3v0d21fmc8t4121u26felef62d60snl', '::1', 1568911720, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313632353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('h4g6i8e08c7d85d9cd6scikdn5qmqbdp', '::1', 1569793962, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739333936323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hap5c3jti31lg5l091lk5ttjcmh6ooqc', '::1', 1569864641, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343634313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hcbos13kkbrnmrkf8rr3t17otakp79o5', '::1', 1567100444, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130303339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hkign0hlfe6dr83825jq6nfh7aht7hva', '::1', 1568188624, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383632343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hkni83av4v1thgbnporems14j87acful', '::1', 1568652826, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635323832363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hplclhhou0ke8prdgie3gmr0lvbgvsql', '::1', 1567672971, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637323933343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hpoq5jnt3fif7plj52ag1iq1pv0p2r1e', '::1', 1567542010, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534313836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hq5lf0jt6diae8kajtl3j97c9euelnqf', '::1', 1569613103, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631333130333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('hslkdsuh7r8kdn1pv0dqa11u8d370q6q', '::1', 1568647420, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634373432303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('hvcu1k2dr1cjeauobq25pjt7ocpmakkt', '::1', 1568568176, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383536383137363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('i39664rtogh2uhm6m4jnehgnbj60lmi7', '::1', 1567084535, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038343530393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('iajuo5h9ci76vi2c6rf4sn3f1vbban07', '::1', 1568729949, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732393934393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ib2qgnbhfaetoaj1usmjqn3ib47p2k53', '::1', 1569951410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313431303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ic12f101qd1iof6gb86n3p5fqf2qj9l5', '::1', 1569858942, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393835383934323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('icnilfgtr9qspmfslklqa7u7evqpji6n', '::1', 1567525609, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532343434393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('id1pbu87omnt1flsgnvipg7gogd9pgok', '::1', 1568891246, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839313234363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('idmsjctoqm9l17desvn60tpeudng3rd3', '::1', 1568743540, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734333534303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('iu1g5hfvv1rinqrkf3rh8eeechrqgmp2', '::1', 1569958994, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383939343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('j42gk72ec2mr1hsg79ck0c57gvbv0015', '::1', 1567685061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373638353030353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('j6de67btqaiq8sk09ntf9oovtgsqk00i', '::1', 1568198960, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139383936303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('j6ropq90fdm9vfllh453t2jrecl8nh9a', '::1', 1567241440, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('j8elvqk6l0pq32lnur714oga4ms05ejt', '::1', 1569610840, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631303834303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('jdknnqjqanth17skv00ajgbrmm5okecf', '::1', 1569614241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631343234313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('jglla1cmrtp9285s5uuumgjsd2td1rd8', '::1', 1568731317, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733313331373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('jhqmdtbqvh35rdl5grj5u69lhtjvqnng', '::1', 1568138935, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133373339343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ji497tjaoof64fudntdv5lufs6m5asjs', '::1', 1568732585, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323538353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('jj4icmllp1gdsuhi8om4ehpg871eu1qh', '::1', 1568310790, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331303739303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('jp7v8jh0sidjueflv4h8gko9ikm5vp4c', '::1', 1569864948, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('jrg961bn2tnau7ivm8nr3h17859h1gua', '::1', 1568744185, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734343138353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('k2r76eav3lbheukiikjm720vmihudest', '::1', 1569689293, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638393239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('k6b9ect61sruulja1d3pqt204ctu4ga0', '::1', 1568305052, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330353035323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('k8ege4pk0qr2sch36im25nuk85023faa', '::1', 1568897023, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839373032333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('kadukrus0iv889lvqma9j4v4mbh6r9o6', '::1', 1569965120, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936353132303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kbnmdi86poa1entlqt68v7237l35c404', '::1', 1568570313, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537303331333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('keuqcm8quf0tmpketolb4a6cmfdpvhv9', '::1', 1568905311, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930353331313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('khr561j0ojrdiof9u8706cltih68csom', '::1', 1569612787, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631323738373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('kjvagbqppc3a8iug64gcj3l7jdd2v7d9', '::1', 1567328509, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383235313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('l2djp6tq7hda9r80jbvkkr10a35bgdgp', '::1', 1569862321, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836323332313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('l47najcf9lj0v0ujig1u4tl5afr0ckav', '::1', 1569615728, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631353732383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('l9cm3r5b1u99vi23ud6oppvb5422mj0g', '::1', 1568890552, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839303535323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6d6573736167652d737563636573737c733a33383a22d8aad98520d8a5d8b6d8a7d981d8a92050726f6375726174696f6e20d8a8d986d8acd8a7d8ad223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('lad06sp5lh1pqe3rrpofrsvnqjmc7il3', '::1', 1567533618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373533333334313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('lakek818lptst801og760hgvptadtv3b', '::1', 1569528727, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383432353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('lcbqqj4p6anc9d11rd0lod3jpj4jvmtl', '::1', 1569861295, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836313239353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('lh7940shejshs2hvji3q2q7agasv0nub', '::1', 1567241757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234313735363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('lrmstu0295rrndrh5nrl5hffa0iq0m9j', '::1', 1567931341, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933313239383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('lrv0mf6t5g48j766lsu0mahmei85mumt', '::1', 1568652489, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635323438393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('m2n0ahd60scno63t7e2efk05npdh711o', '::1', 1569611958, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631313935383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('m4hjcculihbm6enmfseap9jirq3p76bc', '::1', 1567865791, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373836353431393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('mb2rpi066t9q283nqef8n1np99o4lkid', '::1', 1569967140, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363836323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('merrfag0hled8ljg38jigdja9ul9rh03', '::1', 1569791171, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739313137313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('mftq940auppqthikfoh5nvrvf3ogci07', '::1', 1568738596, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733383539363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('mg81prq1t3p7ft3os62nd8hnasio69es', '::1', 1567956542, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363533383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
-INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('mp5p7psm4oto200t0tete2b78hnrajrs', '::1', 1567325977, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353936363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('n0ol0m7apdhvuq1rqukmaiof7gmfov53', '::1', 1567619137, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631393132363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n2s7emmlvepvvv7njdugndvbocccc2t4', '::1', 1568739585, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733393538353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('n2tlo1i8ee5ksjhp1e6bumns2keqne4f', '::1', 1568743880, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383734333838303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('n5mhgatoeaef4fsh6j00777m5ah8n316', '::1', 1568228580, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232383538303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('ndo3f695e539k5i3pui36cs9jojqohfi', '::1', 1567231627, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373233313439383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('neenkbdeip6616no5grv1lp2it00897b', '::1', 1567325666, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332353437333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('nfrjss4ptiuvgh3hohosc0333gfvs9r4', '::1', 1569611149, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631313134393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ni6ci6si542kiviscnhnd0sldnbam6vh', '::1', 1567937162, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373135303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('nlk0fps769tf62pb216clgpjt97qlifm', '::1', 1568188949, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383138383934393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nplk2atm7e2d68j3rg7krpa2mvhvhiqm', '::1', 1569951021, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935313032313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('nrac9a1qmvtdcqoabqhta3onqicci1h0', '::1', 1567346723, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334363638323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('nslrrh3pj9qsb2ga706j97d0ich167dk', '::1', 1567329156, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373332383938383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('nu65i4t7c0ojdb6dns9vbp2868e4bptp', '::1', 1569958531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935383533313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('o37nb0iltrfivt1egbdhd996ifbm1df2', '::1', 1569950713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935303731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('o4gkvp6knipf2pmvo5sk4sh33e38c0ck', '::1', 1569528425, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532383432353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('o88j7ho990jlnfs6v7isd8kr5gkraek5', '::1', 1569949895, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393934393839353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('o91ejtd8ojh8bhq7is27qveeo3gkd7e7', '::1', 1567670531, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637303532363b7265645f75726c7c733a34323a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f536572766963652f33223b),
-('ofoa2e40d2vcf7st5as072qkkntenes5', '::1', 1569527692, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373639323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('oou0m6pk2o323ed0ciejcnlbkirba9dj', '::1', 1568738925, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733383932353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('oqdmijaicbjb145ceoc19sm07v9ulplm', '::1', 1569796642, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739363538333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a33353a22d8aad98520d8a5d8b6d8a7d981d8a920696e636f6d696e6720d8a8d986d8acd8a7d8ad223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('orfs432d22m3l8kb5t5nsitsl9fm4ctt', '::1', 1569615133, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631353133333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('p64ammhjenguvlle4gq0qug1bupg6l7o', '::1', 1569794301, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739343330313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('p9e5i0h4bnfrmj99l4vn475a372v86tk', '::1', 1569954936, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343933363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('pa61k7olij0vmkd0fv7a2q448m5d20eg', '::1', 1569687793, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638373739333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('pitm5p8idrjvik549jqmt3obfebiics6', '::1', 1568906457, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930363435373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('plg69cjv5uq6to46fi9ej18r9fv2jar7', '::1', 1569954524, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935343532343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6d6573736167652d737563636573737c733a32373a22d8aad98520d8add8b0d9812070726f6375726174696f6e5f646f63223b5f5f63695f766172737c613a313a7b733a31353a226d6573736167652d73756363657373223b733a333a226f6c64223b7d),
-('pnj2sjv3t832air444bj2pkjv47gm2u2', '::1', 1568648542, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634383534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('psks21s5b144c56m42lr23o5o5da2prt', '::1', 1567599873, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373539393837323b7265645f75726c7c733a34313a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f61646d696e2f73657474696e6773223b),
-('ptnlohrtj3c889k31a46c3rdql4qif1u', '::1', 1567600625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630303631353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('punuqvbi4gnrjo9e8kh76d76hd0ed0fj', '::1', 1569865100, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836343934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('puunhtj918d2o2l98hm3ra08cj135hta', '::1', 1567608037, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630373833343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('q1e2u8m36l8fn55qm1s74faehmaf0hfu', '::1', 1568732892, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733323839323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('q508cdjounbd4niifc3hdmubvkife2ar', '::1', 1567701691, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373730313632393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('q9u9vt8b6t2ntqi05oovngvcpiajmt7r', '::1', 1569949319, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393934393331393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('qav46n6d8sj8ve0jnh2sodsjm3j6sshk', '::1', 1567541107, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373534303932383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qc3652v1gint152sngcn2d2c8s12ntk7', '::1', 1568130419, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133303338313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qejcdkvcsmk15k0qt5gaddnmasgvc61m', '::1', 1568306086, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383330363038363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qiggrssotkmaedguk83h0fi6k496pi4u', '::1', 1568721713, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732313731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qjg211okb3annd5g3shomgba6t3nofb2', '::1', 1567459061, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373435383835373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qjrv2ojvnhpfk99ljj6a3km59tdh4ghq', '::1', 1568717085, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731373038353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qna2p7tkqtv4kppv0ejdp25fioo00buv', '::1', 1567607830, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373630333934383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('qnco6l1hrl0s809flmn0tnk4sn9hbj1f', '::1', 1567100043, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373039393938373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('qoofeja45nen3u40cgff6a48vohea23k', '::1', 1567246511, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373234363235383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('qt1dgrmeeljr67va5u7dcjog877jr3hj', '::1', 1569689480, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638393239333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('qv3okvcjrbjltsdhirdslbhr8qhq8rjd', '::1', 1567348218, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334373230333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r0f6efcghspvd4p0nl07e3i114d3kn6j', '::1', 1567956583, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373935363534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r5m886ailvabqp2dgcgpkjnde3qe9eop', '::1', 1569860856, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393836303835363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('r7t0hcdi8bffb3k17nl8rhgo2d00b8mt', '::1', 1567615150, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373631343938313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('r8a693n2crlfhnpskjfkq384gul8g34m', '::1', 1567345332, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334353033303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b6f66667365747c693a303b5f5f63695f766172737c613a313a7b733a363a226f6666736574223b733a333a226f6c64223b7d),
-('rav43mmudoc6vh6umoecjkv6rqvigfhu', '::1', 1568645686, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634353638363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rbmbo4inrsjibqno6gdhd1mq177q08sm', '::1', 1569950362, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935303336323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rcpuc9aaihdmrknfkqikoesrlmggh2n1', '::1', 1568722192, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383732323139323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('rcvcp3v97inahdahi8nrvcts7mgpn65g', '::1', 1567700019, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373639393731333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('rfh20secovl9v5nt7a32jk6p9ktn49ad', '::1', 1567941268, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373933373630313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('rkcceq73n3uuculvchfc3fmtur1frev2', '::1', 1568897372, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383839373337323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('rlr3bpo7kk68djmllc3mt2g7lj8gcscn', '::1', 1569964759, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936343735393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rr8qpit2dte72kcrsvkc7scl5p1jgbu7', '::1', 1569966503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363530333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('rt71epqbvp29bh2b33v2u2htnn92nlbn', '::1', 1567674102, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373637343039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('rvrda7k6p6umr88gp980d5uibvfaah0o', '::1', 1568733548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383733333534383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('s20bp9ud3l16kqh9273ttlqsn251si3g', '::1', 1568139073, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393032323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('s875j4h3ll5lllrrqm15ulcls1sh7113', '::1', 1568139598, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383133393537393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('sb7j6gajjbe6e07hj36ir578vvcdk1di', '::1', 1567084503, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373038323736313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('sjivbkic84vvve3af5k996ed5l17e38f', '::1', 1569957385, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935373338353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('skdc58sf9vr5o2pn3vpso1t17j60c8lo', '::1', 1569953919, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393935333931393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('sni5f97rlgaidbc9gt9ns2sa2kmc2mv5', '::1', 1567526219, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373532353932373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('so9e102isgm6ie85u2j5pif7d44thmo1', '::1', 1568229883, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383232393733383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('sqgv334uqt45va6i445bk42847l7er7o', '::1', 1568909684, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383930393638343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('su1v0hvrpiacp45ge3q62v6sg9hhq5gh', '::1', 1568311836, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383331313833363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('t1bt63see95gdgs2f2le3gj0r7oslen2', '::1', 1569790819, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739303831393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('t4gvnmqq409dpp5oeakedct5ftmpc7ci', '::1', 1569616457, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393631363435373b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('t9qcljr8gva9bs0v9t6d4slru34c32qp', '::1', 1569527346, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393532373334363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('tlj4j3id701snbehh4n458el152ktshm', '::1', 1568575327, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537353330353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('tnl78slum8v8l2e4oh311ndsbc4le6r4', '::1', 1568647912, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383634373931323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('to0e8i8un55g36155b2vk5v3gl0l73sp', '::1', 1567104191, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373130313936393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('tomfk1lf68tmue1ml3065ampld429hmj', '::1', 1568668018, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383636383031383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('tr3pg1unp5n975ub233b9300o6t88da9', '::1', 1567941325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373934313237303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ts5f1qqonr89g3seh2ov3mt5i1e98d5g', '::1', 1568718618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383731383631383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ttvh52robgon9pr69ufslg375sobhvp3', '::1', 1568575305, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383537353330353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('u1k83s9er220i10v3rqq427ufagkmu37', '::1', 1568653200, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383635333230303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('u9p9td04a74dvfukcb5l4jor2sov07ku', '::1', 1569964333, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936343333333b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('ulrsgc9dhllq6j6i7e7uchcdtqrktheq', '::1', 1569858099, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393835383039393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('uppicq57eid1ipduj1s55i0eg40s80n7', '::1', 1569966195, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393936363139353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('utaili7u5rvr0b6kfd61v7bmido2mokg', '::1', 1568911625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383931313632353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('v5tgj3pnj37qdav6b46tsqlfvdet9ne4', '::1', 1567348325, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373334383232323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('v65191q7gehccbpo312arau1lhha9l7k', '::1', 1569795886, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393739353838363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('v6oj2scvs9t1avo3mv40lhfuv1ic1goj', '::1', 1569686634, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536393638363633343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('vebe6mb1vfenahd81lrsjqs3nstn7jvl', '::1', 1567339404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373333393236363b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('vif1gn6ef9q9ep8mhp05i5hhto57lm1p', '::1', 1568197989, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536383139373938393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b7265645f75726c7c733a32373a22687474703a2f2f6c6f63616c686f73742f6c6567616c736572762f223b),
-('vq0l44prur779jhqh4t03jfh356n52o3', '::1', 1567073843, 0x5f5f63695f6c6173745f726567656e65726174657c693a313536373037333534323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
+('04a6blepohmv9gk3mkrej7upnm0hdoc5', '::1', 1571608979, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313630383937343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('2ci7lmcgb45bg253d72e6vmfebgibe2o', '::1', 1571504128, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530343132383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('536agakin4oa8qstv0s6iong3aliv76p', '::1', 1572098922, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537323039383932323b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('9m2j3jni5ip0t0mpu8ibpcdg2j9md3tr', '::1', 1571505011, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530353031313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('bom1la8foro19qahrtc642nsqtue8mas', '::1', 1571504534, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530343533343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('dd0rmt0ie2jclj7mblr1dsf0e0a9nvlm', '::1', 1571510025, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313531303032353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('deulepvep1lk1csl3ogjlhu523ddb8rd', '::1', 1571933128, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313933333132323b),
+('ek0sv42p6o91uusql2jueu296477snka', '::1', 1571510490, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313531303439303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('i0hefduaae5sca8uo589nn69lrdfvvvm', '::1', 1571508158, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530383135383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('i7min48naosq62r6ocnl87pavg4nbc2u', '::1', 1571507189, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530373138393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('id0eca3ald941ojq4qufic6ktea7h8oe', '::1', 1571506331, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530363333313b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('m798kl19p3chlr87kgpbtddbl7i6d4b2', '::1', 1571607344, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313630373334343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('mbt5hcujb5t0c2dp71hitufetvp6jjes', '::1', 1571606888, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313630363838383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('mg3n9fsr27dgcdhl9ndaiuc9kalobjfq', '::1', 1571510518, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313531303439303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('n1rms81r5vj2t372ff0sng4pcl8mscoo', '::1', 1571505370, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530353337303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('njih4rcdbis21m8b8cbjo0agjkv4c7vc', '::1', 1572109213, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537323130393230393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('qrk0c1uf3jr020n1kmj8hum4pp753old', '::1', 1571594090, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313539343039303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('t8msc03puhqva681u5na38ss149qf4j2', '::1', 1571508959, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530383935393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('tgnro1m72re7of9jm29g4vgocung8g2e', '::1', 1571608974, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313630383937343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('tkj0u6j5vrlr5qapf9djhv9bmdbt2act', '::1', 1572109209, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537323130393230393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
+('ucc9r2dkv0vgjo0pkqq1dqfhgfksnrev', '::1', 1571507638, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530373633383b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
+('vb7afb4oeff8m5qgbe1fhumk60fpl5ao', '::1', 1571505899, 0x5f5f63695f6c6173745f726567656e65726174657c693a313537313530353839393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblshared_customer_files`
+-- Table structure for table `tblshared_customer_files`
 --
 
 CREATE TABLE `tblshared_customer_files` (
@@ -4867,7 +4427,7 @@ CREATE TABLE `tblshared_customer_files` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblspam_filters`
+-- Table structure for table `tblspam_filters`
 --
 
 CREATE TABLE `tblspam_filters` (
@@ -4880,7 +4440,7 @@ CREATE TABLE `tblspam_filters` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblstaff`
+-- Table structure for table `tblstaff`
 --
 
 CREATE TABLE `tblstaff` (
@@ -4916,17 +4476,17 @@ CREATE TABLE `tblstaff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tblstaff`
+-- Dumping data for table `tblstaff`
 --
 
 INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`) VALUES
-(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-10-01 19:55:53', '2019-10-02 00:58:59', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
+(1, 'mhdbashard@gmail.com', 'Mhdbashar', 'Das', '', NULL, '', '', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', NULL, '::1', '2019-10-26 16:02:43', '2019-10-26 19:00:13', NULL, NULL, NULL, 1, NULL, 1, 'arabic', NULL, NULL, 0, '0.00', 0, NULL, NULL, NULL),
 (2, 'mohamad@gmail.com', 'mohamad', 'mohamad', '', '', '', '', '$2a$08$3U3Yq/bdVzixBFhr8sEWG.N64L8VEBgakihhEiQFdaXPJBbB47C06', '2019-07-20 15:54:20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 1, '', '', 'mohamad-mohamad', 0, '0.00', 0, NULL, NULL, '');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblstaff_departments`
+-- Table structure for table `tblstaff_departments`
 --
 
 CREATE TABLE `tblstaff_departments` (
@@ -4938,7 +4498,7 @@ CREATE TABLE `tblstaff_departments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblstaff_permissions`
+-- Table structure for table `tblstaff_permissions`
 --
 
 CREATE TABLE `tblstaff_permissions` (
@@ -4950,7 +4510,7 @@ CREATE TABLE `tblstaff_permissions` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblsubscriptions`
+-- Table structure for table `tblsubscriptions`
 --
 
 CREATE TABLE `tblsubscriptions` (
@@ -4960,8 +4520,10 @@ CREATE TABLE `tblsubscriptions` (
   `description_in_item` tinyint(1) NOT NULL DEFAULT 0,
   `clientid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
+  `terms` text DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `tax_id` int(11) NOT NULL DEFAULT 0,
+  `stripe_tax_id` varchar(50) DEFAULT NULL,
   `stripe_plan_id` text DEFAULT NULL,
   `stripe_subscription_id` text NOT NULL,
   `next_billing_cycle` bigint(20) DEFAULT NULL,
@@ -4974,13 +4536,14 @@ CREATE TABLE `tblsubscriptions` (
   `hash` varchar(32) NOT NULL,
   `created` datetime NOT NULL,
   `created_from` int(11) NOT NULL,
-  `date_subscribed` datetime DEFAULT NULL
+  `date_subscribed` datetime DEFAULT NULL,
+  `in_test_environment` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltaggables`
+-- Table structure for table `tbltaggables`
 --
 
 CREATE TABLE `tbltaggables` (
@@ -4993,7 +4556,7 @@ CREATE TABLE `tbltaggables` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltags`
+-- Table structure for table `tbltags`
 --
 
 CREATE TABLE `tbltags` (
@@ -5004,7 +4567,7 @@ CREATE TABLE `tbltags` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltasks`
+-- Table structure for table `tbltasks`
 --
 
 CREATE TABLE `tbltasks` (
@@ -5044,19 +4607,17 @@ CREATE TABLE `tbltasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbltasks`
+-- Dumping data for table `tbltasks`
 --
 
 INSERT INTO `tbltasks` (`id`, `name`, `description`, `priority`, `dateadded`, `startdate`, `duedate`, `datefinished`, `addedfrom`, `is_added_from_contact`, `status`, `recurring_type`, `repeat_every`, `recurring`, `is_recurring_from`, `cycles`, `total_cycles`, `custom_recurring`, `last_recurring_date`, `rel_id`, `rel_type`, `is_public`, `billable`, `billed`, `invoice_id`, `hourly_rate`, `milestone`, `kanban_order`, `milestone_order`, `visible_to_client`, `deadline_notified`, `is_session`, `deleted`) VALUES
-(7, 'جلسة تجريبية', NULL, 2, '2019-09-18 15:33:12', '2019-09-17', '2019-09-20', NULL, 1, 0, 4, 'week', 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '100.00', 0, 0, 0, 0, 0, 1, 0),
-(8, 'test', NULL, 2, '2019-09-18 17:57:45', '2019-09-28', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
-(9, 'جلسة تجريبية 2', NULL, 2, '2019-09-18 17:59:14', '2019-09-17', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
-(11, 'qwqw', NULL, 2, '2019-09-18 18:32:30', '2019-09-18', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 2, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0);
+(1, '1', NULL, 2, '2019-10-19 20:12:57', '2019-10-19', NULL, NULL, 1, 0, 1, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0),
+(2, 'تحديث', NULL, 2, '2019-10-26 16:08:41', '1441-02-27', NULL, NULL, 1, 0, 4, NULL, 0, 0, NULL, 0, 0, 0, NULL, 1, 'kd-y', 0, 1, 0, 0, '0.00', 0, 0, 0, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltaskstimers`
+-- Table structure for table `tbltaskstimers`
 --
 
 CREATE TABLE `tbltaskstimers` (
@@ -5072,7 +4633,7 @@ CREATE TABLE `tbltaskstimers` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltasks_checklist_templates`
+-- Table structure for table `tbltasks_checklist_templates`
 --
 
 CREATE TABLE `tbltasks_checklist_templates` (
@@ -5083,7 +4644,7 @@ CREATE TABLE `tbltasks_checklist_templates` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltask_assigned`
+-- Table structure for table `tbltask_assigned`
 --
 
 CREATE TABLE `tbltask_assigned` (
@@ -5095,7 +4656,7 @@ CREATE TABLE `tbltask_assigned` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbltask_assigned`
+-- Dumping data for table `tbltask_assigned`
 --
 
 INSERT INTO `tbltask_assigned` (`id`, `staffid`, `taskid`, `assigned_from`, `is_assigned_from_contact`) VALUES
@@ -5103,12 +4664,19 @@ INSERT INTO `tbltask_assigned` (`id`, `staffid`, `taskid`, `assigned_from`, `is_
 (7, 1, 7, 1, 0),
 (8, 1, 8, 1, 0),
 (9, 1, 9, 1, 0),
-(11, 1, 11, 1, 0);
+(11, 1, 11, 1, 0),
+(12, 1, 12, 1, 0),
+(13, 1, 13, 1, 0),
+(14, 1, 14, 1, 0),
+(15, 1, 15, 1, 0),
+(16, 1, 16, 1, 0),
+(17, 1, 1, 1, 0),
+(18, 1, 2, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltask_checklist_items`
+-- Table structure for table `tbltask_checklist_items`
 --
 
 CREATE TABLE `tbltask_checklist_items` (
@@ -5125,7 +4693,7 @@ CREATE TABLE `tbltask_checklist_items` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltask_comments`
+-- Table structure for table `tbltask_comments`
 --
 
 CREATE TABLE `tbltask_comments` (
@@ -5141,7 +4709,7 @@ CREATE TABLE `tbltask_comments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltask_followers`
+-- Table structure for table `tbltask_followers`
 --
 
 CREATE TABLE `tbltask_followers` (
@@ -5153,7 +4721,7 @@ CREATE TABLE `tbltask_followers` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltaxes`
+-- Table structure for table `tbltaxes`
 --
 
 CREATE TABLE `tbltaxes` (
@@ -5165,7 +4733,7 @@ CREATE TABLE `tbltaxes` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltickets`
+-- Table structure for table `tbltickets`
 --
 
 CREATE TABLE `tbltickets` (
@@ -5197,7 +4765,7 @@ CREATE TABLE `tbltickets` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltickets_pipe_log`
+-- Table structure for table `tbltickets_pipe_log`
 --
 
 CREATE TABLE `tbltickets_pipe_log` (
@@ -5214,7 +4782,7 @@ CREATE TABLE `tbltickets_pipe_log` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltickets_predefined_replies`
+-- Table structure for table `tbltickets_predefined_replies`
 --
 
 CREATE TABLE `tbltickets_predefined_replies` (
@@ -5226,7 +4794,7 @@ CREATE TABLE `tbltickets_predefined_replies` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltickets_priorities`
+-- Table structure for table `tbltickets_priorities`
 --
 
 CREATE TABLE `tbltickets_priorities` (
@@ -5235,7 +4803,7 @@ CREATE TABLE `tbltickets_priorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbltickets_priorities`
+-- Dumping data for table `tbltickets_priorities`
 --
 
 INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
@@ -5246,7 +4814,7 @@ INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltickets_status`
+-- Table structure for table `tbltickets_status`
 --
 
 CREATE TABLE `tbltickets_status` (
@@ -5258,7 +4826,7 @@ CREATE TABLE `tbltickets_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- إرجاع أو استيراد بيانات الجدول `tbltickets_status`
+-- Dumping data for table `tbltickets_status`
 --
 
 INSERT INTO `tbltickets_status` (`ticketstatusid`, `name`, `isdefault`, `statuscolor`, `statusorder`) VALUES
@@ -5271,7 +4839,7 @@ INSERT INTO `tbltickets_status` (`ticketstatusid`, `name`, `isdefault`, `statusc
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblticket_attachments`
+-- Table structure for table `tblticket_attachments`
 --
 
 CREATE TABLE `tblticket_attachments` (
@@ -5286,7 +4854,7 @@ CREATE TABLE `tblticket_attachments` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblticket_replies`
+-- Table structure for table `tblticket_replies`
 --
 
 CREATE TABLE `tblticket_replies` (
@@ -5305,7 +4873,7 @@ CREATE TABLE `tblticket_replies` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltodos`
+-- Table structure for table `tbltodos`
 --
 
 CREATE TABLE `tbltodos` (
@@ -5321,7 +4889,7 @@ CREATE TABLE `tbltodos` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbltracked_mails`
+-- Table structure for table `tbltracked_mails`
 --
 
 CREATE TABLE `tbltracked_mails` (
@@ -5339,7 +4907,7 @@ CREATE TABLE `tbltracked_mails` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbluser_auto_login`
+-- Table structure for table `tbluser_auto_login`
 --
 
 CREATE TABLE `tbluser_auto_login` (
@@ -5354,7 +4922,7 @@ CREATE TABLE `tbluser_auto_login` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tbluser_meta`
+-- Table structure for table `tbluser_meta`
 --
 
 CREATE TABLE `tbluser_meta` (
@@ -5366,10 +4934,17 @@ CREATE TABLE `tbluser_meta` (
   `meta_value` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbluser_meta`
+--
+
+INSERT INTO `tbluser_meta` (`umeta_id`, `staff_id`, `client_id`, `contact_id`, `meta_key`, `meta_value`) VALUES
+(1, 0, 0, 1, 'consent_key', 'c61919adc6eb16a433b0207e2851d6a9-2385069757c2976482648ad05f61c98c');
+
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblvault`
+-- Table structure for table `tblvault`
 --
 
 CREATE TABLE `tblvault` (
@@ -5392,7 +4967,7 @@ CREATE TABLE `tblvault` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblviews_tracking`
+-- Table structure for table `tblviews_tracking`
 --
 
 CREATE TABLE `tblviews_tracking` (
@@ -5406,7 +4981,7 @@ CREATE TABLE `tblviews_tracking` (
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `tblweb_to_lead`
+-- Table structure for table `tblweb_to_lead`
 --
 
 CREATE TABLE `tblweb_to_lead` (
@@ -5541,8 +5116,6 @@ ALTER TABLE `tblconsent_purposes`
 ALTER TABLE `tblcontacts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
-  ADD KEY `firstname` (`firstname`),
-  ADD KEY `lastname` (`lastname`),
   ADD KEY `email` (`email`),
   ADD KEY `is_primary` (`is_primary`);
 
@@ -5945,6 +5518,18 @@ ALTER TABLE `tblmy_courts`
   ADD PRIMARY KEY (`c_id`);
 
 --
+-- Indexes for table `tblmy_customers_company_groups`
+--
+ALTER TABLE `tblmy_customers_company_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblmy_customer_company_groups`
+--
+ALTER TABLE `tblmy_customer_company_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tblmy_customer_representative`
 --
 ALTER TABLE `tblmy_customer_representative`
@@ -6000,6 +5585,12 @@ ALTER TABLE `tblmy_newstaff`
 -- Indexes for table `tblmy_other_services`
 --
 ALTER TABLE `tblmy_other_services`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblmy_phase_data`
+--
+ALTER TABLE `tblmy_phase_data`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -6062,6 +5653,12 @@ ALTER TABLE `tblmy_salary`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblmy_service_phases`
+--
+ALTER TABLE `tblmy_service_phases`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tblmy_service_session`
 --
 ALTER TABLE `tblmy_service_session`
@@ -6083,7 +5680,7 @@ ALTER TABLE `tblmy_sessiondiscussions`
 -- Indexes for table `tblmy_session_info`
 --
 ALTER TABLE `tblmy_session_info`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`s_id`),
   ADD KEY `task_id` (`task_id`);
 
 --
@@ -6536,7 +6133,7 @@ ALTER TABLE `tblweb_to_lead`
 -- AUTO_INCREMENT for table `tblactivity_log`
 --
 ALTER TABLE `tblactivity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=350;
 
 --
 -- AUTO_INCREMENT for table `tblannouncements`
@@ -6554,7 +6151,7 @@ ALTER TABLE `tblbranches`
 -- AUTO_INCREMENT for table `tblbranches_services`
 --
 ALTER TABLE `tblbranches_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcasediscussioncomments`
@@ -6566,25 +6163,25 @@ ALTER TABLE `tblcasediscussioncomments`
 -- AUTO_INCREMENT for table `tblcasediscussions`
 --
 ALTER TABLE `tblcasediscussions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcase_activity`
 --
 ALTER TABLE `tblcase_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblcase_files`
 --
 ALTER TABLE `tblcase_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcase_movement`
 --
 ALTER TABLE `tblcase_movement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcase_notes`
@@ -6596,7 +6193,7 @@ ALTER TABLE `tblcase_notes`
 -- AUTO_INCREMENT for table `tblcase_settings`
 --
 ALTER TABLE `tblcase_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tblcities`
@@ -6608,7 +6205,7 @@ ALTER TABLE `tblcities`
 -- AUTO_INCREMENT for table `tblclients`
 --
 ALTER TABLE `tblclients`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblconsents`
@@ -6626,13 +6223,13 @@ ALTER TABLE `tblconsent_purposes`
 -- AUTO_INCREMENT for table `tblcontacts`
 --
 ALTER TABLE `tblcontacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcontact_permissions`
 --
 ALTER TABLE `tblcontact_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblcontracts`
@@ -6668,7 +6265,7 @@ ALTER TABLE `tblcountries`
 -- AUTO_INCREMENT for table `tblcreditnotes`
 --
 ALTER TABLE `tblcreditnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcreditnote_refunds`
@@ -6692,19 +6289,19 @@ ALTER TABLE `tblcurrencies`
 -- AUTO_INCREMENT for table `tblcustomers_groups`
 --
 ALTER TABLE `tblcustomers_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblcustomer_groups`
 --
 ALTER TABLE `tblcustomer_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tblcustomfields`
 --
 ALTER TABLE `tblcustomfields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblcustomfieldsvalues`
@@ -6728,13 +6325,13 @@ ALTER TABLE `tbldismissed_announcements`
 -- AUTO_INCREMENT for table `tblemailtemplates`
 --
 ALTER TABLE `tblemailtemplates`
-  MODIFY `emailtemplateid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `emailtemplateid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `tblestimates`
 --
 ALTER TABLE `tblestimates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblevents`
@@ -6746,7 +6343,7 @@ ALTER TABLE `tblevents`
 -- AUTO_INCREMENT for table `tblexpenses`
 --
 ALTER TABLE `tblexpenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblexpenses_categories`
@@ -6794,13 +6391,13 @@ ALTER TABLE `tblgdpr_requests`
 -- AUTO_INCREMENT for table `tblinvoicepaymentrecords`
 --
 ALTER TABLE `tblinvoicepaymentrecords`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblinvoices`
 --
 ALTER TABLE `tblinvoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblitemable`
@@ -6812,7 +6409,7 @@ ALTER TABLE `tblitemable`
 -- AUTO_INCREMENT for table `tblitems`
 --
 ALTER TABLE `tblitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblitems_groups`
@@ -6890,7 +6487,7 @@ ALTER TABLE `tblmail_queue`
 -- AUTO_INCREMENT for table `tblmilestones`
 --
 ALTER TABLE `tblmilestones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmodules`
@@ -6920,7 +6517,7 @@ ALTER TABLE `tblmy_basic_services`
 -- AUTO_INCREMENT for table `tblmy_cases`
 --
 ALTER TABLE `tblmy_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmy_casestatus`
@@ -6932,13 +6529,13 @@ ALTER TABLE `tblmy_casestatus`
 -- AUTO_INCREMENT for table `tblmy_cases_judges`
 --
 ALTER TABLE `tblmy_cases_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblmy_cases_movement_judges`
 --
 ALTER TABLE `tblmy_cases_movement_judges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblmy_categories`
@@ -6951,6 +6548,18 @@ ALTER TABLE `tblmy_categories`
 --
 ALTER TABLE `tblmy_courts`
   MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tblmy_customers_company_groups`
+--
+ALTER TABLE `tblmy_customers_company_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tblmy_customer_company_groups`
+--
+ALTER TABLE `tblmy_customer_company_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_customer_representative`
@@ -6986,13 +6595,13 @@ ALTER TABLE `tblmy_judicialdept`
 -- AUTO_INCREMENT for table `tblmy_members_cases`
 --
 ALTER TABLE `tblmy_members_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblmy_members_services`
 --
 ALTER TABLE `tblmy_members_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_newstaff`
@@ -7004,7 +6613,13 @@ ALTER TABLE `tblmy_newstaff`
 -- AUTO_INCREMENT for table `tblmy_other_services`
 --
 ALTER TABLE `tblmy_other_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_phase_data`
+--
+ALTER TABLE `tblmy_phase_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_procurationstate`
@@ -7022,19 +6637,19 @@ ALTER TABLE `tblmy_procurationtype`
 -- AUTO_INCREMENT for table `tblmy_projects_contacts`
 --
 ALTER TABLE `tblmy_projects_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_projects_meta`
 --
 ALTER TABLE `tblmy_projects_meta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_projects_statuses`
 --
 ALTER TABLE `tblmy_projects_statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_project_invoicepaymentrecords`
@@ -7055,10 +6670,16 @@ ALTER TABLE `tblmy_salary`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblmy_service_phases`
+--
+ALTER TABLE `tblmy_service_phases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `tblmy_service_session`
 --
 ALTER TABLE `tblmy_service_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_sessiondiscussioncomments`
@@ -7076,7 +6697,7 @@ ALTER TABLE `tblmy_sessiondiscussions`
 -- AUTO_INCREMENT for table `tblmy_session_info`
 --
 ALTER TABLE `tblmy_session_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblmy_training`
@@ -7094,7 +6715,7 @@ ALTER TABLE `tblmy_training_attachments`
 -- AUTO_INCREMENT for table `tblmy_transactions`
 --
 ALTER TABLE `tblmy_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tblmy_vac`
@@ -7142,7 +6763,7 @@ ALTER TABLE `tblnotifications`
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=431;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=442;
 
 --
 -- AUTO_INCREMENT for table `tbloservicediscussioncomments`
@@ -7160,7 +6781,7 @@ ALTER TABLE `tbloservicediscussions`
 -- AUTO_INCREMENT for table `tbloservice_activity`
 --
 ALTER TABLE `tbloservice_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbloservice_files`
@@ -7178,7 +6799,7 @@ ALTER TABLE `tbloservice_notes`
 -- AUTO_INCREMENT for table `tbloservice_settings`
 --
 ALTER TABLE `tbloservice_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblpayment_modes`
@@ -7208,13 +6829,13 @@ ALTER TABLE `tblpinned_projects`
 -- AUTO_INCREMENT for table `tblprocurations`
 --
 ALTER TABLE `tblprocurations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblprocuration_cases`
 --
 ALTER TABLE `tblprocuration_cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblprojectdiscussioncomments`
@@ -7232,25 +6853,25 @@ ALTER TABLE `tblprojectdiscussions`
 -- AUTO_INCREMENT for table `tblprojects`
 --
 ALTER TABLE `tblprojects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproject_activity`
 --
 ALTER TABLE `tblproject_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproject_files`
 --
 ALTER TABLE `tblproject_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproject_members`
 --
 ALTER TABLE `tblproject_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproject_notes`
@@ -7262,13 +6883,13 @@ ALTER TABLE `tblproject_notes`
 -- AUTO_INCREMENT for table `tblproject_settings`
 --
 ALTER TABLE `tblproject_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproposals`
 --
 ALTER TABLE `tblproposals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblproposal_comments`
@@ -7340,7 +6961,7 @@ ALTER TABLE `tbltags`
 -- AUTO_INCREMENT for table `tbltasks`
 --
 ALTER TABLE `tbltasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbltaskstimers`
@@ -7358,7 +6979,7 @@ ALTER TABLE `tbltasks_checklist_templates`
 -- AUTO_INCREMENT for table `tbltask_assigned`
 --
 ALTER TABLE `tbltask_assigned`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbltask_checklist_items`
@@ -7388,7 +7009,7 @@ ALTER TABLE `tbltaxes`
 -- AUTO_INCREMENT for table `tbltickets`
 --
 ALTER TABLE `tbltickets`
-  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbltickets_pipe_log`
@@ -7442,7 +7063,7 @@ ALTER TABLE `tbltracked_mails`
 -- AUTO_INCREMENT for table `tbluser_meta`
 --
 ALTER TABLE `tbluser_meta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblvault`
@@ -7463,17 +7084,17 @@ ALTER TABLE `tblweb_to_lead`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- قيود الجداول المحفوظة
+-- Constraints for dumped tables
 --
 
 --
--- القيود للجدول `tblmy_categories`
+-- Constraints for table `tblmy_categories`
 --
 ALTER TABLE `tblmy_categories`
   ADD CONSTRAINT `CateServKey` FOREIGN KEY (`service_id`) REFERENCES `tblmy_basic_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- القيود للجدول `tblmy_judicialdept`
+-- Constraints for table `tblmy_judicialdept`
 --
 ALTER TABLE `tblmy_judicialdept`
   ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `tblmy_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;

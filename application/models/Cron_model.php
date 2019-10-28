@@ -841,7 +841,12 @@ class Cron_model extends App_Model
                                 array_push($notifiedUsers, $member['assigneeid']);
                             }
 
-                            send_mail_template('task_deadline_reminder_to_staff', $row->email, $member['assigneeid'], $task['id']);
+                            if(check_session_by_id($task['id'])){
+                                send_mail_template('session_deadline_reminder_to_staff', $row->email, $member['assigneeid'], $task['id']);
+                            }else{
+                                send_mail_template('task_deadline_reminder_to_staff', $row->email, $member['assigneeid'], $task['id']);
+                            }
+
 
                             $this->db->where('id', $task['id']);
                             $this->db->update(db_prefix() . 'tasks', [
@@ -1741,8 +1746,8 @@ class Cron_model extends App_Model
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_members_cases');
 
-                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => 1));
-                        $this->db->delete(db_prefix() . 'my_service_session');
+                        //$this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => 1));
+                        //$this->db->delete(db_prefix() . 'my_service_session');
 
                         $this->db->where('case_id', $row->id);
                         $this->db->delete(db_prefix() . 'case_movement');
@@ -1839,8 +1844,8 @@ class Cron_model extends App_Model
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_members_services');
 
-                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => $row->service_id));
-                        $this->db->delete(db_prefix() . 'my_service_session');
+                        //$this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => $row->service_id));
+                        //$this->db->delete(db_prefix() . 'my_service_session');
 
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'oservice_notes');

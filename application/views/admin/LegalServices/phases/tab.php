@@ -1,3 +1,8 @@
+<div class="text-center">
+    <div class="alert alert-warning">
+        <i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo _l('file_phase'); ?>
+    </div>
+</div>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default">
     <?php echo form_open(admin_url('LegalServices/Phases_controller/handle_phases/'.$ServID.'/'.$project->id),array('id'=> 'form_phases')); ?>
@@ -69,13 +74,13 @@ foreach ($phases as $phase):
                     <?php /*<button type="button" class="btn btn-danger"><?php echo _l('waiver'); ?> <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button> */ ?>
                     <?php } ?>
                 </div>
-                <?php if(!$compleate && $custom_fields){ ?>
+                <?php /*if(!$compleate && $custom_fields){
                 <div class="col-md-6 text-center">
                     <div class="alert alert-warning">
                         <i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo _l('file_phase'); ?>
                     </div>
                 </div>
-                <?php } ?>
+                } */ ?>
             </div>
         </div>
     </div>

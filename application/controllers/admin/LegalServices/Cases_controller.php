@@ -391,7 +391,7 @@ class Cases_controller extends AdminController
             } elseif ($group == 'CaseSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-                $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
+               // $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
                 $data['judges']      = $this->service_sessions->get_judges();
                 $data['courts']      = $this->service_sessions->get_court();
             } elseif ($group == 'Phase'){

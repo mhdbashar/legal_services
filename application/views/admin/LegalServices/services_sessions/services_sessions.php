@@ -144,7 +144,6 @@
             $('#_task').html(response);
             $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
         }).fail(function(error) {
-            console.log(error);
             alert_float('danger', error.responseText);
         })
     }
@@ -308,7 +307,6 @@
         $.ajax({
             url: '<?php echo admin_url("LegalServices/ServicesSessions/send_report_to_customer/"); ?>' + task_id,
             success: function (data) {
-                console.log(data);
                 if(data == 1){
                     alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
                     reload_tasks_tables();

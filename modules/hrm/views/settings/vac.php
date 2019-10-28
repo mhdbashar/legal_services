@@ -106,7 +106,6 @@
             success: function(data)
             {
 
-                console.log(data);
                 $('[name="id"]').val(data.id);
                 $('[name="description"]').val(data.description);
                 $('[name="start_date"]').val(data.start_date);

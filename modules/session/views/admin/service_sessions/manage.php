@@ -64,8 +64,6 @@ for($i = 0; $i < $num_session; $i++){ ?>
             dataType: "JSON",
             success: function(data)
             {
-
-                console.log(data);
                 $("#selection").children('option[class=' + data.court_id + ']').attr("selected", "selected");
                 $('[name="subject"]').val(data.subject);
                 $('[name="date"]').val(data.date);
@@ -85,30 +83,30 @@ for($i = 0; $i < $num_session; $i++){ ?>
         });
     }
 
-    /*
-    function delete_session_json(id) {
-      
 
-            // ajax delete data to database
-            if(confirm('Delete Session?'))
-            {
-                $.ajax({
-                    url : "<?php echo site_url('session/old_service_sessions/delete_session_json') ?>/"+id,
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function(data)
-                    {
-                        location.reload();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Error delte transin');
-                    }
-                });
-            }
-
-    }
-    */
+//    function delete_session_json(id) {
+//
+//
+//            // ajax delete data to database
+//            if(confirm('Delete Session?'))
+//            {
+//                $.ajax({
+//                    url : "<?php ////echo site_url('session/old_service_sessions/delete_session_json') ?>///"+id,
+//                    type: "POST",
+//                    dataType: "JSON",
+//                    success: function(data)
+//                    {
+//                        location.reload();
+//                    },
+//                    error: function (jqXHR, textStatus, errorThrown)
+//                    {
+//                        alert('Error delte transin');
+//                    }
+//                });
+//            }
+//
+//    }
+//
 
 
 </script>

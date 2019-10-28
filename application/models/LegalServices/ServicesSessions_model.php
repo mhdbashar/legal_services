@@ -10,12 +10,12 @@ class ServicesSessions_model extends App_Model
         $this->load->model('LegalServices/LegalServicesModel' , 'legal');
     }
 
-    public function count_sessions($service_id, $rel_id){
-        $this->db->select('id');
-        $this->db->from(db_prefix() . 'my_service_session');
-        $this->db->where(['service_id' => $service_id, 'rel_id' => $rel_id]);
-        return $this->db->count_all_results();
-    }
+//    public function count_sessions($service_id, $rel_id){
+//        $this->db->select('id');
+//        $this->db->from(db_prefix() . 'my_service_session');
+//        $this->db->where(['service_id' => $service_id, 'rel_id' => $rel_id]);
+//        return $this->db->count_all_results();
+//    }
 
     public function get_court($id = '')
     {
@@ -39,6 +39,7 @@ class ServicesSessions_model extends App_Model
 
     public function update_customer_report($id, $data)
     {
+        $data['next_session_date'] = to_sql_date($data['next_session_date']);
         $this->db->where(array('task_id' => $id));
         $this->db->set(array('customer_report' => 1));
         $this->db->update(db_prefix() .'my_session_info', $data);

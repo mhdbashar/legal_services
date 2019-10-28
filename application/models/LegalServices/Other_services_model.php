@@ -567,8 +567,8 @@ class Other_services_model extends App_Model
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'my_members_services');
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
-            $this->db->delete(db_prefix() . 'my_service_session');
+            //$this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            //$this->db->delete(db_prefix() . 'my_service_session');
 
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'oservice_notes');

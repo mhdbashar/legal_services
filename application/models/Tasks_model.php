@@ -1140,8 +1140,17 @@ class Tasks_model extends App_Model
                 $this->projects_model->log_activity($task->rel_id, 'project_activity_new_task_comment', $task->name, $task->visible_to_client);
             }
 
-            $this->_send_task_responsible_users_notification($description, $data['taskid'], false, 'task_new_comment_to_staff', $additional_data, $insert_id);
-            $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+            if(check_session_by_id($data['taskid'])){
+                $this->_send_task_responsible_users_notification($description, $data['taskid'], false, 'session_new_comment_to_staff', $additional_data, $insert_id);
+            }else{
+                $this->_send_task_responsible_users_notification($description, $data['taskid'], false, 'task_new_comment_to_staff', $additional_data, $insert_id);
+            }
+
+            if(check_session_by_id($data['taskid'])){
+                $this->_send_customer_contacts_notification($data['taskid'], 'session_new_comment_to_customer');
+            }else{
+                $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+            }
 
             hooks()->do_action('task_comment_added', ['task_id' => $data['taskid'], 'comment_id' => $insert_id]);
 
@@ -1181,7 +1190,11 @@ class Tasks_model extends App_Model
 
                 $member = $this->staff_model->get($data['follower']);
 
-                send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+                if(check_session_by_id($data['taskid'])){
+                    send_mail_template('session_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+                }else{
+                    send_mail_template('task_added_as_follower_to_staff', $member->email, $data['follower'], $data['taskid']);
+                }
             }
 
             $description = 'not_task_added_someone_as_follower';
@@ -1259,7 +1272,12 @@ class Tasks_model extends App_Model
 
                 $member = $this->staff_model->get($data['assignee']);
 
-                send_mail_template('task_assigned_to_staff', $member->email, $data['assignee'], $data['taskid']);
+                if(check_session_by_id($data['taskid'])){
+                    send_mail_template('session_assigned_to_staff', $member->email, $data['assignee'], $data['taskid']);
+                }else{
+                    send_mail_template('task_assigned_to_staff', $member->email, $data['assignee'], $data['taskid']);
+                }
+
             }
 
             $description                  = 'not_task_assigned_someone';
@@ -1405,8 +1423,18 @@ class Tasks_model extends App_Model
 
             if ($notification == true) {
                 $description = 'not_task_new_attachment';
-                $this->_send_task_responsible_users_notification($description, $rel_id, false, 'task_new_attachment_to_staff');
-                $this->_send_customer_contacts_notification($rel_id, 'task_new_attachment_to_customer');
+
+                if(check_session_by_id($rel_id)){
+                    $this->_send_task_responsible_users_notification($description, $rel_id, false, 'session_new_attachment_to_staff');
+                }else{
+                    $this->_send_task_responsible_users_notification($description, $rel_id, false, 'task_new_attachment_to_staff');
+                }
+
+                if(check_session_by_id($rel_id)){
+                    $this->_send_customer_contacts_notification($rel_id, 'session_new_attachment_to_customer');
+                }else{
+                    $this->_send_customer_contacts_notification($rel_id, 'task_new_attachment_to_customer');
+                }
             }
 
             $task_attachment_as_comment = hooks()->apply_filters('add_task_attachment_as_comment', 'true');
@@ -1686,9 +1714,19 @@ class Tasks_model extends App_Model
                 $this->projects_model->log_activity($task->rel_id, $project_activity_log, $project_activity_desc, $task->visible_to_client);
             }
 
-            $this->_send_task_responsible_users_notification($description, $task_id, false, 'task_status_changed_to_staff', serialize($not_data));
+            if(check_session_by_id($task_id)){
+                $this->_send_task_responsible_users_notification($description, $task_id, false, 'session_status_changed_to_staff', serialize($not_data));
+            }else{
+                $this->_send_task_responsible_users_notification($description, $task_id, false, 'task_status_changed_to_staff', serialize($not_data));
+            }
 
-            $this->_send_customer_contacts_notification($task_id, 'task_status_changed_to_customer');
+            if(check_session_by_id($task_id)){
+                $this->_send_customer_contacts_notification($task_id, 'session_status_changed_to_customer');
+            }else{
+                $this->_send_customer_contacts_notification($task_id, 'task_status_changed_to_customer');
+            }
+
+
             hooks()->do_action('task_status_changed', ['status' => $status, 'task_id' => $task_id]);
 
             return true;

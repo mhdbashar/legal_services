@@ -107,6 +107,8 @@ class Sessions_merge_fields extends App_merge_fields
         $this->ci->db->where('id', $task_id);
         $task = $this->ci->db->get(db_prefix().'tasks')->row();
 
+        $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
+
         if (!$task) {
             return $fields;
         }
@@ -114,7 +116,11 @@ class Sessions_merge_fields extends App_merge_fields
         // Client templateonly passed when sending to tasks related to project and sending email template to contacts
         // Passed from tasks_model  _send_task_responsible_users_notification function
         if ($client_template == false) {
-            $fields['{session_link}'] = admin_url('tasks/view/' . $task_id);
+            if($service_id == 1) {
+                $fields['{session_link}'] = admin_url('Case/view/' . $service_id. '/' .$task->rel_id .'?group=CaseSession&sessionid=' . $task_id);
+            }else{
+                $fields['{session_link}'] = admin_url('SOther/view/' . $service_id. '/' .$task->rel_id .'?group=OserviceSession&sessionid=' . $task_id);
+            }
         } else {
             $fields['{session_link}'] = site_url('clients/project/' . $task->rel_id . '?group=project_tasks&taskid=' . $task_id);
         }

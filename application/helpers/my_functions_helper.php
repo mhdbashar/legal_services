@@ -518,3 +518,15 @@ function add_hijri_option($date_formats)
     ];
     return array_merge($date_formats,$new_formats);
 }
+
+function check_session_by_id($id)
+{
+    $CI = &get_instance();
+    $CI->db->where('id' , $id);
+    $is_session = $CI->db->get(db_prefix() . 'tasks')->row()->is_session;
+    if($is_session == 1){
+        return true;
+    }else{
+        return false;
+    }
+}

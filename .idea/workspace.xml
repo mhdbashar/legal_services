@@ -2,19 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/js/moment-with-data.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/Complete DB/desktop.ini" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 14 10.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/waseem/bk/0310/legalserv.sql" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DB/waseem/table/tblmy_transactions .sql" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/DB/Complete DB/legalserv.sql" afterPath="$PROJECT_DIR$/DB/Complete DB/legalserv 26 10.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 15 10.sql" afterPath="$PROJECT_DIR$/DB/Complete DB/old/legalserv 15 10.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/waseem/bk/0310/table/tblmy_transactions.sql" afterPath="$PROJECT_DIR$/DB/waseem/bk/0310/table/tblmy_transactions.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/waseem/legalserv.sql" afterPath="$PROJECT_DIR$/DB/waseem/legalserv.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/Clients.php" afterPath="$PROJECT_DIR$/application/controllers/admin/Clients.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/custom.js" afterPath="$PROJECT_DIR$/assets/js/custom.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php" afterPath="$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php" afterPath="$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/Clients_model.php" afterPath="$PROJECT_DIR$/application/models/Clients_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/Cron_model.php" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/Tasks_model.php" afterPath="$PROJECT_DIR$/application/models/Tasks_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/clients/modals/my_contact.php" afterPath="$PROJECT_DIR$/application/views/admin/clients/modals/my_contact.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" afterPath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/hrm/views/settings/vac.php" afterPath="$PROJECT_DIR$/modules/hrm/views/settings/vac.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/session/views/admin/service_sessions/manage.php" afterPath="$PROJECT_DIR$/modules/session/views/admin/service_sessions/manage.php" />
     </list>
     <ignored path="$PROJECT_DIR$/application/vendor/2checkout/2checkout-php/" />
     <ignored path="$PROJECT_DIR$/application/vendor/bainternet/php-hooks/" />
@@ -80,7 +87,18 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="tab.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="82" column="21" lean-forward="false" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -88,6 +106,19 @@
       <find>update_send_to_customer</find>
       <find>تقرير</find>
       <find>done</find>
+      <find>session</find>
+      <find>count_sessions</find>
+      <find>session_user_take_action</find>
+      <find>$task-&gt;rel_</find>
+      <find>add_task_followers</find>
+      <find>ass</find>
+      <find>task_new_attachment_to_st</find>
+      <find>task_new_comm</find>
+      <find>legal</find>
+      <find>attas</find>
+      <find>task_stat</find>
+      <find>firstname</find>
+      <find>firstnamefull_name</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,11 +128,24 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
         <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php" />
         <option value="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" />
         <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" />
+        <option value="$PROJECT_DIR$/application/helpers/cases_helper.php" />
+        <option value="$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
+        <option value="$PROJECT_DIR$/modules/session/views/admin/service_sessions/manage.php" />
         <option value="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
+        <option value="$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php" />
+        <option value="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
+        <option value="$PROJECT_DIR$/application/models/Cron_model.php" />
+        <option value="$PROJECT_DIR$/application/models/Tasks_model.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/clients/modals/my_contact.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" />
+        <option value="$PROJECT_DIR$/application/controllers/admin/Clients.php" />
+        <option value="$PROJECT_DIR$/application/models/Clients_model.php" />
+        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" />
       </list>
     </option>
   </component>
@@ -223,11 +267,37 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LegalServices" />
+              <option name="myItemId" value="opponent" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legal_services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legal_services" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="services_sessions" />
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opponent" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modals" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -271,69 +341,19 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
+              <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="LegalServices" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="language" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="language" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="arabic" />
+              <option name="myItemId" value="phases" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -410,22 +430,23 @@
       <option name="presentableId" value="Default" />
       <updated>1572105291510</updated>
       <workItem from="1572105302169" duration="5576000" />
-      <workItem from="1572160232433" duration="4752000" />
+      <workItem from="1572160232433" duration="19798000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10328000" />
+    <option name="totallyTimeSpent" value="25374000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="544" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -495,37 +516,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="17" column="62" lean-forward="true" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
-          <folding>
-            <marker date="1571082157394" expanded="true" signature="39905:40135" ph="..." />
-            <marker date="1571082157394" expanded="true" signature="40056:40109" ph="..." />
-            <marker date="1571082157394" expanded="true" signature="81898:81922" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="152" column="38" lean-forward="true" selection-start-line="142" selection-start-column="31" selection-end-line="152" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4015">
-          <caret line="189" column="30" lean-forward="false" selection-start-line="189" selection-start-column="30" selection-end-line="189" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="711" column="5" lean-forward="true" selection-start-line="699" selection-start-column="4" selection-end-line="711" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -533,14 +528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="1928" column="25" lean-forward="false" selection-start-line="1928" selection-start-column="7" selection-end-line="1928" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/email_templates_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="106" column="9" lean-forward="false" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -734,10 +721,144 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-130">
+          <caret line="52" column="11" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/cases_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="26" column="45" lean-forward="false" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
+          <folding>
+            <marker date="1572184145767" expanded="true" signature="22748:22948" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="23003:23185" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="23240:23422" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="23477:23663" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="23718:23904" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="23959:24137" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="24192:24374" ph="..." />
+            <marker date="1572184145767" expanded="true" signature="24429:24615" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/file_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="29" column="25" lean-forward="false" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/email_templates_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="151" column="9" lean-forward="false" selection-start-line="151" selection-start-column="9" selection-end-line="151" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1938">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="129" column="62" lean-forward="true" selection-start-line="129" selection-start-column="62" selection-end-line="129" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/relation_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="96" column="16" lean-forward="true" selection-start-line="96" selection-start-column="16" selection-end-line="96" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="189" column="32" lean-forward="false" selection-start-line="189" selection-start-column="32" selection-end-line="189" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2652">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1569882511976" expanded="true" signature="6148:6187" ph="..." />
+            <marker date="1569882511976" expanded="true" signature="6297:6336" ph="..." />
+            <marker date="1569882511976" expanded="true" signature="6505:6544" ph="..." />
+            <marker date="1569882511976" expanded="true" signature="6659:6680" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/session/views/admin/service_sessions/manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="105" column="23" lean-forward="true" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/helpers/general_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="504" column="9" lean-forward="false" selection-start-line="504" selection-start-column="9" selection-end-line="504" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12705">
+          <caret line="17" column="62" lean-forward="false" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="3253">
           <caret line="310" column="34" lean-forward="false" selection-start-line="310" selection-start-column="34" selection-end-line="310" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/hooks/EloquentHook.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-734">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/hooks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="22" column="9" lean-forward="false" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="332" column="0" lean-forward="true" selection-start-line="332" selection-start-column="0" selection-end-line="332" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -750,37 +871,1016 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Task_added_as_follower_to_staff.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="40" lean-forward="false" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="109" column="29" lean-forward="false" selection-start-line="109" selection-start-column="29" selection-end-line="109" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Task_assigned_to_staff.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Cron_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="844" column="59" lean-forward="false" selection-start-line="844" selection-start-column="59" selection-end-line="844" selection-end-column="59" />
+          <folding>
+            <marker date="1572215186751" expanded="true" signature="75732:75847" ph="DELETE FROM " />
+            <marker date="1572215186751" expanded="true" signature="75878:75997" ph="DELETE FROM " />
+            <marker date="1572215186751" expanded="true" signature="76124:76245" ph="SELECT `staf... ${db_prefix()}" />
+            <marker date="1572215186751" expanded="true" signature="76566:76688" ph="SELECT `staf... ${db_prefix()}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="86" column="30" lean-forward="false" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="30" />
+        <state relative-caret-position="340">
+          <caret line="80" column="20" lean-forward="true" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Tasks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="1404" column="77" lean-forward="false" selection-start-line="1404" selection-start-column="51" selection-end-line="1404" selection-end-column="77" />
+          <folding>
+            <element signature="n#__construct#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#index#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#list_tasks#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#881#968#0#PHP" expanded="false" />
+            <element signature="e#1066#1245#0#PHP" expanded="false" />
+            <element signature="n#list_tasks_for_LegalServices#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#1683#1770#0#PHP" expanded="false" />
+            <element signature="e#1868#2047#0#PHP" expanded="false" />
+            <element signature="n#kanban_for_LegalServices#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#kanban#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#ajax_search_assign_task_to_timer#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#2575#3436#0#PHP" expanded="false" />
+            <element signature="n#tasks_kanban_load_more#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#3617#3775#0#PHP" expanded="false" />
+            <element signature="e#3900#4086#0#PHP" expanded="false" />
+            <element signature="e#3940#4075#0#PHP" expanded="false" />
+            <element signature="e#3987#4074#0#PHP" expanded="false" />
+            <element signature="n#update_order#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#switch_kanban#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#4281#4379#0#PHP" expanded="false" />
+            <element signature="e#4336#4379#0#PHP" expanded="false" />
+            <element signature="e#4389#4471#0#PHP" expanded="false" />
+            <element signature="e#4418#4470#1#PHP" expanded="false" />
+            <element signature="e#4481#4821#0#PHP" expanded="false" />
+            <element signature="e#4615#4811#0#PHP" expanded="false" />
+            <element signature="e#4739#4811#0#PHP" expanded="false" />
+            <element signature="n#get_billable_tasks_by_project#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#4938#5240#0#PHP" expanded="false" />
+            <element signature="n#get_billable_tasks_by_customer_id#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#5362#5582#0#PHP" expanded="false" />
+            <element signature="n#update_task_description#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#5653#5892#0#PHP" expanded="false" />
+            <element signature="e#5749#5881#0#PHP" expanded="false" />
+            <element signature="e#5790#5880#0#PHP" expanded="false" />
+            <element signature="n#detailed_overview#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#6123#6355#0#PHP" expanded="false" />
+            <element signature="e#6207#6310#0#PHP" expanded="false" />
+            <element signature="e#6311#6355#0#PHP" expanded="false" />
+            <element signature="e#6455#6554#0#PHP" expanded="false" />
+            <element signature="e#6804#10637#0#PHP" expanded="false" />
+            <element signature="e#6847#6922#0#PHP" expanded="false" />
+            <element signature="e#7331#7595#0#PHP" expanded="false" />
+            <element signature="e#7508#7595#0#PHP" expanded="false" />
+            <element signature="e#7785#8172#0#PHP" expanded="false" />
+            <element signature="e#8057#8172#0#PHP" expanded="false" />
+            <element signature="e#8521#8791#0#PHP" expanded="false" />
+            <element signature="e#9341#9508#0#PHP" expanded="false" />
+            <element signature="e#9522#10302#0#PHP" expanded="false" />
+            <element signature="e#9829#9954#0#PHP" expanded="false" />
+            <element signature="e#10059#10302#0#PHP" expanded="false" />
+            <element signature="e#10107#10288#0#PHP" expanded="false" />
+            <element signature="e#10316#10397#0#PHP" expanded="false" />
+            <element signature="e#10689#10774#0#PHP" expanded="false" />
+            <element signature="n#init_relation_tasks#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#11294#11498#0#PHP" expanded="false" />
+            <element signature="e#11345#11487#0#PHP" expanded="false" />
+            <element signature="e#11391#11486#0#PHP" expanded="false" />
+            <element signature="n#init_previous_sessions_log#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#11587#11797#0#PHP" expanded="false" />
+            <element signature="e#11638#11786#0#PHP" expanded="false" />
+            <element signature="e#11690#11785#0#PHP" expanded="false" />
+            <element signature="n#init_waiting_sessions_log#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#11885#12094#0#PHP" expanded="false" />
+            <element signature="e#11936#12083#0#PHP" expanded="false" />
+            <element signature="e#11987#12082#0#PHP" expanded="false" />
+            <element signature="n#task#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#12193#12322#0#PHP" expanded="false" />
+            <element signature="e#12418#12842#0#PHP" expanded="false" />
+            <element signature="e#12618#12832#0#PHP" expanded="false" />
+            <element signature="e#12688#12817#0#PHP" expanded="false" />
+            <element signature="e#12851#12966#0#PHP" expanded="false" />
+            <element signature="e#12975#15162#0#PHP" expanded="false" />
+            <element signature="e#13149#15135#0#PHP" expanded="false" />
+            <element signature="e#13182#13489#0#PHP" expanded="false" />
+            <element signature="e#13307#13445#0#PHP" expanded="false" />
+            <element signature="e#13319#13444#1#PHP" expanded="false" />
+            <element signature="e#13664#14200#0#PHP" expanded="false" />
+            <element signature="e#13928#14182#0#PHP" expanded="false" />
+            <element signature="e#14002#14160#0#PHP" expanded="false" />
+            <element signature="e#14222#14379#0#PHP" expanded="false" />
+            <element signature="e#14234#14378#1#PHP" expanded="false" />
+            <element signature="e#14395#15135#0#PHP" expanded="false" />
+            <element signature="e#14418#14723#0#PHP" expanded="false" />
+            <element signature="e#14541#14679#0#PHP" expanded="false" />
+            <element signature="e#14553#14678#1#PHP" expanded="false" />
+            <element signature="e#14838#14942#0#PHP" expanded="false" />
+            <element signature="e#14964#15120#0#PHP" expanded="false" />
+            <element signature="e#14976#15119#1#PHP" expanded="false" />
+            <element signature="e#15299#15711#0#PHP" expanded="false" />
+            <element signature="e#15384#15711#0#PHP" expanded="false" />
+            <element signature="e#15461#15618#0#PHP" expanded="false" />
+            <element signature="e#15766#16123#0#PHP" expanded="false" />
+            <element signature="e#15939#16113#0#PHP" expanded="false" />
+            <element signature="e#16015#16098#0#PHP" expanded="false" />
+            <element signature="n#services_sessions#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#16378#16507#0#PHP" expanded="false" />
+            <element signature="e#16603#17027#0#PHP" expanded="false" />
+            <element signature="e#16803#17017#0#PHP" expanded="false" />
+            <element signature="e#16873#17002#0#PHP" expanded="false" />
+            <element signature="e#17036#17151#0#PHP" expanded="false" />
+            <element signature="e#17160#19391#0#PHP" expanded="false" />
+            <element signature="e#17334#19364#0#PHP" expanded="false" />
+            <element signature="e#17367#17674#0#PHP" expanded="false" />
+            <element signature="e#17492#17630#0#PHP" expanded="false" />
+            <element signature="e#17504#17629#1#PHP" expanded="false" />
+            <element signature="e#17849#18388#0#PHP" expanded="false" />
+            <element signature="e#18116#18370#0#PHP" expanded="false" />
+            <element signature="e#18190#18348#0#PHP" expanded="false" />
+            <element signature="e#18410#18567#0#PHP" expanded="false" />
+            <element signature="e#18422#18566#1#PHP" expanded="false" />
+            <element signature="e#18583#19364#0#PHP" expanded="false" />
+            <element signature="e#18606#18911#0#PHP" expanded="false" />
+            <element signature="e#18729#18867#0#PHP" expanded="false" />
+            <element signature="e#18741#18866#1#PHP" expanded="false" />
+            <element signature="e#19067#19171#0#PHP" expanded="false" />
+            <element signature="e#19193#19349#0#PHP" expanded="false" />
+            <element signature="e#19205#19348#1#PHP" expanded="false" />
+            <element signature="e#19528#19944#0#PHP" expanded="false" />
+            <element signature="e#19599#19944#0#PHP" expanded="false" />
+            <element signature="e#19694#19851#0#PHP" expanded="false" />
+            <element signature="e#19999#20356#0#PHP" expanded="false" />
+            <element signature="e#20172#20346#0#PHP" expanded="false" />
+            <element signature="e#20248#20331#0#PHP" expanded="false" />
+            <element signature="n#copy#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#20788#21464#0#PHP" expanded="false" />
+            <element signature="e#20935#21131#0#PHP" expanded="false" />
+            <element signature="e#21145#21413#0#PHP" expanded="false" />
+            <element signature="n#copy_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#21521#22261#0#PHP" expanded="false" />
+            <element signature="e#21732#21928#0#PHP" expanded="false" />
+            <element signature="e#21942#22210#0#PHP" expanded="false" />
+            <element signature="n#get_billable_task_data#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#22550#22642#0#PHP" expanded="false" />
+            <element signature="n#get_task_data#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#22745#22856#0#PHP" expanded="false" />
+            <element signature="e#22931#23054#0#PHP" expanded="false" />
+            <element signature="e#23557#23679#0#PHP" expanded="false" />
+            <element signature="e#23689#23896#0#PHP" expanded="false" />
+            <element signature="e#23795#23896#0#PHP" expanded="false" />
+            <element signature="n#get_task_data_with_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#24019#24130#0#PHP" expanded="false" />
+            <element signature="e#24223#24349#0#PHP" expanded="false" />
+            <element signature="e#24852#24974#0#PHP" expanded="false" />
+            <element signature="e#24984#25249#0#PHP" expanded="false" />
+            <element signature="e#25119#25249#0#PHP" expanded="false" />
+            <element signature="n#add_reminder#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#25373#25646#0#PHP" expanded="false" />
+            <element signature="e#25501#25636#0#PHP" expanded="false" />
+            <element signature="e#25660#25829#0#PHP" expanded="false" />
+            <element signature="e#25672#25828#1#PHP" expanded="false" />
+            <element signature="n#add_reminder_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#25962#26235#0#PHP" expanded="false" />
+            <element signature="e#26090#26225#0#PHP" expanded="false" />
+            <element signature="e#26249#26431#0#PHP" expanded="false" />
+            <element signature="e#26261#26430#1#PHP" expanded="false" />
+            <element signature="n#edit_reminder#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#26552#27032#0#PHP" expanded="false" />
+            <element signature="e#26761#27021#0#PHP" expanded="false" />
+            <element signature="e#26773#27020#1#PHP" expanded="false" />
+            <element signature="n#edit_reminder_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#27160#27637#0#PHP" expanded="false" />
+            <element signature="e#27369#27626#0#PHP" expanded="false" />
+            <element signature="e#27381#27625#1#PHP" expanded="false" />
+            <element signature="n#delete_reminder#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#27860#27972#0#PHP" expanded="false" />
+            <element signature="e#27986#28154#0#PHP" expanded="false" />
+            <element signature="e#27998#28153#1#PHP" expanded="false" />
+            <element signature="n#delete_reminder_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#28386#28498#0#PHP" expanded="false" />
+            <element signature="e#28512#28693#0#PHP" expanded="false" />
+            <element signature="e#28524#28692#1#PHP" expanded="false" />
+            <element signature="n#get_staff_started_timers#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#29057#29109#0#PHP" expanded="false" />
+            <element signature="n#save_checklist_item_template#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#29205#29415#0#PHP" expanded="false" />
+            <element signature="n#remove_checklist_item_template#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#29493#29696#0#PHP" expanded="false" />
+            <element signature="n#init_checklist_items#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#29761#30166#0#PHP" expanded="false" />
+            <element signature="e#29812#30156#0#PHP" expanded="false" />
+            <element signature="n#task_tracking_stats#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="n#checkbox_action#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#30498#30600#0#PHP" expanded="false" />
+            <element signature="e#30554#30599#0#PHP" expanded="false" />
+            <element signature="e#30611#30983#0#PHP" expanded="false" />
+            <element signature="e#30661#30973#0#PHP" expanded="false" />
+            <element signature="e#30745#30881#0#PHP" expanded="false" />
+            <element signature="e#30801#30880#0#PHP" expanded="false" />
+            <element signature="n#add_checklist_item#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#31046#31298#0#PHP" expanded="false" />
+            <element signature="e#31097#31288#0#PHP" expanded="false" />
+            <element signature="e#31146#31273#0#PHP" expanded="false" />
+            <element signature="e#31158#31272#1#PHP" expanded="false" />
+            <element signature="n#update_checklist_order#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#31365#31549#0#PHP" expanded="false" />
+            <element signature="e#31416#31539#0#PHP" expanded="false" />
+            <element signature="n#delete_checklist_item#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#31679#31977#0#PHP" expanded="false" />
+            <element signature="e#31779#31967#0#PHP" expanded="false" />
+            <element signature="e#31839#31952#0#PHP" expanded="false" />
+            <element signature="e#31851#31951#1#PHP" expanded="false" />
+            <element signature="n#update_checklist_item#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#32043#32482#0#PHP" expanded="false" />
+            <element signature="e#32094#32472#0#PHP" expanded="false" />
+            <element signature="n#make_public#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#32546#32694#0#PHP" expanded="false" />
+            <element signature="e#32602#32666#0#PHP" expanded="false" />
+            <element signature="e#32614#32665#1#PHP" expanded="false" />
+            <element signature="e#32708#32865#0#PHP" expanded="false" />
+            <element signature="e#32720#32864#1#PHP" expanded="false" />
+            <element signature="n#make_session_public#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#32938#33086#0#PHP" expanded="false" />
+            <element signature="e#32994#33058#0#PHP" expanded="false" />
+            <element signature="e#33006#33057#1#PHP" expanded="false" />
+            <element signature="e#33100#33270#0#PHP" expanded="false" />
+            <element signature="e#33112#33269#1#PHP" expanded="false" />
+            <element signature="n#add_external_attachment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#33340#33529#0#PHP" expanded="false" />
+            <element signature="n#add_task_comment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#33742#33859#0#PHP" expanded="false" />
+            <element signature="e#33897#34886#0#PHP" expanded="false" />
+            <element signature="e#34133#34876#0#PHP" expanded="false" />
+            <element signature="e#34262#34862#0#PHP" expanded="false" />
+            <element signature="e#34342#34573#0#PHP" expanded="false" />
+            <element signature="e#34595#34844#0#PHP" expanded="false" />
+            <element signature="e#34657#34821#0#PHP" expanded="false" />
+            <element signature="e#34900#35049#0#PHP" expanded="false" />
+            <element signature="e#34912#35048#1#PHP" expanded="false" />
+            <element signature="n#add_session_comment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#35228#35345#0#PHP" expanded="false" />
+            <element signature="e#35383#36372#0#PHP" expanded="false" />
+            <element signature="e#35619#36362#0#PHP" expanded="false" />
+            <element signature="e#35748#36348#0#PHP" expanded="false" />
+            <element signature="e#35828#36059#0#PHP" expanded="false" />
+            <element signature="e#36081#36330#0#PHP" expanded="false" />
+            <element signature="e#36143#36307#0#PHP" expanded="false" />
+            <element signature="e#36386#36548#0#PHP" expanded="false" />
+            <element signature="e#36398#36547#1#PHP" expanded="false" />
+            <element signature="n#download_files#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#36678#36771#0#PHP" expanded="false" />
+            <element signature="e#36781#36901#0#PHP" expanded="false" />
+            <element signature="e#36993#37076#0#PHP" expanded="false" />
+            <element signature="e#37185#37291#0#PHP" expanded="false" />
+            <element signature="n#add_session_followers#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#37857#38190#0#PHP" expanded="false" />
+            <element signature="e#37958#38179#0#PHP" expanded="false" />
+            <element signature="e#37970#38178#1#PHP" expanded="false" />
+            <element signature="n#add_task_assignees#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#38289#38609#0#PHP" expanded="false" />
+            <element signature="e#38390#38598#0#PHP" expanded="false" />
+            <element signature="e#38402#38597#1#PHP" expanded="false" />
+            <element signature="n#add_session_assignees#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#38675#39008#0#PHP" expanded="false" />
+            <element signature="e#38776#38997#0#PHP" expanded="false" />
+            <element signature="e#38788#38996#1#PHP" expanded="false" />
+            <element signature="n#edit_comment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#39065#39776#0#PHP" expanded="false" />
+            <element signature="e#39227#39375#0#PHP" expanded="false" />
+            <element signature="e#39479#39563#0#PHP" expanded="false" />
+            <element signature="e#39581#39765#0#PHP" expanded="false" />
+            <element signature="e#39593#39764#1#PHP" expanded="false" />
+            <element signature="n#edit_session_comment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#39841#40565#0#PHP" expanded="false" />
+            <element signature="e#40003#40151#0#PHP" expanded="false" />
+            <element signature="e#40255#40339#0#PHP" expanded="false" />
+            <element signature="e#40357#40554#0#PHP" expanded="false" />
+            <element signature="e#40369#40553#1#PHP" expanded="false" />
+            <element signature="n#remove_comment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#40669#40759#0#PHP" expanded="false" />
+            <element signature="e#40681#40758#1#PHP" expanded="false" />
+            <element signature="n#remove_assignee#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#40865#41351#0#PHP" expanded="false" />
+            <element signature="e#41062#41147#0#PHP" expanded="false" />
+            <element signature="e#41165#41340#0#PHP" expanded="false" />
+            <element signature="e#41177#41339#1#PHP" expanded="false" />
+            <element signature="n#remove_assignee_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#41431#41930#0#PHP" expanded="false" />
+            <element signature="e#41628#41713#0#PHP" expanded="false" />
+            <element signature="e#41731#41919#0#PHP" expanded="false" />
+            <element signature="e#41743#41918#1#PHP" expanded="false" />
+            <element signature="n#remove_follower#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#42040#42526#0#PHP" expanded="false" />
+            <element signature="e#42237#42322#0#PHP" expanded="false" />
+            <element signature="e#42340#42515#0#PHP" expanded="false" />
+            <element signature="e#42352#42514#1#PHP" expanded="false" />
+            <element signature="n#remove_follower_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#42606#43105#0#PHP" expanded="false" />
+            <element signature="e#42803#42888#0#PHP" expanded="false" />
+            <element signature="e#42906#43094#0#PHP" expanded="false" />
+            <element signature="e#42918#43093#1#PHP" expanded="false" />
+            <element signature="n#unmark_complete#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#43208#44138#0#PHP" expanded="false" />
+            <element signature="e#43702#43791#0#PHP" expanded="false" />
+            <element signature="e#43809#43958#0#PHP" expanded="false" />
+            <element signature="e#43821#43957#1#PHP" expanded="false" />
+            <element signature="e#43970#44138#0#PHP" expanded="false" />
+            <element signature="e#43994#44127#0#PHP" expanded="false" />
+            <element signature="e#44006#44126#1#PHP" expanded="false" />
+            <element signature="n#unmark_session_complete#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#44209#45152#0#PHP" expanded="false" />
+            <element signature="e#44716#44805#0#PHP" expanded="false" />
+            <element signature="e#44823#44972#0#PHP" expanded="false" />
+            <element signature="e#44835#44971#1#PHP" expanded="false" />
+            <element signature="e#44984#45152#0#PHP" expanded="false" />
+            <element signature="e#45008#45141#0#PHP" expanded="false" />
+            <element signature="e#45020#45140#1#PHP" expanded="false" />
+            <element signature="n#mark_as#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#45216#46187#0#PHP" expanded="false" />
+            <element signature="e#45712#45839#0#PHP" expanded="false" />
+            <element signature="e#45858#46007#0#PHP" expanded="false" />
+            <element signature="e#45870#46006#1#PHP" expanded="false" />
+            <element signature="e#46019#46187#0#PHP" expanded="false" />
+            <element signature="e#46043#46176#0#PHP" expanded="false" />
+            <element signature="e#46055#46175#1#PHP" expanded="false" />
+            <element signature="n#mark_as_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#46259#47243#0#PHP" expanded="false" />
+            <element signature="e#46768#46895#0#PHP" expanded="false" />
+            <element signature="e#46914#47063#0#PHP" expanded="false" />
+            <element signature="e#46926#47062#1#PHP" expanded="false" />
+            <element signature="e#47075#47243#0#PHP" expanded="false" />
+            <element signature="e#47099#47232#0#PHP" expanded="false" />
+            <element signature="e#47111#47231#1#PHP" expanded="false" />
+            <element signature="n#change_priority#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#47320#48029#0#PHP" expanded="false" />
+            <element signature="e#47767#47876#0#PHP" expanded="false" />
+            <element signature="e#47779#47875#1#PHP" expanded="false" />
+            <element signature="e#47888#48029#0#PHP" expanded="false" />
+            <element signature="e#47912#48018#0#PHP" expanded="false" />
+            <element signature="e#47924#48017#1#PHP" expanded="false" />
+            <element signature="n#change_session_priority#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#48114#48836#0#PHP" expanded="false" />
+            <element signature="e#48574#48683#0#PHP" expanded="false" />
+            <element signature="e#48586#48682#1#PHP" expanded="false" />
+            <element signature="e#48695#48836#0#PHP" expanded="false" />
+            <element signature="e#48719#48825#0#PHP" expanded="false" />
+            <element signature="e#48731#48824#1#PHP" expanded="false" />
+            <element signature="n#change_milestone#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#48915#49625#0#PHP" expanded="false" />
+            <element signature="e#49363#49472#0#PHP" expanded="false" />
+            <element signature="e#49375#49471#1#PHP" expanded="false" />
+            <element signature="e#49484#49625#0#PHP" expanded="false" />
+            <element signature="e#49508#49614#0#PHP" expanded="false" />
+            <element signature="e#49520#49613#1#PHP" expanded="false" />
+            <element signature="n#task_single_inline_update#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#49703#50004#0#PHP" expanded="false" />
+            <element signature="e#49805#49994#0#PHP" expanded="false" />
+            <element signature="n#delete_task#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#50099#50190#0#PHP" expanded="false" />
+            <element signature="e#50321#50501#0#PHP" expanded="false" />
+            <element signature="e#50441#50501#0#PHP" expanded="false" />
+            <element signature="e#50511#50969#0#PHP" expanded="false" />
+            <element signature="e#50688#50904#0#PHP" expanded="false" />
+            <element signature="e#50905#50969#0#PHP" expanded="false" />
+            <element signature="n#remove_task_attachment#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#51173#51300#0#PHP" expanded="false" />
+            <element signature="e#51312#51382#0#PHP" expanded="false" />
+            <element signature="n#upload_file_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#52171#52860#0#PHP" expanded="false" />
+            <element signature="e#52366#52682#0#PHP" expanded="false" />
+            <element signature="e#52460#52668#0#PHP" expanded="false" />
+            <element signature="e#52701#52849#0#PHP" expanded="false" />
+            <element signature="e#52713#52848#1#PHP" expanded="false" />
+            <element signature="n#timer_tracking#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#53055#53162#0#PHP" expanded="false" />
+            <element signature="e#53177#53609#0#PHP" expanded="false" />
+            <element signature="e#53189#53608#1#PHP" expanded="false" />
+            <element signature="e#53216#53417#1#PHP" expanded="false" />
+            <element signature="n#timer_tracking_session#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#53813#53920#0#PHP" expanded="false" />
+            <element signature="e#53935#54380#0#PHP" expanded="false" />
+            <element signature="e#53947#54379#1#PHP" expanded="false" />
+            <element signature="e#53974#54175#1#PHP" expanded="false" />
+            <element signature="n#delete_user_unfinished_timesheet#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#54571#54778#0#PHP" expanded="false" />
+            <element signature="n#delete_timesheet#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#54921#55581#0#PHP" expanded="false" />
+            <element signature="e#55225#55453#0#PHP" expanded="false" />
+            <element signature="e#55466#55571#0#PHP" expanded="false" />
+            <element signature="n#log_time#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#55706#56129#0#PHP" expanded="false" />
+            <element signature="e#55895#56052#0#PHP" expanded="false" />
+            <element signature="e#56053#56129#0#PHP" expanded="false" />
+            <element signature="e#56144#56238#0#PHP" expanded="false" />
+            <element signature="e#56156#56237#1#PHP" expanded="false" />
+            <element signature="n#update_tags#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#56308#56498#0#PHP" expanded="false" />
+            <element signature="n#bulk_action#0;n#Tasks#0;n#!!top" expanded="false" />
+            <element signature="e#56645#61156#0#PHP" expanded="false" />
+            <element signature="e#57055#60998#0#PHP" expanded="false" />
+            <element signature="e#57093#60984#0#PHP" expanded="false" />
+            <element signature="e#57137#60966#0#PHP" expanded="false" />
+            <element signature="e#57202#57424#0#PHP" expanded="false" />
+            <element signature="e#57275#57398#0#PHP" expanded="false" />
+            <element signature="e#57447#60966#0#PHP" expanded="false" />
+            <element signature="e#57478#57863#0#PHP" expanded="false" />
+            <element signature="e#57521#57837#0#PHP" expanded="false" />
+            <element signature="e#57888#58405#0#PHP" expanded="false" />
+            <element signature="e#57989#58100#0#PHP" expanded="false" />
+            <element signature="e#58129#58243#0#PHP" expanded="false" />
+            <element signature="e#58430#58534#0#PHP" expanded="false" />
+            <element signature="e#58559#60944#0#PHP" expanded="false" />
+            <element signature="e#58654#60845#0#PHP" expanded="false" />
+            <element signature="e#58721#60815#0#PHP" expanded="false" />
+            <element signature="e#59046#59573#0#PHP" expanded="false" />
+            <element signature="e#59228#59535#0#PHP" expanded="false" />
+            <element signature="e#59610#59916#0#PHP" expanded="false" />
+            <element signature="e#59954#60781#0#PHP" expanded="false" />
+            <element signature="e#60576#60743#0#PHP" expanded="false" />
+            <element signature="e#61011#61146#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="1183" column="16" lean-forward="false" selection-start-line="1183" selection-start-column="16" selection-end-line="1183" selection-end-column="16" />
+        <state relative-caret-position="244">
+          <caret line="1717" column="104" lean-forward="false" selection-start-line="1717" selection-start-column="104" selection-end-line="1717" selection-end-column="104" />
           <folding>
-            <marker date="1571175361065" expanded="true" signature="28715:28948" ph="SELECT * FRO... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="28859:28923" ph="SELECT id FR... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="83563:83639" ph="SELECT DISTI... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="84472:84806" ph="SELECT id,no... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="85528:85613" ph="SELECT DISTI... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88250:88882" ph="SELECT * FRO... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88372:88450" ph="SELECT staff... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88487:88566" ph="SELECT staff... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88603:88699" ph="SELECT added... ${db_prefix()}" />
-            <marker date="1571175361065" expanded="true" signature="88735:88838" ph="SELECT staff... ${db_prefix()}" />
+            <element signature="n#__construct#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_user_tasks_assigned#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_statuses#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#881#2354#0#PHP" expanded="false" />
+            <element signature="e#932#2353#0#PHP" expanded="false" />
+            <element signature="e#946#1212#1#PHP" expanded="false" />
+            <element signature="e#1227#1493#1#PHP" expanded="false" />
+            <element signature="e#1508#1770#1#PHP" expanded="false" />
+            <element signature="e#1786#2058#1#PHP" expanded="false" />
+            <element signature="e#2072#2338#1#PHP" expanded="false" />
+            <element signature="e#2365#2458#0#PHP" expanded="false" />
+            <element signature="e#2382#2457#1#PHP" expanded="false" />
+            <element signature="e#2498#2586#0#PHP" expanded="false" />
+            <element signature="n#get#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#2880#4379#0#PHP" expanded="false" />
+            <element signature="e#3078#3208#0#PHP" expanded="false" />
+            <element signature="e#3328#3458#0#PHP" expanded="false" />
+            <element signature="e#3680#3922#0#PHP" expanded="false" />
+            <element signature="e#3977#4369#0#PHP" expanded="false" />
+            <element signature="e#4110#4355#0#PHP" expanded="false" />
+            <element signature="e#4232#4337#0#PHP" expanded="false" />
+            <element signature="n#get_with_session_info#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#4968#6466#0#PHP" expanded="false" />
+            <element signature="e#5165#5295#0#PHP" expanded="false" />
+            <element signature="e#5415#5545#0#PHP" expanded="false" />
+            <element signature="e#5767#6009#0#PHP" expanded="false" />
+            <element signature="e#6064#6456#0#PHP" expanded="false" />
+            <element signature="e#6197#6442#0#PHP" expanded="false" />
+            <element signature="e#6319#6424#0#PHP" expanded="false" />
+            <element signature="n#get_milestone#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#do_kanban_query#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#6829#6940#0#PHP" expanded="false" />
+            <element signature="e#6950#7781#0#PHP" expanded="false" />
+            <element signature="e#7963#8042#0#PHP" expanded="false" />
+            <element signature="e#8052#8692#0#PHP" expanded="false" />
+            <element signature="e#8085#8682#0#PHP" expanded="false" />
+            <element signature="e#8291#8682#0#PHP" expanded="false" />
+            <element signature="e#8314#8667#0#PHP" expanded="false" />
+            <element signature="e#8755#9095#0#PHP" expanded="false" />
+            <element signature="e#8790#9085#0#PHP" expanded="false" />
+            <element signature="e#8997#9085#0#PHP" expanded="false" />
+            <element signature="e#9105#9190#0#PHP" expanded="false" />
+            <element signature="n#update_order#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#9300#9509#0#PHP" expanded="false" />
+            <element signature="e#9396#9498#0#PHP" expanded="false" />
+            <element signature="e#9437#9497#0#PHP" expanded="false" />
+            <element signature="n#get_distinct_tasks_years#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#is_task_billed#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#9834#9936#0#PHP" expanded="false" />
+            <element signature="e#9868#9935#0#PHP" expanded="false" />
+            <element signature="n#copy#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#10029#10345#0#PHP" expanded="false" />
+            <element signature="e#10203#10345#0#PHP" expanded="false" />
+            <element signature="e#10457#10613#0#PHP" expanded="false" />
+            <element signature="e#10505#10603#0#PHP" expanded="false" />
+            <element signature="e#10661#10932#0#PHP" expanded="false" />
+            <element signature="e#10819#10932#0#PHP" expanded="false" />
+            <element signature="e#11326#11693#0#PHP" expanded="false" />
+            <element signature="e#11736#11887#0#PHP" expanded="false" />
+            <element signature="e#11778#11877#0#PHP" expanded="false" />
+            <element signature="e#12144#14377#0#PHP" expanded="false" />
+            <element signature="e#12175#12384#0#PHP" expanded="false" />
+            <element signature="e#12516#12690#0#PHP" expanded="false" />
+            <element signature="e#12703#12877#0#PHP" expanded="false" />
+            <element signature="e#12890#13082#0#PHP" expanded="false" />
+            <element signature="e#13095#14196#0#PHP" expanded="false" />
+            <element signature="e#13280#13492#0#PHP" expanded="false" />
+            <element signature="e#13509#14182#0#PHP" expanded="false" />
+            <element signature="e#13673#14073#0#PHP" expanded="false" />
+            <element signature="e#13911#14051#0#PHP" expanded="false" />
+            <element signature="n#copy_task_followers#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#14544#14762#0#PHP" expanded="false" />
+            <element signature="e#14592#14751#0#PHP" expanded="false" />
+            <element signature="e#14642#14750#0#PHP" expanded="false" />
+            <element signature="n#copy_task_assignees#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#14906#15191#0#PHP" expanded="false" />
+            <element signature="e#14954#15180#0#PHP" expanded="false" />
+            <element signature="e#15003#15179#0#PHP" expanded="false" />
+            <element signature="n#copy_task_checklist_items#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#15343#15766#0#PHP" expanded="false" />
+            <element signature="e#15388#15755#0#PHP" expanded="false" />
+            <element signature="e#15444#15754#0#PHP" expanded="false" />
+            <element signature="n#copy_task_custom_fields#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#15907#16351#0#PHP" expanded="false" />
+            <element signature="e#16043#16341#0#PHP" expanded="false" />
+            <element signature="e#16079#16326#0#PHP" expanded="false" />
+            <element signature="e#16133#16325#0#PHP" expanded="false" />
+            <element signature="n#get_billable_tasks#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#16663#16875#0#PHP" expanded="false" />
+            <element signature="e#16753#16875#0#PHP" expanded="false" />
+            <element signature="e#16885#18117#0#PHP" expanded="false" />
+            <element signature="e#16947#18106#0#PHP" expanded="false" />
+            <element signature="e#18127#18216#0#PHP" expanded="false" />
+            <element signature="e#18315#18917#0#PHP" expanded="false" />
+            <element signature="e#18606#18740#0#PHP" expanded="false" />
+            <element signature="e#18646#18739#0#PHP" expanded="false" />
+            <element signature="e#18602#18889#0#PHP" expanded="false" />
+            <element signature="e#18815#18889#0#PHP" expanded="false" />
+            <element signature="n#get_billable_amount#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_billable_task_data#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#19313#19826#0#PHP" expanded="false" />
+            <element signature="e#19633#19751#0#PHP" expanded="false" />
+            <element signature="n#get_tasks_by_staff_id#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#20329#20430#0#PHP" expanded="false" />
+            <element signature="n#add#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#20564#20691#0#PHP" expanded="false" />
+            <element signature="e#21126#21314#0#PHP" expanded="false" />
+            <element signature="e#21324#21932#0#PHP" expanded="false" />
+            <element signature="e#21431#21731#0#PHP" expanded="false" />
+            <element signature="e#21479#21646#0#PHP" expanded="false" />
+            <element signature="e#21581#21646#0#PHP" expanded="false" />
+            <element signature="e#21661#21731#0#PHP" expanded="false" />
+            <element signature="e#21742#21932#0#PHP" expanded="false" />
+            <element signature="e#21942#22084#0#PHP" expanded="false" />
+            <element signature="e#22094#22225#0#PHP" expanded="false" />
+            <element signature="e#22173#22225#0#PHP" expanded="false" />
+            <element signature="e#22235#22920#0#PHP" expanded="false" />
+            <element signature="e#22350#22857#0#PHP" expanded="false" />
+            <element signature="e#22599#22857#0#PHP" expanded="false" />
+            <element signature="e#22868#22920#0#PHP" expanded="false" />
+            <element signature="e#22930#23117#0#PHP" expanded="false" />
+            <element signature="e#23127#23428#0#PHP" expanded="false" />
+            <element signature="e#23228#23428#0#PHP" expanded="false" />
+            <element signature="e#23247#23418#0#PHP" expanded="false" />
+            <element signature="e#23350#23418#0#PHP" expanded="false" />
+            <element signature="e#23438#23566#0#PHP" expanded="false" />
+            <element signature="e#23515#23566#0#PHP" expanded="false" />
+            <element signature="e#23576#23865#0#PHP" expanded="false" />
+            <element signature="e#23745#23865#0#PHP" expanded="false" />
+            <element signature="e#23764#23855#0#PHP" expanded="false" />
+            <element signature="e#23874#24144#0#PHP" expanded="false" />
+            <element signature="e#23990#24144#0#PHP" expanded="false" />
+            <element signature="e#24009#24134#0#PHP" expanded="false" />
+            <element signature="e#24241#24347#0#PHP" expanded="false" />
+            <element signature="e#24406#24563#0#PHP" expanded="false" />
+            <element signature="e#24572#24761#0#PHP" expanded="false" />
+            <element signature="e#24770#24887#0#PHP" expanded="false" />
+            <element signature="e#24896#25045#0#PHP" expanded="false" />
+            <element signature="e#25054#25171#0#PHP" expanded="false" />
+            <element signature="e#25180#25347#0#PHP" expanded="false" />
+            <element signature="e#25356#25489#0#PHP" expanded="false" />
+            <element signature="e#25498#25675#0#PHP" expanded="false" />
+            <element signature="e#25834#31242#0#PHP" expanded="false" />
+            <element signature="e#25865#26274#0#PHP" expanded="false" />
+            <element signature="e#26219#26274#0#PHP" expanded="false" />
+            <element signature="e#26288#26875#0#PHP" expanded="false" />
+            <element signature="e#26350#26861#0#PHP" expanded="false" />
+            <element signature="e#26465#26842#0#PHP" expanded="false" />
+            <element signature="e#26521#26841#0#PHP" expanded="false" />
+            <element signature="e#26945#27058#0#PHP" expanded="false" />
+            <element signature="e#27072#27512#0#PHP" expanded="false" />
+            <element signature="e#27202#27497#0#PHP" expanded="false" />
+            <element signature="e#27297#27496#0#PHP" expanded="false" />
+            <element signature="e#27307#27495#1#PHP" expanded="false" />
+            <element signature="e#27526#31027#0#PHP" expanded="false" />
+            <element signature="e#27697#27893#0#PHP" expanded="false" />
+            <element signature="e#27910#28250#0#PHP" expanded="false" />
+            <element signature="e#27975#28231#0#PHP" expanded="false" />
+            <element signature="e#28024#28230#0#PHP" expanded="false" />
+            <element signature="e#28267#28553#0#PHP" expanded="false" />
+            <element signature="e#28353#28534#0#PHP" expanded="false" />
+            <element signature="e#28403#28533#0#PHP" expanded="false" />
+            <element signature="e#28571#31013#0#PHP" expanded="false" />
+            <element signature="e#28697#28950#0#PHP" expanded="false" />
+            <element signature="e#28989#30995#0#PHP" expanded="false" />
+            <element signature="e#29204#30973#0#PHP" expanded="false" />
+            <element signature="e#29415#30947#0#PHP" expanded="false" />
+            <element signature="e#29536#30917#0#PHP" expanded="false" />
+            <element signature="e#29776#30695#0#PHP" expanded="false" />
+            <element signature="e#29869#30656#0#PHP" expanded="false" />
+            <element signature="e#30732#30835#0#PHP" expanded="false" />
+            <element signature="e#31277#31414#0#PHP" expanded="false" />
+            <element signature="n#update#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#31677#31865#0#PHP" expanded="false" />
+            <element signature="e#31875#31998#0#PHP" expanded="false" />
+            <element signature="e#32008#32263#0#PHP" expanded="false" />
+            <element signature="e#32110#32210#0#PHP" expanded="false" />
+            <element signature="e#32273#34406#0#PHP" expanded="false" />
+            <element signature="e#32394#32653#0#PHP" expanded="false" />
+            <element signature="e#32540#32653#0#PHP" expanded="false" />
+            <element signature="e#32718#32957#0#PHP" expanded="false" />
+            <element signature="e#32971#33680#0#PHP" expanded="false" />
+            <element signature="e#33062#33605#0#PHP" expanded="false" />
+            <element signature="e#33327#33605#0#PHP" expanded="false" />
+            <element signature="e#33620#33680#0#PHP" expanded="false" />
+            <element signature="e#33694#33893#0#PHP" expanded="false" />
+            <element signature="e#33907#34054#0#PHP" expanded="false" />
+            <element signature="e#33994#34054#0#PHP" expanded="false" />
+            <element signature="e#34067#34211#0#PHP" expanded="false" />
+            <element signature="e#34152#34211#0#PHP" expanded="false" />
+            <element signature="e#34225#34396#0#PHP" expanded="false" />
+            <element signature="e#34328#34396#0#PHP" expanded="false" />
+            <element signature="e#34416#34705#0#PHP" expanded="false" />
+            <element signature="e#34585#34705#0#PHP" expanded="false" />
+            <element signature="e#34604#34695#0#PHP" expanded="false" />
+            <element signature="e#34716#34990#0#PHP" expanded="false" />
+            <element signature="e#34834#34990#0#PHP" expanded="false" />
+            <element signature="e#34853#34980#0#PHP" expanded="false" />
+            <element signature="e#35075#35257#0#PHP" expanded="false" />
+            <element signature="e#35115#35213#0#PHP" expanded="false" />
+            <element signature="e#35267#35778#0#PHP" expanded="false" />
+            <element signature="e#35392#35738#0#PHP" expanded="false" />
+            <element signature="e#35448#35737#0#PHP" expanded="false" />
+            <element signature="e#35838#35995#0#PHP" expanded="false" />
+            <element signature="e#36004#36193#0#PHP" expanded="false" />
+            <element signature="e#36202#36319#0#PHP" expanded="false" />
+            <element signature="e#36328#36477#0#PHP" expanded="false" />
+            <element signature="e#36486#36603#0#PHP" expanded="false" />
+            <element signature="e#36612#36745#0#PHP" expanded="false" />
+            <element signature="e#36754#36887#0#PHP" expanded="false" />
+            <element signature="e#36896#37073#0#PHP" expanded="false" />
+            <element signature="e#37224#37562#0#PHP" expanded="false" />
+            <element signature="e#37515#37562#0#PHP" expanded="false" />
+            <element signature="e#37572#37803#0#PHP" expanded="false" />
+            <element signature="e#37813#37872#0#PHP" expanded="false" />
+            <element signature="n#get_checklist_item#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_checklist_items#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#add_checklist_template#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#38388#38508#0#PHP" expanded="false" />
+            <element signature="e#38449#38507#0#PHP" expanded="false" />
+            <element signature="n#remove_checklist_item_template#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#38734#38806#0#PHP" expanded="false" />
+            <element signature="n#get_checklist_templates#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_checklist_template#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#39222#39324#0#PHP" expanded="false" />
+            <element signature="n#add_checklist_item#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#39385#39682#0#PHP" expanded="false" />
+            <element signature="e#39441#39681#0#PHP" expanded="false" />
+            <element signature="e#39737#39915#0#PHP" expanded="false" />
+            <element signature="n#delete_checklist_item#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#40109#40181#0#PHP" expanded="false" />
+            <element signature="n#update_checklist_order#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#40276#40498#0#PHP" expanded="false" />
+            <element signature="e#40372#40487#0#PHP" expanded="false" />
+            <element signature="e#40428#40486#0#PHP" expanded="false" />
+            <element signature="e#40510#40674#0#PHP" expanded="false" />
+            <element signature="n#update_checklist_item#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#40813#41157#0#PHP" expanded="false" />
+            <element signature="e#40960#41157#0#PHP" expanded="false" />
+            <element signature="e#41020#41146#0#PHP" expanded="false" />
+            <element signature="e#41076#41145#0#PHP" expanded="false" />
+            <element signature="e#41169#41265#0#PHP" expanded="false" />
+            <element signature="n#make_public#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#41364#41447#0#PHP" expanded="false" />
+            <element signature="e#41405#41446#0#PHP" expanded="false" />
+            <element signature="e#41457#41529#0#PHP" expanded="false" />
+            <element signature="e#41564#41660#0#PHP" expanded="false" />
+            <element signature="n#get_task_creator_id#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#41881#41989#0#PHP" expanded="false" />
+            <element signature="n#add_task_comment#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#42048#42289#0#PHP" expanded="false" />
+            <element signature="e#42181#42289#0#PHP" expanded="false" />
+            <element signature="e#42299#42651#0#PHP" expanded="false" />
+            <element signature="e#42348#42650#0#PHP" expanded="false" />
+            <element signature="e#42708#44153#0#PHP" expanded="false" />
+            <element signature="e#43005#43060#0#PHP" expanded="false" />
+            <element signature="e#43015#43059#1#PHP" expanded="false" />
+            <element signature="e#43075#43268#0#PHP" expanded="false" />
+            <element signature="e#44188#44296#0#PHP" expanded="false" />
+            <element signature="e#46323#46437#0#PHP" expanded="false" />
+            <element signature="e#49672#49772#0#PHP" expanded="false" />
+            <element signature="n#get_task_attachments#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#50137#50270#0#PHP" expanded="false" />
+            <element signature="e#50665#50792#0#PHP" expanded="false" />
+            <element signature="n#remove_task_attachment#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#51059#52466#0#PHP" expanded="false" />
+            <element signature="e#51090#51638#0#PHP" expanded="false" />
+            <element signature="e#51536#51624#0#PHP" expanded="false" />
+            <element signature="e#51759#51938#0#PHP" expanded="false" />
+            <element signature="e#51952#52456#0#PHP" expanded="false" />
+            <element signature="e#52223#52442#0#PHP" expanded="false" />
+            <element signature="e#52476#54031#0#PHP" expanded="false" />
+            <element signature="e#52504#53768#0#PHP" expanded="false" />
+            <element signature="e#52688#53754#0#PHP" expanded="false" />
+            <element signature="e#52901#53736#0#PHP" expanded="false" />
+            <element signature="e#53114#53714#0#PHP" expanded="false" />
+            <element signature="e#53438#53714#0#PHP" expanded="false" />
+            <element signature="e#53473#53687#0#PHP" expanded="false" />
+            <element signature="e#53917#54021#0#PHP" expanded="false" />
+            <element signature="e#54123#54295#0#PHP" expanded="false" />
+            <element signature="e#56440#56535#0#PHP" expanded="false" />
+            <element signature="n#get_task_followers#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#57004#57099#0#PHP" expanded="false" />
+            <element signature="n#get_task_assignees#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#57671#57760#0#PHP" expanded="false" />
+            <element signature="n#get_task_comments#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#57905#58174#0#PHP" expanded="false" />
+            <element signature="e#58550#58696#0#PHP" expanded="false" />
+            <element signature="e#58706#59168#0#PHP" expanded="false" />
+            <element signature="e#58856#59158#0#PHP" expanded="false" />
+            <element signature="e#58914#59144#0#PHP" expanded="false" />
+            <element signature="e#58977#59126#0#PHP" expanded="false" />
+            <element signature="n#edit_comment#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#59415#60661#0#PHP" expanded="false" />
+            <element signature="e#59676#60624#0#PHP" expanded="false" />
+            <element signature="e#59899#60059#0#PHP" expanded="false" />
+            <element signature="e#60130#60250#0#PHP" expanded="false" />
+            <element signature="e#60179#60249#0#PHP" expanded="false" />
+            <element signature="e#60268#60559#0#PHP" expanded="false" />
+            <element signature="e#60327#60506#0#PHP" expanded="false" />
+            <element signature="e#60370#60505#0#PHP" expanded="false" />
+            <element signature="e#60574#60624#0#PHP" expanded="false" />
+            <element signature="e#60673#60781#0#PHP" expanded="false" />
+            <element signature="n#remove_comment#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#61003#61054#0#PHP" expanded="false" />
+            <element signature="e#61064#62427#0#PHP" expanded="false" />
+            <element signature="e#61346#62417#0#PHP" expanded="false" />
+            <element signature="e#61717#62352#0#PHP" expanded="false" />
+            <element signature="e#61775#61900#0#PHP" expanded="false" />
+            <element signature="e#62037#62179#0#PHP" expanded="false" />
+            <element signature="e#62367#62417#0#PHP" expanded="false" />
+            <element signature="e#62462#62616#0#PHP" expanded="false" />
+            <element signature="n#remove_assignee#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#62971#62987#0#PHP" expanded="false" />
+            <element signature="e#63536#63875#0#PHP" expanded="false" />
+            <element signature="e#63586#63839#0#PHP" expanded="false" />
+            <element signature="e#63910#64063#0#PHP" expanded="false" />
+            <element signature="n#remove_follower#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#64224#64296#0#PHP" expanded="false" />
+            <element signature="e#64331#64471#0#PHP" expanded="false" />
+            <element signature="e#64714#64831#0#PHP" expanded="false" />
+            <element signature="e#64883#64991#0#PHP" expanded="false" />
+            <element signature="e#65219#65321#0#PHP" expanded="false" />
+            <element signature="e#65336#65725#0#PHP" expanded="false" />
+            <element signature="e#65601#65710#0#PHP" expanded="false" />
+            <element signature="e#65648#65709#0#PHP" expanded="false" />
+            <element signature="e#65739#66304#0#PHP" expanded="false" />
+            <element signature="e#66008#66148#0#PHP" expanded="false" />
+            <element signature="e#67160#67258#0#PHP" expanded="false" />
+            <element signature="n#unmark_complete#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#67340#67738#0#PHP" expanded="false" />
+            <element signature="e#67423#67738#0#PHP" expanded="false" />
+            <element signature="e#67619#67728#0#PHP" expanded="false" />
+            <element signature="e#67785#67913#0#PHP" expanded="false" />
+            <element signature="e#67826#67912#0#PHP" expanded="false" />
+            <element signature="e#67924#68745#0#PHP" expanded="false" />
+            <element signature="e#68155#68354#0#PHP" expanded="false" />
+            <element signature="e#68429#68611#0#PHP" expanded="false" />
+            <element signature="e#68555#68610#0#PHP" expanded="false" />
+            <element signature="e#68565#68609#1#PHP" expanded="false" />
+            <element signature="e#68780#68885#0#PHP" expanded="false" />
+            <element signature="n#delete_task#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#69215#71687#0#PHP" expanded="false" />
+            <element signature="e#69575#69789#0#PHP" expanded="false" />
+            <element signature="e#70152#70260#0#PHP" expanded="false" />
+            <element signature="e#71189#71292#0#PHP" expanded="false" />
+            <element signature="e#71464#71597#0#PHP" expanded="false" />
+            <element signature="e#71722#72019#0#PHP" expanded="false" />
+            <element signature="e#75073#75234#0#PHP" expanded="false" />
+            <element signature="n#staff_has_commented_on_task#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#75440#75588#0#PHP" expanded="false" />
+            <element signature="n#is_task_follower#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#75662#75784#0#PHP" expanded="false" />
+            <element signature="e#75705#75783#0#PHP" expanded="false" />
+            <element signature="e#75658#75828#0#PHP" expanded="false" />
+            <element signature="e#75862#76010#0#PHP" expanded="false" />
+            <element signature="n#is_task_assignee#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#76084#76205#0#PHP" expanded="false" />
+            <element signature="e#76126#76204#0#PHP" expanded="false" />
+            <element signature="e#76080#76249#0#PHP" expanded="false" />
+            <element signature="e#76283#76430#0#PHP" expanded="false" />
+            <element signature="n#is_task_creator#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#76503#76656#0#PHP" expanded="false" />
+            <element signature="e#76537#76655#0#PHP" expanded="false" />
+            <element signature="e#76499#76700#0#PHP" expanded="false" />
+            <element signature="e#76734#77044#0#PHP" expanded="false" />
+            <element signature="n#timer_tracking#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#77157#77233#0#PHP" expanded="false" />
+            <element signature="e#77243#77505#0#PHP" expanded="false" />
+            <element signature="e#77302#77495#0#PHP" expanded="false" />
+            <element signature="e#77409#77495#0#PHP" expanded="false" />
+            <element signature="e#77524#77589#0#PHP" expanded="false" />
+            <element signature="e#77546#77588#1#PHP" expanded="false" />
+            <element signature="e#77628#77689#0#PHP" expanded="false" />
+            <element signature="e#77699#79246#0#PHP" expanded="false" />
+            <element signature="e#77954#78265#0#PHP" expanded="false" />
+            <element signature="e#78001#78264#0#PHP" expanded="false" />
+            <element signature="e#78334#78833#0#PHP" expanded="false" />
+            <element signature="e#78645#78818#0#PHP" expanded="false" />
+            <element signature="e#78692#78817#0#PHP" expanded="false" />
+            <element signature="e#78847#79100#0#PHP" expanded="false" />
+            <element signature="e#79256#79679#0#PHP" expanded="false" />
+            <element signature="e#79316#79391#0#PHP" expanded="false" />
+            <element signature="e#79451#79668#0#PHP" expanded="false" />
+            <element signature="e#79498#79667#0#PHP" expanded="false" />
+            <element signature="n#timesheet#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#79760#80394#0#PHP" expanded="false" />
+            <element signature="e#80150#80394#0#PHP" expanded="false" />
+            <element signature="e#80404#80524#0#PHP" expanded="false" />
+            <element signature="e#80454#80513#0#PHP" expanded="false" />
+            <element signature="e#80585#80736#0#PHP" expanded="false" />
+            <element signature="e#80746#82918#0#PHP" expanded="false" />
+            <element signature="e#81098#81199#0#PHP" expanded="false" />
+            <element signature="e#81145#81198#0#PHP" expanded="false" />
+            <element signature="e#81440#81865#0#PHP" expanded="false" />
+            <element signature="e#81487#81864#0#PHP" expanded="false" />
+            <element signature="e#81959#82039#0#PHP" expanded="false" />
+            <element signature="e#82116#82881#0#PHP" expanded="false" />
+            <element signature="e#82366#82837#0#PHP" expanded="false" />
+            <element signature="e#83005#83378#0#PHP" expanded="false" />
+            <element signature="e#83052#83377#0#PHP" expanded="false" />
+            <element signature="e#83389#83465#0#PHP" expanded="false" />
+            <element signature="e#83475#83642#0#PHP" expanded="false" />
+            <element signature="e#83515#83632#0#PHP" expanded="false" />
+            <element signature="n#get_timers#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_task_timer#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#is_timer_started#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#84213#84290#0#PHP" expanded="false" />
+            <element signature="e#84362#84412#0#PHP" expanded="false" />
+            <element signature="e#84422#84489#0#PHP" expanded="false" />
+            <element signature="n#is_timer_started_for_task#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#get_last_timer#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#84918#84995#0#PHP" expanded="false" />
+            <element signature="n#task_tracking_stats#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#85517#85697#0#PHP" expanded="false" />
+            <element signature="e#85715#85938#0#PHP" expanded="false" />
+            <element signature="e#85778#85927#1#PHP" expanded="false" />
+            <element signature="e#85796#85912#1#PHP" expanded="false" />
+            <element signature="e#85964#86147#0#PHP" expanded="false" />
+            <element signature="n#get_timesheeets#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#86246#86600#0#PHP" expanded="false" />
+            <element signature="n#get_time_spent#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#86752#86894#0#PHP" expanded="false" />
+            <element signature="e#86821#86894#0#PHP" expanded="false" />
+            <element signature="n#calc_task_total_time#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#87122#87193#0#PHP" expanded="false" />
+            <element signature="n#get_unique_member_logged_task_ids#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#87490#87520#0#PHP" expanded="false" />
+            <element signature="n#_cal_total_logged_array_from_timers#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#87622#87930#0#PHP" expanded="false" />
+            <element signature="e#87698#87887#0#PHP" expanded="false" />
+            <element signature="e#87801#87887#0#PHP" expanded="false" />
+            <element signature="n#delete_timesheet#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#88232#89216#0#PHP" expanded="false" />
+            <element signature="e#88638#89051#0#PHP" expanded="false" />
+            <element signature="n#get_reminders#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="n#can_staff_access_task#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#89729#89901#0#PHP" expanded="false" />
+            <element signature="e#89784#89891#0#PHP" expanded="false" />
+            <element signature="n#get_staff_members_that_can_access_task#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#90024#90676#0#PHP" expanded="false" />
+            <element signature="n#should_staff_receive_notification#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#90789#90880#0#PHP" expanded="false" />
+            <element signature="n#new_task_to_select_timesheet#0;n#Tasks_model#0;n#!!top" expanded="false" />
+            <element signature="e#91317#91472#0#PHP" expanded="false" />
+            <marker date="1572215868517" expanded="false" signature="28715:28948" ph="SELECT * FRO... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="28859:28923" ph="SELECT id FR... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="85355:85431" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="86264:86598" ph="SELECT id,no... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="87320:87405" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="90042:90674" ph="SELECT * FRO... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="90164:90242" ph="SELECT staff... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="90279:90358" ph="SELECT staff... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="90395:90491" ph="SELECT added... ${db_prefix()}" />
+            <marker date="1572215868517" expanded="false" signature="90527:90630" ph="SELECT staff... ${db_prefix()}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
+    <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="52" column="11" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="11" />
+        <state relative-caret-position="439">
+          <caret line="525" column="21" lean-forward="false" selection-start-line="525" selection-start-column="21" selection-end-line="525" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/groups/my_profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="304" column="93" lean-forward="false" selection-start-line="304" selection-start-column="84" selection-end-line="304" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/my_manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="223" column="62" lean-forward="false" selection-start-line="223" selection-start-column="53" selection-end-line="223" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/Clients_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="449" column="40" lean-forward="true" selection-start-line="449" selection-start-column="40" selection-end-line="449" selection-end-column="40" />
+          <folding>
+            <marker date="1572216955454" expanded="true" signature="26252:26317" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1572216955454" expanded="true" signature="56883:57066" ph="SELECT DISTI... ${db_prefix()}" />
+            <marker date="1572216955454" expanded="true" signature="58188:58578" ph="SELECT * FRO... ${db_prefix()}" />
+            <marker date="1572216955454" expanded="true" signature="58310:58391" ph="SELECT staff... ${db_prefix()}" />
+            <marker date="1572216955454" expanded="true" signature="58427:58534" ph="SELECT staff... ${db_prefix()}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/modals/my_contact.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="34" column="76" lean-forward="false" selection-start-line="34" selection-start-column="67" selection-end-line="34" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Clients.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="457" column="48" lean-forward="false" selection-start-line="457" selection-start-column="48" selection-end-line="457" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="34" column="111" lean-forward="false" selection-start-line="34" selection-start-column="111" selection-end-line="34" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/phases/manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="82" column="21" lean-forward="false" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
           <folding />
         </state>
       </provider>

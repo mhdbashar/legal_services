@@ -1214,7 +1214,6 @@
 
     // Add follower to task
     // $("body").on('change', 'select[name="select-followers_session"]', function() {
-    //     console.log("asd");
     //     var data = {};
     //     data.follower = $('select[name="select-followers_session"]').val();
     //     if (data.follower !== '') {

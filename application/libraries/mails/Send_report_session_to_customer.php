@@ -18,14 +18,13 @@ class Send_report_session_to_customer extends App_mail_template
     {
         parent::__construct();
 
-        $this->session = $session;
+        $this->session      = $session;
         $this->contact      = $contact;
         $this->cc           = $cc;
     }
 
     public function build()
     {
-        $this->to($this->contact->email)
-            ->set_merge_fields('sessions_merge_fields',$this->session->id);
+        $this->to($this->contact->email)->set_merge_fields('sessions_merge_fields',$this->session->id);
     }
 }

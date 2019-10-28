@@ -455,7 +455,7 @@ class Clients extends AdminController
                 ]);
                 die;
             }
-            $title = $data['contact']->full_name;
+            $title = $data['contact']->firstname.' '.$data['contact']->lastname;
         }
 
         $data['customer_permissions'] = get_contact_permissions();

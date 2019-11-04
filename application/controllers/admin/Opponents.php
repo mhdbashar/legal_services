@@ -140,7 +140,7 @@ class Opponents extends AdminController
                     if ($save_and_add_contact == false) {
                         redirect($_SERVER['HTTP_REFERER'] . '/' . $id);
                     } else {
-                        redirect($_SERVER['HTTP_REFERER'] . '?group=contacts&new_contact=true');
+                        redirect($_SERVER['HTTP_REFERER'] . '/' . $id. '?group=contacts&new_contact=true');
                     }
                 }
             } else {

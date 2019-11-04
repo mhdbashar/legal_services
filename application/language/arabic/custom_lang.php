@@ -293,6 +293,7 @@ $lang['outgoing_transaction'] = 'معاملة صادرة';
 $lang['secret_trans'] = 'سرية';
 $lang['normal_trans'] = 'عادية';
 
+$lang['customer_company_groups'] = "المجموعات";
 
 
 

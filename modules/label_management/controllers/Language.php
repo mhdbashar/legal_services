@@ -11,6 +11,9 @@ class Language extends AdminController
 	}
 	public function index($language = 'english', $custom = 'custom_lang', $offset = 0, $search = ''){
 
+		if(!($custom == $language . '_lang' or $custom == 'custom_lang')){
+			$custom = 'custom_lang';
+		}
 
 		$file = FCPATH . 'application/language/' . $language .'/'. $custom .'.php';
 

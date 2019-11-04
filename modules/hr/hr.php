@@ -38,15 +38,35 @@ function hr_module_init_menu_items()
         ]);
 		
     if (has_permission('hr', '', 'view')) {
-		
+        
         $CI->app_menu->add_sidebar_children_item('hr-system', [
                 'slug'     => 'Holidays',
                 'name'     => 'Holidays',
                 'href'     => admin_url('hr/Holidays'),
                 'position' => 26,
+        ]); 
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'Staff',
+                'name'     => 'Staff',
+                'href'     => admin_url('staff'),
+                'position' => 30,
+        ]); 
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'payroll',
+                'name'     => 'Payroll',
+                'href'     => admin_url('hr/payroll'),
+                'position' => 35,
+        ]); 
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'settings',
+                'name'     => 'Settings',
+                'href'     => admin_url('hr/setting/deduction'),
+                'position' => 35,
         ]);  
                 
     }
+
+    
 }
 
 

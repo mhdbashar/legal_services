@@ -8,19 +8,41 @@ class Payroll extends AdminController{
 		$this->load->model('Salary_model');
 		$this->load->model('Commissions_model');
 		$this->load->model('Other_payment_model');
-		$this->load->model('Lean_model');
+		$this->load->model('Loan_model');
 		$this->load->model('Overtime_model');
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
 		$this->load->model('Payments_model');
 	}
 
-	public function count_result($staff_id){
+	public function test($staff_id, $year, $month){
+		
+	}
+
+	public function count_result($staff_id, $year, $month){
 		
 		$other_payments = $this->Other_payment_model->count_results($staff_id);
 		$data['total_other_payments'] = 0;
 		foreach ($other_payments as $other_payment) {
 			$data['total_other_payments'] += $other_payment['amount'];
+		}
+
+		$loans = $this->Loan_model->count_results($staff_id);
+		$data['total_loans'] = 0;
+		foreach ($loans as $loan) {
+			$start_date=strtotime($loan['start_date']);
+			$smonth=date("m",$start_date);
+			$syear=date("Y",$start_date);
+
+			$end_date=strtotime($loan['end_date']);
+			$emonth=date("m",$end_date);
+			$eyear=date("Y",$end_date);
+			// $data[] = ['smonth' => $syear, 'emonth' => $eyear];
+			if($syear <= $year and $eyear >= $year){
+				if($smonth <= $month and $emonth >= $month){
+					$data['total_loans'] += $loan['amount'];
+				}
+			}
 		}
 
 		$deductions = $this->Statutory_deduction_model->count_results($staff_id);

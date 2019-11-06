@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade" id="update_lean" tabindex="-1" role="dialog" aria-labelledby="update_lean" aria-hidden="true">
+<div class="modal fade" id="update_loan" tabindex="-1" role="dialog" aria-labelledby="update_loan" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/details/update_lean'),array('id'=>'form_transout')); ?>
+            <?php echo form_open(admin_url('hr/details/update_loan'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('id'); ?>
             <?php echo form_hidden('staff_id', $staff_id); ?>
             <div class="modal-body">
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="add_lean" tabindex="-1" role="dialog" aria-labelledby="add_lean" aria-hidden="true">
+<div class="modal fade" id="add_loan" tabindex="-1" role="dialog" aria-labelledby="add_loan" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -48,7 +48,7 @@
                     <span class="add-title"><?php echo "Add"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/Details/add_lean'),array('id'=>'form_transout')); ?>
+            <?php echo form_open(admin_url('hr/Details/add_loan'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('staff_id', $staff_id); ?>
             <div class="modal-body">
                 <div class="row">
@@ -97,7 +97,7 @@ staff_id int(11)
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "<?php echo site_url('hr/details/json_lean') ?>/" + id,
+            url : "<?php echo site_url('hr/details/json_loan') ?>/" + id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -115,7 +115,7 @@ staff_id int(11)
 
                 $('[name="reason"]').val(data.reason);
 
-                $('#update_lean').modal('show'); // show bootstrap modal when complete loaded
+                $('#update_loan').modal('show'); // show bootstrap modal when complete loaded
 
             },
             error: function (jqXHR, textStatus, errorThrown)

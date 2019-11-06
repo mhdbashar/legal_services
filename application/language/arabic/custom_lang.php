@@ -170,8 +170,8 @@ $lang['session_type'] = "نوع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
 $lang['session_number'] = "رقم الجلسة";
 $lang['upcoming_actions'] = "الإجرائات القادمة";
-$lang['session'] =  'الجلسة';
-$lang['sessions'] =  'الجلسات';
+$lang['session'] = "الجلسة";
+$lang['sessions'] = "الجلسات";
 $lang['session_no_checklist_items_found'] = "عناصر الإجرائات القادمة غير موجودة لهذه الجلسة";
 $lang['no_reminders_for_this_session'] = "لا توجد تذكيرات لهذه الجلسة";
 $lang['session_single_assignees_select_title'] = "إحالة الجلسة إلى";
@@ -231,22 +231,13 @@ $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
 $lang['branch_name'] = "اسم الفرع";
-
-$lang['incoming_file'] = 'ملف المعاملة الواردة';
-
-$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
-
-
-$lang['add_incoming_side'] = 'إضافة جهة واردة';
-$lang['incoming_side'] = 'الجهة الواردة';
-$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
-$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
-$lang['incoming_transaction'] = 'معاملة واردة';
-$lang['outgoing_transaction'] = 'معاملة صادرة';
-$lang['secret_trans'] = 'سرية';
-$lang['normal_trans'] = 'عادية';
-
-
-
-
-
+$lang['incoming_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_file'] = "ملف المعاملة الصادرة";
+$lang['add_incoming_side'] = "إضافة جهة واردة";
+$lang['incoming_side'] = "الجهة الواردة";
+$lang['incoming_transaction_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_transaction_file'] = "ملف المعاملة الصادرة";
+$lang['incoming_transaction'] = "معاملة واردة";
+$lang['outgoing_transaction'] = "معاملة صادرة";
+$lang['secret_trans'] = "سرية";
+$lang['normal_trans'] = "عادية";

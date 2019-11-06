@@ -35,7 +35,7 @@ foreach (json_decode($values) as $value) {
 
 	    $row[] = $a;
 
-	    $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_deduction_type', 'data-id' => $a, 'data-old' => "$a", 'onclick' => 'edit("' . $a . '")']);
+	    $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_deduction_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
 	    $row[]   = $options .= icon_btn('hr/setting/delete_deduction_type/' . $a, 'remove', 'btn-danger _delete');
 	    
 

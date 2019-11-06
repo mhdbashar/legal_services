@@ -2,14 +2,23 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Lean_model extends App_Model{
+class Loan_model extends App_Model{
 
-    private $table_name = 'tblhr_lean';
+    private $table_name = 'tblhr_loan';
 
     public function __construct(){
         parent::__construct();
         if(!substr( $this->table_name, 0, 3 ) === "tbl"){
             $this->table_name = 'tbl' . $this->table_name;
+        }
+    }
+
+    public function count_results($staff_id){
+        if(is_numeric($staff_id)){
+            $this->db->select('*');
+            $this->db->from($this->table_name);
+            $this->db->where('staff_id' ,$staff_id);
+            return $this->db->get()->result_array();
         }
     }
 

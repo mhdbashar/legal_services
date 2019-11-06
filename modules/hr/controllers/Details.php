@@ -7,7 +7,7 @@ class Details extends AdminController{
 		$this->load->model('Salary_model');
 		$this->load->model('Commissions_model');
 		$this->load->model('Other_payment_model');
-		$this->load->model('Lean_model');
+		$this->load->model('Loan_model');
 		$this->load->model('Overtime_model');
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
@@ -30,8 +30,8 @@ class Details extends AdminController{
 				$this->hrmapp->get_table_data('my_commissions_table', ['staff_id' => $staff_id]);
 			}elseif($group == 'other_payments'){
 		        $this->hrmapp->get_table_data('my_other_payments_table', ['staff_id' => $staff_id]);
-			}elseif($group == 'lean'){
-		        $this->hrmapp->get_table_data('my_lean_table', ['staff_id' => $staff_id]);
+			}elseif($group == 'loan'){
+		        $this->hrmapp->get_table_data('my_loan_table', ['staff_id' => $staff_id]);
 			}elseif($group == 'overtime'){
 		        $this->hrmapp->get_table_data('my_overtime_table', ['staff_id' => $staff_id]);
 			}elseif($group == 'allowances'){
@@ -241,16 +241,16 @@ class Details extends AdminController{
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
-	// lean
+	// loan
 
-    public function json_lean($id){
-        $data = $this->Lean_model->get($id);
+    public function json_loan($id){
+        $data = $this->Loan_model->get($id);
         echo json_encode($data);
     }
-    public function update_lean(){
+    public function update_loan(){
         $data = $this->input->post();
         $id = $this->input->post('id');
-        $success = $this->Lean_model->update($data, $id);
+        $success = $this->Loan_model->update($data, $id);
         if($success)
             set_alert('success', 'Updated successfully');
         else
@@ -258,9 +258,9 @@ class Details extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-	public function add_lean(){
+	public function add_loan(){
         $data = $this->input->post();
-        $success = $this->Lean_model->add($data);
+        $success = $this->Loan_model->add($data);
         if($success)
             set_alert('success', 'Added successfully');
         else
@@ -268,7 +268,7 @@ class Details extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function delete_lean($id)
+	public function delete_loan($id)
 	{
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
@@ -276,7 +276,7 @@ class Details extends AdminController{
         if (!is_admin()) {
             access_denied();
         }
-        $response = $this->Lean_model->delete($id);
+        $response = $this->Loan_model->delete($id);
         if ($response == true) {
             set_alert('success', 'Deleted successfully');
         } else {

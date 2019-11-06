@@ -60,7 +60,7 @@ function hr_module_init_menu_items()
         $CI->app_menu->add_sidebar_children_item('hr-system', [
                 'slug'     => 'settings',
                 'name'     => 'Settings',
-                'href'     => admin_url('hr/setting/deduction'),
+                'href'     => admin_url('hr/setting'),
                 'position' => 35,
         ]);  
                 

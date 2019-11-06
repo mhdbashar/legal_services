@@ -8,12 +8,13 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
-            <?php echo form_hidden('old'); ?>
+            <?php echo form_open(admin_url('hr/setting/update_deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            
             <div class="modal-body">
+                <input type="hidden" name="old" id="old" value="">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('new',_l('deduction_type')); ?>
+                        <?php echo render_input('new',_l('deduction_type'),'','text',['id' => 'new']); ?>
 
                         <!--                        --><?php //echo form_hidden('id'); ?>
                     </div>

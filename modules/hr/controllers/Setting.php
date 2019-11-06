@@ -7,6 +7,27 @@ class Setting extends AdminController{
 		parent::__construct();
 	}
 
+    public function index(){
+
+        $group = '';
+
+        if(!$this->input->get('group')){
+            $_GET['group'] = 'deduction';
+            $group = 'deduction';
+        }else{
+            $group = $this->input->get('group');
+        }
+        if ($this->input->is_ajax_request()) {
+            if($group == 'deduction'){
+                $this->hrmapp->get_table_data('my_deduction_types_table');
+            }
+        }
+
+        $data['group'] = $group;
+        $data['title'] = 'Manage Deduction Tabs';
+        $this->load->view('settings/manage', $data);
+    }
+
 	public function deduction_type(){
 
 		$enArray=array();
@@ -58,24 +79,62 @@ class Setting extends AdminController{
         $name = urldecode($name);
 
         foreach($enArray as $obj){
-        	if($obj->key == $name)
-        		continue;
-        	$new_array[] = $obj;
+            if($obj->key == $name)
+                continue;
+            $new_array[] = $obj;
         }
 
         $success = update_option('deduction_type',json_encode($new_array));
        
         if($success){
-        	set_alert('success', 'Deleted successfully');
+            set_alert('success', 'Deleted successfully');
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-	public function deduction(){
-		if ($this->input->is_ajax_request()) {
-			$this->hrmapp->get_table_data('my_deduction_types_table');
-		}
-        $data['title'] = 'Manage Deduction Tabs';
-		$this->load->view('settings/tabs/deduction');
-	}
+    public function update_deduction_type()
+    {
+        if (!has_permission('settings', '', 'delete')) {
+            access_denied('settings');
+        }
+
+        $old = $this->input->get('old');
+        $new = $this->input->get('new');
+
+        $enArray = json_decode(get_option('deduction_type'));
+        
+        $new_array = [];
+
+        $old = urldecode($old);
+
+        foreach($enArray as $obj){
+            if($obj->key == $old)
+                continue;
+            $new_array[] = $obj;
+        }
+
+        update_option('deduction_type',json_encode($new_array));
+
+        $enArray = $new_array;
+
+//        var_dump($this->input->post('nameEn'));exit();
+
+        if ($this->input->get()){
+            $nameEn['key'] = $this->input->get('new');
+            $nameEn['value'] = $this->input->get('new');
+        }
+
+        array_push($enArray,$nameEn );
+        if (option_exists('deduction_type') != Null){
+            $en = update_option('deduction_type',json_encode($enArray));
+        }else{
+            $en = add_option('deduction_type',json_encode($enArray));
+        }
+
+        $success = $en ?true:false;
+        if($success){
+            set_alert('success', 'Updated successfully');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

@@ -12,7 +12,7 @@
 					  			$group == 'update_salary' or
 					  			$group == 'allowances' or
 					  			$group == 'commissions' or
-					  			$group == 'lean' or
+					  			$group == 'loan' or
 					  			$group == 'statutory_deductions' or
 					  			$group == 'other_payments' or
 					  			$group == 'overtime'

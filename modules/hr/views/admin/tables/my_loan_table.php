@@ -13,7 +13,7 @@ staff_id int(11)
 $aColumns = ['id', 'title', 'amount', 'start_date', 'end_date', 'reason'];
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'hr_lean';
+$sTable       = db_prefix().'hr_loan';
 
 $where = ['AND staff_id='.$staff_id];
 
@@ -37,8 +37,8 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['reason'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_lean', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('hr/details/delete_lean/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_loan', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $row[]   = $options .= icon_btn('hr/details/delete_loan/' . $aRow['id'], 'remove', 'btn-danger _delete');
     
 
     $output['aaData'][] = $row;

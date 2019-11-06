@@ -1,4 +1,6 @@
 <?php
+$lang['April'] = "April";
+$lang['la'] = "asdsad";
 $lang['test'] = "Test";
 $lang['overtime'] = "Overtime";
 $lang['other_payments'] = "Other Payments";
@@ -917,7 +919,6 @@ $lang['settings_exclude_estimate_from_client_area_with_draft_status'] = "Exclude
 $lang['January'] = "January";
 $lang['February'] = "February";
 $lang['March'] = "March";
-$lang['April'] = "April";
 $lang['May'] = "May";
 $lang['June'] = "June";
 $lang['July'] = "July";

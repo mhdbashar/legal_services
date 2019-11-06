@@ -16,7 +16,7 @@
 				       		<a data-group='commissions' href="?group=commissions"><?php echo _l('commissions') ?></a>
 				       	</li>
 				       	<li class="customer_tab_contacts">
-				       		<a data-group='lean' href="?group=lean"><?php echo _l('lean') ?></a>
+				       		<a data-group='loan' href="?group=loan"><?php echo _l('loan') ?></a>
 				       	</li>
 				       	<li class="customer_tab_contacts">
 				       		<a data-group='statutory_deductions' href="?group=statutory_deductions"><?php echo _l('statutory_deductions') ?></a>

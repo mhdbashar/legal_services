@@ -24,7 +24,7 @@
                         <?php echo render_input('commissions','Total Commissions', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('lean','Total Lean', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('loan','Total loan', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo render_input('overtime','Total Overtime', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
@@ -64,7 +64,7 @@
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "<?php echo site_url('hr/payroll/count_result') ?>/" + id,
+            url : "<?php echo site_url('hr/payroll/count_result') ?>/" + id + "/" + year + "/" + month,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -85,6 +85,8 @@
                 $('[name="deductions"]').val(data.total_deductions);
 
                 $('[name="allowances"]').val(data.total_allowances);
+
+                $('[name="loan"]').val(data.total_loans);
 
                 $('[name="payment_amount"]').val(data.payment_amount);
 

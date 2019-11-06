@@ -1,6 +1,6 @@
- <?php $this->load->view('details/modals/lean_modal') ?>
+ <?php $this->load->view('details/modals/loan_modal') ?>
  <div class="_buttons">
-    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_lean"><?php echo 'New Lean'; ?></a>
+    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_loan"><?php echo 'New loan'; ?></a>
 </div>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />
@@ -13,4 +13,4 @@
     'End date',
     'Reason',
     'Actions',
-    ),'lean'); ?>
+    ),'loan'); ?>

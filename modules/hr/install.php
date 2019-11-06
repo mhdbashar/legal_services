@@ -39,8 +39,8 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_other_payments')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'hr_lean')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_lean` (
+if (!$CI->db->table_exists(db_prefix() . 'hr_loan')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_loan` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `title` varchar(200) NOT NULL,
     `amount` bigint NOT NULL,
@@ -83,7 +83,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_statutory_deductions')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 /*
-{"staff_id":"3","type":"1","payment_date":"2019-5-1","amount":"161612","allowances":"80900","commissions":"12","lean":"0","overtime":"600","deductions":"200","other_payment":"300","net_salary":"80000"}
+{"staff_id":"3","type":"1","payment_date":"2019-5-1","amount":"161612","allowances":"80900","commissions":"12","loan":"0","overtime":"600","deductions":"200","other_payment":"300","net_salary":"80000"}
 */
 if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_payments` (
@@ -94,7 +94,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
     `commissions` bigint NOT NULL,
     `deductions` bigint NOT NULL,
     `allowances` bigint NOT NULL,
-    `lean` bigint NOT NULL,
+    `loan` bigint NOT NULL,
     `amount` bigint NOT NULL,
     `net_salary` bigint NOT NULL,
     `payment_date` date NOT NULL,

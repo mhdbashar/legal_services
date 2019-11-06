@@ -380,6 +380,8 @@ echo form_hidden('project_percent',$percent);
                         $('#next_session_time'+task_id).val('');
                         $('#edit_court_decision'+task_id).val('');
                         reload_tasks_tables();
+                    }else if (data == 2){
+                        alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
                     }

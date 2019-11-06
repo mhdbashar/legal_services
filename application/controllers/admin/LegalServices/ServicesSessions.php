@@ -10,6 +10,12 @@ class ServicesSessions extends AdminController{
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     }
 
+//    public function test()
+//    {
+//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+//
+//    }
+
     public function edit_customer_report($id)
     {
         if(!$id){
@@ -18,12 +24,7 @@ class ServicesSessions extends AdminController{
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-            $success = $this->service_sessions->update_customer_report($id, $data);
-            if ($success) {
-                echo 1;
-            }else {
-                echo 0;
-            }
+            echo $this->service_sessions->update_customer_report($id, $data);
         }
     }
 

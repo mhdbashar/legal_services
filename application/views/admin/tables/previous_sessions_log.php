@@ -11,7 +11,7 @@ $aColumns = [
     'startdate',
     'time',
     'court_name',
-    'court_decision',
+//    'court_decision',
     'customer_report',
     'send_to_customer',
 ];
@@ -129,7 +129,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputName;
     $row[] = $aRow['judge'];
     $row[] = $aRow['court_name'];
-    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
+//    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border: 1px solid #989898">لايوجد</span>';
     else:

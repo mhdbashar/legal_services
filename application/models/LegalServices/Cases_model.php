@@ -308,11 +308,11 @@ class Cases_model extends App_Model
             $this->log_activity($insert_id, 'LService_activity_created');
 
             if ($send_created_email == true) {
-                $this->send_project_customer_email($insert_id, 'project_created_to_customer');
+                $this->send_project_customer_email($insert_id, 'project_created_to_customer', $ServID);//Done Send
             }
 
             if ($send_project_marked_as_finished_email_to_contacts == true) {
-                $this->send_project_customer_email($insert_id, 'project_marked_as_finished_to_customer');
+                $this->send_project_customer_email($insert_id, 'project_marked_as_finished_to_customer', $ServID);//Done Send
             }
 
             hooks()->do_action('after_add_project', $insert_id);
@@ -503,13 +503,13 @@ class Cases_model extends App_Model
         }
 
         if ($send_created_email == true) {
-            if ($this->send_project_customer_email($id, 'project_created_to_customer')) {
+            if ($this->send_project_customer_email($id, 'project_created_to_customer', $ServID)) {//Done Send
                 $affectedRows++;
             }
         }
 
         if ($send_project_marked_as_finished_email_to_contacts == true) {
-            if ($this->send_project_customer_email($id, 'project_marked_as_finished_to_customer')) {
+            if ($this->send_project_customer_email($id, 'project_marked_as_finished_to_customer', $ServID)) {//Done Send
                 $affectedRows++;
             }
         }
@@ -686,9 +686,8 @@ class Cases_model extends App_Model
         return false;
     }
 
-    public function add_edit_members($data, $id)
+    public function add_edit_members($data, $ServID, $id)
     {
-
         $affectedRows = 0;
         if (isset($data['project_members'])) {
             $project_members = $data['project_members'];
@@ -800,14 +799,14 @@ class Cases_model extends App_Model
             }
         }
 
-//        if (count($new_project_members_to_receive_email) > 0) {
-//            $all_members = $this->get_project_members($id);
-//            foreach ($all_members as $data) {
-//                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
-//                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id);
-//                }
-//            }
-//        }
+        if (count($new_project_members_to_receive_email) > 0) {
+            $all_members = $this->get_project_members($id);
+            foreach ($all_members as $data) {
+                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
+                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id, $ServID);
+                }
+            }
+        }
         if ($affectedRows > 0) {
             return true;
         }
@@ -1770,7 +1769,7 @@ class Cases_model extends App_Model
      * @param  mixed $id project id
      * @return boolean
      */
-    public function send_project_customer_email($id, $template)
+    public function send_project_customer_email($id, $template, $ServID = '')
     {
         $this->db->select('clientid');
         $this->db->where('id', $id);
@@ -1778,7 +1777,7 @@ class Cases_model extends App_Model
         $sent     = false;
         $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'project_emails' => 1]);
         foreach ($contacts as $contact) {
-            if (send_mail_template($template, $id, $clientid, $contact)) {
+            if (send_mail_template($template, $id, $clientid, $contact, $ServID)) {
                 $sent = true;
             }
         }
@@ -1828,7 +1827,7 @@ class Cases_model extends App_Model
 
             if (isset($data['send_project_marked_as_finished_email_to_contacts'])
                 && $data['send_project_marked_as_finished_email_to_contacts'] == 1) {
-                $this->send_project_customer_email($data['project_id'], 'project_marked_as_finished_to_customer');
+                $this->send_project_customer_email($data['project_id'], 'project_marked_as_finished_to_customer', $ServID); //Done Send
             }
 
             return true;

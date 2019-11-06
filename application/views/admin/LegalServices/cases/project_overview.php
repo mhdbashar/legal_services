@@ -370,7 +370,7 @@
 </div>
 <div class="modal fade" id="add-edit-members" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-      <?php echo form_open(admin_url('LegalServices/Cases_controller/add_edit_members/'.$project->id)); ?>
+      <?php echo form_open(admin_url('LegalServices/Cases_controller/add_edit_members/'.$ServID. '/' .$project->id)); ?>
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -526,10 +526,10 @@ class Other_services_controller extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function add_edit_members($project_id)
+    public function add_edit_members($ServID='', $project_id)
     {
         if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
-            $this->other->add_edit_members($this->input->post(), $project_id);
+            $this->other->add_edit_members($this->input->post(), $ServID, $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
     }

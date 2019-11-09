@@ -55,7 +55,7 @@
             ],
             _l('session_assigned'),
             _l('Court'),
-            _l('Court_decision'),
+//            _l('Court_decision'),
             _l('Customer_report'),
             _l('Send_to_customer'),
             _l('session_date'),

@@ -174,6 +174,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
+                                <?php echo render_input('file_number_case', 'file_number_in_case', $case->file_number_case, 'number'); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('file_number_court', 'file_number_in_court', $case->file_number_court, 'number'); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <?php
 //                                $staff_language = get_staff_default_language(get_staff_user_id());
                                 $staff_language = get_option('active_language');

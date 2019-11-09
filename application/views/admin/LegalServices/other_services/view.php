@@ -369,11 +369,11 @@ echo form_hidden('project_percent',$percent);
         });
     }
 
-    $("#edit_details").click(function () {
-        task_id           = $('#btn_stc').attr("task_id");
-        next_session_date = $('#next_session_date').val();
-        next_session_time = $('#next_session_time').val();
-        court_decision    = $('#edit_court_decision').val();
+
+    function edit_customer_report(task_id) {
+        next_session_date = $('#next_session_date'+task_id).val();
+        next_session_time = $('#next_session_time'+task_id).val();
+        court_decision    = $('#edit_court_decision'+task_id).val();
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
@@ -388,18 +388,20 @@ echo form_hidden('project_percent',$percent);
                 success: function (data) {
                     if(data == 1){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $('#customer_report').modal('hide');
-                        $('#next_session_date').val('');
-                        $('#next_session_time').val('');
-                        $('#edit_court_decision').val('');
+                        $('#customer_report'+task_id).modal('hide');
+                        $('#next_session_date'+task_id).val('');
+                        $('#next_session_time'+task_id).val('');
+                        $('#edit_court_decision'+task_id).val('');
                         reload_tasks_tables();
+                    }else if (data == 2){
+                        alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
                     }
                 }
             });
         }
-    });
+    }
 
     $("#add_task_timesheet").click(function () {
         name = $('#task_name_timesheet').val();

@@ -91,6 +91,41 @@ class Sessions_merge_fields extends App_merge_fields
                     'sessions',
                 ],
             ],
+            [
+                'name'      => 'Next Session Date',
+                'key'       => '{next_session_date}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
+            [
+                'name'      => 'Next Session Time',
+                'key'       => '{next_session_time}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
+            [
+                'name'      => 'Session Type',
+                'key'       => '{session_type}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
+            [
+                'name'      => 'Session Information',
+                'key'       => '{session_information}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
+            [
+                'name'      => 'Court Decision',
+                'key'       => '{court_decision}',
+                'available' => [
+                    'sessions',
+                ],
+            ],
         ];
     }
 
@@ -106,6 +141,9 @@ class Sessions_merge_fields extends App_merge_fields
 
         $this->ci->db->where('id', $task_id);
         $task = $this->ci->db->get(db_prefix().'tasks')->row();
+
+        $this->ci->db->where('task_id', $task_id);
+        $session_info = $this->ci->db->get(db_prefix() .'my_session_info')->row();
 
         $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
 
@@ -192,6 +230,12 @@ class Sessions_merge_fields extends App_merge_fields
         $fields['{session_startdate}'] = _d($task->startdate);
         $fields['{session_duedate}']   = _d($task->duedate);
         $fields['{comment_link}']   = '';
+
+        $fields['{next_session_date}'] = $session_info->next_session_date;
+        $fields['{next_session_time}']   = $session_info->next_session_time;
+        $fields['{session_type}']   = $session_info->session_type;
+        $fields['{session_information}']   = $session_info->session_information;
+        $fields['{court_decision}']   = $session_info->court_decision;
 
         $this->ci->db->where('taskid', $task_id);
         $this->ci->db->limit(1);

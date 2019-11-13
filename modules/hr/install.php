@@ -101,3 +101,41 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
+//my_qualification_table
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_qualification` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `school` varchar(200) NOT NULL,
+    `level` varchar(200) NOT NULL,
+    `from` date NOT NULL,
+    `to` date NOT NULL,
+    `amount` bigint NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_work_experience')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_work_experience` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `company_name` varchar(200) NOT NULL,
+    `post` varchar(200) NOT NULL,
+    `from_date` date NOT NULL,
+    `to_date` date NOT NULL,
+    `description` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_bank_account')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_bank_account` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `account_title` varchar(255) NOT NULL, 
+    `account_number` varchar(255) NOT NULL, 
+    `bank_name` varchar(255) NOT NULL, 
+    `bank_code` varchar(255) NOT NULL, 
+    `bank_branch` varchar(255) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

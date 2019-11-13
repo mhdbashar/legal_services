@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo "Edit"; ?></span>
+                    <span class="edit-title"><?php echo _l("edit"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/details/update_commission'),array('id'=>'form_transout')); ?>
@@ -14,15 +14,15 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
                 <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
                 <?php echo form_close(); ?>
             </div>
@@ -36,7 +36,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo "Add"; ?></span>
+                    <span class="add-title"><?php echo _l("add"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/Details/add_commission'),array('id'=>'form_transout')); ?>
@@ -44,15 +44,15 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
                 <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
                 <?php echo form_close(); ?>
             </div>

@@ -14,7 +14,46 @@ class Details extends AdminController{
 	}
 
 	
+    public function general($staff_id){
 
+        $data['staff_id'] = $staff_id;
+        $group = '';
+
+        if(!$this->input->get('group')){
+            $_GET['group'] = 'basic_information';
+        }else{
+            $group = $this->input->get('group');
+        }
+        if ($this->input->is_ajax_request()) {
+            if($group == 'qualification'){
+                $this->hrmapp->get_table_data('my_qualification_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'other_payments'){
+                $this->hrmapp->get_table_data('my_other_payments_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'loan'){
+                $this->hrmapp->get_table_data('my_loan_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'overtime'){
+                $this->hrmapp->get_table_data('my_overtime_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'allowances'){
+                $this->hrmapp->get_table_data('my_allowances_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'statutory_deductions'){
+                $this->hrmapp->get_table_data('my_statutory_deductions_table', ['staff_id' => $staff_id]);
+            }
+        }
+//qualification
+        $staff = ['type' => '', 'amount' => 0];
+
+        $data['staff'] = (object)$staff;
+
+        if($this->Salary_model->get($staff_id)){
+            $data['staff'] = $this->Salary_model->get($staff_id);
+        }
+
+        $data['group'] = $group;
+        $data['staff_id'] = $staff_id;
+        $data['title'] = _l('salary');
+
+        $this->load->view('details/general/manage', $data);
+    }
     
 	public function salary($staff_id){
 
@@ -61,7 +100,7 @@ class Details extends AdminController{
         $staff_id = $this->input->post('staff_id');
         $success = $this->Salary_model->update($data, $staff_id);
         if($success)
-            set_alert('success', 'Salary Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -78,7 +117,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Commissions_model->update($data, $id);
         if($success)
-            set_alert('success', 'Commission Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -88,7 +127,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Commissions_model->add($data);
         if($success)
-            set_alert('success', 'Commission Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -104,7 +143,7 @@ class Details extends AdminController{
         }
         $response = $this->Allowances_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -122,7 +161,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Statutory_deduction_model->update($data, $id);
         if($success)
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -132,7 +171,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Statutory_deduction_model->add($data);
         if($success)
-            set_alert('success', 'Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -148,7 +187,7 @@ class Details extends AdminController{
         }
         $response = $this->Statutory_deduction_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -166,7 +205,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Allowances_model->update($data, $id);
         if($success)
-            set_alert('success', 'Commission Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -176,7 +215,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Allowances_model->add($data);
         if($success)
-            set_alert('success', 'Commission Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -192,7 +231,7 @@ class Details extends AdminController{
         }
         $response = $this->Allowances_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -209,7 +248,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Other_payment_model->update($data, $id);
         if($success)
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -219,7 +258,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Other_payment_model->add($data);
         if($success)
-            set_alert('success', 'Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -235,7 +274,7 @@ class Details extends AdminController{
         }
         $response = $this->Other_payment_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -252,7 +291,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Loan_model->update($data, $id);
         if($success)
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -262,7 +301,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Loan_model->add($data);
         if($success)
-            set_alert('success', 'Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -278,7 +317,7 @@ class Details extends AdminController{
         }
         $response = $this->Loan_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -296,7 +335,7 @@ class Details extends AdminController{
         $id = $this->input->post('id');
         $success = $this->Overtime_model->update($data, $id);
         if($success)
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         else
             set_alert('warning', 'Problem Updating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -306,7 +345,7 @@ class Details extends AdminController{
         $data = $this->input->post();
         $success = $this->Overtime_model->add($data);
         if($success)
-            set_alert('success', 'Added successfully');
+            set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
@@ -322,7 +361,7 @@ class Details extends AdminController{
         }
         $response = $this->Overtime_model->delete($id);
         if ($response == true) {
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', 'Problem deleting');
         }
@@ -351,13 +390,6 @@ class Details extends AdminController{
 		$data['staff_id'] = $staff_id;
 
 		$this->load->view('details/tasks', $data);
-	}
-
-	public function general($staff_id){
-
-		$data['staff_id'] = $staff_id;
-
-		$this->load->view('details/general', $data);
 	}
 
 	public function payslips($staff_id){

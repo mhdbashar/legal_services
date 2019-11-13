@@ -78,7 +78,7 @@ class Payroll extends AdminController{
 			$data['total_allowances'] += $allowance['amount'];
 		}
 
-		$data['payment_amount'] = $data['salary'] + $data['total_commissions'] + $data['total_allowances'] + $data['total_overtime'] + $data['total_other_payments'] - $data['total_deductions'];
+		$data['payment_amount'] = $data['salary'] + $data['total_commissions'] + $data['total_allowances'] + $data['total_overtime'] + $data['total_other_payments'] - $data['total_deductions'] - $data['total_loans'];
         echo json_encode($data);
 	}
 

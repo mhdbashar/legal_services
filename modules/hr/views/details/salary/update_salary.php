@@ -10,8 +10,8 @@
 			<div class="select-placeholder form-group">
 				<label for="type" class="control-label">Payslip Type</label><br>
 				<select id="type" name="type" class="selectpicker">
-		          	<option <?php if($staff->type == 1) echo 'selected="selected"' ?> value="1">monthly payslip</option> 
-		          	<option <?php if($staff->type == 2) echo 'selected="selected"' ?> value="2">hourly payslip</option>  		                    
+		          	<option <?php if($staff->type == 1) echo 'selected="selected"' ?> value="1"><?php echo _l('monthly_payslip') ?></option> 
+		          	<option <?php if($staff->type == 2) echo 'selected="selected"' ?> value="2"><?php echo _l('hourly_payslip') ?></option>  		                    
 			    </select>
 		    </div>
 		</div>

@@ -19,12 +19,12 @@ class Setting extends AdminController{
         }
         if ($this->input->is_ajax_request()) {
             if($group == 'deduction'){
-                $this->hrmapp->get_table_data('my_deduction_types_table');
+                $this->hrmapp->get_table_data('types/my_deduction_types_table');
             }
         }
 
         $data['group'] = $group;
-        $data['title'] = 'Manage Deduction Tabs';
+        $data['title'] = _l('manage_custom_tabs');
         $this->load->view('settings/manage', $data);
     }
 
@@ -52,7 +52,7 @@ class Setting extends AdminController{
 
         $success = $en ?true:false;
         if($success){
-        	set_alert('success', 'Added successfully');
+        	set_alert('success', _l('added_successfully'));
         }
         /*
         $message = $success ? _l('added_successfully', _l('incoming_side')) : '';
@@ -87,7 +87,7 @@ class Setting extends AdminController{
         $success = update_option('deduction_type',json_encode($new_array));
        
         if($success){
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -133,7 +133,7 @@ class Setting extends AdminController{
 
         $success = $en ?true:false;
         if($success){
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }

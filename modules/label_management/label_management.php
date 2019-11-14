@@ -6,6 +6,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
+Author: Ahmad Zaher Khrezaty
 Module Name: Label Management
 Description: Translate Label (Arabic- English).
 Version: 2.3.0

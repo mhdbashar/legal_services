@@ -39,15 +39,46 @@ class ServicesSessions_model extends App_Model
 
     public function update_customer_report($id, $data)
     {
+
         $data['next_session_date'] = to_sql_date($data['next_session_date']);
-        $this->db->where(array('task_id' => $id));
-        $this->db->set(array('customer_report' => 1));
+        $this->db->where('task_id' , $id);
+        $this->db->set('customer_report', 1);
         $this->db->update(db_prefix() .'my_session_info', $data);
         if ($this->db->affected_rows() > 0) {
             log_activity(' Customer report added [ Session ID ' . $id . ']');
-            return true;
+            $sent = $this->send_mail_next_action_session($id);
+            if($sent == 1){
+                return true;
+            }elseif ($sent == 2){
+                return 2;
+            }
         }
         return false;
+    }
+
+    function send_mail_next_action_session($id)
+    {
+        $this->db->where('id', $id);
+        $row = $this->db->get(db_prefix() .'tasks')->row();
+        $rel_type = $row->rel_type;
+        $rel_id = $row->rel_id;
+        $service_id = $this->legal->get_service_id_by_slug($rel_type);
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+            $opponent_id = get_opponent_id_by_case_id($rel_id);
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+        }
+        $this->db->where('userid', $client_id);
+        $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
+        $this->db->where('userid', $opponent_id);
+        $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
+        if(isset($contact_client) && isset($contact_opponent)){
+            send_mail_template('reminder_for_next_session_action',$contact_client, $id);
+            send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
+            return true;
+        }
+        return 2; // This customer or opponent doesn't have primary contact
     }
 
     public function update_send_to_customer($id)
@@ -77,13 +108,11 @@ class ServicesSessions_model extends App_Model
         $service_id = $this->legal->get_service_id_by_slug($rel_type);
         if($service_id == 1){
             $client_id = get_client_id_by_case_id($rel_id);
-            $this->db->where('userid', $client_id);
-            $contact = $this->db->get(db_prefix() . 'contacts')->row();
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
-            $this->db->where('userid', $client_id);
-            $contact = $this->db->get(db_prefix() . 'contacts')->row();
         }
+        $this->db->where('userid', $client_id);
+        $contact = $this->db->get(db_prefix() . 'contacts')->row();
         if(isset($contact)){
             send_mail_template('send_report_session_to_customer', $contact, $service_data);
             return true;

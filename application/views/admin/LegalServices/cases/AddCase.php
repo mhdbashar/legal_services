@@ -142,11 +142,23 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                               te
+                                <?php
+                                $selected = array();
+                                $data = get_relation_data('Judges', '');
+                                echo render_select('judges[]',$data,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
+                                ?>
                             </div>
 
                                 <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
 
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php echo render_input('file_number_case', 'file_number_in_case', '', 'number'); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('file_number_court', 'file_number_in_court', '', 'number'); ?>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">

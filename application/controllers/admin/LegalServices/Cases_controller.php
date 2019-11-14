@@ -32,8 +32,6 @@ class Cases_controller extends AdminController
         if ($this->input->post()) {
             $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
-
-
             $added = $this->case->add($ServID,$data);
             if ($added) {
                 set_alert('success', _l('added_successfully'));
@@ -545,10 +543,10 @@ class Cases_controller extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function add_edit_members($project_id)
+    public function add_edit_members($ServID = '',$project_id)
     {
         if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
-            $this->case->add_edit_members($this->input->post(), $project_id);
+            $this->case->add_edit_members($this->input->post(), $ServID, $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
     }

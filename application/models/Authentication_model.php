@@ -641,9 +641,10 @@ class Authentication_model extends App_Model
 	public function send_verification_sms($userdata)
     {
 
+        $apiKet = "e0e3f79f5580ea54d9835234ced73f70";
 		$userAccount = 'mohd1978';
         $passAccount = '19781978';
-        $sender 	 = 'TechnoLinks';
+        $sender 	 = 'TL4T';
 		
 		
 		
@@ -696,6 +697,8 @@ class Authentication_model extends App_Model
 
         if ($viewResult)
             $result = $this->printStringResult(trim($result), $arraySendMsg);
+        
+       
         return $result;
     }
 

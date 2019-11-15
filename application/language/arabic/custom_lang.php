@@ -295,6 +295,9 @@ $lang['outgoing_transaction'] = 'معاملة صادرة';
 $lang['secret_trans'] = 'سرية';
 $lang['normal_trans'] = 'عادية';
 
+$lang['daily_agenda'] = "اجندة المحامي اليومية";
+$lang['daily_agenda_hour'] = "ارسال اجندة المحامي كل يوم في الساعة";
+
 
 
 

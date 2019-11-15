@@ -33,6 +33,9 @@
     <li role="presentation">
     <a href="#procurations" aria-controls="procurations" role="tab" data-toggle="tab"><?php echo _l('procurations'); ?></a>
   </li>
+    <li role="presentation">
+        <a href="#daily_agenda" aria-controls="daily_agenda" role="tab" data-toggle="tab"><?php echo _l('daily_agenda'); ?></a>
+    </li>
 
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 
@@ -124,6 +127,11 @@
     <div role="tablpanel" class="tab-pane" id="LService_recycle_bin">
         <?php echo render_input('settings[automatically_reminders_before_empty_recycle_bin_days]','AlertEmptyRecycleBin',get_option('automatically_reminders_before_empty_recycle_bin_days'),'number'); ?>
         <?php echo render_input('settings[automatically_empty_recycle_bin_after_days]','EmptyRecycleBin',get_option('automatically_empty_recycle_bin_after_days'),'number'); ?>
+    </div>
+
+    <div role="tablpanel" class="tab-pane" id="daily_agenda">
+        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>
+        <?php echo render_input('settings[automatically_send_lawyer_daily_agenda]','daily_agenda_hour',get_option('automatically_send_lawyer_daily_agenda'),'number',array('max'=>23, 'min'=>0)); ?>
     </div>
 
     <?php hooks()->do_action('after_cron_settings_last_tab_content'); ?>

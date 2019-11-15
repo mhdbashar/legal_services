@@ -3419,3 +3419,6 @@ $lang['back_to_previous_phase'] = "Back to previous phase";
 $lang['waiver'] = "Waiver";
 $lang['file_phase'] = "If there are attachments please upload them in tab files";
 $lang['create_fields'] = "Create fields from Manage Custom Fields for this phase";
+$lang['daily_agenda'] = "Lawyer's daily agenda";
+
+$lang['daily_agenda_hour'] = "Send the lawyer agenda every day in the hour";

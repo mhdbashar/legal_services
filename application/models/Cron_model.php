@@ -75,6 +75,8 @@ class Cron_model extends App_Model
             $this->legal_services_recycle_bin_reminders();
             $this->empty_legal_services_recycle_bin();
 
+            $this->send_lawyer_daily_agenda();
+
             /**
              * Finally send any emails in the email queue - if enabled and any
              */
@@ -860,6 +862,7 @@ class Cron_model extends App_Model
 
         pusher_trigger_notification($notifiedUsers);
     }
+
     private function procurations_reminders()
     {
         $reminder_before = get_option('procurations_reminder_notification_before');
@@ -867,7 +870,7 @@ class Cron_model extends App_Model
         // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
 
         $this->db->where('end_date IS NOT NULL');
-        $this->db->where('deadline_notified', 0);
+       // $this->db->where('deadline_notified', 0);
 
         $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
         $now   = new DateTime(date('Y-m-d'));
@@ -1919,6 +1922,82 @@ class Cron_model extends App_Model
             log_activity('Empty Legal Services Recycle Bin');
         }
         return false;
+    }
+
+    public function send_lawyer_daily_agenda()
+    {
+        $this->load->model('staff_model');
+        $daily_agenda_hour = get_option('automatically_send_lawyer_daily_agenda');
+        if ($daily_agenda_hour == '') {
+            $daily_agenda_hour = 7;
+        }
+        $hour_now = date('G');
+        if ($hour_now != $daily_agenda_hour && $this->manually === false) {
+            return;
+        }
+
+        if($daily_agenda_hour == date('G')){
+
+            $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 0));
+            $this->db->where('duedate IS NOT NULL');
+            $this->db->where('status !=', 5);
+            $tasks = $this->db->get(db_prefix() . 'tasks');
+            $tasks_data = $tasks->result_array();
+            $tasks_count = $tasks->num_rows();
+
+            $this->db->where( array('addedfrom' => get_staff_user_id(), 'deleted' => 0, 'is_session' => 1));
+            $this->db->where('duedate IS NOT NULL');
+            $this->db->where('status !=', 5);
+            $sessions = $this->db->get(db_prefix() . 'tasks');
+            $sessions_data = $sessions->result_array();
+            $sessions_count = $sessions->num_rows();
+
+            foreach ($tasks_data as $task) {
+                $member = $this->staff_model->get($task['addedfrom']);
+                $member_email = $member->email;
+                $member_lang = $member->default_language;
+                $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
+            }
+
+            foreach ($sessions_data as $session) {
+                $member = $this->staff_model->get($session['addedfrom']);
+                $member_email = $member->email;
+                $member_lang = $member->default_language;
+                $this->sent_agenda_email($tasks_count, $sessions_count, $member_email, $member_lang);
+            }
+        }
+    }
+
+    public function sent_agenda_email($tasks_count, $sessions_count, $to_email, $member_lang)
+    {
+        $this->load->config('email');
+        // Simulate fake template to be parsed
+        $template           = new StdClass();
+        if($member_lang == 'arabic'){
+            $date = to_hijri_date(date('Y-m-d'));
+            $template->message  = get_option('email_header') . '<div style="padding: 20px;text-align: right; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);  -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>اجندتك اليومية لتاريخ '.$date.'</h2><h4>مهام اليوم <i style="color: #0078d4;"><br />'.$tasks_count.'</i> <br /> جلسات اليوم <i style="color: #0078d4;"><br />'.$sessions_count.'</i> <br /></h4></div>' . get_option('email_footer');
+            $template->subject  = 'اجندتك اليومية';
+        }else{
+            $template->message  = get_option('email_header') . '<div style="padding: 20px;text-align: left; border-radius: 10px;box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 5px 9px 0 rgba(0, 0, 0, 0.02);  -webkit-border-radius: 10px;    background-color: #f6f6f6;"><h2>Your daily agenda for '.date('l, d F Y').'</h2><h4>Today\'s Tasks <i style="color: #0078d4;"><br />'.$tasks_count.'</i> <br /> Today\'s Sessions <i style="color: #0078d4;"><br />'.$sessions_count.'</i> <br /></h4></div>' . get_option('email_footer');
+            $template->subject  = 'Your daily agenda';
+        }
+        $template->fromname = get_option('companyname') != '' ? get_option('companyname') : 'TEST';
+        $template = parse_email_template($template);
+        $this->email->set_newline(config_item('newline'));
+        $this->email->set_crlf(config_item('crlf'));
+        $this->email->from(get_option('smtp_email'), $template->fromname);
+        $this->email->to($to_email);
+        $systemBCC = get_option('bcc_emails');
+        if ($systemBCC != '') {
+            $this->email->bcc($systemBCC);
+        }
+        $this->email->subject($template->subject);
+        $this->email->message($template->message);
+        if ($this->email->send(true)) {
+            log_activity('Daily agenda has been sent by system.');
+        } else {
+            log_activity('Failed send daily agenda by system.');
+        }
     }
 
 }

@@ -28,8 +28,17 @@
                             }else{
                                 $data =array();
                             }
-                            echo  render_select('deduction_type',$data,array('key','value'))
                         ?>
+
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('deduction_type') ?></label>
+                            <select class="form-control" id="deduction_type" name="deduction_type" placeholder="Tax type" aria-invalid="false">
+                                <option selected="" disabled=""><?php echo _l('deduction_type') ?></option>
+                            <?php foreach ($data as $value) { ?>
+                                <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
+                            <?php } ?>
+                            </select>    
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
@@ -75,8 +84,16 @@
                             }else{
                                 $data =array();
                             }
-                            echo  render_select('deduction_type',$data,array('key','value'))
                         ?>
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('deduction_type') ?></label>
+                            <select class="form-control" id="deduction_type" name="deduction_type" placeholder="Tax type" aria-invalid="false">
+                                <option selected="" disabled=""><?php echo _l('deduction_type') ?></option>
+                            <?php foreach ($data as $value) { ?>
+                                <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
+                            <?php } ?>
+                            </select>    
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>

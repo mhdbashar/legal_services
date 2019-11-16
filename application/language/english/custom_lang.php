@@ -1,5 +1,6 @@
 <?php
 $lang['account_title'] = "Account Title";
+$lang['deduction_type'] = "Deduction Type";
 $lang['account_number'] = "Account number";
 $lang['bank_name'] = "Bank name";
 $lang['bank_code'] = "Bank code";
@@ -21,7 +22,7 @@ $lang['bank_account'] = "Bank Account";
 $lang['change_password'] = "Change Password";
 $lang['security_level'] = "Security Level";
 $lang['new_work_experience'] = "New work experience";
-//'New Overtime'new_work_experience
+//'New Overtime'
 $lang['allowance_option'] = "Allowance Option";
 $lang['non_taxable'] = "Non Taxable";
 $lang['taxable'] = "Taxable";

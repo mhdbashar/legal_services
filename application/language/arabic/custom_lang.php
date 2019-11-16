@@ -1,5 +1,6 @@
 <?php
 $lang['account_title'] = "اسم الحساب";
+$lang['deduction_type'] = "نوع الاستقطاع";
 $lang['account_number'] = "رقم الحساب";
 $lang['bank_name'] = "اسم البنك";
 $lang['bank_code'] = "رقم البنك";

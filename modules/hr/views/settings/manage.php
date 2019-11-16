@@ -6,8 +6,11 @@
         	<div class="col-md-3">
 			       	<ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked customer-tabs">
 				       	<li class="customer_tab_contacts">
-				       		<a data-group='deduction' href="?group=deduction"><?php echo _l('deduction') ?></a>
-				       	</li>
+                  <a data-group='deduction' href="?group=deduction"><?php echo _l('deduction') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='document' href="?group=document"><?php echo _l('document') ?></a>
+                </li>
 			      	</ul>
             </div>
 		   	<div class="col-md-9">
@@ -29,7 +32,7 @@
    });
 </script>
 <script type="text/javascript">
-$("#update_deduction_type").on("show.bs.modal", function (event) {
+$("#update_type").on("show.bs.modal", function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
   var old = button.data("old"); // Extract info from data-* attributes
   var New = button.data("old");

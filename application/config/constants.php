@@ -183,6 +183,10 @@ define('EXPENSE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/expenses' . '/');
  * Procurations receipts
  */
 define('PROCURATION_ATTACHMENTS_FOLDER', FCPATH . 'uploads/procurations' . '/');
+/**
+ * Procurations receipts
+ */
+define('HR_DOCUMENT_ATTACHMENTS_FOLDER', FCPATH . 'uploads/hr/document' . '/');
 ///////////////////////
 // waseem abdallah
 /**

@@ -1083,6 +1083,11 @@ function get_upload_path_by_type($type)
             $path = PROCURATION_ATTACHMENTS_FOLDER;
 
         break;
+
+        case 'hr/document':
+            $path = HR_DOCUMENT_ATTACHMENTS_FOLDER;
+
+        break;
         ///////////////////////
         // waseem abdallah
         case 'transaction':

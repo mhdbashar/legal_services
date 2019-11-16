@@ -32,7 +32,10 @@
     </li>
     <li role="presentation">
     <a href="#procurations" aria-controls="procurations" role="tab" data-toggle="tab"><?php echo _l('procurations'); ?></a>
-  </li>
+    </li>
+    <li role="presentation">
+    <a href="#hr_document" aria-controls="hr_document" role="tab" data-toggle="tab"><?php echo _l('hr_document'); ?></a>
+    </li>
 
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 
@@ -78,6 +81,11 @@
     <div role="tabpanel" class="tab-pane" id="procurations">
    <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
    <?php echo render_input('settings[procurations_reminder_notification_before]','procurations_reminder_notification_before',get_option('procurations_reminder_notification_before'),'number'); ?>
+ </div>
+
+ <div role="tabpanel" class="tab-pane" id="hr_document">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hr_document_reminder_notification_before_help'); ?>"></i>
+   <?php echo render_input('settings[hr_document_reminder_notification_before]','hr_document_reminder_notification_before',get_option('hr_document_reminder_notification_before'),'number'); ?>
  </div>
  
     <div role="tabpanel" class="tab-pane" id="contracts">

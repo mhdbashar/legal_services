@@ -139,3 +139,19 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_bank_account')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_documents')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_documents` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `document_type` varchar(255) NOT NULL, 
+    `document_title` varchar(255) NOT NULL, 
+    `description` text NOT NULL, 
+    `date_expiry` date NOT NULL, 
+    `notification_email` varchar(255) NOT NULL,
+    `document_file` varchar(255) NOT NULL,
+    `is_notification` int(11) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

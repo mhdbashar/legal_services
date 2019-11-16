@@ -20,6 +20,8 @@ class Setting extends AdminController{
         if ($this->input->is_ajax_request()) {
             if($group == 'deduction'){
                 $this->hrmapp->get_table_data('types/my_deduction_types_table');
+            }elseif($group == 'document'){
+                $this->hrmapp->get_table_data('types/my_document_types_table');
             }
         }
 
@@ -28,10 +30,12 @@ class Setting extends AdminController{
         $this->load->view('settings/manage', $data);
     }
 
-	public function deduction_type(){
+    // deduction_type
 
-		$enArray=array();
-		if (option_exists('deduction_type') != Null){
+    public function deduction_type(){
+
+        $enArray=array();
+        if (option_exists('deduction_type') != Null){
             $enArray = json_decode(get_option('deduction_type'));
         }else{
             $enArray=array();
@@ -39,8 +43,8 @@ class Setting extends AdminController{
 //        var_dump($this->input->post('nameEn'));exit();
 
         if ($this->input->get()){
-	        $nameEn['key'] = $this->input->get('nameEn');
-	        $nameEn['value'] = $this->input->get('nameEn');
+            $nameEn['key'] = $this->input->get('nameEn');
+            $nameEn['value'] = $this->input->get('nameEn');
         }
 
         array_push($enArray,$nameEn );
@@ -52,7 +56,7 @@ class Setting extends AdminController{
 
         $success = $en ?true:false;
         if($success){
-        	set_alert('success', _l('added_successfully'));
+            set_alert('success', _l('added_successfully'));
         }
         /*
         $message = $success ? _l('added_successfully', _l('incoming_side')) : '';
@@ -62,11 +66,11 @@ class Setting extends AdminController{
             'data' => $nameEn,
         ]);
         */
-		redirect($_SERVER['HTTP_REFERER']);
-		
-	}
+        redirect($_SERVER['HTTP_REFERER']);
+        
+    }
 
-	public function delete_deduction_type($name)
+    public function delete_deduction_type($name)
     {
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
@@ -129,6 +133,107 @@ class Setting extends AdminController{
             $en = update_option('deduction_type',json_encode($enArray));
         }else{
             $en = add_option('deduction_type',json_encode($enArray));
+        }
+
+        $success = $en ?true:false;
+        if($success){
+            set_alert('success', _l('updated_successfully'));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // document_type
+
+    public function document_type(){
+
+        $enArray=array();
+        if (option_exists('document_type') != Null){
+            $enArray = json_decode(get_option('document_type'));
+        }else{
+            $enArray=array();
+        }
+
+        if ($this->input->get()){
+            $nameEn['key'] = $this->input->get('nameEn');
+            $nameEn['value'] = $this->input->get('nameEn');
+        }
+
+        array_push($enArray,$nameEn );
+        if (option_exists('document_type') != Null){
+            $en = update_option('document_type',json_encode($enArray));
+        }else{
+            $en = add_option('document_type',json_encode($enArray));
+        }
+
+        $success = $en ?true:false;
+        if($success){
+            set_alert('success', _l('added_successfully'));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+        
+    }
+
+    public function delete_document_type($name)
+    {
+        if (!has_permission('settings', '', 'delete')) {
+            access_denied('settings');
+        }
+
+        $enArray = json_decode(get_option('document_type'));
+        
+        $new_array = [];
+
+        $name = urldecode($name);
+
+        foreach($enArray as $obj){
+            if($obj->key == $name)
+                continue;
+            $new_array[] = $obj;
+        }
+
+        $success = update_option('document_type',json_encode($new_array));
+       
+        if($success){
+            set_alert('success', _l('deleted_successfully'));
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function update_document_type()
+    {
+        if (!has_permission('settings', '', 'delete')) {
+            access_denied('settings');
+        }
+
+        $old = $this->input->get('old');
+        $new = $this->input->get('new');
+
+        $enArray = json_decode(get_option('document_type'));
+        
+        $new_array = [];
+
+        $old = urldecode($old);
+
+        foreach($enArray as $obj){
+            if($obj->key == $old)
+                continue;
+            $new_array[] = $obj;
+        }
+
+        update_option('document_type',json_encode($new_array));
+
+        $enArray = $new_array;
+
+        if ($this->input->get()){
+            $nameEn['key'] = $this->input->get('new');
+            $nameEn['value'] = $this->input->get('new');
+        }
+
+        array_push($enArray,$nameEn );
+        if (option_exists('document_type') != Null){
+            $en = update_option('document_type',json_encode($enArray));
+        }else{
+            $en = add_option('document_type',json_encode($enArray));
         }
 
         $success = $en ?true:false;

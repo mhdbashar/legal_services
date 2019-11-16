@@ -6,6 +6,7 @@ class General extends AdminController{
 		parent::__construct();
 		$this->load->model('Work_experience_model');
 		$this->load->model('Bank_account_model');
+		$this->load->model('Document_model');
 	}
 
 	public function general($staff_id){
@@ -25,8 +26,8 @@ class General extends AdminController{
                 $this->hrmapp->get_table_data('my_work_experience_table', ['staff_id' => $staff_id]);
             }elseif($group == 'bank_account'){
                 $this->hrmapp->get_table_data('my_bank_account_table', ['staff_id' => $staff_id]);
-            }elseif($group == 'overtime'){
-                $this->hrmapp->get_table_data('my_overtime_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'document'){
+                $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $staff_id]);
             }elseif($group == 'allowances'){
                 $this->hrmapp->get_table_data('my_allowances_table', ['staff_id' => $staff_id]);
             }elseif($group == 'statutory_deductions'){
@@ -38,6 +39,14 @@ class General extends AdminController{
         $data['title'] = _l('general');
 
         $this->load->view('details/general/manage', $data);
+    }
+
+    public function expired_documents(){
+    	if ($this->input->is_ajax_request()) {
+    		$this->hrmapp->get_table_data('my_expired_documents_table');
+    	}
+    	$data['title'] = _l('general');
+    	$this->load->view('details/general/expired_documents', $data);
     }
 
     // work_experience
@@ -127,4 +136,49 @@ class General extends AdminController{
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    // document
+
+	public function json_document($id){
+        $data = $this->Document_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_document(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Document_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+	public function add_document(){
+        $data = $this->input->post();
+        $success = $this->Document_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function delete_document($id)
+	{
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Document_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
 }

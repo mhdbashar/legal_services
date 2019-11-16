@@ -17,7 +17,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('tax') ?></label>
-                            <select class="form-control" id="subcat_id" name="tax" placeholder="Tax type" aria-invalid="false">
+                            <select class="form-control" id="tax" name="tax" placeholder="Tax type" aria-invalid="false">
                                 <option id="non-tax" value="1"><?php echo _l('non_taxable') ?></option> 
                                 <option id="tax" value="2"><?php echo _l('taxable') ?></option>
                             </select>    
@@ -56,7 +56,7 @@
                      <div class="col-md-12">
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('tax') ?></label>
-                            <select class="form-control" id="subcat_id" name="tax" placeholder="Tax type" aria-invalid="false">
+                            <select class="form-control" id="tax" name="tax" placeholder="Tax type" aria-invalid="false">
                                 <option id="non-tax" value="1"><?php echo _l('non_taxable') ?></option> 
                                 <option id="tax" value="2"><?php echo _l('taxable') ?></option>
                             </select>    

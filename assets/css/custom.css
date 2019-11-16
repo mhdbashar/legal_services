@@ -17,3 +17,10 @@
     border: 1px solid #bfcbd9 !important;
     background-color: #fbfdff !important;
 }
+
+.random_background{
+    padding: 20px !important;
+    color: #323a45 !important;
+    margin-bottom: 0 !important;
+    font-size: unset;
+}

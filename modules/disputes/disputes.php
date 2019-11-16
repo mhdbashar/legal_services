@@ -49,6 +49,8 @@ function my_custom_menu_items($item){
 
 function disputes_invoice_overdue()
 {
+        $CI = &get_instance();
+        $manually = false;
         $invoice_auto_operations_hour = get_option('invoice_auto_operations_hour');
         if ($invoice_auto_operations_hour == '') {
             $invoice_auto_operations_hour = 9;
@@ -56,18 +58,18 @@ function disputes_invoice_overdue()
 
         $invoice_auto_operations_hour = intval($invoice_auto_operations_hour);
         $hour_now                     = date('G');
-        if ($hour_now != $invoice_auto_operations_hour && $this->manually === false) {
+        if ($hour_now != $invoice_auto_operations_hour && $manually === false) {
             return;
         }
 
-        $this->load->model('invoices_model');
-        $this->db->select('id,date,status,last_overdue_reminder,duedate,cancel_overdue_reminders');
-        $this->db->from(db_prefix() . 'my_project_invoices');
-        $this->db->where('(duedate != "" AND duedate IS NOT NULL)'); // We dont need invoices with no duedate
-        $this->db->where('status !=', 2); // We dont need paid status
-        $this->db->where('status !=', 5); // We dont need cancelled status
-        $this->db->where('status !=', 6); // We dont need draft status
-        $invoices = $this->db->get()->result_array();
+        $CI->load->model('invoices_model');
+        $CI->db->select('id,date,status,last_overdue_reminder,duedate,cancel_overdue_reminders');
+        $CI->db->from(db_prefix() . 'my_project_invoices');
+        $CI->db->where('(duedate != "" AND duedate IS NOT NULL)'); // We dont need invoices with no duedate
+        $CI->db->where('status !=', 2); // We dont need paid status
+        $CI->db->where('status !=', 5); // We dont need cancelled status
+        $CI->db->where('status !=', 6); // We dont need draft status
+        $invoices = $CI->db->get()->result_array();
 
         $now = time();
         foreach ($invoices as $invoice) {
@@ -92,14 +94,14 @@ function disputes_invoice_overdue()
                             $datediff  = $now - strtotime($invoice['last_overdue_reminder']);
                             $days_diff = floor($datediff / (60 * 60 * 24));
                             if ($days_diff >= $resend_days) {
-                                $this->invoices_model->send_invoice_overdue_notice($invoice['id']);
+                                $CI->invoices_model->send_invoice_overdue_notice($invoice['id']);
                             }
                         }
                     } else {
                         $datediff  = $now - strtotime($invoice['duedate']);
                         $days_diff = floor($datediff / (60 * 60 * 24));
                         if ($days_diff >= get_option('automatically_send_disputes_invoice_overdue_reminder_after')) {
-                            $this->invoices_model->send_invoice_overdue_notice($invoice['id']);
+                            $CI->invoices_model->send_invoice_overdue_notice($invoice['id']);
                         }
                     }
                 }

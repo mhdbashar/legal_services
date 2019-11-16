@@ -672,8 +672,9 @@ class Authentication_model extends App_Model
         $arraySendMsg[19] = "لم يتم العثور على مفتاح نوع التطبيق";
 
         
+        is_numeric($this->set_two_factor_auth_code($userdata->staffid,2)) ? $code= $this->set_two_factor_auth_code($userdata->staffid,2) : "Unavailable";
         $numbers = $userdata->phonenumber;
-        $msg = 'Your verification code is: ' . $userdata->two_factor_auth_code;
+        $msg = 'Your verification code is: ' . $code;
         $MsgID = time();//rand(1, 99999);
         $timeSend = 0;
         $dateSend = 0;

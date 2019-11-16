@@ -53,7 +53,7 @@ class Authentication extends App_Controller
 					
 																			//ShababSy.com Add this cond.
                 } elseif (is_array($data) && isset($data['two_factor_auth']) && $data['two_factor_auth']>0 ) {
-                    $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid, $data['two_factor_auth']);
+                    // $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid, $data['two_factor_auth']);
 
 
 					//ShababSy.com Changed this

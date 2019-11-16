@@ -243,7 +243,7 @@ class Cases_model extends App_Model
 
             if (isset($project_members)) {
                 $_pm['project_members'] = $project_members;
-                $this->add_edit_members($_pm, $insert_id);
+                $this->add_edit_members($_pm, $ServID, $insert_id);
             }
 
             if (isset($judges)) {
@@ -458,7 +458,7 @@ class Cases_model extends App_Model
         if (isset($project_members)) {
             $_pm['project_members'] = $project_members;
         }
-        if ($this->add_edit_members($_pm, $id)) {
+        if ($this->add_edit_members($_pm,$ServID, $id)) {
             $affectedRows++;
         }
         //judges
@@ -2511,7 +2511,7 @@ class Cases_model extends App_Model
                 }
                 $this->add_edit_members([
                     'project_members' => $_members,
-                ], $id);
+                ],$ServID, $id);
             }
 
             $custom_fields = get_custom_fields($slug);

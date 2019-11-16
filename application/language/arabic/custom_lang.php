@@ -296,7 +296,15 @@ $lang['secret_trans'] = 'سرية';
 $lang['normal_trans'] = 'عادية';
 
 $lang['customer_company_groups'] = "المجموعات";
+$lang['daily_agenda'] = "اجندة المحامي اليومية";
+$lang['daily_agenda_hour'] = "ارسال اجندة المحامي كل يوم في الساعة";
 
 
-
+$lang['send_report_session'] = "إرسال تقرير الجلسة";
+$lang['two_factor_auth_phonenumber_code_not_found'] = "رقم الهاتف غير موجود, الرجاء الاتصال بالمسؤول.";
+$lang['two_factor_auth_phonenumber_code_not_sent'] = "رقم التحقق لم يرسل, %s";
+$lang['two_factor_auth_phonenumber_code_sent_successfully'] = "تم إرسال رقم التحقق الى هاتفكم لاتمام عملية تسجيل الدخول";
+$lang['disable_two_factor_authentication'] = "تعطيل التحقق الثنائي";
+$lang['two_factor_sms_authentication_info'] = "يتم توفير معيار التحقق الثنائي عن طريق الرسائل القصيرة، قبل تمكين هذاالمعيار تأكد من أن إعدادات الرسائل القصيرةالخاصة بك تم إعدادها بشكل صحيح وأن النظام قادر على إرسال رسالة نصية بشكل صحيح، سيتم إرسال كود تحقق عند تسجيل الدخول عبر رسالة نصية SMS";
+$lang['enable_two_factor_sms_authentication'] = "تفعيل التحقق الثنائي عبر الرسائل القصيرة";
 

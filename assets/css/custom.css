@@ -24,3 +24,22 @@
     margin-bottom: 0 !important;
     font-size: unset;
 }
+
+/* to change Color */
+#header {
+    background: #415165;
+    /* Old browsers */
+    /* FF3.6-15 */
+    /* Chrome10-25,Safari5.1-6 */
+    background: -webkit-gradient(linear, left top, right top, from(#415165), color-stop(26%, #51647c), color-stop(73%, #51647c), to(#0ad5f5));
+    background: linear-gradient(to right, #415165 0%, #51647c 26%, #51647c 73%, #0ad5f5 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#415165', endColorstr='#4f5d7a', GradientType=1);
+    /* IE6-9 */
+    display: block;
+    height: 63px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 99;
+}

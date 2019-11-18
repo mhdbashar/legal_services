@@ -8,7 +8,7 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/update_document_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/update_type/document_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             
             <div class="modal-body">
                 <input type="hidden" name="old" id="old" value="">
@@ -38,7 +38,7 @@
                     <span class="add-title"><?php echo "Add"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/document_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/add_type/document_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">

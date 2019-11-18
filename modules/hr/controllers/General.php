@@ -4,6 +4,7 @@ class General extends AdminController{
 
 	public function __construct(){
 		parent::__construct();
+        $this->load->model('Qualification_model');
 		$this->load->model('Work_experience_model');
 		$this->load->model('Bank_account_model');
 		$this->load->model('Document_model');
@@ -21,17 +22,23 @@ class General extends AdminController{
         }
         if ($this->input->is_ajax_request()) {
             if($group == 'qualification'){
-                $this->hrmapp->get_table_data('my_qualification_table', ['staff_id' => $staff_id]);
+                $this->hrmapp->get_table_data('my_qualifications_table', ['staff_id' => $staff_id]);
             }elseif($group == 'work_experience'){
                 $this->hrmapp->get_table_data('my_work_experience_table', ['staff_id' => $staff_id]);
             }elseif($group == 'bank_account'){
                 $this->hrmapp->get_table_data('my_bank_account_table', ['staff_id' => $staff_id]);
             }elseif($group == 'document'){
                 $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $staff_id]);
-            }elseif($group == 'allowances'){
-                $this->hrmapp->get_table_data('my_allowances_table', ['staff_id' => $staff_id]);
-            }elseif($group == 'statutory_deductions'){
-                $this->hrmapp->get_table_data('my_statutory_deductions_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'qualification'){
+                $this->hrmapp->get_table_data('my_qualifications_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'social_networking'){
+                $member = $this->staff_model->get($id);
+                var_dump($member);
+                if (!$member) {
+                    blank_page('Staff Member Not Found', 'danger');
+                }else{
+                    echo var_dump($member);
+                }
             }
         }
         $data['group'] = $group;
@@ -47,6 +54,50 @@ class General extends AdminController{
     	}
     	$data['title'] = _l('general');
     	$this->load->view('details/general/expired_documents', $data);
+    }
+
+    // qualification
+
+    public function json_qualification($id){
+        $data = $this->Qualification_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_qualification(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Qualification_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_qualification(){
+        $data = $this->input->post();
+        $success = $this->Qualification_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_qualification($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Qualification_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     // work_experience

@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-$aColumns = ['document_type', 'document_title', 'notification_email', 'date_expiry'];
+$aColumns = ['document_type', 'document_title', 'notification_email', 'date_expiry', 'document_file'];
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_documents';
@@ -25,6 +25,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['date_expiry'];
 
     $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_document', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options .= icon_btn('http://localhost/legal/'.$aRow['document_file'], 'download', 'btn-default');
     $row[]   = $options .= icon_btn('hr/general/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
     
 

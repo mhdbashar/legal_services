@@ -8,13 +8,13 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/update_type/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/update_type/education_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             
             <div class="modal-body">
                 <input type="hidden" name="old" id="old" value="">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('new',_l('deduction_type'),'','text',['id' => 'new']); ?>
+                        <?php echo render_input('new',_l('education_type'),'','text',['id' => 'new']); ?>
 
                         <!--                        --><?php //echo form_hidden('id'); ?>
                     </div>
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="add_deduction_type" tabindex="-1" role="dialog" aria-labelledby="add_deduction_type" aria-hidden="true">
+<div class="modal fade" id="add_education_type" tabindex="-1" role="dialog" aria-labelledby="add_education_type" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,11 +38,11 @@
                     <span class="add-title"><?php echo "Add"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/add_type/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/add_type/education_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('nameEn',_l('deduction_type')); ?>
+                        <?php echo render_input('nameEn',_l('education_type')); ?>
 
                         <!--                        --><?php //echo form_hidden('id'); ?>
                     </div>

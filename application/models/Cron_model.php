@@ -59,7 +59,9 @@ class Cron_model extends App_Model
             $this->events();
             $this->tasks_reminders();
             $this->procurations_reminders();
-            $this->document_reminders();
+            if($this->app_modules->is_active('hr')){
+                $this->document_reminders();
+            }
             $this->recurring_tasks();
             $this->proposals();
             $this->invoice_overdue();

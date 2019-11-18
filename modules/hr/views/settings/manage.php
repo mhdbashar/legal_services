@@ -1,5 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<?php
+
+  $qualification = '';
+  if($this->input->get('group') == 'education_level' or $this->input->get('group') == 'education' or $this->input->get('group') == 'skill')
+    $qualification = $this->input->get('group');
+
+?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -10,6 +17,9 @@
                 </li>
                 <li class="customer_tab_contacts">
                   <a data-group='document' href="?group=document"><?php echo _l('document') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='<?php echo $qualification ?>' href="?group=education_level"><?php echo _l('qualification') ?></a>
                 </li>
 			      	</ul>
             </div>

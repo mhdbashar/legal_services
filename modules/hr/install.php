@@ -102,20 +102,6 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
-//my_qualification_table
-
-if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_qualification` (
-    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `school` varchar(200) NOT NULL,
-    `level` varchar(200) NOT NULL,
-    `from` date NOT NULL,
-    `to` date NOT NULL,
-    `amount` bigint NOT NULL,
-    `staff_id` int(11) NOT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
-}
-
 if (!$CI->db->table_exists(db_prefix() . 'hr_work_experience')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_work_experience` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -154,4 +140,49 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_documents')) {
     `deadline_notified` int(11) NOT NULL, 
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+//qualification
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_qualification` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `school_university` varchar(255) NOT NULL, 
+    `education_level` varchar(255) NOT NULL, 
+    `from_date` date NOT NULL,
+    `to_date` date NOT NULL,
+    `skill` varchar(255) NOT NULL, 
+    `education` varchar(255) NOT NULL, 
+    `description` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!option_exists('deduction_type')) {
+    $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';
+    add_option('deduction_type',$value);
+}
+
+if (!option_exists('document_type')) {
+    $value = '[{"key":" Driving License","value":" Driving License"}]';
+    add_option('document_type',$value);
+}
+
+if (!option_exists('education_level_type')) {
+    $value = '[{"key":"High School Diploma \/ GED","value":"High School Diploma \/ GED"}]';
+    add_option('education_level_type',$value);
+}
+
+if (!option_exists('skill_type')) {
+    $value = '[{"key":"jQuery","value":"jQuery"}]';
+    add_option('skill_type',$value);
+}
+
+if (!option_exists('education_type')) {
+    $value = '[{"key":"English","value":"English"}]';
+    add_option('education_type',$value);
+}
+
+if (!option_exists('hr_document_reminder_notification_before')) {
+    $value = '1';
+    add_option('hr_document_reminder_notification_before',$value);
 }

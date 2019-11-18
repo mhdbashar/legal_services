@@ -31,12 +31,11 @@
 
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('document_type') ?></label>
-                            <select class="form-control" id="document_type" name="document_type" placeholder="Tax type" aria-invalid="false">
-                                <option selected="" disabled=""><?php echo _l('document_type') ?></option>
+                            <select class="form-control" id="document_type" name="document_type" placeholder="<?php echo _l('document_type') ?>" aria-invalid="false">
                             <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
-                            </select>    
+                            </select>     
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -46,28 +45,11 @@
                         <?php echo render_input('document_title','document_title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>
+                    	<label for="cat_id" class="control-label"><?php echo _l('document_file') ?></label>
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
                     </div>
                     <div class="col-md-12">
-                        <div class="panel-footer attachments_area" style="background-color:unset;">
-                            <div class="row attachments">
-                                <label for="attachment" class="control-label"><?php echo _l('ticket_add_attachments'); ?></label>
-                    <div class="col-md-10">
-                        <a id="file" href=""><?php echo "file"; ?></a>
-                     </div>
-                                <div class="attachment">
-                                    <div class="form-group">
-                                        
-                                        <div class="input-group">
-                                            <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-success add_more_attachments p8-half" data-max="10" type="button"><i class="fa fa-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                   
+                        <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -82,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
-                <button group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
+                <button onclick="required_file()" group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>
@@ -120,8 +102,7 @@
 
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('document_type') ?></label>
-                            <select class="form-control" id="document_type" name="document_type" placeholder="Tax type" aria-invalid="false">
-                                <option selected="" disabled=""><?php echo _l('document_type') ?></option>
+                            <select class="form-control" id="document_type" name="document_type" placeholder="<?php echo _l('document_type') ?>" aria-invalid="false">
                             <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
@@ -135,25 +116,11 @@
                         <?php echo render_input('document_title','document_title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>
+                    	<label for="cat_id" class="control-label"><?php echo _l('document_file') ?></label>
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
                     </div>
                     <div class="col-md-12">
-                        <div class="panel-footer attachments_area" style="background-color:unset;">
-                            <div class="row attachments">
-                                <label for="attachment" class="control-label"><?php echo _l('ticket_add_attachments'); ?></label>
-                                <div class="attachment">
-                                    <div class="form-group">
-                                        
-                                        <div class="input-group">
-                                            <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-success add_more_attachments p8-half" data-max="10" type="button"><i class="fa fa-plus"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                   
+                        <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -168,12 +135,19 @@
             </div>
             <div class="modal-footer">
                 <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
-                <button group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
+                <button onclick="required_file()" group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function required_file() {
+  var x = document.getElementById("myFile").required;
+}
+</script>
+
 <script>
 
     function edit(id){
@@ -210,10 +184,6 @@
                 if(data.is_notification == 1){
                     $('#yes_notify').attr('selected','selected');
                 }
-
-                $('#file').attr('href', "<?php echo site_url('download/file/hr/document/'); ?>" + id + data.document_file);
-                
-                document.getElementById("file").href="<?php echo admin_url('uploads/hr/document/') ?>" + id + data.document_file; 
 
                 $('[name="document_file"]').val(data.document_file);
 

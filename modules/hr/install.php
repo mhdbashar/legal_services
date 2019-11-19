@@ -157,6 +157,21 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+//social_networking
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_social_networking')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_social_networking` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `twitter` varchar(255) NOT NULL, 
+    `blogger` varchar(255) NOT NULL, 
+    `google_plus` varchar(255) NOT NULL, 
+    `instagram` varchar(255) NOT NULL, 
+    `pinterest` varchar(255) NOT NULL, 
+    `youtube` varchar(255) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';
     add_option('deduction_type',$value);

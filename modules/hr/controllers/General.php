@@ -7,10 +7,20 @@ class General extends AdminController{
         $this->load->model('Qualification_model');
 		$this->load->model('Work_experience_model');
 		$this->load->model('Bank_account_model');
-		$this->load->model('Document_model');
+        $this->load->model('Document_model');
+		$this->load->model('Social_networking_model');
 	}
 
 	public function general($staff_id){
+
+        $member = $this->staff_model->get($staff_id);
+        if (!$member) {
+            blank_page('Staff Member Not Found', 'danger');
+        }else{
+            $data['staff'] = $member;
+            $data['member'] = $member;
+        }
+
 
         $data['staff_id'] = $staff_id;
         $group = '';
@@ -31,21 +41,68 @@ class General extends AdminController{
                 $this->hrmapp->get_table_data('my_document_table', ['staff_id' => $staff_id]);
             }elseif($group == 'qualification'){
                 $this->hrmapp->get_table_data('my_qualifications_table', ['staff_id' => $staff_id]);
-            }elseif($group == 'social_networking'){
-                $member = $this->staff_model->get($id);
-                var_dump($member);
-                if (!$member) {
-                    blank_page('Staff Member Not Found', 'danger');
-                }else{
-                    echo var_dump($member);
-                }
             }
         }
+
+        $other_social = ['twitter' => '', 'blogger' => '', 'google_plus' => '', 'instagram' => '', 'pinterest' => '', 'youtube' => ''];
+
+        $data['other_social'] = (object)$other_social;
+
+        if($this->Social_networking_model->get($staff_id)){
+            $data['other_social'] = $this->Social_networking_model->get($staff_id);
+        }
+
+               
         $data['group'] = $group;
         $data['staff_id'] = $staff_id;
         $data['title'] = _l('general');
 
         $this->load->view('details/general/manage', $data);
+    }
+
+    public function update_social_networking(){
+        $hr_data = [];
+
+        $hr_data['staff_id'] = $this->input->post('staff_id');
+        $hr_data['twitter'] = $this->input->post('twitter');
+        $hr_data['blogger'] = $this->input->post('blogger');
+        $hr_data['google_plus'] = $this->input->post('google_plus');
+        $hr_data['instagram'] = $this->input->post('instagram');
+        $hr_data['pinterest'] = $this->input->post('pinterest');
+        $hr_data['youtube'] = $this->input->post('youtube');
+        $staff_id = $this->input->post('staff_id');
+
+        $staff_data = [];
+        $staff_data['staffid'] = $this->input->post('staff_id');
+        $staff_data['facebook'] = $this->input->post('facebook');
+        $staff_data['linkedin'] = $this->input->post('linkedin');
+        $staff_data['skype'] = $this->input->post('skype');
+
+
+        if($this->Social_networking_model->get($staff_id)){
+            $success = $this->Social_networking_model->update($hr_data, $staff_id);
+            $success2 = $this->staff_model->update($staff_data, $staff_id);
+        }else{
+            $success = $this->Social_networking_model->add($hr_data);
+            $success2 = $this->staff_model->update($staff_data, $staff_id);
+        }
+        if($success or $success2)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function change_password(){
+        $data = $this->input->post();
+        $staff_id = $this->input->post('staffid');
+
+        $success = $this->staff_model->update($data, $staff_id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function expired_documents(){

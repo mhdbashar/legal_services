@@ -2,9 +2,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Work_experience_model extends App_Model{
+class Social_networking_model extends App_Model{
 
-    private $table_name = 'hr_work_experience';
+    private $table_name = 'hr_social_networking';
 
     public function __construct(){
         parent::__construct();
@@ -33,11 +33,11 @@ class Work_experience_model extends App_Model{
         return false;
     }
 
-    public function update($data, $id){
-        $this->db->where('staff_id', $id);
+    public function update($data, $staff_id){
+        $this->db->where('staff_id', $staff_id);
         $this->db->update($this->table_name, $data);
         if($this->db->affected_rows() > 0){
-            log_activity($this->table_name . ' updated [ ID: '. $id . ']');
+            log_activity($this->table_name . ' updated [ ID: '. $staff_id . ']');
             return true;
         }
         return false;

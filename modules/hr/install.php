@@ -141,6 +141,22 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_documents')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_immigration')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_immigration` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `document_type` varchar(255) NOT NULL, 
+    `document_number` varchar(255) NOT NULL, 
+    `issue_date` date NOT NULL, 
+    `date_expiry` date NOT NULL, 
+    `document_file` varchar(255) NOT NULL,
+    `eligible_review_date` date NOT NULL, 
+    `country` varchar(255) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
 //qualification
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
@@ -168,6 +184,24 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_social_networking')) {
     `instagram` varchar(255) NOT NULL, 
     `pinterest` varchar(255) NOT NULL, 
     `youtube` varchar(255) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_extra_info` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `emloyee_id` varchar(255) NOT NULL, 
+    `location` varchar(255) NOT NULL, 
+    `designation` varchar(255) NOT NULL, 
+    `gender` varchar(255) NOT NULL, 
+    `marital_status` varchar(255) NOT NULL, 
+    `office_sheft` varchar(255) NOT NULL, 
+    `date_birth` date NOT NULL, 
+    `state_province` varchar(255) NOT NULL, 
+    `city` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `address` varchar(255) NOT NULL, 
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }

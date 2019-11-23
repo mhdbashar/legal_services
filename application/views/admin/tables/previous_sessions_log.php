@@ -172,7 +172,7 @@ foreach ($rResult as $aRow) {
                                     </div>
                                      <div class="col-md-6">                                       
                                         <label for="next_session_time'.$aRow['id'].'" class="control-label">'. _l('next_session_time').'</label>                                           
-                                        <input type="time" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" style="display: block;width: 100%;">                                                                               
+                                        <input type="text" class="form-control" id="next_session_time'.$aRow['id'].'" name="next_session_time" style="display: block;width: 100%;">                                                                               
                                     </div>                      
                                 </div>
                                 <br>
@@ -191,7 +191,8 @@ foreach ($rResult as $aRow) {
                     </div>
                 </div>
                 <script type="text/javascript">
-                 init_datepicker();
+                 init_datepicker();            
+                 load_time_picker(' . $aRow['id'] . ');
                 </script>';
     elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 0):
         $stc = '<a href="#/" onclick="send_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';

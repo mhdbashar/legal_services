@@ -73,7 +73,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control"
+                                    <select id="representative" name="representative" class="form-control custom_select_arrow"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('representative', '');
@@ -88,7 +88,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                    <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('mycategory', $ServID);
@@ -101,7 +101,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id"
+                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                     </select>
@@ -112,7 +112,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                    <select class="form-control" id="court_id" onchange="GetCourtJad()" name="court_id"
+                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('mycourts', '');
@@ -130,7 +130,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="jud_num" class="control-label"><?php echo _l('Judicial'); ?></label>
-                                    <select class="form-control" id="jud_num" name="jud_num"
+                                    <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                     </select>
@@ -176,7 +176,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
-                                    <select id="city" name="city" class="form-control">
+                                    <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                     </select>
                                 </div>
@@ -305,7 +305,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control" name="contract"
+                                <select class="form-control custom_select_arrow" name="contract"
                                         placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option selected disabled></option>
                                     <?php $data = get_relation_data('contracts', '');
@@ -339,7 +339,7 @@
                 <div class="panel_s">
                     <div class="panel-body" id="case-settings-area">
                         <h4 class="no-margin">
-                            <?php echo _l('case_settings'); ?>
+                            <?php echo _l('project_settings'); ?>
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
@@ -633,7 +633,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
-                        $("#court_id").append(new Option(court_name, data));
+                        $("#court_id").append(new Option(court_name, data, true, true));
+                        $("#court_id_modal").append(new Option(court_name, data, true, true));
                         $('#add-court').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');

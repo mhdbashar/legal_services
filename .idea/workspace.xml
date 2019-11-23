@@ -2,373 +2,158 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/Cron_model.php" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/admin/settings/includes/my_cronjob.php" afterPath="$PROJECT_DIR$/application/views/admin/settings/includes/my_cronjob.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/custom.css" afterPath="$PROJECT_DIR$/assets/css/custom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/disputes/disputes.php" afterPath="$PROJECT_DIR$/modules/disputes/disputes.php" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Tickets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Tickets.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/upload_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/upload_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_tickets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_tickets.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/gantt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tickets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_tickets.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/invoices_case.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/invoices_case.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/invoices_oservice.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/invoices_oservice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/view_task_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/view_task_template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tickets/add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tickets/add.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/cases.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/cases.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/projects.js" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/application/vendor/2checkout/2checkout-php/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/bainternet/php-hooks/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/braintree/braintree_php/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/braintree/braintreehttp/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/clue/stream-filter/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/cocur/slugify/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/composer/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/doctrine/inflector/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/erusev/parsedown/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/guzzlehttp/guzzle/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/guzzlehttp/promises/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/guzzlehttp/psr7/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/container/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/contracts/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/database/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/events/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/pagination/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/illuminate/support/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/instamojo/instamojo-php/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/moneyphp/money/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/neitanod/forceutf8/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/nesbot/carbon/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/nuovo/spreadsheet-reader/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/omnipay/authorizenet/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/omnipay/braintree/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/omnipay/common/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/omnipay/mollie/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/omnipay/paypal/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/paragonie/random_compat/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/paragonie/sodium_compat/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/paypal/paypal-checkout-sdk/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/discovery/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/guzzle6-adapter/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/httplug/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/message/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/message-factory/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/php-http/promise/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/phpmailer/phpmailer/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/psr/http-message/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/psr/log/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/pusher/pusher-php-server/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/ralouphie/getallheaders/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/stripe/stripe-php/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/studio-42/elfinder/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/symfony/http-foundation/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/symfony/polyfill-mbstring/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/symfony/polyfill-php70/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/symfony/translation/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/tecnickcom/tcpdf/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/twilio/sdk/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/willdurand/email-reply-parser/" />
-    <ignored path="$PROJECT_DIR$/application/vendor/zbateson/mail-mime-parser/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/application/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>send_project_customer_email(</find>
-      <find>send_mail_template(</find>
-      <find>get_service_by_id</find>
-      <find>send_project_email_template</find>
-      <find>n send_project_customer_email</find>
-      <find>send_ma</find>
-      <find>send_project_customer_email</find>
-      <find>$new_project_members_to_receive_email</find>
-      <find>add</find>
-      <find>remove_team_member</find>
-      <find>LegalServices/other_services/remove_team_member/</find>
-      <find>/other_services</find>
-      <find>LegalServices/other_services</find>
-      <find>n ti</find>
-      <find>die</find>
-      <find>add_ed</find>
-      <find>LegalServices/other_services/</find>
-      <find>remove</find>
-      <find>$route</find>
-      <find>send_lawyer_daily_agenda</find>
-      <find>deadline_notified</find>
-      <find>procurations</find>
-      <find>send_m</find>
-      <find>$manually</find>
-      <find>-&gt;add_edit_members</find>
-      <find>send_mail_template</find>
-      <find>add_edit_members</find>
-      <find>echo &quot;&lt;pre&gt;&quot;;print_r(get_staff_user_id());exit;</find>
-      <find>$this-&gt;</find>
-      <find>result_a</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>'C</replace>
-      <replace>db_prefix().'my_cases'</replace>
-      <replace>'Case</replace>
-      <replace>{case_</replace>
-      <replace>LegalServices/Other_services_controller</replace>
-      <replace>$this-&gt;ci-&gt;</replace>
-      <replace>$CI-&gt;</replace>
-    </replaceStrings>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/view_session_template.php" />
-        <option value="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" />
-        <option value="$PROJECT_DIR$/application/helpers/cases_helper.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" />
-        <option value="$PROJECT_DIR$/modules/session/views/admin/service_sessions/manage.php" />
-        <option value="$PROJECT_DIR$/application/helpers/my_functions_helper.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/clients/modals/my_contact.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/Clients.php" />
-        <option value="$PROJECT_DIR$/application/models/Clients_model.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/ServicesSessions.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Reminder_for_next_session_action.php" />
-        <option value="$PROJECT_DIR$/application/models/Tasks_model.php" />
-        <option value="$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" />
-        <option value="$PROJECT_DIR$/application/libraries/merge_fields/Cases_merge_fields.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Project_created_to_customer.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Project_marked_as_finished_to_customer.php" />
-        <option value="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Project_new_discussion_comment_to_staff.php" />
-        <option value="$PROJECT_DIR$/application/libraries/mails/Project_staff_added_as_member.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" />
-        <option value="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" />
-        <option value="$PROJECT_DIR$/application/language/english/custom_lang.php" />
-        <option value="$PROJECT_DIR$/application/language/arabic/custom_lang.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/settings/includes/my_cronjob.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php" />
-        <option value="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" />
-        <option value="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php" />
-        <option value="$PROJECT_DIR$/assets/css/custom.css" />
-        <option value="$PROJECT_DIR$/modules/disputes/disputes.php" />
-        <option value="$PROJECT_DIR$/application/models/Cron_model.php" />
-      </list>
-    </option>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/application/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/application/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/application/vendor/moneyphp/money" />
+      <path value="$PROJECT_DIR$/application/vendor/willdurand/email-reply-parser" />
+      <path value="$PROJECT_DIR$/application/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/application/vendor/tecnickcom/tcpdf" />
+      <path value="$PROJECT_DIR$/application/vendor/studio-42/elfinder" />
+      <path value="$PROJECT_DIR$/application/vendor/omnipay/mollie" />
+      <path value="$PROJECT_DIR$/application/vendor/omnipay/authorizenet" />
+      <path value="$PROJECT_DIR$/application/vendor/clue/stream-filter" />
+      <path value="$PROJECT_DIR$/application/vendor/omnipay/braintree" />
+      <path value="$PROJECT_DIR$/application/vendor/omnipay/common" />
+      <path value="$PROJECT_DIR$/application/vendor/omnipay/paypal" />
+      <path value="$PROJECT_DIR$/application/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/application/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/application/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/application/vendor/symfony/polyfill-php70" />
+      <path value="$PROJECT_DIR$/application/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/application/vendor/2checkout/2checkout-php" />
+      <path value="$PROJECT_DIR$/application/vendor/cocur/slugify" />
+      <path value="$PROJECT_DIR$/application/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/application/vendor/instamojo/instamojo-php" />
+      <path value="$PROJECT_DIR$/application/vendor/twilio/sdk" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/container" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/database" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/pagination" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/contracts" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/support" />
+      <path value="$PROJECT_DIR$/application/vendor/paragonie/sodium_compat" />
+      <path value="$PROJECT_DIR$/application/vendor/illuminate/events" />
+      <path value="$PROJECT_DIR$/application/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/application/vendor/neitanod/forceutf8" />
+      <path value="$PROJECT_DIR$/application/vendor/braintree/braintreehttp" />
+      <path value="$PROJECT_DIR$/application/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/application/vendor/braintree/braintree_php" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/guzzle6-adapter" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/discovery" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/httplug" />
+      <path value="$PROJECT_DIR$/application/vendor/bainternet/php-hooks" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/promise" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/message" />
+      <path value="$PROJECT_DIR$/application/vendor/php-http/message-factory" />
+      <path value="$PROJECT_DIR$/application/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/application/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/application/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/application/vendor/zbateson/mail-mime-parser" />
+      <path value="$PROJECT_DIR$/application/vendor/paypal/paypal-checkout-sdk" />
+      <path value="$PROJECT_DIR$/application/vendor/composer" />
+      <path value="$PROJECT_DIR$/application/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/application/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/application/vendor/nuovo/spreadsheet-reader" />
+      <path value="$PROJECT_DIR$/application/vendor/psr/log" />
+    </include_path>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER">
-    <gruntfile path="$PROJECT_DIR$/Gruntfile.js" />
-  </component>
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
-  </component>
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="disputes" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legal_services" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-    </panes>
-  </component>
+  <component name="ProjectId" id="1TlEXRRmUbu16ePaCcFe7D3z1Cx" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
-      <method />
-    </configuration>
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
-      <BehatRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpSpecConfigurationType" factoryName="PHPSpec">
-      <PhpTestRunnerSettings />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+    <configuration default="true" type="js.build_tools.gulp">
       <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
       <arguments />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
-      <scripts />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <working-directory />
-      <pass-parent-env>true</pass-parent-env>
-      <envs />
-      <ui />
-      <extra-mocha-options />
-      <test-kind>DIRECTORY</test-kind>
-      <test-directory />
-      <recursive>false</recursive>
-      <method />
+      <method v="2" />
     </configuration>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -390,40 +175,16 @@
       <workItem from="1573594547671" duration="5732000" />
       <workItem from="1573683341695" duration="1353000" />
       <workItem from="1573833590959" duration="9741000" />
+      <workItem from="1574026323806" duration="2928000" />
+      <workItem from="1574109446405" duration="8428000" />
+      <workItem from="1574171911278" duration="5000" />
+      <workItem from="1574272516449" duration="16538000" />
+      <workItem from="1574377435219" duration="5470000" />
     </task>
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86009000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
-    <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24508321" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="544" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -431,707 +192,11 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="1" />
-    </breakpoint-manager>
-    <watches-manager />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/helpers/fields_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="157" column="34" lean-forward="true" selection-start-line="157" selection-start-column="34" selection-end-line="157" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="179" column="106" lean-forward="false" selection-start-line="179" selection-start-column="106" selection-end-line="179" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/merge_fields/Cases_merge_fields.php" />
-    <entry file="file://$PROJECT_DIR$/application/libraries/merge_fields/Sessions_merge_fields.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="147" column="80" lean-forward="true" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/custom_fields_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="356" column="9" lean-forward="false" selection-start-line="356" selection-start-column="9" selection-end-line="356" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/LegalServicesModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="16" column="37" lean-forward="false" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/email_templates_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="106" column="9" lean-forward="false" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_new_discussion_comment_to_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_new_discussion_comment_to_staff.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="18" column="45" lean-forward="true" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_discussion_created_to_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-122">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_file_to_staff.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-88">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Send_report_session_to_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3349">
-          <caret line="261" column="13" lean-forward="true" selection-start-line="261" selection-start-column="13" selection-end-line="261" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_created_to_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_marked_as_finished_to_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="34" column="56" lean-forward="true" selection-start-line="34" selection-start-column="56" selection-end-line="34" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/libraries/mails/Project_staff_added_as_member.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="38" column="41" lean-forward="false" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="374" column="42" lean-forward="false" selection-start-line="374" selection-start-column="42" selection-end-line="374" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="372" column="6" lean-forward="false" selection-start-line="372" selection-start-column="6" selection-end-line="372" selection-end-column="120" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="330" column="72" lean-forward="false" selection-start-line="330" selection-start-column="72" selection-end-line="330" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/plugins/elFinder/js/i18n/elfinder.hr.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="53" column="104" lean-forward="false" selection-start-line="53" selection-start-column="104" selection-end-line="53" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/misc_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="153" column="3" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/settings/all.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2193">
-          <caret line="129" column="12" lean-forward="true" selection-start-line="129" selection-start-column="12" selection-end-line="129" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/tasks/_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-173">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/tasks/my_manage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-334">
-          <caret line="30" column="173" lean-forward="false" selection-start-line="30" selection-start-column="167" selection-end-line="30" selection-end-column="173" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/settings_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3658">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/settings/includes/cronjob.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1479">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/arabic/custom_lang.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="298" column="24" lean-forward="false" selection-start-line="298" selection-start-column="7" selection-end-line="298" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/language/english/custom_lang.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="3423" column="74" lean-forward="false" selection-start-line="3423" selection-start-column="74" selection-end-line="3423" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Tasks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="100" column="44" lean-forward="false" selection-start-line="100" selection-start-column="44" selection-end-line="100" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/standard_6.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="688" column="9" lean-forward="false" selection-start-line="688" selection-start-column="9" selection-end-line="688" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/tasks_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="272" column="9" lean-forward="false" selection-start-line="272" selection-start-column="9" selection-end-line="272" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Taxes_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/general_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3231">
-          <caret line="247" column="9" lean-forward="false" selection-start-line="247" selection-start-column="9" selection-end-line="247" selection-end-column="9" />
-          <folding>
-            <element signature="n#get_staff_user_id#0;n#!!top" expanded="false" />
-            <element signature="n#get_client_user_id#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Staff_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="309" column="27" lean-forward="true" selection-start-line="309" selection-start-column="27" selection-end-line="309" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/settings/includes/my_cronjob.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="133" column="190" lean-forward="false" selection-start-line="133" selection-start-column="190" selection-end-line="133" selection-end-column="190" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="48" column="62" lean-forward="false" selection-start-line="48" selection-start-column="62" selection-end-line="48" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/tables/my_tasks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="63" column="60" lean-forward="false" selection-start-line="63" selection-start-column="41" selection-end-line="63" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Case_movement_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="232" column="41" lean-forward="false" selection-start-line="232" selection-start-column="25" selection-end-line="232" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Tasks_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="1195" column="37" lean-forward="false" selection-start-line="1195" selection-start-column="37" selection-end-line="1195" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="548" column="41" lean-forward="false" selection-start-line="548" selection-start-column="25" selection-end-line="548" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="528" column="36" lean-forward="false" selection-start-line="528" selection-start-column="20" selection-end-line="528" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="222" column="39" lean-forward="false" selection-start-line="222" selection-start-column="23" selection-end-line="222" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LegalServices/Cases_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="2513" column="26" lean-forward="false" selection-start-line="2513" selection-start-column="18" selection-end-line="2513" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-157471">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="8" column="82" lean-forward="false" selection-start-line="8" selection-start-column="82" selection-end-line="8" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/disputes/disputes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="830">
-          <caret line="103" column="33" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="33" />
-          <folding>
-            <marker date="1573844616030" expanded="true" signature="1125:1269" ph="..." />
-            <marker date="1573844616030" expanded="true" signature="1393:1883" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/helpers/my_functions_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="428" column="33" lean-forward="true" selection-start-line="428" selection-start-column="33" selection-end-line="428" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Emails.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="226" column="29" lean-forward="false" selection-start-line="221" selection-start-column="4" selection-end-line="270" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/Cron_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="1990" column="23" lean-forward="false" selection-start-line="1990" selection-start-column="23" selection-end-line="1990" selection-end-column="23" />
-          <folding>
-            <element signature="n#__construct#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#238#997#0#PHP" expanded="false" />
-            <element signature="e#482#987#0#PHP" expanded="false" />
-            <element signature="e#634#911#0#PHP" expanded="false" />
-            <element signature="e#926#987#0#PHP" expanded="false" />
-            <element signature="n#run#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#3869#5131#0#PHP" expanded="false" />
-            <element signature="e#4056#5121#0#PHP" expanded="false" />
-            <element signature="e#4337#5107#0#PHP" expanded="false" />
-            <element signature="e#4396#4835#0#PHP" expanded="false" />
-            <element signature="e#4413#4834#1#PHP" expanded="false" />
-            <element signature="e#4728#4811#1#PHP" expanded="false" />
-            <element signature="e#4738#4810#1#PHP" expanded="false" />
-            <element signature="e#5440#5573#0#PHP" expanded="false" />
-            <element signature="e#5643#6957#0#PHP" expanded="false" />
-            <element signature="e#5685#6947#0#PHP" expanded="false" />
-            <element signature="e#5879#6933#0#PHP" expanded="false" />
-            <element signature="e#6109#6915#0#PHP" expanded="false" />
-            <element signature="e#6172#6684#0#PHP" expanded="false" />
-            <element signature="e#6189#6683#1#PHP" expanded="false" />
-            <element signature="e#6553#6652#1#PHP" expanded="false" />
-            <element signature="e#6563#6651#1#PHP" expanded="false" />
-            <element signature="e#6967#7174#0#PHP" expanded="false" />
-            <element signature="e#7065#7163#0#PHP" expanded="false" />
-            <element signature="e#7107#7162#0#PHP" expanded="false" />
-            <element signature="n#autoclose_tickets#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#7371#7430#0#PHP" expanded="false" />
-            <element signature="e#7802#9714#0#PHP" expanded="false" />
-            <element signature="e#7881#8356#0#PHP" expanded="false" />
-            <element signature="e#7998#8125#0#PHP" expanded="false" />
-            <element signature="e#8140#8356#0#PHP" expanded="false" />
-            <element signature="e#8218#8342#0#PHP" expanded="false" />
-            <element signature="e#8370#9704#0#PHP" expanded="false" />
-            <element signature="e#8482#8580#0#PHP" expanded="false" />
-            <element signature="e#8525#8579#0#PHP" expanded="false" />
-            <element signature="e#8598#9690#0#PHP" expanded="false" />
-            <element signature="e#8657#8827#0#PHP" expanded="false" />
-            <element signature="e#8707#8826#0#PHP" expanded="false" />
-            <element signature="e#8890#9194#0#PHP" expanded="false" />
-            <element signature="e#9115#9194#0#PHP" expanded="false" />
-            <element signature="e#9254#9436#0#PHP" expanded="false" />
-            <element signature="e#9457#9672#0#PHP" expanded="false" />
-            <element signature="n#contracts_expiration_check#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#9874#9977#0#PHP" expanded="false" />
-            <element signature="e#10122#10232#0#PHP" expanded="false" />
-            <element signature="e#10636#10741#0#PHP" expanded="false" />
-            <element signature="e#10751#13184#0#PHP" expanded="false" />
-            <element signature="e#10799#13174#0#PHP" expanded="false" />
-            <element signature="e#10985#13160#0#PHP" expanded="false" />
-            <element signature="e#11123#11241#0#PHP" expanded="false" />
-            <element signature="e#11168#11240#0#PHP" expanded="false" />
-            <element signature="e#11264#12332#0#PHP" expanded="false" />
-            <element signature="e#11318#12310#0#PHP" expanded="false" />
-            <element signature="e#11442#12017#0#PHP" expanded="false" />
-            <element signature="e#11459#12016#1#PHP" expanded="false" />
-            <element signature="e#11881#11985#1#PHP" expanded="false" />
-            <element signature="e#12048#12174#0#PHP" expanded="false" />
-            <element signature="e#12354#13142#0#PHP" expanded="false" />
-            <element signature="e#12559#13120#0#PHP" expanded="false" />
-            <element signature="e#12866#13094#0#PHP" expanded="false" />
-            <element signature="n#recurring_tasks#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#13598#16939#0#PHP" expanded="false" />
-            <element signature="e#14007#14234#0#PHP" expanded="false" />
-            <element signature="e#14127#14234#0#PHP" expanded="false" />
-            <element signature="e#14383#16929#0#PHP" expanded="false" />
-            <element signature="e#14676#15204#0#PHP" expanded="false" />
-            <element signature="e#15223#15646#0#PHP" expanded="false" />
-            <element signature="e#15756#16915#0#PHP" expanded="false" />
-            <element signature="e#15851#15980#0#PHP" expanded="false" />
-            <element signature="e#15892#15979#0#PHP" expanded="false" />
-            <element signature="e#16356#16897#0#PHP" expanded="false" />
-            <element signature="e#16429#16620#0#PHP" expanded="false" />
-            <element signature="e#16468#16613#0#PHP" expanded="false" />
-            <element signature="e#16647#16875#0#PHP" expanded="false" />
-            <element signature="n#recurring_expenses#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#17090#17191#0#PHP" expanded="false" />
-            <element signature="e#17334#17443#0#PHP" expanded="false" />
-            <element signature="e#17847#23012#0#PHP" expanded="false" />
-            <element signature="e#18443#18673#0#PHP" expanded="false" />
-            <element signature="e#18566#18673#0#PHP" expanded="false" />
-            <element signature="e#18821#23002#0#PHP" expanded="false" />
-            <element signature="e#19053#19442#0#PHP" expanded="false" />
-            <element signature="e#19111#19424#0#PHP" expanded="false" />
-            <element signature="e#19226#19402#0#PHP" expanded="false" />
-            <element signature="e#20326#22988#0#PHP" expanded="false" />
-            <element signature="e#20507#21083#0#PHP" expanded="false" />
-            <element signature="e#20674#21061#0#PHP" expanded="false" />
-            <element signature="e#20722#21034#0#PHP" expanded="false" />
-            <element signature="e#20776#21033#0#PHP" expanded="false" />
-            <element signature="e#21202#21446#0#PHP" expanded="false" />
-            <element signature="e#21246#21445#0#PHP" expanded="false" />
-            <element signature="e#21767#22369#0#PHP" expanded="false" />
-            <element signature="e#22002#22347#0#PHP" expanded="false" />
-            <element signature="e#22110#22321#0#PHP" expanded="false" />
-            <element signature="e#22414#22969#0#PHP" expanded="false" />
-            <element signature="e#23135#26607#0#PHP" expanded="false" />
-            <element signature="e#23510#26597#0#PHP" expanded="false" />
-            <element signature="e#23777#26245#0#PHP" expanded="false" />
-            <element signature="e#23838#26227#0#PHP" expanded="false" />
-            <element signature="e#24213#24348#0#PHP" expanded="false" />
-            <element signature="e#25076#26131#0#PHP" expanded="false" />
-            <element signature="e#25255#26105#0#PHP" expanded="false" />
-            <element signature="e#25428#25945#0#PHP" expanded="false" />
-            <element signature="e#25510#25775#0#PHP" expanded="false" />
-            <element signature="e#25652#25775#0#PHP" expanded="false" />
-            <element signature="e#25976#26105#0#PHP" expanded="false" />
-            <element signature="e#26262#26544#0#PHP" expanded="false" />
-            <element signature="n#recurring_invoices#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#26756#26855#0#PHP" expanded="false" />
-            <element signature="e#26995#27103#0#PHP" expanded="false" />
-            <element signature="e#27700#27916#0#PHP" expanded="false" />
-            <element signature="e#28089#37524#0#PHP" expanded="false" />
-            <element signature="e#28256#28511#0#PHP" expanded="false" />
-            <element signature="e#28393#28511#0#PHP" expanded="false" />
-            <element signature="e#28524#28632#0#PHP" expanded="false" />
-            <element signature="e#28810#37514#0#PHP" expanded="false" />
-            <element signature="e#29364#30313#0#PHP" expanded="false" />
-            <element signature="e#30044#30313#0#PHP" expanded="false" />
-            <element signature="e#30071#30295#0#PHP" expanded="false" />
-            <element signature="e#32138#32284#0#PHP" expanded="false" />
-            <element signature="e#32549#32875#0#PHP" expanded="false" />
-            <element signature="e#32734#32875#0#PHP" expanded="false" />
-            <element signature="e#33466#34992#0#PHP" expanded="false" />
-            <element signature="e#34134#34343#0#PHP" expanded="false" />
-            <element signature="e#34535#34946#0#PHP" expanded="false" />
-            <element signature="e#34763#34924#0#PHP" expanded="false" />
-            <element signature="e#35078#37500#0#PHP" expanded="false" />
-            <element signature="e#35158#35470#0#PHP" expanded="false" />
-            <element signature="e#35202#35469#0#PHP" expanded="false" />
-            <element signature="e#35765#36332#0#PHP" expanded="false" />
-            <element signature="e#35931#36310#0#PHP" expanded="false" />
-            <element signature="e#35979#36283#0#PHP" expanded="false" />
-            <element signature="e#36033#36282#0#PHP" expanded="false" />
-            <element signature="e#36573#36705#0#PHP" expanded="false" />
-            <element signature="e#36617#36704#0#PHP" expanded="false" />
-            <element signature="e#36931#37122#0#PHP" expanded="false" />
-            <element signature="e#37168#37481#0#PHP" expanded="false" />
-            <element signature="e#37647#39994#0#PHP" expanded="false" />
-            <element signature="e#37970#39949#0#PHP" expanded="false" />
-            <element signature="e#38238#39635#0#PHP" expanded="false" />
-            <element signature="e#38315#39617#0#PHP" expanded="false" />
-            <element signature="e#38783#38918#0#PHP" expanded="false" />
-            <element signature="e#39652#39935#0#PHP" expanded="false" />
-            <element signature="n#procurations_reminders#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#43722#46018#0#PHP" expanded="false" />
-            <element signature="e#43776#46008#0#PHP" expanded="false" />
-            <element signature="e#44523#45994#0#PHP" expanded="false" />
-            <element signature="e#44734#45976#0#PHP" expanded="false" />
-            <element signature="e#44869#45954#0#PHP" expanded="false" />
-            <element signature="e#44921#45385#0#PHP" expanded="false" />
-            <element signature="e#44938#45384#1#PHP" expanded="false" />
-            <element signature="e#45416#45542#0#PHP" expanded="false" />
-            <element signature="e#45789#45927#0#PHP" expanded="false" />
-            <element signature="e#45837#45926#0#PHP" expanded="false" />
-            <element signature="n#staff_reminders#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#46490#48093#0#PHP" expanded="false" />
-            <element signature="e#46538#48083#0#PHP" expanded="false" />
-            <element signature="e#46659#46763#0#PHP" expanded="false" />
-            <element signature="e#46704#46762#0#PHP" expanded="false" />
-            <element signature="e#47128#47593#0#PHP" expanded="false" />
-            <element signature="e#47145#47592#1#PHP" expanded="false" />
-            <element signature="e#47421#47573#1#PHP" expanded="false" />
-            <element signature="e#47431#47572#1#PHP" expanded="false" />
-            <element signature="e#47612#47714#0#PHP" expanded="false" />
-            <element signature="e#47845#47942#0#PHP" expanded="false" />
-            <element signature="n#invoice_overdue#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#48292#48391#0#PHP" expanded="false" />
-            <element signature="e#48531#48639#0#PHP" expanded="false" />
-            <element signature="e#49250#51342#0#PHP" expanded="false" />
-            <element signature="e#49360#51332#0#PHP" expanded="false" />
-            <element signature="e#49468#51318#0#PHP" expanded="false" />
-            <element signature="e#49693#50014#0#PHP" expanded="false" />
-            <element signature="e#49859#49992#0#PHP" expanded="false" />
-            <element signature="e#50097#51300#0#PHP" expanded="false" />
-            <element signature="e#50458#50870#0#PHP" expanded="false" />
-            <element signature="e#50681#50844#0#PHP" expanded="false" />
-            <element signature="e#50893#51300#0#PHP" expanded="false" />
-            <element signature="e#51072#51278#0#PHP" expanded="false" />
-            <element signature="n#proposals#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="n#estimate_expiration#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="n#check_leads_email_integration#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#56078#56139#0#PHP" expanded="false" />
-            <element signature="e#56215#69910#0#PHP" expanded="false" />
-            <element signature="e#56409#56522#0#PHP" expanded="false" />
-            <element signature="e#56468#56521#0#PHP" expanded="false" />
-            <element signature="e#56599#56813#0#PHP" expanded="false" />
-            <element signature="e#56627#56768#0#PHP" expanded="false" />
-            <element signature="e#57094#57175#0#PHP" expanded="false" />
-            <element signature="e#57188#57269#0#PHP" expanded="false" />
-            <element signature="e#57330#57512#0#PHP" expanded="false" />
-            <element signature="e#57444#57512#0#PHP" expanded="false" />
-            <element signature="e#57598#69900#0#PHP" expanded="false" />
-            <element signature="e#57811#58391#0#PHP" expanded="false" />
-            <element signature="e#57844#58373#0#PHP" expanded="false" />
-            <element signature="e#57941#58351#0#PHP" expanded="false" />
-            <element signature="e#58118#58325#0#PHP" expanded="false" />
-            <element signature="e#58409#58959#0#PHP" expanded="false" />
-            <element signature="e#58609#58888#0#PHP" expanded="false" />
-            <element signature="e#58743#58888#0#PHP" expanded="false" />
-            <element signature="e#59090#59177#0#PHP" expanded="false" />
-            <element signature="e#59662#59901#0#PHP" expanded="false" />
-            <element signature="e#59927#60111#0#PHP" expanded="false" />
-            <element signature="e#60449#62665#0#PHP" expanded="false" />
-            <element signature="e#60649#62563#0#PHP" expanded="false" />
-            <element signature="e#61149#61726#0#PHP" expanded="false" />
-            <element signature="e#61983#62541#0#PHP" expanded="false" />
-            <element signature="e#62044#62237#0#PHP" expanded="false" />
-            <element signature="e#63006#65601#0#PHP" expanded="false" />
-            <element signature="e#63115#63394#0#PHP" expanded="false" />
-            <element signature="e#63667#63922#0#PHP" expanded="false" />
-            <element signature="e#63994#64244#0#PHP" expanded="false" />
-            <element signature="e#64366#64741#0#PHP" expanded="false" />
-            <element signature="e#64425#64740#0#PHP" expanded="false" />
-            <element signature="e#65211#65474#0#PHP" expanded="false" />
-            <element signature="e#65285#65473#0#PHP" expanded="false" />
-            <element signature="e#65684#66562#0#PHP" expanded="false" />
-            <element signature="e#66815#69886#0#PHP" expanded="false" />
-            <element signature="e#66853#68073#0#PHP" expanded="false" />
-            <element signature="e#66927#67684#0#PHP" expanded="false" />
-            <element signature="e#66982#67658#0#PHP" expanded="false" />
-            <element signature="e#67076#67658#0#PHP" expanded="false" />
-            <element signature="e#67423#67628#0#PHP" expanded="false" />
-            <element signature="e#67540#67628#0#PHP" expanded="false" />
-            <element signature="e#67710#67841#0#PHP" expanded="false" />
-            <element signature="e#67927#68050#0#PHP" expanded="false" />
-            <element signature="e#67968#68049#0#PHP" expanded="false" />
-            <element signature="e#68095#68502#0#PHP" expanded="false" />
-            <element signature="e#68176#68479#0#PHP" expanded="false" />
-            <element signature="e#68230#68478#0#PHP" expanded="false" />
-            <element signature="e#68524#68900#0#PHP" expanded="false" />
-            <element signature="e#68583#68899#0#PHP" expanded="false" />
-            <element signature="e#68923#69137#0#PHP" expanded="false" />
-            <element signature="e#69045#69137#0#PHP" expanded="false" />
-            <element signature="n#auto_import_imap_tickets#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#70236#75526#0#PHP" expanded="false" />
-            <element signature="e#70346#70481#0#PHP" expanded="false" />
-            <element signature="e#70636#70733#0#PHP" expanded="false" />
-            <element signature="e#70933#71117#0#PHP" expanded="false" />
-            <element signature="e#71272#75516#0#PHP" expanded="false" />
-            <element signature="e#71357#71510#0#PHP" expanded="false" />
-            <element signature="e#71657#71757#0#PHP" expanded="false" />
-            <element signature="e#71860#72606#0#PHP" expanded="false" />
-            <element signature="e#72486#72588#0#PHP" expanded="false" />
-            <element signature="e#72760#73639#0#PHP" expanded="false" />
-            <element signature="e#72816#73395#0#PHP" expanded="false" />
-            <element signature="e#73530#73639#0#PHP" expanded="false" />
-            <element signature="e#73921#74127#0#PHP" expanded="false" />
-            <element signature="e#73968#74109#0#PHP" expanded="false" />
-            <element signature="e#74203#74512#0#PHP" expanded="false" />
-            <element signature="e#74390#74494#0#PHP" expanded="false" />
-            <element signature="e#74965#75502#0#PHP" expanded="false" />
-            <element signature="e#75085#75298#0#PHP" expanded="false" />
-            <element signature="e#75209#75298#0#PHP" expanded="false" />
-            <element signature="e#75317#75502#0#PHP" expanded="false" />
-            <element signature="n#delete_activity_log#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#75666#75755#0#PHP" expanded="false" />
-            <element signature="n#_maybe_fix_duplicate_tasks_assignees_and_followers#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#76324#76581#0#PHP" expanded="false" />
-            <element signature="e#76767#77025#0#PHP" expanded="false" />
-            <element signature="n#_notification_lead_email_integration#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#77135#78528#0#PHP" expanded="false" />
-            <element signature="e#77181#77767#0#PHP" expanded="false" />
-            <element signature="e#77318#77767#0#PHP" expanded="false" />
-            <element signature="e#77396#77484#0#PHP" expanded="false" />
-            <element signature="e#77501#77753#0#PHP" expanded="false" />
-            <element signature="e#77605#77700#0#PHP" expanded="false" />
-            <element signature="e#77701#77753#0#PHP" expanded="false" />
-            <element signature="e#77982#78461#0#PHP" expanded="false" />
-            <element signature="e#78040#78327#0#PHP" expanded="false" />
-            <element signature="e#78057#78326#1#PHP" expanded="false" />
-            <element signature="e#78345#78447#0#PHP" expanded="false" />
-            <element signature="n#_check_lead_email_integration_attachments#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#78693#80308#0#PHP" expanded="false" />
-            <element signature="e#78741#80298#0#PHP" expanded="false" />
-            <element signature="e#78893#79115#0#PHP" expanded="false" />
-            <element signature="e#79014#79115#0#PHP" expanded="false" />
-            <element signature="e#79206#79440#0#PHP" expanded="false" />
-            <element signature="e#79353#79422#0#PHP" expanded="false" />
-            <element signature="e#79545#80255#0#PHP" expanded="false" />
-            <element signature="e#79676#79875#0#PHP" expanded="false" />
-            <element signature="e#80062#80237#0#PHP" expanded="false" />
-            <element signature="n#__destruct#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="n#lockHandle#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="n#can_cron_run#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#80659#80738#0#PHP" expanded="false" />
-            <element signature="n#prepare_imap_email_body_html#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="n#legal_services_recycle_bin_reminders#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#82180#82835#0#PHP" expanded="false" />
-            <element signature="e#82226#82825#0#PHP" expanded="false" />
-            <element signature="e#82291#82626#0#PHP" expanded="false" />
-            <element signature="e#82308#82625#1#PHP" expanded="false" />
-            <element signature="e#82645#82748#0#PHP" expanded="false" />
-            <element signature="n#empty_legal_services_recycle_bin#0;n#Cron_model#0;n#!!top" expanded="false" />
-            <element signature="e#83048#93214#0#PHP" expanded="false" />
-            <element signature="e#83615#88539#0#PHP" expanded="false" />
-            <element signature="e#83656#88525#0#PHP" expanded="false" />
-            <element signature="e#83934#88474#0#PHP" expanded="false" />
-            <element signature="e#85711#86292#0#PHP" expanded="false" />
-            <element signature="e#85898#86097#0#PHP" expanded="false" />
-            <element signature="e#86527#86647#0#PHP" expanded="false" />
-            <element signature="e#86740#86874#0#PHP" expanded="false" />
-            <element signature="e#88553#93141#0#PHP" expanded="false" />
-            <element signature="e#88599#93127#0#PHP" expanded="false" />
-            <element signature="e#89050#93076#0#PHP" expanded="false" />
-            <element signature="e#90425#91012#0#PHP" expanded="false" />
-            <element signature="e#90613#90813#0#PHP" expanded="false" />
-            <element signature="e#91253#91374#0#PHP" expanded="false" />
-            <element signature="e#91486#91620#0#PHP" expanded="false" />
-            <marker date="1573850727862" expanded="true" signature="75783:75898" ph="DELETE FROM " />
-            <marker date="1573850727862" expanded="true" signature="75929:76048" ph="DELETE FROM " />
-            <marker date="1573850727862" expanded="true" signature="76175:76296" ph="SELECT `staf... ${db_prefix()}" />
-            <marker date="1573850727862" expanded="true" signature="76617:76739" ph="SELECT `staf... ${db_prefix()}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

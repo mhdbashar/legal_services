@@ -169,7 +169,7 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function gantt()
+    public function gantt($ServID)
     {
         $data['title'] = _l('project_gant');
         $selected_statuses = [];
@@ -207,7 +207,7 @@ class Other_services_controller extends AdminController
             $data['project_members'] = $this->other->get_distinct_projects_members();
         }
 
-        $data['gantt_data'] = $this->other->get_all_projects_gantt_data([
+        $data['gantt_data'] = $this->other->get_all_projects_gantt_data($ServID, [
             'status' => $selected_statuses,
             'member' => $selectedMember,
         ]);
@@ -1129,9 +1129,12 @@ class Other_services_controller extends AdminController
     public function invoice_project($ServID, $project_id)
     {
         if (has_permission('invoices', '', 'create')) {
+            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $this->load->model('invoices_model');
             $data               = $this->input->post();
-            $data['project_id'] = $project_id;
+            $data['rel_stype']  = $slug;
+            $data['rel_sid']    = $project_id;
+            $data['project_id'] = null;
             $invoice_id         = $this->invoices_model->add($data);
             if ($invoice_id) {
                 $this->other->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));

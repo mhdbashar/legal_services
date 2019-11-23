@@ -64,7 +64,7 @@
 
                                 <div class="form-group">
                                     <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                    <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('mycategory', $ServID);
@@ -77,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id"
+                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                     </select>
@@ -102,7 +102,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
-                                    <select id="city" name="city" class="form-control">
+                                    <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option value=""></option>
                                     </select>
                                 </div>
@@ -210,7 +210,7 @@
                                 <a href="<?php echo admin_url('staff')?>" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control" name="contract"
+                                <select class="form-control custom_select_arrow" name="contract"
                                         placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option selected disabled></option>
                                     <?php $data = get_relation_data('contracts', '');

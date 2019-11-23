@@ -158,7 +158,7 @@
                             <div class="form-group">
                                 <label for="time" class="col-form-label"><?php echo _l('session_time'); ?></label>
                                 <?php $value = (isset($task) ? $task->time : ''); ?>
-                                <input type="time" class="form-control" value="<?php echo $value; ?>" id="time" name="time">
+                                <input type="text" class="form-control" value="<?php echo $value; ?>" id="time" name="time" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
-                                <select class="form-control" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                <select class="form-control custom_select_arrow" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option selected disabled></option>
                                     <?php $data = get_relation_data('myjudicial',$task->court_id);
                                     foreach ($data as $row) {
@@ -445,6 +445,10 @@
         _rel_id.change();
         <?php } ?>
 
+        $('#time').datetimepicker({
+            datepicker:false,
+            format:'H:i'
+        });
     });
 
     <?php if(isset($_milestone_selected_data)){ ?>
@@ -536,5 +540,16 @@
             }
         });
     }
+
+    //hide task-hours when change state task_billable by baraa
+    $(function(){
+        $('#task_is_billable').change(function() {
+            if(this.checked == true) {
+                $(".task-hours").show();
+            }else {
+                $(".task-hours").hide();;
+            }
+        });
+    });
 
 </script>

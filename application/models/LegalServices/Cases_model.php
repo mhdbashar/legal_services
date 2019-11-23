@@ -2155,12 +2155,14 @@ class Cases_model extends App_Model
                     'discussion_id'         => $discussion_id,
                     'discussion_comment_id' => $insert_id,
                     'discussion_type'       => $type,
+                    'ServID'                => $ServID,
                 ],
                 'customers' => [
                     'customer_template'     => true,
                     'discussion_id'         => $discussion_id,
                     'discussion_comment_id' => $insert_id,
                     'discussion_type'       => $type,
+                    'ServID'                => $ServID,
                 ],
             ]);
 
@@ -2317,11 +2319,13 @@ class Cases_model extends App_Model
                 'staff' => [
                     'discussion_id'   => $insert_id,
                     'discussion_type' => 'regular',
+                    'ServID'          => $ServID,
                 ],
                 'customers' => [
                     'customer_template' => true,
                     'discussion_id'     => $insert_id,
                     'discussion_type'   => 'regular',
+                    'ServID'            => $ServID,
                 ],
             ]);
             $this->log_activity($data['project_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
@@ -2689,8 +2693,8 @@ class Cases_model extends App_Model
             'project_file_to_customer',
             $file->visible_to_customer,
             [
-                'staff'     => ['discussion_id' => $file_id, 'discussion_type' => 'file'],
-                'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file'],
+                'staff'     => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
+                'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
             ]
         );
     }
@@ -2825,7 +2829,7 @@ class Cases_model extends App_Model
     private function _get_data_total_logged_time($slug = '', $id, $conditions = [])
     {
         $project_data = $this->_get_project_billing_data($id);
-        $tasks        = $this->get_tasks($slug, $id, $conditions);
+        $tasks        = $this->get_tasks($id, $conditions);
 
         if ($project_data->billing_type == 3) {
             $data                = $this->calculate_total_by_task_hourly_rate($tasks);

@@ -88,8 +88,16 @@
 							<label for="project_id"><?php echo _l('project'); ?></label>
 							<div id="project_ajax_search_wrapper">
 								<select name="project_id" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(isset($project_id)){ ?> data-auto-project="true" data-project-userid="<?php echo $userid; ?>"<?php } ?>>
-									<?php if(isset($project_id)){ ?>
-										<option value="<?php echo $project_id; ?>" selected><?php echo '#'.$project_id. ' - ' . get_project_name_by_id($project_id); ?></option>
+									<?php if(isset($project_id)){
+									    if (isset($ServID) && $ServID == 1){
+                                            $option_name = get_case_name_by_id($project_id);
+                                        }elseif (isset($ServID) && $ServID != 1){
+                                            $option_name = get_oservice_name_by_id($project_id);
+                                        }else{
+                                            $option_name = get_project_name_by_id($project_id);
+                                        }
+									    ?>
+										<option value="<?php echo $project_id; ?>" selected><?php echo '#'.$project_id. ' - ' .$option_name ; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -173,6 +181,7 @@
 		</div>
 	</div>
 	<?php echo form_close(); ?>
+</div>
 </div>
 </div>
 <?php $this->load->view('admin/tickets/services/service'); ?>

@@ -1,4 +1,3 @@
-
 let lang = "english";
 let dateType = "AD";
 let isHijri = "off";
@@ -300,4 +299,7 @@ if(hijri_page == 'settings?group=Hijri'){
         });
         $('#delete_his_div').hide();
     });
+
+
+
 }

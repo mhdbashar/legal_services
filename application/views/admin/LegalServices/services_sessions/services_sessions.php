@@ -370,4 +370,12 @@
 
          return false;
      }
+
+     function load_time_picker(id) {
+         $('#next_session_time'+id).datetimepicker({
+             datepicker:false,
+             format:'H:i'
+         });
+     }
+
 </script>

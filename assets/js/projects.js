@@ -127,7 +127,7 @@
               },
               success: function(file, response) {
                   if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                      //window.location.href = admin_url + 'projects/view/' + project_id + '?group=project_files';
+                      window.location.href = admin_url + 'projects/view/' + project_id + '?group=project_files';
                       location.reload();
                   }
               },
@@ -486,7 +486,7 @@
               init_timers();
               reload_tasks_tables();
               pre_invoice_project();
-              pre_invoice_case();
+             // pre_invoice_case(servid);
           }, 500);
       });
   }
@@ -498,7 +498,7 @@
       });
   }
 
-  // function pre_invoice_case() {
+  // function pre_invoice_case(servid) {
   //     requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + project_id).done(function(response) {
   //         $('#pre_invoice_project').html(response);
   //         $('#pre_invoice_project_settings').modal('show');

@@ -626,7 +626,7 @@
                 <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
                     <?php echo _l('session_date'); ?>:
                     <?php if(has_permission('tasks','','edit') && $task->status !=5) { ?>
-                        <input name="startdate" tabindex="-1" value="<?php echo _d($task->startdate); ?>" id="task-single-startdate" class="task-info-inline-input-edit datepicker pointer task-single-inline-field">
+                        <input name="startdate" tabindex="-1" value="<?php echo _d($task->startdate); ?>" id="task-single-startdate" class="task-info-inline-input-edit datepicker pointer task-single-inline-field datepicker_modal">
                     <?php } else { ?>
                         <?php echo _d($task->startdate); ?>
                     <?php } ?>

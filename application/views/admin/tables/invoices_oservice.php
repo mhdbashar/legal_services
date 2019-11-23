@@ -15,14 +15,6 @@ $aColumns = [
     db_prefix() . 'invoices.status',
 ];
 
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
-
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'invoices';
 
@@ -31,6 +23,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
     'LEFT JOIN ' . db_prefix() . 'my_other_services ON ' . db_prefix() . 'my_other_services.id = ' . db_prefix() . 'invoices.rel_sid',
 ];
+
 
 $custom_fields = get_table_custom_fields('invoice');
 
@@ -121,6 +114,15 @@ $aColumns = hooks()->apply_filters('invoices_table_sql_columns', $aColumns);
 // Fix for big queries. Some hosting have max_join_limit
 if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
+}
+
+
+if($this->ci->app_modules->is_active('branches')){
+    array_push($aColumns, db_prefix()."branches.title_en as branch_id");
+    array_push($join, 'LEFT JOIN ' . db_prefix() . 'branches_services ON ' . db_prefix() . 'branches_services.rel_id = '.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"');
+    array_push($join, 'LEFT JOIN ' . db_prefix() . 'branches ON ' . db_prefix() . 'branches.id = '.db_prefix().'branches_services.branch_id');
+    //$join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
+    //$join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [

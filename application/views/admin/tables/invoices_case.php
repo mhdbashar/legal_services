@@ -25,6 +25,7 @@ $join = [
 ];
 
 $ci = &get_instance();
+
 if($ci->app_modules->is_active('branches')){
     $aColumns[] = db_prefix().'branches.title_en as branch_id';
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';

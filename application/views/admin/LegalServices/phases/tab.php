@@ -69,7 +69,7 @@ foreach ($phases as $phase):
                     <button type="submit" class="btn btn-success"><?php echo _l('submit'); ?></button>
                     <?php } ?>
                     <?php if($i != 1){ ?>
-                    <button type="button" class="btn btn-primary _delete" onclick="back_to_previous_phase(<?php echo $project->id; ?>, '<?php echo $slug_for_btn_previous1; ?>', '<?php echo $slug_for_btn_previous2; ?>')"><?php echo _l('back_to_previous_phase'); ?> <i class="fa fa-backward" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="back_to_previous_phase(<?php echo $project->id; ?>, '<?php echo $slug_for_btn_previous1; ?>', '<?php echo $slug_for_btn_previous2; ?>')"><?php echo _l('back_to_previous_phase'); ?> <i class="fa fa-backward" aria-hidden="true"></i></button>
                     <?php } ?>
                     <?php /*<button type="button" class="btn btn-danger"><?php echo _l('waiver'); ?> <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button> */ ?>
                     <?php } ?>
@@ -103,17 +103,21 @@ foreach ($phases as $phase):
     }
 
     function back_to_previous_phase(relid, slug1, slug2){
-        $.ajax({
-            url: '<?php echo admin_url('LegalServices/Phases_controller/back_to_previous_phase/'); ?>' + relid + '/' + slug1 + '/' + slug2,
-            success: function (data) {
-                if(data == true){
-                    alert_float('success', '<?php echo _l('Done').' '._l('back_to_previous_phase'); ?>');
-                    location.reload();
-                }else {
-                    alert_float('danger', '<?php echo _l('faild').' '._l('back_to_previous_phase'); ?>');
-                    alert_float('danger', data);
+        if (confirm_delete()) {
+            $.ajax({
+                url: '<?php echo admin_url('LegalServices/Phases_controller/back_to_previous_phase/'); ?>' + relid + '/' + slug1 + '/' + slug2,
+                success: function (data) {
+                    if(data == true){
+                        alert_float('success', '<?php echo _l('Done').' '._l('back_to_previous_phase'); ?>');
+                        location.reload();
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild').' '._l('back_to_previous_phase'); ?>');
+                        alert_float('danger', data);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            return false;
+        }
     }
 </script>

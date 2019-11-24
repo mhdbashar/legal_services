@@ -3407,6 +3407,8 @@ $lang['phase_decision46'] =  'Decision 46';
 $lang['phase_decision83'] =  'Decision 83';
 $lang['phase_order_number'] =  'Order number';
 $lang['phase_registration_number'] =  'Registration number';
+$lang['phase_belongs_to'] = "Phase belongs to";
+
 $lang['hijri_date'] = "Hijri date";
 $lang['gregorian_date'] = "Gregorian date";
 $lang['assign_department'] = "Department";

@@ -269,6 +269,7 @@ $lang['phase_decision46'] =  'القرار 46';
 $lang['phase_decision83'] =  'القرار 83';
 $lang['phase_order_number'] =  'رقم الطلب';
 $lang['phase_registration_number'] =  'رقم القيد';
+$lang['phase_belongs_to'] = "المرحلة تعود الى";
 $lang['hijri_date'] = "التاريخ الهجري";
 $lang['gregorian_date'] = "التاريخ الميلادي";
 $lang['assign_department'] = "الدائرة";

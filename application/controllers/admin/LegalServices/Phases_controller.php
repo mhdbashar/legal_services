@@ -8,6 +8,7 @@ class Phases_controller extends AdminController
     {
         parent::__construct();
         $this->load->model('LegalServices/Phase_model','phase');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index()
@@ -46,6 +47,7 @@ class Phases_controller extends AdminController
                 $data['phase'] = $this->phase->get($id);
                 $title         = _l('edit', _l('phase'));
             }
+            $data['legal_services'] = $this->legal->get_all_services();
             $data['title'] = $title;
             $this->load->view('admin/LegalServices/phases/add_edit', $data);
         }

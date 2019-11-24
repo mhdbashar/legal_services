@@ -73,12 +73,17 @@
                                     <option value="<?php echo $service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $service->slug){echo 'selected';} ?>><?php echo $service->name; ?></option>
                                 <?php endforeach; ?>
                                 </optgroup>
-                                <optgroup label="مراحل الخدمات القانونية">
+                                <?php /*<optgroup label="مراحل الخدمات القانونية">
                                 <?php foreach ($legal_services as $service): ?>
                                     <?php foreach ($legal_services_phases as $phase): ?>
                                         <option value="<?php echo $phase->slug.'_'.$service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.$service->slug){echo 'selected';} ?>><?php echo $phase->name.' / '.$service->name; ?></option>
                                     <?php endforeach; ?>
                                 <?php endforeach; ?>
+                                </optgroup> */ ?>
+                                <optgroup label="مراحل الخدمات القانونية">
+                                    <?php foreach ($legal_services_phases as $phase): ?>
+                                        <option value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.$service->slug){echo 'selected';} ?>><?php echo $phase->name; ?></option>
+                                    <?php endforeach; ?>
                                 </optgroup>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>

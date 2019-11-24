@@ -376,7 +376,7 @@
                 <div class="panel_s">
                     <div class="panel-body" id="case-settings-area">
                         <h4 class="no-margin">
-                            <?php echo _l('case_settings'); ?>
+                            <?php echo _l('project_settings'); ?>
                         </h4>
                         <hr class="hr-panel-heading" />
 

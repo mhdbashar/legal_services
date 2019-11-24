@@ -36,6 +36,12 @@
     <li role="presentation">
         <a href="#daily_agenda" aria-controls="daily_agenda" role="tab" data-toggle="tab"><?php echo _l('daily_agenda'); ?></a>
     </li>
+    </li>
+    <?php  if($this->app_modules->is_active('hr')){ ?>
+    <li role="presentation">
+    <a href="#hr_document" aria-controls="hr_document" role="tab" data-toggle="tab"><?php echo _l('hr_document'); ?></a>
+    </li>
+    <?php } ?>
 
     <?php hooks()->do_action('after_cron_settings_last_tab'); ?>
 
@@ -82,6 +88,15 @@
    <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('procurations_reminder_notification_before_help'); ?>"></i>
    <?php echo render_input('settings[procurations_reminder_notification_before]','procurations_reminder_notification_before',get_option('procurations_reminder_notification_before'),'number'); ?>
  </div>
+
+
+<?php  if($this->app_modules->is_active('hr')){ ?>
+<div role="tabpanel" class="tab-pane" id="hr_document">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hr_document_reminder_notification_before_help'); ?>"></i>
+   <?php echo render_input('settings[hr_document_reminder_notification_before]','hr_document_reminder_notification_before',get_option('hr_document_reminder_notification_before'),'number'); ?>
+ </div>        
+<?php } ?>
+ 
  
     <div role="tabpanel" class="tab-pane" id="contracts">
         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('hour_of_day_perform_auto_operations_format'); ?>"></i>

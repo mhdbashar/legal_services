@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo "Edit"; ?></span>
+                    <span class="edit-title"><?php echo _l("edit"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/details/update_allowance'),array('id'=>'form_transout')); ?>
@@ -13,26 +13,27 @@
             <?php echo form_hidden('staff_id', $staff_id); ?>
             <div class="modal-body">
                 <div class="row">
+
                     <div class="col-md-12">
-                        <div class="select-placeholder form-group">
-                            <label for="type" class="control-label">Allowance Option</label><br>
-                            <select id="type" name="tax" class="selectpicker">
-                                <option id="non-tax" value="1">Non Taxable</option> 
-                                <option id="tax" value="2">Taxable</option>                             
-                            </select>
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('tax') ?></label>
+                            <select class="form-control" id="tax" name="tax" placeholder="Tax type" aria-invalid="false">
+                                <option id="non-tax" value="1"><?php echo _l('non_taxable') ?></option> 
+                                <option id="tax" value="2"><?php echo _l('taxable') ?></option>
+                            </select>    
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>
@@ -45,33 +46,33 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo "Add"; ?></span>
+                    <span class="add-title"><?php echo _l("add"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/Details/add_allowance'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('staff_id', $staff_id); ?>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12"> 
-                        <div class="select-placeholder form-group">
-                            <label for="type" class="control-label">Allowance Option</label><br>
-                            <select id="type" name="tax" class="selectpicker">
-                                <option  value="1">Non Taxable</option> 
-                                <option  value="2">Taxable</option>                             
-                            </select>
+                     <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('tax') ?></label>
+                            <select class="form-control" id="tax" name="tax" placeholder="Tax type" aria-invalid="false">
+                                <option id="non-tax" value="1"><?php echo _l('non_taxable') ?></option> 
+                                <option id="tax" value="2"><?php echo _l('taxable') ?></option>
+                            </select>    
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>

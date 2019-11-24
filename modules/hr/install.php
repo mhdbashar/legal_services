@@ -101,3 +101,137 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_work_experience')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_work_experience` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `company_name` varchar(200) NOT NULL,
+    `post` varchar(200) NOT NULL,
+    `from_date` date NOT NULL,
+    `to_date` date NOT NULL,
+    `description` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_bank_account')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_bank_account` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `account_title` varchar(255) NOT NULL, 
+    `account_number` varchar(255) NOT NULL, 
+    `bank_name` varchar(255) NOT NULL, 
+    `bank_code` varchar(255) NOT NULL, 
+    `bank_branch` varchar(255) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_documents')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_documents` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `document_type` varchar(255) NOT NULL, 
+    `document_title` varchar(255) NOT NULL, 
+    `description` text NOT NULL, 
+    `date_expiry` date NOT NULL, 
+    `notification_email` varchar(255) NOT NULL,
+    `document_file` varchar(255) NOT NULL,
+    `is_notification` int(11) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_immigration')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_immigration` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `document_type` varchar(255) NOT NULL, 
+    `document_number` varchar(255) NOT NULL, 
+    `issue_date` date NOT NULL, 
+    `date_expiry` date NOT NULL, 
+    `document_file` varchar(255) NOT NULL,
+    `eligible_review_date` date NOT NULL, 
+    `country` varchar(255) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+//qualification
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_qualification')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_qualification` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `school_university` varchar(255) NOT NULL, 
+    `education_level` varchar(255) NOT NULL, 
+    `from_date` date NOT NULL,
+    `to_date` date NOT NULL,
+    `skill` varchar(255) NOT NULL, 
+    `education` varchar(255) NOT NULL, 
+    `description` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+//social_networking
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_social_networking')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_social_networking` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `twitter` varchar(255) NOT NULL, 
+    `blogger` varchar(255) NOT NULL, 
+    `google_plus` varchar(255) NOT NULL, 
+    `instagram` varchar(255) NOT NULL, 
+    `pinterest` varchar(255) NOT NULL, 
+    `youtube` varchar(255) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_extra_info` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `emloyee_id` varchar(255) NOT NULL, 
+    `location` varchar(255) NOT NULL, 
+    `designation` varchar(255) NOT NULL, 
+    `gender` varchar(255) NOT NULL, 
+    `marital_status` varchar(255) NOT NULL, 
+    `office_sheft` varchar(255) NOT NULL, 
+    `date_birth` date NOT NULL, 
+    `state_province` varchar(255) NOT NULL, 
+    `city` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `address` varchar(255) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!option_exists('deduction_type')) {
+    $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';
+    add_option('deduction_type',$value);
+}
+
+if (!option_exists('document_type')) {
+    $value = '[{"key":" Driving License","value":" Driving License"}]';
+    add_option('document_type',$value);
+}
+
+if (!option_exists('education_level_type')) {
+    $value = '[{"key":"High School Diploma \/ GED","value":"High School Diploma \/ GED"}]';
+    add_option('education_level_type',$value);
+}
+
+if (!option_exists('skill_type')) {
+    $value = '[{"key":"jQuery","value":"jQuery"}]';
+    add_option('skill_type',$value);
+}
+
+if (!option_exists('education_type')) {
+    $value = '[{"key":"English","value":"English"}]';
+    add_option('education_type',$value);
+}
+
+if (!option_exists('hr_document_reminder_notification_before')) {
+    $value = '1';
+    add_option('hr_document_reminder_notification_before',$value);
+}

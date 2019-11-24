@@ -19,60 +19,60 @@ class Setting extends AdminController{
         }
         if ($this->input->is_ajax_request()) {
             if($group == 'deduction'){
-                $this->hrmapp->get_table_data('my_deduction_types_table');
+                $this->hrmapp->get_table_data('types/my_deduction_types_table');
+            }elseif($group == 'document'){
+                $this->hrmapp->get_table_data('types/my_document_types_table');
+            }elseif($group == 'education_level'){
+                $this->hrmapp->get_table_data('types/my_education_level_types_table');
+            }elseif($group == 'education'){
+                $this->hrmapp->get_table_data('types/my_education_types_table');
+            }elseif($group == 'skill'){
+                $this->hrmapp->get_table_data('types/my_skill_types_table');
             }
         }
 
         $data['group'] = $group;
-        $data['title'] = 'Manage Deduction Tabs';
+        $data['title'] = _l('manage_custom_tabs');
         $this->load->view('settings/manage', $data);
     }
 
-	public function deduction_type(){
+    // type
 
-		$enArray=array();
-		if (option_exists('deduction_type') != Null){
-            $enArray = json_decode(get_option('deduction_type'));
+    public function add_type($type_name){
+
+        $enArray=array();
+        if (option_exists($type_name) != Null){
+            $enArray = json_decode(get_option($type_name));
         }else{
             $enArray=array();
         }
-//        var_dump($this->input->post('nameEn'));exit();
-
         if ($this->input->get()){
-	        $nameEn['key'] = $this->input->get('nameEn');
-	        $nameEn['value'] = $this->input->get('nameEn');
+            $nameEn['key'] = $this->input->get('nameEn');
+            $nameEn['value'] = $this->input->get('nameEn');
         }
 
         array_push($enArray,$nameEn );
-        if (option_exists('deduction_type') != Null){
-            $en = update_option('deduction_type',json_encode($enArray));
+        if (option_exists($type_name) != Null){
+            $en = update_option($type_name,json_encode($enArray));
         }else{
-            $en = add_option('deduction_type',json_encode($enArray));
+            $en = add_option($type_name,json_encode($enArray));
         }
 
         $success = $en ?true:false;
         if($success){
-        	set_alert('success', 'Added successfully');
+            set_alert('success', _l('added_successfully'));
         }
-        /*
-        $message = $success ? _l('added_successfully', _l('incoming_side')) : '';
-        echo json_encode([
-            'success' => $success,
-            'message' => $message,
-            'data' => $nameEn,
-        ]);
-        */
-		redirect($_SERVER['HTTP_REFERER']);
-		
-	}
+        redirect($_SERVER['HTTP_REFERER']);
+        
+    }
 
-	public function delete_deduction_type($name)
+    public function delete_type($name, $type_name)
     {
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
         }
 
-        $enArray = json_decode(get_option('deduction_type'));
+        $enArray = json_decode(get_option($type_name));
         
         $new_array = [];
 
@@ -84,15 +84,15 @@ class Setting extends AdminController{
             $new_array[] = $obj;
         }
 
-        $success = update_option('deduction_type',json_encode($new_array));
+        $success = update_option($type_name,json_encode($new_array));
        
         if($success){
-            set_alert('success', 'Deleted successfully');
+            set_alert('success', _l('deleted_successfully'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function update_deduction_type()
+    public function update_type($type_name)
     {
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
@@ -101,7 +101,7 @@ class Setting extends AdminController{
         $old = $this->input->get('old');
         $new = $this->input->get('new');
 
-        $enArray = json_decode(get_option('deduction_type'));
+        $enArray = json_decode(get_option($type_name));
         
         $new_array = [];
 
@@ -113,28 +113,26 @@ class Setting extends AdminController{
             $new_array[] = $obj;
         }
 
-        update_option('deduction_type',json_encode($new_array));
+        update_option($type_name,json_encode($new_array));
 
         $enArray = $new_array;
-
-//        var_dump($this->input->post('nameEn'));exit();
-
         if ($this->input->get()){
             $nameEn['key'] = $this->input->get('new');
             $nameEn['value'] = $this->input->get('new');
         }
 
         array_push($enArray,$nameEn );
-        if (option_exists('deduction_type') != Null){
-            $en = update_option('deduction_type',json_encode($enArray));
+        if (option_exists($type_name) != Null){
+            $en = update_option($type_name,json_encode($enArray));
         }else{
-            $en = add_option('deduction_type',json_encode($enArray));
+            $en = add_option($type_name,json_encode($enArray));
         }
 
         $success = $en ?true:false;
         if($success){
-            set_alert('success', 'Updated successfully');
+            set_alert('success', _l('updated_successfully'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
+
 }

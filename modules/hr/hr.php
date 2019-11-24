@@ -29,14 +29,14 @@ function hr_module_init_menu_items()
             'position'   => 70,
             ]);
 
-			
-		$CI->app_menu->add_sidebar_menu_item('hr-system', [
+            
+        $CI->app_menu->add_sidebar_menu_item('hr-system', [
             'collapse' => true,
             'name'     => "HR",
             'position' => 7,
-			'icon'     => 'fa fa-users',
+            'icon'     => 'fa fa-users',
         ]);
-		
+        
     if (has_permission('hr', '', 'view')) {
         
         $CI->app_menu->add_sidebar_children_item('hr-system', [
@@ -63,6 +63,38 @@ function hr_module_init_menu_items()
                 'href'     => admin_url('hr/setting'),
                 'position' => 35,
         ]);  
+                
+    }
+
+    $CI->app->add_quick_actions_link([
+            'name'       => _l('staff'),
+            'permission' => 'hr',
+            'url'        => 'employee',
+            'position'   => 70,
+            ]);
+
+            
+        $CI->app_menu->add_sidebar_menu_item('employee-system', [
+            'collapse' => true,
+            'name'     => "Employees",
+            'position' => 7,
+            'icon'     => 'fa fa-users',
+        ]);
+        
+    if (has_permission('employee', '', 'view')) {
+         
+        $CI->app_menu->add_sidebar_children_item('employee-system', [
+                'slug'     => 'Staff',
+                'name'     => 'Staff',
+                'href'     => admin_url('staff'),
+                'position' => 30,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('employee-system', [
+                'slug'     => 'Staff',
+                'name'     => 'Expired Documents',
+                'href'     => admin_url('hr/general/expired_documents'),
+                'position' => 30,
+        ]);
                 
     }
 

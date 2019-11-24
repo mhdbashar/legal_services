@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo "Edit"; ?></span>
+                    <span class="edit-title"><?php echo _l("edit"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/details/update_statutory_deduction'),array('id'=>'form_transout')); ?>
@@ -28,20 +28,28 @@
                             }else{
                                 $data =array();
                             }
-                            echo  render_select('deduction_type',$data,array('key','value'))
                         ?>
+
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('deduction_type') ?></label>
+                            <select class="form-control" id="deduction_type" name="deduction_type" placeholder="<?php echo _l('deduction_type') ?>" aria-invalid="false">
+                            <?php foreach ($data as $value) { ?>
+                                <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
+                            <?php } ?>
+                            </select>    
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>
@@ -54,7 +62,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo "Add"; ?></span>
+                    <span class="add-title"><?php echo _l("add"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/Details/add_statutory_deduction'),array('id'=>'form_transout')); ?>
@@ -75,20 +83,27 @@
                             }else{
                                 $data =array();
                             }
-                            echo  render_select('deduction_type',$data,array('key','value'))
                         ?>
+                        <div class="form-group">
+                            <label for="cat_id" class="control-label"><?php echo _l('deduction_type') ?></label>
+                            <select class="form-control" id="deduction_type" name="deduction_type" placeholder="<?php echo _l('deduction_type') ?>" aria-invalid="false">
+                            <?php foreach ($data as $value) { ?>
+                                <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
+                            <?php } ?>
+                            </select>     
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Amount', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','amount', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l("submit"); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>

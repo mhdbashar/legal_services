@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade" id="update_deduction_type" tabindex="-1" role="dialog" aria-labelledby="update_deduction_type" aria-hidden="true">
+<div class="modal fade" id="update_type" tabindex="-1" role="dialog" aria-labelledby="update_type" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/update_deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/update_type/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             
             <div class="modal-body">
                 <input type="hidden" name="old" id="old" value="">
@@ -38,7 +38,7 @@
                     <span class="add-title"><?php echo "Add"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/add_type/deduction_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">

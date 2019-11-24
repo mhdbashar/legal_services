@@ -15,6 +15,7 @@ class General extends AdminController{
         $this->load->model('Departments_model');
         $this->load->model('Immigration_model');
         $this->load->model('Extra_info_model');
+        $this->load->model('Emergency_contact_model');
 	}
 
 	public function general($staff_id){
@@ -75,6 +76,8 @@ class General extends AdminController{
                 $this->hrmapp->get_table_data('my_immigrations_table', ['staff_id' => $staff_id]);
             }elseif($group == 'qualification'){
                 $this->hrmapp->get_table_data('my_qualifications_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'emergency_contacts'){
+                $this->hrmapp->get_table_data('my_emergency_contacts_table', ['staff_id' => $staff_id]);
             }
         }
 
@@ -300,6 +303,51 @@ class General extends AdminController{
             access_denied();
         }
         $response = $this->Qualification_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+    // qualification
+
+    public function json_emergency_contact($id){
+        $data = $this->Emergency_contact_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_emergency_contact(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Emergency_contact_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_emergency_contact(){
+        $data = $this->input->post();
+        $success = $this->Emergency_contact_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_emergency_contact($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Emergency_contact_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {

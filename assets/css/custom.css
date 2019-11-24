@@ -43,3 +43,21 @@
     position: relative;
     z-index: 99;
 }
+.ajax-remove-values-option .ajax-clear-values {
+    right: 15px !important;
+}
+
+.datepicker_modal {
+    width: 250px !important;
+}
+
+/*by baraa just for mozila ff */
+@-moz-document url-prefix() {
+    .custom_select_arrow{
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        -moz-appearance:none !important;
+        background: transparent url('data:image/gif;base64,R0lGODlhBgAGAKEDAFVVVX9/f9TU1CgmNyH5BAEKAAMALAAAAAAGAAYAAAIODA4hCDKWxlhNvmCnGwUAOw==') left center no-repeat !important;
+        background-position: calc(4% - 0px) center !important;
+    }
+}

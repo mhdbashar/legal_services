@@ -1426,7 +1426,7 @@ class Other_services_model extends App_Model
         return $gantt_data;
     }
 
-    public function get_all_projects_gantt_data($filters = [])
+    public function get_all_projects_gantt_data($ServID, $filters = [])
     {
         $statuses = $this->get_project_statuses();
         $gantt_data = [];
@@ -1450,7 +1450,7 @@ class Other_services_model extends App_Model
             $projects = $this->db->get(db_prefix() . 'my_other_services')->result_array();
 
             foreach ($projects as $project) {
-                $tasks = $this->get_tasks($project['id'], [], true);
+                $tasks = $this->get_tasks($ServID, $project['id'], [], true);
 
                 $data = [];
                 $data['values'] = [];

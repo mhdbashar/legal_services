@@ -487,7 +487,7 @@ function mass_stop_timers(only_billable) {
             init_timers();
             reload_tasks_tables();
             pre_invoice_project();
-            pre_invoice_case();
+            pre_invoice_case(servid);
         }, 500);
     });
 }

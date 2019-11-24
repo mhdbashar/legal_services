@@ -156,7 +156,6 @@ class Projects_merge_fields extends App_merge_fields
                 $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
             }
         }
-
         $fields = [];
 
         $fields['{project_name}']           = '';
@@ -207,6 +206,7 @@ class Projects_merge_fields extends App_merge_fields
             }
 
             $discussion = $this->ci->db->get($table)->row();
+
 
             $fields['{discussion_subject}']     = $discussion->subject;
             $fields['{discussion_description}'] = $discussion->description;

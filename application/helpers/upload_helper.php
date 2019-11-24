@@ -83,6 +83,7 @@ function handle_newsfeed_post_attachments($postid)
  */
 function handle_project_file_uploads($project_id)
 {
+    die($project_id);
     $filesIDS = [];
     $errors   = [];
 

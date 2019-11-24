@@ -461,4 +461,15 @@
       $duedate.datetimepicker('destroy');
       init_datepicker($duedate);
    }
+
+   //hide task-hours when change state task_billable by baraa
+   $(function(){
+       $('#task_is_billable').change(function() {
+           if(this.checked == true) {
+               $(".task-hours").show();
+           }else {
+               $(".task-hours").hide();;
+           }
+       });
+   });
 </script>

@@ -66,7 +66,7 @@
 
                                 <div class="form-group">
                                     <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                    <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('mycategory',$ServID);
@@ -80,7 +80,7 @@
                                 <div class="form-group">
                                     <label for="subcat_id"
                                            class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id"
+                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('childmycategory',$OtherServ->cat_id);
@@ -112,7 +112,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
                                     <?php $data = get_relation_data('build_dropdown_cities',''); ?>
-                                    <select id="city" name="city" class="form-control">
+                                    <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                         <?php foreach ($data as $row): ?>
                                             <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': $OtherServ->city == $row->Name_ar ?  'selected' : '' ?>><?php echo $row->$field_city; ?></option>
@@ -231,7 +231,7 @@
 
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control" name="contract"
+                                <select class="form-control custom_select_arrow" name="contract"
                                         placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                     <option selected disabled></option>
                                     <?php $data = get_relation_data('contracts', '');

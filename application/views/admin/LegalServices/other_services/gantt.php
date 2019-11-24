@@ -9,7 +9,7 @@
                         <div class="col-md-12">
                             <h4><?php echo _l('filter_by'); ?></h4>
                         </div>
-                        <?php echo form_open(admin_url('projects/gantt'), array('method'=>'get','id'=>'ganttFiltersForm')); ?>
+                        <?php echo form_open(admin_url("LegalServices/Other_services_controller/gantt/$ServID"), array('method'=>'get','id'=>'ganttFiltersForm')); ?>
                         <div class="col-md-4">
                             <select class="selectpicker" data-none-selected-text="<?php echo _l('all'); ?>" name="status[]" data-width="100%" multiple="true">
                                 <?php foreach($statuses as $status){
@@ -67,7 +67,7 @@
                     },
                     onItemClick: function(data) {
                         if(typeof(data.project_id) != 'undefined') {
-                            var projectViewUrl = '<?php echo admin_url('projects/view'); ?>';
+                            var projectViewUrl = '<?php echo admin_url('SOther/view/').$ServID; ?>';
                             window.location.href = projectViewUrl+'/'+data.project_id;
                         } else if(typeof(data.task_id) != 'undefined') {
                             init_task_modal(data.task_id);

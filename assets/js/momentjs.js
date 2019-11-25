@@ -3363,7 +3363,9 @@
         if (this.isValid() &&
                 ((isMoment(time) && time.isValid()) ||
                  createLocal(time).isValid())) {
-            return createDuration({to: this, from: time}).locale(this.locale()).humanize(!withoutSuffix);
+                     try {
+                        return createDuration({to: this, from: time}).locale(this.locale()).humanize(!withoutSuffix);
+                     } catch (e) {}
         } else {
             return this.localeData().invalidDate();
         }

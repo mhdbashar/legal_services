@@ -12,8 +12,9 @@ class Phase_model extends App_Model
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
-	public function get_all()
+	public function get_all($where = [])
     {
+        $this->db->where($where);
 		return $this->db->get_where(db_prefix() . 'my_service_phases', array('is_active' => 1, 'deleted' => 0))->result();
     }
 
@@ -144,7 +145,8 @@ class Phase_model extends App_Model
         $result1 = $this->db->get_where(db_prefix() . 'customfieldsvalues', array('relid' => $relid, 'fieldto' => $slug1))->result();
         foreach ($result1 as $row1){
 
-            $this->db->set('relid', $row1->relid);
+            //$this->db->set('relid', $row1->relid);
+            $this->db->where('relid', $row1->relid);
             $this->db->where('fieldto', $row1->fieldto);
             $this->db->delete(db_prefix() . 'customfieldsvalues');
             $affectedRows++;
@@ -153,7 +155,8 @@ class Phase_model extends App_Model
         if(isset($slug2) || $slug2 != null){
             $result2 = $this->db->get_where(db_prefix() . 'customfieldsvalues', array('relid' => $relid, 'fieldto' => $slug2))->result();
             foreach ($result2 as $row2){
-                $this->db->set('relid', $row2->relid);
+                //$this->db->set('relid', $row2->relid);
+                $this->db->where('relid', $row2->relid);
                 $this->db->where('fieldto', $row2->fieldto);
                 $this->db->delete(db_prefix() . 'customfieldsvalues');
                 $affectedRows++;

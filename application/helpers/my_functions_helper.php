@@ -498,6 +498,7 @@ function set_my_options($data){
     }
 
 }
+
 function add_hijri_settings(){
 
     $CI = &get_instance();
@@ -529,4 +530,28 @@ function check_session_by_id($id)
     }else{
         return false;
     }
+}
+
+function get_legal_service_name_by_id($service_id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $service_id);
+    $service = $CI->db->get(db_prefix() . 'my_basic_services')->row();
+    if ($service) {
+        return $service->name;
+    }
+    return false;
+}
+
+function get_legal_service_slug_by_id($service_id)
+{
+    $CI = & get_instance();
+    $CI->db->select('slug');
+    $CI->db->where('id', $service_id);
+    $service = $CI->db->get(db_prefix() . 'my_basic_services')->row();
+    if ($service) {
+        return $service->slug;
+    }
+    return false;
 }

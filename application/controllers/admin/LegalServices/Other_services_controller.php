@@ -376,7 +376,7 @@ class Other_services_controller extends AdminController
                 $data['judges']      = $this->service_sessions->get_judges();
                 $data['courts']      = $this->service_sessions->get_court();
             } elseif ($group == 'Phase'){
-                $data['phases'] = $this->phase->get_all();
+                $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             }
 
             // Discussions

@@ -24,6 +24,10 @@
                                 'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
                             ),
                             array(
+                                'name'=> _l('phase_belongs_to'),
+                                'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
+                            ),
+                            array(
                                 'name'=>  _l('active_phase'),
                                 'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
                             ),

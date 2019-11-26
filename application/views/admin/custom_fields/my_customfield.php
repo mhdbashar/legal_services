@@ -82,7 +82,7 @@
                                 </optgroup> */ ?>
                                 <optgroup label="مراحل الخدمات القانونية">
                                     <?php foreach ($legal_services_phases as $phase): ?>
-                                        <option value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.$service->slug){echo 'selected';} ?>><?php echo $phase->name; ?></option>
+                                        <option value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>

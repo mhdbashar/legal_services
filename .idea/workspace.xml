@@ -3,20 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Phases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Phases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/upload_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/upload_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Phase_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Phase_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/add_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/add_edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/manage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_legal_services_phases.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_legal_services_phases.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -167,6 +155,7 @@
       <workItem from="1574377435219" duration="5470000" />
       <workItem from="1574622790818" duration="9900000" />
       <workItem from="1574635101786" duration="222000" />
+      <workItem from="1574806949316" duration="1165000" />
     </task>
     <servers />
   </component>

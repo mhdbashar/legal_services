@@ -205,6 +205,24 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+// Branches
+if (!$CI->db->table_exists(db_prefix() . 'branches')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+     `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `branch_type` varchar(255) NOT NULL,
+    `legal_traning_name` varchar(255) NOT NULL, 
+    `registraion_number` varchar(255) NOT NULL,
+    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+    `email` varchar(255) NOT NULL, 
+    `city_id` int(11) NOT NULL, 
+    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `state_province` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL, 
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_emergency_contact')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_emergency_contact` (
@@ -237,6 +255,11 @@ if (!option_exists('deduction_type')) {
 if (!option_exists('document_type')) {
     $value = '[{"key":" Driving License","value":" Driving License"}]';
     add_option('document_type',$value);
+}
+
+if (!option_exists('branch_type')) {
+    $value = '[{"key":" Corporation","value":" Corporation"},{"key":" Exempt Organization","value":" Exempt Organization"},{"key":" Partnership","value":" Partnership"},{"key":" Private Foundation","value":" Private Foundation"},{"key":" Limited Liability Company","value":" Limited Liability Company"}]';
+    add_option('branch_type',$value);
 }
 
 if (!option_exists('relation_type')) {

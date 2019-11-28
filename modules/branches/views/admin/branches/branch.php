@@ -26,22 +26,58 @@
                             ?>
 
                             <?php $value = (isset($branch) ? $branch->title_en : ''); ?>
-                            <?php echo render_input('title_en', _l('branch_title_en'),$value); ?>
+                            <?php echo render_input('title_en','branch_title_en',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
-                        <?php echo render_input('title_ar', _l('branch_title_ar'),$value); ?>
+                        <?php echo render_input('title_ar','branch_title_ar',$value); ?>
 
-                        <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
-                        <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],_l('branch_country_id'),$value); ?>
+                        <?php
 
-                        <?php $value = (isset($branch) ? $branch->city_id : ''); ?>
-                        <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'], _l('branch_city_id'),$value); ?>
+                            if(option_exists('branch_type')){
+                                $branch_data =array();
+                                $ad_opts = json_decode(get_option('branch_type')) ;
 
-                        <?php $value = (isset($branch) ? $branch->address : ''); ?>
-                        <?php echo render_input('address',_l('branch_address'),$value); ?>
+                                foreach ($ad_opts as $option){
+                                    $sids = json_decode(json_encode($option),true);
+                                    array_push($branch_data,$sids);
+                                }
+                            }else{
+                                $branch_data =array();
+                            }
+                        ?>
+
+                        <?php $value = (isset($branch) ? $branch->branch_type : ''); ?>
+                        <?php echo render_select('branch_type',(isset($branch_data)?$branch_data:[]),['key','value'],'branch_type',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->legal_traning_name : ''); ?>
+                        <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->registraion_number : ''); ?>
+                        <?php echo render_input('registraion_number','registraion_number',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->phone : ''); ?>
-                        <?php echo render_input('phone',_l('branch_phone'),$value); ?>
+                        <?php echo render_input('phone','branch_phone',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->branch_email : ''); ?>
+                        <?php echo render_input('branch_email','branch_email',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->website : ''); ?>
+                        <?php echo render_input('website','website',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->address : ''); ?>
+                        <?php echo render_input('address','address',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
+                        <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],'branch_country_id',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->city_id : ''); ?>
+                        <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'],'branch_city_id',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->state_province : ''); ?>
+                        <?php echo render_input('state_province','state_province',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->zip_code : ''); ?>
+                        <?php echo render_input('zip_code','zip_code',$value); ?>
 
 
                             <div class="clearfix"></div>

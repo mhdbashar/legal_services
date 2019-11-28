@@ -16,10 +16,18 @@ if (!$CI->db->table_exists(db_prefix() . 'branches')) {
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
      `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-     `country_id` int(11) NOT NULL,
-     `city_id` int(11) NOT NULL,
-     `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-     `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+    `branch_type` varchar(255) NOT NULL,
+    `legal_traning_name` varchar(255) NOT NULL, 
+    `registraion_number` varchar(255) NOT NULL,
+    `website` varchar(255) NOT NULL,
+    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `branch_email` varchar(255) NOT NULL, 
+    `city_id` int(11) NOT NULL, 
+    `country_id` int(11) NOT NULL,
+    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `state_province` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 

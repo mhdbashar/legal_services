@@ -82,8 +82,11 @@
                     		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      	</div>
                      </div>
-                     
-                     
+
+		                  <?php if($this->app_modules->is_active('branches')){?>
+	                        <?php $value = (isset($branch) ? $branch : ''); ?>
+	                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+	                     <?php } ?>
                      <div class="row">
                      	<div class="col-md-6">
                      		<?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>

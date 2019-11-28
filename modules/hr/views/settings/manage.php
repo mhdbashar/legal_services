@@ -22,6 +22,9 @@
                   <a data-group='relation' href="?group=relation"><?php echo _l('relation') ?></a>
                 </li>
                 <li class="customer_tab_contacts">
+                  <a data-group='branch' href="?group=branch"><?php echo _l('branch') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
                   <a data-group='<?php echo $qualification ?>' href="?group=education_level"><?php echo _l('qualification') ?></a>
                 </li>
 			      	</ul>

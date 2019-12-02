@@ -31,24 +31,6 @@
                         <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
                         <?php echo render_input('title_ar','branch_title_ar',$value); ?>
 
-                        <?php
-
-                            if(option_exists('branch_type')){
-                                $branch_data =array();
-                                $ad_opts = json_decode(get_option('branch_type')) ;
-
-                                foreach ($ad_opts as $option){
-                                    $sids = json_decode(json_encode($option),true);
-                                    array_push($branch_data,$sids);
-                                }
-                            }else{
-                                $branch_data =array();
-                            }
-                        ?>
-
-                        <?php $value = (isset($branch) ? $branch->branch_type : ''); ?>
-                        <?php echo render_select('branch_type',(isset($branch_data)?$branch_data:[]),['key','value'],'branch_type',$value); ?>
-
                         <?php $value = (isset($branch) ? $branch->legal_traning_name : ''); ?>
                         <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?>
 

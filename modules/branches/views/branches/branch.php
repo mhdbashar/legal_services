@@ -31,9 +31,6 @@
                         <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
                         <?php echo render_input('title_ar','branch_title_ar',$value); ?>
 
-                        <?php $value = (isset($branch) ? $branch->branch_type : ''); ?>
-                        <?php echo render_input('branch_type','branch_type',$value); ?>
-
                         <?php $value = (isset($branch) ? $branch->legal_traning_name : ''); ?>
                         <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?>
 

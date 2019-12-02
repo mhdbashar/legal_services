@@ -62,7 +62,7 @@ class Branches_model extends App_Model
         if (!is_numeric($this->get_branch($rel_type, $rel_id))){
             $data = [
                 'branch_id' => $branch_id, 
-                'rel_type' => 'clients', 
+                'rel_type' => $rel_type, 
                 'rel_id' => $rel_id
             ];
             $this->Branches_model->set_branch($data);

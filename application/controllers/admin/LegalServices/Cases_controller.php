@@ -168,7 +168,8 @@ class Cases_controller extends AdminController
             $data = $this->input->post();
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['rel_stype'] = $slug;
-            $data['rel_sid'] = $case_id;
+            $data['rel_sid']   = $case_id;
+            $data['project_id'] = 0;
             $id = $this->expenses_model->add_for_case($data);
             if ($id) {
                 set_alert('success', _l('added_successfully', _l('expense')));

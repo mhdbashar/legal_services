@@ -62,6 +62,8 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'tax',
     'tax2',
     'project_id',
+    'rel_sid',
+    'rel_stype',
     'recurring',
 ]);
 $output  = $result['output'];
@@ -143,7 +145,18 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['date']);
 
-    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    if ($aRow['project_id'] == 0){
+        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+        if($ServID == 1){
+            $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+        }else{
+            $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+        }
+    }else{
+        $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    }
+
 
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
 

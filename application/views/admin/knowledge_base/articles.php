@@ -128,6 +128,7 @@
       </div>
    </div>
 </div>
+</div>
 <?php include_once(APPPATH.'views/admin/knowledge_base/group.php'); ?>
 <?php init_tail(); ?>
 <script>

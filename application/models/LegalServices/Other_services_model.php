@@ -2044,12 +2044,14 @@ class Other_services_model extends App_Model
                     'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
                     'discussion_type' => $type,
+                    'ServID'          => $ServID,
                 ],
                 'customers' => [
                     'customer_template' => true,
                     'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
                     'discussion_type' => $type,
+                    'ServID'          => $ServID,
                 ],
             ]);
 
@@ -2206,11 +2208,13 @@ class Other_services_model extends App_Model
                 'staff' => [
                     'discussion_id' => $insert_id,
                     'discussion_type' => 'regular',
+                    'ServID'          => $ServID,
                 ],
                 'customers' => [
                     'customer_template' => true,
                     'discussion_id' => $insert_id,
                     'discussion_type' => 'regular',
+                    'ServID'          => $ServID,
                 ],
             ]);
             $this->log_activity($data['oservice_id'], 'project_activity_created_discussion', $data['subject'], $data['show_to_customer']);
@@ -2580,8 +2584,8 @@ class Other_services_model extends App_Model
             'project_file_to_customer',
             $file->visible_to_customer,
             [
-                'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file'],
-                'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file'],
+                'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
+                'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => $ServID],
             ]
         );
     }

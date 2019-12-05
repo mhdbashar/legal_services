@@ -2,6 +2,5 @@
 logs/
 system/
 plugins/
-themes/
 vendor/
 application/config/app-config.php

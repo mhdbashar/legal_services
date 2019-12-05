@@ -187,8 +187,7 @@
             $(input_enc_selector).prop('checked',true);
             $('#additional').append(hidden_input('id',id));
             $('#department input[name="name"]').val($(invoker).data('name'));
-            $('.branch_').removeAttr('selected', 'false');
-            $('#department #branch_'+$(invoker).data('branch_id')).attr('selected', 'true');
+            $('.branch_selected').val($(invoker).data('branch_id'));
             $('#department input[name="email"]').val($(invoker).data('email'));
             $('#department input[name="calendar_id"]').val($(invoker).data('calendar-id'));
             $('#department input[name="password"]').val($(invoker).data('password'));

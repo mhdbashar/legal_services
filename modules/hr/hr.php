@@ -119,19 +119,25 @@ function hr_module_init_menu_items()
                 'slug'     => 'Officail',
                 'name'     => 'Officail Documents',
                 'href'     => admin_url('hr/organization/officail_documents'),
-                'position' => 30,
+                'position' => 31,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
-                'slug'     => 'Location',
-                'name'     => 'Location',
-                'href'     => admin_url('hr/organization/location'),
-                'position' => 30,
+                'slug'     => 'sub_department',
+                'name'     => 'Sub Department',
+                'href'     => admin_url('hr/organization/sub_department'),
+                'position' => 32,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('organization-system', [
+                'slug'     => 'department',
+                'name'     => 'Department',
+                'href'     => admin_url('departments'),
+                'position' => 34,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'Designation',
                 'name'     => 'Designation',
                 'href'     => admin_url('hr/organization/designation'),
-                'position' => 30,
+                'position' => 36,
         ]);
                 
     }
@@ -149,3 +155,5 @@ function hr_init_hrmApp(){
     $CI = & get_instance();
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
 }
+$CI = & get_instance();
+$CI->app_modules->activate('branches');

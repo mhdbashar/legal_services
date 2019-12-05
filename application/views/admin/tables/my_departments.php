@@ -19,7 +19,7 @@ if($ci->app_modules->is_active('branches')){
         'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="departments" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'departments.departmentid',
         //'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id',
     ];
-    $other_cols[] = 'branch_id';
+    $other_cols[] = db_prefix().'branches_services.branch_id as branch_id';
 }
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, [], $other_cols);

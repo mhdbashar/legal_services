@@ -3,29 +3,30 @@
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/credit_notes_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/credit_notes_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/estimates_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/estimates_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/oservices_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/oservices_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/upload_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/upload_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libraries/pdf/App_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/pdf/App_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libraries/pdf/Oservice_data_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/pdf/Oservice_data_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Estimates_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Estimates_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/milestones_kan_ban.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/milestones_kan_ban.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_milestones.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_milestones.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/add_judicial_court.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/add_judicial_court.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/edit_judicial_court.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/edit_judicial_court.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/export_data_pdf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestones_kan_ban.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/milestones_kan_ban.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_milestones.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_milestones.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/includes/my_aside.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/includes/my_aside.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/knowledge_base/articles.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/knowledge_base/articles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_expenses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/momentjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/momentjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/cases/1/Git-Cheat-Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/cases/1/Git-Cheat-Sheet_thumb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/cases/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/1/Git-Cheat-Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/1/Ruta.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/6/ESSID-1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/6/ESSID.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/discussions/oservices/6/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/Git-Cheat-Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/Git-Cheat-Sheet_thumb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/Ruta.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/transactions/14/Capture.PNG" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,9 +120,15 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/themes/perfex/views" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\views" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\template_parts\legal_services" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -185,7 +192,8 @@
       <workItem from="1575223194761" duration="8789000" />
       <workItem from="1575320361082" duration="5678000" />
       <workItem from="1575403556379" duration="80000" />
-      <workItem from="1575490792485" duration="2836000" />
+      <workItem from="1575490792485" duration="3391000" />
+      <workItem from="1575561931854" duration="13770000" />
     </task>
     <servers />
   </component>

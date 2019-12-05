@@ -82,7 +82,7 @@
                                         <?php } ?>
                                         <?php if(is_admin()){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/view_project_as_client/'.$project->id .'/'.$project->clientid.'/'.$ServID); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>

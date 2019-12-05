@@ -3,7 +3,6 @@
    <a href="#" class="btn btn-info" onclick="new_milestone();return false;"><?php echo _l('new_milestone'); ?></a>
 <?php } ?>
 <a href="#" class="btn btn-default" onclick="milestones_case_switch_view(<?php echo $ServID; ?>, '<?php echo $service->slug; ?>'); return false;"><i class="fa fa-th-list"></i></a>
-
 <?php if($milestones_found) { ?>
    <div id="kanban-params" class="pull-right">
       <div class="checkbox">

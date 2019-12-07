@@ -116,12 +116,12 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
-    $CI->app_menu->add_sidebar_menu_item('projects', [
-                'name'     => _l('projects'),
-                'href'     => admin_url('projects'),
-                'icon'     => 'fa fa-bars',
-                'position' => 30,
-        ]);
+//     $CI->app_menu->add_sidebar_menu_item('projects', [
+//                 'name'     => _l('projects'),
+//                 'href'     => admin_url('projects'),
+//                 'icon'     => 'fa fa-bars',
+//                 'position' => 30,
+//         ]);
 
     $CI->app_menu->add_sidebar_menu_item('tasks', [
                 'name'     => _l('als_tasks'),

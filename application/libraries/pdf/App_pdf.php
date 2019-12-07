@@ -99,7 +99,6 @@ abstract class App_pdf extends TCPDF
         } else {
             $this->view_vars[$vars] = $value;
         }
-
         return $this;
     }
 

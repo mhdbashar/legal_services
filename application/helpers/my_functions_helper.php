@@ -259,7 +259,6 @@ function admin_assets()
 
     $CI->app_scripts->add('custom-js', 'assets/js/custom.js');
 
-
 }
 
 function to_AD_date($date)

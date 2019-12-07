@@ -26,7 +26,7 @@
     </div>
 <?php } else { ?>
     <div class="alert alert-info mtop15 no-mbot">
-        <?php echo _l('no_project_milestones_found'); ?>
+        <?php echo _l('no_milestones_found'); ?>
     </div>
 <?php } ?>
 <div id="milestones-table" class="hide mtop25">

@@ -82,7 +82,7 @@
                                         <?php } ?>
                                         <?php if(is_admin()){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                                <a href="<?php echo admin_url('LegalServices/Cases_controller/view_project_as_client/'.$project->id .'/'.$project->clientid.'/'.$ServID); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                                             </li>
                                         <?php } ?>
                                         <?php if(has_permission('projects','','delete')){ ?>
@@ -427,6 +427,14 @@ echo form_hidden('project_percent',$percent);
     $(function(){
         appValidateForm($('#form_phases'), {});
     });
+
+    $("body").on('click', '.services-new-task-to-milestone', function(e) {
+        e.preventDefault();
+        var milestone_id = $(this).parents('.milestone-column').data('col-status-id');
+        new_task(admin_url + 'tasks/task?rel_type=<?php echo $service->slug; ?>&rel_id=' + project_id + '&milestone_id=' + milestone_id);
+        $('body [data-toggle="popover"]').popover('hide');
+    });
+
 
 </script>
 </body>

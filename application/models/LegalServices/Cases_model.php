@@ -557,8 +557,8 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'my_members_cases');
 
-            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
-            $this->db->delete(db_prefix() . 'my_service_session');
+            /*$this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            $this->db->delete(db_prefix() . 'my_service_session');*/
 
             $this->db->where('case_id', $id);
             $this->db->delete(db_prefix() . 'case_movement');

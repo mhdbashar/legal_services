@@ -462,19 +462,19 @@ function oservice_has_recurring_tasks($id)
     return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project"') > 0;
 }
 
-function total_oservice_tasks_by_milestone($milestone_id, $project_id)
+function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
-        'rel_type' => 'project',
+        'rel_type' => $slug,
         'rel_id' => $project_id,
         'milestone' => $milestone_id,
     ]);
 }
 
-function total_oservice_finished_tasks_by_milestone($milestone_id, $project_id)
+function total_oservice_finished_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
-        'rel_type' => 'project',
+        'rel_type' => $slug,
         'rel_id' => $project_id,
         'status' => 5,
         'milestone' => $milestone_id,
@@ -492,7 +492,7 @@ function get_oservices_countries($field)
 
 function oservice_file_url($file, $preview = false)
 {
-    $path = 'uploads/oservices/' . $file['project_id'] . '/';
+    $path = 'uploads/oservices/' . $file['oservice_id'] . '/';
     $fullPath = FCPATH . $path . $file['file_name'];
     $url = base_url($path . $file['file_name']);
 
@@ -504,7 +504,7 @@ function oservice_file_url($file, $preview = false)
             $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
             $thumbPath = pathinfo($fullPath, PATHINFO_DIRNAME) . '/' . $fname . '_thumb.' . $fext;
             if (file_exists($thumbPath)) {
-                $url = base_url('uploads/oservices/' . $file['project_id'] . '/' . $fname . '_thumb.' . $fext);
+                $url = base_url('uploads/oservices/' . $file['oservice_id'] . '/' . $fname . '_thumb.' . $fext);
             }
         }
     }

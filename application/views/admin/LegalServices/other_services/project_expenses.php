@@ -88,9 +88,9 @@ $this->load->view('admin/expenses/table_html_oservice', array('class'=>'oservice
                 <?php echo render_select('paymentmode',$expenses_modes,array('id','name'),'payment_mode',$selected); ?>
                 <div class="clearfix mbot15"></div>
                 <?php echo render_custom_fields('expenses'); ?>
-                <?php echo form_hidden('rel_id',$project->id); ?>
-                <?php echo form_hidden('rel_type',$service->slug); ?>
-                <?php echo form_hidden('project_id',''); ?>
+                <?php //echo form_hidden('rel_id',$project->id); ?>
+                <?php //echo form_hidden('rel_type',$service->slug); ?>
+                <?php echo form_hidden('project_id',$project->id); ?>
                 <?php echo form_hidden('clientid',$project->clientid); ?>
                 <div class="clearfix"></div>
             </div>

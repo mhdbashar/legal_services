@@ -28,10 +28,10 @@ class Other_services_controller extends AdminController
         if ($this->input->post()) {
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
-            $added = $this->other->add($ServID,$data);
-            if ($added) {
+            $id = $this->other->add($ServID,$data);
+            if ($id) {
                 set_alert('success', _l('added_successfully'));
-                redirect(admin_url("Service/$ServID"));
+                redirect(admin_url("SOther/view/$ServID/$id"));
             }
         }
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
@@ -152,7 +152,8 @@ class Other_services_controller extends AdminController
             $data = $this->input->post();
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['rel_stype'] = $slug;
-            $data['rel_sid'] = $project_id;
+            $data['rel_sid']   = $project_id;
+            $data['project_id'] = 0;
             $id = $this->expenses_model->add_for_oservice($ServID, $data);
             if ($id) {
                 set_alert('success', _l('added_successfully', _l('expense')));
@@ -1144,11 +1145,11 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function view_project_as_client($id, $clientid)
+    public function view_project_as_client($id, $clientid, $ServID='')
     {
         if (is_admin()) {
             login_as_client($clientid);
-            redirect(site_url('clients/project/' . $id));
+            redirect(site_url('clients/legal_services/' . $id.'/'. $ServID));
         }
     }
 

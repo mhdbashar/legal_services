@@ -23,7 +23,7 @@ class Oservice_data_pdf extends App_pdf
     public function prepare()
     {
         $slug = $this->ci->legal->get_service_by_id($this->ServID)->row()->slug;
-        $project = $this->ci->other->get($ServID, $this->project_id);
+        $project = $this->ci->other->get($this->ServID, $this->project_id);
         $this->SetTitle($project->name);
         $members                = $this->ci->other->get_project_members($project->id);
         $project->currency_data = $this->ci->other->get_currency($project->id);
@@ -33,9 +33,10 @@ class Oservice_data_pdf extends App_pdf
 
         $data['project']    = $project;
         $data['milestones'] = $this->ci->other->get_milestones($slug, $project->id);
-        $data['timesheets'] = $this->ci->other->get_timesheets($ServID, $project->id);
+        $data['timesheets'] = $this->ci->other->get_timesheets($this->ServID, $project->id);
 
-        $data['tasks']             = $this->ci->other->get_tasks($project->id, [], false);
+        $data['tasks']             = $this->ci->other->get_tasks($this->ServID,$project->id, [], false);
+
         $data['total_logged_time'] = seconds_to_time_format($this->ci->other->total_logged_time($slug, $project->id));
         if ($project->deadline) {
             $data['total_days'] = round((human_to_unix($project->deadline . ' 00:00') - human_to_unix($project->start_date . ' 00:00')) / 3600 / 24);
@@ -68,7 +69,6 @@ class Oservice_data_pdf extends App_pdf
                 'oservice_id' => $project->id,
             ]);
         $data['members'] = $members;
-
         $this->set_view_vars($data);
 
         return $this->build();

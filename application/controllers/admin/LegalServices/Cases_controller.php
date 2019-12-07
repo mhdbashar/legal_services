@@ -5,19 +5,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Cases_controller extends AdminController
 {
     public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('Customer_representative_model', 'representative');
-        $this->load->model('currencies_model');
-        $this->load->model('LegalServices/Case_movement_model', 'movement');
-        $this->load->model('Branches_model');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
-        $this->load->model('tasks_model');
-        $this->load->model('LegalServices/Phase_model','phase');
-        $this->load->helper('date');
-    }
+{
+    parent::__construct();
+    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->load->model('LegalServices/Cases_model', 'case');
+    $this->load->model('Customer_representative_model', 'representative');
+    $this->load->model('currencies_model');
+    $this->load->model('LegalServices/Case_movement_model', 'movement');
+    $this->load->model('Branches_model');
+    $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+    $this->load->model('tasks_model');
+    $this->load->model('LegalServices/Phase_model','phase');
+    $this->load->helper('date');
+}
 
     public function add($ServID)
     {
@@ -32,10 +32,10 @@ class Cases_controller extends AdminController
         if ($this->input->post()) {
             $data['description'] = $this->input->post('description', false);
             $data = $this->input->post();
-            $added = $this->case->add($ServID,$data);
-            if ($added) {
+            $id = $this->case->add($ServID,$data);
+            if ($id) {
                 set_alert('success', _l('added_successfully'));
-                redirect(admin_url("Service/$ServID"));
+                redirect(admin_url("Case/view/$ServID/$id"));
             }
         }
 
@@ -168,7 +168,8 @@ class Cases_controller extends AdminController
             $data = $this->input->post();
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['rel_stype'] = $slug;
-            $data['rel_sid'] = $case_id;
+            $data['rel_sid']   = $case_id;
+            $data['project_id'] = 0;
             $id = $this->expenses_model->add_for_case($data);
             if ($id) {
                 set_alert('success', _l('added_successfully', _l('expense')));
@@ -710,7 +711,6 @@ class Cases_controller extends AdminController
 
     public function milestones($project_id, $ServID, $slug)
     {
-
         if ($this->case->is_member($project_id) || has_permission('projects', '', 'view')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('milestones_case', [
@@ -1164,11 +1164,11 @@ class Cases_controller extends AdminController
         }
     }
 
-    public function view_project_as_client($id, $clientid)
+    public function view_project_as_client($id, $clientid, $ServID='')
     {
         if (is_admin()) {
             login_as_client($clientid);
-            redirect(site_url('clients/project/' . $id));
+            redirect(site_url('clients/legal_services/' . $id.'/'. $ServID));
         }
     }
 

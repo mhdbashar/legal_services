@@ -1146,6 +1146,14 @@ function get_upload_path_by_type($type)
         $path = NEWSFEED_FOLDER;
 
         break;
+        case 'case':
+            $path = CASE_ATTACHMENTS_FOLDER;
+
+            break;
+        case 'oservice':
+            $path = OSERVICE_ATTACHMENTS_FOLDER;
+
+            break;
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

@@ -494,19 +494,19 @@ function case_has_recurring_tasks($id)
     return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project"') > 0;
 }
 
-function total_case_tasks_by_milestone($milestone_id, $project_id)
+function total_case_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
-        'rel_type'  => 'project',
+        'rel_type'  => $slug,
         'rel_id'    => $project_id,
         'milestone' => $milestone_id,
     ]);
 }
 
-function total_case_finished_tasks_by_milestone($milestone_id, $project_id)
+function total_case_finished_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
-        'rel_type'  => 'project',
+        'rel_type'  => $slug,
         'rel_id'    => $project_id,
         'status'    => 5,
         'milestone' => $milestone_id,

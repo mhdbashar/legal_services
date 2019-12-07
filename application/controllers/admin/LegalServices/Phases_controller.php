@@ -54,12 +54,13 @@ class Phases_controller extends AdminController
 
         public function handle_phases($ServID,$project_id)
         {
+            $url = $ServID == 1 ? 'Case' : 'SOther';
             if ($this->input->post()) {
                 $data = $this->input->post();
                 $added = $this->phase->handle_phase_data($ServID, $project_id, $data);
                 if ($added) {
                     set_alert('success', _l('phase_compleate'));
-                    redirect(admin_url('Case/view/'.$ServID.'/'. $project_id . '?group=Phase'));
+                    redirect(admin_url($url.'/view/'.$ServID.'/'. $project_id . '?group=Phase'));
                 }
             }
         }

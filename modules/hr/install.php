@@ -205,6 +205,55 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+// Branches
+if (!$CI->db->table_exists(db_prefix() . 'branches')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+     `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `branch_type` varchar(255) NOT NULL,
+    `legal_traning_name` varchar(255) NOT NULL, 
+    `registraion_number` varchar(255) NOT NULL,
+    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+    `email` varchar(255) NOT NULL, 
+    `city_id` int(11) NOT NULL, 
+    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `state_province` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL, 
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_emergency_contact')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_emergency_contact` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `relation` varchar(255) NOT NULL, 
+    `email` varchar(255) NOT NULL, 
+    `personal` varchar(255) NOT NULL, 
+    `is_primary` int(1) NOT NULL, 
+    `is_dependent` int(1) NOT NULL, 
+    `name` varchar(255) NOT NULL, 
+    `address_1` varchar(255) NOT NULL, 
+    `address_2` varchar(255) NOT NULL, 
+    `work` varchar(255) NOT NULL,
+    `ext` varchar(255) NOT NULL,
+    `home` varchar(255) NOT NULL,
+    `mobile` varchar(255) NOT NULL,
+    `city` varchar(255) NOT NULL, 
+    `state` varchar(255) NOT NULL, 
+    `zip_code` int(11) NOT NULL,
+    `country` varchar(255) NOT NULL, 
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_designations')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_designations` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `department_id` varchar(200) NOT NULL,
+    `designation_name` varchar(200) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
 
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';
@@ -214,6 +263,16 @@ if (!option_exists('deduction_type')) {
 if (!option_exists('document_type')) {
     $value = '[{"key":" Driving License","value":" Driving License"}]';
     add_option('document_type',$value);
+}
+
+if (!option_exists('branch_type')) {
+    $value = '[{"key":" Corporation","value":" Corporation"},{"key":" Exempt Organization","value":" Exempt Organization"},{"key":" Partnership","value":" Partnership"},{"key":" Private Foundation","value":" Private Foundation"},{"key":" Limited Liability Company","value":" Limited Liability Company"}]';
+    add_option('branch_type',$value);
+}
+
+if (!option_exists('relation_type')) {
+    $value = '[{"key":"Self","value":"Self"},{"key":"Parent","value":"Parent"},{"key":"Spouse","value":"Spouse"},{"key":"Child","value":"Child"},{"key":"Sibling","value":"Sibling"},{"key":"In Laws","value":"In Laws"}]';
+    add_option('relation_type',$value);
 }
 
 if (!option_exists('education_level_type')) {

@@ -15,6 +15,8 @@ class General extends AdminController{
         $this->load->model('Departments_model');
         $this->load->model('Immigration_model');
         $this->load->model('Extra_info_model');
+        $this->load->model('Emergency_contact_model');
+        $this->load->model('Branches_model');
 	}
 
 	public function general($staff_id){
@@ -43,6 +45,12 @@ class General extends AdminController{
                 }
             } else {
                 $ts_filter_data['this_month'] = true;
+            }
+            if($this->app_modules->is_active('branches')) {
+                $ci = &get_instance();
+                $ci->load->model('branches/Branches_model');
+                $data['branches'] = $ci->Branches_model->getBranches();
+                $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
             }
             $data['logged_time'] = $this->staff_model->get_logged_time_data($staff_id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
@@ -75,6 +83,8 @@ class General extends AdminController{
                 $this->hrmapp->get_table_data('my_immigrations_table', ['staff_id' => $staff_id]);
             }elseif($group == 'qualification'){
                 $this->hrmapp->get_table_data('my_qualifications_table', ['staff_id' => $staff_id]);
+            }elseif($group == 'emergency_contacts'){
+                $this->hrmapp->get_table_data('my_emergency_contacts_table', ['staff_id' => $staff_id]);
             }
         }
 
@@ -156,6 +166,11 @@ class General extends AdminController{
 
         if ($this->input->post()) {
             $data = $this->input->post();
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+
+                unset($data['branch_id']);
+            }
             foreach ($data as $key => $value){
                 if (in_array($value, $hr_data))
                     unset($data[$key]);
@@ -186,6 +201,8 @@ class General extends AdminController{
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
                 }
+                if($this->app_modules->is_active('branches'))
+                    $this->Branches_model->update_branch('staff', $id, $branch_id);
                 handle_staff_profile_image_upload($id);
 
                 if($this->Extra_info_model->get($id)){
@@ -228,6 +245,13 @@ class General extends AdminController{
                 }
             } else {
                 $ts_filter_data['this_month'] = true;
+            }
+
+            if($this->app_modules->is_active('branches')) {
+                $ci = &get_instance();
+                $ci->load->model('branches/Branches_model');
+                $data['branches'] = $ci->Branches_model->getBranches();
+                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
             }
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
@@ -300,6 +324,51 @@ class General extends AdminController{
             access_denied();
         }
         $response = $this->Qualification_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+    // qualification
+
+    public function json_emergency_contact($id){
+        $data = $this->Emergency_contact_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_emergency_contact(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Emergency_contact_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_emergency_contact(){
+        $data = $this->input->post();
+        $success = $this->Emergency_contact_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_emergency_contact($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Emergency_contact_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {

@@ -115,6 +115,12 @@ class Branches extends AdminController
         die();
     }
 
+    public function getDepartments($id)
+    {
+        echo json_encode(['success'=>true,'data'=>$this->branches_model->getDepatrmentsForBranches($id)]);
+        die();
+    }
+
 
 
     /**

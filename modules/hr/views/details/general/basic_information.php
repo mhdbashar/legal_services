@@ -82,8 +82,11 @@
                     		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      	</div>
                      </div>
-                     
-                     
+                     <?php $branches = $this->Branches_model->getBranches(); ?>
+		                  <?php if($this->app_modules->is_active('branches')){?>
+	                        <?php $value = (isset($branch) ? $branch : ''); ?>
+	                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
+	                     <?php } ?>
                      <div class="row">
                      	<div class="col-md-6">
                      		<?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>
@@ -178,7 +181,8 @@
                         <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
                         <?php } ?>
                         <?php foreach($departments as $department){ ?>
-                        <div class="checkbox checkbox-primary">
+
+                           <?php $department['branch_id'] = $this->Branches_model->get_branch('departments', $department['departmentid']); ?>
                            <?php
                               $checked = '';
                               if(isset($member)){
@@ -189,7 +193,8 @@
                               }
                               }
                               ?>
-                           <input type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
+                        <div class="department_<?php echo $department['branch_id'] ?> department checkbox checkbox-primary <?php if($checked == '') echo 'hide' ?>">
+                           <input class="" type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
                            <label for="dep_<?php echo $department['departmentid']; ?>"><?php echo $department['name']; ?></label>
                         </div>
                         <?php } ?>
@@ -261,4 +266,12 @@
    </div>
    <div class="btn-bottom-pusher"></div>
 </div>
-
+<script>
+   function getval(sel)
+    {
+      console.log('#department_'+sel.value);
+      $('.department').addClass('hide');
+      $('.department input').prop('checked', false);
+      $('.department_'+sel.value).removeClass('hide');
+    }
+</script>

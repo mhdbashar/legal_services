@@ -64,6 +64,22 @@
                         <?php echo render_input('imap_username','department_username'); ?>
                         <?php echo render_input('host','dept_imap_host'); ?>
                         <?php echo render_input('password','dept_email_password','','password'); ?>
+                        <?php
+                            if($this->app_modules->is_active('branches')) {
+                                $ci = &get_instance();
+                                $ci->load->model('branches/Branches_model');
+                                $branches= $ci->Branches_model->getBranches();
+                            }
+                        ?>
+
+                        <div class="form-group">
+                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
+                            <select class="form-control branch_selected" id="branch_id" name="branch_id" placeholder="<?php echo _l('document_type') ?>" aria-invalid="false">
+                            <?php foreach ($branches as $value) { ?>
+                                <option class="branch_" id="branch_<?php echo  $value['key'] ?>" value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
+                            <?php } ?>
+                            </select>     
+                        </div>
                         <div class="form-group">
                             <label for="encryption"><?php echo _l('dept_encryption'); ?></label><br />
                             <div class="radio radio-primary radio-inline">
@@ -171,6 +187,7 @@
             $(input_enc_selector).prop('checked',true);
             $('#additional').append(hidden_input('id',id));
             $('#department input[name="name"]').val($(invoker).data('name'));
+            $('.branch_selected').val($(invoker).data('branch_id'));
             $('#department input[name="email"]').val($(invoker).data('email'));
             $('#department input[name="calendar_id"]').val($(invoker).data('calendar-id'));
             $('#department input[name="password"]').val($(invoker).data('password'));

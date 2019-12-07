@@ -146,6 +146,18 @@ class Branches_model extends App_Model
         }
         return $data;
     }
+    public function getDepatrmentsForBranches($branch_id)
+    {
+        $data = [];
+        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
+        $rows = $this->db->get('tblbranches_services')->result_array();
+        foreach ($rows as $row) {
+            $this->db->where(['departmentid' => $row['rel_id']]);
+            $r = $this->db->get('tbldepartments')->row_array();
+            $data[] = ['key' => $r['departmentid'], 'value' => $r['name']];
+        }
+        return $data;
+    }
     public function getBranches()
     {
         $data = [];

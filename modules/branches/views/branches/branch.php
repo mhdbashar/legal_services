@@ -31,17 +31,35 @@
                         <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
                         <?php echo render_input('title_ar','branch_title_ar',$value); ?>
 
+                        <?php $value = (isset($branch) ? $branch->legal_traning_name : ''); ?>
+                        <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->registraion_number : ''); ?>
+                        <?php echo render_input('registraion_number','registraion_number',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->phone : ''); ?>
+                        <?php echo render_input('phone','branch_phone',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->branch_email : ''); ?>
+                        <?php echo render_input('branch_email','branch_email',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->website : ''); ?>
+                        <?php echo render_input('website','website',$value); ?>
+
+                        <?php $value = (isset($branch) ? $branch->address : ''); ?>
+                        <?php echo render_input('address','address',$value); ?>
+
                         <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
                         <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],'branch_country_id',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->city_id : ''); ?>
                         <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'],'branch_city_id',$value); ?>
 
-                        <?php $value = (isset($branch) ? $branch->address : ''); ?>
-                        <?php echo render_input('address','branch_address',$value); ?>
+                        <?php $value = (isset($branch) ? $branch->state_province : ''); ?>
+                        <?php echo render_input('state_province','state_province',$value); ?>
 
-                        <?php $value = (isset($branch) ? $branch->phone : ''); ?>
-                        <?php echo render_input('phone','branch_phone',$value); ?>
+                        <?php $value = (isset($branch) ? $branch->zip_code : ''); ?>
+                        <?php echo render_input('zip_code','zip_code',$value); ?>
 
 
                             <div class="clearfix"></div>

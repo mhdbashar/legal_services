@@ -1055,7 +1055,7 @@ function _file_attachments_index_fix($index_name)
 function _maybe_create_upload_path($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0755);
+        mkdir($path, 0755,True);
         fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
     }
 }

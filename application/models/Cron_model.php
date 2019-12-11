@@ -1758,6 +1758,9 @@ class Cron_model extends App_Model
                         $this->db->where('case_mov_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_cases_movement_judges');
 
+                        $this->db->where('case_mov_id', $row->id);
+                        $this->db->delete(db_prefix() . 'my_members_movement_cases');
+
                         $this->db->where('case_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_cases_judges');
 

@@ -132,7 +132,7 @@ class Case_movement_model extends App_Model
 
             if (isset($project_members)) {
                 $_pm['project_members'] = $project_members;
-                $this->case->add_edit_members($_pm,$ServID, $insert_id);
+                $this->add_edit_members_movement($_pm, $insert_id);
             }
 
             if (isset($judges)) {
@@ -396,6 +396,75 @@ class Case_movement_model extends App_Model
         return false;
     }
 
+    public function add_edit_members_movement($data, $id)
+    {
+        $affectedRows = 0;
+        if (isset($data['project_members'])) {
+            $cases_members = $data['project_members'];
+        }
+        $cases_members_in = $this->get_case_mov_members($id);
+
+        if (sizeof($cases_members_in) > 0) {
+            foreach ($cases_members_in as $case_member) {
+                if (isset($cases_members)) {
+                    if (!in_array($case_member['staff_id'], $cases_members)) {
+                        $this->db->where('case_mov_id', $id);
+                        $this->db->where('staff_id', $case_member['staff_id']);
+                        $this->db->delete(db_prefix() . 'my_members_movement_cases');
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                } else {
+                    $this->db->where('case_mov_id', $id);
+                    $this->db->delete(db_prefix() . 'my_members_movement_cases');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($cases_members)) {
+                foreach ($cases_members as $staff_id) {
+                    $this->db->where('case_mov_id', $id);
+                    $this->db->where('staff_id', $staff_id);
+                    $_exists = $this->db->get(db_prefix() . 'my_members_movement_cases')->row();
+                    if (!$_exists) {
+                        if (empty($staff_id)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix() . 'my_members_movement_cases', [
+                            'case_mov_id'   => $id,
+                            'staff_id'  => $staff_id,
+                        ]);
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (isset($cases_members)) {
+                foreach ($cases_members as $staff_id) {
+                    if (empty($staff_id)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'my_members_movement_cases', [
+                        'case_mov_id'  => $id,
+                        'staff_id' => $staff_id,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+        }
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function get_case_mov_judges($id)
     {
         $this->db->select('my_cases_movement_judges.*,my_judges.*');
@@ -411,6 +480,23 @@ class Case_movement_model extends App_Model
         $this->db->join('my_judges', 'my_judges.id = my_cases_movement_judges.judge_id');
         $this->db->where('my_cases_movement_judges.case_mov_id', $id);
         return $this->db->get()->result();
+    }
+
+    public function get_case_mov_members($id)
+    {
+        $this->db->select('my_members_movement_cases.*,staff.*');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_movement_cases.staff_id');
+        $this->db->where('my_members_movement_cases.case_mov_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_movement_cases')->result_array();
+    }
+
+    public function GetMembersCasesMovement($id)
+    {
+        $this->db->select('CONCAT(firstname, " ", lastname) as full_name, my_members_movement_cases.staff_id');
+        $this->db->from('my_members_movement_cases');
+        $this->db->join('staff', 'staff.staffid = my_members_movement_cases.staff_id');
+        $this->db->where('my_members_movement_cases.case_mov_id', $id);
+        return $this->db->get()->result_array();
     }
 
 }

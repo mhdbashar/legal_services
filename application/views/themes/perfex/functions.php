@@ -65,7 +65,17 @@ function theme_assets()
             base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'clients.js')) . '?v=' . $CI->app_css->core_version(),
              ['common-js']
         );
+
+        //By Baraa For custom clients area
+        $CI->app_scripts->theme(
+            'custom_clients-js',
+            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'custom_clients.js')) . '?v=' . $CI->app_css->core_version(),
+            ['common-js']
+        );
     }
+
+
+
 
     // CSS
     add_favicon_link_asset($groupName);

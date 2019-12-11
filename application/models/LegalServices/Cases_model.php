@@ -244,6 +244,7 @@ class Cases_model extends App_Model
             if (isset($project_members)) {
                 $_pm['project_members'] = $project_members;
                 $this->add_edit_members($_pm, $ServID, $insert_id);
+                $this->movement->add_edit_members_movement($_pm, $insert_id);
             }
 
             if (isset($judges)) {
@@ -566,6 +567,9 @@ class Cases_model extends App_Model
             $this->db->where('case_mov_id', $id);
             $this->db->delete(db_prefix() . 'my_cases_movement_judges');
 
+            $this->db->where('case_mov_id', $id);
+            $this->db->delete(db_prefix() . 'my_members_movement_cases');
+
             $this->db->where('case_id', $id);
             $this->db->delete(db_prefix() . 'my_cases_judges');
 
@@ -692,14 +696,12 @@ class Cases_model extends App_Model
         if (isset($data['project_members'])) {
             $project_members = $data['project_members'];
         }
-
         $new_project_members_to_receive_email = [];
         $this->db->select('name,clientid');
         $this->db->where('id', $id);
         $project      = $this->db->get(db_prefix() . 'my_cases')->row();
         $project_name = $project->name;
         $client_id    = $project->clientid;
-
         $project_members_in = $this->get_project_members($id);
         if (sizeof($project_members_in) > 0) {
             foreach ($project_members_in as $project_member) {
@@ -2093,7 +2095,6 @@ class Cases_model extends App_Model
                 }
             }
         }
-
         return $comments;
     }
 
@@ -2415,7 +2416,7 @@ class Cases_model extends App_Model
 
             foreach ($settings as $setting) {
                 $this->db->insert(db_prefix() . 'case_settings', [
-                    'project_id' => $id,
+                    'case_id'    => $id,
                     'name'       => $setting['name'],
                     'value'      => $setting['value'],
                 ]);

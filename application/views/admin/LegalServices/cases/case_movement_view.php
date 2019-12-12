@@ -12,9 +12,13 @@
                         </div>
                         <div class="text">
                             <p class="mtop10 no-mbot">
+                                <?php
+                                $this->load->model('LegalServices/Case_movement_model', 'movement');
+                                $data['members'] = $this->movement->GetMembersCasesMovement($movement['id']);
+                                ?>
                                 <?php echo _l('staff') . ' :'; ?>
-                                <?php if (isset($members)) {
-                                    foreach ($members as $member) { ?>
+                                <?php if (isset($data['members'])) {
+                                    foreach ($data['members'] as $member) { ?>
                                         <a href="<?php echo admin_url('profile/' . $member["staff_id"]); ?>">
                                             <img src="<?php echo contact_profile_image_url($member['staff_id']); ?>" class="staff-profile-xs-image mright10">
                                             <span class="label label-info inline-block mbot5 mright10"><?php echo get_staff_full_name($member['staff_id']); ?></span>

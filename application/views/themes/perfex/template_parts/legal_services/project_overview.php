@@ -1,4 +1,19 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php
+if ($ServID == 1){
+    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->load->model('LegalServices/Cases_model', 'case');
+    $model = $this->case;
+    $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+    $seconds_to_time = $this->case->total_logged_time($slug, $project->id);
+}else{
+    $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    $this->load->model('LegalServices/Other_services_model', 'other');
+    $model = $this->other;
+    $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+    $seconds_to_time = $this->other->total_logged_time($slug, $project->id);
+}
+?>
 <div class="row mtop15">
  <div class="col-md-6">
   <div class="panel-heading project-info-bg no-radius"><?php echo _l('project_overview'); ?></div>
@@ -55,21 +70,7 @@
   <?php if($project->billing_type == 1 && $project->settings->view_task_total_logged_time == 1){ ?>
     <tr class="project-total-logged-hours">
       <td class="bold"><?php echo _l('project_overview_total_logged_hours'); ?></td>
-        <?php
-          if ($ServID == 1){
-              $this->load->model('LegalServices/LegalServicesModel', 'legal');
-              $this->load->model('LegalServices/Cases_model', 'case');
-              $model = $this->case;
-              $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-              $seconds_to_time = $this->case->total_logged_time($slug, $project->id);
-          }else{
-              $this->load->model('LegalServices/LegalServicesModel', 'legal');
-              $this->load->model('LegalServices/Other_services_model', 'other');
-              $model = $this->other;
-              $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-              $seconds_to_time = $this->other->total_logged_time($slug, $project->id);
-          }
-          ?>
+
       <td><?php echo seconds_to_time_format($seconds_to_time); ?></td>
     </tr>
   <?php } ?>

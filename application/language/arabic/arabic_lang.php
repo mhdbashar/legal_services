@@ -1,4 +1,5 @@
 <?php
+$lang['copy_project'] = "نسخ الخدمة";
 $lang['home_my_todo_items'] = "عناصر يجب القيام بها";
 $lang['projects'] = "مشاريع";
 $lang['project_status_4'] = "منتهية";
@@ -1678,7 +1679,6 @@ $lang['project_file__filetype'] = "نوع الملف";
 $lang['project_file_visible_to_customer'] = "مرئي للعميل";
 $lang['project_file_uploaded_by'] = "تم الرفع بواسطة";
 $lang['edit_project'] = "تحرير الخدمة";
-$lang['copy_project'] = "نشخ الخدمة";
 $lang['delete_project'] = "حذف الخدمة";
 $lang['project_task_assigned_to_user'] = "المهمة مخصصة لك";
 $lang['project'] = "المشروع";

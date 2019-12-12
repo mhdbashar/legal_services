@@ -23,8 +23,8 @@ class  case_movement_controller extends AdminController
             $data = $this->input->post();
             $success = $this->movement->update($ServID, $id, $data);
             if ($success) {
-                $added = $this->movement->add($ServID,$id, $data);
-                if ($added) {
+                $id = $this->movement->add($ServID,$id, $data);
+                if ($id) {
                     set_alert('success', _l('updated_successfully'));
                     redirect(admin_url("Service/$ServID"));
                 }

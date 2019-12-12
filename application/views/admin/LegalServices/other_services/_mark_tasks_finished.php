@@ -7,7 +7,7 @@
                 <h4><?php echo _l('additional_action_required'); ?></h4>
             </div>
             <div class="modal-body">
-                <?php if(oservice_has_recurring_tasks($oservice->id,$service->slug)) { ?>
+                <?php if(oservice_has_recurring_tasks($project->id,$service->slug)) { ?>
                     <div class="alert alert-warning recurring-tasks-notice hide" data-notice-text="<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>">
                     </div>
                 <?php } ?>
@@ -19,7 +19,7 @@
                     <input type="checkbox" name="mark_all_tasks_as_completed" id="mark_all_tasks_as_completed">
                     <label for="mark_all_tasks_as_completed"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
                 </div>
-                <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>$service->slug.'-finished-to-customer','active'=>0)) == 0 && total_rows(db_prefix().'contacts',array('userid'=>$oservice->clientid,'active'=>1)) > 0){ ?>
+                <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>$service->slug.'-finished-to-customer','active'=>0)) == 0 && total_rows(db_prefix().'contacts',array('userid'=>$project->clientid,'active'=>1)) > 0){ ?>
                     <div class="form-group project_marked_as_finished hide no-mbot">
                         <hr />
                         <div class="checkbox checkbox-primary">
@@ -30,7 +30,7 @@
                 <?php } ?>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-info" id="project_mark_status_confirm" onclick="confirm_oservice_status_change(this); return false;"><?php echo _l('project_mark_tasks_finished_confirm'); ?></button>
+                <button class="btn btn-info" id="project_mark_status_confirm" onclick="confirm_oservice_status_change(this, '<?php echo $slug ?>'); return false;"><?php echo _l('project_mark_tasks_finished_confirm'); ?></button>
             </div>
         </div>
     </div>

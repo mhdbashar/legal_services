@@ -584,6 +584,7 @@ class Clients extends ClientsController
 
                     break;
                 case 'discussion_comments':
+
                     if($ServID == 1){
                         echo json_encode($this->case->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
                     }else{

@@ -477,7 +477,7 @@ class Other_services_model extends App_Model
         }
         if ($affectedRows > 0) {
             $this->log_activity($id, 'LService_activity_updated');
-            logActivity($ServiceName.' Updated [ServID: ' . $id . ']');
+            log_activity($ServiceName.' Updated [ServID: ' . $id . ']');
 
             if ($original_project->status != $data['status']) {
                 hooks()->do_action('project_status_changed', [

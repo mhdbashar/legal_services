@@ -112,7 +112,7 @@ class Payroll extends AdminController{
             $this->hrmapp->get_table_data('my_payroll_table', ['month' => $month, 'year' => $year]);
         }
 
-        $data['title'] = "Payroll";
+        $data['title'] = _l("payroll");
 
 		$data['month'] = $month;
 

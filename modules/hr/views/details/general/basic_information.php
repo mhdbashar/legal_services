@@ -87,6 +87,29 @@
 	                        <?php $value = (isset($branch) ? $branch : ''); ?>
 	                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
 	                     <?php } ?>
+                     <div class="form-group">
+                        <?php if(count($departments) > 0){ ?>
+                        <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
+                        <?php } ?>
+                        <?php foreach($departments as $department){ ?>
+
+                           <?php $department['branch_id'] = $this->Branches_model->get_branch('departments', $department['departmentid']); ?>
+                           <?php
+                              $checked = '';
+                              if(isset($member)){
+                               foreach ($staff_departments as $staff_department) {
+                                if($staff_department['departmentid'] == $department['departmentid']){
+                                 $checked = ' checked';
+                               }
+                              }
+                              }
+                              ?>
+                        <div class="department_<?php echo $department['branch_id'] ?> department checkbox checkbox-primary <?php if($checked == '') echo 'hide' ?>">
+                           <input class="" type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" onchange="check(this)" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
+                           <label for="dep_<?php echo $department['departmentid']; ?>"><?php echo $department['name']; ?></label>
+                        </div>
+                        <?php } ?>
+                     </div>
                      <div class="row">
                      	<div class="col-md-6">
                      		<?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>
@@ -98,15 +121,30 @@
                      </div>
 
                      <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
+                                <select class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
+                                    <option value="<?php echo $extra_info->sub_department ?>"><?php echo $extra_info->sub_department ?></option>
+                                </select>     
+                            </div>  
+                        </div>
                      	<div class="col-md-4">
-                     		<?php echo render_input('location','location',$extra_info->location ); ?>
-                     	</div>
-                     	<div class="col-md-4">
-                     		<?php echo render_input('designation','designation',$extra_info->designation ); ?>
-                     	</div>
-                     	<div class="col-md-4">
-                     		<?php echo render_input('gender','gender',$extra_info->gender ); ?>
-                     	</div>
+                            <div class="form-group">
+                                <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
+                                <select class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                                    <option value="<?php echo $extra_info->designation ?>"><?php echo $extra_info->designation ?></option>
+                                </select>     
+                            </div>  
+                        </div>
+                        <div class="form-group select-placeholder col-md-4">
+                           <label for="gender"><?php echo _l('gendre'); ?></label>
+                           <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="gender" id="gender">
+                              <option value="" <?php if(isset($extra_info) && empty($extra_info->gender)){echo 'selected';} ?>></option>
+                              <option value="Male" <?php if(isset($extra_info) && $extra_info->gender == 'Male'){echo 'selected';} ?>>Male</option>
+                              <option value="Female" <?php if(isset($extra_info) && $extra_info->gender == 'Female'){echo 'selected';} ?>>Female</option>
+                           </select>
+                        </div>
                      </div>
 
                      <div class="row">
@@ -176,29 +214,7 @@
                            <option value="rtl" <?php if(isset($member) && $member->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
                         </select>
                      </div>
-                     <div class="form-group">
-                        <?php if(count($departments) > 0){ ?>
-                        <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
-                        <?php } ?>
-                        <?php foreach($departments as $department){ ?>
-
-                           <?php $department['branch_id'] = $this->Branches_model->get_branch('departments', $department['departmentid']); ?>
-                           <?php
-                              $checked = '';
-                              if(isset($member)){
-                               foreach ($staff_departments as $staff_department) {
-                                if($staff_department['departmentid'] == $department['departmentid']){
-                                 $checked = ' checked';
-                               }
-                              }
-                              }
-                              ?>
-                        <div class="department_<?php echo $department['branch_id'] ?> department checkbox checkbox-primary <?php if($checked == '') echo 'hide' ?>">
-                           <input class="" type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
-                           <label for="dep_<?php echo $department['departmentid']; ?>"><?php echo $department['name']; ?></label>
-                        </div>
-                        <?php } ?>
-                     </div>
+                     
                      <?php $rel_id = (isset($member) ? $member->staffid : false); ?>
                      <?php echo render_custom_fields('staff',$rel_id); ?>
 
@@ -274,4 +290,5 @@
       $('.department input').prop('checked', false);
       $('.department_'+sel.value).removeClass('hide');
     }
+
 </script>

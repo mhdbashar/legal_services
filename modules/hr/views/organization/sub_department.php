@@ -7,28 +7,28 @@
                 <div class="panel_s">
                     <div class="panel-body">
                      <div class="_buttons">
-                        <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_designation"><?php echo _l('new_designation'); ?></a>
+                        <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_sub_department"><?php echo _l('new_sub_department'); ?></a>
                     </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
                     <?php
                     $data = array(
-                                _l('designation'),
+                                _l('sub_department'),
                                 _l('control'),
                             );
-                     render_datatable($data,'designation'); ?>
+                     render_datatable($data,'sub_department'); ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?php $this->load->view('organization/modals/designation_modal'); ?>
+<?php $this->load->view('organization/modals/sub_department_modal'); ?>
 <?php init_tail(); ?>
 <script>
    $(function(){
-        initDataTable('.table-designation', window.location.href);
+        initDataTable('.table-sub_department', window.location.href);
    });
 
 

@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo "Make Payment"; ?></span>
+                    <span class="edit-title"><?php echo _l("make_payment"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/payroll/make_payment'),array('id'=>'form_transout')); ?>
@@ -15,31 +15,31 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('amount','Monthly Payslip', '0', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('amount','monthly_payslip', '0', 'number', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('allowances','Total Allowance', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('allowances','total_allowance', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('commissions','Total Commissions', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('commissions','total_commissions', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('loan','Total loan', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('loan','total_loan', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('overtime','Total Overtime', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('overtime','total_overtime', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('deductions','Statutory Deductions', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('deductions','statutory_deductions', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
-                        <?php echo render_input('other_payment','Other Payment', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('other_payment','other_payment', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-6">
-                        <?php echo render_input('net_salary','Net Salary', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('net_salary','net_salary', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-6">
-                        <?php echo render_input('payment_amount','Payment Amount', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
+                        <?php echo render_input('payment_amount','payment_amount', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                 </div>
             </div>

@@ -2,9 +2,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Designation_model extends App_Model{
+class Sub_department_model extends App_Model{
 
-    private $table_name = 'hr_designations';
+    private $table_name = 'hr_sub_departments';
 
     public function __construct(){
         parent::__construct();
@@ -13,12 +13,12 @@ class Designation_model extends App_Model{
         }
     }
 
-    public function get_designations($department_id){
+    public function get_sub_departments($department_id){
         $data = [];
         $this->db->where(['department_id' => $department_id]);
         $rows = $this->db->get($this->table_name)->result_array();
         foreach ($rows as $row) {
-            $data[] = ['key' => $row['id'], 'value' => $row['designation_name']];
+            $data[] = ['key' => $row['id'], 'value' => $row['sub_department_name']];
         }
         return $data;
     }
@@ -29,7 +29,7 @@ class Designation_model extends App_Model{
             $row = $this->db->get($this->table_name)->row();
             $this->db->where('departmentid' ,$row->department_id);
             $row2 = $this->db->get('tbldepartments')->row();
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
+            $this->db->where(['rel_id' => $id, 'rel_type' => 'sub_departments']);
             $row3 = $this->db->get('tblbranches_services')->row();
             $row->department = $row2;
             $row->branch = $row3;

@@ -29,11 +29,11 @@
                 <div class="panel_s">
                     <div class="panel-body">
                     <?php render_datatable(array(
-                        'Full Name',
-                        'Payroll type',
-                        'Salary',
-                        'Status',
-                        'Actions',
+                        _l('full_name'),
+                        _l('payroll_type'),
+                        _l('salary'),
+                        _l('status'),
+                        _l('control'),
                         ),'payroll'); ?>
                     </div>
                 </div>

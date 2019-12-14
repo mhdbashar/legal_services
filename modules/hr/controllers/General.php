@@ -59,7 +59,7 @@ class General extends AdminController{
             $data['user_notes']    = $this->Misc_model->get_notes($staff_id, 'staff');
             $data['departments']   = $this->Departments_model->get();
             $data['staff_departments'] = $this->Departments_model->get_staff_departments($member->staffid);
-            $extra_info = ['emloyee_id' => '', 'location' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'zip_code' => '', 'address' => ''];
+            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'zip_code' => '', 'address' => ''];
 
             $data['extra_info'] = (object)$extra_info;
 
@@ -152,10 +152,10 @@ class General extends AdminController{
 
         $hr_data['staff_id'] = $id;
         $hr_data['emloyee_id'] = $this->input->post('emloyee_id');
-        $hr_data['location'] = $this->input->post('location');
         $hr_data['designation'] = $this->input->post('designation');
         $hr_data['gender'] = $this->input->post('gender');
         $hr_data['marital_status'] = $this->input->post('marital_status');
+        $hr_data['sub_department'] = $this->input->post('sub_department');
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
         $hr_data['date_birth'] = $this->input->post('date_birth');
         $hr_data['state_province'] = $this->input->post('state_province');

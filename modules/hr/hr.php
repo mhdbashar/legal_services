@@ -32,7 +32,7 @@ function hr_module_init_menu_items()
             
         $CI->app_menu->add_sidebar_menu_item('hr-system', [
             'collapse' => true,
-            'name'     => "HR",
+            'name'     => _l("hr"),
             'position' => 7,
             'icon'     => 'fa fa-users',
         ]);
@@ -40,19 +40,19 @@ function hr_module_init_menu_items()
     if (has_permission('hr', '', 'view')) {
         
         $CI->app_menu->add_sidebar_children_item('hr-system', [
-                'slug'     => 'Holidays',
+                'slug'     => _l('holidays'),
                 'name'     => 'Holidays',
                 'href'     => admin_url('hr/Holidays'),
                 'position' => 26,
         ]); 
         $CI->app_menu->add_sidebar_children_item('hr-system', [
-                'slug'     => 'payroll',
+                'slug'     => _l('payroll'),
                 'name'     => 'Payroll',
                 'href'     => admin_url('hr/payroll'),
                 'position' => 35,
         ]); 
         $CI->app_menu->add_sidebar_children_item('hr-system', [
-                'slug'     => 'settings',
+                'slug'     => _l('settings'),
                 'name'     => 'Settings',
                 'href'     => admin_url('hr/setting'),
                 'position' => 35,
@@ -70,7 +70,7 @@ function hr_module_init_menu_items()
             
         $CI->app_menu->add_sidebar_menu_item('employee-system', [
             'collapse' => true,
-            'name'     => "Employees",
+            'name'     => _l("employees"),
             'position' => 7,
             'icon'     => 'fa fa-users',
         ]);
@@ -79,13 +79,13 @@ function hr_module_init_menu_items()
          
         $CI->app_menu->add_sidebar_children_item('employee-system', [
                 'slug'     => 'Staff',
-                'name'     => 'Staff',
+                'name'     => _l('staff'),
                 'href'     => admin_url('staff'),
                 'position' => 30,
         ]);
         $CI->app_menu->add_sidebar_children_item('employee-system', [
                 'slug'     => 'Staff',
-                'name'     => 'Expired Documents',
+                'name'     => _l('expired_documents'),
                 'href'     => admin_url('hr/general/expired_documents'),
                 'position' => 30,
         ]);
@@ -102,7 +102,7 @@ function hr_module_init_menu_items()
             
         $CI->app_menu->add_sidebar_menu_item('organization-system', [
             'collapse' => true,
-            'name'     => "Organization",
+            'name'     => _l('organization'),
             'position' => 7,
             'icon'     => 'fa fa-users',
         ]);
@@ -111,31 +111,31 @@ function hr_module_init_menu_items()
          
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'Branch',
-                'name'     => 'Branch',
+                'name'     => _l('branch'),
                 'href'     => admin_url('branches'),
                 'position' => 30,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'Officail',
-                'name'     => 'Officail Documents',
+                'name'     => _l('official_documents'),
                 'href'     => admin_url('hr/organization/officail_documents'),
                 'position' => 31,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'sub_department',
-                'name'     => 'Sub Department',
+                'name'     => _l('sub_department'),
                 'href'     => admin_url('hr/organization/sub_department'),
                 'position' => 32,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'department',
-                'name'     => 'Department',
+                'name'     => _l('departments'),
                 'href'     => admin_url('departments'),
                 'position' => 34,
         ]);
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'Designation',
-                'name'     => 'Designation',
+                'name'     => _l('designation'),
                 'href'     => admin_url('hr/organization/designation'),
                 'position' => 36,
         ]);

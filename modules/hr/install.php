@@ -192,7 +192,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_extra_info` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `emloyee_id` varchar(255) NOT NULL, 
-    `location` varchar(255) NOT NULL, 
+    `sub_department` varchar(255) NOT NULL, 
     `designation` varchar(255) NOT NULL, 
     `gender` varchar(255) NOT NULL, 
     `marital_status` varchar(255) NOT NULL, 
@@ -252,6 +252,30 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_designations')) {
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
     `department_id` varchar(200) NOT NULL,
     `designation_name` varchar(200) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_sub_departments')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_sub_departments` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `department_id` varchar(200) NOT NULL,
+    `sub_department_name` varchar(200) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_official_documents')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_official_documents` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `document_type` varchar(255) NOT NULL, 
+    `document_title` varchar(255) NOT NULL, 
+    `document_number` varchar(255) NOT NULL, 
+    `description` text NOT NULL, 
+    `date_expiry` date NOT NULL, 
+    `document_file` varchar(255) NOT NULL,
+    `is_notification` int(11) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
+    `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 

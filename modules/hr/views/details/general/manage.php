@@ -58,6 +58,53 @@
 </script>
 
 <script>
+
+  function check(sel)
+  {
+    console.log('#designation_'+sel.value);
+    $.get(admin_url + 'hr/organization/get_designations/' + sel.value, function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#designation_id').append($('<option>', {
+                    value: value,
+                    text: value
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+    console.log('#sub_departmant_'+sel.value);
+    $.get(admin_url + 'hr/organization/get_sub_departments/' + sel.value, function(response) {
+        if (response.success == true) {
+            $('#sub_department_id').empty();
+            $('#sub_department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#sub_department_id').append($('<option>', {
+                    value: value,
+                    text: value
+                }));
+                $('#sub_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+  }
    $(function() {
 
        $('select[name="role"]').on('change', function() {

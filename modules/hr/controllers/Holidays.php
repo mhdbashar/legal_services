@@ -27,7 +27,7 @@ class Holidays extends AdminController{
             $this->hrmapp->get_table_data('my_holiday_table', ['month' => $month, 'year' => $year]);
         }
 
-		$data['title'] = "Holidays";
+		$data['title'] = _l("holidays");
 
 		$data['month'] = $month;
 

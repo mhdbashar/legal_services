@@ -92,7 +92,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'creditnotes.id',
     db_prefix() . 'creditnotes.clientid',
     db_prefix(). 'currencies.name as currency_name',
-    'project_id',
+    'rel_sid',
     'deleted_customer_name',
 ]);
 
@@ -129,7 +129,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = format_credit_note_status($aRow['status']);
 
-    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . $aRow['project_name'] . '</a>';
 
     $row[] = $aRow['reference_no'];
 

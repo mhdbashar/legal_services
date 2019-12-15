@@ -129,7 +129,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'invoices.id',
     db_prefix() . 'invoices.clientid',
     db_prefix(). 'currencies.name as currency_name',
-    'project_id',
+    'rel_sid',
     'hash',
     'recurring',
     'deleted_customer_name',
@@ -177,8 +177,8 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
-    ;
+    $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . $aRow['project_name'] . '</a>';
+
 
     $row[] = render_tags($aRow['tags']);
 
@@ -192,7 +192,7 @@ foreach ($rResult as $aRow) {
     }
 
     $row['DT_RowClass'] = 'has-row-options';
-    if($ci->app_modules->is_active('branches')){
+    if($this->ci->app_modules->is_active('branches')){
         $row[] = $aRow['branch_id'];
     }
 

@@ -11,6 +11,7 @@ class Tickets extends AdminController
             redirect(admin_url());
         }
         $this->load->model('tickets_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function table_tickets_case($status = '', $userid = '')
@@ -112,6 +113,14 @@ class Tickets extends AdminController
     {
         if ($this->input->post()) {
             $data            = $this->input->post();
+            if (isset($data['ServID'])) {
+                $slug = $this->legal->get_service_by_id($data['ServID'])->row()->slug;
+                $data['rel_sid'] = $data['project_id'];
+                $data['rel_stype'] = $slug;
+                $data['project_id'] = 0;
+                unset($data['ServID']);
+
+            }
             $data['message'] = $this->input->post('message', false);
             $id              = $this->tickets_model->add($data, get_staff_user_id());
             if ($id) {
@@ -159,10 +168,9 @@ class Tickets extends AdminController
                 }
             }
         } elseif ($this->input->get('caseid') && $this->input->get('caseid') > 0 && $this->input->get('ServID')) {
-            // request from project area to create new ticket
+            // request from case area to create new ticket
             $data['project_id'] = $this->input->get('caseid');
             $data['ServID'] = $this->input->get('ServID');
-            //print_r( $data['ServID'] );exit();
             $data['userid'] = get_client_id_by_case_id($data['project_id']);
             if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
                 $contact = $this->clients_model->get_contacts($data['userid']);
@@ -171,7 +179,7 @@ class Tickets extends AdminController
                 }
             }
         } elseif ($this->input->get('oserviceid') && $this->input->get('oserviceid') > 0 && $this->input->get('ServID')) {
-            // request from project area to create new ticket
+            // request from oservice area to create new ticket
             $data['project_id'] = $this->input->get('oserviceid');
             $data['ServID'] = $this->input->get('ServID');
             $data['userid'] = get_client_id_by_case_id($data['project_id']);

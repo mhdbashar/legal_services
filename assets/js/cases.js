@@ -34,8 +34,10 @@ $(function() {
 
     initDataTable('.table-credit-notes', admin_url + 'credit_notes/table?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
-    slug_credit_notes_case = $(".table-credit-notes_case").attr('data-servid');
-    initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_case/'+slug_credit_notes_case+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+    slug_credit_notes_case = $(".table-credit-notes_case").attr('data-slug');
+    servid_credit_notes_case = $(".table-credit-notes_case").attr('data-servid');
+    clientid = 0;
+    initDataTable('.table-credit-notes_case', admin_url + 'credit_notes/table_case/' + clientid + '/'+ servid_credit_notes_case+ '/'+slug_credit_notes_case+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
     if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
         var chartOptions = {

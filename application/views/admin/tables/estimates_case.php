@@ -111,7 +111,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'estimates.clientid',
     db_prefix() . 'estimates.invoiceid',
     db_prefix() . 'currencies.name as currency_name',
-    'project_id',
+    'rel_sid',
     'deleted_customer_name',
     'hash',
 ]);
@@ -158,7 +158,7 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('Case/view/' .$ServID .'/'. $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    $row[] = '<a href="' . admin_url('Case/view/' .$ServID .'/'. $aRow['rel_sid']) . '">' . $aRow['project_name'] . '</a>';
 
     $row[] = render_tags($aRow['tags']);
 

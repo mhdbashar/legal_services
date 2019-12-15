@@ -52,7 +52,7 @@
             <tbody>
               <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('project_customer'); ?></td>
-                  <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo $project->clientid; ?>"><?php echo $project->client_data->company; ?></a>
+                  <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo isset($project->clientid) ? $project->clientid : ''; ?>"><?php echo isset($project->client_data->company) ? $project->client_data->company : ''; ?></a>
                   </td>
               </tr>
                <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>

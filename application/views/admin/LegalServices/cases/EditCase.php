@@ -628,6 +628,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#clientid").append(new Option(company, data, true, true));
+                        $('#clientid').append(newOption).trigger('change');
                         $('#add-client').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
@@ -652,6 +654,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#opponent_id").append(new Option(company, data, true, true));
+                        $('#opponent_id').append(newOption).trigger('change');
                         $('#add-opponent').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');

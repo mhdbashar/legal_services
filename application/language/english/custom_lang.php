@@ -1,5 +1,7 @@
 <?php
-
+$lang['payment_history'] = "Payment history";
+$lang['payroll_month'] = "Payroll month";
+$lang['payroll_date'] = "Payroll date";
 $lang['official_documents'] = "Official Documents";
 $lang['expired_documents'] = "Expired Documents";
 $lang['education'] = "Education";

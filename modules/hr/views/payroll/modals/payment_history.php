@@ -11,11 +11,13 @@
             <?php echo form_open(admin_url('hr/payroll/make_payment'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('staff_id'); ?>
             <?php echo form_hidden('type'); ?>
-            <?php echo form_hidden('payment_date'); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('amount','monthly_payslip', '0', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('staff','staff', '0', 'text', ['required' => 'required', 'readonly' => 'true']); ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?php echo render_input('payment_date','payment_date', '0', 'text', ['required' => 'required', 'readonly' => 'true']); ?>
                     </div>
                     <div class="col-md-4">
                         <?php echo render_input('allowances','total_allowance', '0', 'number', ['required' => 'required', 'readonly' => 'true']); ?>
@@ -45,8 +47,6 @@
             </div>
             <div class="modal-footer">
                 <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
-                <?php echo form_close(); ?>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
 
 <script>
 
-    function make_payment(id, month, year){
+    function payment(id, month, year){
 
         save_method = 'update';
         $('#form_transout')[0].reset(); // reset form on modals
@@ -64,35 +64,35 @@
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "<?php echo site_url('hr/payroll/count_result') ?>/" + id + "/" + year + "/" + month,
+            url : "<?php echo site_url('hr/payroll/payment_json') ?>/" + id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
                 console.log(data);
-                $('[name="staff_id"]').val(data.staff_id);
+                $('[name="staff"]').val(data.full_name);
 
                 $('[name="type"]').val(data.type);
 
-                $('[name="other_payment"]').val(data.total_other_payments);
+                $('[name="other_payment"]').val(data.other_payment);
                 
-                $('[name="overtime"]').val(data.total_overtime);
+                $('[name="overtime"]').val(data.overtime);
 
-                $('[name="commissions"]').val(data.total_commissions);
+                $('[name="commissions"]').val(data.commissions);
 
-                $('[name="net_salary"]').val(data.salary);
+                $('[name="net_salary"]').val(data.net_salary);
 
-                $('[name="deductions"]').val(data.total_deductions);
+                $('[name="deductions"]').val(data.deductions);
 
-                $('[name="allowances"]').val(data.total_allowances);
+                $('[name="allowances"]').val(data.allowances);
 
-                $('[name="loan"]').val(data.total_loans);
+                $('[name="loan"]').val(data.loan);
 
-                $('[name="payment_amount"]').val(data.payment_amount);
+                $('[name="payment_amount"]').val(data.amount);
 
                 $('[name="amount"]').val(data.payment_amount);
 
-                $('[name="payment_date"]').val(year + '-' + month + '-' + 1);
+                $('[name="payment_date"]').val(data.created);
 
                 $('#make_payment').modal('show'); // show bootstrap modal when complete loaded
 

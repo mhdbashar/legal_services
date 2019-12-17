@@ -41,25 +41,74 @@ function hr_module_init_menu_items()
         
         $CI->app_menu->add_sidebar_children_item('hr-system', [
                 'slug'     => _l('holidays'),
-                'name'     => 'Holidays',
+                'name'     => _l('holidays'),
                 'href'     => admin_url('hr/Holidays'),
                 'position' => 26,
         ]); 
         $CI->app_menu->add_sidebar_children_item('hr-system', [
                 'slug'     => _l('payroll'),
-                'name'     => 'Payroll',
+                'name'     => _l('payroll'),
                 'href'     => admin_url('hr/payroll'),
                 'position' => 35,
         ]); 
         $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => _l('payment_history'),
+                'name'     => _l('payment_history'),
+                'href'     => admin_url('hr/payroll/payment_history'),
+                'position' => 35,
+        ]); 
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
                 'slug'     => _l('settings'),
-                'name'     => 'Settings',
+                'name'     => _l('settings'),
                 'href'     => admin_url('hr/setting'),
                 'position' => 35,
         ]);  
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'Staff',
+                'name'     => _l('staff'),
+                'href'     => admin_url('staff'),
+                'position' => 30,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'Staff',
+                'name'     => _l('expired_documents'),
+                'href'     => admin_url('hr/general/expired_documents'),
+                'position' => 30,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => _l('branch'),
+                'name'     => _l('branch'),
+                'href'     => admin_url('branches'),
+                'position' => 30,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'Officail',
+                'name'     => _l('official_documents'),
+                'href'     => admin_url('hr/organization/officail_documents'),
+                'position' => 31,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'sub_department',
+                'name'     => _l('sub_department'),
+                'href'     => admin_url('hr/organization/sub_department'),
+                'position' => 32,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'department',
+                'name'     => _l('departments'),
+                'href'     => admin_url('departments'),
+                'position' => 34,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'Designation',
+                'name'     => _l('designation'),
+                'href'     => admin_url('hr/organization/designation'),
+                'position' => 36,
+        ]);
                 
     }
-
+/*
+    
     $CI->app->add_quick_actions_link([
             'name'       => _l('staff'),
             'permission' => 'hr',
@@ -141,6 +190,7 @@ function hr_module_init_menu_items()
         ]);
                 
     }
+*/
 
     
 }

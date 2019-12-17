@@ -1,4 +1,4 @@
- <?php $this->load->view('details/modals/commission_modal') ?>
+ <?php $this->load->view('details/modals/other_payments_modal') ?>
  <div class="_buttons">
     <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_other_payment"><?php echo _l('new_other_payments'); ?></a>
 </div>

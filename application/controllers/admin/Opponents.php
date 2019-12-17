@@ -126,7 +126,7 @@ class Opponents extends AdminController
                 }
                 if ($id) {
                     if($this->app_modules->is_active('branches')){
-                        if(isset($branch_id)):
+                        if(is_numeric($branch_id)):
                         $data = [
                             'branch_id' => $branch_id,
                             'rel_type' => 'opponent',
@@ -150,7 +150,7 @@ class Opponents extends AdminController
                     }
                 }
                 if($this->app_modules->is_active('branches')){
-                    if(isset($branch_id)):
+                    if(is_numeric($branch_id)):
                         $this->Branches_model->update_branch('opponent', $id, $branch_id);
                     endif;
                 }

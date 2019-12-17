@@ -48,12 +48,14 @@ class Departments extends AdminController
             if (!$this->input->post('id')) {
                 $id = $this->departments_model->add($data);
                 if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
                     $data = [
                         'branch_id' => $branch_id, 
                         'rel_type' => 'departments', 
                         'rel_id' => $id
                     ];
                     $this->Branches_model->set_branch($data);
+                    }
                 }
                 if ($id) {
                     $success = true;
@@ -68,7 +70,7 @@ class Departments extends AdminController
 
                 $id = $data['id'];
                 if($this->app_modules->is_active('branches')){
-                    if(isset($branch_id)):
+                    if(is_numeric($branch_id)):
                         $this->Branches_model->update_branch('departments', $id, $branch_id);
                     endif;
                 }

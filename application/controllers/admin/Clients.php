@@ -121,12 +121,14 @@ class Clients extends AdminController
                 }
                 if ($id) {
                     if($this->app_modules->is_active('branches')){
+                        if(is_numeric($branch_id)){
                         $data = [
                             'branch_id' => $branch_id, 
                             'rel_type' => 'clients', 
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);
+                    }
                     }
                     
                     set_alert('success', _l('added_successfully', _l('client')));
@@ -143,7 +145,7 @@ class Clients extends AdminController
                     }
                 }
                 if($this->app_modules->is_active('branches')){
-                    if(isset($branch_id)):
+                    if(is_numeric($branch_id)):
                         $this->Branches_model->update_branch('clients', $id, $branch_id);
                     endif;
                 }

@@ -1,5 +1,8 @@
 <?php
 
+$lang['payroll'] = "اجرائية الدفع";
+$lang['holidays'] = "العطل";
+$lang['settings'] = "الاعدادات";
 $lang['official_documents'] = "مستندات رسمية";
 $lang['new_document'] = "وثيقة جديدة";
 $lang['expired_documents'] = "المستندات منتهية الصلاحية";
@@ -42,6 +45,9 @@ $lang['relation'] = "الصلة";
 $lang['add_deduction_type'] = "اضافة نوع من الاستقطاعات";
 $lang['deduction'] = "الاستقطاعات";
 $lang['salary'] = "الراتب";
+$lang['payment_history'] = "الدفعات القديمة";
+$lang['payroll_month'] = "شهر الدفع";
+$lang['payroll_date'] = "وقت الدفع";
 $lang['payroll_type'] = "طريقة الدفع";
 $lang['full_name'] = "الاسم الكامل";
 $lang['designation_name'] = "اسم المسمى الوظيفي";
@@ -64,7 +70,6 @@ $lang['is_notification'] = "هو الإخطار؟";
 $lang['date_expiry'] = "تاريخ انتهاء الصلاحية";
 $lang['document_title'] = "عنوان المستند";
 $lang['document_type'] = "نوع الوثيقة";
-$lang['branch'] = "الفرع";
 $lang['departments'] = "الأقسام";
 //new
 $lang['account_title'] = "اسم الحساب";

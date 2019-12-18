@@ -16,7 +16,7 @@ class Document_model extends App_Model{
     public function uploadImage($field, $id)
     {
         $this->deleteDirectory("uploads/hr/document/$id");
-        mkdir('uploads/hr/document/'.$id);
+        mkdir('uploads/hr/document/'.$id, 0777, true);
         $config['upload_path'] = 'uploads/hr/document/'.$id.'/';
         //png, jpg, jpeg, gif, txt, pdf, xls, xlsx, doc, docx
         $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs';

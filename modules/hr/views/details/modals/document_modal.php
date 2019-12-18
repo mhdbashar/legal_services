@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-12">
                     	<label for="cat_id" class="control-label"><?php echo _l('document_file') ?></label>
-                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file">                  
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>
@@ -117,7 +117,7 @@
                     </div>
                     <div class="col-md-12">
                     	<label for="cat_id" class="control-label"><?php echo _l('document_file') ?></label>
-                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">                  
+                        <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="document_file">                  
                     </div>
                     <div class="col-md-12">
                         <?php echo render_input('notification_email','notification_email', '', 'email', ['required' => 'required']); ?>

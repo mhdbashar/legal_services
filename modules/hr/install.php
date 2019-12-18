@@ -98,6 +98,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_payments')) {
     `amount` bigint NOT NULL,
     `net_salary` bigint NOT NULL,
     `payment_date` date NOT NULL,
+    `created` timestamp NOT NULL,
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }

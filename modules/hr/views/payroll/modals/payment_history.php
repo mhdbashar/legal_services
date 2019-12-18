@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="edit-title"><?php echo _l("make_payment"); ?></span>
+                    <span class="edit-title"><?php echo _l("view"); ?></span>
                 </h4>
             </div>
             <?php echo form_open(admin_url('hr/payroll/make_payment'),array('id'=>'form_transout')); ?>

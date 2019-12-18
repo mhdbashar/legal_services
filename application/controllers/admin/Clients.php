@@ -96,7 +96,13 @@ class Clients extends AdminController
 
             $data = $this->input->post();
 
+
+            $issetBranch = '';
             if($this->app_modules->is_active('branches')){
+                if(!is_numeric($this->input->post('branch_id'))){
+                    $issetBranch = 'no';
+                }
+
                 $branch_id = $this->input->post('branch_id');
 
                 unset($data['branch_id']);
@@ -120,7 +126,7 @@ class Clients extends AdminController
                     $this->clients_model->assign_admins($assign, $id);
                 }
                 if ($id) {
-                    if($this->app_modules->is_active('branches')){
+                    if($this->app_modules->is_active('branches') and $issetBranch != 'no'){
                         $data = [
                             'branch_id' => $branch_id, 
                             'rel_type' => 'clients', 
@@ -142,7 +148,7 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
-                if($this->app_modules->is_active('branches')){
+                if($this->app_modules->is_active('branches') and $issetBranch != 'no'){
                     if(isset($branch_id)):
                         $this->Branches_model->update_branch('clients', $id, $branch_id);
                     endif;

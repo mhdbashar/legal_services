@@ -34,8 +34,10 @@ $(function() {
 
     initDataTable('.table-credit-notes', admin_url + 'credit_notes/table?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
-    slug_credit_notes_oservice = $(".table-credit-notes_oservice").attr('data-servid');
-    initDataTable('.table-credit-notes_oservice', admin_url + 'credit_notes/table_oservice/'+slug_credit_notes_oservice+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+    slug_credit_notes_oservice = $(".table-credit-notes_oservice").attr('data-slug');
+    servid_credit_notes_oservice = $(".table-credit-notes_oservice").attr('data-servid');
+    clientid = 0;
+    initDataTable('.table-credit-notes_oservice', admin_url + 'credit_notes/table_oservice/'+ clientid + '/' +servid_credit_notes_oservice +'/'+ slug_credit_notes_oservice+'?project_id=' + project_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
 
     if ($('#timesheetsChart').length > 0 && typeof(project_overview_chart) != 'undefined') {
         var chartOptions = {
@@ -603,9 +605,10 @@ if (table_invoices_oservice.length > 0 || table_estimates_oservice.length > 0) {
 
     servid_invoices_oservice = $(".table-invoices_oservice").attr('data-servid');
     slug_invoices_oservice = $(".table-invoices_oservice").attr('data-slug');
+    clientid = 0;
     if (table_invoices_oservice.length) {
         // Invoices tables
-        initDataTable(table_invoices_oservice, (admin_url + 'invoices/table_oservice/'+ servid_invoices_oservice +'/' + slug_invoices_oservice + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, !$('body').hasClass('recurring') ? [
+        initDataTable(table_invoices_oservice, (admin_url + 'invoices/table_oservice/'+ clientid + '/' + servid_invoices_oservice +'/' + slug_invoices_oservice + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, !$('body').hasClass('recurring') ? [
             [3, 'desc'],
             [0, 'desc']
         ] : [table_invoices_oservice.find('th.next-recurring-date').index(), 'asc']);
@@ -615,7 +618,7 @@ if (table_invoices_oservice.length > 0 || table_estimates_oservice.length > 0) {
         // Estimates table
         servid_estimates_oservice = $(".table-estimates_oservice").attr('data-servid');
         slug_estimates_oservice = $(".table-estimates_oservice").attr('data-slug');
-        initDataTable(table_estimates_oservice, admin_url + 'estimates/table_oservice/' + servid_estimates_oservice +'/' + slug_estimates_oservice , 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, [
+        initDataTable(table_estimates_oservice, admin_url + 'estimates/table_oservice/' + clientid + '/' + servid_estimates_oservice +'/' + slug_estimates_oservice , 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, [
             [3, 'desc'],
             [0, 'desc']
         ]);

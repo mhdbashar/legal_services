@@ -1545,7 +1545,7 @@ class Other_services_model extends App_Model
         if ($insert_id) {
             $this->db->where('id', $insert_id);
             $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-            $project   = $this->get($milestone->project_id);
+            $project   = $this->get($milestone->rel_sid);
             if ($project->settings->view_milestones == 1) {
                 $show_to_customer = 1;
             } else {

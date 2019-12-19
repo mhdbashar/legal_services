@@ -75,40 +75,44 @@ class Invoices extends AdminController
         ]);
     }
 
-    public function table_case($clientid = '', $slug = '')
+    public function table_case($clientid = '',$ServID='', $slug = '')
     {
         if (!has_permission('invoices', '', 'view')
             && !has_permission('invoices', '', 'view_own')
             && get_option('allow_staff_view_invoices_assigned') == '0') {
             ajax_access_denied();
         }
-
+        if($clientid == 0){
+            $clientid = '';
+        }
         $this->load->model('payment_modes_model');
         $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
 
         $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_case'), [
             'clientid' => $clientid,
             'data'     => $data,
-            'ServID'   => $clientid,
+            'ServID'   => $ServID,
             'slug'     => $slug,
         ]);
     }
 
-    public function table_oservice($clientid = '', $slug = '')
+    public function table_oservice($clientid = '',$ServID='', $slug = '')
     {
         if (!has_permission('invoices', '', 'view')
             && !has_permission('invoices', '', 'view_own')
             && get_option('allow_staff_view_invoices_assigned') == '0') {
             ajax_access_denied();
         }
-
+        if($clientid == 0){
+            $clientid = '';
+        }
         $this->load->model('payment_modes_model');
         $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
 
         $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_oservice'), [
             'clientid' => $clientid,
             'data'     => $data,
-            'ServID'   => $clientid,
+            'ServID'   => $ServID,
             'slug'     => $slug,
         ]);
     }

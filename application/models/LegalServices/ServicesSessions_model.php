@@ -39,19 +39,18 @@ class ServicesSessions_model extends App_Model
 
     public function update_customer_report($id, $data)
     {
-
-        $data['next_session_date'] = to_sql_date($data['next_session_date']);
-        $this->db->where('task_id' , $id);
-        $this->db->set('customer_report', 1);
-        $this->db->update(db_prefix() .'my_session_info', $data);
-        if ($this->db->affected_rows() > 0) {
-            log_activity(' Customer report added [ Session ID ' . $id . ']');
-            $sent = $this->send_mail_next_action_session($id);
-            if($sent == 1){
+        $sent = $this->send_mail_next_action_session($id);
+        if($sent == 1){
+            $data['next_session_date'] = to_sql_date($data['next_session_date']);
+            $this->db->where('task_id' , $id);
+            $this->db->set('customer_report', 1);
+            $this->db->update(db_prefix() .'my_session_info', $data);
+            if ($this->db->affected_rows() > 0) {
+                log_activity(' Customer report added [ Session ID ' . $id . ']');
                 return true;
-            }elseif ($sent == 2){
-                return 2;
             }
+        }elseif ($sent == 2){
+            return 2;
         }
         return false;
     }

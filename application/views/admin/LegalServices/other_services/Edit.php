@@ -55,9 +55,9 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="col-md-1">
                                 <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-
+                            </div>
 
                         </div>
 
@@ -414,6 +414,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#clientid").append(new Option(company, data, true, true));
+                        $('#clientid').append(newOption).trigger('change');
                         $('#add-client').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');

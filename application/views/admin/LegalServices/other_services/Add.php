@@ -47,16 +47,21 @@
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php
-                                        $rel_data = get_relation_data('customer', '');
-                                        $rel_val = get_relation_values($rel_data, 'customer');
-                                        echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                        ?>
+                                        $selected = (isset($OtherServ) ? $OtherServ->clientid : '');
+                                        if ($selected == '') {
+                                            $selected = (isset($OtherServ) ? $OtherServ->clientid : '');
+                                        }
+                                        if ($selected != '') {
+                                            $rel_data = get_relation_data('customer', '');
+                                            $rel_val = get_relation_values($rel_data, 'customer');
+                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                        }?>
                                     </select>
                                 </div>
                             </div>
-
-                                <a href="<?php echo admin_url('clients')?>" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -358,8 +363,55 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
+<div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l('client_company'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input( 'company_modal', 'client_company','','text'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="button" id="AddClient" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php init_tail(); ?>
 <script>
+
+    $("#AddClient").click(function () {
+        company = $('#company_modal').val();
+        if(company == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('clients/add'); ?>',
+                data: {company : company},
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#clientid").append(new Option(company, data, true, true));
+                        $('#clientid').append(newOption).trigger('change');
+                        $('#add-client').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
+
     function GetSubCat() {
         id = $('#cat_id').val();
         $.ajax({

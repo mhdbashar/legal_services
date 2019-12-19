@@ -39,10 +39,15 @@
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php
-                                            $rel_data = get_relation_data('customer', '');
+                                        $selected = (isset($project) ? $project->clientid : '');
+                                        if ($selected == '') {
+                                            $selected = (isset($customer_id) ? $customer_id : '');
+                                        }
+                                        if ($selected != '') {
+                                            $rel_data = get_relation_data('customer', $selected);
                                             $rel_val = get_relation_values($rel_data, 'customer');
                                             echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                         ?>
+                                        } ?>
                                     </select>
                                 </div>
                             </div>
@@ -58,10 +63,15 @@
                                             class="ajax-search"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php
-                                        $rel_data = get_relation_data('opponents', '');
-                                        $rel_val = get_relation_values($rel_data, 'opponents');
-                                        echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                        ?>
+                                        $selected = (isset($case) ? $case->opponent_id : '');
+                                        if($selected == ''){
+                                            $selected = (isset($case) ? $case->opponent_id : '');
+                                        }
+                                        if ($selected != '') {
+                                            $rel_data = get_relation_data('opponents', $selected);
+                                            $rel_val = get_relation_values($rel_data, 'opponents');
+                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                        }?>
                                     </select>
                                 </div>
                             </div>
@@ -588,6 +598,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#clientid").append(new Option(company, data, true, true));
+                        $('#clientid').append(newOption).trigger('change');
                         $('#add-client').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
@@ -612,6 +624,8 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        var newOption = $("#opponent_id").append(new Option(company, data, true, true));
+                        $('#opponent_id').append(newOption).trigger('change');
                         $('#add-opponent').modal('hide');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');

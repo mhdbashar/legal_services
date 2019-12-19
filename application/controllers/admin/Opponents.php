@@ -99,8 +99,14 @@ class Opponents extends AdminController
 
             $data = $this->input->post();
 
+            $isset  = '';
             if($this->app_modules->is_active('branches')){
+                if(!is_numeric($this->input->post('branch_id'))){
+                    $issetBranch = 'no';
+                }
+
                 $branch_id = $this->input->post('branch_id');
+
                 unset($data['branch_id']);
             }
 
@@ -126,14 +132,14 @@ class Opponents extends AdminController
                 }
                 if ($id) {
                     if($this->app_modules->is_active('branches')){
-                        if(is_numeric($branch_id)):
+                        if(is_numeric($branch_id)){
                         $data = [
-                            'branch_id' => $branch_id,
-                            'rel_type' => 'opponent',
+                            'branch_id' => $branch_id, 
+                            'rel_type' => 'opponents', 
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);
-                        endif;
+                    }
                     }
 
                     set_alert('success', _l('added_successfully', _l('opponent')));

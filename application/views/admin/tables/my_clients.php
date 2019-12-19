@@ -15,9 +15,21 @@ $aColumns = [
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
     db_prefix().'clients.active',
-    'IF(individual=1,
-    (SELECT IF('.db_prefix().'clients.individual="0", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'customer_groups JOIN '.db_prefix().'customers_groups ON '.db_prefix().'customer_groups.groupid = '.db_prefix().'customers_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC),
-    (SELECT IF('.db_prefix().'clients.individual="1", "", GROUP_CONCAT(name SEPARATOR ",")) FROM '.db_prefix().'my_customer_company_groups JOIN '.db_prefix().'my_customers_company_groups ON '.db_prefix().'my_customer_company_groups.groupid = '.db_prefix().'my_customers_company_groups.id WHERE customer_id = '.db_prefix().'clients.userid ORDER by name ASC)) AS client_Group',
+    'CASE
+        WHEN individual=0 THEN 
+        (SELECT  GROUP_CONCAT(name SEPARATOR ",") 
+         FROM tblcustomer_groups 
+         INNER JOIN tblcustomers_groups 
+            ON tblcustomers_groups.id=tblcustomer_groups.groupid
+        WHERE tblcustomer_groups.customer_id=tblclients.userid
+        )
+        ELSE (SELECT  GROUP_CONCAT(name SEPARATOR ",") 
+         FROM tblmy_customer_company_groups
+         INNER JOIN tblmy_customers_company_groups 
+            ON tblmy_customers_company_groups.id=tblmy_customer_company_groups.groupid
+        WHERE tblmy_customer_company_groups.customer_id=tblclients.userid
+        )
+    END as client_Group',
     
     db_prefix().'clients.datecreated as datecreated',
 

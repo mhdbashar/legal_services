@@ -16,7 +16,7 @@ $aColumns = [
     db_prefix().'clients.phonenumber as phonenumber',
     db_prefix().'clients.active',
     'CASE
-        WHEN individual=0 THEN 
+        WHEN individual=1 THEN 
         (SELECT  GROUP_CONCAT(name SEPARATOR ",") 
          FROM tblcustomer_groups 
          INNER JOIN tblcustomers_groups 

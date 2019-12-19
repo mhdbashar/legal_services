@@ -99,14 +99,8 @@ class Opponents extends AdminController
 
             $data = $this->input->post();
 
-            $isset  = '';
             if($this->app_modules->is_active('branches')){
-                if(!is_numeric($this->input->post('branch_id'))){
-                    $issetBranch = 'no';
-                }
-
                 $branch_id = $this->input->post('branch_id');
-
                 unset($data['branch_id']);
             }
 

@@ -150,9 +150,12 @@ class Opponents extends AdminController
                     }
                 }
                 if($this->app_modules->is_active('branches')){
-                    if(is_numeric($branch_id)):
+                    if(is_numeric($branch_id)){
                         $this->Branches_model->update_branch('opponent', $id, $branch_id);
-                    endif;
+                    }
+                    else{
+                        $this->Branches_model->delete_branch('opponent', $id);
+                    }
                 }
                 $success = $this->clients_model->update($data, $id);
                 if ($success == true) {

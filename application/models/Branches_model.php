@@ -69,6 +69,16 @@ class Branches_model extends App_Model
         }
         return false;
     }
+    public function delete_branch($rel_type, $rel_id){
+        $this->db->where(['rel_id'=> $rel_id, 'rel_type' => $rel_type]);
+        $this->db->delete('tblbranches_services');
+        if ($this->db->affected_rows() > 0) {
+            // Delete the values
+            log_activity('Branches Services Deleted [' . $rel_id . ']');
+            return true;
+        }
+        return false;
+    }
     public function get_branch($rel_type, $rel_id)
     {
         $data = [];

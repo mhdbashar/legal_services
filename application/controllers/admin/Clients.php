@@ -147,9 +147,12 @@ class Clients extends AdminController
                     }
                 }
                 if($this->app_modules->is_active('branches')){
-                    if(is_numeric($branch_id)):
+                    if(is_numeric($branch_id)){
                         $this->Branches_model->update_branch('clients', $id, $branch_id);
-                    endif;
+                    }
+                    else{
+                        $this->Branches_model->delete_branch('clients', $id);
+                    }
                 }
                 $success = $this->clients_model->update($data, $id);
                 if ($success == true) {

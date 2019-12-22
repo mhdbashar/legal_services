@@ -16,7 +16,7 @@ class Immigration_model extends App_Model{
     public function uploadImage($field, $id)
     {
         $this->deleteDirectory("uploads/hr/immigration/$id");
-        mkdir('uploads/hr/immigration/'.$id);
+        mkdir('uploads/hr/immigration/'.$id, 0777, true);
         $config['upload_path'] = 'uploads/hr/immigration/'.$id.'/';
         //png, jpg, jpeg, gif, txt, pdf, xls, xlsx, doc, docx
         $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs';
@@ -26,8 +26,8 @@ class Immigration_model extends App_Model{
             $error = $this->upload->display_errors();
             $type = "error";
             $message = $error;
-            // set_message($type, $message);
-            return $message;
+            echo $message;
+            exit;
             // uploading failed. $error will holds the errors.
         } else {
             $fdata = $this->upload->data();

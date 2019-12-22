@@ -201,10 +201,13 @@ class General extends AdminController{
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
                 }
-                if($this->app_modules->is_active('branches'))
-                    $this->Branches_model->update_branch('staff', $id, $branch_id);
-                handle_staff_profile_image_upload($id);
-
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }                handle_staff_profile_image_upload($id);
+                }
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
                     $response = $this->staff_model->update($data, $id);
@@ -281,11 +284,24 @@ class General extends AdminController{
     }
 
     public function expired_documents(){
+
+        if(!$this->input->get('group')){
+            $_GET['group'] = 'employee';
+        }
+        $group = $this->input->get('group');
+
     	if ($this->input->is_ajax_request()) {
-    		$this->hrmapp->get_table_data('my_expired_documents_table');
+            if($group == 'employee'){
+    		  $this->hrmapp->get_table_data('expired_documents/my_employee_table');
+            }elseif($group == 'official'){
+                $this->hrmapp->get_table_data('expired_documents/my_official_table');
+            }elseif($group == 'immigration'){
+                $this->hrmapp->get_table_data('expired_documents/my_immigration_table');
+            }
     	}
+        $data['group'] = $group;
     	$data['title'] = _l('general');
-    	$this->load->view('details/general/expired_documents', $data);
+    	$this->load->view('expired_documents/manage', $data);
     }
 
     // qualification

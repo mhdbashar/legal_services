@@ -937,6 +937,7 @@ class Cron_model extends App_Model
         $this->db->where('is_notification', 1);
 
         $documents = $this->db->get(db_prefix() . 'hr_documents')->result_array();
+
         $now   = new DateTime(date('Y-m-d'));
 
         $notifiedUsers = [];
@@ -975,6 +976,59 @@ class Cron_model extends App_Model
 
                             $this->db->where('id', $document['id']);
                             $this->db->update(db_prefix() . 'hr_documents', [
+                                'deadline_notified' => 1,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+
+
+        $this->db->where('date_expiry IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+        $this->db->where('is_notification', 1);
+
+        $official_documents = $this->db->get(db_prefix() . 'hr_official_documents')->result_array();
+        $notifiedUsers = [];
+
+        foreach ($official_documents as $document) {
+            if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
+                $end_date = new DateTime($document['date_expiry']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and date_expiry is the same like the reminder before
+                // In this case reminder wont be sent becuase the document it too short
+                $end_date                 = strtotime($document['date_expiry']);
+                $start_and_end_date_diff = $end_date;
+                $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+                if ($diff <= $reminder_before) {
+                    $this->db->where('admin', 1);
+                    $assignees = $this->staff_model->get();
+
+                    foreach ($assignees as $member) {
+                        $row = $this->db->get(db_prefix() . 'staff')->row();
+                        if ($row) {
+                            $notified = add_notification([
+                                'description'     => 'not__official_document_deadline_reminder',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => null,
+                                'link'            => 'hr/organization/officail_documents',
+                                
+                            ]);
+
+                            if ($notified) {
+                                array_push($notifiedUsers, $member['staffid']);
+                            }
+
+                            send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+                            $this->db->where('id', $document['id']);
+                            $this->db->update(db_prefix() . 'hr_official_documents', [
                                 'deadline_notified' => 1,
                             ]);
                         }

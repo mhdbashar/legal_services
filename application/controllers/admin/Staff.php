@@ -55,12 +55,14 @@ class Staff extends AdminController
                 if ($id) {
 
                     if($this->app_modules->is_active('branches')){
-                        $data = [
-                            'branch_id' => $branch_id, 
-                            'rel_type' => 'staff', 
-                            'rel_id' => $id
-                        ];
-                        $this->Branches_model->set_branch($data);
+                        if(is_numeric($branch_id)){
+                            $data = [
+                                'branch_id' => $branch_id, 
+                                'rel_type' => 'staff', 
+                                'rel_id' => $id
+                            ];
+                            $this->Branches_model->set_branch($data);
+                        }
                     }
 
                     handle_staff_profile_image_upload($id);
@@ -71,8 +73,13 @@ class Staff extends AdminController
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
                 }
-                if($this->app_modules->is_active('branches'))
-                    $this->Branches_model->update_branch('staff', $id, $branch_id);
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }
+                }
                 handle_staff_profile_image_upload($id);
                 $response = $this->staff_model->update($data, $id);
                 if (is_array($response)) {

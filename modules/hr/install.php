@@ -153,6 +153,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_immigration')) {
     `document_file` varchar(255) NOT NULL,
     `eligible_review_date` date NOT NULL, 
     `country` varchar(255) NOT NULL,
+    `is_notification` int(11) NOT NULL,
     `recurring_from` int(11) NOT NULL,
     `deadline_notified` int(11) NOT NULL, 
     `staff_id` int(11) NOT NULL

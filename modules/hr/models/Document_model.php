@@ -26,8 +26,8 @@ class Document_model extends App_Model{
             $error = $this->upload->display_errors();
             $type = "error";
             $message = $error;
-            // set_message($type, $message);
-            return $message;
+            echo $message;
+            exit;
             // uploading failed. $error will holds the errors.
         } else {
             $fdata = $this->upload->data();

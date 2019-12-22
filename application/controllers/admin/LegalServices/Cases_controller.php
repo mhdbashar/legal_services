@@ -85,6 +85,7 @@ class Cases_controller extends AdminController
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['case'] = $this->case->get($id);
         $data['case']->settings->available_features = unserialize($data['case']->settings->available_features);
+        $data['auto_select_billing_type'] = $this->case->get_most_used_billing_type();
         $data['last_case_settings'] = $this->case->get_last_case_settings();
         if (count($data['last_case_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_case_settings'], 'name'));

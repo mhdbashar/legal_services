@@ -299,6 +299,9 @@ $lang['normal_trans'] = 'عادية';
 $lang['daily_agenda'] = "اجندة المحامي اليومية";
 $lang['daily_agenda_hour'] = "ارسال اجندة المحامي كل يوم في الساعة";
 
+$lang['linked_to_previous_case'] = "اختر فيما اذا كان هناك سوابق قضائية مرتبطة";
+$lang['linked_case'] = "هذه القضية مرتبطة بالقضية:";
+
 
 
 

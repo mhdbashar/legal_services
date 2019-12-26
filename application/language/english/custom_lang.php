@@ -3424,3 +3424,6 @@ $lang['create_fields'] = "Create fields from Manage Custom Fields for this phase
 $lang['daily_agenda'] = "Lawyer's daily agenda";
 
 $lang['daily_agenda_hour'] = "Send the lawyer agenda every day in the hour";
+
+$lang['linked_to_previous_case'] = "Choose if there are related case law";
+$lang['linked_case'] = "This case is related to the case:";

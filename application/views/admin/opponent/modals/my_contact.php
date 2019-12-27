@@ -11,18 +11,18 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php if(isset($contact)){ ?>
+                        <?php /*if(isset($contact)){ ?>
                         <img src="<?php echo contact_profile_image_url($contact->id,'thumb'); ?>" id="contact-img" class="client-profile-image-thumb">
                         <?php if(!empty($contact->profile_image)){ ?>
                         <a href="#" onclick="delete_contact_profile_image(<?php echo $contact->id; ?>); return false;" class="text-danger pull-right" id="contact-remove-img"><i class="fa fa-remove"></i></a>
                         <?php } ?>
                         <hr />
-                        <?php } ?>
-                        <div id="contact-profile-image" class="form-group<?php if(isset($contact) && !empty($contact->profile_image)){echo ' hide';} ?>">
+                        <?php } */ ?>
+                        <?php /* <div id="contact-profile-image" class="form-group<?php if(isset($contact) && !empty($contact->profile_image)){echo ' hide';} ?>">
                             <label for="profile_image" class="profile-image"><?php echo _l('client_profile_image'); ?></label>
                             <input type="file" name="profile_image" class="form-control" id="profile_image">
-                        </div>
-                        <?php if(isset($contact)){ ?>
+                        </div>*/ ?>
+                        <?php /*if(isset($contact)){ ?>
                         <div class="alert alert-warning hide" role="alert" id="contact_proposal_warning">
                             <?php echo _l('proposal_warning_email_change',array(_l('contact_lowercase'),_l('contact_lowercase'),_l('contact_lowercase'))); ?>
                             <hr />
@@ -30,7 +30,7 @@
                             <br />
                             <a href="#" onclick="close_modal_manually('#contact'); return false;"><?php echo _l('update_proposal_email_no'); ?></a>
                         </div>
-                        <?php } ?>
+                        <?php }*/ ?>
                         <!-- // For email exist check -->
                         <?php $value=( isset($contact) ? $contact->firstname .' '. $contact->lastname : ''); ?>
                         <?php echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
@@ -41,28 +41,25 @@
                         <?php echo render_input( 'email', 'client_email',$value, 'email'); ?>
                         <?php $value=( isset($contact) ? $contact->phonenumber : ''); ?>
                         <?php echo render_input( 'phonenumber', 'client_phonenumber',$value,'text',array('autocomplete'=>'off')); ?>
-                        <div class="form-group contact-direction-option">
+                        <?php /*<div class="form-group contact-direction-option">
                           <label for="direction"><?php echo _l('document_direction'); ?></label>
                           <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="direction" id="direction">
                             <option value="" <?php if(isset($contact) && empty($contact->direction)){echo 'selected';} ?>></option>
                             <option value="ltr" <?php if(isset($contact) && $contact->direction == 'ltr'){echo 'selected';} ?>>LTR</option>
                             <option value="rtl" <?php if(isset($contact) && $contact->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
-                        </select>
-                    </div>
+                          </select>
+                        </div> */?>
                     <?php $rel_id=( isset($contact) ? $contact->id : false); ?>
                     <?php echo render_custom_fields( 'contacts',$rel_id); ?>
-
-
+                    <?php /*
                     <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
                     <input  type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1" />
                     <input  type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
-
                     <div class="client_password_set_wrapper">
                         <label for="password" class="control-label">
                             <?php echo _l( 'client_password'); ?>
                         </label>
                         <div class="input-group">
-
                             <input type="password" class="form-control password" name="password" autocomplete="false">
                             <span class="input-group-addon">
                                 <a href="#password" class="show_password" onclick="showPassword('password'); return false;"><i class="fa fa-eye"></i></a>
@@ -81,31 +78,31 @@
                         }
                     } ?>
                 </div>
-                <hr />
+                <hr />*/?>
                 <div class="checkbox checkbox-primary">
                     <input type="checkbox" name="is_primary" id="contact_primary" <?php if((!isset($contact) && total_rows(db_prefix().'contacts',array('is_primary'=>1,'userid'=>$customer_id)) == 0) || (isset($contact) && $contact->is_primary == 1)){echo 'checked';}; ?> <?php if((isset($contact) && total_rows(db_prefix().'contacts',array('is_primary'=>1,'userid'=>$customer_id)) == 1 && $contact->is_primary == 1)){echo 'disabled';} ?>>
                     <label for="contact_primary">
                         <?php echo _l( 'contact_primary'); ?>
                     </label>
                 </div>
-                <?php if(!isset($contact) && total_rows(db_prefix().'emailtemplates',array('slug'=>'new-client-created','active'=>0)) == 0){ ?>
+                <?php /*if(!isset($contact) && total_rows(db_prefix().'emailtemplates',array('slug'=>'new-client-created','active'=>0)) == 0){ ?>
                 <div class="checkbox checkbox-primary">
                     <input type="checkbox" name="donotsendwelcomeemail" id="donotsendwelcomeemail">
                     <label for="donotsendwelcomeemail">
                         <?php echo _l( 'client_do_not_send_welcome_email'); ?>
                     </label>
                 </div>
-                <?php } ?>
-                <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'contact-set-password','active'=>0)) == 0){ ?>
+                <?php }*/ ?>
+                <?php /*if(total_rows(db_prefix().'emailtemplates',array('slug'=>'contact-set-password','active'=>0)) == 0){ ?>
                 <div class="checkbox checkbox-primary">
                     <input type="checkbox" name="send_set_password_email" id="send_set_password_email">
                     <label for="send_set_password_email">
                         <?php echo _l( 'client_send_set_password_email'); ?>
                     </label>
                 </div>
-                <?php } ?>
+                <?php }*/ ?>
                 <hr />
-                <p class="bold"><?php echo _l('customer_permissions'); ?></p>
+                <?php /*<p class="bold"><?php echo _l('customer_permissions'); ?></p>
                 <p class="text-danger"><?php echo _l('contact_permissions_info'); ?></p>
                 <?php
                 $default_contact_permissions = array();
@@ -129,7 +126,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <?php } ?>
-                 <hr />
+                 <hr /> */ ?>
                 <p class="bold"><?php echo _l('email_notifications'); ?><?php if(is_sms_trigger_active()){echo '/SMS';} ?></p>
                 <div id="contact_email_notifications">
                 <div class="col-md-6 row">
@@ -145,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 row">
+                <?php /* <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('estimate'); ?></span>
@@ -171,7 +168,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
@@ -185,9 +181,10 @@
                         </div>
                     </div>
                 </div>
+                */ ?>
                 <div class="col-md-6 row">
                     <div class="row">
-                        <div class="col-md-6 mtop10 border-right">
+                       <?php /* <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('tickets'); ?></span>
                         </div>
                         <div class="col-md-6 mtop10">
@@ -195,7 +192,7 @@
                                 <input type="checkbox" id="ticket_emails" data-perm-id="5" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->ticket_emails == '1'){echo 'checked';} ?>  value="ticket_emails" name="ticket_emails">
                                 <label class="onoffswitch-label" for="ticket_emails"></label>
                             </div>
-                        </div>
+                        </div>  */ ?>
                         <div class="col-md-6 mtop10 border-right">
                             <span><i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('only_project_tasks'); ?>"></i> <?php echo _l('task'); ?></span>
                         </div>
@@ -205,10 +202,10 @@
                                 <label class="onoffswitch-label" for="task_emails"></label>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                 <div class="col-md-6 row">
+                <?php /*
+                <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('contract'); ?></span>
@@ -221,6 +218,7 @@
                         </div>
                     </div>
                 </div>
+                */ ?>
                 </div>
             </div>
         </div>
@@ -233,7 +231,7 @@
 </div>
 </div>
 </div>
-<?php if(!isset($contact)){ ?>
+<?php /*if(!isset($contact)){ ?>
     <script>
         $(function(){
             // Guess auto email notifications based on the default contact permissios
@@ -246,4 +244,4 @@
             });
         });
     </script>
-<?php } ?>
+<?php }*/ ?>

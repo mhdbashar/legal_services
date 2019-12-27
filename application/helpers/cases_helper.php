@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('admin_init', 'app_init_case_tabs');
 hooks()->add_action('app_admin_assets', '_maybe_init_admin_case_assets', 5);
-hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+
 
 function _maybe_init_admin_case_assets()
 {
@@ -19,27 +19,6 @@ function _maybe_init_admin_case_assets()
         $CI->app_css->add('jquery-comments-css', 'assets/plugins/jquery-comments/css/jquery-comments.css', 'admin', ['reset-css']);
         $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
-}
-
-function my_module_menu_item_collapsible()
-{
-    $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1))->result();
-    $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
-        'name'     => _l('LegalServices'), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 25, // The menu position
-        'icon'     => 'fa fa-gavel', // Font awesome icon
-    ]);
-foreach ($services as $service):
-    // The first paremeter is the parent menu ID/Slug
-    $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
-        'slug'     => $service->id.'/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => $service->name, // The name if the item
-        'href'     => admin_url("Service/$service->id"), // URL of the item
-    ]);
-endforeach;
-
 }
 
 /**

@@ -3235,6 +3235,7 @@ $lang['Parties_case'] = "Parties to the case";
 $lang['file_number_in_court'] = "File number in court";
 $lang['file_number_in_case'] = "File number in court";
 $lang['new_cstatus'] = "New Case Status";
+$lang['LegalServices'] = "Legal Services";
 $lang['court_competent_follow'] = "The court competent to follow up the case";
 $lang['legal_services_settings'] = "Legal Services Settings";
 $lang['empty_case_mov'] = "No case movements yet!";
@@ -3427,3 +3428,6 @@ $lang['daily_agenda_hour'] = "Send the lawyer agenda every day in the hour";
 
 $lang['linked_to_previous_case'] = "Choose if there are related case law";
 $lang['linked_case'] = "This case is related to the case:";
+$lang['service_name'] = "Service name";
+$lang['clients_my_legal'] = 'Legal Services';
+$lang['legal_summary'] = "Legal Services Summary";

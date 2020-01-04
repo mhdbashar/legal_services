@@ -20,7 +20,7 @@
 
 						<?php $value = (isset($procurationstate) ? $procurationstate->procurationstate : ''); ?>
 						<!-- enable language edit -->
-                        <?php echo render_input('procurationstate','Procuration State',$value); ?> 
+                        <?php echo render_input('procurationstate',_l('procuration_state'),$value); ?> 
 						
 						<!-- custom_fields -->
 						<?php if($proc_state_custom_fields) { ?>

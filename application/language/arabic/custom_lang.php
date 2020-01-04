@@ -1,5 +1,23 @@
 <?php
 
+
+$lang['add_new_procuration'] = "اضافة وكالة جديدة";
+$lang['edit_procuration'] = "تعديل الوكالة";
+$lang['procuration'] = "الوكالة";
+$lang['not_selected'] = "غير محدد";
+$lang['case_id'] = "القضايا المرتبطة";
+$lang['cases'] = "القضايا";
+$lang['company_groups'] = "مجموعات الشركات";
+$lang['procurations'] = "الوكالات";
+$lang['procuration_state'] = "حالة الوكالة";
+$lang['procuration_type'] = "نوع الوكالة";
+$lang['new_procuration_type'] = "نوع وكالة جديد";
+$lang['new_procuration_state'] = "حالة وكالة جديدة";
+$lang['new_procuration'] = "وكالة جديدة";
+$lang['not_procuration_deadline_reminder'] = "موعد الوكالة";
+$lang['procuration_number'] = "رقم الوكالة";
+$lang['procuration_file'] = "ملف الوكالة";
+
 $lang['payroll'] = "اجرائية الدفع";
 $lang['holidays'] = "العطل";
 $lang['settings'] = "الاعدادات";
@@ -145,7 +163,6 @@ $lang['languages'] = "اللغات";
 $lang['Judges'] = "القضاة";
 $lang['procuration_type'] = "أنواع الوكالات";
 $lang['procuration_state'] = "حالات الوكالات";
-$lang['procuration'] = "الوكالات";
 $lang['Id'] = "المعرف";
 $lang['ahmad'] = "%s أحمد";
 $lang['procurations'] = "الوكالات";

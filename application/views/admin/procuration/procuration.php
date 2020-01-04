@@ -221,33 +221,31 @@
      function expenseSubmitHandler(form){
 
 
-      $.post(form.action, $(form).serialize()).done(function(response) {
-        <?php
-        if(is_numeric($request)){
-                // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
-                $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
-            }elseif(is_numeric($case_r)){
-                // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
-                $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
-            }else{
-                $redirect = admin_url('procuration/all');
+        $.post(form.action, $(form).serialize()).done(function(response) {
+          <?php
+          if(is_numeric($request)){
+                  // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
+                  $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
+              }elseif(is_numeric($case_r)){
+                  // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
+                  $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
+              }else{
+                  $redirect = admin_url('procuration/all');
+              }
+          ?>
+          var response = '<?php echo $redirect ?>'
+          if(typeof(expenseDropzone) !== 'undefined'){
+            <?php if(empty($id)) $id = $last_id ?>;
+            if (expenseDropzone.getQueuedFiles().length > 0) {
+              expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
+              expenseDropzone.processQueue();
+            }else {
+              window.location.assign(response);
             }
-        ?>
-        var response = '<?php echo $redirect ?>'
-        if(typeof(expenseDropzone) !== 'undefined'){
-          <?php if(empty($id)) $id = $last_id ?>;
-          if (expenseDropzone.getQueuedFiles().length > 0) {
-          expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
-          expenseDropzone.processQueue();
-
-          window.location.assign(response);
-          }else {
+          } else {
             window.location.assign(response);
           }
-        } else {
-          window.location.assign(response);
-        }
-    });
+      });
       return false;
     }
   })

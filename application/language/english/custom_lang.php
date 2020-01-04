@@ -1,4 +1,8 @@
 <?php
+
+$lang['add_new_procuration'] = "Add New Procuration";
+$lang['edit_procuration'] = "Edit Procuration";
+$lang['company_groups'] = 'Company Groups';
 $lang['payment_history'] = "Payment history";
 $lang['payroll_month'] = "Payroll month";
 $lang['payroll_date'] = "Payroll date";

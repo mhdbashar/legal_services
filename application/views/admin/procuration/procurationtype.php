@@ -14,7 +14,7 @@
 
 						<?php $value = (isset($procurationtype) ? $procurationtype->procurationtype : ''); ?>
 						<!-- enable language edit -->
-                        <?php echo render_input('procurationtype','Procuration Type',$value); ?> 
+                        <?php echo render_input('procurationtype',_l('procuration_type'),$value); ?> 
 
                         <!-- for testing -->
                         

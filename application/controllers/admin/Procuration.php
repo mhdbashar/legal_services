@@ -85,22 +85,22 @@ class Procuration extends AdminController
                 $data['id'] = $last_id;
                 $id = $this->procurations_model->add($data);
                 if ($id) {
-                    set_alert('success', _l('added_successfully', 'Procuration'));
+                    set_alert('success', _l('added_successfully', _l('procuration')));
                     redirect($redirect);
                 }
             } else {
                 $success = $this->procurations_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', 'Procuration'));
+                    set_alert('success', _l('updated_successfully', _l('procuration')));
                 }
                 redirect($redirect);
             }
         }
         if ($id == '') {
-            $title = _l('add_new', 'Procuration');
+            $title = _l('add_new_procuration');
         } else {
             $data['procuration'] = $this->procurations_model->get($id);
-            $title                = _l('edit', 'Procuration');
+            $title                = _l('edit_procuration');
         }
         $data['last_id'] = $last_id;
         $data['case_r'] = $case;
@@ -138,10 +138,10 @@ class Procuration extends AdminController
             }
         }
         if ($id == '') {
-            $title = _l('add_new', 'Procuration State');
+            $title = _l('add_new', _l('procuration_state'));
         } else {
             $data['procurationstate'] = $this->procurationstate_model->get($id);
-            $title                = _l('edit', 'Procuration State');
+            $title                = _l('edit', _l('procuration_state'));
         }
         $data['title'] = $title;
         $this->load->view('admin/procuration/procurationstate', $data);
@@ -159,22 +159,22 @@ class Procuration extends AdminController
             if ($id == '') {
                 $id = $this->procurationtype_model->add($data);
                 if ($id) {
-                    set_alert('success', _l('added_successfully', 'Procuration Type'));
+                    set_alert('success', _l('added_successfully', _l('procuration_type')));
                     redirect(admin_url('procuration/type'));
                 }
             } else {
                 $success = $this->procurationtype_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', 'Procuration Type'));
+                    set_alert('success', _l('updated_successfully', _l('procuration_type')));
                 }
                 redirect(admin_url('procuration/type'));
             }
         }
         if ($id == '') {
-            $title = _l('add_new', 'Procuration Type');
+            $title = _l('add_new', _l('procuration_type'));
         } else {
             $data['procurationtype'] = $this->procurationtype_model->get($id);
-            $title                = _l('edit', 'Procuration Type');
+            $title                = _l('edit', _l('procuration_type'));
         }
         $data['title'] = $title;
         $this->load->view('admin/procuration/procurationtype', $data);

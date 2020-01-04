@@ -75,6 +75,18 @@ if (count($groupIds) > 0) {
     array_push($filter, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_groups WHERE groupid IN (' . implode(', ', $groupIds) . '))');
 }
 
+// Filter by custom company groups
+$company_groups   = $this->ci->clients_model->get_company_groups();
+$company_groupsIds = [];
+foreach ($company_groups as $company_group) {
+    if ($this->ci->input->post('customer_company_group_' . $company_group['id'])) {
+        array_push($company_groupsIds, $company_group['id']);
+    }
+}
+if (count($company_groupsIds) > 0) {
+    array_push($filter, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'my_customer_company_groups WHERE groupid IN (' . implode(', ', $company_groupsIds) . '))');
+}
+//my_customer_company_groups
 $countries  = $this->ci->clients_model->get_clients_distinct_countries();
 $countryIds = [];
 foreach ($countries as $country) {

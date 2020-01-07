@@ -984,6 +984,7 @@ class Clients extends AdminController
         if ($this->input->post()) {
             $ids    = $this->input->post('ids');
             $groups = $this->input->post('groups');
+            $company_groups = $this->input->post('company_groups');
 
             if (is_array($ids)) {
                 foreach ($ids as $id) {
@@ -996,6 +997,7 @@ class Clients extends AdminController
                             $groups = false;
                         }
                         $this->client_groups_model->sync_customer_groups($id, $groups);
+                        $this->client_groups_model->sync_customer_company_groups($id, $company_groups);
                     }
                 }
             }

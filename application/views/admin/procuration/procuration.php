@@ -128,7 +128,7 @@
                   <?php if(isset($procuration) && $procuration->attachment !== ''){ ?>
                     <div class="row">
                      <div class="col-md-10">
-                        <i class="<?php echo get_mime_class($procuration->filetype); ?>"></i> <a href="<?php echo site_url('download/file/procuration/'.$procuration->id); ?>"><?php echo $procuration->attachment; ?></a>
+                        <i class="<?php echo get_mime_class($procuration->filetype); ?>"></i> <a href="<?php echo site_url('uploads/procurations/'.$procuration->id.'/'.$procuration->attachment); ?>"><?php echo $procuration->attachment; ?></a>
                      </div>
                      <?php if($procuration->attachment_added_from == get_staff_user_id() || is_admin()){ ?>
                      <div class="col-md-2 text-right">

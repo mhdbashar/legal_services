@@ -11,6 +11,9 @@
                   foreach($groups as $group){
                      echo form_hidden('customer_group_'.$group['id']);
                   }
+                  foreach($company_groups as $company_group){
+                     echo form_hidden('customer_company_group_'.$company_group['id']);
+                  }
                   foreach($contract_types as $type){
                      echo form_hidden('contract_type_'.$type['id']);
                   }
@@ -76,6 +79,18 @@
                               <ul class="dropdown-menu dropdown-menu-left">
                                  <?php foreach($groups as $group){ ?>
                                  <li><a href="#" data-cview="customer_group_<?php echo $group['id']; ?>" onclick="dt_custom_view('customer_group_<?php echo $group['id']; ?>','.table-clients','customer_group_<?php echo $group['id']; ?>'); return false;"><?php echo $group['name']; ?></a></li>
+                                 <?php } ?>
+                              </ul>
+                           </li>
+                           <div class="clearfix"></div>
+                           <li class="divider"></li>
+                           <?php } ?>
+                           <?php if(count($company_groups) > 0){ ?>
+                           <li class="dropdown-submenu pull-left groups">
+                              <a href="#" tabindex="-1"><?php echo _l('company_groups'); ?></a>
+                              <ul class="dropdown-menu dropdown-menu-left">
+                                 <?php foreach($company_groups as $company_group){ ?>
+                                 <li><a href="#" data-cview="customer_company_group_<?php echo $company_group['id']; ?>" onclick="dt_custom_view('customer_company_group_<?php echo $company_group['id']; ?>','.table-clients','customer_company_group_<?php echo $company_group['id']; ?>'); return false;"><?php echo $company_group['name']; ?></a></li>
                                  <?php } ?>
                               </ul>
                            </li>

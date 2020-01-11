@@ -1,6 +1,12 @@
 <div class="content">
    <div class="row">
       <?php if(isset($member)){ ?>
+      <div class="member">
+         <?php echo form_hidden('isedit'); ?>
+         <?php echo form_hidden('memberid',$member->staffid); ?>
+      </div>
+      <?php } ?>
+      <?php if(isset($member)){ ?>
 
       <div class="col-md-12">
          <?php if(total_rows(db_prefix().'departments',array('email'=>$member->email)) > 0) { ?>

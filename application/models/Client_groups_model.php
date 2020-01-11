@@ -60,6 +60,18 @@ class Client_groups_model extends App_Model
     * @param  mixed $id customer id
     * @return array
     */
+    public function get_customer_company_groups($id)
+    {
+        $this->db->where('customer_id', $id);
+
+        return $this->db->get(db_prefix().'my_customer_company_groups')->result_array();
+    }
+
+    /**
+    * Get customer groups where customer belongs
+    * @param  mixed $id customer id
+    * @return array
+    */
 
     public function get_company_customer_groups($id)
     {
@@ -241,6 +253,81 @@ class Client_groups_model extends App_Model
                         continue;
                     }
                     $this->db->insert(db_prefix().'customer_groups', [
+                        'customer_id' => $id,
+                        'groupid'     => $group,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+        }
+
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+    * Update/sync customer Company groups where belongs
+    * @param  mixed $id        customer id
+    * @param  mixed $groups_in
+    * @return boolean 
+    */
+    public function sync_customer_company_groups($id, $groups_in)
+    {
+        if ($groups_in == false) {
+            unset($groups_in);
+        }
+        $affectedRows    = 0;
+        $customer_groups = $this->get_customer_company_groups($id);
+        if (sizeof($customer_groups) > 0) {
+            foreach ($customer_groups as $customer_group) {
+                if (isset($groups_in)) {
+                    if (!in_array($customer_group['groupid'], $groups_in)) {
+                        $this->db->where('customer_id', $id);
+                        $this->db->where('id', $customer_group['id']);
+                        $this->db->delete(db_prefix().'my_customer_company_groups');
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                } else {
+                    $this->db->where('customer_id', $id);
+                    $this->db->delete(db_prefix().'my_customer_company_groups');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($groups_in)) {
+                foreach ($groups_in as $group) {
+                    $this->db->where('customer_id', $id);
+                    $this->db->where('groupid', $group);
+                    $_exists = $this->db->get(db_prefix().'my_customer_company_groups')->row();
+                    if (!$_exists) {
+                        if (empty($group)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix().'my_customer_company_groups', [
+                            'customer_id' => $id,
+                            'groupid'     => $group,
+                        ]);
+                        if ($this->db->affected_rows() > 0) {
+                            $affectedRows++;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (isset($groups_in)) {
+                foreach ($groups_in as $group) {
+                    if (empty($group)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix().'my_customer_company_groups', [
                         'customer_id' => $id,
                         'groupid'     => $group,
                     ]);

@@ -1,5 +1,6 @@
 <?php
 
+$lang['hr'] = "Human Resources";
 $lang['add_new_procuration'] = "Add New Procuration";
 $lang['edit_procuration'] = "Edit Procuration";
 $lang['company_groups'] = 'Company Groups';

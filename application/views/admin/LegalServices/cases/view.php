@@ -22,6 +22,11 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                                <?php if(isset($project->previous_case_id)): ?>
+                                <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
+                                    <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
+                                </h4>
+                                <?php endif; ?>
                             </div>
                             <div class="col-md-5 text-right">
                                 <a href="<?php echo admin_url('LegalServices/case_movement_controller/edit/' .$ServID.'/'. $project->id); ?>" class="btn btn-info"><?php echo _l('NewCaseMovement'); ?></a>

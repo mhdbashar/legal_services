@@ -20,9 +20,9 @@
                         <hr class="hr-panel-heading"/>
                         <?php
                         $disable_type_edit = '';
-                        if(isset($oservice)){
-                            if($oservice->billing_type != 1){
-                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$oservice->id,'rel_type'=>$service->slug,'billable'=>1,'billed'=>1)) > 0){
+                        if(isset($OtherServ)){
+                            if($OtherServ->billing_type != 1){
+                                if(total_rows(db_prefix().'tasks',array('rel_id'=>$OtherServ->id,'rel_type'=>$service->slug,'billable'=>1,'billed'=>1)) > 0){
                                     $disable_type_edit = 'disabled';
                                 }
                             }
@@ -151,30 +151,30 @@
                             <div class="col-md-6">
                                 <?php
                                 $input_field_hide_class_total_cost = '';
-                                if(!isset($oservice)){
+                                if(!isset($OtherServ)){
                                     if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
                                         $input_field_hide_class_total_cost = 'hide';
                                     }
-                                } else if(isset($oservice) && $oservice->billing_type != 1){
+                                } else if(isset($OtherServ) && $OtherServ->billing_type != 1){
                                     $input_field_hide_class_total_cost = 'hide';
                                 }
                                 ?>
                                 <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                                    <?php $value = (isset($oservice) ? $oservice->project_cost : ''); ?>
+                                    <?php $value = (isset($OtherServ) ? $OtherServ->project_cost : ''); ?>
                                     <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
                                 </div>
                                 <?php
                                 $input_field_hide_class_rate_per_hour = '';
-                                if(!isset($oservice)){
+                                if(!isset($OtherServ)){
                                     if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
                                         $input_field_hide_class_rate_per_hour = 'hide';
                                     }
-                                } else if(isset($oservice) && $oservice->billing_type != 2){
+                                } else if(isset($OtherServ) && $OtherServ->billing_type != 2){
                                     $input_field_hide_class_rate_per_hour = 'hide';
                                 }
                                 ?>
                                 <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
-                                    <?php $value = (isset($oservice) ? $oservice->project_rate_per_hour : ''); ?>
+                                    <?php $value = (isset($OtherServ) ? $OtherServ->project_rate_per_hour : ''); ?>
                                     <?php
                                     $input_disable = array();
                                     if($disable_type_edit != ''){
@@ -259,8 +259,8 @@
            <?php foreach($settings as $setting){
 
             $checked = ' checked';
-         /*  if(isset($oservice)){
-                if($oservice->settings->{$setting} == 0){
+         /*  if(isset($OtherServ)){
+                if($OtherServ->settings->{$setting} == 0){
                     $checked = '';
                 }
             } else {
@@ -303,21 +303,21 @@
                                 <optgroup label="<?php echo $tab['name']; ?>">
                                     <?php foreach($tab['children'] as $tab_dropdown) {
                                         $selected = '';
-                                        if(isset($oservice) && (
-                                            (isset($oservice->settings->available_features[$tab_dropdown['slug']])
-                                                && $oservice->settings->available_features[$tab_dropdown['slug']] == 1)
-                                            || !isset($oservice->settings->available_features[$tab_dropdown['slug']]))) {
+                                        if(isset($OtherServ) && (
+                                            (isset($OtherServ->settings->available_features[$tab_dropdown['slug']])
+                                                && $OtherServ->settings->available_features[$tab_dropdown['slug']] == 1)
+                                            || !isset($OtherServ->settings->available_features[$tab_dropdown['slug']]))) {
                                             $selected = ' selected';
-                                    } else if(!isset($oservice) && count($last_project_settings) > 0) {
-                                        foreach($last_project_settings as $last_project_settings) {
-                                            if($last_project_settings['name'] == $setting) {
-                                                if(isset($last_oservice_setting['value'][$tab_dropdown['slug']])
-                                                    && $last_project_settings['value'][$tab_dropdown['slug']] == 1) {
+                                    } else if(!isset($OtherServ) && count($last_project_settings) > 0) {
+                                        foreach($last_project_settings as $last_project_setting) {
+                                            if($last_project_setting['name'] == $setting) {
+                                                if(isset($last_project_setting['value'][$tab_dropdown['slug']])
+                                                    && $last_project_setting['value'][$tab_dropdown['slug']] == 1) {
                                                     $selected = ' selected';
                                             }
                                         }
                                     }
-                                } else if(!isset($oservice)) {
+                                } else if(!isset($OtherServ)) {
                                     $selected = ' selected';
                                 }
                                 ?>
@@ -325,21 +325,21 @@
                             <?php } ?>
                         </optgroup>
                     <?php } else {
-                        if(isset($oservice) && (
-                            (isset($oservice->settings->available_features[$tab['slug']])
-                             && $oservice->settings->available_features[$tab['slug']] == 1)
-                            || !isset($oservice->settings->available_features[$tab['slug']]))) {
+                        if(isset($OtherServ) && (
+                            (isset($OtherServ->settings->available_features[$tab['slug']])
+                             && $OtherServ->settings->available_features[$tab['slug']] == 1)
+                            || !isset($OtherServ->settings->available_features[$tab['slug']]))) {
                             $selected = ' selected';
-                    } else if(!isset($oservice) && count($last_project_settings) > 0) {
-                        foreach($last_project_settings as $last_oservice_setting) {
-                            if($last_oservice_setting['name'] == $setting) {
-                                if(isset($last_project_settings['value'][$tab['slug']])
-                                    && $last_project_settings['value'][$tab['slug']] == 1) {
+                    } else if(!isset($OtherServ) && count($last_project_settings) > 0) {
+                        foreach($last_project_settings as $last_project_setting) {
+                            if($last_project_setting['name'] == $setting) {
+                                if(isset($last_project_setting['value'][$tab['slug']])
+                                    && $last_project_setting['value'][$tab['slug']] == 1) {
                                     $selected = ' selected';
                             }
                         }
                     }
-                } else if(!isset($oservice)) {
+                } else if(!isset($OtherServ)) {
                     $selected = ' selected';
                 }
                 ?>

@@ -6,6 +6,7 @@ hooks()->add_action('admin_init', 'app_init_case_tabs');
 hooks()->add_action('app_admin_assets', '_maybe_init_admin_case_assets', 5);
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 
+
 function _maybe_init_admin_case_assets()
 {
     $CI = &get_instance();

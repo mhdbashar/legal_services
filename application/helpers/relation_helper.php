@@ -167,14 +167,14 @@ function get_relation_data($type, $rel_id = '')
         $CI->load->model('CaseStatus_model');
         $data = $CI->CaseStatus_model->get();
     }elseif ($type == 'opponents'){
-
         $where_clients = '';
-
         if ($q) {
             $where_clients .= '(company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%") AND '.db_prefix().'clients.active = 1 AND '.db_prefix().'clients.client_type = 1';
         }
-
         $data = $CI->clients_model->get($rel_id, $where_clients);
+    }elseif ($type == 'cases') {
+        $CI->load->model('LegalServices/Cases_model');
+        $data = $CI->Cases_model->get();
     }else{
         $CI->load->model('LegalServices/LegalServicesModel' , 'legal');
         $service_id = $CI->legal->get_service_id_by_slug($type);

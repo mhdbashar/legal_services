@@ -27,9 +27,15 @@
                             }
                         }
                         ?>
-                        <?php $CodeValue = isset($Numbering->numbering) ? $Numbering->numbering + 1 : $service->numbering; ?>
-                        <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue); ?>
-                        <?php echo render_input('name', 'CaseTitle'); ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php $CodeValue = isset($Numbering->numbering) ? $Numbering->numbering + 1 : $service->numbering; ?>
+                                <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('name', 'CaseTitle'); ?>
+                            </div>
+                        </div>
                         <input type="hidden" name="numbering" value="<?php echo $CodeValue; ?>">
                         <div class="row">
                             <div class="col-md-5">
@@ -119,7 +125,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
                                     <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
@@ -132,12 +138,11 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="col-md-1">
                                 <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="jud_num" class="control-label"><?php echo _l('Judicial'); ?></label>
                                     <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
@@ -147,9 +152,12 @@
                                 </div>
                             </div>
 
-                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
 
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-10">
                                 <?php
@@ -323,6 +331,20 @@
                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="select-placeholder form-group">
+                                    <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
+                                    <select class="selectpicker" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
+                                        <option selected disabled></option>
+                                        <?php $data = get_relation_data('cases');
+                                        foreach ($data as $row): ?>
+                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <p class="bold"><?php echo _l('project_description'); ?></p>

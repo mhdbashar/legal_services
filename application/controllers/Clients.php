@@ -106,6 +106,49 @@ class Clients extends ClientsController
         $this->layout();
     }
 
+    public function legals($ServID, $status = '')
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+        if($ServID == 1) {
+            $data['project_statuses'] = $this->case->get_project_statuses();
+        }else{
+            $data['project_statuses'] = $this->other->get_project_statuses();
+        }
+        $where = 'clientid=' . get_client_user_id();
+
+        if (is_numeric($status)) {
+            $where .= ' AND status=' . $status;
+        } else {
+            $listStatusesIds = [];
+            $where .= ' AND status IN (';
+            foreach ($data['project_statuses'] as $projectStatus) {
+                if (isset($projectStatus['filter_default']) && $projectStatus['filter_default'] == true) {
+                    $listStatusesIds[] = $projectStatus['id'];
+                    $where .= $projectStatus['id'] . ',';
+                }
+            }
+            $where = rtrim($where, ',');
+            $where .= ')';
+        }
+
+        $data['list_statuses'] = is_numeric($status) ? [$status] : $listStatusesIds;
+        if($ServID == 1){
+            $data['slug']     = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['projects'] = $this->case->get('', $where);
+        }else{
+            $data['slug']     = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['projects'] = $this->other->get($ServID, '', $where);
+        }
+        $data['ServID'] = $ServID;
+        $data['title']  = _l('clients_my_legal');
+        $this->data($data);
+        $this->view('legals');
+        $this->layout();
+    }
+
     public function project($id)
     {
         if (!has_contact_permission('projects')) {

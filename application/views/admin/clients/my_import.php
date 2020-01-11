@@ -26,6 +26,11 @@
                 } else {
                   echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',($this->input->post('groups_in') ? $this->input->post('groups_in') : array()),array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                 }
+                if(is_admin() || get_option('staff_members_create_inline_customer_groups') == '1'){
+                  echo render_select_with_input_group('company_groups_in[]',$company_groups,array('id','name'),'customer_company_groups',($this->input->post('company_groups_in') ? $this->input->post('company_groups_in') : array()),'<a href="#" data-toggle="modal" data-target="#customer_company_group_modal"><i class="fa fa-plus"></i></a>',array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                } else {
+                  echo render_select('groups_in[]',$company_groups,array('id','name'),'customer_company_groups',($this->input->post('company_groups_in') ? $this->input->post('company_groups_in') : array()),array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                }
                 echo render_input('default_pass_all','default_pass_clients_import',$this->input->post('default_pass_all')); ?>
                 <div class="form-group">
                   <button type="button" class="btn btn-info import btn-import-submit"><?php echo _l('import'); ?></button>

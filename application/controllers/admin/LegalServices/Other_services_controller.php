@@ -651,7 +651,7 @@ class Other_services_controller extends AdminController
 
     public function remove_file($ServID = '', $project_id, $id)
     {
-        $this->case->remove_file($id);
+        $this->other->remove_file($id);
         redirect(admin_url('SOther/view/' .$ServID .'/'. $project_id . '?group=project_files'));
     }
 

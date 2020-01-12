@@ -334,7 +334,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="select-placeholder form-group">
                                     <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
                                     <select class="selectpicker" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
@@ -344,6 +344,21 @@
                                             <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+                                <input type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1"/>
+                                <input type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
+                                <label for="password" class="control-label"><?php echo _l('case_confidential'); ?></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control password" name="password" autocomplete="off">
+                                    <span class="input-group-addon">
+                                    <a href="#password" class="show_password" onclick="showPassword('password'); return false;"><i class="fa fa-eye"></i></a>
+                                    </span>
+                                    <span class="input-group-addon">
+                                    <a href="#" class="generate_password" onclick="generatePassword(this);return false;"><i class="fa fa-refresh"></i></a>
+                                    </span>
                                 </div>
                             </div>
                         </div>

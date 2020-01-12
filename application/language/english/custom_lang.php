@@ -3431,3 +3431,10 @@ $lang['linked_case'] = "This case is related to the case:";
 $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
+
+$lang['services_locks'] = "Please enter the password to continue!";
+$lang['open_lock'] = "Open lock";
+$lang['case_confidential'] = "Set a password if the case is confidential";
+$lang['case_add_edit_password_note'] = 'Note: if you populate this field, password will be changed on this case.';
+
+

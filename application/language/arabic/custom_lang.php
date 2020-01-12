@@ -306,4 +306,9 @@ $lang['service_name'] = "إسم الخدمة";
 $lang['clients_my_legal'] = 'الخدمات القانونية';
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
 
+$lang['services_locks'] = "يرجى إدخال كلمة المرور للمتابعة!";
+$lang['open_lock'] = "فتح القفل";
+$lang['case_confidential'] = "ضبط كلمة مرور في حال كانت القضية سرية";
+$lang['case_add_edit_password_note'] = "ملاحظة: إذا قمت بملء هذا الحقل ، فسيتم تغيير كلمة المرور لهذا القضية.";
+
 

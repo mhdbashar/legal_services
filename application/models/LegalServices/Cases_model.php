@@ -35,6 +35,7 @@ class Cases_model extends App_Model
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
+        $this->load->model('LegalServices/Locks_model', 'locks');
     }
 
     public function get($id = '', $where = [])
@@ -186,8 +187,6 @@ class Cases_model extends App_Model
             $data['progress_from_tasks'] = 0;
         }
 
-
-
         $data['start_date'] = to_sql_date($data['start_date']);
 
         if (!empty($data['deadline'])) {
@@ -228,9 +227,25 @@ class Cases_model extends App_Model
             unset($data['tags']);
         }
 
+        $password = '';
+        if (isset($data['fakeusernameremembered'])) {
+            unset($data['fakeusernameremembered']);
+        }
+        if (isset($data['fakepasswordremembered'])) {
+            unset($data['fakepasswordremembered']);
+        }
+        if (isset($data['password'])) {
+            $password = $data['password'];
+            unset($data['password']);
+        }
+
+
         $this->db->insert(db_prefix() . 'my_cases', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+
+            //Set password for case
+            $this->locks->add($password, $insert_id, $slug);
 
             //Add Case Movement
             $this->movement->add($ServID, $insert_id, $data);
@@ -489,6 +504,24 @@ class Cases_model extends App_Model
         if (isset($data['cancel_recurring_tasks'])) {
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id, $slug);
+        }
+
+        $password = '';
+        if (isset($data['fakeusernameremembered'])) {
+            unset($data['fakeusernameremembered']);
+        }
+        if (isset($data['fakepasswordremembered'])) {
+            unset($data['fakepasswordremembered']);
+        }
+        if (isset($data['password'])) {
+            $password = $data['password'];
+            unset($data['password']);
+        }
+
+        if (isset($password))
+        {
+            //Update password for case
+            $this->locks->update($password, $id, $slug);
         }
 
         $data = hooks()->apply_filters('before_update_project', $data, $id);

@@ -14,6 +14,7 @@ class Cases_controller extends AdminController
     $this->load->model('LegalServices/Case_movement_model', 'movement');
     $this->load->model('Branches_model');
     $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+    $this->load->model('LegalServices/Locks_model', 'locks');
     $this->load->model('tasks_model');
     $this->load->model('LegalServices/Phase_model','phase');
     $this->load->helper('date');
@@ -242,6 +243,19 @@ class Cases_controller extends AdminController
                 blank_page(_l('LService_not_found'));
             }
 
+            //Check if this service has a password
+            $old_relid = $this->session->userdata('current_relid');
+            if(isset($old_relid)){
+                if($old_relid != $id){
+                    $this->locks->lock($id, $slug);
+                }
+            }
+            $this->session->set_userdata('current_relid',$id);
+            $has_lock = $this->locks->check_services_if_has_password($id, $slug);
+            if($has_lock == TRUE){
+                redirect(admin_url('LegalServices/Locks/open_locks/'.$ServID.'/'.$id.'/'.$slug));
+            }
+
             @$project->settings->available_features = @unserialize($project->settings->available_features);
             $data['statuses'] = $this->case->get_project_statuses();
 
@@ -437,7 +451,7 @@ class Cases_controller extends AdminController
             $data['service']        = $this->legal->get_service_by_id($ServID)->row();
             $data['case_model']     = $this->case;
             $data['ServID']         = $ServID;
-            $data['id'] = $id;
+            $data['id']             = $id;
             $this->load->view('admin/LegalServices/cases/view', $data);
         } else {
             access_denied('Case View');

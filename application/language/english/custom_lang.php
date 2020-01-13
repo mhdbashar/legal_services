@@ -1,5 +1,12 @@
 <?php
 
+$lang['date_birth'] = 'Date Birth';
+$lang['gendre'] = "Gendre";
+$lang['emloyee_id'] = "Emloyee ID";
+$lang['office_sheft'] = "Office Sheft";
+$lang['branches'] = 'Branches';
+$lang['professional_courses'] = "Professional Cources";
+
 $lang['hr'] = "Human Resources";
 $lang['add_new_procuration'] = "Add New Procuration";
 $lang['edit_procuration'] = "Edit Procuration";

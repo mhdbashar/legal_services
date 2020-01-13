@@ -16,7 +16,7 @@ class Organization extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_official_documents_table');
         }
-        $data['title'] = _l('officail_documents');
+        $data['title'] = _l('official_documents');
         $this->load->view('organization/officail_documents', $data);
 	}
 

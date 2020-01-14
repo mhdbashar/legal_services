@@ -72,15 +72,15 @@
                                          $selected = (isset($customer_id) ? $customer_id: '');
                                         }
                                         if ($selected != '') {
-                                            $rel_data = get_relation_data('customers', $selected);
-                                            $rel_val = get_relation_values($rel_data, 'customers');
+                                            $rel_data = get_relation_data('customer', $selected);
+                                            $rel_val = get_relation_values($rel_data, 'customer');
                                             echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
                                         } ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -191,7 +191,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -201,7 +201,7 @@
                                 <label class="control-label"><?php echo _l('project_contacts'); ?></label>
                             </div>
                             <div class="col-md-2">
-                                <a href="#" data-toggle="modal" data-target="#add-contact" class="btn btn-info"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-contact" class="btn btn-info btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                             <div class="project_contacts"></div>
                         </div>
@@ -586,8 +586,7 @@
     <?php if(isset($project)){ ?>
         var original_project_status = '<?php echo $project->status; ?>';
     <?php } ?>
-
-    init_ajax_search('opponents', '.ajax-search');
+    init_ajax_search('customer','#clientid.ajax-search');
     $("#AddOpponent").click(function () {
         company = $('#opponent_company_modal').val();
         if(company == ''){

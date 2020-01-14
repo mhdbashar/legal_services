@@ -154,9 +154,11 @@
                      </div>
 
                      <div class="row">
+                     <!--
                      	<div class="col-md-4">
                      		<?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
                      	</div>
+                     -->
                      	<div class="col-md-4">
                      		<?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
                      	</div>

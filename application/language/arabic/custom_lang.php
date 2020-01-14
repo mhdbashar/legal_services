@@ -1,6 +1,13 @@
 <?php
 
+$lang['date_birth'] = 'تاريخ الميلاد';
+$lang['gendre'] = "النوع الاجتماعي";
+$lang['emloyee_id'] = "رقم الموظف";
+$lang['office_sheft'] = "Office Sheft";
+$lang['branch_name'] = "اسم الفرع";
+$lang['professional_courses'] = "الكورسات الاحترافية";
 
+$lang['branches'] = 'الفروع';
 $lang['add_new_procuration'] = "اضافة وكالة جديدة";
 $lang['edit_procuration'] = "تعديل الوكالة";
 $lang['procuration'] = "الوكالة";
@@ -380,7 +387,6 @@ $lang['date'] = "التاريخ";
 $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
-$lang['branch_name'] = "اسم الفرع";
 
 $lang['incoming_file'] = 'ملف المعاملة الواردة';
 

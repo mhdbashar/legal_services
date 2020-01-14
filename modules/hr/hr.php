@@ -76,8 +76,8 @@ function hr_module_init_menu_items()
                 'position' => 30,
         ]);
         $CI->app_menu->add_sidebar_children_item('hr-system', [
-                'slug'     => _l('branch'),
-                'name'     => _l('branch'),
+                'slug'     => _l('branches'),
+                'name'     => _l('branches'),
                 'href'     => admin_url('branches'),
                 'position' => 30,
         ]);

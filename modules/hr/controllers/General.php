@@ -154,7 +154,7 @@ class General extends AdminController{
         $hr_data['emloyee_id'] = $this->input->post('emloyee_id');
         $hr_data['designation'] = $this->input->post('designation');
         $hr_data['gender'] = $this->input->post('gender');
-        $hr_data['marital_status'] = $this->input->post('marital_status');
+        //$hr_data['marital_status'] = $this->input->post('marital_status');
         $hr_data['sub_department'] = $this->input->post('sub_department');
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
         $hr_data['date_birth'] = $this->input->post('date_birth');

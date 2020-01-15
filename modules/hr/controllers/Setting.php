@@ -32,6 +32,10 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_relation_types_table');
             }elseif($group == 'branch'){
                 $this->hrmapp->get_table_data('types/my_branch_types_table');
+            }elseif($group == 'award'){
+                $this->hrmapp->get_table_data('types/my_award_types_table');
+            }elseif($group == 'termination'){
+                $this->hrmapp->get_table_data('types/my_termination_types_table');
             }
         }
 

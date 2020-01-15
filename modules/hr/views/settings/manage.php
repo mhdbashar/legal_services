@@ -27,6 +27,12 @@
                 <li class="customer_tab_contacts">
                   <a data-group='<?php echo $qualification ?>' href="?group=education_level"><?php echo _l('qualification') ?></a>
                 </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='award' href="?group=award"><?php echo _l('award') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='termination' href="?group=termination"><?php echo _l('termination') ?></a>
+                </li>
 			      	</ul>
             </div>
 		   	<div class="col-md-9">

@@ -281,6 +281,34 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_official_documents')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_awards')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_awards` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `award_type` varchar(200) NOT NULL,
+    `date` date NOT NULL,
+    `gift` varchar(200) NOT NULL,
+    `cash` bigint NOT NULL,
+    `description` text NOT NULL,
+    `award_information` text NOT NULL,
+    `award_photo` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_terminations')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_terminations` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `termination_type` varchar(200) NOT NULL,
+    `termination_date` date NOT NULL,
+    `notice_date` date NOT NULL,
+    `description` text NOT NULL,
+    `attachment` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';
     add_option('deduction_type',$value);

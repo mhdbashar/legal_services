@@ -90,7 +90,7 @@
                               <a href="#" tabindex="-1"><?php echo _l('company_groups'); ?></a>
                               <ul class="dropdown-menu dropdown-menu-left">
                                  <?php foreach($company_groups as $company_group){ ?>
-                                 <li><a href="#" data-cview="customer_company_group_<?php echo $company_group['id']; ?>" onclick="dt_custom_view('customer_company_group_<?php echo $company_group['id']; ?>','.table-clients','customer_company_group_<?php echo $company_group['id']; ?>'); return false;"><?php echo $company_group['name']; ?></a></li>
+                                 <li><a href="#" data-cview="customer_company_group_<?php echo $company_group['id']; ?>" onclick="dt_custom_view('customer_company_group_<?php echo $company_group['id']; ?>','.table-opponents','customer_company_group_<?php echo $company_group['id']; ?>'); return false;"><?php echo $company_group['name']; ?></a></li>
                                  <?php } ?>
                               </ul>
                            </li>
@@ -269,6 +269,8 @@
                               <?php } ?>
                               <div id="bulk_change">
                                  <?php echo render_select('move_to_groups_customers_bulk[]',$groups,array('id','name'),'customer_groups','', array('multiple'=>true),array(),'','',false); ?>
+
+                                 <?php echo render_select('move_to_company_groups_customers_bulk[]',$company_groups,array('id','name'),'customer_company_groups','', array('multiple'=>true),array(),'','',false); ?>
                                  <p class="text-danger"><?php echo _l('bulk_action_customers_groups_warning'); ?></p>
                               </div>
                            </div>
@@ -382,6 +384,10 @@
                data.groups = $('select[name="move_to_groups_customers_bulk[]"]').selectpicker('val');
                if (data.groups.length == 0) {
                    data.groups = 'remove_all';
+               }
+               data.company_groups = $('select[name="move_to_company_groups_customers_bulk[]"]').selectpicker('val');
+               if (data.company_groups.length == 0) {
+                   data.company_groups = 'remove_all';
                }
            } else {
                data.mass_delete = true;

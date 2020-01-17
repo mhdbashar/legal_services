@@ -27,8 +27,14 @@
                             }
                         }
                         ?>
-                        <?php echo render_input('code', 'CaseCode', $service->prefix . $case->numbering); ?>
-                        <?php echo render_input('name','CaseTitle',$case->name); ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php echo render_input('code', 'CaseCode', $service->prefix . $case->numbering); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo render_input('name','CaseTitle',$case->name); ?>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group select-placeholder">
@@ -123,7 +129,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Court'); ?></label>
                                     <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -136,11 +142,9 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
-                        </div>
-                            <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Judicial'); ?></label>
                                     <select class="form-control custom_select_arrow" id="jud_num" name="jud_num" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -153,9 +157,9 @@
                                     </select>
                                 </div>
                             </div>
-                                <div class="col-md-1">
-                                    <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
-                                </div>
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -171,7 +175,7 @@
                                 ?>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                         <div class="row">
@@ -325,7 +329,7 @@
                                 ?>
                             </div>
                             <div class="col-md-1">
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25"><i class="fa fa-plus"></i></a>
+                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                         <div class="row">
@@ -351,6 +355,21 @@
                                         <option value="<?php echo $row['id']; ?>" <?php echo  $row['id'] == $case->contract ? 'selected': '' ?>><?php echo $row['subject']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="select-placeholder form-group">
+                                    <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
+                                    <select class="selectpicker" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
+                                        <option selected disabled></option>
+                                        <?php $data = get_relation_data('cases');
+                                        foreach ($data as $row):
+                                            if ($row['id'] != $case->id): ?>
+                                            <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $case->previous_case_id ? 'selected': '' ?>> <?php echo $row['name']; ?></option>
+                                        <?php endif; endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <p class="bold"><?php echo _l('project_description'); ?></p>

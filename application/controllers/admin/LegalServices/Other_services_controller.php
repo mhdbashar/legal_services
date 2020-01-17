@@ -34,16 +34,17 @@ class Other_services_controller extends AdminController
                 redirect(admin_url("SOther/view/$ServID/$id"));
             }
         }
-        $data['service'] = $this->legal->get_service_by_id($ServID)->row();
+
         $data['Numbering'] = $this->other->GetTopNumbering();
+        $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['auto_select_billing_type'] = $this->other->get_most_used_billing_type();
-        if ($this->input->get('customer_id')) {
-            $data['customer_id'] = $this->input->get('customer_id');
-        }
         $data['last_project_settings'] = $this->other->get_last_project_settings();
         if (count($data['last_project_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
+        }
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
         }
         $data['settings'] = $this->other->get_settings();
         $data['statuses'] = $this->other->get_project_statuses();
@@ -75,11 +76,12 @@ class Other_services_controller extends AdminController
         }
         $data['OtherServ'] = $this->other->get($ServID,$id);
         $data['other_members'] = $this->other->get_project_members($id);
-        $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['OtherServ']->settings->available_features = unserialize($data['OtherServ']->settings->available_features);
+        $data['service'] = $this->legal->get_service_by_id($ServID)->row();
+        $data['auto_select_billing_type'] = $this->other->get_most_used_billing_type();
         $data['last_project_settings'] = $this->other->get_last_project_settings();
         if (count($data['last_project_settings'])) {
-            $key                                           = array_search('available_features', array_column($data['last_project_settings'], 'name'));
+            $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
             $data['last_project_settings'][$key]['value'] = unserialize($data['last_project_settings'][$key]['value']);
         }
         if ($this->input->get('customer_id')) {
@@ -649,7 +651,7 @@ class Other_services_controller extends AdminController
 
     public function remove_file($ServID = '', $project_id, $id)
     {
-        $this->case->remove_file($id);
+        $this->other->remove_file($id);
         redirect(admin_url('SOther/view/' .$ServID .'/'. $project_id . '?group=project_files'));
     }
 

@@ -6,6 +6,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
 hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 
+hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
+
+function my_module_clients_area_menu_items()
+{
+    // Item for all clients
+    /*add_theme_menu_item('unique-item-id', [
+        'name'     => 'Custom Clients Area',
+        'href'     => site_url('my_module/acme'),
+        'position' => 10,
+    ]);*/
+
+    // Show menu item only if client is logged in
+    $CI = &get_instance();
+    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1))->result();
+    $position = 50;
+    if (has_contact_permission('projects')) {
+        if (is_client_logged_in()) {
+            foreach ($services as $service):
+            add_theme_menu_item('LegalServices'.$service->id, [
+                'name'     => $service->name,
+                'href'     => site_url('clients/legals/'.$service->id),
+                'position' => $position+5,
+            ]);
+            endforeach;
+        }
+    }
+}
+
+
 function my_custom_setup_menu_items()
 {
     $CI = &get_instance();

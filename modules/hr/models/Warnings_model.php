@@ -1,8 +1,8 @@
 <?php
 
-class Terminations_model extends App_Model{
+class Warnings_model extends App_Model{
 
-	private $table_name = 'hr_terminations';
+	private $table_name = 'hr_warnings';
 
     public function __construct(){
         parent::__construct();
@@ -13,9 +13,9 @@ class Terminations_model extends App_Model{
 
     public function uploadImage($field, $id)
     {
-        $this->deleteDirectory("uploads/hr/terminations/$id");
-        mkdir('uploads/hr/terminations/'.$id, 0777, true);
-        $config['upload_path'] = 'uploads/hr/terminations/'.$id.'/';
+        $this->deleteDirectory("uploads/hr/warnings/$id");
+        mkdir('uploads/hr/warnings/'.$id, 0777, true);
+        $config['upload_path'] = 'uploads/hr/warnings/'.$id.'/';
         //png, jpg, jpeg, gif, txt, pdf, xls, xlsx, doc, docx
         $config['allowed_types'] = 'gif|jpg|png|jpeg|txt|pdf|xls|xlsx|doc|docs';
         $this->load->library('upload', $config);
@@ -127,8 +127,8 @@ class Terminations_model extends App_Model{
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
-            $this->deleteDirectory("uploads/hr/terminations/$id");
-            $this->db->where(['rel_type' => 'terminations', 'rel_id' => $id]);
+            $this->deleteDirectory("uploads/hr/warnings/$id");
+            $this->db->where(['rel_type' => 'warnings', 'rel_id' => $id]);
             $this->db->delete(db_prefix().'branches_services');
             return true;
         } 

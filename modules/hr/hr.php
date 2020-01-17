@@ -105,6 +105,24 @@ function hr_module_init_menu_items()
                 'href'     => admin_url('hr/organization/designation'),
                 'position' => 36,
         ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'terminations',
+                'name'     => _l('terminations'),
+                'href'     => admin_url('hr/core_hr/terminations'),
+                'position' => 38,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'awards',
+                'name'     => _l('awards'),
+                'href'     => admin_url('hr/core_hr/awards'),
+                'position' => 40,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('hr-system', [
+                'slug'     => 'warnings',
+                'name'     => _l('warnings'),
+                'href'     => admin_url('hr/core_hr/warnings'),
+                'position' => 42,
+        ]);
                 
     }
 /*

@@ -1,5 +1,32 @@
 <?php
 
+$lang['new_warning'] = 'تحذير جديدة';
+$lang['new_award'] = 'جائزة جديدة';
+$lang['new_termination'] = 'انهاء عمل جديدة';
+
+$lang['warning_to'] = 'تحذير ل';
+$lang['warning_by'] = 'تحذير من';
+$lang['warning_date'] = "وقت التحذير";
+$lang['subject'] = "الموضوع";
+$lang['attachment'] = "الملف";
+$lang['warning_type'] = "نوع التحذير";
+$lang['warnings'] = "التحذيرات";
+$lang['awards'] = "الجوائز";
+$lang['terminations'] = "انهاءات العمل";
+$lang['add_termination_type'] = "اضافة نوع انهاء العمل";
+$lang['add_award_type'] = "اضافة نوع جائزة";
+$lang['add_warning_type'] = "اضافة نوع تحذير";
+$lang['staff_name'] = "اسم الموظف";
+$lang['notice_date'] = "تاريخ الاشعار";
+$lang['termination_date'] = "تاريخ انهاء العمل";
+$lang['termination_type'] = "نوع انهاء العمل";
+$lang['award_name'] = "اسم الجائزة";
+$lang['gift'] = "الهدية";
+$lang['cash'] = "كاش";
+$lang['award_information'] = "معلومات الجائزة";
+$lang['award_photo'] = "صورة الجائزة";
+$lang['award_type'] = "نوع الجائزة";
+
 $lang['date_birth'] = 'تاريخ الميلاد';
 $lang['gendre'] = "النوع الاجتماعي";
 $lang['emloyee_id'] = "رقم الموظف";

@@ -1,5 +1,32 @@
 <?php
 
+$lang['new_warning'] = 'New Warning';
+$lang['new_award'] = 'New Award';
+$lang['new_termination'] = 'New Termination';
+
+$lang['warning_to'] = 'Warning To';
+$lang['warning_by'] = 'Warning By';
+$lang['warning_date'] = "Warning Date";
+$lang['subject'] = "Subject";
+$lang['attachment'] = "Attachment";
+$lang['warning_type'] = "Warning Type";
+$lang['warnings'] = "Warnings";
+$lang['awards'] = "Awards";
+$lang['terminations'] = "Terminations";
+$lang['add_termination_type'] = "Add Termination Type";
+$lang['add_award_type'] = "Add Award Type";
+$lang['add_warning_type'] = "Add Warning Type";
+$lang['staff_name'] = "Staff Name";
+$lang['notice_date'] = "Notice Date";
+$lang['termination_date'] = "Termination Date";
+$lang['termination_type'] = "Termination Type";
+$lang['award_name'] = "Award Name";
+$lang['gift'] = "Gift";
+$lang['cash'] = "Cash";
+$lang['award_information'] = "Award Information";
+$lang['award_photo'] = "Award Photo";
+$lang['award_type'] = "Award Type";
+
 $lang['date_birth'] = 'Date Birth';
 $lang['gendre'] = "Gendre";
 $lang['emloyee_id'] = "Emloyee ID";

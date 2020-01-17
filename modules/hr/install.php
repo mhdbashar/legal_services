@@ -296,6 +296,19 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_awards')) {
 }
 
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_warnings')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_warnings` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `warning_type` varchar(200) NOT NULL,
+    `warning_date` date NOT NULL,
+    `subject` varchar(200) NOT NULL,
+    `description` text NOT NULL,
+    `attachment` varchar(200) NOT NULL,
+    `warning_by` int(11) NOT NULL,
+    `warning_to` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_terminations')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_terminations` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

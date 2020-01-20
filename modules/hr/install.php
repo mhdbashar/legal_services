@@ -321,6 +321,18 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_terminations')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_transfers` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `transfer_date` date NOT NULL,
+    `description` text NOT NULL,
+    `to_department` int(11) NOT NULL,
+    `to_sub_department` int(11) NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';

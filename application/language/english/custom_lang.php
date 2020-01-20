@@ -1,5 +1,13 @@
 <?php
 
+$lang['new_transfer'] = 'New Transfer';
+$lang['core_hr'] = "Core HR";
+$lang['organization'] = "Organization";
+$lang['transfers'] = "Transfers";
+$lang['transfer_date'] = "Transfer Date";
+$lang['to_department'] = "To Department";
+$lang['to_sub_department'] = "To Sub Department";
+
 $lang['new_warning'] = 'New Warning';
 $lang['new_award'] = 'New Award';
 $lang['new_termination'] = 'New Termination';

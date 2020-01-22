@@ -162,10 +162,9 @@
 
                             <label for="city" class="control-label">City</label>
                             <?php
-                            $options = ( isset($client) ? my_get_cities($client->country) : '');
-                            $selected=set_value('city')  ;
-
-                            echo form_dropdown('city', $options, $selected, 'disabled id="city" class="form-control" ');
+                              $options = ( isset($client) ? my_get_cities($client->country) : my_get_cities($customer_default_country));
+                              $selected=( isset($client) ? $client->city : '');
+                              echo form_dropdown('city', $options, $selected, ' id="city" class="form-control" ');
                             ?>
                         </div>
                         <div class="col-md-6">

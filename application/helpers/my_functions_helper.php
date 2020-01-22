@@ -260,7 +260,12 @@ function my_get_cities($country_id = '')
     $CI->db->select('Name_en');
     }
     $CI->db->where('Country_id',$country_id);
-    return $CI->db->get('cities')->result_array();
+    $cities =$CI->db->get('cities')->result_array();
+    $arr=[];
+    foreach ($cities as $key => $value) {
+        $arr[$value['Name_ar']]=$value['Name_ar']; 
+    }
+    return $arr;
 }
 
 function admin_assets()

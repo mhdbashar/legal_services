@@ -1,5 +1,13 @@
 <?php
 
+$lang['new_transfer'] = 'انتقال جديد';
+$lang['core_hr'] = "الموارد البشرية الأساسية";
+$lang['organization'] = "المنظمة";
+$lang['transfers'] = "الانتقالات";
+$lang['transfer_date'] = "وقت الانتقال";
+$lang['to_department'] = "الى القسم";
+$lang['to_sub_department'] = "الى القسم الفرعي";
+
 $lang['new_warning'] = 'تحذير جديدة';
 $lang['new_award'] = 'جائزة جديدة';
 $lang['new_termination'] = 'انهاء عمل جديدة';

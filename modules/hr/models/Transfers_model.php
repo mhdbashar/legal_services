@@ -2,9 +2,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sub_department_model extends App_Model{
+class Transfers_model extends App_Model{
 
-    private $table_name = 'hr_sub_departments';
+    private $table_name = 'hr_transfers';
 
     public function __construct(){
         parent::__construct();
@@ -13,29 +13,34 @@ class Sub_department_model extends App_Model{
         }
     }
 
-    public function get_sub_departments($department_id){
-        $data = [];
-        $this->db->where(['department_id' => $department_id]);
-        $rows = $this->db->get($this->table_name)->result_array();
-        foreach ($rows as $row) {
-            $data[] = ['key' => $row['id'], 'value' => $row['sub_department_name']];
-        }
-        return $data;
-    }
-
     public function get($id=''){
         if(is_numeric($id)){
+
             $this->db->where('id' ,$id);
             $row = $this->db->get($this->table_name)->row();
-            $this->db->where('departmentid' ,$row->department_id);
+            $this->db->where('departmentid' ,$row->to_department);
             $row2 = $this->db->get('tbldepartments')->row();
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'sub_departments']);
-            $row3 = $this->db->get('tblbranches_services')->row();
+            $this->db->where('id' ,$row->to_sub_department);
+            $row3 = $this->db->get('tblhr_sub_departments')->row();
             $row->department = $row2;
-            $row->branch = $row3;
+            $row->sub_department = $row3;
             return $row;
         }
-        return false;
+
+        $this->db->order_by('id', 'desc');
+        return $this->db->get($this->table_name)->result_array();
+    }
+
+    public function in_department($staff, $department){
+        $this->db->where(['staffid' => $staff, 'departmentid' => $department]);
+        $row = $this->db->get('tblstaff_departments')->row();
+        if(isset($row->staffid)){
+            return true;
+        }
+        $this->db->insert('tblstaff_departments', ['staffid' => $staff, 'departmentid' => $department]);
+    }
+
+    public function in_sub_department($staff, $sub_department){
     }
 
     public function add($data){

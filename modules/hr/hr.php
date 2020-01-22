@@ -18,6 +18,8 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
+hooks()->add_action('after_render_single_aside_menu', 'hr_menu_items'); 
+
 function hr_module_init_menu_items()
 {
     $CI = &get_instance();
@@ -125,7 +127,58 @@ function hr_module_init_menu_items()
         ]);
                 
     }
-/*
+}
+function hr_menu_items($item)
+{
+        // print_r($item);
+        if($item['slug']=='hr-system'){
+                // echo '<ul><a href="#">HRM App</a></ul>';
+        echo '<li>';
+        echo '<a href="#" aria-expanded="false"><i class="fa fa-balance-scale menu-icon-ar"></i> '._l('hr').'<span class="fa arrow-ar"></span></a>';
+
+        echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li><a href="#" aria-expanded="false">'._l('staff').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    <li><a href="'.admin_url('staff').'">'._l('employees').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/general/expired_documents').'">'._l('expired_documents').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
+                        <li><a href="#" aria-expanded="false">'._l('organization').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                <li><a href="'.admin_url('branches').'">'._l('branches').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/organization/officail_documents').'">'._l('official_documents').'</a>
+                                </li>
+                                <li><a href="'.admin_url('departments').'">'._l('departments').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/organization/sub_department').'">'._l('sub_department').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/organization/designation').'">'._l('designation').'</a>
+                                </li>
+                                </ul>
+                        </li>
+
+                        <li><a href="#" aria-expanded="false">'._l('core_hr').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                <li><a href="'.admin_url('hr/core_hr/awards').'">'._l('awards').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/core_hr/terminations').'">'._l('terminations').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/core_hr/warnings').'">'._l('warnings').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/core_hr/transfers').'">'._l('transfers').'</a>
+                                </li>
+                                </ul>
+                        </li>
+                </ul>';
+        echo '</li>';
+        }
+}
+
+    /*
     
     $CI->app->add_quick_actions_link([
             'name'       => _l('staff'),
@@ -208,10 +261,11 @@ function hr_module_init_menu_items()
         ]);
                 
     }
+}
 */
 
     
-}
+
 
 
 function hr_module_activation_hook()

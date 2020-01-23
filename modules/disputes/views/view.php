@@ -47,7 +47,7 @@
                            </button>
                            <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                               <li>
-                                 <a href="<?php echo admin_url('projects/pin_action/'.$project->id); ?>">
+                                 <a href="<?php echo admin_url('disputes/pin_action/'.$project->id); ?>">
                                  <?php echo $project_pin_tooltip; ?>
                                  </a>
                               </li>
@@ -78,17 +78,17 @@
                               <li class="divider"></li>
                               <?php if(has_permission('projects','','create')){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
+                                 <a href="<?php echo admin_url('disputes/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
                               </li>
                               <?php } ?>
                               <?php if(is_admin()){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                 <a href="<?php echo admin_url('disputes/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                               </li>
                               <?php } ?>
                               <?php if(has_permission('projects','','delete')){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/delete/'.$project->id); ?>" class="_delete">
+                                 <a href="<?php echo admin_url('disputes/delete/'.$project->id); ?>" class="_delete">
                                  <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                  </a>
                               </li>
@@ -193,7 +193,7 @@
                 data: {project_id : <?php echo (isset($project) ? $project->id : -1); ?>},
                 type: "POST",
                 success: function (data) {
-                    if(data){
+                    if(data || data == ''){
                         alert_float('success', '<?php echo _l('deleted_successfully'); ?>');
                         $('.project_contacts').html(data);
                     }else {

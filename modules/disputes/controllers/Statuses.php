@@ -16,13 +16,14 @@ class statuses extends AdminController
         $data['title']  = _l('projects_statuses');		
         $this->load->view('projects_statuses',$data);
     }
-    /*
+
+
     function add_from_modal()
     {
         $data = $this->input->post();
         echo $this->projects_statuses->add_new($data);
     }
-	*/
+
 	public function view($id='')
     {    		
         if ($this->input->post()) {

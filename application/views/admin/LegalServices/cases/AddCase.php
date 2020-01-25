@@ -181,8 +181,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-//                                    $staff_language = get_staff_default_language(get_staff_user_id());
-                                $staff_language = get_option('active_language');
+                                $staff_language = get_staff_default_language(get_staff_user_id());
                                     if($staff_language == 'arabic'){
                                         $field = 'short_name_ar';
                                     }else{
@@ -770,6 +769,7 @@
             }
         });
     });
+
     $(function(){
 
         $('select[name="billing_type"]').on('change',function(){

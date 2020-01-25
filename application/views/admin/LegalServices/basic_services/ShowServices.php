@@ -29,15 +29,21 @@
                                             <?php echo $service->name; ?>
                                         </td>
                                         <td>
+                                        <?php if ($service->show_on_sidebar == 1 && $service->is_module == 0): ?>
                                             <div class="onoffswitch">
                                                 <input type="checkbox" name="is_primary" class="onoffswitch-checkbox" onchange="MakePrimary(this.id)" id="<?php echo $service->id; ?>" value="<?php echo $service->is_primary; ?>" data-id="<?php echo $service->id; ?>" <?php if($service->is_primary == 1) echo "checked" ;?>>
                                                 <label class="onoffswitch-label" for="<?php echo $service->id; ?>"></label>
                                             </div>
+                                        <?php else: ?>
+                                        <a href="<?php echo admin_url('modules'); ?>" target="_blank"><?php echo _l('modify_module'); ?></a>
+                                        <?php endif; ?>
                                         </td>
                                         <td>
+                                            <?php if ($service->show_on_sidebar == 1 && $service->is_module == 0): ?>
                                             <a href="<?php echo admin_url("edit_service/$service->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
                                             <?php if ($service->id != 1): ?>
                                             <a href="<?php echo admin_url("delete_service/$service->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                            <?php endif; ?>
                                             <?php endif; ?>
                                             <a href="<?php echo admin_url("CategoryControl/$service->id"); ?>" class="btn btn-info btn-icon">
                                                 <?php echo _l('Categories'); ?>

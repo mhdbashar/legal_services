@@ -7,6 +7,28 @@ hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
+hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+
+function my_module_menu_item_collapsible()
+{
+    $CI = &get_instance();
+    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
+        'name'     => _l('LegalServices'), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 25, // The menu position
+        'icon'     => 'fa fa-gavel', // Font awesome icon
+    ]);
+    foreach ($services as $service):
+        // The first paremeter is the parent menu ID/Slug
+        $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+            'slug'     => $service->id.'/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name'     => $service->name, // The name if the item
+            'href'     => admin_url("Service/$service->id"), // URL of the item
+        ]);
+    endforeach;
+
+}
 
 function my_module_clients_area_menu_items()
 {
@@ -19,7 +41,7 @@ function my_module_clients_area_menu_items()
 
     // Show menu item only if client is logged in
     $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1))->result();
+    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $position = 50;
     if (has_contact_permission('projects')) {
         if (is_client_logged_in()) {

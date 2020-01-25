@@ -504,3 +504,13 @@ $lang['clients_my_legal'] = 'الخدمات القانونية';
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
 
 
+$lang['dialog_boxes'] = "مربعات الحوار";
+$lang['add_dialog_box'] = "إضافة مربع حوار";
+$lang['edit_dialog_box'] = "تعديل مربع حوار";
+$lang['disable'] = "تعطيل";
+$lang['title'] = "العنوان";
+$lang['desc_ar'] = "الشرح بالعربي";
+$lang['desc_en'] = "الشرح بالانكليزي";
+$lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة المراد ظهور مربع الحوار بها";
+
+$lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";

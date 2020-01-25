@@ -138,6 +138,11 @@ function get_relation_data($type, $rel_id = '')
             $CI->load->model('LegalServices/LegalServicesModel', 'legal');
             $data = $CI->legal->GetCategoryByServId($rel_id);
         }
+    } elseif ($type == 'cat_modules') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $data = $CI->legal->getCatModules($rel_id);
+        }
     } elseif ($type == 'childmycategory') {
         if ($rel_id != '') {
             $CI->load->model('LegalServices/LegalServicesModel', 'legal');

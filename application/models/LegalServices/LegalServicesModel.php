@@ -9,8 +9,9 @@ class LegalServicesModel extends App_Model
         parent::__construct();
     }
 
-    public function get_all_services()
+    public function get_all_services($where = [])
     {
+        $this->db->where($where);
         return $this->db->get('my_basic_services')->result();
     }
 
@@ -80,6 +81,15 @@ class LegalServicesModel extends App_Model
             return true;
         }
         return false;
+    }
+
+    public function getCatModules($prefix)
+    {
+        $modules = $this->get_all_services(['is_module' => 1 , 'prefix' => $prefix]);
+        foreach ($modules as $module):
+            $module_id = $module->id;
+        endforeach;
+        return $this->db->get_where('my_categories', array('service_id' => $module_id , 'parent_id' => 0))->result();
     }
 
     public function GetCategoryByServId($ServID)

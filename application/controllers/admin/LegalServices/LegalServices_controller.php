@@ -128,6 +128,12 @@ class LegalServices_controller extends AdminController
         echo json_encode($response);
     }
 
+    public function getChildCatModules($CatID)
+    {
+        $response = $this->legal->GetChildByCategory($CatID);
+        echo json_encode($response);
+    }
+
     public function AddNewCategory($ServID)
     {
         $ExistServ = $this->legal->CheckExistService($ServID);

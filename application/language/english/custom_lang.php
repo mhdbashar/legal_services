@@ -3541,3 +3541,21 @@ $lang['linked_case'] = "This case is related to the case:";
 $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
+
+$lang['services_locks'] = "Please enter the password to continue!";
+$lang['open_lock'] = "Open lock";
+$lang['case_confidential'] = "Set a password if the case is confidential";
+$lang['case_add_edit_password_note'] = 'Note: if you populate this field, password will be changed on this case.';
+
+
+$lang['dialog_boxes'] = "Dialog boxes";
+$lang['add_dialog_box'] = "Add dialog box";
+$lang['edit_dialog_box'] = "Edit dialog box";
+$lang['disable'] = "Disable";
+$lang['title'] = "Title";
+$lang['desc_ar'] = "Description arabic";
+$lang['desc_en'] = "Description english";
+$lang['link_for_page'] = "Here the link for the page where you want the dialog box to appear is determined";
+
+
+$lang['modify_module'] = "To modify the data of this service, go to the module page";

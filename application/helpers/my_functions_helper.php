@@ -12,7 +12,7 @@ hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 function my_module_menu_item_collapsible()
 {
     $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems

@@ -319,7 +319,11 @@ function get_staff_default_language($staffid = '')
     $CI->db->where('staffid', $staffid);
     $staff = $CI->db->get()->row();
     if ($staff) {
-        return $staff->default_language;
+        if (isset($staff->default_language) && $staff->default_language !="" ) {
+            return $staff->default_language;
+        }else {
+            return get_option('active_language');
+        }
     }
 
     return '';

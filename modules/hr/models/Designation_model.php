@@ -40,6 +40,16 @@ class Designation_model extends App_Model{
         return $this->db->get($this->table_name)->result_array();
     }
 
+    public function get_designation($id=''){
+        if(is_numeric($id)){
+            $this->db->where('id' ,$id);
+            return $this->db->get($this->table_name)->row();
+        }
+
+        $this->db->order_by('id', 'desc');
+        return $this->db->get($this->table_name)->result_array();
+    }
+
     public function add($data){
         $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();

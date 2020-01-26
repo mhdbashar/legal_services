@@ -19,8 +19,23 @@ class Extra_info_model extends App_Model{
             return $this->db->get($this->table_name)->row();
         }
 
-        $this->db->order_by('staff_id', 'desc');
-        return $this->db->get($this->table_name)->result_array();
+        return false;
+    }
+
+    public function has_extra_info($staff_id){
+        if($this->get($staff_id))
+            return true;
+        return false;
+    }
+
+    public function get_staff_department($staff_id=''){
+        if(is_numeric($staff_id)){
+            $this->db->where('staffid' ,$staff_id);
+            $departmentid = $this->db->get('tblstaff_departments')->row()->departmentid;
+            return $this->Departments_model->get($departmentid);
+        }
+
+        return false;
     }
 
     public function add($data){

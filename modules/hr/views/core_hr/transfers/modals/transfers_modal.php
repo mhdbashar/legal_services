@@ -157,6 +157,7 @@ function required_file() {
 
 <script>
 
+    
     function edit(id){
 
         save_method = 'update';
@@ -205,6 +206,12 @@ function required_file() {
 
 
                 $('#update_transfer').modal('show'); // show bootstrap modal when complete loaded
+
+                if (!data.has_extra_info){
+                    $('#update_transfer').modal('hide');
+                    console.log('You Should Add Staff To HR System');
+                    alert('You Should Add Staff To HR System');
+                }
 
             },
             error: function (jqXHR, textStatus, errorThrown)

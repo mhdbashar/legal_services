@@ -31,6 +31,23 @@
    $(function(){
         initDataTable('.table-transfer', window.location.href);
    });
+
+$(document).on('change','#staff_id',function () {
+        $.get(admin_url + 'hr/core_hr/in_hr_system/' + $(this).val(), function(response) {
+            if (response.success == true) {
+                $('#add_transfer').modal('show'); // show bootstrap modal when complete loaded
+
+                if (!response.data){
+                    $('#add_transfer').modal('hide');
+                    console.log('You Should Add Staff To HR System');
+                    alert('You Should Add Staff To HR System');
+                    $(this).val('');
+                }
+            } else {
+                alert_float('danger', response.message);
+            }
+        }, 'json');
+    });
 $(document).on('change','#branch_id',function () {
     $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
         if (response.success == true) {

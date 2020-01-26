@@ -10,6 +10,7 @@ class Core_hr extends AdminController{
 		$this->load->model('Staff_model');
         $this->load->model('Warnings_model');
         $this->load->model('Transfers_model');
+        $this->load->model('Extra_info_model');
         $this->load->model('Sub_department_model');
 	}
     // awards
@@ -120,7 +121,13 @@ class Core_hr extends AdminController{
             $branch_id = $this->Branches_model->get_branch('transfers', $id);
         $data = $this->Transfers_model->get($id);
         $data->branch_id = $branch_id;
+        $data->has_extra_info = $this->Extra_info_model->has_extra_info($data->staff_id);
         echo json_encode($data);
+    }
+
+    public function in_hr_system($staff_id){
+        echo json_encode(['success'=>true,'data'=>$this->Extra_info_model->has_extra_info($staff_id)]);
+        die();
     }
     public function update_transfer(){
         $data = $this->input->post();
@@ -133,6 +140,16 @@ class Core_hr extends AdminController{
         else
             set_alert('warning', 'Problem Updating');
 
+        $sub_department = $data['to_sub_department'];
+        $department = $data['to_department'];
+        $staff = $data['staff_id'];
+
+        if($data['status'] == 'Accepted'){
+
+            $this->Transfers_model->in_department($staff, $department);
+
+            $this->Transfers_model->to_sub_department($staff, $sub_department);
+        }
             $this->Branches_model->update_branch('transfers', $id, $branch_id);
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -147,15 +164,6 @@ class Core_hr extends AdminController{
             set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
-
-        $sub_department = $data['to_sub_department'];
-        $department = $data['to_department'];
-        $staff = $data['staff_id'];
-
-        $this->Transfers_model->in_department($staff, $department);
-
-        $this->Transfers_model->in_sub_department($staff, $sub_department);
-
         if(is_numeric($branch_id)){
             $branch_data = [
                 'branch_id' => $branch_id, 

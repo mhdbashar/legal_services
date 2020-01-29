@@ -1,5 +1,18 @@
 <?php
 
+$lang['resignation_date'] = "Resignation Date";
+$lang['resignation_reason'] = "Resignation Reason";
+$lang['new_resignation'] = "New Resignation";
+$lang['resignations'] = "Resignations";
+
+$lang['complaint_from'] = "Complaint From";
+$lang['complaint_againts'] = "Complaint Againts";
+$lang['complaint_date'] = "Complaint Date";
+$lang['complaint_title'] = "Complaint Title";
+$lang['new_complaint'] = "New Complaint";
+$lang['complaints'] = "Complaints";
+
+
 $lang['new_transfer'] = 'New Transfer';
 $lang['core_hr'] = "Core HR";
 $lang['organization'] = "Organization";

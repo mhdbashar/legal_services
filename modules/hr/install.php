@@ -321,6 +321,18 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_terminations')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_complaints')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_complaints` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `complaint_date` date NOT NULL,
+    `description` text NOT NULL,
+    `attachment` varchar(200) NOT NULL,
+    `complaint_title` varchar(200) NOT NULL,
+    `complaint_from` int(11) NOT NULL,
+    `complaint_againts` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_transfers` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -329,6 +341,16 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
     `to_department` int(11) NOT NULL,
     `to_sub_department` int(11) NOT NULL,
     `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_resignations')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_resignations` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `notice_date` date NOT NULL,
+    `resignation_date` date NOT NULL,
+    `resignation_reason` text NOT NULL,
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }

@@ -1,5 +1,17 @@
 <?php
 
+$lang['resignation_date'] = "تاريخ الاستقالة";
+$lang['resignation_reason'] = "سبب الاستقالة";
+$lang['new_resignation'] = "استقالة جديدة";
+$lang['resignations'] = "الاستقالات";
+
+$lang['complaint_from'] = "شكوى من";
+$lang['complaint_againts'] = "شكوى على";
+$lang['complaint_date'] = "تاريخ الشكوى";
+$lang['complaint_title'] = "عنوان الشكوى";
+$lang['new_complaint'] = "شكوى جديدة";
+$lang['complaints'] = "الشكاوي";
+
 $lang['new_transfer'] = 'انتقال جديد';
 $lang['core_hr'] = "الموارد البشرية الأساسية";
 $lang['organization'] = "المنظمة";

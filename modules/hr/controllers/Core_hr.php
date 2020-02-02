@@ -10,7 +10,10 @@ class Core_hr extends AdminController{
 		$this->load->model('Staff_model');
         $this->load->model('Warnings_model');
         $this->load->model('Transfers_model');
+        $this->load->model('Extra_info_model');
         $this->load->model('Sub_department_model');
+        $this->load->model('Complaint_model');
+        $this->load->model('Resignations_model');
 	}
     // awards
 
@@ -92,6 +95,164 @@ class Core_hr extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    // complaint
+
+    public function complaints(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_complaints_table');
+        }
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $data['staffes'] = $this->Staff_model->get();
+        $data['title'] = _l('complaints');
+        $this->load->view('core_hr/complaints/manage', $data);
+    }
+
+    public function complaint_json($id){
+        $branch_id = '';
+        if($this->Branches_model->get('complaints', $id))
+            $branch_id = $this->Branches_model->get_branch('complaints', $id);
+        $data = $this->Complaint_model->get($id);
+        $data->branch_id = $branch_id;
+        echo json_encode($data);
+    }
+    public function update_complaint(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+        $id = $this->input->post('id');
+        $success = $this->Complaint_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+
+            $this->Branches_model->update_branch('complaints', $id, $branch_id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_complaint(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+
+        $success = $this->Complaint_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+
+
+        if(is_numeric($branch_id)){
+            $branch_data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'complaints', 
+                'rel_id' => $success
+            ];
+            $this->Branches_model->set_branch($branch_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_complaint($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Complaint_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // resignation
+
+    public function resignations(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_resignations_table');
+        }
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $data['staffes'] = $this->Staff_model->get();
+        $data['title'] = _l('resignations');
+        $this->load->view('core_hr/resignations/manage', $data);
+    }
+
+    public function json_resignation($id){
+        $branch_id = '';
+        if($this->Branches_model->get('resignations', $id))
+            $branch_id = $this->Branches_model->get_branch('resignations', $id);
+        $data = $this->Resignations_model->get($id);
+        $data->branch_id = $branch_id;
+        echo json_encode($data);
+    }
+    public function update_resignation(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+        $id = $this->input->post('id');
+        $success = $this->Resignations_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+
+            $this->Branches_model->update_branch('complaints', $id, $branch_id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_resignation(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+
+        $success = $this->Resignations_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+
+
+        if(is_numeric($branch_id)){
+            $branch_data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'resignations', 
+                'rel_id' => $success
+            ];
+            $this->Branches_model->set_branch($branch_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_resignation($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Resignations_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     // transfers
 
     public function transfers(){
@@ -120,7 +281,13 @@ class Core_hr extends AdminController{
             $branch_id = $this->Branches_model->get_branch('transfers', $id);
         $data = $this->Transfers_model->get($id);
         $data->branch_id = $branch_id;
+        $data->has_extra_info = $this->Extra_info_model->has_extra_info($data->staff_id);
         echo json_encode($data);
+    }
+
+    public function in_hr_system($staff_id){
+        echo json_encode(['success'=>true,'data'=>$this->Extra_info_model->has_extra_info($staff_id)]);
+        die();
     }
     public function update_transfer(){
         $data = $this->input->post();
@@ -133,6 +300,16 @@ class Core_hr extends AdminController{
         else
             set_alert('warning', 'Problem Updating');
 
+        $sub_department = $data['to_sub_department'];
+        $department = $data['to_department'];
+        $staff = $data['staff_id'];
+
+        if($data['status'] == 'Accepted'){
+
+            $this->Transfers_model->in_department($staff, $department);
+
+            $this->Transfers_model->to_sub_department($staff, $sub_department);
+        }
             $this->Branches_model->update_branch('transfers', $id, $branch_id);
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -147,15 +324,6 @@ class Core_hr extends AdminController{
             set_alert('success', _l('added_successfully'));
         else
             set_alert('warning', 'Problem Creating');
-
-        $sub_department = $data['to_sub_department'];
-        $department = $data['to_department'];
-        $staff = $data['staff_id'];
-
-        $this->Transfers_model->in_department($staff, $department);
-
-        $this->Transfers_model->in_sub_department($staff, $sub_department);
-
         if(is_numeric($branch_id)){
             $branch_data = [
                 'branch_id' => $branch_id, 

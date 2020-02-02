@@ -2,9 +2,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Extra_info_model extends App_Model{
+class Resignations_model extends App_Model{
 
-    private $table_name = 'hr_extra_info';
+    private $table_name = 'hr_resignations';
 
     public function __construct(){
         parent::__construct();
@@ -13,29 +13,14 @@ class Extra_info_model extends App_Model{
         }
     }
 
-    public function get($staff_id=''){
-        if(is_numeric($staff_id)){
-            $this->db->where('staff_id' ,$staff_id);
+    public function get($id=''){
+        if(is_numeric($id)){
+            $this->db->where('id' ,$id);
             return $this->db->get($this->table_name)->row();
         }
 
-        return false;
-    }
-
-    public function has_extra_info($staff_id){
-        if($this->get($staff_id))
-            return true;
-        return false;
-    }
-
-    public function get_staff_department($staff_id=''){
-        if(is_numeric($staff_id)){
-            $this->db->where('staffid' ,$staff_id);
-            $departmentid = $this->db->get('tblstaff_departments')->row()->departmentid;
-            return $this->Departments_model->get($departmentid);
-        }
-
-        return false;
+        $this->db->order_by('id', 'desc');
+        return $this->db->get($this->table_name)->result_array();
     }
 
     public function add($data){
@@ -48,11 +33,11 @@ class Extra_info_model extends App_Model{
         return false;
     }
 
-    public function update($data, $staff_id){
-        $this->db->where('staff_id', $staff_id);
+    public function update($data, $id){
+        $this->db->where('id', $id);
         $this->db->update($this->table_name, $data);
         if($this->db->affected_rows() > 0){
-            log_activity($this->table_name . ' updated [ ID: '. $staff_id . ']');
+            log_activity($this->table_name . ' updated [ ID: '. $id . ']');
             return true;
         }
         return false;

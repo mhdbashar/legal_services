@@ -59,6 +59,29 @@
 
 <script>
 
+  $(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#department_id').empty();
+            $('#department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#department_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
   function check(sel)
   {
     console.log('#designation_'+sel.value);
@@ -73,7 +96,7 @@
                 let key = response.data[i].key;
                 let value = response.data[i].value;
                 $('#designation_id').append($('<option>', {
-                    value: value,
+                    value: key,
                     text: value
                 }));
                 $('#designation_id').selectpicker('refresh');
@@ -95,7 +118,7 @@
                 let key = response.data[i].key;
                 let value = response.data[i].value;
                 $('#sub_department_id').append($('<option>', {
-                    value: value,
+                    value: key,
                     text: value
                 }));
                 $('#sub_department_id').selectpicker('refresh');

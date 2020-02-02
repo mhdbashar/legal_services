@@ -40,7 +40,14 @@ class Transfers_model extends App_Model{
         $this->db->insert('tblstaff_departments', ['staffid' => $staff, 'departmentid' => $department]);
     }
 
-    public function in_sub_department($staff, $sub_department){
+    public function to_sub_department($staff, $sub_department){
+        $this->db->where('staff_id', $staff);
+        $this->db->update('tblhr_extra_info', ['sub_department' => $sub_department]);
+        if($this->db->affected_rows() > 0){
+            log_activity('tblhr_extra_info' . ' updated [ sub_department: '. $sub_department . ']');
+            return true;
+        }
+        return false;
     }
 
     public function add($data){

@@ -25,6 +25,14 @@ $join = [
     'JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'projects.clientid',
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
+
 $where  = [];
 $filter = [];
 
@@ -164,5 +172,8 @@ foreach ($rResult as $aRow) {
 
     $row = hooks()->apply_filters('projects_table_row_data', $row, $aRow);
 
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
     $output['aaData'][] = $row;
 }

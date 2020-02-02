@@ -17,6 +17,8 @@ class General extends AdminController{
         $this->load->model('Extra_info_model');
         $this->load->model('Emergency_contact_model');
         $this->load->model('Branches_model');
+        $this->load->model('Sub_department_model');
+        $this->load->model('Designation_model');
 	}
 
 	public function general($staff_id){

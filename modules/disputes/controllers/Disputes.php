@@ -32,6 +32,13 @@ class Disputes extends AdminController
         ]);
     }
 
+    public function get_contacts()
+    {
+        $this->load->model('Project_contacts');
+        echo json_encode($this->Project_contacts->get_latest(-1));
+
+    }
+
 /*
 
     public function disputes_get_table_data($table, $params = [])
@@ -161,6 +168,14 @@ class Disputes extends AdminController
             $meta['disputes_total'] = $data['disputes_total'];
             $meta['opponent_id'] = implode(',',$data['opponent_id']);
             $meta['opponent_lawyer_id'] = $data['opponent_lawyer_id'];
+
+            foreach ($data['opponent_id'] as $value) {
+                if(array_count_values($data['opponent_id'])[$value]){
+                    set_alert('danger', 'You can\'t add same opponents');
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+            }
+            exit;
 
             unset($data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total'],$data['opponent_id'],$data['opponent_lawyer_id']);
 

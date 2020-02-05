@@ -533,18 +533,20 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <!--
                     <div class="col-md-6">
                         <?php $options = explode(",",_l('project_contacts_types')); ?>
                         <div class="form-group select-placeholder">
                             <label for="status"><?php echo _l('project_status'); ?></label>
                             <div class="clearfix"></div>
-                            <select name="contact_type" id="contact_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <select name="contact_type" id="contact_type" class="selectpicker" data-width="100%">
                                 <?php foreach($options as $key => $option){ ?>
                                     <option value="<?php echo $key; ?>"><?php echo $option; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                     </div>
+                    -->
                     <div class="col-md-12">
                         <?php echo render_input( 'contact_name', 'name'); ?>
                         <?php echo render_input( 'contact_address', 'address'); ?>
@@ -641,17 +643,32 @@
 
 
     $(".opponent").on('change',function () {
+        var sel = $(this).val();
         var selected_counts = 1;
+        var val = 1000;
+        var error = false;
         $(".opponent").each(function(index){
-            if($(this).val()>0)
+            if($(this).val()>0){
                 selected_counts++;
+                if($(this).val() == val){
+                    console.log('error');
+                    //$('option:selected', this).remove();
+                    error = true;
+                }else{
+                    val = $(this).val();
+                }
+            }
+            
         });
         $(".row.opponents").each(function(index){
-            if(index<selected_counts)
+            if(index<selected_counts){
                 $(this).removeClass('hidden');
-            else
+            }else
                 $(this).addClass('hidden');
         });
+        if(error){
+            //alert('You can not Choose same Opponent');
+        }
     });
     $(".opponent").change();
 
@@ -798,30 +815,48 @@
         contact_address = $('#contact_address').val();
         contact_email = $('#contact_email').val();
         contact_phone = $('#contact_phone').val();
-        contact_type = $('#contact_type').val();
+        contact_type = 0;
         project_id = <?php echo (isset($project) ? $project->id : -1); ?>;
         if(contact_name == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else{
+
+            id = $('#cat_id').val();
             $.ajax({
-                url: '<?php echo admin_url('disputes/projects_contacts/add'); ?>',
-                data: {contact_name : contact_name,contact_address : contact_address,contact_email : contact_email,contact_phone : contact_phone,contact_type : contact_type,project_id : project_id},
                 type: "POST",
+                dataType: "JSON",
+                url: '<?php echo admin_url("disputes/get_contacts"); ?>',
                 success: function (data) {
-                    if(data){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                    console.log(data.contact_type);
+                    if(data.contact_type != null)
+                        contact_type = parseFloat(data.contact_type) + 1;
+                    if(!(data.contact_type > 4)){
+                        $.ajax({
+                            url: '<?php echo admin_url('disputes/projects_contacts/add'); ?>',
+                            data: {contact_name : contact_name,contact_address : contact_address,contact_email : contact_email,contact_phone : contact_phone,contact_type : contact_type,project_id : project_id},
+                            type: "POST",
+                            success: function (data) {
+                                if(data){
+                                    alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                                    $('#add-contact').modal('hide');
+                                    $('#contact_name').val('');
+                                    $('#contact_address').val('');
+                                    $('#contact_email').val('');
+                                    $('#contact_phone').val('');
+                                    $('#contact_type').val('');
+                                    $('.project_contacts').html(data);
+                                }else {
+                                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                                }
+                            }
+                        });
+                    }else{
                         $('#add-contact').modal('hide');
-                        $('#contact_name').val('');
-                        $('#contact_address').val('');
-                        $('#contact_email').val('');
-                        $('#contact_phone').val('');
-                        $('#contact_type').val('');
-                        $('.project_contacts').html(data);
-                    }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert('you can added more than 6 witness');
                     }
                 }
             });
+
         }
     });
 

@@ -345,6 +345,17 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_promotions')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_promotions` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `promotion_date` date NOT NULL,
+    `promotion_title` varchar(200) NOT NULL,
+    `description` text NOT NULL,
+    `designation` int(11) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_resignations')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_resignations` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

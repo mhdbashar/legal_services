@@ -14,6 +14,7 @@ class Core_hr extends AdminController{
         $this->load->model('Sub_department_model');
         $this->load->model('Complaint_model');
         $this->load->model('Resignations_model');
+        $this->load->model('Promotion_model');
 	}
     // awards
 
@@ -166,6 +167,89 @@ class Core_hr extends AdminController{
             access_denied();
         }
         $response = $this->Complaint_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // promotion
+
+    public function promotions(){
+        $this->load->model('Departments_model');
+        $this->load->model('Designation_model');
+        $data['departments'] = $this->Departments_model->get();
+        $data['designations'] = $this->Designation_model->get();
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_promotions_table');
+        }
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $data['staffes'] = $this->Staff_model->get();
+        $data['title'] = _l('promotions');
+        $this->load->view('core_hr/promotions/manage', $data);
+    }
+
+    public function promotion_json($id){
+        $branch_id = '';
+        if($this->Branches_model->get('promotions', $id))
+            $branch_id = $this->Branches_model->get_branch('promotions', $id);
+        $data = $this->Promotion_model->get($id);
+        $data->branch_id = $branch_id;
+        echo json_encode($data);
+    }
+    public function update_promotion(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+        $id = $this->input->post('id');
+        $success = $this->Promotion_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+
+            $this->Branches_model->update_branch('promotions', $id, $branch_id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_promotion(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+
+        $success = $this->Promotion_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+
+
+        if(is_numeric($branch_id)){
+            $branch_data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'promotions', 
+                'rel_id' => $success
+            ];
+            $this->Branches_model->set_branch($branch_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_promotion($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Promotion_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {

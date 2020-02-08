@@ -156,17 +156,17 @@
               <td class="bold"><?php echo _l('opponent'); ?></td>
               <td>
                 <?php foreach ($opponents as $opponent) : ?>
-                  <a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent->userid; ?>">
+                  <a href="<?php echo admin_url(); ?>opponents/client/<?php echo $opponent->userid; ?>">
                     <?php echo $opponent->company; ?>
                   </a>, 
                   <?php endforeach; ?>
               </td>
           </tr>
 
-          <?php if(isset($opponent_lawyer)){ ?>
+          <?php if(isset($opponent_lawyer->userid)){ ?>
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('opponent_lawyer'); ?></td>
-              <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent_lawyer->userid; ?>">
+              <td><a href="<?php echo admin_url(); ?>opponents/client/<?php echo $opponent_lawyer->userid; ?>">
                     <?php echo $opponent_lawyer->company; ?>
                   </a></td>
           </tr>
@@ -197,7 +197,7 @@
           <?php if(isset($meta['city']) && $meta['city']){ ?>
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('client_city'); ?></td>
-              <td><?php echo $this->disputesapp->get_meta_title('cities',$field_city,$field_city,$meta['city']); ?></td>
+              <td><?php echo $meta['city'] ?></td>
           </tr>
           <?php } ?>
           <?php if(isset($meta['address1']) && $meta['address1']){ ?>

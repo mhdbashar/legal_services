@@ -8,10 +8,11 @@
             <div class="panel_s project-top-panel panel-full">
                <div class="panel-body _buttons">
                   <div class="row">
+                    
                      <div class="col-md-7 project-heading">
                         <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                         <div id="project_view_name" class="pull-left">
-                           <select class="selectpicker" id="project_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
+                           <select class="selectpicker" id="dispute_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
                               <option value="<?php echo $project->id; ?>" selected data-content="<?php echo $project->name; ?> - <small><?php echo $project->client_data->company; ?></small>">
                                 <?php echo $project->client_data->company; ?> <?php echo $project->name; ?>
                               </option>
@@ -162,6 +163,7 @@
    taskid = '<?php echo $this->input->get('taskid'); ?>';
 </script>
 <script>
+
    var gantt_data = {};
    <?php if(isset($gantt_data)){ ?>
    gantt_data = <?php echo json_encode($gantt_data); ?>;

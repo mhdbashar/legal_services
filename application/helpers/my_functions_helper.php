@@ -12,11 +12,18 @@ hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 function my_module_menu_item_collapsible()
 {
     $CI = &get_instance();
+    $CI->app_menu->add_sidebar_menu_item('opponents', [
+        'name'     => _l('opponents'), // The name if the item
+        'href'     => admin_url('opponents'), // URL of the item
+        'position' => 5, // The menu position
+        'icon'     => 'fa fa-user-times', // Font awesome icon
+    ]);
+
     $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 25, // The menu position
+        'position' => 30, // The menu position
         'icon'     => 'fa fa-gavel', // Font awesome icon
     ]);
     foreach ($services as $service):
@@ -27,7 +34,6 @@ function my_module_menu_item_collapsible()
             'href'     => admin_url("Service/$service->id"), // URL of the item
         ]);
     endforeach;
-
 }
 
 function my_module_clients_area_menu_items()
@@ -61,11 +67,10 @@ function my_custom_setup_menu_items()
 {
     $CI = &get_instance();
 
-    $CI->app_menu->add_sidebar_menu_item('opponents', [
-        'name'     => _l('opponents'), // The name if the item
-        'href'     => admin_url('opponents'), // URL of the item
-        'position' => 5, // The menu position
-        'icon'     => 'fa fa-user-times', // Font awesome icon
+    $CI->app_menu->add_setup_menu_item('0', [
+        'name'     => _l("dialog_box_manage"), // The name if the item
+        'position' => 0, // The menu position
+        'href'     => admin_url('Dialog_boxes'), // URL of the item
     ]);
 
     $CI->app_menu->add_setup_menu_item('1', [
@@ -187,7 +192,6 @@ function my_custom_setup_menu_items()
         // 'icon'     => 'fa fa-adjust', // Font awesome icon
 
     ]);
-
 }
 
 function app_init_opponent_profile_tabs()
@@ -566,4 +570,14 @@ function add_sms_gateway($gateways)
     array_push($gateways, 'sms/sms_mobily');
     
     return $gateways;
+}
+
+function get_dialog_boxes()
+{
+    $CI = & get_instance();
+    $result = $CI->db->get_where(db_prefix() . 'my_dialog_boxes', ['active' => 1])->result_array();
+    if ($result) {
+        return $result;
+    }
+    return false;
 }

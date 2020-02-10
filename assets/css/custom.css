@@ -137,3 +137,33 @@
     }
 }
 
+
+
+@font-face {
+    font-family: 'ar';
+    font-style: normal;
+    font-weight: normal;
+    src: local('ar'), url("Cairo-Regular.ttf") format('truetype');
+  }
+  body {
+    font-family: 'ar', serif;
+  }
+  #side-menu li a{
+    font-family: 'ar', serif;
+  }
+
+  #setup-menu>li>a {
+    font-family: 'ar', serif;
+}
+.xdsoft_datetimepicker {
+    font-family: 'ar', serif;
+}
+ul.tagit-autocomplete {
+    font-family: 'ar', serif;
+}
+ul.tagit li.tagit-choice .tagit-label:not(a) {
+    font-family: 'ar', serif;
+}
+.gpicker {
+    font-family: 'ar', serif;
+}

@@ -2967,7 +2967,6 @@ $lang['auto'] = "Auto";
 $lang['email_queue'] = "Email Queue";
 $lang['email_queue_enabled'] = "Enable Email Queue";
 $lang['email_queue_skip_attachments'] = "Do not add emails with attachments in the queue?";
-$lang['disable'] = "Disable";
 $lang['enable'] = "Enable";
 $lang['auto_dismiss_desktop_notifications_after'] = "Auto Dismiss Desktop Notifications After X Seconds (0 to disable)";
 $lang['proposal_info_format'] = "Proposal Info Format (PDF and HTML)";
@@ -3559,12 +3558,11 @@ $lang['services_locks'] = "Please enter the password to continue!";
 $lang['open_lock'] = "Open lock";
 $lang['case_confidential'] = "Set a password if the case is confidential";
 $lang['case_add_edit_password_note'] = 'Note: if you populate this field, password will be changed on this case.';
-
-
+$lang['CourtsManagement'] = "Courts management";
+$lang['dialog_box_manage'] = "Dialog boxes";
 $lang['dialog_boxes'] = "Dialog boxes";
 $lang['add_dialog_box'] = "Add dialog box";
 $lang['edit_dialog_box'] = "Edit dialog box";
-$lang['disable'] = "Disable";
 $lang['title'] = "Title";
 $lang['desc_ar'] = "Description arabic";
 $lang['desc_en'] = "Description english";

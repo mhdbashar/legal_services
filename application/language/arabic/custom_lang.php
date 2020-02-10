@@ -515,11 +515,10 @@ $lang['service_name'] = "إسم الخدمة";
 $lang['clients_my_legal'] = 'الخدمات القانونية';
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
 
-
+$lang['dialog_box_manage'] = "إدارة مربعات الحوار";
 $lang['dialog_boxes'] = "مربعات الحوار";
 $lang['add_dialog_box'] = "إضافة مربع حوار";
 $lang['edit_dialog_box'] = "تعديل مربع حوار";
-$lang['disable'] = "تعطيل";
 $lang['title'] = "العنوان";
 $lang['desc_ar'] = "الشرح بالعربي";
 $lang['desc_en'] = "الشرح بالانكليزي";

@@ -122,7 +122,10 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $name .= ' | <a href="' . admin_url('projects/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        if($project_type == '1')
+            $name .= ' | <a href="' . admin_url('disputes/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        else
+            $name .= ' | <a href="' . admin_url('projects/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 
     $name .= '</div>';

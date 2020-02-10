@@ -85,6 +85,17 @@
           window.location.href = admin_url + 'projects/view/' + val + __project_group;
       });
 
+      $('#dispute_top').on('change', function() {
+          var val = $(this).val();
+          var __project_group = get_url_param('group');
+          if (__project_group) {
+              __project_group = '?group=' + __project_group;
+          } else {
+              __project_group = '';
+          }
+          window.location.href = admin_url + 'disputes/view/' + val + __project_group;
+      });
+
       if (typeof(Dropbox) != 'undefined' && $('#dropbox-chooser').length > 0) {
           document.getElementById("dropbox-chooser").appendChild(Dropbox.createChooseButton({
               success: function(files) {

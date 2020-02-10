@@ -362,7 +362,7 @@
                  </div>
              <?php } ?>
              <div class="btn-bottom-toolbar text-right">
-                 <button type="submit" data-form="#project_form" class="btn btn-info" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('submit'); ?></button>
+                 <button type="submit" data-form="#project_form" class="my_button btn btn-info" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('submit'); ?></button>
              </div>
          </div>
      </div>
@@ -642,20 +642,21 @@
     });
 
 
+    var error = false;
     $(".opponent").on('change',function () {
         var sel = $(this).val();
         var selected_counts = 1;
         var val = 1000;
-        var error = false;
         $(".opponent").each(function(index){
             if($(this).val()>0){
                 selected_counts++;
                 if($(this).val() == val){
-                    console.log('error');
+                    //console.log('error');
                     //$('option:selected', this).remove();
                     error = true;
                 }else{
                     val = $(this).val();
+                    error = false;
                 }
             }
             
@@ -732,6 +733,12 @@
             $('select[name="billing_type"]').prop('disabled',false);
             $('#available_features,#available_features option').prop('disabled',false);
             $('input[name="project_rate_per_hour"]').prop('disabled',false);
+            if(error){
+                alert('You can not Choose same Opponent');
+                $('.my_button').removeClass('disabled');
+                $('.my_button').prop('disabled', false);
+                return false;
+            }
         });
 
         var progress_input = $('input[name="progress"]');
@@ -774,6 +781,8 @@
                 $('#upload_on_tasks').prop('disabled',false);
                 $('#view_task_total_logged_time').prop('disabled',false);
             }
+            $('.my_button').removeClass('disabled');
+                $('.my_button').prop('disabled', false);
         });
     
     $('.project_contacts, .project-overview-contacts').on('click', '.delete_contact', function () {

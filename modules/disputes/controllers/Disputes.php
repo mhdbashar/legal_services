@@ -20,7 +20,7 @@ class Disputes extends AdminController
     {
         close_setup_menu();
         $data['statuses'] = $this->projects_model->get_project_statuses();
-        $data['title']    = _l('projects');
+        $data['title']    = _l('disputes');
         $this->load->view('disputes/manage', $data);
     }
 
@@ -40,19 +40,14 @@ class Disputes extends AdminController
     }
 
 /*
-
     public function disputes_get_table_data($table, $params = [])
     {
         $params = hooks()->apply_filters('table_params', $params, $table);
-
         foreach ($params as $key => $val) {
             $$key = $val;
         }
-
         $customFieldsColumns = [];
-
         $path = APPPATH.'../modules/disputes/views/invoices/' . $table . EXT;
-
         if (!file_exists($path)) {
             $path = $table;
             if (!endsWith($path, EXT)) {
@@ -64,13 +59,10 @@ class Disputes extends AdminController
                 $path = $myPrefixedPath;
             }
         }
-
         include_once($path);
-
         echo json_encode($output);
         die;
     }
-
 /*
     public function invoices_table($clientid = '')
     {
@@ -82,7 +74,6 @@ class Disputes extends AdminController
         $this->load->model('invoices_model');
         $this->load->model('payment_modes_model');
         $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
-
         $this->disputes_get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
             'clientid' => $clientid,
             'data'     => $data,
@@ -170,12 +161,11 @@ class Disputes extends AdminController
             $meta['opponent_lawyer_id'] = $data['opponent_lawyer_id'];
 
             foreach ($data['opponent_id'] as $value) {
-                if(array_count_values($data['opponent_id'])[$value]){
+                if(array_count_values($data['opponent_id'])[$value] > 1 and $value != 0){
                     set_alert('danger', 'You can\'t add same opponents');
                     redirect($_SERVER['HTTP_REFERER']);
                 }
             }
-            exit;
 
             unset($data['representative'],$data['country'],$data['city'],$data['address1'],$data['address2'],$data['addressed_to'],$data['notes'],$data['projects_status'],$data['cat_id'],$data['subcat_id'],$data['disputes_total'],$data['opponent_id'],$data['opponent_lawyer_id']);
 
@@ -965,7 +955,7 @@ class Disputes extends AdminController
                 if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
-                    redirect(admin_url('projects'));
+                    redirect($_SERVER['HTTP_REFERER']);
                 }
             } else {
                 set_alert('warning', _l('problem_deleting', _l('project_lowercase')));
@@ -1147,16 +1137,12 @@ class Disputes extends AdminController
                             if (!in_array($timesheet['task_id'], $added_task_ids)) {
                                 $item['task_id'] = $timesheet['task_id'];
                             }
-
                             array_push($added_task_ids, $timesheet['task_id']);
-
                             $item['qty']              = floatVal(sec2qty($timesheet['total_spent']));
                             $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format($timesheet['total_spent'])) . ' ' . _l('hours');
-
                             if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
                                 $item['long_description'] .= "\r\n\r\n" . _l('note') . ': ' . $timesheet['note'];
                             }
-
                             if ($project->billing_type == 2) {
                                 $item['rate'] = $project->project_rate_per_hour;
                             } elseif ($project->billing_type == 3) {

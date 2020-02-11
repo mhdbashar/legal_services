@@ -15,6 +15,7 @@ class Core_hr extends AdminController{
         $this->load->model('Complaint_model');
         $this->load->model('Resignations_model');
         $this->load->model('Promotion_model');
+        $this->load->model('Designation_model');
 	}
     // awards
 
@@ -179,7 +180,6 @@ class Core_hr extends AdminController{
 
     public function promotions(){
         $this->load->model('Departments_model');
-        $this->load->model('Designation_model');
         $data['departments'] = $this->Departments_model->get();
         $data['designations'] = $this->Designation_model->get();
         if($this->input->is_ajax_request()){
@@ -214,7 +214,11 @@ class Core_hr extends AdminController{
         else
             set_alert('warning', 'Problem Updating');
 
-            $this->Branches_model->update_branch('promotions', $id, $branch_id);
+        $this->Branches_model->update_branch('promotions', $id, $branch_id);
+
+        $staff = $data['staff_id'];
+        $designation = $data['designation'];
+        $this->Designation_model->to_designation($staff, $designation);
         redirect($_SERVER['HTTP_REFERER']);
     }
 

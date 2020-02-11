@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -28,11 +28,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
-                            <?php foreach ($staffes as $value) { ?>
-                                <option value="<?php echo $value['staffid'] ?>"><?php echo $value['firstname'].' '.$value['lastname'] ?></option>
-                            <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -40,9 +37,6 @@
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control" id="e_designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                                <?php foreach ($designations as $value) { ?>
-                                <option value="<?php echo $value['id'] ?>"><?php echo $value['designation_name'] ?></option>
-                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -95,11 +89,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
-                            <?php foreach ($staffes as $value) { ?>
-                                <option value="<?php echo $value['staffid'] ?>"><?php echo $value['firstname'].' '.$value['lastname'] ?></option>
-                            <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -107,9 +98,6 @@
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                                <?php foreach ($designations as $value) { ?>
-                                <option value="<?php echo $value['id'] ?>"><?php echo $value['designation_name'] ?></option>
-                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -156,7 +144,19 @@
                 
                 $('[name="promotion_date"]').val(data.promotion_date);
 
-                $('[name="designation"]').val(data.designation);
+                $("#e_designation_id .designation_id").remove();
+                $('#e_designation_id').append($('<option>', {
+                    value: data.designation.id,
+                    text: data.designation.designation_name,
+                    class: "designation_id"
+                }));
+
+                $("#e_staff_id .staff_id").remove();
+                $('#e_staff_id').append($('<option>', {
+                    value: data.staff.staffid,
+                    text: data.staff.firstname + ' ' + data.staff.lastname,
+                    class: "staff_id"
+                }));
 
                 $('[name="description"]').val(data.description);
 

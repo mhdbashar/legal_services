@@ -68,6 +68,8 @@ function hr_menu_items($item)
                                 </li>
                                 <li><a href="'.admin_url('hr/core_hr/resignations').'">'._l('resignations').'</a>
                                 </li>
+                                <li><a href="'.admin_url('hr/core_hr/promotions').'">'._l('promotions').'</a>
+                                </li>
                                 </ul>
                         </li>
                 </ul>';

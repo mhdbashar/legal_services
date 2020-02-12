@@ -54,10 +54,16 @@ class Designation_model extends App_Model{
         foreach ($branches as $branch) {
             $staff_array = [];
             $staff_array['key'] = $branch['rel_id'];
-            $this->db->where('staffid', $branch['rel_id']);
-            $staff = $this->db->get('tblstaff')->row();
-            $staff_array['value'] = $staff->firstname . " " . $staff->lastname;
-            $data[] = $staff_array;
+
+            $this->db->where('staff_id', $branch['rel_id']);
+            $extra = $this->db->get('tblhr_extra_info')->row();
+
+            if(is_object($extra)){
+                $this->db->where('staffid', $branch['rel_id']);
+                $staff = $this->db->get('tblstaff')->row();
+                $staff_array['value'] = $staff->firstname . " " . $staff->lastname;
+                $data[] = $staff_array;
+            }
         }
         return $data;
     }

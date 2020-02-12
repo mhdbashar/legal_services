@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control staff" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>
@@ -97,7 +97,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
-                            <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                            <select required="required" class="form-control staff" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                             </select>     
                         </div>
                     </div>
@@ -144,23 +144,60 @@
                 
                 $('[name="promotion_date"]').val(data.promotion_date);
 
-                $("#e_designation_id .designation_id").remove();
-                $('#e_designation_id').append($('<option>', {
-                    value: data.designation.id,
-                    text: data.designation.designation_name,
-                    class: "designation_id"
-                }));
-
-                $("#e_staff_id .staff_id").remove();
-                $('#e_staff_id').append($('<option>', {
-                    value: data.staff.staffid,
-                    text: data.staff.firstname + ' ' + data.staff.lastname,
-                    class: "staff_id"
-                }));
-
                 $('[name="description"]').val(data.description);
 
                 $('[name="branch_id"]').val(data.branch_id);
+
+                $.get(admin_url + 'hr/organization/get_designations_by_staff_id/' + data.staff_id, function(response) {
+                    if (response.success == true) {
+                        $('#e_designation_id').empty();
+                        $('#e_designation_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.designation.id == key)
+                                select = true;
+                            console.log(data.designation.id + "  " + key);
+                            $('#e_designation_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#e_designation_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
+
+                $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + data.branch_id, function(response) {
+                    if (response.success == true) {
+                        $('#e_staff_id').empty();
+                        $('#e_staff_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.staff_id == key)
+                                select = true;
+                            $('#e_staff_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#e_staff_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
 
                 $('[name="staff_id"]').val(data.staff_id);
 

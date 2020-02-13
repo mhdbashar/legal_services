@@ -16,7 +16,15 @@ class Promotion_model extends App_Model{
     public function get($id=''){
         if(is_numeric($id)){
             $this->db->where('id' ,$id);
-            return $this->db->get($this->table_name)->row();
+            $row = $this->db->get($this->table_name)->row();
+            $this->db->where('id' ,$row->designation);
+            $row2 = $this->db->get('tblhr_designations')->row();
+            $this->db->where('staffid' ,$row->staff_id);
+            $row3 = $this->db->get('tblstaff')->row();
+            $row->designation = $row2;
+            $row->staff = $row3;
+            return $row;
+
         }
 
         $this->db->order_by('id', 'desc');

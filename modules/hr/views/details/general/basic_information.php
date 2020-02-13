@@ -139,7 +139,7 @@
                             <div class="form-group">
                               
                                 <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
-                                <select class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
+                                <select required="required" class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
 
                                     <option value="<?php echo $extra_info->sub_department ?>"><?php echo $sub_department_name ?></option>
                                 </select>     
@@ -148,7 +148,7 @@
                      	<div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
-                                <select class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                                <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                     <option value="<?php echo $extra_info->designation ?>"><?php echo $designation_name ?></option>
                                 </select>     
                             </div>  

@@ -32,5 +32,135 @@
         initDataTable('.table-promotion', window.location.href);
    });
 </script>
+<script>
+
+$('.modal').on('hidden.bs.modal', function (e) {
+  console.log('agt');
+  $(this)
+    .find("input,textarea,select")
+       .val('')
+       .end()
+    .find("input[type=checkbox], input[type=radio]")
+       .prop("checked", "")
+       .end()
+    .find(".branch")
+        .remove()
+    .find(".staff")
+        .remove()
+})
+
+$(document).on('change','.staff',function () {
+    $.get(admin_url + 'hr/core_hr/in_hr_system/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#add_transfer').modal('show'); // show bootstrap modal when complete loaded
+            $('#update_transfer').modal('show');
+
+            if (!response.data){
+                $('#add_promotion').modal('hide');
+                $('#update_transfer').modal('hide');
+                console.log('You Should Add Staff To HR System');
+                alert('You Should Add Staff To HR System');
+                $('button[group="submit"]').attr('disabled', true);
+            }else{
+                $('button[group="submit"]').prop("disabled", false);
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+$(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_staff_id').empty();
+            $('#e_staff_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_staff_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#e_staff_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#a_branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#staff_id').empty();
+            $('#staff_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#staff_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#staff_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#staff_id',function () {
+    $.get(admin_url + 'hr/organization/get_designations_by_staff_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#designation_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#e_staff_id',function () {
+    $.get(admin_url + 'hr/organization/get_designations_by_staff_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_designation_id').empty();
+            $('#e_designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_designation_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    class: 'e_designation_id'
+                }));
+                $('#e_designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+</script>
 </body>
 </html>

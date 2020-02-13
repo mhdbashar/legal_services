@@ -165,6 +165,7 @@
                         </div>
 
                     <?php endfor; ?>
+                    <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
 
 
                         <div class="row opponent_lawyer">
@@ -669,9 +670,15 @@
         });
         if(error){
             //alert('You can not Choose same Opponent');
+            $('#opponent-error').removeClass('hide');
+            $('.my_button').prop('disabled', true);
+        }else{
+            $('#opponent-error').addClass('hide');
+            $('.my_button').prop('disabled', false);
         }
     });
     $(".opponent").change();
+
 
     $(function(){
 
@@ -729,16 +736,16 @@
             }
         });
 
+        $('.my_button').on('click', function(){
+            if(error){
+                alert('You can not Choose same Opponent');
+            }
+        });
+
         $('form').on('submit',function(){
             $('select[name="billing_type"]').prop('disabled',false);
             $('#available_features,#available_features option').prop('disabled',false);
             $('input[name="project_rate_per_hour"]').prop('disabled',false);
-            if(error){
-                alert('You can not Choose same Opponent');
-                $('.my_button').removeClass('disabled');
-                $('.my_button').prop('disabled', false);
-                return false;
-            }
         });
 
         var progress_input = $('input[name="progress"]');
@@ -781,8 +788,6 @@
                 $('#upload_on_tasks').prop('disabled',false);
                 $('#view_task_total_logged_time').prop('disabled',false);
             }
-            $('.my_button').removeClass('disabled');
-                $('.my_button').prop('disabled', false);
         });
     
     $('.project_contacts, .project-overview-contacts').on('click', '.delete_contact', function () {

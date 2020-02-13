@@ -9,6 +9,7 @@ class Organization extends AdminController{
 		$this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
+        $this->load->model('Extra_info_model');
 
 	}
 
@@ -163,6 +164,17 @@ class Organization extends AdminController{
 
     public function get_designations($department_id){
         echo json_encode(['success'=>true,'data'=>$this->Designation_model->get_designations($department_id)]);
+        die();
+    }
+
+    public function get_designations_by_staff_id($staff_id){
+        echo json_encode(['success'=>true, 'data'=>$this->Designation_model->get_designations_by_staff_id($staff_id)]);
+        die();
+    }
+
+
+    public function get_staffs_by_branch_id($branch_id){
+        echo json_encode(['success'=>true,'data'=>$this->Designation_model->get_staffs_by_branch_id($branch_id)]);
         die();
     }
 

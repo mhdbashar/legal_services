@@ -32,6 +32,112 @@
    $(function(){
         initDataTable('.table-warning', window.location.href);
    });
+$(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_warning_to').empty();
+            $('#e_warning_to').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_warning_to').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#e_warning_to').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$('.modal').on('hidden.bs.modal', function (e) {
+  console.log('agt');
+  $(this)
+    .find("input,textarea,select")
+       .val('')
+       .end()
+    .find("input[type=checkbox], input[type=radio]")
+       .prop("checked", "")
+       .end()
+    .find(".branch")
+        .remove()
+    .find(".staff")
+        .remove()
+})
+
+$(document).on('change','#a_branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#warning_to').empty();
+            $('#warning_to').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#warning_to').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#warning_to').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_warning_by').empty();
+            $('#e_warning_by').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_warning_by').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#e_warning_by').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#a_branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#warning_by').empty();
+            $('#warning_by').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#warning_by').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#warning_by').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
 </script>
 </body>
 </html>

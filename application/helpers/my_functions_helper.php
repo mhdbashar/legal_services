@@ -11,7 +11,34 @@ hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 
 function my_module_menu_item_collapsible()
 {
+    
     $CI = &get_instance();
+    
+    $CI->app_menu->add_sidebar_menu_item('clients', [
+        'name'     => _l('clients_'), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        // 'href'     => admin_url('opponents'), // URL of the item
+        'position' => 5, // The menu position
+        'icon'     => 'fa fa-user-o', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('clients', [
+        'name'     => _l('clients'),
+        'slug'     => 'clients', // Required ID/slug UNIQUE for the child menu
+        'href'     => admin_url('clients'),
+        'position' => 5,
+    ]);
+
+    $CI->app_menu->add_sidebar_children_item('clients', [
+        'name'     => _l('opponents'), // The name if the item
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'href'     => admin_url('opponents'), // URL of the item
+        'position' => 5, // The menu position
+    ]);
+
+  
+
+
     $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
         'name'     => _l('LegalServices'), // The name if the item

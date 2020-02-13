@@ -31,8 +31,8 @@
     /* Old browsers */
     /* FF3.6-15 */
     /* Chrome10-25,Safari5.1-6 */
-    background: -webkit-gradient(linear, left top, right top, from(#415165), color-stop(26%, #51647c), color-stop(73%, #51647c), to(#1adefc));
-    background: linear-gradient(to right, #415165 0%, #51647c 26%, #51647c 73%, #1adefc 100%);
+    /* background: -webkit-gradient(linear, left top, right top, from(#415165), color-stop(26%, #51647c), color-stop(73%, #51647c), to(#1adefc)); */
+    /* background: linear-gradient(to right, #415165 0%, #51647c 26%, #51647c 73%, #1adefc 100%); */
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#415165', endColorstr='#4f5d7a', GradientType=1);
     /* IE6-9 */

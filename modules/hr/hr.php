@@ -18,7 +18,7 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
-hooks()->add_action('after_render_single_aside_menu', 'hr_menu_items'); 
+hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
 
 function hr_menu_items($item)

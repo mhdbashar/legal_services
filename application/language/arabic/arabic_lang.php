@@ -3126,3 +3126,4 @@ $lang['payment_sent_successfully'] = "تم ارسال ايصال استلام ا
 $lang['payment_sent_failed'] = "فشل في إرسال إيصال الدفع.";
 $lang['tags_update_replace_warning'] = "لا يتم تحديث بعض الكلمات الدلالية لأن الكلمة موجودة بالفعل";
 $lang['attach_statement'] = "ارفاق بيان العميل";
+$lang['clients_'] = "الموكلين";

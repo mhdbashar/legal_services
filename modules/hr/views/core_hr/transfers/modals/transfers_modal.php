@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>
@@ -42,7 +42,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="to_department" class="control-label"><?php echo _l('to_department') ?></label>
-                            <select required="required" class="form-control" id="department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
+                            <select required="required" required="required" class="form-control" id="department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
                                 
                             </select>     
                         </div>
@@ -58,7 +58,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="status" class="control-label"><?php echo _l('status') ?></label>
-                            <select class="form-control" id="status" name="status" placeholder="<?php echo _l('status') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="status" name="status" placeholder="<?php echo _l('status') ?>" aria-invalid="false">
                                 <option value="Pending">Pending</option>
                                 <option value="Accepted">Accepted</option>
                                 <option value="Rejected">Rejected</option>
@@ -93,7 +93,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -105,7 +105,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>

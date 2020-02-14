@@ -185,6 +185,11 @@ class Organization extends AdminController{
         die();
     }
 
+    public function get_departments_by_branch_id($department_id){
+        echo json_encode(['success'=>true,'data'=>$this->Sub_department_model->get_departments_by_branch_id($department_id)]);
+        die();
+    }
+
     public function json_sub_department($id){
         $data = $this->Sub_department_model->get($id);
         echo json_encode($data);

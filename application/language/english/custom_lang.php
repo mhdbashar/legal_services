@@ -1,5 +1,12 @@
 <?php
 
+$lang['promotions'] = "Promotions";
+$lang['promotion_title'] = "Promotion Title";
+$lang['new_promotion'] = "New Promotion";
+$lang['promotion_date'] = "Promotion Date";
+
+$lang['details'] = "Details";
+
 $lang['resignation_date'] = "Resignation Date";
 $lang['resignation_reason'] = "Resignation Reason";
 $lang['new_resignation'] = "New Resignation";

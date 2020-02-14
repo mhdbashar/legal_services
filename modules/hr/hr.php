@@ -18,7 +18,7 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
-hooks()->add_action('after_render_single_aside_menu', 'hr_menu_items'); 
+hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
 
 function hr_menu_items($item)
@@ -32,7 +32,7 @@ function hr_menu_items($item)
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li><a href="#" aria-expanded="false">'._l('staff').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
-                                    <li><a href="'.admin_url('staff').'">'._l('employees').'</a>
+                                    <li><a href="'.admin_url('staff').'">'._l('staff').'</a>
                                     </li>
                                     <li><a href="'.admin_url('hr/general/expired_documents').'">'._l('expired_documents').'</a>
                                     </li>

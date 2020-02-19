@@ -47,7 +47,7 @@
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
                                      <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                      <?php $selected = (isset($meta['city']) ? $meta['city'] : ''); ?>
-                                    <select id="city" name="city" class="form-control">
+                                    <select id="city" name="city" class="form-control selectpicker">
                                         <option selected disabled></option>
                                        <?php foreach ($data as $row): ?>
                                             <option value="<?php echo $row->$field_city; ?>" <?php echo $selected == $row->$field_city ? 'selected': '' ?>><?php echo $row->$field_city; ?></option>
@@ -83,7 +83,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control"
+                                    <select id="representative" name="representative" class="form-control selectpicker"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('representative', '');
@@ -107,7 +107,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <select class="form-control selectpicker" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('cat_modules','Dispute');
                                         $selected = (isset($meta['cat_id']) ? $meta['cat_id'] : '');
@@ -120,7 +120,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <select class="form-control selectpicker" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('childmycategory',$selected);
                                         $selected = (isset($meta['subcat_id']) ? $meta['subcat_id'] : '');
@@ -211,7 +211,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="projects_status"><?php echo _l('projects_status'); ?></label>
                                      <?php $selected = (isset($meta['projects_status']) ? $meta['projects_status'] : ''); ?>
-                                    <select id="projects_status" name="projects_status" class="form-control">
+                                    <select id="projects_status" name="projects_status" class="form-control selectpicker">
                                         <option selected disabled></option>
                                        <?php foreach ($projects_statuses as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $selected == $row->id ? 'selected': '' ?>><?php echo $row->status_name; ?></option>

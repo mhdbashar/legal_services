@@ -106,11 +106,33 @@
                 $('[name="id"]').val(data.id);
 
                 $('[name="sub_department_name"]').val(data.sub_department_name);
-                $("#a_department_id .department_id").remove();
-                $('#a_department_id').append($('<option>', {
-                    value: data.department.departmentid,
-                    text: data.department.name,
-                }));
+
+                $.get(admin_url + 'hr/organization/get_departments_by_branch_id/' + data.branch.branch_id, function(response) {
+                    if (response.success == true) {
+                        $('#a_department_id').empty();
+                        $('#a_department_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.department.departmentid == key)
+                                select = true;
+                            $('#a_department_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#a_department_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
+
+                
                 $('[name="department_id"]').val(data.department.departmentid);
                 $('[name="branch_id"]').val(data.branch.branch_id);
                 $('#a_department_id').selectpicker('refresh');

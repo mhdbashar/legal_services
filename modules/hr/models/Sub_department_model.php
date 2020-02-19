@@ -23,6 +23,22 @@ class Sub_department_model extends App_Model{
         return $data;
     }
 
+    public function get_departments_by_branch_id($branch_id){
+        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
+        $branches = $this->db->get('tblbranches_services')->result_array();
+        $data = [];
+        foreach ($branches as $branch) {
+            $staff_array = [];
+            $staff_array['key'] = $branch['rel_id'];
+
+            $this->db->where('departmentid', $branch['rel_id']);
+            $department = $this->db->get('departments')->row();
+            $staff_array['value'] = $department->name;
+            $data[] = $staff_array;
+        }
+        return $data;
+    }
+
     public function get($id=''){
         if(is_numeric($id)){
             $this->db->where('id' ,$id);

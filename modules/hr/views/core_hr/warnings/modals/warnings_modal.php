@@ -29,7 +29,7 @@
 
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('warning_type') ?></label>
-                            <select class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
                             <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
@@ -40,7 +40,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -52,7 +52,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_to" class="control-label"><?php echo _l('warning_to') ?></label>
-                            <select class="form-control" id="e_warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="e_warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>
@@ -69,7 +69,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_by" class="control-label"><?php echo _l('warning_by') ?></label>
-                            <select class="form-control" id="e_warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="e_warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>
@@ -119,7 +119,7 @@
 
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('warning_type') ?></label>
-                            <select class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
                             <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
@@ -130,7 +130,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -142,7 +142,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_to" class="control-label"><?php echo _l('warning_to') ?></label>
-                            <select class="form-control" id="warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>
@@ -159,7 +159,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_by" class="control-label"><?php echo _l('warning_by') ?></label>
-                            <select class="form-control" id="warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                             </select>     
                         </div>

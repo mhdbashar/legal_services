@@ -3578,3 +3578,4 @@ $lang['link_for_page'] = "Here the link for the page where you want the dialog b
 
 $lang['modify_module'] = "To modify the data of this service, go to the module page";
 $lang['clients_'] = "Clients";
+$lang['invoice_disputes'] = "Invoice Disputes";

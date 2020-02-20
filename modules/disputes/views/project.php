@@ -23,10 +23,10 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','project_name',$value); ?>
-                        <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?>
-                        <?php echo render_input('address1','project_address1',$value); ?>
-                        <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?>
-                        <?php echo render_input('address2','project_address2',$value); ?>
+                        <!-- <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?> -->
+                        <!-- <?php echo render_input('address1','project_address1',$value); ?> -->
+                        <!-- <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?> -->
+                        <!-- <?php echo render_input('address2','project_address2',$value); ?> -->
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
@@ -47,7 +47,7 @@
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
                                      <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                      <?php $selected = (isset($meta['city']) ? $meta['city'] : ''); ?>
-                                    <select id="city" name="city" class="form-control selectpicker">
+                                    <select id="city" name="city" class="form-control">
                                         <option selected disabled></option>
                                        <?php foreach ($data as $row): ?>
                                             <option value="<?php echo $row->$field_city; ?>" <?php echo $selected == $row->$field_city ? 'selected': '' ?>><?php echo $row->$field_city; ?></option>
@@ -97,8 +97,8 @@
                             </div>
                         </div>
 
-                        <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?>
-                        <?php echo render_input('addressed_to','project_addressed_to',$value); ?>
+                        <!-- <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
+                        <!-- <?php echo render_input('addressed_to','project_addressed_to',$value); ?> -->
 
 
 

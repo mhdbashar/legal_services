@@ -97,18 +97,17 @@
                            $departmentid = '';
                            $name = '';
 
-                           if ($this->Extra_info_model->get($member->staffid)){
-                              $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+                           // if ($this->Extra_info_model->get($member->staffid)){
+                           //    $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
 
-                              $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
-                           }
+                           //    $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
+                           // }
                           // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
                         <div class="row">
                            <div class="col-md-12">
                               <div class="form-group">
                                   <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
                                   <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
-                                      <option value="<?php echo $departmentid ?>"><?php echo $name ?></option>
                                   </select>     
                               </div>
                            </div>
@@ -122,7 +121,7 @@
                      		<?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
                      	</div>
                      </div>
-                     <?php 
+                     <!-- <?php 
                         $sub_department_name = '';
                         $designation_name = '';
                         if(is_numeric($extra_info->sub_department)){
@@ -133,15 +132,13 @@
                            $designation = $this->Designation_model->get_designation($extra_info->designation);
                            $designation_name = $designation->designation_name;
                         }
-                     ?>
+                     ?> -->
                      <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                               
                                 <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
                                 <select required="required" class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
-
-                                    <option value="<?php echo $extra_info->sub_department ?>"><?php echo $sub_department_name ?></option>
                                 </select>     
                             </div>  
                         </div>
@@ -149,7 +146,6 @@
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
                                 <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                                    <option value="<?php echo $extra_info->designation ?>"><?php echo $designation_name ?></option>
                                 </select>     
                             </div>  
                         </div>

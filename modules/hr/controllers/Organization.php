@@ -145,6 +145,10 @@ class Organization extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function get_staff_department(){
+        var_dump($this->Extra_info_model->get_staff_department(1));
+    }
+
     public function delete_designation($id)
     {
         if (!$id) {

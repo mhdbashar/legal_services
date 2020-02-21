@@ -14,16 +14,16 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('title','Title', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_input('title','title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('num_days','Number of Days', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('num_days','num_days', '', 'number', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('num_hours','Number of Hours', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('num_hours','num_hours', '', 'number', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('rate','Rate', '', 'number', ['required' => 'required']); ?>
+                        <?php echo render_input('rate','rate', '', 'number', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>

@@ -15,9 +15,9 @@
                         <?php render_datatable(
                             array(
                                 _l('id'),
-                                _l('property_title'),
+                                _l('title'),
                                 _l('country'),
-                                _l('Phone'),
+                                _l('phone'),
                             ),'custom-fields'); ?>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['created'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#make_payment', 'data-id' => $aRow['payment_id'], 'onclick' => 'payment(' . $aRow['payment_id'] . ')']);
+    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#show_payment', 'data-id' => $aRow['payment_id'], 'onclick' => 'payment(' . $aRow['payment_id'] . ')']);
     $row[]   = $options;
     
 

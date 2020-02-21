@@ -36,6 +36,12 @@
                 <li class="customer_tab_contacts">
                   <a data-group='warning' href="?group=warning"><?php echo _l('warnings') ?></a>
                 </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='arrangement' href="?group=arrangement"><?php echo _l('arrangement') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='travel_mode' href="?group=travel_mode"><?php echo _l('travel_mode') ?></a>
+                </li>
 			      	</ul>
             </div>
 		   	<div class="col-md-9">

@@ -1,5 +1,40 @@
 <?php
 
+$lang['fullname'] = 'الاسم الكامل';
+$lang['official'] = 'الرسمية';
+
+$lang['arrangement'] = "الترتيب";
+$lang['add_arrangement_type'] = "اضافة ترتيب جديد";
+$lang['travel_mode'] = "وضع السفر";
+$lang['add_travel_mode_type'] = "اضافة وضع السفر جديد";
+$lang['staff'] = "الموظف";
+$lang['phone'] = "الهاتف";
+$lang['constants'] = "الثوابت";
+$lang['hr_status'] = 'الحالة';
+$lang['payslip_type'] = "طريقة الدفع";
+$lang['new_travel'] = "هجرة جديدة";
+
+$lang['total_allowance'] = "اجمالي البدلات";
+$lang['total_commissions'] = "اجمالي العمولات";
+$lang['total_loan'] = "اجمالي القروض";
+$lang['total_overtime'] = "اجمالي الوقت الاضافي";
+$lang['other_payment'] = "اجمالي المدفوعات الأخرى";
+$lang['net_salary'] = "الراتب الأساسي";
+$lang['payment_amount'] = "الاجمالي";
+$lang['make_payment'] = "قم بالدفع";
+
+$lang['arrangement_type'] = "نوع الترتيب";
+$lang['travel_mode_type'] = "وضع السفر";
+$lang['expected_budget'] = "الميزانية المتوقعة";
+$lang['travels'] = "الهجرات";
+$lang['actual_budget'] = "الميزانية الفعلية";
+$lang['purpose_of_visit'] = "غرض الزيارة";
+$lang['place_of_visit'] = "مكان الزيارة";
+
+
+$lang['is_primary'] = "هل هو أساسي";
+$lang['is_dependent'] = "هل هو معتمد";
+
 $lang['details'] = "تفاصيل الموظف";
 $lang['promotions'] = "الترقيات الوظيفية";
 $lang['promotion_title'] = "عنوان الترقية";
@@ -529,3 +564,4 @@ $lang['desc_en'] = "الشرح بالانكليزي";
 $lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة المراد ظهور مربع الحوار بها";
 
 $lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";
+$lang['branch'] = "اسم الفرع";

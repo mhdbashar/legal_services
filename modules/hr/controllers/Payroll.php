@@ -125,7 +125,7 @@ class Payroll extends AdminController{
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_payment_history_table');
         }
-        $data['title'] = _l('official_documents');
+        $data['title'] = _l('payment_history');
         $this->load->view('payroll/payment_history', $data);
 	}
 	public function payment_json($id){

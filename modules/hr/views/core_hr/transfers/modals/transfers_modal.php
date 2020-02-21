@@ -37,7 +37,7 @@
                         <?php echo render_date_input('transfer_date','transfer_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="status" class="control-label"><?php echo _l('status') ?></label>
+                            <label for="status" class="control-label"><?php echo _l('hr_status') ?></label>
                             <select required="required" class="form-control" id="status" name="status" placeholder="<?php echo _l('status') ?>" aria-invalid="false">
                                 <option value="Pending">Pending</option>
                                 <option value="Accepted">Accepted</option>
@@ -114,7 +114,7 @@
                         <?php echo render_date_input('transfer_date','transfer_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">

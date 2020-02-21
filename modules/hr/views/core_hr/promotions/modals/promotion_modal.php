@@ -47,7 +47,7 @@
                         <?php echo render_date_input('promotion_date','promotion_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                         <?php echo render_date_input('promotion_date','promotion_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>

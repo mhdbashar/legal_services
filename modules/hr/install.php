@@ -345,6 +345,23 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_travels')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_travels` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `start_date` date NOT NULL,
+    `end_date` date NOT NULL,
+    `expected_budget` varchar(200) NOT NULL,
+    `actual_budget` varchar(200) NOT NULL,
+    `purpose` varchar(200) NOT NULL,
+    `place` varchar(200) NOT NULL,
+    `description` text NOT NULL,
+    `travel_mode_type` varchar(200) NOT NULL,
+    `arrangement_type` varchar(200) NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_promotions')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_promotions` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

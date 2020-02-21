@@ -64,7 +64,7 @@
                         <?php echo render_date_input('notice_date','notice_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <label for="cat_id" class="control-label"><?php echo _l('attachment') ?></label>
@@ -146,7 +146,7 @@
                         <?php echo render_date_input('notice_date','notice_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <label for="cat_id" class="control-label"><?php echo _l('attachment') ?></label>

@@ -16,6 +16,7 @@ class Core_hr extends AdminController{
         $this->load->model('Resignations_model');
         $this->load->model('Promotion_model');
         $this->load->model('Designation_model');
+        $this->load->model('Travel_model');
 	}
     // awards
 
@@ -168,6 +169,85 @@ class Core_hr extends AdminController{
             access_denied();
         }
         $response = $this->Complaint_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // travels
+
+    public function travels(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_travel_table');
+        }
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $data['staffes'] = $this->Staff_model->get();
+        $data['title'] = _l('travels');
+        $this->load->view('core_hr/travels/manage', $data);
+    }
+
+    public function json_travel($id){
+        $branch_id = '';
+        if($this->Branches_model->get('travels', $id))
+            $branch_id = $this->Branches_model->get_branch('travels', $id);
+        $data = $this->Travel_model->get($id);
+        $data->branch_id = $branch_id;
+        echo json_encode($data);
+    }
+    public function update_travel(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+        $id = $this->input->post('id');
+        $success = $this->Travel_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+
+            $this->Branches_model->update_branch('travels', $id, $branch_id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_travel(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        unset($data['branch_id']);
+
+        $success = $this->Travel_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+
+
+        if(is_numeric($branch_id)){
+            $branch_data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'travels', 
+                'rel_id' => $success
+            ];
+            $this->Branches_model->set_branch($branch_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_travel($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Travel_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted_successfully'));
         } else {

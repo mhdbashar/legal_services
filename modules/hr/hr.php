@@ -39,6 +39,22 @@ function hr_menu_items($item)
                                 </ul>
                         </li>
 
+                        <li><a href="#" aria-expanded="false">'._l('settings').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    <li><a href="'.admin_url('hr/setting').'">'._l('constants').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
+                        <li><a href="#" aria-expanded="false">'._l('payroll').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    <li><a href="'.admin_url('hr/payroll').'">'._l('payroll').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/payroll/payment_history').'">'._l('payment_history').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
                         <li><a href="#" aria-expanded="false">'._l('organization').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                 <li><a href="'.admin_url('branches').'">'._l('branches').'</a>
@@ -69,6 +85,8 @@ function hr_menu_items($item)
                                 <li><a href="'.admin_url('hr/core_hr/resignations').'">'._l('resignations').'</a>
                                 </li>
                                 <li><a href="'.admin_url('hr/core_hr/promotions').'">'._l('promotions').'</a>
+                                </li>
+                                <li><a href="'.admin_url('hr/core_hr/travels').'">'._l('travels').'</a>
                                 </li>
                                 </ul>
                         </li>

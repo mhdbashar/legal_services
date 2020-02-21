@@ -1,5 +1,40 @@
 <?php
 
+$lang['arrangement'] = "Arrangement";
+$lang['add_arrangement_type'] = "Add arrangement type";
+$lang['travel_mode'] = "Travel mode";
+$lang['add_travel_mode_type'] = "Add travel mode type";
+$lang['staff'] = "Staff";
+$lang['phone'] = "Phone";
+$lang['constants'] = "Constants";
+$lang['hr_status'] = 'Status';
+$lang['fullname'] = 'Full Name';
+$lang['official'] = 'Official';
+
+$lang['payslip_type'] = "Payslips Type";
+$lang['constants'] = "Constants";
+$lang['new_travel'] = "New travel";
+
+$lang['is_primary'] = "Is Primary";
+$lang['is_dependent'] = "Is Dependent";
+$lang['travels'] = "Travels";
+$lang['new_travel'] = "New Travel";
+
+$lang['total_allowance'] = "Total Allowance";
+$lang['total_commissions'] = "Total commissions";
+$lang['total_loan'] = "Total loan";
+$lang['total_overtime'] = "Total overtime";
+$lang['other_payment'] = "Total payment";
+$lang['net_salary'] = "Total salary";
+$lang['payment_amount'] = "Total amount";
+$lang['make_payment'] = "make payment";
+$lang['arrangement_type'] = "Arrangement type";
+$lang['travel_mode_type'] = "Travel mode";
+$lang['expected_budget'] = "Expected budget";
+$lang['actual_budget'] = "Actual budget";
+$lang['purpose_of_visit'] = "Purpose of visit";
+$lang['place_of_visit'] = "Place of visit";
+
 $lang['promotions'] = "Promotions";
 $lang['promotion_title'] = "Promotion Title";
 $lang['new_promotion'] = "New Promotion";

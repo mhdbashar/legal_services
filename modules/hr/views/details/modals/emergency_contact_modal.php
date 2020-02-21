@@ -50,10 +50,10 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-6">
-                                <input id="is_primary" value="1" class="" type="checkbox" name="is_primary"> is_primary
+                                <input id="is_primary" value="1" class="" type="checkbox" name="is_primary"> <?php echo _l('is_primary') ?>
                             </div>
                             <div class="col-md-6">
-                                <input id="is_dependent" value="1" class="" type="checkbox" name="is_dependent"> is_dependent
+                                <input id="is_dependent" value="1" class="" type="checkbox" name="is_dependent"> <?php echo _l('is_dependent') ?>
                             </div>
                         </div>
                     </div>
@@ -156,10 +156,10 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-6">
-                                <input id="is_primary" value="1" class="" type="checkbox" name="is_primary"> is_primary
+                                <input id="is_primary" value="1" class="" type="checkbox" name="is_primary"> <?php echo _l('is_primary') ?>
                             </div>
                             <div class="col-md-6">
-                                <input id="is_dependent" value="1" class="" type="checkbox" name="is_dependent"> is_dependent
+                                <input id="is_dependent" value="1" class="" type="checkbox" name="is_dependent"> <?php echo _l('is_dependent') ?>
                             </div>
                         </div>
                     </div>

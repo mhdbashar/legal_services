@@ -39,9 +39,9 @@ class Designation_model extends App_Model{
         $this->db->where(['department_id' => $department_id]);
         $rows = $this->db->get($this->table_name)->result_array();
         foreach ($rows as $row) {
-            if($this->Extra_info_model->get($staff_id)->designation == $row['id']){
-                continue;
-            }
+            // if($this->Extra_info_model->get($staff_id)->designation == $row['id']){
+            //     continue;
+            // }
             $data[] = ['key' => $row['id'], 'value' => $row['designation_name']];
         }
         return $data;

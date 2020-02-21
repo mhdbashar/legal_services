@@ -82,6 +82,94 @@
     }, 'json');
 });
 
+$(document).ready(function(){
+  var branch_id = <?php echo $branch ?>;
+  <?php  
+    $departmentid = 0;
+    if ($this->Extra_info_model->get($member->staffid) and $this->Extra_info_model->get_staff_department($member->staffid))
+      $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+  ?>
+  var department_id = <?php echo $departmentid ?>;
+  console.log(department_id);
+  var sub_departmant = <?php echo $extra_info->sub_department ?>;
+  var designation = <?php echo $extra_info->designation ?>;
+  console.log(<?php echo $extra_info->sub_department ?>);
+  $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
+      if (response.success == true) {
+          $('#department_id').empty();
+          $('#department_id').append($('<option>', {
+              value: '',
+              text: ''
+          }));
+          for(let i = 0; i < response.data.length; i++) {
+              let key = response.data[i].key;
+              let value = response.data[i].value;
+              let select = false;
+              if(key == department_id)
+                select = true;
+              $('#department_id').append($('<option>', {
+                  value: key,
+                  text: value,
+                  selected: select
+              }));
+              $('department_id').selectpicker('refresh');
+          }
+      } else {
+          alert_float('danger', response.message);
+      }
+  }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#sub_department_id').empty();
+            $('#sub_department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == sub_departmant)
+                  select = true;
+                $('#sub_department_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#sub_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_designations/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == designation)
+                  select = true;
+                $('#designation_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
   function check(sel)
   {
     console.log('#designation_'+sel.value);

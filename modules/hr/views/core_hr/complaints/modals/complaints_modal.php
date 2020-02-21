@@ -40,7 +40,7 @@
                         <?php echo render_input('complaint_title','complaint_title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -106,7 +106,7 @@
                         <?php echo render_input('complaint_title','complaint_title', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">

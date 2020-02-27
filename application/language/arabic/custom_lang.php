@@ -1,5 +1,7 @@
 <?php
 
+$lang['timesheet'] = "المواعيد";
+$lang['holiday'] = "العطل";
 $lang['fullname'] = 'الاسم الكامل';
 $lang['official'] = 'الرسمية';
 
@@ -525,7 +527,7 @@ $lang['incoming_file'] = 'ملف المعاملة الواردة';
 
 $lang['outgoing_file'] = 'ملف المعاملة الصادرة';
 
-$lang['hr'] = "الموارد البشرية";
+$lang['hr_system'] = "الموارد البشرية";
 $lang['add_incoming_side'] = 'إضافة جهة واردة';
 $lang['incoming_side'] = 'الجهة الواردة';
 $lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';

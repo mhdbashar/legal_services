@@ -9,10 +9,10 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 $custom_fields = get_table_custom_fields($service->slug);
 
 $aColumns = [
-    '1',
+    'file_number_court',
     db_prefix() .'my_cases.id as id',
     'name',
-    'clientid',
+    db_prefix().'clients.company as company',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'my_cases.id and rel_type="'.$service->slug.'" ORDER by tag_order ASC) as tags',
     'start_date',
     'deadline',
@@ -56,7 +56,7 @@ if (count($filter) > 0) {
 
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_cases';
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'my_cases.clientid']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 $i = 1;
@@ -71,8 +71,8 @@ foreach ($rResult as $aRow) {
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
     $_data .= '</div>';
     $row[] = $_data;
-    $customers = $model->GetClientsCases($aRow['id']);
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $customers->company . '</a>';
+    //$customers = $model->GetClientsCases($aRow['id']);
+    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
     $row[] = _d($aRow['start_date']);
     $row[] = _d($aRow['deadline']);

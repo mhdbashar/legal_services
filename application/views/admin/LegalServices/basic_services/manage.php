@@ -35,7 +35,7 @@
                                     // Only show this filter if user has permission for projects view otherwise wont need this becuase by default this filter will be applied
                                     if(has_permission('projects','','view')){ ?>
                                         <li>
-                                            <a href="#" data-cview="my_projects" onclick="dt_custom_view('my_projects','<?php echo $class; ?>','my_projects'); return false;">
+                                            <a href="#" data-cview="my_projects" onclick="dt_custom_view('','<?php echo $class; ?>',''); return false;">
                                                 <?php echo _l('home_my_projects'); ?>
                                             </a>
                                         </li>
@@ -149,7 +149,7 @@
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>');
+        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
     });
 </script>
 </body>

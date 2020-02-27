@@ -93,6 +93,7 @@ if (count($custom_fields) > 4) {
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'clientid',
     '(SELECT GROUP_CONCAT(staff_id SEPARATOR ",") FROM ' . db_prefix() . 'project_members WHERE project_id=' . db_prefix() . 'projects.id ORDER BY staff_id) as members_ids',
+    'project_type'
 ]);
 
 $output  = $result['output'];
@@ -122,7 +123,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        if($project_type == '1')
+        if($aRow['project_type'] == '1')
             $name .= ' | <a href="' . admin_url('disputes/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
         else
             $name .= ' | <a href="' . admin_url('projects/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';

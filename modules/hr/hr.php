@@ -27,7 +27,7 @@ function hr_menu_items($item)
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li>';
-        echo '<a href="#" aria-expanded="false"><i class="fa fa-balance-scale menu-icon-ar"></i> '._l('hr').'<span class="fa arrow-ar"></span></a>';
+        echo '<a href="#" aria-expanded="false"><i class="fa fa-balance-scale menu-icon-ar"></i> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
 
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li><a href="#" aria-expanded="false">'._l('staff').'<span class="fa arrow-ar"></span></a>
@@ -51,6 +51,13 @@ function hr_menu_items($item)
                                     <li><a href="'.admin_url('hr/payroll').'">'._l('payroll').'</a>
                                     </li>
                                     <li><a href="'.admin_url('hr/payroll/payment_history').'">'._l('payment_history').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
+                        <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    <li><a href="'.admin_url('hr/timesheet/holidays').'">'._l('holiday').'</a>
                                     </li>
                                 </ul>
                         </li>

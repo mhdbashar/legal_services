@@ -42,7 +42,7 @@
             </ul>
          </div>
       </div>
-      <div class="tab-content">
+      <div class="tab-content mtop15">
          <?php hooks()->do_action('after_custom_profile_tab_content',isset($client) ? $client : false); ?>
          <?php if($customer_custom_fields) { ?>
          <div role="tabpanel" class="tab-pane <?php if($this->input->get('tab') == 'custom_fields'){echo ' active';}; ?>" id="custom_fields">
@@ -281,4 +281,3 @@
 <?php } ?>
 <?php } ?>
 <?php $this->load->view('admin/clients/client_group'); ?>
-<?php $this->load->view('admin/clients/client_company_group'); ?>

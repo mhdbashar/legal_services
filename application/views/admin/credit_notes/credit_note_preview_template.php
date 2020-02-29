@@ -66,7 +66,7 @@
                </ul>
             </div>
          </div>
-         <div class="row">
+         <div class="row mtop10">
             <div class="col-md-3">
                <?php echo format_credit_note_status($credit_note->status);  ?>
             </div>

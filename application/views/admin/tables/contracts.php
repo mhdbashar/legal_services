@@ -91,7 +91,7 @@ if (count($filter) > 0) {
 }
 
 if ($clientid != '') {
-    array_push($where, 'AND client=' . $clientid);
+    array_push($where, 'AND client=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('contracts', '', 'view')) {
@@ -105,7 +105,7 @@ if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'contracts.id', 'trash', 'client', 'hash']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'contracts.id', 'trash', 'client', 'hash', 'marked_as_signed']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -145,7 +145,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['dateend']);
 
-    if (!empty($aRow['signature'])) {
+    if ($aRow['marked_as_signed'] == 1) {
+        $row[] = '<span class="text-success">' . _l('marked_as_signed') . '</span>';
+    } elseif (!empty($aRow['signature'])) {
         $row[] = '<span class="text-success">' . _l('is_signed') . '</span>';
     } else {
         $row[] = '<span class="text-muted">' . _l('is_not_signed') . '</span>';
@@ -155,7 +157,6 @@ foreach ($rResult as $aRow) {
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
-
 
     if (!empty($aRow['dateend'])) {
         $_date_end = date('Y-m-d', strtotime($aRow['dateend']));

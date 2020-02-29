@@ -8,9 +8,6 @@ class Tasks extends AdminController
     {
         parent::__construct();
         $this->load->model('projects_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -43,35 +40,6 @@ class Tasks extends AdminController
         $this->load->view('admin/tasks/manage', $data);
     }
 
-    public function list_tasks_for_LegalServices($id = '')
-    {
-        close_setup_menu();
-        // If passed from url
-        $data['custom_view'] = $this->input->get('custom_view') ? $this->input->get('custom_view') : '';
-        $data['taskid']      = $id;
-        $data['rel_type']    = $this->input->get('rel_type');
-
-        if ($this->input->get('kanban')) {
-            $this->switch_kanban(0, true);
-        }
-
-        $data['switch_kanban'] = false;
-        $data['bodyclass']     = 'tasks-page';
-
-        if ($this->session->userdata('tasks_kanban_view') == 'true') {
-            $data['switch_kanban'] = true;
-            $data['bodyclass']     = 'tasks-page kan-ban-body';
-        }
-
-        $data['title'] = _l('tasks');
-        $this->load->view('admin/tasks/my_manage', $data);
-    }
-
-    public function kanban_for_LegalServices($rel_type)
-    {
-        echo $this->load->view('admin/tasks/my_kan_ban', ['rel_type' => $rel_type], true);
-    }
-
     public function table()
     {
         $this->app->get_table_data('tasks');
@@ -93,7 +61,10 @@ class Tasks extends AdminController
             //   $this->db->where('id NOT IN (SELECT task_id FROM '.db_prefix().'taskstimers WHERE staff_id = ' . get_staff_user_id() . ' AND end_time IS NULL)');
             $this->db->where('status != ', 5);
             $this->db->where('billed', 0);
-            $this->db->where('(name LIKE "%' . $q . '%" OR ' . tasks_rel_name_select_query() . ' LIKE "%' . $q . '%")');
+            $this->db->group_start();
+            $this->db->like('name', $q);
+            $this->db->or_like(tasks_rel_name_select_query(), $q);
+            $this->db->group_end();
             echo json_encode($this->db->get()->result_array());
         }
     }
@@ -167,11 +138,10 @@ class Tasks extends AdminController
         if (has_permission('tasks', '', 'edit')) {
             $this->db->where('id', $id);
             $this->db->update(db_prefix() . 'tasks', [
-                'description' => $this->input->post('description', false),
+                'description' => html_purify($this->input->post('description', false)),
             ]);
         }
     }
-
 
     public function detailed_overview()
     {
@@ -214,7 +184,7 @@ class Tasks extends AdminController
             $selectLoggedTime = str_replace('tmp-task-id', db_prefix() . 'tasks.id', $selectLoggedTime);
 
             if (is_numeric($staff_id)) {
-                $selectLoggedTime .= ' AND staff_id=' . $staff_id;
+                $selectLoggedTime .= ' AND staff_id=' . $this->db->escape_str($staff_id);
                 $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
             } else {
                 $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
@@ -277,10 +247,8 @@ class Tasks extends AdminController
                 $this->db->where('status', $status);
             }
 
-            $this->db->where('is_session', 0);
             $this->db->order_by($fetch_month_from, 'ASC');
             array_push($overview, $m);
-
             $overview[$m] = $this->db->get(db_prefix() . 'tasks')->result_array();
         }
 
@@ -303,26 +271,6 @@ class Tasks extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('tasks_relations', [
-                'rel_id'   => $rel_id,
-                'rel_type' => $rel_type,
-            ]);
-        }
-    }
-
-    public function init_previous_sessions_log($rel_id, $rel_type)
-    {
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('previous_sessions_log', [
-                'rel_id'   => $rel_id,
-                'rel_type' => $rel_type,
-            ]);
-        }
-    }
-
-    public function init_waiting_sessions_log($rel_id, $rel_type)
-    {
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('waiting_sessions_log', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
             ]);
@@ -353,7 +301,7 @@ class Tasks extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
+            $data['description'] = html_purify($this->input->post('description', false));
             if ($id == '') {
                 if (!has_permission('tasks', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
@@ -417,152 +365,27 @@ class Tasks extends AdminController
             }
             $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
         }
+
         $data['project_end_date_attrs'] = [];
-        if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id')) {
-            $project = $this->projects_model->get($this->input->get('rel_id'));
+        if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id') || ($id !== '' && $data['task']->rel_type == 'project')) {
+            $project = $this->projects_model->get($id === '' ? $this->input->get('rel_id') : $data['task']->rel_id);
+
             if ($project->deadline) {
                 $data['project_end_date_attrs'] = [
                     'data-date-end-date' => $project->deadline,
                 ];
             }
         }
+
         $data['id']    = $id;
-        $data['legal_services'] = $this->legal->get_all_services();
         $data['title'] = $title;
         $this->load->view('admin/tasks/task', $data);
-    }
-
-    public function services_sessions($id = '')
-    {
-        if (!has_permission('tasks', '', 'edit') && !has_permission('tasks', '', 'create')) {
-            ajax_access_denied();
-        }
-
-        $data = [];
-        // FOr new task add directly from the projects milestones
-        if ($this->input->get('milestone_id')) {
-            $this->db->where('id', $this->input->get('milestone_id'));
-            $milestone = $this->db->get(db_prefix() . 'milestones')->row();
-            if ($milestone) {
-                $data['_milestone_selected_data'] = [
-                    'id'       => $milestone->id,
-                    'due_date' => _d($milestone->due_date),
-                ];
-            }
-        }
-        if ($this->input->get('start_date')) {
-            $data['start_date'] = $this->input->get('start_date');
-        }
-        if ($this->input->post()) {
-            $data                = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
-            if ($id == '') {
-                if (!has_permission('tasks', '', 'create')) {
-                    header('HTTP/1.0 400 Bad error');
-                    echo json_encode([
-                        'success' => false,
-                        'message' => _l('access_denied'),
-                    ]);
-                    die;
-                }
-                $id      = $this->tasks_model->add($data);
-                $_id     = false;
-                $success = false;
-                $message = '';
-                if ($id) {
-                    $success       = true;
-                    $_id           = $id;
-                    $message       = _l('added_successfully', _l('session'));
-                    $uploadedFiles = handle_task_attachments_array($id);
-                    if ($uploadedFiles && is_array($uploadedFiles)) {
-                        foreach ($uploadedFiles as $file) {
-                            $this->misc_model->add_attachment_to_database($id, 'task', [$file]);
-                        }
-                    }
-                }
-                echo json_encode([
-                    'success' => $success,
-                    'id'      => $_id,
-                    'message' => $message,
-                ]);
-            } else {
-                if (!has_permission('tasks', '', 'edit')) {
-                    header('HTTP/1.0 400 Bad error');
-                    echo json_encode([
-                        'success' => false,
-                        'message' => _l('access_denied'),
-                    ]);
-                    die;
-                }
-                $data['is_session'] = 1;
-                $success = $this->tasks_model->update($data, $id);
-                $message = '';
-                if ($success) {
-                    $message = _l('updated_successfully', _l('task'));
-                }
-                echo json_encode([
-                    'success' => $success,
-                    'message' => $message,
-                    'id'      => $id,
-                ]);
-            }
-            die;
-        }
-
-        $data['milestones']         = [];
-        $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
-        if ($id == '') {
-            $title = _l('add_new_session');
-        } else {
-            $data['task'] = $this->tasks_model->get_with_session_info($id);
-            if ($data['task']->rel_type == 'project') {
-                $data['milestones'] = $this->projects_model->get_milestones($data['task']->rel_id);
-            }
-            $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
-        }
-        $data['project_end_date_attrs'] = [];
-        if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id')) {
-            $project = $this->projects_model->get($this->input->get('rel_id'));
-            if ($project->deadline) {
-                $data['project_end_date_attrs'] = [
-                    'data-date-end-date' => $project->deadline,
-                ];
-            }
-        }
-        $data['id']             = $id;
-        $data['legal_services'] = $this->legal->get_all_services();
-        $data['judges']         = $this->service_sessions->get_judges();
-        $data['courts']         = $this->service_sessions->get_court();
-        $data['title']          = $title;
-        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
     }
 
     public function copy()
     {
         if (has_permission('tasks', '', 'create')) {
             $new_task_id = $this->tasks_model->copy($this->input->post());
-            $response    = [
-                'new_task_id' => '',
-                'alert_type'  => 'warning',
-                'message'     => _l('failed_to_copy_task'),
-                'success'     => false,
-            ];
-            if ($new_task_id) {
-                $response['message']     = _l('task_copied_successfully');
-                $response['new_task_id'] = $new_task_id;
-                $response['success']     = true;
-                $response['alert_type']  = 'success';
-            }
-            echo json_encode($response);
-        }
-    }
-
-    public function copy_session()
-    {
-        if (has_permission('tasks', '', 'create')) {
-            $data = $this->input->post();
-            $data['is_session'] = 1;
-            $new_task_id = $this->tasks_model->copy($data);
             $response    = [
                 'new_task_id' => '',
                 'alert_type'  => 'warning',
@@ -627,42 +450,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function get_task_data_with_session($taskid, $return = false)
-    {
-        $tasks_where = [];
-
-        if (!has_permission('tasks', '', 'view')) {
-            $tasks_where = get_tasks_where_string(false);
-        }
-
-        $task = $this->tasks_model->get_with_session_info($taskid, $tasks_where);
-
-        if (!$task) {
-            header('HTTP/1.0 404 Not Found');
-            echo 'Session not found';
-            die();
-        }
-
-        $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
-        $data['task']               = $task;
-        $data['id']                 = $task->id;
-        $data['staff']              = $this->staff_model->get('', ['active' => 1]);
-        $data['reminders']          = $this->tasks_model->get_reminders($taskid);
-
-        $data['staff_reminders'] = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
-
-        $data['project_deadline'] = null;
-        if ($task->rel_type == 'project') {
-            $data['project_deadline'] = get_project_deadline($task->rel_id);
-        }
-
-        if ($return == false) {
-            $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data);
-        } else {
-            return $this->load->view('admin/LegalServices/services_sessions/view_session_template', $data, true);
-        }
-    }
-
     public function add_reminder($task_id)
     {
         $message    = '';
@@ -681,24 +468,6 @@ class Tasks extends AdminController
         ]);
     }
 
-    public function add_reminder_session($task_id)
-    {
-        $message    = '';
-        $alert_type = 'warning';
-        if ($this->input->post()) {
-            $success = $this->misc_model->add_reminder($this->input->post(), $task_id);
-            if ($success) {
-                $alert_type = 'success';
-                $message    = _l('reminder_added_successfully');
-            }
-        }
-        echo json_encode([
-            'taskHtml'   => $this->get_task_data_with_session($task_id, true),
-            'alert_type' => $alert_type,
-            'message'    => $message,
-        ]);
-    }
-
     public function edit_reminder($id)
     {
         $reminder = $this->misc_model->get_reminders($id);
@@ -709,19 +478,6 @@ class Tasks extends AdminController
                     'alert_type' => 'success',
                     'message'    => ($success ? _l('updated_successfully', _l('reminder')) : ''),
                 ]);
-        }
-    }
-
-    public function edit_reminder_session($id)
-    {
-        $reminder = $this->misc_model->get_reminders($id);
-        if ($reminder && ($reminder->creator == get_staff_user_id() || is_admin()) && $reminder->isnotified == 0) {
-            $success = $this->misc_model->edit_reminder($this->input->post(), $id);
-            echo json_encode([
-                'taskHtml'   => $this->get_task_data_with_session($reminder->rel_id, true),
-                'alert_type' => 'success',
-                'message'    => ($success ? _l('updated_successfully', _l('reminder')) : ''),
-            ]);
         }
     }
 
@@ -736,22 +492,6 @@ class Tasks extends AdminController
         }
         echo json_encode([
             'taskHtml'   => $this->get_task_data($rel_id, true),
-            'alert_type' => $alert_type,
-            'message'    => $message,
-        ]);
-    }
-
-    public function delete_reminder_session($rel_id, $id)
-    {
-        $success    = $this->misc_model->delete_reminder($id);
-        $alert_type = 'warning';
-        $message    = _l('reminder_failed_to_delete');
-        if ($success) {
-            $alert_type = 'success';
-            $message    = _l('reminder_deleted');
-        }
-        echo json_encode([
-            'taskHtml'   => $this->get_task_data_with_session($rel_id, true),
             'alert_type' => $alert_type,
             'message'    => $message,
         ]);
@@ -881,21 +621,6 @@ class Tasks extends AdminController
         ]);
     }
 
-    public function make_session_public($task_id)
-    {
-        if (!has_permission('tasks', '', 'edit')) {
-            json_encode([
-                'success' => false,
-            ]);
-            die;
-        }
-        echo json_encode([
-            'success'  => $this->tasks_model->make_public($task_id),
-            'taskHtml' => $this->get_task_data_with_session($task_id, true),
-        ]);
-    }
-
-
     public function add_external_attachment()
     {
         if ($this->input->post()) {
@@ -907,7 +632,7 @@ class Tasks extends AdminController
     public function add_task_comment()
     {
         $data            = $this->input->post();
-        $data['content'] = $this->input->post('content', false);
+        $data['content'] = html_purify($this->input->post('content', false));
         if ($this->input->post('no_editor')) {
             $data['content'] = nl2br($this->input->post('content'));
         }
@@ -925,7 +650,7 @@ class Tasks extends AdminController
 
                     if (count($commentAttachments) > 0) {
                         $this->db->query('UPDATE ' . db_prefix() . "task_comments SET content = CONCAT(content, '[task_attachment]')
-                            WHERE id = " . $comment_id);
+                            WHERE id = " . $this->db->escape_str($comment_id));
                     }
                 }
             }
@@ -936,44 +661,12 @@ class Tasks extends AdminController
         ]);
     }
 
-    public function add_session_comment()
-    {
-        $data            = $this->input->post();
-        $data['content'] = $this->input->post('content', false);
-        if ($this->input->post('no_editor')) {
-            $data['content'] = nl2br($this->input->post('content'));
-        }
-        $comment_id = false;
-        if ($data['content'] != ''
-            || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
-            $comment_id = $this->tasks_model->add_task_comment($data);
-            if ($comment_id) {
-                $commentAttachments = handle_task_attachments_array($data['taskid'], 'file');
-                if ($commentAttachments && is_array($commentAttachments)) {
-                    foreach ($commentAttachments as $file) {
-                        $file['task_comment_id'] = $comment_id;
-                        $this->misc_model->add_attachment_to_database($data['taskid'], 'task', [$file]);
-                    }
-
-                    if (count($commentAttachments) > 0) {
-                        $this->db->query('UPDATE ' . db_prefix() . "task_comments SET content = CONCAT(content, '[task_attachment]')
-                            WHERE id = " . $comment_id);
-                    }
-                }
-            }
-        }
-        echo json_encode([
-            'success'  => $comment_id ? true : false,
-            'taskHtml' => $this->get_task_data_with_session($data['taskid'], true),
-        ]);
-    }
-
     public function download_files($task_id, $comment_id = null)
     {
         $taskWhere = 'external IS NULL';
 
         if ($comment_id) {
-            $taskWhere .= ' AND task_comment_id=' . $comment_id;
+            $taskWhere .= ' AND task_comment_id=' . $this->db->escape_str($comment_id);
         }
 
         if (!has_permission('tasks', '', 'view')) {
@@ -1009,16 +702,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function add_session_followers()
-    {
-        if (has_permission('tasks', '', 'edit') || has_permission('tasks', '', 'create')) {
-            echo json_encode([
-                'success'  => $this->tasks_model->add_task_followers($this->input->post()),
-                'taskHtml' => $this->get_task_data_with_session($this->input->post('taskid'), true),
-            ]);
-        }
-    }
-
     /* Add task assignees / ajax */
     public function add_task_assignees()
     {
@@ -1030,21 +713,11 @@ class Tasks extends AdminController
         }
     }
 
-    public function add_session_assignees()
-    {
-        if (has_permission('tasks', '', 'edit') || has_permission('tasks', '', 'create')) {
-            echo json_encode([
-                'success'  => $this->tasks_model->add_task_assignees($this->input->post()),
-                'taskHtml' => $this->get_task_data_with_session($this->input->post('taskid'), true),
-            ]);
-        }
-    }
-
     public function edit_comment()
     {
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['content'] = $this->input->post('content', false);
+            $data['content'] = html_purify($this->input->post('content', false));
             if ($this->input->post('no_editor')) {
                 $data['content'] = nl2br(clear_textarea_breaks($this->input->post('content')));
             }
@@ -1057,27 +730,6 @@ class Tasks extends AdminController
                 'success'  => $success,
                 'message'  => $message,
                 'taskHtml' => $this->get_task_data($data['task_id'], true),
-            ]);
-        }
-    }
-
-    public function edit_session_comment()
-    {
-        if ($this->input->post()) {
-            $data            = $this->input->post();
-            $data['content'] = $this->input->post('content', false);
-            if ($this->input->post('no_editor')) {
-                $data['content'] = nl2br(clear_textarea_breaks($this->input->post('content')));
-            }
-            $success = $this->tasks_model->edit_comment($data);
-            $message = '';
-            if ($success) {
-                $message = _l('task_comment_updated');
-            }
-            echo json_encode([
-                'success'  => $success,
-                'message'  => $message,
-                'taskHtml' => $this->get_task_data_with_session($data['task_id'], true),
             ]);
         }
     }
@@ -1107,22 +759,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function remove_assignee_session($id, $taskid)
-    {
-        if (has_permission('tasks', '', 'edit') && has_permission('tasks', '', 'create')) {
-            $success = $this->tasks_model->remove_assignee($id, $taskid);
-            $message = '';
-            if ($success) {
-                $message = _l('task_assignee_removed');
-            }
-            echo json_encode([
-                'success'  => $success,
-                'message'  => $message,
-                'taskHtml' => $this->get_task_data_with_session($taskid, true),
-            ]);
-        }
-    }
-
     /* Remove task follower / ajax */
     public function remove_follower($id, $taskid)
     {
@@ -1140,22 +776,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function remove_follower_session($id, $taskid)
-    {
-        if (has_permission('tasks', '', 'edit') && has_permission('tasks', '', 'create')) {
-            $success = $this->tasks_model->remove_follower($id, $taskid);
-            $message = '';
-            if ($success) {
-                $message = _l('task_follower_removed');
-            }
-            echo json_encode([
-                'success'  => $success,
-                'message'  => $message,
-                'taskHtml' => $this->get_task_data_with_session($taskid, true),
-            ]);
-        }
-    }
-
     /* Unmark task as complete / ajax*/
     public function unmark_complete($id)
     {
@@ -1166,34 +786,6 @@ class Tasks extends AdminController
 
             // Don't do this query if the action is not performed via task single
             $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data($id, true) : '';
-
-            $message = '';
-            if ($success) {
-                $message = _l('task_unmarked_as_complete');
-            }
-            echo json_encode([
-                'success'  => $success,
-                'message'  => $message,
-                'taskHtml' => $taskHtml,
-            ]);
-        } else {
-            echo json_encode([
-                'success'  => false,
-                'message'  => '',
-                'taskHtml' => '',
-            ]);
-        }
-    }
-
-    public function unmark_session_complete($id)
-    {
-        if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
-            || $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
-            || has_permission('tasks', '', 'edit')) {
-            $success = $this->tasks_model->unmark_complete($id);
-
-            // Don't do this query if the action is not performed via task single
-            $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data_with_session($id, true) : '';
 
             $message = '';
             if ($success) {
@@ -1243,36 +835,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function mark_as_session($status, $id)
-    {
-        if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
-            || $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
-            || has_permission('tasks', '', 'edit')) {
-            $success = $this->tasks_model->mark_as($status, $id);
-
-            // Don't do this query if the action is not performed via task single
-            $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data_with_session($id, true) : '';
-
-            $message = '';
-
-            if ($success) {
-                $message = _l('task_marked_as_success', format_task_status($status, true, true));
-            }
-
-            echo json_encode([
-                'success'  => $success,
-                'message'  => $message,
-                'taskHtml' => $taskHtml,
-            ]);
-        } else {
-            echo json_encode([
-                'success'  => false,
-                'message'  => '',
-                'taskHtml' => '',
-            ]);
-        }
-    }
-
     public function change_priority($priority_id, $id)
     {
         if (has_permission('tasks', '', 'edit')) {
@@ -1283,28 +845,6 @@ class Tasks extends AdminController
 
             // Don't do this query if the action is not performed via task single
             $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data($id, true) : '';
-            echo json_encode([
-                'success'  => $success,
-                'taskHtml' => $taskHtml,
-            ]);
-        } else {
-            echo json_encode([
-                'success'  => false,
-                'taskHtml' => $taskHtml,
-            ]);
-        }
-    }
-
-    public function change_session_priority($priority_id, $id)
-    {
-        if (has_permission('tasks', '', 'edit')) {
-            $this->db->where('id', $id);
-            $this->db->update(db_prefix() . 'tasks', ['priority' => $priority_id]);
-
-            $success = $this->db->affected_rows() > 0 ? true : false;
-
-            // Don't do this query if the action is not performed via task single
-            $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data_with_session($id, true) : '';
             echo json_encode([
                 'success'  => $success,
                 'taskHtml' => $taskHtml,
@@ -1414,29 +954,6 @@ class Tasks extends AdminController
         }
     }
 
-    public function upload_file_session()
-    {
-        if ($this->input->post()) {
-            $taskid  = $this->input->post('taskid');
-            $files   = handle_task_attachments_array($taskid, 'file');
-            $success = false;
-
-            if ($files) {
-                $i   = 0;
-                $len = count($files);
-                foreach ($files as $file) {
-                    $success = $this->tasks_model->add_attachment_to_database($taskid, [$file], false, ($i == $len - 1 ? true : false));
-                    $i++;
-                }
-            }
-
-            echo json_encode([
-                'success'  => $success,
-                'taskHtml' => $this->get_task_data_with_session($taskid, true),
-            ]);
-        }
-    }
-
     public function timer_tracking()
     {
         $task_id   = $this->input->post('task_id');
@@ -1454,27 +971,6 @@ class Tasks extends AdminController
                 $adminStop
             ),
             'taskHtml' => $this->input->get('single_task') === 'true' ? $this->get_task_data($task_id, true) : '',
-            'timers'   => $this->get_staff_started_timers(true),
-        ]);
-    }
-
-    public function timer_tracking_session()
-    {
-        $task_id   = $this->input->post('task_id');
-        $adminStop = $this->input->get('admin_stop') && is_admin() ? true : false;
-
-        if ($adminStop) {
-            $this->session->set_flashdata('task_single_timesheets_open', true);
-        }
-
-        echo json_encode([
-            'success' => $this->tasks_model->timer_tracking(
-                $task_id,
-                $this->input->post('timer_id'),
-                nl2br($this->input->post('note')),
-                $adminStop
-            ),
-            'taskHtml' => $this->input->get('single_task') === 'true' ? $this->get_task_data_with_session($task_id, true) : '',
             'timers'   => $this->get_staff_started_timers(true),
         ]);
     }

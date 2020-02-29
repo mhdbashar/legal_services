@@ -33,7 +33,7 @@ class CronJobFailure extends AbstractMessage
         <h4><b>Cron Job Warning</b></h4>
         <hr class="hr-10" />
         <p>
-         <b>Seems like your cron job hasn't run in the last <?php echo $this->hoursCheck; ?> hours</b>, you should re-check if your cron job is properly configured, this message will auto disappear after 5 minutes after the cron job starts working properly again.
+         <b>It looks like your cron job hasn't run in the last <?php echo $this->hoursCheck; ?> hours</b>, you should re-check if your cron job is properly configured, this message will auto disappear after 5 minutes after the cron job starts working properly again.
      </p>
      <?php
     }

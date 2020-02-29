@@ -7,9 +7,9 @@ $aColumns = [
     'due_date',
     ];
 $sIndexColumn = 'id';
-$sTable       = db_prefix().'milestones';
+$sTable       = db_prefix() . 'milestones';
 $where        = [
-    'AND project_id=' . $project_id,
+    'AND project_id=' . $this->ci->db->escape_str($project_id),
     ];
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, [
     'id',
@@ -35,7 +35,7 @@ foreach ($rResult as $aRow) {
             }
         } elseif ($aColumns[$i] == 'due_date') {
             $_data = _d($_data);
-            if (date('Y-m-d') > $aRow['due_date'] && total_rows(db_prefix().'tasks', [
+            if (date('Y-m-d') > $aRow['due_date'] && total_rows(db_prefix() . 'tasks', [
                 'milestone' => $aRow['id'],
                 'status !=' => 5,
                 'rel_id' => $project_id,

@@ -448,18 +448,16 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
     $tasks_summary = [];
     $statuses      = $CI->tasks_model->get_statuses();
     foreach ($statuses as $status) {
-        $tasks_where = 'status = ' . $status['id'];
-        $tasks_where .= ' AND is_session= 0';
+        $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
         if (!has_permission('tasks', '', 'view')) {
             $tasks_where .= ' ' . get_tasks_where_string();
         }
-        $tasks_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $status['id'] .' AND is_session= 0';
+        $tasks_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $CI->db->escape_str($status['id']);
         if ($rel_id && $rel_type) {
-            $tasks_where .= ' AND rel_id=' . $rel_id . ' AND rel_type="' . $rel_type . '"';
-            $tasks_my_where .= ' AND rel_id=' . $rel_id . ' AND rel_type="' . $rel_type . '"';
+            $tasks_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
+            $tasks_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
         } else {
-            $sqlProjectTasksWhere = ' AND is_session= 0';
-            $sqlProjectTasksWhere .= ' AND CASE
+            $sqlProjectTasksWhere = ' AND CASE
             WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1)
             THEN rel_type != "project"
             ELSE 1=1
@@ -467,6 +465,7 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
             $tasks_where .= $sqlProjectTasksWhere;
             $tasks_my_where .= $sqlProjectTasksWhere;
         }
+
         $summary                   = [];
         $summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $tasks_where);
         $summary['total_my_tasks'] = total_rows(db_prefix() . 'tasks', $tasks_my_where);
@@ -489,7 +488,7 @@ function get_sql_calc_task_logged_time($task_id)
     return 'SELECT SUM(CASE
             WHEN end_time is NULL THEN ' . time() . '-start_time
             ELSE end_time-start_time
-            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . $task_id;
+            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . get_instance()->db->escape_str($task_id);
 }
 
 function get_sql_select_task_assignees_ids()
@@ -499,17 +498,17 @@ function get_sql_select_task_assignees_ids()
 
 function get_sql_select_task_asignees_full_names()
 {
-    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM '.db_prefix().'task_assigned JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'task_assigned.staffid WHERE taskid='.db_prefix().'tasks.id ORDER BY '.db_prefix().'task_assigned.staffid)';
+    return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
 }
 
 function get_sql_select_task_total_checklist_items()
 {
-    return '(SELECT COUNT(id) FROM '.db_prefix().'task_checklist_items WHERE taskid='.db_prefix().'tasks.id) as total_checklist_items';
+    return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id) as total_checklist_items';
 }
 
 function get_sql_select_task_total_finished_checklist_items()
 {
-    return '(SELECT COUNT(id) FROM '.db_prefix().'task_checklist_items WHERE taskid='.db_prefix().'tasks.id AND finished=1) as total_finished_checklist_items';
+    return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id AND finished=1) as total_finished_checklist_items';
 }
 
 /**
@@ -520,9 +519,9 @@ function get_sql_select_task_total_finished_checklist_items()
  */
 function get_tasks_where_string($table = true)
 {
-    $_tasks_where = '('.db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR '.db_prefix().'tasks.id IN (SELECT taskid FROM '.db_prefix().'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
+    $_tasks_where = '(' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
     if (get_option('show_all_tasks_for_project_member') == 1) {
-        $_tasks_where .= ' OR ('.db_prefix().'tasks.rel_type="project" AND '.db_prefix().'tasks.rel_id IN (SELECT project_id FROM '.db_prefix().'project_members WHERE staff_id=' . get_staff_user_id() . '))';
+        $_tasks_where .= ' OR (' . db_prefix() . 'tasks.rel_type="project" AND ' . db_prefix() . 'tasks.rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . '))';
     }
     $_tasks_where .= ' OR is_public = 1)';
     if ($table == true) {

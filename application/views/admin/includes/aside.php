@@ -60,8 +60,11 @@
            continue;
          }
          ?>
-      <li class="menu-item-<?php echo $item['slug']; ?>">
-         <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>" aria-expanded="false">
+      <li class="menu-item-<?php echo $item['slug']; ?>"
+         <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
+         <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>"
+          aria-expanded="false"
+          <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
              <i class="<?php echo $item['icon']; ?> menu-icon"></i>
              <span class="menu-text">
              <?php echo _l($item['name'],'', false); ?>
@@ -74,8 +77,10 @@
          <ul class="nav nav-second-level collapse" aria-expanded="false">
             <?php foreach($item['children'] as $submenu){
                ?>
-            <li class="sub-menu-item-<?php echo $submenu['slug']; ?>">
-              <a href="<?php echo $submenu['href']; ?>">
+            <li class="sub-menu-item-<?php echo $submenu['slug']; ?>"
+              <?php echo _attributes_to_string(isset($submenu['li_attributes']) ? $submenu['li_attributes'] : []); ?>>
+              <a href="<?php echo $submenu['href']; ?>"
+               <?php echo _attributes_to_string(isset($submenu['href_attributes']) ? $submenu['href_attributes'] : []); ?>>
                <?php if(!empty($submenu['icon'])){ ?>
                <i class="<?php echo $submenu['icon']; ?> menu-icon"></i>
                <?php } ?>

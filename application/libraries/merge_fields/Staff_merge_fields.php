@@ -167,7 +167,7 @@ class Staff_merge_fields extends App_merge_fields
         }
 
         if ($password != '') {
-            $fields['{password}'] = $password;
+            $fields['{password}'] = htmlentities($password);
         }
 
         if ($staff->two_factor_auth_code) {

@@ -68,8 +68,9 @@ class ClientsController extends App_Controller
          */
         $module                       = CI::$APP->router->fetch_module();
         $this->data['current_module'] = $module;
-
-        $viewPath = !is_null($module) || $notInThemeViewFiles ? $this->view : 'themes/' . active_clients_theme() . '/views/' . $this->view;
+        $viewPath                     = !is_null($module) || $notInThemeViewFiles ?
+        $this->view :
+        $this->createThemeViewPath($this->view);
 
         $this->template['view']    = $this->load->view($viewPath, $this->data, true);
         $GLOBALS['customers_view'] = $this->template['view'];
@@ -174,5 +175,17 @@ class ClientsController extends App_Controller
         $this->use_footer = false;
 
         return $this;
+    }
+
+    /**
+     * Create theme view path
+     *
+     * @param  string $view
+     *
+     * @return string
+     */
+    protected function createThemeViewPath($view)
+    {
+        return 'themes/' . active_clients_theme() . '/views/' . $view;
     }
 }

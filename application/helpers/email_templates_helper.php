@@ -89,10 +89,11 @@ function parse_email_template_merge_fields($template, $merge_fields)
     $merge_fields = array_merge($merge_fields, $CI->other_merge_fields->format());
 
     foreach ($merge_fields as $key => $val) {
-        foreach (['message', 'fromname', 'subject'] as $replacer) {
-            $template->{$replacer} = stripos($template->{$replacer}, $key) !== false
-            ? str_ireplace($key, $val, $template->{$replacer})
-            : str_ireplace($key, '', $template->{$replacer});
+        foreach (['message', 'fromname', 'subject'] as $section) {
+
+            $template->{$section} = stripos($template->{$section}, $key) !== false
+            ? str_replace($key, $val, $template->{$section})
+            : str_replace($key, '', $template->{$section});
         }
     }
 
@@ -157,6 +158,7 @@ function get_mail_template_path($class, &$params)
     // Check if second parameter is module and is activated so we can get the class from the module path
     if (isset($params[0]) && is_string($params[0]) && is_dir(module_dir_path($params[0]))) {
         $module = $CI->app_modules->get($params[0]);
+
         if ($module['activated'] === 1) {
             $dir = module_libs_path($params[0]) . 'mails/';
         }

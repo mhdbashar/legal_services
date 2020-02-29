@@ -57,7 +57,7 @@ class Proposals_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Company Name',
+                    'name'      => 'Proposal To',
                     'key'       => '{proposal_proposal_to}',
                     'available' => [
                         'proposals',

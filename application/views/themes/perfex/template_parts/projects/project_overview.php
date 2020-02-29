@@ -5,6 +5,10 @@
   <div class="panel-body no-radius">
    <table class="table table-borded no-margin">
     <tbody>
+      <tr>
+        <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
+        <td><?php echo $project->id; ?></td>
+      </tr>
       <tr class="project-billing-type">
         <td class="bold"><?php echo _l('project_billing_type'); ?></td>
         <td>
@@ -88,7 +92,8 @@
     <div class="row">
      <div class="col-md-9">
       <p class="text-uppercase bold text-dark font-medium">
-       <?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?> <?php echo _l('project_open_tasks'); ?>
+        <span dir="ltr"><?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?></span>
+        <?php echo _l('project_open_tasks'); ?>
      </p>
      <p class="text-muted bold"><?php echo $tasks_not_completed_progress; ?>%</p>
    </div>
@@ -109,7 +114,8 @@
     <div class="row">
      <div class="col-md-9">
       <p class="text-uppercase bold text-dark font-medium">
-       <?php echo $project_days_left; ?> / <?php echo $project_total_days; ?> <?php echo _l('project_days_left'); ?>
+       <span dir="ltr"><?php echo $project_days_left; ?> / <?php echo $project_total_days; ?></span>
+       <?php echo _l('project_days_left'); ?>
      </p>
      <p class="text-muted bold"><?php echo $project_time_left_percent; ?>%</p>
    </div>

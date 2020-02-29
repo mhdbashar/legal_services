@@ -272,7 +272,7 @@ function can_logged_in_contact_update_credit_card()
 
 function customer_can_delete_credit_card($client_id = null)
 {
-    $client_id = $client_id === null ? get_client_user_id() : $client_id;
+    $client_id = $client_id === null ? get_client_user_id() : get_instance()->db->escape_str($client_id);
 
     if (total_rows('subscriptions', "clientid={$client_id} AND status != 'canceled' AND status != 'incomplete_expired' AND status IS NOT NULL") > 0) {
         return false;
@@ -310,6 +310,7 @@ function redirect_to_stripe_checkout($session_id)
                 sessionId: "' . $session_id . '"
             }).then(function (result) {});
     </script>';
+    die;
 }
 
 function check_stripe_subscription_environment($subscription)

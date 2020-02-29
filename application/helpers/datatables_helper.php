@@ -105,8 +105,8 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
         $search_value = $__post['search']['value'];
         $search_value = trim($search_value);
 
-        $sWhere                             = 'WHERE (';
-        $sMatchCustomFields                 = [];
+        $sWhere             = 'WHERE (';
+        $sMatchCustomFields = [];
         // Not working, do not use it
         $useMatchForCustomFieldsTableSearch = hooks()->apply_filters('use_match_for_custom_fields_table_search', 'false');
 
@@ -127,15 +127,16 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
                     if ($useMatchForCustomFieldsTableSearch === 'true' && startsWith($columnName, 'ctable_')) {
                         $sMatchCustomFields[] = $columnName;
                     } else {
-                        $sWhere .= 'convert(' . $columnName . ' USING utf8)' . " LIKE '%" . $search_value . "%' OR ";
+                        $sWhere .= 'convert(' . $columnName . ' USING utf8)' . " LIKE '%" . $CI->db->escape_like_str($search_value) . "%' OR ";
                     }
                 }
             }
         }
 
         if (count($sMatchCustomFields) > 0) {
+            $s = $CI->db->escape_like_str($search_value);
             foreach ($sMatchCustomFields as $matchCustomField) {
-                $sWhere .= "MATCH ({$matchCustomField}) AGAINST (CONVERT(BINARY('{$search_value}') USING utf8)) OR ";
+                $sWhere .= "MATCH ({$matchCustomField}) AGAINST (CONVERT(BINARY('{$s}') USING utf8)) OR ";
             }
         }
 
@@ -147,7 +148,7 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
                 if (stripos($columnName, 'AVG(') !== false || stripos($columnName, 'SUM(') !== false) {
                 } else {
                     // Use index
-                    $sWhere .= 'convert(' . $searchAdditionalField . ' USING utf8)' . " LIKE '%" . $search_value . "%' OR ";
+                    $sWhere .= 'convert(' . $searchAdditionalField . ' USING utf8)' . " LIKE '%" . $CI->db->escape_like_str($search_value) . "%' OR ";
                 }
             }
         }
@@ -166,10 +167,10 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
                     $columnName = strbefore($columnName, ' as');
                 }
                 if ($search_value != '') {
-                    $sWhere .= 'convert(' . $columnName . ' USING utf8)' . " LIKE '%" . $search_value . "%' OR ";
+                    $sWhere .= 'convert(' . $columnName . ' USING utf8)' . " LIKE '%" . $CI->db->escape_like_str($search_value) . "%' OR ";
                     if (count($additionalSelect) > 0) {
                         foreach ($additionalSelect as $searchAdditionalField) {
-                            $sWhere .= 'convert(' . $searchAdditionalField . ' USING utf8)' . " LIKE '" . $search_value . "%' OR ";
+                            $sWhere .= 'convert(' . $searchAdditionalField . ' USING utf8)' . " LIKE '" . $CI->db->escape_like_str($search_value) . "%' OR ";
                         }
                     }
                     $searchFound++;
@@ -266,10 +267,10 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
 function get_null_columns_that_should_be_sorted_as_last()
 {
     $columns = [
-        db_prefix().'projects.deadline',
-        db_prefix().'tasks.duedate',
-        db_prefix().'contracts.dateend',
-        db_prefix().'subscriptions.date_subscribed',
+        db_prefix() . 'projects.deadline',
+        db_prefix() . 'tasks.duedate',
+        db_prefix() . 'contracts.dateend',
+        db_prefix() . 'subscriptions.date_subscribed',
     ];
 
     return hooks()->apply_filters('null_columns_sort_as_last', $columns);

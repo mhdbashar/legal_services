@@ -13,16 +13,16 @@ function app_init_admin_sidebar_menu_items()
         'icon'     => 'fa fa-home',
     ]);
 
-//     if (has_permission('customers', '', 'view')
-//         || (have_assigned_customers()
-//         || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
-//         $CI->app_menu->add_sidebar_menu_item('customers', [
-//             'name'     => _l('als_clients'),
-//             'href'     => admin_url('clients'),
-//             'position' => 5,
-//             'icon'     => 'fa fa-user-o',
-//         ]);
-//     }
+    if (has_permission('customers', '', 'view')
+        || (have_assigned_customers()
+        || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
+        $CI->app_menu->add_sidebar_menu_item('customers', [
+            'name'     => _l('als_clients'),
+            'href'     => admin_url('clients'),
+            'position' => 5,
+            'icon'     => 'fa fa-user-o',
+        ]);
+    }
 
     $CI->app_menu->add_sidebar_menu_item('sales', [
             'collapse' => true,
@@ -116,12 +116,12 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
-//     $CI->app_menu->add_sidebar_menu_item('projects', [
-//                 'name'     => _l('projects'),
-//                 'href'     => admin_url('projects'),
-//                 'icon'     => 'fa fa-bars',
-//                 'position' => 30,
-//         ]);
+    $CI->app_menu->add_sidebar_menu_item('projects', [
+                'name'     => _l('projects'),
+                'href'     => admin_url('projects'),
+                'icon'     => 'fa fa-bars',
+                'position' => 30,
+        ]);
 
     $CI->app_menu->add_sidebar_menu_item('tasks', [
                 'name'     => _l('als_tasks'),

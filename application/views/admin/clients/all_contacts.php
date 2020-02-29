@@ -24,7 +24,7 @@
         <?php } ?>
         <div class="clearfix"></div>
         <?php
-        $table_data = array(_l('full_name'));
+        $table_data = array(_l('client_firstname'),_l('client_lastname'));
         if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){
          array_push($table_data, array(
           'name'=>_l('gdpr_consent') .' ('._l('gdpr_short').')',

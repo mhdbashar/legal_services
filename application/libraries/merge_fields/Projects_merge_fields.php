@@ -136,26 +136,6 @@ class Projects_merge_fields extends App_merge_fields
      */
     public function format($project_id, $additional_data = [])
     {
-        $serv_table  = 'projects';
-        $dis_table   = 'projectdiscussions';
-        $files_table = 'project_files';
-        $comm_table  = 'projectdiscussioncomments';
-        $custom_fields_var = 'projects';
-        if (isset($additional_data['ServID'])) {
-            if($additional_data['ServID'] == 1){
-                $serv_table  = 'my_cases';
-                $dis_table   = 'casediscussions';
-                $files_table = 'case_files';
-                $comm_table  = 'casediscussioncomments';
-                $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
-            }else{
-                $serv_table  = 'my_other_services';
-                $dis_table   = 'oservicediscussions';
-                $files_table = 'oservice_files';
-                $comm_table  = 'oservicediscussioncomments';
-                $custom_fields_var = $this->ci->legal->get_service_by_id($additional_data['ServID'])->row()->slug;
-            }
-        }
         $fields = [];
 
         $fields['{project_name}']           = '';
@@ -173,16 +153,16 @@ class Projects_merge_fields extends App_merge_fields
 
 
         $this->ci->db->where('id', $project_id);
-        $project = $this->ci->db->get(db_prefix().$serv_table)->row();
+        $project = $this->ci->db->get(db_prefix().'projects')->row();
 
         $fields['{project_name}']        = $project->name;
         $fields['{project_deadline}']    = _d($project->deadline);
         $fields['{project_start_date}']  = _d($project->start_date);
         $fields['{project_description}'] = $project->description;
 
-        $custom_fields = get_custom_fields($custom_fields_var);
+        $custom_fields = get_custom_fields('projects');
         foreach ($custom_fields as $field) {
-            $fields['{' . $field['slug'] . '}'] = get_custom_field_value($project_id, $field['id'], $custom_fields_var);
+            $fields['{' . $field['slug'] . '}'] = get_custom_field_value($project_id, $field['id'], 'projects');
         }
 
         if (is_client_logged_in()) {
@@ -199,21 +179,20 @@ class Projects_merge_fields extends App_merge_fields
             $this->ci->db->where('id', $additional_data['discussion_id']);
 
             if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
-                $table = db_prefix().$dis_table;
+                $table = db_prefix().'projectdiscussions';
             } else {
                 // is file
-                $table = db_prefix().$files_table;
+                $table = db_prefix().'project_files';
             }
 
             $discussion = $this->ci->db->get($table)->row();
-
 
             $fields['{discussion_subject}']     = $discussion->subject;
             $fields['{discussion_description}'] = $discussion->description;
 
             if (isset($additional_data['discussion_comment_id'])) {
                 $this->ci->db->where('id', $additional_data['discussion_comment_id']);
-                $discussion_comment             = $this->ci->db->get(db_prefix().$comm_table)->row();
+                $discussion_comment             = $this->ci->db->get(db_prefix().'projectdiscussioncomments')->row();
                 $fields['{discussion_comment}'] = $discussion_comment->content;
             }
         }
@@ -236,36 +215,11 @@ class Projects_merge_fields extends App_merge_fields
                     $fields['{discussion_link}'] = admin_url('projects/view/' . $project_id . '?group=project_files&file_id=' . $additional_data['discussion_id']);
                 }
             }
-
-            if (isset($additional_data['ServID'])) {
-                if($additional_data['ServID'] == 1){
-                    $fields['{project_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id);
-                    if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
-                        $fields['{discussion_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
-                    } else {
-                        if (isset($additional_data['discussion_id'])) {
-                            // is file
-                            $fields['{discussion_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_files&file_id=' . $additional_data['discussion_id']);
-                        }
-                    }
-                }else{
-                    $fields['{project_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id);
-                    if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
-                        $fields['{discussion_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
-                    } else {
-                        if (isset($additional_data['discussion_id'])) {
-                            // is file
-                            $fields['{discussion_link}'] = admin_url('SOther/view/' .$additional_data['ServID'].'/'. $project_id . '?group=project_files&file_id=' . $additional_data['discussion_id']);
-                        }
-                    }
-                }
-            }
-
         }
 
-        $custom_fields = get_custom_fields($custom_fields_var);
+        $custom_fields = get_custom_fields('projects');
         foreach ($custom_fields as $field) {
-            $fields['{' . $field['slug'] . '}'] = get_custom_field_value($project_id, $field['id'], $custom_fields_var);
+            $fields['{' . $field['slug'] . '}'] = get_custom_field_value($project_id, $field['id'], 'projects');
         }
 
         return hooks()->apply_filters('project_merge_fields', $fields, [

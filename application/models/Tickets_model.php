@@ -207,7 +207,9 @@ class Tickets_model extends App_Model
     {
         if (!empty($attachments)) {
             $ticket_attachments = [];
-            $allowed_extensions = explode(',', get_option('ticket_attachments_file_extensions'));
+            $allowed_extensions = array_map(function ($ext) {
+                return strtolower(trim($ext));
+            }, explode(',', get_option('ticket_attachments_file_extensions')));
 
             $path = FCPATH . 'uploads/ticket_attachments' . '/' . $ticket_id . '/';
 
@@ -251,11 +253,9 @@ class Tickets_model extends App_Model
         $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = ' . db_prefix() . 'tickets.contactid', 'left');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.admin', 'left');
         $this->db->join(db_prefix() . 'tickets_priorities', db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority', 'left');
-        $this->db->where(db_prefix() . 'tickets.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'tickets.ticketid', $id);
-            $this->db->where(db_prefix() . 'tickets.deleted', 0);
 
             return $this->db->get(db_prefix() . 'tickets')->row();
         }
@@ -281,7 +281,11 @@ class Tickets_model extends App_Model
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.admin', 'left');
         $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = ' . db_prefix() . 'tickets.contactid', 'left');
         $this->db->join(db_prefix() . 'tickets_priorities', db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority', 'left');
-        $this->db->where(db_prefix() . 'tickets.ticketid', $id);
+        if (strlen($id) === 32) {
+            $this->db->or_where(db_prefix() . 'tickets.ticketkey', $id);
+        } else {
+            $this->db->where(db_prefix() . 'tickets.ticketid', $id);
+        }
         if (is_numeric($userid)) {
             $this->db->where(db_prefix() . 'tickets.userid', $userid);
         }
@@ -419,8 +423,8 @@ class Tickets_model extends App_Model
                     $data['contactid'] = get_contact_user_id();
                 }
         */
-
-        $data = hooks()->apply_filters('before_ticket_reply_add', $data, $id, $admin);
+        $data['message'] = remove_emojis($data['message']);
+        $data            = hooks()->apply_filters('before_ticket_reply_add', $data, $id, $admin);
 
         $this->db->insert(db_prefix() . 'ticket_replies', $data);
 
@@ -609,15 +613,15 @@ class Tickets_model extends App_Model
      */
     public function get_user_other_tickets($userid, $id)
     {
-        $this->db->select(db_prefix().'departments.name as department_name, '.db_prefix().'services.name as service_name,'.db_prefix().'tickets_status.name as status_name,'.db_prefix().'staff.firstname as staff_firstname, '.db_prefix().'clients.lastname as staff_lastname,ticketid,subject,firstname,lastname,lastreply');
+        $this->db->select(db_prefix() . 'departments.name as department_name, ' . db_prefix() . 'services.name as service_name,' . db_prefix() . 'tickets_status.name as status_name,' . db_prefix() . 'staff.firstname as staff_firstname, ' . db_prefix() . 'clients.lastname as staff_lastname,ticketid,subject,firstname,lastname,lastreply');
         $this->db->from(db_prefix() . 'tickets');
-        $this->db->join(db_prefix() . 'departments', db_prefix().'departments.departmentid = '.db_prefix().'tickets.department', 'left');
-        $this->db->join(db_prefix() . 'tickets_status', db_prefix().'tickets_status.ticketstatusid = '.db_prefix().'tickets.status', 'left');
-        $this->db->join(db_prefix() . 'services', db_prefix().'services.serviceid = '.db_prefix().'tickets.service', 'left');
-        $this->db->join(db_prefix() . 'clients', db_prefix().'clients.userid = '.db_prefix().'tickets.userid', 'left');
-        $this->db->join(db_prefix() . 'staff', db_prefix().'staff.staffid = '.db_prefix().'tickets.admin', 'left');
+        $this->db->join(db_prefix() . 'departments', db_prefix() . 'departments.departmentid = ' . db_prefix() . 'tickets.department', 'left');
+        $this->db->join(db_prefix() . 'tickets_status', db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status', 'left');
+        $this->db->join(db_prefix() . 'services', db_prefix() . 'services.serviceid = ' . db_prefix() . 'tickets.service', 'left');
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.userid', 'left');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.admin', 'left');
         $this->db->where(db_prefix() . 'tickets.userid', $userid);
-        $this->db->where(db_prefix().'tickets.ticketid !=', $id);
+        $this->db->where(db_prefix() . 'tickets.ticketid !=', $id);
         $tickets = $this->db->get()->result_array();
         $i       = 0;
         foreach ($tickets as $ticket) {
@@ -642,11 +646,11 @@ class Tickets_model extends App_Model
         // backward compatibility for the action hook
         $ticket_replies_order = hooks()->apply_filters('ticket_replies_order', $ticket_replies_order);
 
-        $this->db->select(db_prefix().'ticket_replies.id,'.db_prefix().'ticket_replies.name as from_name,'.db_prefix().'ticket_replies.email as reply_email, '.db_prefix().'ticket_replies.admin, '.db_prefix().'ticket_replies.userid,'.db_prefix().'staff.firstname as staff_firstname, '.db_prefix().'staff.lastname as staff_lastname,'.db_prefix().'contacts.firstname as user_firstname,'.db_prefix().'contacts.lastname as user_lastname,message,date,contactid');
+        $this->db->select(db_prefix() . 'ticket_replies.id,' . db_prefix() . 'ticket_replies.name as from_name,' . db_prefix() . 'ticket_replies.email as reply_email, ' . db_prefix() . 'ticket_replies.admin, ' . db_prefix() . 'ticket_replies.userid,' . db_prefix() . 'staff.firstname as staff_firstname, ' . db_prefix() . 'staff.lastname as staff_lastname,' . db_prefix() . 'contacts.firstname as user_firstname,' . db_prefix() . 'contacts.lastname as user_lastname,message,date,contactid');
         $this->db->from(db_prefix() . 'ticket_replies');
-        $this->db->join(db_prefix() . 'clients', db_prefix().'clients.userid = '.db_prefix().'ticket_replies.userid', 'left');
-        $this->db->join(db_prefix() . 'staff', db_prefix().'staff.staffid = '.db_prefix().'ticket_replies.admin', 'left');
-        $this->db->join(db_prefix() . 'contacts', db_prefix().'contacts.id = '.db_prefix().'ticket_replies.contactid', 'left');
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'ticket_replies.userid', 'left');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'ticket_replies.admin', 'left');
+        $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = ' . db_prefix() . 'ticket_replies.contactid', 'left');
         $this->db->where('ticketid', $id);
         $this->db->order_by('date', $ticket_replies_order);
         $replies = $this->db->get()->result_array();
@@ -720,7 +724,7 @@ class Tickets_model extends App_Model
         }
 
         $data['date']      = date('Y-m-d H:i:s');
-        $data['ticketkey'] = md5(uniqid(time(), true));
+        $data['ticketkey'] = app_generate_hash();
         $data['status']    = 1;
         $data['message']   = trim($data['message']);
         $data['subject']   = trim($data['subject']);
@@ -746,7 +750,8 @@ class Tickets_model extends App_Model
             unset($data['tags']);
         }
 
-        $data = hooks()->apply_filters('before_ticket_created', $data, $admin);
+        $data['message'] = remove_emojis($data['message']);
+        $data            = hooks()->apply_filters('before_ticket_created', $data, $admin);
 
         $this->db->insert(db_prefix() . 'tickets', $data);
         $ticketid = $this->db->insert_id();
@@ -867,9 +872,9 @@ class Tickets_model extends App_Model
      */
     public function get_client_latests_ticket($limit = 5, $userid = '')
     {
-        $this->db->select(db_prefix().'tickets.userid, ticketstatusid, statuscolor, '.db_prefix().'tickets_status.name as status_name,'.db_prefix().'tickets.ticketid, subject, date');
+        $this->db->select(db_prefix() . 'tickets.userid, ticketstatusid, statuscolor, ' . db_prefix() . 'tickets_status.name as status_name,' . db_prefix() . 'tickets.ticketid, subject, date');
         $this->db->from(db_prefix() . 'tickets');
-        $this->db->join(db_prefix() . 'tickets_status', db_prefix().'tickets_status.ticketstatusid = '.db_prefix().'tickets.status', 'left');
+        $this->db->join(db_prefix() . 'tickets_status', db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status', 'left');
         if (is_numeric($userid)) {
             $this->db->where(db_prefix() . 'tickets.userid', $userid);
         } else {
@@ -1441,7 +1446,7 @@ class Tickets_model extends App_Model
             foreach ($thisWeekDays[1] as $weekDate) {
                 $this->db->like('DATE(date)', $weekDate, 'after');
                 if ($byDepartments) {
-                    $this->db->where('department IN (SELECT departmentid FROM '.db_prefix().'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")');
+                    $this->db->where('department IN (SELECT departmentid FROM ' . db_prefix() . 'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")');
                 }
                 $chart['datasets'][0]['data'][$i] = $this->db->count_all_results(db_prefix() . 'tickets');
 
@@ -1454,7 +1459,7 @@ class Tickets_model extends App_Model
 
     public function get_tickets_assignes_disctinct()
     {
-        return $this->db->query('SELECT DISTINCT(assigned) as assigned FROM '.db_prefix().'tickets WHERE assigned != 0')->result_array();
+        return $this->db->query('SELECT DISTINCT(assigned) as assigned FROM ' . db_prefix() . 'tickets WHERE assigned != 0')->result_array();
     }
 
     /**

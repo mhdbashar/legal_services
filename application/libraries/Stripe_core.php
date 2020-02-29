@@ -67,12 +67,29 @@ class Stripe_core
         $webhook = \Stripe\WebhookEndpoint::create([
             'url'            => $this->ci->stripe_gateway->webhookEndPoint,
             'enabled_events' => $this->get_webhook_events(),
+            'api_version'    => $this->apiVersion,
         ]);
 
         update_option('stripe_webhook_id', $webhook->id);
         update_option('stripe_webhook_signing_secret', $webhook->secret);
 
         return $webhook;
+    }
+
+    public function enable_webhook($id)
+    {
+        \Stripe\WebhookEndpoint::update(
+          $id,
+          [
+            'disabled' => false,
+          ]
+        );
+    }
+
+    public function delete_webhook($id)
+    {
+        $endpoint = \Stripe\WebhookEndpoint::retrieve($id);
+        $endpoint->delete();
     }
 
     public function create_session($data)

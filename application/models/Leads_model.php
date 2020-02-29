@@ -57,11 +57,11 @@ class Leads_model extends App_Model
         }
         if ($search != '') {
             if (!startsWith($search, '#')) {
-                $this->db->where('(' . db_prefix() . 'leads.name LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads_sources.name LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.email LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.phonenumber LIKE "%' . $search . '%" OR ' . db_prefix() . 'leads.company LIKE "%' . $search . '%" OR CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) LIKE "%' . $search . '%")');
+                $this->db->where('(' . db_prefix() . 'leads.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads_sources.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.email LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.phonenumber LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR ' . db_prefix() . 'leads.company LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\' OR CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
             } else {
                 $this->db->where(db_prefix() . 'leads.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'lead\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -908,7 +908,9 @@ class Leads_model extends App_Model
             return true;
         }
 
-        if (total_rows(db_prefix() . 'leads', 'id="' . $id . '" AND (assigned=' . $staff_id . ' OR is_public=1 OR addedfrom=' . $staff_id . ')') > 0) {
+        $CI = &get_instance();
+
+        if (total_rows(db_prefix() . 'leads', 'id="' . $CI->db->escape_str($id) . '" AND (assigned=' . $CI->db->escape_str($staff_id) . ' OR is_public=1 OR addedfrom=' . $CI->db->escape_str($staff_id) . ')') > 0) {
             return true;
         }
 

@@ -29,16 +29,6 @@ class Authentication_model extends App_Model
             }
             $this->db->where('email', $email);
             $user = $this->db->get($table)->row();
-            //Prevent Opponents from Login
-            if($table == 'tblcontacts'){
-                $userid = $user->userid;
-                $this->db->where('userid', $userid);
-                $client_type = $this->db->get(db_prefix() . 'clients')->row()->client_type;
-                if($client_type == 1){
-                    log_activity('Cant Login Opponents [Opponent ID: ' .$userid. ', IP: ' . $this->input->ip_address() . ']');
-                    return false;
-                }
-            }
             if ($user) {
                 // Email is okey lets check the password now
                 if (!app_hasher()->CheckPassword($password, $user->password)) {
@@ -119,9 +109,7 @@ class Authentication_model extends App_Model
 
                 $this->update_login_info($user->$_id, $staff);
             } else {
-                //ShababSy.com Changed this
-				return ['two_factor_auth' => $user->two_factor_auth_enabled, 'user' => $user];
-                //return ['two_factor_auth' => true, 'user' => $user];
+                return ['two_factor_auth' => true, 'user' => $user];
             }
 
             return true;
@@ -614,18 +602,11 @@ class Authentication_model extends App_Model
      * Set 2 factor authentication code for staff member
      * @param mixed $id staff id
      */
-	 
-    public function set_two_factor_auth_code($id, $auth_type=1)
+    public function set_two_factor_auth_code($id)
     {
-		// ShababSy.com Added this
-        if($auth_type==1){
-			$code = generate_two_factor_auth_key();
-		}else{
-			$code = rand(1000, 9999);
-		}
-		//$code = generate_two_factor_auth_key();
-		$code .= $id;
-		
+        $code = generate_two_factor_auth_key();
+        $code .= $id;
+
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', [
             'two_factor_auth_code'           => $code,
@@ -633,20 +614,5 @@ class Authentication_model extends App_Model
         ]);
 
         return $code;
-    }
-	
-	
-	
-	// ShababSy.com Added this func
-	public function send_verification_sms($userdata)
-    {
-        is_numeric($this->set_two_factor_auth_code($userdata->staffid,2)) ? $code= $this->set_two_factor_auth_code($userdata->staffid,2) : "Unavailable";
-        $numbers = $userdata->phonenumber;
-        $msg = 'Your verification code is: ' . $code;
-
-        // Send verification code with activated sms gateway
-        $result =$this->app_sms->g_send($numbers,$msg); 
-       
-        return $result;
     }
 }

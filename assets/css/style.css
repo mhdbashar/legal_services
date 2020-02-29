@@ -5289,13 +5289,13 @@ body.rtl a+.main-tasks-table-href-name {
     padding: 5px 15px 5px 5px;
     margin-top: 10px;
     border-radius: 4px;
-    height: 34px;
     cursor: move;
 }
 
 .checklist .checkbox.checklist-checkbox {
     margin-top: 0;
     margin-bottom: 0;
+    height:25px;
 }
 
 .checklist:hover,
@@ -8578,8 +8578,7 @@ body.rtl .task-table-related:before {
 }
 
 .checklist-item-info {
-    position: absolute;
-    bottom: -30px;
+    margin: 5px 0px 0px 0px;
 }
 
 .mobile .checklist-item-info {
@@ -9232,59 +9231,3 @@ body.gantt {
     overflow: hidden;
     max-height: 150px;
 }
-
-/* Added for rtl menu icon and arrwo */
-li a i.menu-icon-ar {
-    margin-left: 16px;
-    display: block;
-    float: right;
-    width: 18px;
-    font-size: 17px
-}
-
-.user-data .home-activity i.menu-icon-ar {
-    width: 10px;
-    font-size: 16px
-}
-
-.nav-tabs.navbar-pills-flat>li a i.menu-icon-ar {
-    font-size: 15px;
-    width: 12px;
-    margin-top: 1px
-}
-
-#setup-menu .arrow-ar,
-#side-menu .arrow-ar {
-    float: left;
-    padding-top: 3px
-}
-
-.fa.arrow-ar:before {
-    content: "\f104"
-}
-
-.active>a>.fa.arrow-ar:before {
-    content: "\f107"
-}
-
-body.rtl #setup-menu .arrow-ar,
-body.rtl #side-menu .arrow-ar {
-    margin-left: 15px
-}
-
-body.rtl .bootstrap-select .dropdown-toggle .caret 
-{
-     right: unset; left: 12px;
-    }
-body.rtl .input-group .bs3.bootstrap-select .dropdown-toggle .filter-option 
-{
-    margin-right: 0px
-}
-body.rtl .bootstrap-select.show-tick .dropdown-menu .selected span.check-mark 
-{
-    right: unset; left: 15px;
-}
-body.rtl .bootstrap-select.show-tick .dropdown-menu li a span.text 
-{
-     margin-right: unset; margin-left: 34px;
-    }

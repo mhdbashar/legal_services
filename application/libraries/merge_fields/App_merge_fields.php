@@ -75,13 +75,16 @@ class App_merge_fields
 
         $baseName = basename($name);
 
-        $merge_fields     = $this->get_by_name($this->ci->{$baseName}->name());
+        $merge_fields = $this->get_by_name($this->ci->{$baseName}->name());
+
         $uniqueFormatters = [];
         $uniqueClassLoad  = [];
 
         foreach ($merge_fields as $field) {
-            $uniqueFormatters[]                             = $field['format']['base_name'];
-            $uniqueClassLoad[$field['format']['base_name']] = $field['format']['file'];
+            if ($baseName === $field['format']['base_name']) {
+                $uniqueFormatters[]                             = $field['format']['base_name'];
+                $uniqueClassLoad[$field['format']['base_name']] = $field['format']['file'];
+            }
         }
 
         $uniqueFormatters = array_unique($uniqueFormatters);
@@ -136,7 +139,7 @@ class App_merge_fields
     /**
      * Register merge field path class
      * @param  mixed $loadPath
-     * @return object
+     * @return $this
      */
     public function register($loadPath)
     {
@@ -145,8 +148,9 @@ class App_merge_fields
                 $this->register($merge_fields);
             }
 
-            return;
+            return $this;
         }
+
         $this->registered[] = $loadPath;
 
         return $this;
@@ -172,6 +176,7 @@ class App_merge_fields
         }
 
         $registered = $this->get_registered();
+
         $available = [];
 
         foreach ($registered as $merge_field) {

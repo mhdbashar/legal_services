@@ -50,10 +50,10 @@ class Dashboard_model extends App_Model
     {
         $all_payments                 = [];
         $has_permission_payments_view = has_permission('payments', '', 'view');
-        $this->db->select('amount,' . db_prefix() . 'invoicepaymentrecords.date');
+        $this->db->select(db_prefix() . 'invoicepaymentrecords.id, amount,' . db_prefix() . 'invoicepaymentrecords.date');
         $this->db->from(db_prefix() . 'invoicepaymentrecords');
         $this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid');
-        $this->db->where('CAST(' . db_prefix() . 'invoicepaymentrecords.date as DATE) >= "' . date('Y-m-d', strtotime('monday this week')) . '" AND CAST(' . db_prefix() . 'invoicepaymentrecords.date as DATE) <= "' . date('Y-m-d', strtotime('sunday this week')) . '"');
+        $this->db->where('YEARWEEK(tblinvoicepaymentrecords.date) = YEARWEEK(CURRENT_DATE)');
         $this->db->where('' . db_prefix() . 'invoices.status !=', 5);
         if ($currency != 'undefined') {
             $this->db->where('currency', $currency);
@@ -65,10 +65,10 @@ class Dashboard_model extends App_Model
 
         // Current week
         $all_payments[] = $this->db->get()->result_array();
-        $this->db->select('amount,' . db_prefix() . 'invoicepaymentrecords.date');
+        $this->db->select(db_prefix() . 'invoicepaymentrecords.id, amount,' . db_prefix() . 'invoicepaymentrecords.date');
         $this->db->from(db_prefix() . 'invoicepaymentrecords');
         $this->db->join(db_prefix() . 'invoices', '' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid');
-        $this->db->where('CAST(' . db_prefix() . 'invoicepaymentrecords.date as DATE) >= "' . date('Y-m-d', strtotime('monday last week', strtotime('last sunday'))) . '" AND CAST(' . db_prefix() . 'invoicepaymentrecords.date as DATE) <= "' . date('Y-m-d', strtotime('sunday last week', strtotime('last sunday'))) . '"');
+        $this->db->where('YEARWEEK(tblinvoicepaymentrecords.date) = YEARWEEK(CURRENT_DATE - INTERVAL 7 DAY) ');
 
         $this->db->where('' . db_prefix() . 'invoices.status !=', 5);
         if ($currency != 'undefined') {

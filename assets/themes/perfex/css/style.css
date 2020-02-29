@@ -662,8 +662,8 @@ a:visited {
 }
 
 .navbar-default .navbar-nav>li.customers-nav-item-login>a {
-    background: rgba(255, 255, 255, 1);
-    color: #000;
+    background: rgba(255, 255, 255, 1) !important;
+    color: #000 !important;
     display: inline;
     border-radius: 4px;
     line-height: 90px;
@@ -672,7 +672,7 @@ a:visited {
 
 .navbar-default .navbar-nav>li.customers-nav-item-login>a:hover,
 .navbar-default .navbar-nav>li.customers-nav-item-login>a:active {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9) !important;
 }
 
 .nav-tabs>li {
@@ -2905,8 +2905,22 @@ div:not(.preview-sticky-header) .preview-sticky-container {
 
 [dir="rtl"] .bootstrap-select .dropdown-toggle .filter-option {
     right: 0;
-    margin-left: 100%;
     margin-right: auto;
     text-align: right;
     padding-right: 16px;
+}
+
+.task-comment .task-attachment-col-more {
+    display: block !important;
+}
+
+.comment-content .task-attachment-col:nth-child(2),
+.comment-content .task-attachment-col:nth-child(3),
+.comment-content .task-attachment-col:nth-child(4) {
+    margin-top: 15px;
+}
+
+.task-comment .task-attachment-col {
+    margin-left: 0;
+    padding-left: 0;
 }

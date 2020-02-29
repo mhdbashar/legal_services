@@ -113,14 +113,20 @@
          <?php if($project->settings->view_task_attachments == 1){ ?>
          <?php
             $attachments_data = array();
+            $comments_attachments = array();
+            $i = 1;
+            $show_more_link_task_attachments = hooks()->apply_filters('show_more_link_task_attachments_customers_area', 3);
             if(count($view_task->attachments) > 0){ ?>
          <hr />
-         <div class="row">
+         <div class="row task_attachments_wrapper">
             <div class="col-md-12">
                <h4 class="bold font-medium"><?php echo _l('task_view_attachments'); ?></h4>
                <div class="row">
-                  <?php foreach($view_task->attachments as $attachment){ ?>
-                  <div class="col-md-4">
+                  <?php foreach($view_task->attachments as $attachment){
+                  ob_start(); ?>
+                  <div class="col-md-4 task-attachment-col<?php if($i > $show_more_link_task_attachments){echo ' task-attachment-col-more';} ?>"
+                     data-num="<?php echo $i; ?>"
+                     <?php if($i > $show_more_link_task_attachments){echo 'style="display:none;"';} ?>>
                      <ul class="list-unstyled">
                         <li class="mbot10 task-attachment">
                            <div class="mbot10 pull-right task-attachment-user">
@@ -158,7 +164,6 @@
                            <?php } else if(!empty($attachment['external']) && $attachment['external'] == 'gdrive'){ ?>
                            <a href="<?php echo $href_url; ?>" target="_blank" class="open-in-external" data-toggle="tooltip" data-title="<?php echo _l('open_in_google'); ?>"><i class="fa fa-google" aria-hidden="true"></i></a>
                            <?php }
-                              ob_start();
                               ?>
                            <div class="<?php if($is_image){echo 'preview-image';}else if(!$isHtml5Video){echo 'task-attachment-no-preview';} ?>">
                               <?php if(!$isHtml5Video){ ?>
@@ -175,18 +180,29 @@
                                  <?php } ?>
                                  <?php if(!$isHtml5Video){ ?>
                               </a>
-                              <?php }
-                                 $attachments_data[$attachment['id']] = ob_get_contents();
-                                 ob_end_clean();
-                                 echo $attachments_data[$attachment['id']];
-                                 ?>
+                              <?php } ?>
                            </div>
                            <div class="clearfix"></div>
                         </li>
                      </ul>
                   </div>
+                  <?php
+                     $attachments_data[$attachment['id']] = ob_get_contents();
+                              if($attachment['task_comment_id'] != 0) {
+                                 $comments_attachments[$attachment['task_comment_id']][$attachment['id']] = $attachments_data[$attachment['id']];
+                              }
+                              ob_end_clean();
+                              echo $attachments_data[$attachment['id']];
+                              $i++;
+                              ?>
                   <?php } ?>
                </div>
+         <?php if(($i - 1) > $show_more_link_task_attachments){ ?>
+            <div id="show-more-less-task-attachments-col">
+               <a href="#" class="task-attachments-more" onclick="slideToggle('.task_attachments_wrapper .task-attachment-col-more', task_attachments_toggle); return false;"><?php echo _l('show_more'); ?></a>
+               <a href="#" class="task-attachments-less hide" onclick="slideToggle('.task_attachments_wrapper .task-attachment-col-more', task_attachments_toggle); return false;"><?php echo _l('show_less'); ?></a>
+            </div>
+            <?php } ?>
             </div>
          </div>
          <?php } ?>
@@ -229,7 +245,7 @@
             if(count($view_task->comments) > 0){
               echo '<div id="task-comments">';
               foreach($view_task->comments as $comment){ ?>
-         <div class="mbot10 mtop10" data-commentid="<?php echo $comment['id']; ?>" id="comment_<?php echo $comment['id']; ?>">
+         <div class="mbot10 mtop10 task-comment" data-commentid="<?php echo $comment['id']; ?>" id="comment_<?php echo $comment['id']; ?>">
             <?php if($comment['staffid'] != 0){ ?>
             <?php echo staff_profile_image($comment['staffid'], array(
                'staff-profile-image-small',
@@ -273,8 +289,17 @@
                   <?php
                      if($comment['file_id'] != 0 && $project->settings->view_task_attachments == 1){
                        $comment['content'] = str_replace('[task_attachment]','<br />'.$attachments_data[$comment['file_id']],$comment['content']);
-                                 // Replace lightbox to prevent loading the image twice
-                       $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment"',$comment['content']);
+                       // Replace lightbox to prevent loading the image twice
+                       $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment-'.$comment['id'].'"',$comment['content']);
+                     } else if(count($comment['attachments']) > 0 && isset($comments_attachments[$comment['id']])) {
+                     $comment_attachments_html = '';
+                     foreach($comments_attachments[$comment['id']] as $comment_attachment) {
+                       $comment_attachments_html .= trim($comment_attachment);
+                     }
+                     $comment['content'] = str_replace('[task_attachment]','<div class="clearfix"></div>'.$comment_attachments_html,$comment['content']);
+                     // Replace lightbox to prevent loading the image twice
+                     $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-comment-files-'.$comment['id'].'"',$comment['content']);
+                     $comment['content'] .='<div class="clearfix"></div>';
                      }
                      echo check_for_links($comment['content']); ?>
                </div>

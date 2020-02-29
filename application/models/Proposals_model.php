@@ -58,29 +58,29 @@ class Proposals_model extends App_Model
         if ($search != '') {
             if (!startsWith($search, '#')) {
                 $this->db->where('(
-                phone LIKE "%' . $search . '%"
+                phone LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                zip LIKE "%' . $search . '%"
+                zip LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                content LIKE "%' . $search . '%"
+                content LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                state LIKE "%' . $search . '%"
+                state LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                city LIKE "%' . $search . '%"
+                city LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                email LIKE "%' . $search . '%"
+                email LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                address LIKE "%' . $search . '%"
+                address LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                proposal_to LIKE "%' . $search . '%"
+                proposal_to LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                total LIKE "%' . $search . '%"
+                total LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'
                 OR
-                subject LIKE "%' . $search . '%")');
+                subject LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
             } else {
                 $this->db->where(db_prefix() . 'proposals.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'proposal\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -863,7 +863,7 @@ class Proposals_model extends App_Model
             $this->db->where('rel_type', 'proposal');
             $this->db->delete(db_prefix() . 'notes');
 
-            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="proposal" AND rel_id="' . $id . '")');
+            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="proposal" AND rel_id="' . $this->db->escape_str($id) . '")');
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 

@@ -10,7 +10,6 @@ class Projects extends AdminController
         $this->load->model('projects_model');
         $this->load->model('currencies_model');
         $this->load->helper('date');
-        $this->load->model('tasks_model');
     }
 
     public function index()
@@ -69,7 +68,7 @@ class Projects extends AdminController
 
         if ($this->input->post()) {
             $data                = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
+            $data['description'] = html_purify($this->input->post('description', false));
             if ($id == '') {
                 if (!has_permission('projects', '', 'create')) {
                     access_denied('Projects');
@@ -219,7 +218,7 @@ class Projects extends AdminController
                 $data['members'] = $this->projects_model->get_project_members($id);
                 foreach ($data['members'] as $key => $member) {
                     $data['members'][$key]['total_logged_time'] = 0;
-                    $member_timesheets                          = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id="' . $id . '")');
+                    $member_timesheets                          = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id="' . $this->db->escape_str($id) . '")');
 
                     foreach ($member_timesheets as $member_task) {
                         $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
@@ -241,7 +240,7 @@ class Projects extends AdminController
                     }
                 }
 
-                $__total_where_tasks = 'rel_type = "project" AND rel_id=' . $id;
+                $__total_where_tasks = 'rel_type = "project" AND rel_id=' . $this->db->escape_str($id);
                 if (!has_permission('tasks', '', 'view')) {
                     $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
 
@@ -468,7 +467,7 @@ class Projects extends AdminController
 
     public function add_edit_members($project_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (has_permission('projects', '', 'edit')) {
             $this->projects_model->add_edit_members($this->input->post(), $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -524,12 +523,16 @@ class Projects extends AdminController
 
     public function add_discussion_comment($discussion_id, $type)
     {
-        echo json_encode($this->projects_model->add_discussion_comment($this->input->post(), $discussion_id, $type));
+        echo json_encode($this->projects_model->add_discussion_comment(
+            $this->input->post(null, false),
+            $discussion_id,
+            $type
+        ));
     }
 
     public function update_discussion_comment()
     {
-        echo json_encode($this->projects_model->update_discussion_comment($this->input->post()));
+        echo json_encode($this->projects_model->update_discussion_comment($this->input->post(null, false)));
     }
 
     public function delete_discussion_comment($id)
@@ -759,11 +762,12 @@ class Projects extends AdminController
 
     public function remove_team_member($project_id, $staff_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (has_permission('projects', '', 'edit')) {
             if ($this->projects_model->remove_team_member($project_id, $staff_id)) {
                 set_alert('success', _l('project_member_removed'));
             }
         }
+
         redirect(admin_url('projects/view/' . $project_id));
     }
 
@@ -1099,11 +1103,5 @@ class Projects extends AdminController
             login_as_client($clientid);
             redirect(site_url('clients/project/' . $id));
         }
-    }
-
-    function add_task_to_select_timesheet()
-    {
-        $data = $this->input->post();
-        echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 }

@@ -7,6 +7,7 @@
 elFinder.prototype.commands.netmount = function() {
 	"use strict";
 	var self = this,
+		hasMenus = false,
 		content;
 
 	this.alwaysEnabled  = true;
@@ -17,22 +18,25 @@ elFinder.prototype.commands.netmount = function() {
 	this.handlers = {
 		load : function() {
 			var fm = self.fm;
-			self.drivers = fm.netDrivers;
-			if (self.drivers.length) {
-				requestAnimationFrame(function() {
+			fm.one('open', function() {
+				self.drivers = fm.netDrivers;
+				if (self.drivers.length) {
 					$.each(self.drivers, function() {
 						var d = self.options[this];
-						if (d && d.integrateInfo) {
-							fm.trigger('helpIntegration', Object.assign({cmd: 'netmount'}, d.integrateInfo));
+						if (d) {
+							hasMenus = true;
+							if (d.integrateInfo) {
+								fm.trigger('helpIntegration', Object.assign({cmd: 'netmount'}, d.integrateInfo));
+							}
 						}
 					});
-				});
-			}
+				}
+			});
 		}
 	};
 
 	this.getstate = function() {
-		return this.drivers.length ? 0 : -1;
+		return hasMenus ? 0 : -1;
 	};
 	
 	this.exec = function() {
@@ -53,9 +57,6 @@ elFinder.prototype.commands.netmount = function() {
 							if (typeof o[protocol].select == 'function') {
 								o[protocol].select(fm, e, data);
 							}
-							requestAnimationFrame(function() {
-								content.find('input:text.elfinder-tabstop:visible:first').trigger('focus');
-							});
 						})
 						.addClass('ui-corner-all')
 					},
@@ -117,7 +118,7 @@ elFinder.prototype.commands.netmount = function() {
 							})
 							.fail(function(error) {
 								if (cur.fail && typeof cur.fail == 'function') {
-									cur.fail(fm, error);
+									cur.fail(fm, fm.parseError(error));
 								}
 								dfrd.reject(error);
 							});
@@ -177,7 +178,7 @@ elFinder.prototype.commands.netmount = function() {
 				
 				content.find('select,input').addClass('elfinder-tabstop');
 				
-				dialog = fm.dialog(form.append(content), opts);
+				dialog = self.fmDialog(form.append(content), opts);
 				dialogNode = dialog.closest('.ui-dialog');
 				dialog.ready(function(){
 					inputs.protocol.trigger('change');

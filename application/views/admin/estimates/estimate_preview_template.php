@@ -77,7 +77,7 @@
                </ul>
             </div>
          </div>
-         <div class="row">
+         <div class="row mtop10">
             <div class="col-md-3">
                <?php echo format_estimate_status($estimate->status,'mtop5');  ?>
             </div>

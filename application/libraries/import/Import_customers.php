@@ -84,17 +84,6 @@ class Import_customers extends App_import
                         continue;
                     }
 
-                    if(isset($insert['client_type'])){
-                        if($insert['client_type'] == 'company'
-                            or $insert['client_type'] == 'شركة'
-                            or $insert['client_type'] == "شركات")
-                            $insert['client_type'] = 0;
-                        elseif($insert['client_type'] == 'individual'
-                            or $insert['client_type'] == 'فرد'
-                            or $insert['client_type'] == "أفراد")
-                            $insert['client_type'] = 1;
-                    }
-
                     $insert['is_primary'] = 1;
                     $id                   = $this->ci->clients_model->add($insert, true);
 
@@ -103,26 +92,10 @@ class Import_customers extends App_import
                             $this->insertCustomerGroups($this->ci->input->post('groups_in[]'), $id);
                         }
 
-                        if ($this->ci->input->post('company_groups_in[]')) {
-                            $this->insertCustomerCompanyGroups($this->ci->input->post('company_groups_in[]'), $id);
-                        }
-
                         if (!has_permission('customers', '', 'view')) {
                             $assign['customer_admins']   = [];
                             $assign['customer_admins'][] = get_staff_user_id();
                             $this->ci->clients_model->assign_admins($assign, $id);
-                        }
-                        if(isset($insert['branch_id'])){
-                            if($this->ci->app_modules->is_active('branches')){
-                                if($insert['branch_id']){
-                                    $data = [
-                                        'branch_id' => $insert['branch_id'], 
-                                        'rel_type' => 'clients', 
-                                        'rel_id' => $id
-                                    ];
-                                    $this->ci->Branches_model->set_branch($data);
-                                }
-                            }
                         }
                     }
                 } else {
@@ -172,15 +145,6 @@ class Import_customers extends App_import
     {
         foreach ($groups as $group) {
             $this->ci->db->insert(db_prefix().'customer_groups', [
-                                                    'customer_id' => $customer_id,
-                                                    'groupid'     => $group,
-                                                ]);
-        }
-    }
-    private function insertCustomerCompanyGroups($groups, $customer_id)
-    {
-        foreach ($groups as $group) {
-            $this->ci->db->insert(db_prefix().'my_customer_company_groups', [
                                                     'customer_id' => $customer_id,
                                                     'groupid'     => $group,
                                                 ]);

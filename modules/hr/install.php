@@ -13,6 +13,38 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_holiday')) {
     ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `leave_type` varchar(200) NOT NULL,
+      `leave_reason` text NOT NULL,
+      `remarks` text NOT NULL,
+      `start_date` date NOT NULL,
+      `end_date` date NOT NULL,
+      `half_day` int(11) NOT NULL,
+      `status` varchar(200) NOT NULL,
+      `attachment` varchar(200) NOT NULL,
+      `created` timestamp NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_leave_type')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leave_type` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `name` varchar(200) NOT NULL,
+      `days` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_staffs_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_staffs_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `staff_id` varchar(200) NOT NULL,
+      `leave_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_salary')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_salary` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

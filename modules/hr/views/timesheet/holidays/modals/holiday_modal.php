@@ -11,7 +11,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'hr/Holidays/add' ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'hr/timesheet/add_holiday' ?>">
                           <?php  if($this->app_modules->is_active('branches')){  ?>
                                   <div class="form-group">
                                       <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -86,7 +86,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="form_transout" method="get" action="<?php echo base_url() . 'hr/Holidays/update' ?>">
+        <form id="form_transout" method="get" action="<?php echo base_url() . 'hr/timesheet/update_holiday' ?>">
 
                             
                             <input aria-hidden="true" type="hidden" class="form-control" id="id" name="id">

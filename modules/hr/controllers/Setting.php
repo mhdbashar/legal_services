@@ -5,6 +5,7 @@ class Setting extends AdminController{
 
 	public function __construct(){
 		parent::__construct();
+        $this->load->model('Leave_type_model');
 	}
 
     public function index(){
@@ -42,6 +43,8 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_arrangement_types_table');
             }elseif($group == 'travel_mode'){
                 $this->hrmapp->get_table_data('types/my_travel_mode_types_table');
+            }elseif($group == 'leave'){
+                $this->hrmapp->get_table_data('types/my_leave_types_table');
             }
         }
 
@@ -149,4 +152,44 @@ class Setting extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function add_leave_type(){
+        $data = $this->input->get();
+        $success = $this->Leave_type_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    public function update_leave_type(){
+        $data = $this->input->get();
+        $id = $this->input->get('id');
+        $success = $this->Leave_type_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_leave_type($id){
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Leave_type_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function leave_type_json($id){
+        $data = $this->Leave_type_model->get($id);
+        echo json_encode($data);
+    }
 }

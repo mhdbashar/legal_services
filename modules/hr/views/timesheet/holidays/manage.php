@@ -89,7 +89,7 @@
 
         //Ajax Load data from ajax
         $.ajax({
-            url : "<?php echo site_url('hrm/Holidays/get') ?>/" + id,
+            url : "<?php echo site_url('hr/timesheet/holiday_json') ?>/" + id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

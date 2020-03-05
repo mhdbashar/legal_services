@@ -19,6 +19,7 @@ class General extends AdminController{
         $this->load->model('Branches_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Designation_model');
+        $this->load->model('Leave_type_model');
 	}
 
 	public function general($staff_id){
@@ -36,6 +37,7 @@ class General extends AdminController{
         $group = '';
 
         if(!$this->input->get('group') or $this->input->get('group') == 'basic_information'){
+            $data['leaves'] = $this->Leave_type_model->get();
             $_GET['group'] = 'basic_information';
             $ts_filter_data = [];
             if ($this->input->get('filter')) {
@@ -61,7 +63,7 @@ class General extends AdminController{
             $data['user_notes']    = $this->Misc_model->get_notes($staff_id, 'staff');
             $data['departments']   = $this->Departments_model->get();
             $data['staff_departments'] = $this->Departments_model->get_staff_departments($member->staffid);
-            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'zip_code' => '', 'address' => ''];
+            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
 
             $data['extra_info'] = (object)$extra_info;
 
@@ -164,6 +166,7 @@ class General extends AdminController{
         $hr_data['city'] = $this->input->post('city');
         $hr_data['zip_code'] = $this->input->post('zip_code');
         $hr_data['address'] = $this->input->post('address');
+        $hr_data['leaves'] = $this->input->post('leaves');
         $staff_id = $id;
 
         if ($this->input->post()) {

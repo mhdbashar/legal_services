@@ -66,6 +66,36 @@ class Estimates extends AdminController
         ]);
     }
 
+    public function table_case($clientid = '',$ServID='', $slug)
+    {
+        if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('estimates_case', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function table_oservice($clientid = '',$ServID='', $slug)
+    {
+        if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->app->get_table_data('estimates_oservice', [
+            'clientid' => $clientid,
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
     /* Add new estimate or update existing */
     public function estimate($id = '')
     {

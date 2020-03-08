@@ -33,6 +33,7 @@ class Clients_model extends App_Model
         }
 
         if (is_numeric($id)) {
+
             $this->db->where(db_prefix() . 'clients.userid', $id);
             $client = $this->db->get(db_prefix() . 'clients')->row();
 
@@ -114,6 +115,11 @@ class Clients_model extends App_Model
             unset($data['groups_in']);
         }
 
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
+        }
+
         $data = $this->check_zero_columns($data);
 
         $data['datecreated'] = date('Y-m-d H:i:s');
@@ -155,6 +161,15 @@ class Clients_model extends App_Model
                     $this->db->insert(db_prefix() . 'customer_groups', [
                         'customer_id' => $userid,
                         'groupid'     => $group,
+                    ]);
+                }
+            }
+
+            if (isset($groups_company_in)) {
+                foreach ($groups_company_in as $group_company) {
+                    $this->db->insert(db_prefix() . 'customer_groups', [
+                        'customer_id' => $userid,
+                        'groupid'     => $group_company,
                     ]);
                 }
             }
@@ -209,6 +224,11 @@ class Clients_model extends App_Model
         if (isset($data['groups_in'])) {
             $groups_in = $data['groups_in'];
             unset($data['groups_in']);
+        }
+
+        if (isset($data['groups_company_in'])) {
+            $groups_company_in = $data['groups_company_in'];
+            unset($data['groups_company_in']);
         }
 
         $data = $this->check_zero_columns($data);
@@ -266,7 +286,15 @@ class Clients_model extends App_Model
             $groups_in = false;
         }
 
+        if (!isset($groups_company_in)) {
+            $groups_company_in = false;
+        }
+
         if ($this->client_groups_model->sync_customer_groups($id, $groups_in)) {
+            $affectedRows++;
+        }
+
+        if ($this->client_groups_model->sync_company_customer_groups($id, $groups_company_in)) {
             $affectedRows++;
         }
 
@@ -292,6 +320,14 @@ class Clients_model extends App_Model
     {
         $affectedRows = 0;
         $contact      = $this->get_contact($id);
+
+        if (isset($data['full_name'])) {
+        $data['firstname'] = strtok($data['full_name'], ' ');
+        $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+        $data['lastname'] = $lastname != '' ? $lastname : NULL;
+            unset($data['full_name']);
+        }
+
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -416,6 +452,16 @@ class Clients_model extends App_Model
      */
     public function add_contact($data, $customer_id, $not_manual_request = false)
     {
+        if (isset($data['full_name'])) {
+            $data['firstname'] = strtok($data['full_name'], ' ');
+            $lastname = $data['lastname'] = strstr($data['full_name'], ' ');
+            if($lastname == ' ' || $lastname == ''){
+                $data['lastname'] = NULL;
+            }else{
+                $data['lastname'] = $lastname;
+            }
+            unset($data['full_name']);
+        }
         $send_set_password_email = isset($data['send_set_password_email']) ? true : false;
 
         if (isset($data['custom_fields'])) {
@@ -467,7 +513,7 @@ class Clients_model extends App_Model
         $data['userid']       = $customer_id;
         if (isset($data['password'])) {
             $password_before_hash = $data['password'];
-            $data['password']     = app_hash_password($data['password']);
+            $data['password'] = app_hash_password($data['password']);
         }
 
         $data['datecreated'] = date('Y-m-d H:i:s');
@@ -549,14 +595,8 @@ class Clients_model extends App_Model
                 }
             }
 
-            if ($send_welcome_email == true && !empty($data['email'])) {
-                send_mail_template(
-                    'customer_created_welcome_mail',
-                    $data['email'],
-                    $data['userid'],
-                    $contact_id,
-                    $password_before_hash
-                );
+            if ($send_welcome_email == true) {
+                send_mail_template('customer_created_welcome_mail', $data['email'], $data['userid'], $contact_id, $password_before_hash);
             }
 
             if ($send_set_password_email) {
@@ -1297,6 +1337,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get customer groups where customer belongs
+     * @param  mixed $id customer id
+     * @return array
+     */
+    public function get_company_customer_groups($id)
+    {
+        return $this->client_groups_model->get_company_customer_groups($id);
+    }
+
+    /**
      * Get all customer groups
      * @param  string $id
      * @return mixed
@@ -1307,6 +1357,16 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get all customer groups
+     * @param  string $id
+     * @return mixed
+     */
+    public function get_company_groups($id = '')
+    {
+        return $this->client_groups_model->get_company_groups($id);
+    }
+
+    /**
      * Delete customer groups
      * @param  mixed $id group id
      * @return boolean
@@ -1314,6 +1374,16 @@ class Clients_model extends App_Model
     public function delete_group($id)
     {
         return $this->client_groups_model->delete($id);
+    }
+
+    /**
+     * Delete customer groups
+     * @param  mixed $id group id
+     * @return boolean
+     */
+    public function delete_company_group($id)
+    {
+        return $this->client_groups_model->company_delete($id);
     }
 
     /**
@@ -1333,6 +1403,24 @@ class Clients_model extends App_Model
     public function edit_group($data)
     {
         return $this->client_groups_model->edit($data);
+    }
+    /**
+     * Add new customer groups
+     * @param array $data $_POST data
+     */
+    public function add_company_group($data)
+    {
+        return $this->client_groups_model->company_add($data);
+    }
+
+    /**
+     * Edit customer group
+     * @param  array $data $_POST data
+     * @return boolean
+     */
+    public function edit_company_group($data)
+    {
+        return $this->client_groups_model->company_edit($data);
     }
 
     /**

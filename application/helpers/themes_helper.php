@@ -41,13 +41,13 @@ function add_default_theme_menu_items()
                     'position' => 100,
                 ]);
     } else {
-        if (has_contact_permission('projects')) {
+        /*if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
                     'name'     => _l('clients_nav_projects'),
                     'href'     => site_url('clients/projects'),
                     'position' => 10,
                 ]);
-        }
+        }*/
         if (has_contact_permission('invoices')) {
             add_theme_menu_item('invoices', [
                     'name'     => _l('clients_nav_invoices'),

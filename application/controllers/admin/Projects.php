@@ -1104,4 +1104,6 @@ class Projects extends AdminController
             redirect(site_url('clients/project/' . $id));
         }
     }
+
+    //after v2.4.4 perfex delete add_task_to_select_timesheet funcion
 }

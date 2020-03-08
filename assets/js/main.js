@@ -35,7 +35,9 @@ var original_top_search_val,
     table_leads,
     table_activity_log,
     table_estimates,
+    table_estimates_case,
     table_invoices,
+    table_invoices_case,
     table_tasks,
     tab_active = get_url_param('tab'),
     tab_group = get_url_param('group'),
@@ -1747,6 +1749,8 @@ $(function() {
     init_table_announcements();
     init_table_staff_projects();
 
+    init_table_tickets_case();
+
     // Ticket pipe log and system activity log
     table_activity_log = $('table.table-activity-log');
     if (table_activity_log.length) {
@@ -1756,7 +1760,10 @@ $(function() {
     }
 
     table_invoices = $('table.table-invoices');
+    table_invoices_case = $('table.table-invoices_case');
     table_estimates = $('table.table-estimates');
+    table_estimates_case = $('table.table-estimates_case');
+
 
     if (table_invoices.length > 0 || table_estimates.length > 0) {
 
@@ -1784,6 +1791,40 @@ $(function() {
             ]);
         }
     }
+
+    
+    if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
+
+        // Invoices additional server params
+        var Invoices_Estimates_ServerParamsCase = {};
+        var Invoices_Estimates_FilterCase = $('._hidden_inputs._filters input');
+
+        $.each(Invoices_Estimates_FilterCase, function() {
+            Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        servid_invoices_case = $(".table-invoices_case").attr('data-servid');
+        slug_invoices_case = $(".table-invoices_case").attr('data-slug');
+        if (table_invoices_case.length) {
+            // Invoices tables
+            initDataTable(table_invoices_case, (admin_url + 'invoices/table_case/'+ servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
+                [3, 'desc'],
+                [0, 'desc']
+            ] : [table_invoices_case.find('th.next-recurring-date').index(), 'asc']);
+        }
+
+        if (table_estimates_case.length) {
+            // Estimates table
+            servid_estimates_case = $(".table-estimates_case").attr('data-servid');
+            slug_estimates_case = $(".table-estimates_case").attr('data-slug');
+            initDataTable(table_estimates_case, admin_url + 'estimates/table_case/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParams, [
+                [3, 'desc'],
+                [0, 'desc']
+            ]);
+        }
+    }
+
+
 
     table_tasks = $('.table-tasks');
     if (table_tasks.length) {
@@ -2587,6 +2628,32 @@ function init_rel_tasks_table(rel_id, rel_type, selector) {
     }
 
     initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
+}
+
+
+// Initing relation tasks tables
+function init_rel_tasks_case_table(rel_id, rel_type, selector) {
+    if (typeof(selector) == 'undefined') { selector = '.table-rel-tasks_case'; }
+    var $selector = $("body").find(selector);
+    if ($selector.length === 0) { return; }
+
+    var TasksServerParamsCase = {},
+        tasksRelationTableNotSortableCase = [0], // bulk actions
+        TasksFiltersCase;
+
+    TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFiltersCase, function() {
+        TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'tasks/init_relation_tasks/' + rel_id + '/' + rel_type;
+
+    if ($selector.attr('data-new-rel-type') == rel_type) {
+        url += '?bulk_actions=true';
+    }
+
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [$selector.find('th.duedate').index(), 'asc']);
 }
 
 
@@ -4689,6 +4756,44 @@ function init_table_tickets(manual) {
     }
 }
 
+function init_table_tickets_case(manual) {
+
+    // Single ticket is for other tickets from user
+    if (typeof(manual) == 'undefined' &&
+        ($("body").hasClass('dashboard') || $('body').hasClass('single-ticket'))) {
+        return false;
+    }
+
+    if ($("body").find('.tickets_case-table').length === 0) { return; }
+
+    var TicketServerParamsCase = {},
+        Tickets_FiltersCase = $('._hidden_inputs._filters.tickets_filters input');
+    var tickets_date_created_index_case = $('table.tickets_case-table thead .ticket_created_column').index();
+    $.each(Tickets_FiltersCase, function() {
+        TicketServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    slug_tickets_case = $(".tickets_case-table").attr('data-slug');
+    TicketServerParamsCase['project_id'] = '[name="project_id"]';
+
+    var ticketsTableNotSortableCase = [0]; // bulk actions
+    var _tickets_table_url_case = admin_url + 'tickets/table_tickets_case/'+slug_tickets_case;
+
+    if ($("body").hasClass('tickets-page')) {
+        _tickets_table_url_case += '?bulk_actions=true';
+    }
+
+    _table_api = initDataTable('.tickets_case-table', _tickets_table_url_case, ticketsTableNotSortableCase, ticketsTableNotSortableCase, TicketServerParamsCase, [tickets_date_created_index_case, 'desc']);
+
+    if (_table_api && $("body").hasClass('dashboard')) {
+        var notVisibleDashboardDefault = [4, tickets_date_created_index_case, 5, 6];
+        for (var i in notVisibleDashboardDefault) {
+            _table_api.column(notVisibleDashboardDefault[i]).visible(false, false);
+        }
+        _table_api.columns.adjust();
+    }
+}
+
 // Staff projects table in staff profile
 function init_table_staff_projects(manual) {
     if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
@@ -5525,9 +5630,19 @@ function init_invoice(id) {
     load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices');
 }
 
+function init_invoice_case(id) {
+    load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices_case');
+}
+
+
 // Init single credit note
 function init_credit_note(id) {
     load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes');
+}
+
+// Init single credit note case
+function init_credit_note_case(id) {
+    load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes_case');
 }
 
 // Init single estimate
@@ -5542,6 +5657,10 @@ function init_proposal(id) {
 
 function init_expense(id) {
     load_small_table_item(id, '#expense', 'expenseid', 'expenses/get_expense_data_ajax', '.table-expenses');
+}
+
+function init_expense_case(id) {
+    load_small_table_item(id, '#expense', 'expenseid', 'expenses/get_expense_data_ajax', '.table-expenses_case');
 }
 
 // Clear billing and shipping inputs for invoice,estimate etc...
@@ -6224,6 +6343,7 @@ function delete_credit_note_attachment(id) {
             if (success == 1) {
                 $("body").find('[data-attachment-id="' + id + '"]').remove();
                 init_credit_note($("body").find('input[name="_attachment_sale_id"]').val());
+                init_credit_note_case($("body").find('input[name="_attachment_sale_id"]').val());
             }
         }).fail(function(error) {
             alert_float('danger', error.responseText);

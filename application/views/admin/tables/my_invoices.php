@@ -105,11 +105,11 @@ if (count($filter) > 0) {
 }
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'invoices.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'invoices.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if ($project_id) {
-    array_push($where, 'AND project_id=' . $project_id);
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($project_id));
 }
 
 if (!has_permission('invoices', '', 'view')) {

@@ -174,8 +174,39 @@ class Download extends App_Controller
             $this->db->where('rel_type', 'expense');
             $file = $this->db->get(db_prefix().'files')->row();
             $path = get_upload_path_by_type('expense') . $file->rel_id . '/' . $file->file_name;
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        } elseif ($folder_indicator == 'procuration') {
+            if (!is_staff_logged_in()) {
+                show_404();
+            }
+            $this->db->where('rel_id', $attachmentid);
+            $this->db->where('rel_type', 'procuration');
+            $file = $this->db->get(db_prefix().'files')->row();
+            $path = get_upload_path_by_type('procuration') . $file->rel_id . '/' . $file->file_name;
         // l_attachment_key is if request is coming from public form
-        } elseif ($folder_indicator == 'lead_attachment' || $folder_indicator == 'l_attachment_key') {
+        } elseif ($folder_indicator == 'hr/document') {
+            if (!is_staff_logged_in()) {
+                show_404();
+            }
+            $this->db->where('id', $attachmentid);
+            $file = $this->db->get(db_prefix().'hr_documents')->row();
+            $path = get_upload_path_by_type('hr/document') . $file->id . '/' . $file->document_file;
+        // l_attachment_key is if request is coming from public form
+        }
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        elseif ($folder_indicator == 'transaction') {
+            if (!is_staff_logged_in()) {
+                show_404();
+            }
+            $this->db->where('rel_id', $attachmentid);
+            $this->db->where('rel_type', 'transaction');
+            $file = $this->db->get(db_prefix().'files')->row();
+            $path = get_upload_path_by_type('transaction') . $file->rel_id . '/' . $file->file_name;
+            // l_attachment_key is if request is coming from public form
+        }
+        elseif ($folder_indicator == 'lead_attachment' || $folder_indicator == 'l_attachment_key') {
             if (!is_staff_logged_in() && strpos($_SERVER['HTTP_REFERER'], 'forms/l/') === false) {
                 show_404();
             }

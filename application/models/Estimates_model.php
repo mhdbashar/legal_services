@@ -41,9 +41,11 @@ class Estimates_model extends App_Model
         $this->db->select('*,' . db_prefix() . 'currencies.id as currencyid, ' . db_prefix() . 'estimates.id as id, ' . db_prefix() . 'currencies.name as currency_name');
         $this->db->from(db_prefix() . 'estimates');
         $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id = ' . db_prefix() . 'estimates.currency', 'left');
+        $this->db->where(db_prefix() . 'estimates.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'estimates.id', $id);
+            $this->db->where(db_prefix() . 'estimates.deleted', 0);
             $estimate = $this->db->get()->row();
             if ($estimate) {
                 $estimate->attachments                           = $this->get_attachments($id);
@@ -123,9 +125,9 @@ class Estimates_model extends App_Model
         $fields_estimates = $this->db->list_fields(db_prefix() . 'estimates');
 
         $has_permission_view = has_permission('estimates', '', 'view');
-        $noPermissionQuery   = get_estimates_where_sql_for_staff(get_staff_user_id());
+        $noPermissionQuery = get_estimates_where_sql_for_staff(get_staff_user_id());
 
-        $this->db->select(db_prefix() . 'estimates.id,status,invoiceid,' . get_sql_select_client_company() . ',total,currency,symbol,' . db_prefix() . 'currencies.name as currency_name,date,expirydate,clientid');
+        $this->db->select(db_prefix() . 'estimates.id,status,invoiceid,' . get_sql_select_client_company() . ',total,currency,symbol,'.db_prefix().'currencies.name as currency_name,date,expirydate,clientid');
         $this->db->from(db_prefix() . 'estimates');
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid', 'left');
         $this->db->join(db_prefix() . 'currencies', db_prefix() . 'estimates.currency = ' . db_prefix() . 'currencies.id');

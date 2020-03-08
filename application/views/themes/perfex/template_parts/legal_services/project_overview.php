@@ -20,6 +20,11 @@ if ($ServID == 1){
   <div class="panel-body no-radius">
    <table class="table table-borded no-margin">
     <tbody>
+      <!-- to review v2.4.4  -->
+    <tr>
+        <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
+        <td><?php echo $project->id; ?></td> 
+      </tr>
       <tr class="project-billing-type">
         <td class="bold"><?php echo _l('project_billing_type'); ?></td>
         <td>

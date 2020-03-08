@@ -238,7 +238,7 @@ foreach ($rResult as $aRow) {
     $company = '<a href="' . $url . '">' . $company . '</a>';
 
     $company .= '<div class="row-options">';
-    $company .= '<a href="' . $url . '">' . _l('view') . '</a>';
+    $company .= '<a href="' . admin_url('clients/client/' . $aRow['userid'] . ($isPerson && $aRow['contact_id'] ? '?group=contacts' : '')) . '">' . _l('view') . '</a>';
 
     if ($aRow['registration_confirmed'] == 0 && is_admin()) {
         $company .= ' | <a href="' . admin_url('clients/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';

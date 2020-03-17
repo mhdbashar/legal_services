@@ -13,6 +13,8 @@ class Other_services_controller extends AdminController
         $this->load->model('tasks_model');
         $this->load->model('LegalServices/Phase_model','phase');
         $this->load->helper('date');
+        $this->load->model('Staff_model');
+        $this->load->model('emails_model');
     }
 
     public function add($ServID)
@@ -28,8 +30,21 @@ class Other_services_controller extends AdminController
         if ($this->input->post()) {
             $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
+
             $id = $this->other->add($ServID,$data);
             if ($id) {
+                foreach ($data['project_members'] as $staff_id){
+                    $staff = $this->Staff_model->get($staff_id);
+                    $send = $this->emails_model->send_email_template('new-other_services-created-to-staff', 
+                        $staff->email, 
+                        [
+                            'other_service_name' => $data['name'], 
+                            'staff_firstname' => $staff->firstname, 
+                            'other_service_description' => $data['description'], 
+                            'other_service_link' => admin_url('SOther/view/'.$ServID.'/'.$id),
+                        ]
+                    );
+                }
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url("SOther/view/$ServID/$id"));
             }

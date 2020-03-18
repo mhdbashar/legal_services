@@ -32,7 +32,7 @@
                         </div>
                         <?php } ?>
                         <!-- // For email exist check -->
-                        <?php $value=( isset($contact) ? $contact->firstname .' '. $contact->lastname : ''); ?>
+                        <?php $value=( isset($contact) ? $contact->firstname: ''); ?>
                         <?php echo render_input( 'full_name', 'client_full_name',$value, 'text', ['required'=> 'required']); ?>
                         <?php echo form_hidden('contactid',$contactid); ?>
                         <?php $value=( isset($contact) ? $contact->title : ''); ?>

@@ -59,6 +59,8 @@ function hr_menu_items($item)
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                     <li><a href="'.admin_url('hr/timesheet/holidays').'">'._l('holiday').'</a>
                                     </li>
+                                    <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
+                                    </li>
                                 </ul>
                         </li>
 

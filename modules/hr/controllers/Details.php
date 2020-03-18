@@ -373,8 +373,13 @@ class Details extends AdminController{
 	public function leaves($staff_id){
 
 		if ($this->input->is_ajax_request()) {
-			$this->hrmapp->get_table_data('my_deduction_types_table');
+			$this->hrmapp->get_table_data('my_leave_table', ['staff_id' => $staff_id]);
 		}
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
 		$data['staff_id'] = $staff_id;
 		$this->load->view('details/leaves', $data);

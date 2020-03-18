@@ -1,5 +1,8 @@
 <?php
 
+$lang['add_new_holiday'] = 'Add New Holiday';
+$lang['event_name'] = "Event Name";
+
 $lang['arrangement'] = "Arrangement";
 $lang['add_arrangement_type'] = "Add arrangement type";
 $lang['travel_mode'] = "Travel mode";

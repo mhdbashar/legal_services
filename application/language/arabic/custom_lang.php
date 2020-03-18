@@ -1,5 +1,8 @@
 <?php
 
+$lang['add_new_holiday'] = 'اضافة عطلة جديدة';
+$lang['event_name'] = "اسم الحدث";
+
 $lang['timesheet'] = "المواعيد";
 $lang['holiday'] = "العطل";
 $lang['fullname'] = 'الاسم الكامل';

@@ -206,11 +206,11 @@ class Tasks_model extends App_Model
 
         if ($search != '') {
             if (!startsWith($search, '#')) {
-                $this->db->where('(' . db_prefix() . 'tasks.name LIKE "%' . $search . '%" OR ' . db_prefix() . 'tasks.description LIKE "%' . $search . '%")');
+                $this->db->where('(' . db_prefix() . 'tasks.name LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'  OR ' . db_prefix() . 'tasks.description LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\')');
             } else {
                 $this->db->where(db_prefix() . 'tasks.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'task\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -247,7 +247,7 @@ class Tasks_model extends App_Model
 
     public function get_distinct_tasks_years($get_from)
     {
-        return $this->db->query('SELECT DISTINCT(YEAR(' . $get_from . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $get_from . ' IS NOT NULL ORDER BY year DESC')->result_array();
+        return $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
     }
 
     public function is_task_billed($id)
@@ -417,7 +417,7 @@ class Tasks_model extends App_Model
     public function get_billable_tasks($customer_id = false, $project_id = '')
     {
         $has_permission_view = has_permission('tasks', '', 'view');
-        $noPermissionsQuery = get_tasks_where_string(false);
+        $noPermissionsQuery  = get_tasks_where_string(false);
 
         $this->db->where('billable', 1);
         $this->db->where('billed', 0);
@@ -433,19 +433,19 @@ class Tasks_model extends App_Model
             $this->db->where(
                 '
                 (
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
+                (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $this->db->escape_str($customer_id) . ') AND rel_type="invoice")
                 OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $customer_id . ') AND rel_type="estimate")
+                (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $this->db->escape_str($customer_id) . ') AND rel_type="estimate")
                 OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $customer_id . ') AND rel_type="contract")
+                (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $this->db->escape_str($customer_id) . ') AND rel_type="contract")
                 OR
-                ( rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $customer_id . ') AND rel_type="ticket")
+                ( rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $this->db->escape_str($customer_id) . ') AND rel_type="ticket")
                 OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $customer_id . ') AND rel_type="expense")
+                (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $this->db->escape_str($customer_id) . ') AND rel_type="expense")
                 OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $customer_id . ' AND rel_type="customer") AND rel_type="proposal")
+                (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $this->db->escape_str($customer_id) . ' AND rel_type="customer") AND rel_type="proposal")
                 OR
-                (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $customer_id . ') AND rel_type="customer")
+                (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $this->db->escape_str($customer_id) . ') AND rel_type="customer")
                 )'
                 );
         }
@@ -478,6 +478,7 @@ class Tasks_model extends App_Model
     public function get_billable_amount($taskId)
     {
         $data = $this->get_billable_task_data($taskId);
+
         return app_format_number($data->total_hours * $data->hourly_rate);
     }
 
@@ -507,7 +508,7 @@ class Tasks_model extends App_Model
     public function get_tasks_by_staff_id($id, $where = [])
     {
         $this->db->where($where);
-        $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $id . '))');
+        $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $this->db->escape_str($id) . '))');
 
         return $this->db->get(db_prefix() . 'tasks')->result_array();
     }
@@ -725,7 +726,7 @@ class Tasks_model extends App_Model
                 }
 
                 if ($ticket_to_task && isset($data['rel_type']) && $data['rel_type'] == 'ticket') {
-                    $ticket_attachments = $this->db->query('SELECT * FROM ' . db_prefix() . 'ticket_attachments WHERE ticketid=' . $data['rel_id'] . ' OR (ticketid=' . $data['rel_id'] . ' AND replyid IN (SELECT id FROM ' . db_prefix() . 'ticket_replies WHERE ticketid=' . $data['rel_id'] . '))')->result_array();
+                    $ticket_attachments = $this->db->query('SELECT * FROM ' . db_prefix() . 'ticket_attachments WHERE ticketid=' . $this->db->escape_str($data['rel_id']) . ' OR (ticketid=' . $this->db->escape_str($data['rel_id']) . ' AND replyid IN (SELECT id FROM ' . db_prefix() . 'ticket_replies WHERE ticketid=' . $this->db->escape_str($data['rel_id']) . '))')->result_array();
 
                     if (count($ticket_attachments) > 0) {
                         $task_path = get_upload_path_by_type('task') . $insert_id . '/';
@@ -2258,7 +2259,7 @@ class Tasks_model extends App_Model
 
     public function task_tracking_stats($id)
     {
-        $loggers    = $this->db->query('SELECT DISTINCT(staff_id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . $id)->result_array();
+        $loggers    = $this->db->query('SELECT DISTINCT(staff_id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . $this->db->escape_str($id))->result_array();
         $labels     = [];
         $labels_ids = [];
         foreach ($loggers as $assignee) {
@@ -2285,6 +2286,8 @@ class Tasks_model extends App_Model
 
     public function get_timesheeets($task_id)
     {
+        $task_id = $this->db->escape_str($task_id);
+
         return $this->db->query("SELECT id,note,start_time,end_time,task_id,staff_id, CONCAT(firstname, ' ', lastname) as full_name,
         end_time - start_time time_spent FROM " . db_prefix() . 'taskstimers JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid=' . db_prefix() . "taskstimers.staff_id WHERE task_id = '$task_id' ORDER BY start_time DESC")->result_array();
     }
@@ -2400,6 +2403,8 @@ class Tasks_model extends App_Model
 
     public function get_staff_members_that_can_access_task($task_id)
     {
+        $task_id = $this->db->escape_str($task_id);
+
         return $this->db->query('SELECT * FROM ' . db_prefix() . 'staff
             WHERE (
                     admin=1

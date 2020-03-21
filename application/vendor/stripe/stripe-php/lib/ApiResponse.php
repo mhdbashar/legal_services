@@ -11,9 +11,24 @@ use Stripe\Util\CaseInsensitiveArray;
  */
 class ApiResponse
 {
+    /**
+     * @var array|CaseInsensitiveArray|null
+     */
     public $headers;
+    
+    /**
+     * @var string
+     */
     public $body;
+
+    /**
+     * @var array|null
+     */
     public $json;
+
+    /**
+     * @var int
+     */
     public $code;
 
     /**
@@ -21,8 +36,6 @@ class ApiResponse
      * @param integer $code
      * @param array|CaseInsensitiveArray|null $headers
      * @param array|null $json
-     *
-     * @return obj An APIResponse
      */
     public function __construct($body, $code, $headers, $json)
     {

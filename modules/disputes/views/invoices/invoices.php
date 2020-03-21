@@ -25,6 +25,15 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'my_project_invoices.project_id',
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'my_project_invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
+
+
 $custom_fields = get_table_custom_fields('invoice');
 
 foreach ($custom_fields as $key => $field) {
@@ -182,6 +191,10 @@ foreach ($rResult as $aRow) {
     }
 
     $row['DT_RowClass'] = 'has-row-options';
+
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
 
     $row = hooks()->apply_filters('invoices_table_row_data', $row, $aRow);
 

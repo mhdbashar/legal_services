@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
 * --------------------------------------------------------------------------
@@ -17,6 +18,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 *
 */
 define('APP_BASE_URL', '[base_url]');
+
 /*
 * --------------------------------------------------------------------------
 * Encryption Key
@@ -31,6 +33,7 @@ define('APP_BASE_URL', '[base_url]');
 * Auto added on install
 */
 define('APP_ENC_KEY', '[encryption_key]');
+
 /**
  * Database Credentials
  * The hostname of your database server
@@ -48,6 +51,7 @@ define('APP_DB_PASSWORD', '[db_password]');
  * The name of the database you want to connect to
  */
 define('APP_DB_NAME', '[db_name]');
+
 /**
  * @since  2.3.0
  * Database charset
@@ -58,6 +62,7 @@ define('APP_DB_CHARSET', 'utf8');
  * Database collation
  */
 define('APP_DB_COLLATION', 'utf8_general_ci');
+
 /**
  *
  * Session handler driver
@@ -71,6 +76,7 @@ define('APP_DB_COLLATION', 'utf8_general_ci');
  */
 define('SESS_DRIVER', 'database');
 define('SESS_SAVE_PATH', 'sessions');
+
 /**
  * Enables CSRF Protection
  */

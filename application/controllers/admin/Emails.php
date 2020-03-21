@@ -181,6 +181,7 @@ class Emails extends AdminController
         }
 
         $data['available_merge_fields'] = $this->app_merge_fields->all();
+
         $data['template'] = $this->emails_model->get_email_template_by_id($id);
         $title            = $data['template']->name;
         $data['title']    = $title;

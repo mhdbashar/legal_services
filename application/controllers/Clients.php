@@ -84,14 +84,14 @@ class Clients extends ClientsController
         $where = 'clientid=' . get_client_user_id();
 
         if (is_numeric($status)) {
-            $where .= ' AND status=' . $status;
+            $where .= ' AND status=' . $this->db->escape_str($status);
         } else {
             $listStatusesIds = [];
             $where .= ' AND status IN (';
             foreach ($data['project_statuses'] as $projectStatus) {
                 if (isset($projectStatus['filter_default']) && $projectStatus['filter_default'] == true) {
                     $listStatusesIds[] = $projectStatus['id'];
-                    $where .= $projectStatus['id'] . ',';
+                    $where .= $this->db->escape_str($projectStatus['id']) . ',';
                 }
             }
             $where = rtrim($where, ',');
@@ -507,6 +507,31 @@ class Clients extends ClientsController
         $this->data($data);
         $this->view('project');
         $this->layout();
+    }
+
+    public function download_all_project_files($id)
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+
+        $files = $this->projects_model->get_files($id);
+
+        if (count($files) == 0) {
+            set_alert('warning', _l('no_files_found'));
+            redirect(site_url('clients/project/' . $id . '?group=project_files'));
+        }
+
+        $path = get_upload_path_by_type('project') . $id;
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download(slug_it(get_project_name_by_id($id)) . '-files.zip');
+        $this->zip->clear_data();
     }
 
     public function legal_services($id, $ServID)
@@ -1099,7 +1124,7 @@ class Clients extends ClientsController
         if (!is_numeric($status)) {
             $where .= ' AND status IN (' . implode(', ', $defaultStatuses) . ')';
         } else {
-            $where .= ' AND status=' . $status;
+            $where .= ' AND status=' . $this->db->escape_str($status);
         }
 
         $data['list_statuses'] = is_numeric($status) ? [$status] : $defaultStatuses;

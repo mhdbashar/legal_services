@@ -31,10 +31,16 @@
                         <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
                         <?php } ?>
                         <?php
-                           $invoice_func = 'pre_invoice_disputes';
+                           $invoice_func = 'pre_invoice_project';
                            ?>
                         <?php if(has_permission('invoices','','create')){ ?>
                         <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                        <?php } ?>
+                        <?php
+                           $invoice_func = 'pre_invoice_disputes';
+                           ?>
+                        <?php if(has_permission('invoices','','create')){ ?>
+                        <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_disputes'); ?></a>
                         <?php } ?>
                         <?php
                            $project_pin_tooltip = _l('pin_project');
@@ -342,6 +348,67 @@
    function discussion_comments(selector,discussion_id,discussion_type){
      var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_project_discussions_language_array()); ?>);
      var options = {
+          // https://github.com/Viima/jquery-comments/pull/169
+      wysiwyg_editor: {
+            opts: {
+                enable: true,
+                is_html: true,
+                container_id: 'editor-container',
+                comment_index: 0,
+            },
+            init: function (textarea, content) {
+                var comment_index = textarea.data('comment_index');
+                 var editorConfig = _simple_editor_config();
+                 editorConfig.setup = function(ed) {
+                      textarea.data('wysiwyg_editor', ed);
+
+                      ed.on('change', function() {
+                          var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('keyup', function() {
+                        var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('Focus', function (e) {
+                        textarea.trigger('click');
+                      });
+
+                      ed.on('init', function() {
+                        if (content) ed.setContent(content);
+                      })
+                  }
+
+                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+            },
+            get_container: function (textarea) {
+                if (!textarea.data('comment_index')) {
+                    textarea.data('comment_index', ++this.opts.comment_index);
+                }
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
+            },
+            get_contents: function(editor) {
+               return editor.getContent();
+            },
+            on_post_comment: function(editor, evt) {
+               editor.setContent('');
+            },
+            get_container_id: function(comment_index) {
+              var container_id = this.opts.container_id;
+              if (comment_index) container_id = container_id + "-" + comment_index;
+              return container_id;
+            }
+        },
       currentUserIsAdmin:current_user_is_admin,
       getComments: function(success, error) {
         $.get(admin_url + 'projects/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){

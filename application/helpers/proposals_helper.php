@@ -27,7 +27,7 @@ function check_proposal_restrictions($id, $hash)
  */
 function is_proposals_email_expiry_reminder_enabled()
 {
-    return total_rows(db_prefix().'emailtemplates', ['slug' => 'proposal-expiry-reminder', 'active' => 1]) > 0;
+    return total_rows(db_prefix() . 'emailtemplates', ['slug' => 'proposal-expiry-reminder', 'active' => 1]) > 0;
 }
 
 /**
@@ -126,7 +126,7 @@ function get_proposal_item_taxes($itemid)
     $CI = & get_instance();
     $CI->db->where('itemid', $itemid);
     $CI->db->where('rel_type', 'proposal');
-    $taxes = $CI->db->get(db_prefix().'item_tax')->result_array();
+    $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
     $i     = 0;
     foreach ($taxes as $tax) {
         $taxes[$i]['taxname'] = $tax['taxname'] . '|' . $tax['taxrate'];
@@ -164,17 +164,17 @@ function get_proposals_percent_by_status($status, $total_proposals = '')
     }
 
     if (!is_numeric($total_proposals)) {
-        $total_proposals = total_rows(db_prefix().'proposals', $whereUser);
+        $total_proposals = total_rows(db_prefix() . 'proposals', $whereUser);
     }
 
     $data            = [];
     $total_by_status = 0;
-    $where           = 'status=' . $status;
+    $where           = 'status=' . get_instance()->db->escape_str($status);
     if (!$has_permission_view) {
         $where .= ' AND (' . $whereUser . ')';
     }
 
-    $total_by_status = total_rows(db_prefix().'proposals', $where);
+    $total_by_status = total_rows(db_prefix() . 'proposals', $where);
     $percent         = ($total_proposals > 0 ? number_format(($total_by_status * 100) / $total_proposals, 2) : 0);
 
     $data['total_by_status'] = $total_by_status;
@@ -217,7 +217,7 @@ function user_can_view_proposal($id, $staff_id = false)
     }
 
     $CI->db->select('id, addedfrom, assigned');
-    $CI->db->from(db_prefix().'proposals');
+    $CI->db->from(db_prefix() . 'proposals');
     $CI->db->where('id', $id);
     $proposal = $CI->db->get()->row();
 
@@ -230,7 +230,7 @@ function user_can_view_proposal($id, $staff_id = false)
 }
 function parse_proposal_content_merge_fields($proposal)
 {
-    $id           = is_array($proposal) ? $proposal['id'] : $proposal->id;
+    $id = is_array($proposal) ? $proposal['id'] : $proposal->id;
     $CI = &get_instance();
 
     $CI->load->library('merge_fields/proposals_merge_fields');
@@ -267,14 +267,13 @@ function parse_proposal_content_merge_fields($proposal)
  */
 function staff_has_assigned_proposals($staff_id = '')
 {
-    $CI         = &get_instance();
+    $CI       = &get_instance();
     $staff_id = is_numeric($staff_id) ? $staff_id : get_staff_user_id();
     $cache    = $CI->app_object_cache->get('staff-total-assigned-proposals-' . $staff_id);
     if (is_numeric($cache)) {
         $result = $cache;
-
     } else {
-        $result = total_rows(db_prefix().'proposals', ['assigned' => $staff_id]);
+        $result = total_rows(db_prefix() . 'proposals', ['assigned' => $staff_id]);
         $CI->app_object_cache->add('staff-total-assigned-proposals-' . $staff_id, $result);
     }
 
@@ -285,15 +284,17 @@ function get_proposals_sql_where_staff($staff_id)
 {
     $has_permission_view_own            = has_permission('proposals', '', 'view_own');
     $allow_staff_view_invoices_assigned = get_option('allow_staff_view_proposals_assigned');
-    $whereUser                          = '';
+    $CI                                 = &get_instance();
+
+    $whereUser = '';
     if ($has_permission_view_own) {
-        $whereUser = '(('.db_prefix().'proposals.addedfrom=' . $staff_id . ' AND '.db_prefix().'proposals.addedfrom IN (SELECT staff_id FROM '.db_prefix().'staff_permissions WHERE feature = "proposals" AND capability="view_own"))';
+        $whereUser = '((' . db_prefix() . 'proposals.addedfrom=' . $CI->db->escape_str($staff_id) . ' AND ' . db_prefix() . 'proposals.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "proposals" AND capability="view_own"))';
         if ($allow_staff_view_invoices_assigned == 1) {
-            $whereUser .= ' OR assigned=' . $staff_id;
+            $whereUser .= ' OR assigned=' . $CI->db->escape_str($staff_id);
         }
         $whereUser .= ')';
     } else {
-        $whereUser .= 'assigned=' . $staff_id;
+        $whereUser .= 'assigned=' . $CI->db->escape_str($staff_id);
     }
 
     return $whereUser;

@@ -346,6 +346,8 @@ class Invoices extends AdminController
 
                     if (isset($invoice_data['save_and_record_payment'])) {
                         $this->session->set_userdata('record_payment', true);
+                    } elseif (isset($invoice_data['save_and_send_later'])) {
+                        $this->session->set_userdata('send_later', true);
                     }
 
                     redirect($redUrl);
@@ -477,10 +479,14 @@ class Invoices extends AdminController
         $data['invoice'] = $invoice;
 
         $data['record_payment'] = false;
+        $data['send_later']     = false;
 
         if ($this->session->has_userdata('record_payment')) {
             $data['record_payment'] = true;
             $this->session->unset_userdata('record_payment');
+        } elseif ($this->session->has_userdata('send_later')) {
+            $data['send_later'] = true;
+            $this->session->unset_userdata('send_later');
         }
 
         $this->load->view('admin/invoices/invoice_preview_template', $data);

@@ -20,7 +20,7 @@
                <div class="visible-xs">
                   <div class="clearfix"></div>
                </div>
-               <?php if($contract->signed == 0) { ?>
+               <?php if($contract->signed == 0 && $contract->marked_as_signed == 0) { ?>
                <button type="submit" id="accept_action" class="btn btn-success pull-right action-button"><?php echo _l('e_signature_sign'); ?></button>
                <?php } else { ?>
                <span class="success-bg content-view-status contract-html-is-signed"><?php echo _l('is_signed'); ?></span>

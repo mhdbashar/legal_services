@@ -707,6 +707,12 @@ function csrf_jquery_token()
             $.ajaxSetup({
                 data: csrfData.formatted
             });
+
+            $(document).ajaxError(function( event, request, settings ) {
+                if(request.status === 419) {
+                    alert_float('warning', 'Page expired, refresh the page make an action.')
+                }
+            });
         }
  </script>
  <?php

@@ -116,7 +116,6 @@
                                 echo '<div class="col-md-6 merge_fields_col">';
                                 echo '<h5 class="bold">'.ucfirst($key).'</h5>';
                                 foreach($val as $_field){
-                                    //echo "<pre>";print_r($template->slug);exit;
                                   if(count($_field['available']) == 0
                                     && isset($_field['templates']) && in_array($template->slug, $_field['templates'])) {
                                       // Fake data to simulate foreach loop and check the templates key for the available slugs

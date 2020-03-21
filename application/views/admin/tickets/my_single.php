@@ -183,6 +183,13 @@
                            </span>
                         </span>
                      <?php } ?>
+                     
+                     <span class="ticket-label label label-info inline-block">
+                        <a href="<?php echo get_ticket_public_url($ticket); ?>" target="_blank">
+                           <?php echo _l('view_public_form'); ?>
+                        </a>
+                     </span>
+
                      <div class="mtop15">
                         <?php
                         $use_knowledge_base = get_option('use_knowledge_base');
@@ -252,7 +259,7 @@
                                           <?php echo _l('ticket_single_attachments'); ?>
                                        </label>
                                        <div class="input-group">
-                                          <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                                       <input type="file" extension="<?php echo str_replace(['.', ' '], '', get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                                           <span class="input-group-btn">
                                              <button class="btn btn-success add_more_attachments p8-half" data-max="<?php echo get_option('maximum_allowed_ticket_attachments'); ?>" type="button"><i class="fa fa-plus"></i></button>
                                           </span>

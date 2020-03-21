@@ -575,7 +575,7 @@
                required: true,
                email: true,
                remote: {
-                   url: site_url + "admin/misc/staff_email_exists",
+                  url: admin_url + "misc/staff_email_exists",
                    type: 'post',
                    data: {
                        email: function() {

@@ -37,7 +37,7 @@ $filter = [];
 include_once(APPPATH . 'views/admin/tables/includes/expenses_filter.php');
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'expenses.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'expenses.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('expenses', '', 'view')) {
@@ -55,7 +55,6 @@ if (count($custom_fields) > 4) {
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
-    'category',
     'billable',
     db_prefix().'currencies.name as currency_name',
     db_prefix() . 'expenses.clientid',

@@ -458,6 +458,36 @@ class Contracts_model extends App_Model
     }
 
     /**
+     * Mark the contract as signed manually
+     *
+     * @param  int $id contract id
+     *
+     * @return boolean
+     */
+    public function mark_as_signed($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('contracts', ['marked_as_signed'=>1]);
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
+     * Unmark the contract as signed manually
+     *
+     * @param  int $id contract id
+     *
+     * @return boolean
+     */
+    public function unmark_as_signed($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('contracts', ['marked_as_signed'=>0]);
+
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
      * Function that send contract to customer
      * @param  mixed  $id        contract id
      * @param  boolean $attachpdf to attach pdf or not

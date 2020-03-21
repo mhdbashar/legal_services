@@ -53,6 +53,12 @@ class IsCronSetupRequired extends AbstractMessage
             array_push($used_features, 'Recurring Expenses');
         }
 
+        $feature = total_rows(db_prefix() . 'scheduled_emails');
+        $using_cron_features += $feature;
+        if ($feature > 0) {
+            array_push($used_features, 'Send Scheduled Invoices');
+        }
+
         $feature = total_rows(db_prefix() . 'tasks', [
                 'recurring' => 1,
             ]);

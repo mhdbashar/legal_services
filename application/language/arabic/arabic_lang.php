@@ -320,8 +320,8 @@ $lang['new_service'] = "خدمة جديدة";
 $lang['services'] = "الخدمات";
 $lang['service'] = "خدمة";
 $lang['service_lowercase'] = "خدمة";
-$lang['services_dt_name'] = "إسم الخدمة";
-$lang['service_add_edit_name'] = "إسم الخدمة";
+$lang['services_dt_name'] = "الموضوع";
+$lang['service_add_edit_name'] = "الموضوع";
 $lang['settings'] = "الإعدادات";
 $lang['settings_updated'] = "تحديث الإعدادات";
 $lang['settings_save'] = "حفظ الإعدادات";
@@ -1689,7 +1689,7 @@ $lang['project_invoiced_successfully'] = "تم انشاء فاتورة للخد�
 $lang['new_project'] = "خدمة جديدة";
 $lang['project_files'] = "الملفات";
 $lang['project_activity'] = "النشاط";
-$lang['project_name'] = "إسم الخدمة";
+$lang['project_name'] = "الموضوع";
 $lang['project_description'] = "الوصف";
 $lang['project_customer'] = "العميل";
 $lang['project_start_date'] = "تاريخ البداية";
@@ -3126,3 +3126,4 @@ $lang['payment_sent_successfully'] = "تم ارسال ايصال استلام ا
 $lang['payment_sent_failed'] = "فشل في إرسال إيصال الدفع.";
 $lang['tags_update_replace_warning'] = "لا يتم تحديث بعض الكلمات الدلالية لأن الكلمة موجودة بالفعل";
 $lang['attach_statement'] = "ارفاق بيان العميل";
+$lang['clients_'] = "الموكلين";

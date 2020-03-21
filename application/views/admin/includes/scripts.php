@@ -24,7 +24,7 @@ if(get_option('pusher_realtime_notifications') == 1){ ?>
    $(function(){
          // Enable pusher logging - don't include this in production
          // Pusher.logToConsole = true;
-         <?php $pusher_options = hooks()->apply_filters('pusher_options', array());
+         <?php $pusher_options = hooks()->apply_filters('pusher_options', array(['disableStats'=>true]));
             if(!isset($pusher_options['cluster']) && get_option('pusher_cluster') != ''){
                   $pusher_options['cluster'] = get_option('pusher_cluster');
             }

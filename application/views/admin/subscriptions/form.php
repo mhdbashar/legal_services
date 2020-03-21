@@ -137,6 +137,7 @@
             <?php } ?>
          </select>
       </div>
+      <?php $value = (isset($subscription) ? $subscription->terms : ''); ?>
      <?php echo render_textarea('terms', 'terms_and_conditions', $value, [ 'placeholder'=> _l('subscriptions_terms_info') ], [], '','ays-ignore'); ?>
    </div>
 </div>

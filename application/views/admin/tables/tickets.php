@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     '1', // bulk actions
-    db_prefix() . 'tickets.ticketid',
+   'ticketid',
     'subject',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'tickets.ticketid and rel_type="ticket" ORDER by tag_order ASC) as tags',
     db_prefix() . 'departments.name as department_name',
@@ -21,6 +21,7 @@ $tagsColumns   = 3;
 
 $additionalSelect = [
     'adminread',
+    'ticketkey',
     db_prefix() . 'tickets.userid',
     'statuscolor',
     db_prefix() . 'tickets.name as ticket_opened_by_name',
@@ -51,15 +52,17 @@ $where  = [];
 $filter = [];
 
 if (isset($userid) && $userid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $userid);
+    array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $this->ci->db->escape_str($userid));
 } elseif (isset($by_email)) {
-    array_push($where, 'AND ' . db_prefix() . 'tickets.email = "' . $by_email . '"');
+    array_push($where, 'AND ' . db_prefix() . 'tickets.email = "' . $this->ci->db->escape_str($by_email) . '"');
 }
+
 if (isset($where_not_ticket_id)) {
-    array_push($where, 'AND ' . db_prefix() . 'tickets.ticketid != ' . $where_not_ticket_id);
+    array_push($where, 'AND ' . db_prefix() . 'tickets.ticketid != ' . $this->ci->db->escape_str($where_not_ticket_id));
 }
+
 if ($this->ci->input->post('project_id')) {
-    array_push($where, 'AND project_id = ' . $this->ci->input->post('project_id'));
+    array_push($where, 'AND project_id = ' . $this->ci->db->escape_str($this->ci->input->post('project_id')));
 }
 
 $statuses  = $this->ci->tickets_model->get_ticket_status();
@@ -91,6 +94,7 @@ if (count($_assignees) > 0) {
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
+
 // If userid is set, the the view is in client profile, should be shown all tickets
 if (!is_admin()) {
     if (get_option('staff_access_only_assigned_departments') == 1) {
@@ -134,29 +138,30 @@ foreach ($rResult as $aRow) {
         }
 
         if ($aColumns[$i] == '1') {
-            $_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow[db_prefix() . 'tickets.ticketid'] . '"><label></label></div>';
+            $_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow['ticketid'] . '"><label></label></div>';
         } elseif ($aColumns[$i] == 'lastreply') {
             if ($aRow[$aColumns[$i]] == null) {
                 $_data = _l('ticket_no_reply_yet');
             } else {
                 $_data = _dt($aRow[$aColumns[$i]]);
             }
-        } elseif ($aColumns[$i] == 'subject' || $aColumns[$i] == db_prefix() . 'tickets.ticketid') {
+        } elseif ($aColumns[$i] == 'subject' || $aColumns[$i] == 'ticketid') {
             // Ticket is assigned
             if ($aRow['assigned'] != 0) {
-                if ($aColumns[$i] != db_prefix() . 'tickets.ticketid') {
+                if ($aColumns[$i] != 'ticketid') {
                     $_data .= '<a href="' . admin_url('profile/' . $aRow['assigned']) . '" data-toggle="tooltip" title="' . get_staff_full_name($aRow['assigned']) . '" class="pull-left mright5">' . staff_profile_image($aRow['assigned'], [
                         'staff-profile-image-xs',
                         ]) . '</a>';
                 }
             }
-            $url   = admin_url('tickets/ticket/' . $aRow[db_prefix() . 'tickets.ticketid']);
+            $url   = admin_url('tickets/ticket/' . $aRow['ticketid']);
             $_data = '<a href="' . $url . '" class="valign">' . $_data . '</a>';
             if ($aColumns[$i] == 'subject') {
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . $url . '">' . _l('view') . '</a>';
                 $_data .= ' <span class="text-dark"> | </span><a href="' . $url . '?tab=settings">' . _l('edit') . '</a>';
-                $_data .= ' <span class="text-dark"> | </span><a href="' . admin_url('tickets/delete/' . $aRow[db_prefix() . 'tickets.ticketid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                $_data .= ' <span class="text-dark"> | </span><a href="' . get_ticket_public_url($aRow) . '" target="_blank">' . _l('view_public_form') . '</a>';
+                $_data .= ' <span class="text-dark"> | </span><a href="' . admin_url('tickets/delete/' . $aRow['ticketid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
                 $_data .= '</div>';
             }
         } elseif ($i == $tagsColumns) {
@@ -172,7 +177,7 @@ foreach ($rResult as $aRow) {
                 $_data = $aRow['ticket_opened_by_name'];
             }
         } elseif ($aColumns[$i] == 'status') {
-            $_data = '<span class="label inline-block" style="border:1px solid ' . $aRow['statuscolor'] . '; color:' . $aRow['statuscolor'] . '">' . ticket_status_translate($aRow['status']) . '</span>';
+            $_data = '<span class="label inline-block ticket-status-' . $aRow['status'] . '" style="border:1px solid ' . $aRow['statuscolor'] . '; color:' . $aRow['statuscolor'] . '">' . ticket_status_translate($aRow['status']) . '</span>';
         } elseif ($aColumns[$i] == db_prefix() . 'tickets.date') {
             $_data = _dt($_data);
         } elseif ($aColumns[$i] == 'priority') {

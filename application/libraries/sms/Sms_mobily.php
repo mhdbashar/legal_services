@@ -69,7 +69,7 @@ class Sms_mobily extends App_sms
         $timeSend = 0;
         $dateSend = 0;
         $deleteKey = 0;
-        $viewResult = 1;
+        $viewResult = 0;
 
         $url = "www.mobily.ws/api/msgSend.php";
         $applicationType = "68";

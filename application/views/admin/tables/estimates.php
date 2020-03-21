@@ -87,11 +87,11 @@ if (count($filter) > 0) {
 }
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'estimates.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'estimates.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if ($project_id) {
-    array_push($where, 'AND project_id=' . $project_id);
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($project_id));
 }
 
 if (!has_permission('estimates', '', 'view')) {

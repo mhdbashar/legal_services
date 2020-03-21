@@ -24,7 +24,7 @@ $join = [
 
 $join = hooks()->apply_filters('projects_timesheets_table_sql_join', $join);
 
-$where = ['AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_id="' . $project_id . '" AND rel_type="project")'];
+$where = ['AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_id="' . $this->ci->db->escape_str($project_id) . '" AND rel_type="project")'];
 
 if (!has_permission('projects', '', 'create')) {
     array_push($where, 'AND ' . db_prefix() . 'taskstimers.staff_id=' . get_staff_user_id());

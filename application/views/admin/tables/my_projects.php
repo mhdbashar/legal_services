@@ -37,7 +37,7 @@ $where  = [];
 $filter = [];
 
 if ($clientid != '') {
-    array_push($where, ' AND clientid=' . $clientid);
+    array_push($where, ' AND clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 // ShababSy.com Added this 12 lines.

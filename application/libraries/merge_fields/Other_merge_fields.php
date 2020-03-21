@@ -74,13 +74,13 @@ class Other_merge_fields extends App_merge_fields
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Terms & Conditions URL',
+                    'name'        => '(GDPR) Terms & Conditions URL',
                     'key'         => '{terms_and_conditions_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Privacy Policy URL',
+                    'name'        => '(GDPR) Privacy Policy URL',
                     'key'         => '{privacy_policy_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,

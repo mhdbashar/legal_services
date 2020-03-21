@@ -72,6 +72,24 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
+                    'name'      => 'Contact Title',
+                    'key'       => '{contact_title}',
+                    'available' => [
+                        'client',
+                        'ticket',
+                        'invoice',
+                        'estimate',
+                        'project',
+                        'credit_note',
+                        'subscriptions',
+                    ],
+                        'templates' => [
+                        'contract-expiration',
+                        'send-contract',
+                        'contract-comment-to-client',
+                    ],
+                ],
+                [
                     'name'      => 'Contact Email',
                     'key'       => '{contact_email}',
                     'available' => [
@@ -373,6 +391,7 @@ class Client_merge_fields extends App_merge_fields
         $fields['{contact_lastname}']                  = '';
         $fields['{contact_email}']                     = '';
         $fields['{contact_phonenumber}']               = '';
+        $fields['{contact_title}']                     = '';
         $fields['{client_company}']                    = '';
         $fields['{client_phonenumber}']                = '';
         $fields['{client_country}']                    = '';
@@ -398,13 +417,14 @@ class Client_merge_fields extends App_merge_fields
 
         $this->ci->db->where('userid', $client_id);
         $this->ci->db->where('id', $contact_id);
-        $contact = $this->ci->db->get(db_prefix().'contacts')->row();
+        $contact = $this->ci->db->get(db_prefix() . 'contacts')->row();
 
         if ($contact) {
             $fields['{contact_firstname}']          = $contact->firstname;
             $fields['{contact_lastname}']           = $contact->lastname;
             $fields['{contact_email}']              = $contact->email;
             $fields['{contact_phonenumber}']        = $contact->phonenumber;
+            $fields['{contact_title}']              = $contact->title;
             $fields['{contact_public_consent_url}'] = contact_consent_url($contact->id);
             $fields['{email_verification_url}']     = site_url('verification/verify/' . $contact->id . '/' . $contact->email_verification_key);
         }
@@ -424,7 +444,7 @@ class Client_merge_fields extends App_merge_fields
         $fields['{client_id}']                         = $client_id;
 
         if ($password != '') {
-            $fields['{password}'] = $password;
+            $fields['{password}'] = htmlentities($password);
         }
 
         $custom_fields = get_custom_fields('customers');
@@ -438,10 +458,10 @@ class Client_merge_fields extends App_merge_fields
         }
 
         return hooks()->apply_filters('client_contact_merge_fields', $fields, [
-        'customer_id' => $client_id,
-        'contact_id'  => $contact_id,
-        'customer'    => $client,
-        'contact'     => $contact,
+            'customer_id' => $client_id,
+            'contact_id'  => $contact_id,
+            'customer'    => $client,
+            'contact'     => $contact,
     ]);
     }
 

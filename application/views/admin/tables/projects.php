@@ -29,7 +29,7 @@ $where  = [];
 $filter = [];
 
 if ($clientid != '') {
-    array_push($where, ' AND clientid=' . $clientid);
+    array_push($where, ' AND clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {

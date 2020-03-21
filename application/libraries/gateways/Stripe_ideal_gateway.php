@@ -129,6 +129,7 @@ class Stripe_ideal_gateway extends App_gateway
         $webhook = \Stripe\WebhookEndpoint::create([
             'url'            => $this->webhookEndPoint,
             'enabled_events' => $this->webhookEvents,
+            'api_version'    => $this->apiVersion,
         ]);
 
         update_option('stripe_ideal_webhook_id', $webhook->id);
@@ -250,7 +251,18 @@ function stripe_ideal_gateway_webhook_check($gateway)
         $CI = &get_instance();
 
         if (!empty($CI->stripe_ideal_gateway->decryptSetting('api_secret_key')) && $gateway['active'] == '1') {
-            $webhook     = $CI->stripe_ideal_gateway->get_webhook_object();
+            try {
+                $webhook = $CI->stripe_ideal_gateway->get_webhook_object();
+            } catch (Exception $e) {
+                echo '<div class="alert alert-warning">';
+                // useful when user add wrong keys
+                // e.q. This API call cannot be made with a publishable API key. Please use a secret API key. You can find a list of your API keys at https://dashboard.stripe.com/account/apikeys.
+                echo $e->getMessage();
+                echo '</div>';
+
+                return;
+            }
+
             $environment = $CI->stripe_ideal_gateway->environment();
             $endpoint    = $CI->stripe_ideal_gateway->webhookEndPoint;
 

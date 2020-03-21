@@ -23,10 +23,10 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','project_name',$value); ?>
-                        <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?>
-                        <?php echo render_input('address1','project_address1',$value); ?>
-                        <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?>
-                        <?php echo render_input('address2','project_address2',$value); ?>
+                        <!-- <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?> -->
+                        <!-- <?php echo render_input('address1','project_address1',$value); ?> -->
+                        <!-- <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?> -->
+                        <!-- <?php echo render_input('address2','project_address2',$value); ?> -->
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
@@ -83,7 +83,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control"
+                                    <select id="representative" name="representative" class="form-control selectpicker"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('representative', '');
@@ -97,8 +97,8 @@
                             </div>
                         </div>
 
-                        <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?>
-                        <?php echo render_input('addressed_to','project_addressed_to',$value); ?>
+                        <!-- <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
+                        <!-- <?php echo render_input('addressed_to','project_addressed_to',$value); ?> -->
 
 
 
@@ -107,7 +107,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <select class="form-control selectpicker" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('cat_modules','Dispute');
                                         $selected = (isset($meta['cat_id']) ? $meta['cat_id'] : '');
@@ -120,7 +120,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <select class="form-control selectpicker" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('childmycategory',$selected);
                                         $selected = (isset($meta['subcat_id']) ? $meta['subcat_id'] : '');
@@ -211,7 +211,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="projects_status"><?php echo _l('projects_status'); ?></label>
                                      <?php $selected = (isset($meta['projects_status']) ? $meta['projects_status'] : ''); ?>
-                                    <select id="projects_status" name="projects_status" class="form-control">
+                                    <select id="projects_status" name="projects_status" class="form-control selectpicker">
                                         <option selected disabled></option>
                                        <?php foreach ($projects_statuses as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $selected == $row->id ? 'selected': '' ?>><?php echo $row->status_name; ?></option>

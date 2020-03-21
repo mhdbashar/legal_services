@@ -88,7 +88,7 @@ if ($this->ci->input->post('staff_id')) {
 
 if ($staff_id != false) {
     $where = [
-        'AND staff_id=' . $staff_id,
+        'AND staff_id=' . $this->ci->db->escape_str($staff_id),
         ];
 }
 
@@ -100,12 +100,15 @@ if ($project_ids && is_array($project_ids)) {
     });
 
     if (count($project_ids) > 0) {
-        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id  IN (' . implode(',', $project_ids) . '))');
+        $project_ids = implode(',', array_map(function ($project_id) {
+            return get_instance()->db->escape_str($project_id);
+        }, $project_ids));
+        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id  IN (' . $project_ids . '))');
     }
 }
 
 if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id')) {
-    $customer_id = $this->ci->input->post('clientid');
+    $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
 
     array_push($where, 'AND (
                 (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")

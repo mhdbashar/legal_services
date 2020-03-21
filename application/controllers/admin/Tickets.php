@@ -121,7 +121,7 @@ class Tickets extends AdminController
                 unset($data['ServID']);
 
             }
-            $data['message'] = $this->input->post('message', false);
+            $data['message'] = html_purify($this->input->post('message', false));
             $id              = $this->tickets_model->add($data, get_staff_user_id());
             if ($id) {
                 set_alert('success', _l('new_ticket_added_successfully', $id));
@@ -268,7 +268,7 @@ class Tickets extends AdminController
                 unset($data['ticket_add_response_and_back_to_list']);
             }
 
-            $data['message'] = $this->input->post('message', false);
+            $data['message'] = html_purify($this->input->post('message', false));
             $replyid         = $this->tickets_model->add_reply($data, $id, get_staff_user_id());
 
             if ($replyid) {
@@ -310,7 +310,7 @@ class Tickets extends AdminController
     {
         if ($this->input->post()) {
             $data         = $this->input->post();
-            $data['data'] = $this->input->post('data', false);
+            $data['data'] = html_purify($this->input->post('data', false));
 
             if ($data['type'] == 'reply') {
                 $this->db->where('id', $data['id']);
@@ -500,7 +500,7 @@ class Tickets extends AdminController
         }
         if ($this->input->post()) {
             $data              = $this->input->post();
-            $data['message']   = $this->input->post('message', false);
+            $data['message']   = html_purify($this->input->post('message', false));
             $ticketAreaRequest = isset($data['ticket_area']);
 
             if (isset($data['ticket_area'])) {

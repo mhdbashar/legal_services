@@ -17,8 +17,7 @@ $table_data = array(
   _l('tags'),
   _l('invoice_dt_table_heading_duedate'),
   _l('invoice_dt_table_heading_status'));
-
-if($this->app_modules->is_active('branches')){
+  if($this->app_modules->is_active('branches')){
     $table_data[] = array(
        'name'=>_l('branch_name'),
        'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')

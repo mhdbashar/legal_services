@@ -1469,6 +1469,18 @@ $(function() {
         $('.mass_delete_separator').toggleClass('hide');
     });
 
+    // Fix for bigger items descriptions, the select is going out of the container
+    $('body').on('change loaded.bs.select', '#item_select', function() {
+        var selectWrapper = $('.items-wrapper .items-select-wrapper');
+        var selectAddon = $('.items-wrapper .input-group-addon');
+           if(selectAddon.length === 0){
+                // No items create permissions, so no + input group
+                $('.items-wrapper .bootstrap-select').css('width', '100%')
+            } else {
+                $('.items-wrapper .bootstrap-select').css('width', (selectWrapper.width() - selectAddon.width()) + 12 +'px');
+            }
+    });
+
     // Send test sms
     $('.send-test-sms').on('click', function() {
         var id = $(this).data('id');
@@ -1734,9 +1746,10 @@ $(function() {
 
     // Tables
     init_table_tickets();
-    init_table_tickets_case();
     init_table_announcements();
     init_table_staff_projects();
+
+    init_table_tickets_case();
 
     // Ticket pipe log and system activity log
     table_activity_log = $('table.table-activity-log');
@@ -1750,6 +1763,7 @@ $(function() {
     table_invoices_case = $('table.table-invoices_case');
     table_estimates = $('table.table-estimates');
     table_estimates_case = $('table.table-estimates_case');
+
 
     if (table_invoices.length > 0 || table_estimates.length > 0) {
 
@@ -1778,7 +1792,7 @@ $(function() {
         }
     }
 
-
+    
     if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
 
         // Invoices additional server params
@@ -1809,6 +1823,8 @@ $(function() {
             ]);
         }
     }
+
+
 
     table_tasks = $('.table-tasks');
     if (table_tasks.length) {
@@ -2036,6 +2052,8 @@ $(function() {
                 form.append(hidden_input('save_and_send', 'true'));
             } else if (that.hasClass('save-and-record-payment')) {
                 form.append(hidden_input('save_and_record_payment', 'true'));
+            } else if (that.hasClass('save-and-send-later')) {
+                form.append(hidden_input('save_and_send_later', 'true'));
             }
         }
         form.submit();
@@ -2612,6 +2630,7 @@ function init_rel_tasks_table(rel_id, rel_type, selector) {
     initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
 }
 
+
 // Initing relation tasks tables
 function init_rel_tasks_case_table(rel_id, rel_type, selector) {
     if (typeof(selector) == 'undefined') { selector = '.table-rel-tasks_case'; }
@@ -2636,7 +2655,6 @@ function init_rel_tasks_case_table(rel_id, rel_type, selector) {
 
     initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [$selector.find('th.duedate').index(), 'asc']);
 }
-
 
 
 // Datatbles inline/offline - no serverside
@@ -4026,7 +4044,7 @@ function validate_lead_convert_to_client_form() {
             required: true,
             email: true,
             remote: {
-                url: site_url + "admin/misc/contact_email_exists",
+                url: admin_url + "misc/contact_email_exists",
                 type: 'post',
                 data: {
                     email: function() {
@@ -5114,7 +5132,7 @@ function delete_user_unfinished_timesheet(id) {
 
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
 function reload_tasks_tables() {
-    var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report'];
+    var av_tasks_tables = ['.table-tasks', '.table-rel-tasks', '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets-report'];
     $.each(av_tasks_tables, function(i, selector) {
         if ($.fn.DataTable.isDataTable(selector)) {
             $(selector).DataTable().ajax.reload(null, false);
@@ -5616,12 +5634,13 @@ function init_invoice_case(id) {
     load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices_case');
 }
 
+
 // Init single credit note
 function init_credit_note(id) {
     load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes');
 }
 
-// Init single credit note
+// Init single credit note case
 function init_credit_note_case(id) {
     load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes_case');
 }
@@ -5696,6 +5715,14 @@ function init_billing_and_shipping_details() {
 function record_payment(id) {
     if (typeof(id) == 'undefined' || id === '') { return; }
     $('#invoice').load(admin_url + 'invoices/record_invoice_payment_ajax/' + id);
+}
+
+function schedule_invoice_send(id) {
+    $('#invoice').load(admin_url + 'email_schedule_invoice/create/' + id);
+}
+
+function edit_invoice_scheduled_email(schedule_id) {
+    $('#invoice').load(admin_url + 'email_schedule_invoice/edit/' + schedule_id);
 }
 
 // Add item to preview
@@ -7090,6 +7117,8 @@ function merge_field_format_url(url, node, on_save, name) {
     // Merge fields url
     if (url.indexOf("{") > -1 && url.indexOf("}") > -1) {
         url = '{' + url.split('{')[1];
+    } else if (url.indexOf("%7B") > -1 && url.indexOf("%7D") > -1) {
+        url = '{'+url.replace('%7B', '').replace('%7D', '')+'}'
     }
     // Return new URL
     return url;

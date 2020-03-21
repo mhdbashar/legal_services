@@ -422,6 +422,11 @@ class Clients_model extends App_Model
                 $set_password_email_sent = $this->authentication_model->set_password_email($data['email'], 0);
             }
         }
+
+        if ($affectedRows > 0) {
+            hooks()->do_action('contact_updated', $id, $data);
+        }
+
         if ($affectedRows > 0 && !$set_password_email_sent) {
             log_activity('Contact Updated [ID: ' . $id . ']');
 
@@ -1247,6 +1252,11 @@ class Clients_model extends App_Model
             'active' => $status,
         ]);
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('contact_status_changed', [
+                'id'     => $id,
+                'status' => $status,
+            ]);
+
             log_activity('Contact Status Changed [ContactID: ' . $id . ' Status(Active/Inactive): ' . $status . ']');
 
             return true;
@@ -1269,6 +1279,11 @@ class Clients_model extends App_Model
         ]);
 
         if ($this->db->affected_rows() > 0) {
+            hooks()->do_action('client_status_changed', [
+                'id'     => $id,
+                'status' => $status,
+            ]);
+
             log_activity('Customer Status Changed [ID: ' . $id . ' Status(Active/Inactive): ' . $status . ']');
 
             return true;
@@ -1595,6 +1610,7 @@ class Clients_model extends App_Model
 
     public function get_staff_members_that_can_access_customer($id)
     {
+        $id = $this->db->escape_str($id);
 
         return $this->db->query('SELECT * FROM ' . db_prefix() . 'staff
             WHERE (

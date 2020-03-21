@@ -39,7 +39,7 @@ $where  = [];
 $filter = [];
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'creditnotes.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'creditnotes.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('credit_notes', '', 'view')) {
@@ -48,7 +48,7 @@ if (!has_permission('credit_notes', '', 'view')) {
 array_push($where, 'AND ' . db_prefix() . 'creditnotes.deleted = 0');
 $project_id = $this->ci->input->get('project_id');
 if ($project_id) {
-    array_push($where, 'AND project_id=' . $project_id);
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($project_id));
 }
 
 $statuses  = $this->ci->credit_notes_model->get_statuses();

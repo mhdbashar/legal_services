@@ -390,6 +390,68 @@ class Forms extends ClientsController
         $this->layout(true);
     }
 
+    public function public_ticket($key)
+    {
+        $this->load->model('tickets_model');
+
+        if (strlen($key) != 32) {
+            show_error('Invalid ticket key.');
+        }
+
+        $ticket = $this->tickets_model->get_ticket_by_id($key);
+
+        if (!$ticket) {
+            show_404();
+        }
+
+        if (!is_client_logged_in() && $ticket->userid) {
+            load_client_language($ticket->userid);
+        }
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('message', _l('ticket_reply'), 'required');
+
+            if ($this->form_validation->run() !== false) {
+                $replyData = ['message' => $this->input->post('message')];
+
+                if ($ticket->userid && $ticket->contactid) {
+                    $replyData['userid']    = $ticket->userid;
+                    $replyData['contactid'] = $ticket->contactid;
+                } else {
+                    $replyData['name']  = $ticket->from_name;
+                    $replyData['email'] = $ticket->ticket_email;
+                }
+
+                $replyid = $this->tickets_model->add_reply($replyData, $ticket->ticketid);
+
+                if ($replyid) {
+                    set_alert('success', _l('replied_to_ticket_successfully', $ticket->ticketid));
+                }
+
+                redirect(get_ticket_public_url($ticket));
+            }
+        }
+
+        $data['title']          = $ticket->subject;
+        $data['ticket_replies'] = $this->tickets_model->get_ticket_replies($ticket->ticketid);
+        $data['ticket']         = $ticket;
+        hooks()->add_action('app_customers_footer', 'ticket_public_form_customers_footer');
+        $data['single_ticket_view'] = $this->load->view($this->createThemeViewPath('single_ticket'), $data, true);
+
+        $navigationDisabled = hooks()->apply_filters('disable_navigation_on_public_ticket_view', true);
+        if($navigationDisabled) {
+            $this->disableNavigation();
+        }
+
+        $this->disableSubMenu();
+
+        $this->data($data);
+
+        $this->view('forms/public_ticket');
+        no_index_customers_area();
+        $this->layout(true);
+    }
+
     public function ticket()
     {
         $form            = new stdClass();

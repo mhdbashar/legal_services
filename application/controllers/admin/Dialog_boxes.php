@@ -17,35 +17,53 @@ class Dialog_boxes extends AdminController
         $this->load->view('admin/dialog_boxes/manage',$data);
     }
 
-    public function add_dialog()
+    public function table()
+    {
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('my_dialog_boxes');
+        }
+    }
+
+    public function add()
     {
         if ($this->input->post()) {
             $data = $this->input->post();
             $added = $this->dialog->add($data);
             if($added){
-                set_alert('success', _l('open_lock'));
-                redirect(admin_url("Case/view/"));
+                set_alert('success', _l('added_successfully'));
+                redirect(admin_url("Dialog_boxes"));
             }
         }
     }
 
-    public function edit_dialog()
+    public function edit($id)
     {
         if ($this->input->post()) {
             $data = $this->input->post();
-            $updated = $this->dialog->edit($data);
+            $updated = $this->dialog->update($id, $data);
             if($updated){
-                set_alert('success', _l('open_lock'));
-                redirect(admin_url("Case/view/"));
+                set_alert('success', _l('updated_successfully'));
+                redirect(admin_url("Dialog_boxes"));
             }
         }
     }
 
-    public function disable_dialog($id)
+    public function remove($id)
+    {
+        $response = $this->dialog->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url('Dialog_boxes'));
+    }
+
+    public function active_dialog($id)
     {
         if($id == 0 || !$id){
             set_alert('danger', _l('WrongEntry'));
         }
-        echo $this->dialog->disable($id);
+        echo $this->dialog->active($id);
     }
 }

@@ -35,8 +35,3 @@
       _l('milestone_due_date'),
    ),'milestones'); ?>
 </div>
-<script>
-    window.onload = function(e) {
-        milestones_kanban();
-    };
-</script>

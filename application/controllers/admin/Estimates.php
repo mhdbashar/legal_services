@@ -101,7 +101,6 @@ class Estimates extends AdminController
     {
         if ($this->input->post()) {
             $estimate_data = $this->input->post();
-            //print_r($estimate_data);exit();
             if ($id == '') {
                 if (!has_permission('estimates', '', 'create')) {
                     access_denied('estimates');

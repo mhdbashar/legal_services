@@ -167,7 +167,7 @@ class Clients_model extends App_Model
 
             if (isset($groups_company_in)) {
                 foreach ($groups_company_in as $group_company) {
-                    $this->db->insert(db_prefix() . 'customer_groups', [
+                    $this->db->insert(db_prefix() . 'my_customer_company_groups', [
                         'customer_id' => $userid,
                         'groupid'     => $group_company,
                     ]);

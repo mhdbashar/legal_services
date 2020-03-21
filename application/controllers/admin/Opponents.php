@@ -370,6 +370,10 @@ class Opponents extends AdminController
 
         if ($this->input->post()) {
             $data             = $this->input->post();
+            $data['firstname'] = $data['full_name'];
+            unset($data['full_name']);
+            $data['lastname'] = '';
+            
             $data['password'] = $this->input->post('password', false);
             unset($data['contactid']);
             if ($contact_id == '') {

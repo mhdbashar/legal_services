@@ -364,8 +364,12 @@ class Clients extends AdminController
         }
         $data['customer_id'] = $customer_id;
         $data['contactid']   = $contact_id;
+        
         if ($this->input->post()) {
             $data             = $this->input->post();
+            $data['firstname'] = $data['full_name'];
+            unset($data['full_name']);
+            $data['lastname'] = '';
             $data['password'] = $this->input->post('password', false);
 
             unset($data['contactid']);

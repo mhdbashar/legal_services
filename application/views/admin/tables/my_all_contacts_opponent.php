@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = ['CONCAT(firstname, \'\', lastname) as fullname'];
+$aColumns        = ['firstname as fullname'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }

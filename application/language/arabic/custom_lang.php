@@ -7,6 +7,7 @@ $lang['timesheet'] = "المواعيد";
 $lang['holiday'] = "العطل";
 $lang['fullname'] = 'الاسم الكامل';
 $lang['official'] = 'الرسمية';
+$lang['deleted_successfully'] = 'تم الحذف بنجاح';
 
 $lang['arrangement'] = "الترتيب";
 $lang['add_arrangement_type'] = "اضافة ترتيب جديد";

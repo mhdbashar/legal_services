@@ -49,8 +49,8 @@ class ServicesSessions_model extends App_Model
                 log_activity(' Customer report added [ Session ID ' . $id . ']');
                 return true;
             }
-        }elseif ($sent == 2){
-            return 2;
+        }else{
+            return $sent;
         }
         return false;
     }
@@ -67,17 +67,26 @@ class ServicesSessions_model extends App_Model
             $opponent_id = get_opponent_id_by_case_id($rel_id);
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
+            $opponent_id = '';
         }
         $this->db->where('userid', $client_id);
         $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
+        if(!isset($contact_client)){
+            echo 'error_client'; // This customer doesn't have primary contact
+            return;
+        }
         $this->db->where('userid', $opponent_id);
         $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
+        if(!isset($contact_opponent)){
+            echo 'error_opponent'; // This opponent doesn't have primary contact
+            return;
+        }
         if(isset($contact_client) && isset($contact_opponent)){
             send_mail_template('reminder_for_next_session_action',$contact_client, $id);
             send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
             return true;
         }
-        return 2; // This customer or opponent doesn't have primary contact
+        return false;
     }
 
     public function update_send_to_customer($id)

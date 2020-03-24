@@ -189,13 +189,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-//                                $staff_language = get_staff_default_language(get_staff_user_id());
                                 $staff_language = get_option('active_language');
-
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
+                                    $city_field = 'Name_ar';
                                 }else{
                                     $field = 'short_name';
+                                    $city_field = 'Name_en';
                                 }
                                 ?>
                                 <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$case->country); ?>
@@ -207,14 +207,12 @@
                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                         <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->Name_en; ?>" <?php echo $case->city == $row->Name_en ? 'selected': '' ?>><?php echo $row->Name_en; ?></option>
+                                            <option value="<?php echo $row->$city_field; ?>" <?php echo $case->city == $row->$city_field ? 'selected': '' ?>><?php echo $row->$city_field; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
@@ -311,7 +309,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
-                                    <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($case) ? prep_tags_input(get_tags_in($case->id,'case')) : ''); ?>" data-role="tagsinput">
+                                    <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($case) ? prep_tags_input(get_tags_in($case->id,$service->slug)) : ''); ?>" data-role="tagsinput">
                                 </div>
                             </div>
                             <div class="col-md-10">

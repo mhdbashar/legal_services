@@ -1,14 +1,12 @@
 <?php
-
-$lang['add_new_holiday'] = 'اضافة عطلة جديدة';
+$lang['cancel'] = "إلغاء";
+$lang['add_new_holiday'] = "اضافة عطلة جديدة";
 $lang['event_name'] = "اسم الحدث";
-
 $lang['timesheet'] = "المواعيد";
 $lang['holiday'] = "العطل";
-$lang['fullname'] = 'الاسم الكامل';
-$lang['official'] = 'الرسمية';
-$lang['deleted_successfully'] = 'تم الحذف بنجاح';
-
+$lang['fullname'] = "الاسم الكامل";
+$lang['official'] = "الرسمية";
+$lang['deleted_successfully'] = "تم الحذف بنجاح";
 $lang['arrangement'] = "الترتيب";
 $lang['add_arrangement_type'] = "اضافة ترتيب جديد";
 $lang['travel_mode'] = "وضع السفر";
@@ -16,10 +14,9 @@ $lang['add_travel_mode_type'] = "اضافة وضع السفر جديد";
 $lang['staff'] = "الموظف";
 $lang['phone'] = "الهاتف";
 $lang['constants'] = "الثوابت";
-$lang['hr_status'] = 'الحالة';
+$lang['hr_status'] = "الحالة";
 $lang['payslip_type'] = "طريقة الدفع";
 $lang['new_travel'] = "هجرة جديدة";
-
 $lang['total_allowance'] = "اجمالي البدلات";
 $lang['total_commissions'] = "اجمالي العمولات";
 $lang['total_loan'] = "اجمالي القروض";
@@ -28,7 +25,6 @@ $lang['other_payment'] = "اجمالي المدفوعات الأخرى";
 $lang['net_salary'] = "الراتب الأساسي";
 $lang['payment_amount'] = "الاجمالي";
 $lang['make_payment'] = "قم بالدفع";
-
 $lang['arrangement_type'] = "نوع الترتيب";
 $lang['travel_mode_type'] = "وضع السفر";
 $lang['expected_budget'] = "الميزانية المتوقعة";
@@ -36,44 +32,36 @@ $lang['travels'] = "الهجرات";
 $lang['actual_budget'] = "الميزانية الفعلية";
 $lang['purpose_of_visit'] = "غرض الزيارة";
 $lang['place_of_visit'] = "مكان الزيارة";
-
-
 $lang['is_primary'] = "هل هو أساسي";
 $lang['is_dependent'] = "هل هو معتمد";
-
 $lang['details'] = "تفاصيل الموظف";
 $lang['promotions'] = "الترقيات الوظيفية";
 $lang['promotion_title'] = "عنوان الترقية";
 $lang['new_promotion'] = "ترقية وظيفية جديدة";
 $lang['promotion_date'] = "وقت الترقية";
-$lang['departments'] = 'الأقسام';
-
+$lang['departments'] = "الأقسام";
 $lang['resignation_date'] = "تاريخ الاستقالة";
 $lang['resignation_reason'] = "سبب الاستقالة";
 $lang['new_resignation'] = "استقالة جديدة";
 $lang['resignations'] = "الاستقالات";
-
 $lang['complaint_from'] = "شكوى من";
 $lang['complaint_againts'] = "شكوى على";
 $lang['complaint_date'] = "تاريخ الشكوى";
 $lang['complaint_title'] = "عنوان الشكوى";
 $lang['new_complaint'] = "شكوى جديدة";
 $lang['complaints'] = "الشكاوي";
-
-$lang['new_transfer'] = 'انتقال جديد';
+$lang['new_transfer'] = "انتقال جديد";
 $lang['core_hr'] = "الموارد البشرية الأساسية";
 $lang['organization'] = "المنظمة";
 $lang['transfers'] = "الانتقالات";
 $lang['transfer_date'] = "وقت الانتقال";
 $lang['to_department'] = "الى القسم";
 $lang['to_sub_department'] = "الى القسم الفرعي";
-
-$lang['new_warning'] = 'تحذير جديدة';
-$lang['new_award'] = 'جائزة جديدة';
-$lang['new_termination'] = 'انهاء عمل جديدة';
-
-$lang['warning_to'] = 'تحذير ل';
-$lang['warning_by'] = 'تحذير من';
+$lang['new_warning'] = "تحذير جديدة";
+$lang['new_award'] = "جائزة جديدة";
+$lang['new_termination'] = "انهاء عمل جديدة";
+$lang['warning_to'] = "تحذير ل";
+$lang['warning_by'] = "تحذير من";
 $lang['warning_date'] = "وقت التحذير";
 $lang['subject'] = "الموضوع";
 $lang['attachment'] = "الملف";
@@ -94,15 +82,13 @@ $lang['cash'] = "كاش";
 $lang['award_information'] = "معلومات الجائزة";
 $lang['award_photo'] = "صورة الجائزة";
 $lang['award_type'] = "نوع الجائزة";
-
-$lang['date_birth'] = 'تاريخ الميلاد';
+$lang['date_birth'] = "تاريخ الميلاد";
 $lang['gendre'] = "النوع الاجتماعي";
 $lang['emloyee_id'] = "رقم الموظف";
 $lang['office_sheft'] = "Office Sheft";
 $lang['branch_name'] = "اسم الفرع";
 $lang['professional_courses'] = "الكورسات الاحترافية";
-
-$lang['branches'] = 'الفروع';
+$lang['branches'] = "الفروع";
 $lang['add_new_procuration'] = "اضافة وكالة جديدة";
 $lang['edit_procuration'] = "تعديل الوكالة";
 $lang['procuration'] = "الوكالة";
@@ -111,15 +97,14 @@ $lang['case_id'] = "القضايا المرتبطة";
 $lang['cases'] = "القضايا";
 $lang['company_groups'] = "مجموعات الشركات";
 $lang['procurations'] = "الوكالات";
-$lang['procuration_state'] = "حالة الوكالة";
-$lang['procuration_type'] = "نوع الوكالة";
-$lang['new_procuration_type'] = "نوع وكالة جديد";
-$lang['new_procuration_state'] = "حالة وكالة جديدة";
-$lang['new_procuration'] = "وكالة جديدة";
+$lang['procuration_state'] = "حالات الوكالات";
+$lang['procuration_type'] = "أنواع الوكالات";
+$lang['new_procuration_type'] = "إضافة نوع وكالة";
+$lang['new_procuration_state'] = "إضافة حالة وكالة";
+$lang['new_procuration'] = "إضافة وكالة";
 $lang['not_procuration_deadline_reminder'] = "موعد الوكالة";
 $lang['procuration_number'] = "رقم الوكالة";
 $lang['procuration_file'] = "ملف الوكالة";
-
 $lang['payroll'] = "اجرائية الدفع";
 $lang['holidays'] = "العطل";
 $lang['settings'] = "الاعدادات";
@@ -189,7 +174,6 @@ $lang['is_notification'] = "هو الإخطار؟";
 $lang['date_expiry'] = "تاريخ انتهاء الصلاحية";
 $lang['document_title'] = "عنوان المستند";
 $lang['document_type'] = "نوع الوثيقة";
-//new
 $lang['account_title'] = "اسم الحساب";
 $lang['deduction_type'] = "نوع الاستقطاع";
 $lang['account_number'] = "رقم الحساب";
@@ -211,13 +195,13 @@ $lang['bank_account'] = "الحسابات البنكية";
 $lang['change_password'] = "تغيير كلمة المرور";
 $lang['new_work_experience'] = "اضافة خبرة عمل جديدة";
 $lang['security_level'] = "مراحل الحماية";
-//'New Overtime'
 $lang['control'] = "التحكم";
 $lang['allowance_option'] = "خيارات البدلات";
 $lang['non_taxable'] = "بدون ضريبة";
 $lang['taxable'] = "مع ضريبة";
-$lang['start_date'] = "بداية الوقت";
-$lang['end_date'] = "نهاية الوقت";
+$lang['no_primary_opponent'] = "هذا الخصم ليس لديه جهة اتصال أساسية. تحتاج إلى إعداد جهة الاتصال الأساسية كخصم. نوصي بأن يكون لجميع الخصوم جهة اتصال أساسية.";
+$lang['start_date'] = "تاريخ البداية";
+$lang['end_date'] = "تاريخ النهاية";
 $lang['reason'] = "السبب";
 $lang['num_hours'] = "عدد الساعات";
 $lang['num_days'] = "عدد الأيام";
@@ -246,29 +230,18 @@ $lang['loan'] = "القرض";
 $lang['commissions'] = "العطاءات";
 $lang['allowances'] = "البدلات";
 $lang['update_salary'] = "تعديل الراتب";
-
 $lang['client_full_name'] = "الأسم الكامل";
-$lang['start_date'] = "تاريخ البداية";
-$lang['end_date'] = "تاريخ النهاية";
-$lang['procuration_number'] = "رقم الوكالة";
 $lang['come_from'] = "صادرة عن";
 $lang['status'] = "حالة الوكالة";
 $lang['type'] = "نوع المعاملة";
-$lang['procuration_file'] = "ملف الوكالة";
 $lang['added_from'] = "أضيفت من قبل";
 $lang['Add Branch'] = "إضافة فرع جديد";
 $lang['Browse Branch'] = "استعراض الفروع";
 $lang['Branches'] = "الفروع";
 $lang['languages'] = "اللغات";
 $lang['Judges'] = "القضاة";
-$lang['procuration_type'] = "أنواع الوكالات";
-$lang['procuration_state'] = "حالات الوكالات";
 $lang['Id'] = "المعرف";
 $lang['ahmad'] = "%s أحمد";
-$lang['procurations'] = "الوكالات";
-$lang['new_procuration_type'] = "إضافة نوع وكالة";
-$lang['new_procuration_state'] = "إضافة حالة وكالة";
-$lang['new_procuration'] = "إضافة وكالة";
 $lang['company'] = "شركة";
 $lang['individual'] = "فرد";
 $lang['customer_details'] = "اسم العميل سواء شركة أو فرد";
@@ -393,10 +366,9 @@ $lang['start_month'] = "تعديل بداية شهر ";
 $lang['from_year'] = "  من سنة ";
 $lang['to'] = " الى: ";
 $lang['send'] = "إرسال";
-$lang['cancel'] = "إالغاء";
 $lang['also_start_month'] = " وسيتم تعديل بداية شهر ";
 $lang['year'] = "السنة";
-$lang['month'] = "الشهر";
+$lang['month'] = "شهر";
 $lang['add_request'] = "إضافة";
 $lang['mod_data'] = "بيانات التعديل";
 $lang['legal_services_session'] = "جلسات خدمة قانونية";
@@ -453,7 +425,7 @@ $lang['paper_incoming'] = "وارد ورقي";
 $lang['email'] = "البريد الالكتروني";
 $lang['secret'] = "سرية المعاملة";
 $lang['incoming_date'] = "تاريخ الوارد";
-$lang['hijri_date'] = "هجري";
+$lang['hijri_date'] = "التاريخ الهجري";
 $lang['AD_date'] = "ميلادي";
 $lang['Current_session_date'] = "موعد الجلسة الحالي";
 $lang['Next_session_date'] = "موعد الجلسة القادم";
@@ -478,48 +450,35 @@ $lang['date'] = "التاريخ";
 $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
-
-$lang['incoming_file'] = 'ملف المعاملة الواردة';
-
-$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
-
-
-$lang['add_incoming_side'] = 'إضافة جهة واردة';
-$lang['incoming_side'] = 'الجهة الواردة';
-$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
-$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
-$lang['incoming_transaction'] = 'معاملة واردة';
-$lang['outgoing_transaction'] = 'معاملة صادرة';
-$lang['secret_trans'] = 'سرية';
-$lang['normal_trans'] = 'عادية';
-
-
-
-
-
-
-//Phase
-$lang['legal_services_phases'] =  'مراحل الخدمات القانونية';
-$lang['phases'] =  'المراحل';
-$lang['phase'] =  'مرحلة قانونية';
-$lang['new_phase'] =  'مرحلة جديدة';
-$lang['active_phase'] =  'تفعيل المرحلة';
-$lang['phase_not_compleate'] =  'المرحلة غير مكتلمة';
-$lang['phase_compleate'] =  'المرحلة مكتملة';
-$lang['phase_neworder'] =  'تقديم الطلب';
-$lang['phase_assign'] =  'الإحالة';
-$lang['phase_decision34'] =  'القرار 34';
-$lang['phase_announcement'] =  'تم الإعلان';
-$lang['phase_decision46'] =  'القرار 46';
-$lang['phase_decision83'] =  'القرار 83';
-$lang['phase_order_number'] =  'رقم الطلب';
-$lang['phase_registration_number'] =  'رقم القيد';
+$lang['incoming_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_file'] = "ملف المعاملة الصادرة";
+$lang['add_incoming_side'] = "إضافة جهة واردة";
+$lang['incoming_side'] = "الجهة الواردة";
+$lang['incoming_transaction_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_transaction_file'] = "ملف المعاملة الصادرة";
+$lang['incoming_transaction'] = "معاملة واردة";
+$lang['outgoing_transaction'] = "معاملة صادرة";
+$lang['secret_trans'] = "سرية";
+$lang['normal_trans'] = "عادية";
+$lang['legal_services_phases'] = "مراحل الخدمات القانونية";
+$lang['phases'] = "المراحل";
+$lang['phase'] = "مرحلة قانونية";
+$lang['new_phase'] = "مرحلة جديدة";
+$lang['active_phase'] = "تفعيل المرحلة";
+$lang['phase_not_compleate'] = "المرحلة غير مكتلمة";
+$lang['phase_compleate'] = "المرحلة مكتملة";
+$lang['phase_neworder'] = "تقديم الطلب";
+$lang['phase_assign'] = "الإحالة";
+$lang['phase_decision34'] = "القرار 34";
+$lang['phase_announcement'] = "تم الإعلان";
+$lang['phase_decision46'] = "القرار 46";
+$lang['phase_decision83'] = "القرار 83";
+$lang['phase_order_number'] = "رقم الطلب";
+$lang['phase_registration_number'] = "رقم القيد";
 $lang['phase_belongs_to'] = "المرحلة تعود الى";
-$lang['hijri_date'] = "التاريخ الهجري";
 $lang['gregorian_date'] = "التاريخ الميلادي";
 $lang['assign_department'] = "الدائرة";
 $lang['delay'] = "امهال";
-$lang['month'] = "شهر";
 $lang['phase_note'] = "ملاحظات";
 $lang['decision_number'] = "رقم القرار";
 $lang['announcement_type'] = "طريقة التبليغ";
@@ -527,27 +486,12 @@ $lang['back_to_previous_phase'] = "العودة للمرحلة السابقة";
 $lang['waiver'] = "تنازل";
 $lang['file_phase'] = "في حال وجود مرفقات يرجى رفعها في تاب الملفات";
 $lang['create_fields'] = "قم بإنشاء حقول من ادارة الحقول المخصصة لهذه المرحلة";
-$lang['incoming_file'] = 'ملف المعاملة الواردة';
-
-$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
-
 $lang['hr_system'] = "الموارد البشرية";
-$lang['add_incoming_side'] = 'إضافة جهة واردة';
-$lang['incoming_side'] = 'الجهة الواردة';
-$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
-$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
-$lang['incoming_transaction'] = 'معاملة واردة';
-$lang['outgoing_transaction'] = 'معاملة صادرة';
-$lang['secret_trans'] = 'سرية';
-$lang['normal_trans'] = 'عادية';
-
 $lang['customer_company_groups'] = "مجموعات الشركات";
 $lang['daily_agenda'] = "اجندة المحامي اليومية";
 $lang['daily_agenda_hour'] = "ارسال اجندة المحامي كل يوم في الساعة";
-
 $lang['linked_to_previous_case'] = "اختر فيما اذا كان هناك سوابق قضائية مرتبطة";
 $lang['linked_case'] = "هذه القضية مرتبطة بالقضية:";
-
 $lang['send_report_session'] = "إرسال تقرير الجلسة";
 $lang['two_factor_auth_phonenumber_code_not_found'] = "رقم الهاتف غير موجود, الرجاء الاتصال بالمسؤول.";
 $lang['two_factor_auth_phonenumber_code_not_sent'] = "رقم التحقق لم يرسل, %s";
@@ -556,18 +500,15 @@ $lang['disable_two_factor_authentication'] = "تعطيل التحقق الثنا
 $lang['two_factor_sms_authentication_info'] = "يتم توفير معيار التحقق الثنائي عن طريق الرسائل القصيرة، قبل تمكين هذاالمعيار تأكد من أن إعدادات الرسائل القصيرةالخاصة بك تم إعدادها بشكل صحيح وأن النظام قادر على إرسال رسالة نصية بشكل صحيح، سيتم إرسال كود تحقق عند تسجيل الدخول عبر رسالة نصية SMS";
 $lang['enable_two_factor_sms_authentication'] = "تفعيل التحقق الثنائي عبر الرسائل القصيرة";
 $lang['service_name'] = "الموضوع";
-$lang['clients_my_legal'] = 'الخدمات القانونية';
+$lang['clients_my_legal'] = "الخدمات القانونية";
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
-
 $lang['dialog_box_manage'] = "إدارة مربعات الحوار";
 $lang['dialog_boxes'] = "مربعات الحوار";
 $lang['add_dialog_box'] = "إضافة مربع حوار";
 $lang['edit_dialog_box'] = "تعديل مربع حوار";
-$lang['title'] = "العنوان";
 $lang['desc_ar'] = "الشرح بالعربي";
 $lang['desc_en'] = "الشرح بالانكليزي";
 $lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة المراد ظهور مربع الحوار بها";
-
 $lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";
 $lang['invoice_disputes'] = "فوترة المنازعات";
 $lang['branch'] = "اسم الفرع";

@@ -22,6 +22,16 @@ class General extends AdminController{
         $this->load->model('Leave_type_model');
 	}
 
+    /* Get role permission for specific role id */
+    public function role_changed($id)
+    {
+        if (!has_permission('staff', '', 'view')) {
+            ajax_access_denied('staff');
+        }
+
+        echo json_encode($this->roles_model->get($id)->permissions);
+    }
+
 	public function general($staff_id){
 
         $member = $this->staff_model->get($staff_id);

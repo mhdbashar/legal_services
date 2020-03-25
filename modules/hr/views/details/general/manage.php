@@ -91,8 +91,13 @@ $(document).ready(function(){
   ?>
   var department_id = <?php echo $departmentid ?>;
   console.log(department_id);
-  var sub_departmant = <?php echo $extra_info->sub_department ?>;
-  var designation = <?php echo $extra_info->designation ?>;
+  <?php if(is_numeric($extra_info->sub_department)){ ?>
+    var sub_departmant = <?php echo $extra_info->sub_department ?>;
+    var designation = <?php echo $extra_info->designation ?>;
+  <?php }else{ ?>
+    var sub_departmant = '';
+    var designation = '';
+  <?php  }  ?>
   console.log(<?php echo $extra_info->sub_department ?>);
   $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
       if (response.success == true) {

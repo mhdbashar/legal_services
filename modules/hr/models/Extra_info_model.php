@@ -21,7 +21,6 @@ class Extra_info_model extends App_Model{
                 $staff->leaves = $this->get_staffs_leaves($staff_id);
                 return $staff;
             }
-            return $this->db->get($this->table_name)->row();
         }
 
         return false;

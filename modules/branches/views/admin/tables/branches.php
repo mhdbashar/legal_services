@@ -27,7 +27,7 @@ foreach ($rResult as $aRow) {
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . admin_url('branches/field/' . $aRow['id']) . '">' . _l('edit') . '</a>';
                 $_data .= ' | <a href="' . admin_url('branches/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-                $_data .= ' | <a href="' . admin_url('branches/departments/' . $aRow['id']) . '" class="text-danger">' . _l('departments') . '</a>';
+                $_data .= ' | <a href="' . admin_url('branches/branches/departments/' . $aRow['id']) . '" class="text-danger">' . _l('departments') . '</a>';
                 $_data .= '</div>';
             }
         }

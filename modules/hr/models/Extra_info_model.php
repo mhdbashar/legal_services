@@ -59,8 +59,9 @@ class Extra_info_model extends App_Model{
         if(isset($data['leaves']))
         {
             $sleaves=$data['leaves'];
-            unset($data['leaves']);
         }
+
+        unset($data['leaves']);
         $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();
         if($insert_id){
@@ -86,8 +87,9 @@ class Extra_info_model extends App_Model{
         if(isset($data['leaves']))
         {
             $sleaves=$data['leaves'];
-            unset($data['leaves']);
+            
         }
+        unset($data['leaves']);
         $staffs_leaves_in = $this->get_staffs_leaves($staff_id);
         if (sizeof($staffs_leaves_in) > 0) {
             foreach ($staffs_leaves_in as $leaves_member) {

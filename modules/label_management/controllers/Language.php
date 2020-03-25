@@ -10,7 +10,7 @@ class Language extends AdminController
 		$this->load->model('Language_model');
 	}
 
-	public function lang($language, $custom){
+	public function lang($language = 'english', $custom = 'custom_lang'){
 		$this->load->view('tables/lang_table', ['language' => $language, 'custom' => $custom]);
 	}
 
@@ -176,7 +176,7 @@ class Language extends AdminController
     	$this->session->set_flashdata(['offset' => $offset]);
     	$data['title'] = "Label Management";
 
-    	$this->load->view('language', $data);
+    	$this->load->view('manage', $data);
 	}
 
 

@@ -46,6 +46,16 @@ class Branches extends AdminController
         $this->load->view('admin/branches/manage', $data);
     }
 
+    public function departments($id)
+    {
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('branch_departments', ['id'=>$id]);
+        }
+        $data['email_exist_as_staff'] = $this->email_exist_as_staff();
+        $data['title']                = _l('departments');
+        $this->load->view('admin/departments/manage', $data);
+    }
+
     public function field($id = '')
     {
         if ($this->input->post()) {
@@ -127,21 +137,7 @@ class Branches extends AdminController
      * Descripion: retreive  departments for Branch
      * @param $id
      */
-    public function departments($id)
-    {
-    
-        /*echo $this->app_modules->is_active('branches');
-        die();*/
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data(module_views_path('branches', 'admin/tables/branch_departments'), ['id' => $id]);
-        }
-        
-        $data['email_exist_as_staff'] = $this->email_exist_as_staff();
-        $data['branches']=$this->branches_model->getBranches();
-        $data['title']                = _l('departments');    
-        $this->load->view('admin/branches/manage_department', $data);
- 
-    }
+
 
     private function email_exist_as_staff()
     {

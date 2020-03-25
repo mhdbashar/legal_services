@@ -55,7 +55,8 @@ foreach ($rResult as $aRow) {
     }
     $show_case = '';
     foreach($cases as $case){
-        $show_case .= $ci->case->get($case['id'])->name . ', ';
+        if(is_object($ci->case->get($case['id'])))
+            $show_case .= $ci->case->get($case['id'])->name . ', ';
     }
     $row[] = $show_case;
 

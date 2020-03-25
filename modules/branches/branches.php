@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Eng. ANAS MATAR
- * Date: 6/4/2019
- * Time: 2:10 PM
- */
+
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
+Author: Ahmad Zaher khrezaty
 Module Name: Branches
 Description: Management Branches
 Version: 2.3.0

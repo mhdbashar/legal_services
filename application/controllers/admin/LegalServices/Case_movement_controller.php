@@ -52,7 +52,7 @@ class  case_movement_controller extends AdminController
         }
         $response = $this->movement->delete($id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

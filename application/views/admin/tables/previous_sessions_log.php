@@ -199,7 +199,7 @@ foreach ($rResult as $aRow) {
         $stc .= '<i class="fa fa-envelope-o"></i>  </br> '._l('send');
         $stc .= '</a>';
     elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1):
-        $stc = '<a href="#/" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
+        $stc = '<a href="#/" id="print_btn'.$aRow['id'].'" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
         $stc .= '<i class="fa fa-print"></i>  </br> '._l('dt_button_print');
         $stc .= '</a>';
     endif;

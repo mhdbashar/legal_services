@@ -68,6 +68,7 @@ class Estimates extends AdminController
 
     public function table_case($clientid = '',$ServID='', $slug)
     {
+
         if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
             ajax_access_denied();
         }

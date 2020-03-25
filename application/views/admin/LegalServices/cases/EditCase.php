@@ -309,7 +309,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
-                                    <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($case) ? prep_tags_input(get_tags_in($case->id,'case')) : ''); ?>" data-role="tagsinput">
+                                    <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($case) ? prep_tags_input(get_tags_in($case->id,$service->slug)) : ''); ?>" data-role="tagsinput">
                                 </div>
                             </div>
                             <div class="col-md-10">

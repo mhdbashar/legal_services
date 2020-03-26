@@ -90,14 +90,15 @@ foreach ($rResult as $aRow) {
     $row[] = $membersOutput;
     $status = get_case_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
     $row['DT_RowClass'] = 'has-row-options';
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
+    
     $output['aaData'][] = $row;
     $i++;
 }

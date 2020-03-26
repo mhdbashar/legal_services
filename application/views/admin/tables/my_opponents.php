@@ -292,6 +292,9 @@ foreach ($rResult as $aRow) {
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
@@ -307,9 +310,6 @@ foreach ($rResult as $aRow) {
     }
 
     $row = hooks()->apply_filters('customers_table_row_data', $row, $aRow);
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
     $output['aaData'][] = $row;
     $i++;
 }

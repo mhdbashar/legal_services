@@ -5,11 +5,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-<<<<<<< HEAD
 $aColumns        = ['firstname as fullname'];
-=======
-$aColumns        = ['CONCAT(firstname, \'\', lastname) as fullname'];
->>>>>>> b1d7638e7cc8c15436770f1acc58d0121464055b
+
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }
@@ -45,11 +42,7 @@ if (!has_permission('customers', '', 'view')) {
 if ($this->ci->input->post('custom_view')) {
     $filter = $this->ci->input->post('custom_view');
     if (startsWith($filter, 'consent_')) {
-<<<<<<< HEAD
         array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' AND contact_id=' . db_prefix() . 'contacts.id))');
-=======
-        array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' AND contact_id=' . db_prefix() . 'contacts.id))');
->>>>>>> b1d7638e7cc8c15436770f1acc58d0121464055b
     }
 }
 

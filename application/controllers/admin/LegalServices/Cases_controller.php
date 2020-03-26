@@ -1179,4 +1179,13 @@ class Cases_controller extends AdminController
         echo  $this->tasks_model->new_task_to_select_timesheet($data);
     }
 
+    public function get_case_by_clientid()
+    {
+        $clientid = $this->input->post('clientid') ? $this->input->post('clientid') : '';
+        if ($clientid != '') {
+            $response = $this->case->get('', ['clientid' => $clientid]);
+            echo json_encode($response);
+        }
+    }
+
 }

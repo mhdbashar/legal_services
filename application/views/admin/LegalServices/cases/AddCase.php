@@ -336,12 +336,8 @@
                             <div class="col-md-6">
                                 <div class="select-placeholder form-group">
                                     <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
-                                    <select class="selectpicker" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
+                                    <select class="selectpicker" id="previous_case_id" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('cases');
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -768,6 +764,32 @@
                 $("#city").html(data);
             }
         });
+    });
+
+    $("#clientid").change(function () {
+        var groupFilter = $('#previous_case_id');
+        groupFilter.selectpicker('val', '');
+        groupFilter.find('option').remove();
+        groupFilter.selectpicker("refresh");
+        case_clientid = $("#clientid").val();
+        if(case_clientid != ''){
+            $.ajax({
+                url: "<?php echo admin_url('LegalServices/Cases_controller/get_case_by_clientid'); ?>",
+                data: {clientid: case_clientid},
+                type: "POST",
+                success: function (data) {
+                    response = JSON.parse(data);
+                    var newOption = new Option('', '', false, true);
+                    $('#previous_case_id').append(newOption).trigger('change');
+                    $.each(response, function (response, value) {
+                        var newOption = new Option(value.name, value.id, false, false);
+                        $('#previous_case_id').append(newOption).trigger('change');
+                        $('#previous_case_id').selectpicker('refresh');
+                    });
+
+                }
+            });
+        }
     });
 
     $(function(){

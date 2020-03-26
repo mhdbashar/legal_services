@@ -147,12 +147,12 @@ class Disputes extends AdminController
             $data['project_type'] = 1;
             $meta = array();
             $meta['representative'] = isset($data['representative'])?$data['representative'] :"";
-            $meta['country'] = $data['country'];
+            $meta['country'] = isset($data['country'])?$data['country']:"";
             $meta['city'] = isset($data['city'])?$data['city']:"";
-            $meta['address1'] = $data['address1'];
-            $meta['address2'] = $data['address2'];
-            $meta['addressed_to'] = $data['addressed_to'];
-            $meta['notes'] = $data['notes'];
+            $meta['address1'] = isset($data['address1'])?$data['address1']:"";
+            $meta['address2'] = isset($data['address2'])?$data['address2']:"";
+            $meta['addressed_to'] =  isset($data['addressed_to'])?$data['addressed_to']:"";
+            $meta['notes'] = isset($data['notes'])?$data['notes']:"";
             $meta['projects_status'] = isset($data['projects_status'])?$data['projects_status']:"";
             $meta['cat_id'] = isset($data['cat_id'])?$data['cat_id']:"";
             $meta['subcat_id'] = isset($data['subcat_id'])?$data['subcat_id']:"";

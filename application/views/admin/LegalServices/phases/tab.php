@@ -4,8 +4,9 @@
     </div>
 </div>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default">
-    <?php echo form_open(admin_url('LegalServices/Phases_controller/handle_phases/'.$ServID.'/'.$project->id),array('id'=> 'form_phases')); ?>
+<?php if(isset($phases)): ?>
+<div class="panel panel-default">
+<?php echo form_open(admin_url('LegalServices/Phases_controller/handle_phases/'.$ServID.'/'.$project->id),array('id'=> 'form_phases')); ?>
 <?php
 $i=1;
 foreach ($phases as $phase):
@@ -60,7 +61,8 @@ foreach ($phases as $phase):
                         </div>
                     <?php }else{ ?>
                         <div class="alert alert-danger">
-                          <?php echo _l('create_fields'); ?>
+                          <?php echo _l('create_fields') ?>
+                            <a href="<?php echo admin_url('custom_fields'); ?>" target="_blank"><?php echo _l('from_here') ?></a>
                         </div>
                     <?php } ?>
                     <input type="hidden" name="legal_phase[<?php echo $phase->id; ?>]" value="<?php echo $phase->id; ?>">
@@ -88,6 +90,12 @@ foreach ($phases as $phase):
 <?php $i++; endforeach; ?>
 <?php form_close(); ?>
 </div>
+<?php else: ?>
+    <div class="alert alert-danger">
+        <?php echo _l('no_phases') ?>
+        <a href="<?php echo admin_url('LegalServices/Phases_controller'); ?>" target="_blank"><?php echo _l('from_here') ?></a>
+    </div>
+<?php endif; ?>
 </div>
 <script type="text/javascript">
     function hide_show_delay_period() {

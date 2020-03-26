@@ -272,9 +272,10 @@ class Other_services_controller extends AdminController
             $percent = $this->other->calc_progress($slug,$id);
             $data['bodyclass'] = '';
 
+            //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
                 'projects-js',
-                base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
+                base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
@@ -407,7 +408,7 @@ class Other_services_controller extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
+
             $other_projects = [];
             $other_projects_where = 'id != ' . $id;
 

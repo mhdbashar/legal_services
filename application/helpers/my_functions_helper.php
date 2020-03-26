@@ -124,7 +124,7 @@ function my_custom_setup_menu_items()
     ]);
 
     $CI->app_menu->add_setup_menu_item('2', [
-        'name'     => _l("legal_services_settings"), // The name if the item
+        'name'     => _l("LegalServices"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
         'position' => 2, // The menu position
         //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon

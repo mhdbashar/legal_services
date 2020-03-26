@@ -136,12 +136,14 @@ class Projects_merge_fields extends App_merge_fields
      */
     public function format($project_id, $additional_data = [])
     {
+
         $serv_table  = 'projects';
         $dis_table   = 'projectdiscussions';
         $files_table = 'project_files';
         $comm_table  = 'projectdiscussioncomments';
         $custom_fields_var = 'projects';
-        if (isset($additional_data['ServID'])) {
+        if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
+            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
             if($additional_data['ServID'] == 1){
                 $serv_table  = 'my_cases';
                 $dis_table   = 'casediscussions';
@@ -174,7 +176,6 @@ class Projects_merge_fields extends App_merge_fields
 
         $this->ci->db->where('id', $project_id);
         $project = $this->ci->db->get(db_prefix().$serv_table)->row();
-
         $fields['{project_name}']        = $project->name;
         $fields['{project_deadline}']    = _d($project->deadline);
         $fields['{project_start_date}']  = _d($project->start_date);

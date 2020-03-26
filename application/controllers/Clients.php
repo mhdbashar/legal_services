@@ -599,7 +599,7 @@ class Clients extends ClientsController
                                 }
                             }
                             set_alert('success', _l('added_successfully', _l('task')));
-                            redirect(site_url('clients/legal_services/' . $project->id . '?group=project_tasks&taskid=' . $task_id));
+                            redirect(site_url('clients/legal_services/' . $project->id . '/' . $ServID. '?group=project_tasks&taskid=' . $task_id));
                         }
                     } else {
                         if ($project->settings->edit_tasks == 1
@@ -697,7 +697,7 @@ class Clients extends ClientsController
                     if ($success) {
                         set_alert('success', _l('added_successfully', _l('project_discussion')));
                     }
-                    redirect(site_url('clients/legal_services/' . $id . '?group=project_discussions'));
+                    redirect(site_url('clients/legal_services/' . $id .'/'. $ServID . '?group=project_discussions'));
 
                     break;
                 case 'upload_file':
@@ -860,7 +860,7 @@ class Clients extends ClientsController
                 $data['tasks_not_completed_progress'] = round($data['tasks_not_completed_progress'], 2);
             } elseif ($group == 'new_task') {
                 if ($project->settings->create_tasks == 0) {
-                    redirect(site_url('clients/legal_services/' . $project->id));
+                    redirect(site_url('clients/legal_services/' . $project->id. '/' .$ServID));
                 }
                 if($ServID == 1){
                     $data['milestones'] = $this->case->get_milestones($slug, $id);
@@ -1179,6 +1179,7 @@ class Clients extends ClientsController
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }
+
         if ($this->input->post()) {
             $this->form_validation->set_rules('subject', _l('customer_ticket_subject'), 'required');
             $this->form_validation->set_rules('department', _l('clients_ticket_open_departments'), 'required');
@@ -1196,25 +1197,31 @@ class Clients extends ClientsController
             }
             if ($this->form_validation->run() !== false) {
                 $data = $this->input->post();
-
-                $id = $this->tickets_model->add([
+                $tkt_data = [
                     'subject'    => $data['subject'],
                     'department' => $data['department'],
                     'priority'   => $data['priority'],
                     'service'    => isset($data['service']) && is_numeric($data['service'])
-                    ? $data['service']
-                    : null,
+                        ? $data['service']
+                        : null,
                     'project_id' => isset($data['project_id']) && is_numeric($data['project_id'])
-                    ? $data['project_id']
-                    : 0,
+                        ? $data['project_id']
+                        : 0,
                     'custom_fields' => isset($data['custom_fields']) && is_array($data['custom_fields'])
-                    ? $data['custom_fields']
-                    : [],
+                        ? $data['custom_fields']
+                        : [],
                     'message'   => $data['message'],
                     'contactid' => get_contact_user_id(),
                     'userid'    => get_client_user_id(),
-                ]);
-
+                ];
+                if (isset($data['ServID']) && $data['ServID'] != '') {
+                    $slug = $this->legal->get_service_by_id($data['ServID'])->row()->slug;
+                    $tkt_data['rel_sid'] = $data['project_id'];
+                    $tkt_data['rel_stype'] = $slug;
+                    $tkt_data['project_id'] = 0;
+                    unset($data['ServID']);
+                }
+                $id = $this->tickets_model->add($tkt_data);
                 if ($id) {
                     set_alert('success', _l('new_ticket_added_successfully', $id));
                     redirect(site_url('clients/ticket/' . $id));
@@ -1222,9 +1229,21 @@ class Clients extends ClientsController
             }
         }
         $data             = [];
-        $data['projects'] = $this->projects_model->get_projects_for_ticket(get_client_user_id());
+        if ($this->input->get('ServID') && $this->input->get('ServID') != '') {
+            if ($this->input->get('ServID') == 1){
+                $data['projects'] = $this->case->get_projects_for_ticket(get_client_user_id());
+            }else{
+                $data['projects'] = $this->other->get_projects_for_ticket($this->input->get('ServID'),get_client_user_id());
+            }
+        }else{
+            $array1 = $this->projects_model->get_projects_for_ticket(get_client_user_id());
+            $array2 = $this->case->get_projects_for_ticket(get_client_user_id());
+            $array3 = $this->other->get_all_other_services(['clientid' => get_client_user_id()]);
+            $data['projects'] = array_merge($array1, $array2, $array3);
+        }
         $data['title']    = _l('new_ticket');
         $this->data($data);
+
         $this->view('open_ticket');
         $this->layout();
     }

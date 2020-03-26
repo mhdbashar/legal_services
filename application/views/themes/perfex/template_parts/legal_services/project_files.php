@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php if($project->settings->upload_files == 1){ ?>
-  <?php echo form_open_multipart(site_url('clients/project/'.$project->id),array('class'=>'dropzone mbot15','id'=>'project-files-upload')); ?>
+  <?php echo form_open_multipart(site_url('clients/legal_services/'.$project->id. '/' .$ServID),array('class'=>'dropzone mbot15','id'=>'project-files-upload')); ?>
   <input type="file" name="file" multiple class="hide"/>
   <?php echo form_close(); ?>
   <div class="pull-left mbot20">

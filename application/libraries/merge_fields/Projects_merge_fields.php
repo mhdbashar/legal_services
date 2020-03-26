@@ -219,6 +219,7 @@ class Projects_merge_fields extends App_merge_fields
             }
         }
         if (isset($additional_data['customer_template'])) {
+
             $fields['{project_link}'] = site_url('clients/project/' . $project_id);
 
             if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
@@ -227,6 +228,29 @@ class Projects_merge_fields extends App_merge_fields
                 // is file
                 $fields['{discussion_link}'] = site_url('clients/project/' . $project_id . '?group=project_files&file_id=' . $additional_data['discussion_id']);
             }
+
+            if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
+                if ($additional_data['ServID'] == 1) {
+                    $fields['{project_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
+
+                    if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
+                        $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id . '/'. $additional_data['ServID'] . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
+                    } elseif (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'file') {
+                        // is file
+                        $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id  . '/'. $additional_data['ServID'] . '?group=project_files&file_id=' . $additional_data['discussion_id']);
+                    }
+                }else{
+                    $fields['{project_link}'] = site_url('clients/legal_services/' . $project_id. '/'. $additional_data['ServID']);
+
+                    if (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular') {
+                        $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id . '/'. $additional_data['ServID'] . '?group=project_discussions&discussion_id=' . $additional_data['discussion_id']);
+                    } elseif (isset($additional_data['discussion_id']) && isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'file') {
+                        // is file
+                        $fields['{discussion_link}'] = site_url('clients/legal_services/' . $project_id . '/'. $additional_data['ServID'] . '?group=project_files&file_id=' . $additional_data['discussion_id']);
+                    }
+                }
+            }
+
         } else {
             $fields['{project_link}'] = admin_url('projects/view/' . $project_id);
             if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {
@@ -238,7 +262,7 @@ class Projects_merge_fields extends App_merge_fields
                 }
             }
 
-            if (isset($additional_data['ServID'])) {
+            if (isset($additional_data['ServID']) && $additional_data['ServID'] != '') {
                 if($additional_data['ServID'] == 1){
                     $fields['{project_link}'] = admin_url('Case/view/' .$additional_data['ServID'].'/'. $project_id);
                     if (isset($additional_data['discussion_type']) && $additional_data['discussion_type'] == 'regular' && isset($additional_data['discussion_id'])) {

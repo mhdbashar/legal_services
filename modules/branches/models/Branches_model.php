@@ -32,7 +32,7 @@ class Branches_model extends App_Model
         $this->db->insert('tblbranches', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            log_activity('New Branches Added [' . $data['title'] . ']');
+            log_activity('New Branches Added [' . $data['title_en'] . ']');
             return $insert_id;
         }
         return false;
@@ -81,7 +81,7 @@ class Branches_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update('tblbranches', $data);
         if ($this->db->affected_rows() > 0) {
-            log_activity('Branches Updated [' . $data['title'] . ']');
+            log_activity('Branches Updated [' . $data['title_en'] . ']');
             return true;
         }
         return false;

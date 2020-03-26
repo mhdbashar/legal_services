@@ -129,7 +129,7 @@ class Opponents extends AdminController
                         if(is_numeric($branch_id)){
                         $data = [
                             'branch_id' => $branch_id, 
-                            'rel_type' => 'opponents', 
+                            'rel_type' => 'opponent', 
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);

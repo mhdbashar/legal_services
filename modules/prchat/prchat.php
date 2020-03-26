@@ -52,7 +52,7 @@ if (staff_can('view', PR_CHAT_MODULE_NAME)) {
 			'name'     => 'chat',
 			'href'     => admin_url('prchat/Prchat_Controller/chat_full_view'),
 			'icon'     => 'fa fa-comments-o',
-			'position' => 6,
+			'position' => 10,
 		]);
 	}
 }

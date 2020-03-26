@@ -26,8 +26,8 @@ function hr_menu_items($item)
         // print_r($item);
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
-        echo '<li>';
-        echo '<a href="#" aria-expanded="false"><i class="fa fa-balance-scale menu-icon-ar"></i> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
+        echo '<li class="menu-item-hr">';
+        echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
 
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li><a href="#" aria-expanded="false">'._l('staff').'<span class="fa arrow-ar"></span></a>

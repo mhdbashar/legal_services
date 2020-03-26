@@ -3,18 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/app-config-sample.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Estimates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Estimates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/arabic_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/main.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/main.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/mails/Project_created_to_customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/mails/Project_created_to_customer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/mails/Project_marked_as_finished_to_customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/mails/Project_marked_as_finished_to_customer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/mails/Project_staff_added_as_member.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/mails/Project_staff_added_as_member.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/disputes/controllers/Disputes.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/disputes/controllers/Disputes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/disputes/disputes.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/disputes/disputes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/hr/hr.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/hr.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/2/June-wallpaper-desktop.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/2/June-wallpaper-desktop_thumb.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/2/index.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +235,7 @@
       <workItem from="1580992788457" duration="10903000" />
       <workItem from="1585008990982" duration="637000" />
       <workItem from="1585049814818" duration="8312000" />
+      <workItem from="1585156100747" duration="17550000" />
     </task>
     <servers />
   </component>
@@ -265,26 +272,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579537128844" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585049921808">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585156722762">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585049921808" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585156722762" />
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577984794022">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1577984794022" />
-    <state x="387" y="201" width="1088" height="623" key="find.popup" timestamp="1585083230414">
+    <state x="321" y="110" width="1088" height="623" key="find.popup" timestamp="1585181222609">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="387" y="201" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585083230414" />
+    <state x="321" y="110" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585181222609" />
     <state x="596" y="142" key="ftp.server.browser" timestamp="1576793394640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="596" y="142" key="ftp.server.browser/0.0.1536.824@0.0.1536.824" timestamp="1576793394640" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1580858786467">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1585170231940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1580858786467" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1585170231940" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1577969707130">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -47,7 +47,7 @@
     </div>
 </div>
 <?php init_tail() ?>
-<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url('modules') ?>/label_management/views/dataTables.min.js"></script>
 
 <script>
 	$(document).ready(function() {

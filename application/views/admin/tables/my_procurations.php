@@ -37,8 +37,8 @@ $ci->load->model('LegalServices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['NO'];
-    $row[] = $aRow['start_date'];
-    $row[] = $aRow['end_date'];
+    $row[] = _d($aRow['start_date']);
+    $row[] = _d($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';

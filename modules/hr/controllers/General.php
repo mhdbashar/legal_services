@@ -171,7 +171,7 @@ class General extends AdminController{
         //$hr_data['marital_status'] = $this->input->post('marital_status');
         $hr_data['sub_department'] = $this->input->post('sub_department');
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
-        $hr_data['date_birth'] = $this->input->post('date_birth');
+        $hr_data['date_birth'] = to_sql_date($this->input->post('date_birth'));
         $hr_data['state_province'] = $this->input->post('state_province');
         $hr_data['city'] = $this->input->post('city');
         $hr_data['zip_code'] = $this->input->post('zip_code');
@@ -188,6 +188,8 @@ class General extends AdminController{
             }
             foreach ($data as $key => $value){
                 if (in_array($value, $hr_data))
+                    unset($data[$key]);
+                if($key == 'date_birth')
                     unset($data[$key]);
             }
             // Don't do XSS clean here.
@@ -327,6 +329,8 @@ class General extends AdminController{
     }
     public function update_qualification(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $id = $this->input->post('id');
         $success = $this->Qualification_model->update($data, $id);
         if($success)
@@ -338,6 +342,8 @@ class General extends AdminController{
 
     public function add_qualification(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $success = $this->Qualification_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -416,6 +422,8 @@ class General extends AdminController{
     }
     public function update_work_experience(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $id = $this->input->post('id');
         $success = $this->Work_experience_model->update($data, $id);
         if($success)
@@ -427,6 +435,8 @@ class General extends AdminController{
 
 	public function add_work_experience(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $success = $this->Work_experience_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -504,6 +514,7 @@ class General extends AdminController{
     }
     public function update_document(){
         $data = $this->input->post();
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $id = $this->input->post('id');
         $success = $this->Document_model->update($data, $id);
         if($success)
@@ -515,6 +526,7 @@ class General extends AdminController{
 
     public function add_document(){
         $data = $this->input->post();
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $success = $this->Document_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -548,6 +560,9 @@ class General extends AdminController{
     }
     public function update_immigration(){
         $data = $this->input->post();
+        $data['issue_date'] = to_sql_date($data['issue_date']);
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
+        $data['eligible_review_date'] = to_sql_date($data['eligible_review_date']);
         $id = $this->input->post('id');
         $success = $this->Immigration_model->update($data, $id);
         if($success)
@@ -559,6 +574,9 @@ class General extends AdminController{
 
     public function add_immigration(){
         $data = $this->input->post();
+        $data['issue_date'] = to_sql_date($data['issue_date']);
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
+        $data['eligible_review_date'] = to_sql_date($data['eligible_review_date']);
         $success = $this->Immigration_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));

@@ -8,11 +8,11 @@
                     <div class="panel-body">
                         <a href="#" class="btn mright5 btn-info pull-left display-block" data-toggle="modal" data-target="#customer_group_modal"><?php echo _l('new_customer_group'); ?></a>
                         <a href="<?php echo admin_url('clients/company_groups') ?>" class="btn mright5 btn-info pull-left display-block" style="">
-                                Company                          
+                                <?php echo _l('company'); ?>                        
                         </a>
                      <div class="_buttons">
                         <a href="<?php echo admin_url('clients/personal_groups') ?>" class="btn mright5 btn-info pull-left display-block" style="">
-                                Individual                          
+                                <?php echo _l('individual'); ?>                            
                         </a>
                     </div>
                     <div class="clearfix"></div>

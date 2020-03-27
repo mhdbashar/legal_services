@@ -288,6 +288,8 @@ class Details extends AdminController{
     }
     public function update_loan(){
         $data = $this->input->post();
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
         $id = $this->input->post('id');
         $success = $this->Loan_model->update($data, $id);
         if($success)
@@ -299,6 +301,8 @@ class Details extends AdminController{
 
 	public function add_loan(){
         $data = $this->input->post();
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
         $success = $this->Loan_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));

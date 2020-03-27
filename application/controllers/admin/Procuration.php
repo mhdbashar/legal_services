@@ -70,6 +70,8 @@ class Procuration extends AdminController
 
         if ($this->input->post()) {
             $data            = $this->input->post();
+            $data['start_date'] = to_sql_date($data['start_date']);
+            $data['end_date'] = to_sql_date($data['end_date']);
             // $data['message'] = $this->input->post('message', false);
             if(is_numeric($request)){
                 // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations

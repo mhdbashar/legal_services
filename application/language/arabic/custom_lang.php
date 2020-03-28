@@ -28,6 +28,7 @@ $lang['other_payment'] = "اجمالي المدفوعات الأخرى";
 $lang['net_salary'] = "الراتب الأساسي";
 $lang['payment_amount'] = "الاجمالي";
 $lang['make_payment'] = "قم بالدفع";
+$lang['procurationtype'] = "نوع الوكالة";
 
 $lang['arrangement_type'] = "نوع الترتيب";
 $lang['travel_mode_type'] = "وضع السفر";

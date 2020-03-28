@@ -1,15 +1,16 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <?php init_head(); ?>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('modules') ?>/label_management/views/dataTables.min.css">
+
 <div id="wrapper">
     <div class="content">
-    	<?php $this->load->view('modals/lang') ?>
-    	<div class="panel_s">
+      <?php $this->load->view('modals/lang') ?>
+      <div class="panel_s">
             <div class="panel-body">
 
-            	<a class="btn btn-info" href="<?php echo base_url() . "label_management/language/table/english"?>">English</a>
-                <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/table/arabic"?>">Arabic</a>
+              <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/english"?>">English</a>
+                <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/arabic"?>">Arabic</a>
 
                 <h2 class="m-5"><?php echo ucfirst($language) ?></h2>
                 <div class="row">
@@ -17,16 +18,16 @@
                     <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#exampleModal"><?php echo 'Add New Lable'; ?></a>
                   </div>
                   <div class="col-md-4">
-                    <a class="btn <?php if ($custom == "custom_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/table/".$language."/custom_lang"?>">Custom</a>
-                    <a class="btn <?php if ($custom == $language."_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/table/".$language."/".$language."_lang"?>">Native</a>
+                    <a class="btn <?php if ($custom == "custom_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/custom_lang"?>">Custom</a>
+                    <a class="btn <?php if ($custom == $language."_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/".$language."_lang"?>">Native</a>
                   </div>
               </div>
-				
+        
 
-				<div class="clearfix"></div>
-				<hr class="hr-panel-heading" />
-				<div class="clearfix"></div>
-       			<table id="options" class="display" style="width:100%">
+        <div class="clearfix"></div>
+        <hr class="hr-panel-heading" />
+        <div class="clearfix"></div>
+            <table id="options" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Lable</th>
@@ -42,15 +43,15 @@
             </tr>
         </tfoot>
     </table>
-        	</div>
-    	</div>
+          </div>
+      </div>
     </div>
 </div>
 <?php init_tail() ?>
 <script src="<?php echo base_url('modules') ?>/label_management/views/dataTables.min.js"></script>
 
 <script>
-	$(document).ready(function() {
+  $(document).ready(function() {
       
       var table = $('#options').DataTable({
         "processing": true,
@@ -61,14 +62,14 @@
         search: "_INPUT_",
         searchPlaceholder: "Search",
         "columns": [
-		{"name": "Lable", "orderable": "false"},
-		{"name": "Translate", "orderable": "true"},
-		{"name": "Control", "orderable": "true"},
-		],
+    {"name": "Lable", "orderable": "false"},
+    {"name": "Translate", "orderable": "true"},
+    {"name": "Control", "orderable": "true"},
+    ],
         "order": [[1, 'asc']],
-		deferRender: true,
-		scrollY: 800,
-		scrollCollapse: true
+    deferRender: true,
+    scrollY: 800,
+    scrollCollapse: true
         }
       });
     });

@@ -73,14 +73,14 @@ class Procuration extends AdminController
             $data['start_date'] = to_sql_date($data['start_date']);
             $data['end_date'] = to_sql_date($data['end_date']);
             // $data['message'] = $this->input->post('message', false);
+            $redirect = admin_url('procuration/all');
             if(is_numeric($request)){
                 // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
                 $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
-            }elseif(is_numeric($case)){
+            }
+            if(is_numeric($case)){
                 // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
                 $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
-            }else{
-                $redirect = admin_url('procuration/all');
             }
             
             if ($id == '' or !is_numeric($id)) {

@@ -78,16 +78,16 @@ class Language extends AdminController
 		if(isset($lang[$key])){
 
 			unset($lang[$key]);
-
-			set_alert('success', 'Deleted successfully');
-		}else{
-			set_alert('warning', 'Problem Deleting');
+			
 		}
 
 		$a = $this->getArr($lang);
 
 		$handle = fopen($file, 'w+');
-		fwrite($handle,  $a);
+		if(fwrite($handle,  $a))
+			set_alert('success', 'Deleted successfully');
+		else
+			set_alert('warning', 'Problem Deleting');
 		fclose($handle);
 
 		$offset = $this->session->flashdata('offset');
@@ -138,9 +138,14 @@ class Language extends AdminController
 
 
 			$a = $this->getArr($lang);
-			fwrite($handle,  $a);
+			if(fwrite($handle,  $a))
+				set_alert('success', _l('updated_successfully'));
+			if (!is_writable($file)) { // Test if the file is writable
+			    set_alert('warning', _l('problem_updating'));
+			}
 			
 			fclose($handle);
+			redirect($_SERVER['HTTP_REFERER']);
 		}
 
 		$filter_lang = [];

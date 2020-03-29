@@ -2,7 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
-
 $aColumns = [
     'number',
     'total',
@@ -23,6 +22,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency',
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'invoices.project_id',
+    'LEFT JOIN ' . db_prefix() . 'my_basic_services ON ' . db_prefix() . 'my_basic_services.slug = ' . db_prefix() . 'invoices.rel_stype',
 ];
 
 $ci = &get_instance();
@@ -127,7 +127,9 @@ if (count($custom_fields) > 4) {
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'invoices.id',
     db_prefix() . 'invoices.clientid',
-    db_prefix(). 'currencies.name as currency_name',
+    db_prefix() . 'currencies.name as currency_name',
+    db_prefix() . 'my_basic_services.id as service_id',
+    db_prefix() . 'invoices.rel_sid',
     'project_id',
     'hash',
     'recurring',
@@ -175,9 +177,17 @@ foreach ($rResult as $aRow) {
     } else {
         $row[] = $aRow['deleted_customer_name'];
     }
+if($aRow['project_id'] == ''){
+    if($aRow['service_id'] == 1){
+        $row[] = '<a href="' . admin_url('Case/view/' .$aRow['service_id'].'/' . $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+    }else{
+        $row[] = '<a href="' . admin_url('SOther/view/' .$aRow['service_id'].'/' . $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+    }
+}else{
+    $row[] = '<a href="' . admin_url('disputes/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+}
 
-    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
-    ;
+
 
     $row[] = render_tags($aRow['tags']);
 

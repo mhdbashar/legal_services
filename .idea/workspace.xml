@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/application/views/admin/expenses/my_expense_preview_template.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libraries/merge_fields/Projects_merge_fields.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/project_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/project_files.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/project_tickets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/project_tickets.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/views/open_ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/open_ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,17 +113,17 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/expenses" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\expenses" />
       <recent name="C:\xampp\htdocs\legal_services\modules\disputes\language\arabic" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\views" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tickets" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\estimates" />
     </key>
   </component>
   <component name="RunManager">
@@ -228,7 +221,9 @@
       <workItem from="1585008990982" duration="637000" />
       <workItem from="1585049814818" duration="8312000" />
       <workItem from="1585156100747" duration="17550000" />
-      <workItem from="1585239372662" duration="18836000" />
+      <workItem from="1585239372662" duration="19099000" />
+      <workItem from="1585320630748" duration="4380000" />
+      <workItem from="1585392890004" duration="37839000" />
     </task>
     <servers />
   </component>
@@ -265,29 +260,29 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579537128844" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585240870950">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585392972012">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585240870950" />
-    <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577984794022">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585392972012" />
+    <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585436552294">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1577984794022" />
-    <state x="321" y="110" width="1088" height="623" key="find.popup" timestamp="1585263359804">
+    <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1585436552294" />
+    <state x="353" y="161" width="1088" height="623" key="find.popup" timestamp="1585443131594">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="321" y="110" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585263359804" />
+    <state x="353" y="161" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585443131594" />
     <state x="596" y="142" key="ftp.server.browser" timestamp="1576793394640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="596" y="142" key="ftp.server.browser/0.0.1536.824@0.0.1536.824" timestamp="1576793394640" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1585170231940">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1585432366154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1585170231940" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585259888030">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1585432366154" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585438716428">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585259888030" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585438716428" />
   </component>
 </project>

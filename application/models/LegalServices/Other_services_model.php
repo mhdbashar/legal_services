@@ -50,8 +50,8 @@ class Other_services_model extends App_Model
             $this->db->where(array('my_other_services.id' => $id,'my_other_services.service_id' => $ServID, 'my_other_services.deleted' => 0));
             $this->db->select('my_other_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_other_services.country', 'left');
-            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_other_services.cat_id');
-            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_other_services.subcat_id');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_other_services.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_other_services.subcat_id', 'left');
             $project = $this->db->get(db_prefix() . 'my_other_services')->row();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
@@ -108,7 +108,6 @@ class Other_services_model extends App_Model
 
                 $project = hooks()->apply_filters('project_get', $project);
                 $GLOBALS['project'] = $project;
-
                 return $project;
             }
 

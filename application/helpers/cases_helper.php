@@ -602,7 +602,7 @@ function init_relation_tasks_case_table($table_attributes = [])
     }
 
     if ($table_attributes['data-new-rel-type'] == "$slug") {
-        echo "<a href='" . admin_url('tasks/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
+        echo "<a href='" . admin_url('tasks/detailed_overview?rel_type='.$slug.'&project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
         echo "<a href='" . admin_url('tasks/list_tasks_for_LegalServices?rel_type='.$slug.'&project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default pull-right mbot25 mright5 hidden-xs'>" . _l('view_kanban') . '</a>';
         echo '<div class="clearfix"></div>';
         echo $CI->load->view('admin/tasks/_bulk_actions', ['table' => '.table-rel-tasks_case'], true);

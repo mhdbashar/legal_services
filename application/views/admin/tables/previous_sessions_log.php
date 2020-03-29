@@ -181,7 +181,16 @@ foreach ($rResult as $aRow) {
                                         <p class="bold">'._l('Court_decision').'</p>
                                         <textarea type="text" class="form-control" id="edit_court_decision'.$aRow['id'].'" name="edit_court_decision" rows="4" placeholder="'. _l('Court_decision').'"></textarea>
                                     </div>
-                                </div>
+                                </div> 
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="checkbox checkbox-primary">
+                                            <input type="checkbox" name="send_mail_to_opponent" id="send_mail_to_opponent'.$aRow['id'].'">
+                                            <label for="send_mail_to_opponent'.$aRow['id'].'">'._l('send_mail_to_opponent').'</label>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close').'</button>

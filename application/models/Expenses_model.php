@@ -768,7 +768,13 @@ class Expenses_model extends App_Model
         $new_invoice_data['discount_total']   = 0;
         $new_invoice_data['sale_agent']       = 0;
         $new_invoice_data['adjustment']       = 0;
-        $new_invoice_data['project_id']       = $expense->project_id;
+        if($expense->project_id == 0){
+            $new_invoice_data['project_id']       = null;
+        }else{
+            $new_invoice_data['project_id']       = $expense->project_id;
+        }
+        $new_invoice_data['rel_sid']          = $expense->rel_sid;
+        $new_invoice_data['rel_stype']        = $expense->rel_stype;
 
         $new_invoice_data['subtotal'] = $expense->amount;
         $total                        = $expense->amount;

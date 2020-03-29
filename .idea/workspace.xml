@@ -2,36 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/application/views/admin/expenses/my_expense_preview_template.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Tasks.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Tasks.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Expenses_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Expenses_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/ServicesSessions_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_movement_edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_pre_invoice_settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_pre_invoice_settings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Add.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/Edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/phases/tab.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/expenses/my_manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/expenses/my_manage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/detailed_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/detailed_overview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/cases.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/cases.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/oservices.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/oservices.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/disputes/views/project.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/disputes/views/project.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,17 +113,17 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/expenses" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\expenses" />
       <recent name="C:\xampp\htdocs\legal_services\modules\disputes\language\arabic" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\views" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tickets" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\estimates" />
     </key>
   </component>
   <component name="RunManager">
@@ -249,7 +223,7 @@
       <workItem from="1585156100747" duration="17550000" />
       <workItem from="1585239372662" duration="19099000" />
       <workItem from="1585320630748" duration="4380000" />
-      <workItem from="1585392890004" duration="34858000" />
+      <workItem from="1585392890004" duration="37839000" />
     </task>
     <servers />
   </component>
@@ -294,10 +268,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1585436552294" />
-    <state x="353" y="161" width="1088" height="623" key="find.popup" timestamp="1585440087159">
+    <state x="353" y="161" width="1088" height="623" key="find.popup" timestamp="1585443131594">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="353" y="161" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585440087159" />
+    <state x="353" y="161" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585443131594" />
     <state x="596" y="142" key="ftp.server.browser" timestamp="1576793394640">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

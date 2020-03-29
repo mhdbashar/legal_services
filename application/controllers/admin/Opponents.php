@@ -117,6 +117,8 @@ class Opponents extends AdminController
                 }
 
                 $data['client_type'] = 1;
+                $data['active'] = 0;
+                $data['registration_confirmed'] = 0;
 
                 $id = $this->clients_model->add($data);
                 if (!has_permission('customers', '', 'view')) {

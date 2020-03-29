@@ -101,8 +101,8 @@
                     </label>
                 </div>
                 <?php }*/ ?>
-                <hr />
-                <?php /*<p class="bold"><?php echo _l('customer_permissions'); ?></p>
+                        <?php /*<hr />
+               <p class="bold"><?php echo _l('customer_permissions'); ?></p>
                 <p class="text-danger"><?php echo _l('contact_permissions_info'); ?></p>
                 <?php
                 $default_contact_permissions = array();
@@ -127,11 +127,11 @@
                 <div class="clearfix"></div>
                 <?php } ?>
                  <hr /> */ ?>
-                <p class="bold"><?php echo _l('email_notifications'); ?><?php if(is_sms_trigger_active()){echo '/SMS';} ?></p>
-                <div id="contact_email_notifications">
-                <div class="col-md-6 row">
-                    <div class="row">
-                        <div class="col-md-6 mtop10 border-right">
+            <?php /* <p class="bold"><?php echo _l('email_notifications'); ?><?php if(is_sms_trigger_active()){echo '/SMS';} ?></p>
+                 <div id="contact_email_notifications">
+                    <div class="col-md-6 row">
+                     <div class="row">
+                         <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('invoice'); ?></span>
                         </div>
                         <div class="col-md-6 mtop10">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/?>
                 <?php /* <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
@@ -182,9 +182,9 @@
                     </div>
                 </div>
                 */ ?>
-                <div class="col-md-6 row">
+                    <?php /* <div class="col-md-6 row">
                     <div class="row">
-                       <?php /* <div class="col-md-6 mtop10 border-right">
+                       <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('tickets'); ?></span>
                         </div>
                         <div class="col-md-6 mtop10">
@@ -192,7 +192,7 @@
                                 <input type="checkbox" id="ticket_emails" data-perm-id="5" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->ticket_emails == '1'){echo 'checked';} ?>  value="ticket_emails" name="ticket_emails">
                                 <label class="onoffswitch-label" for="ticket_emails"></label>
                             </div>
-                        </div>  */ ?>
+                        </div>
                         <div class="col-md-6 mtop10 border-right">
                             <span><i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('only_project_tasks'); ?>"></i> <?php echo _l('task'); ?></span>
                         </div>
@@ -203,7 +203,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/ ?>
                 <?php /*
                 <div class="col-md-6 row">
                     <div class="row">
@@ -218,8 +218,8 @@
                         </div>
                     </div>
                 </div>
-                */ ?>
-                </div>
+
+                </div>*/ ?>
             </div>
         </div>
     </div>

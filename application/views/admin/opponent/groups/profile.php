@@ -56,10 +56,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_details'); ?>"></i>
+                            <?php /* <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_details'); ?>"></i> */?>
                             <?php $value=( isset($client) ? $client->company : ''); ?>
                             <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
-                            <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
+                            <?php echo render_input( 'company', 'opponent',$value,'text',$attrs); ?>
                             <div id="company_exists_info" class="hide"></div>
                             <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
                             <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>

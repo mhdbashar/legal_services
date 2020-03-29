@@ -3432,7 +3432,7 @@ $lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
 $lang['Parties_case'] = "Parties to the case";
 $lang['file_number_in_court'] = "File number in court";
-$lang['file_number_in_case'] = "File number in court";
+$lang['file_number_in_office'] = "File number in office";
 $lang['new_cstatus'] = "New Case Status";
 $lang['LegalServices'] = "Legal Services";
 $lang['court_competent_follow'] = "The court competent to follow up the case";
@@ -3555,6 +3555,7 @@ $lang['opponent_admin_login_as_client_message'] = "Hello %s. You are added as ad
 $lang['opponent_inactive_message'] = "This is inactive opponent profile and some features may be disabled";
 $lang['opponent_profile_details'] = "Opponent Details";
 $lang['opponent_admins'] = "Opponent Admins";
+$lang['send_mail_to_opponent'] = "Send email to opponent";
 $lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";
 
 

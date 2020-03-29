@@ -100,6 +100,8 @@
                                 </div>
                             </div>
                         </div>
+                        <?php $cats = get_relation_data('mycategory', $ServID);
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -107,8 +109,7 @@
                                     <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory', $ServID);
-                                        foreach ($data as $row): ?>
+                                        <?php foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -124,6 +125,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -172,7 +174,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('file_number_case', 'file_number_in_case', '', 'number'); ?>
+                                <?php echo render_input('file_number_case', 'file_number_in_office', '', 'number'); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_input('file_number_court', 'file_number_in_court', '', 'number'); ?>
@@ -664,6 +666,7 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#jud_num').html('');
                         $("#court_id").append(new Option(court_name, data, true, true));
                         $("#court_id_modal").append(new Option(court_name, data, true, true));
                         $('#add-court').modal('hide');
@@ -729,13 +732,14 @@
     });
 
     function GetSubCat() {
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#subcat_id').html('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });
@@ -814,7 +818,7 @@
                 code: 'required',
                 name: 'required',
                 clientid: 'required',
-                opponent_id: 'required',
+                //opponent_id: 'required',
                 representative: 'required',
                 cat_id: 'required',
                 subcat_id: 'required',

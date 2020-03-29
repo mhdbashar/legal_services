@@ -39,7 +39,14 @@ class ServicesSessions_model extends App_Model
 
     public function update_customer_report($id, $data)
     {
-        $sent = $this->send_mail_next_action_session($id);
+        if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
+            $send_mail_to_opponent = true;
+            unset($data['send_mail_to_opponent']);
+        }else{
+            $send_mail_to_opponent = false;
+            unset($data['send_mail_to_opponent']);
+        }
+        $sent = $this->send_mail_next_action_session($id, $send_mail_to_opponent);
         if($sent == 1){
             $data['next_session_date'] = to_sql_date($data['next_session_date']);
             $this->db->where('task_id' , $id);
@@ -55,7 +62,7 @@ class ServicesSessions_model extends App_Model
         return false;
     }
 
-    function send_mail_next_action_session($id)
+    function send_mail_next_action_session($id, $send_mail_to_opponent)
     {
         $this->db->where('id', $id);
         $row = $this->db->get(db_prefix() .'tasks')->row();
@@ -75,15 +82,19 @@ class ServicesSessions_model extends App_Model
             echo 'error_client'; // This customer doesn't have primary contact
             return;
         }
-        $this->db->where('userid', $opponent_id);
-        $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
-        if(!isset($contact_opponent)){
-            echo 'error_opponent'; // This opponent doesn't have primary contact
-            return;
+        if($send_mail_to_opponent == true){
+            $this->db->where('userid', $opponent_id);
+            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
+            if(!isset($contact_opponent)){
+                echo 'error_opponent'; // This opponent doesn't have primary contact
+                return;
+            }  else{
+                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
+            }
         }
-        if(isset($contact_client) && isset($contact_opponent)){
+
+        if(isset($contact_client)){ // && isset($contact_opponent)
             send_mail_template('reminder_for_next_session_action',$contact_client, $id);
-            send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
             return true;
         }
         return false;

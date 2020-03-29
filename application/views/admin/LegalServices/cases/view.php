@@ -428,6 +428,7 @@ echo form_hidden('project_percent',$percent);
         next_session_date = $('#next_session_date'+task_id).val();
         next_session_time = $('#next_session_time'+task_id).val();
         court_decision    = $('#edit_court_decision'+task_id).val();
+        send_mail_to_opponent    = $('#send_mail_to_opponent'+task_id).prop("checked");
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
@@ -437,6 +438,7 @@ echo form_hidden('project_percent',$percent);
                     next_session_date : next_session_date,
                     next_session_time : next_session_time,
                     court_decision : court_decision,
+                    send_mail_to_opponent : send_mail_to_opponent,
                 },
                 type: "POST",
                 success: function (data) {
@@ -446,6 +448,7 @@ echo form_hidden('project_percent',$percent);
                         $('#next_session_date'+task_id).val('');
                         $('#next_session_time'+task_id).val('');
                         $('#edit_court_decision'+task_id).val('');
+                        $("#send_mail_to_opponent"+task_id).prop('checked', false);
                         reload_tasks_tables();
                     }else if (data == 'error_client'){
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');

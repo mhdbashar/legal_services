@@ -99,15 +99,15 @@
                                 </div>
                             </div>
                         </div>
+                        <?php $cats = get_relation_data('mycategory', $ServID);
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Categories'); ?></label>
                                     <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory',$ServID);
-                                        foreach ($data as $row): ?>
+                                        <?php foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $case->cat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -127,6 +127,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -178,7 +179,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_input('file_number_case', 'file_number_in_case', $case->file_number_case, 'number'); ?>
+                                <?php echo render_input('file_number_case', 'file_number_in_office', $case->file_number_case, 'number'); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_input('file_number_court', 'file_number_in_court', $case->file_number_court, 'number'); ?>
@@ -694,6 +695,7 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#jud_num').html('');
                         $("#court_id").append(new Option(court_name, data));
                         $('#add-court').modal('hide');
                     }else {
@@ -763,7 +765,7 @@
     <?php } ?>
 
     function GetSubCat() {
-        $('#jud_num').html('');
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,

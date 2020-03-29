@@ -231,6 +231,6 @@ ul.tagit li.tagit-choice .tagit-label:not(a) {
     width: 250px !important;
 }
 
-.dataTables_length select, .uneditable-input, input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=file], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select.form-control, textarea.form-control {
+.dataTables_length select, .uneditable-input , select.form-control, textarea.form-control {
     font-size: 10px;
 }

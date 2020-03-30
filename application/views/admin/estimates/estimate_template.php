@@ -34,7 +34,7 @@
                 ?>
               </select>
             </div>
-           </div>z
+           </div>
             <div class="row">
                <div class="col-md-12">
                   <a href="#" class="edit_shipping_billing_info" data-toggle="modal" data-target="#billing_and_shipping_details"><i class="fa fa-pencil-square-o"></i></a>

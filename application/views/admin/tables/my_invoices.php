@@ -135,6 +135,8 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'my_basic_services.id as service_id',
     db_prefix() . 'invoices.rel_sid',
     'project_id',
+    'rel_sid',
+    'rel_stype',
     'hash',
     'recurring',
     'deleted_customer_name',
@@ -181,17 +183,18 @@ foreach ($rResult as $aRow) {
     } else {
         $row[] = $aRow['deleted_customer_name'];
     }
-if($aRow['project_id'] == ''){
-    if($aRow['service_id'] == 1){
-        $row[] = '<a href="' . admin_url('Case/view/' .$aRow['service_id'].'/' . $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+
+    if ($aRow['project_id'] == 0){
+        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+        if($ServID == 1){
+            $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+        }else{
+            $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+        }
     }else{
-        $row[] = '<a href="' . admin_url('SOther/view/' .$aRow['service_id'].'/' . $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+        $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
     }
-}else{
-    $row[] = '<a href="' . admin_url('disputes/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
-}
-
-
 
     $row[] = render_tags($aRow['tags']);
 

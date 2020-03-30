@@ -8,6 +8,7 @@ class Estimates extends AdminController
     {
         parent::__construct();
         $this->load->model('estimates_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Get all estimates in case user go on index page */
@@ -166,6 +167,7 @@ class Estimates extends AdminController
 
         $data['staff']             = $this->staff_model->get('', ['active' => 1]);
         $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']             = $title;
         $this->load->view('admin/estimates/estimate', $data);
     }

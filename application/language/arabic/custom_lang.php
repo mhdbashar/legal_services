@@ -524,3 +524,4 @@ $lang['branch'] = "اسم الفرع";
 $lang['new_company_customer_group'] = 'مجموعة عملاء شركة جديدة';
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";
+$lang['select_legal_services'] = "اختر الخدمة القانونية";

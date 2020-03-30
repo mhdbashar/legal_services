@@ -119,7 +119,7 @@ class Subscriptions_model extends App_Model
 
     private function select()
     {
-        $this->db->select(db_prefix() . 'subscriptions.id as id, stripe_tax_id, terms, in_test_environment, date, next_billing_cycle, status, ' . db_prefix() . 'subscriptions.project_id as project_id, description, ' . db_prefix() . 'subscriptions.created_from as created_from, ' . db_prefix() . 'subscriptions.name as name, ' . db_prefix() . 'currencies.name as currency_name, ' . db_prefix() . 'currencies.symbol, currency, clientid, ends_at, date_subscribed, stripe_plan_id,stripe_subscription_id,quantity,hash,description_in_item,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as tax_percent, tax_id, stripe_id as stripe_customer_id,' . get_sql_select_client_company());
+        $this->db->select(db_prefix() . 'subscriptions.id as id,'.db_prefix() . 'subscriptions.rel_sid,'.db_prefix() . 'subscriptions.rel_stype, stripe_tax_id, terms, in_test_environment, date, next_billing_cycle, status, ' . db_prefix() . 'subscriptions.project_id as project_id, description, ' . db_prefix() . 'subscriptions.created_from as created_from, ' . db_prefix() . 'subscriptions.name as name, ' . db_prefix() . 'currencies.name as currency_name, ' . db_prefix() . 'currencies.symbol, currency, clientid, ends_at, date_subscribed, stripe_plan_id,stripe_subscription_id,quantity,hash,description_in_item,' . db_prefix() . 'taxes.name as tax_name, ' . db_prefix() . 'taxes.taxrate as tax_percent, tax_id, stripe_id as stripe_customer_id,' . get_sql_select_client_company());
     }
 
     private function join()

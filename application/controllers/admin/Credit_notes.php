@@ -8,6 +8,7 @@ class Credit_notes extends AdminController
     {
         parent::__construct();
         $this->load->model('credit_notes_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Get all credit ntoes in case user go on index page */
@@ -187,7 +188,7 @@ class Credit_notes extends AdminController
         $data['currencies'] = $this->currencies_model->get();
 
         $data['base_currency'] = $this->currencies_model->get_base_currency();
-
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']     = $title;
         $data['bodyclass'] = 'credit-note';
         $this->load->view('admin/credit_notes/credit_note', $data);

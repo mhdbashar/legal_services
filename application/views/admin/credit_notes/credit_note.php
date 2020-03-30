@@ -35,6 +35,8 @@
         </select>
       </div>
     </div>
+
+ <?php /*
     <div class="form-group projects-wrapper<?php if((!isset($credit_note)) || (isset($credit_note) && !customer_has_projects($credit_note->clientid))){ echo ' hide';} ?>">
      <label for="project_id"><?php echo _l('project'); ?></label>
      <div id="project_ajax_search_wrapper">
@@ -46,7 +48,39 @@
        ?>
      </select>
    </div>
- </div>
+ </div> */?>
+
+   <?php
+   if((!isset($credit_note)) || (isset($credit_note) && !customer_has_cases($credit_note->clientid)) || (isset($credit_note) && !customer_has_oservices($credit_note->clientid))){
+       $hide_project_selector = 'hide';
+   }else{
+       $hide_project_selector = '';
+   }
+   ?>
+   <?php
+   $selected = (isset($credit_note) ? $credit_note->rel_stype : '');
+   echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],[], 'projects-wrapper '.$hide_project_selector,'',true); ?>
+
+   <div class="form-group <?php echo $hide_project_selector; ?>" id="div_rel_sid">
+       <label for="rel_sid" class="control-label"><?php echo _l('ServiceTitle'); ?></label>
+       <select class="form-control custom_select_arrow" id="rel_sid" name="rel_sid" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+           <option selected disabled></option>
+           <?php
+           if(isset($credit_note) && $credit_note->rel_sid != 0){
+               $this->load->model('LegalServices/LegalServicesModel', 'legal');
+               $slug = (isset($credit_note) ? $credit_note->rel_stype : '');
+               $ServID = $this->legal->get_service_id_by_slug($slug);
+               if($ServID == 1){
+                   $service_name = get_case_name_by_id($credit_note->rel_sid);
+               }else{
+                   $service_name = get_oservice_name_by_id($credit_note->rel_sid);
+               }
+               echo '<option value="'.$credit_note->rel_sid.'" selected>'.$service_name.'</option>';
+           }
+           ?>
+       </select>
+   </div>
+
  <div class="row">
    <div class="col-md-12">
     <hr class="hr-10" />

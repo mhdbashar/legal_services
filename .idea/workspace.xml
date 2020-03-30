@@ -2,10 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/application/views/admin/expenses/my_expense_preview_template.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/estimates/my_estimate_template.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/expenses/my_expense.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/invoices/my_invoice_template.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/subscriptions/my_form.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/views/admin/tables/my_subscriptions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/modals/my_contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Credit_notes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Credit_notes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Estimates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Estimates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Expenses.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Invoices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/LegalServices_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/LegalServices_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Subscriptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Subscriptions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/LegalServicesModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/LegalServicesModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Subscriptions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Subscriptions_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/credit_notes/credit_note.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/credit_notes/credit_note.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/estimates/estimate_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/estimates/estimate_template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_credit_notes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_credit_notes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_estimates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_estimates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,17 +131,17 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/expenses" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/tables" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\estimates" />
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\invoices" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\expenses" />
       <recent name="C:\xampp\htdocs\legal_services\modules\disputes\language\arabic" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\views" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tickets" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex" />
     </key>
   </component>
   <component name="RunManager">
@@ -223,7 +241,8 @@
       <workItem from="1585156100747" duration="17550000" />
       <workItem from="1585239372662" duration="19099000" />
       <workItem from="1585320630748" duration="4380000" />
-      <workItem from="1585392890004" duration="37839000" />
+      <workItem from="1585392890004" duration="38322000" />
+      <workItem from="1585486406169" duration="31945000" />
     </task>
     <servers />
   </component>
@@ -244,10 +263,6 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="361" y="70" key="#Deployment" timestamp="1576837553710">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="361" y="70" key="#Deployment/0.0.1536.824@0.0.1536.824" timestamp="1576837553710" />
     <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1579001499750">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -260,29 +275,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579537128844" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585392972012">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585486429900">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585392972012" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585486429900" />
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585436552294">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1585436552294" />
-    <state x="353" y="161" width="1088" height="623" key="find.popup" timestamp="1585443131594">
+    <state x="353" y="161" width="1088" height="623" key="find.popup" timestamp="1585585797682">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="353" y="161" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585443131594" />
-    <state x="596" y="142" key="ftp.server.browser" timestamp="1576793394640">
+    <state x="353" y="161" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585585797682" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1585578906618">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="596" y="142" key="ftp.server.browser/0.0.1536.824@0.0.1536.824" timestamp="1576793394640" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1585432366154">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1585578906618" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585497091771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1585432366154" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585438716428">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585438716428" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585497091771" />
   </component>
 </project>

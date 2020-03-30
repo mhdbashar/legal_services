@@ -23,7 +23,8 @@
                 </select>
               </div>
             </div>
-            <div class="form-group select-placeholder projects-wrapper<?php if((!isset($estimate)) || (isset($estimate) && !customer_has_projects($estimate->clientid))){ echo ' hide';} ?>">
+            <?php /*
+             <div class="form-group select-placeholder projects-wrapper<?php if((!isset($estimate)) || (isset($estimate) && !customer_has_projects($estimate->clientid))){ echo ' hide';} ?>">
              <label for="project_id"><?php echo _l('project'); ?></label>
              <div id="project_ajax_search_wrapper">
                <select name="project_id" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -34,8 +35,41 @@
                 ?>
               </select>
             </div>
-           </div>z
-            <div class="row">
+           </div> */ ?>
+
+             <?php
+             if((!isset($estimate)) || (isset($estimate) && !customer_has_cases($estimate->clientid)) || (isset($estimate) && !customer_has_oservices($estimate->clientid))){
+                 $hide_project_selector = 'hide';
+             }else{
+                 $hide_project_selector = '';
+             }
+             ?>
+             <?php
+             $selected = (isset($estimate) ? $estimate->rel_stype : '');
+             echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],[], 'projects-wrapper '.$hide_project_selector,'',true); ?>
+
+             <div class="form-group <?php echo $hide_project_selector; ?>" id="div_rel_sid">
+                 <label for="rel_sid" class="control-label"><?php echo _l('ServiceTitle'); ?></label>
+                 <select class="form-control custom_select_arrow" id="rel_sid" name="rel_sid" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                     <option selected disabled></option>
+                     <?php
+                     if(isset($estimate) && $estimate->rel_sid != 0){
+                         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+                         $slug = (isset($estimate) ? $estimate->rel_stype : '');
+                         $ServID = $this->legal->get_service_id_by_slug($slug);
+                         if($ServID == 1){
+                             $service_name = get_case_name_by_id($estimate->rel_sid);
+                         }else{
+                             $service_name = get_oservice_name_by_id($estimate->rel_sid);
+                         }
+                         echo '<option value="'.$estimate->rel_sid.'" selected>'.$service_name.'</option>';
+                     }
+                     ?>
+                 </select>
+             </div>
+
+
+             <div class="row">
                <div class="col-md-12">
                   <a href="#" class="edit_shipping_billing_info" data-toggle="modal" data-target="#billing_and_shipping_details"><i class="fa fa-pencil-square-o"></i></a>
                   <?php include_once(APPPATH .'views/admin/estimates/billing_and_shipping_template.php'); ?>

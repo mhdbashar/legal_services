@@ -3620,3 +3620,4 @@ $lang['modify_module'] = "To modify the data of this service, go to the module p
 $lang['clients_'] = "Clients";
 $lang['invoice_disputes'] = "Invoice Disputes";
 $lang['from_here'] = "From here";
+$lang['select_legal_services'] = "Choose legal services";

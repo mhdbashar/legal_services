@@ -7,12 +7,18 @@ class LegalServicesModel extends App_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('LegalServices/Cases_model','case');
+        $this->load->model('LegalServices/Other_services_model','other');
     }
 
-    public function get_all_services($where = [])
+    public function get_all_services($where = [], $result_array=false)
     {
         $this->db->where($where);
-        return $this->db->get('my_basic_services')->result();
+        if($result_array){
+            return $this->db->get('my_basic_services')->result_array();
+        }else{
+            return $this->db->get('my_basic_services')->result();
+        }
     }
 
     public function get_service_by_id($ServID)

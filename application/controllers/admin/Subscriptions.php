@@ -11,6 +11,7 @@ class Subscriptions extends AdminController
         $this->load->model('subscriptions_model');
         $this->load->model('currencies_model');
         $this->load->model('taxes_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index()
@@ -74,6 +75,8 @@ class Subscriptions extends AdminController
                 'terms'               => nl2br($this->input->post('terms')),
                 'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
                 'currency'            => $this->input->post('currency'),
+                'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
+                'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null
             ]);
 
             set_alert('success', _l('added_successfully', _l('subscription')));
@@ -102,6 +105,7 @@ class Subscriptions extends AdminController
 
         $data['taxes']      = $this->taxes_model->get();
         $data['currencies'] = $this->currencies_model->get();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['bodyclass']  = 'subscription';
         $this->load->view('admin/subscriptions/subscription', $data);
     }
@@ -113,7 +117,6 @@ class Subscriptions extends AdminController
         }
 
         $subscription = $this->subscriptions_model->get_by_id($id);
-
         if (!$subscription || (!has_permission('subscriptions', '', 'view') && $subscription->created_from != get_staff_user_id())) {
             show_404();
         }
@@ -141,6 +144,8 @@ class Subscriptions extends AdminController
                 'quantity'            => $this->input->post('quantity'),
                 'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
                 'currency'            => $this->input->post('currency'),
+                'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
+                'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null
              ];
 
             if (!empty($stripeSubscriptionId)) {
@@ -202,6 +207,7 @@ class Subscriptions extends AdminController
         $data['title']          = $data['subscription']->name;
         $data['taxes']          = $this->taxes_model->get();
         $data['currencies']     = $this->currencies_model->get();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['bodyclass']      = 'subscription no-calculate-total';
         $this->load->view('admin/subscriptions/subscription', $data);
     }

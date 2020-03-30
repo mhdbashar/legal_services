@@ -347,6 +347,11 @@ $lang['LService_activity_updated'] = "خدمة قانونية محدثة";
 $lang['LService_not_found'] = "الخدمة قانونية غير موجودة";
 $lang['LService_recycle_bin'] = "سلة المحذوفات";
 $lang['restore'] = "إستعادة";
+$lang['LegalService'] = "الخدمة القانونية";
+$lang['service_bin'] = 'تثبيت الخدمة';
+$lang['account_summary'] = 'كشف الحساب';
+
+
 $lang['LegalServicesRestored'] = "تمت ازالة الخدمة القانونية من سلة المهملات";
 $lang['ProblemRestored'] = "حدثت مشكلة في الإستعادة";
 $lang['ChooseLegalServices'] = "اختر الخدمة القانونية المراد عرضها";

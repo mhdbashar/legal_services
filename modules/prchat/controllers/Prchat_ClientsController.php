@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Perfex CRM Powerful Chat
-Description: Chat Module for Perfex CRM
+Module Name: babillawnet CRM Powerful Chat
+Description: Chat Module for babillawnet CRM
 Author: Aleksandar Stojanov
 Author URI: https://idevalex.com
 Requires at least: 2.3.2

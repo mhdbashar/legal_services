@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
+Module Name: babillawnet CRM Chat
+Description: Chat Module for babillawnet CRM
 Author: Aleksandar Stojanov
 Author URI: https://idevalex.com
 */
@@ -1382,4 +1382,4 @@ class Prchat_model extends App_Model
 
 
 /* End of file PRChat_model.php */
-/* Location: ./modules/prchat/models/perfex_chat/Prchat_model.php */
+/* Location: ./modules/prchat/models/babillawnet_chat/Prchat_model.php */

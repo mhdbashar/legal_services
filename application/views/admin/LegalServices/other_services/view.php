@@ -46,7 +46,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                                         <li>
                                             <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
-                                                <?php echo $project_pin_tooltip; ?>
+                                                <?php echo _l('service_bin'); ?>
                                             </a>
                                         </li>
                                         <?php if(has_permission('projects','','edit')){ ?>

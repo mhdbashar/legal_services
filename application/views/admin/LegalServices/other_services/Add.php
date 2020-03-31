@@ -187,7 +187,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date'); ?>
+                                <?php $value = _d(date('Y-m-d')); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date',$value); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_date_input('deadline', 'project_deadline'); ?>

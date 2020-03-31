@@ -301,7 +301,6 @@ if(hijri_page == 'settings?group=Hijri'){
     });
 }
 
-
 function get_legal_services_by_slug()
 {
     $('#div_rel_sid').removeClass('hide');

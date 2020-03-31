@@ -29,7 +29,7 @@ class LegalServices_controller extends AdminController
             if($ServID == 1){
                 $res = $this->case->get('', ['clientid' => $clientid]);
             }else{
-                $res = $this->other->get($ServID ,['clientid' => $clientid]);
+                $res = $this->other->get($ServID ,'', ['clientid' => $clientid]);
             }
             echo json_encode($res);
         }

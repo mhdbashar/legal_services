@@ -46,7 +46,7 @@
              ?>
              <?php
              $selected = (isset($estimate) ? $estimate->rel_stype : '');
-             echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],[], 'projects-wrapper '.$hide_project_selector,'',true); ?>
+             echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],[], 'services-wrapper '.$hide_project_selector,'',true); ?>
 
              <div class="form-group <?php echo $hide_project_selector; ?>" id="div_rel_sid">
                  <label for="rel_sid" class="control-label"><?php echo _l('ServiceTitle'); ?></label>

@@ -301,6 +301,17 @@ if(hijri_page == 'settings?group=Hijri'){
     });
 }
 
+
+$("body").on('change', '.f_client_id select[name="clientid"]', function() {
+    var val = $(this).val();
+    var servicesWrapper = $('.services-wrapper');
+    if (!val) {
+        servicesWrapper.addClass('hide');
+    }else {
+        servicesWrapper.removeClass('hide');
+    }
+});
+
 function get_legal_services_by_slug()
 {
     $('#div_rel_sid').removeClass('hide');

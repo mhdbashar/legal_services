@@ -34,7 +34,7 @@
                                         <?php echo _l('case_info'); ?>
                                     </h4>
                                 </div>
-                                <div id="case_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_case_info">
+                                <div id="case_info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="head_case_info">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -111,7 +111,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="head_client_info">
-                                <h4 class="panel-title" role="button" data-toggle="collapse" href="#client_info" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#client_info" aria-expanded="false" aria-controls="collapseOne">
                                     <?php echo _l('client_info'); ?>
                                 </h4>
                             </div>
@@ -185,7 +185,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="head_court_info">
-                                <h4 class="panel-title" role="button" data-toggle="collapse" href="#court_info" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#court_info" aria-expanded="false" aria-controls="collapseOne">
                                     <?php echo _l('court_info'); ?>
                                 </h4>
                             </div>
@@ -249,7 +249,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="head_payment_info">
-                                <h4 class="panel-title" role="button" data-toggle="collapse" href="#payment_info" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#payment_info" aria-expanded="false" aria-controls="collapseOne">
                                     <?php echo _l('payment_info'); ?>
                                 </h4>
                             </div>
@@ -313,7 +313,7 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="management_info_info">
-                                <h4 class="panel-title" role="button" data-toggle="collapse" href="#management_info" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#management_info" aria-expanded="false" aria-controls="collapseOne">
                                     <?php echo _l('management_info'); ?>
                                 </h4>
                             </div>

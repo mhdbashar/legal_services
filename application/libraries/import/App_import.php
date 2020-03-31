@@ -138,7 +138,7 @@ abstract class App_import
      */
     public function formatFieldNameForHeading($field)
     {
-        return str_replace('_', ' ', ucfirst($field));
+        return _l($field);
     }
 
     /**

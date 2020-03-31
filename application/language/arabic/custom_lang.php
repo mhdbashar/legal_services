@@ -458,32 +458,46 @@ $lang['date'] = "التاريخ";
 $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
-$lang['incoming_file'] = "ملف المعاملة الواردة";
-$lang['outgoing_file'] = "ملف المعاملة الصادرة";
-$lang['add_incoming_side'] = "إضافة جهة واردة";
-$lang['incoming_side'] = "الجهة الواردة";
-$lang['incoming_transaction_file'] = "ملف المعاملة الواردة";
-$lang['outgoing_transaction_file'] = "ملف المعاملة الصادرة";
-$lang['incoming_transaction'] = "معاملة واردة";
-$lang['outgoing_transaction'] = "معاملة صادرة";
-$lang['secret_trans'] = "سرية";
-$lang['normal_trans'] = "عادية";
-$lang['legal_services_phases'] = "مراحل الخدمات القانونية";
-$lang['phases'] = "المراحل";
-$lang['phase'] = "مرحلة قانونية";
-$lang['new_phase'] = "مرحلة جديدة";
-$lang['active_phase'] = "تفعيل المرحلة";
-$lang['phase_not_compleate'] = "المرحلة غير مكتلمة";
-$lang['phase_compleate'] = "المرحلة مكتملة";
-$lang['phase_neworder'] = "تقديم الطلب";
-$lang['no_phases'] = "لايوجد مراحل لهذه الخدمة بعد! قم بإنشائها";
-$lang['phase_assign'] = "الإحالة";
-$lang['phase_decision34'] = "القرار 34";
-$lang['phase_announcement'] = "تم الإعلان";
-$lang['phase_decision46'] = "القرار 46";
-$lang['phase_decision83'] = "القرار 83";
-$lang['phase_order_number'] = "رقم الطلب";
-$lang['phase_registration_number'] = "رقم القيد";
+
+$lang['incoming_file'] = 'ملف المعاملة الواردة';
+
+$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
+$lang['contact_phonenumber'] = 'هاتف جهة الاتصال';
+$lang['phonenumber'] = 'هاتف';
+$lang['longitude'] = 'خط الطول';
+$lang['latitude'] = 'خط العرض';
+
+
+$lang['add_incoming_side'] = 'إضافة جهة واردة';
+$lang['incoming_side'] = 'الجهة الواردة';
+$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
+$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
+$lang['incoming_transaction'] = 'معاملة واردة';
+$lang['outgoing_transaction'] = 'معاملة صادرة';
+$lang['secret_trans'] = 'سرية';
+$lang['normal_trans'] = 'عادية';
+
+
+
+
+
+
+//Phase
+$lang['legal_services_phases'] =  'مراحل الخدمات القانونية';
+$lang['phases'] =  'المراحل';
+$lang['phase'] =  'مرحلة قانونية';
+$lang['new_phase'] =  'مرحلة جديدة';
+$lang['active_phase'] =  'تفعيل المرحلة';
+$lang['phase_not_compleate'] =  'المرحلة غير مكتلمة';
+$lang['phase_compleate'] =  'المرحلة مكتملة';
+$lang['phase_neworder'] =  'تقديم الطلب';
+$lang['phase_assign'] =  'الإحالة';
+$lang['phase_decision34'] =  'القرار 34';
+$lang['phase_announcement'] =  'تم الإعلان';
+$lang['phase_decision46'] =  'القرار 46';
+$lang['phase_decision83'] =  'القرار 83';
+$lang['phase_order_number'] =  'رقم الطلب';
+$lang['phase_registration_number'] =  'رقم القيد';
 $lang['phase_belongs_to'] = "المرحلة تعود الى";
 $lang['gregorian_date'] = "التاريخ الميلادي";
 $lang['assign_department'] = "الدائرة";
@@ -521,6 +535,11 @@ $lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة الم�
 $lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";
 $lang['invoice_disputes'] = "فوترة المنازعات";
 $lang['branch'] = "اسم الفرع";
+$lang['branch_id'] = "اسم الفرع";
+$lang['client_type'] = "نوع العميل";
+$lang['firstname'] = "الاسم الأول";
+$lang['lastname'] = "الاسم الأخير";
+$lang['client_type'] = "نوع العميل";
 $lang['new_company_customer_group'] = 'مجموعة عملاء شركة جديدة';
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";

@@ -1,5 +1,12 @@
 <?php
-
+$lang['contact_phonenumber'] = 'Contact Phone Number';
+$lang['phonenumber'] = 'Phone Number';
+$lang['longitude'] = 'Longitude';
+$lang['latitude'] = 'Latitude';
+$lang['branch_id'] = "Branch Name";
+$lang['firstname'] = "Firstname";
+$lang['lastname'] = "Lastname";
+$lang['client_type'] = "Client Type";
 $lang['add_new_holiday'] = 'Add New Holiday';
 $lang['event_name'] = "Event Name";
 $lang['LegalService'] = "Legal Service";

@@ -234,3 +234,16 @@ ul.tagit li.tagit-choice .tagit-label:not(a) {
 .dataTables_length select, .uneditable-input , select.form-control, textarea.form-control {
     font-size: 10px;
 }
+
+.panel-heading .panel-title:after {
+    font-family: 'FontAwesome';
+    content: "\f068";
+    float: left;
+    color: #2e2e2e94;
+    margin-right: 10px;
+}
+.panel-heading .panel-title.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f067";
+    color: #2e2e2e94;
+}

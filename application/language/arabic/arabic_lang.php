@@ -1595,7 +1595,7 @@ $lang['report_invoice_amount'] = "المبلغ";
 $lang['report_invoice_amount_with_tax'] = "المبلغ مع الضريبة";
 $lang['report_invoice_amount_open'] = "Amount open";
 $lang['report_invoice_status'] = "الحالة";
-$lang['home_stats_by_project_status'] = "إحصائيات حسب حالة المشروع";
+$lang['home_stats_by_project_status'] = "إحصائيات حسب حالة الخدمة القانونية";
 $lang['home_invoice_overview'] = "نظرة عامة على الفواتير";
 $lang['home_proposal_overview'] = "نظرة عامة على العطاءات";
 $lang['home_lead_overview'] = "نظرة عامة على العملاء المتوقعين";
@@ -1620,7 +1620,7 @@ $lang['dt_button_export'] = "تصدير";
 $lang['dt_entries'] = "إدخالات";
 $lang['invoice_total_paid'] = "مجموع المبالغ المدفوعة";
 $lang['invoice_amount_due'] = "المبلغ المستحق";
-$lang['calendar_project'] = "المشروع";
+$lang['calendar_project'] = "الخدمة القانونية";
 $lang['leads_import_assignee'] = "المسؤول (محال إليه)";
 $lang['customer_from_lead'] = "العملاء من %s";
 $lang['lead_kan_ban_attachments'] = "المرفقات: العملاء من %s";
@@ -1663,14 +1663,14 @@ $lang['no_timers_found'] = "لم يتم العثور على بدايات الم�
 $lang['timers_started_confirm_logout'] = "تم العثور على مؤقتات المهام التي بدأت!<br/> هل أنت متأكد من رغبتك في تسجيل الخروج دون إيقاف المؤقتات؟";
 $lang['confirm_logout'] = "تسجيل خروج";
 $lang['timer_top_started'] = "بدأت في %s";
-$lang['cant_change_billing_type_billed_tasks_found'] = "لا يمكنك تغيير نوع الفواتير. تم العثورعلى المهام التي تم إعداد فواتير لها بالفعل لهذا المشروع.";
-$lang['project_customer_permission_warning'] = "أشار النظام إلى أن جهة الاتصال الرئيسية لا تملك إذنًا بالمشروعات. لن تتمكن جهة الاتصال الأساسية من رؤية المشروع. يجب مراعاةإضافة إذن في ملف تعريف جهة الاتصال.";
+$lang['cant_change_billing_type_billed_tasks_found'] = "لا يمكنك تغيير نوع الفواتير. تم العثورعلى المهام التي تم إعداد فواتير لها بالفعل لهذا الخدمة القانونية.";
+$lang['project_customer_permission_warning'] = "أشار النظام إلى أن جهة الاتصال الرئيسية لا تملك إذنًا بالخدمة القانونيةات. لن تتمكن جهة الاتصال الأساسية من رؤية الخدمة القانونية. يجب مراعاةإضافة إذن في ملف تعريف جهة الاتصال.";
 $lang['project_invoice_timesheet_start_time'] = "وقت البدء: %s";
 $lang['project_invoice_timesheet_end_time'] = "وقت الإنتهاء: %s";
 $lang['project_invoice_timesheet_total_logged_time'] = "Logged time: %s";
-$lang['project_view_as_client'] = "عرض المشروع كعميل";
-$lang['project_mark_all_tasks_as_completed'] = "تعليم جميع المهام على أنها مكتملة وإيقاف جميع أجهزة ضبط الوقت (لا توجد خطارات مرسلة إلى أعضاء المشروع)";
-$lang['project_not_started_status_tasks_timers_found'] = "تم العثور على مؤقتات المهام لهذا المشروع ولكن المشروع في حالة \"لم يتم البدء\". يوصى بتغيير حالة المشروع إلى قيد التقدم";
+$lang['project_view_as_client'] = "عرض الخدمة القانونية كعميل";
+$lang['project_mark_all_tasks_as_completed'] = "تعليم جميع المهام على أنها مكتملة وإيقاف جميع أجهزة ضبط الوقت (لا توجد خطارات مرسلة إلى أعضاء الخدمة القانونية)";
+$lang['project_not_started_status_tasks_timers_found'] = "تم العثور على مؤقتات المهام لهذا الخدمة القانونية ولكن الخدمة القانونية في حالة \"لم يتم البدء\". يوصى بتغيير حالة الخدمة القانونية إلى قيد التقدم";
 $lang['project_status'] = "الحالة";
 $lang['project_status_3'] = "في الإنتظار";
 $lang['project_file_dateadded'] = "تاريخ الرفع";
@@ -1681,8 +1681,8 @@ $lang['project_file_uploaded_by'] = "تم الرفع بواسطة";
 $lang['edit_project'] = "تحرير الخدمة";
 $lang['delete_project'] = "حذف الخدمة";
 $lang['project_task_assigned_to_user'] = "المهمة مخصصة لك";
-$lang['project'] = "المشروع";
-$lang['project_lowercase'] = "المشروع";
+$lang['project'] = "الخدمة القانونية";
+$lang['project_lowercase'] = "الخدمة القانونية";
 $lang['projects_lowercase'] = "المشاريع";
 $lang['project_settings'] = "إعدادات الخدمة";
 $lang['project_invoiced_successfully'] = "تم انشاء فاتورة للخدمة بنجاح";
@@ -1703,7 +1703,7 @@ $lang['project_billing_type_project_task_hours_hourly_rate'] = "بناء على 
 $lang['project_rate_per_hour'] = "القيمة لكل ساعة";
 $lang['project_total_cost'] = "إجمالي القيمة";
 $lang['project_members'] = "الموظفين";
-$lang['project_member_removed'] = "تمت إزالة موظف من المشروع بنجاح";
+$lang['project_member_removed'] = "تمت إزالة موظف من الخدمة القانونية بنجاح";
 $lang['project_overview'] = "ملخص الخدمة";
 $lang['project_gant'] = "Gantt View";
 $lang['project_milestones'] = "Milestones";
@@ -1722,8 +1722,8 @@ $lang['milestone_total_logged_time'] = "Logged Time";
 $lang['project_overview_total_logged_hours'] = "مجموع الساعات المسجلة";
 $lang['milestones_uncategorized'] = "غير مصنف";
 $lang['milestone_no_tasks_found'] = "لم يتم العثور على مهام";
-$lang['project_copied_successfully'] = "تم نسخ بيانات المشروع بنجاح";
-$lang['failed_to_copy_project'] = "فشل في نسخ المشروع";
+$lang['project_copied_successfully'] = "تم نسخ بيانات الخدمة القانونية بنجاح";
+$lang['failed_to_copy_project'] = "فشل في نسخ الخدمة القانونية";
 $lang['copy_project_task_include_check_list_items'] = "Copy checklist items";
 $lang['copy_project_task_include_assignees'] = "Copy the same assignees";
 $lang['copy_project_task_include_followers'] = "Copy the same followers";
@@ -1739,15 +1739,15 @@ $lang['project_timesheet_task'] = "المهمة";
 $lang['project_invoices'] = "الفواتير";
 $lang['total_logged_hours_by_staff'] = "اجمالي الوقت المسجل";
 $lang['invoice_project'] = "فوترة الخدمة";
-$lang['invoice_project_info'] = "معلومات فاتورة المشروع";
+$lang['invoice_project_info'] = "معلومات فاتورة الخدمة القانونية";
 $lang['invoice_project_data_single_line'] = "Single line";
 $lang['invoice_project_data_task_per_item'] = "المهمة لكل عنصر";
 $lang['invoice_project_data_timesheets_individually'] = "جميع الجداول الزمنية على حدة";
 $lang['invoice_project_item_name_data'] = "إسم العنصر";
 $lang['invoice_project_description_data'] = "الوصف";
-$lang['invoice_project_projectname_taskname'] = "إسم المشروع + إسم المهمة";
+$lang['invoice_project_projectname_taskname'] = "إسم الخدمة القانونية + إسم المهمة";
 $lang['invoice_project_all_tasks_total_logged_time'] = "جميع المهام + مجموع الوقت المسجل لكل مهمة";
-$lang['invoice_project_project_name_data'] = "إسم المشروع";
+$lang['invoice_project_project_name_data'] = "إسم الخدمة القانونية";
 $lang['invoice_project_timesheet_individually_data'] = "الجدول الزمني وقت البدء + وقت الانتهاء + إجمالي وقت المسجل";
 $lang['invoice_project_total_logged_time_data'] = "إجمالي الوقت المسجل";
 $lang['project_setting_view_task_attachments'] = "عرض مرفقات المهمة";
@@ -1757,7 +1757,7 @@ $lang['project_setting_view_task_comments'] = "عرض تعليقات المهم�
 $lang['project_setting_upload_on_tasks'] = "تحميل المرفقات على المهام";
 $lang['project_setting_view_task_total_logged_time'] = "عرض مجموع الوقت المسجل للمهمة";
 $lang['project_setting_open_discussions'] = "مناقشات مفتوحة";
-$lang['project_setting_comment_on_tasks'] = "التعليق على مهام المشروع";
+$lang['project_setting_comment_on_tasks'] = "التعليق على مهام الخدمة القانونية";
 $lang['project_setting_view_tasks'] = "عرض المهام";
 $lang['project_setting_view_milestones'] = "view milestones";
 $lang['project_setting_view_gantt'] = "view Gantt";
@@ -1800,7 +1800,7 @@ $lang['project_note'] = "ملاحظة";
 $lang['project_note_private'] = "الملاحظات الخاصة";
 $lang['project_save_note'] = "حفظ الملاحظة";
 $lang['project_activity_created'] = "Created the project";
-$lang['project_activity_updated'] = "مشروع محدث";
+$lang['project_activity_updated'] = "الخدمة القانونية محدث";
 $lang['project_activity_removed_team_member'] = "موظف تم ازالته";
 $lang['project_activity_added_team_member'] = "موظف جديد تم إضافته";
 $lang['project_activity_marked_all_tasks_as_complete'] = "علم كل المهام على انها مكتملة";
@@ -1814,7 +1814,7 @@ $lang['project_activity_deleted_discussion_comment'] = "تم حذف تعليق �
 $lang['project_activity_deleted_milestone'] = "Deleted milestone";
 $lang['project_activity_updated_milestone'] = "Updated milestone";
 $lang['project_activity_created_milestone'] = "Created new milestone";
-$lang['project_activity_invoiced_project'] = "مشروع مفوتر";
+$lang['project_activity_invoiced_project'] = "الخدمة القانونية مفوتر";
 $lang['project_activity_task_marked_complete'] = "تم تعليم المهمة كمكتملة";
 $lang['project_activity_task_unmarked_complete'] = "تم ازالة علامة مكتملة من المهمة";
 $lang['project_activity_task_deleted'] = "تم حذف المهمة";
@@ -1823,10 +1823,10 @@ $lang['project_activity_new_task_attachment'] = "تم تحميل المرفق ع
 $lang['project_activity_new_task_assignee'] = "Added new task assignee";
 $lang['project_activity_task_assignee_removed'] = "Removed task assignee";
 $lang['project_activity_task_timesheet_deleted'] = "ازالة الجدول الزمنس";
-$lang['project_activity_uploaded_file'] = "تم تحميل ملف المشروع";
-$lang['project_activity_status_updated'] = "تم تحديث حالة المشروع";
+$lang['project_activity_uploaded_file'] = "تم تحميل ملف الخدمة القانونية";
+$lang['project_activity_status_updated'] = "تم تحديث حالة الخدمة القانونية";
 $lang['project_activity_visible_to_customer'] = "مرئي للعميل";
-$lang['project_activity_project_file_removed'] = "ازالة ملف المشروع";
+$lang['project_activity_project_file_removed'] = "ازالة ملف الخدمة القانونية";
 $lang['client_no_reply'] = "لا يوجد رد";
 $lang['clients_nav_projects'] = "المشاريع";
 $lang['clients_my_projects'] = "المشاريع";
@@ -2004,8 +2004,8 @@ $lang['recaptcha_secret_key'] = "Secret key";
 $lang['recaptcha_error'] = "The reCAPTCHA field is telling that you are a robot.";
 $lang['smtp_username'] = "SMTP Username";
 $lang['smtp_username_help'] = "Fill only if your email client use username for SMTP login.";
-$lang['pinned_project'] = "مشروع مثبت";
-$lang['pin_project'] = "تثبيت المشروع";
+$lang['pinned_project'] = "الخدمة القانونية مثبت";
+$lang['pin_project'] = "تثبيت الخدمة القانونية";
 $lang['unpin_project'] = "إلغاء تثبيت الخدمة";
 $lang['smtp_encryption'] = "تشفير البريد الإلكتروني";
 $lang['smtp_encryption_none'] = "لايوجد";
@@ -2018,7 +2018,7 @@ $lang['project_overview_expenses_unbilled'] = "المصروفات غير الم�
 $lang['announcement_date_list'] = "التاريخ";
 $lang['project_setting_view_finance_overview'] = "عرض النظرة المالية العامة";
 $lang['show_all_tasks_for_project_member'] = "السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالمشاريع (بما في ذلك غير الموظفين)";
-$lang['not_staff_added_as_project_member'] = "أضافك كعضو في المشروع";
+$lang['not_staff_added_as_project_member'] = "أضافك كعضو في الخدمة القانونية";
 $lang['report_expenses_base_currency_select_explanation'] = "تحتاج إلى تحديد العملة لأن النظام وجد عملات مختلفة تستخدم للمصروفات.";
 $lang['project_activity_recorded_expense'] = "المصاريف المسجلة";
 $lang['save_customer_and_add_contact'] = "حفظ وإنشاء جهة اتصال";
@@ -2042,7 +2042,7 @@ $lang['email_template_contact_warning'] = "If contact is not logged while making
 $lang['change_role_permission_warning'] = "لن يؤثر تغيير صلاحيات هذا الدور على صلاحيات الموظفين الحالية التي تستخدم هذا الدور.";
 $lang['task_copied_successfully'] = "تم نسخ المهمة بنجاح";
 $lang['failed_to_copy_task'] = "فشل في نسخ المهمة";
-$lang['not_project_file_uploaded'] = "تم اضافة ملف جديد إلى المشروع";
+$lang['not_project_file_uploaded'] = "تم اضافة ملف جديد إلى الخدمة القانونية";
 $lang['settings_calendar_color'] = "اللون %s";
 $lang['settings_calendar_colors_heading'] = "Styling";
 $lang['reminder'] = "التذكير";
@@ -2079,8 +2079,8 @@ $lang['invoice_number_exists'] = "رقم الفاتورة هذا موجود لل
 $lang['estimate_number_exists'] = "رقم عرض السعر هذا موجود للسنة الجارية.";
 $lang['email_exists'] = "البريد الإلكتروني موجود بالفعل";
 $lang['not_uploaded_project_file'] = "تم رفع ملف جديد";
-$lang['not_created_new_project_discussion'] = "تم إنشاء مناقشة مشروع جديدة";
-$lang['not_commented_on_project_discussion'] = "تعليق جديد على مناقشة مشروع";
+$lang['not_created_new_project_discussion'] = "تم إنشاء مناقشة الخدمة القانونية جديدة";
+$lang['not_commented_on_project_discussion'] = "تعليق جديد على مناقشة الخدمة القانونية";
 $lang['all_staff_members'] = "جميع الموظفين";
 $lang['help_project_permissions'] = "عرض يسمح للموظف برؤية جميع الخدمات. إذا كنت تريد منهم فقط رؤية الخدمات التي تم تعيينها لهم (إضافتهم كموظفين) ، فلا تمنح صلاحية العرض.";
 $lang['help_tasks_permissions'] = "عرض يسمح للموظف برؤية جميع المهام. إذا كنت تريد منهم فقط رؤية المهام التي تم تعيينهم لها أو التالية ، فلا تمنح صلاحية العرض.";
@@ -2101,7 +2101,7 @@ $lang['default_contact_permissions'] = "صلاحيات جهة الاتصال ا�
 $lang['invoice_activity_marked_as_cancelled'] = "تعليم الفاتورة على انها ملغية";
 $lang['invoice_activity_unmarked_as_cancelled'] = "إزالة تعليم الفاتورة على أنها ملغية";
 $lang['wait_text'] = "الرجاء الإنتظار...";
-$lang['projects_summary'] = "ملخص المشروعات";
+$lang['projects_summary'] = "ملخص الخدمة القانونيةات";
 $lang['dept_imap_host'] = "IMAP Host";
 $lang['dept_encryption'] = "التشفير";
 $lang['dept_email_password'] = "كلمة المرور";
@@ -2143,8 +2143,8 @@ $lang['ticket_form_validation_file_size'] = "يجب أن يكون حجم الم�
 $lang['has_transactions_currency_base_change'] = "لا يمكن تغيير العملة الأساسية إلا في حالة عدم وجود معاملات مسجلة بتلك العملة. احذف المعاملات لتغيير العملة الأساسية";
 $lang['customers_sort_all'] = "الكل";
 $lang['use_recaptcha_customers_area'] = "تمكين reCAPTCHA في منطقة العملاء (تسجيل الدخول / التسجيل)";
-$lang['project_marked_as_finished'] = "إكتمل المشروع";
-$lang['project_status_updated'] = "تم تحديث حالة المشروع";
+$lang['project_marked_as_finished'] = "إكتمل الخدمة القانونية";
+$lang['project_status_updated'] = "تم تحديث حالة الخدمة القانونية";
 $lang['remove_decimals_on_zero'] = "قم بإزالة الكسور العشرية عن الأرقام / المبالغ بدون صفر عشري (2.00 ستصبح 2 ، 2.25 ستبقى 2.25)";
 $lang['remove_tax_name_from_item_table'] = "أزل اسم الضريبة من صف جدول العناصر";
 $lang['not_billable_expenses_by_categories'] = "Not billable expenses by categories";
@@ -2212,7 +2212,7 @@ $lang['submit_payment'] = "تسجيل دفعة";
 $lang['2checkout_notice_payment'] = "تتم معالجة تفاصيل بطاقة الائتمان عبر رمز آمن مقدم من 2Checkout";
 $lang['2checkout_usage_notice'] = "يلزم توفر طبقة المقابس الآمنة (SSL) إذا كنت تستخدم واجهة برمجة تطبيقات دفع 2Checkout. يلزم استدعاء الرمز المميز والأذونات بأمان. سيعمل النظام بدون طبقة المقابس الآمنة (SSL) ، ومع ذلك ، فإن هذا سيضعك خارج نطاق الالتزام ، مما يهدد بإلغاء تنشيط أذونات واجهة برمجة التطبيقات.";
 $lang['custom_field_disallow_customer_to_edit'] = "عدم السماح للعميل بتعديل هذا الحقل";
-$lang['project_due_notice'] = "تأخر هذا المشروع %s أيام";
+$lang['project_due_notice'] = "تأخر هذا الخدمة القانونية %s أيام";
 $lang['not_lead_added_attachment'] = "added new attachment to lead %s";
 $lang['lead_note_date_added'] = "تم إضافة الملاحظة: %s";
 $lang['recurring_custom'] = "مخصص";
@@ -2221,19 +2221,19 @@ $lang['invoice_recurring_years'] = "سنة";
 $lang['invoice_recurring_days'] = "يوم";
 $lang['invoice_recurring_weeks'] = "أسبوع";
 $lang['document_direction'] = "جهة الموقع";
-$lang['notify_project_members_status_change'] = "أخطر موظفي المشروع بأن الحالة قد تغيرت";
-$lang['not_project_status_updated'] = "تم تحديث حالة المشروع من %s إلى %s";
+$lang['notify_project_members_status_change'] = "أخطر موظفي الخدمة القانونية بأن الحالة قد تغيرت";
+$lang['not_project_status_updated'] = "تم تحديث حالة الخدمة القانونية من %s إلى %s";
 $lang['ticket_not_found'] = "لم يتم العثور على التذكرة";
-$lang['project_not_found'] = "لم يتم العثور على المشروع";
-$lang['export_project_data'] = "تصدير بيانات المشروع";
-$lang['total_project_members'] = "مجموع موظفي المشروع";
+$lang['project_not_found'] = "لم يتم العثور على الخدمة القانونية";
+$lang['export_project_data'] = "تصدير بيانات الخدمة القانونية";
+$lang['total_project_members'] = "مجموع موظفي الخدمة القانونية";
 $lang['total_project_files'] = "الملفات المرفقة";
 $lang['total_project_discussions_created'] = "المناقشات التي تم إنشاؤها";
-$lang['project_member'] = "موظفي المشروع";
+$lang['project_member'] = "موظفي الخدمة القانونية";
 $lang['total_project_discussions_comments'] = "مجموع تعليقات المناقشة";
 $lang['staff_total_task_assigned'] = "مجموع المهام التي تم تخصيصها";
 $lang['staff_total_comments_on_tasks'] = "التعليقات على المهام";
-$lang['project_members_overview'] = "نظرة عامة على موظفي المشروع";
+$lang['project_members_overview'] = "نظرة عامة على موظفي الخدمة القانونية";
 $lang['project_milestones_overview'] = "Milestones overview";
 $lang['total_tasks_in_milestones'] = "مجموع المهام التي تم تخصيصها";
 $lang['total_task_members_assigned'] = "مجموع الموظفين المعينين";
@@ -2242,7 +2242,7 @@ $lang['total_milestones'] = "Total milestones";
 $lang['total_project_worked_days'] = "مجموع أيام العمل";
 $lang['finance_overview'] = "نظرة عامة على المالية";
 $lang['project_custom_fields'] = "الحقول المخصصة";
-$lang['total_tickets_related_to_project'] = "مجموع التذاكر المرتبطة بالمشروع";
+$lang['total_tickets_related_to_project'] = "مجموع التذاكر المرتبطة بالخدمة القانونية";
 $lang['projects_total_invoices_created'] = "مجموع الفواتير التي تم إنشاؤها";
 $lang['do_not_send_invoice_payment_email_template_contact'] = "لا ترسل سجل مدفوعات الفاتورة إلى البريد الإلكتروني المسجل لجهات اتصال العميل";
 $lang['no_preview_available_for_file'] = "لا تتوفر معاينة لهذا الملف.";
@@ -2314,15 +2314,15 @@ $lang['project_mark_as'] = "وضع علامة %s";
 $lang['todo_edit_title'] = "تحرير العناصر الواجب القيام بها";
 $lang['additional_action_required'] = "إجراءات إضافية مطلوبة!";
 $lang['project_mark_tasks_finished_confirm'] = "تأكيد";
-$lang['project_marked_as_success'] = "تم وضع علامة كـ %s على المشروع بنجاح";
-$lang['project_marked_as_failed'] = "فشل في وضع علامة %s على المشروع";
+$lang['project_marked_as_success'] = "تم وضع علامة كـ %s على الخدمة القانونية بنجاح";
+$lang['project_marked_as_failed'] = "فشل في وضع علامة %s على الخدمة القانونية";
 $lang['auto_assign_customer_admin_after_lead_convert'] = "تعيين تلقائي كمشرف للعميل بعد التحويل";
 $lang['auto_assign_customer_admin_after_lead_convert_help'] = "إذا تم تعيين هذا الخيار على نعم، فسيتم تعيين الموظف الذي قام بتحويل العميل المتوقع إلى عميل تلقائيًا كمشرف على العميل. ملاحظة: سيتم تطبيق هذا الخيار فقط على الموظفين الذين ليس لديهم صلاحية بعرض العملاء";
 $lang['auto_close_tickets_disable'] = "تعيين 0 لتعطيل";
 $lang['task_checklist_item_completed_by'] = "أنجزت بواسطة %s";
 $lang['staff_email_signature_help'] = "إذا كان فارغ سيتم استخدام توقيع البريد الإلكتروني الافتراضي من الإعدادات";
 $lang['default_task_priority'] = "الأولوية الافتراضية";
-$lang['project_send_created_email'] = "إرسال رسالة إنشاء المشروع";
+$lang['project_send_created_email'] = "إرسال رسالة إنشاء الخدمة القانونية";
 $lang['show_transactions_on_invoice_pdf'] = "عرض مدفوعات الفاتورة (المعاملات) في PDF";
 $lang['bulk_actions'] = "جملة إجراءات";
 $lang['additional_filters'] = "مرشحات إضافية";
@@ -2355,7 +2355,7 @@ $lang['period_datepicker'] = "الفترة";
 $lang['total_by_hourly_rate'] = "Total By Hourly Rate";
 $lang['staff_hourly_rate'] = "السعر لكل ساعة";
 $lang['remove_tax_name_from_item_table_help'] = "eq. Item TAX 15&#37; will be shown as 15&#37; without the tax name (Not applied if multiple taxes with the same name and tax percent found for item)";
-$lang['back_to_project'] = "العودة إلى المشروع";
+$lang['back_to_project'] = "العودة إلى الخدمة القانونية";
 $lang['view_kanban'] = "View Kan Ban";
 $lang['invoice_is_overdue'] = "هذه الفاتورة متأخرة بمعدل %s أيام";
 $lang['time_decimal'] = "الوقت (العشري)";
@@ -2432,8 +2432,8 @@ $lang['permission_view_own'] = "عرض (خاص)";
 $lang['permission_global'] = "شامل";
 $lang['permission_customers_based_on_admins'] = "بناء على مدراء العميل";
 $lang['permission_payments_based_on_invoices'] = "Based on invoices VIEW (Own) permission";
-$lang['permission_projects_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية عرض، فسيكون العرض (شامل) فقط على المشروعات التي يضاف إليها الموظف كعضو في المشروع.";
-$lang['permission_tasks_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية للعرض، سيكون العرض  (شامل) فقط على المهام التي يكون فيها الموظف متابعًا أو مكلفًا أو مهمة عامة أو في الإعداد-> الإعدادات-> المهام-> السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالمشاريع حدد نعم عندما ترتبط المهمة بالمشروع.";
+$lang['permission_projects_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية عرض، فسيكون العرض (شامل) فقط على الخدمة القانونيةات التي يضاف إليها الموظف كعضو في الخدمة القانونية.";
+$lang['permission_tasks_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية للعرض، سيكون العرض  (شامل) فقط على المهام التي يكون فيها الموظف متابعًا أو مكلفًا أو مهمة عامة أو في الإعداد-> الإعدادات-> المهام-> السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالمشاريع حدد نعم عندما ترتبط المهمة بالخدمة القانونية.";
 $lang['settings_paymentmethod_default_selected_on_invoice'] = "تم اختيارها افتراضيًا في الفاتورة";
 $lang['paymentmethod_braintree_merchant_id'] = "Merchant ID";
 $lang['paymentmethod_braintree_private_key'] = "Private Key";
@@ -2498,7 +2498,7 @@ $lang['have_a_question'] = "لديك سؤال؟";
 $lang['card_expiration_year'] = "عام إنتهاءالصلاحية";
 $lang['card_expiration_month'] = "شهر إنتهاء الصلاحية";
 $lang['client_website'] = "الموقع الإلكتروني";
-$lang['search_project_members'] = "بحث في موظفين المشروع ...";
+$lang['search_project_members'] = "بحث في موظفين الخدمة القانونية ...";
 $lang['cf_translate_input_link_title'] = "العنوان";
 $lang['cf_translate_input_link_url'] = "URL";
 $lang['cf_translate_input_link_tip'] = "انقر هنا لإضافة رابط";
@@ -2506,7 +2506,7 @@ $lang['task_edit_delete_timesheet_notice'] = "الجدول الزمني للمه
 $lang['department_username'] = "IMAP Username";
 $lang['department_username_help'] = "املأ هذا الحقل فقط إذا كان خادم IMAP يستخدم اسم المستخدم لتسجيل الدخول بدلاً من عنوان البريد الإلكتروني. لاحظ أنك ستظل بحاجة إلى إضافة عنوان بريد إلكتروني.";
 $lang['total_tickets_deleted'] = "إجمالي التذاكر المحذوفة: %s";
-$lang['ticket_linked_to_project'] = "هذه التذكرة مرتبطة بالمشروع: %s";
+$lang['ticket_linked_to_project'] = "هذه التذكرة مرتبطة بالخدمة القانونية: %s";
 $lang['only_own_files_contacts'] = "جهات الاتصال ترى فقط الملفات الخاصة بهم التي تم تحميلها في منطقة العملاء (الملفات التي تم تحميلها في ملف تعريف العميل)";
 $lang['only_own_files_contacts_help'] = "إذا قمت بمشاركة الملف يدويًا من ملف تعريف العميل إلى جهات اتصال أخرى ، فسيكون بإمكانهم رؤية الملف.";
 $lang['share_file_with'] = "مشاركة الملف مع";
@@ -2543,9 +2543,9 @@ $lang['this_week'] = "هذا الأسبوع";
 $lang['last_week'] = "الأسبوع الماضي";
 $lang['this_month'] = "هذا الشهر";
 $lang['last_month'] = "الشهر الماضي";
-$lang['no_description_project'] = "لايوجد وصف لهذا المشروع";
+$lang['no_description_project'] = "لايوجد وصف لهذا الخدمة القانونية";
 $lang['sales_string'] = "المبيعات";
-$lang['no_project_members'] = "لايوجد موظفين لهذا المشروع";
+$lang['no_project_members'] = "لايوجد موظفين لهذا الخدمة القانونية";
 $lang['search_by_tags'] = "استخدم # + إسم الكلمة الدلالية للبحث بالكلمات الدلالية";
 $lang['project_status_5'] = "ملغية";
 $lang['not_activity_new_reminder_created'] = "قم بتعيين تذكير جديد لـ %s  بتاريخ %s";
@@ -2566,7 +2566,7 @@ $lang['tax_1'] = "الضريبة 1";
 $lang['tax_2'] = "الضريبة 2";
 $lang['total_with_tax'] = "الإجمالي شامل الضريبة";
 $lang['new_task_auto_assign_current_member'] = "Auto assign task creator when new task is created";
-$lang['new_task_auto_assign_current_member_help'] = "لا يتم تطبيقه إذا تم ربط المهمة بالمشروع ولم يكن المنشئ عضوًا في المشروع";
+$lang['new_task_auto_assign_current_member_help'] = "لا يتم تطبيقه إذا تم ربط المهمة بالخدمة القانونية ولم يكن المنشئ عضوًا في الخدمة القانونية";
 $lang['copy_project_tasks_status'] = "حالات المهام";
 $lang['tasks_summary'] = "ملخص المهام";
 $lang['vault'] = "Vault";
@@ -2733,7 +2733,7 @@ $lang['disable'] = "تعطيل";
 $lang['enable'] = "تمكين";
 $lang['auto_dismiss_desktop_notifications_after'] = "استبعاد الإشعارات التلقائية لسطح المكتب بعد X ثانية (0 للتعطيل)";
 $lang['proposal_info_format'] = "تنسيق معلومات العطاء (PDF و HTML)";
-$lang['hide_tasks_on_main_tasks_table'] = "إخفاء مهام المشروع في جدول المهام الرئيسية (منطقة المسؤول)";
+$lang['hide_tasks_on_main_tasks_table'] = "إخفاء مهام الخدمة القانونية في جدول المهام الرئيسية (منطقة المسؤول)";
 $lang['ticket_replies_order'] = "ترتيب ردود التذاكر";
 $lang['ticket_replies_order_notice'] = "سيتم عرض رسالة التذكرة الأولية دائمًا في الأول.";
 $lang['invoice_cancelled_email_disabled'] = "تم إلغاء الفاتورة. قم بإلغاء تحديد ما تم إلغاؤه لتمكين البريد الإلكتروني للعميل";
@@ -2866,7 +2866,7 @@ $lang['inline_create'] = "Inline Create";
 $lang['inline_create_option_predefined_replies'] = "السماح للموظفين غير المشرفين بحفظ الردود المحددة مسبقًا من رسالة التذكرة";
 $lang['reminders_view_none_admin'] = "عرض التذكيرات الخاصة بك والتذكيرات التي قمت انت بإنشائها.";
 $lang['show_tabs_and_options'] = "إظهار علامات التبويب والخيارات";
-$lang['no_milestones_found'] = "هذا المشروع لا يوجد لديه مراحل عمل";
+$lang['no_milestones_found'] = "هذا الخدمة القانونية لا يوجد لديه مراحل عمل";
 $lang['lead_is_contact_create_task'] = "قم بإنشاء مهمة إذا كان مرسل البريد الإلكتروني عميلًا بالفعل وقم بتعيينه للموظف المسؤول.";
 $lang['existing_customer'] = "عميل حالي";
 $lang['use_company_name_instead'] = "استخدم اسم الشركة بدلاً من ذلك";
@@ -2877,7 +2877,7 @@ $lang['triggers'] = "المشغلون";
 $lang['notice_only_one_active_sms_gateway'] = "يُسمح ببوابة رسائل نصية قصيرة نشطة واحدة فقط";
 $lang['sms_trigger_disable_tip'] = "اترك المحتويات فارغة لتعطيل المشغل المحدد.";
 $lang['tables'] = "الجداول";
-$lang['only_project_tasks'] = "المهام المتعلقة بالمشروع فقط";
+$lang['only_project_tasks'] = "المهام المتعلقة بالخدمة القانونية فقط";
 $lang['download_all'] = "تحميل الكل";
 $lang['settings_sales_credit_note_number_format'] = "Credit Note Number Format";
 $lang['sms_reminder_sent_to'] = "تم إرسال تذكير SMS إلى %s";
@@ -2887,10 +2887,10 @@ $lang['discount_fixed_amount'] = "مبلغ ثابت";
 $lang['timesheet_duration_instead'] = "أدخل المدة الزمنية بدلاً من ذلك";
 $lang['timesheet_date_instead'] = "اضبط وقت البدء والانتهاء بدلاً من ذلك";
 $lang['allow_non_admin_members_to_import_leads'] = "السماح للموظفين غير المشرفين باستيراد العملاء المتوقعين";
-$lang['project_hide_tasks_settings_info'] = "يتم استبعاد المهام من جدول المهام الرئيسية لهذه الخدمة ، ويمكنك عرض مهام المشروع فقط في هذه المنطقة.";
+$lang['project_hide_tasks_settings_info'] = "يتم استبعاد المهام من جدول المهام الرئيسية لهذه الخدمة ، ويمكنك عرض مهام الخدمة القانونية فقط في هذه المنطقة.";
 $lang['ticket_create_no_contact'] = "تذكرة بدون جهة إتصال";
 $lang['ticket_create_to_contact'] = "تذكرة لجهة اتصال";
-$lang['showing_billable_tasks_from_project'] = "عرض المهام القابلة للفوترة من المشروع";
+$lang['showing_billable_tasks_from_project'] = "عرض المهام القابلة للفوترة من الخدمة القانونية";
 $lang['no_billable_tasks_found'] = "المهام القابلة للفوترة غير موجودة";
 $lang['help_leads_permission_view'] = "إذا لم يتم تحديد هذا الإذن ، فلن يتمكن أي موظف من عرض العملاء المتوقعين إلا في المكان المخصص له ، والعملاء المتوقعين الذين أنشأهم الموظفون والعملاء المتوقعون الذين تم وضع علامة عليهم كعام";
 $lang['customers'] = "العملاء";
@@ -3107,7 +3107,7 @@ $lang['module_by'] = "بواسطة %s";
 $lang['staff_which_are_using_role'] = "الموظفين الذين يستخدمون هذا الدور";
 $lang['copy'] = "نسخ";
 $lang['read_more'] = "إقرأ المزيد";
-$lang['project_progress_text'] = "تقدم المشروع";
+$lang['project_progress_text'] = "تقدم الخدمة القانونية";
 $lang['timer_not_stopped_yet'] = "هذا الموقت لم يتوقف بعد";
 $lang['refunds'] = "Refunds";
 $lang['refund'] = "Refund";

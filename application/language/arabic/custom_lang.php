@@ -488,6 +488,10 @@ $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من �
 $lang['incoming_file'] = 'ملف المعاملة الواردة';
 
 $lang['outgoing_file'] = 'ملف المعاملة الصادرة';
+$lang['contact_phonenumber'] = 'هاتف جهة الاتصال';
+$lang['phonenumber'] = 'هاتف';
+$lang['longitude'] = 'خط الطول';
+$lang['latitude'] = 'خط العرض';
 
 
 $lang['add_incoming_side'] = 'إضافة جهة واردة';
@@ -577,6 +581,11 @@ $lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة الم�
 $lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";
 $lang['invoice_disputes'] = "فوترة المنازعات";
 $lang['branch'] = "اسم الفرع";
+$lang['branch_id'] = "اسم الفرع";
+$lang['client_type'] = "نوع العميل";
+$lang['firstname'] = "الاسم الأول";
+$lang['lastname'] = "الاسم الأخير";
+$lang['client_type'] = "نوع العميل";
 $lang['new_company_customer_group'] = 'مجموعة عملاء شركة جديدة';
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";

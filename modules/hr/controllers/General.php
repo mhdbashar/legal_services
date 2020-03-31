@@ -289,10 +289,11 @@ class General extends AdminController{
 
 
     public function change_password(){
-        $data = $this->input->post();
+        $password = $this->input->post()['password'];
         $staff_id = $this->input->post('staffid');
 
-        $success = $this->staff_model->update($data, $staff_id);
+        $success = $this->staff_model->update_profile(['password' => $password], $staff_id);
+        //exit();
         if($success)
             set_alert('success', _l('updated_successfully'));
         else

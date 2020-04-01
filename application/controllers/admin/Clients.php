@@ -827,6 +827,13 @@ class Clients extends AdminController
         }
 
         $dbFields = array_merge($dbFields, $this->db->list_fields(db_prefix().'clients'));
+        foreach ($dbFields as $key => $value) {
+            if($value == 'lastname')
+                unset($dbFields[$key]);
+            if($value == 'firstname')
+                $dbFields[$key] = 'full_name';
+        }
+        //var_dump($dbFields);exit;
 
         $this->load->library('import/import_customers', [], 'import');
 

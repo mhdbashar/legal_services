@@ -9,17 +9,17 @@
       <div class="panel_s">
             <div class="panel-body">
 
-              <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/english"?>">English</a>
-                <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/arabic"?>">Arabic</a>
+              <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/english"?>"><?php echo _l('english') ?></a>
+                <a class="btn btn-info" href="<?php echo base_url() . "label_management/language/index/arabic"?>"><?php echo _l('arabic') ?></a>
 
-                <h2 class="m-5"><?php echo ucfirst($language) ?></h2>
+                <h2 class="m-5"><?php echo _l($language) ?></h2>
                 <div class="row">
                   <div class="col-md-4">
-                    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#exampleModal"><?php echo 'Add New Lable'; ?></a>
+                    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#exampleModal"><?php echo _l('add_new_lable'); ?></a>
                   </div>
                   <div class="col-md-4">
-                    <a class="btn <?php if ($custom == "custom_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/custom_lang"?>">Custom</a>
-                    <a class="btn <?php if ($custom == $language."_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/".$language."_lang"?>">Native</a>
+                    <a class="btn <?php if ($custom == "custom_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/custom_lang"?>"><?php echo _l('custom') ?></a>
+                    <a class="btn <?php if ($custom == $language."_lang") echo "btn-default" ?>" href="<?php echo base_url() . "label_management/language/index/".$language."/".$language."_lang"?>"><?php echo _l('native') ?></a>
                   </div>
               </div>
         
@@ -30,16 +30,16 @@
             <table id="options" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Lable</th>
-                <th>Translate</th>
-                <th>Control</th>
+                <th><?php echo _l('label') ?></th>
+                <th><?php echo _l('translate') ?></th>
+                <th><?php echo _l('control') ?></th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Lable</th>
-                <th>Translate</th>
-                <th>Control</th>
+                <th><?php echo _l('label') ?></th>
+                <th><?php echo _l('translate') ?></th>
+                <th><?php echo _l('control') ?></th>
             </tr>
         </tfoot>
     </table>

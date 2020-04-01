@@ -1,5 +1,13 @@
 <?php
 
+$lang['label'] = 'اسم الحقل';
+$lang['translate'] = 'الترجمة';
+$lang['native'] = 'الملف الأصلي';
+$lang['custom'] = 'الملف الفرعي';
+$lang['add_new_lable'] = 'اضافة حقل ترجمة جديد';
+$lang['arabic'] = 'العربية';
+$lang['english'] = 'الانكليزية';
+
 $lang['add_new_holiday'] = 'اضافة عطلة جديدة';
 $lang['event_name'] = "اسم الحدث";
 

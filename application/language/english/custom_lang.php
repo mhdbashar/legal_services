@@ -1,4 +1,13 @@
 <?php
+
+$lang['label'] = 'Label';
+$lang['translate'] = 'Translate';
+$lang['native'] = 'Native';
+$lang['custom'] = 'Custom';
+$lang['add_new_lable'] = 'Add New Label';
+$lang['arabic'] = 'Arabic';
+$lang['english'] = 'English';
+
 $lang['contact_phonenumber'] = 'Contact Phone Number';
 $lang['phonenumber'] = 'Phone Number';
 $lang['longitude'] = 'Longitude';

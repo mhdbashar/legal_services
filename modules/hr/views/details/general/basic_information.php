@@ -78,15 +78,18 @@
 
                      <?php } ?>
                      <div class="row">
-                     	<div class="col-md-6">
+                     	<div class="col-md-12">
                      		 <?php $value = (isset($member) ? $member->firstname : ''); ?>
 		                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-		                     <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+		                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                         <?php echo form_hidden('lastname', ' ') ?>
                      	</div>
+                      <!--
                      	<div class="col-md-6">
                      		<?php $value = (isset($member) ? $member->lastname : ''); ?>
                     		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      	</div>
+                     -->
                      </div>
                      <?php $branches = $this->Branches_model->getBranches(); ?>
                         <?php if($this->app_modules->is_active('branches')){?>

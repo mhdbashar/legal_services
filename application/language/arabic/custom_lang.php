@@ -16,7 +16,7 @@ $lang['password'] = 'كلمة المرور';
 $lang['client_country'] = 'دولة العميل';
 $lang['client_zip'] = 'client_zip';
 $lang['download_sample'] = 'تحميل مستند تجريبي';
-
+$lang['staff_add_edit_fullname'] = 'الاسم الكامل';
 
 $lang['label'] = 'اسم الحقل';
 $lang['translate'] = 'الترجمة';

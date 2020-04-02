@@ -17,6 +17,7 @@ $lang['client_country'] = 'Client country';
 $lang['client_zip'] = 'Client zip';
 $lang['contact_email'] = 'Contact email';
 $lang['download_sample'] = 'Download sample';
+$lang['staff_add_edit_fullname'] = 'Full Name';
 
 
 $lang['label'] = 'Label';

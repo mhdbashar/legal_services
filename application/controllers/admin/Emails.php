@@ -24,10 +24,10 @@ class Emails extends AdminController
         }
 
 
-        $this->db->where('language', 'english');
+        $this->db->where('language', 'arabic');
         $email_templates_english = $this->db->get(db_prefix() . 'emailtemplates')->result_array();
         foreach ($this->app->get_available_languages() as $avLanguage) {
-            if ($avLanguage != 'english') {
+            if ($avLanguage != 'arabic') {
                 foreach ($email_templates_english as $template) {
 
                     // Result is cached and stored in database
@@ -65,68 +65,68 @@ class Emails extends AdminController
 
         $data['staff'] = $this->emails_model->get([
             'type'     => 'staff',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['credit_notes'] = $this->emails_model->get([
             'type'     => 'credit_note',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['tasks'] = $this->emails_model->get([
             'type'     => 'tasks',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['client'] = $this->emails_model->get([
             'type'     => 'client',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['tickets'] = $this->emails_model->get([
             'type'     => 'ticket',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['invoice'] = $this->emails_model->get([
             'type'     => 'invoice',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['estimate'] = $this->emails_model->get([
             'type'     => 'estimate',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['contracts'] = $this->emails_model->get([
             'type'     => 'contract',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['proposals'] = $this->emails_model->get([
             'type'     => 'proposals',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['projects'] = $this->emails_model->get([
             'type'     => 'project',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['other_services'] = $this->emails_model->get([
             'type'     => 'other_services',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
         $data['leads'] = $this->emails_model->get([
             'type'     => 'leads',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['gdpr'] = $this->emails_model->get([
             'type'     => 'gdpr',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['subscriptions'] = $this->emails_model->get([
             'type'     => 'subscriptions',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['sessions'] = $this->emails_model->get([
             'type'     => 'sessions',
-            'language' => 'english',
+            'language' => 'arabic',
         ]);
 
         $data['title'] = _l('email_templates');
@@ -176,7 +176,7 @@ class Emails extends AdminController
         // English is not included here
         $data['available_languages'] = $this->app->get_available_languages();
 
-        if (($key = array_search('english', $data['available_languages'])) !== false) {
+        if (($key = array_search('arabic', $data['available_languages'])) !== false) {
             unset($data['available_languages'][$key]);
         }
 

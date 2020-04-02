@@ -202,7 +202,10 @@ class Tasks extends AdminController
 
         $year       = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
         $project_id = $this->input->get('project_id');
-
+        $rel_type = $this->input->get('rel_type');
+        if(isset($rel_type)){
+            $data['ServID'] = $this->legal->get_service_id_by_slug($rel_type);
+        }
         for ($m = 1; $m <= 12; $m++) {
             if ($month != '' && $month != $m) {
                 continue;
@@ -254,10 +257,16 @@ class Tasks extends AdminController
             $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
             $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
 
-            if ($project_id && $project_id != '') {
+            if($rel_type && $rel_type != ''){
                 $this->db->where('rel_id', $project_id);
-                $this->db->where('rel_type', 'project');
+                $this->db->where('rel_type', $rel_type);
+            }else{
+                if ($project_id && $project_id != '') {
+                    $this->db->where('rel_id', $project_id);
+                    $this->db->where('rel_type', 'project');
+                }
             }
+
 
             if (!$has_permission_view) {
                 $sqlWhereStaff = '(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $staff_id . ')';

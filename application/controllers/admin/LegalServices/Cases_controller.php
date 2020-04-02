@@ -270,10 +270,10 @@ class Cases_controller extends AdminController
             $data['staff']     = $this->staff_model->get('', ['active' => 1]);
             $percent           = $this->case->calc_progress($id, $slug);
             $data['bodyclass'] = '';
-
+            //$this->app_scripts->add('cases-js', 'assets/js/cases.js');
             $this->app_scripts->add(
                 'projects-js',
-                base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
+                base_url($this->app_scripts->core_file('assets/js', 'cases.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
@@ -408,7 +408,7 @@ class Cases_controller extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('cases-js', 'assets/js/cases.js');
+
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;
 
@@ -1177,6 +1177,15 @@ class Cases_controller extends AdminController
     {
         $data = $this->input->post();
         echo  $this->tasks_model->new_task_to_select_timesheet($data);
+    }
+
+    public function get_case_by_clientid()
+    {
+        $clientid = $this->input->post('clientid') ? $this->input->post('clientid') : '';
+        if ($clientid != '') {
+            $response = $this->case->get('', ['clientid' => $clientid]);
+            echo json_encode($response);
+        }
     }
 
 }

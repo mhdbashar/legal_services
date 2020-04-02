@@ -300,3 +300,38 @@ if(hijri_page == 'settings?group=Hijri'){
         $('#delete_his_div').hide();
     });
 }
+
+
+$("body").on('change', '.f_client_id select[name="clientid"]', function() {
+    var val = $(this).val();
+    var servicesWrapper = $('.services-wrapper');
+    if (!val) {
+        servicesWrapper.addClass('hide');
+    }else {
+        servicesWrapper.removeClass('hide');
+    }
+});
+
+function get_legal_services_by_slug()
+{
+    $('#div_rel_sid').removeClass('hide');
+    $('#rel_sid').html('');
+    slug = $('#rel_stype').val();
+    clientid = $('select[name="clientid"]').val();
+    $.ajax({
+        type: 'POST',
+        url: admin_url + 'LegalServices/LegalServices_controller/all_legal_services',
+        data: {
+            clientid : clientid,
+            slug : slug
+        },
+        success: function(data) {
+            response = JSON.parse(data);
+            $('#rel_sid').append('<option value="" disabled selected>-- --</option>');
+            $.each(response, function (key, value) {
+                $('#rel_sid').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+            });
+        }
+    });
+
+}

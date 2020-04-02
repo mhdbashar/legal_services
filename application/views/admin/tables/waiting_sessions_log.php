@@ -8,7 +8,7 @@ $aColumns = [
     db_prefix() . 'tasks.name as task_name',
     db_prefix() . 'my_judges.name as judge',
     'court_name',
-    'session_information',
+    //'session_information',
     'customer_report',
     'send_to_customer',
     'startdate',
@@ -125,7 +125,7 @@ foreach ($rResult as $aRow) {
     $row[] = $outputName;
     $row[] = $aRow['judge'];
     $row[] = $aRow['court_name'];
-    $row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
+    //$row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';
     else:

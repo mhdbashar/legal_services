@@ -506,7 +506,7 @@ function edit_discussion(invoker, id) {
 }
 
 function mass_stop_timers(only_billable, ServID) {
-    requestGetJSON('projects/mass_stop_timers/' + project_id + '/' + only_billable + '/' + ServID).done(function(response) {
+    requestGetJSON('LegalServices/Other_services_controller/mass_stop_timers/' + project_id + '/' + only_billable + '/' + ServID).done(function(response) {
         alert_float(response.type, response.message);
         setTimeout(function() {
             $('body').find('.modal-backdrop').eq(0).remove();

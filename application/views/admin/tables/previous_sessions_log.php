@@ -181,7 +181,16 @@ foreach ($rResult as $aRow) {
                                         <p class="bold">'._l('Court_decision').'</p>
                                         <textarea type="text" class="form-control" id="edit_court_decision'.$aRow['id'].'" name="edit_court_decision" rows="4" placeholder="'. _l('Court_decision').'"></textarea>
                                     </div>
-                                </div>
+                                </div> 
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="checkbox checkbox-primary">
+                                            <input type="checkbox" name="send_mail_to_opponent" id="send_mail_to_opponent'.$aRow['id'].'">
+                                            <label for="send_mail_to_opponent'.$aRow['id'].'">'._l('send_mail_to_opponent').'</label>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">'. _l('close').'</button>
@@ -199,7 +208,7 @@ foreach ($rResult as $aRow) {
         $stc .= '<i class="fa fa-envelope-o"></i>  </br> '._l('send');
         $stc .= '</a>';
     elseif ($aRow['customer_report'] == 1 && $aRow['send_to_customer'] == 1):
-        $stc = '<a href="#/" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
+        $stc = '<a href="#/" id="print_btn'.$aRow['id'].'" onclick="print_session_report('.$aRow['id'].')" class="btn btn-info pull-left display-block">';
         $stc .= '<i class="fa fa-print"></i>  </br> '._l('dt_button_print');
         $stc .= '</a>';
     endif;

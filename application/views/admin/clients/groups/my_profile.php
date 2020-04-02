@@ -25,7 +25,13 @@
                   </a>
                </li>
                <?php } ?>
-              
+
+               <li role="presentation">
+                  <a href="#billing_and_shipping" aria-controls="billing_and_shipping" role="tab" data-toggle="tab">
+                  <?php echo _l( 'billing_shipping'); ?>
+                  </a>
+               </li>
+
                <?php hooks()->do_action('after_customer_billing_and_shipping_tab', isset($client) ? $client : false); ?>
                <?php if(isset($client)){ ?>
                <li role="presentation">
@@ -169,18 +175,19 @@
                      }
                      ?>
 
-                <label for="city" class="control-label">City</label>
+                  <div class="form-group" app-field-wrapper="city"><label for="city" class="control-label"><?= _l('city')?></label>
                   <?php 
                      $options = ( isset($client) ? my_get_cities($client->country) : my_get_cities($customer_default_country));
                      $selected=( isset($client) ? $client->city : '');
                      echo form_dropdown('city', $options, $selected, ' id="city" class="form-control" ');
                   ?>
+                  </div>
                </div>
                <div class="col-md-6">
                   <?php if($this->app_modules->is_active('branches')){?>
                         <br/>
                        <?php $value = (isset($branch) ? $branch : ''); ?>
-                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value); ?>
+                       <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value); ?>
                    <?php } ?>
                </div>
             </div>
@@ -229,16 +236,33 @@
                      <div class="col-md-6">
                         <h4 class="no-mtop"><?php echo _l('billing_address'); ?> <a href="#" class="pull-right billing-same-as-customer"><small class="font-medium-xs"><?php echo _l('customer_billing_same_as_profile'); ?></small></a></h4>
                         <hr />
-                        <?php $value=( isset($client) ? $client->billing_street : ''); ?>
-                        <?php echo render_textarea( 'billing_street', 'billing_street',$value); ?>
-                        <?php $value=( isset($client) ? $client->billing_city : ''); ?>
-                        <?php echo render_input( 'billing_city', 'billing_city',$value); ?>
+
+                        <?php 
+                              $countries= my_get_all_countries();
+                              $customer_default_country = get_option('customer_default_country');
+                              $selected1 =( isset($client) ? $client->billing_country : $customer_default_country); 
+                              if(get_option('active_language') == 'arabic'){
+                              echo render_select( 'billing_country',$countries,array( 'country_id',array( 'short_name_ar')), 'billing_country',$selected1,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                              } else {
+                              echo render_select( 'billing_country',$countries,array( 'country_id',array( 'short_name')), 'billing_country',$selected1,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                              }
+                        ?>
+
+  
+                        <div class="form-group" app-field-wrapper="billing_city"><label for="billing_city" class="control-label"><?php echo _l('billing_city') ?></label>
+                        <?php 
+                           $options = ( isset($client) ? my_get_cities($client->billing_country) : my_get_cities($customer_default_country));
+                           $selected=( isset($client) ? $client->billing_city : '');
+                           echo form_dropdown('billing_city', $options, $selected, ' id="billing_city" class="form-control" ');
+                        ?>
+                        </div>
                         <?php $value=( isset($client) ? $client->billing_state : ''); ?>
                         <?php echo render_input( 'billing_state', 'billing_state',$value); ?>
                         <?php $value=( isset($client) ? $client->billing_zip : ''); ?>
-                        <?php echo render_input( 'billing_zip', 'billing_zip',$value); ?>
-                        <?php $selected=( isset($client) ? $client->billing_country : '' ); ?>
-                        <?php echo render_select( 'billing_country',$countries,array( 'country_id',array( 'short_name')), 'billing_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex'))); ?>
+                        <?php echo render_input( 'billing_zip', 'billing_zip',$value); ?>  
+
+                        <?php $value=( isset($client) ? $client->billing_street : ''); ?>
+                        <?php echo render_textarea( 'billing_street', 'billing_street',$value); ?>
                      </div>
                      <div class="col-md-6">
                         <h4 class="no-mtop">
@@ -246,16 +270,31 @@
                            <?php echo _l('shipping_address'); ?> <a href="#" class="pull-right customer-copy-billing-address"><small class="font-medium-xs"><?php echo _l('customer_billing_copy'); ?></small></a>
                         </h4>
                         <hr />
-                        <?php $value=( isset($client) ? $client->shipping_street : ''); ?>
-                        <?php echo render_textarea( 'shipping_street', 'shipping_street',$value); ?>
-                        <?php $value=( isset($client) ? $client->shipping_city : ''); ?>
-                        <?php echo render_input( 'shipping_city', 'shipping_city',$value); ?>
+                        <?php 
+                              $countries= my_get_all_countries();
+                              $customer_default_country = get_option('customer_default_country');
+                              $selected2 =( isset($client) ? $client->shipping_country : $customer_default_country); 
+                              if(get_option('active_language') == 'arabic'){
+                              echo render_select( 'shipping_country',$countries,array( 'country_id',array( 'short_name_ar')), 'shipping_country',$selected2,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                              } else {
+                              echo render_select( 'shipping_country',$countries,array( 'country_id',array( 'short_name')), 'shipping_country',$selected2,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                              }
+                        ?>
+                        
+                        <div class="form-group" app-field-wrapper="shipping_city"><label for="shipping_city" class="control-label"><?php echo _l('shipping_city') ?></label>
+                        <?php 
+                           $options = ( isset($client) ? my_get_cities($client->shipping_country) : my_get_cities($customer_default_country));
+                           $selected=( isset($client) ? $client->billing_city : '');
+                           echo form_dropdown('shipping_city', $options, $selected, ' id="shipping_city" class="form-control" ');
+                        ?>
+                        </div>
                         <?php $value=( isset($client) ? $client->shipping_state : ''); ?>
                         <?php echo render_input( 'shipping_state', 'shipping_state',$value); ?>
                         <?php $value=( isset($client) ? $client->shipping_zip : ''); ?>
                         <?php echo render_input( 'shipping_zip', 'shipping_zip',$value); ?>
-                        <?php $selected=( isset($client) ? $client->shipping_country : '' ); ?>
-                        <?php echo render_select( 'shipping_country',$countries,array( 'country_id',array( 'short_name')), 'shipping_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex'))); ?>
+                        <?php $value=( isset($client) ? $client->shipping_street : ''); ?>
+                        <?php echo render_textarea( 'shipping_street', 'shipping_street',$value); ?>
+                     
                      </div>
                      <?php if(isset($client) &&
                         (total_rows(db_prefix().'invoices',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'estimates',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'creditnotes',array('clientid'=>$client->userid)) > 0)){ ?>

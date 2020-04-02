@@ -23,10 +23,10 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','project_name',$value); ?>
-                        <!-- <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?> -->
-                        <!-- <?php echo render_input('address1','project_address1',$value); ?> -->
-                        <!-- <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?> -->
-                        <!-- <?php echo render_input('address2','project_address2',$value); ?> -->
+                        <!-- <?php //$value = (isset($meta['address1']) ? $meta['address1'] : ''); ?> -->
+                        <!-- <?php //echo render_input('address1','project_address1',$value); ?> -->
+                        <!-- <?php //$value = (isset($meta['address2']) ? $meta['address2'] : ''); ?> -->
+                        <!-- <?php //echo render_input('address2','project_address2',$value); ?> -->
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
@@ -97,21 +97,21 @@
                             </div>
                         </div>
 
-                        <!-- <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
-                        <!-- <?php echo render_input('addressed_to','project_addressed_to',$value); ?> -->
+                        <!-- <?php //$value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
+                        <!-- <?php //echo render_input('addressed_to','project_addressed_to',$value); ?> -->
 
 
-
+                        <?php $cats = get_relation_data('cat_modules','Dispute');
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Categories'); ?></label>
                                     <select class="form-control selectpicker" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('cat_modules','Dispute');
+                                        <?php
                                         $selected = (isset($meta['cat_id']) ? $meta['cat_id'] : '');
-                                        foreach ($data as $row): ?>
+                                        foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $selected == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -119,8 +119,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control selectpicker" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('childmycategory',$selected);
                                         $selected = (isset($meta['subcat_id']) ? $meta['subcat_id'] : '');
@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php } ?>
 
                         <?php $value = (isset($meta['notes']) ? $meta['notes'] : ''); ?>
                         <?php echo render_input('notes','project_notes',$value); ?>
@@ -536,14 +536,14 @@
                 <div class="row">
                     <!--
                     <div class="col-md-6">
-                        <?php $options = explode(",",_l('project_contacts_types')); ?>
+                        <?php //$options = explode(",",_l('project_contacts_types')); ?>
                         <div class="form-group select-placeholder">
-                            <label for="status"><?php echo _l('project_status'); ?></label>
+                            <label for="status"><?php //echo _l('project_status'); ?></label>
                             <div class="clearfix"></div>
                             <select name="contact_type" id="contact_type" class="selectpicker" data-width="100%">
-                                <?php foreach($options as $key => $option){ ?>
-                                    <option value="<?php echo $key; ?>"><?php echo $option; ?></option>
-                                <?php } ?>
+                                <?php //foreach($options as $key => $option){ ?>
+                                    <option value="<?php //echo $key; ?>"><?php //echo $option; ?></option>
+                                <?php //} ?>
                             </select>
                         </div>
                     </div>
@@ -921,13 +921,14 @@
 
 
     function GetSubCat() {
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("LegalServices/LegalServices_controller/getChildCatModules/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#subcat_id').html('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });

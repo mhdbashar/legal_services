@@ -11,6 +11,7 @@
          </div>
          <div class="panel-body">
             <div class="row">
+                <input type="hidden" class="form-control" name="ServID" id="ServID" value="<?php echo $this->input->get('ServID') ? $this->input->get('ServID') : ''; ?>">
                <div class="col-md-12">
                   <div class="form-group open-ticket-subject-group">
                      <label for="subject"><?php echo _l('customer_ticket_subject'); ?></label>

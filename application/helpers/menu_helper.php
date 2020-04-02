@@ -13,21 +13,21 @@ function app_init_admin_sidebar_menu_items()
         'icon'     => 'fa fa-home',
     ]);
 
-//     if (has_permission('customers', '', 'view')
-//         || (have_assigned_customers()
-//         || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
-//         $CI->app_menu->add_sidebar_menu_item('customers', [
-//             'name'     => _l('als_clients'),
-//             'href'     => admin_url('clients'),
-//             'position' => 5,
-//             'icon'     => 'fa fa-user-o',
-//         ]);
-//     }
+    if (has_permission('customers', '', 'view')
+        || (have_assigned_customers()
+        || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
+        $CI->app_menu->add_sidebar_menu_item('customers', [
+            'name'     => _l('als_clients'),
+            'href'     => admin_url('clients'),
+            'position' => 4,
+            'icon'     => 'fa fa-user-o',
+        ]);
+    }
 
     $CI->app_menu->add_sidebar_menu_item('sales', [
             'collapse' => true,
             'name'     => _l('als_sales'),
-            'position' => 10,
+            'position' => 11,
             'icon'     => 'fa fa-balance-scale',
         ]);
 
@@ -94,7 +94,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('subscriptions'),
                 'href'     => admin_url('subscriptions'),
                 'icon'     => 'fa fa-repeat',
-                'position' => 15,
+                'position' => 13,
         ]);
     }
 
@@ -103,7 +103,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('expenses'),
                 'href'     => admin_url('expenses'),
                 'icon'     => 'fa fa-file-text-o',
-                'position' => 20,
+                'position' => 12,
         ]);
     }
 
@@ -112,7 +112,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('contracts'),
                 'href'     => admin_url('contracts'),
                 'icon'     => 'fa fa-file',
-                'position' => 25,
+                'position' => 8,
         ]);
     }
 
@@ -127,7 +127,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('als_tasks'),
                 'href'     => admin_url('tasks'),
                 'icon'     => 'fa fa-tasks',
-                'position' => 35,
+                'position' => 6,
         ]);
 
     if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1) || is_staff_member()) {
@@ -135,7 +135,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('support'),
                 'href'     => admin_url('tickets'),
                 'icon'     => 'fa fa-ticket',
-                'position' => 40,
+                'position' => 9,
         ]);
     }
 
@@ -144,7 +144,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('als_leads'),
                 'href'     => admin_url('leads'),
                 'icon'     => 'fa fa-tty',
-                'position' => 45,
+                'position' => 14,
         ]);
     }
 
@@ -153,7 +153,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('als_kb'),
                 'href'     => admin_url('knowledge_base'),
                 'icon'     => 'fa fa-folder-open-o',
-                'position' => 50,
+                'position' => 16,
         ]);
     }
 
@@ -161,7 +161,7 @@ function app_init_admin_sidebar_menu_items()
     $CI->app_menu->add_sidebar_menu_item('utilities', [
             'collapse' => true,
             'name'     => _l('als_utilities'),
-            'position' => 55,
+            'position' => 15,
             'icon'     => 'fa fa-cogs',
         ]);
 
@@ -218,7 +218,7 @@ function app_init_admin_sidebar_menu_items()
                 'name'     => _l('als_reports'),
                 'href'     => admin_url('reports'),
                 'icon'     => 'fa fa-area-chart',
-                'position' => 60,
+                'position' => 17,
         ]);
         $CI->app_menu->add_sidebar_children_item('reports', [
                 'slug'     => 'sales-reports',
@@ -267,7 +267,7 @@ function app_init_admin_sidebar_menu_items()
         $CI->app_menu->add_setup_menu_item('staff', [
                     'name'     => _l('als_staff'),
                     'href'     => admin_url('staff'),
-                    'position' => 5,
+                    'position' => 10,
             ]);
     }
 
@@ -275,7 +275,7 @@ function app_init_admin_sidebar_menu_items()
         $CI->app_menu->add_setup_menu_item('customers', [
                     'collapse' => true,
                     'name'     => _l('clients'),
-                    'position' => 10,
+                    'position' => 5,
             ]);
 
         $CI->app_menu->add_setup_children_item('customers', [

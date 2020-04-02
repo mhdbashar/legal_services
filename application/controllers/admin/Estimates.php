@@ -8,6 +8,7 @@ class Estimates extends AdminController
     {
         parent::__construct();
         $this->load->model('estimates_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Get all estimates in case user go on index page */
@@ -68,6 +69,7 @@ class Estimates extends AdminController
 
     public function table_case($clientid = '',$ServID='', $slug)
     {
+
         if (!has_permission('estimates', '', 'view') && !has_permission('estimates', '', 'view_own') && get_option('allow_staff_view_estimates_assigned') == '0') {
             ajax_access_denied();
         }
@@ -165,6 +167,7 @@ class Estimates extends AdminController
 
         $data['staff']             = $this->staff_model->get('', ['active' => 1]);
         $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']             = $title;
         $this->load->view('admin/estimates/estimate', $data);
     }

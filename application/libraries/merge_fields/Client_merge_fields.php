@@ -31,7 +31,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('phonenumber'),
+                    'name'      => _l('contact_phonenumber'),
                     'key'       => '{contact_phonenumber}',
                     'available' => [
                         'client',
@@ -68,7 +68,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('email'),
+                    'name'      => _l('contact_email'),
                     'key'       => '{contact_email}',
                     'available' => [
                         'client',

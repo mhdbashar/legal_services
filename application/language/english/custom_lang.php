@@ -1,5 +1,24 @@
 <?php
 
+$lang['logo_url'] = 'Logo url';
+$lang['logo_image_with_url'] = 'Logo image with url';
+$lang['dark_logo_image_with_url'] = 'Dark logo image with url';
+$lang['crm_url'] = 'Crm url';
+$lang['admin_url'] = 'Admin url';
+$lang['main_domain'] = 'Main domain';
+$lang['companyname'] = 'Company name';
+$lang['email_signature'] = 'Email signature';
+$lang['terms_and_conditions_url'] = '(GDPR) Terms & Conditions URL';
+$lang['privacy_policy_url'] = '(GDPR) Privacy Policy URL';
+$lang['client_zip'] = 'client_zip';
+$lang['client_id'] = 'Client id';
+$lang['password'] = 'Password';
+$lang['client_country'] = 'Client country';
+$lang['client_zip'] = 'Client zip';
+$lang['contact_email'] = 'Contact email';
+$lang['download_sample'] = 'Download sample';
+
+
 $lang['label'] = 'Label';
 $lang['translate'] = 'Translate';
 $lang['native'] = 'Native';
@@ -2226,7 +2245,7 @@ $lang['calendar_expand'] = "expand";
 $lang['proposal_reminders'] = "Reminders";
 $lang['proposal_set_reminder_title'] = "Set Proposal Reminder";
 $lang['settings_allowed_upload_file_types'] = "Allowed file types";
-$lang['no_primary_contact'] = "This customer does have primary contact. You need to setup primary contact login as customer. Its recommended all customers to have primary contacts.";
+$lang['no_primary_opponent'] = "This opponent does not have primary contact. You need to setup primary contact as an opponent. Its recommended all opponents to have primary contacts.";
 $lang['leads_merge_customer'] = "Customer fields merging";
 $lang['leads_merge_contact'] = "Contact fields merging";
 $lang['leads_merge_as_contact_field'] = "Merge as contact field";
@@ -3449,11 +3468,11 @@ $lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
 $lang['Parties_case'] = "Parties to the case";
 $lang['file_number_in_court'] = "File number in court";
-$lang['file_number_in_case'] = "File number in court";
+$lang['file_number_in_office'] = "File number in office";
 $lang['new_cstatus'] = "New Case Status";
 $lang['LegalServices'] = "Legal Services";
 $lang['court_competent_follow'] = "The court competent to follow up the case";
-$lang['legal_services_settings'] = "Legal Services Settings";
+$lang['legal_services_settings'] = "Legal Settings";
 $lang['empty_case_mov'] = "No case movements yet!";
 $lang['LService_activity_updated'] = "Legal Service Updated";
 $lang['LService_status_updated'] = "Legal Service status updated";
@@ -3465,7 +3484,7 @@ $lang['LService_activity_invoiced_project'] = "Invoiced Legal Service";
 $lang['CaseMov_activity_created'] = "Created the Case Movement";
 $lang['NewCaseMovement'] = "New Case Movement";
 $lang['LService_not_found'] = "Legal Service not found";
-$lang['LService_recycle_bin'] = "Legal Service Trash";
+$lang['LService_recycle_bin'] = "Recycle bin";
 $lang['restore'] = "Restore";
 $lang['LegalServicesRestored'] = "The legal service has been removed from the trash";
 $lang['ProblemRestored'] = "There was a restor problem";
@@ -3572,6 +3591,7 @@ $lang['opponent_admin_login_as_client_message'] = "Hello %s. You are added as ad
 $lang['opponent_inactive_message'] = "This is inactive opponent profile and some features may be disabled";
 $lang['opponent_profile_details'] = "Opponent Details";
 $lang['opponent_admins'] = "Opponent Admins";
+$lang['send_mail_to_opponent'] = "Send email to opponent";
 $lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";
 
 
@@ -3592,6 +3612,7 @@ $lang['phase_decision83'] =  'Decision 83';
 $lang['phase_order_number'] =  'Order number';
 $lang['phase_registration_number'] =  'Registration number';
 $lang['phase_belongs_to'] = "Phase belongs to";
+$lang['no_phases'] = "There are no stages for this service yet! Create it";
 
 $lang['hijri_date'] = "Hijri date";
 $lang['gregorian_date'] = "Gregorian date";
@@ -3634,3 +3655,10 @@ $lang['link_for_page'] = "Here the link for the page where you want the dialog b
 $lang['modify_module'] = "To modify the data of this service, go to the module page";
 $lang['clients_'] = "Clients";
 $lang['invoice_disputes'] = "Invoice Disputes";
+$lang['from_here'] = "From here";
+$lang['select_legal_services'] = "Choose legal services";
+$lang['case_info'] = "Case information";
+$lang['client_info'] = "Client information";
+$lang['court_info'] = "Court information";
+$lang['payment_info'] = "Payment information";
+$lang['management_info'] = "Management information";

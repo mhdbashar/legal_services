@@ -1817,7 +1817,7 @@ $(function() {
             // Estimates table
             servid_estimates_case = $(".table-estimates_case").attr('data-servid');
             slug_estimates_case = $(".table-estimates_case").attr('data-slug');
-            initDataTable(table_estimates_case, admin_url + 'estimates/table_case/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParams, [
+            initDataTable(table_estimates_case, admin_url + 'estimates/table_case/0/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParams, [
                 [3, 'desc'],
                 [0, 'desc']
             ]);

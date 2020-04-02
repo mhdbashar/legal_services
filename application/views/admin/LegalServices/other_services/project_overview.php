@@ -144,19 +144,19 @@
         <tbody>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('lead_country'); ?></td>
-            <td><?php echo $project->country_name; ?></td>
+            <td><?php echo $project->country_name ? $project->country_name : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('client_city'); ?></td>
-            <td><?php echo $project->city; ?></td>
+            <td><?php echo $project->city ? $project->city : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Categories'); ?></td>
-            <td><?php echo $project->cat; ?></td>
+            <td><?php echo $project->cat ? $project->cat : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('SubCategories'); ?></td>
-            <td><?php echo $project->subcat; ?></td>
+            <td><?php echo $project->subcat ? $project->subcat : _l('smtp_encryption_none'); ?></td>
         </tr>
         </tbody>
     </table>

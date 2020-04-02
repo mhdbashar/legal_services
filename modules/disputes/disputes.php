@@ -40,8 +40,8 @@ function add_disputes_reminder_tab_content(){
 }
 
 function my_custom_menu_items($item){
-    //print_r($item);
-    if($item['slug']==2) echo '<li><a href="'.admin_url('disputes/statuses').'">إدارة حالات النزاع المالي</a></li>';
+    // print_r($item);
+    if($item['slug']==2) echo '<li><a href="'.admin_url('disputes/statuses').'"> حالات النزاع المالي</a></li>';
 }
 
 

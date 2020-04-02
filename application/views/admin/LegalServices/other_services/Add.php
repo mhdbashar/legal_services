@@ -64,16 +64,16 @@
                             </div>
                         </div>
 
+                        <?php $cats = get_relation_data('mycategory', $ServID);
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
                                     <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory', $ServID);
-                                        foreach ($data as $row): ?>
+                                        <?php foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php } ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
@@ -187,7 +187,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date'); ?>
+                                <?php $value = _d(date('Y-m-d')); ?>
+                                <?php echo render_date_input('start_date', 'project_start_date',$value); ?>
                             </div>
                             <div class="col-md-6">
                                 <?php echo render_date_input('deadline', 'project_deadline'); ?>
@@ -413,6 +414,7 @@
     });
 
     function GetSubCat() {
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,

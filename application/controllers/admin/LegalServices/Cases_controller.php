@@ -16,6 +16,7 @@ class Cases_controller extends AdminController
     $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     $this->load->model('tasks_model');
     $this->load->model('LegalServices/Phase_model','phase');
+    $this->load->model('LegalServices/irac_model', 'irac');
     $this->load->helper('date');
 }
 
@@ -396,6 +397,8 @@ class Cases_controller extends AdminController
                 $data['courts']      = $this->service_sessions->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
+            } elseif ($group == 'IRAC'){
+                $data['IRAC'] = $this->irac->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

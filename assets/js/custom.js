@@ -303,6 +303,7 @@ if(hijri_page == 'settings?group=Hijri'){
 
 
 $("body").on('change', '.f_client_id select[name="clientid"]', function() {
+    $('#rel_sid').html('');
     var val = $(this).val();
     var servicesWrapper = $('.services-wrapper');
     if (!val) {

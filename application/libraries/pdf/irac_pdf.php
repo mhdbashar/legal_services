@@ -8,8 +8,6 @@ class Irac_pdf extends App_pdf
 {
     protected $irac;
 
-    //private $invoice_number;
-
     public function __construct($irac, $tag = '')
     {
         $GLOBALS['irac_pdf'] = $irac;
@@ -20,17 +18,17 @@ class Irac_pdf extends App_pdf
             $this->ci->load->model('LegalServices/irac_model', 'irac');
         }
 
-//        $this->tag            = $tag;
-        $this->irac        = $irac;
-        //$this->invoice_number = format_invoice_number($this->invoice->id);
-        //$this->load_language($this->invoice->clientid);
-        //$this->SetTitle($this->invoice_number);
+        $this->irac = $irac;
     }
 
     public function prepare()
     {
-        //$this->with_number_to_word($this->invoice->clientid);
+        $this->ci->load->model('LegalServices/Courts_model', 'courts');
+        $this->ci->load->model('LegalServices/Cases_model', 'case');
+        $case_info = get_case($this->irac->rel_id);
         $name = get_case_name_by_id($this->irac->rel_id);
+        $court = $this->ci->courts->get_court_by_id($case_info->court_id)->row()->court_name;
+        $members = $this->ci->case->get_project_members($this->irac->rel_id);
         $this->set_view_vars([
             'name'             => $name,
             'facts'            => $this->irac->facts,
@@ -38,6 +36,9 @@ class Irac_pdf extends App_pdf
             'analysis'         => $this->irac->analysis,
             'result'           => $this->irac->result,
             'irac'             => $this->irac,
+            'case_info'        => $case_info,
+            'court'            => isset($court) ? $court : '',
+            'members'          => isset($members) ? $members : '',
         ]);
 
         return $this->build();
@@ -53,20 +54,4 @@ class Irac_pdf extends App_pdf
         $actualPath = APPPATH . 'views/themes/' . active_clients_theme() . '/views/iracpdf.php';
         return $actualPath;
     }
-
-    /*private function get_payment_modes()
-    {
-        $this->ci->load->model('payment_modes_model');
-        $payment_modes = $this->ci->payment_modes_model->get();
-
-        // In case user want to include {invoice_number} or {client_id} in PDF offline mode description
-        foreach ($payment_modes as $key => $mode) {
-            if (isset($mode['description'])) {
-                $payment_modes[$key]['description'] = str_replace('{invoice_number}', $this->invoice_number, $mode['description']);
-                $payment_modes[$key]['description'] = str_replace('{client_id}', $this->invoice->clientid, $mode['description']);
-            }
-        }
-
-        return $payment_modes;
-    }*/
 }

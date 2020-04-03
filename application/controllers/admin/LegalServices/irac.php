@@ -37,7 +37,6 @@ class Irac extends AdminController
         $service_name = get_case_name_by_id($id);
         $rel_type = get_legal_service_slug_by_id($ServID);
         $irac = $this->irac->get('', ['rel_id' => $id, 'rel_type' => $rel_type]);
-        //$invoice_number = format_invoice_number($irac->id);
         try {
             $pdf = irac_pdf($irac);
         } catch (Exception $e) {
@@ -59,7 +58,7 @@ class Irac extends AdminController
             $type = 'I';
         }
 
-        $pdf->Output(mb_strtoupper(slug_it($invoice_number)) . '.pdf', $type);
+        $pdf->Output('IRAC_'.$irac->id.'.pdf', $type);
     }
 
 }

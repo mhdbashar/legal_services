@@ -187,6 +187,19 @@ function app_init_case_tabs()
         'view'                      => 'admin/LegalServices/phases/tab',
         'position'                  => 70,
     ]);
+
+    $CI->app_tabs->add_case_tab('IRAC', [
+        'name'                      => _l('IRAC_method'),
+        'icon'                      => 'fa fa-sitemap',
+        'view'                      => 'admin/LegalServices/irac/tab',
+        'position'                  => 75,
+    ]);
+    $CI->app_tabs->add_case_tab('help_library', [
+        'name'                      => _l('help_library'),
+        'icon'                      => 'fa fa-book',
+        'view'                      => 'admin/help_library/tab',
+        'position'                  => 80,
+    ]);
 }
 
 /**

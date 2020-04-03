@@ -614,3 +614,14 @@ function get_dialog_boxes()
     }
     return false;
 }
+
+/**
+ * Prepare general IRAC pdf
+ * @param  object $irac  irac as object with all necessary fields
+ * @param  string $tag   tag for bulk pdf exporter
+ * @return mixed object
+ */
+function irac_pdf($irac, $tag = '')
+{
+    return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);
+}

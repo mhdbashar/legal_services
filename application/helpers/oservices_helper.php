@@ -187,6 +187,13 @@ function app_init_oservice_tabs()
         'view'                      => 'admin/LegalServices/phases/tab',
         'position'                  => 65,
     ]);
+
+    $CI->app_tabs->add_oservice_tab('help_library', [
+        'name'                      => _l('help_library'),
+        'icon'                      => 'fa fa-book',
+        'view'                      => 'admin/help_library/tab',
+        'position'                  => 70,
+    ]);
 }
 
 /**

@@ -360,7 +360,7 @@ abstract class App_import
         $form = '';
         $form .= form_open($this->ci->uri->uri_string());
         $form .= form_hidden('download_sample', 'true');
-        $form .= '<button type="submit" class="btn btn-success">Download Sample</button>';
+        $form .= '<button type="submit" class="btn btn-success">'._l('download_sample').'</button>';
         $form .= '<hr />';
         $form .= form_close();
 

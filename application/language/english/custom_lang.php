@@ -1,4 +1,33 @@
 <?php
+
+$lang['logo_url'] = 'Logo url';
+$lang['logo_image_with_url'] = 'Logo image with url';
+$lang['dark_logo_image_with_url'] = 'Dark logo image with url';
+$lang['crm_url'] = 'Crm url';
+$lang['admin_url'] = 'Admin url';
+$lang['main_domain'] = 'Main domain';
+$lang['companyname'] = 'Company name';
+$lang['email_signature'] = 'Email signature';
+$lang['terms_and_conditions_url'] = '(GDPR) Terms & Conditions URL';
+$lang['privacy_policy_url'] = '(GDPR) Privacy Policy URL';
+$lang['client_zip'] = 'client_zip';
+$lang['client_id'] = 'Client id';
+$lang['password'] = 'Password';
+$lang['client_country'] = 'Client country';
+$lang['client_zip'] = 'Client zip';
+$lang['contact_email'] = 'Contact email';
+$lang['download_sample'] = 'Download sample';
+$lang['staff_add_edit_fullname'] = 'Full Name';
+
+
+$lang['label'] = 'Label';
+$lang['translate'] = 'Translate';
+$lang['native'] = 'Native';
+$lang['custom'] = 'Custom';
+$lang['add_new_lable'] = 'Add New Label';
+$lang['arabic'] = 'Arabic';
+$lang['english'] = 'English';
+
 $lang['contact_phonenumber'] = 'Contact Phone Number';
 $lang['phonenumber'] = 'Phone Number';
 $lang['longitude'] = 'Longitude';

@@ -95,6 +95,9 @@ class Import_customers extends App_import
                             $insert['client_type'] = 1;
                     }
 
+                    $insert['firstname'] = $insert['full_name'];
+                    unset($insert['full_name']);
+
                     $insert['is_primary'] = 1;
                     $id                   = $this->ci->clients_model->add($insert, true);
 

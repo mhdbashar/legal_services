@@ -73,7 +73,7 @@ class General extends AdminController{
             $data['user_notes']    = $this->Misc_model->get_notes($staff_id, 'staff');
             $data['departments']   = $this->Departments_model->get();
             $data['staff_departments'] = $this->Departments_model->get_staff_departments($member->staffid);
-            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
 
             $data['extra_info'] = (object)$extra_info;
 
@@ -225,6 +225,7 @@ class General extends AdminController{
                         $this->Branches_model->delete_branch('staff', $id);
                     }                handle_staff_profile_image_upload($id);
                 }
+                $data['lastname'] = '';
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
                     $response = $this->staff_model->update($data, $id);

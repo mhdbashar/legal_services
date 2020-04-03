@@ -1,4 +1,32 @@
 <?php
+
+$lang['logo_url'] = 'رابط اللوغو';
+$lang['logo_image_with_url'] = 'Logo image with url';
+$lang['dark_logo_image_with_url'] = 'Dark logo image with url';
+$lang['crm_url'] = 'Crm url';
+$lang['admin_url'] = 'رابط الادمين';
+$lang['main_domain'] = 'الدومين الاساسي';
+$lang['companyname'] = 'اسم الشركة';
+$lang['email_signature'] = 'Email signature';
+$lang['terms_and_conditions_url'] = '(GDPR) Terms & Conditions URL';
+$lang['privacy_policy_url'] = '(GDPR) Privacy Policy URL';
+$lang['contact_email'] = 'بريد جهة الاتصال';
+$lang['client_id'] = 'رقم معرف العميل';
+$lang['password'] = 'كلمة المرور';
+$lang['client_country'] = 'دولة العميل';
+$lang['client_zip'] = 'client_zip';
+$lang['download_sample'] = 'تحميل مستند تجريبي';
+$lang['staff_add_edit_fullname'] = 'الاسم الكامل';
+
+$lang['label'] = 'اسم الحقل';
+$lang['translate'] = 'الترجمة';
+$lang['native'] = 'الملف الأصلي';
+$lang['custom'] = 'الملف الفرعي';
+$lang['add_new_lable'] = 'اضافة حقل ترجمة جديد';
+$lang['arabic'] = 'العربية';
+$lang['english'] = 'الانكليزية';
+
+$lang['add_new_holiday'] = 'اضافة عطلة جديدة';
 $lang['cancel'] = "إلغاء";
 $lang['add_new_holiday'] = "اضافة عطلة جديدة";
 $lang['event_name'] = "اسم الحدث";

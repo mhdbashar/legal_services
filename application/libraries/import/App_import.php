@@ -709,9 +709,9 @@ abstract class App_import
 
     private function setDefaultImportGuidelinesInfo()
     {
-        $this->addImportGuidelinesInfo('If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (' . date('Y-m-d') . ').</b>');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst1'));
 
-        $this->addImportGuidelinesInfo('Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst2'));
     }
 
     /**

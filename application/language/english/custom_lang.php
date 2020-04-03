@@ -3670,3 +3670,7 @@ $lang['analysis'] = "Analysis";
 $lang['IRAC_result'] = "Result";
 $lang['help_library'] = "Help library";
 $lang['soon'] = "Soon";
+$lang['clients_import_inst1'] = "Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.";
+$lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
+$lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
+$lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";

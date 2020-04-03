@@ -15,7 +15,7 @@
                         <?php echo render_input('key','label', '', 'text', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('value','translate', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_textarea('value','translate', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                         <?php echo render_input('key','label', '', 'text', ['required' => 'required', 'readonly' => 'readonly']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_input('value','translate', '', 'text', ['required' => 'required']); ?>
+                        <?php echo render_textarea('value','translate', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>

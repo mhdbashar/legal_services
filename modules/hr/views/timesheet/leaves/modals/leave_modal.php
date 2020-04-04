@@ -95,7 +95,7 @@
                         <?php echo render_textarea('remarks','remarks', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <input id="half_day?" value="1" class="" type="checkbox" name="half_day"> <?php echo _l('half_day?') ?>
+                        <input id="half_day?" value="true" class="" type="checkbox" name="half_day"> <?php echo _l('half_day?') ?>
                     </div>
                 </div>
             </div>

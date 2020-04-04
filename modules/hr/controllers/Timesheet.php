@@ -140,15 +140,16 @@ class Timesheet extends AdminController{
             $datediff = $end_date - $start_date;
             $all_date = round($datediff / (60 * 60 * 24)) + 1;
             if (isset($data['half_day'])){
-                if($data['half_day'] == 1){
+                if($data['half_day'] == 'true'){
                     if($all_date != 1){
-                        set_alert('warning', 'you_can_not_apply_for_more_than_one_day');
+                        set_alert('warning', _l('apply_halfday_leave_for_more_than_one_day'));
                         redirect($_SERVER['HTTP_REFERER']);
                     }
-                }else{
-                    $all_date *= 2;
                 }
+            }else{
+                $all_date *= 2;
             }
+            //echo $all_date; exit;
             if(!$this->Leave_type_model->has_days(
                 $data['staff_id'],
                 $data['leave_type'],

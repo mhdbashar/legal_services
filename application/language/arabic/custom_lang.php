@@ -11,12 +11,8 @@ $lang['add_leave_type'] = 'اضافة نوع اجازة';
 $lang['number_of_days'] = 'عدد الأيام';
 $lang['leave'] = 'الاجازة';
 $lang['new_leave'] = 'اجازة جديدة';
-$lang['from'] = 'من';
-$lang['from'] = 'من';
-$lang['from'] = 'من';
-$lang['from'] = 'من';
-$lang['from'] = 'من';
-$lang['from'] = 'من';
+$lang['apply_halfday_leave_for_more_than_one_day'] = 'لا يمكنك اضافة اجازة نصف يوم لأكثر من يوم واحد';
+$lang['you_cannot_add_this_leave_for_this_staff'] = 'لا يمكنك اضافة هذه الاجازة لهذا اموظف';
 
 $lang['logo_url'] = 'رابط اللوغو';
 $lang['logo_image_with_url'] = 'Logo image with url';

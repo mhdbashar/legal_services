@@ -56,7 +56,7 @@ class Leave_type_model extends App_Model{
         $days = $this->db->get('tblhr_staff_leaves')->row()->days;
         if(($days + $days_added) <= $leave_days*2)
             return true;
-        echo "$days , $days_added, $leave_days";exit;
+        //echo "$days , $days_added, $leave_days";exit;
         return false;
     }
 

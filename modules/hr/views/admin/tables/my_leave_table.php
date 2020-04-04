@@ -5,7 +5,7 @@ $aColumns = [
     db_prefix().'hr_leave_type.name as type',
     db_prefix().'branches.title_en as branch_id', 
     'CONCAT(firstname," ", lastname) as fullname', 
-    'CONCAT(start_date," to ", end_date) as request_duration', 
+    'CONCAT("'._l("from").': ", start_date,"<br>'._l("to").' ", end_date) as request_duration', 
     'created'
 ];
 

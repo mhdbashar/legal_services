@@ -1,5 +1,23 @@
 <?php
 
+$lang['leave_type'] = 'نوع الاجازة';
+$lang['request_duration'] = 'مدة الاجازة';
+$lang['applied_on'] = 'وقت الانشاء';
+$lang['leave_reason'] = 'سبب الاجازة';
+$lang['remarks'] = 'الملاحظات';
+$lang['half_day?'] = 'نصف يوم؟';
+$lang['from'] = 'من';
+$lang['add_leave_type'] = 'اضافة نوع اجازة';
+$lang['number_of_days'] = 'عدد الأيام';
+$lang['leave'] = 'الاجازة';
+$lang['new_leave'] = 'اجازة جديدة';
+$lang['from'] = 'من';
+$lang['from'] = 'من';
+$lang['from'] = 'من';
+$lang['from'] = 'من';
+$lang['from'] = 'من';
+$lang['from'] = 'من';
+
 $lang['logo_url'] = 'رابط اللوغو';
 $lang['logo_image_with_url'] = 'Logo image with url';
 $lang['dark_logo_image_with_url'] = 'Dark logo image with url';

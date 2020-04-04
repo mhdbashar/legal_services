@@ -12,49 +12,11 @@
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
-                                <option></option>
-                            <?php foreach ($branches as $value) { ?>
-                                <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                            <?php } ?>
-                            </select>     
-                        </div>
-                    </div>
-                <?php } ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
-                                <option></option>
-                            </select>     
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="leave_type" class="control-label"><?php echo _l('leave_type') ?></label>
-                            <select required="required" class="form-control" id="e_leave_type" name="leave_type" placeholder="<?php echo _l('leave_type') ?>" aria-invalid="false">
-                                <option></option>
-                            </select>     
-                        </div>
-                     </div>
-                    <div class="col-md-12">
-                        <?php echo render_date_input('end_date','end_date', '', ['required' => 'required']); ?>
-                    </div>
-                    <div class="col-md-12">
-                        <?php echo render_date_input('start_date','start_date', '', ['required' => 'required']); ?>
-                    </div>
                     <div class="col-md-12">
                         <?php echo render_textarea('leave_reason','leave_reason', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <?php echo render_textarea('remarks','remarks', '', ['required' => 'required']); ?>
-                    </div>
-                    <div class="col-md-12">
-                        <input id="half_day?" value="1" class="" type="checkbox" name="half_day"> <?php echo _l('half_day?') ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -121,10 +83,10 @@
                         </div>
                      </div>
                     <div class="col-md-12">
-                        <?php echo render_date_input('end_date','end_date', '', ['required' => 'required']); ?>
+                        <?php echo render_date_input('start_date','start_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_date_input('start_date','start_date', '', ['required' => 'required']); ?>
+                        <?php echo render_date_input('end_date','end_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <?php echo render_textarea('leave_reason','leave_reason', '', ['required' => 'required']); ?>
@@ -170,22 +132,24 @@ function required_file() {
             {
                 console.log(data);
                 $('[name="id"]').val(data.id);
-                
-                $('[name="start_date"]').val(data.start_date);
-                
-                $('[name="end_date"]').val(data.end_date);
 
                 $('[name="leave_reason"]').val(data.leave_reason);
 
                 $('[name="remarks"]').val(data.remarks);
 
+                $('[name="status"]').val(data.status);
+
+                /*
+
                 if(data.half_day == 1){
-                    $('[name="half_day"]').attr('checked', 'true');
+                    $('[name="half_day"]').prop('checked', 'true');
+                    console.log(data.half_day);
                 }else{
-                    $('[name="half_day"]').attr('checked', 'false')
+                    $('[name="half_day"]').removeAttr('checked');
+                    console.log('hey');
                 }
 
-                $('[name="status"]').val(data.status);
+                
 
                 $('[name="branch_id"]').val(data.branch_id);
 
@@ -238,6 +202,7 @@ function required_file() {
                         alert_float('danger', response.message);
                     }
                 }, 'json');
+                */
 
 
 

@@ -1,4 +1,28 @@
 <?php
+$lang['total_milestones'] = "إجمالي مراحل خطة العمل";
+$lang['project_milestones'] = "مراحل خطة العمل";
+$lang['show_all_tasks_for_project_member'] = "السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالخدمات (بما في ذلك غير الموظفين)";
+$lang['permission_tasks_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية للعرض، سيكون العرض (شامل) فقط على المهام التي يكون فيها الموظف متابعًا أو مكلفًا أو مهمة عامة أو في الإعداد-> الإعدادات-> المهام-> السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالخدمات حدد نعم عندما ترتبط المهمة بالخدمة.";
+$lang['home_my_projects'] = "خدمات";
+$lang['task_related_to'] = "مخصصة لـ";
+$lang['switch_to_list_view'] = "التحويل إلى القائمة";
+$lang['tickets_piping'] = "إمداد البريد الإلكتروني";
+$lang['ticket_pipe_log'] = "سجل إمداد التذكرة";
+$lang['switch_to_pipeline'] = "التحويل إلى إمداد البريد";
+$lang['proposals_sort_pipeline'] = "ترتيب إمداد البريد";
+$lang['proposals_pipeline'] = "إمداد العطاءات";
+$lang['pipeline_limit_status'] = "حد الإمداد لكل حالة";
+$lang['estimates_sort_pipeline'] = "ترتيب إمداد البريد";
+$lang['estimates_pipeline'] = "إمداد عروض الأتعاب";
+$lang['email_piping_only_registered'] = "الإمداد فقط من العملاء المسجلين";
+$lang['email_piping_default_priority'] = "اولوية التذكرة الواردة عبر إمداد البريد";
+$lang['default_pipeline_sort'] = "فرز إمداد البريد الإفتراضي";
+$lang['view_kanban'] = "عرض تدفق البيانات";
+$lang['tasks_kanban_limit'] = "حد صفوف تدفق البيانات للمهام لكل حالة";
+$lang['settings_leads_kanban_limit'] = "حد صفوف تدفق البيانات للعملاء المحتملين لكل حالة";
+$lang['leads_switch_to_kanban'] = "تحويل إلى نظام تدفق البيانات";
+$lang['leads_sort_by_kanban_order'] = "ترتيب تدفق البيانات";
+$lang['default_leads_kanban_sort'] = "فرز تدفق البيانات للعملاءالمحتملين الإفتراضي";
 $lang['copy_project'] = "نسخ الخدمة";
 $lang['home_my_todo_items'] = "عناصر يجب القيام بها";
 $lang['projects'] = "خدمات";
@@ -1290,7 +1314,6 @@ $lang['customer_permission_estimate'] = "عروض الأسعار";
 $lang['customer_permission_proposal'] = "العطائات";
 $lang['customer_permission_contract'] = "العقود";
 $lang['customer_permission_support'] = "خدمة العملاء";
-$lang['task_related_to'] = "Related To";
 $lang['custom_file_fail_send'] = "فشل في إرسال الملف";
 $lang['custom_file_success_send'] = "تم إرسال الملف بنجاح إلى %s";
 $lang['send_file_subject'] = "موضوع البريد الإلكتروني";
@@ -1341,11 +1364,8 @@ $lang['reminder_set_to'] = "تعيين تذكير إلى";
 $lang['reminder_deleted'] = "تم حذف التذكير بنجاح";
 $lang['reminder_failed_to_delete'] = "فشل في حذف التذكير";
 $lang['show_invoice_estimate_status_on_pdf'] = "عرض الحالة فاتورة / عرض السعر PDF";
-$lang['email_piping_default_priority'] = "Default priority on piped ticket";
 $lang['show_lead_reminders_on_calendar'] = "إخطارات العملاء المتوقعين";
-$lang['tickets_piping'] = "Email Piping";
 $lang['email_piping_only_replies'] = "الردود فقط المسموح بها عن طريق البريد الإلكتروني";
-$lang['email_piping_only_registered'] = "Pipe Only on Registered Users";
 $lang['view_estimate_as_client'] = "إستعراض عرض السعر كعميل";
 $lang['estimate_mark_as'] = "وضع علامة كـ %s";
 $lang['estimate_status_changed_success'] = "تم تغيير حالة عرض السعر";
@@ -1465,7 +1485,6 @@ $lang['edit_source'] = "تحرير المصدر";
 $lang['edit_status'] = "تحرير الحالة";
 $lang['contract_type_edit'] = "تحرير نوع العقد";
 $lang['report_by_customer_groups'] = "القيمة الإجمالية حسب مجموعات العملاء";
-$lang['ticket_pipe_log'] = "Ticket Pipe Log";
 $lang['ticket_pipe_name'] = "من الأسم";
 $lang['ticket_pipe_email_to'] = "إلى";
 $lang['ticket_pipe_email'] = "من البريد الإلكتروني";
@@ -1572,7 +1591,6 @@ $lang['no_tasks_found'] = "لم يتم العثور على مهام";
 $lang['leads_dt_datecreated'] = "أنشىء";
 $lang['leads_sort_by'] = "الترتيب حسب";
 $lang['leads_sort_by_datecreated'] = "تاريخ الأنشاء";
-$lang['leads_sort_by_kanban_order'] = "Kan Ban Order";
 $lang['check_email_for_resetting_password'] = "تحقق من بريدك الإلكتروني لمزيد من التعليمات حول إعادة تعيين كلمة المرور الخاصة بك";
 $lang['inactive_account'] = "حساب غير نشط";
 $lang['error_setting_new_password_key'] = "خطأ في تعيين كلمة مرور جديدة";
@@ -1599,9 +1617,7 @@ $lang['home_stats_by_project_status'] = "إحصائيات حسب حالة الخ
 $lang['home_invoice_overview'] = "نظرة عامة على الفواتير";
 $lang['home_proposal_overview'] = "نظرة عامة على العطاءات";
 $lang['home_lead_overview'] = "نظرة عامة على العملاء المتوقعين";
-$lang['home_my_projects'] = "مشاريعي";
 $lang['home_announcements'] = "الإعلانات";
-$lang['settings_leads_kanban_limit'] = "Limit leads kan ban rows per status";
 $lang['settings_group_misc'] = "متفرقات";
 $lang['show_projects_on_calendar'] = "الخدمات";
 $lang['settings_media_max_file_size_upload'] = "الحد الأقصى لحجم ملف التحميل في الوسائط (MB)";
@@ -1706,7 +1722,6 @@ $lang['project_members'] = "الموظفين";
 $lang['project_member_removed'] = "تمت إزالة موظف من الخدمة بنجاح";
 $lang['project_overview'] = "ملخص الخدمة";
 $lang['project_gant'] = "Gantt View";
-$lang['project_milestones'] = "Milestones";
 $lang['project_milestone_order'] = "الترتيب";
 $lang['project_milestone_duedate_passed'] = "تجاوز تاريخ الاستحقاق";
 $lang['record_timesheet'] = "الجدول الزمني";
@@ -1875,12 +1890,8 @@ $lang['project_invoice_select_all_tasks'] = "حدد جميع المهام";
 $lang['lead_company'] = "الشركة";
 $lang['admin_auth_forgot_password_button'] = "تأكيد";
 $lang['task_assigned'] = "مخصصة لـ";
-$lang['switch_to_pipeline'] = "Switch to pipeline";
-$lang['switch_to_list_view'] = "Switch to list";
-$lang['estimates_pipeline'] = "Estimates Pipeline";
 $lang['estimates_pipeline_sort'] = "الترتيب حسب";
 $lang['estimates_sort_expiry_date'] = "تاريخ إنتهاء الصلاحية";
-$lang['estimates_sort_pipeline'] = "Pipeline Order";
 $lang['estimates_sort_datecreated'] = "تاريخ الإنشاء";
 $lang['estimates_sort_estimate_date'] = "تاريخ عرض السعر";
 $lang['estimate_set_reminder_title'] = "تعيين تذكير لعرض السعر";
@@ -1918,7 +1929,6 @@ $lang['company_primary_email'] = "الإيميل الرئيسي";
 $lang['client_register_contact_info'] = "معلومات جهة الاتصال الأساسية";
 $lang['client_register_company_info'] = "معلومات الشركة";
 $lang['contact_permissions_info'] = "تأكد من تعيين الأذونات المناسبة لجهة الاتصال هذه";
-$lang['default_leads_kanban_sort'] = "Default leads kan ban sort";
 $lang['default_leads_kanban_sort_type'] = "ترتيب";
 $lang['order_ascending'] = "تصاعدي";
 $lang['order_descending'] = "تنازلي";
@@ -1943,7 +1953,6 @@ $lang['file_failed_to_write_to_disk'] = "فشل في إرسال الملف إل�
 $lang['file_php_extension_blocked'] = "توقف ملحق PHP عن تحميل الملف.";
 $lang['view_pdf'] = "عرض PDF";
 $lang['expense_repeat_every'] = "التكرار كل";
-$lang['leads_switch_to_kanban'] = "Switch to kan ban";
 $lang['contract_content'] = "العقد";
 $lang['contract_save'] = "حفظ العقد";
 $lang['contract_send_to_email'] = "الإرسال إلى البريد الإلكتروني";
@@ -1974,10 +1983,8 @@ $lang['permission_create'] = "إنشاء";
 $lang['permission_delete'] = "حذف";
 $lang['permission'] = "الصلاحية";
 $lang['permissions'] = "الصلاحيات";
-$lang['proposals_pipeline'] = "Proposals Pipeline";
 $lang['proposals_pipeline_sort'] = "الترتيب حسب";
 $lang['proposals_sort_open_till'] = "مفتوح حتى";
-$lang['proposals_sort_pipeline'] = "Pipeline Order";
 $lang['proposals_sort_datecreated'] = "تاريخ الإنشاء";
 $lang['proposals_sort_proposal_date'] = "تاريخ العطاء";
 $lang['is_not_staff_member'] = "ليس موظف";
@@ -2017,7 +2024,6 @@ $lang['project_overview_expenses_billed'] = "المصروفات المدفوعة
 $lang['project_overview_expenses_unbilled'] = "المصروفات غير المدفوعة";
 $lang['announcement_date_list'] = "التاريخ";
 $lang['project_setting_view_finance_overview'] = "عرض النظرة المالية العامة";
-$lang['show_all_tasks_for_project_member'] = "السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالمشاريع (بما في ذلك غير الموظفين)";
 $lang['not_staff_added_as_project_member'] = "أضافك كعضو في الخدمة";
 $lang['report_expenses_base_currency_select_explanation'] = "تحتاج إلى تحديد العملة لأن النظام وجد عملات مختلفة تستخدم للمصروفات.";
 $lang['project_activity_recorded_expense'] = "المصاريف المسجلة";
@@ -2071,7 +2077,6 @@ $lang['from_date'] = "من تاريخ";
 $lang['to_date'] = "إلى تاريخ";
 $lang['not_results_found'] = "لم يتم العثور على نتائج";
 $lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير العملاء المتوقعين بعد تحويلهم إلى عملاء (لاينطبق على المسؤولين)";
-$lang['default_pipeline_sort'] = "Default pipeline sort";
 $lang['toggle_full_view'] = "Toggle full view";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
@@ -2238,7 +2243,6 @@ $lang['project_milestones_overview'] = "نظرة عامة على الخطة";
 $lang['total_tasks_in_milestones'] = "مجموع المهام التي تم تخصيصها";
 $lang['total_task_members_assigned'] = "مجموع الموظفين المعينين";
 $lang['total_task_members_followers'] = "مجموع المتابعين";
-$lang['total_milestones'] = "Total milestones";
 $lang['total_project_worked_days'] = "مجموع أيام العمل";
 $lang['finance_overview'] = "نظرة عامة على المالية";
 $lang['project_custom_fields'] = "الحقول المخصصة";
@@ -2342,7 +2346,6 @@ $lang['task_status_5'] = "مكتمل";
 $lang['task_mark_as'] = "وضع علامة كـ %s";
 $lang['task_marked_as_success'] = "تم وضع علامة على المهمة كـ %s بنجاح";
 $lang['search_tasks'] = "البحث في المهام";
-$lang['tasks_kanban_limit'] = "Limit tasks kan ban rows per status";
 $lang['show_on_invoice_on_pdf'] = "إظهار %s على فاتورة PDF";
 $lang['show_pay_link_to_invoice_pdf'] = "إظهار رابط دفع الفاتورة إلى PDF (لا يتم تطبيقه إذا كانت حالة الفاتورة ملغي)";
 $lang['no_leads_found'] = "لم يتم العثور على عملاءمحتملين";
@@ -2356,7 +2359,6 @@ $lang['total_by_hourly_rate'] = "الإجمالي حسب معدل الساعة";
 $lang['staff_hourly_rate'] = "السعر لكل ساعة";
 $lang['remove_tax_name_from_item_table_help'] = "eq. Item TAX 15&#37; will be shown as 15&#37; without the tax name (Not applied if multiple taxes with the same name and tax percent found for item)";
 $lang['back_to_project'] = "العودة إلى الخدمة";
-$lang['view_kanban'] = "View Kan Ban";
 $lang['invoice_is_overdue'] = "هذه الفاتورة متأخرة بمعدل %s أيام";
 $lang['time_decimal'] = "الوقت (العشري)";
 $lang['time_h'] = "Time (h)";
@@ -2389,7 +2391,6 @@ $lang['delete_staff_info'] = "يجب نقل بعض بيانات هذا المو�
 $lang['estimate_items'] = "عناصر عرض السعر";
 $lang['no_proposals_found'] = "لم يتم العثور على عطائات";
 $lang['no_estimates_found'] = "لم يتم العثور على عروض سعر";
-$lang['pipeline_limit_status'] = "Pipeline limit per status";
 $lang['settings_update'] = "تحديث النظام";
 $lang['purchase_key'] = "مفتاح الشراء";
 $lang['update_now'] = "تحديث الآن";
@@ -2433,7 +2434,6 @@ $lang['permission_global'] = "شامل";
 $lang['permission_customers_based_on_admins'] = "بناء على مدراء العميل";
 $lang['permission_payments_based_on_invoices'] = "Based on invoices VIEW (Own) permission";
 $lang['permission_projects_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية عرض، فسيكون العرض (شامل) فقط على المشروعات التي يضاف إليها الموظف كعضو في الخدمة.";
-$lang['permission_tasks_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية للعرض، سيكون العرض  (شامل) فقط على المهام التي يكون فيها الموظف متابعًا أو مكلفًا أو مهمة عامة أو في الإعداد-> الإعدادات-> المهام-> السماح لجميع الموظفين برؤية جميع المهام المتعلقة بالمشاريع حدد نعم عندما ترتبط المهمة بالخدمة.";
 $lang['settings_paymentmethod_default_selected_on_invoice'] = "تم اختيارها افتراضيًا في الفاتورة";
 $lang['paymentmethod_braintree_merchant_id'] = "Merchant ID";
 $lang['paymentmethod_braintree_private_key'] = "Private Key";

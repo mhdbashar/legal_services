@@ -1,5 +1,4 @@
 <?php
-
 $lang['contract_subject'] = "موضوع العقد";
 $lang['contract_description'] = "وصف العقد";
 $lang['contract_date_start'] = "تاريخ بداية العقد";
@@ -191,9 +190,32 @@ $lang['add_new_lable'] = 'اضافة حقل ترجمة جديد';
 $lang['arabic'] = 'العربية';
 $lang['english'] = 'الانكليزية';
 
-$lang['add_new_holiday'] = 'اضافة عطلة جديدة';
-$lang['cancel'] = "إلغاء";
+$lang['logo_url'] = "رابط الشعار";
+$lang['logo_image_with_url'] = "Logo image with url";
+$lang['dark_logo_image_with_url'] = "Dark logo image with url";
+$lang['crm_url'] = "Crm url";
+$lang['admin_url'] = "رابط الادمين";
+$lang['main_domain'] = "الدومين الاساسي";
+$lang['companyname'] = "اسم الشركة";
+$lang['email_signature'] = "Email signature";
+$lang['terms_and_conditions_url'] = "(GDPR) Terms & Conditions URL";
+$lang['privacy_policy_url'] = "(GDPR) Privacy Policy URL";
+$lang['contact_email'] = "بريد جهة الاتصال";
+$lang['client_id'] = "رقم معرف العميل";
+$lang['password'] = "كلمة المرور";
+$lang['client_country'] = "دولة العميل";
+$lang['client_zip'] = "client_zip";
+$lang['download_sample'] = "تحميل مستند تجريبي";
+$lang['staff_add_edit_fullname'] = "الاسم الكامل";
+$lang['label'] = "اسم الحقل";
+$lang['translate'] = "الترجمة";
+$lang['native'] = "الملف الأصلي";
+$lang['custom'] = "الملف الفرعي";
+$lang['add_new_lable'] = "اضافة حقل ترجمة جديد";
+$lang['arabic'] = "العربية";
+$lang['english'] = "الانكليزية";
 $lang['add_new_holiday'] = "اضافة عطلة جديدة";
+$lang['cancel'] = "إلغاء";
 $lang['event_name'] = "اسم الحدث";
 $lang['timesheet'] = "المواعيد";
 $lang['holiday'] = "العطل";
@@ -219,7 +241,6 @@ $lang['net_salary'] = "الراتب الأساسي";
 $lang['payment_amount'] = "الاجمالي";
 $lang['make_payment'] = "قم بالدفع";
 $lang['procurationtype'] = "نوع الوكالة";
-
 $lang['arrangement_type'] = "نوع الترتيب";
 $lang['travel_mode_type'] = "وضع السفر";
 $lang['expected_budget'] = "الميزانية المتوقعة";
@@ -461,7 +482,7 @@ $lang['NumJudicialDept'] = "رقم الدائرة القضائية";
 $lang['CourtNofound'] = "رقم المحكمة غير موجود";
 $lang['LegalServiceManage'] = "إدارة الخدمات القانونية";
 $lang['AddLegalService'] = "إضافة خدمة قانونية";
-$lang['LegalService'] = "خدمة قانونية";
+$lang['LegalService'] = "الخدمة القانونية";
 $lang['MakePrimary'] = "جعله اساسياً";
 $lang['EditLegalService'] = "تعديل خدمة قانونية";
 $lang['AddCategory'] = "إضافة تصنيف";
@@ -540,11 +561,8 @@ $lang['LService_activity_updated'] = "خدمة قانونية محدثة";
 $lang['LService_not_found'] = "الخدمة قانونية غير موجودة";
 $lang['LService_recycle_bin'] = "سلة المحذوفات";
 $lang['restore'] = "إستعادة";
-$lang['LegalService'] = "الخدمة القانونية";
-$lang['service_bin'] = 'تثبيت الخدمة';
-$lang['account_summary'] = 'كشف الحساب';
-
-
+$lang['service_bin'] = "تثبيت الخدمة";
+$lang['account_summary'] = "كشف الحساب";
 $lang['LegalServicesRestored'] = "تمت ازالة الخدمة القانونية من سلة المهملات";
 $lang['ProblemRestored'] = "حدثت مشكلة في الإستعادة";
 $lang['ChooseLegalServices'] = "اختر الخدمة القانونية المراد عرضها";
@@ -651,46 +669,35 @@ $lang['date'] = "التاريخ";
 $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
-
-$lang['incoming_file'] = 'ملف المعاملة الواردة';
-
-$lang['outgoing_file'] = 'ملف المعاملة الصادرة';
-$lang['contact_phonenumber'] = 'هاتف جهة الاتصال';
-$lang['phonenumber'] = 'هاتف';
-$lang['longitude'] = 'خط الطول';
-$lang['latitude'] = 'خط العرض';
-
-
-$lang['add_incoming_side'] = 'إضافة جهة واردة';
-$lang['incoming_side'] = 'الجهة الواردة';
-$lang['incoming_transaction_file'] = 'ملف المعاملة الواردة';
-$lang['outgoing_transaction_file'] = 'ملف المعاملة الصادرة';
-$lang['incoming_transaction'] = 'معاملة واردة';
-$lang['outgoing_transaction'] = 'معاملة صادرة';
-$lang['secret_trans'] = 'سرية';
-$lang['normal_trans'] = 'عادية';
-
-
-
-
-
-
-//Phase
-$lang['legal_services_phases'] =  'مراحل الخدمات القانونية';
-$lang['phases'] =  'المراحل';
-$lang['phase'] =  'مرحلة قانونية';
-$lang['new_phase'] =  'مرحلة جديدة';
-$lang['active_phase'] =  'تفعيل المرحلة';
-$lang['phase_not_compleate'] =  'المرحلة غير مكتلمة';
-$lang['phase_compleate'] =  'المرحلة مكتملة';
-$lang['phase_neworder'] =  'تقديم الطلب';
-$lang['phase_assign'] =  'الإحالة';
-$lang['phase_decision34'] =  'القرار 34';
-$lang['phase_announcement'] =  'تم الإعلان';
-$lang['phase_decision46'] =  'القرار 46';
-$lang['phase_decision83'] =  'القرار 83';
-$lang['phase_order_number'] =  'رقم الطلب';
-$lang['phase_registration_number'] =  'رقم القيد';
+$lang['incoming_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_file'] = "ملف المعاملة الصادرة";
+$lang['contact_phonenumber'] = "هاتف جهة الاتصال";
+$lang['phonenumber'] = "هاتف";
+$lang['longitude'] = "خط الطول";
+$lang['latitude'] = "خط العرض";
+$lang['add_incoming_side'] = "إضافة جهة واردة";
+$lang['incoming_side'] = "الجهة الواردة";
+$lang['incoming_transaction_file'] = "ملف المعاملة الواردة";
+$lang['outgoing_transaction_file'] = "ملف المعاملة الصادرة";
+$lang['incoming_transaction'] = "معاملة واردة";
+$lang['outgoing_transaction'] = "معاملة صادرة";
+$lang['secret_trans'] = "سرية";
+$lang['normal_trans'] = "عادية";
+$lang['legal_services_phases'] = "مراحل الخدمات القانونية";
+$lang['phases'] = "المراحل";
+$lang['phase'] = "مرحلة قانونية";
+$lang['new_phase'] = "مرحلة جديدة";
+$lang['active_phase'] = "تفعيل المرحلة";
+$lang['phase_not_compleate'] = "المرحلة غير مكتلمة";
+$lang['phase_compleate'] = "المرحلة مكتملة";
+$lang['phase_neworder'] = "تقديم الطلب";
+$lang['phase_assign'] = "الإحالة";
+$lang['phase_decision34'] = "القرار 34";
+$lang['phase_announcement'] = "تم الإعلان";
+$lang['phase_decision46'] = "القرار 46";
+$lang['phase_decision83'] = "القرار 83";
+$lang['phase_order_number'] = "رقم الطلب";
+$lang['phase_registration_number'] = "رقم القيد";
 $lang['phase_belongs_to'] = "المرحلة تعود الى";
 $lang['gregorian_date'] = "التاريخ الميلادي";
 $lang['assign_department'] = "الدائرة";
@@ -732,8 +739,7 @@ $lang['branch_id'] = "اسم الفرع";
 $lang['client_type'] = "نوع العميل";
 $lang['firstname'] = "الاسم الأول";
 $lang['lastname'] = "الاسم الأخير";
-$lang['client_type'] = "نوع العميل";
-$lang['new_company_customer_group'] = 'مجموعة عملاء شركة جديدة';
+$lang['new_company_customer_group'] = "مجموعة عملاء شركة جديدة";
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";
 $lang['select_legal_services'] = "اختر الخدمة القانونية";
@@ -750,6 +756,6 @@ $lang['IRAC_method'] = "طريقة IRAC";
 $lang['help_library'] = "المكتبة المساعدة";
 $lang['soon'] = "قريباً";
 $lang['clients_import_inst1'] = "يجب أن تكون بيانات CSV الخاصة بك بالتنسيق أدناه. يجب أن يكون السطر الأول من ملف CSV هو رؤوس الأعمدة كما في مثال الجدول. تأكد أيضًا من أن ملفك هو <b> UTF-8 </b> لتجنب <b> مشاكل النرميز </ b>.";
-$lang['clients_import_inst2'] = "إذا كان العمود <b> الذي تحاول استيراده هو التاريخ ، فتأكد من تنسيقه بالتنسيق Y-m-d (". date (' Y-m-d ')."). </b>";
-$lang['clients_import_inst3'] = "تأكد من تكوين إذن الاتصال الافتراضي في <a href = \"" . admin_url('settings?group=clients') . "\" target=_blank\">إعدادات->الإعدادات->العملاء</a>  للحصول على أفضل النتائج مثل التعيين التلقائي لأذونات جهات الاتصال وإعدادات إشعار البريد الإلكتروني بناءً على الإذن." ;
+$lang['clients_import_inst2'] = "إذا كان العمود <b> الذي تحاول استيراده هو التاريخ ، فتأكد من تنسيقه بالتنسيق Y-m-d ( 2020-04-03 ). </b>";
+$lang['clients_import_inst3'] = "تأكد من تكوين إذن الاتصال الافتراضي في <a href = \"https://law.babillawnet.com/admin/settings?group=clients\" target=_blank\">إعدادات->الإعدادات->العملاء</a>  للحصول على أفضل النتائج مثل التعيين التلقائي لأذونات جهات الاتصال وإعدادات إشعار البريد الإلكتروني بناءً على الإذن.";
 $lang['clients_import_inst4'] = "لن يتم استيراد أسطر البريد الإلكتروني المكررة.";

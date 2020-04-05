@@ -30,6 +30,28 @@ class Client_merge_fields extends App_merge_fields
 
                     ],
                 ],
+                // [
+                //     'name'      => 'Contact Lastname',
+                //     'key'       => '{contact_lastname}',
+                //     'available' => [
+                //         'client',
+                //         'ticket',
+                //         'invoice',
+                //         'estimate',
+                //         'project',
+                //         'credit_note',
+                //         'subscriptions',
+                //     ],
+                //           'templates' => [
+                //         'gdpr-removal-request',
+                //          'contract-expiration',
+                //           'send-contract',
+                //            'contract-comment-to-client',
+                //            'task-added-attachment-to-contacts',
+                //            'task-commented-to-contacts',
+                //            'task-status-change-to-contacts',
+                //     ],
+                // ],
                 [
                     'name'      => _l('contact_phonenumber'),
                     'key'       => '{contact_phonenumber}',

@@ -1,6 +1,157 @@
 <?php
 
-$lang['leave_type'] = 'نوع الاجازة';
+$lang['contract_subject'] = "موضوع العقد";
+$lang['contract_description'] = "وصف العقد";
+$lang['contract_date_start'] = "تاريخ بداية العقد";
+$lang['contract_date_end'] = "تاريخ نهاية العقد";
+$lang['contract_value'] = "قيمة العقد";
+$lang['contract_link'] = "رابط العقد";
+
+$lang['credit_note_number'] = "رقم إشعار الرصيد";
+$lang['date'] = "التاريخ";
+$lang['status'] = "الحالة";
+$lang['total'] = "الإجمالي";
+$lang['subtotal'] = "المجموع الفرعي";
+$lang['credits_used'] = "الأرصدة المستخدمة";
+$lang['credits_remaining'] = "الأرصدة المتبقية";
+
+$lang['estimate_link'] = "رابط عرض السعر";
+$lang['estimate_number'] = "رقم عرض السعر";
+$lang['est_ref_no'] = "رقم المرجع";
+$lang['est_expdate'] = "تاريخ نهاية عرض السعر";
+$lang['estimate_date'] = "تاريخ عرض السعر";
+$lang['estimate_status'] = "حالة عرض السعر";
+$lang['estimate_sale_agent'] = "مسؤول مبيعات العرض";
+$lang['estimate_total'] = "إجمالي العرض";
+$lang['estimate_subtotal'] = "المجموع الفرعي للعرض";
+
+$lang['event_title'] = "عنوان الحدث";
+$lang['event_description'] = "وصف الحدث";
+$lang['start_date'] = "يبدأ بتاريخ";
+$lang['end_date'] = "ينتهي بتاريخ";
+$lang['event_link'] = "رابط الحدث";
+
+$lang['invoice_link'] = "رابط الفاتورة";
+$lang['invoice_number'] = "رقم الفاتورة";
+$lang['invoice_duedate'] = "تاريخ إستحقاق الفاتورة";
+$lang['invoice_date'] = "تاريخ الفاتورة";
+$lang['invoice_status'] = "حالة الفاتورة";
+$lang['invoice_sale_agent'] = "مسؤول مبيعات الفاتورة";
+$lang['invoice_total'] = "إجمالي الفاتورة";
+$lang['invoice_subtotal'] = "المجموع الفرعي للفاتورة";
+$lang['invoice_amount_due'] = "المبلغ المستحق";
+$lang['payment_recorded_total'] = "مجموع الدفعات المسجلة";
+$lang['payment_recorded_date'] = "تاريخ تسجيل الدفعة";
+
+$lang['lead_name'] = "إسم العميل المحتمل";
+$lang['lead_email'] = "إيميل العميل المحتمل";
+$lang['lead_position'] = "منصب العميل المحتمل";
+$lang['lead_website'] = "الموقع الإلكتروني للعميل المحتمل";
+$lang['lead_description'] = "وصف العميل المحتمل";
+$lang['lead_phone_number'] = "هاتف العميل المحتمل";
+$lang['lead_company'] = "شركة العميل المحتمل";
+$lang['lead_country'] = "دولة العميل المحتمل";
+$lang['lead_zip'] = "الرمز البريدي للعميل المحتمل";
+$lang['lead_city'] = "مدينة العميل المحتمل";
+$lang['lead_state'] = "منطقة العميل المحتمل";
+$lang['lead_address'] = "عنوان العميل المحتمل";
+$lang['lead_assigned'] = "المسؤول عن العميل المحتمل";
+$lang['lead_status'] = "حالة العميل المحتمل";
+$lang['lead_souce'] = "مصدر العميل المحتمل";
+$lang['lead_link'] = "رابط العميل المحتمل";
+
+$lang['project_name'] = "إسم الخدمة";
+$lang['project_description'] = "وصف الخدمة";
+$lang['project_start_date'] = "تاريخ بداية الخدمة";
+$lang['project_deadline'] = "تاريخ إنتهاء الخدمة";
+$lang['project_link'] = "رابط الخدمة";
+$lang['file_creator'] = "مُنشيء الملف";
+$lang['comment_creator'] = "مُنشيء التعليق";
+$lang['discussion_link'] = "رابط النقاش";
+$lang['discussion_subject'] = "موضوع النقاش";
+$lang['discussion_description'] = "وصف النقاش";
+$lang['discussion_creator'] = "مُنشيءالنقاش";
+$lang['discussion_comment'] = "تعليقات النقاش";
+
+$lang['proposal_id'] = "معرف العطاء";
+$lang['proposal_number'] = "رقم العطاء";
+$lang['subject'] = "موضوع العطاء";
+$lang['proposal_total'] = "إجمالي العطاء";
+$lang['proposal_subtotal'] = "المجموع الفرعي للعطاء";
+$lang['open_till'] = "مفتوح لغاية";
+$lang['proposal_assigned'] = "المسؤول عن العطاء";
+$lang['proposal_to'] = "عطاء إلى";
+$lang['address'] = "العنوان";
+$lang['city'] = "المدينة";
+$lang['state'] = "المنطقة";
+$lang['zip_code'] = "الرمز البريدي";
+$lang['country'] = "الدولة";
+$lang['email'] = "البريد الإلكتروني";
+$lang['phone'] = "الهاتف";
+$lang['proposal_link'] = "رابط العطاء";
+
+$lang['staff_contact_who_take_action_on_session'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالجلسة";
+$lang['session_link'] = "رابط الجلسة";
+$lang['comment_link'] = "رابط التعليق";
+$lang['session_name'] = "عنوان الجلسة";
+$lang['session_description'] = "وصف الجلسة";
+$lang['session_status'] = "حالة الجلسة";
+$lang['session_comment'] = "تعليقات الجلسة";
+$lang['session_priority'] = "أولوية الجلسة";
+$lang['session_start_date'] = "تاريخ بداية الجلسة";
+$lang['session_due_date'] = "وقت الجلسة";
+$lang['related_to'] = "مخصصة لـ";
+$lang['next_session_date'] = "تاريخ الجلسة القادمة";
+$lang['next_session_time'] = "وقت الجلسة القادمة";
+$lang['session_type'] = "نوع الجلسة";
+$lang['session_information'] = "معلومات الجلسة";
+$lang['court_decision'] = "قرار المحكمة";
+
+$lang['subscription_id'] = "معرف الإشتراك";
+$lang['subscription_name'] = "إسم الإشتراك";
+$lang['subscription_description'] = "وصف الإشتراك";
+$lang['subscription_subscribe_link'] = "رابط الإشتراك في الخدمة";
+$lang['subscription_authorization_link'] = "رابط تفويض الإشتراك";
+
+$lang['staff_contact_who_take_action_on_task'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالمهمة";
+$lang['task_link'] = "رابط المهمة";
+$lang['comment_link'] = "رابط التعليق";
+$lang['task_name'] = "عنوان المهمة";
+$lang['task_description'] = "وصف المهمة";
+$lang['task_status'] = "حالة المهمة";
+$lang['task_comment'] = "التعليق على المهمة";
+$lang['task_priority'] = "أولوية المهمة";
+$lang['task_start_date'] = "تاريخ بداية المهمة";
+$lang['task_due_date'] = "تاريخ إستحقاق المهمة";
+$lang['related_to'] = "مخصصة لـ";
+
+$lang['ticket_id'] = "معرف التذكرة";
+$lang['ticket_customers_area_url'] = "رابط التذكرة في بوابة العملاء";
+$lang['ticket_public_url'] = "الرابط العام للتذكرة";
+$lang['department'] = "القسم";
+$lang['department_email'] = "بريد القسم";
+$lang['date_opened'] = "تاريخ فتح التذكرة";
+$lang['ticket_subject'] = "موضوع التذكرة";
+$lang['ticket_message'] = "رسالة التذكرة";
+$lang['ticket_status'] = "حالة التذكرة";
+$lang['ticket_priority'] = "أولوية التذكرة";
+$lang['ticket_service'] = "تذكرة خدمة";
+
+$lang['staff_fullname'] = 'اسم الموظف';
+$lang['staff_email'] = 'البريد الالكتروني';
+$lang['staff_datecreated'] = 'تاريخ إنشاء الموظف';
+$lang['reset_password_url'] = 'رابط إعادة تعيين كلمة المرور';
+$lang['staff_reminder_description'] = 'وصف ';
+$lang['staff_reminder_date'] = 'تاريخ تذكير الموظف';
+$lang['staff_reminder_relation_name'] = 'الاسم المتعلق بتذكير الموظف';
+$lang['staff_reminder_relation_link'] = 'الرابط المتعلق بتذكير الموظف';
+$lang['two_factor_auth_code'] = 'رقم التحقق الثنائي';
+$lang['password'] = 'كلمة المرور';
+$lang['lead_public_form_url'] = 'رابط قالب العميل المحتمل';
+$lang['lead_public_consent_url'] = 'رابط موافقة العميل المحتمل';
+
+
+$lang['leave_type'] = 'نوع الإجازة';
 $lang['request_duration'] = 'مدة الاجازة';
 $lang['applied_on'] = 'وقت الانشاء';
 $lang['leave_reason'] = 'سبب الاجازة';

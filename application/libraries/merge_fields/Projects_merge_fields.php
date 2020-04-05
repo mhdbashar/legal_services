@@ -8,42 +8,42 @@ class Projects_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => 'Project Name',
+                    'name'      => _l('project_name'),
                     'key'       => '{project_name}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
-                    'name'      => 'Project Description',
+                    'name'      => _l('project_description'),
                     'key'       => '{project_description}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
-                    'name'      => 'Project Start Date',
+                    'name'      => _l('project_start_date'),
                     'key'       => '{project_start_date}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
-                    'name'      => 'Project Deadline',
+                    'name'      => _l('project_deadline'),
                     'key'       => '{project_deadline}',
                     'available' => [
                         'project',
                     ],
                 ],
                 [
-                    'name'      => 'Project Link',
+                    'name'      => _l('project_link'),
                     'key'       => '{project_link}',
                     'available' => [
                         'project',
                     ],
                 ],
                     [
-                    'name'      => 'File Creator',
+                    'name'      => _l('file_creator'),
                     'key'       => '{file_creator}',
                     'available' => [
                     ],
@@ -53,7 +53,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Comment Creator',
+                    'name'      => _l('comment_creator'),
                     'key'       => '{comment_creator}',
                     'available' => [
                     ],
@@ -63,7 +63,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Discussion Link',
+                    'name'      => _l('discussion_link'),
                     'key'       => '{discussion_link}',
                     'available' => [
                     ],
@@ -77,7 +77,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Discussion Subject',
+                    'name'      => _l('discussion_subject'),
                     'key'       => '{discussion_subject}',
                     'available' => [
                     ],
@@ -91,7 +91,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Discussion Description',
+                    'name'      => _l('discussion_description'),
                     'key'       => '{discussion_description}',
                     'available' => [
                     ],
@@ -103,7 +103,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Discussion Creator',
+                    'name'      => _l('discussion_creator'),
                     'key'       => '{discussion_creator}',
                     'available' => [
                     ],
@@ -115,7 +115,7 @@ class Projects_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Discussion Comment',
+                    'name'      => _l('discussion_comment'),
                     'key'       => '{discussion_comment}',
                     'available' => [
                     ],

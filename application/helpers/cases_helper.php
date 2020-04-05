@@ -194,6 +194,7 @@ function app_init_case_tabs()
         'view'                      => 'admin/LegalServices/irac/tab',
         'position'                  => 75,
     ]);
+
     $CI->app_tabs->add_case_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',

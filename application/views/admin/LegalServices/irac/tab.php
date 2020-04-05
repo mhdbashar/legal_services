@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <p><?php echo _l('IRAC_method'); ?></p>
-<?php /*if(!empty($IRAC)): ?>
+<?php if(!empty($IRAC)): ?>
 <div class="btn-group">
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-file-pdf-o"></i>
@@ -17,7 +17,7 @@
         </li>
     </ul>
 </div>
-<?php endif;*/ ?>
+<?php endif; ?>
 <hr />
 <?php echo form_open(admin_url('LegalServices/irac/edit/'.$ServID.'/'.$id)); ?>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

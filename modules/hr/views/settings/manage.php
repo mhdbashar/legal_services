@@ -43,7 +43,7 @@
                   <a data-group='travel_mode' href="?group=travel_mode"><?php echo _l('travel_mode') ?></a>
                 </li>
                 <li class="customer_tab_contacts">
-                  <a data-group='leave' href="?group=leave"><?php echo _l('leave') ?></a>
+                  <a data-group='leave' href="?group=leave"><?php echo _l('leaves') ?></a>
                 </li>
 			      	</ul>
             </div>

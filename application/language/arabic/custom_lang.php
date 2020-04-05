@@ -1,5 +1,19 @@
 <?php
 
+$lang['leave_type'] = 'نوع الاجازة';
+$lang['request_duration'] = 'مدة الاجازة';
+$lang['applied_on'] = 'وقت الانشاء';
+$lang['leave_reason'] = 'سبب الاجازة';
+$lang['remarks'] = 'الملاحظات';
+$lang['half_day?'] = 'نصف يوم؟';
+$lang['from'] = 'من';
+$lang['add_leave_type'] = 'اضافة نوع اجازة';
+$lang['number_of_days'] = 'عدد الأيام';
+$lang['leave'] = 'الاجازة';
+$lang['new_leave'] = 'اجازة جديدة';
+$lang['apply_halfday_leave_for_more_than_one_day'] = 'لا يمكنك اضافة اجازة نصف يوم لأكثر من يوم واحد';
+$lang['you_cannot_add_this_leave_for_this_staff'] = 'لا يمكنك اضافة هذه الاجازة لهذا اموظف';
+
 $lang['logo_url'] = 'رابط اللوغو';
 $lang['logo_image_with_url'] = 'Logo image with url';
 $lang['dark_logo_image_with_url'] = 'Dark logo image with url';

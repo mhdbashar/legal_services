@@ -176,7 +176,6 @@
                      	</div>
                      </div>
 
-                     <div class="col-md-12">
                         <?php
                             $selected = array();
                             if(isset($extra_info)){
@@ -190,7 +189,6 @@
                             }
                              echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                          ?>
-                     </div>
 
                      <div class="row">
                      	<div class="col-md-4">

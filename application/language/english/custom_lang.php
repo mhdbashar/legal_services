@@ -1,5 +1,19 @@
 <?php
 
+$lang['leave_type'] = 'Leave Type';
+$lang['request_duration'] = 'Request Duration';
+$lang['applied_on'] = 'Applied on';
+$lang['leave_reason'] = 'Leave Reason';
+$lang['remarks'] = 'remarks';
+$lang['half_day?'] = 'Half Day?';
+$lang['from'] = 'From';
+$lang['add_leave_type'] = 'Add Leave Type';
+$lang['number_of_days'] = 'Number of days';
+$lang['leave'] = 'Leave';
+$lang['new_leave'] = 'New leave';
+$lang['you_cannot_apply_halfday_leave_for_more_than_one_day'] = 'You cannot apply halfday leave for more than one day';
+$lang['you_cannot_add_this_leave_for_this_staff'] = 'You cannot add this leave for this staff';
+
 $lang['logo_url'] = 'Logo url';
 $lang['logo_image_with_url'] = 'Logo image with url';
 $lang['dark_logo_image_with_url'] = 'Dark logo image with url';

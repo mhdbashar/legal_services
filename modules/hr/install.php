@@ -40,8 +40,19 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_leave_type')) {
 if (!$CI->db->table_exists(db_prefix() . 'hr_staffs_leaves')) {           
     $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_staffs_leaves` (
       `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-      `staff_id` varchar(200) NOT NULL,
+      `staff_id` int(11) NOT NULL,
       `leave_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_staff_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_staff_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `staff_id` int(11) NOT NULL,
+      `leave_id` int(11) NOT NULL,
+      `leaveid` int(11) NOT NULL,
+      `days` int(11) NOT NULL,
+      `created` int(11) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 

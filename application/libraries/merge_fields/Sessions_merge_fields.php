@@ -15,7 +15,7 @@ class Sessions_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => -l('session_link'),
+                'name'      => _l('session_link'),
                 'key'       => '{session_link}',
                 'available' => [
                     'sessions',

@@ -367,10 +367,10 @@
                                 </div>
                             </div>
 
-                            <?php hooks()->do_action('before_projects_email_templates'); ?>
+                            <?php /*hooks()->do_action('before_projects_email_templates'); ?>
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
-                                    <?php echo _l('other_sevices'); ?>
+                                    <?php echo _l('other_services'); ?>
                                       <?php if($hasPermissionEdit){ ?>
                                       <a href="<?php echo admin_url('emails/disable_by_type/other_sevices'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
                                       <a href="<?php echo admin_url('emails/enable_by_type/other_sevices'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
@@ -400,7 +400,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div> */?>
 
                             <?php hooks()->do_action('before_staff_email_templates'); ?>
                             <div class="col-md-12">

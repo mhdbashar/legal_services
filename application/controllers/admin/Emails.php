@@ -105,10 +105,10 @@ class Emails extends AdminController
             'type'     => 'project',
             'language' => 'arabic',
         ]);
-        $data['other_services'] = $this->emails_model->get([
+        /*$data['other_services'] = $this->emails_model->get([
             'type'     => 'other_services',
             'language' => 'arabic',
-        ]);
+        ]);*/
         $data['leads'] = $this->emails_model->get([
             'type'     => 'leads',
             'language' => 'arabic',

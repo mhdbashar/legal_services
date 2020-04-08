@@ -63,6 +63,16 @@ function hr_menu_items($item)
                                 </ul>
                         </li>
 
+                        <li><a href="#" aria-expanded="false">'._l('performance').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    
+                                    <li><a href="'.admin_url('hr/performance/indicators').'">'._l('indicators').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/performance/appraisals').'">'._l('appraisals').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
                         <li><a href="#" aria-expanded="false">'._l('organization').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                 <li><a href="'.admin_url('branches').'">'._l('branches').'</a>

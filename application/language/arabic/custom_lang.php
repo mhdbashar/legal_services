@@ -1,5 +1,28 @@
 <?php
 
+$lang['appraisal_date'] = 'تاريخ التقييم';
+$lang['select_month'] = 'اختر الشهر';
+$lang['technical_competencies'] = 'الكفاءات التقنية';
+$lang['organizational_competencies'] = 'الكفاءات التنظيمية';
+$lang['indicator_set_value'] = 'وضع قيمة مؤشر الأداء :';
+$lang['customer_experience'] = 'تجربة الزبون';
+$lang['professionalism'] = 'الاحترافية';
+$lang['marketing'] = 'التسويق';
+$lang['integrity'] = 'النزاهة';
+$lang['administration'] = 'الادارة';
+$lang['attendance'] = 'الحضور';
+$lang['appraisals'] = 'تقييمات الأداء';
+$lang['indicators'] = 'مؤشرات الأداء';
+$lang['performance'] = 'الأداء';
+$lang['new_appraisal'] = 'تقييم أداء جديد';
+$lang['new_indicator'] = 'مؤشر أداء جديد';
+$lang['created'] = 'وقت الانشاء';
+$lang['added_by'] = 'أضيفت من قبل';
+$lang['add_organizational_competencie_type'] = 'اضافة نوع كفاءة تنظيمية';
+$lang['add_technical_competencie_type'] = 'اضافة نوع كفاءة تقنية';
+$lang['technical_competencie'] = 'كفاءة تقنية';
+$lang['organizational_competencie'] = 'كفاءة تنظيمية';
+
 $lang['leave_type'] = 'نوع الاجازة';
 $lang['request_duration'] = 'مدة الاجازة';
 $lang['applied_on'] = 'وقت الانشاء';

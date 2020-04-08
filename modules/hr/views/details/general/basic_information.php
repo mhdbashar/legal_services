@@ -172,7 +172,7 @@
                      		<?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
                      	</div>
                      	<div class="col-md-4">
-                     		<?php echo render_date_input('date_birth','date_birth',to_sql_date($extra_info->date_birth) ); ?>
+                     		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
                      	</div>
                      </div>
 

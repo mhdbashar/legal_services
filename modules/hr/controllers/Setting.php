@@ -45,8 +45,13 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_travel_mode_types_table');
             }elseif($group == 'leave'){
                 $this->hrmapp->get_table_data('types/my_leave_types_table');
+            }elseif($group == 'technical_competencies'){
+                $this->hrmapp->get_table_data('types/my_technical_competencies_types_table');
+            }elseif($group == 'organizational_competencies'){
+                $this->hrmapp->get_table_data('types/my_organizational_competencies_types_table');
             }
         }
+
 
         $data['group'] = $group;
         $data['title'] = _l('manage_custom_tabs');

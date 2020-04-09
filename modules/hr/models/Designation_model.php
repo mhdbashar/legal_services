@@ -49,21 +49,16 @@ class Designation_model extends App_Model{
 
     public function get_staffs_by_branch_id($branch_id){
         $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'staff']);
-        $branches = $this->db->get('tblbranches_services')->result_array();
+        $this->db->join('tblhr_extra_info', 'tblhr_extra_info.staff_id = tblbranches_services.rel_id', 'inner');
+        $this->db->join('tblstaff', 'tblstaff.staffid = tblhr_extra_info.staff_id', 'inner');
+        $staffs = $this->db->get('tblbranches_services')->result_array();
+        //echo '<pre>';print_r($staffs); exit;
         $data = [];
-        foreach ($branches as $branch) {
+        foreach ($staffs as $staff) {
             $staff_array = [];
-            $staff_array['key'] = $branch['rel_id'];
-
-            $this->db->where('staff_id', $branch['rel_id']);
-            $extra = $this->db->get('tblhr_extra_info')->row();
-
-            if(is_object($extra)){
-                $this->db->where('staffid', $branch['rel_id']);
-                $staff = $this->db->get('tblstaff')->row();
-                $staff_array['value'] = $staff->firstname . " " . $staff->lastname;
-                $data[] = $staff_array;
-            }
+            $staff_array['key'] = $staff['staffid'];
+            $staff_array['value'] = $staff['firstname'];
+            $data[] = $staff_array;
         }
         return $data;
     }
@@ -119,6 +114,8 @@ class Designation_model extends App_Model{
         $this->db->where('id', $id);
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
+            $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
+            $this->db->delete('tblbranches_services');
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
  
             return true;

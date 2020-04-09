@@ -45,6 +45,12 @@
                 <li class="customer_tab_contacts">
                   <a data-group='leave' href="?group=leave"><?php echo _l('leaves') ?></a>
                 </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='organizational_competencies' href="?group=organizational_competencies"><?php echo _l('organizational_competencies') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='technical_competencies' href="?group=technical_competencies"><?php echo _l('technical_competencies') ?></a>
+                </li>
 			      	</ul>
             </div>
 		   	<div class="col-md-9">

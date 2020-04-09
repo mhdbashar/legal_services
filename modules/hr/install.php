@@ -95,6 +95,36 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_loan')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_indicators')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_indicators` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `designation_id` int(11) NOT NULL,
+    `customer_experience` varchar(200) NOT NULL,
+    `marketing` varchar(200) NOT NULL,
+    `administration` varchar(200) NOT NULL,
+    `professionalism` varchar(200) NOT NULL,
+    `integrity` varchar(200) NOT NULL,
+    `attendance` varchar(200) NOT NULL,
+    `added_by` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_appraisal')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_appraisal` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `customer_experience` varchar(200) NOT NULL,
+    `marketing` varchar(200) NOT NULL,
+    `administration` varchar(200) NOT NULL,
+    `professionalism` varchar(200) NOT NULL,
+    `integrity` varchar(200) NOT NULL,
+    `attendance` varchar(200) NOT NULL,
+    `month` varchar(200) NOT NULL,
+    `remarks` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_overtime` (
@@ -447,7 +477,14 @@ if (!option_exists('relation_type')) {
     $value = '[{"key":"Self","value":"Self"},{"key":"Parent","value":"Parent"},{"key":"Spouse","value":"Spouse"},{"key":"Child","value":"Child"},{"key":"Sibling","value":"Sibling"},{"key":"In Laws","value":"In Laws"}]';
     add_option('relation_type',$value);
 }
-
+if (!option_exists('organizational_competencies_type')) {
+    $value = '[{"key":"Beginner","value":"Beginner"},{"key":"Intermediate","value":"Intermediate"},{"key":"Advanced","value":"Advanced"}]';
+    add_option('organizational_competencies_type',$value);
+}
+if (!option_exists('technical_competencies_type')) {
+    $value = '[{"key":"Beginner","value":"Beginner"},{"key":"Intermediate","value":"Intermediate"},{"key":"Advanced","value":"Advanced"},{"key":"Expert / Leader","value":"Expert / Leader"}]';
+    add_option('technical_competencies_type',$value);
+}
 if (!option_exists('education_level_type')) {
     $value = '[{"key":"High School Diploma \/ GED","value":"High School Diploma \/ GED"}]';
     add_option('education_level_type',$value);

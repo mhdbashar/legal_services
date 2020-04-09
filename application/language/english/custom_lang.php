@@ -3854,7 +3854,6 @@ $lang['facts'] = "Facts";
 $lang['legal_authority'] = "Legal authority / statutory text";
 $lang['analysis'] = "Analysis";
 $lang['IRAC_result'] = "Result";
-<<<<<<< HEAD
 $lang['help_library'] = "Resources & Help library";
 $lang['soon'] = "Soon";
 $lang['legal_procedures_management'] = "Managing legal procedures";
@@ -3863,11 +3862,9 @@ $lang['legal_procedure'] = "legal procedure";
 $lang['add_legal_procedures'] = "Add legal procedure";
 $lang['edit_legal_procedures'] = "Edit legal procedure";
 $lang['sub_legal_procedures'] = "Sub legal procedure";
-=======
 $lang['help_library'] = "Help library";
 $lang['soon'] = "Soon";
 $lang['clients_import_inst1'] = "Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.";
 $lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
 $lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
 $lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";
->>>>>>> a1fb6ef56827e4c26b75582dae41cd13cf52fe8f

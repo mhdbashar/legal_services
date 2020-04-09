@@ -78,15 +78,18 @@
 
                      <?php } ?>
                      <div class="row">
-                     	<div class="col-md-6">
+                     	<div class="col-md-12">
                      		 <?php $value = (isset($member) ? $member->firstname : ''); ?>
 		                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-		                     <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+		                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                         <?php echo form_hidden('lastname', ' ') ?>
                      	</div>
+                      <!--
                      	<div class="col-md-6">
                      		<?php $value = (isset($member) ? $member->lastname : ''); ?>
                     		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      	</div>
+                     -->
                      </div>
                      <?php $branches = $this->Branches_model->getBranches(); ?>
                         <?php if($this->app_modules->is_active('branches')){?>
@@ -169,11 +172,10 @@
                      		<?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
                      	</div>
                      	<div class="col-md-4">
-                     		<?php echo render_date_input('date_birth','date_birth',to_sql_date($extra_info->date_birth) ); ?>
+                     		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
                      	</div>
                      </div>
 
-                     <div class="col-md-12">
                         <?php
                             $selected = array();
                             if(isset($extra_info)){
@@ -187,7 +189,6 @@
                             }
                              echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                          ?>
-                     </div>
 
                      <div class="row">
                      	<div class="col-md-4">

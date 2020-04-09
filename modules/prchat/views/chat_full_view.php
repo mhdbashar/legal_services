@@ -680,7 +680,7 @@ init_head();
         if (Object.keys(data).length > 1) {
           $('#frame .nav.nav-tabs li.groups, #frame .nav.nav-tabs li.groups a, #frame .nav.nav-tabs li.crm_clients a').removeClass('events_disabled');
         } else {
-          $('.content .messages').html('<h3 class="text-center">No staff users with valid permissions found, try adding new users or (Grant Chat Access) to existing staff users.<br><br> To manage staff user permissions for chat navigate in sidemenu <strong>Setup->Staff</strong> select specific staff member and click Permissions and scroll down to Chat Module to assign chat access permissions, or disable In chat view show only users with chat permissions (also applies on client side) option in <strong>Setup->Settings->Perfex Chat Settings</strong><br><br> Administrators will not need any permissions.</h3>');
+          $('.content .messages').html('<h3 class="text-center">No staff users with valid permissions found, try adding new users or (Grant Chat Access) to existing staff users.<br><br> To manage staff user permissions for chat navigate in sidemenu <strong>Setup->Staff</strong> select specific staff member and click Permissions and scroll down to Chat Module to assign chat access permissions, or disable In chat view show only users with chat permissions (also applies on client side) option in <strong>Setup->Settings-> Chat Settings</strong><br><br> Administrators will not need any permissions.</h3>');
           $('.message-input').remove();
           return false;
         }

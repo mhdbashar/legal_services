@@ -1,6 +1,288 @@
 <?php
+$lang['lead_country'] = "الدولة";
+$lang['new_cstatus'] = "نوع خدمة جديد";
+$lang['case_status'] = "نوع الخدمة";
+$lang['travel_mode'] = "نوع الإنتداب";
+$lang['add_travel_mode_type'] = "اضافة نوع إنتداب جديد";
+$lang['education_type'] = "اللغات";
+$lang['education_level'] = "مرحلة التعليم";
+$lang['add_education_level_type'] = "اضافة مؤهل جديد";
+$lang['qualification'] = "المؤهلات";
+$lang['amount'] = "المبلغ";
+$lang['loan'] = "القروض";
+$lang['new_commission'] = "عمولة جديدة";
+$lang['commissions'] = "العمولات";
+$lang['branch_email'] = "البريد الإلكتروني للفرع";
+$lang['registraion_number'] = "رقم السجل التجاري أو الرخصة";
+$lang['state_province'] = "المنطقة";
+$lang['branch_title_en'] = "اسم الفرع";
+$lang['new_immigration'] = "إضافة هوية";
+$lang['immigration'] = "معلومات الهوية";
+$lang['personal'] = "البريد الإلكتروني - شخصي";
+$lang['email'] = "البريد الالكتروني - العمل";
+$lang['work'] = "هاتف العمل";
+$lang['mobile'] = "الموبايل";
+$lang['phone'] = "الهاتف";
+$lang['home'] = "هاتف المنزل";
+$lang['is_primary'] = "جهة إتصال رئيسية";
+$lang['is_dependent'] = "تابع";
+$lang['new_emergency_contact'] = "جهة إتصال جديدة";
+$lang['emergency_contacts'] = "جهات إتصال في حال الطواريء";
+$lang['crm_url'] = "رابط بوابة العملاء";
+$lang['dark_logo_image_with_url'] = "رابط صورة الشعار القاتم";
+$lang['email_signature'] = "توقيع البريد الإلكتروني";
+$lang['logo_image_with_url'] = "رابط صورة الشعار";
+$lang['branches_lowercase'] = "الفروع";
+$lang['client_zip'] = "الرمز البريدي";
+$lang['new_travel'] = "إنتداب جديد";
+$lang['hourly_payslip'] = "الدفع بالساعة";
+$lang['organization'] = "المنشآة";
+$lang['award_type'] = "نوع المكافأة";
+$lang['award_photo'] = "صورة المكافأة";
+$lang['award_name'] = "اسم المكافأة";
+$lang['award_information'] = "معلومات المكافآة";
+$lang['add_award_type'] = "اضافة نوع مكافآة";
+$lang['awards'] = "الحوافز والمكافآت";
+$lang['new_transfer'] = "نقل موظف";
+$lang['transfer_date'] = "تاريخ النقل";
+$lang['transfers'] = "نقل الموظفين";
+$lang['travels'] = "الإنتدابات";
+$lang['warning_by'] = "إنذار من ";
+$lang['warning_date'] = "وقت الإنذار";
+$lang['warning_type'] = "نوع الإنذار";
+$lang['warnings'] = "الإنذارات";
+$lang['warning_to'] = "إنذار لـ";
+$lang['contract_subject'] = "موضوع العقد";
+$lang['contract_description'] = "وصف العقد";
+$lang['contract_date_start'] = "تاريخ بداية العقد";
+$lang['contract_date_end'] = "تاريخ نهاية العقد";
+$lang['contract_value'] = "قيمة العقد";
+$lang['contract_link'] = "رابط العقد";
+$lang['credit_note_number'] = "رقم إشعار الرصيد";
+$lang['date'] = "التاريخ";
+$lang['status'] = "حالة الوكالة";
+$lang['total'] = "الإجمالي";
+$lang['subtotal'] = "المجموع الفرعي";
+$lang['credits_used'] = "الأرصدة المستخدمة";
+$lang['credits_remaining'] = "الأرصدة المتبقية";
+$lang['estimate_link'] = "رابط عرض السعر";
+$lang['estimate_number'] = "رقم عرض السعر";
+$lang['est_ref_no'] = "رقم المرجع";
+$lang['est_expdate'] = "تاريخ نهاية عرض السعر";
+$lang['estimate_date'] = "تاريخ عرض السعر";
+$lang['estimate_status'] = "حالة عرض السعر";
+$lang['estimate_sale_agent'] = "مسؤول مبيعات العرض";
+$lang['estimate_total'] = "إجمالي العرض";
+$lang['estimate_subtotal'] = "المجموع الفرعي للعرض";
+$lang['event_title'] = "عنوان الحدث";
+$lang['event_description'] = "وصف الحدث";
+$lang['start_date'] = "تاريخ البداية";
+$lang['end_date'] = "تاريخ النهاية";
+$lang['event_link'] = "رابط الحدث";
+$lang['invoice_link'] = "رابط الفاتورة";
+$lang['invoice_number'] = "رقم الفاتورة";
+$lang['invoice_duedate'] = "تاريخ إستحقاق الفاتورة";
+$lang['invoice_date'] = "تاريخ الفاتورة";
+$lang['invoice_status'] = "حالة الفاتورة";
+$lang['invoice_sale_agent'] = "مسؤول مبيعات الفاتورة";
+$lang['invoice_total'] = "إجمالي الفاتورة";
+$lang['invoice_subtotal'] = "المجموع الفرعي للفاتورة";
+$lang['invoice_amount_due'] = "المبلغ المستحق";
+$lang['payment_recorded_total'] = "مجموع الدفعات المسجلة";
+$lang['payment_recorded_date'] = "تاريخ تسجيل الدفعة";
+$lang['lead_name'] = "إسم العميل المحتمل";
+$lang['lead_email'] = "إيميل العميل المحتمل";
+$lang['lead_position'] = "منصب العميل المحتمل";
+$lang['lead_website'] = "الموقع الإلكتروني للعميل المحتمل";
+$lang['lead_description'] = "وصف العميل المحتمل";
+$lang['lead_phone_number'] = "هاتف العميل المحتمل";
+$lang['lead_company'] = "شركة العميل المحتمل";
+$lang['lead_zip'] = "الرمز البريدي للعميل المحتمل";
+$lang['lead_city'] = "مدينة العميل المحتمل";
+$lang['lead_state'] = "منطقة العميل المحتمل";
+$lang['lead_address'] = "عنوان العميل المحتمل";
+$lang['lead_assigned'] = "المسؤول عن العميل المحتمل";
+$lang['lead_status'] = "حالة العميل المحتمل";
+$lang['lead_souce'] = "مصدر العميل المحتمل";
+$lang['lead_link'] = "رابط العميل المحتمل";
+$lang['project_name'] = "إسم الخدمة";
+$lang['project_description'] = "وصف الخدمة";
+$lang['project_start_date'] = "تاريخ بداية الخدمة";
+$lang['project_deadline'] = "تاريخ إنتهاء الخدمة";
+$lang['project_link'] = "رابط الخدمة";
+$lang['file_creator'] = "مُنشيء الملف";
+$lang['comment_creator'] = "مُنشيء التعليق";
+$lang['discussion_link'] = "رابط النقاش";
+$lang['discussion_subject'] = "موضوع النقاش";
+$lang['discussion_description'] = "وصف النقاش";
+$lang['discussion_creator'] = "مُنشيءالنقاش";
+$lang['discussion_comment'] = "تعليقات النقاش";
+$lang['proposal_id'] = "معرف العطاء";
+$lang['proposal_number'] = "رقم العطاء";
+$lang['subject'] = "الموضوع";
+$lang['proposal_total'] = "إجمالي العطاء";
+$lang['proposal_subtotal'] = "المجموع الفرعي للعطاء";
+$lang['open_till'] = "مفتوح لغاية";
+$lang['proposal_assigned'] = "المسؤول عن العطاء";
+$lang['proposal_to'] = "عطاء إلى";
+$lang['address'] = "العنوان";
+$lang['city'] = "المدينة";
+$lang['state'] = "الحالة";
+$lang['zip_code'] = "الرمز البريدي";
+$lang['country'] = "البلد";
+$lang['proposal_link'] = "رابط العطاء";
+$lang['staff_contact_who_take_action_on_session'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالجلسة";
+$lang['session_link'] = "رابط الجلسة";
+$lang['comment_link'] = "رابط التعليق";
+$lang['session_name'] = "عنوان الجلسة";
+$lang['session_description'] = "وصف الجلسة";
+$lang['session_status'] = "حالة الجلسة";
+$lang['session_comment'] = "تعليقات الجلسة";
+$lang['session_priority'] = "أولوية الجلسة";
+$lang['session_start_date'] = "تاريخ بداية الجلسة";
+$lang['session_due_date'] = "وقت الجلسة";
+$lang['related_to'] = "مخصصة لـ";
+$lang['next_session_date'] = "تاريخ الجلسة القادمة";
+$lang['next_session_time'] = "وقت الجلسة القادمة";
+$lang['session_type'] = "نوع الجلسة";
+$lang['session_information'] = "معلومات الجلسة";
+$lang['court_decision'] = "قرار المحكمة";
+$lang['subscription_id'] = "معرف الإشتراك";
+$lang['subscription_name'] = "إسم الإشتراك";
+$lang['subscription_description'] = "وصف الإشتراك";
+$lang['subscription_subscribe_link'] = "رابط الإشتراك في الخدمة";
+$lang['subscription_authorization_link'] = "رابط تفويض الإشتراك";
+$lang['staff_contact_who_take_action_on_task'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالمهمة";
+$lang['task_link'] = "رابط المهمة";
+$lang['task_name'] = "عنوان المهمة";
+$lang['task_description'] = "وصف المهمة";
+$lang['task_status'] = "حالة المهمة";
+$lang['task_comment'] = "التعليق على المهمة";
+$lang['task_priority'] = "أولوية المهمة";
+$lang['task_start_date'] = "تاريخ بداية المهمة";
+$lang['task_due_date'] = "تاريخ إستحقاق المهمة";
+$lang['ticket_id'] = "معرف التذكرة";
+$lang['ticket_customers_area_url'] = "رابط التذكرة في بوابة العملاء";
+$lang['ticket_public_url'] = "الرابط العام للتذكرة";
+$lang['department'] = "القسم";
+$lang['department_email'] = "بريد القسم";
+$lang['date_opened'] = "تاريخ فتح التذكرة";
+$lang['ticket_subject'] = "موضوع التذكرة";
+$lang['ticket_message'] = "رسالة التذكرة";
+$lang['ticket_status'] = "حالة التذكرة";
+$lang['ticket_priority'] = "أولوية التذكرة";
+$lang['ticket_service'] = "تذكرة خدمة";
+$lang['staff_fullname'] = "اسم الموظف";
+$lang['staff_email'] = "البريد الالكتروني";
+$lang['staff_datecreated'] = "تاريخ إنشاء الموظف";
+$lang['reset_password_url'] = "رابط إعادة تعيين كلمة المرور";
+$lang['staff_reminder_description'] = "وصف ";
+$lang['staff_reminder_date'] = "تاريخ تذكير الموظف";
+$lang['staff_reminder_relation_name'] = "الاسم المتعلق بتذكير الموظف";
+$lang['staff_reminder_relation_link'] = "الرابط المتعلق بتذكير الموظف";
+$lang['two_factor_auth_code'] = "رقم التحقق الثنائي";
+$lang['password'] = "كلمة المرور";
+$lang['lead_public_form_url'] = "رابط قالب العميل المحتمل";
+$lang['lead_public_consent_url'] = "رابط موافقة العميل المحتمل";
+$lang['leave_type'] = "نوع الإجازة";
+$lang['request_duration'] = "مدة الاجازة";
+$lang['applied_on'] = "وقت الانشاء";
+$lang['leave_reason'] = "سبب الاجازة";
+$lang['remarks'] = "الملاحظات";
+$lang['half_day?'] = "نصف يوم؟";
+$lang['from'] = "من";
+$lang['add_leave_type'] = "اضافة نوع اجازة";
+$lang['number_of_days'] = "عدد الأيام";
+$lang['leave'] = "الاجازة";
+$lang['new_leave'] = "اجازة جديدة";
+$lang['apply_halfday_leave_for_more_than_one_day'] = "لا يمكنك اضافة اجازة نصف يوم لأكثر من يوم واحد";
+$lang['you_cannot_add_this_leave_for_this_staff'] = "لا يمكنك اضافة هذه الاجازة لهذا اموظف";
+$lang['logo_url'] = "رابط الشعار";
+$lang['admin_url'] = "رابط الادمين";
+$lang['main_domain'] = "الدومين الاساسي";
+$lang['companyname'] = "اسم الشركة";
+$lang['terms_and_conditions_url'] = "(GDPR) Terms & Conditions URL";
+$lang['privacy_policy_url'] = "(GDPR) Privacy Policy URL";
+$lang['contact_email'] = "بريد جهة الاتصال";
+$lang['client_id'] = "رقم معرف العميل";
+$lang['client_country'] = "دولة العميل";
+$lang['download_sample'] = "تحميل مستند تجريبي";
+$lang['staff_add_edit_fullname'] = "الاسم الكامل";
+$lang['label'] = "اسم الحقل";
+$lang['translate'] = "الترجمة";
+$lang['native'] = "الملف الأصلي";
+$lang['custom'] = "الملف الفرعي";
+$lang['add_new_lable'] = "اضافة حقل ترجمة جديد";
+$lang['arabic'] = "العربية";
+$lang['english'] = "الانكليزية";
+
+$lang['appraisal_date'] = 'تاريخ التقييم';
+$lang['select_month'] = 'اختر الشهر';
+$lang['technical_competencies'] = 'الكفاءات التقنية';
+$lang['organizational_competencies'] = 'الكفاءات التنظيمية';
+$lang['indicator_set_value'] = 'وضع قيمة مؤشر الأداء :';
+$lang['customer_experience'] = 'تجربة الزبون';
+$lang['professionalism'] = 'الاحترافية';
+$lang['marketing'] = 'التسويق';
+$lang['integrity'] = 'النزاهة';
+$lang['administration'] = 'الادارة';
+$lang['attendance'] = 'الحضور';
+$lang['appraisals'] = 'تقييمات الأداء';
+$lang['indicators'] = 'مؤشرات الأداء';
+$lang['performance'] = 'الأداء';
+$lang['new_appraisal'] = 'تقييم أداء جديد';
+$lang['new_indicator'] = 'مؤشر أداء جديد';
+$lang['created'] = 'وقت الانشاء';
+$lang['added_by'] = 'أضيفت من قبل';
+$lang['add_organizational_competencie_type'] = 'اضافة نوع كفاءة تنظيمية';
+$lang['add_technical_competencie_type'] = 'اضافة نوع كفاءة تقنية';
+$lang['technical_competencie'] = 'كفاءة تقنية';
+$lang['organizational_competencie'] = 'كفاءة تنظيمية';
+
+$lang['leave_type'] = 'نوع الاجازة';
+$lang['request_duration'] = 'مدة الاجازة';
+$lang['applied_on'] = 'وقت الانشاء';
+$lang['leave_reason'] = 'سبب الاجازة';
+$lang['remarks'] = 'الملاحظات';
+$lang['half_day?'] = 'نصف يوم؟';
+$lang['from'] = 'من';
+$lang['add_leave_type'] = 'اضافة نوع اجازة';
+$lang['number_of_days'] = 'عدد الأيام';
+$lang['leave'] = 'الاجازة';
+$lang['new_leave'] = 'اجازة جديدة';
+$lang['apply_halfday_leave_for_more_than_one_day'] = 'لا يمكنك اضافة اجازة نصف يوم لأكثر من يوم واحد';
+$lang['you_cannot_add_this_leave_for_this_staff'] = 'لا يمكنك اضافة هذه الاجازة لهذا اموظف';
+
+$lang['logo_url'] = 'رابط اللوغو';
+$lang['logo_image_with_url'] = 'Logo image with url';
+$lang['dark_logo_image_with_url'] = 'Dark logo image with url';
+$lang['crm_url'] = 'Crm url';
+$lang['admin_url'] = 'رابط الادمين';
+$lang['main_domain'] = 'الدومين الاساسي';
+$lang['companyname'] = 'اسم الشركة';
+$lang['email_signature'] = 'Email signature';
+$lang['terms_and_conditions_url'] = '(GDPR) Terms & Conditions URL';
+$lang['privacy_policy_url'] = '(GDPR) Privacy Policy URL';
+$lang['contact_email'] = 'بريد جهة الاتصال';
+$lang['client_id'] = 'رقم معرف العميل';
+$lang['password'] = 'كلمة المرور';
+$lang['client_country'] = 'دولة العميل';
+$lang['client_zip'] = 'client_zip';
+$lang['download_sample'] = 'تحميل مستند تجريبي';
+$lang['staff_add_edit_fullname'] = 'الاسم الكامل';
+
+$lang['label'] = 'اسم الحقل';
+$lang['translate'] = 'الترجمة';
+$lang['native'] = 'الملف الأصلي';
+$lang['custom'] = 'الملف الفرعي';
+$lang['add_new_lable'] = 'اضافة حقل ترجمة جديد';
+$lang['arabic'] = 'العربية';
+$lang['english'] = 'الانكليزية';
+
+$lang['add_new_holiday'] = 'اضافة عطلة جديدة';
 $lang['cancel'] = "إلغاء";
 $lang['add_new_holiday'] = "اضافة عطلة جديدة";
+$lang['cancel'] = "إلغاء";
 $lang['event_name'] = "اسم الحدث";
 $lang['timesheet'] = "المواعيد";
 $lang['holiday'] = "العطل";
@@ -9,14 +291,10 @@ $lang['official'] = "الرسمية";
 $lang['deleted_successfully'] = "تم الحذف بنجاح";
 $lang['arrangement'] = "الترتيب";
 $lang['add_arrangement_type'] = "اضافة ترتيب جديد";
-$lang['travel_mode'] = "وضع السفر";
-$lang['add_travel_mode_type'] = "اضافة وضع السفر جديد";
 $lang['staff'] = "الموظف";
-$lang['phone'] = "الهاتف";
 $lang['constants'] = "الثوابت";
 $lang['hr_status'] = "الحالة";
 $lang['payslip_type'] = "طريقة الدفع";
-$lang['new_travel'] = "هجرة جديدة";
 $lang['total_allowance'] = "اجمالي البدلات";
 $lang['total_commissions'] = "اجمالي العمولات";
 $lang['total_loan'] = "اجمالي القروض";
@@ -26,16 +304,12 @@ $lang['net_salary'] = "الراتب الأساسي";
 $lang['payment_amount'] = "الاجمالي";
 $lang['make_payment'] = "قم بالدفع";
 $lang['procurationtype'] = "نوع الوكالة";
-
 $lang['arrangement_type'] = "نوع الترتيب";
 $lang['travel_mode_type'] = "وضع السفر";
 $lang['expected_budget'] = "الميزانية المتوقعة";
-$lang['travels'] = "الهجرات";
 $lang['actual_budget'] = "الميزانية الفعلية";
 $lang['purpose_of_visit'] = "غرض الزيارة";
 $lang['place_of_visit'] = "مكان الزيارة";
-$lang['is_primary'] = "هل هو أساسي";
-$lang['is_dependent'] = "هل هو معتمد";
 $lang['details'] = "تفاصيل الموظف";
 $lang['promotions'] = "الترقيات الوظيفية";
 $lang['promotion_title'] = "عنوان الترقية";
@@ -52,38 +326,22 @@ $lang['complaint_date'] = "تاريخ الشكوى";
 $lang['complaint_title'] = "عنوان الشكوى";
 $lang['new_complaint'] = "شكوى جديدة";
 $lang['complaints'] = "الشكاوي";
-$lang['new_transfer'] = "انتقال جديد";
 $lang['core_hr'] = "الموارد البشرية الأساسية";
-$lang['organization'] = "المنظمة";
-$lang['transfers'] = "الانتقالات";
-$lang['transfer_date'] = "وقت الانتقال";
 $lang['to_department'] = "الى القسم";
 $lang['to_sub_department'] = "الى القسم الفرعي";
 $lang['new_warning'] = "تحذير جديدة";
 $lang['new_award'] = "جائزة جديدة";
 $lang['new_termination'] = "انهاء عمل جديدة";
-$lang['warning_to'] = "تحذير ل";
-$lang['warning_by'] = "تحذير من";
-$lang['warning_date'] = "وقت التحذير";
-$lang['subject'] = "الموضوع";
 $lang['attachment'] = "الملف";
-$lang['warning_type'] = "نوع التحذير";
-$lang['warnings'] = "التحذيرات";
-$lang['awards'] = "الجوائز";
 $lang['terminations'] = "انهاءات العمل";
 $lang['add_termination_type'] = "اضافة نوع انهاء العمل";
-$lang['add_award_type'] = "اضافة نوع جائزة";
 $lang['add_warning_type'] = "اضافة نوع تحذير";
 $lang['staff_name'] = "اسم الموظف";
 $lang['notice_date'] = "تاريخ الاشعار";
 $lang['termination_date'] = "تاريخ انهاء العمل";
 $lang['termination_type'] = "نوع انهاء العمل";
-$lang['award_name'] = "اسم الجائزة";
 $lang['gift'] = "الهدية";
 $lang['cash'] = "كاش";
-$lang['award_information'] = "معلومات الجائزة";
-$lang['award_photo'] = "صورة الجائزة";
-$lang['award_type'] = "نوع الجائزة";
 $lang['date_birth'] = "تاريخ الميلاد";
 $lang['gendre'] = "النوع الاجتماعي";
 $lang['emloyee_id'] = "رقم الموظف";
@@ -114,7 +372,6 @@ $lang['official_documents'] = "مستندات رسمية";
 $lang['new_document'] = "وثيقة جديدة";
 $lang['expired_documents'] = "المستندات منتهية الصلاحية";
 $lang['education'] = "التعليم";
-$lang['education_level'] = "مستوى التعليم";
 $lang['school_university'] = "المدرسة/الجامعة";
 $lang['new_qualification'] = "مؤهل جديد";
 $lang['skype'] = "Skype";
@@ -126,25 +383,15 @@ $lang['linkedin'] = "Linkedin";
 $lang['blogger'] = "Blogger";
 $lang['twitter'] = "Twitter";
 $lang['facebook'] = "Facebook";
-$lang['new_emergency_contact'] = "جهة طوارئ جديدة";
-$lang['state'] = "الحالة";
-$lang['city'] = "المدينة";
-$lang['home'] = "المزل";
-$lang['mobile'] = "الهاتف";
 $lang['ext'] = "Ext";
-$lang['work'] = "العمل";
 $lang['address_2'] = "العنوان الثاني";
 $lang['address_1'] = "العنوان الأول";
-$lang['personal'] = "شخصي";
 $lang['document_number'] = "رقم الوثيقة الرسمية";
 $lang['eligible_review_date'] = "تاريخ المراجعة المؤهل";
 $lang['issue_date'] = "تاريخ الاصدار";
-$lang['new_immigration'] = "هجرة جديدة";
 $lang['notification_email'] = "البريد الإلكتروني الإخطار";
 $lang['add_skill_type'] = "اضافة نوع من المهارات";
 $lang['education_level_type'] = "أنواع مراخل التعلم";
-$lang['education_type'] = "أنواع التعليم";
-$lang['add_education_level_type'] = "اضافة نوع مرحلة تعليم";
 $lang['add_branch_type'] = "اضافة نوع من الفروع";
 $lang['add_document_type'] = "اضافة نوع من المستندات";
 $lang['add_relation_type'] = "اضافة نوع من صلات القربى";
@@ -165,12 +412,7 @@ $lang['new_sub_department'] = "قسم فرعي جديد";
 $lang['sub_department_name'] = "اسم القسم الفرعي";
 $lang['sub_department'] = "قسم فرعى";
 $lang['legal_traning_name'] = "اسم التدريب القانوني";
-$lang['registraion_number'] = "رقم التسجيل";
-$lang['branch_email'] = "بريد الفرع";
 $lang['website'] = "الموقع الالكتروني";
-$lang['address'] = "العنوان";
-$lang['zip_code'] = "الرمز البريدي";
-$lang['state_province'] = "الدولة/المقاطعة";
 $lang['document_file'] = "ملف المستند";
 $lang['is_notification'] = "هو الإخطار؟";
 $lang['date_expiry'] = "تاريخ انتهاء الصلاحية";
@@ -187,11 +429,8 @@ $lang['company_name'] = "اسم الشركة";
 $lang['post'] = "النشر";
 $lang['hr_description'] = "الوصف";
 $lang['basic_information'] = "المعلومات الأساسية";
-$lang['immigration'] = "الهجرات";
-$lang['emergency_contacts'] = "جهات الطوارئ";
 $lang['social_networking'] = "حسابات التواصل الاجتماعي";
 $lang['document'] = "الوثائق";
-$lang['qualification'] = "الشهادات";
 $lang['work_experience'] = "خبرات العمل";
 $lang['bank_account'] = "الحسابات البنكية";
 $lang['change_password'] = "تغيير كلمة المرور";
@@ -202,15 +441,12 @@ $lang['allowance_option'] = "خيارات البدلات";
 $lang['non_taxable'] = "بدون ضريبة";
 $lang['taxable'] = "مع ضريبة";
 $lang['no_primary_opponent'] = "هذا الخصم ليس لديه جهة اتصال أساسية. تحتاج إلى إعداد جهة الاتصال الأساسية كخصم. نوصي بأن يكون لجميع الخصوم جهة اتصال أساسية.";
-$lang['start_date'] = "تاريخ البداية";
-$lang['end_date'] = "تاريخ النهاية";
 $lang['reason'] = "السبب";
 $lang['num_hours'] = "عدد الساعات";
 $lang['num_days'] = "عدد الأيام";
 $lang['rate'] = "التقييم";
 $lang['general'] = "عام";
 $lang['set_salary'] = "ادارة الراتب";
-$lang['amount'] = "الكمية";
 $lang['leaves'] = "الاجازات";
 $lang['tasks'] = "المهام";
 $lang['payslips'] = "كشوف الرواتب";
@@ -219,22 +455,17 @@ $lang['add'] = "اضافة";
 $lang['new_alowance'] = "بدل جديد";
 $lang['new_statutory_deductions'] = "استقطاع قانوني جديد";
 $lang['monthly_payslip'] = "الدفع الشهري";
-$lang['hourly_payslip'] = "الدفع الساعي";
 $lang['new_overtime'] = "وقت اضافي جديد";
 $lang['new_loan'] = "قرض جديد";
 $lang['new_other_payments'] = "دفعة جديدة";
-$lang['new_commission'] = "عطاء جديد";
 $lang['manage_custom_tabs'] = "Manage Deduction Tabs";
 $lang['overtime'] = "الوقت الاضافي";
 $lang['other_payments'] = "المدفوعات الأخرى";
 $lang['statutory_deductions'] = "الاستقطاعات القانونية";
-$lang['loan'] = "القرض";
-$lang['commissions'] = "العطاءات";
 $lang['allowances'] = "البدلات";
 $lang['update_salary'] = "تعديل الراتب";
 $lang['client_full_name'] = "الأسم الكامل";
 $lang['come_from'] = "صادرة عن";
-$lang['status'] = "حالة الوكالة";
 $lang['type'] = "نوع المعاملة";
 $lang['added_from'] = "أضيفت من قبل";
 $lang['Add Branch'] = "إضافة فرع جديد";
@@ -249,12 +480,10 @@ $lang['individual'] = "فرد";
 $lang['customer_details'] = "اسم العميل سواء شركة أو فرد";
 $lang['customer_type'] = "نوع العميل";
 $lang['new_judge'] = "إضافة قاضي";
-$lang['case_status'] = "مرحلة القضية";
 $lang['case_number'] = "رقم القضية";
 $lang['Parties_case'] = "اطراف القضية";
 $lang['file_number_in_court'] = "رقم الملف في المحكمة";
 $lang['file_number_in_office'] = "رقم الملف في المكتب";
-$lang['new_cstatus'] = "حالة قضية جديدة";
 $lang['LegalServices'] = "الخدمات القانونية";
 $lang['CourtsManagement'] = "إدارة المحاكم";
 $lang['NewCourt'] = "إضافة محكمة";
@@ -268,7 +497,7 @@ $lang['NumJudicialDept'] = "رقم الدائرة القضائية";
 $lang['CourtNofound'] = "رقم المحكمة غير موجود";
 $lang['LegalServiceManage'] = "إدارة الخدمات القانونية";
 $lang['AddLegalService'] = "إضافة خدمة قانونية";
-$lang['LegalService'] = "خدمة قانونية";
+$lang['LegalService'] = "الخدمة القانونية";
 $lang['MakePrimary'] = "جعله اساسياً";
 $lang['EditLegalService'] = "تعديل خدمة قانونية";
 $lang['AddCategory'] = "إضافة تصنيف";
@@ -309,11 +538,7 @@ $lang['properties_lowercase'] = "الخواص";
 $lang['property'] = "خاصية";
 $lang['branch_address'] = "العنوان";
 $lang['new_branch'] = "فرع جديد";
-$lang['branches_lowercase'] = "branches";
-$lang['branch_title_en'] = "العنوان الأجنبي";
-$lang['branch_title_ar'] = "العنوان العربي";
 $lang['branch_country_id'] = "الدولة";
-$lang['country'] = "البلد";
 $lang['branch_city_id'] = "المدينة";
 $lang['branch_phone'] = "الهاتف";
 $lang['department_branch_id'] = "الفرع";
@@ -347,6 +572,8 @@ $lang['LService_activity_updated'] = "خدمة قانونية محدثة";
 $lang['LService_not_found'] = "الخدمة قانونية غير موجودة";
 $lang['LService_recycle_bin'] = "سلة المحذوفات";
 $lang['restore'] = "إستعادة";
+$lang['service_bin'] = "تثبيت الخدمة";
+$lang['account_summary'] = "كشف الحساب";
 $lang['LegalServicesRestored'] = "تمت ازالة الخدمة القانونية من سلة المهملات";
 $lang['ProblemRestored'] = "حدثت مشكلة في الإستعادة";
 $lang['ChooseLegalServices'] = "اختر الخدمة القانونية المراد عرضها";
@@ -381,14 +608,11 @@ $lang['Court_decision'] = "قرار المحكمة";
 $lang['Customer_report'] = "تقرير العميل";
 $lang['Send_to_customer'] = "إرسال للعميل";
 $lang['session_date'] = "تاريخ الجلسة";
-$lang['next_session_date'] = "تاريخ الجلسة القادمة";
 $lang['session_time'] = "وقت الجلسة";
-$lang['next_session_time'] = "وقت الجلسة القادمة";
 $lang['Waiting_sessions'] = "جلسات بالانتظار";
 $lang['Previous_Sessions'] = "جلسات سابقة";
 $lang['add_new_session'] = "إضافة جلسة";
 $lang['session_info'] = "معلومات عن الجلسة";
-$lang['session_type'] = "نوع الجلسة";
 $lang['judicial_office_number'] = "رقم مكتب قضائي";
 $lang['session_number'] = "رقم الجلسة";
 $lang['upcoming_actions'] = "الإجرائات القادمة";
@@ -424,7 +648,6 @@ $lang['reporter_phone'] = "جوال مراسل الجهة الواردة";
 $lang['incoming_type'] = "نوع الوارد";
 $lang['electronic_incoming'] = "وارد الكتروني";
 $lang['paper_incoming'] = "وارد ورقي";
-$lang['email'] = "البريد الالكتروني";
 $lang['secret'] = "سرية المعاملة";
 $lang['incoming_date'] = "تاريخ الوارد";
 $lang['hijri_date'] = "التاريخ الهجري";
@@ -449,12 +672,15 @@ $lang['opponent_inactive_message'] = "هذا ملف تعريف خصم غير ن�
 $lang['opponent_profile_details'] = "بيانات الخصم";
 $lang['opponent_admins'] = "مدير حساب الخصم";
 $lang['send_mail_to_opponent'] = "إرسال بريد الكتروني للخصم";
-$lang['date'] = "التاريخ";
 $lang['new_incoming'] = "اضافة معاملة واردة";
 $lang['new_outgoing'] = "اضافة معاملة صادرة";
 $lang['opponent_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالخصم في هذا الجدول.";
 $lang['incoming_file'] = "ملف المعاملة الواردة";
 $lang['outgoing_file'] = "ملف المعاملة الصادرة";
+$lang['contact_phonenumber'] = "هاتف جهة الاتصال";
+$lang['phonenumber'] = "هاتف";
+$lang['longitude'] = "خط الطول";
+$lang['latitude'] = "خط العرض";
 $lang['add_incoming_side'] = "إضافة جهة واردة";
 $lang['incoming_side'] = "الجهة الواردة";
 $lang['incoming_transaction_file'] = "ملف المعاملة الواردة";
@@ -471,7 +697,6 @@ $lang['active_phase'] = "تفعيل المرحلة";
 $lang['phase_not_compleate'] = "المرحلة غير مكتلمة";
 $lang['phase_compleate'] = "المرحلة مكتملة";
 $lang['phase_neworder'] = "تقديم الطلب";
-$lang['no_phases'] = "لايوجد مراحل لهذه الخدمة بعد! قم بإنشائها";
 $lang['phase_assign'] = "الإحالة";
 $lang['phase_decision34'] = "القرار 34";
 $lang['phase_announcement'] = "تم الإعلان";
@@ -516,7 +741,11 @@ $lang['link_for_page'] = "هنا يتم تحديد رابط الصفحة الم�
 $lang['modify_module'] = "لتعديل بيانات هذه الخدمة انتقل الى صفحة الاضافات";
 $lang['invoice_disputes'] = "فوترة المنازعات";
 $lang['branch'] = "اسم الفرع";
-$lang['new_company_customer_group'] = 'مجموعة عملاء شركة جديدة';
+$lang['branch_id'] = "اسم الفرع";
+$lang['client_type'] = "نوع العميل";
+$lang['firstname'] = "الاسم الأول";
+$lang['lastname'] = "الاسم الأخير";
+$lang['new_company_customer_group'] = "مجموعة عملاء شركة جديدة";
 $lang['customer_company_group_edit_heading'] = "تعديل مجموعة عملاء شركة";
 $lang['customer_company_group_add_heading'] = "اضافة مجموعة عملاء شركة جديدة";
 $lang['select_legal_services'] = "اختر الخدمة القانونية";
@@ -530,6 +759,7 @@ $lang['legal_authority'] = "الإستناد القانوني / النص الن�
 $lang['analysis'] = "التحليل";
 $lang['IRAC_result'] = "النتيجة";
 $lang['IRAC_method'] = "طريقة IRAC";
+<<<<<<< HEAD
 $lang['help_library'] = "الموارد والمكتبة المساعدة";
 $lang['soon'] = "قريباً";
 $lang['legal_procedures_management'] = "ادارة الإجرائات القانونية";
@@ -538,3 +768,11 @@ $lang['legal_procedure'] = "الإجراء القانوني";
 $lang['add_legal_procedures'] = "إضافة اجراء قانوني";
 $lang['edit_legal_procedures'] = "تعديل اجراء قانوني";
 $lang['sub_legal_procedures'] = "إجرائات فرعية";
+=======
+$lang['help_library'] = "المكتبة المساعدة";
+$lang['soon'] = "قريباً";
+$lang['clients_import_inst1'] = "يجب أن تكون بيانات CSV الخاصة بك بالتنسيق أدناه. يجب أن يكون السطر الأول من ملف CSV هو رؤوس الأعمدة كما في مثال الجدول. تأكد أيضًا من أن ملفك هو <b> UTF-8 </b> لتجنب <b> مشاكل النرميز </ b>.";
+$lang['clients_import_inst2'] = "إذا كان العمود <b> الذي تحاول استيراده هو التاريخ ، فتأكد من تنسيقه بالتنسيق Y-m-d ( 2020-04-03 ). </b>";
+$lang['clients_import_inst3'] = "تأكد من تكوين إذن الاتصال الافتراضي في <a href = \"https://law.babillawnet.com/admin/settings?group=clients\" target=_blank\">إعدادات->الإعدادات->العملاء</a>  للحصول على أفضل النتائج مثل التعيين التلقائي لأذونات جهات الاتصال وإعدادات إشعار البريد الإلكتروني بناءً على الإذن.";
+$lang['clients_import_inst4'] = "لن يتم استيراد أسطر البريد الإلكتروني المكررة.";
+>>>>>>> a1fb6ef56827e4c26b75582dae41cd13cf52fe8f

@@ -8,21 +8,21 @@ class Sessions_merge_fields extends App_merge_fields
     {
         return [
             [
-                'name'      => 'Staff/Contact who take action on session',
+                'name'      => _l('staff_contact_who_take_action_on_session'),
                 'key'       => '{session_user_take_action}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Link',
+                'name'      => _l('session_link'),
                 'key'       => '{session_link}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Comment Link',
+                'name'      => _l('comment_link'),
                 'key'       => '{comment_link}',
                 'available' => [
                 ],
@@ -32,28 +32,28 @@ class Sessions_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => 'Session Name',
+                'name'      => _l('session_name'),
                 'key'       => '{session_name}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Description',
+                'name'      => _l('session_description'),
                 'key'       => '{session_description}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Status',
+                'name'      => _l('session_status'),
                 'key'       => '{session_status}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Comment',
+                'name'      => _l('session_comment'),
                 'key'       => '{session_comment}',
                 'available' => [
 
@@ -64,63 +64,63 @@ class Sessions_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => 'Session Priority',
+                'name'      => _l('session_priority'),
                 'key'       => '{session_priority}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Start Date',
+                'name'      => _l('session_start_date'),
                 'key'       => '{session_startdate}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Due Date',
+                'name'      => _l('session_due_date'),
                 'key'       => '{session_duedate}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Related to',
+                'name'      => _l('related_to'),
                 'key'       => '{session_related}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Next Session Date',
+                'name'      => _l('next_session_date'),
                 'key'       => '{next_session_date}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Next Session Time',
+                'name'      => _l('next_session_time'),
                 'key'       => '{next_session_time}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Type',
+                'name'      => _l('session_type'),
                 'key'       => '{session_type}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Session Information',
+                'name'      => _l('session_information'),
                 'key'       => '{session_information}',
                 'available' => [
                     'sessions',
                 ],
             ],
             [
-                'name'      => 'Court Decision',
+                'name'      => _l('court_decision'),
                 'key'       => '{court_decision}',
                 'available' => [
                     'sessions',

@@ -135,20 +135,48 @@ class Timesheet extends AdminController{
             $branch_id = $data['branch_id'];
             unset($data['branch_id']);
 
-            if($data['half_day'] == 1){
-                $start_date = strtotime($data['start_date']);
-                $end_date = strtotime($data['end_date']);
-                $datediff = $end_date - $start_date;
-                $all_date = round($datediff / (60 * 60 * 24));
-                if($all_date != 0){
-                    set_alert('warning', 'You can not apply for more than Day');
-                    redirect($_SERVER['HTTP_REFERER']);
+            $start_date = strtotime($data['start_date']);
+            $end_date = strtotime($data['end_date']);
+            $datediff = $end_date - $start_date;
+            $all_date = round($datediff / (60 * 60 * 24)) + 1;
+            if (isset($data['half_day'])){
+                if($data['half_day'] == 'true'){
+                    if($all_date != 1){
+                        set_alert('warning', _l('apply_halfday_leave_for_more_than_one_day'));
+                        redirect($_SERVER['HTTP_REFERER']);
+                    }
                 }
+            }else{
+                $all_date *= 2;
+            }
+            //echo $all_date; exit;
+            if(!$this->Leave_type_model->has_days(
+                $data['staff_id'],
+                $data['leave_type'],
+                $all_date,
+                $this->Leave_type_model->get_leave_type_days($data['leave_type']),
+                date('Y')
+            )){
+                set_alert('warning', _l("you_cannot_add_this_leave_for_this_staff"));
+                redirect($_SERVER['HTTP_REFERER']);
             }
             // $data['message'] = $this->input->post('message', false);
             $success = $this->Leave_model->add($data);
             if ($success) {
-                set_alert('success', 'Holiday Added Successfully');
+                $success2 = $this->Leave_type_model->add_leave_to_staff(
+                    [
+                        'staff_id' => $data['staff_id'],
+                        'leave_id' => $data['leave_type'],
+                        'leaveid' => $success,
+                        'days' => $all_date, //$this->Leave_type_model->get_leave_type_days($data['leave_type'])
+                        'created' => date('Y')
+                    ]
+                );
+                if($success2){
+                    set_alert('success', _l('added_successfully'));
+                }else{
+                    set_alert('warning', _l('problem_adding'));
+                }
             }
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -160,6 +188,11 @@ class Timesheet extends AdminController{
         }
         if ($this->input->post()) {
             $data            = $this->input->post();
+            if (!isset($data['half_day'])) {
+                $data['half_day'] = 0;
+            }else{
+                $data['half_day'] = 1;
+            }
             $branch_id = $data['branch_id'];
             unset($data['branch_id']);
             $id              = $this->input->post('id');
@@ -191,7 +224,7 @@ class Timesheet extends AdminController{
         }
         $response = $this->Leave_model->delete($id);
         if ($response == true) {
-            set_alert('success', "Holiday Deleted Successfully");
+            set_alert('success', _l('deleted'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

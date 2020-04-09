@@ -1,7 +1,7 @@
 <?php
 /*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
+Module Name: babillawnet CRM Chat
+Description: Chat Module for babillawnet CRM
 Author: Aleksandar Stojanov
 Author URI: https://idevalex.com
 */

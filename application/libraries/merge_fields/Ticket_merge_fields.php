@@ -8,77 +8,77 @@ class Ticket_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => 'Ticket ID',
+                    'name'      => _l('ticket_id'),
                     'key'       => '{ticket_id}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Customers Area URL',
+                    'name'      => _l('ticket_customers_area_url'),
                     'key'       => '{ticket_url}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Public URL',
+                    'name'      => _l('ticket_public_url'),
                     'key'       => '{ticket_public_url}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Department',
+                    'name'      => _l('department'),
                     'key'       => '{ticket_department}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Department Email',
+                    'name'      => _l('department_email'),
                     'key'       => '{ticket_department_email}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Date Opened',
+                    'name'      => _l('date_opened'),
                     'key'       => '{ticket_date}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Subject',
+                    'name'      => _l('ticket_subject'),
                     'key'       => '{ticket_subject}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Message',
+                    'name'      => _l('ticket_message'),
                     'key'       => '{ticket_message}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Status',
+                    'name'      => _l('ticket_status'),
                     'key'       => '{ticket_status}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Priority',
+                    'name'      => _l('ticket_priority'),
                     'key'       => '{ticket_priority}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => 'Ticket Service',
+                    'name'      => _l('ticket_service'),
                     'key'       => '{ticket_service}',
                     'available' => [
                         'ticket',

@@ -47,9 +47,12 @@ class Leave_model extends App_Model{
         $this->db->where('id', $id);
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
-            log_activity($this->table_name . ' Deleted [' . $id . ']'); 
- 
-            return true;
+            $this->db->where('leaveid', $id);
+            $this->db->delete('tblhr_staff_leaves');
+            if($this->db->affected_rows() > 0){
+                log_activity('tblhr_staff_leaves Deleted [' . $id . ']'); 
+                return true;
+            }
         } 
  
         return false; 

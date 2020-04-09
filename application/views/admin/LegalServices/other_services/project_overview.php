@@ -51,7 +51,7 @@
          <table class="table no-margin project-overview-table">
             <tbody>
             <tr class="project-overview-id">
-                  <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
+                  <td class="bold"><?php echo _l('LegalService'); ?> <?php echo _l('the_number_sign'); ?></td>
                   <td>
                       <?php echo $project->id; ?>
                   </td>

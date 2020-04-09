@@ -1,58 +1,60 @@
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">New Label</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Label:</label>
-                            <input type="text" class="form-control" id="recipient-name" name="key">
-                          </div>
-                          <div class="form-group">
-                            <label for="message-text" class="col-form-label">Transulation :</label>
-                            <input type="text" class="form-control" id="recipient-name" name="value">
-                          </div>
-                          <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Label</button>
-                      </div>
-                        </form>
-                      </div>
-                      
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l("add"); ?></span>
+                </h4>
+            </div>
+            <form>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input('key','label', '', 'text', ['required' => 'required']); ?>
                     </div>
-                  </div>
-                </div>
-                <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title" id="myModalLabel">Edit Label</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Label:</label>
-                            <input type="text" class="form-control" id="recipient-name" name="key" readonly>
-                          </div>
-                          <div class="form-group">
-                            <label for="message-text" class="col-form-label">Transulation :</label>
-                            <textarea type="text" class="form-control" id="recipient-name" name="value"></textarea>
-                          </div>
-                          <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                      </div>
-                        </form>
-                      </div>
-                      
+                    <div class="col-md-12">
+                        <?php echo render_textarea('value','translate', '', ['required' => 'required']); ?>
                     </div>
-                  </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l("edit"); ?></span>
+                </h4>
+            </div>
+            <form>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input('key','label', '', 'text', ['required' => 'required', 'readonly' => 'readonly']); ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?php echo render_textarea('value','translate', '', ['required' => 'required']); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l("close"); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

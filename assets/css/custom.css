@@ -231,10 +231,6 @@ ul.tagit li.tagit-choice .tagit-label:not(a) {
     width: 250px !important;
 }
 
-.dataTables_length select, .uneditable-input , select.form-control, textarea.form-control {
-    font-size: 10px;
-}
-
 .panel-heading .panel-title:after {
     font-family: 'FontAwesome';
     content: "\f068";

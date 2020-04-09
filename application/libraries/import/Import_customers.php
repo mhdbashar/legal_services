@@ -19,9 +19,9 @@ class Import_customers extends App_import
             $this->requiredFields[] = 'company';
         }
 
-        $this->addImportGuidelinesInfo('Duplicate email rows won\'t be imported.', true);
+        $this->addImportGuidelinesInfo(_l('clients_import_inst4'), true);
 
-        $this->addImportGuidelinesInfo('Make sure you configure the default contact permission in <a href="' . admin_url('settings?group=clients') . '" target="_blank">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst3'));
 
         parent::__construct();
     }
@@ -94,6 +94,9 @@ class Import_customers extends App_import
                             or $insert['client_type'] == "أفراد")
                             $insert['client_type'] = 1;
                     }
+
+                    $insert['firstname'] = $insert['full_name'];
+                    unset($insert['full_name']);
 
                     $insert['is_primary'] = 1;
                     $id                   = $this->ci->clients_model->add($insert, true);

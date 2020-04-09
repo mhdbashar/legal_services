@@ -98,8 +98,9 @@ class LegalServicesModel extends App_Model
         return $this->db->get_where('my_categories', array('service_id' => $module_id , 'parent_id' => 0))->result();
     }
 
-    public function GetCategoryByServId($ServID)
+    public function GetCategoryByServId($ServID, $where = [])
     {
+        $this->db->where($where);
         return $this->db->get_where('my_categories', array('service_id' => $ServID , 'parent_id' => 0))->result();
     }
 
@@ -156,7 +157,7 @@ class LegalServicesModel extends App_Model
             log_activity('Category Deleted [CatID: ' . $CatID . ']');
         }
         $query = $this->db->where('parent_id', $CatID)->get('my_categories');
-        foreach( $query->result() as $Child ) {
+        foreach($query->result() as $Child) {
             $this->delete_category($Child->id);
         }
         return true;

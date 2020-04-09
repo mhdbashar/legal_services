@@ -279,7 +279,7 @@ class Other_services_controller extends AdminController
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
-
+            $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
 
             if ($group == 'project_overview') {
                 $data['members'] = $this->other->get_project_members($id);

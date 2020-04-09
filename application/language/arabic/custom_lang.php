@@ -530,5 +530,11 @@ $lang['legal_authority'] = "الإستناد القانوني / النص الن�
 $lang['analysis'] = "التحليل";
 $lang['IRAC_result'] = "النتيجة";
 $lang['IRAC_method'] = "طريقة IRAC";
-$lang['help_library'] = "المكتبة المساعدة";
+$lang['help_library'] = "الموارد والمكتبة المساعدة";
 $lang['soon'] = "قريباً";
+$lang['legal_procedures_management'] = "ادارة الإجرائات القانونية";
+$lang['legal_procedures'] = "الإجرائات القانونية";
+$lang['legal_procedure'] = "الإجراء القانوني";
+$lang['add_legal_procedures'] = "إضافة اجراء قانوني";
+$lang['edit_legal_procedures'] = "تعديل اجراء قانوني";
+$lang['sub_legal_procedures'] = "إجرائات فرعية";

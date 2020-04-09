@@ -197,10 +197,10 @@ class LegalServices_controller extends AdminController
             $success = $this->legal->update_category_data($CatID,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('Categories')));
-                redirect(admin_url("CategoryControl/$ServID"));
+                redirect($_SERVER['HTTP_REFERER']);
             }else {
                 set_alert('warning', _l('problem_updating', _l('Categories')));
-                redirect(admin_url("CategoryControl/$ServID"));
+                redirect($_SERVER['HTTP_REFERER']);
             }
         }
         $data['category'] = $this->legal->GetCategoryById($CatID)->row();
@@ -222,7 +222,7 @@ class LegalServices_controller extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting', _l('Categories')));
         }
-        redirect(admin_url("CategoryControl/$ServID"));
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function legal_recycle_bin($ServID = '')

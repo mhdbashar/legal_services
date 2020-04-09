@@ -116,6 +116,81 @@ function my_custom_setup_menu_items()
     //     'href'     => admin_url('Dialog_boxes'), // URL of the item
     // ]);
 
+    $CI->app_menu->add_setup_menu_item('1', [
+        'name'     => _l("legal_services_settings"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 1, // The menu position
+        //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item1', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("customer_representative"), // The name if the item
+        'href'     => admin_url('customer_representative'), // URL of the item
+        'position' => 1, // The menu position
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item2', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("Judges"), // The name if the item
+        'href'     => admin_url('Judge'), // URL of the item
+        'position' => 2, // The menu position
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item3', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("case_status"), // The name if the item
+        'href'     => admin_url('Case_status'), // URL of the item
+        'position' => 3, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item4', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("CourtsManagement"), // The name if the item
+        'href'     => admin_url('courts_control'), // URL of the item
+        'position' => 4, // The menu position
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("LegalServiceManage"), // The name if the item
+        'href'     => admin_url('ServicesControl'), // URL of the item
+        'position' => 5, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("legal_services_phases"), // The name if the item
+        'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
+        'position' => 6, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item7', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("LService_recycle_bin"), // The name if the item
+        'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
+        'position' => 7, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("legal_procedures_management"), // The name if the item
+        'href'     => admin_url('LegalServices/legal_procedures'), // URL of the item
+        'position' => 8, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
     $CI->app_menu->add_setup_menu_item('2', [
         'name'     => _l("procurations"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
@@ -144,72 +219,6 @@ function my_custom_setup_menu_items()
         'name'     => _l("procuration_type"), // The name if the item
         'href'     => admin_url('procuration/type'), // URL of the item
         'position' => 3, // The menu position
-    ]);
-
-    $CI->app_menu->add_setup_menu_item('1', [
-        'name'     => _l("legal_services_settings"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 1, // The menu position
-        //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("customer_representative"), // The name if the item
-        'href'     => admin_url('customer_representative'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("Judges"), // The name if the item
-        'href'     => admin_url('Judge'), // URL of the item
-        'position' => 2, // The menu position
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("case_status"), // The name if the item
-        'href'     => admin_url('Case_status'), // URL of the item
-        'position' => 3, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("CourtsManagement"), // The name if the item
-        'href'     => admin_url('courts_control'), // URL of the item
-        'position' => 4, // The menu position
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("LegalServiceManage"), // The name if the item
-        'href'     => admin_url('ServicesControl'), // URL of the item
-        'position' => 5, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("legal_services_phases"), // The name if the item
-        'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
-        'position' => 6, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("LService_recycle_bin"), // The name if the item
-        'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
-        'position' => 7, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
 
      $CI->app_menu->add_setup_menu_item('opponents', [

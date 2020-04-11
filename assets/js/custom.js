@@ -59,6 +59,7 @@ if(search_url(hijriPages,this_page) != 0){
 
                 $.each(datetimeobj, function (k, v) {
 
+                    let stored= $(this).val();
 
                     $(this).hijriDatePicker({
                         locale: "ar-sa",
@@ -77,8 +78,12 @@ if(search_url(hijriPages,this_page) != 0){
                         showTodayButton: true,
                         showClose: true
                     });
+                    if (stored !== null){
+                        $(this).val(stored);
+                    }
                 });
                 $.each(dateobj, function (k, v) {
+                    let stored= $(this).val();
                     $(this).hijriDatePicker({
                         locale: "ar-sa",
                         //format: "DD-MM-YYYY",
@@ -97,6 +102,10 @@ if(search_url(hijriPages,this_page) != 0){
                         showTodayButton: true,
                         showClose: true
                     });
+                    if (stored !== null){
+                        $(this).val(stored);
+                    }
+                    
                 });
             }
 

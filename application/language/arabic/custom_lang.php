@@ -1,8 +1,8 @@
 <?php
 
-$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "يجب اضافة هذا الموظف الى مسمى وظيفي وقسم فرعي";
-$lang['completed'] = "متكامل";
-$lang['not_completed'] = "غير متكامل";
+$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "الرجاء إكمال المعلومات الأساسية للموظف";
+$lang['completed'] = "مكتمل";
+$lang['not_completed'] = "غير مكتمل";
 $lang['completed_with_hr_system'] = "التكامل مع نظام الموارد البشرية";
 $lang['lead_country'] = "الدولة";
 $lang['new_cstatus'] = "نوع خدمة جديد";

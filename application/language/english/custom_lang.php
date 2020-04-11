@@ -1,9 +1,9 @@
 <?php
 
-$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "You Must Add Sub Department And Designation To This Staff";
+$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
 $lang['not_completed'] = "Not Completed";
-$lang['completed_with_hr_system'] = "Completed With Hr System";
+$lang['completed_with_hr_system'] = "Integrated With Hr System";
 
 $lang['contract_subject'] = "Contract Subject";
 $lang['contract_description'] = "Contract Description";

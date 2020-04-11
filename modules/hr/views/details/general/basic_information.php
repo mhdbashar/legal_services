@@ -94,7 +94,7 @@
                      <?php $branches = $this->Branches_model->getBranches(); ?>
                         <?php if($this->app_modules->is_active('branches')){?>
                            <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
+                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],_l('branch_name'),$value, ['onchange'=> 'getval(this);']); ?>
                         <?php } ?>
                            <?php 
                            $departmentid = '';
@@ -109,7 +109,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div class="form-group">
-                                  <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
+                                  <label for="staff_add_edit_departments" class="control-label"><small class="req text-danger">* </small><?php echo _l('staff_add_edit_departments') ?></label>
                                   <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
                                   </select>     
                               </div>
@@ -140,14 +140,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               
-                                <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
+                                <label for="sub_department_id" class="control-label"><small class="req text-danger">* </small><?php echo _l('sub_department') ?></label>
                                 <select required="required" class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
                                 </select>     
                             </div>  
                         </div>
                      	<div class="col-md-4">
                             <div class="form-group">
-                                <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
+                                <label for="designation_id" class="control-label"><small class="req text-danger">* </small><?php echo _l('designation') ?></label>
                                 <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 </select>     
                             </div>  

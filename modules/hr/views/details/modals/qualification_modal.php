@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', ''); ?>
+                        <?php echo render_textarea('description','hr_description', ''); ?>
                     </div>
                 </div>
             </div>
@@ -209,7 +209,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', ''); ?>
+                        <?php echo render_textarea('description','hr_description', ''); ?>
                     </div>
                 </div>
             </div>

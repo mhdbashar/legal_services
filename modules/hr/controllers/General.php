@@ -22,6 +22,19 @@ class General extends AdminController{
         $this->load->model('Leave_type_model');
 	}
 
+    public function staff()
+    {
+        if (!has_permission('staff', '', 'view')) {
+            access_denied('staff');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->hrmapp->get_table_data('staff');
+        }
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+        $data['title']         = _l('staff_members');
+        $this->load->view('staff/manage', $data);
+    }
+
     /* Get role permission for specific role id */
     public function role_changed($id)
     {
@@ -208,11 +221,20 @@ class General extends AdminController{
                     access_denied('staff');
                 }
                 $id = $this->staff_model->add($data);
+                $hr_data['staff_id'] = $id;
+                $success = $this->Extra_info_model->add($hr_data);
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }                handle_staff_profile_image_upload($id);
+                }
                 if ($id) {
 
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
-                    redirect(admin_url('staff/member/' . $id));
+                    redirect(admin_url('hr/general/general/' . $id.'?group=basic_information'));
                 }
             } else {
                 if (!has_permission('staff', '', 'edit')) {
@@ -284,8 +306,11 @@ class General extends AdminController{
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
+        $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+        $data['extra_info'] = (object)$extra_info;
+        $data['leaves'] = $this->Leave_type_model->get();
 
-        $this->load->view('admin/staff/member', $data);
+        $this->load->view('details/general/member', $data);
     }
 
 

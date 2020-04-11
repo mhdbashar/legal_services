@@ -1,4 +1,9 @@
 <?php
+
+$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "يجب اضافة هذا الموظف الى مسمى وظيفي وقسم فرعي";
+$lang['completed'] = "متكامل";
+$lang['not_completed'] = "غير متكامل";
+$lang['completed_with_hr_system'] = "التكامل مع نظام الموارد البشرية";
 $lang['lead_country'] = "الدولة";
 $lang['new_cstatus'] = "نوع خدمة جديد";
 $lang['case_status'] = "نوع الخدمة";
@@ -414,7 +419,7 @@ $lang['sub_department'] = "قسم فرعى";
 $lang['legal_traning_name'] = "اسم التدريب القانوني";
 $lang['website'] = "الموقع الالكتروني";
 $lang['document_file'] = "ملف المستند";
-$lang['is_notification'] = "هو الإخطار؟";
+$lang['is_notification'] = "هل تريد ارسال تنبيه قبل انتهاء المهلة؟";
 $lang['date_expiry'] = "تاريخ انتهاء الصلاحية";
 $lang['document_title'] = "عنوان المستند";
 $lang['document_type'] = "نوع الوثيقة";

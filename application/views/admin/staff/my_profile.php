@@ -58,13 +58,16 @@
                     </div>
                     <?php } ?>
                     <div class="form-group">
-                        <label for="firstname" class="control-label"><?php echo _l('staff_add_edit_firstname'); ?></label>
+                        <label for="firstname" class="control-label"><?php echo _l('staff_add_edit_fullname'); ?></label>
                         <input type="text" class="form-control" name="firstname" value="<?php if(isset($member)){echo $member->firstname;} ?>">
                     </div>
+                    <?php echo form_hidden('lastname', ' ') ?>
+                    <!--
                     <div class="form-group">
                         <label for="lastname" class="control-label"><?php echo _l('staff_add_edit_lastname'); ?></label>
                         <input type="text" class="form-control" name="lastname" value="<?php if(isset($member)){echo $member->lastname;} ?>">
                     </div>
+                    -->
                     <div class="form-group">
                         <label for="email" class="control-label"><?php echo _l('staff_add_edit_email'); ?></label>
                         <input type="email"<?php if(has_permission('staff','','edit')){ ?> name="email"<?php } else { ?> disabled="true"<?php } ?> class="form-control" value="<?php echo $member->email; ?>" id="email">
@@ -174,7 +177,7 @@
 <?php init_tail(); ?>
 <script>
  $(function(){
-   appValidateForm($('#staff_profile_table'),{firstname:'required',lastname:'required',email:'required'});
+   appValidateForm($('#staff_profile_table'),{firstname:'required',email:'required'});
    appValidateForm($('#staff_password_change_form'),{oldpassword:'required',newpassword:'required',newpasswordr: { equalTo: "#newpassword"}});
  });
 </script>

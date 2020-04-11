@@ -25,6 +25,7 @@
 							_l('staff_dt_email'),
 							_l('role'),
 							_l('staff_dt_last_Login'),
+							_l('completed_with_hr_system'),
 							_l('staff_dt_active'),
 							);
 						if($this->app_modules->is_active('branches')){

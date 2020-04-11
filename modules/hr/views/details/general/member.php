@@ -41,7 +41,7 @@
          </div>
       </div>
       <?php } ?>
-      <?php echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off')); ?>
+      <?php echo form_open_multipart(admin_url('hr/general/member/'),array('class'=>'staff-form','autocomplete'=>'off')); ?>
       <div class="col-md-<?php if(!isset($member)){echo '8 col-md-offset-2';} else {echo '5';} ?>" id="small-table">
          <div class="panel_s">
             <div class="panel-body">
@@ -99,57 +99,136 @@
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
                         <input type="file" name="profile_image" class="form-control" id="profile_image">
                      </div>
+
+
+
                      <?php } ?>
-                     <?php if(isset($member) && $member->profile_image != NULL){ ?>
-                     <div class="form-group">
+                     <div class="row">
+                        <div class="col-md-12">
+                            <?php $value = (isset($member) ? $member->firstname : ''); ?>
+                           <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
+                           <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                         <?php echo form_hidden('lastname', ' ') ?>
+                        </div>
+                      <!--
+                        <div class="col-md-6">
+                           <?php $value = (isset($member) ? $member->lastname : ''); ?>
+                        <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
+                        </div>
+                     -->
+                     </div>
+                     <?php $branches = $this->Branches_model->getBranches(); ?>
+                        <?php if($this->app_modules->is_active('branches')){?>
+                           <?php $value = (isset($branch) ? $branch : ''); ?>
+                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
+                        <?php } ?>
+                           <?php 
+                           $departmentid = '';
+                           $name = '';
+
+                           // if ($this->Extra_info_model->get($member->staffid)){
+                           //    $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+
+                           //    $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
+                           // }
+                          // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
                         <div class="row">
-                           <div class="col-md-9">
-                              <?php echo staff_profile_image($member->staffid,array('img','img-responsive','staff-profile-image-thumb'),'thumb'); ?>
+                           <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
+                                  <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
+                                  </select>     
+                              </div>
                            </div>
-                           <div class="col-md-3 text-right">
-                              <a href="<?php echo admin_url('staff/remove_staff_profile_image/'.$member->staffid); ?>"><i class="fa fa-remove"></i></a>
-                           </div>
+                        </div>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>
+                        </div>
+                        <div class="col-md-6">
+                           <?php $value = (isset($member) ? $member->email : ''); ?>
+                           <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
                         </div>
                      </div>
-                     <?php } ?>
-                     <?php $value = (isset($member) ? $member->firstname : ''); ?>
-                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
-                     <?php echo form_hidden('lastname', ' ') ?>
-                     <!--
-                     <?php $value = (isset($member) ? $member->lastname : ''); ?>
-                     <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
-                     -->
-                     <?php $value = (isset($member) ? $member->email : ''); ?>
-                     <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
-
-                     <?php if($this->app_modules->is_active('branches')){?>
-                        <?php $value = (isset($branch) ? $branch : ''); ?>
-                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
-                        <div class="form-group">
-                           <?php if(count($departments) > 0){ ?>
-                           <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
-                           <?php } ?>
-                           <?php foreach($departments as $department){ ?>
-
-                              <?php $department['branch_id'] = $this->Branches_model->get_branch('departments', $department['departmentid']); ?>
-                              <?php
-                                 $checked = '';
-                                 if(isset($member)){
-                                  foreach ($staff_departments as $staff_department) {
-                                   if($staff_department['departmentid'] == $department['departmentid']){
-                                    $checked = ' checked';
-                                  }
-                                 }
-                                 }
-                                 ?>
-                           <div class="department_<?php echo $department['branch_id'] ?> department checkbox checkbox-primary <?php if($checked == '') echo 'hide' ?>">
-                              <input class="" type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" onchange="check(this)" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
-                              <label for="dep_<?php echo $department['departmentid']; ?>"><?php echo $department['name']; ?></label>
-                           </div>
-                           <?php } ?>
+                     <!-- <?php 
+                        $sub_department_name = '';
+                        $designation_name = '';
+                        if(is_numeric($extra_info->sub_department)){
+                           $sub_department = $this->Sub_department_model->get($extra_info->sub_department);
+                           $sub_department_name = $sub_department->sub_department_name;
+                        }
+                        if(is_numeric($extra_info->designation)){
+                           $designation = $this->Designation_model->get_designation($extra_info->designation);
+                           $designation_name = $designation->designation_name;
+                        }
+                     ?> -->
+                     <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              
+                                <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
+                                <select required="required" class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
+                                </select>     
+                            </div>  
                         </div>
-                     <?php } ?>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
+                                <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
+                                </select>     
+                            </div>  
+                        </div>
+                        <div class="form-group select-placeholder col-md-4">
+                           <label for="gender"><?php echo _l('gendre'); ?></label>
+                           <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="gender" id="gender">
+                              <option value="" <?php if(isset($extra_info) && empty($extra_info->gender)){echo 'selected';} ?>></option>
+                              <option value="Male" <?php if(isset($extra_info) && $extra_info->gender == 'Male'){echo 'selected';} ?>>Male</option>
+                              <option value="Female" <?php if(isset($extra_info) && $extra_info->gender == 'Female'){echo 'selected';} ?>>Female</option>
+                           </select>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                     <!--
+                        <div class="col-md-4">
+                           <?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
+                        </div>
+                     -->
+                        <div class="col-md-4">
+                           <?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
+                        </div>
+                        <div class="col-md-4">
+                           <?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
+                        </div>
+                     </div>
+
+                        <?php
+                            $selected = array();
+                            if(isset($extra_info)){
+                              $selected_leaves = $extra_info->leaves;
+                              
+                              if($selected_leaves != ''){
+                                  foreach($selected_leaves as $row){
+                                    array_push($selected,$row['id']);
+                                  }
+                              }
+                            }
+                             echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                         ?>
+
+                     <div class="row">
+                        <div class="col-md-4">
+                           <?php echo render_input('state_province','state_province',$extra_info->state_province ); ?>
+                        </div>
+                        <div class="col-md-4">
+                           <?php echo render_input('city','city',$extra_info->city ); ?>
+                        </div>
+                        <div class="col-md-4">
+                           <?php echo render_input('zip_code','zip_code',$extra_info->zip_code ); ?>
+                        </div>
+                     </div>
+                     
+                     <?php echo render_input('address','address',$extra_info->address ); ?>
                      <div class="form-group">
                         <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
                         <div class="input-group">
@@ -161,18 +240,8 @@
                      </div>
                      <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                      <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
-                     <div class="form-group">
-                        <label for="facebook" class="control-label"><i class="fa fa-facebook"></i> <?php echo _l('staff_add_edit_facebook'); ?></label>
-                        <input type="text" class="form-control" name="facebook" value="<?php if(isset($member)){echo $member->facebook;} ?>">
-                     </div>
-                     <div class="form-group">
-                        <label for="linkedin" class="control-label"><i class="fa fa-linkedin"></i> <?php echo _l('staff_add_edit_linkedin'); ?></label>
-                        <input type="text" class="form-control" name="linkedin" value="<?php if(isset($member)){echo $member->linkedin;} ?>">
-                     </div>
-                     <div class="form-group">
-                        <label for="skype" class="control-label"><i class="fa fa-skype"></i> <?php echo _l('staff_add_edit_skype'); ?></label>
-                        <input type="text" class="form-control" name="skype" value="<?php if(isset($member)){echo $member->skype;} ?>">
-                     </div>
+                     
+
                      <?php if(get_option('disable_language') == 0){ ?>
                      <div class="form-group select-placeholder">
                         <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?></label>
@@ -530,6 +599,145 @@
 </div>
 <?php init_tail(); ?>
 <script>
+
+  $(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#department_id').empty();
+            $('#department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#department_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).ready(function(){
+  console.log(<?php echo $extra_info->sub_department ?>);
+  $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
+      if (response.success == true) {
+          $('#department_id').empty();
+          $('#department_id').append($('<option>', {
+              value: '',
+              text: ''
+          }));
+          for(let i = 0; i < response.data.length; i++) {
+              let key = response.data[i].key;
+              let value = response.data[i].value;
+              let select = false;
+              $('#department_id').append($('<option>', {
+                  value: key,
+                  text: value,
+              }));
+              $('department_id').selectpicker('refresh');
+          }
+      } else {
+          alert_float('danger', response.message);
+      }
+  }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#sub_department_id').empty();
+            $('#sub_department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                $('#sub_department_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#sub_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_designations/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                $('#designation_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+  function check(sel)
+  {
+    console.log('#designation_'+sel.value);
+    $.get(admin_url + 'hr/organization/get_designations/' + sel.value, function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#designation_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+    console.log('#sub_departmant_'+sel.value);
+    $.get(admin_url + 'hr/organization/get_sub_departments/' + sel.value, function(response) {
+        if (response.success == true) {
+            $('#sub_department_id').empty();
+            $('#sub_department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#sub_department_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#sub_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+  }
    $(function() {
 
        $('select[name="role"]').on('change', function() {
@@ -578,7 +786,7 @@
                required: true,
                email: true,
                remote: {
-                  url: admin_url + "misc/staff_email_exists",
+                   url: site_url + "admin/misc/staff_email_exists",
                    type: 'post',
                    data: {
                        email: function() {
@@ -602,7 +810,6 @@
       $('.department input').prop('checked', false);
       $('.department_'+sel.value).removeClass('hide');
     }
-
 </script>
 </body>
 </html>

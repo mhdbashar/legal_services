@@ -9,7 +9,64 @@ class Timesheet extends AdminController{
 		$this->load->model('Holidays_model');
 		$this->load->model('Leave_model');
         $this->load->model('Leave_type_model');
+        $this->load->model('Overtime_request_model');
 	}
+
+    //overtime_requests
+    public function overtime_requests(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_overtime_requests_table');
+        }
+        $data['title'] = _l('overtime_requests');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/overtime_request/manage', $data);
+    }
+
+    public function json_overtime_request($id){
+        $data = $this->Overtime_request_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_overtime_request(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Overtime_request_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_overtime_request(){
+        $data = $this->input->post();
+        $success = $this->Overtime_request_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_overtime_request($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Overtime_request_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
 	public function holidays(){
 		if($this->input->is_ajax_request()){

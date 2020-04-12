@@ -1,5 +1,11 @@
 <?php
 
+$lang['overtime_requests'] = "طلبيات الوقت الاضافي";
+$lang['new_overtime_request'] = "طلب وقت اضافي جديد";
+$lang['in_time'] = "وقت الدخول";
+$lang['out_time'] = "وقت الخروج";
+$lang['overtime_status'] = "الحالة";
+
 $lang['hr_document'] = "وثائق الموارد البشرية";
 $lang['hr_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
 $lang['procurations_reminder_notification_before'] = "تذكير الموعد النهائي للوكالة قبل (الأيام)";

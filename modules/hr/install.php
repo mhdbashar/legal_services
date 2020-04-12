@@ -137,6 +137,18 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_overtime_request')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_overtime_request` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `date` date NOT NULL,
+    `in_time` varchar(200) NOT NULL,
+    `out_time` varchar(200) NOT NULL,
+    `reason` text NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_allowances')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_allowances` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

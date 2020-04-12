@@ -1,5 +1,11 @@
 <?php
 
+$lang['overtime_requests'] = "Overtime Requests";
+$lang['new_overtime_request'] = "New Overtime Request";
+$lang['in_time'] = "In Time";
+$lang['out_time'] = "Out Time";
+$lang['overtime_status'] = "Status";
+
 $lang['hr_document'] = "HR Documents";
 $lang['hr_document_reminder_notification_before'] = "HR Document Reminder Notification Before";
 $lang['procurations_reminder_notification_before'] = "Procuration Reminder Notification Before";

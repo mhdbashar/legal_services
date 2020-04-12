@@ -1,5 +1,10 @@
 <?php
 
+$lang['hr_document'] = "وثائق الموارد البشرية";
+$lang['hr_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
+$lang['procurations_reminder_notification_before'] = "تذكير الموعد النهائي للوكالة قبل (الأيام)";
+$lang['not_document_deadline_reminder'] = "تذكير قبل انتهاء مهلة الوثيقة";
+
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "الرجاء إكمال المعلومات الأساسية للموظف";
 $lang['completed'] = "مكتمل";
 $lang['not_completed'] = "غير مكتمل";

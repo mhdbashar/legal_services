@@ -1,5 +1,10 @@
 <?php
 
+$lang['hr_document'] = "HR Documents";
+$lang['hr_document_reminder_notification_before'] = "HR Document Reminder Notification Before";
+$lang['procurations_reminder_notification_before'] = "Procuration Reminder Notification Before";
+$lang['not_document_deadline_reminder'] = "Not Document Deadline Reminder";
+
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
 $lang['not_completed'] = "Not Completed";

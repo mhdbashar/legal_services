@@ -1,5 +1,27 @@
 <?php
 
+$lang['new_status']= "New Status";
+$lang['hr_document']="HR Document";
+$lang['hr_document_reminder_notification_before_help']="0 for Disable";
+$lang['hr_document_reminder_notification_before']="HR Document Reminder Notification Before";
+$lang['procurations_reminder_notification_before_help']="0 for Disable";
+$lang['procurations_reminder_notification_before']="Procurations Reminder Notification Before";
+$lang['tick_cssnote']="Change form container column (Bootstrap)";
+$lang['tick_inst_note']="None SSL installation will need to place the link in non ssl eq. landing page and backwards.";
+$lang['tick_inst2']="2. If the protocol of your installation is https use a httpa page inside the iframe.";
+$lang['tick_inst1']="1. If the protocol of your installation is http use a http page inside the iframe.";
+$lang['tick_inst'] = "When placing the iframe snippet code consider the following:";
+$lang['embed_form'] = "Embed Form";
+$lang['form_file_location'] = "Form file location";
+$lang['form_url'] = "Form url";
+$lang['form_info'] = "Form Info";
+$lang['e_sign'] = "E-Sign";
+$lang['sub_template_succeed'] = "Subscription Payment Succeeded";
+$lang['email_queue_skip_attachments_exp']= "Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and wait_timeout options in your server config, otherwise when this option is set to yes the system won\'t add emails with attachments in the queue and will be sent immediately.";
+$lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.";
+$lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
+$lang['settings_sales_bo_box'] = "BO Box";
+
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
 $lang['not_completed'] = "Not Completed";
@@ -1734,7 +1756,7 @@ $lang['show_on_calendar'] = "Show on Calendar";
 $lang['show_invoices_on_calendar'] = "Invoices";
 $lang['show_estimates_on_calendar'] = "Estimates";
 $lang['show_contracts_on_calendar'] = "Contracts";
-$lang['show_tasks_on_calendar'] = "Tasks";
+$lang['show_tasks_on_calendar'] = "Tasks or Sessions";
 $lang['show_customer_reminders_on_calendar'] = "Customer Reminders";
 $lang['copy_custom_fields_convert_to_customer'] = "Copy custom fields to customer profile";
 $lang['copy_custom_fields_convert_to_customer_help'] = "If any of the following custom fields do not exists for customer will be auto created with the same name otherwise only the value will be copied from the lead profile.";

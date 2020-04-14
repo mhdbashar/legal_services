@@ -76,13 +76,13 @@ function add_default_theme_menu_items()
                     'position' => 30,
                 ]);
         }
-        if (can_logged_in_contact_view_subscriptions()) {
-            add_theme_menu_item('subscriptions', [
-                    'name'     => _l('subscriptions'),
-                    'href'     => site_url('clients/subscriptions'),
-                    'position' => 40,
-                ]);
-        }
+        // if (can_logged_in_contact_view_subscriptions()) {
+        //     add_theme_menu_item('subscriptions', [
+        //             'name'     => _l('subscriptions'),
+        //             'href'     => site_url('clients/subscriptions'),
+        //             'position' => 40,
+        //         ]);
+        // }
         if (has_contact_permission('support')) {
             add_theme_menu_item('support', [
                     'name'     => _l('clients_nav_support'),

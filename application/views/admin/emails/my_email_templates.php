@@ -149,7 +149,7 @@
                                     </table>
                                 </div>
                             </div>
-                                <div class="clearfix"></div>
+                                <!-- <div class="clearfix"></div>
                                 <?php hooks()->do_action('before_subscriptions_email_templates'); ?>
                              <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
@@ -184,7 +184,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="clearfix"></div>
                             <?php hooks()->do_action('before_credit_notes_email_templates'); ?>
                               <div class="col-md-12">

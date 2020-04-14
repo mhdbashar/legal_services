@@ -1,5 +1,27 @@
 <?php
 
+$lang['new_status']= "حالة جديدة";
+$lang['hr_document']="وثائق الموارد البشرية";
+$lang['hr_document_reminder_notification_before_help']="للتعطيل 0";
+$lang['hr_document_reminder_notification_before']="إشعار تذكير بمستدات الموارد البشرية قبل(أيام)";
+$lang['procurations_reminder_notification_before_help']="للتعطيل 0";
+$lang['procurations_reminder_notification_before']="إشعار تذكير بالوكالات قبل(أيام)";
+$lang['tick_cssnote']="تغيير عمود حاوية النموذج (Bootstrap)";
+$lang['tick_inst_note']="None SSL installation will need to place the link in non ssl eq. landing page and backwards.";
+$lang['tick_inst2']="2. إذا كان بروتوكول التثبيت الخاص بك https استخدم صفحة https داخل iframe.";
+$lang['tick_inst1']="1. إذا كان بروتوكول التثبيت الخاص بك http استخدم صفحة http داخل iframe.";
+$lang['tick_inst'] = "عند وضع رماز  iframe ، ضع في اعتبارك ما يلي:";
+$lang['embed_form'] = "تضمين النموذج";
+$lang['form_file_location'] = "موقع ملف النموذج";
+$lang['form_url'] = "رابط النموذج";
+$lang['form_info'] = "معلومات النموذج";
+$lang['show_tasks_on_calendar'] = "المهام أو الجلسات";
+$lang['e_sign'] = "التوقيع الرقمي";
+$lang['sub_template_succeed'] = "نجاح دفع الاشتراكات";
+$lang['email_queue_skip_attachments_exp']="على الأرجح ستواجه مشاكل في قائمة انتظار البريد الإلكتروني إذا كان النظام بحاجة إلى إضافة ملفات كبيرة إلى قائمة الانتظار. إذا كنت تخطط لاستخدام هذا الخيار ، فاستشر مسؤول الخادم / مزود الاستضافة لزيادة خيارات max_allowed_packet و wait_timeout في تكوين الخادم ، وإلا عند تعيين هذا الخيار على نعم ، لن يضيف النظام رسائل بريد إلكتروني تحتوي على مرفقات في قائمة الانتظار وسوف يتم إرسالها على الفور.";
+$lang['email_queue_enabled_exp'] = "لتسريع عملية البريد الإلكتروني ، سيضيف النظام رسائل البريد الإلكتروني في قائمة الانتظار ويرسلها عبر وظيفة cron ، تأكد من تكوين وظيفة cron بشكل صحيح من أجل استخدام هذه الميزة.";
+$lang['cronjob_req'] = "تتطلب هذه الميزة مهمة من نوع cron مضبوطة بشكل صحيح. قبل تنشيط هذه الميزة ، تأكد من تكوين اعدادت وظيفة cron ";
+$lang['settings_sales_bo_box'] = "صندوق البريد";
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "الرجاء إكمال المعلومات الأساسية للموظف";
 $lang['completed'] = "مكتمل";
 $lang['not_completed'] = "غير مكتمل";

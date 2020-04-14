@@ -147,13 +147,13 @@ function app_init_oservice_tabs()
         'visible' => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug' => 'project_subscriptions',
-        'name' => _l('subscriptions'),
-        'view' => 'admin/LegalServices/other_services/project_subscriptions',
-        'position' => 25,
-        'visible' => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
-    ]);
+    // $CI->app_tabs->add_oservice_tab_children_item('sales', [
+    //     'slug' => 'project_subscriptions',
+    //     'name' => _l('subscriptions'),
+    //     'view' => 'admin/LegalServices/other_services/project_subscriptions',
+    //     'position' => 25,
+    //     'visible' => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
+    // ]);
 
     $CI->app_tabs->add_oservice_tab('project_notes', [
         'name' => _l('project_notes'),

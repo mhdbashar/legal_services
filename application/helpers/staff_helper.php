@@ -118,10 +118,10 @@ function get_available_staff_permissions($data = [])
             'name'         => _l('staff'),
             'capabilities' => $withoutViewOwnPermissionsArray,
         ],
-        'subscriptions' => [
-            'name'         => _l('subscriptions'),
-            'capabilities' => $allPermissionsArray,
-        ],
+        // 'subscriptions' => [
+        //     'name'         => _l('subscriptions'),
+        //     'capabilities' => $allPermissionsArray,
+        // ],
         'tasks' => [
             'name'         => _l('tasks'),
             'capabilities' => $withNotApplicableViewOwn,

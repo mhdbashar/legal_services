@@ -402,6 +402,7 @@ class Cases_controller extends AdminController
                 $data['IRAC'] = $this->irac->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             } elseif ($group == 'Procedures'){
                 $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
+                $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

@@ -14,6 +14,7 @@ class Other_services_controller extends AdminController
         $this->load->model('LegalServices/Phase_model','phase');
         $this->load->helper('date');
         $this->load->model('Staff_model');
+        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
         $this->load->model('emails_model');
     }
 
@@ -396,6 +397,9 @@ class Other_services_controller extends AdminController
                 $data['courts']      = $this->service_sessions->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
+            } elseif ($group == 'Procedures'){
+                $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
+                $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

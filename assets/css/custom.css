@@ -243,3 +243,33 @@ ul.tagit li.tagit-choice .tagit-label:not(a) {
     content: "\f067";
     color: #2e2e2e94;
 }
+.master .cols {
+    width: 280px;
+    display: inline-block;
+    height: 400px;
+    margin: 0 5px;
+    overflow-y: auto;
+    border-radius: 3px;
+    background: #e3e8ee;
+    padding: 0px;
+}
+.master .cols h2 {
+    padding: 5px;
+    margin: 5px;
+    font-size: 20px;
+}
+.master .cols .card {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 10px;
+    background: #ecf6fb!important;
+    border: 1px solid #c2e7ef!important;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.master .cols .panel-heading{
+    background: rgb(224, 255, 160);
+    border: 1px solid rgb(216, 255, 152);
+}

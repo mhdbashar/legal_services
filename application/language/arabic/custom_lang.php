@@ -764,9 +764,16 @@ $lang['soon'] = "قريباً";
 $lang['legal_procedures_management'] = "ادارة الإجرائات القانونية";
 $lang['legal_procedures'] = "الإجرائات القانونية";
 $lang['legal_procedure'] = "الإجراء القانوني";
+$lang['add_procedures_list'] = "إضافة قائمة اجرائات";
+$lang['edit_procedures_list'] = "تعديل قائمة اجرائات";
 $lang['add_legal_procedures'] = "إضافة اجراء قانوني";
 $lang['edit_legal_procedures'] = "تعديل اجراء قانوني";
 $lang['sub_legal_procedures'] = "إجرائات فرعية";
+$lang['procedure_list_exist'] = "حاضنة الاجراء الرئيسي موجودة.. يمكنك إضافة اي اجراء قانوني فرعي من داخل الحاضنة";
+$lang['no_procedure_list_found'] = "هذه الخدمة لا يوجد لديها قائمة اجرائات";
+
+
+
 $lang['help_library'] = "المكتبة المساعدة";
 $lang['soon'] = "قريباً";
 $lang['clients_import_inst1'] = "يجب أن تكون بيانات CSV الخاصة بك بالتنسيق أدناه. يجب أن يكون السطر الأول من ملف CSV هو رؤوس الأعمدة كما في مثال الجدول. تأكد أيضًا من أن ملفك هو <b> UTF-8 </b> لتجنب <b> مشاكل النرميز </ b>.";

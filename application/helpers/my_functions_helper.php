@@ -634,3 +634,12 @@ function irac_pdf($irac, $tag = '')
 {
     return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);
 }
+
+function legal_procedure_by_list_id($list_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('list_id', $list_id);
+    $CI->db->select(db_prefix() . 'legal_procedures.*,subcat.name AS subcat_name');
+    $CI->db->join(db_prefix() . 'my_categories AS subcat', 'subcat.id = ' . db_prefix() . 'legal_procedures.subcat_id', 'left');
+    return $CI->db->get(db_prefix() . 'legal_procedures')->result_array();
+}

@@ -149,6 +149,29 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_overtime_request')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_office_shift')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_office_shift` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `shift_name` varchar(200) NOT NULL,
+    `saturday_in` time default NULL,
+    `saturday_out` time default NULL,
+    `sunday_in` time default NULL,
+    `sunday_out` time default NULL,
+    `monday_in` time default NULL,
+    `monday_out` time default NULL,
+    `tuesday_in` time default NULL,
+    `tuesday_out` time default NULL,
+    `wednesday_in` time default NULL,
+    `wednesday_out` time default NULL,
+    `thursday_in` time default NULL,
+    `thursday_out` time default NULL,
+    `friday_in` time default NULL,
+    `friday_out` time default NULL,
+    `default` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+} 
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_allowances')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_allowances` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,

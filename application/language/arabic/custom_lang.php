@@ -1,5 +1,38 @@
 <?php
 
+$lang['is_default'] = "هل هو افتراضي ؟";
+$lang['shift_name'] = "اسم وقت الدوام";
+$lang['office_shift'] = "وقت الدوام";
+$lang['saturday'] = "السبت";
+$lang['sunday'] = "الأحد";
+$lang['monday'] = "الاثنين";
+$lang['tuesday'] = "الثلاثاء";
+$lang['wednesday'] = "الأربعاء";
+$lang['thursday'] = "الخميس";
+$lang['friday'] = "الجمعة";
+
+$lang['saturday_in'] = "دخول السبت";
+$lang['sunday_in'] = "دخول الأحد";
+$lang['monday_in'] = "دخول الاثنين";
+$lang['tuesday_in'] = "دخول الثلاثاء";
+$lang['wednesday_in'] = "دخول الأربعاء";
+$lang['thursday_in'] = "دخول الخميس";
+$lang['friday_in'] = "دخول الجمعة";
+
+$lang['saturday_out'] = "خروج السبت";
+$lang['sunday_out'] = "خروج الأحد";
+$lang['monday_out'] = "خروج الاثنين";
+$lang['tuesday_out'] = "خروج الثلاثاء";
+$lang['wednesday_out'] = "خروج الأربعاء";
+$lang['thursday_out'] = "خروج الخميس";
+$lang['friday_out'] = "خروج الجمعة";
+
+$lang['new_office_shift'] = "وقت دوام جديد";
+$lang['default'] = "افتراضي";
+$lang['not_default'] = "غير افتراضي";
+
+
+$lang['if_you_insert_time_in_you_must_insert_time_out'] = "اذا قمت بادخال فترة بداية ليوم يجب اختيار فترة نهاية له";
 $lang['overtime_requests'] = "طلبيات الوقت الاضافي";
 $lang['new_overtime_request'] = "طلب وقت اضافي جديد";
 $lang['in_time'] = "وقت الدخول";

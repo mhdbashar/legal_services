@@ -1,5 +1,37 @@
 <?php
 
+$lang['is_default'] = "Is Default ?";
+$lang['shift_name'] = "Shift name";
+$lang['office_shift'] = "Office shift";
+$lang['saturday'] = "Saturday";
+$lang['sunday'] = "Sunday";
+$lang['monday'] = "Monday";
+$lang['tuesday'] = "Tuesday";
+$lang['wednesday'] = "Wednesday";
+$lang['thursday'] = "Thursday";
+$lang['friday'] = "Friday";
+
+$lang['saturday_in'] = "Saturday in";
+$lang['sunday_in'] = "Sunday in";
+$lang['monday_in'] = "Monday in";
+$lang['tuesday_in'] = "Tuesday in"; 
+$lang['wednesday_in'] = "Wednesday in";
+$lang['thursday_in'] = "Thursday in";
+$lang['friday_in'] = "Friday in";
+
+$lang['saturday_out'] = "Saturday out";
+$lang['sunday_out'] = "Sunday out";
+$lang['monday_out'] = "Monday out";
+$lang['tuesday_out'] = "Tuesday out";
+$lang['wednesday_out'] = "Wednesday out";
+$lang['thursday_out'] = "Thursday out";
+$lang['friday_out'] = "Fiday out";
+
+$lang['new_office_shift'] = "New office shift";
+$lang['default'] = "Default";
+$lang['not_default'] = "Not Default";
+
+$lang['if_you_insert_time_in_you_must_insert_time_out'] = "if you insert time in you must insert time out";
 $lang['overtime_requests'] = "Overtime Requests";
 $lang['new_overtime_request'] = "New Overtime Request";
 $lang['in_time'] = "In Time";

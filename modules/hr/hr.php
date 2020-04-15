@@ -62,6 +62,8 @@ function hr_menu_items($item)
                                     </li>
                                     <li><a href="'.admin_url('hr/timesheet/overtime_requests').'">'._l('overtime_requests').'</a>
                                     </li>
+                                    <li><a href="'.admin_url('hr/timesheet/office_shift').'">'._l('office_shift').'</a>
+                                    </li>
                                 </ul>
                         </li>
 

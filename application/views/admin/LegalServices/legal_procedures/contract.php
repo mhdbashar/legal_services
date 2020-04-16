@@ -3,87 +3,18 @@
 <div id="wrapper">
    <div class="content">
       <div class="row">
-         <div class="col-md-5 left-column">
-            <div class="panel_s">
-               <div class="panel-body">
-                  <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
-                  <div class="form-group">
-                     <div class="checkbox checkbox-primary no-mtop checkbox-inline">
-                        <input type="checkbox" id="trash" name="trash"<?php if(isset($contract)){if($contract->trash == 1){echo ' checked';}}; ?>>
-                        <label for="trash"><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="left" title="<?php echo _l('contract_trash_tooltip'); ?>" ></i> <?php echo _l('contract_trash'); ?></label>
-                     </div>
-                     <div class="checkbox checkbox-primary checkbox-inline">
-                        <input type="checkbox" name="not_visible_to_client" id="not_visible_to_client" <?php if(isset($contract)){if($contract->not_visible_to_client == 1){echo 'checked';}}; ?>>
-                        <label for="not_visible_to_client"><?php echo _l('contract_not_visible_to_client'); ?></label>
-                     </div>
-                  </div>
-                  <div class="form-group select-placeholder">
-                     <label for="clientid" class="control-label"><span class="text-danger">* </span><?php echo _l('contract_client_string'); ?></label>
-                     <select id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                     <?php $selected = (isset($contract) ? $contract->client : '');
-                        if($selected == ''){
-                         $selected = (isset($customer_id) ? $customer_id: '');
-                        }
-                        if($selected != ''){
-                        $rel_data = get_relation_data('customer',$selected);
-                        $rel_val = get_relation_values($rel_data,'customer');
-                        echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                        } ?>
-                     </select>
-                  </div>
-                  <?php $value = (isset($contract) ? $contract->subject : ''); ?>
-                  <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
-                  <?php echo render_input('subject','contract_subject',$value); ?>
-                  <div class="form-group">
-                     <label for="contract_value"><?php echo _l('contract_value'); ?></label>
-                     <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
-                        <input type="number" class="form-control" name="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>">
-                        <div class="input-group-addon">
-                           <?php echo $base_currency->symbol; ?>
-                        </div>
-                     </div>
-                  </div>
-                  <?php
-                     $selected = (isset($contract) ? $contract->contract_type : '');
-                     if(is_admin() || get_option('staff_members_create_inline_contract_types') == '1'){
-                      echo render_select_with_input_group('contract_type',$types,array('id','name'),'contract_type',$selected,'<a href="#" onclick="new_type();return false;"><i class="fa fa-plus"></i></a>');
-                     } else {
-                     echo render_select('contract_type',$types,array('id','name'),'contract_type',$selected);
-                     }
-                     ?>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <?php $value = (isset($contract) ? _d($contract->datestart) : _d(date('Y-m-d'))); ?>
-                        <?php echo render_date_input('datestart','contract_start_date',$value); ?>
-                     </div>
-                     <div class="col-md-6">
-                        <?php $value = (isset($contract) ? _d($contract->dateend) : ''); ?>
-                        <?php echo render_date_input('dateend','contract_end_date',$value); ?>
-                     </div>
-                  </div>
-                  <?php $value = (isset($contract) ? $contract->description : ''); ?>
-                  <?php echo render_textarea('description','contract_description',$value,array('rows'=>10)); ?>
-                  <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
-                  <?php echo render_custom_fields('contracts',$rel_id); ?>
-                  <div class="btn-bottom-toolbar text-right">
-                     <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
-                  </div>
-                  <?php echo form_close(); ?>
-               </div>
-            </div>
-         </div>
          <?php if(isset($contract)) { ?>
-         <div class="col-md-7 right-column">
+         <div class="col-md-12 right-column">
             <div class="panel_s">
                <div class="panel-body">
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
                   <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
-                     <?php echo _l('view_contract'); ?>
+                     <?php echo _l('view_procedure'); ?>
                   </a>
                   <hr class="hr-panel-heading" />
-                  <?php if($contract->trash > 0){
+                  <?php /*if($contract->trash > 0){
                      echo '<div class="ribbon default"><span>'._l('contract_trash').'</span></div>';
-                     } ?>
+                     }*/ ?>
                   <div class="horizontal-scrollable-tabs preview-tabs-top">
                      <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
                      <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
@@ -91,9 +22,14 @@
                         <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
                            <li role="presentation" class="<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo 'active';} ?>">
                               <a href="#tab_content" aria-controls="tab_content" role="tab" data-toggle="tab">
-                              <?php echo _l('contract_content'); ?>
+                              <?php echo _l('legal_procedure'); ?>
                               </a>
                            </li>
+                            <?php /*<li role="presentation" class="<?php if($this->input->get('tab') == 'log'){echo 'active';} ?>">
+                                <a href="#log" aria-controls="log" role="tab" data-toggle="tab">
+                                    <?php echo _l('procedure_previous_text'); ?>
+                                </a>
+                            </li> */?>
                            <li role="presentation" class="<?php if($this->input->get('tab') == 'attachments'){echo 'active';} ?>">
                               <a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">
                               <?php echo _l('contract_attachments'); ?>
@@ -111,14 +47,14 @@
                               <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
                               </a>
                            </li>
-                           <li role="presentation" class="<?php if($this->input->get('tab') == 'renewals'){echo 'active';} ?>">
+                           <?php /*<li role="presentation" class="<?php if($this->input->get('tab') == 'renewals'){echo 'active';} ?>">
                               <a href="#renewals" aria-controls="renewals" role="tab" data-toggle="tab">
                               <?php echo _l('no_contract_renewals_history_heading'); ?>
                               <?php if($totalRenewals = count($contract_renewal_history)) { ?>
                                  <span class="badge"><?php echo $totalRenewals; ?></span>
                               <?php } ?>
                               </a>
-                           </li>
+                           </li> */ ?>
                            <li role="presentation" class="tab-separator">
                               <a href="#tab_tasks" aria-controls="tab_tasks" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract->id; ?>,'contract'); return false;">
                               <?php echo _l('tasks'); ?>
@@ -134,7 +70,7 @@
                                  </span>
                               </a>
                            </li>
-                           <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
+                            <?php /* <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
                               <a href="#tab_emails_tracking" aria-controls="tab_emails_tracking" role="tab" data-toggle="tab">
                                  <?php if(!is_mobile()){ ?>
                                  <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
@@ -142,18 +78,14 @@
                                  <?php echo _l('emails_tracking'); ?>
                                  <?php } ?>
                               </a>
-                           </li>
-                           <li role="presentation" class="tab-separator toggle_view">
-                              <a href="#" onclick="contract_full_view(); return false;" data-toggle="tooltip" data-title="<?php echo _l('toggle_full_view'); ?>">
-                              <i class="fa fa-expand"></i></a>
-                           </li>
+                           </li>*/ ?>
                         </ul>
                      </div>
                   </div>
                   <div class="tab-content">
                      <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo ' active';} ?>" id="tab_content">
                         <div class="row">
-                           <?php if($contract->signed == 1){ ?>
+                           <?php /*if($contract->signed == 1){ ?>
                            <div class="col-md-12">
                               <div class="alert alert-success">
                                  <?php echo _l('document_signed_info',array(
@@ -169,7 +101,7 @@
                                     <?php echo _l('contract_marked_as_signed_info'); ?>
                                  </div>
                               </div>
-                           <?php } ?>
+                           <?php }*/ ?>
                            <div class="col-md-12 text-right _buttons">
                               <div class="btn-group">
                                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
@@ -194,7 +126,7 @@
                                  <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
                                        <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
-                                       <?php echo _l('view_contract'); ?>
+                                       <?php echo _l('view_procedure'); ?>
                                        </a>
                                     </li>
                                     <?php
@@ -211,14 +143,14 @@
                                        </a>
                                     </li>
                                  <?php } ?>
-                                    <?php hooks()->do_action('after_contract_view_as_client_link', $contract); ?>
+                                    <?php /*hooks()->do_action('after_contract_view_as_client_link', $contract); ?>
                                     <?php if(has_permission('contracts','','create')){ ?>
                                     <li>
                                        <a href="<?php echo admin_url('contracts/copy/'.$contract->id); ?>">
                                        <?php echo _l('contract_copy'); ?>
                                        </a>
                                     </li>
-                                    <?php } ?>
+                                    <?php }*/ ?>
                                     <?php if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
                                     <li>
                                        <a href="<?php echo admin_url('contracts/clear_signature/'.$contract->id); ?>" class="_delete">
@@ -226,12 +158,12 @@
                                        </a>
                                     </li>
                                     <?php } ?>
-                                    <?php if(has_permission('contracts','','delete')){ ?>
+                                    <?php /*if(has_permission('contracts','','delete')){*/ ?>
                                     <li>
                                        <a href="<?php echo admin_url('contracts/delete/'.$contract->id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
-                                    <?php } ?>
+                                    <?php /*}*/ ?>
                                  </ul>
                               </div>
                            </div>
@@ -254,13 +186,20 @@
                            </div>
                         </div>
                         <hr class="hr-panel-heading" />
-                        <?php if(!staff_can('edit','contracts')) { ?>
+                         <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
+                         <?php $value = (isset($contract) ? $contract->subject : ''); ?>
+                         <?php echo render_input('subject','procedure_subject',$value); ?>
+                         <div class="text-right">
+                             <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                         </div>
+                         <?php echo form_close(); ?>
+                         <hr class="hr-panel-heading" />
+                        <?php /*if(!staff_can('edit','contracts')) { ?>
                            <div class="alert alert-warning contract-edit-permissions">
                               <?php echo _l('contract_content_permission_edit_warning'); ?>
                            </div>
-                        <?php } ?>
-                        <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>"
-                           style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
+                        <?php }*/ ?>
+                        <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                            <?php
                               if(empty($contract->content) && staff_can('edit','contracts')){
                                echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
@@ -269,7 +208,7 @@
                               }
                               ?>
                         </div>
-                        <?php if(!empty($contract->signature)) { ?>
+                        <?php /*if(!empty($contract->signature)) { ?>
                         <div class="row mtop25">
                            <div class="col-md-6 col-md-offset-6 text-right">
                               <p class="bold"><?php echo _l('document_customer_signature_text'); ?>
@@ -284,9 +223,11 @@
                               </div>
                            </div>
                         </div>
-                        <?php } ?>
+                        <?php }*/ ?>
                      </div>
-                     <div role="tabpanel" class="tab-pane" id="tab_notes">
+                      <div role="tabpanel" class="tab-pane" id="log">
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="tab_notes">
                         <?php echo form_open(admin_url('contracts/add_note/'.$contract->id),array('id'=>'sales-notes','class'=>'contract-notes-form')); ?>
                         <?php echo render_textarea('description'); ?>
                         <div class="text-right">
@@ -311,11 +252,11 @@
                         <?php echo form_open(admin_url('contracts/add_contract_attachment/'.$contract->id),array('id'=>'contract-attachments-form','class'=>'dropzone')); ?>
                         <?php echo form_close(); ?>
                         <div class="text-right mtop15">
-                           <button class="gpicker" data-on-pick="contractGoogleDriveSave">
+                           <?php /*<button class="gpicker" data-on-pick="contractGoogleDriveSave">
                               <i class="fa fa-google" aria-hidden="true"></i>
                               <?php echo _l('choose_from_google_drive'); ?>
                            </button>
-                           <div id="dropbox-chooser"></div>
+                           <div id="dropbox-chooser"></div> */?>
                            <div class="clearfix"></div>
                         </div>
                         <!-- <img src="https://drive.google.com/uc?id=14mZI6xBjf-KjZzVuQe8-rjtv_wXEbDTw" /> -->
@@ -347,7 +288,7 @@
                               ?>
                         </div>
                      </div>
-                     <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'renewals'){echo ' active';} ?>" id="renewals">
+                      <?php /* <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') == 'renewals'){echo ' active';} ?>" id="renewals">
                         <?php if(has_permission('contracts', '', 'create') || has_permission('contracts', '', 'edit')){ ?>
                         <div class="_buttons">
                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#renew_contract_modal">
@@ -414,7 +355,7 @@
                              get_tracked_emails($contract->id, 'contract'))
                            );
                            ?>
-                     </div>
+                     </div>*/ ?>
                      <div role="tabpanel" class="tab-pane" id="tab_tasks">
                         <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'contract')); ?>
                      </div>
@@ -433,9 +374,9 @@
    var contract_id = '<?php echo $contract->id; ?>';
 </script>
 <?php $this->load->view('admin/contracts/send_to_client'); ?>
-<?php $this->load->view('admin/contracts/renew_contract'); ?>
+<?php //$this->load->view('admin/contracts/renew_contract'); ?>
 <?php } ?>
-<?php $this->load->view('admin/contracts/contract_type'); ?>
+<?php //$this->load->view('admin/contracts/contract_type'); ?>
 <script>
    Dropzone.autoDiscover = false;
    $(function () {
@@ -534,11 +475,11 @@
              }
           });
 
-          editor.on('MouseDown ContextMenu', function () {
-             if (!is_mobile() && !$('.left-column').hasClass('hide')) {
-                contract_full_view();
-             }
-          });
+          // editor.on('MouseDown ContextMenu', function () {
+          //    if (!is_mobile() && !$('.left-column').hasClass('hide')) {
+          //       contract_full_view();
+          //    }
+          // });
 
           editor.on('blur', function () {
              $.Shortcuts.start();
@@ -581,7 +522,7 @@
     var data = {};
     data.contract_id = contract_id;
     data.content = editor.getContent();
-    $.post(admin_url + 'contracts/save_contract_data', data).done(function (response) {
+    $.post(admin_url + 'LegalServices/legal_procedures/save_contract_data', data).done(function (response) {
        response = JSON.parse(response);
        if (typeof (manual) != 'undefined') {
           // Show some message to the user if saved via CTRL + S
@@ -621,12 +562,12 @@
     tinymce.activeEditor.execCommand('mceInsertContent', false, key);
    }
 
-   function contract_full_view() {
-    $('.left-column').toggleClass('hide');
-    $('.right-column').toggleClass('col-md-7');
-    $('.right-column').toggleClass('col-md-12');
-    $(window).trigger('resize');
-   }
+   // function contract_full_view() {
+   //  $('.left-column').toggleClass('hide');
+   //  $('.right-column').toggleClass('col-md-7');
+   //  $('.right-column').toggleClass('col-md-12');
+   //  $(window).trigger('resize');
+   // }
 
    function add_contract_comment() {
     var comment = $('#comment').val();
@@ -706,16 +647,16 @@
        $('body').find('[data-contract-comment-edit-textarea="' + id + '"]').toggleClass('hide');
    }
 
-   function contractGoogleDriveSave(pickData) {
-      var data = {};
-      data.contract_id = contract_id;
-      data.external = 'gdrive';
-      data.files = pickData;
-      $.post(admin_url + 'contracts/add_external_attachment', data).done(function () {
-        var location = window.location.href;
-        window.location.href = location.split('?')[0] + '?tab=attachments';
-     });
-   }
+   // function contractGoogleDriveSave(pickData) {
+   //    var data = {};
+   //    data.contract_id = contract_id;
+   //    data.external = 'gdrive';
+   //    data.files = pickData;
+   //    $.post(admin_url + 'contracts/add_external_attachment', data).done(function () {
+   //      var location = window.location.href;
+   //      window.location.href = location.split('?')[0] + '?tab=attachments';
+   //   });
+   // }
 
 </script>
 </body>

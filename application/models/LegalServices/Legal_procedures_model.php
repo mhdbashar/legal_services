@@ -71,7 +71,6 @@ class Legal_procedures_model extends App_Model
         return false;
     }
 
-
     public function delete_procedure($id)
     {
         $this->db->where(array('id' => $id));
@@ -97,5 +96,56 @@ class Legal_procedures_model extends App_Model
     }
 
 
+///////////////////////////////////////////////////////
+    /* Contract Controlletr */
+
+    /**
+     * Get contract/s
+     * @param  mixed  $id         contract id
+     * @param  array   $where      perform where
+     * @param  boolean $for_editor if for editor is false will replace the field if not will not replace
+     * @return mixed
+     */
+    public function get_contract($id = '', $where = [], $for_editor = false)
+    {
+        $this->db->select('*,' /*. db_prefix() . 'contracts_types.name as type_name,' */. db_prefix() . 'contracts.id as id, ' . db_prefix() . 'contracts.addedfrom');
+        $this->db->where($where);
+        //$this->db->join(db_prefix() . 'contracts_types', '' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type', 'left');
+        //$this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'contracts.client');
+        if (is_numeric($id)) {
+            $this->db->where(db_prefix() . 'contracts.id', $id);
+            $contract = $this->db->get(db_prefix() . 'contracts')->row();
+            if ($contract) {
+                $contract->attachments = $this->contracts_model->get_contract_attachments('', $contract->id);
+                if ($for_editor == false) {
+                    $this->load->library('merge_fields/client_merge_fields');
+                    $this->load->library('merge_fields/contract_merge_fields');
+                    $this->load->library('merge_fields/other_merge_fields');
+
+                    $merge_fields = [];
+                    $merge_fields = array_merge($merge_fields, $this->contracts_model->contract_merge_fields->format($id));
+                    $merge_fields = array_merge($merge_fields, $this->contracts_model->client_merge_fields->format($contract->client));
+                    $merge_fields = array_merge($merge_fields, $this->contracts_model->other_merge_fields->format());
+                    foreach ($merge_fields as $key => $val) {
+                        if (stripos($contract->content, $key) !== false) {
+                            $contract->content = str_ireplace($key, $val, $contract->content);
+                        } else {
+                            $contract->content = str_ireplace($key, '', $contract->content);
+                        }
+                    }
+                }
+            }
+
+            return $contract;
+        }
+        $contracts = $this->db->get(db_prefix() . 'contracts')->result_array();
+        $i         = 0;
+        foreach ($contracts as $contract) {
+            $contracts[$i]['attachments'] = $this->contracts_model->get_contract_attachments('', $contract['id']);
+            $i++;
+        }
+
+        return $contracts;
+    }
 
 }

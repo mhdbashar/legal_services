@@ -771,12 +771,13 @@ $lang['edit_legal_procedures'] = "تعديل اجراء قانوني";
 $lang['sub_legal_procedures'] = "إجرائات فرعية";
 $lang['procedure_list_exist'] = "حاضنة الاجراء الرئيسي موجودة.. يمكنك إضافة اي اجراء قانوني فرعي من داخل الحاضنة";
 $lang['no_procedure_list_found'] = "هذه الخدمة لا يوجد لديها قائمة اجرائات";
-
-
-
 $lang['help_library'] = "المكتبة المساعدة";
 $lang['soon'] = "قريباً";
 $lang['clients_import_inst1'] = "يجب أن تكون بيانات CSV الخاصة بك بالتنسيق أدناه. يجب أن يكون السطر الأول من ملف CSV هو رؤوس الأعمدة كما في مثال الجدول. تأكد أيضًا من أن ملفك هو <b> UTF-8 </b> لتجنب <b> مشاكل النرميز </ b>.";
 $lang['clients_import_inst2'] = "إذا كان العمود <b> الذي تحاول استيراده هو التاريخ ، فتأكد من تنسيقه بالتنسيق Y-m-d ( 2020-04-03 ). </b>";
 $lang['clients_import_inst3'] = "تأكد من تكوين إذن الاتصال الافتراضي في <a href = \"https://law.babillawnet.com/admin/settings?group=clients\" target=_blank\">إعدادات->الإعدادات->العملاء</a>  للحصول على أفضل النتائج مثل التعيين التلقائي لأذونات جهات الاتصال وإعدادات إشعار البريد الإلكتروني بناءً على الإذن.";
 $lang['clients_import_inst4'] = "لن يتم استيراد أسطر البريد الإلكتروني المكررة.";
+
+$lang['procedure_subject'] = "موضوع الإجراء";
+$lang['view_procedure'] = "عرض الإجراء";
+$lang['procedure_previous_text'] = 'النصوص السابقة';

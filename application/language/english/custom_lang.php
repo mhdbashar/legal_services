@@ -3872,3 +3872,9 @@ $lang['clients_import_inst1'] = "Your CSV data should be in the format below. Th
 $lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
 $lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
 $lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";
+
+
+$lang['procedure_subject'] = "Procedure Subject";
+$lang['view_procedure']    = 'View Procedure';
+$lang['procedure_previous_text'] = 'Previous texts';
+

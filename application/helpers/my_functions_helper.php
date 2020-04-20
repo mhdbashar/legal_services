@@ -643,3 +643,15 @@ function legal_procedure_by_list_id($list_id)
     $CI->db->join(db_prefix() . 'my_categories AS subcat', 'subcat.id = ' . db_prefix() . 'legal_procedures.subcat_id', 'left');
     return $CI->db->get(db_prefix() . 'legal_procedures')->result_array();
 }
+
+function get_cat_name_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $cat = $CI->db->get(db_prefix() . 'my_categories')->row();
+    if ($cat) {
+        return $cat->name;
+    }
+    return false;
+}

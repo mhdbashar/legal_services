@@ -57,7 +57,11 @@ class Legal_procedures_model extends App_Model
         if(isset($data['cat_id'])):
             unset($data['cat_id']);
         endif;
+        $contract_data['subject'] = get_cat_name_by_id($data['subcat_id']);
         $contract_data['type_id'] = 2;
+        $contract_data['datestart'] = date('Y-m-d');
+        $contract_data['contract_type'] = 0;
+        $contract_data['client'] = get_staff_user_id();
         $ref_id = $this->contracts_model->add($contract_data);
         if ($ref_id) {
             $data['reference_id'] = $ref_id;

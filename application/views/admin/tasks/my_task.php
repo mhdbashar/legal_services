@@ -263,7 +263,11 @@
                            <?php if($rel_id != '' && $rel_type != ''){
                               $rel_data = get_relation_data($rel_type,$rel_id);
                               $rel_val = get_relation_values($rel_data,$rel_type);
-                              echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                              if(!$rel_data){
+                                  echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
+                              }else{
+                                  echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                              }
                               } ?>
                            </select>
                         </div>

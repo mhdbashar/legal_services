@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/application/views/admin/contracts/my_manage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/tables/my_contracts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/legal_procedures.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/legal_procedures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Contracts_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Contracts_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/contract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/staff/member.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/staff/member.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +115,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Mach" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -256,6 +253,11 @@
       <workItem from="1586973823282" duration="6365000" />
       <workItem from="1587039385171" duration="37000" />
       <workItem from="1587063112426" duration="9548000" />
+      <workItem from="1587126866193" duration="55000" />
+      <workItem from="1587132913999" duration="351000" />
+      <workItem from="1587326660257" duration="608000" />
+      <workItem from="1587327984315" duration="4664000" />
+      <workItem from="1587365134938" duration="300000" />
     </task>
     <servers />
   </component>
@@ -284,29 +286,33 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1586379081957" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1587039420701">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1587365435048">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587039420701" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1587039389969">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587365435048" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1587365138270">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1587039389969" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1587365138270" />
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585852031189">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1585852031189" />
-    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1587073803683">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587329109637">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1587073803683" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587329109637" />
+    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1587331763915">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1587331763915" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1586739431159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1586739431159" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1585764630314">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587330031945">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1585764630314" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587330031945" />
   </component>
 </project>

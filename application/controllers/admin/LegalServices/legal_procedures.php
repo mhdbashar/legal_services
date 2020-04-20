@@ -129,7 +129,7 @@ class Legal_procedures extends AdminController
                 /*if (!has_permission('contracts', '', 'create')) {
                     access_denied('contracts');
                 }*/
-                $id = $this->procedures->add($this->input->post());
+                $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('legal_procedure')));
                     redirect(admin_url('LegalServices/legal_procedures/contract/' . $id));
@@ -138,7 +138,7 @@ class Legal_procedures extends AdminController
                 /*if (!has_permission('contracts', '', 'edit')) {
                     access_denied('contracts');
                 }*/
-                $success = $this->procedures->update($this->input->post(), $id);
+                $success = $this->contracts_model->update($this->input->post(), $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('legal_procedure')));
                 }

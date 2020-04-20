@@ -492,6 +492,26 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_resignations')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendance')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendance` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time_in` time NOT NULL,
+      `time_out` time NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendances')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendances` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time` time NOT NULL,
+      `type` varchar(200) NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 
 if (!option_exists('deduction_type')) {
     $value = '[{"key":"Social Security System","value":"Social Security System"},{"key":"Health Insurance Corporation","value":"Health Insurance Corporation"},{"key":"Home Development Mutual Fund","value":"Home Development Mutual Fund"},{"key":"Withholding Tax on Wages","value":"Withholding Tax on Wages"},{"key":"Other Statutory Deduction","value":"Other Statutory Deduction"}]';

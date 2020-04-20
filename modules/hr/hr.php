@@ -58,6 +58,10 @@ function hr_menu_items($item)
                         <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                     
+                                    <li><a href="'.admin_url('hr/timesheet/attendance').'">'._l('attendance').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/timesheet/date_wise_attendance').'">'._l('date_wise_attendance').'</a>
+                                    </li>
                                     <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
                                     </li>
                                     <li><a href="'.admin_url('hr/timesheet/overtime_requests').'">'._l('overtime_requests').'</a>

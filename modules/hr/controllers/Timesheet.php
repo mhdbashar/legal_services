@@ -13,6 +13,48 @@ class Timesheet extends AdminController{
         $this->load->model('Office_shift_model');
 	}
 
+    //attendance
+    public function attendance(){
+        if(!empty($this->input->get('date')))
+            $date = $this->input->get('date');
+        else
+            $date = date("Y-m-d");
+        //echo $date; exit;
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_attendance_table', ['date' => $date]);
+        }
+        $data['title'] = _l('attendance');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/attendance/manage', $data);
+    }
+
+    //date_wise_attendance
+    public function date_wise_attendance(){
+        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))){
+            $start_date = $this->input->get('start_date');
+            $end_date = $this->input->get('end_date');
+        }
+        else{
+            $start_date = date("Y-m-d");
+            $end_date = date("Y-m-d");
+        }
+        //echo $date; exit;
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date]);
+        }
+        $data['title'] = _l('attendance');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/attendance/date_wise_attendance', $data);
+    }
+
     //office_shift
     public function office_shift(){
         if($this->input->is_ajax_request()){

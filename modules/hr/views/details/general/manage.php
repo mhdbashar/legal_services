@@ -83,6 +83,7 @@
 });
 
 $(document).ready(function(){
+  <?php if(empty($branch)) $branch = 1 ?>
   var branch_id = <?php echo $branch ?>;
   <?php  
     $departmentid = 0;

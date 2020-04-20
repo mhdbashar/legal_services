@@ -781,3 +781,6 @@ $lang['clients_import_inst4'] = "لن يتم استيراد أسطر البري�
 $lang['procedure_subject'] = "موضوع الإجراء";
 $lang['view_procedure'] = "عرض الإجراء";
 $lang['procedure_previous_text'] = 'النصوص السابقة';
+$lang['procedure_editor'] = 'حرره:';
+$lang['procedure_copy_date'] = 'تاريخ النسخة:';
+$lang['procedure_save_as_template'] = 'حفظ الإجراء كقالب';

@@ -234,4 +234,65 @@ class Legal_procedures extends AdminController
         ]);
     }
 
+    public function pdf($id)
+    {
+        /*if (!has_permission('contracts', '', 'view') && !has_permission('contracts', '', 'view_own')) {
+            access_denied('contracts');
+        }*/
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $contract = $this->procedures->get_contract($id, ['type_id' => 2], true);
+
+        try {
+            $pdf = contract_pdf($contract);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+        $type = 'D';
+
+        if ($this->input->get('output_type')) {
+            $type = $this->input->get('output_type');
+        }
+
+        if ($this->input->get('print')) {
+            $type = 'I';
+        }
+
+        $pdf->Output(slug_it($contract->subject) . '.pdf', $type);
+    }
+
+    public function add_comment()
+    {
+        if ($this->input->post()) {
+            echo json_encode([
+                'success' => $this->procedures->add_comment($this->input->post()),
+            ]);
+        }
+    }
+
+    /* Delete contract from database */
+    public function delete_contract($id)
+    {
+        /*if (!has_permission('contracts', '', 'delete')) {
+            access_denied('contracts');
+        }*/
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->procedures->delete_contract($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted', _l('contract')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('contract_lowercase')));
+        }
+        if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
+            redirect(admin_url());
+        } else {
+            redirect(admin_url('LegalServices/legal_procedures/contract/' . $id));
+        }
+    }
+
 }

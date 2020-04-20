@@ -644,6 +644,13 @@ function legal_procedure_by_list_id($list_id)
     return $CI->db->get(db_prefix() . 'legal_procedures')->result_array();
 }
 
+function legal_procedure_by_ref_id($ref_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('reference_id', $ref_id);
+    return $CI->db->get(db_prefix() . 'legal_procedures')->row();
+}
+
 function get_cat_name_by_id($id)
 {
     $CI = & get_instance();

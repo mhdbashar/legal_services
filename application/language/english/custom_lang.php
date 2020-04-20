@@ -3878,3 +3878,6 @@ $lang['procedure_subject'] = "Procedure Subject";
 $lang['view_procedure']    = 'View Procedure';
 $lang['procedure_previous_text'] = 'Previous texts';
 
+$lang['procedure_editor'] = 'Edited by:';
+$lang['procedure_copy_date'] = 'Copy date';
+$lang['procedure_save_as_template'] = 'Save procedure as template';

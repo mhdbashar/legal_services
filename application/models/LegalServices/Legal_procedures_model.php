@@ -75,8 +75,9 @@ class Legal_procedures_model extends App_Model
         return false;
     }
 
-    public function delete_procedure($id)
+    public function delete_procedure($id, $where = [])
     {
+        $this->db->where($where);
         $this->db->where(array('id' => $id));
         $this->db->delete(db_prefix() . 'legal_procedures');
         if ($this->db->affected_rows() > 0) {
@@ -100,8 +101,8 @@ class Legal_procedures_model extends App_Model
     }
 
 
-///////////////////////////////////////////////////////
-    /* Contract Controlletr */
+    ///////////////////////////////////////////////////////
+    /* Contract Model */
 
     /**
      * Get contract/s
@@ -150,6 +151,142 @@ class Legal_procedures_model extends App_Model
         }
 
         return $contracts;
+    }
+
+    public function add_comment($data, $client = false)
+    {
+        if (is_staff_logged_in()) {
+            $client = false;
+        }
+
+        if (isset($data['action'])) {
+            unset($data['action']);
+        }
+
+        $data['dateadded'] = date('Y-m-d H:i:s');
+
+        if ($client == false) {
+            $data['staffid'] = get_staff_user_id();
+        }
+
+        $data['content'] = nl2br($data['content']);
+        $this->db->insert(db_prefix() . 'contract_comments', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+            $contract = $this->get_contract($data['contract_id']);
+
+            if (($contract->not_visible_to_client == '1' || $contract->trash == '1') && $client == false) {
+                return true;
+            }
+
+            if ($client == true) {
+
+                // Get creator
+                $this->db->select('staffid, email, phonenumber');
+                $this->db->where('staffid', $contract->addedfrom);
+                $staff_contract = $this->db->get(db_prefix() . 'staff')->result_array();
+
+                $notifiedUsers = [];
+
+                foreach ($staff_contract as $member) {
+                    $notified = add_notification([
+                        'description'     => 'not_contract_comment_from_client',
+                        'touserid'        => $member['staffid'],
+                        'fromcompany'     => 1,
+                        'fromuserid'      => null,
+                        'link'            => 'contracts/contract/' . $data['contract_id'],
+                        'additional_data' => serialize([
+                            $contract->subject,
+                        ]),
+                    ]);
+
+                    if ($notified) {
+                        array_push($notifiedUsers, $member['staffid']);
+                    }
+
+                    $template     = mail_template('contract_comment_to_staff', $contract, $member);
+                    $merge_fields = $template->get_merge_fields();
+                    $template->send();
+
+                    // Send email/sms to admin that client commented
+                    $this->app_sms->trigger(SMS_TRIGGER_CONTRACT_NEW_COMMENT_TO_STAFF, $member['phonenumber'], $merge_fields);
+                }
+                pusher_trigger_notification($notifiedUsers);
+            } else {
+                $contacts = $this->clients_model->get_contacts($contract->client, ['active' => 1, 'contract_emails' => 1]);
+
+                foreach ($contacts as $contact) {
+                    $template     = mail_template('contract_comment_to_customer', $contract, $contact);
+                    $merge_fields = $template->get_merge_fields();
+                    $template->send();
+
+                    $this->app_sms->trigger(SMS_TRIGGER_CONTRACT_NEW_COMMENT_TO_CUSTOMER, $contact['phonenumber'], $merge_fields);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  integer ID
+     * @return boolean
+     * Delete contract, also attachment will be removed if any found
+     */
+    public function delete_contract($id)
+    {
+        hooks()->do_action('before_contract_deleted', $id);
+        //$this->clear_signature($id);
+        $contract = $this->get_contract($id);
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'contracts');
+        if ($this->db->affected_rows() > 0) {
+            $this->db->where('contract_id', $id);
+            $this->db->delete(db_prefix() . 'contract_comments');
+
+            // Delete the custom field values
+            $this->db->where('relid', $id);
+            $this->db->where('fieldto', 'contracts');
+            $this->db->delete(db_prefix() . 'customfieldsvalues');
+
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', 'contract');
+            $attachments = $this->db->get(db_prefix() . 'files')->result_array();
+            foreach ($attachments as $attachment) {
+                $this->contracts_model->delete_contract_attachment($attachment['id']);
+            }
+
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', 'contract');
+            $this->db->delete(db_prefix() . 'notes');
+
+
+            $this->db->where('contractid', $id);
+            $this->db->delete(db_prefix() . 'contract_renewals');
+            // Get related tasks
+            $this->db->where('rel_type', 'contract');
+            $this->db->where('rel_id', $id);
+            $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
+            foreach ($tasks as $task) {
+                $this->tasks_model->delete_task($task['id']);
+            }
+
+            delete_tracked_emails($id, 'contract');
+
+            $proc_id = legal_procedure_by_ref_id($id)->id;
+
+            $this->delete_procedure($proc_id,$id);
+
+            log_activity('Contract Deleted [' . $id . ']');
+
+
+            return true;
+        }
+
+        return false;
     }
 
 }

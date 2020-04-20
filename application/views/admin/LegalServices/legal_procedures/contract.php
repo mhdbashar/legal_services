@@ -8,9 +8,9 @@
             <div class="panel_s">
                <div class="panel-body">
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
-                  <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
+                   <?php /* <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
                      <?php echo _l('view_procedure'); ?>
-                  </a>
+                  </a> */ ?>
                   <hr class="hr-panel-heading" />
                   <?php /*if($contract->trash > 0){
                      echo '<div class="ribbon default"><span>'._l('contract_trash').'</span></div>';
@@ -106,43 +106,43 @@
                               <div class="btn-group">
                                  <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                                  <ul class="dropdown-menu dropdown-menu-right">
-                                    <li class="hidden-xs"><a href="<?php echo admin_url('contracts/pdf/'.$contract->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
-                                    <li class="hidden-xs"><a href="<?php echo admin_url('contracts/pdf/'.$contract->id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
-                                    <li><a href="<?php echo admin_url('contracts/pdf/'.$contract->id); ?>"><?php echo _l('download'); ?></a></li>
+                                    <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
+                                    <li class="hidden-xs"><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?output_type=I'); ?>" target="_blank"><?php echo _l('view_pdf_in_new_window'); ?></a></li>
+                                    <li><a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id); ?>"><?php echo _l('download'); ?></a></li>
                                     <li>
-                                       <a href="<?php echo admin_url('contracts/pdf/'.$contract->id.'?print=true'); ?>" target="_blank">
+                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/pdf/'.$contract->id.'?print=true'); ?>" target="_blank">
                                        <?php echo _l('print'); ?>
                                        </a>
                                     </li>
                                  </ul>
                               </div>
-                              <a href="#" class="btn btn-default" data-target="#contract_send_to_client_modal" data-toggle="modal"><span class="btn-with-tooltip" data-toggle="tooltip" data-title="<?php echo _l('contract_send_to_email'); ?>" data-placement="bottom">
+                               <?php  /* <a href="#" class="btn btn-default" data-target="#contract_send_to_client_modal" data-toggle="modal"><span class="btn-with-tooltip" data-toggle="tooltip" data-title="<?php echo _l('contract_send_to_email'); ?>" data-placement="bottom">
                               <i class="fa fa-envelope"></i></span>
-                              </a>
+                              </a> */?>
                               <div class="btn-group">
                                  <button type="button" class="btn btn-default pull-left dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  <?php echo _l('more'); ?> <span class="caret"></span>
                                  </button>
                                  <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
+                                     <?php /* <li>
                                        <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
                                        <?php echo _l('view_procedure'); ?>
                                        </a>
-                                    </li>
+                                    </li> */ ?>
                                     <?php
-                                    if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'contracts')) { ?>
+                                    //if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'contracts')) { ?>
                                      <li>
                                        <a href="<?php echo admin_url('contracts/mark_as_signed/'.$contract->id); ?>">
-                                          <?php echo _l('mark_as_signed'); ?>
+                                          <?php echo _l('procedure_save_as_template'); ?>
                                        </a>
                                     </li>
-                                 <?php } else if($contract->signed == 0 && $contract->marked_as_signed == 1 && staff_can('edit', 'contracts')) { ?>
+                                 <?php /*} else if($contract->signed == 0 && $contract->marked_as_signed == 1 && staff_can('edit', 'contracts')) { ?>
                                        <li>
                                        <a href="<?php echo admin_url('contracts/unmark_as_signed/'.$contract->id); ?>">
                                           <?php echo _l('unmark_as_signed'); ?>
                                        </a>
                                     </li>
-                                 <?php } ?>
+                                 <?php }*/ ?>
                                     <?php /*hooks()->do_action('after_contract_view_as_client_link', $contract); ?>
                                     <?php if(has_permission('contracts','','create')){ ?>
                                     <li>
@@ -151,23 +151,23 @@
                                        </a>
                                     </li>
                                     <?php }*/ ?>
-                                    <?php if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
+                                    <?php /*if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
                                     <li>
                                        <a href="<?php echo admin_url('contracts/clear_signature/'.$contract->id); ?>" class="_delete">
                                        <?php echo _l('clear_signature'); ?>
                                        </a>
                                     </li>
-                                    <?php } ?>
+                                    <?php }*/ ?>
                                     <?php /*if(has_permission('contracts','','delete')){*/ ?>
                                     <li>
-                                       <a href="<?php echo admin_url('contracts/delete/'.$contract->id); ?>" class="_delete">
+                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
                                     <?php /*}*/ ?>
                                  </ul>
                               </div>
                            </div>
-                           <div class="col-md-12">
+                         <?php  /*<div class="col-md-12">
                               <?php if(isset($contract_merge_fields)){ ?>
                               <hr class="hr-panel-heading" />
                               <p class="bold mtop10 text-right"><a href="#" onclick="slideToggle('.avilable_merge_fields'); return false;"><?php echo _l('available_merge_fields'); ?></a></p>
@@ -183,7 +183,7 @@
                                  </ul>
                               </div>
                               <?php } ?>
-                           </div>
+                           </div> */?>
                         </div>
                         <hr class="hr-panel-heading" />
                          <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
@@ -208,6 +208,14 @@
                               }
                               ?>
                         </div>
+                         <div class="row mtop25">
+                             <div class="col-md-12 text-left">
+                         <?php if(empty($contract->content) && staff_can('edit','contracts')): ?>
+                             <h4 class="bold"><?php echo _l('procedure_editor').' '.get_staff_full_name(get_staff_user_id()) ?></h4>
+                             <h5 class="bold"><?php echo _l('procedure_copy_date').' '._dt($contract->dateadded); ?> </h5>
+                         <?php endif ?>
+                             </div>
+                         </div>
                         <?php /*if(!empty($contract->signature)) { ?>
                         <div class="row mtop25">
                            <div class="col-md-6 col-md-offset-6 text-right">
@@ -373,7 +381,7 @@
 <script>
    var contract_id = '<?php echo $contract->id; ?>';
 </script>
-<?php $this->load->view('admin/contracts/send_to_client'); ?>
+<?php //$this->load->view('admin/contracts/send_to_client'); ?>
 <?php //$this->load->view('admin/contracts/renew_contract'); ?>
 <?php } ?>
 <?php //$this->load->view('admin/contracts/contract_type'); ?>
@@ -415,15 +423,15 @@
        }));
     }
 
-    appValidateForm($('#contract-form'), {
-       client: 'required',
-       datestart: 'required',
-       subject: 'required'
-    });
-
-    appValidateForm($('#renew-contract-form'), {
-       new_start_date: 'required'
-    });
+    // appValidateForm($('#contract-form'), {
+    //    client: 'required',
+    //    datestart: 'required',
+    //    subject: 'required'
+    // });
+    //
+    // appValidateForm($('#renew-contract-form'), {
+    //    new_start_date: 'required'
+    // });
 
     var _templates = [];
     $.each(contractsTemplates, function (i, template) {
@@ -557,10 +565,10 @@
     return false;
    }
 
-   function insert_merge_field(field) {
-    var key = $(field).text();
-    tinymce.activeEditor.execCommand('mceInsertContent', false, key);
-   }
+   // function insert_merge_field(field) {
+   //  var key = $(field).text();
+   //  tinymce.activeEditor.execCommand('mceInsertContent', false, key);
+   // }
 
    // function contract_full_view() {
    //  $('.left-column').toggleClass('hide');
@@ -578,7 +586,7 @@
     data.content = comment;
     data.contract_id = contract_id;
     $('body').append('<div class="dt-loader"></div>');
-    $.post(admin_url + 'contracts/add_comment', data).done(function (response) {
+    $.post(admin_url + 'LegalServices/legal_procedures/add_comment', data).done(function (response) {
        response = JSON.parse(response);
        $('body').find('.dt-loader').remove();
        if (response.success == true) {

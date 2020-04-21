@@ -240,7 +240,7 @@ class Legal_procedures_model extends App_Model
     {
         hooks()->do_action('before_contract_deleted', $id);
         //$this->clear_signature($id);
-        $contract = $this->get_contract($id);
+        //$contract = $this->get_contract($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'contracts');
         if ($this->db->affected_rows() > 0) {
@@ -278,7 +278,7 @@ class Legal_procedures_model extends App_Model
 
             $proc_id = legal_procedure_by_ref_id($id)->id;
 
-            $this->delete_procedure($proc_id,$id);
+            $this->delete_procedure($proc_id, ['reference_id'=>$id]);
 
             log_activity('Contract Deleted [' . $id . ']');
 

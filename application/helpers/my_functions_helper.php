@@ -364,7 +364,6 @@ function to_AD_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-//        var_dump($dateArray);exit;
     }
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
@@ -642,6 +641,13 @@ function legal_procedure_by_list_id($list_id)
     $CI->db->select(db_prefix() . 'legal_procedures.*,subcat.name AS subcat_name');
     $CI->db->join(db_prefix() . 'my_categories AS subcat', 'subcat.id = ' . db_prefix() . 'legal_procedures.subcat_id', 'left');
     return $CI->db->get(db_prefix() . 'legal_procedures')->result_array();
+}
+
+function list_procedure_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    return $CI->db->get(db_prefix() . 'legal_procedures_lists')->row();
 }
 
 function legal_procedure_by_ref_id($ref_id)

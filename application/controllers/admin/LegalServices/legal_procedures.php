@@ -122,7 +122,7 @@ class Legal_procedures extends AdminController
     /* Contract Controlletr */
 
     /* Edit contract or add new contract */
-    public function contract($id = '')
+    public function procedure_text($id = '')
     {
         if ($this->input->post()) {
             if ($id == '') {
@@ -132,7 +132,7 @@ class Legal_procedures extends AdminController
                 $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('legal_procedure')));
-                    redirect(admin_url('LegalServices/legal_procedures/contract/' . $id));
+                    redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id));
                 }
             } else {
                 /*if (!has_permission('contracts', '', 'edit')) {
@@ -142,7 +142,7 @@ class Legal_procedures extends AdminController
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('legal_procedure')));
                 }
-                redirect(admin_url('LegalServices/legal_procedures/contract/' . $id));
+                redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id));
             }
         }
         if ($id == '') {
@@ -152,7 +152,7 @@ class Legal_procedures extends AdminController
             //$data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
             if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
-                blank_page(_l('contract_not_found'));
+                blank_page(_l('procedure_not_found'));
             }
 
             $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'client'], '{email_signature}');
@@ -169,9 +169,10 @@ class Legal_procedures extends AdminController
         //$this->load->model('currencies_model');
         //$data['base_currency'] = $this->currencies_model->get_base_currency();
         //$data['types']         = $this->contracts_model->get_contract_types();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
-        $this->load->view('admin/LegalServices/legal_procedures/contract', $data);
+        $this->load->view('admin/LegalServices/legal_procedures/procedure_text', $data);
     }
 
     /*public function save_text()
@@ -219,14 +220,14 @@ class Legal_procedures extends AdminController
 
         $success = false;
         $message = '';
-
         $this->db->where('id', $this->input->post('contract_id'));
         $this->db->update(db_prefix() . 'contracts', [
             'content' => html_purify($this->input->post('content', false)),
+            'dateadded' => date('Y-m-d H:i:s')
         ]);
 
         $success = $this->db->affected_rows() > 0;
-        $message = _l('updated_successfully', _l('contract'));
+        $message = _l('updated_successfully', _l('legal_procedure'));
 
         echo json_encode([
             'success' => $success,
@@ -284,14 +285,48 @@ class Legal_procedures extends AdminController
         }
         $response = $this->procedures->delete_contract($id);
         if ($response == true) {
-            set_alert('success', _l('deleted', _l('contract')));
+            set_alert('success', _l('deleted', _l('legal_procedure')));
         } else {
-            set_alert('warning', _l('problem_deleting', _l('contract_lowercase')));
+            set_alert('warning', _l('problem_deleting', _l('legal_procedure')));
         }
         if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
             redirect(admin_url());
         } else {
-            redirect(admin_url('LegalServices/legal_procedures/contract/' . $id));
+            redirect(admin_url());
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function save_as_template()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $list_data = array(
+                'cat_id' => $data['cat_id'],
+                'rel_type' => $data['rel_type'],
+                'rel_id' => $data['rel_id']
+            );
+            $list_id = $this->procedures->add_list($list_data);
+            if($list_id){
+                $proc_data = array(
+                    'subcat_id' => $data['subcat_id'],
+                    'list_id' => $list_id,
+
+                );
+                $id = $this->procedures->add_legal_procedure($proc_data);
+                if ($id) {
+                    set_alert('success', _l('procedure_template_assigned_to_service'));
+                    redirect($_SERVER['HTTP_REFERER']);
+                }else{
+                    set_alert('danger', _l('Faild'));
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+            }else{
+                set_alert('danger', _l('procedure_list_exist'));
+                redirect($_SERVER['HTTP_REFERER']);
+            }
         }
     }
 

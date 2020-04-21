@@ -3881,3 +3881,5 @@ $lang['procedure_previous_text'] = 'Previous texts';
 $lang['procedure_editor'] = 'Edited by:';
 $lang['procedure_copy_date'] = 'Copy date';
 $lang['procedure_save_as_template'] = 'Save procedure as template';
+$lang['procedure_template_assigned_to_service'] = 'The current procedure has been saved as a template for the selected legal service';
+$lang['procedure_not_found'] = "legal procedure not found. Maybe is deleted, check activity log";

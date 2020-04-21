@@ -132,7 +132,7 @@
                                     <?php
                                     //if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'contracts')) { ?>
                                      <li>
-                                       <a href="<?php echo admin_url('contracts/mark_as_signed/'.$contract->id); ?>">
+                                       <a href="#" data-toggle="modal" data-target="#save_as_template">
                                           <?php echo _l('procedure_save_as_template'); ?>
                                        </a>
                                     </li>
@@ -210,7 +210,7 @@
                         </div>
                          <div class="row mtop25">
                              <div class="col-md-12 text-left">
-                         <?php if(empty($contract->content) && staff_can('edit','contracts')): ?>
+                         <?php if(!empty($contract->content) && staff_can('edit','contracts')): ?>
                              <h4 class="bold"><?php echo _l('procedure_editor').' '.get_staff_full_name(get_staff_user_id()) ?></h4>
                              <h5 class="bold"><?php echo _l('procedure_copy_date').' '._dt($contract->dateadded); ?> </h5>
                          <?php endif ?>
@@ -373,6 +373,66 @@
          </div>
          <?php } ?>
       </div>
+
+       <div class="modal fade" id="save_as_template" tabindex="-1" role="dialog">
+           <div class="modal-dialog">
+               <?php echo form_open(admin_url('LegalServices/legal_procedures/save_as_template'),array('id'=>'save-as-template-form')); ?>
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">
+                           <span class="add-title"><?php echo _l('procedure_save_as_template'); ?></span>
+                       </h4>
+                   </div>
+                   <div class="modal-body">
+                       <div class="row">
+                           <div class="col-md-12">
+                               <?php
+                               $proc_data = legal_procedure_by_ref_id($contract->id);
+                               $list_data = list_procedure_by_id($proc_data->list_id);
+                               ?>
+                               <?php echo render_input('list_id','',$proc_data->list_id,'hidden'); ?>
+                               <?php echo render_input('subcat_id','',$proc_data->subcat_id,'hidden'); ?>
+                               <?php echo render_input('cat_id','',$list_data->cat_id,'hidden'); ?>
+                               <div class="form-group">
+                                   <label for="rel_type" class="control-label"><?php echo _l('select_legal_services'); ?></label>
+                                   <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                       <option value=""></option>
+                                       <?php foreach ($legal_services as $service): ?>
+                                           <option value="<?php echo $service['slug']; ?>"><?php echo $service['name']; ?></option>
+                                       <?php endforeach; ?>
+                                   </select>
+                               </div>
+                               <div class="form-group" id="rel_id_wrapper">
+                                   <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                   <div id="rel_id_select">
+                                       <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                           <?php
+                                               $rel_data = get_relation_data($rel_type,$rel_id);
+                                               $rel_val = get_relation_values($rel_data,$rel_type);
+                                               if(!$rel_data){
+                                                   echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
+                                               }else{
+                                                   echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                               }
+                                            ?>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                       <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                   </div>
+               </div>
+               <!-- /.modal-content -->
+               <?php echo form_close(); ?>
+           </div>
+           <!-- /.modal-dialog -->
+       </div>
+       <!-- /.modal -->
    </div>
 </div>
 <?php init_tail(); ?>
@@ -665,6 +725,42 @@
    //      window.location.href = location.split('?')[0] + '?tab=attachments';
    //   });
    // }
+   var _rel_id = $('#rel_id'),
+       _rel_type = $('#rel_type'),
+       _rel_id_wrapper = $('#rel_id_wrapper'),
+       data = {};
+   $(function(){
+
+       appValidateForm($('#save-as-template-form'), {
+           rel_type: 'required',
+           rel_id: 'required',
+       });
+
+   task_rel_select();
+
+   _rel_type.on('change', function() {
+
+       var clonedSelect = _rel_id.html('').clone();
+       _rel_id.selectpicker('destroy').remove();
+       _rel_id = clonedSelect;
+       $('#rel_id_select').append(clonedSelect);
+       $('.rel_id_label').html(_rel_type.find('option:selected').text());
+
+       task_rel_select();
+       if($(this).val() != ''){
+           _rel_id_wrapper.removeClass('hide');
+       } else {
+           _rel_id_wrapper.addClass('hide');
+       }
+       //init_project_details(_rel_type.val());
+   });
+   });
+   function task_rel_select(){
+       var serverData = {};
+       serverData.rel_id = _rel_id.val();
+       data.type = _rel_type.val();
+       init_ajax_search(_rel_type.val(),_rel_id,serverData);
+   }
 
 </script>
 </body>

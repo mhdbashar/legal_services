@@ -3,11 +3,9 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Perfex CRM Email Builder
-Module URI: https://codecanyon.net/item/drag-and-drop-perfex-crm-email-builder/25269927
-Author: Ion Prodan
-Author URI: https://yon.fun?utm_source=perfex-module
-Description: Beautiful e-mail templates, with no design experience needed.
+Module Name: mcreator_name
+Author: Babil Team
+Description: mcreator_desc
 Version: 2.0.1
 Requires at least: 2.4.*
 */

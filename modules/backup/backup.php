@@ -3,10 +3,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Database Backup
-Description: Default module to perform database backup
+Module Name: db_name
+Description: db_desc
 Version: 2.3.0
 Requires at least: 2.3.*
+Author: Babil Team
 */
 
 require(__DIR__ . '/vendor/autoload.php');

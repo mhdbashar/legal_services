@@ -6,9 +6,9 @@
     </small>
 </h4>
 <hr class="hr-panel-heading">
-<?php render_yes_no_option('gdpr_enable_consent_for_contacts','Enable consent for contacts'); ?>
+<?php render_yes_no_option('gdpr_enable_consent_for_contacts','gdpr_enable_consent_for_contacts'); ?>
 <hr />
-<?php render_yes_no_option('gdpr_enable_consent_for_leads','Enable consent for leads'); ?>
+<?php render_yes_no_option('gdpr_enable_consent_for_leads','gdpr_enable_consent_for_leads'); ?>
 <hr />
 <p class="">
     Public page consent information block

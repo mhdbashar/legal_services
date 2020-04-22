@@ -1,5 +1,69 @@
 <?php
 
+$lang['gdpr_enable_consent_for_contacts'] = "Enable consent for contacts";
+
+$lang['appointly_name'] = "Appointment";
+$lang['appointly_desc'] = "Appointment Module";
+
+$lang['asset_name'] = "Resources Management";
+$lang['asset_desc'] = "Resources management module, allocation, recovery, depreciation, asset status";
+
+$lang['db_name'] = "Database Backup";
+$lang['db_desc'] = "Default module to perform database backup";
+
+
+$lang['branches_name'] = "Branches";
+$lang['branches_desc'] = "Management Branches";
+
+
+$lang['smsemail_name'] = "My Email & SMS Notifications";
+$lang['smsemail_desc'] = "Default module to send sms or email to customers";
+
+
+$lang['disputes_name'] = "Disputes";
+$lang['disputes_desc'] = "Default module for managing Financial disputes";
+
+
+$lang['goals_name'] = "Goals";
+$lang['goals_desc'] = "Default module for defining goals";
+
+
+$lang['hr_name'] = "HR System";
+$lang['hr_desc'] = "Default module for Human Resources Management";
+
+
+$lang['label_name'] = "Labels Management";
+$lang['label_desc'] = "Translate Label (Arabic- English).";
+
+
+$lang['loc_name'] = "Location Module";
+$lang['loc_desc'] = "Manages cities and countries inside your app by adding, modifying and deleting Countries or Cities";
+
+$lang['maily_name'] = "Maily";
+$lang['maily_desc'] = "Maily is a webmail client.";
+
+$lang['menu_name'] = "Menu Setup";
+$lang['menu_desc'] = "Default module to apply changes to the menus";
+
+
+$lang['mcreator_name'] = "Mail templates creator";
+$lang['mcreator_desc'] = "Simple mail templates creator module";
+
+
+$lang['chat_name'] = "Chat me";
+$lang['chat_desc'] = "Chat Module";
+
+
+$lang['surveys_name'] = "Surveys";
+$lang['surveys_desc'] = "Default module for sending surveys";
+
+
+$lang['theme_name'] = "Theme Style";
+$lang['theme_desc'] = "Default module to apply additional CSS styles";
+
+$lang['install']= "Install";
+$lang['module_upload']= "Upload Module";
+$lang['module_upload_msg']= "If you have a module in a .zip format, you may install it by uploading it here.";
 $lang['new_status']= "New Status";
 $lang['hr_document']="HR Document";
 $lang['hr_document_reminder_notification_before_help']="0 for Disable";

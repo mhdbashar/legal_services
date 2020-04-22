@@ -2,9 +2,9 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Author: Ahmad Zaher khrezaty
-Module Name: Branches
-Description: Management Branches
+Author: Babil Team
+Module Name: branches_name
+Description: branches_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 */

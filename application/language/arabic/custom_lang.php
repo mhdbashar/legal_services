@@ -1,5 +1,68 @@
 <?php
 
+$lang['gdpr_enable_consent_for_contacts'] = "Enable consent for contacts";
+$lang['appointly_name'] = "المواعيد";
+$lang['appointly_desc'] = "إضافة لإدارة المواعيد";
+
+$lang['asset_name'] = "إدارة الموارد";
+$lang['asset_desc'] = "وحدة إدارة الموارد ، التخصيص ، الاسترداد ، الاستهلاك ، حالة الأصول";
+
+$lang['db_name'] = "نسخه الاحتياطيه لقاعدة البيانات";
+$lang['db_desc'] = "الإضافة الافتراضية لإجراء النسخ الاحتياطي لقاعدة البيانات";
+
+
+$lang['branches_name'] = "الفروع";
+$lang['branches_desc'] = "إدارة الفروع";
+
+
+$lang['smsemail_name'] = "إشعارات البريد الإلكتروني والرسائل القصيرة";
+$lang['smsemail_desc'] = "الإضافة الافتراضية لإرسال الرسائل القصيرة أو البريد الإلكتروني للعملاء";
+
+
+$lang['disputes_name'] = "النزاعات المالية";
+$lang['disputes_desc'] = "الإضافة الافتراضية لإدارة المنازعات المالية";
+
+
+$lang['goals_name'] = "الأهداف";
+$lang['goals_desc'] = "الإضافة الافتراضية لتحديد الأهداف";
+
+
+$lang['hr_name'] = "نظام الموارد البشرية";
+$lang['hr_desc'] = "الإضافة الافتراضية لإدارة الموارد البشرية";
+
+
+$lang['label_name'] = "إدارة التسميات";
+$lang['label_desc'] = "ترجمة التسمية (عربي- إنجليزي).";
+
+
+$lang['loc_name'] = "وحدة الموقع";
+$lang['loc_desc'] = "يدير المدن والبلدان داخل تطبيقك عن طريق إضافة وتعديل وحذف البلدان أو المدن";
+
+$lang['maily_name'] = "بريدي";
+$lang['maily_desc'] = "بريدي هو عميل وب للبريد الالكتروني";
+
+$lang['menu_name'] = "إعداد القائمة";
+$lang['menu_desc'] = "الإضافة الافتراضية لتطبيق التغييرات على القوائم";
+
+
+$lang['mcreator_name'] = "منشئ قوالب البريد";
+$lang['mcreator_desc'] = "منمذج بسيط لقوالب البريد الإلكتروني";
+
+
+$lang['chat_name'] = "الدردشة";
+$lang['chat_desc'] = "إضافة الدردشة";
+
+
+$lang['surveys_name'] = "الدراسات الاستقصائية";
+$lang['surveys_desc'] = "الإضافة الافتراضية لإرسال الاستطلاعات";
+
+
+$lang['theme_name'] = "نمط الموضوع";
+$lang['theme_desc'] = "الإضافة الافتراضية لتطبيق أنماط CSS إضافية";
+
+$lang['install']= "تثبيت";
+$lang['module_upload']= "تحميل الإضافة";
+$lang['module_upload_msg']= "إذا كان لديك إضافة بلاحقة .zip ، فيمكنك تثبيتها عن طريق رفعها هنا.";
 $lang['new_status']= "حالة جديدة";
 $lang['hr_document']="وثائق الموارد البشرية";
 $lang['hr_document_reminder_notification_before_help']="للتعطيل 0";
@@ -158,7 +221,7 @@ $lang['state'] = "الحالة";
 $lang['zip_code'] = "الرمز البريدي";
 $lang['country'] = "البلد";
 $lang['proposal_link'] = "رابط العطاء";
-$lang['staff_contact_who_take_action_on_session'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالجلسة";
+$lang['staff_contact_who_take_action_on_session'] = "الموظفين أو جهات الاتصال الذين لهم إرتباط بالجلسة";
 $lang['session_link'] = "رابط الجلسة";
 $lang['comment_link'] = "رابط التعليق";
 $lang['session_name'] = "عنوان الجلسة";
@@ -179,7 +242,7 @@ $lang['subscription_name'] = "إسم الإشتراك";
 $lang['subscription_description'] = "وصف الإشتراك";
 $lang['subscription_subscribe_link'] = "رابط الإشتراك في الخدمة";
 $lang['subscription_authorization_link'] = "رابط تفويض الإشتراك";
-$lang['staff_contact_who_take_action_on_task'] = "الموظفين أو جهات الإتصال الذين لهم إرتباط بالمهمة";
+$lang['staff_contact_who_take_action_on_task'] = "الموظفين أو جهات الاتصال الذين لهم إرتباط بالمهمة";
 $lang['task_link'] = "رابط المهمة";
 $lang['task_name'] = "عنوان المهمة";
 $lang['task_description'] = "وصف المهمة";

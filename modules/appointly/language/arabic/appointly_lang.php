@@ -26,7 +26,7 @@ $lang['appointment_request_to_cancel'] = 'طلب الغاء';
 $lang['appointment_select_attendees'] = 'الحضور';
 $lang['appointment_requested_by'] = 'طلب موعد حسب / الحالة';
 $lang['appointment_overview'] = 'نظرة عامة على الموعد';
-$lang['appointment_select_single_contact'] = 'الإتصال';
+$lang['appointment_select_single_contact'] = 'الاتصال';
 $lang['appointment_deleted'] = 'تم الغاء الموعد بنجاح';
 $lang['appointment_created'] = 'تم إنشاء موعد بنجاح';
 $lang['appointment_updated'] = 'تم تحديث الموعد بنجاح';
@@ -72,7 +72,7 @@ $lang['appointment_meeting_location'] = 'موقع الموعد';
 $lang['appointment_phone'] = 'الهاتف';
 $lang['appointment_name'] = 'الإسم';
 $lang['appointment_email'] = 'البريد الإلكتروني';
-$lang['appointment_contact'] = 'جهة الإتصال';
+$lang['appointment_contact'] = 'جهة الاتصال';
 $lang['appointment_meeting_time'] = 'تاريخ الموعد';
 $lang['appointment_sent_successfully'] = 'تم إرسال طلب الموعد الجديد بنجاح ، سيتم إعلامك عبر البريد الإلكتروني عند الموافقة على موعدك';
 $lang['appointment_squeduled_at_text'] = 'من المقرر أن يبدأ الموعد في';
@@ -109,7 +109,7 @@ $lang['appointly_show_summary_in_appointments_dashboard'] = 'عرض ملخص ا�
 $lang['appointments_summary'] = 'نظة عامة على المواعيد';
 $lang['appointments_total_found'] = 'إجمالي المواعيد';
 $lang['appointly_are_you_early_reminders'] = 'هل أنت متأكد أنك تريد إرسال رسائل تذكير موعد في وقت مبكر؟';
-$lang['appointly_reminders_sent'] = 'تم إرسال تذكيرات الموعد إلى جميع الحضور وجهات الإتصال';
+$lang['appointly_reminders_sent'] = 'تم إرسال تذكيرات الموعد إلى جميع الحضور وجهات الاتصال';
 $lang['appointment_send_early_reminders_label'] = 'إرسال تذكيرات مبكرة';
 $lang['appointments_admin_label'] = 'المسؤول';
 $lang['appointments_staff_label'] = 'فريق العمل';
@@ -165,7 +165,7 @@ $lang['appointments_resp_person_not_set'] = 'لم يتم تعيين الشخص �
 $lang['appointly_settings_label_pointer'] = '<strong> الإعداد -> الإعدادات -> المواعيد </ strong>';
 
 # Version 1.1.3
-$lang['appointly_callbacks'] = 'إعادة الإتصال';
+$lang['appointly_callbacks'] = 'إعادة الاتصال';
 $lang['appointly_recaptcha_label'] = 'تمكين <strong> reCAPTCHA </strong> للنموذج الخارجي للمواعيد';
 $lang['appointly_back_to_appointments'] = 'العودة إلى المواعيد';
 $lang['callback_status_upcoming'] = 'القادمة';
@@ -185,7 +185,7 @@ $lang['callbacks_select_assignees'] = 'احالة إلى ';
 $lang['callbacks_new_callback_request'] = 'لديك طلب إعادة إتصال عبر النموذج.';
 $lang['callbacks_responsible_person'] = 'المسؤول عن طلبات إعادة الاتصال الجديدة عبر النموذج.';
 $lang['appointly_busy_times_enabled_label'] = 'تمكين مؤشر الأوقات المشغولة للمواعيد';
-$lang['callbacks_enable_on_external_form'] = 'تمكين إعادة الإتصال في منطقة النموذج الخارجية';
+$lang['callbacks_enable_on_external_form'] = 'تمكين إعادة الاتصال في منطقة النموذج الخارجية';
 $lang['callbacks_resp_person_not_set'] = 'لم يتم تعيين الشخص المسؤول عن إعادة الأتصال، يرجى تعيين هذا الخيار في %s';
 $lang['callbacks_request_a_callback'] = 'طلب إعادة أتصال';
 $lang['callbacks_form_firstname'] = 'الأسم الأول';
@@ -221,7 +221,7 @@ $lang['callbacks_have_contacted'] = 'لقد تعاملت مع هذا الطلب'
 $lang['callbacks_have_not_contacted'] = 'لم أقم بإعادة الاتصال';
 $lang['callbacks_deleted_success'] = 'تم حذف طلب الاتصال بنجاح';
 $lang['callbacks_new_note'] = 'أضاف ملاحظة جديدة على طلب الاتصال';
-$lang['callbacks_assignee_removed'] = 'تمت إزالة المعين لطلب الإتصال بنجاح';
+$lang['callbacks_assignee_removed'] = 'تمت إزالة المعين لطلب الاتصال بنجاح';
 
 # Version 1.1.4
 $lang['appointly_module_name'] = 'مواعيدي';

@@ -6,9 +6,9 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Author: Ahmad Zaher Khrezaty
-Module Name: Label Management
-Description: Translate Label (Arabic- English).
+Author: Babil Team
+Module Name: label_name
+Description: label_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 */

@@ -3,10 +3,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: disputes
-Description: Default module for managing Financial disputes
+Module Name: disputes_name
+Description: disputes_desc
 Version: 1.0.0
 Requires at least: 2.3.*
+Author: Babil Team
 */
 
 define('DISPUTES_MODULE_NAME', 'disputes');

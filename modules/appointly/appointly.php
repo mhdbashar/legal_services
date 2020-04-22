@@ -1,9 +1,10 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Appointly
-Description: Appointments Module
+Module Name: appointly_name
+Description: appointly_desc
 Version: 1.1.4
 Requires at least: 2.4.1
+Author: Babil Team
 */
 
 define('APPOINTLY_MODULE_NAME', 'appointly');

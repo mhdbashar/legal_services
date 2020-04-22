@@ -195,11 +195,18 @@ function app_init_case_tabs()
         'position'                  => 75,
     ]);
 
+    $CI->app_tabs->add_case_tab('Procedures', [
+        'name'                      => _l('legal_procedures'),
+        'icon'                      => 'fa fa-braille',
+        'view'                      => 'admin/LegalServices/legal_procedures/tab',
+        'position'                  => 80,
+    ]);
+
     $CI->app_tabs->add_case_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
-        'position'                  => 80,
+        'position'                  => 85,
     ]);
 }
 

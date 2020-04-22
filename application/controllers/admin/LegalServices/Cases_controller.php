@@ -17,6 +17,7 @@ class Cases_controller extends AdminController
     $this->load->model('tasks_model');
     $this->load->model('LegalServices/Phase_model','phase');
     $this->load->model('LegalServices/irac_model', 'irac');
+    $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
     $this->load->helper('date');
 }
 
@@ -278,7 +279,7 @@ class Cases_controller extends AdminController
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
-
+            $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
             if ($group == 'project_overview') {
                 $data['members'] = $this->case->get_project_members($id);
                 foreach ($data['members'] as $key => $member) {
@@ -399,6 +400,9 @@ class Cases_controller extends AdminController
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             } elseif ($group == 'IRAC'){
                 $data['IRAC'] = $this->irac->get('', ['rel_id' => $id, 'rel_type' => $slug]);
+            } elseif ($group == 'Procedures'){
+                $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
+                $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

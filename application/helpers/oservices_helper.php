@@ -188,11 +188,18 @@ function app_init_oservice_tabs()
         'position'                  => 65,
     ]);
 
+    $CI->app_tabs->add_oservice_tab('Procedures', [
+        'name'                      => _l('legal_procedures'),
+        'icon'                      => 'fa fa-braille',
+        'view'                      => 'admin/LegalServices/legal_procedures/tab',
+        'position'                  => 70,
+    ]);
+
     $CI->app_tabs->add_oservice_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
-        'position'                  => 70,
+        'position'                  => 75,
     ]);
 }
 

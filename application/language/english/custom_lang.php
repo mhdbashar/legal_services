@@ -3993,9 +3993,32 @@ $lang['facts'] = "Facts";
 $lang['legal_authority'] = "Legal authority / statutory text";
 $lang['analysis'] = "Analysis";
 $lang['IRAC_result'] = "Result";
+$lang['help_library'] = "Resources & Help library";
+$lang['soon'] = "Soon";
+$lang['legal_procedures_management'] = "Managing legal procedures";
+$lang['legal_procedures'] = "legal procedures";
+$lang['legal_procedure'] = "legal procedure";
+$lang['add_legal_procedures'] = "Add legal procedure";
+$lang['add_procedures_list'] = "Add procedures list";
+$lang['edit_procedures_list'] = "Edit procedures list";
+$lang['edit_legal_procedures'] = "Edit legal procedure";
+$lang['sub_legal_procedures'] = "Sub legal procedure";
+$lang['procedure_list_exist'] = "The main procedure incubator is present .. You can add any sub-legal procedure from within the incubator";
+$lang['no_procedure_list_found'] = "This service has no procedures list";
 $lang['help_library'] = "Help library";
 $lang['soon'] = "Soon";
 $lang['clients_import_inst1'] = "Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.";
 $lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
 $lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
 $lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";
+
+
+$lang['procedure_subject'] = "Procedure Subject";
+$lang['view_procedure']    = 'View Procedure';
+$lang['procedure_previous_text'] = 'Previous texts';
+
+$lang['procedure_editor'] = 'Edited by:';
+$lang['procedure_copy_date'] = 'Copy date';
+$lang['procedure_save_as_template'] = 'Save procedure as template';
+$lang['procedure_template_assigned_to_service'] = 'The current procedure has been saved as a template for the selected legal service';
+$lang['procedure_not_found'] = "legal procedure not found. Maybe is deleted, check activity log";

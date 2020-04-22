@@ -137,6 +137,41 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_overtime_request')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_overtime_request` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `date` date NOT NULL,
+    `in_time` varchar(200) NOT NULL,
+    `out_time` varchar(200) NOT NULL,
+    `reason` text NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_office_shift')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_office_shift` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `shift_name` varchar(200) NOT NULL,
+    `saturday_in` time default NULL,
+    `saturday_out` time default NULL,
+    `sunday_in` time default NULL,
+    `sunday_out` time default NULL,
+    `monday_in` time default NULL,
+    `monday_out` time default NULL,
+    `tuesday_in` time default NULL,
+    `tuesday_out` time default NULL,
+    `wednesday_in` time default NULL,
+    `wednesday_out` time default NULL,
+    `thursday_in` time default NULL,
+    `thursday_out` time default NULL,
+    `friday_in` time default NULL,
+    `friday_out` time default NULL,
+    `default` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+} 
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_allowances')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_allowances` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -455,6 +490,26 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_resignations')) {
     `resignation_reason` text NOT NULL,
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendance')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendance` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time_in` time NOT NULL,
+      `time_out` time NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendances')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendances` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time` time NOT NULL,
+      `type` varchar(200) NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
 

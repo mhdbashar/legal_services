@@ -1,6 +1,5 @@
 <?php
 
-$lang['gdpr_enable_consent_for_contacts'] = "Enable consent for contacts";
 $lang['appointly_name'] = "المواعيد";
 $lang['appointly_desc'] = "إضافة لإدارة المواعيد";
 
@@ -85,6 +84,56 @@ $lang['email_queue_skip_attachments_exp']="على الأرجح ستواجه مش
 $lang['email_queue_enabled_exp'] = "لتسريع عملية البريد الإلكتروني ، سيضيف النظام رسائل البريد الإلكتروني في قائمة الانتظار ويرسلها عبر وظيفة cron ، تأكد من تكوين وظيفة cron بشكل صحيح من أجل استخدام هذه الميزة.";
 $lang['cronjob_req'] = "تتطلب هذه الميزة مهمة من نوع cron مضبوطة بشكل صحيح. قبل تنشيط هذه الميزة ، تأكد من تكوين اعدادت وظيفة cron ";
 $lang['settings_sales_bo_box'] = "صندوق البريد";
+$lang['employee_id'] = "رقم الموظف";
+$lang['over_time'] = "الوقت الاضافي";
+$lang['early_leaving'] = "الخروج المبكر";
+$lang['late'] = "التأخير";
+$lang['total_work'] = "وقت العمل الكامل";
+
+$lang['is_default'] = "هل هو افتراضي ؟";
+$lang['shift_name'] = "اسم وقت الدوام";
+$lang['office_shift'] = "وقت الدوام";
+$lang['saturday'] = "السبت";
+$lang['sunday'] = "الأحد";
+$lang['monday'] = "الاثنين";
+$lang['tuesday'] = "الثلاثاء";
+$lang['wednesday'] = "الأربعاء";
+$lang['thursday'] = "الخميس";
+$lang['friday'] = "الجمعة";
+
+$lang['saturday_in'] = "دخول السبت";
+$lang['sunday_in'] = "دخول الأحد";
+$lang['monday_in'] = "دخول الاثنين";
+$lang['tuesday_in'] = "دخول الثلاثاء";
+$lang['wednesday_in'] = "دخول الأربعاء";
+$lang['thursday_in'] = "دخول الخميس";
+$lang['friday_in'] = "دخول الجمعة";
+
+$lang['saturday_out'] = "خروج السبت";
+$lang['sunday_out'] = "خروج الأحد";
+$lang['monday_out'] = "خروج الاثنين";
+$lang['tuesday_out'] = "خروج الثلاثاء";
+$lang['wednesday_out'] = "خروج الأربعاء";
+$lang['thursday_out'] = "خروج الخميس";
+$lang['friday_out'] = "خروج الجمعة";
+
+$lang['new_office_shift'] = "وقت دوام جديد";
+$lang['default'] = "افتراضي";
+$lang['not_default'] = "غير افتراضي";
+
+
+$lang['if_you_insert_time_in_you_must_insert_time_out'] = "اذا قمت بادخال فترة بداية ليوم يجب اختيار فترة نهاية له";
+$lang['overtime_requests'] = "طلبيات الوقت الاضافي";
+$lang['new_overtime_request'] = "طلب وقت اضافي جديد";
+$lang['in_time'] = "وقت الدخول";
+$lang['out_time'] = "وقت الخروج";
+$lang['overtime_status'] = "الحالة";
+
+$lang['hr_document'] = "وثائق الموارد البشرية";
+$lang['hr_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
+$lang['procurations_reminder_notification_before'] = "تذكير الموعد النهائي للوكالة قبل (الأيام)";
+$lang['not_document_deadline_reminder'] = "تذكير قبل انتهاء مهلة الوثيقة";
+
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "الرجاء إكمال المعلومات الأساسية للموظف";
 $lang['completed'] = "مكتمل";
 $lang['not_completed'] = "غير مكتمل";

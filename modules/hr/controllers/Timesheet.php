@@ -9,7 +9,201 @@ class Timesheet extends AdminController{
 		$this->load->model('Holidays_model');
 		$this->load->model('Leave_model');
         $this->load->model('Leave_type_model');
+        $this->load->model('Overtime_request_model');
+        $this->load->model('Office_shift_model');
 	}
+
+    //attendance
+    public function attendance(){
+        if(!empty($this->input->get('date')))
+            $date = $this->input->get('date');
+        else
+            $date = date("Y-m-d");
+        //echo $date; exit;
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_attendance_table', ['date' => $date]);
+        }
+        $data['title'] = _l('attendance');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/attendance/manage', $data);
+    }
+
+    //date_wise_attendance
+    public function date_wise_attendance(){
+        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))){
+            $start_date = $this->input->get('start_date');
+            $end_date = $this->input->get('end_date');
+        }
+        else{
+            $start_date = date("Y-m-d");
+            $end_date = date("Y-m-d");
+        }
+        //echo $date; exit;
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date]);
+        }
+        $data['title'] = _l('attendance');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/attendance/date_wise_attendance', $data);
+    }
+
+    //office_shift
+    public function office_shift(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_office_shift_table');
+        }
+        $data['title'] = _l('office_shift');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/office_shift/manage', $data);
+    }
+
+    public function json_office_shift($id){
+        $branch_id = '';
+        if($this->Branches_model->get('office_shift', $id))
+            $branch_id = $this->Branches_model->get_branch('office_shift', $id);
+        $data = $this->Office_shift_model->get($id);
+        $data->branch_id = $branch_id;
+        echo json_encode($data);
+    }
+    public function update_office_shift(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        if($data['default'] == 1){
+            $this->db->where('default', 1);
+            $this->db->update('tblhr_office_shift', ['default'=>0]);
+        }
+        unset($data['branch_id']);
+        foreach ($data as $key => $value) {
+            if($value == '')
+                $data[$key] = null;
+        }
+        $id = $this->input->post('id');
+        $success = $this->Office_shift_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+
+            $this->Branches_model->update_branch('office_shift', $id, $branch_id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_office_shift(){
+        $data = $this->input->post();
+        $branch_id = $data['branch_id'];
+        if($data['default'] == 1){
+            $this->db->where('default', 1);
+            $this->db->update('tblhr_office_shift', ['default'=>0]);
+        }
+        unset($data['branch_id']);
+        foreach ($data as $key => $value) {
+            if($value == '')
+                $data[$key] = null;
+        }
+        //var_dump($data);exit;
+
+        $success = $this->Office_shift_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+
+
+        if(is_numeric($branch_id)){
+            $branch_data = [
+                'branch_id' => $branch_id, 
+                'rel_type' => 'office_shift', 
+                'rel_id' => $success
+            ];
+            $this->Branches_model->set_branch($branch_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_office_shift($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Office_shift_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    //overtime_requests
+    public function overtime_requests(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_overtime_requests_table');
+        }
+        $data['title'] = _l('overtime_requests');
+        if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
+        }
+        $this->load->view('timesheet/overtime_request/manage', $data);
+    }
+
+    public function json_overtime_request($id){
+        $data = $this->Overtime_request_model->get($id);
+        echo json_encode($data);
+    }
+    public function update_overtime_request(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Overtime_request_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_overtime_request(){
+        $data = $this->input->post();
+        $success = $this->Overtime_request_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_overtime_request($id)
+    {
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Overtime_request_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
 	public function holidays(){
 		if($this->input->is_ajax_request()){

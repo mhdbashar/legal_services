@@ -906,7 +906,7 @@ class Cron_model extends App_Model
         // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
 
         $this->db->where('end_date IS NOT NULL');
-       // $this->db->where('deadline_notified', 0);
+        $this->db->where('deadline_notified', 0);
 
         $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
         $now   = new DateTime(date('Y-m-d'));

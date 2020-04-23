@@ -5,6 +5,7 @@ $lang['over_time'] = "Overtime";
 $lang['early_leaving'] = "Early Leaving";
 $lang['late'] = "Late";
 $lang['total_work'] = "Total Work";
+$lang['total_rest'] = "Total Rest";
 
 $lang['is_default'] = "Is Default ?";
 $lang['shift_name'] = "Shift name";

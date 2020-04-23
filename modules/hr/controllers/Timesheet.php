@@ -34,19 +34,23 @@ class Timesheet extends AdminController{
 
     //date_wise_attendance
     public function date_wise_attendance(){
-        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))){
+        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))  and !empty($this->input->get('staff_id'))){
             $start_date = $this->input->get('start_date');
             $end_date = $this->input->get('end_date');
+            $staff_id = $this->input->get('staff_id');
         }
         else{
             $start_date = date("Y-m-d");
             $end_date = date("Y-m-d");
+            $staff_id = 1;
         }
         //echo $date; exit;
         if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date]);
+            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date, 'staff_id' => $staff_id]);
         }
+        //echo $start_date.' '.$end_date;exit;
         $data['title'] = _l('attendance');
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');

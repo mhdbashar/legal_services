@@ -5,6 +5,7 @@ $lang['over_time'] = "الوقت الاضافي";
 $lang['early_leaving'] = "الخروج المبكر";
 $lang['late'] = "التأخير";
 $lang['total_work'] = "وقت العمل الكامل";
+$lang['total_rest'] = "وقت الاستراحة الكامل";
 
 $lang['is_default'] = "هل هو افتراضي ؟";
 $lang['shift_name'] = "اسم وقت الدوام";

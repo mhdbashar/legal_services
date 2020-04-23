@@ -13,7 +13,23 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_date_input('date','date', date("Y-m-d"), ['required' => 'required']); ?>
+                        <div class="form-group">
+                            <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
+                            <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                                <option></option>
+                                <?php  
+                                    foreach ($staff_members as $staff){
+                                        echo "<option value=".$staff['staffid'].'">'.$staff['firstname'].'</option>';
+                                    }
+                                ?>
+                            </select>     
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <?php echo render_date_input('start_date','start_date', date("Y-m-d"), ['required' => 'required']); ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?php echo render_date_input('end_date','end_date', date("Y-m-d"), ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>

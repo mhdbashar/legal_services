@@ -24,6 +24,7 @@
                         _l('early_leaving'),
                         _l('over_time'),
                         _l('total_work'),
+                        _l('total_rest'),
                     ),'attendance'); ?>
                     </div>
                 </div>

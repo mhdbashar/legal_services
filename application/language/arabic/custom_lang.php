@@ -1,5 +1,159 @@
 <?php
 
+$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+
+$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
+
+$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
+
+$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
+
+$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
+
+$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
+
+$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
+
+$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
+
+$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
+
+$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = 'يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"' . admin_url('misc/reminders') . '\">تذكير</a>. مخصص';
+
+$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_api_key_trans'] = 'مفتاح API';
+
+$lang['sms_babil_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_sender_id_trans'] = 'معرف المرسل';
+
+$lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن عملائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class="hr-10" />';
+
+$lang['sms_appointment_approved_Sent_to_contact'] = 'الموافقة على الموعد (مرسلة إلى جهة الاتصال)';
+$lang['sms_trigger_when_appointment_is_approved'] = 'يتم تشغيله عند الموافقة على الموعد ، سيتم إرسال SMS إلى رقم جهة الإتصال.';
+
+$lang['appointment_cancelled_sent_to_contact'] = 'تم إلغاء الموعد (مرسلة إلى جهة الاتصال)';
+$lang['sms_trigger_when_appointment_is_cancelled'] = 'يتم تشغيله عند إلغاء الموعد ، سيتم إرسال الرسائل القصيرة إلى رقم جهة الإتصال.';
+
+$lang['sms_appointment_reminder_Sent_to_contact'] = 'تذكير بالموعد (مرسلة إلى جهة الاتصال)';
+$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = 'يتم تشغيله عندما يتم تعيين تذكير قبل التاريخ عند إنشاء الموعد ، سيتم إرسال SMS إلى جهات الإتصال.';
+
+
+$lang['gdpr_portability_contacts'] = 'جهات الإتصال';
+$lang['gdpr_portability_enable_contact_to_export_data'] = 'تمكين جهة الاتصال لتصدير البيانات (JSON)';
+$lang['gdpr_potability_on_export_the_data'] = 'عند التصدير ، قم بتصدير البيانات التالية';
+$lang['gdpr_portability_contact_profile_data'] = 'بيانات الملف الشخصي لجهة الاتصال';
+$lang['gdpr_portability_contact_history'] = 'تاريخ الموافقة';
+$lang['gdpr_portability_consent_tickets'] = 'التذاكر';
+$lang['gdpr_portability_only_applied_if_contact_is_primary'] = 'تطبق فقط إذا كانت جهة الاتصال هي جهة الاتصال الأساسية';
+$lang['gdpr_portability_cutomer_profile_data'] = 'بيانات الملف الشخصي للعميل';
+$lang['gdpr_potability_customer_profile_notes'] = 'ملاحظات ملف العميل';
+$lang['gdpr_portability_contacts_sec'] = 'جهات الإتصال';
+$lang['gdpr_portability_invoices_data'] = 'بيانات الفواتير';
+$lang['gdpr_portability_invoices_notes'] = 'ملاحظات الفواتير';
+$lang['gdpr_portability_activity_log'] = 'سجل الأنشطة';
+$lang['gdpr_portability_estimates_data'] = 'بيانات عروض الأتعاب';
+$lang['gdpr_portability_estimates_notes'] = 'ملاحظات عروض الأتعاب';
+$lang['gdpr_portability_projects'] = 'الخدمات القانونية';
+$lang['gdpr_portability_tasks_creates_from_contact'] = 'المهام التي تم إنشاؤها من جهة الاتصال والمهام التي علق فيها جهة الاتصال';
+$lang['gdpr_portability_discussion_created_from_contact'] = 'المناقشات التي تم إنشاؤها من جهة الاتصال والمناقشات التي علق عليها جهة الاتصال';
+$lang['gdpr_portability_credit_notes'] = 'الأرصدة';
+$lang['gdpr_portability_proposals'] = 'العطاءات';
+$lang['gdpr_portability_subscriptions'] = 'الإشتراكات';
+$lang['gdpr_portability_expenses'] = 'المصروفات';
+$lang['gdpr_portability_contracts'] = 'العقود';
+$lang['gdpr_portability_leads'] = 'العملاءالمحتملين';
+$lang['gdpr_portability_enable_leads_to_export_data'] = 'تمكين العملاء المتوقعين لتصدير البيانات (JSON)';
+$lang['gdpr_portability_on_export_the_following_data'] = 'عند التصدير ، قم بتصدير البيانات التالية';
+$lang['gdpr_potability_profile_data'] = 'بيانات الملف الشخصي';
+$lang['gdpr_portability_cusom_fields'] = 'الحقول المخصصة';
+$lang['gdpr_portabiltity_notes'] = 'الملاحظات';
+$lang['gdpr_portability_email_integration'] = 'رسائل البريد الإلكتروني لتكامل البريد الإلكتروني';
+$lang['gadpr_potability_consent_history'] = 'تاريخ الموافقة';
+
+
+$lang['gdbr_enable_consent_for_contacts'] = 'تمكين الموافقة لجهات الاتصال';
+$lang['gdpr_enable_consent_for_leads'] = 'تمكين الموافقة للعملاء المحتملين';
+$lang['gdpr_public_page_consent_information_block'] = 'كتلة معلومات الموافقة على الصفحة العامة';
+$lang['gdpr_purposes_of_consent'] = 'أغراض الموافقة';
+$lang['gdpr_name'] = 'الإسم';
+$lang['gdpr_description'] = 'الوصف';
+$lang['gdpr_created'] = 'أنشئت';
+$lang['gdpr_last_update'] = 'أخر تحديث';
+$lang['gdpr_options'] = 'خيارات';
+
+
+$lang['gdpr_config'] = 'التكوين';
+$lang['gdpr_removal_requests'] = 'طلبات الإزالة';
+$lang['gdpr_contacts'] = 'جهات الاتصال';
+$lang['gdpr_enable_contact_to_request_data_removal'] = 'تمكين جهة الاتصال لطلب إزالة البيانات';
+$lang['gdpr_when_deleting_customer_delete_also_invoices_and_credit_notes_related_to_this_customer'] = 'عند حذف العميل ، احذف أيضًا <b> الفواتير </b> و <b> الأرصدة </b> المتعلقة بهذا العميل.';
+$lang['gdpr_when_deleting_customer_delete_also_estimates_related_to_this_customer'] = 'عند حذف العميل ، احذف أيضًا عروض الاتعاب المتعلقة بهذا العميل.';
+$lang['gdpr_leads'] = 'العملاءالمحتملون';
+$lang['gdpr_enable_lead_to_request_data_removal_via_public_form'] = 'تمكين العميل المحتمل من طلب إزالة البيانات (عبر النموذج العام)';
+$lang['gdpr_after_lead_is_converted_to_customer_delete_all_lead_data'] = 'بعد تحويل العميل المحتمل إلى عميل عادي ، احذف جميع بيانات العميل المحتمل';
+$lang['gdpr_request_id'] = 'معرف الطلب';
+$lang['gdpr_request_form'] = 'نموذج الطلب';
+$lang['gdpr_forgotten_description'] = 'الوصف';
+$lang['gdpr_request_status'] = 'حالة الطلب';
+$lang['gdpr_request_date'] = 'تاريخ الطلب';
+$lang['gdpr_forgotten_pending'] = 'قيد الإنتظار';
+$lang['gdpr_forgotten_removed'] = 'تمت الإزالة';
+$lang['gdpr_forgottin_refused'] = 'مرفوض';
+
+$lang['gdpr_general_enable_gdpr'] = 'تمكين اللائحة العامة لحماية البيانات';
+$lang['gdpr_general_show_gdpr_link_in_customers_area_navigation'] = 'عرض رابط اللائحة العامة لحماية البيانات في منطقة العملاء';
+$lang['gdpr_general_show_gdpr_link_in_customers_area_footer'] = 'عرض رابط اللائحة العامة لحماية البيانات في تذييل منطقة العملاء';
+$lang['gdpr_general_gdpr_page_top_information_block'] = 'كتلة المعلومات أعلى صفحة اللائحة العامة لحماية البيانات';
+
+
+$lang['gdpr_informed_enable_terms_conditions_for_registration_and_customers_portal'] = 'تمكين الشروط والأحكام للتسجيل وبوابة العملاء';
+$lang['gdpr_informed_enable_terms__onditions_for_web_to_lead_forms'] = 'تمكين الشروط والأحكام في نماذج العملاء المحتملين';
+$lang['gdpr_informed_enable_terms_conditions_for_ticket_form'] = 'تمكين الشروط والأحكام لنماذج التذاكر';
+$lang['gdpr_informed_show_terms_conditions_in_customers_area_footer'] = 'إظهار الشروط والأحكام في تذييل منطقة العملاء';
+$lang['gdpr_informed_terms_and_conditions'] = 'الشروط والأحكام';
+$lang['gdpr_informed_privacy_policy'] = 'سياسة الخصوصية';
+
+
+$lang['gdpr_protability_contacts'] = 'جهات الإتصال';
+$lang['gdpr_protability_custmers_view_information'] = 'تتيح منطقة العملاء لعملائك الوصول إلى تسجيل الدخول وعرض معلوماتهم الشخصية. كما توفر منطقة العملاء إمكانية الوصول لتحديث معلوماتهم الشخصية مثل الاسم وعنوان البريد الإلكتروني والهاتف وما إلى ذلك ...';
+$lang['gdpr_protability_contacts_modify'] = 'أدناه يمكنك العثور على <b> خيارات إضافية </b> قد ترغب في السماح لجهات الاتصال بتعديلها.';
+$lang['gdpr_portability_profile_contact'] = 'الملف الشخصي / جهة الاتصال';
+$lang['gdpr_portability_customer_update_info'] = 'لن يؤثر تحديث تفاصيل الفوترة والشحن من منطقة العملاء على الفواتير التي تم إنشاؤها بالفعل وعروض الأتعاب والأرصدة.';
+$lang['gdpr_portability_leads'] = 'العملاءالمحتملون';
+$lang['gdpr_portability_leads_update_info'] = 'سيكون للعملاء المحتملين الذين تضيفهم في النظام عنوان URL فريد لعرض معلوماتهم التي تقوم بتخزينها لهم ، وسوف يتمكنون من تحديث المعلومات عند وصولهم إلى عنوان URL.';
+$lang['gdpr_portability_leads_custom_fields'] = 'إظهار الحقول المخصصة للعملاء المحتملين في النموذج العام';
+$lang['gdpr_portability_leads_attachments'] = 'عرض مرفقات العميل المحتمل في النموذج العام والسماح بإزالة المرفقات من قبل العميل المحتمل';
+
+
+$lang['gdpr_consent_user_info_history'] = 'السجل';
+$lang['gdpr_consent_user_info_purpose'] = 'الغرض';
+$lang['gdpr_consent_user_info_date'] = 'التاريخ';
+$lang['gdpr_consent_user_info_action'] = 'الإجراء';
+$lang['gdpr_consent_user_info_additional_description'] = 'وصف إضافي';
+
+
+$lang['gdpr_consent_incloudes_page_new_consent_purpose'] = 'غرض موافقة جديد';
+$lang['gdpr_name_puropse'] = 'الاسم / الغرض';
+$lang['gdpr_desc'] = 'الوصف';
+$lang['gdpr_new_consent_purpose'] = 'غرض موافقة جديد';
+$lang['gdpr_consent_includes_page_describe'] = 'صف بإيجاز الغرض من هذه الموافقة. مثال. في ماذا سيتم استخدام البيانات.';
+$lang['gdpr_consent_includes_page_close'] = 'إغلاق';
+$lang['gdpr_consent_includes_page_save'] = 'حفظ';
+
 $lang['appointly_name'] = "المواعيد";
 $lang['appointly_desc'] = "إضافة لإدارة المواعيد";
 

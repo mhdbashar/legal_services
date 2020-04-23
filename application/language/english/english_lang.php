@@ -3621,3 +3621,47 @@ $lang['schedule_email_for']             = 'Schedule Email for %s';
 $lang['schedule_date']                  = 'When would you like to send the email?';
 $lang['email_scheduled_successfully']   = 'Email scheduled successfully';
 $lang['invoice_will_be_sent_at']        = 'Invoice will be sent at %s';
+
+
+$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+
+$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
+
+$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
+
+$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
+
+$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
+
+$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
+
+$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
+
+$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
+
+$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
+
+$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = 'يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"' . admin_url('misc/reminders') . '\">تذكير</a>. مخصص';
+
+$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_api_key_trans'] = 'مفتاح API';
+
+$lang['sms_babil_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_sender_id_trans'] = 'معرف المرسل';
+
+$lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
+
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن عملائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class="hr-10" />';
+

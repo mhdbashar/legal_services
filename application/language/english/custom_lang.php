@@ -1,6 +1,155 @@
 <?php
 
-$lang['gdpr_enable_consent_for_contacts'] = "Enable consent for contacts";
+
+$lang['sms_invoice_overdue_notice'] = 'Invoice Overdue Notice';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'Trigger when invoice overdue notice is sent to customer contacts.';
+
+$lang['sms_invoice_payment_recorded'] = 'Invoice Payment Recorded';
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'Trigger when invoice payment is recorded.';
+
+$lang['sms_estimate_expiration_reminder'] = 'Estimate Expiration Reminder';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'Trigger when expiration reminder should be send to customer contacts.';
+
+$lang['sms_proposal_expiration_reminder'] = 'Proposal Expiration Reminder';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'Trigger when expiration reminder should be send to proposal.';
+
+$lang['sms_new_comment_on_proposal_to_customer'] = 'New Comment on Proposal (to customer)';
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'Trigger when staff member comments on proposal, SMS will be sent to proposal number (customer/lead).';
+
+$lang['sms_new_comment_on_proposal_to_staff'] = 'New Comment on Proposal (to staff)';
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'Trigger when customer/lead comments on proposal, SMS will be sent to proposal creator and assigned staff member.';
+
+$lang['sms_new_comment_on_contract_to_customer'] = 'New Comment on Contract (to customer)';
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'Trigger when staff member add comment to contract, SMS will be sent customer contacts.';
+
+$lang['sms_new_comment_on_contract_to_staff'] = 'New Comment on Contract (to staff)';
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'Trigger when customer add comment to contract, SMS will be sent to contract creator.';
+
+$lang['sms_contract_expiration_reminder'] = 'Contract Expiration Reminder';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'Trigger when expiration reminder should be send via Cron Job to customer contacts.';
+
+$lang['sms_staff_reminder'] = 'Staff Reminder';
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = 'Trigger when staff is notified for a specific custom <a href=\"' . admin_url('misc/reminders') . '\">reminder</a>.';
+
+$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p>Clickatell SMS integration is one way messaging, means that your customers wont be able to reply to the SMS.</p><hr class=\'hr-10\'>';
+
+$lang['sms_api_key_trans'] = 'API Key';
+
+$lang['sms_babil_sms_integration_is_one_way_messaging'] = '<p>Babil SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS.</p><hr class=\'hr-10\'>';
+
+$lang['sms_sender_id_trans'] = 'Sender ID';
+
+$lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p>MSG91 SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS.</p><hr class=\'hr-10\'>';
+
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = '<p>Twilio SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS. Phone numbers must be in format <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. Click <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\">here</a> to read more how phone numbers should be formatted.</p><hr class=\"hr-10\" />';
+
+$lang['sms_appointment_approved_Sent_to_contact'] = 'Appointment approved (Sent to Contact)';
+$lang['sms_trigger_when_appointment_is_approved'] = 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.';
+
+$lang['appointment_cancelled_sent_to_contact'] = 'Appointment cancelled (Sent to Contact)';
+$lang['sms_trigger_when_appointment_is_cancelled'] = 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.';
+
+$lang['sms_appointment_reminder_Sent_to_contact'] = 'Appointment reminder (Sent to Contact)';
+$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.';
+
+
+$lang['gdpr_portability_contacts'] = 'Contacts';
+$lang['gdpr_portability_enable_contact_to_export_data'] = 'Enable contact to export data (JSON)';
+$lang['gdpr_potability_on_export_the_data'] = 'On export, export the following data';
+$lang['gdpr_portability_contact_profile_data'] = 'Contact Profile Data';
+$lang['gdpr_portability_contact_history'] = 'Consent History';
+$lang['gdpr_portability_consent_tickets'] = 'Tickets';
+$lang['gdpr_portability_only_applied_if_contact_is_primary'] = 'Only applied if contact is primary contact';
+$lang['gdpr_portability_cutomer_profile_data'] = 'Customer Profile Data';
+$lang['gdpr_potability_customer_profile_notes'] = 'Customer Profile Notes';
+$lang['gdpr_portability_contacts_sec'] = 'Contacts';
+$lang['gdpr_portability_invoices_data'] = 'Invoices Data';
+$lang['gdpr_portability_invoices_notes'] = 'Invoices Notes';
+$lang['gdpr_portability_activity_log'] = 'Activity Log';
+$lang['gdpr_portability_estimates_data'] = 'Estimates Data';
+$lang['gdpr_portability_estimates_notes'] = 'Estimates Notes';
+$lang['gdpr_portability_projects'] = 'Projects';
+$lang['gdpr_portability_tasks_creates_from_contact'] = 'Tasks created from contact and tasks where contact commented';
+$lang['gdpr_portability_discussion_created_from_contact'] = 'Discussions created from contact and discussions where contact commented';
+$lang['gdpr_portability_credit_notes'] = 'Credit Notes';
+$lang['gdpr_portability_proposals'] = 'Proposals';
+$lang['gdpr_portability_subscriptions'] = 'Subscriptions';
+$lang['gdpr_portability_expenses'] = 'Expenses';
+$lang['gdpr_portability_contracts'] = 'Contracts';
+$lang['gdpr_portability_leads'] = 'Leads';
+$lang['gdpr_portability_enable_leads_to_export_data'] = 'Enable leads to export data (JSON)';
+$lang['gdpr_portability_on_export_the_following_data'] = 'On export, export the following data';
+$lang['gdpr_potability_profile_data'] = 'Profile Data';
+$lang['gdpr_portability_cusom_fields'] = 'Custom Fields';
+$lang['gdpr_portabiltity_notes'] = 'Notes';
+$lang['gdpr_portability_email_integration'] = 'Email integration emails';
+$lang['gadpr_potability_consent_history'] = 'Consent History';
+$lang['gdpr_protability_contacts'] = 'Contacts';
+$lang['gdpr_protability_custmers_view_information'] = 'The customers area gives your customers access to login and view their personal information. Also the customers area provide with access to update their personal information like first name, last name, email address, phone etc...';
+$lang['gdpr_protability_contacts_modify'] = 'Below you can find <b>additional options</b> you may want to allow the contacts to modify.';
+$lang['gdpr_portability_profile_contact'] = 'Profile/Contact';
+$lang['gdpr_portability_customer_update_info'] = 'Updating billing and shipping details from customers area wont affect already created invoices, estimates, credit notes.';
+$lang['gdpr_portability_leads'] = 'Leads';
+$lang['gdpr_portability_leads_update_info'] = 'The leads you add in the system will have unique URL to view their information you store for them and they will be able to update the information when they access the URL.';
+$lang['gdpr_portability_leads_custom_fields'] = 'Show lead custom fields on public form';
+$lang['gdpr_portability_leads_attachments'] = 'Show lead attachments on public form and allow attachments to removed by the lead';
+
+$lang['gdpr_consent_incloudes_page_new_consent_purpose'] = 'New consent purpose';
+$lang['gdpr_name_puropse'] = 'Name / Purpose';
+$lang['gdpr_desc'] = 'Description';
+$lang['gdpr_new_consent_purpose'] = 'New Consent Purpose';
+$lang['gdpr_consent_includes_page_describe'] = 'Briefly describe the purpose of this consent. Eq. for what the data will be used.';
+$lang['gdpr_consent_includes_page_close'] = 'Close';
+$lang['gdpr_consent_includes_page_save'] = 'Save';
+
+$lang['gdpr_consent_user_info_history'] = 'History';
+$lang['gdpr_consent_user_info_purpose'] = 'Purpose';
+$lang['gdpr_consent_user_info_date'] = 'Date';
+$lang['gdpr_consent_user_info_action'] = 'Action';
+$lang['gdpr_consent_user_info_additional_description'] = 'Additional Description';
+    
+$lang['gdpr_informed_enable_terms_conditions_for_registration_and_customers_portal'] = 'Enable Terms & Conditions for registration and customers portal';
+$lang['gdpr_informed_enable_terms__onditions_for_web_to_lead_forms'] = 'Enable Terms & Conditions for web to lead forms';
+$lang['gdpr_informed_enable_terms_conditions_for_ticket_form'] = 'Enable Terms & Conditions for ticket form';
+$lang['gdpr_informed_show_terms_conditions_in_customers_area_footer'] = 'Show Terms & Conditions in customers area footer';
+$lang['gdpr_informed_terms_and_conditions'] = 'Terms and Conditions';
+$lang['gdpr_informed_privacy_policy'] = 'Privacy Policy';
+
+$lang['gdpr_general_enable_gdpr'] = 'Enable GDPR';
+$lang['gdpr_general_show_gdpr_link_in_customers_area_navigation'] = 'Show GDPR link in customers area navigation';
+$lang['gdpr_general_show_gdpr_link_in_customers_area_footer'] = 'Show GDPR link in customers area footer';
+$lang['gdpr_general_gdpr_page_top_information_block'] = 'GDPR page top information block';
+    
+
+$lang['gdpr_config'] = 'Config';
+$lang['gdpr_removal_requests'] = 'Removal Requests';
+$lang['gdpr_contacts'] = 'Contacts';
+$lang['gdpr_enable_contact_to_request_data_removal'] = 'Enable contact to request data removal';
+$lang['gdpr_when_deleting_customer_delete_also_invoices_and_credit_notes_related_to_this_customer'] = 'When deleting customer, delete also <b>invoices</b> and <b>credit notes</b> related to this customer.';
+$lang['gdpr_when_deleting_customer_delete_also_estimates_related_to_this_customer'] = 'When deleting customer, delete also estimates related to this customer.';
+$lang['gdpr_leads'] = 'Leads';
+$lang['gdpr_enable_lead_to_request_data_removal_via_public_form'] = 'Enable lead to request data removal (via public form)';
+$lang['gdpr_after_lead_is_converted_to_customer_delete_all_lead_data'] = 'After lead is converted to customer, delete all lead data';
+$lang['gdpr_request_id'] = 'Request ID';
+$lang['gdpr_request_form'] = 'Request From';
+$lang['gdpr_forgotten_description'] = 'Description';
+$lang['gdpr_request_status'] = 'Request Status';
+$lang['gdpr_request_date'] = 'Request Date';
+$lang['gdpr_forgotten_pending'] = 'Pending';
+$lang['gdpr_forgotten_removed'] = 'Removed';
+$lang['gdpr_forgottin_refused'] = 'Refused';
+
+
+$lang['gdbr_enable_consent_for_contacts'] = 'Enable consent for contacts';
+$lang['gdpr_enable_consent_for_leads'] = 'Enable consent for leads';
+$lang['gdpr_public_page_consent_information_block'] = 'Public page consent information block';
+$lang['gdpr_purposes_of_consent'] = 'Purposes of consent';
+$lang['gdpr_name'] = 'Name';
+$lang['gdpr_description'] = 'Description';
+$lang['gdpr_created'] = 'Created';
+$lang['gdpr_last_update'] = 'Last Updated';
+$lang['gdpr_options'] = 'Options';
+
 
 $lang['appointly_name'] = "Appointment";
 $lang['appointly_desc'] = "Appointment Module";

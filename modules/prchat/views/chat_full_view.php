@@ -15,6 +15,22 @@ init_head();
           <?php echo staff_profile_image($current_user->staffid, array('img', 'img-responsive', 'staff-profile-image-small', 'pull-left'), 'small', ['id' => 'profile-img']); ?>
           <p>
             <?php echo get_staff_full_name(); ?>
+            <div id="status-options" class="">
+              <ul>
+                <li id="status-online" class="active"><span class="status-circle"></span>
+                  <p><?= _l('chat_status_online'); ?></p>
+                </li>
+                <li id="status-away"><span class="status-circle"></span>
+                  <p><?= _l('chat_status_away'); ?></p>
+                </li>
+                <li id="status-busy"><span class="status-circle"></span>
+                  <p><?= _l('chat_status_busy'); ?></p>
+                </li>
+                <li id="status-offline"><span class="status-circle"></span>
+                  <p><?= _l('chat_status_offline'); ?></p>
+                </li>
+              </ul>
+            </div>
           </p>
         </div>
       </div>
@@ -22,7 +38,9 @@ init_head();
         <i class="fa fa-wifi blink"></i>
       </div>
       <div id="search" style="width: <?= is_admin() ? '85%' : '100%'; ?>">
-        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+        <label for=""><svg class="fa-search" viewBox="0 0 24 24">
+            <path d="M10,13C9.65,13.59 9.36,14.24 9.19,14.93C6.5,15.16 3.9,16.42 3.9,17V18.1H9.2C9.37,18.78 9.65,19.42 10,20H2V17C2,14.34 7.33,13 10,13M10,4A4,4 0 0,1 14,8C14,8.91 13.69,9.75 13.18,10.43C12.32,10.75 11.55,11.26 10.91,11.9L10,12A4,4 0 0,1 6,8A4,4 0 0,1 10,4M10,5.9A2.1,2.1 0 0,0 7.9,8A2.1,2.1 0 0,0 10,10.1A2.1,2.1 0 0,0 12.1,8A2.1,2.1 0 0,0 10,5.9M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14Z" />
+          </svg></i></label>
         <input type="text" id="search_field" placeholder="<?php echo _l('chat_search_chat_members'); ?>" data-container="body" data-toggle="tooltip" data-placement="top" title="<?php echo _l('chat_search'); ?>" />
       </div>
       <?=
@@ -30,29 +48,43 @@ init_head();
           ?
           '<div class="announcement" id="announcement">
       <div class="dropdown">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-      <i class="fa fa-cog i_settings" data-toggle="tooltip" title="' . _l('advanced_options') . '" aria-hidden="true"></i>
-      </button>
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><svg class="i_settings" fill="#ffffff" viewBox="0 0 24 24">
+    <path d="M18 14H20V17H23V19H20V22H18V19H15V17H18V14M12 3C17.5 3 22 6.58 22 11C22 11.58 21.92 12.14 21.78 12.68C20.95 12.25 20 12 19 12C15.69 12 13 14.69 13 18L13.08 18.95L12 19C10.76 19 9.57 18.82 8.47 18.5C5.55 21 2 21 2 21C4.33 18.67 4.7 17.1 4.75 16.5C3.05 15.07 2 13.14 2 11C2 6.58 6.5 3 12 3Z"/>
+  </svg></button>
       <ul class="dropdown-menu">
-      <li class="i_announcement"><a href="javascript:void(0)"><i class="fa fa-bullhorn" aria-hidden="true"></i>' . _l('chat_message_announcement_text') . '</a></li>
-      <li class="i_groups"><a href="javascript:void(0)"><i class="fa fa-users" aria-hidden="true"></i></i>' . _l('chat_message_groups_text') . '</a></li>
+      <li class="i_announcement"><a href="javascript:void(0)"><svg class="announcement_svg_icon" viewBox="0 0 24 24">
+      <path d="M13,10H11V6H13V10M13,12H11V14H13V12M22,4V16A2,2 0 0,1 20,18H6L2,22V4A2,2 0 0,1 4,2H20A2,2 0 0,1 22,4M20,4H4V17.2L5.2,16H20V4Z"/>
+      </svg>' . _l('chat_message_announcement_text') . '</a></li>
+      <li class="i_groups"><a href="javascript:void(0)"><svg class="create_group" viewBox="0 0 24 24">
+    <path d="M13 11A3 3 0 1 0 10 8A3 3 0 0 0 13 11M13 7A1 1 0 1 1 12 8A1 1 0 0 1 13 7M17.11 10.86A5 5 0 0 0 17.11 5.14A2.91 2.91 0 0 1 18 5A3 3 0 0 1 18 11A2.91 2.91 0 0 1 17.11 10.86M13 13C7 13 7 17 7 17V19H19V17S19 13 13 13M9 17C9 16.71 9.32 15 13 15C16.5 15 16.94 16.56 17 17M24 17V19H21V17A5.6 5.6 0 0 0 19.2 13.06C24 13.55 24 17 24 17M8 12H5V15H3V12H0V10H3V7H5V10H8Z"/>
+</svg>' . _l('chat_message_groups_text') . '</a></li>
       </ul>
       </div>
       </div>'
           : '';
       ?>
       <ul class="nav nav-tabs chat_nav">
-        <li class="active staff" style="<?= (!isClientsEnabled()) ? 'width:50%;' : ''; ?> "><a data-toggle="tab" href="#staff"><i class="fa fa-user i_chat_navigation"></i><?= _l('chat_staff_text');  ?></a></li>
-        <li class="groups events_disabled" style="<?= (!isClientsEnabled()) ? 'width:50%;' : ''; ?> "><a data-toggle="tab" class="events_disabled" href="#groups"><i class="fa fa-users i_chat_navigation"></i><?= _l('chat_groups_text');  ?></a></li>
+        <li class="active staff" style="<?= (!isClientsEnabled()) ? 'width:50%;' : ''; ?> "><svg class="i_chat_navigaton" viewBox="0 0 24 24">
+            <path d="M13.07 10.41A5 5 0 0 0 13.07 4.59A3.39 3.39 0 0 1 15 4A3.5 3.5 0 0 1 15 11A3.39 3.39 0 0 1 13.07 10.41M5.5 7.5A3.5 3.5 0 1 1 9 11A3.5 3.5 0 0 1 5.5 7.5M7.5 7.5A1.5 1.5 0 1 0 9 6A1.5 1.5 0 0 0 7.5 7.5M16 17V19H2V17S2 13 9 13 16 17 16 17M14 17C13.86 16.22 12.67 15 9 15S4.07 16.31 4 17M15.95 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13Z" />
+          </svg><a data-toggle="tab" href="#staff"><?= _l('chat_staff_text');  ?></a></li>
+        <li class="groups events_disabled" style="<?= (!isClientsEnabled()) ? 'width:50%;' : ''; ?> "><svg class="i_chat_navigation" viewBox="0 0 24 24">
+            <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" />
+          </svg><a data-toggle="tab" class="events_disabled" href="#groups"><?= _l('chat_groups_text');  ?></a></li>
         <?php if (isClientsEnabled()) : ?>
-          <li class="crm_clients"><a data-toggle="tab" class="events_disabled" href="#crm_clients"><i class="fa fa-address-book i_chat_navigation"></i><?= _l('chat_lang_clients'); ?></a></li>
+          <li class="crm_clients"><svg class="i_chat_navigation" viewBox="0 0 24 24">
+              <path d="M16.36 12.76C18.31 13.42 20 14.5 20 16V21H4V16C4 14.5 5.69 13.42 7.65 12.76L8.27 14L8.5 14.5C7 14.96 5.9 15.62 5.9 16V19.1H10.12L11 14.03L10.06 12.15C10.68 12.08 11.33 12.03 12 12.03C12.67 12.03 13.32 12.08 13.94 12.15L13 14.03L13.88 19.1H18.1V16C18.1 15.62 17 14.96 15.5 14.5L15.73 14L16.36 12.76M12 5C10.9 5 10 5.9 10 7C10 8.1 10.9 9 12 9C13.1 9 14 8.1 14 7C14 5.9 13.1 5 12 5M12 11C9.79 11 8 9.21 8 7C8 4.79 9.79 3 12 3C14.21 3 16 4.79 16 7C16 9.21 14.21 11 12 11Z" />
+            </svg><a data-toggle="tab" class="events_disabled" href="#crm_clients"><?= _l('chat_lang_clients'); ?></a></li>
         <?php endif; ?>
       </ul>
       <div class="tab-content">
         <div id="staff" class="tab-pane fade in active">
           <div id="contacts">
             <div id="bottom-bar">
-              <button id="switchTheme"><i class="fa fa-ioxhost" aria-hidden="true"></i> <span>
+              <button id="switchTheme">
+                <svg class="theme_icon" viewBox="0 0 24 24">
+                  <path d="M19,3H14V5H19V18L14,12V21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M10,18H5L10,12M10,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H10V23H12V1H10V3Z" />
+                </svg>
+                <span>
                   <div class="dropdown" id="theme_options">
                     <a href="#" class="dropbtn"><?php echo _l('chat_theme_name'); ?></a>
                     <div class="dropdown-content">
@@ -61,11 +93,14 @@ init_head();
                     </div>
                   </div>
                 </span></button>
-              <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span><?= _l('settings'); ?></span></button>
+              <button id="settings">
+                <svg class="theme_icon" viewBox="0 0 24 24">
+                  <path d="M11 24H13V22H11V24M7 24H9V22H7V24M15 24H17V22H15V24M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.11 18 22 17.11 22 16V4C22 2.9 21.11 2 20 2M20 16H6L4 18V4H20" />
+                </svg><span><?= _l('settings'); ?></span></button>
             </div>
             <ul class="chat_contacts_list">
               <li class="contact">
-
+                <!-- Contacts list -->
               </li>
             </ul>
           </div>
@@ -75,7 +110,11 @@ init_head();
             <ul class="chat_groups_list">
             </ul>
             <div id="bottom-bar">
-              <button id="add_group_btn"><i class="fa fa-plus" aria-hidden="true"></i> <span><?= _l('chat_message_groups_text'); ?></span></button>
+              <button id="add_group_btn">
+                <svg viewBox="0 0 24 24">
+                  <path d="M13 11A3 3 0 1 0 10 8A3 3 0 0 0 13 11M13 7A1 1 0 1 1 12 8A1 1 0 0 1 13 7M17.11 10.86A5 5 0 0 0 17.11 5.14A2.91 2.91 0 0 1 18 5A3 3 0 0 1 18 11A2.91 2.91 0 0 1 17.11 10.86M13 13C7 13 7 17 7 17V19H19V17S19 13 13 13M9 17C9 16.71 9.32 15 13 15C16.5 15 16.94 16.56 17 17M24 17V19H21V17A5.6 5.6 0 0 0 19.2 13.06C24 13.55 24 17 24 17M8 12H5V15H3V12H0V10H3V7H5V10H8Z" />
+                </svg>
+                <span><?= _l('chat_message_groups_text'); ?></span></button>
             </div>
           </div>
         </div>
@@ -85,10 +124,16 @@ init_head();
               <ul class="chat_clients_list">
               </ul>
               <div id="bottom-bar">
-                <button id="clients_show"><i class="fa fa-align-justify" aria-hidden="true"></i> <span><?= _l('chat_lang_show_clients'); ?></span></button>
+                <button id="clients_show">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M11 9C11 10.66 9.66 12 8 12C6.34 12 5 10.66 5 9C5 7.34 6.34 6 8 6C9.66 6 11 7.34 11 9M14 20H2V18C2 15.79 4.69 14 8 14C11.31 14 14 15.79 14 18M7 9C7 9.55 7.45 10 8 10C8.55 10 9 9.55 9 9C9 8.45 8.55 8 8 8C7.45 8 7 8.45 7 9M4 18H12C12 16.9 10.21 16 8 16C5.79 16 4 16.9 4 18M22 12V14H13V12M22 8V10H13V8M22 4V6H13V4Z" />
+                  </svg>
+                  <span><?= _l('chat_lang_show_clients'); ?></span></button>
                 <div class="clients_settings dropup">
                   <button class="btn btn-default dropdown-toggle" type="button" id="dropDownOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-angle-double-up c_settings" aria-hidden="true" data-toggle="tooltip" title="<?= _l('chat_clients_bottom_options'); ?>"></i>
+                    <svg class="c_settings" data-toggle="tooltip" title="<?= _l('chat_clients_bottom_options'); ?>" viewBox="0 0 24 24">
+                      <path d="M10.04,20.4H7.12C6.19,20.4 5.3,20 4.64,19.36C4,18.7 3.6,17.81 3.6,16.88V7.12C3.6,6.19 4,5.3 4.64,4.64C5.3,4 6.19,3.62 7.12,3.62H10.04V20.4M7.12,2A5.12,5.12 0 0,0 2,7.12V16.88C2,19.71 4.29,22 7.12,22H11.65V2H7.12M5.11,8C5.11,9.04 5.95,9.88 7,9.88C8.03,9.88 8.87,9.04 8.87,8C8.87,6.96 8.03,6.12 7,6.12C5.95,6.12 5.11,6.96 5.11,8M17.61,11C18.72,11 19.62,11.89 19.62,13C19.62,14.12 18.72,15 17.61,15C16.5,15 15.58,14.12 15.58,13C15.58,11.89 16.5,11 17.61,11M16.88,22A5.12,5.12 0 0,0 22,16.88V7.12C22,4.29 19.71,2 16.88,2H13.65V22H16.88Z" />
+                    </svg>
                   </button>
                   <ul class="dropdown-menu animated fadeIn" aria-labelledby="dropDownOptions">
                     <li><a href="javascript:void(0)" id="showOnlineContacts"><i class="fa fa-circle" aria-hidden="true"></i><?= _l('chat_only_online_clients'); ?></a></li>
@@ -106,16 +151,23 @@ init_head();
       <div id="sharedFiles">
         <i class="fa fa-times-circle-o" aria-hidden="true"></i>
         <div class="history_slider">
+          <!-- Message and files history -->
         </div>
       </div>
       <div class="chat_group_options">
+        <!-- Group options  -->
       </div>
       <div class="contact-profile">
+        <svg onclick="chatBackMobile()" data-toggle="tooltip" title="Back" class="chat_back_mobile" viewBox="0 0 24 24">
+          <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+        </svg>
         <img src="" class="img img-responsive staff-profile-image-small pull-left" alt="" />
         <p></p>
         <i class="fa fa-volume-up user_sound_icon" data-toggle="tooltip" title="<?= _l('chat_sound_notifications'); ?>"></i>
         <div class="social-media mright15">
-          <i data-toggle="tooltip" data-container="body" title="<?php echo _l('chat_shared_files'); ?>" data-placement="left" class="fa fa-share-alt" id="shared_user_files"></i>
+          <svg data-toggle="tooltip" data-container="body" title="<?php echo _l('chat_shared_files'); ?>" data-placement="left" class="fa fa-share-alt" id="shared_user_files" viewBox="0 0 24 24">
+            <path d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" />
+          </svg>
           <a href="" id="fa-skype" data-toggle="tooltip" data-container="body" class="mright5" title="<?php echo _l('chat_call_on_skype'); ?>"><i class="fa fa-skype" aria-hidden="true"></i></a>
           <a href="" id="fa-facebook" target="_blank" class="mright5"><i class="fa fa-facebook" aria-hidden="true"></i></a>
           <a href="" id="fa-linkedin" target="_blank" class="mright5"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
@@ -149,6 +201,7 @@ init_head();
             <img src="<?php echo module_dir_url('prchat', 'assets/chat_implements/userIsTyping.gif'); ?>" />
           </span>
           <div class="chat_client_messages">
+            <!-- Client messages -->
             <ul>
             </ul>
           </div>
@@ -168,10 +221,13 @@ init_head();
             <input type="hidden" class="ays-ignore to" name="to" value="" />
             <input type="hidden" class="ays-ignore typing" name="typing" value="false" />
             <input type="hidden" class="ays-ignore" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-            <i class="fa fa-plus-square-o attachment fileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
-            <i class="fa fa-cogs search_messages"></i>
+            <i class="fa fa-file-image-o attachment fileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
+            <svg class="search_messages" viewBox="0 0 24 24">
+              <path d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M5,3H19C20.11,3 21,3.89 21,5V13.03C20.5,12.23 19.81,11.54 19,11V5H5V19H9.5C9.81,19.75 10.26,20.42 10.81,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H12.03C11.23,11.5 10.54,12.19 10,13H7V11M7,15H9.17C9.06,15.5 9,16 9,16.5V17H7V15Z" />
+            </svg>
             <input type="hidden" class="ays-ignore has_newmessages" id="" value="false" />
-            <button class="submit enterBtn" name="enterBtn"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            <button class="submit enterBtn" name="enterBtn"><svg class="fa-paper-plane" fill="#ffffff" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M8,7.71V11.05L15.14,12L8,12.95V16.29L18,12L8,7.71Z" /></svg></button>
           </div>
         </div>
       </form>
@@ -184,12 +240,13 @@ init_head();
       <form hidden method="post" enctype="multipart/form-data" name="groupMessagesForm" id="groupMessagesForm" onsubmit="return false;">
         <div class="message-input group_msg_input">
           <div class="wrap">
-            <textarea type="text" name="g_message" class="group_chatbox ays-ignore" placeholder="<?= _l('chat_type_a_message'); ?>"></textarea>
+            <textarea type="text" name="g_message" class="group_chatbox ays-ignore mention" placeholder="<?= _l('chat_type_a_message_mention'); ?>"></textarea>
             <input type="hidden" class="ays-ignore from" name="from" value="" />
             <input type="hidden" class="ays-ignore typing" name="typing" value="false" />
             <input type="hidden" class="ays-ignore" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-            <i class="fa fa-plus-square-o attachment groupFileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
-            <button class="submit enterGroupBtn" name="enterGroupBtn"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            <i class="fa fa-file-image-o attachment groupFileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
+            <button class="submit enterGroupBtn" name="enterGroupBtn"><svg class="fa-paper-plane" fill="#ffffff" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M8,7.71V11.05L15.14,12L8,12.95V16.29L18,12L8,7.71Z" /></svg></button>
           </div>
         </div>
       </form>
@@ -207,10 +264,13 @@ init_head();
             <input type="hidden" class="ays-ignore to" name="to" value="client_" />
             <input type="hidden" class="ays-ignore typing" name="typing" value="false" />
             <input type="hidden" class="ays-ignore" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-            <i class="fa fa-plus-square-o attachment clientFileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
-            <i class="fa fa-cogs search_client_messages"></i>
+            <i class="fa fa-file-image-o attachment clientFileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
+            <svg class="search_client_messages" viewBox="0 0 24 24">
+              <path d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M5,3H19C20.11,3 21,3.89 21,5V13.03C20.5,12.23 19.81,11.54 19,11V5H5V19H9.5C9.81,19.75 10.26,20.42 10.81,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H12.03C11.23,11.5 10.54,12.19 10,13H7V11M7,15H9.17C9.06,15.5 9,16 9,16.5V17H7V15Z" />
+            </svg>
             <input type="hidden" class="ays-ignore invisibleUnread" value="" />
-            <button class="submit enterClientBtn" name="enterClientBtn"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            <button class="submit enterClientBtn" name="enterClientBtn"><svg class="fa-paper-plane" fill="#ffffff" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M8,7.71V11.05L15.14,12L8,12.95V16.29L18,12L8,7.71Z" /></svg></button>
           </div>
         </div>
       </form>
@@ -218,18 +278,24 @@ init_head();
   </div>
   <div class="modal_container"></div>
   <?php init_tail(); ?>
-  <!-- Chat settings -->
-  <?php include('modules/prchat/assets/module_includes/chat_settings.php'); ?>
+  <!-- Include chat settings file -->
+  <?php require('modules/prchat/assets/module_includes/chat_settings.php'); ?>
+
+  <!-- Include chat settings file -->
+  <?php require('modules/prchat/assets/module_includes/chat_statuses.php'); ?>
+
+  <!-- Include various mutual functions file -->
   <?php require('modules/prchat/assets/module_includes/mutual_and_helper_functions.php'); ?>
-  <!-- Groups Settings and initializing -->
+
   <script>
+    'use strict';
     if (localStorage.chat_theme_name) {
       $('body').addClass('chat_' + localStorage.chat_theme_name);
     }
 
-    var wentOffline, wentOnline;
     window.addEventListener('online', handleConnectionChange);
     window.addEventListener('offline', handleConnectionChange);
+
     monitorWindowActivity();
 
     /*---------------* Main first thing get users/staff from database *---------------*/
@@ -248,8 +314,9 @@ init_head();
     var isAdmin = app.user_is_admin;
     var staffCanCreateGroups = "<?= get_option('chat_members_can_create_groups'); ?>";
     var checkforNewMessages = prchatSettings.getUnread;
-
-    var sound_user_id = '';
+    var chat_desktop_notifications_enabled = "<?php echo get_option('chat_desktop_messages_notifications') ?>";
+    chat_desktop_notifications_enabled = (chat_desktop_notifications_enabled == '0') ? false : true;
+    var user_chat_status = "<?= get_user_chat_status(); ?>";
 
     if (staffCanCreateGroups === '0' && !isAdmin) {
       $('#add_group_btn').remove();
@@ -428,6 +495,7 @@ init_head();
 
     /*---------------* Pusher Trigger accessing channel *---------------*/
     var presenceChannel = pusher.subscribe('presence-mychanel');
+    var chat_status = pusher.subscribe('user_changed_chat_status');
     var groupChannels = pusher.subscribe('group-chat');
 
     pusher.config.unavailable_timeout = 5000;
@@ -452,17 +520,21 @@ init_head();
     /*---------------* Pusher Trigger subscription succeeded *---------------*/
     presenceChannel.bind('pusher:subscription_succeeded', function(members) {
       chatMemberUpdate(members);
+      var redirect_staff_id = localStorage.staff_to_redirect;
       users.then(function() {
         if (localStorage.touchClientsTab) {
           $('li.crm_clients a').click();
           localStorage.touchClientsTab = '';
         }
-        if (localStorage.staff_to_redirect) {
-          $('#contacts a#' + localStorage.staff_to_redirect).click();
+        if (redirect_staff_id != '') {
+          $('.chat_nav li.staff a').trigger('click');
+          $('#contacts a#' + redirect_staff_id).trigger('click');
           localStorage.staff_to_redirect = '';
         } else {
           setTimeout(function() {
-            $('#frame #sidepanel ul.nav.nav-tabs li.staff.active a').click();
+            if (!window.matchMedia("only screen and (max-width: 735px)").matches) {
+              $('#frame #sidepanel ul.nav.nav-tabs li.staff.active a').click();
+            }
           }, 600);
         }
       });
@@ -471,6 +543,17 @@ init_head();
     /*---------------* Pusher Trigger user connected *---------------*/
     presenceChannel.bind('pusher:member_added', function(member) {
       addChatMember(member);
+      if (member.info.status == '') {
+        member.info.status = 'online';
+      }
+      if (member.info.status != '') {
+        var userPlaceholder = $('body').find('.chat_contacts_list li a#' + member.id + ' .wrap img');
+        userPlaceholder.attr('title', strCapitalize(member.info.status)).attr('data-original-title', strCapitalize(member.info.status));
+        userPlaceholder.removeClass();
+        userPlaceholder.addClass('imgFriend ' + member.info.status + '');
+        $('body').find('.chat_contacts_list li a#' + member.id + ' .wrap span').removeClass().addClass(member.info.status);
+      }
+
       if (member.info.justLoggedIn) {
         var message_selector = $('#contacts .contact a#' + member.id).find('.wrap .meta .preview');
         var old_message_content = message_selector.html();
@@ -484,7 +567,7 @@ init_head();
           'requireInteraction': true,
           'icon': $('#header').find('img').attr('src'),
           'tag': 'user-join-' + member.id,
-          'closeTime': 5000,
+          'closeTime': app.options.dismiss_desktop_not_after != "0" ? app.options.dismiss_desktop_not_after * 1000 : null
         });
       }
     });
@@ -539,6 +622,7 @@ init_head();
 
     /*---------------* Bind the 'send-event' & update the chat box message log *---------------*/
     presenceChannel.bind('send-event', function(data) {
+
       if (data.global) {
         data.message = "<?= '<strong>' . _l('chat_message_announce') . '</strong>'; ?>" + data.message;
       }
@@ -561,7 +645,11 @@ init_head();
         $('.messages#id_' + data.from + ' ul').append('<li class="replies"><img class="friendProfilePic" src="' + fetchUserAvatar(data.from, data.sender_image) + '"/><p class="friend">' + data.message + '</p></li>');
         $('#contacts .contact a#' + data.from).find('.wrap .meta .preview').html(data.message);
         $('#contacts .contact a#' + data.from).find('.wrap .meta .pull-right.time_ago').html(moment().format('hh:mm A'));
-        initUserSound(data);
+
+        if (user_chat_status != 'busy' && user_chat_status != 'offline') {
+          initUserSound(data);
+        }
+
         if ($('.messages').hasScrollBar()) {
           scroll_event();
         }
@@ -624,21 +712,22 @@ init_head();
       }
     });
 
-    /*---------------* Trigger notification popup increment*---------------*/
+    /*---------------* Trigger notification popup increment and live notification *---------------*/
     presenceChannel.bind('notify-event', function(data) {
-      <?php if ($chat_desktop_messages_notifications == '1') :  ?>
-        var messagesIndentifier = $('#frame .content .messages#id_' + data.from);
-        if (data.from !== userSessionId && data.to == userSessionId && !messagesIndentifier.is(':visible')) {
-          $.notify('', {
-            'title': data.from_name,
-            'body': data.message,
-            'requireInteraction': false,
-            'icon': fetchUserAvatar(data.from, data.sender_image),
-            'tag': 'user-message-' + data.from,
-            'closeTime': 4000,
-          });
+      if (chat_desktop_notifications_enabled) {
+        if (data.from !== userSessionId && data.to == userSessionId) {
+          if (user_chat_status != 'busy' && user_chat_status != 'offline') {
+            $.notify('', {
+              'title': data.from_name,
+              'body': data.message,
+              'requireInteraction': false,
+              'icon': fetchUserAvatar(data.from, data.sender_image),
+              'tag': 'user-message-' + data.from,
+              'closeTime': app.options.dismiss_desktop_not_after != "0" ? app.options.dismiss_desktop_not_after * 1000 : null
+            });
+          }
         }
-      <?php endif; ?>
+      }
 
       if ($(window).width() < 733) {
         if (presenceChannel.members.me.id == data.to && data.from != presenceChannel.members.me.id) {
@@ -658,16 +747,28 @@ init_head();
     });
 
     /*---------------* On click send message button trigger post message *---------------*/
-    $('#frame').on('click', '.enterBtn, .enterGroupBtn, .enterClientBtn', function(e) {
+    $('body').on('click', '.enterBtn, .enterGroupBtn, .enterClientBtn, .fa-paper-plane', function(e) {
       var eventEnter = $.Event("keypress", {
         which: 13
       });
-      if (e.target.name == 'enterBtn') {
+
+      var targetName = '';
+      if (e.currentTarget.getAttribute('name') !== null) {
+        targetName = e.currentTarget.getAttribute('name');
+      }
+      // Groups
+      if (targetName == '') {
+        targetName = e.currentTarget.parentNode.getAttribute('name')
+      }
+      if (targetName == 'enterBtn') {
         $('#frame').find('.chatbox').trigger(eventEnter);
-      } else if (e.target.name == 'enterGroupBtn') {
+        $('.chatbox').focus();
+      } else if (targetName == 'enterGroupBtn') {
         $('#frame').find('.group_chatbox').trigger(eventEnter);
-      } else if (e.target.name == 'enterClientBtn') {
+        $('.group_chatbox').focus();
+      } else if (targetName == 'enterClientBtn') {
         $('#frame').find('.client_chatbox').trigger(eventEnter);
+        $('.client_chatbox').focus();
       }
     });
 
@@ -680,7 +781,7 @@ init_head();
         if (Object.keys(data).length > 1) {
           $('#frame .nav.nav-tabs li.groups, #frame .nav.nav-tabs li.groups a, #frame .nav.nav-tabs li.crm_clients a').removeClass('events_disabled');
         } else {
-          $('.content .messages').html('<h3 class="text-center">No staff users with valid permissions found, try adding new users or (Grant Chat Access) to existing staff users.<br><br> To manage staff user permissions for chat navigate in sidemenu <strong>Setup->Staff</strong> select specific staff member and click Permissions and scroll down to Chat Module to assign chat access permissions, or disable In chat view show only users with chat permissions (also applies on client side) option in <strong>Setup->Settings-> Chat Settings</strong><br><br> Administrators will not need any permissions.</h3>');
+          $('.content .messages').html('<h3 class="text-center">No staff users with valid permissions found, try adding new users or (Grant Chat Access) to existing staff users.<br><br> To manage staff user permissions for chat navigate in sidemenu <strong>Setup->Staff</strong> select specific staff member and click Permissions and scroll down to Chat Module to assign chat access permissions, or disable In chat view show only users with chat permissions (also applies on client side) option in <strong>Setup->Settings->Perfex Chat Settings</strong><br><br> Administrators will not need any permissions.</h3>');
           $('.message-input').remove();
           return false;
         }
@@ -691,15 +792,28 @@ init_head();
           }
           if (value.staffid != presenceChannel.members.me.id) {
             var user = presenceChannel.members.get(value.staffid);
+
             if (value.message == undefined) value.message = prchatSettings.sayHiText + ' ' + strCapitalize(value.firstname + ' ' + value.lastname);
+
             if (value.time_sent_formatted == undefined) value.time_sent_formatted = '';
+
+            var user_status = (value.status != undefined || value.status == '') ? value.status : 'online';
+
+            var translated_status = '';
+            for (var status in chat_user_statuses) {
+              if (status == user_status) {
+                translated_status = chat_user_statuses[status];
+              }
+            }
             if (user != null) {
               onlineUser += '<li class="contact" id="' + value.staffid + '" data-toggle="tooltip" data-container="body" title="<?php echo _l('chat_user_active_now'); ?>">';
-              onlineUser += '<a href="#' + value.staffid + '" id="' + value.staffid + '" class="on"><div class="wrap"><span class="online">';
-              onlineUser += '</span><img src="' + fetchUserAvatar(value.staffid, value.profile_image) + '" class="imgFriend" /><div class="meta"><p role="' + value.role + '" class="name">' + strCapitalize(value.firstname + ' ' + value.lastname) + '</p><social_info skype="' + value.skype + '" facebook="' + value.facebook + '" linkedin="' + value.linkedin + '"></social_info>';
-              onlineUser += '<p class="preview">' + value.message + '</p><p class="pull-right time_ago">' + value.time_sent_formatted + '</p>';
-              onlineUser += '</div></div>';
+              onlineUser += '<a href="#' + value.staffid + '" id="' + value.staffid + '" class="on"><div class="wrap"><span class="online ' + user_status + '"></span>';
+              onlineUser += '<img data-toggle="tooltip" title="' + translated_status + '" src="' + fetchUserAvatar(value.staffid, value.profile_image) + '" class="imgFriend ' + user_status + '" />';
+              onlineUser += '<div class="meta"><p role="' + value.role + '" class="name">' + strCapitalize(value.firstname + ' ' + value.lastname) + '</p>';
+              onlineUser += '<social_info skype="' + value.skype + '" facebook="' + value.facebook + '" linkedin="' + value.linkedin + '"></social_info>';
+              onlineUser += '<p class="preview">' + value.message + '</p><p class="pull-right time_ago">' + value.time_sent_formatted + '</p></div></div>';
               onlineUser += '<span class="unread-notifications" id="' + value.staffid + '" data-badge="0"></span></a></li>';
+
               if (presenceChannel.members.count > 0) {
                 $('.liveUsers').remove();
                 $("#menu .menu-item-prchat span.menu-text").append('<span class="liveUsers badge menu-badge bg-info" data-toggle="tooltip" title="' + prchatSettings.onlineUsersMenu + '">' + (' ' + presenceChannel.members.count - 1) + '</span>');
@@ -714,7 +828,7 @@ init_head();
               }
               offlineUser += ' data-toggle="tooltip" data-container="body" title="<?php echo _l('chat_last_seen'); ?>: ' + lastLoginText + '">';
               offlineUser += '<a href="#' + value.staffid + '" id="' + value.staffid + '" class="off"><div class="wrap"><span class="offline"></span>';
-              offlineUser += '<img src="' + fetchUserAvatar(value.staffid, value.profile_image) + '" class="imgFriend" /><div class="meta"><p role="' + value.role + '" class="name">' + strCapitalize(value.firstname + ' ' + value.lastname) + '</p>';
+              offlineUser += '<img data-toggle="tooltip" title="' + strCapitalize('offline') + '" src="' + fetchUserAvatar(value.staffid, value.profile_image) + '" class="imgFriend" /><div class="meta"><p role="' + value.role + '" class="name">' + strCapitalize(value.firstname + ' ' + value.lastname) + '</p>';
               offlineUser += '<p class="preview">' + value.message + '</p><p class="pull-right time_ago">' + value.time_sent_formatted + '</p><social_info skype="' + value.skype + '" facebook="' + value.facebook + '" linkedin="' + value.linkedin + '"></social_info>';
               offlineUser += '</div></div><span class="unread-notifications" id="' + value.staffid + '" data-badge="0"></span></a></li>';
             }
@@ -739,6 +853,7 @@ init_head();
 
     /*---------------* Trigger click on user & create chat box and check for messages *---------------*/
     $('#frame #contacts .chat_contacts_list').on("click", "li.contact a", function(event) {
+      animateContent();
       var obj = $(this);
       var id = obj.attr('id').replace('id_', '');
       var contact_selector = $('#contacts a#' + id);
@@ -823,6 +938,7 @@ init_head();
         if (createChatBoxRequest) {
           createChatBoxRequest.abort();
         }
+
         createChatBoxRequest = $.get(prchatSettings.getMessages, {
             from: userSessionId,
             to: contact_id,
@@ -834,7 +950,7 @@ init_head();
 
             r = JSON.parse(r);
 
-            message = r;
+            var message = r;
 
             offsetPush += 10;
             dfd.resolve(message);
@@ -934,6 +1050,9 @@ init_head();
       var form = $(this).parents('form');
       var imgPath = $('#sidepanel #profile .wrap img').prop('currentSrc');
 
+      var input_from = $(this).next().next().next();
+
+
       if (e.which == 13) {
         e.preventDefault();
         var message = $.trim($(this).val());
@@ -943,10 +1062,11 @@ init_head();
 
         message = createTextLinks_(emojify.replace(message));
 
-        $('#contacts .contact.active').find('.wrap .meta .preview').html('<?php echo _l('chat_message_you'); ?>' + ' ' + escapeHtml(message));
+        $('#contacts .contact.active').find('.wrap .meta .preview').html('<?php echo _l('chat_message_you'); ?>' + ' ' + message);
         $('.messages ul').append('<li class="sent" id="' + userSessionId + '"><img class="myProfilePic" src="' + imgPath + '"/><p class="you" id="' + userSessionId + '">' + message + '</p></li>');
-        $(this).next().next().next().val('false');
-        message = escapeHtml(message);
+
+        input_from.val('false');
+
         // send event 
         var formData = form.serializeArray();
 
@@ -955,9 +1075,9 @@ init_head();
         $(this).focus();
         scroll_event();
 
-      } else if (!$(this).val() || ($(this).next().next().next().val() == 'null' && $(this).val())) {
+      } else if (!$(this).val() || (input_from.val() == 'null' && $(this).val())) {
         // typing event 
-        $(this).next().next().next().val('true');
+        input_from.val('true');
         $.post(prchatSettings.serverPath, form.serialize());
       }
     });
@@ -1132,7 +1252,7 @@ init_head();
     }
 
 
-    /*---------------* Truncate text message to contacts view left side *---------------*/
+    /*---------------* Truncate text message to user view left sidebar *---------------*/
     String.prototype.trunc = String.prototype.trunc ||
       function(n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
@@ -1159,7 +1279,7 @@ init_head();
 
     /*---------------* Theme events  *---------------*/
     $('#bottom-bar').on('click', '#switchTheme', function() {
-      $('.dropdown-content').slideToggle('fast');
+      $('.dropdown-content').toggle(10);
     });
 
     /*---------------* Check if staff has permissions for settings  *---------------*/
@@ -1171,36 +1291,56 @@ init_head();
       <?php endif; ?>
     });
 
+    var isUserMobile = window.matchMedia("only screen and (max-width: 735px)").matches;
     /*---------------* Shared files on lick icon hide div with shared items  *---------------*/
     $('#sharedFiles').on('click', 'i.fa-times-circle-o', function() {
-      $('#sharedFiles').css('display', 'none');
+      $('#sharedFiles').css({
+        'right': '-360px',
+        'width': '360px'
+      }, 10, 'linear').hide(1000);
     });
 
     /*---------------* On click event for shared files  *---------------*/
     $('#shared_user_files').on('click', function() {
-      (!$('#sharedFiles').is(':visible')) ?
-      $('#sharedFiles').css('display', 'block'): $('#sharedFiles').css('display', 'none');
+      ($('#sharedFiles').css('right') == '-360px') ?
+      $('#sharedFiles').show().animate({
+        'right': '0',
+        'width': (isUserMobile) ? '100%' : '360px'
+      }, 10, 'linear'): $('#sharedFiles').css({
+        'right': '-360px',
+        'width': (isUserMobile) ? '360px' : '0px'
+      }, 10, 'linear').hide(500);
     });
+    /*---------------* Event click tracker for shared files   *---------------*/
+    $(".messages, .group_messages, .chat_client_messages, #contacts, textarea, #header, #menu").on('click', function() {
+      ($('#sharedFiles').is(':visible'))
+      $('#sharedFiles').css({
+        'right': '-360px',
+        'width': '360px'
+      }, 10, 'linear').hide(500);
 
-    /*---------------* Eventr click tracker for shared files   *---------------*/
-    $(".messages, .group_messages, #contacts, textarea, #header, #menu").on('click', function() {
-      ($('#sharedFiles').is(':visible')) ?
-      $('#sharedFiles').fadeOut(): false;
-
-      ($('.chat_group_options').hasClass('active')) ?
-      $('.chat_group_options').removeClass('active'): false;
-
+      $('.chat_group_options, #status-options').removeClass('active')
+      $('.chat_group_options').css({
+        'right': '-360px',
+        'width': '360px'
+      }, 10, 'linear').hide(500);
     });
 
     /*---------------* Modal create announcement handler  *---------------*/
-    $('#frame .dropdown .i_announcement').on('click', function() {
-      $('.modal_container').load(prchatSettings.chatAnnouncement, function(res) {
-        $('#chat_custom_modal').modal({
-          show: true
+    $(function() {
+
+      $('#frame .dropdown .i_announcement').on('click', function() {
+        $('.modal_container').load(prchatSettings.chatAnnouncement, function(res) {
+          if ($('.modal-backdrop.fade').hasClass('in')) {
+            $('.modal-backdrop.fade').remove();
+          }
+          $('#chat_custom_modal').modal({
+            show: true
+          });
         });
       });
-    });
 
+    })
     /*---------------* Modal create group handler  *---------------*/
     $('#frame .dropdown .i_groups, #frame #sidepanel #add_group_btn').on('click', function() {
       $('.modal_container').load(prchatSettings.chatGroups, function(res) {
@@ -1227,6 +1367,7 @@ init_head();
     var changeSearchField = function() {
       $('#search #search_clients_field').attr('id', 'search_field');
       $('#search #search_field').attr('placeholder', "<?= _l('chat_search_chat_members'); ?>");
+      $('.chat_contacts_list li').show();
     };
 
     /*---------------* Click event for staff users sidebar  *---------------*/
@@ -1234,7 +1375,10 @@ init_head();
       // hide groups form
       $('#frame form[name=groupMessagesForm],#frame form[name=clientMessagesForm], #frame .groupOptions').hide();
 
-      $('#frame .chat_group_options.active').hide().removeClass('active');
+      $('#frame .chat_group_options.active').hide().removeClass('active').css({
+        'right': '-360px',
+        'width': '360px'
+      });
       $('#frame form[name=pusherMessagesForm]').show();
       $('.client_data').remove();
 
@@ -1247,8 +1391,6 @@ init_head();
         chat_content_messages.show();
 
       }
-
-
       if (!optionsSelector.hasClass('active')) {
         optionsSelector.css('display', '');
       }
@@ -1258,8 +1400,9 @@ init_head();
       changeSearchField();
 
       $('.group_members_inline').remove();
-      $('#frame #contacts ul li').first().children('a').first().click();
-
+      if (!window.matchMedia("only screen and (max-width: 735px)").matches) {
+        $('#frame #contacts ul li').first().children('a').first().click();
+      }
     });
 
 
@@ -1267,7 +1410,13 @@ init_head();
     $('#frame #sidepanel .groups').click(function() {
 
       // Hide staff chatbox form
-      $('#frame form[name=pusherMessagesForm], #frame form[name=clientMessagesForm], #sharedFiles').hide();
+      $('#frame form[name=pusherMessagesForm], #frame form[name=clientMessagesForm]').hide();
+
+      $('#sharedFiles').hide().css({
+        'right': '-360px',
+        'width': '360px'
+      });
+
       $(this).removeClass('flashit');
       $('.client_data').remove();
 
@@ -1283,7 +1432,9 @@ init_head();
       chat_contact_profile_img.next().hide();
       chat_contact_profile_img.next().next().hide();
 
-      $('#frame ul.chat_groups_list li.active a').click();
+      if (!window.matchMedia("only screen and (max-width: 735px)").matches) {
+        $('#frame ul.chat_groups_list li.active a').click();
+      }
 
       var group_id = $('#frame ul.chat_groups_list li.active').attr('id');
 
@@ -1294,16 +1445,23 @@ init_head();
       clientsListCheck();
 
       changeSearchField();
-
+      if ($('.chat_groups_list li').length == 0) {
+        $('.contact-profile .groupOptions, .contact-profile .social-media').hide();
+      }
       if (group_id == undefined) {
         $('.message_group_loader').hide();
       }
     });
   </script>
+
+  <!-- Include chat groups file -->
   <?php require('modules/prchat/assets/module_includes/groups.php'); ?>
+
   <?php
   if (isClientsEnabled()) {
     require('modules/prchat/assets/module_includes/crm_clients.php');
   }
   ?>
+
+  <!-- Include chat sound settings file -->
   <?php require('modules/prchat/assets/module_includes/chat_sound_settings.php'); ?>

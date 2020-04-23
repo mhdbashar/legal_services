@@ -95,7 +95,7 @@
                     <input type="hidden" class="ays-ignore to" name="to" value="" />
                     <input type="hidden" class="ays-ignore typing" name="typing" value="false" />
                     <input type="hidden" class="ays-ignore" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                    <i class="fa fa-plus-circle attachment fileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
+                    <i class="fa fa-file-image-o attachment fileUpload" data-container="body" data-toggle="tooltip" title="<?php echo _l('chat_file_upload'); ?>" aria-hidden="true"></i>
                 </form>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: babillawnet CRM Powerful Chat
-Description: Chat Module for babillawnet CRM
+Module Name: Perfex CRM Powerful Chat
+Description: Chat Module for Perfex CRM
 Author: Aleksandar Stojanov
 Author URI: https://idevalex.com
 Requires at least: 2.3.2
@@ -29,6 +29,10 @@ class Prchat_ClientsController extends ClientsController
     public function __construct()
     {
         parent::__construct();
+
+        if (!get_option('pusher_chat_enabled') == '1') {
+            redirect('admin');
+        }
 
         $this->load->model('prchat_model', 'chat_model');
 

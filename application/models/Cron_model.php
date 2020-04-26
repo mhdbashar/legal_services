@@ -1890,7 +1890,6 @@ class Cron_model extends App_Model
             $oservices          = $this->db->get(db_prefix() . 'my_other_services');
             $oservices_num_rows = $oservices->num_rows();
             $oservices_result   = $oservices->result();
-
             if($cases_num_rows > 0){
                 foreach ($cases_result as $row){
 
@@ -1983,6 +1982,9 @@ class Cron_model extends App_Model
 
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'pinned_cases');
+
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $this->db->delete(db_prefix() . 'irac_method');
 
                         log_activity('Case Deleted [CaseID: ' . $row->id . ']');
                     }

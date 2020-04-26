@@ -39,16 +39,30 @@
     <div class="col-md-3 cols">
     <div class="panel-heading">
         <span class="bold heading"><?php echo $list['cat_name']; ?></span>
-        <a href="#" data-toggle="modal" data-target="#add_procedures<?php echo $list['id']; ?>" class="pull-right text-dark" onclick="get_subcat(<?php echo $list['id']; ?>,<?php echo $list['cat_id']; ?>)">
-            <i class="fa fa-plus" data-toggle="tooltip" title="<?php echo _l('add_legal_procedures'); ?>"></i>
-        </a>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#add_procedures<?php echo $list['id']; ?>" onclick="get_subcat(<?php echo $list['id']; ?>,<?php echo $list['cat_id']; ?>)">
+                        <i class="fa fa-plus"></i>  <?php echo _l('add_legal_procedures'); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_list/".$list['id']); ?>" class="_delete">
+                        <i class="fa fa-trash"></i> <?php echo _l('delete_list'); ?>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <?php
     $procedures = legal_procedure_by_list_id($list['id']);
     if(!empty($procedures)):
     foreach ($procedures as $proc): ?>
     <div class="card">
-        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_contract/".$proc['reference_id']); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete'); ?>"><i class="fa fa-trash"></i></a>
+        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_contract/".$proc['reference_id']); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete_procedure'); ?>"><i class="fa fa-trash"></i></a>
         <a href="<?php echo admin_url("LegalServices/legal_procedures/procedure_text/".$proc['reference_id']); ?>" data-toggle="tooltip" title="<?php echo _l('view'); ?>">
         <?php echo $proc['subcat_name']; ?>
         </a>

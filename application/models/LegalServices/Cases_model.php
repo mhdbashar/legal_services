@@ -638,6 +638,9 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'pinned_cases');
 
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->delete(db_prefix() . 'irac_method');
+
             log_activity('Case Deleted [CaseID: ' . $id . ']');
             return true;
         }

@@ -323,6 +323,7 @@ function get_user_pinned_cases($slug)
     $CI->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'pinned_cases.project_id');
     $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_cases.clientid');
     $CI->db->where(db_prefix() . 'pinned_cases.staff_id', get_staff_user_id());
+    $CI->db->where(db_prefix() . 'my_cases.deleted', 0);
     $projects = $CI->db->get(db_prefix() . 'pinned_cases')->result_array();
     $CI->load->model('LegalServices/Cases_model', 'case');
 

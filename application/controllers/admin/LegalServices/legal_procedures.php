@@ -90,6 +90,22 @@ class Legal_procedures extends AdminController
         }
     }
 
+    public function delete_list($id)
+    {
+        if(!$id || $id == ''){
+            set_alert('warning', _l('problem_deleting'));
+            return false;
+        }
+        $res = $this->procedures->delete_list($id);;
+        if($res){
+            set_alert('success', _l('deleted_successfully'));
+        }else{
+            set_alert('warning', _l('problem_deleting'));
+            return false;
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function add_legal_procedure()
     {
         if ($this->input->post()) {

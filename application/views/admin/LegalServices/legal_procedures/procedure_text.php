@@ -202,7 +202,7 @@
                         <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                            <?php
                               if(empty($contract->content) && staff_can('edit','contracts')){
-                               echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
+                               echo hooks()->apply_filters('new_contract_default_content', '<span class="text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
                               } else {
                                echo $contract->content;
                               }
@@ -365,7 +365,7 @@
                            ?>
                      </div>*/ ?>
                      <div role="tabpanel" class="tab-pane" id="tab_tasks">
-                        <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'contract')); ?>
+                        <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'legal_procedures')); ?>
                      </div>
                   </div>
                </div>

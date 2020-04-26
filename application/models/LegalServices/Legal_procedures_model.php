@@ -50,6 +50,21 @@ class Legal_procedures_model extends App_Model
         }
     }
 
+    public function delete_list($id, $where = [])
+    {
+        $procedures = legal_procedure_by_list_id($id);
+        foreach ($procedures as $contract):
+            $this->delete_contract($contract['reference_id']);
+        endforeach;
+        $this->db->where($where);
+        $this->db->where(array('id' => $id));
+        $this->db->delete(db_prefix() . 'legal_procedures_lists');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function add_legal_procedure($data)
     {
         $contract_data = array();

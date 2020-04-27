@@ -35,6 +35,7 @@ class Cases_model extends App_Model
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Case_movement_model', 'movement');
+        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
     }
 
     public function get($id = '', $where = [])
@@ -640,6 +641,12 @@ class Cases_model extends App_Model
 
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->delete(db_prefix() . 'irac_method');
+
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+            foreach ($lists as $list):
+                $this->procedures->delete_list($list['id']);
+            endforeach;
 
             log_activity('Case Deleted [CaseID: ' . $id . ']');
             return true;

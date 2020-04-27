@@ -329,7 +329,7 @@ class Legal_procedures extends AdminController
                 $proc_data = array(
                     'subcat_id' => $data['subcat_id'],
                     'list_id' => $list_id,
-
+                    'content' => $data['content']
                 );
                 $id = $this->procedures->add_legal_procedure($proc_data);
                 if ($id) {

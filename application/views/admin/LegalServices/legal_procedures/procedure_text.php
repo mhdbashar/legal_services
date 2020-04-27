@@ -394,6 +394,7 @@
                                <?php echo render_input('list_id','',$proc_data->list_id,'hidden'); ?>
                                <?php echo render_input('subcat_id','',$proc_data->subcat_id,'hidden'); ?>
                                <?php echo render_input('cat_id','',$list_data->cat_id,'hidden'); ?>
+                               <?php echo render_input('content','',$contract->content,'hidden'); ?>
                                <div class="form-group">
                                    <label for="rel_type" class="control-label"><?php echo _l('select_legal_services'); ?></label>
                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">

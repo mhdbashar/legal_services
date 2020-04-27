@@ -4,17 +4,11 @@
     <list default="true" id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/legal_procedures.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/legal_procedures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Tasks.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Tasks.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/oservices_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/oservices_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/Cron_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/tab.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +264,8 @@
       <workItem from="1587501303822" duration="7672000" />
       <workItem from="1587560747058" duration="28000" />
       <workItem from="1587809952137" duration="536000" />
-      <workItem from="1587914254285" duration="9198000" />
+      <workItem from="1587914254285" duration="9830000" />
+      <workItem from="1587995746718" duration="7912000" />
     </task>
     <servers />
   </component>
@@ -299,10 +294,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1586379081957" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1587560773647">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1587933215371">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587560773647" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587933215371" />
     <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1587560761084">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -315,10 +310,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587329109637" />
-    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1587932117922">
+    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1588004218827">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1587932117922" />
+    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1588004218827" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1587926708545">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

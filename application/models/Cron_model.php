@@ -36,6 +36,7 @@ class Cron_model extends App_Model
         $this->load->model('LegalServices/Cases_model', 'case');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('tasks_model');
+        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
     }
 
     public function run($manually = false)
@@ -1878,7 +1879,6 @@ class Cron_model extends App_Model
         $empty_date = date('Y-m-d', strtotime(date('Y-m-d'). ' + '.get_option('automatically_empty_recycle_bin_after_days').' days'));
 
         if(date('Y-m-d') == $empty_date){
-
             //For Cases
             $this->db->where('deleted =', 2);
             $cases          = $this->db->get(db_prefix() . 'my_cases');
@@ -1890,6 +1890,7 @@ class Cron_model extends App_Model
             $oservices          = $this->db->get(db_prefix() . 'my_other_services');
             $oservices_num_rows = $oservices->num_rows();
             $oservices_result   = $oservices->result();
+
             if($cases_num_rows > 0){
                 foreach ($cases_result as $row){
 
@@ -1986,6 +1987,12 @@ class Cron_model extends App_Model
                         $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
                         $this->db->delete(db_prefix() . 'irac_method');
 
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+                        foreach ($lists as $list):
+                            $this->procedures->delete_list($list['id']);
+                        endforeach;
+
                         log_activity('Case Deleted [CaseID: ' . $row->id . ']');
                     }
                     return true;
@@ -2072,6 +2079,12 @@ class Cron_model extends App_Model
 
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'pinned_oservices');
+
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+                        foreach ($lists as $list):
+                            $this->procedures->delete_list($list['id']);
+                        endforeach;
 
                         log_activity($ServiceName.' Deleted [ServiceID: ' . $row->id . ']');
                     }

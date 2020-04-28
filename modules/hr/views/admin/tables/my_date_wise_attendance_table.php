@@ -124,6 +124,24 @@ $aColumns = [
 
 
     //'time_out',
+    
+
+    'attendance.created as created',
+
+    'CASE 
+    WHEN ((SELECT COUNT(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id DESC LIMIT 1)) < 2
+    THEN "-" 
+
+    ELSE
+
+    (SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME((SELECT time FROM '.db_prefix().'hr_attendances AS attendances WHERE '.'attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '."attendances.time>".db_prefix().'hr_attendances.time'.' AND '."attendances.type=\"in\"".' AND '.'attendances.time!=(SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendances.created".' AND '.db_prefix()."hr_attendances.type=\"in\"".')'.'ORDER BY time ASC LIMIT 1), time))))
+
+
+
+     FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.type=\"out\"".' AND '.db_prefix().'hr_attendances.time!=(SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.type=\"out\"".')'.'ORDER BY time ASC)
+
+    END as total_rest',
+
     'CASE 
     WHEN ISNULL((SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id DESC LIMIT 1))
     THEN "-" 
@@ -134,23 +152,7 @@ $aColumns = [
     WHEN ISNULL((SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id))
     THEN "-" 
     ELSE SUBTIME((SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id DESC LIMIT 1), (SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"in\"".'ORDER BY id DESC LIMIT 1))
-    END as total_work',
-
-    'attendance.created as created',
-
-    'CASE 
-    WHEN ((SELECT COUNT(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id DESC LIMIT 1)) < 2
-    THEN "-" 
-
-    ELSE
-
-    (SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME((SELECT time FROM '.db_prefix().'hr_attendances as attendance WHERE '.'attendance.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '."attendance.created=attendance.created".' AND '."attendance.time>".db_prefix().'hr_attendances.time'.' AND '."attendance.type=\"in\"".' AND '.'attendance.time!=(SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"in\"".')'.'ORDER BY attendance.time ASC LIMIT 1), time))))
-
-
-
-     FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".' AND '.db_prefix().'hr_attendances.time!=(SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".')'.'ORDER BY attendance.time ASC)
-
-    END as total_rest'
+    END as total_work'
 ];
 
 $sIndexColumn = 'id';

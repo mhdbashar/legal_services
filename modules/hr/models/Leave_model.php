@@ -23,6 +23,11 @@ class Leave_model extends App_Model{
         return $this->db->get($this->table_name)->result_array();
     }
 
+    public function get_leaves_for_staff($staff_id, $start, $end){
+        $this->db->where(['staff_id'=> $staff_id, 'start_date >=' => $start, 'end_date <=' => $end, 'status' => 'Approved']);
+        return $this->db->get($this->table_name )->result_array();
+    }
+
     public function add($data){
         $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();

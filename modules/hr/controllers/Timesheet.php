@@ -13,6 +13,147 @@ class Timesheet extends AdminController{
         $this->load->model('Office_shift_model');
 	}
 
+    private function dateDiffInDays($date1, $date2)  
+    { 
+        // Calulating the difference in timestamps 
+        $diff = strtotime($date2) - strtotime($date1); 
+          
+        // 1 day = 24 hours 
+        // 24 * 60 * 60 = 86400 seconds 
+        return abs(round($diff / 86400)); 
+    }
+
+    public function calendar(){
+        $month = '04';
+        $year = '2020';
+        $data['office_shift_days'] = [];
+        if(!empty($this->input->get())){
+            $year_month = DateTime::createFromFormat('Y-m', $this->input->get('month'));
+            $year = $year_month->format('Y');
+            $month = $year_month->format('m');
+            $staff_id = $this->input->get('staff_id');
+            $attendances = $this->Office_shift_model->get_attendance_for_staff($staff_id, $month);
+            $times_in = [];
+            if(!empty($attendances)){
+                foreach ($attendances as $attendance) {
+                    $times_in[] = $attendance['created'];
+                }
+            }
+            //var_dump($times_in); exit;
+
+
+            $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+            
+
+            $start = $year . '-' . $month . '-' . '1';
+            $end = $year . '-' . $month . '-' . $number_of_days;
+
+            $office_shift = $this->Office_shift_model->get_office_shift_for_staff($staff_id);
+
+            $staff_leaves = $this->Leave_model->get_leaves_for_staff($staff_id, $start, $end);
+            //echo '<pre>'; print_r($staff_leaves); exit;
+            $leaves = [];
+            foreach ($staff_leaves as $leave) {
+                $days_diffs = $this->dateDiffInDays($leave['start_date'], $leave['end_date']) + 1;
+                for ($i = 0; $i < $days_diffs; $i++){
+                    $leaves[] = date('Y-m-d', strtotime($leave['start_date']. " + $i days"));
+                }
+            } 
+
+            $sat = false; $sun = false; $mon = false; $tue = false; $wed = false; $thu = false; $fri = false;
+            if(!empty($office_shift->saturday_in))
+                $sat = true;
+            if(!empty($office_shift->sunday_in))
+                $sun = true;
+            if(!empty($office_shift->monday_in))
+                $mon = true;
+            if(!empty($office_shift->tuesday_in))
+                $tue = true;
+            if(!empty($office_shift->wednesday_in))
+                $wed = true;
+            if(!empty($office_shift->thursday_in))
+                $thu = true;
+            if(!empty($office_shift->friday_in))
+                $fri = true;
+
+            //echo '<pre>';print_r($leaves);exit;
+            $office_shift_days = [];
+            for($i = 1; $i <= $number_of_days; $i++){
+                if($i < 10)
+                    $i = "0$i";
+                else
+                    $i = "$i";
+                $datetime = DateTime::createFromFormat('Ymd', "$year$month$i");
+                $standard_date = $datetime->format('Y-m-d');
+                $day_name = $datetime->format('D');
+                //echo $day_name; exit;
+                if($day_name == 'Sat' and $sat){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Sun' and $sun == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Mon' and $mon == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Tue' and $tue == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Wed' and $wed == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Thu' and $thu == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Fri' and $fri == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+            }
+            $data['office_shift_days'] = $office_shift_days;
+        }
+
+        $data['month'] = $month;
+        $data['year'] = $year;
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+        //var_dump($office_shift_days); exit;
+        $this->load->view('timesheet/attendance/calendar', $data);
+    }
+
     //attendance
     public function attendance(){
         if(!empty($this->input->get('date')))

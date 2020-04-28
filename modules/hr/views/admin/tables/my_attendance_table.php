@@ -143,7 +143,7 @@ $aColumns = [
 
     ELSE
 
-    (SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME((SELECT time FROM '.db_prefix().'hr_attendances as attendance WHERE '.'attendance.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '."attendance.created=\"$date\"".' AND '."attendance.time>".db_prefix().'hr_attendances.time'.' AND '."attendance.type=\"in\"".' AND '.'attendance.time!=(SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=\"$date\"".' AND '.db_prefix()."hr_attendances.type=\"in\"".')'.'ORDER BY time ASC LIMIT 1), time))))
+    (SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME((SELECT time FROM '.db_prefix().'hr_attendances AS attendance WHERE '.'attendance.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '."attendance.created=\"$date\"".' AND '."attendance.time>".db_prefix().'hr_attendances.time'.' AND '."attendance.type=\"in\"".' AND '.'attendance.time!=(SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=\"$date\"".' AND '.db_prefix()."hr_attendances.type=\"in\"".')'.'ORDER BY time ASC LIMIT 1), time))))
 
 
 

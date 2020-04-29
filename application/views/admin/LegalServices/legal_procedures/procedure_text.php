@@ -7,7 +7,18 @@
          <div class="col-md-12 right-column">
             <div class="panel_s">
                <div class="panel-body">
+                   <div class="pull-right">
+                       <?php
+                       if($service_type_id == 1){
+                           $redirect_url = "Case/view/$service_type_id/$service_id?group=Procedures";
+                       }else{
+                           $redirect_url = "SOther/view/$service_type_id/$service_id?group=Procedures";
+                       }
+                       ?>
+                       <a href="<?php echo admin_url().$redirect_url; ?>" class="btn btn-default pull-right"><i class="fa fa-reply"></i> <?php echo _l('go_back'); ?></a>
+                   </div>
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
+
                    <?php /* <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
                      <?php echo _l('view_procedure'); ?>
                   </a> */ ?>
@@ -160,7 +171,7 @@
                                     <?php }*/ ?>
                                     <?php /*if(has_permission('contracts','','delete')){*/ ?>
                                     <li>
-                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id); ?>" class="_delete">
+                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id.'/'.$service_type_id.'/'.$service_id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
                                     <?php /*}*/ ?>

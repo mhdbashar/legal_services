@@ -138,7 +138,7 @@ class Legal_procedures extends AdminController
     /* Contract Controlletr */
 
     /* Edit contract or add new contract */
-    public function procedure_text($id = '')
+    public function procedure_text($id = '', $service_type_id, $service_id)
     {
         if ($this->input->post()) {
             if ($id == '') {
@@ -186,6 +186,8 @@ class Legal_procedures extends AdminController
         //$data['base_currency'] = $this->currencies_model->get_base_currency();
         //$data['types']         = $this->contracts_model->get_contract_types();
         $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
+        $data['service_type_id'] = $service_type_id;
+        $data['service_id']      = $service_id;
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $this->load->view('admin/LegalServices/legal_procedures/procedure_text', $data);
@@ -291,13 +293,18 @@ class Legal_procedures extends AdminController
     }
 
     /* Delete contract from database */
-    public function delete_contract($id)
+    public function delete_contract($id, $service_type_id, $service_id)
     {
         /*if (!has_permission('contracts', '', 'delete')) {
-            access_denied('contracts');
+         access_denied('contracts');
         }*/
+        if($service_type_id == 1){
+            $redirect_url = "Case/view/$service_type_id/$service_id?group=Procedures";
+        }else{
+            $redirect_url = "SOther/view/$service_type_id/$service_id?group=Procedures";
+        }
         if (!$id) {
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(admin_url().$redirect_url);
         }
         $response = $this->procedures->delete_contract($id);
         if ($response == true) {
@@ -306,9 +313,9 @@ class Legal_procedures extends AdminController
             set_alert('warning', _l('problem_deleting', _l('legal_procedure')));
         }
         if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
-            redirect(admin_url());
+            redirect(admin_url().$redirect_url);
         } else {
-            redirect(admin_url());
+            redirect(admin_url().$redirect_url);
         }
     }
 

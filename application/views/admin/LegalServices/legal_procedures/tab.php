@@ -62,8 +62,8 @@
     if(!empty($procedures)):
     foreach ($procedures as $proc): ?>
     <div class="card">
-        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_contract/".$proc['reference_id']); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete_procedure'); ?>"><i class="fa fa-trash"></i></a>
-        <a href="<?php echo admin_url("LegalServices/legal_procedures/procedure_text/".$proc['reference_id']); ?>" data-toggle="tooltip" title="<?php echo _l('view'); ?>">
+        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete_contract/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" class="text-danger _delete pull-right" data-toggle="tooltip" title="<?php echo _l('delete_procedure'); ?>"><i class="fa fa-trash"></i></a>
+        <a href="<?php echo admin_url("LegalServices/legal_procedures/procedure_text/".$proc['reference_id'].'/'.$ServID.'/'.$project->id); ?>" data-toggle="tooltip" title="<?php echo _l('view'); ?>">
         <?php echo $proc['subcat_name']; ?>
         </a>
         <br><br>

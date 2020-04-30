@@ -1,10 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-/*
-Module Name: Perfex CRM Powerful Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
-*/
+
 class Prchat_Controller extends AdminController
 {
     /**
@@ -49,8 +44,8 @@ class Prchat_Controller extends AdminController
             get_option('pusher_cluster') == ''
         ) {
             echo '<h1>Seems that your Pusher account it is not setup correctly.</h1>';
-            echo '<h4>Setup Pusher now: <a href="' . site_url('admin/settings?group=pusher') . '">Perfex CRM Settings->Pusher.com</a></h4>';
-            echo '<h4>Tutorial: <a target="blank" href="https://help.perfexcrm.com/setup-realtime-notifications-with-pusher-com/">See example how to setup Pusher from Perfex CRM documentation</a>';
+            echo '<h4>Setup Pusher now: <a href="' . site_url('admin/settings?group=pusher') . '">Babil CRM Settings->Pusher.com</a></h4>';
+            echo '<h4>Tutorial: <a target="blank" href="#">See example how to setup Pusher from Babil CRM documentation</a>';
             die;
         }
 

@@ -8,6 +8,7 @@ Description: asset_desc
 Version: 1.0.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
 */
 
 define('ASSETS_MODULE_NAME', 'assets');

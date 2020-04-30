@@ -3651,17 +3651,4 @@ $lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العق�
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
 
 $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
-$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = 'يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"' . admin_url('misc/reminders') . '\">تذكير</a>. مخصص';
-
-$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
-
-$lang['sms_api_key_trans'] = 'مفتاح API';
-
-$lang['sms_babil_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
-
-$lang['sms_sender_id_trans'] = 'معرف المرسل';
-
-$lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class=\'hr-10\'>';
-
-$lang['sms_twilio_sms_integration_is_one_way_messaging'] = '<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن عملائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class="hr-10" />';
-
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";

@@ -1,5 +1,14 @@
 <?php
 
+$lang['appointly'] = 'Appointment';
+
+$lang['tbookmarks_name'] = 'Bookmark your Task';
+$lang['tbookmarks_desc'] = 'Group and bookmark your tasks';
+
+$lang['account_name'] = 'Account Analysis';
+$lang['account_desc'] = 'Strategic account planning through a customer-centric approach to identifying priority accounts, capturing and analysing critical information, developing a strategy to expand and grow existing customer relationships.';
+
+$lang['save_last_order_for_tables_infor']="\"Currently supported tables: Customers, Leads, Tickets, Tasks, Projects, Payments, Expenses, Proposals, Knowledge Base, Contracts <br /><br /> Note: Changing this option will delete all saved table orders!\"";
 
 $lang['sms_invoice_overdue_notice'] = 'Invoice Overdue Notice';
 $lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'Trigger when invoice overdue notice is sent to customer contacts.';
@@ -29,7 +38,7 @@ $lang['sms_contract_expiration_reminder'] = 'Contract Expiration Reminder';
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'Trigger when expiration reminder should be send via Cron Job to customer contacts.';
 
 $lang['sms_staff_reminder'] = 'Staff Reminder';
-$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = 'Trigger when staff is notified for a specific custom <a href=\"' . admin_url('misc/reminders') . '\">reminder</a>.';
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "Trigger when staff is notified for a specific custom <a href=\"%s\">reminder</a>.";
 
 $lang['sms_clickatell_sms_integration_is_one_way_messaging'] = '<p>Clickatell SMS integration is one way messaging, means that your customers wont be able to reply to the SMS.</p><hr class=\'hr-10\'>';
 
@@ -41,7 +50,7 @@ $lang['sms_sender_id_trans'] = 'Sender ID';
 
 $lang['sms_msg91_sms_integration_is_one_way_messaging'] = '<p>MSG91 SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS.</p><hr class=\'hr-10\'>';
 
-$lang['sms_twilio_sms_integration_is_one_way_messaging'] = '<p>Twilio SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS. Phone numbers must be in format <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. Click <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\">here</a> to read more how phone numbers should be formatted.</p><hr class=\"hr-10\" />';
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p>Twilio SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS. Phone numbers must be in format <a href=\"https://www.twilio.com/docs/glossary/what-e164\" target=\"_blank\">E.164</a>. Click <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\">here</a> to read more how phone numbers should be formatted.</p><hr class=\"hr-10\" />";
 
 $lang['sms_appointment_approved_Sent_to_contact'] = 'Appointment approved (Sent to Contact)';
 $lang['sms_trigger_when_appointment_is_approved'] = 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.';

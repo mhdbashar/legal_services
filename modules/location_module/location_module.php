@@ -14,6 +14,8 @@ Description: loc_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
+
 */
 
 hooks()->add_action('admin_init', 'location_module_init_menu_item');

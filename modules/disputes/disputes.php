@@ -152,7 +152,7 @@ function disputes_module_init_menu_items()
     if (has_permission('disputes', '', 'view')) {
         $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
                 'slug'     => 'disputes',
-                'name'     => _l('نزاعات مالية'),
+                'name'     => _l('قضايا مالية'),
                 'href'     => admin_url('disputes'),
                 'position' => 24,
         ]);

@@ -7,6 +7,8 @@ Module Name: branches_name
 Description: branches_desc
 Version: 2.3.0
 Requires at least: 2.3.*
+Author URI: #
+
 */
 define('BRANCHES_MODULE_NAME', 'branches');
 define('BRANCHES_MODULE_PATH', __DIR__);

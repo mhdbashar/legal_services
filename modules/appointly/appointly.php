@@ -5,6 +5,7 @@ Description: appointly_desc
 Version: 1.1.4
 Requires at least: 2.4.1
 Author: Babil Team
+Author URI: #
 */
 
 define('APPOINTLY_MODULE_NAME', 'appointly');

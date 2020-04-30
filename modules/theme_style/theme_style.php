@@ -8,6 +8,8 @@ Description: theme_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
+
 */
 
 define('THEME_STYLE_MODULE_NAME', 'theme_style');

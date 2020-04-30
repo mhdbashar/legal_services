@@ -3,12 +3,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Task bookmarks
-Description: Group and bookmark tasks
+Module Name: tbookmarks_name 
+Description: tbookmarks_desc
 Version: 1.0.0
 Requires at least: 2.3.*
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
+Author: Babil Team
+Author URI: #
+
 */
 
 define('TASK_BOOKMARKS_MODULE_NAME', 'task_bookmarks');

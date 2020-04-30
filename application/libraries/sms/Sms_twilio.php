@@ -23,7 +23,7 @@ class Sms_twilio extends App_sms
 
         $this->add_gateway('twilio', [
             'name'    => 'Twilio',
-            'info'    => _l('sms_twilio_sms_integration_is_one_way_messaging'),
+            'info'    => _l('sms_twilio_sms_integration_is_one_way_messaging',"https://www.twilio.com/docs/glossary/what-e164"),
             'options' => [
                 [
                     'name'  => 'account_sid',

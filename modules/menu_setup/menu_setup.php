@@ -8,6 +8,8 @@ Module Name: menu_name
 Description: menu_desc
 Version: 2.3.0
 Requires at least: 2.3.*
+Author URI: #
+
 */
 
 define('MENU_SETUP_MODULE_NAME', 'menu_setup');

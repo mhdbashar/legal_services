@@ -1,10 +1,4 @@
 <?php
-/*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
-*/
 
 defined('BASEPATH') or exit('No direct script access allowed');
 define('CHAT_CURRENT_URI', strtolower($_SERVER['REQUEST_URI']));

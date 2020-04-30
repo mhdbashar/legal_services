@@ -1,11 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-/*
-Module Name: Perfex CRM Powerful Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
-Requires at least: 2.3.2
-*/
 
 class Prchat_ClientsController extends ClientsController
 {

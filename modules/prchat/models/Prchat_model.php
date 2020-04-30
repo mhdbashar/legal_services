@@ -1,10 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-/*
-Module Name: Perfex CRM Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
-*/
+
 class Prchat_model extends App_Model
 {
     /**

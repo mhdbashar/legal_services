@@ -8,6 +8,8 @@ Description: surveys_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
+
 */
 
 define('SURVEYS_MODULE_NAME', 'surveys');

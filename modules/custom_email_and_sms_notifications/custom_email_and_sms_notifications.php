@@ -8,6 +8,7 @@ Description: smsemail_desc
 Version: 2.3.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
 */
 
 define('CUSTOM_EMAIL_AND_SMS_NOTIFICATIONS_MODULE_NAME', 'custom_email_and_sms_notifications');

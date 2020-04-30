@@ -7,6 +7,8 @@ Module Name: goals_name
 Version: 2.3.0
 Requires at least: 2.3.*
 Author: Babil Team
+Author URI: #
+
 */
 
 define('GOALS_MODULE_NAME', 'goals');

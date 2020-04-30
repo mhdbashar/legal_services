@@ -4,6 +4,8 @@ Module Name: chat_name
 Description: chat_desc
 Version: 1.4.0
 Requires at least: 2.3.2
+Author URI: #
+
 */
 
 define('PR_CHAT_MODULE_NAME', 'prchat');

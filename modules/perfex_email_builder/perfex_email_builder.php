@@ -8,6 +8,7 @@ Author: Babil Team
 Description: mcreator_desc
 Version: 2.0.1
 Requires at least: 2.4.*
+Author URI: #
 */
 
 define('EMAIL_BUILDER_MODULE_NAME', 'perfex_email_builder');

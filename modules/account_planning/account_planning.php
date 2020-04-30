@@ -2,12 +2,10 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Account Planning
-Description: Strategic account planning through a customer-centric approach to identifying priority accounts, capturing and analysing critical information, developing a strategy to expand and grow existing customer relationships.
-Version: 1.0.0
-Requires at least: 2.3.*
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
+Module Name: account_name
+Description: account_desc
+Author: Babil Team
+Author URI: #
 */
 
 define('ACCOUNT_PLANNING_MODULE_NAME', 'account_planning');

@@ -376,7 +376,7 @@ class App_sms
                     '{staff_reminder_relation_link}',
                 ],
                 'label' => _l('sms_staff_reminder'),
-                'info'  => _l('sms_trigger_when_staff_is_notified_for_specific_custom'),
+                'info'  => _l('sms_trigger_when_staff_is_notified_for_specific_custom',admin_url('misc/reminders')),
             ],
         ];
 

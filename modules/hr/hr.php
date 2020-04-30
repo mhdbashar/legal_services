@@ -12,6 +12,8 @@ Module Name: hr_name
 Description: hr_desc
 Version: 1.0.0
 Requires at least: 2.3.*
+Author URI: #
+
 */
 
 register_activation_hook('hr', 'hr_module_activation_hook');

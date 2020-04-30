@@ -36,7 +36,7 @@ class Legal_procedures_model extends App_Model
 
     public function add_list($data)
     {
-        $check = $this->db->get_where('legal_procedures_lists', array('cat_id' => $data['cat_id'] ,'rel_id' => $data['rel_id']  ,'rel_type' => $data['rel_type']))->num_rows();
+        $check = $this->db->get_where(db_prefix() .'legal_procedures_lists', array('cat_id' => $data['cat_id'] ,'rel_id' => $data['rel_id']  ,'rel_type' => $data['rel_type']))->num_rows();
         if($check > 0){
             return false;
         }else{
@@ -48,6 +48,21 @@ class Legal_procedures_model extends App_Model
             }
             return $insert_id;
         }
+    }
+
+    public function delete_list($id, $where = [])
+    {
+        $procedures = legal_procedure_by_list_id($id);
+        foreach ($procedures as $contract):
+            $this->delete_contract($contract['reference_id']);
+        endforeach;
+        $this->db->where($where);
+        $this->db->where(array('id' => $id));
+        $this->db->delete(db_prefix() . 'legal_procedures_lists');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     public function add_legal_procedure($data)
@@ -62,6 +77,10 @@ class Legal_procedures_model extends App_Model
         $contract_data['datestart'] = date('Y-m-d');
         $contract_data['contract_type'] = 0;
         $contract_data['client'] = get_staff_user_id();
+        if(isset($data['content'])):
+            $contract_data['content'] = $data['content'];
+            unset($data['content']);
+        endif;
         $ref_id = $this->contracts_model->add($contract_data);
         if ($ref_id) {
             $data['reference_id'] = $ref_id;

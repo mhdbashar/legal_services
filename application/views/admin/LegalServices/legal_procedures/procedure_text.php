@@ -7,7 +7,18 @@
          <div class="col-md-12 right-column">
             <div class="panel_s">
                <div class="panel-body">
+                   <div class="pull-right">
+                       <?php
+                       if($service_type_id == 1){
+                           $redirect_url = "Case/view/$service_type_id/$service_id?group=Procedures";
+                       }else{
+                           $redirect_url = "SOther/view/$service_type_id/$service_id?group=Procedures";
+                       }
+                       ?>
+                       <a href="<?php echo admin_url().$redirect_url; ?>" class="btn btn-default pull-right"><i class="fa fa-reply"></i> <?php echo _l('go_back'); ?></a>
+                   </div>
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
+
                    <?php /* <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
                      <?php echo _l('view_procedure'); ?>
                   </a> */ ?>
@@ -160,7 +171,7 @@
                                     <?php }*/ ?>
                                     <?php /*if(has_permission('contracts','','delete')){*/ ?>
                                     <li>
-                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id); ?>" class="_delete">
+                                       <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id.'/'.$service_type_id.'/'.$service_id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
                                     <?php /*}*/ ?>
@@ -202,7 +213,7 @@
                         <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                            <?php
                               if(empty($contract->content) && staff_can('edit','contracts')){
-                               echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
+                               echo hooks()->apply_filters('new_contract_default_content', '<span class="text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
                               } else {
                                echo $contract->content;
                               }
@@ -365,7 +376,7 @@
                            ?>
                      </div>*/ ?>
                      <div role="tabpanel" class="tab-pane" id="tab_tasks">
-                        <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'contract')); ?>
+                        <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'legal_procedures')); ?>
                      </div>
                   </div>
                </div>
@@ -394,6 +405,7 @@
                                <?php echo render_input('list_id','',$proc_data->list_id,'hidden'); ?>
                                <?php echo render_input('subcat_id','',$proc_data->subcat_id,'hidden'); ?>
                                <?php echo render_input('cat_id','',$list_data->cat_id,'hidden'); ?>
+                               <?php echo render_input('content','',$contract->content,'hidden'); ?>
                                <div class="form-group">
                                    <label for="rel_type" class="control-label"><?php echo _l('select_legal_services'); ?></label>
                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">

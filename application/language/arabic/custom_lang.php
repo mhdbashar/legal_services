@@ -1090,3 +1090,5 @@ $lang['procedure_copy_date'] = 'تاريخ النسخة:';
 $lang['procedure_save_as_template'] = 'حفظ الإجراء كقالب';
 $lang['procedure_template_assigned_to_service'] = 'تم حفظ الاجراء الحالي كقالب للخدمة القانونية المختارة';
 $lang['procedure_not_found'] = "الإجراء القانوني غير موجود ربما تم حذفه ، تحقق من سجل النشاط";
+$lang['delete_list'] = "حذف القائمة";
+$lang['delete_procedure'] = "حذف الإجراء القانوني";

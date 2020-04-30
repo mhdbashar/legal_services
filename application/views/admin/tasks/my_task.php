@@ -249,13 +249,16 @@
                            <option value="proposal" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'proposal'){echo 'selected';}} ?>>
                               <?php echo _l('proposal'); ?>
                            </option>
+                            <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'legal_procedures'){echo 'selected';}} ?>>
+                                <?php echo _l('legal_procedures'); ?>
+                            </option>
                             <?php foreach ($legal_services as $service): ?>
                                 <option value="<?php echo $service->slug; ?>" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == $service->slug){echo 'selected';}} ?>><?php echo $service->name; ?></option>
                             <?php endforeach; ?>
                         </select>
                      </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 <?php echo $rel_type == 'legal_procedures' ? 'hide' : '' ?>">
                      <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
                         <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
                         <div id="rel_id_select">

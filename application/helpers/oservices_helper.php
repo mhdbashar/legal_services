@@ -316,6 +316,7 @@ function get_user_pinned_oservices()
     $CI->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'pinned_oservices.oservice_id');
     $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_other_services.clientid');
     $CI->db->where(db_prefix() . 'pinned_oservices.staff_id', get_staff_user_id());
+    $CI->db->where(db_prefix() . 'my_other_services.deleted', 0);
     $oservices = $CI->db->get(db_prefix() . 'pinned_oservices')->result_array();
 
     $CI->load->model('LegalServices/Other_services_model',"other");

@@ -90,6 +90,22 @@ class Legal_procedures extends AdminController
         }
     }
 
+    public function delete_list($id)
+    {
+        if(!$id || $id == ''){
+            set_alert('warning', _l('problem_deleting'));
+            return false;
+        }
+        $res = $this->procedures->delete_list($id);;
+        if($res){
+            set_alert('success', _l('deleted_successfully'));
+        }else{
+            set_alert('warning', _l('problem_deleting'));
+            return false;
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function add_legal_procedure()
     {
         if ($this->input->post()) {
@@ -122,7 +138,7 @@ class Legal_procedures extends AdminController
     /* Contract Controlletr */
 
     /* Edit contract or add new contract */
-    public function procedure_text($id = '')
+    public function procedure_text($id = '', $service_type_id, $service_id)
     {
         if ($this->input->post()) {
             if ($id == '') {
@@ -170,6 +186,8 @@ class Legal_procedures extends AdminController
         //$data['base_currency'] = $this->currencies_model->get_base_currency();
         //$data['types']         = $this->contracts_model->get_contract_types();
         $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
+        $data['service_type_id'] = $service_type_id;
+        $data['service_id']      = $service_id;
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $this->load->view('admin/LegalServices/legal_procedures/procedure_text', $data);
@@ -275,13 +293,18 @@ class Legal_procedures extends AdminController
     }
 
     /* Delete contract from database */
-    public function delete_contract($id)
+    public function delete_contract($id, $service_type_id, $service_id)
     {
         /*if (!has_permission('contracts', '', 'delete')) {
-            access_denied('contracts');
+         access_denied('contracts');
         }*/
+        if($service_type_id == 1){
+            $redirect_url = "Case/view/$service_type_id/$service_id?group=Procedures";
+        }else{
+            $redirect_url = "SOther/view/$service_type_id/$service_id?group=Procedures";
+        }
         if (!$id) {
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(admin_url().$redirect_url);
         }
         $response = $this->procedures->delete_contract($id);
         if ($response == true) {
@@ -290,9 +313,9 @@ class Legal_procedures extends AdminController
             set_alert('warning', _l('problem_deleting', _l('legal_procedure')));
         }
         if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
-            redirect(admin_url());
+            redirect(admin_url().$redirect_url);
         } else {
-            redirect(admin_url());
+            redirect(admin_url().$redirect_url);
         }
     }
 
@@ -313,7 +336,7 @@ class Legal_procedures extends AdminController
                 $proc_data = array(
                     'subcat_id' => $data['subcat_id'],
                     'list_id' => $list_id,
-
+                    'content' => $data['content']
                 );
                 $id = $this->procedures->add_legal_procedure($proc_data);
                 if ($id) {

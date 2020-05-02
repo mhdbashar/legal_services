@@ -165,7 +165,7 @@ class Timesheet extends AdminController{
             $this->hrmapp->get_table_data('my_attendance_table', ['date' => $date]);
         }
         $data['title'] = _l('attendance');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -192,7 +192,7 @@ class Timesheet extends AdminController{
         //echo $start_date.' '.$end_date;exit;
         $data['title'] = _l('attendance');
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -206,7 +206,7 @@ class Timesheet extends AdminController{
             $this->hrmapp->get_table_data('my_office_shift_table');
         }
         $data['title'] = _l('office_shift');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -300,7 +300,7 @@ class Timesheet extends AdminController{
             $this->hrmapp->get_table_data('my_overtime_requests_table');
         }
         $data['title'] = _l('overtime_requests');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -354,7 +354,7 @@ class Timesheet extends AdminController{
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_holiday_table');
         }
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -439,7 +439,7 @@ class Timesheet extends AdminController{
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_leave_table');
         }
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();

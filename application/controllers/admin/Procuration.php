@@ -110,6 +110,9 @@ class Procuration extends AdminController
         $data['states'] = $this->procurationstate_model->get();
         $data['types'] = $this->procurationtype_model->get();
         $data['cases'] = $this->case->get();
+        if(is_numeric($request)){
+            $data['cases'] = $this->case->get('', ['clientid' => $request]);
+        }
         $data['id'] = $id;
         $data['title'] = $title;
 

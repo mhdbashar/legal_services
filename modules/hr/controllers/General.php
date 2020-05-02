@@ -73,12 +73,10 @@ class General extends AdminController{
             } else {
                 $ts_filter_data['this_month'] = true;
             }
-            if($this->app_modules->is_active('branches')) {
                 $ci = &get_instance();
                 $ci->load->model('branches/Branches_model');
                 $data['branches'] = $ci->Branches_model->getBranches();
                 $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
-            }
             $data['logged_time'] = $this->staff_model->get_logged_time_data($staff_id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
             $data['base_currency'] = $this->Currencies_model->get_base_currency();
@@ -194,11 +192,9 @@ class General extends AdminController{
 
         if ($this->input->post()) {
             $data = $this->input->post();
-            if($this->app_modules->is_active('branches')){
                 $branch_id = $this->input->post()['branch_id'];
 
                 unset($data['branch_id']);
-            }
             foreach ($data as $key => $value){
                 if (in_array($value, $hr_data))
                     unset($data[$key]);
@@ -223,13 +219,11 @@ class General extends AdminController{
                 $id = $this->staff_model->add($data);
                 $hr_data['staff_id'] = $id;
                 $success = $this->Extra_info_model->add($hr_data);
-                if($this->app_modules->is_active('branches')){
                     if(is_numeric($branch_id)){
                         $this->Branches_model->update_branch('staff', $id, $branch_id);
                     }else{
                         $this->Branches_model->delete_branch('staff', $id);
                     }                handle_staff_profile_image_upload($id);
-                }
                 if ($id) {
 
                     handle_staff_profile_image_upload($id);
@@ -240,13 +234,11 @@ class General extends AdminController{
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
                 }
-                if($this->app_modules->is_active('branches')){
                     if(is_numeric($branch_id)){
                         $this->Branches_model->update_branch('staff', $id, $branch_id);
                     }else{
                         $this->Branches_model->delete_branch('staff', $id);
                     }                handle_staff_profile_image_upload($id);
-                }
                 $data['lastname'] = '';
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
@@ -290,12 +282,10 @@ class General extends AdminController{
                 $ts_filter_data['this_month'] = true;
             }
 
-            if($this->app_modules->is_active('branches')) {
                 $ci = &get_instance();
                 $ci->load->model('branches/Branches_model');
                 $data['branches'] = $ci->Branches_model->getBranches();
                 $data['branch'] = $this->Branches_model->get_branch('staff', $id);
-            }
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];

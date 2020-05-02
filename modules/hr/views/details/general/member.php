@@ -118,7 +118,7 @@
                      -->
                      </div>
                      <?php $branches = $this->Branches_model->getBranches(); ?>
-                        <?php if($this->app_modules->is_active('branches')){?>
+                        <?php if(true){?>
                            <?php $value = (isset($branch) ? $branch : ''); ?>
                            <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
                         <?php } ?>

@@ -18,11 +18,9 @@ class Holidays extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_holiday_table');
         }
-        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
-        }
         $data['title'] = _l("holiday");
         $this->load->view('timesheet/holidays/manage', $data);
     }

@@ -12,7 +12,7 @@
       </div>
       <div class="modal-body">
         <form id="form_transout" method="get" action="<?php echo base_url() . 'hr/timesheet/add_holiday' ?>">
-                          <?php  if($this->app_modules->is_active('branches')){  ?>
+                          <?php  if(true){  ?>
                                   <div class="form-group">
                                       <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                                       <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
@@ -91,7 +91,7 @@
                             
                             <input aria-hidden="true" type="hidden" class="form-control" id="id" name="id">
 
-                          <?php  if($this->app_modules->is_active('branches')){  ?>
+                          <?php  if(true){  ?>
                                   <div class="form-group">
                                       <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                                       <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">

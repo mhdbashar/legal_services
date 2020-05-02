@@ -223,4 +223,4 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
 }
 $CI = & get_instance();
-$CI->app_modules->activate('branches');
+// $CI->app_modules->activate('branches');

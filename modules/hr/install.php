@@ -559,3 +559,81 @@ if (!option_exists('hr_document_reminder_notification_before')) {
     $value = '1';
     add_option('hr_document_reminder_notification_before',$value);
 }
+
+// branch
+
+if (!$CI->db->table_exists(db_prefix() . 'branches')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+     `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `legal_traning_name` varchar(255) NOT NULL, 
+    `registraion_number` varchar(255) NOT NULL,
+    `website` varchar(255) NOT NULL,
+    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `branch_email` varchar(255) NOT NULL, 
+    `city_id` int(11) NOT NULL, 
+    `country_id` int(11) NOT NULL,
+    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `state_province` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+
+  $data = [
+    'title_en' => 'General branch', 
+    'title_ar' => 'الفرع العام', 
+    'city_id' => '338', 
+    'country_id' => '217', 
+    'registraion_number' => '1'
+  ];
+  $CI->db->insert('tblbranches', $data);
+  $insert_id = $CI->db->insert_id();
+  if ($insert_id) {
+      log_activity('New Branches Added [' . $data['title_en'] . ']');
+      return $insert_id;
+  }
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches_services` (                   
+     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+     `branch_id` int(11) NOT NULL,
+     `rel_type` varchar(25) NOT NULL,
+     `rel_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+
+
+    $staffs = $CI->db->get(db_prefix() . 'staff')->result_array();
+    foreach ($staffs as $staff){
+      $data = [
+        'branch_id' => 1, 
+        'rel_type' => 'staff', 
+        'rel_id' => $staff['staffid']
+      ];
+      $CI->db->insert('tblbranches_services', $data);
+      $insert_id = $CI->db->insert_id();
+
+      if ($insert_id) {
+          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
+      }
+    }
+
+    $departments = $CI->db->get(db_prefix() . 'departments')->result_array();
+    foreach ($departments as $department){
+      $data = [
+        'branch_id' => 1, 
+        'rel_type' => 'departments', 
+        'rel_id' => $department['departmentid']
+      ];
+      $CI->db->insert('tblbranches_services', $data);
+      $insert_id = $CI->db->insert_id();
+
+      if ($insert_id) {
+          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
+      }
+    }
+
+    
+}

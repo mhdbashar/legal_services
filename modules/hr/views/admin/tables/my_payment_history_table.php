@@ -12,7 +12,11 @@ $join = [
 ];
 
 $ci = &get_instance();
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    if(get_staff_default_language() == 'arabic'){
+        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+    }else{
+        $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    }
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'staff.staffid AND '.db_prefix().'branches_services.rel_type="staff"';
 
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';

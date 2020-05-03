@@ -10,12 +10,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     `staff_id` int(11) NOT NULL
 */
 $aColumns = [
-    db_prefix().'branches.title_en as branch_id', 
     'CONCAT(firstname," ", lastname) as fullname', 
     'in_time', 
     'out_time', 
     'status', 
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_overtime_request';

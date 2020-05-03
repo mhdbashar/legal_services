@@ -3,11 +3,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     'CONCAT(tostaff.firstname," ", tostaff.lastname) as warning_to', 
-    db_prefix().'branches.title_en as branch_id', 
     'warning_date', 
     'subject',
     'CONCAT(bystaff.firstname," ", bystaff.lastname) as warning_by'
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_warnings';

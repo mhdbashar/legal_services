@@ -9,8 +9,6 @@ $aColumns = [
 
     db_prefix().'hr_extra_info.emloyee_id as employee_id',
 
-    db_prefix().'branches.title_en as branch_id', 
-
     'CASE 
     WHEN ISNULL((SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".'))
     THEN "Absent" 
@@ -154,6 +152,12 @@ $aColumns = [
     ELSE SUBTIME((SELECT MAX(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"out\"".'ORDER BY id DESC LIMIT 1), (SELECT MIN(time) FROM '.db_prefix().'hr_attendances WHERE '.db_prefix().'hr_attendances.staff_id = '.db_prefix().'hr_extra_info.staff_id AND '.db_prefix()."hr_attendances.created=attendance.created".' AND '.db_prefix()."hr_attendances.type=\"in\"".'ORDER BY id DESC LIMIT 1))
     END as total_work'
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_extra_info';

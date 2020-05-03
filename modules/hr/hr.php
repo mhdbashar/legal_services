@@ -20,9 +20,14 @@ hooks()->add_action('admin_init', 'hr_init_hrmApp');
 
 hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
-
 function hr_menu_items($item)
 {
+    $branch = '';
+    $CI = & get_instance();
+    if($CI->app_modules->is_active('branches')){
+        $branch = '<li><a href="'.admin_url('branches').'">'._l('branches').'</a>
+                                    </li>';
+    }
         // print_r($item);
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
@@ -85,8 +90,7 @@ function hr_menu_items($item)
 
                         <li><a href="#" aria-expanded="false">'._l('organization').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
-                                <li><a href="'.admin_url('branches').'">'._l('branches').'</a>
-                                </li>
+                                '.$branch.'
                                 <li><a href="'.admin_url('hr/organization/officail_documents').'">'._l('official_documents').'</a>
                                 </li>
                                 <li><a href="'.admin_url('departments').'">'._l('departments').'</a>

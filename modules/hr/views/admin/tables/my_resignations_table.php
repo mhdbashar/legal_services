@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-$aColumns = ['CONCAT(firstname," ", lastname) as fullname', db_prefix().'branches.title_en as branch_id', 'notice_date', 'resignation_date'];
+$aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'resignation_date'];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_resignations';

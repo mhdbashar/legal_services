@@ -3,11 +3,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     db_prefix().'hr_leave_type.name as type',
-    db_prefix().'branches.title_en as branch_id', 
     'CONCAT(firstname," ", lastname) as fullname', 
     'CONCAT("'._l("from").': ", start_date,"<br>'._l("to").' ", end_date) as request_duration', 
     'created'
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_leaves';

@@ -1,5 +1,11 @@
 <?php
 
+$lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';
+$lang['attendance_date'] = 'ضبط وقت الحضور';
+$lang['calendar_date'] = 'ضبط وقت التقويم';
+$lang['training'] = 'التدريب';
+$lang['add_training_type'] = 'اضافة نوع تدريب';
+
 $lang['employee_id'] = "رقم الموظف";
 $lang['over_time'] = "الوقت الاضافي";
 $lang['early_leaving'] = "الخروج المبكر";

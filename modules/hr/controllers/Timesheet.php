@@ -24,8 +24,8 @@ class Timesheet extends AdminController{
     }
 
     public function calendar(){
-        $month = '04';
-        $year = '2020';
+        $month = date("m");
+        $year = date("Y");
         $data['office_shift_days'] = [];
         if(!empty($this->input->get())){
             $year_month = DateTime::createFromFormat('Y-m', $this->input->get('month'));

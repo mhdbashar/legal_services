@@ -82,6 +82,29 @@
     }, 'json');
 });
 
+  $(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#office_shift_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
 $(document).ready(function(){
   <?php if(empty($branch)) $branch = 1 ?>
   var branch_id = <?php echo $branch ?>;
@@ -95,6 +118,7 @@ $(document).ready(function(){
   <?php if(is_numeric($extra_info->sub_department)){ ?>
     var sub_departmant = <?php echo $extra_info->sub_department ?>;
     var designation = <?php echo $extra_info->designation ?>;
+    var office_shift = <?php echo $extra_info->office_sheft ?>;
   <?php }else{ ?>
     var sub_departmant = '';
     var designation = '';
@@ -124,6 +148,31 @@ $(document).ready(function(){
           alert_float('danger', response.message);
       }
   }, 'json');
+
+  $.get(admin_url + 'branches/get_office_shift/' + branch_id, function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == office_shift)
+                select = true;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#office_shift_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
 
   $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
         if (response.success == true) {

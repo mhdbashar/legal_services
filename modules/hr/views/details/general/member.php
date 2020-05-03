@@ -271,6 +271,7 @@
                            <option value="rtl" <?php if(isset($member) && $member->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
                         </select>
                      </div>
+                  <!-- 
                   <?php  if(!$this->app_modules->is_active('branches')){  ?>
                      <div class="form-group">
                         <?php if(count($departments) > 0){ ?>
@@ -294,6 +295,7 @@
                         <?php } ?>
                      </div>
                   <?php } ?>
+                   -->
                      <?php $rel_id = (isset($member) ? $member->staffid : false); ?>
                      <?php echo render_custom_fields('staff',$rel_id); ?>
 

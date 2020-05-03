@@ -94,7 +94,7 @@
                      <?php $branches = $this->Branches_model->getBranches(); ?>
                         <?php if(true){?>
                            <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
+                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
                         <?php } ?>
                            <?php 
                            $departmentid = '';
@@ -168,9 +168,13 @@
                      		<?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
                      	</div>
                      -->
-                     	<div class="col-md-4">
-                     		<?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
-                     	</div>
+                      <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="office_shift" class="control-label"><?php echo _l('office_shift') ?></label>
+                                <select required="required" class="form-control" id="office_shift_id" name="office_sheft" placeholder="<?php echo _l('office_shift') ?>" aria-invalid="false">
+                                </select>     
+                            </div>  
+                      </div>
                      	<div class="col-md-4">
                      		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
                      	</div>

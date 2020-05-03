@@ -1,5 +1,11 @@
 <?php
 
+$lang['date_wise_attendance'] = 'Date Wise Attendance';
+$lang['attendance_date'] = 'Attendance Date';
+$lang['calendar_date'] = 'Calendar Date';
+$lang['training'] = 'Training';
+$lang['add_training_type'] = 'Add Training Type';
+
 $lang['employee_id'] = "Employee id";
 $lang['over_time'] = "Overtime";
 $lang['early_leaving'] = "Early Leaving";

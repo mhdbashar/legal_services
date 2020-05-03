@@ -131,6 +131,12 @@ class Branches extends AdminController
         die();
     }
 
+    public function get_office_shift($id)
+    {
+        echo json_encode(['success'=>true,'data'=>$this->branches_model->get_office_shift($id)]);
+        die();
+    }
+
 
 
     /**

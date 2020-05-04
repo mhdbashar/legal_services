@@ -17,6 +17,9 @@ class Core_hr extends AdminController{
         $this->load->model('Promotion_model');
         $this->load->model('Designation_model');
         $this->load->model('Travel_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
     // awards
 

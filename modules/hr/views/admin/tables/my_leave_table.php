@@ -47,9 +47,15 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['created'];
 
+    if (has_permission('hr', '', 'view')){
+        $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+        $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    }
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    else
+        $options = '';
+
+    $row[]   = $options;
     
 
     $output['aaData'][] = $row;

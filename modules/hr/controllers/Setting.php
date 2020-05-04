@@ -6,6 +6,9 @@ class Setting extends AdminController{
 	public function __construct(){
 		parent::__construct();
         $this->load->model('Leave_type_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
     public function index(){

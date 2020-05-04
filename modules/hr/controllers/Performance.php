@@ -6,6 +6,9 @@ class Performance extends AdminController{
 		parent::__construct();
 		$this->load->model('Indicator_model');
 		$this->load->model('Appraisal_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	//indicators

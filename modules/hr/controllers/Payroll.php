@@ -13,6 +13,9 @@ class Payroll extends AdminController{
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
 		$this->load->model('Payments_model');
+
+		if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	public function test($staff_id, $year, $month){

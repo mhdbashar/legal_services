@@ -18,6 +18,7 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
+
 hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
 function hr_menu_items($item)
@@ -29,6 +30,7 @@ function hr_menu_items($item)
                                     </li>';
     }
         // print_r($item);
+    if (has_permission('hr', '', 'view')){
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li class="menu-item-hr">';
@@ -122,6 +124,28 @@ function hr_menu_items($item)
                                 </li>
                                 </ul>
                         </li>
+                </ul>';
+        echo '</li>';
+        }
+    }else
+        if($item['position']=='10'){
+                // echo '<ul><a href="#">HRM App</a></ul>';
+        echo '<li class="menu-item-hr">';
+        echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
+
+        echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
+                       
+
+                        <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    
+                                    <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/timesheet/overtime_requests').'">'._l('overtime_requests').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
                 </ul>';
         echo '</li>';
         }

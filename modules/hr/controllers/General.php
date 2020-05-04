@@ -20,6 +20,9 @@ class General extends AdminController{
         $this->load->model('Sub_department_model');
         $this->load->model('Designation_model');
         $this->load->model('Leave_type_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
     public function staff()

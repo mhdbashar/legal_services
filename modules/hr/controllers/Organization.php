@@ -11,6 +11,9 @@ class Organization extends AdminController{
         $this->load->model('Official_document_model');
         $this->load->model('Extra_info_model');
 
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	public function officail_documents(){

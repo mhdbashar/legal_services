@@ -11,6 +11,9 @@ class Details extends AdminController{
 		$this->load->model('Overtime_model');
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	

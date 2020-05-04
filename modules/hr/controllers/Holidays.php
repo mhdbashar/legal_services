@@ -8,6 +8,9 @@ class Holidays extends AdminController{
         parent::__construct();
         $this->load->model('holidays_model');
         $this->load->model('Branches_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
     }
 
     public function index(){

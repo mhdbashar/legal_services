@@ -1,5 +1,6 @@
 <?php
 
+$lang['hr'] = 'الموارد البشرية';
 $lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';
 $lang['attendance_date'] = 'ضبط وقت الحضور';
 $lang['calendar_date'] = 'ضبط وقت التقويم';

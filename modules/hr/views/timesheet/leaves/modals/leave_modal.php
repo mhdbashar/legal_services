@@ -53,6 +53,7 @@
             <?php echo form_hidden('status', 'Pending'); ?>
             <div class="modal-body">
                 <div class="row">
+        <?php if (has_permission('hr', '', 'view')){ ?>
                 <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -74,6 +75,10 @@
                             </select>     
                         </div>
                     </div>
+        <?php 
+            }else
+                echo form_hidden('staff_id', get_staff_user_id());
+         ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="leave_type" class="control-label"><?php echo _l('leave_type') ?></label>

@@ -24,6 +24,8 @@ class Timesheet extends AdminController{
     }
 
     public function calendar(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $month = date("m");
         $year = date("Y");
         $data['office_shift_days'] = [];
@@ -156,6 +158,8 @@ class Timesheet extends AdminController{
 
     //attendance
     public function attendance(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if(!empty($this->input->get('date')))
             $date = $this->input->get('date');
         else
@@ -175,6 +179,8 @@ class Timesheet extends AdminController{
 
     //date_wise_attendance
     public function date_wise_attendance(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))  and !empty($this->input->get('staff_id'))){
             $start_date = $this->input->get('start_date');
             $end_date = $this->input->get('end_date');
@@ -202,6 +208,8 @@ class Timesheet extends AdminController{
 
     //office_shift
     public function office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_office_shift_table');
         }
@@ -223,6 +231,8 @@ class Timesheet extends AdminController{
         echo json_encode($data);
     }
     public function update_office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $branch_id = $data['branch_id'];
         if($data['default'] == 1){
@@ -246,6 +256,8 @@ class Timesheet extends AdminController{
     }
 
     public function add_office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $branch_id = $data['branch_id'];
         if($data['default'] == 1){
@@ -279,11 +291,10 @@ class Timesheet extends AdminController{
 
     public function delete_office_shift($id)
     {
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Office_shift_model->delete($id);
         if ($response == true) {
@@ -296,8 +307,12 @@ class Timesheet extends AdminController{
 
     //overtime_requests
     public function overtime_requests(){
+
         if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_overtime_requests_table');
+            if (has_permission('hr', '', 'view'))
+                $this->hrmapp->get_table_data('my_overtime_requests_table');
+            else
+                $this->hrmapp->get_table_data('my_overtime_requests_table', ['staff_id' => get_staff_user_id()]);
         }
         $data['title'] = _l('overtime_requests');
         if(true) {
@@ -313,6 +328,8 @@ class Timesheet extends AdminController{
         echo json_encode($data);
     }
     public function update_overtime_request(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Overtime_request_model->update($data, $id);
@@ -335,11 +352,10 @@ class Timesheet extends AdminController{
 
     public function delete_overtime_request($id)
     {
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Overtime_request_model->delete($id);
         if ($response == true) {
@@ -351,6 +367,8 @@ class Timesheet extends AdminController{
     }
 
 	public function holidays(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_holiday_table');
         }
@@ -374,9 +392,8 @@ class Timesheet extends AdminController{
     }
 
     public function add_holiday(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->get()) {
             $data            = $this->input->get();
             $branch_id = $data['branch_id'];
@@ -399,9 +416,8 @@ class Timesheet extends AdminController{
     }
     
     public function update_holiday(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->get()) {
             $data            = $this->input->get();
             $branch_id = $data['branch_id'];
@@ -418,10 +434,9 @@ class Timesheet extends AdminController{
     }
     public function delete_holiday($id)
     {
-        if (!$id) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
-        if (!is_admin()) {
+        if (!$id) {
             access_denied();
         }
         $response = $this->Holidays_model->delete($id);
@@ -437,7 +452,10 @@ class Timesheet extends AdminController{
 
     public function leaves(){
 		if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_leave_table');
+            if (has_permission('hr', '', 'view'))
+                $this->hrmapp->get_table_data('my_leave_table');
+            else
+                $this->hrmapp->get_table_data('my_leave_table', ['staff_id' => get_staff_user_id()]);
         }
         if(true) {
             $ci = &get_instance();
@@ -465,10 +483,7 @@ class Timesheet extends AdminController{
     }
 
     public function add_leave(){
-    	//var_dump($this->input->post()); exit;
-        if (!is_admin()) {
-            access_denied();
-        }
+    	
         if ($this->input->post()) {
             $data            = $this->input->post();
             $branch_id = $data['branch_id'];
@@ -522,9 +537,8 @@ class Timesheet extends AdminController{
     }
     
     public function update_leave(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->post()) {
             $data            = $this->input->post();
             if (!isset($data['half_day'])) {
@@ -555,10 +569,9 @@ class Timesheet extends AdminController{
     }
     public function delete_leave($id)
     {
-        if (!$id) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
-        if (!is_admin()) {
+        if (!$id) {
             access_denied();
         }
         $response = $this->Leave_model->delete($id);

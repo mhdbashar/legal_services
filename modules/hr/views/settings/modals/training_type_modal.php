@@ -8,13 +8,13 @@
                     <span class="edit-title"><?php echo "Edit"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/update_type/branch_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/update_type/training_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             
             <div class="modal-body">
                 <input type="hidden" name="old" id="old" value="">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('new',_l('relation'),'','text',['id' => 'new']); ?>
+                        <?php echo render_input('new',_l('training'),'','text',['id' => 'new']); ?>
 
                         <!--                        --><?php //echo form_hidden('id'); ?>
                     </div>
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="add_relation_type" tabindex="-1" role="dialog" aria-labelledby="add_relation_type" aria-hidden="true">
+<div class="modal fade" id="add_training_type" tabindex="-1" role="dialog" aria-labelledby="add_training_type" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,11 +38,11 @@
                     <span class="add-title"><?php echo "Add"; ?></span>
                 </h4>
             </div>
-            <?php echo form_open(admin_url('hr/setting/add_type/branch_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
+            <?php echo form_open(admin_url('hr/setting/add_type/training_type'),array('id'=>'form_transout', 'method'=>'get')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input('nameEn',_l('relation')); ?>
+                        <?php echo render_input('nameEn',_l('training')); ?>
 
                         <!--                        --><?php //echo form_hidden('id'); ?>
                     </div>

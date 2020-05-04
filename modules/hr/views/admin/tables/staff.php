@@ -22,7 +22,6 @@ $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
 $ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
     if(get_staff_default_language() == 'arabic'){
         $aColumns[] = db_prefix().'branches.title_ar as branch_id';
     }else{
@@ -33,7 +32,6 @@ if($ci->app_modules->is_active('branches')){
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
 
     $join[] = 'LEFT JOIN '.db_prefix().'hr_extra_info ON '.db_prefix().'hr_extra_info.staff_id='.db_prefix().'staff.staffid';
-}
 $i            = 0;
 foreach ($custom_fields as $field) {
     $select_as = 'cvalue_' . $i;
@@ -121,9 +119,7 @@ foreach ($rResult as $aRow) {
         }
         $row[] = $_data;
     }
-    if($ci->app_modules->is_active('branches')){
         $row[] = $aRow['branch_id'];
-    }
 
     $row['DT_RowClass'] = 'has-row-options';
     $output['aaData'][] = $row;

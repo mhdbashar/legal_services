@@ -8,7 +8,7 @@
                     <span class="edit-title"><?php echo _l("attendance_date"); ?></span>
                 </h4>
             </div>
-            <?php echo form_open_multipart(admin_url('hr/timesheet/date_wise_attendance'),array('id'=>'form_transout', 'method' => 'get')); ?>
+            <?php echo form_open_multipart(admin_url('hr/timesheet/calendar'),array('id'=>'form_transout', 'method' => 'get')); ?>
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
@@ -17,19 +17,22 @@
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
                             <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
-                                <?php  
+                                <?php
+                                    $selected = '';
                                     foreach ($staff_members as $staff){
-                                        echo "<option value=".$staff['staffid'].'">'.$staff['firstname'].'</option>';
+                                        if(!empty($this->input->get('staff_id'))){
+                                            if($this->input->get('staff_id') == $staff['staffid'])
+                                                $selected = 'selected';
+                                        }
+                                        echo "<option ".$selected." value=".$staff['staffid'].'>'.$staff['firstname'].'</option>';
+                                        $selected = '';
                                     }
                                 ?>
                             </select>     
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_date_input('start_date','start_date', date("Y-m-d"), ['required' => 'required']); ?>
-                    </div>
-                    <div class="col-md-12">
-                        <?php echo render_date_input('end_date','end_date', date("Y-m-d"), ['required' => 'required']); ?>
+                        <?php echo render_input('month','month', date("Y-m"),'month',['required' => 'required', 'max' =>  date("Y-m")]); ?>
                     </div>
                 </div>
             </div>

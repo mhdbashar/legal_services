@@ -20,12 +20,19 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
-hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
+hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
 
 function hr_menu_items($item)
 {
+    $branch = '';
+    $CI = & get_instance();
+    if($CI->app_modules->is_active('branches')){
+        $branch = '<li><a href="'.admin_url('branches').'">'._l('branches').'</a>
+                                    </li>';
+    }
         // print_r($item);
+    if (has_permission('hr', '', 'view')){
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li class="menu-item-hr">';
@@ -62,6 +69,8 @@ function hr_menu_items($item)
                                     
                                     <li><a href="'.admin_url('hr/timesheet/attendance').'">'._l('attendance').'</a>
                                     </li>
+                                    <li><a href="'.admin_url('hr/timesheet/calendar').'">'._l('calendar').'</a>
+                                    </li>
                                     <li><a href="'.admin_url('hr/timesheet/date_wise_attendance').'">'._l('date_wise_attendance').'</a>
                                     </li>
                                     <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
@@ -85,8 +94,7 @@ function hr_menu_items($item)
 
                         <li><a href="#" aria-expanded="false">'._l('organization').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
-                                <li><a href="'.admin_url('branches').'">'._l('branches').'</a>
-                                </li>
+                                '.$branch.'
                                 <li><a href="'.admin_url('hr/organization/officail_documents').'">'._l('official_documents').'</a>
                                 </li>
                                 <li><a href="'.admin_url('departments').'">'._l('departments').'</a>
@@ -118,6 +126,28 @@ function hr_menu_items($item)
                                 </li>
                                 </ul>
                         </li>
+                </ul>';
+        echo '</li>';
+        }
+    }else
+        if($item['position']=='10'){
+                // echo '<ul><a href="#">HRM App</a></ul>';
+        echo '<li class="menu-item-hr">';
+        echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
+
+        echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
+                       
+
+                        <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
+                                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                    
+                                    <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/timesheet/overtime_requests').'">'._l('overtime_requests').'</a>
+                                    </li>
+                                </ul>
+                        </li>
+
                 </ul>';
         echo '</li>';
         }
@@ -223,4 +253,4 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
 }
 $CI = & get_instance();
-$CI->app_modules->activate('branches');
+// $CI->app_modules->activate('branches');

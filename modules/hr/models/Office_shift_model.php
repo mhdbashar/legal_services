@@ -23,6 +23,17 @@ class Office_shift_model extends App_Model{
         return $this->db->get($this->table_name)->result_array();
     }
 
+    public function get_office_shift_for_staff($staff_id){
+        $this->db->where('staff_id', $staff_id);
+        $this->db->join($this->table_name, $this->table_name.'.id=' . db_prefix() . 'hr_extra_info.office_sheft', 'left');
+        return $this->db->get(db_prefix() . 'hr_extra_info')->row();
+    }
+
+    public function get_attendance_for_staff($staff_id, $month){
+        $this->db->where(['staff_id'=> $staff_id, 'MONTH(created)'=>$month]);
+        return $this->db->get(db_prefix() . 'hr_attendances')->result_array();
+    }
+
     public function add($data){
         $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();

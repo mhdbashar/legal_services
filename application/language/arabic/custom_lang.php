@@ -249,11 +249,19 @@ $lang['email_queue_skip_attachments_exp']="على الأرجح ستواجه مش
 $lang['email_queue_enabled_exp'] = "لتسريع عملية البريد الإلكتروني ، سيضيف النظام رسائل البريد الإلكتروني في قائمة الانتظار ويرسلها عبر وظيفة cron ، تأكد من تكوين وظيفة cron بشكل صحيح من أجل استخدام هذه الميزة.";
 $lang['cronjob_req'] = "تتطلب هذه الميزة مهمة من نوع cron مضبوطة بشكل صحيح. قبل تنشيط هذه الميزة ، تأكد من تكوين اعدادت وظيفة cron ";
 $lang['settings_sales_bo_box'] = "صندوق البريد";
+$lang['hr'] = 'الموارد البشرية';
+$lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';
+$lang['attendance_date'] = 'ضبط وقت الحضور';
+$lang['calendar_date'] = 'ضبط وقت التقويم';
+$lang['training'] = 'التدريب';
+$lang['add_training_type'] = 'اضافة نوع تدريب';
+
 $lang['employee_id'] = "رقم الموظف";
 $lang['over_time'] = "الوقت الاضافي";
 $lang['early_leaving'] = "الخروج المبكر";
 $lang['late'] = "التأخير";
 $lang['total_work'] = "وقت العمل الكامل";
+$lang['total_rest'] = "وقت الاستراحة الكامل";
 
 $lang['is_default'] = "هل هو افتراضي ؟";
 $lang['shift_name'] = "اسم وقت الدوام";

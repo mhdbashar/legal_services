@@ -158,6 +158,18 @@ class Branches_model extends App_Model
         }
         return $data;
     }
+    public function get_office_shift($branch_id)
+    {
+        $data = [];
+        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'office_shift']);
+        $rows = $this->db->get('tblbranches_services')->result_array();
+        foreach ($rows as $row) {
+            $this->db->where(['id' => $row['rel_id']]);
+            $r = $this->db->get('tblhr_office_shift')->row_array();
+            $data[] = ['key' => $r['id'], 'value' => $r['shift_name']];
+        }
+        return $data;
+    }
     public function getBranches()
     {
         $data = [];

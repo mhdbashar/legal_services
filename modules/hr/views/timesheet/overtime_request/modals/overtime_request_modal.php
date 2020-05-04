@@ -12,7 +12,7 @@
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -81,7 +81,8 @@
             <?php echo form_hidden('status', 'Pending'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+        <?php if (has_permission('hr', '', 'view')){ ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -102,6 +103,10 @@
                             </select>     
                         </div>
                     </div>
+        <?php 
+            }else
+                echo form_hidden('staff_id', get_staff_user_id());
+         ?>
                     <div class="col-md-12">
                         <?php echo render_date_input('date','date', '', ['required' => 'required']); ?>
                     </div>

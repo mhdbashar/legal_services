@@ -13,8 +13,153 @@ class Timesheet extends AdminController{
         $this->load->model('Office_shift_model');
 	}
 
+    private function dateDiffInDays($date1, $date2)  
+    { 
+        // Calulating the difference in timestamps 
+        $diff = strtotime($date2) - strtotime($date1); 
+          
+        // 1 day = 24 hours 
+        // 24 * 60 * 60 = 86400 seconds 
+        return abs(round($diff / 86400)); 
+    }
+
+    public function calendar(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
+        $month = date("m");
+        $year = date("Y");
+        $data['office_shift_days'] = [];
+        if(!empty($this->input->get())){
+            $year_month = DateTime::createFromFormat('Y-m', $this->input->get('month'));
+            $year = $year_month->format('Y');
+            $month = $year_month->format('m');
+            $staff_id = $this->input->get('staff_id');
+            $attendances = $this->Office_shift_model->get_attendance_for_staff($staff_id, $month);
+            $times_in = [];
+            if(!empty($attendances)){
+                foreach ($attendances as $attendance) {
+                    $times_in[] = $attendance['created'];
+                }
+            }
+            //var_dump($times_in); exit;
+
+
+            $number_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+            
+
+            $start = $year . '-' . $month . '-' . '1';
+            $end = $year . '-' . $month . '-' . $number_of_days;
+
+            $office_shift = $this->Office_shift_model->get_office_shift_for_staff($staff_id);
+
+            $staff_leaves = $this->Leave_model->get_leaves_for_staff($staff_id, $start, $end);
+            //echo '<pre>'; print_r($staff_leaves); exit;
+            $leaves = [];
+            foreach ($staff_leaves as $leave) {
+                $days_diffs = $this->dateDiffInDays($leave['start_date'], $leave['end_date']) + 1;
+                for ($i = 0; $i < $days_diffs; $i++){
+                    $leaves[] = date('Y-m-d', strtotime($leave['start_date']. " + $i days"));
+                }
+            } 
+
+            $sat = false; $sun = false; $mon = false; $tue = false; $wed = false; $thu = false; $fri = false;
+            if(!empty($office_shift->saturday_in))
+                $sat = true;
+            if(!empty($office_shift->sunday_in))
+                $sun = true;
+            if(!empty($office_shift->monday_in))
+                $mon = true;
+            if(!empty($office_shift->tuesday_in))
+                $tue = true;
+            if(!empty($office_shift->wednesday_in))
+                $wed = true;
+            if(!empty($office_shift->thursday_in))
+                $thu = true;
+            if(!empty($office_shift->friday_in))
+                $fri = true;
+
+            //echo '<pre>';print_r($leaves);exit;
+            $office_shift_days = [];
+            for($i = 1; $i <= $number_of_days; $i++){
+                if($i < 10)
+                    $i = "0$i";
+                else
+                    $i = "$i";
+                $datetime = DateTime::createFromFormat('Ymd', "$year$month$i");
+                $standard_date = $datetime->format('Y-m-d');
+                $day_name = $datetime->format('D');
+                //echo $day_name; exit;
+                if($day_name == 'Sat' and $sat){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Sun' and $sun == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Mon' and $mon == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Tue' and $tue == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Wed' and $wed == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Thu' and $thu == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+                elseif($day_name == 'Fri' and $fri == true){
+                    if(in_array($standard_date, $leaves))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-warning">Leave</span>';
+                    elseif(in_array($standard_date, $times_in))
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-primary">Present</span>';
+                    else
+                        $office_shift_days[(int)$i] = '<span class="circle mtop20 text-center bg-danger">Absent</span>';
+                }
+            }
+            $data['office_shift_days'] = $office_shift_days;
+        }
+
+        $data['month'] = $month;
+        $data['year'] = $year;
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+        //var_dump($office_shift_days); exit;
+        $this->load->view('timesheet/attendance/calendar', $data);
+    }
+
     //attendance
     public function attendance(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if(!empty($this->input->get('date')))
             $date = $this->input->get('date');
         else
@@ -24,7 +169,7 @@ class Timesheet extends AdminController{
             $this->hrmapp->get_table_data('my_attendance_table', ['date' => $date]);
         }
         $data['title'] = _l('attendance');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -34,20 +179,26 @@ class Timesheet extends AdminController{
 
     //date_wise_attendance
     public function date_wise_attendance(){
-        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
+        if(!empty($this->input->get('start_date')) and !empty($this->input->get('end_date'))  and !empty($this->input->get('staff_id'))){
             $start_date = $this->input->get('start_date');
             $end_date = $this->input->get('end_date');
+            $staff_id = $this->input->get('staff_id');
         }
         else{
             $start_date = date("Y-m-d");
             $end_date = date("Y-m-d");
+            $staff_id = 1;
         }
         //echo $date; exit;
         if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date]);
+            $this->hrmapp->get_table_data('my_date_wise_attendance_table', ['start_date' => $start_date, 'end_date' => $end_date, 'staff_id' => $staff_id]);
         }
+        //echo $start_date.' '.$end_date;exit;
         $data['title'] = _l('attendance');
-        if($this->app_modules->is_active('branches')) {
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -57,11 +208,13 @@ class Timesheet extends AdminController{
 
     //office_shift
     public function office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_office_shift_table');
         }
         $data['title'] = _l('office_shift');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -78,6 +231,8 @@ class Timesheet extends AdminController{
         echo json_encode($data);
     }
     public function update_office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $branch_id = $data['branch_id'];
         if($data['default'] == 1){
@@ -101,6 +256,8 @@ class Timesheet extends AdminController{
     }
 
     public function add_office_shift(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $branch_id = $data['branch_id'];
         if($data['default'] == 1){
@@ -134,11 +291,10 @@ class Timesheet extends AdminController{
 
     public function delete_office_shift($id)
     {
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Office_shift_model->delete($id);
         if ($response == true) {
@@ -151,11 +307,15 @@ class Timesheet extends AdminController{
 
     //overtime_requests
     public function overtime_requests(){
+
         if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_overtime_requests_table');
+            if (has_permission('hr', '', 'view'))
+                $this->hrmapp->get_table_data('my_overtime_requests_table');
+            else
+                $this->hrmapp->get_table_data('my_overtime_requests_table', ['staff_id' => get_staff_user_id()]);
         }
         $data['title'] = _l('overtime_requests');
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -168,6 +328,8 @@ class Timesheet extends AdminController{
         echo json_encode($data);
     }
     public function update_overtime_request(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Overtime_request_model->update($data, $id);
@@ -190,11 +352,10 @@ class Timesheet extends AdminController{
 
     public function delete_overtime_request($id)
     {
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Overtime_request_model->delete($id);
         if ($response == true) {
@@ -206,10 +367,12 @@ class Timesheet extends AdminController{
     }
 
 	public function holidays(){
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_holiday_table');
         }
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -229,9 +392,8 @@ class Timesheet extends AdminController{
     }
 
     public function add_holiday(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->get()) {
             $data            = $this->input->get();
             $branch_id = $data['branch_id'];
@@ -254,9 +416,8 @@ class Timesheet extends AdminController{
     }
     
     public function update_holiday(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->get()) {
             $data            = $this->input->get();
             $branch_id = $data['branch_id'];
@@ -273,10 +434,9 @@ class Timesheet extends AdminController{
     }
     public function delete_holiday($id)
     {
-        if (!$id) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
-        if (!is_admin()) {
+        if (!$id) {
             access_denied();
         }
         $response = $this->Holidays_model->delete($id);
@@ -292,9 +452,12 @@ class Timesheet extends AdminController{
 
     public function leaves(){
 		if($this->input->is_ajax_request()){
-            $this->hrmapp->get_table_data('my_leave_table');
+            if (has_permission('hr', '', 'view'))
+                $this->hrmapp->get_table_data('my_leave_table');
+            else
+                $this->hrmapp->get_table_data('my_leave_table', ['staff_id' => get_staff_user_id()]);
         }
-        if($this->app_modules->is_active('branches')) {
+        if(true) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -320,10 +483,7 @@ class Timesheet extends AdminController{
     }
 
     public function add_leave(){
-    	//var_dump($this->input->post()); exit;
-        if (!is_admin()) {
-            access_denied();
-        }
+    	
         if ($this->input->post()) {
             $data            = $this->input->post();
             $branch_id = $data['branch_id'];
@@ -377,9 +537,8 @@ class Timesheet extends AdminController{
     }
     
     public function update_leave(){
-        if (!is_admin()) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
         if ($this->input->post()) {
             $data            = $this->input->post();
             if (!isset($data['half_day'])) {
@@ -410,10 +569,9 @@ class Timesheet extends AdminController{
     }
     public function delete_leave($id)
     {
-        if (!$id) {
+        if (!has_permission('hr', '', 'view'))
             access_denied();
-        }
-        if (!is_admin()) {
+        if (!$id) {
             access_denied();
         }
         $response = $this->Leave_model->delete($id);

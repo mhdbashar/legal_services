@@ -16,7 +16,7 @@
                         <?php echo render_input('sub_department_name','sub_department_name', '', 'text', ['required' => 'required']); ?>
                     </div>
                 </div>
-            <?php  if($this->app_modules->is_active('branches')){  ?>
+            <?php  if(true){  ?>
                 <div class="form-group">
                     <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                     <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
@@ -59,7 +59,7 @@
                         <?php echo render_input('sub_department_name','sub_department_name', '', 'text', ['required' => 'required']); ?>
                     </div>
                 </div>
-            <?php  if($this->app_modules->is_active('branches')){  ?>
+            <?php  if(true){  ?>
                 <div class="form-group">
                     <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                     <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">

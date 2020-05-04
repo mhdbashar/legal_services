@@ -6,6 +6,9 @@ class Setting extends AdminController{
 	public function __construct(){
 		parent::__construct();
         $this->load->model('Leave_type_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
     public function index(){
@@ -31,8 +34,8 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_skill_types_table');
             }elseif($group == 'relation'){
                 $this->hrmapp->get_table_data('types/my_relation_types_table');
-            }elseif($group == 'branch'){
-                $this->hrmapp->get_table_data('types/my_branch_types_table');
+            }elseif($group == 'training'){
+                $this->hrmapp->get_table_data('types/my_training_types_table');
             }elseif($group == 'award'){
                 $this->hrmapp->get_table_data('types/my_award_types_table');
             }elseif($group == 'termination'){

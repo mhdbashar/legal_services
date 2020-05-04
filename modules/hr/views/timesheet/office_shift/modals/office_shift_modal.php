@@ -12,7 +12,7 @@
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -130,7 +130,7 @@
             <?php echo form_open_multipart(admin_url('hr/timesheet/add_office_shift'),array('id'=>'form_transout', 'class' => 'form')); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>

@@ -10,12 +10,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     `staff_id` int(11) NOT NULL
 */
 $aColumns = [
-    db_prefix().'branches.title_en as branch_id', 
     'CONCAT(firstname," ", lastname) as fullname', 
     'in_time', 
     'out_time', 
     'status', 
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_overtime_request';
@@ -29,7 +34,9 @@ $join = [
 ];
 
 $where = [];
-
+if(isset($staff_id)){
+    $where[] = 'AND staff_id='.$staff_id;
+}
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'hr_overtime_request.id']);
 $output  = $result['output'];
@@ -48,8 +55,15 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['status'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_overtime_request', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('hr/timesheet/delete_overtime_request/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    if (has_permission('hr', '', 'view')){
+        $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+        $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    }
+
+    else
+        $options = '';
+
+    $row[]   = $options;
     
 
     $output['aaData'][] = $row;

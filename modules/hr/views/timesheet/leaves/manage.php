@@ -28,6 +28,7 @@
 </div>
 <?php $this->load->view('timesheet/leaves/modals/leave_modal'); ?>
 <?php init_tail(); ?>
+<?php if (has_permission('hr', '', 'view')){ ?>
 <script>
    $(function(){
         initDataTable('.table-resignation', window.location.href);
@@ -139,5 +140,39 @@ $(document).on('change','#staff_id',function () {
     }, 'json');
 });
 </script>
+<?php }else{ ?>
+
+<script>
+
+$(function(){
+        initDataTable('.table-resignation', window.location.href);
+   });
+
+var staff_id = <?php echo get_staff_user_id() ?>;
+$(document).ready(function(){
+    $.get(admin_url + 'hr/timesheet/get_leave_types_by_staff_id/' + staff_id, function(response) {
+        if (response.success == true) {
+            $('#leave_type').empty();
+            $('#leave_type').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#leave_type').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#leave_type').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+</script>
+
+<?php } ?>
 </body>
 </html>

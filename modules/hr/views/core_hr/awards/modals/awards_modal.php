@@ -37,11 +37,11 @@
                             </select>     
                         </div>
                     </div>
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -126,7 +126,7 @@
                             </select>     
                         </div>
                     </div>
-                <?php  if($this->app_modules->is_active('branches')){  ?>
+                <?php  if(true){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>

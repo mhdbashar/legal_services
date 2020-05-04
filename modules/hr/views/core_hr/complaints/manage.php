@@ -32,6 +32,30 @@
    $(function(){
         initDataTable('.table-complaint', window.location.href);
    });
+
+$(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_complaint_againts').empty();
+            $('#e_complaint_againts').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_complaint_againts').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#e_complaint_againts').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
 $(document).on('change','#branch_id',function () {
     $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
         if (response.success == true) {
@@ -86,29 +110,6 @@ $(document).on('change','#a_branch_id',function () {
                     text: value,
                 }));
                 $('#complaint_from').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
-
-$(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#e_complaint_against').empty();
-            $('#e_complaint_against').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#e_complaint_against').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#e_complaint_against').selectpicker('refresh');
             }
         } else {
             alert_float('danger', response.message);

@@ -14,7 +14,7 @@ $aColumns = ['value'];
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'options';
 
-$where = ['AND name="branch_type"'];
+$where = ['AND name="training_type"'];
 
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, ['id']);
@@ -36,7 +36,7 @@ foreach (json_decode($values) as $value) {
 	    $row[] = $a;
 
 	    $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
-	    $row[]   = $options .= icon_btn('hr/setting/delete_type/' . $a .'/branch_type', 'remove', 'btn-danger _delete');
+	    $row[]   = $options .= icon_btn('hr/setting/delete_type/' . $a .'/training_type', 'remove', 'btn-danger _delete');
 	    
 
 	    $output['aaData'][] = $row;

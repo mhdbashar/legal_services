@@ -3,11 +3,16 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     db_prefix().'hr_leave_type.name as type',
-    db_prefix().'branches.title_en as branch_id', 
     'CONCAT(firstname," ", lastname) as fullname', 
     'CONCAT("'._l("from").': ", start_date,"<br>'._l("to").' ", end_date) as request_duration', 
     'created'
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_leaves';
@@ -42,9 +47,15 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['created'];
 
+    if (has_permission('hr', '', 'view')){
+        $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+        $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    }
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    else
+        $options = '';
+
+    $row[]   = $options;
     
 
     $output['aaData'][] = $row;

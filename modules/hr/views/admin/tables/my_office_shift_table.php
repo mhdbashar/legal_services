@@ -2,7 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
-    db_prefix().'branches.title_en as branch_id', 
 
     'CASE WHEN '.db_prefix().'hr_office_shift.default=1 
     THEN CONCAT('.db_prefix().'hr_office_shift.shift_name,"<br>","<span class=\'text-success\'>'._l("default").'</span>")  
@@ -15,6 +14,12 @@ $aColumns = [
     'CONCAT("'._l('from').': ",TIME_FORMAT(thursday_in, "%r"),"<br>'._l('to').'",TIME_FORMAT(thursday_out, "%r")) as thursday',
     'CONCAT("'._l('from').': ",TIME_FORMAT(friday_in, "%r"),"<br>'._l('to').'",TIME_FORMAT(friday_out, "%r")) as friday',
 ];
+
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_office_shift';

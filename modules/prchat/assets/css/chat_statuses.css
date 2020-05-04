@@ -19,7 +19,7 @@
     position: absolute;
     cursor: pointer;
     top: 15px;
-    margin-left: -25px;
+    margin-right: -25px;
     font-size: 25px;
     /* icon */
 }
@@ -81,7 +81,7 @@
 }
 
 #prchat-header-wrapper #top_status-options ul li p {
-    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #prchat-header-wrapper #top_status-options ul li#status-online span.status-circle {

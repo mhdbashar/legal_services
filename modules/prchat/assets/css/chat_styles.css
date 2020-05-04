@@ -64,7 +64,7 @@ body .lity {
 #pusherChat #membersContent {
     position: absolute;
     z-index: 99999;
-    right: 10px;
+    left: 10px;
     bottom: 0px;
     width: 310px;
     background: #eee;

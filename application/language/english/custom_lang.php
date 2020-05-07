@@ -1,5 +1,6 @@
 <?php
 
+$lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';
 $lang['attendance_date'] = 'Attendance Date';
 $lang['calendar_date'] = 'Calendar Date';

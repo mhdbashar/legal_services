@@ -195,7 +195,11 @@
                         </div>
                      -->
                         <div class="col-md-4">
-                           <?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
+                            <div class="form-group">
+                                <label for="office_shift" class="control-label"><?php echo _l('office_shift') ?></label>
+                                <select required="required" class="form-control" id="office_shift_id" name="office_sheft" placeholder="<?php echo _l('office_shift') ?>" aria-invalid="false">
+                                </select>     
+                            </div>  
                         </div>
                         <div class="col-md-4">
                            <?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
@@ -618,6 +622,29 @@
                     text: value
                 }));
                 $('#department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#office_shift_id').selectpicker('refresh');
             }
         } else {
             alert_float('danger', response.message);

@@ -118,7 +118,12 @@ $(document).ready(function(){
   <?php if(is_numeric($extra_info->sub_department)){ ?>
     var sub_departmant = <?php echo $extra_info->sub_department ?>;
     var designation = <?php echo $extra_info->designation ?>;
-    var office_shift = <?php echo $extra_info->office_sheft ?>;
+    var office_shift = 
+    <?php 
+      if(($extra_info->office_sheft) != '') 
+        echo $extra_info->office_sheft; 
+      else echo 0 ;
+    ?>;
   <?php }else{ ?>
     var sub_departmant = '';
     var designation = '';

@@ -305,7 +305,8 @@ body #frame #no_messages {
     margin-top: -14px;
 }
 
-#frame #sidepanel #groups_container::-webkit-scrollbar,
+
+/* #frame #sidepanel #groups_container::-webkit-scrollbar,
 #frame #sidepanel #clients_container::-webkit-scrollbar,
 #frame #sidepanel #contacts::-webkit-scrollbar {
     width: 4px;
@@ -315,7 +316,7 @@ body #frame #no_messages {
 #frame #sidepanel #clients_container::-webkit-scrollbar,
 #frame #sidepanel #contacts::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
-}
+} */
 
 #frame #sidepanel #contacts ul li.contact {
     position: relative;
@@ -547,7 +548,8 @@ body #frame #no_messages {
     overflow-x: hidden;
 }
 
-#frame .content .client_messages::-webkit-scrollbar,
+
+/* #frame .content .client_messages::-webkit-scrollbar,
 #frame .content .messages::-webkit-scrollbar {
     width: 4px !important;
     background: transparent;
@@ -561,7 +563,7 @@ body #frame #no_messages {
 #frame .content .client_messages::scrollbarthumb-horizontal,
 #frame .content .messages::scrollbarthumb-horizontal {
     background-color: rgba(0, 0, 0, 0.3) !important;
-}
+} */
 
 #frame .content .chat_client_messages ul li,
 #frame .content .messages ul li {
@@ -683,12 +685,14 @@ body #frame #no_messages {
     border-bottom-right-radius: 1.3em;
 }
 
+#frame .content .chat_group_messages ul li p,
 #frame .content .chat_client_messages ul li p,
 #frame .content .messages ul li p {
     display: inline-block;
     padding: 6px 15px 7px 15px;
-    max-width: 205px;
+    max-width: 55%;
     line-height: 130%;
+    white-space: pre-wrap;
 }
 
 @media screen and (min-width: 735px) {
@@ -780,6 +784,18 @@ body #frame #no_messages {
     font-size: 2.4em;
     color: #6986e8;
     cursor: pointer;
+}
+
+#frame li.staff,
+#frame li.groups,
+#frame li.crm_clients {
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
 }
 
 #frame .client_data .contact_lang {
@@ -1461,8 +1477,8 @@ svg.chat_back_mobile {
 
 .main_loader_init:before {
     content: '';
-    position: absolute;
-    bottom: 50vh;
+    /* position: absolute;
+    bottom: 50vh; */
     color: #ffffff;
 }
 
@@ -1474,15 +1490,14 @@ svg.chat_back_mobile {
     background: rgb(0, 0, 0, 0.6);
     z-index: 99999999999999999;
     height: 100vh;
-    padding-left: 52%;
-    padding-bottom: 18%;
+    justify-content: center;
     overflow: hidden;
 }
 
 .main_loader_init div {
     position: absolute;
-    top: 54%;
-    left: 42%;
+    top: 50%;
+    left: calc(50% - 15px);
     animation: main_loader_init 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     transform-origin: 32px 32px;
     -webkit-animation: main_loader_init 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -1595,9 +1610,62 @@ svg.chat_back_mobile {
 
 /* RTL SUPPORT */
 
-body.rtl #frame .dropdown-content {
+body.rtl #wrapper #frame .contact_name_placeholder {
+    top: -15px;
+    left: -39px;
+}
+
+body.rtl #wrapper #frame img.chatContactImage {
+    left: auto;
+    right: 7px;
+}
+
+body.rtl #wrapper #frame .contact_name_placeholder_notitle {
+    left: -39px;
+}
+
+body.rtl #wrapper #frame .dropdown-content {
     top: -53px;
     left: -46px;
+}
+
+body.rtl body #frame .client_data p {
+    padding-left: 9px;
+    padding-right: 0;
+}
+
+body.rtl #wrapper #frame .contact-profile .user_sound_icon {
+    right: 3px;
+    left: auto;
+}
+
+body.rtl #frame #sidepanel #profile .wrap img {
+    float: right;
+}
+
+body.rtl #frame .announcement {
+    cursor: pointer;
+    float: left;
+    margin-top: -41px;
+    font-size: 23px;
+    margin-left: 18px;
+}
+
+body.rtl #shared_user_files {
+    margin-left: 15px;
+}
+
+body.rtl #prchat-header-wrapper #top_status-options ul li span.status-circle {
+    right: 15px;
+}
+
+body.rtl #prchat-header-wrapper #top_status-options ul li p {
+    text-align: left;
+}
+
+body.rtl #prchat-header-wrapper {
+    left: 266px;
+    right: auto;
 }
 
 .rtl #frame .content .contact-profile .social-media {
@@ -1607,6 +1675,39 @@ body.rtl #frame .dropdown-content {
 .rtl #frame .content .contact-profile .social-media {
     float: left;
     margin-left: 0px;
+}
+
+body.rtl #frame .client_data span.contact_lang {
+    margin-right: 16px;
+}
+
+body.rtl #frame .content .messages,
+body.rtl #frame .content .client_messages {
+    margin: 0px 1px 0px 0px;
+}
+
+body.rtl #frame .content .contact-profile .client_data p {
+    padding-left: 16px;
+}
+
+body.rtl #frame .add_member {
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    left: auto;
+}
+
+body.rtl #frame .chat_group_options .dismiss_chat_group {
+    line-height: inherit;
+    left: 12px;
+    right: auto;
+}
+
+body.rtl #frame a[href="#group_photos"] i,
+body.rtl #frame a[href="#group_files"] i,
+body.rtl #frame .tab-pane.active#group_files div a i {
+    padding-right: 4px;
+    padding-left: 5px;
 }
 
 .rtl #frame .content .contact-profile p {
@@ -1626,9 +1727,15 @@ body.rtl #frame .dropdown-content {
     margin-left: 10px;
 }
 
+body.rtl #frame #announcement .dropdown-menu {
+    right: -150px;
+    left: auto;
+}
+
 .rtl #frame #sidepanel #profile .wrap p {
-    float: right;
+    float: left;
     margin-right: 9px;
+    font-weight: 500;
 }
 
 .rtl #frame .content .messages {
@@ -1639,8 +1746,49 @@ body.rtl #frame .dropdown-content {
     margin: 15px 15px 6px 6px;
 }
 
+body.rtl #sharedFiles .icon_shared_files {
+    margin-right: 4px;
+    margin-left: 5px;
+    color: #3d5063;
+}
+
+body.rtl #sharedFiles .tab-content>.active {
+    width: auto;
+    margin-left: auto;
+}
+
+body.rtl #frame .chat_group_options .nav.nav-tabs,
+body.rtl #sharedFiles .nav.nav-tabs {
+    width: auto;
+}
+
+body.rtl #sharedFiles i.fa-times-circle-o {
+    left: 12px;
+    right: auto;
+}
+
+body.rtl #frame .history_slider {
+    float: left;
+    right: 6px;
+}
+
+body.rtl #frame .content .chat_client_messages ul li p.client,
+body.rtl #frame .content .messages ul li p.friend {
+    float: left;
+}
+
 .rtl #frame #sidepanel #search input {
-    padding: 0px 25px 0px 46px;
+    padding: 0px 32px 0px 46px;
+}
+
+body.rtl #frame #sidepanel .group_selector .group_wrapper a {
+    padding-right: 7px;
+}
+
+body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
+    padding-bottom: 10px;
+    margin-right: 8px;
+    width: 35px;
 }
 
 .rtl #frame #sidepanel #search i {
@@ -2168,13 +2316,17 @@ body #frame .white-text {
     position: relative;
 }
 
-#frame .group_messages::-webkit-scrollbar,
+
+/* #frame .group_messages::-webkit-scrollbar, */
+
 #frame .chat_group_options .main_div_shared_files::-webkit-scrollbar,
 #frame #sidepanel #groups::-webkit-scrollbar {
     width: 4px;
 }
 
-#frame .group_messages::-webkit-scrollbar-thumb,
+
+/* #frame .group_messages::-webkit-scrollbar-thumb, */
+
 #frame .chat_group_options .main_div_shared_files::-webkit-scrollbar-thumb,
 #frame #sidepanel #groups::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
@@ -2342,6 +2494,7 @@ body #frame .white-text {
     body #wrapper #frame #groupOptionsThree .tab-content,
     body #wrapper #frame #sharedFiles .tab-content {
         border-top: none;
+        width: 100%;
     }
     #frame .chat_group_options .nav.nav-tabs,
     #sharedFiles .nav.nav-tabs {
@@ -2367,9 +2520,11 @@ body #frame .white-text {
         top: 71px;
         height: inherit;
         width: 100%;
+        right: -100%;
     }
     body #wrapper #frame .chat_group_options .main_div_shared_files .shared_files_ahref {
         float: left !important;
+        margin-left: 4px;
     }
     body #wrapper #frame .chat_group_options .nav.nav-tabs,
     body #wrapper #frame #sharedFiles .nav.nav-tabs {
@@ -2392,110 +2547,6 @@ body #frame .white-text {
 }
 
 
-/* Perfex Light Theme Support */
-
-
-/* 
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #wrapper li.active a,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel #contacts ul li.contact:hover {
-    background: #fff;
-    color: #333 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu a {
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    -ms-border-radius: 0 !important;
-    -o-border-radius: 0 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame #sidepanel ul.dropdown-menu {
-    border: 1px solid #cbcfd4 !important;
-    -webkit-border-radius: 0 !important;
-    border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    -ms-border-radius: 0 !important;
-    -o-border-radius: 0 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li a:hover,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li a:hover {
-    background: #cbcfd4 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #add_members_modal li span,
-body.perfex_dark_theme_initiated.chat_light #chat_groups_custom_modal li span {
-    color: #333 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:focus,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown-menu>li>a:hover {
-    background: #cbcfd4 !important;
-    color: #fff !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel .dropdown.open ul li a {
-    color: #333 !important;
-    background: #2b2f38;
-    border: none;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .client_chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .chatbox,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame .group_chatbox {
-    background: #fff !important;
-    border-color: #eae8e8 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame .shared_items_span,
-body.perfex_dark_theme_initiated.chat_light #frame #bottom-bar #add_group_btn {
-    color: #333 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame .chat_group_options .dismiss_chat_group {
-    background: #5f5f5f !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.member_name_other,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p.friend {
-    color: #333;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame p:not(.you):not(.own_group_message) {
-    color: #333 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #sidepanel i.fa.fa-search,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame #bottom-bar button,
-body.perfex_dark_theme_initiated.chat_light #wrapper #frame a {
-    color: #333 !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector .group_wrapper:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active a:hover,
-body.perfex_dark_theme_initiated.chat_light #frame #groups ul li.group_selector.active :hover,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact.active a,
-body.perfex_dark_theme_initiated.chat_light #frame .tab-content div>ul li.contact a:hover {
-    background: #ffffff !important;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button i::before {
-    color: #777;
-}
-
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle,
-body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-primary.dropdown-toggle:hover {
-    background-color: #2b2f38 !important;
-    border-color: #eae8e8 !important;
-} */
-
-
 /* Clients css styling */
 
 #frame #toggle_clients i.fa-sliders {
@@ -2508,6 +2559,7 @@ body.perfex_dark_theme_initiated.chat_light #frame .dropdown button.btn.btn-prim
 
 body.Prchat_Controller #frame img.chatContactImage {
     width: 39px;
+    height: 39px;
     position: absolute;
     left: 7px;
     top: 9px;

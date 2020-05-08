@@ -1,5 +1,5 @@
 <?php
-$lang['mailbox']                                                        = 'Mailbox';
+$lang['mailbox']                                                        = 'Maily';
 $lang['mailbox_setting']                                                = 'Mailbox Settings';
 $lang['mailbox_inbox']                                                 	= 'Inbox';
 $lang['mailbox_enable_option']                                          = 'Enable Mailbox';

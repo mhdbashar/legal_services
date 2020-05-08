@@ -1,7 +1,7 @@
 <?php 
 
-$lang['als_account_planning'] = 'Account Planning';
-$lang['account_planning'] = 'Account Planning';
+$lang['als_account_planning'] = 'Account Analysis';
+$lang['account_planning'] = 'Account Analysis';
 $lang['new_account'] = 'New Account';
 $lang['vision'] = 'Vision';
 $lang['mission'] = 'Mission';

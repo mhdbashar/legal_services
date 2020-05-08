@@ -184,7 +184,7 @@ $lang['callback_no_assignees'] = 'No assignees for this callback';
 $lang['callbacks_select_assignees'] = 'Select assignees';
 $lang['callbacks_new_callback_request'] = 'You have a new callback request via form.';
 $lang['callbacks_responsible_person'] = 'Responsible person for new callbacks requests via form.';
-$lang['appointly_busy_times_enabled_label'] = 'Enable busy times indicator for Appointly module';
+$lang['appointly_busy_times_enabled_label'] = 'Enable busy times indicator for Appointment module';
 $lang['callbacks_enable_on_external_form'] = 'Enable callbacks in external form area';
 $lang['callbacks_resp_person_not_set'] = 'Callbacks Responsible person is not set, please set this option in %s';
 $lang['callbacks_request_a_callback'] = 'Request a Callback';
@@ -224,7 +224,7 @@ $lang['callbacks_new_note'] = 'added a new note on calback';
 $lang['callbacks_assignee_removed'] = 'Callback assigneed successfully removed';
 
 # Version 1.1.4
-$lang['appointly_module_name'] = 'Appointly';
+$lang['appointly_module_name'] = 'Appointment';
 $lang['appointments_contact_name_task'] = 'Appointment: Contact name';
 $lang['appointments_convert_to_lead'] = 'Convert Appointment to Lead';
 $lang['appointments_convert_to_lead_label'] = 'Convert to lead';

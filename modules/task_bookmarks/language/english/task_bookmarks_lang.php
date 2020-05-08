@@ -1,7 +1,7 @@
 <?php
 
 $lang['task_bookmarks_name'] = 'Task bookmark name';
-$lang['task_bookmarks'] = 'Task bookmarks';
+$lang['task_bookmarks'] = 'Bookmark your Task';
 $lang['new_task_bookmarks'] = 'New task bookmark';
 $lang['view_task_bookmarks'] = 'View task bookmark';
 $lang['edit_task_bookmarks'] = 'Edit task bookmark';

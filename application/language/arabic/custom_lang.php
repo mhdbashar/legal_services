@@ -1,6 +1,8 @@
 <?php
 
 
+$lang['license_key'] = 'مفتاح الترخيص';
+
 $lang['appointly'] = 'المواعيد';
 
 $lang['tbookmarks_name'] = 'الاشارات المرجعية المتعلقة بالمهمة';

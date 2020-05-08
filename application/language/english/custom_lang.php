@@ -1,5 +1,7 @@
 <?php
 
+$lang['license_key'] = 'License Key';
+
 $lang['appointly'] = 'Appointment';
 
 $lang['tbookmarks_name'] = 'Bookmark your Task';

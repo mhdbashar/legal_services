@@ -51,6 +51,16 @@
           </a>
         <?php
       } ?> -->
+      <?php if (is_admin()) {
+          ?>
+          <hr class="hr-10" />
+          <a href="<?php echo admin_url('settings?group=license'); ?>" class="<?php if ($this->input->get('group') == 'license') {
+              echo 'bold';
+          } ?>">
+              <?php echo _l('license_key'); ?>
+          </a>
+        <?php
+      } ?> 
         <div class="btn-bottom-toolbar text-right">
           <button type="submit" class="btn btn-info">
             <?php echo _l('settings_save'); ?>

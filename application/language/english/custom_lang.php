@@ -1,5 +1,7 @@
 <?php
 
+$lang['license_info'] = 'License Info';
+
 $lang['license_key'] = 'License Key';
 
 $lang['appointly'] = 'Appointment';

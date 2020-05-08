@@ -1,5 +1,6 @@
 <?php
 
+$lang['license_info'] = 'معلومات الترخيص';
 
 $lang['license_key'] = 'مفتاح الترخيص';
 

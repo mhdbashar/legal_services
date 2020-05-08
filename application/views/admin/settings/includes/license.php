@@ -11,9 +11,9 @@
          if (is_array($results)){
          
             unset($results['localkey']);
-          
-            print_r($results);
-          
+          foreach($results as $key=>$value){
+            echo "$key=$value<br />";
+          }
          }
           ?></p>
       </div>

@@ -167,8 +167,8 @@ $lang['gdpr_options'] = 'Options';
 $lang['appointly_name'] = "Appointment";
 $lang['appointly_desc'] = "Appointment Module";
 
-$lang['asset_name'] = "Resources Management";
-$lang['asset_desc'] = "Resources management module, allocation, recovery, depreciation, asset status";
+$lang['assets_name'] = "Resources Management";
+$lang['assets_desc'] = "Resources management module, allocation, recovery, depreciation, asset status";
 
 $lang['db_name'] = "Database Backup";
 $lang['db_desc'] = "Default module to perform database backup";

@@ -3,8 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: asset_name 
-Description: asset_desc
+Module Name: assets_name 
+Description: assets_desc
 Version: 1.0.0
 Requires at least: 2.3.*
 Author: Babil Team

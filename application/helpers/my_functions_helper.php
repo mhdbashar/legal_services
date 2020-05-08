@@ -33,7 +33,7 @@ function my_check_license()
                 // Validate the license key information
                 $results = check_license($licensekey, $localkey);
                 // Raw output of results for debugging purpose
-                echo '<textarea cols="100" rows="20"> <p class="font-medium bold">' . print_r($results, true) . '</p></textarea>';
+                
 
                 // Interpret response
                 switch ($results['status']) {
@@ -58,6 +58,7 @@ function my_check_license()
                                 fwrite($textfile, $contents);
                                 fclose($textfile);
                             }
+                            return $results;
                         } else {
                             die("Could not read license file. Please contact support.");
                         }

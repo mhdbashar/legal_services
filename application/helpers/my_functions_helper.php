@@ -28,12 +28,13 @@ function my_check_license()
                 } else {
                     die("Could not read license file. Please contact support.");
                 }
-                echo $licensekey."<br/>";
-                echo $localkey."<br/>";
+                // echo $licensekey."<br/>";
+                // echo $localkey."<br/>";
                 // Validate the license key information
                 $results = check_license($licensekey, $localkey);
                 // Raw output of results for debugging purpose
-                    // var_dump(check_license($licensekey, $localkey));
+                echo '<textarea cols="100" rows="20"> <p class="font-medium bold">' . print_r($results, true) . '</p></textarea>';
+
                 // Interpret response
                 switch ($results['status']) {
                     case "Active":

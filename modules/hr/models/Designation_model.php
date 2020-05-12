@@ -69,10 +69,14 @@ class Designation_model extends App_Model{
             $row = $this->db->get($this->table_name)->row();
             $this->db->where('departmentid' ,$row->department_id);
             $row2 = $this->db->get('tbldepartments')->row();
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
-            $row3 = $this->db->get('tblbranches_services')->row();
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
+                $row3 = $this->db->get('tblbranches_services')->row();
+                $row->branch = $row3;
+            }
+            
             $row->department = $row2;
-            $row->branch = $row3;
+            
             return $row;
         }
 

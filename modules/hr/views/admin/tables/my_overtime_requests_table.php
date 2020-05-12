@@ -15,7 +15,8 @@ $aColumns = [
     'out_time', 
     'status', 
 ];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
 if(get_staff_default_language() == 'arabic'){
     $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 }else{
@@ -44,7 +45,7 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
-
+    if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
     
     $row[] = $aRow['fullname'];
@@ -57,7 +58,7 @@ foreach ($rResult as $aRow) {
 
     if (has_permission('hr', '', 'view')){
         $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-        $options .= icon_btn('hr/timesheet/delete_leave/' . $aRow['id'], 'remove', 'btn-danger _delete');
+        $options .= icon_btn('hr/timesheet/delete_overtime_request/' . $aRow['id'], 'remove', 'btn-danger _delete');
     }
 
     else

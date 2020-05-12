@@ -2,6 +2,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'promotion_title', 'promotion_date'];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
 if(get_staff_default_language() == 'arabic'){
     $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 }else{
@@ -28,7 +30,8 @@ foreach ($rResult as $aRow) {
     $row = [];
     
     $row[] = $aRow['fullname'];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['promotion_title'];

@@ -10,6 +10,7 @@ class Organization extends AdminController{
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
         $this->load->model('Extra_info_model');
+        $this->load->model('No_branch_model');
 
 
         if (!has_permission('hr', '', 'view'))
@@ -79,12 +80,12 @@ class Organization extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_designation_table');
         }
-        if(true) {
+        $data['departments']   = $this->Departments_model->get();
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
         }
-        $data['departments']   = $this->Departments_model->get();
         $data['title'] = _l('designation');
         $this->load->view('organization/designation', $data);
     }
@@ -93,7 +94,7 @@ class Organization extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_sub_department_table');
         }
-        if(true) {
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -111,11 +112,13 @@ class Organization extends AdminController{
     }
     public function update_designation(){
         $data = $this->input->post();
-        if(true){
+        if($this->app_modules->is_active('branches')){
             $branch_id = $this->input->post()['branch_id'];
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Designation_model->update($data, $id);
         if(true){
@@ -131,11 +134,13 @@ class Organization extends AdminController{
 
     public function add_designation(){
         $data = $this->input->post();
-        if(true){
+        if($this->app_modules->is_active('branches')){
             $branch_id = $this->input->post()['branch_id'];
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Designation_model->add($data);
         if($success){
 
@@ -203,11 +208,13 @@ class Organization extends AdminController{
     }
     public function update_sub_department(){
         $data = $this->input->post();
-        if(true){
+        if($this->app_modules->is_active('branches')){
             $branch_id = $this->input->post()['branch_id'];
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Sub_department_model->update($data, $id);
         if(true){
@@ -223,11 +230,13 @@ class Organization extends AdminController{
 
     public function add_sub_department(){
         $data = $this->input->post();
-        if(true){
+        if($this->app_modules->is_active('branches')){
             $branch_id = $this->input->post()['branch_id'];
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Sub_department_model->add($data);
         if($success){
 

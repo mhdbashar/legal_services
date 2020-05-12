@@ -149,25 +149,41 @@ class Branches_model extends App_Model
     public function getDepatrmentsForBranches($branch_id)
     {
         $data = [];
-        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
-        $rows = $this->db->get('tblbranches_services')->result_array();
-        foreach ($rows as $row) {
-            $this->db->where(['departmentid' => $row['rel_id']]);
-            $r = $this->db->get('tbldepartments')->row_array();
-            $data[] = ['key' => $r['departmentid'], 'value' => $r['name']];
+        if(!$this->app_modules->is_active('branches')){
+            $departments = $this->db->get('tbldepartments')->result_array();
+            foreach ($departments as $department) {
+                $data[] = ['key' => $department['departmentid'], 'value' => $department['name']];
+            }
+        }else{
+            $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
+            $rows = $this->db->get('tblbranches_services')->result_array();
+            foreach ($rows as $row) {
+                $this->db->where(['departmentid' => $row['rel_id']]);
+                $r = $this->db->get('tbldepartments')->row_array();
+                $data[] = ['key' => $r['departmentid'], 'value' => $r['name']];
+            }
         }
+        
         return $data;
     }
     public function get_office_shift($branch_id)
     {
         $data = [];
-        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'office_shift']);
-        $rows = $this->db->get('tblbranches_services')->result_array();
-        foreach ($rows as $row) {
-            $this->db->where(['id' => $row['rel_id']]);
-            $r = $this->db->get('tblhr_office_shift')->row_array();
-            $data[] = ['key' => $r['id'], 'value' => $r['shift_name']];
+        if(!$this->app_modules->is_active('branches')){
+            $office_shifts = $this->db->get('tblhr_office_shift')->result_array();
+            foreach ($office_shifts as $office_shift) {
+                $data[] = ['key' => $office_shift['id'], 'value' => $office_shift['shift_name']];
+            }
+        }else{
+            $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'office_shift']);
+            $rows = $this->db->get('tblbranches_services')->result_array();
+            foreach ($rows as $row) {
+                $this->db->where(['id' => $row['rel_id']]);
+                $r = $this->db->get('tblhr_office_shift')->row_array();
+                $data[] = ['key' => $r['id'], 'value' => $r['shift_name']];
+            }
         }
+        
         return $data;
     }
     public function getBranches()

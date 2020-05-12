@@ -14,7 +14,8 @@ $aColumns = [
     'CONCAT("'._l('from').': ",TIME_FORMAT(thursday_in, "%r"),"<br>'._l('to').'",TIME_FORMAT(thursday_out, "%r")) as thursday',
     'CONCAT("'._l('from').': ",TIME_FORMAT(friday_in, "%r"),"<br>'._l('to').'",TIME_FORMAT(friday_out, "%r")) as friday',
 ];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
 if(get_staff_default_language() == 'arabic'){
     $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 }else{
@@ -39,6 +40,7 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
+    if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
     $row[] = $aRow['shift_default'];
     

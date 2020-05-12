@@ -17,6 +17,7 @@ class Core_hr extends AdminController{
         $this->load->model('Promotion_model');
         $this->load->model('Designation_model');
         $this->load->model('Travel_model');
+        $this->load->model('No_branch_model');
 
         if (!has_permission('hr', '', 'view'))
             access_denied();
@@ -27,9 +28,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_awards_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('awards');
@@ -47,8 +50,13 @@ class Core_hr extends AdminController{
     }
     public function update_document(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Awards_model->update($data, $id);
         if($success)
@@ -62,8 +70,13 @@ class Core_hr extends AdminController{
 
     public function add_document(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Awards_model->add($data);
         if($success)
@@ -106,9 +119,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_complaints_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('complaints');
@@ -125,8 +140,13 @@ class Core_hr extends AdminController{
     }
     public function update_complaint(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Complaint_model->update($data, $id);
         if($success)
@@ -140,8 +160,13 @@ class Core_hr extends AdminController{
 
     public function add_complaint(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Complaint_model->add($data);
         if($success)
@@ -184,9 +209,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_travel_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('travels');
@@ -203,8 +230,13 @@ class Core_hr extends AdminController{
     }
     public function update_travel(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Travel_model->update($data, $id);
         if($success)
@@ -218,8 +250,13 @@ class Core_hr extends AdminController{
 
     public function add_travel(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Travel_model->add($data);
         if($success)
@@ -265,9 +302,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_promotions_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('promotions');
@@ -284,8 +323,13 @@ class Core_hr extends AdminController{
     }
     public function update_promotion(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Promotion_model->update($data, $id);
         if($success)
@@ -303,8 +347,13 @@ class Core_hr extends AdminController{
 
     public function add_promotion(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Promotion_model->add($data);
         if($success)
@@ -347,9 +396,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_resignations_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('resignations');
@@ -366,8 +417,13 @@ class Core_hr extends AdminController{
     }
     public function update_resignation(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Resignations_model->update($data, $id);
         if($success)
@@ -381,8 +437,13 @@ class Core_hr extends AdminController{
 
     public function add_resignation(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Resignations_model->add($data);
         if($success)
@@ -428,9 +489,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_transfers_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['departments'] = $this->Departments_model->get();
         $data['sub_departments'] = $this->Sub_department_model->get();
@@ -456,8 +519,13 @@ class Core_hr extends AdminController{
     }
     public function update_transfer(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Transfers_model->update($data, $id);
         if($success)
@@ -481,8 +549,13 @@ class Core_hr extends AdminController{
 
     public function add_transfer(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Transfers_model->add($data);
         if($success)
@@ -523,9 +596,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_warnings_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('warnings');
@@ -543,8 +618,13 @@ class Core_hr extends AdminController{
     }
     public function update_warning(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Warnings_model->update($data, $id);
         if($success)
@@ -560,8 +640,13 @@ class Core_hr extends AdminController{
 
     public function add_warning(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Warnings_model->add($data);
         if($success)
@@ -604,9 +689,11 @@ class Core_hr extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_terminations_table');
         }
-                    $ci = &get_instance();
+            if($this->app_modules->is_active('branches')) {
+            $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
+        }
 
         $data['staffes'] = $this->Staff_model->get();
         $data['title'] = _l('terminations');
@@ -624,8 +711,13 @@ class Core_hr extends AdminController{
     }
     public function update_termination(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Terminations_model->update($data, $id);
         if($success)
@@ -641,8 +733,13 @@ class Core_hr extends AdminController{
 
     public function add_termination(){
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
-        unset($data['branch_id']);
+        if($this->app_modules->is_active('branches')){
+            $branch_id = $this->input->post()['branch_id'];
+
+            unset($data['branch_id']);
+        }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Terminations_model->add($data);
         if($success)

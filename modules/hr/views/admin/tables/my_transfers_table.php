@@ -16,6 +16,8 @@ $aColumns = [
     'status'
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
 if(get_staff_default_language() == 'arabic'){
     $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 }else{
@@ -42,7 +44,8 @@ foreach ($rResult as $aRow) {
     $row = [];
     
     $row[] = $aRow['fullname'];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['transfer_date'];

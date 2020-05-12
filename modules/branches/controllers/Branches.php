@@ -18,8 +18,6 @@ class Branches extends AdminController
         $this->load->model('branches_model');
 
 
-        $this->load->model('branches_model');
-
  
         if (!is_admin()) {
             access_denied('Access Branches');

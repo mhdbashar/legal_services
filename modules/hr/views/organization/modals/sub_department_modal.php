@@ -16,7 +16,7 @@
                         <?php echo render_input('sub_department_name','sub_department_name', '', 'text', ['required' => 'required']); ?>
                     </div>
                 </div>
-            <?php  if(true){  ?>
+            <?php  if($this->app_modules->is_active('branches')){  ?>
                 <div class="form-group">
                     <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                     <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
@@ -31,6 +31,13 @@
                     <label for="department_id" class="control-label"><?php echo _l('department') ?></label>
                     <select class="form-control" id="a_department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
                         <option></option>
+                        <?php
+                        if(!$this->app_modules->is_active('branches')){
+                         foreach ($departments as $department) { ?>
+                            <option value="<?php echo $department['departmentid'] ?>">
+                                <?php echo $department['name'] ?>
+                            </option>
+                        <?php }} ?>
                     </select>     
                 </div>
             </div>
@@ -59,7 +66,7 @@
                         <?php echo render_input('sub_department_name','sub_department_name', '', 'text', ['required' => 'required']); ?>
                     </div>
                 </div>
-            <?php  if(true){  ?>
+            <?php  if($this->app_modules->is_active('branches')){  ?>
                 <div class="form-group">
                     <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
                     <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
@@ -74,6 +81,13 @@
                     <label for="department_id" class="control-label"><?php echo _l('department') ?></label>
                     <select class="form-control" id="department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
                         <option></option>
+                        <?php
+                        if(!$this->app_modules->is_active('branches')){
+                         foreach ($departments as $department) { ?>
+                            <option value="<?php echo $department['departmentid'] ?>">
+                                <?php echo $department['name'] ?>
+                            </option>
+                        <?php }} ?>
                     </select>     
                 </div>
             </div>
@@ -106,7 +120,7 @@
                 $('[name="id"]').val(data.id);
 
                 $('[name="sub_department_name"]').val(data.sub_department_name);
-
+            <?php  if($this->app_modules->is_active('branches')){  ?>    
                 $.get(admin_url + 'hr/organization/get_departments_by_branch_id/' + data.branch.branch_id, function(response) {
                     if (response.success == true) {
                         $('#a_department_id').empty();
@@ -131,10 +145,10 @@
                         alert_float('danger', response.message);
                     }
                 }, 'json');
-
-                
-                $('[name="department_id"]').val(data.department.departmentid);
                 $('[name="branch_id"]').val(data.branch.branch_id);
+
+            <?php  }  ?>
+                $('[name="department_id"]').val(data.department.departmentid);
                 $('#a_department_id').selectpicker('refresh');
 
 

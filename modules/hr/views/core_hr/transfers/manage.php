@@ -12,13 +12,23 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
+                    <?php
+                    $data = array(
                         _l('staff_name'),
-                        _l('branch'),
                         _l('transfer_date'),
                         _l('status'),
                         _l('control'),
-                    ),'transfer'); ?>
+                    ); 
+                    if($this->app_modules->is_active('branches'))
+                        $data = array(
+                            _l('staff_name'),
+                            _l('branch_name'),
+                            _l('transfer_date'),
+                            _l('status'),
+                            _l('control'),
+                        ); 
+                    render_datatable($data,'transfer');
+                    ?>
                     </div>
                 </div>
             </div>

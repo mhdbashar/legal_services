@@ -11,6 +11,8 @@ class Timesheet extends AdminController{
         $this->load->model('Leave_type_model');
         $this->load->model('Overtime_request_model');
         $this->load->model('Office_shift_model');
+        $this->load->model('No_branch_model');
+        $this->load->model('Extra_info_model');
 	}
 
     private function dateDiffInDays($date1, $date2)  
@@ -214,7 +216,8 @@ class Timesheet extends AdminController{
             $this->hrmapp->get_table_data('my_office_shift_table');
         }
         $data['title'] = _l('office_shift');
-        if(true) {
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -234,7 +237,10 @@ class Timesheet extends AdminController{
         if (!has_permission('hr', '', 'view'))
             access_denied();
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
+        if($this->app_modules->is_active('branches'))
+            $branch_id = $data['branch_id'];
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
             $this->db->update('tblhr_office_shift', ['default'=>0]);
@@ -259,7 +265,10 @@ class Timesheet extends AdminController{
         if (!has_permission('hr', '', 'view'))
             access_denied();
         $data = $this->input->post();
-        $branch_id = $data['branch_id'];
+        if($this->app_modules->is_active('branches'))
+            $branch_id = $data['branch_id'];
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
             $this->db->update('tblhr_office_shift', ['default'=>0]);
@@ -315,7 +324,8 @@ class Timesheet extends AdminController{
                 $this->hrmapp->get_table_data('my_overtime_requests_table', ['staff_id' => get_staff_user_id()]);
         }
         $data['title'] = _l('overtime_requests');
-        if(true) {
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -463,7 +473,7 @@ class Timesheet extends AdminController{
             $data['branches'] = $ci->Branches_model->getBranches();
         }
         $data['leaves'] = $this->Leave_type_model->get();
-        $data['staffes'] = $this->Staff_model->get();
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
         $data['title'] = _l('leaves');
         $this->load->view('timesheet/leaves/manage', $data);
 	}
@@ -473,6 +483,8 @@ class Timesheet extends AdminController{
         $branch_id = '';
         if($this->Branches_model->get('staff', $data->staff_id))
             $branch_id = $this->Branches_model->get_branch('staff', $data->staff_id);
+            if(!$this->app_modules->is_active('branches'))
+                $branch_id = $this->No_branch_model->get_branch('staff', $data->staff_id);
         $data->branch_id = $branch_id;
         echo json_encode($data);
     }

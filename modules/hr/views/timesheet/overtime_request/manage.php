@@ -12,14 +12,18 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
-                        _l('branch'),
+                    <?php
+                    $data = array(
                         _l('staff_name'),
                         _l('in_time'),
                         _l('out_time'),
                         _l('overtime_status'),
                         _l('control'),
-                    ),'overtime_request'); ?>
+                    ); 
+                    if($this->app_modules->is_active('branches'))
+                        array_unshift($data, _l('branch_name'));
+                    render_datatable($data,'overtime_request');
+                    ?>
                     </div>
                 </div>
             </div>

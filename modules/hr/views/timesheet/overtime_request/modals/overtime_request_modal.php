@@ -12,7 +12,7 @@
             <?php echo form_hidden('id'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if(true){  ?>
+                <?php  if($this->app_modules->is_active('branches')){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -30,6 +30,20 @@
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
                             <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($staffes as $value) { ?>
+                                    <option value="<?php echo $value['staffid'] ?>">
+                                        <?php echo $value['firstname'] ?>
+                                    </option>
+                                <?php }} ?>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($staffes as $value) { ?>
+                                    <option value="<?php echo $value['staffid'] ?>">
+                                        <?php echo $value['firstname'] ?>
+                                    </option>
+                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -82,7 +96,7 @@
             <div class="modal-body">
                 <div class="row">
         <?php if (has_permission('hr', '', 'view')){ ?>
-                <?php  if(true){  ?>
+                <?php  if($this->app_modules->is_active('branches')){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -100,6 +114,20 @@
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
                             <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($staffes as $value) { ?>
+                                    <option value="<?php echo $value['staffid'] ?>">
+                                        <?php echo $value['firstname'] ?>
+                                    </option>
+                                <?php }} ?>
+                                <?php
+                            if(!$this->app_modules->is_active('branches')){
+                             foreach ($staffes as $value) { ?>
+                                <option value="<?php echo $value['staffid'] ?>">
+                                    <?php echo $value['firstname'] ?>
+                                </option>
+                            <?php }} ?>
                             </select>     
                         </div>
                     </div>

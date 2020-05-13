@@ -12,8 +12,8 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
-                        _l('branch_name'),
+                    <?php
+                    $data = array(
                         _l('shift_name'),
                         _l('saturday'),
                         _l('sunday'),
@@ -23,7 +23,11 @@
                         _l('thursday'),
                         _l('friday'),
                         _l('control'),
-                    ),'office_shift'); ?>
+                    ); 
+                    if($this->app_modules->is_active('branches'))
+                        array_unshift($data, _l('branch_name'));
+                    render_datatable($data,'office_shift');
+                    ?>
                     </div>
                 </div>
             </div>

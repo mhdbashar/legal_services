@@ -39,7 +39,7 @@ class Departments extends AdminController
                 unset($data['fakeusernameremembered']);
                 unset($data['fakepasswordremembered']);
             }
-            if($this->app_modules->is_active('branches')){
+            if($this->app_modules->is_active('branch_ides')){
                 $branch_id = $this->input->post('branch_id');
 
                 unset($data['branch_id']);
@@ -56,6 +56,9 @@ class Departments extends AdminController
                     ];
                     $this->Branches_model->set_branch($data);
                     }
+                }else{
+                    $this->load->model('hr/No_branch_model');
+                    $branch_id = $this->No_branch_model->get_branch('departments', $id);
                 }
                 if ($id) {
                     $success = true;

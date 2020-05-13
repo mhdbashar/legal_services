@@ -26,6 +26,12 @@ class Extra_info_model extends App_Model{
         return false;
     }
 
+    public function get_staffs(){
+        $this->db->from(db_prefix().'staff');
+        $this->db->join($this->table_name, $this->table_name.'.staff_id=' . db_prefix() . 'staff.staffid', 'inner');
+        return $this->db->get()->result_array();
+    }
+
     public function get_staffs_leaves($id){
         $this->db->select('tblhr_leave_type.id, tblhr_leave_type.name');
         $this->db->from('tblhr_staffs_leaves');

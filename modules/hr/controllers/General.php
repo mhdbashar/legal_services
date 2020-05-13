@@ -50,6 +50,8 @@ class General extends AdminController{
 
 	public function general($staff_id){
 
+        $this->load->model('No_branch_model');
+
         $member = $this->staff_model->get($staff_id);
         if (!$member) {
             blank_page('Staff Member Not Found', 'danger');
@@ -80,6 +82,8 @@ class General extends AdminController{
                 $ci->load->model('branches/Branches_model');
                 $data['branches'] = $ci->Branches_model->getBranches();
                 $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
+                if(!$this->app_modules->is_active('branches'))
+                    $data['branch'] = $this->No_branch_model->get_branch('staff', $staff_id);
             $data['logged_time'] = $this->staff_model->get_logged_time_data($staff_id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
             $data['base_currency'] = $this->Currencies_model->get_base_currency();

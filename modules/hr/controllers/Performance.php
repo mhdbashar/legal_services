@@ -6,6 +6,8 @@ class Performance extends AdminController{
 		parent::__construct();
 		$this->load->model('Indicator_model');
 		$this->load->model('Appraisal_model');
+        $this->load->model('No_branch_model');
+        $this->load->model('Extra_info_model');
 
         if (!has_permission('hr', '', 'view'))
             access_denied();
@@ -18,7 +20,8 @@ class Performance extends AdminController{
             $this->hrmapp->get_table_data('my_indicators_table');
         }
         $data['title'] = _l('indicator');
-        if(true) {
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
@@ -76,7 +79,8 @@ class Performance extends AdminController{
             $this->hrmapp->get_table_data('my_appraisals_table');
         }
         $data['title'] = _l('appraisals');
-        if(true) {
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
+        if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();

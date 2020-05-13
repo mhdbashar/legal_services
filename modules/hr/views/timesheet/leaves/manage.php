@@ -12,14 +12,17 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
+                    <?php 
+                    $data = array(
                         _l('leave_type'),
-                        _l('branch'),
                         _l('staff_name'),
                         _l('request_duration'),
                         _l('applied_on'),
                         _l('control'),
-                    ),'resignation'); ?>
+                    ); 
+                    if($this->app_modules->is_active('branches'))
+                        $data[1] = _l('branch');
+                    render_datatable($data,'resignation'); ?>
                     </div>
                 </div>
             </div>

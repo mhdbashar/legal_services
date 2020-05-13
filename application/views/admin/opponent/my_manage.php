@@ -223,11 +223,26 @@
                         <span class="text-danger"><?php echo _l('inactive_active_opponents'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'contacts','active=1'.$where_summary); ?></h3>
+                        <?php
+                               $this->db->where([db_prefix().'clients.active'=>1, 'client_type'=>1]);
+
+                               $this->db->join(db_prefix() . 'contacts', '' . db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid', 'inner');
+
+                               $customers_summary_active = $this->db->count_all_results(db_prefix().'clients');
+                        ?>
+                        <h3 class="bold"><?php echo $customers_summary_active; ?></h3>
                         <span class="text-info"><?php echo _l('customers_summary_active'); ?></span>
                      </div>
-                     <div class="col-md-2  col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'contacts','active=0'.$where_summary); ?></h3>
+
+                     <div class="col-md-2 col-xs-6 border-right">
+                        <?php
+                               $this->db->where([db_prefix().'clients.active'=>0, 'client_type'=>1]);
+
+                               $this->db->join(db_prefix() . 'contacts', '' . db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid', 'inner');
+
+                               $customers_summary_inactive = $this->db->count_all_results(db_prefix().'clients');
+                        ?>
+                        <h3 class="bold"><?php echo $customers_summary_inactive; ?></h3>
                         <span class="text-danger"><?php echo _l('customers_summary_inactive'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6">

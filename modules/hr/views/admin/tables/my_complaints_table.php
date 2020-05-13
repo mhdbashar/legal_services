@@ -8,6 +8,8 @@ $aColumns = [
     'CONCAT(bystaff.firstname," ", bystaff.lastname) as complaint_from'
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
 if(get_staff_default_language() == 'arabic'){
     $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 }else{
@@ -37,7 +39,8 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['complaint_from'];
     
     $row[] = $aRow['complaint_againts'];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['complaint_date'];

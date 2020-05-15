@@ -163,6 +163,7 @@
                         }
                      ?> -->
                      <div class="row">
+                      <?php if(is_active_sub_department() == '1'){ ?>
                         <div class="col-md-4">
                             <div class="form-group">
                               
@@ -171,6 +172,7 @@
                                 </select>     
                             </div>  
                         </div>
+                      <?php ?>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>

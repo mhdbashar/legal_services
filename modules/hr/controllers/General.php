@@ -20,6 +20,7 @@ class General extends AdminController{
         $this->load->model('Sub_department_model');
         $this->load->model('Designation_model');
         $this->load->model('Leave_type_model');
+        $this->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
         if (!has_permission('hr', '', 'view'))
             access_denied();

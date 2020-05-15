@@ -26,7 +26,15 @@
                             ?>
 
                             <?php $value = (isset($branch) ? $branch->title_en : ''); ?>
-                            <?php echo render_input('title_en','branch_title_en',$value); ?>
+                            <?php 
+                                if(get_staff_default_language() == 'arabic'){
+                                    $title = 'title_ar';
+                                    $value = (isset($branch) ? $branch->title_ar : '');
+                                }else{
+                                    $title = 'title_en';
+                                    $value = (isset($branch) ? $branch->title_en : '');
+                                }
+                            echo render_input($title,'branch_title_en',$value); ?>
 
                         <!-- <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
                         <?php echo render_input('title_ar','branch_title_ar',$value); ?>

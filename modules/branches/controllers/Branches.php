@@ -57,6 +57,11 @@ class Branches extends AdminController
     public function field($id = '')
     {
         if ($this->input->post()) {
+            if(get_staff_default_language() == 'arabic'){
+                $_POST['title_en'] = $this->input->post()['title_ar'];
+            }else{
+                $_POST['title_ar'] = $this->input->post()['title_en'];
+            }
             if ($id == '') {
                 $id = $this->branches_model->add($this->input->post());
                 if ($id) {

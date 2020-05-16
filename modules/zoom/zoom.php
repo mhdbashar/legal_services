@@ -15,6 +15,7 @@ define('ZOOM_MODULE_NAME', 'zoom');
 /**
  * Load the module helper
  */
+$CI = & get_instance();
 $CI->load->helper(ZOOM_MODULE_NAME . '/zoom');
 
 hooks()->add_action('app_admin_head', 'zoom_add_head_components');

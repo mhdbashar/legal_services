@@ -52,6 +52,8 @@ function hr_menu_items($item)
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                     <li><a href="'.admin_url('hr/setting').'">'._l('constants').'</a>
                                     </li>
+                                    <li><a href="'.admin_url('hr/setting/global_hr_setting').'">'._l('global_hr_setting').'</a>
+                                    </li>
                                 </ul>
                         </li>
 
@@ -98,10 +100,12 @@ function hr_menu_items($item)
                                 <li><a href="'.admin_url('hr/organization/officail_documents').'">'._l('official_documents').'</a>
                                 </li>
                                 <li><a href="'.admin_url('departments').'">'._l('departments').'</a>
-                                </li>
-                                <li><a href="'.admin_url('hr/organization/sub_department').'">'._l('sub_department').'</a>
-                                </li>
-                                <li><a href="'.admin_url('hr/organization/designation').'">'._l('designation').'</a>
+                                </li>';
+                            if(is_active_sub_department())
+                                echo '<li><a href="'.admin_url('hr/organization/sub_department').'">'._l('sub_department').'</a>
+                                </li>';
+
+                                echo '<li><a href="'.admin_url('hr/organization/designation').'">'._l('designation').'</a>
                                 </li>
                                 </ul>
                         </li>
@@ -113,10 +117,12 @@ function hr_menu_items($item)
                                 <li><a href="'.admin_url('hr/core_hr/terminations').'">'._l('terminations').'</a>
                                 </li>
                                 <li><a href="'.admin_url('hr/core_hr/warnings').'">'._l('warnings').'</a>
-                                </li>
-                                <li><a href="'.admin_url('hr/core_hr/transfers').'">'._l('transfers').'</a>
-                                </li>
-                                <li><a href="'.admin_url('hr/core_hr/complaints').'">'._l('complaints').'</a>
+                                </li>';
+                            if(is_active_sub_department())
+                            echo    '<li><a href="'.admin_url('hr/core_hr/transfers').'">'._l('transfers').'</a>
+                                </li>';
+
+                            echo    '<li><a href="'.admin_url('hr/core_hr/complaints').'">'._l('complaints').'</a>
                                 </li>
                                 <li><a href="'.admin_url('hr/core_hr/resignations').'">'._l('resignations').'</a>
                                 </li>
@@ -251,6 +257,7 @@ function hr_module_activation_hook()
 function hr_init_hrmApp(){
     $CI = & get_instance();
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
+    $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 }
 $CI = & get_instance();
 // $CI->app_modules->activate('branches');

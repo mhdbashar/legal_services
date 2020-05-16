@@ -137,6 +137,7 @@
                         }
                      ?> -->
                      <div class="row">
+                      <?php if(is_active_sub_department()){ ?>
                         <div class="col-md-4">
                             <div class="form-group">
                               
@@ -145,6 +146,7 @@
                                 </select>     
                             </div>  
                         </div>
+                      <?php }else echo form_hidden('sub_department', '0');  ?>
                      	<div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>

@@ -13,6 +13,24 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_holiday')) {
     ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_setting')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_setting` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `active` int(11) NOT NULL,
+      `name` varchar(200) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+    $data = [
+      'name' => 'sub_department', 
+      'active' => 0
+    ];
+    $CI->db->insert('hr_setting', $data);
+    $insert_id = $CI->db->insert_id();
+    if ($insert_id) {
+        log_activity('hr_setting add [' . $data['sub_department'] . ']');
+        return $insert_id;
+    }
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_leaves')) {           
     $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leaves` (
       `id` int(11) PRIMARY KEY AUTO_INCREMENT,

@@ -11,6 +11,25 @@ class Setting extends AdminController{
             access_denied();
 	}
 
+    public function global_hr_setting(){
+        if($this->input->post()){
+            $data = $this->input->post();
+            foreach($data as $name => $active){
+                $this->db->where('name', $name);
+                $this->db->update('tblhr_setting', ['active'=>$active]);
+                if($this->db->affected_rows() > 0){
+                    log_activity('tblhr_setting' . ' updated [ Name: '. $name . ']');
+                    //return true;
+                }
+            }
+        }
+        $data['title'] = _l('global_hr_setting');
+        //$this->db->where('name', 'sub_department');
+        $this->db->from('tblhr_setting');
+        $data['settings'] = $this->db->get()->result_array();
+        $this->load->view('settings/global_hr_setting/manage', $data);
+    }
+
     public function index(){
 
         $group = '';

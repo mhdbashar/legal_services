@@ -126,6 +126,7 @@ $(document).ready(function(){
     ?>;
   <?php }else{ ?>
     var sub_departmant = '';
+    var office_shift = '';
     var designation = '';
   <?php  }  ?>
   console.log(<?php echo $extra_info->sub_department ?>);

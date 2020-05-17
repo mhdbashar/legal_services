@@ -180,6 +180,7 @@ class General extends AdminController{
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
         $this->load->model('departments_model');
+        $this->load->model('No_branch_model');
 
         $hr_data = [];
 
@@ -188,7 +189,10 @@ class General extends AdminController{
         $hr_data['designation'] = $this->input->post('designation');
         $hr_data['gender'] = $this->input->post('gender');
         //$hr_data['marital_status'] = $this->input->post('marital_status');
-        $hr_data['sub_department'] = $this->input->post('sub_department');
+        if(is_active_sub_department())
+            $hr_data['sub_department'] = $this->input->post('sub_department');
+        else
+            $hr_data['sub_department'] = 1;
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
         $hr_data['date_birth'] = to_sql_date($this->input->post('date_birth'));
         $hr_data['state_province'] = $this->input->post('state_province');
@@ -200,7 +204,10 @@ class General extends AdminController{
 
         if ($this->input->post()) {
             $data = $this->input->post();
-                $branch_id = $this->input->post()['branch_id'];
+                if(!$this->app_modules->is_active('branches'))
+                    $branch_id = $this->No_branch_model->get_general_branch();
+                else
+                    $branch_id = $this->input->post()['branch_id'];
 
                 unset($data['branch_id']);
             foreach ($data as $key => $value){

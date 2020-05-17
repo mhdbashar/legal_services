@@ -118,7 +118,7 @@
                      -->
                      </div>
                      <?php $branches = $this->Branches_model->getBranches(); ?>
-                        <?php if(true){?>
+                        <?php if($this->app_modules->is_active('branches')){?>
                            <?php $value = (isset($branch) ? $branch : ''); ?>
                            <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
                         <?php } ?>
@@ -172,7 +172,7 @@
                                 </select>     
                             </div>  
                         </div>
-                      <?php ?>
+                      <?php } ?>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
@@ -655,6 +655,9 @@ $(document).on('change','#branch_id',function () {
 });
 
 $(document).ready(function(){
+  <?php if(empty($branch)) $branch = 1 ?>
+  var branch_id = <?php echo $branch ?>;
+
   console.log(<?php echo $extra_info->sub_department ?>);
   $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
       if (response.success == true) {
@@ -678,6 +681,29 @@ $(document).ready(function(){
       }
   }, 'json');
 
+
+<?php  if(!$this->app_modules->is_active('branches')){  ?>
+  $.get(admin_url + 'branches/get_office_shift/' + 1, function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#office_shift_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+<?php  }  ?>
   $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
         if (response.success == true) {
             $('#sub_department_id').empty();

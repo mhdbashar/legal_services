@@ -10,17 +10,17 @@
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
     
-    var API_KEY = 'bbj9gNGWQb277uYIkreHRQ';
+   // var API_KEY = 'bbj9gNGWQb277uYIkreHRQ';
 
     /**
      * NEVER PUT YOUR ACTUAL API SECRET IN CLIENT SIDE CODE, THIS IS JUST FOR QUICK PROTOTYPING
      * The below generateSignature should be done server side as not to expose your api secret in public
      * You can find an eaxmple in here: https://marketplace.zoom.us/docs/sdk/native-sdks/web/essential/signature
      */
-    var API_SECRET = 'SSpfEDVpEebbT6dcUPX4g1VIFKizZUBRP1Il';
+    //var API_SECRET = 'SSpfEDVpEebbT6dcUPX4g1VIFKizZUBRP1Il';
 
     testTool = window.testTool;
-    document.getElementById('display_name').value = "Enter your name";
+    document.getElementById('display_name').value = "";
     document.getElementById('meeting_number').value = testTool.getCookie("meeting_number");
     document.getElementById('meeting_pwd').value = testTool.getCookie("meeting_pwd");
     if (testTool.getCookie("meeting_lang")) document.getElementById('meeting_lang').value = testTool.getCookie("meeting_lang");

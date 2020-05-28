@@ -54,7 +54,7 @@ function zoom_clients_area_menu_items() {
             'name' => _l('enter_meeting'),
             'href' => site_url('zoom/Zoom_client'),
             'position' => 2,
-             'icon' => 'fa fa-dollar', // Font a
+             'icon' => 'fa fa-icon-group', // Font a
                 ]
         );
     }
@@ -70,7 +70,7 @@ ique-id', [
         'name' => _l('enter_meeting'),
         'href' => admin_url('zoom'), // URL of the item
         'position' => 10, // The menu position, see belo
-        'icon' => 'fa fa-dollar', // Font a
+        'icon' => 'fa fa-object-ungroup', // Font a
 
     ]);
 }
@@ -79,7 +79,7 @@ function zoom_add_settings_tab()
 {
     $CI = & get_instance();
     $CI->app_tabs->add_settings_tab('zoom-settings', [
-       'name'     => ''._l('zoom_setting').'',
+       'name'     => _l('zoom_setting'),
        'view'     => 'zoom/zoom_settings',
        'position' => 36,
    ]);
@@ -89,3 +89,11 @@ function zoom_add_settings_tab()
 * Register language files, must be registered if the module is using languages
 */
 register_language_files(ZOOM_MODULE_NAME, [ZOOM_MODULE_NAME]);
+
+register_activation_hook(ZOOM_MODULE_NAME, 'zoom_module_activation_hook');
+
+function zoom_module_activation_hook()
+{
+    $CI = &get_instance();
+    require_once(__DIR__ . '/install.php');
+}

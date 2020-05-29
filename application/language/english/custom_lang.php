@@ -1,5 +1,8 @@
 <?php
 
+$lang['zoom_name'] = 'Zoom meetings';
+$lang['zoom_desc'] = 'You can set your zoom account and start your meetings within the Babel APP';
+
 $lang['license_info'] = 'License Info';
 
 $lang['license_key'] = 'License Key';

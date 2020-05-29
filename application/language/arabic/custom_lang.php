@@ -1,5 +1,8 @@
 <?php
 
+$lang['zoom_name'] = ' اجتماعات Zoom';
+$lang['zoom_desc'] = 'يمكنك ضبط حسابك على zoom والبدء بعقد اجتماعاتك ضمن منصة بابل';
+
 $lang['license_info'] = 'معلومات الترخيص';
 
 $lang['license_key'] = 'مفتاح الترخيص';

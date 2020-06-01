@@ -101,6 +101,11 @@ class Settings_model extends App_Model
                 }
             } elseif ($name == 'email_signature') {
                 $val = html_entity_decode($val);
+
+                if ($val == strip_tags($val)) {
+                    // not contains HTML, add break lines
+                    $val = nl2br_save_html($val);
+                }
             } elseif ($name == 'email_header' || $name == 'email_footer') {
                 $val = html_entity_decode($val);
             } elseif ($name == 'default_tax') {
@@ -127,12 +132,7 @@ class Settings_model extends App_Model
                 }
             }
 
-            $this->db->where('name', $name);
-            $this->db->update(db_prefix() . 'options', [
-                    'value' => $val,
-                ]);
-
-            if ($this->db->affected_rows() > 0) {
+            if (update_option($name, $val)) {
                 $affectedRows++;
                 if ($name == 'save_last_order_for_tables') {
                     $this->db->query('DELETE FROM ' . db_prefix() . 'user_meta where meta_key like "%-table-last-order"');

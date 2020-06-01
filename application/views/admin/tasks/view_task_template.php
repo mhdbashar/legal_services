@@ -473,7 +473,7 @@
                   if($comment['file_id'] != 0){
                   $comment['content'] = str_replace('[task_attachment]','<div class="clearfix"></div>'.$attachments_data[$comment['file_id']],$comment['content']);
                   // Replace lightbox to prevent loading the image twice
-                  $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment"',$comment['content']);
+                  $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-attachment-comment-'.$comment['id'].'"',$comment['content']);
                   } else if(count($comment['attachments']) > 0 && isset($comments_attachments[$comment['id']])) {
                    $comment_attachments_html = '';
                    foreach($comments_attachments[$comment['id']] as $comment_attachment) {
@@ -481,7 +481,7 @@
                    }
                    $comment['content'] = str_replace('[task_attachment]','<div class="clearfix"></div>'.$comment_attachments_html,$comment['content']);
                    // Replace lightbox to prevent loading the image twice
-                   $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-comment-files"',$comment['content']);
+                   $comment['content'] = str_replace('data-lightbox="task-attachment"','data-lightbox="task-comment-files-'.$comment['id'].'"',$comment['content']);
                    $comment['content'] .='<div class="clearfix"></div>';
                    $comment['content'] .='<div class="text-center download-all">
                    <hr class="hr-10" />
@@ -670,7 +670,7 @@
                <?php } ?>
             </h5>
          </div>
-         <?php if((has_permission('tasks','','create') || has_permission('tasks','','edit'))){ ?>
+         <?php if($task->current_user_is_creator || has_permission('tasks','','edit')){ ?>
          <div class="task-info task-info-hourly-rate">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-clock-o"></i>
                <?php echo _l('task_hourly_rate'); ?>: <?php if($task->rel_type == 'project' && $task->project_data->billing_type == 2){
@@ -692,7 +692,8 @@
          </div>
          <?php if($task->billable == 1
             && $task->billed == 0
-            && ($task->rel_type != 'project' || ($task->rel_type == 'project' && $task->project_data->billing_type != 1))) { ?>
+            && ($task->rel_type != 'project' || ($task->rel_type == 'project' && $task->project_data->billing_type != 1))
+            && staff_can('create', 'invoices')) { ?>
          <div class="task-info task-billable-amount">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa fa-file-text-o"></i>
                <?php echo _l('billable_amount'); ?>:

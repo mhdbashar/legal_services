@@ -79,6 +79,7 @@
         <input type="file" name="signature_image" class="form-control">
     </div>
     <?php } ?>
+    <?php hooks()->do_action('after_pdf_signature_settings_fields'); ?>
 </div>
 <div role="tabpanel" class="tab-pane" id="formats">
   <label for="pdf_format_invoice" class="control-label"><?php echo _l('invoice'); ?></label>

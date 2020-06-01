@@ -1,5 +1,5 @@
 /*
-	Admin Area CSS
+    Admin Area CSS
 */
 .btn-default {
     color: #415164;
@@ -1019,8 +1019,8 @@ table .row-options {
 }
 
 body.rtl table .row-options {
-    left:initial;
-    right:-9999em;
+    left: initial;
+    right: -9999em;
 }
 
 table tr:hover td .row-options,
@@ -1302,10 +1302,12 @@ body.page-small.show-sidebar #wrapper {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
+
 .bootstrap-select.fit-width .dropdown-toggle .caret {
-    position:absolute;
-    right:-6px;
+    position: absolute;
+    right: -6px;
 }
+
 .bootstrap-select .dropdown-menu>li:first-child>a {
     border-radius: 0;
 }
@@ -2818,6 +2820,7 @@ label:not(.control-label) {
 
 .bootstrap-select .btn-default {
     background: #fff !important;
+    color: #415164 !important;
     border: 1px solid #bfcbd9 !important;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -2860,7 +2863,6 @@ label:not(.control-label) {
 
 [dir="rtl"] .bootstrap-select .dropdown-toggle .filter-option {
     right: 0;
-    margin-left: 100%;
     margin-right: auto;
     text-align: right;
     padding-right: 16px;
@@ -4925,10 +4927,12 @@ table .goal-percent {
     margin-left: -20px;
     margin-right: -20px;
 }
+
 .safari .tabs-in-body-no-margin {
-    margin-left:0px;
-    margin-right:0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
+
 .table .item.ui-sortable-helper {
     background: #f0f0f0;
     opacity: 0.5;
@@ -5200,7 +5204,7 @@ body.rtl a+.main-tasks-table-href-name {
 }
 
 .firefox #task-comments .comment-content {
-    word-break:initial;
+    word-break: initial;
 }
 
 #task_comment {
@@ -5285,13 +5289,13 @@ body.rtl a+.main-tasks-table-href-name {
     padding: 5px 15px 5px 5px;
     margin-top: 10px;
     border-radius: 4px;
-    height: 34px;
     cursor: move;
 }
 
 .checklist .checkbox.checklist-checkbox {
     margin-top: 0;
     margin-bottom: 0;
+    height:25px;
 }
 
 .checklist:hover,
@@ -5356,8 +5360,8 @@ textarea[name="checklist-description"]:active {
 
 textarea[name="checklist-description"]:disabled {
     background: #fff;
-    color:#212121;
-    opacity:1;
+    color: #212121;
+    opacity: 1;
 }
 
 .task-info {
@@ -8002,7 +8006,15 @@ table .dtr-data .tags-labels {
     font-weight: 500;
     margin-bottom: 0px;
     padding-top: 4px;
-    padding-left:17px;
+    padding-left: 17px;
+}
+
+#project_view_name .bootstrap-select .bs-caret {
+    margin-left: 10px;
+}
+
+#project_view_name .bootstrap-select .bs-caret .caret {
+    margin-top: 4px;
 }
 
 .custom-field-inline-edit-link {
@@ -8514,7 +8526,7 @@ body.rtl .dashboard-user-no-qa .top-left-logout {
     margin-top: 2px;
     margin-left: 15px;
     border: 1px solid #dddddd;
-    width:auto;
+    width: auto;
 }
 
 body.rtl .dataTables_paginate {
@@ -8566,8 +8578,7 @@ body.rtl .task-table-related:before {
 }
 
 .checklist-item-info {
-    position: absolute;
-    bottom: -30px;
+    margin: 5px 0px 0px 0px;
 }
 
 .mobile .checklist-item-info {
@@ -9209,14 +9220,14 @@ body.gantt {
 }
 
 .ticket-submitter-info {
-    word-wrap:break-word;
+    word-wrap: break-word;
 }
 
 .menu-badge {
-    margin-left:7px;
+    margin-left: 7px;
 }
 
 .read-more {
-  overflow:hidden;
-  max-height:150px;
+    overflow: hidden;
+    max-height: 150px;
 }

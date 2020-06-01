@@ -33,8 +33,8 @@ class App_sms
                     'Content-Type' => 'application/json',
                     'Accept'       => 'application/json',
                 ],
-                'verify' => false,
-                CURLOPT_RETURNTRANSFER=>true,
+                'verify'               => false,
+                CURLOPT_RETURNTRANSFER => true,
             ]
         );
         $this->set_default_triggers();
@@ -87,7 +87,7 @@ class App_sms
 
     public function add_trigger($trigger)
     {
-        $this->triggers[] = $trigger;
+        $this->triggers = array_merge($this->triggers, $trigger);
     }
 
     public function get_available_triggers()
@@ -106,7 +106,7 @@ class App_sms
 
     public function trigger($trigger, $phone, $merge_fields = [])
     {
-        if ($phone == '') {
+        if (empty($phone)) {
             return false;
         }
 
@@ -130,6 +130,27 @@ class App_sms
         return false;
     }
 
+    public function g_send($phone, $message)
+    {
+        if ($phone == '') {
+            return false;
+        }
+
+        $gateway = $this->get_active_gateway();
+
+        if ($gateway !== false) {
+            $className = 'sms_' . $gateway['id'];
+            
+                $message = clear_textarea_breaks($message);
+
+                $retval = $this->ci->{$className}->send($phone, $message);
+
+                return $retval;
+        }
+
+        return false;        
+    }
+    
     /**
      * Parse sms gateway merge fields
      * We will use the email templates merge fields function because they are the same
@@ -176,8 +197,8 @@ class App_sms
     {
         $GLOBALS['sms_error'] = $error;
 
-        if($log_message) {
-            log_activity('Failed to send SMS via '.get_class($this).': ' . $error);
+        if ($log_message) {
+            log_activity('Failed to send SMS via ' . get_class($this) . ': ' . $error);
         }
 
         return $this;
@@ -256,6 +277,7 @@ class App_sms
             '{invoice_status}',
             '{invoice_subtotal}',
             '{invoice_total}',
+            '{invoice_amount_due}',
         ];
 
         $proposal_merge_fields = [

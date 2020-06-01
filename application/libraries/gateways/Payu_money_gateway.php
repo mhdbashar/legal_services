@@ -118,6 +118,7 @@ class Payu_money_gateway extends App_gateway
         } else {
             $retHashSeq = $salt . '|' . $status . '|||||||||||' . $email . '|' . $firstname . '|' . $productinfo . '|' . $amount . '|' . $txnid . '|' . $key;
         }
+
         $hash = hash('sha512', $retHashSeq);
 
         if ($hash != $posted_hash) {

@@ -96,8 +96,11 @@ if (is_numeric($id)) {
         array_push($where, ' AND junk = 0');
     } elseif ($id == 'clients') {
         if ($this->ci->input->post('customer_groups')) {
-            $groups = $this->ci->input->post('customer_groups');
-            array_push($where, ' AND userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_groups WHERE groupid IN (' . implode(',', $groups) . '))');
+            $groups   = $this->ci->input->post('customer_groups');
+            $groupsIn = implode(',', array_map(function ($group) {
+                return get_instance()->db->escape_str($group);
+            }, $groups));
+            array_push($where, ' AND userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_groups WHERE groupid IN (' . $groupsIn . '))');
         }
         if ($this->ci->input->post('consent')) {
             array_push($where, ' AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->input->post('consent') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->input->post('consent') . ' AND contact_id=' . db_prefix() . 'contacts.id))');

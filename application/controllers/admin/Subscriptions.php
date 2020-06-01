@@ -11,6 +11,7 @@ class Subscriptions extends AdminController
         $this->load->model('subscriptions_model');
         $this->load->model('currencies_model');
         $this->load->model('taxes_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index()
@@ -33,6 +34,28 @@ class Subscriptions extends AdminController
         $this->app->get_table_data('subscriptions');
     }
 
+    public function table_case($ServID, $slug)
+    {
+        if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        $this->app->get_table_data('subscriptions_case', [
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function table_oservice($ServID, $slug)
+    {
+        if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
+            ajax_access_denied();
+        }
+        $this->app->get_table_data('subscriptions_oservice', [
+            'ServID' => $ServID,
+            'slug' => $slug,
+        ]);
+    }
+
     public function create()
     {
         if (!has_permission('subscriptions', '', 'create')) {
@@ -49,10 +72,13 @@ class Subscriptions extends AdminController
                 'project_id'          => $this->input->post('project_id') ? $this->input->post('project_id') : 0,
                 'stripe_plan_id'      => $this->input->post('stripe_plan_id'),
                 'quantity'            => $this->input->post('quantity'),
-                'tax_id'              => $this->input->post('tax_id') ? $this->input->post('tax_id') : 0,
+                'terms'               => nl2br($this->input->post('terms')),
+                'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
                 'currency'            => $this->input->post('currency'),
-
+                'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
+                'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null
             ]);
+
             set_alert('success', _l('added_successfully', _l('subscription')));
             redirect(admin_url('subscriptions/edit/' . $insert_id));
         }
@@ -61,11 +87,13 @@ class Subscriptions extends AdminController
 
         try {
             $data['plans'] = $this->stripe_subscriptions->get_plans();
+            $this->load->library('stripe_core');
+            $data['stripe_tax_rates'] = $this->stripe_core->get_tax_rates();
         } catch (Exception $e) {
             if ($this->stripe_subscriptions->has_api_key()) {
                 $data['subscription_error'] = $e->getMessage();
             } else {
-                $data['subscription_error'] = _l('api_key_not_set_error_message', '<a href="'.admin_url('settings?group=payment_gateways&tab=online_payments_stripe_tab').'">Stripe Checkout</a>');
+                $data['subscription_error'] = _l('api_key_not_set_error_message', '<a href="' . admin_url('settings?group=payment_gateways&tab=online_payments_stripe_tab') . '">Stripe Checkout</a>');
             }
         }
 
@@ -77,6 +105,7 @@ class Subscriptions extends AdminController
 
         $data['taxes']      = $this->taxes_model->get();
         $data['currencies'] = $this->currencies_model->get();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['bodyclass']  = 'subscription';
         $this->load->view('admin/subscriptions/subscription', $data);
     }
@@ -88,10 +117,12 @@ class Subscriptions extends AdminController
         }
 
         $subscription = $this->subscriptions_model->get_by_id($id);
-
         if (!$subscription || (!has_permission('subscriptions', '', 'view') && $subscription->created_from != get_staff_user_id())) {
             show_404();
         }
+
+        check_stripe_subscription_environment($subscription);
+
         $data = [];
 
         $stripeSubscriptionId = $subscription->stripe_subscription_id;
@@ -109,9 +140,12 @@ class Subscriptions extends AdminController
                 'date'                => $this->input->post('date') ? to_sql_date($this->input->post('date')) : null,
                 'project_id'          => $this->input->post('project_id') ? $this->input->post('project_id') : 0,
                 'stripe_plan_id'      => $this->input->post('stripe_plan_id'),
+                'terms'               => nl2br($this->input->post('terms')),
                 'quantity'            => $this->input->post('quantity'),
-                'tax_id'              => $this->input->post('tax_id') ? $this->input->post('tax_id') : 0,
+                'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
                 'currency'            => $this->input->post('currency'),
+                'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
+                'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null
              ];
 
             if (!empty($stripeSubscriptionId)) {
@@ -138,16 +172,18 @@ class Subscriptions extends AdminController
         try {
             $data['plans'] = [];
             $data['plans'] = $this->stripe_subscriptions->get_plans();
+            $this->load->library('stripe_core');
+            $data['stripe_tax_rates'] = $this->stripe_core->get_tax_rates();
 
             if (!empty($subscription->stripe_subscription_id)) {
                 $data['stripeSubscription'] = $this->stripe_subscriptions->get_subscription($subscription->stripe_subscription_id);
 
-                /*       $data['stripeSubscription']->billing_cycle_anchor = 'now';
-                       $data['stripeSubscription']->save();
-                       die;*/
+                /*              $data['stripeSubscription']->billing_cycle_anchor = 'now';
+                              $data['stripeSubscription']->save();
+                              die;*/
 
-                if ($subscription->status != 'canceled') {
-                    $data['upcoming_invoice'] = $this->stripe_subscriptions->get_upcoming_invoice($subscription->stripe_customer_id, $subscription->stripe_subscription_id);
+                if ($subscription->status != 'canceled' && $subscription->status !== 'incomplete_expired') {
+                    $data['upcoming_invoice'] = $this->stripe_subscriptions->get_upcoming_invoice($subscription->stripe_subscription_id);
 
                     $data['upcoming_invoice'] = subscription_invoice_preview_data($subscription, $data['upcoming_invoice'], $data['stripeSubscription']);
                     // Throwing errors when not set in the invoice preview area
@@ -171,6 +207,7 @@ class Subscriptions extends AdminController
         $data['title']          = $data['subscription']->name;
         $data['taxes']          = $this->taxes_model->get();
         $data['currencies']     = $this->currencies_model->get();
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['bodyclass']      = 'subscription no-calculate-total';
         $this->load->view('admin/subscriptions/subscription', $data);
     }
@@ -209,7 +246,7 @@ class Subscriptions extends AdminController
             $ends_at = time();
             if ($type == 'immediately') {
                 $this->stripe_subscriptions->cancel($subscription->stripe_subscription_id);
-                // The mail sent via the webhook
+            // The mail sent via the webhook
                 // $this->subscriptions_model->send_email_template($subscription->id, '', 'subscription_cancelled_to_customer');
             } elseif ($type == 'at_period_end') {
                 $ends_at = $this->stripe_subscriptions->cancel_at_end_of_billing_period($subscription->stripe_subscription_id);
@@ -261,11 +298,19 @@ class Subscriptions extends AdminController
             access_denied('Subscriptions Delete');
         }
 
-        if ($this->subscriptions_model->delete($id)) {
+        if ($subscription = $this->subscriptions_model->delete($id)) {
+            if (!empty($subscription->stripe_subscription_id)) {
+                try {
+                    // In case already deleted in Stripe
+                    $this->stripe_subscriptions->cancel($subscription->stripe_subscription_id);
+                } catch (Exception $e) {
+                }
+            }
             set_alert('success', _l('deleted', _l('subscription')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('subscription')));
         }
+
         if (strpos($_SERVER['HTTP_REFERER'], 'clients/') !== false) {
             redirect($_SERVER['HTTP_REFERER']);
         } else {

@@ -113,6 +113,15 @@ function get_customer_profile_tabs()
 }
 
 /**
+ * Get predefined tabs array, used in opponent profile
+ * @return array
+ */
+function get_opponent_profile_tabs()
+{
+    return get_instance()->app_tabs->get_opponent_profile_tabs();
+}
+
+/**
  * Filter only visible tabs selected from the profile
  * @param  array $tabs available tabs
  * @return array
@@ -184,6 +193,13 @@ function app_init_customer_profile_tabs()
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/clients/groups/contacts',
+        'position' => 7,
+    ]);
+
+    $CI->app_tabs->add_customer_profile_tab('procurations', [
+        'name'     => _l('procurations'),
+        'icon'     => 'fa fa-briefcase',
+        'view'     => 'admin/clients/groups/procurations',
         'position' => 10,
     ]);
 
@@ -266,12 +282,12 @@ function app_init_customer_profile_tabs()
         'position' => 60,
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('projects', [
-        'name'     => _l('projects'),
-        'icon'     => 'fa fa-bars',
-        'view'     => 'admin/clients/groups/projects',
-        'position' => 65,
-    ]);
+    // $CI->app_tabs->add_customer_profile_tab('projects', [
+    //     'name'     => _l('projects'),
+    //     'icon'     => 'fa fa-bars',
+    //     'view'     => 'admin/clients/groups/projects',
+    //     'position' => 65,
+    // ]);
 
     $CI->app_tabs->add_customer_profile_tab('tasks', [
         'name'     => _l('tasks'),
@@ -295,12 +311,12 @@ function app_init_customer_profile_tabs()
         'position' => 80,
     ]);
 
-    $CI->app_tabs->add_customer_profile_tab('vault', [
-        'name'     => _l('vault'),
-        'icon'     => 'fa fa-lock',
-        'view'     => 'admin/clients/groups/vault',
-        'position' => 85,
-    ]);
+    // $CI->app_tabs->add_customer_profile_tab('vault', [
+    //     'name'     => _l('vault'),
+    //     'icon'     => 'fa fa-lock',
+    //     'view'     => 'admin/clients/groups/vault',
+    //     'position' => 85,
+    // ]);
 
     $CI->app_tabs->add_customer_profile_tab('reminders', [
         'name'     => $remindersText,
@@ -803,7 +819,7 @@ function login_as_client($id)
 {
     $CI = &get_instance();
 
-    $CI->db->select(db_prefix() . 'contacts.id')
+    $CI->db->select(db_prefix() . 'contacts.id, active')
     ->where('userid', $id)
     ->where('is_primary', 1);
 
@@ -811,6 +827,9 @@ function login_as_client($id)
 
     if (!$primary) {
         set_alert('danger', _l('no_primary_contact'));
+        redirect($_SERVER['HTTP_REFERER']);
+    } else if($primary->active == '0') {
+        set_alert('danger', 'Customer primary contact is not active, please set the primary contact as active in order to login as client');
         redirect($_SERVER['HTTP_REFERER']);
     }
 

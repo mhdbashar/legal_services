@@ -41,13 +41,13 @@ function add_default_theme_menu_items()
                     'position' => 100,
                 ]);
     } else {
-        if (has_contact_permission('projects')) {
+        /*if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
                     'name'     => _l('clients_nav_projects'),
                     'href'     => site_url('clients/projects'),
                     'position' => 10,
                 ]);
-        }
+        }*/
         if (has_contact_permission('invoices')) {
             add_theme_menu_item('invoices', [
                     'name'     => _l('clients_nav_invoices'),
@@ -88,14 +88,6 @@ function add_default_theme_menu_items()
                     'name'     => _l('clients_nav_support'),
                     'href'     => site_url('clients/tickets'),
                     'position' => 45,
-                ]);
-        }
-
-        if (is_gdpr() && is_client_logged_in() && get_option('show_gdpr_in_customers_menu') == '1') {
-            add_theme_menu_item('gdpr', [
-                    'name'     => _l('gdpr_short'),
-                    'href'     => site_url('clients/gdpr'),
-                    'position' => 50,
                 ]);
         }
     }

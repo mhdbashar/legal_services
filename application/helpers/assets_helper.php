@@ -52,7 +52,7 @@ function _init_admin_assets()
     add_jquery_validation_js_assets();
 
     if (get_option('pusher_realtime_notifications') == 1) {
-        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/4.1/pusher.min.js');
+        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0/pusher.min.js');
     }
 
     add_dropbox_js_assets();
@@ -121,6 +121,14 @@ function add_favicon_link_asset($group = 'admin')
         'version'    => false,
         'attributes' => [
             'rel'  => 'shortcut icon',
+            'type' => false,
+        ],
+        ], $group);
+     get_instance()->app_css->add('favicon-apple-touch-icon', [
+        'path'       => 'uploads/company/' . $favIcon,
+        'version'    => false,
+        'attributes' => [
+            'rel'  => 'apple-touch-icon”',
             'type' => false,
         ],
         ], $group);

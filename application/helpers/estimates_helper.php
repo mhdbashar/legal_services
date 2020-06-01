@@ -76,7 +76,7 @@ function estimate_status_color_pdf($status_id)
         $statusColor = '255, 111, 0';
     }
 
-    return $statusColor;
+    return hooks()->apply_filters('estimate_status_pdf_color', $statusColor, $status_id);
 }
 
 /**
@@ -238,7 +238,7 @@ function get_estimates_percent_by_status($status, $project_id = null)
     $where               = '';
 
     if (isset($project_id)) {
-        $where .= 'project_id=' . $project_id . ' AND ';
+        $where .= 'project_id=' . get_instance()->db->escape_str($project_id) . ' AND ';
     }
     if (!$has_permission_view) {
         $where .= get_estimates_where_sql_for_staff(get_staff_user_id());
@@ -277,17 +277,18 @@ function get_estimates_percent_by_status($status, $project_id = null)
 
 function get_estimates_where_sql_for_staff($staff_id)
 {
+    $CI = &get_instance();
     $has_permission_view_own             = has_permission('estimates', '', 'view_own');
     $allow_staff_view_estimates_assigned = get_option('allow_staff_view_estimates_assigned');
     $whereUser                           = '';
     if ($has_permission_view_own) {
-        $whereUser = '(('.db_prefix().'estimates.addedfrom=' . $staff_id . ' AND '.db_prefix().'estimates.addedfrom IN (SELECT staff_id FROM '.db_prefix().'staff_permissions WHERE feature = "estimates" AND capability="view_own"))';
+        $whereUser = '(('.db_prefix().'estimates.addedfrom=' . $CI->db->escape_str($staff_id) . ' AND '.db_prefix().'estimates.addedfrom IN (SELECT staff_id FROM '.db_prefix().'staff_permissions WHERE feature = "estimates" AND capability="view_own"))';
         if ($allow_staff_view_estimates_assigned == 1) {
-            $whereUser .= ' OR sale_agent=' . $staff_id;
+            $whereUser .= ' OR sale_agent=' . $CI->db->escape_str($staff_id);
         }
         $whereUser .= ')';
     } else {
-        $whereUser .= 'sale_agent=' . $staff_id;
+        $whereUser .= 'sale_agent=' . $CI->db->escape_str($staff_id);
     }
 
     return $whereUser;

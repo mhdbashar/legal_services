@@ -59,9 +59,11 @@ class Invoices_model extends App_Model
         $this->db->select('*, ' . db_prefix() . 'currencies.id as currencyid, ' . db_prefix() . 'invoices.id as id, ' . db_prefix() . 'currencies.name as currency_name');
         $this->db->from(db_prefix() . 'invoices');
         $this->db->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency', 'left');
+        $this->db->where(db_prefix() . 'invoices' . '.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'invoices' . '.id', $id);
+            $this->db->where(db_prefix() . 'invoices' . '.deleted', 0);
             $invoice = $this->db->get()->row();
             if ($invoice) {
                 $invoice->total_left_to_pay = get_invoice_total_left_to_pay($invoice->id, $invoice->total);
@@ -92,9 +94,12 @@ class Invoices_model extends App_Model
 
                 $this->load->model('payments_model');
                 $invoice->payments = $this->payments_model->get_invoice_payments($id);
+
+                $this->load->model('email_schedule_model');
+                $invoice->scheduled_email = $this->email_schedule_model->get($id, 'invoice');
             }
 
-            return $invoice;
+            return hooks()->apply_filters('get_invoice', $invoice);
         }
 
         $this->db->order_by('number,YEAR(date)', 'desc');
@@ -116,6 +121,7 @@ class Invoices_model extends App_Model
             'status' => self::STATUS_CANCELLED,
             'sent'   => 1,
         ]);
+
         if ($this->db->affected_rows() > 0) {
             $this->log_invoice_activity($id, 'invoice_activity_marked_as_cancelled');
             hooks()->do_action('invoice_marked_as_cancelled', $id);
@@ -288,6 +294,9 @@ class Invoices_model extends App_Model
         if (isset($data['save_as_draft'])) {
             $data['status'] = self::STATUS_DRAFT;
             unset($data['save_as_draft']);
+        } elseif (isset($data['save_and_send_later'])) {
+            $data['status'] = self::STATUS_DRAFT;
+            unset($data['save_and_send_later']);
         }
 
         if (isset($data['recurring'])) {
@@ -1020,6 +1029,7 @@ class Invoices_model extends App_Model
         } else {
             $this->db->where('rel_id', $invoiceid);
         }
+
         $this->db->where('rel_type', 'invoice');
         $result = $this->db->get(db_prefix() . 'files');
         if (is_numeric($id)) {
@@ -1125,7 +1135,7 @@ class Invoices_model extends App_Model
             }
 
             $this->db->select('id');
-            $this->db->where('id IN (SELECT credit_id FROM ' . db_prefix() . 'credits WHERE invoice_id=' . $id . ')');
+            $this->db->where('id IN (SELECT credit_id FROM ' . db_prefix() . 'credits WHERE invoice_id=' . $this->db->escape_str($id) . ')');
             $linked_credit_notes = $this->db->get(db_prefix() . 'creditnotes')->result_array();
 
             $this->db->where('invoice_id', $id);
@@ -1154,7 +1164,7 @@ class Invoices_model extends App_Model
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'views_tracking');
 
-            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="invoice" AND rel_id="' . $id . '")');
+            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="invoice" AND rel_id="' . $this->db->escape_str($id) . '")');
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 
@@ -1259,6 +1269,10 @@ class Invoices_model extends App_Model
         if ($is_status_updated == false) {
             update_invoice_status($id, true);
         }
+
+        $this->db->where('rel_id', $id);
+        $this->db->where('rel_type', 'invoice');
+        $this->db->delete('scheduled_emails');
 
         $this->log_invoice_activity($id, $description, false, $additional_activity_data);
 
@@ -1365,16 +1379,20 @@ class Invoices_model extends App_Model
             } else {
                 $template_name = 'invoice_send_to_customer_already_sent';
             }
+
             $template_name = hooks()->apply_filters('after_invoice_sent_template_statement', $template_name);
         }
-        $invoice_number = format_invoice_number($invoice->id);
 
-        $emails_sent = [];
-        $sent        = false;
-        $sent_to     = [];
+        $invoice_number = format_invoice_number($invoice->id);
+        $emails_sent    = [];
+        $sent           = false;
+        $sent_to        = [];
+
         // Manually is used when sending the invoice via add/edit area button Save & Send
         if (!DEFINED('CRON') && $manually === false) {
             $sent_to = $this->input->post('sent_to');
+        } elseif (isset($GLOBALS['scheduled_email_contacts'])) {
+            $sent_to = $GLOBALS['scheduled_email_contacts'];
         } else {
             $contacts = $this->clients_model->get_contacts($invoice->clientid, ['active' => 1, 'invoice_emails' => 1]);
 
@@ -1414,6 +1432,10 @@ class Invoices_model extends App_Model
 
                     $contact = $this->clients_model->get_contact($contact_id);
 
+                    if (!$contact) {
+                        continue;
+                    }
+
                     $template = mail_template($template_name, $invoice, $contact, $cc);
 
                     if ($attachpdf) {
@@ -1449,6 +1471,7 @@ class Invoices_model extends App_Model
 
             return true;
         }
+
         // In case the invoice not sended and the status was draft and the invoice status is updated before send return back to draft status
         if ($invoice->status == self::STATUS_DRAFT && $status_updated !== false) {
             $this->db->where('id', $invoice->id);

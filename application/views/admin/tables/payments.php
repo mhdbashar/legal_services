@@ -23,7 +23,7 @@ $join = [
 
 $where = [];
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'clients.userid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'clients.userid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('payments', '', 'view')) {

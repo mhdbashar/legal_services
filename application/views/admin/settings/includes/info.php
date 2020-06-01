@@ -327,7 +327,7 @@
 			<td class="bold">CSRF Enabled</td>
 			<td>
 				<?php
-				echo defined('APP_CSRF_PROTECTION') && defined('APP_CSRF_PROTECTION') ? 'Yes' : 'No';
+				echo $this->config->item('csrf_protection') ? 'Yes' : 'No';
 				?>
 			</td>
 		</tr>
@@ -392,6 +392,14 @@
 			<td>
 				<?php
 					echo FCPATH;
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td class="bold">Temp DIR (get_temp_dir())</td>
+			<td>
+				<?php
+					echo get_temp_dir();
 				?>
 			</td>
 		</tr>

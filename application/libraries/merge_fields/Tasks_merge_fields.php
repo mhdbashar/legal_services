@@ -8,21 +8,21 @@ class Tasks_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => 'Staff/Contact who take action on task',
+                    'name'      => _l('staff_contact_who_take_action_on_task'),
                     'key'       => '{task_user_take_action}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Link',
+                    'name'      => _l('task_link'),
                     'key'       => '{task_link}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Comment Link',
+                    'name'      => _l('comment_link'),
                     'key'       => '{comment_link}',
                     'available' => [
                     ],
@@ -32,28 +32,28 @@ class Tasks_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Task Name',
+                    'name'      => _l('task_name'),
                     'key'       => '{task_name}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Description',
+                    'name'      => _l('task_description'),
                     'key'       => '{task_description}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Status',
+                    'name'      => _l('task_status'),
                     'key'       => '{task_status}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Comment',
+                    'name'      => _l('task_comment'),
                     'key'       => '{task_comment}',
                     'available' => [
 
@@ -64,28 +64,28 @@ class Tasks_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Task Priority',
+                    'name'      => _l('task_priority'),
                     'key'       => '{task_priority}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Start Date',
+                    'name'      => _l('task_start_date'),
                     'key'       => '{task_startdate}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Task Due Date',
+                    'name'      => _l('task_due_date'),
                     'key'       => '{task_duedate}',
                     'available' => [
                         'tasks',
                     ],
                 ],
                 [
-                    'name'      => 'Related to',
+                    'name'      => _l('related_to'),
                     'key'       => '{task_related}',
                     'available' => [
                         'tasks',

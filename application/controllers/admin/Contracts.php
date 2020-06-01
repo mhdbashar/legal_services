@@ -69,7 +69,7 @@ class Contracts extends AdminController
         } else {
             $data['contract']                 = $this->contracts_model->get($id, [], true);
             $data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
-            $data['totalNotes']               = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
+            $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
             if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
                 blank_page(_l('contract_not_found'));
             }
@@ -97,6 +97,28 @@ class Contracts extends AdminController
     {
         $name = $this->input->get('name');
         echo $this->load->view('admin/contracts/templates/' . $name, [], true);
+    }
+
+    public function mark_as_signed($id)
+    {
+        if (!staff_can('edit', 'contracts')) {
+            access_denied('mark contract as signed');
+        }
+
+        $this->contracts_model->mark_as_signed($id);
+
+        redirect(admin_url('contracts/contract/' . $id));
+    }
+
+    public function unmark_as_signed($id)
+    {
+        if (!staff_can('edit', 'contracts')) {
+            access_denied('mark contract as signed');
+        }
+
+        $this->contracts_model->unmark_as_signed($id);
+
+        redirect(admin_url('contracts/contract/' . $id));
     }
 
     public function pdf($id)
@@ -172,7 +194,7 @@ class Contracts extends AdminController
 
     public function save_contract_data()
     {
-        if (!has_permission('contracts', '', 'edit') && !has_permission('contracts', '', 'create')) {
+        if (!has_permission('contracts', '', 'edit')) {
             header('HTTP/1.0 400 Bad error');
             echo json_encode([
                 'success' => false,
@@ -185,8 +207,8 @@ class Contracts extends AdminController
         $message = '';
 
         $this->db->where('id', $this->input->post('contract_id'));
-        $this->db->update(db_prefix().'contracts', [
-                'content' => $this->input->post('content', false),
+        $this->db->update(db_prefix() . 'contracts', [
+                'content' => html_purify($this->input->post('content', false)),
         ]);
 
         $success = $this->db->affected_rows() > 0;
@@ -226,7 +248,7 @@ class Contracts extends AdminController
     public function remove_comment($id)
     {
         $this->db->where('id', $id);
-        $comment = $this->db->get(db_prefix().'contract_comments')->row();
+        $comment = $this->db->get(db_prefix() . 'contract_comments')->row();
         if ($comment) {
             if ($comment->staffid != get_staff_user_id() && !is_admin()) {
                 echo json_encode([

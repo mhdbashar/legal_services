@@ -352,7 +352,7 @@ function get_client_id_by_project_id($id)
  */
 function customer_has_projects($customer_id)
 {
-    $totalCustomerProjects = total_rows(db_prefix() . 'projects', 'clientid=' . $customer_id);
+    $totalCustomerProjects = total_rows(db_prefix() . 'projects', 'clientid=' . get_instance()->db->escape_str($customer_id));
 
     return ($totalCustomerProjects > 0 ? true : false);
 }
@@ -428,7 +428,7 @@ function get_project_discussions_language_array()
  */
 function project_has_recurring_tasks($id)
 {
-    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project"') > 0;
+    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . get_instance()->db->escape_str($id) . '" AND rel_type="project"') > 0;
 }
 
 function total_project_tasks_by_milestone($milestone_id, $project_id)

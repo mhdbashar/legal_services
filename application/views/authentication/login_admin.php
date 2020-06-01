@@ -20,6 +20,9 @@
       <div class="form-group">
         <label for="password" class="control-label"><?php echo _l('admin_auth_login_password'); ?></label>
         <input type="password" id="password" name="password" class="form-control"></div>
+        <?php if(get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != ''){ ?>
+        <div class="g-recaptcha" data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
+        <?php } ?>
         <div class="checkbox">
           <label for="remember">
            <input type="checkbox" id="remember" name="remember"> <?php echo _l('admin_auth_login_remember_me'); ?>
@@ -31,9 +34,7 @@
       <div class="form-group">
         <a href="<?php echo admin_url('authentication/forgot_password'); ?>"><?php echo _l('admin_auth_login_fp'); ?></a>
       </div>
-      <?php if(get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != ''){ ?>
-      <div class="g-recaptcha" data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
-      <?php } ?>
+
       <?php hooks()->do_action('before_admin_login_form_close'); ?>
       <?php echo form_close(); ?>
     </div>

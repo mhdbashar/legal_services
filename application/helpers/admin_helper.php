@@ -127,6 +127,7 @@ function staff_can($capability, $feature = null, $staff_id = '')
         if (!class_exists('staff_model', false)) {
             $CI->load->model('staff_model');
         }
+
         $permissions = $CI->staff_model->get_staff_permissions($staff_id);
     }
 
@@ -511,10 +512,14 @@ function _maybe_system_setup_warnings()
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\DevelopmentEnvironment'), 'check']);
     // Check if cron is required to be configured for some features
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\IsCronSetupRequired'), 'check']);
+    // Base url check for https
+    hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\IsBaseUrlChangeRequired'), 'check']);
     // Check if timezone is set
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\Timezone'), 'check']);
     // Notice for cloudflare rocket loader
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\CloudFlare'), 'check']);
+    // Php version notice, version 2.4.1
+    hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\PhpVersionNotice'), 'check']);
     // Notice for iconv extension
     hooks()->add_action('before_start_render_dashboard_content', [new Message('app\services\messages\Iconv'), 'check']);
     // Check if there is dot in database name, causing problem on upgrade

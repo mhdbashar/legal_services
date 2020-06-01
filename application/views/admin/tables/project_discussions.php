@@ -10,7 +10,7 @@ $aColumns = [
     ];
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'projectdiscussions';
-$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], ['AND project_id=' . $project_id], [
+$result       = data_tables_init($aColumns, $sIndexColumn, $sTable, [], ['AND project_id=' . $this->ci->db->escape_str($project_id)], [
     'id',
     'description',
     ]);

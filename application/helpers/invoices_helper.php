@@ -197,7 +197,7 @@ function invoice_status_color_pdf($status_id)
         $statusColor = '114, 123, 144';
     }
 
-    return $statusColor;
+    return hooks()->apply_filters('invoice_status_pdf_color', $statusColor, $status_id);
 }
 
 /**
@@ -550,7 +550,8 @@ function load_invoices_total_template()
 
     $data['invoices_years'] = $CI->invoices_model->get_invoices_years();
 
-    if (count($data['invoices_years']) >= 1 && $data['invoices_years'][0]['year'] != date('Y')) {
+    if (count($data['invoices_years']) >= 1
+        && !\app\services\utilities\Arr::inMultidimensional($data['invoices_years'], 'year', date('Y'))) {
         array_unshift($data['invoices_years'], ['year' => date('Y')]);
     }
 
@@ -562,17 +563,18 @@ function load_invoices_total_template()
 
 function get_invoices_where_sql_for_staff($staff_id)
 {
+    $CI                                 = &get_instance();
     $has_permission_view_own            = has_permission('invoices', '', 'view_own');
     $allow_staff_view_invoices_assigned = get_option('allow_staff_view_invoices_assigned');
     $whereUser                          = '';
     if ($has_permission_view_own) {
-        $whereUser = '((' . db_prefix() . 'invoices.addedfrom=' . $staff_id . ' AND ' . db_prefix() . 'invoices.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "invoices" AND capability="view_own"))';
+        $whereUser = '((' . db_prefix() . 'invoices.addedfrom=' . $CI->db->escape_str($staff_id) . ' AND ' . db_prefix() . 'invoices.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "invoices" AND capability="view_own"))';
         if ($allow_staff_view_invoices_assigned == 1) {
-            $whereUser .= ' OR sale_agent=' . $staff_id;
+            $whereUser .= ' OR sale_agent=' . $CI->db->escape_str($staff_id);
         }
         $whereUser .= ')';
     } else {
-        $whereUser .= 'sale_agent=' . $staff_id;
+        $whereUser .= 'sale_agent=' . $CI->db->escape_str($staff_id);
     }
 
     return $whereUser;

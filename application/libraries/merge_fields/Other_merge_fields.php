@@ -26,61 +26,63 @@ class Other_merge_fields extends App_merge_fields
 
         return [
                 [
-                    'name'        => 'Logo URL',
+                    'name'        => _l('logo_url'),
                     'key'         => '{logo_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Logo image with URL',
+                    'name'        => _l('logo_image_with_url'),
                     'key'         => '{logo_image_with_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Dark logo image with URL',
+                    'name'        => _l('dark_logo_image_with_url'),
                     'key'         => '{dark_logo_image_with_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'CRM URL',
+                    'name'        => _l('crm_url'),
                     'key'         => '{crm_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Admin URL',
+                    'name'        => _l('admin_url'),
                     'key'         => '{admin_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Main Domain',
+                    'name'        => _l('main_domain'),
                     'key'         => '{main_domain}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Company Name',
+                    'name'        => _l('companyname'),
                     'key'         => '{companyname}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Email Signature',
+                    'name'        => _l('email_signature'),
                     'key'         => '{email_signature}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Terms & Conditions URL',
+                    //(GDPR) Terms & Conditions URL
+                    'name'        => _l('terms_and_conditions_url'),
                     'key'         => '{terms_and_conditions_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => 'Privacy Policy URL',
+                    //(GDPR) Privacy Policy URL
+                    'name'        => _l('privacy_policy_url'),
                     'key'         => '{privacy_policy_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
@@ -102,7 +104,7 @@ class Other_merge_fields extends App_merge_fields
             $fields['{dark_logo_image_with_url}'] = '<a href="' . site_url() . '" target="_blank"><img src="' . base_url('uploads/company/' . get_option('company_logo_dark')) . '"' . ($logo_width != '' ? ' width="' . $logo_width . '"' : '') . '></a>';
         }
 
-        $fields['{crm_url}']     = site_url();
+        $fields['{crm_url}']     = rtrim(site_url(), '/');
         $fields['{admin_url}']   = admin_url();
         $fields['{main_domain}'] = get_option('main_domain');
         $fields['{companyname}'] = get_option('companyname');
@@ -117,6 +119,10 @@ class Other_merge_fields extends App_merge_fields
             } else {
                 $fields['{email_signature}'] = $signature;
             }
+        }
+
+        if(!is_html($fields['{email_signature}'])) {
+            $fields['{email_signature}'] = nl2br($fields['{email_signature}']);
         }
 
         $fields['{terms_and_conditions_url}'] = terms_url();

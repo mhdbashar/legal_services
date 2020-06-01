@@ -129,14 +129,19 @@ function get_acceptance_info_array($empty = false)
 function get_form_accepted_mimes()
 {
     $allowed_extensions  = get_option('allowed_files');
-    $_allowed_extensions = explode(',', $allowed_extensions);
-    $all_form_ext        = '';
-    $CI                  = &get_instance();
+    $_allowed_extensions = array_map(function ($ext) {
+        return trim($ext);
+    }, explode(',', $allowed_extensions));
+
+    $all_form_ext = '';
+    $CI           = &get_instance();
+
     // Chrome doing conflict when the regular extensions are appended to the accept attribute which cause top popup
     // to select file to stop opening
     if ($CI->agent->browser() != 'Chrome') {
-        $all_form_ext .= $allowed_extensions;
+        $all_form_ext .= str_replace([' '], '', $allowed_extensions);
     }
+
     if (is_array($_allowed_extensions)) {
         if ($all_form_ext != '') {
             $all_form_ext .= ', ';
@@ -308,7 +313,7 @@ function _prepare_items_array_for_export($items, $type)
  * @param  array   $where
  * @return array
  */
-function get_all_knowledge_base_articles_grouped($only_customers = true, $where = [])
+function get_all_knowledge_base_articles_grouped($only_customers = true, $where = [], $q = null)
 {
     $CI = & get_instance();
     $CI->load->model('knowledge_base_model');
@@ -319,18 +324,29 @@ function get_all_knowledge_base_articles_grouped($only_customers = true, $where 
         $CI->db->from(db_prefix() . 'knowledge_base');
         $CI->db->where('articlegroup', $group['groupid']);
         $CI->db->where('active', 1);
+
         if ($only_customers == true) {
             $CI->db->where('staff_article', 0);
         }
+
+        if (!empty($q)) {
+            $CI->db->group_start();
+            $CI->db->like('subject', $q);
+            $CI->db->or_like('description', $q);
+            $CI->db->group_end();
+        }
+
         $CI->db->where($where);
         $CI->db->order_by('article_order', 'asc');
         $articles = $CI->db->get()->result_array();
+
         if (count($articles) == 0) {
             unset($groups[$i]);
             $i++;
 
             continue;
         }
+
         $groups[$i]['articles'] = $articles;
         $i++;
     }
@@ -393,7 +409,7 @@ function app_set_update_message_info($version)
     update_option('update_info_message', '
         <div class="col-md-12">
             <div class="alert alert-success bold">
-                <h4 class="bold">Hi! Thanks for updating Perfex CRM - You are using version ' . wordwrap($version, 1, '.', true) . '</h4>
+                <h4 class="bold">Hi! Thanks for updating babillawnet CRM - You are using version ' . wordwrap($version, 1, '.', true) . '</h4>
                 <p>
                    This window will reload automaticaly in 10 seconds and will try to clear your browser/cloudflare cache, however its recomended to clear your browser cache manually.
                 </p>

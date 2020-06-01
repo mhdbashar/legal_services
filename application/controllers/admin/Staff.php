@@ -26,12 +26,24 @@ class Staff extends AdminController
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
+        $this->load->model('Branches_model');
         $this->load->model('departments_model');
+
         if ($this->input->post()) {
             $data = $this->input->post();
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+
+                unset($data['branch_id']);
+            }
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
+
+            if ($data['email_signature'] == strip_tags($data['email_signature'])) {
+                // not contains HTML, add break lines
+                $data['email_signature'] = nl2br_save_html($data['email_signature']);
+            }
 
             $data['password'] = $this->input->post('password', false);
 
@@ -41,6 +53,18 @@ class Staff extends AdminController
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
+
+                    if($this->app_modules->is_active('branches')){
+                        if(is_numeric($branch_id)){
+                            $data = [
+                                'branch_id' => $branch_id, 
+                                'rel_type' => 'staff', 
+                                'rel_id' => $id
+                            ];
+                            $this->Branches_model->set_branch($data);
+                        }
+                    }
+
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
@@ -48,6 +72,13 @@ class Staff extends AdminController
             } else {
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
+                }
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }
                 }
                 handle_staff_profile_image_upload($id);
                 $response = $this->staff_model->update($data, $id);
@@ -86,6 +117,13 @@ class Staff extends AdminController
                 $ts_filter_data['this_month'] = true;
             }
 
+            if($this->app_modules->is_active('branches')) {
+                $ci = &get_instance();
+                $ci->load->model('branches/Branches_model');
+                $data['branches'] = $ci->Branches_model->getBranches();
+                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
+            }
+
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
         }
@@ -95,6 +133,8 @@ class Staff extends AdminController
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
+        if($this->app_modules->is_active('branches'))
+            $data['branches'] = $this->Branches_model->getBranches();
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -186,12 +226,14 @@ class Staff extends AdminController
         if (!is_admin() && is_admin($this->input->post('id'))) {
             die('Busted, you can\'t delete administrators');
         }
+
         if (has_permission('staff', '', 'delete')) {
             $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
             if ($success) {
                 set_alert('success', _l('deleted', _l('staff_member')));
             }
         }
+
         redirect(admin_url('staff'));
     }
 
@@ -204,7 +246,13 @@ class Staff extends AdminController
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
-            $success                 = $this->staff_model->update_profile($data, get_staff_user_id());
+
+            if ($data['email_signature'] == strip_tags($data['email_signature'])) {
+                // not contains HTML, add break lines
+                $data['email_signature'] = nl2br_save_html($data['email_signature']);
+            }
+
+            $success = $this->staff_model->update_profile($data, get_staff_user_id());
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
             }
@@ -223,7 +271,7 @@ class Staff extends AdminController
     public function remove_staff_profile_image($id = '')
     {
         $staff_id = get_staff_user_id();
-        if (is_numeric($id) && (has_permission('staff', '', 'create') || has_permission('staff', '', 'edot'))) {
+        if (is_numeric($id) && (has_permission('staff', '', 'create') || has_permission('staff', '', 'edit'))) {
             $staff_id = $id;
         }
         hooks()->do_action('before_remove_staff_profile_image');

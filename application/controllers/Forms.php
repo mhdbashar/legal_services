@@ -26,6 +26,10 @@ class Forms extends ClientsController
             show_404();
         }
 
+        // Change the locale so the validation loader function can load
+        // the proper localization file
+        $GLOBALS['locale'] = get_locale_key($form->language);
+
         $data['form_fields'] = json_decode($form->form_data);
         if (!$data['form_fields']) {
             $data['form_fields'] = [];
@@ -45,6 +49,9 @@ class Forms extends ClientsController
                 }
 
                 foreach ($required as $field) {
+                    if ($field == 'file-input') {
+                        continue;
+                    }
                     if (!isset($post_data[$field]) || isset($post_data[$field]) && empty($post_data[$field])) {
                         $this->output->set_status_header(422);
                         die;
@@ -76,7 +83,7 @@ class Forms extends ClientsController
                             'value' => $val,
                             ]);
                     } else {
-                        if ($this->db->field_exists($name, db_prefix().'leads')) {
+                        if ($this->db->field_exists($name, db_prefix() . 'leads')) {
                             if ($name == 'country') {
                                 if (!is_numeric($val)) {
                                     if ($val == '') {
@@ -85,7 +92,7 @@ class Forms extends ClientsController
                                         $this->db->where('iso2', $val);
                                         $this->db->or_where('short_name', $val);
                                         $this->db->or_where('long_name', $val);
-                                        $country = $this->db->get(db_prefix().'countries')->row();
+                                        $country = $this->db->get(db_prefix() . 'countries')->row();
                                         if ($country) {
                                             $val = $country->country_id;
                                         } else {
@@ -115,7 +122,7 @@ class Forms extends ClientsController
                     }
 
                     if (count($where) > 0) {
-                        $total = total_rows(db_prefix().'leads', $where);
+                        $total = total_rows(db_prefix() . 'leads', $where);
 
                         $duplicateLead = false;
                         /**
@@ -125,7 +132,7 @@ class Forms extends ClientsController
                          */
                         if ($total == 1) {
                             $this->db->where($where);
-                            $duplicateLead = $this->db->get(db_prefix().'leads')->row();
+                            $duplicateLead = $this->db->get(db_prefix() . 'leads')->row();
                         }
 
                         if ($total > 0) {
@@ -190,7 +197,7 @@ class Forms extends ClientsController
                                     ];
 
                                 $task_data = hooks()->apply_filters('before_add_task', $task_data);
-                                $this->db->insert(db_prefix().'tasks', $task_data);
+                                $this->db->insert(db_prefix() . 'tasks', $task_data);
                                 $task_id = $this->db->insert_id();
                                 if ($task_id) {
                                     $attachment = handle_task_attachments_array($task_id, 'file-input');
@@ -227,7 +234,7 @@ class Forms extends ClientsController
                     $regular_fields['dateadded']    = date('Y-m-d H:i:s');
                     $regular_fields['from_form_id'] = $form->id;
                     $regular_fields['is_public']    = $form->mark_public;
-                    $this->db->insert(db_prefix().'leads', $regular_fields);
+                    $this->db->insert(db_prefix() . 'leads', $regular_fields);
                     $lead_id = $this->db->insert_id();
 
                     hooks()->do_action('lead_created', [
@@ -249,8 +256,10 @@ class Forms extends ClientsController
                             $custom_fields_build['leads'][$cf_id] = $cf['value'];
                         }
 
-                        $this->leads_model->lead_assigned_member_notification($lead_id, $form->responsible, true);
                         handle_custom_fields_post($lead_id, $custom_fields_build);
+
+                        $this->leads_model->lead_assigned_member_notification($lead_id, $form->responsible, true);
+
                         handle_lead_attachments($lead_id, 'file-input', $form->name);
 
                         if ($form->notify_lead_imported != 0) {
@@ -269,7 +278,7 @@ class Forms extends ClientsController
                             if ($to_responsible == false && is_array($ids) && count($ids) > 0) {
                                 $this->db->where('active', 1);
                                 $this->db->where_in($field, $ids);
-                                $staff = $this->db->get(db_prefix().'staff')->result_array();
+                                $staff = $this->db->get(db_prefix() . 'staff')->result_array();
                             } else {
                                 $staff = [
                                             [
@@ -371,13 +380,75 @@ class Forms extends ClientsController
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        $lead->attachments    = $this->leads_model->get_lead_attachments($lead->id);
+        $lead->attachments = $this->leads_model->get_lead_attachments($lead->id);
         $this->disableNavigation();
         $this->disableSubMenu();
-        $data['title']        = $lead->name;
-        $data['lead']         = $lead;
+        $data['title'] = $lead->name;
+        $data['lead']  = $lead;
         $this->view('forms/lead');
         $this->data($data);
+        $this->layout(true);
+    }
+
+    public function public_ticket($key)
+    {
+        $this->load->model('tickets_model');
+
+        if (strlen($key) != 32) {
+            show_error('Invalid ticket key.');
+        }
+
+        $ticket = $this->tickets_model->get_ticket_by_id($key);
+
+        if (!$ticket) {
+            show_404();
+        }
+
+        if (!is_client_logged_in() && $ticket->userid) {
+            load_client_language($ticket->userid);
+        }
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('message', _l('ticket_reply'), 'required');
+
+            if ($this->form_validation->run() !== false) {
+                $replyData = ['message' => $this->input->post('message')];
+
+                if ($ticket->userid && $ticket->contactid) {
+                    $replyData['userid']    = $ticket->userid;
+                    $replyData['contactid'] = $ticket->contactid;
+                } else {
+                    $replyData['name']  = $ticket->from_name;
+                    $replyData['email'] = $ticket->ticket_email;
+                }
+
+                $replyid = $this->tickets_model->add_reply($replyData, $ticket->ticketid);
+
+                if ($replyid) {
+                    set_alert('success', _l('replied_to_ticket_successfully', $ticket->ticketid));
+                }
+
+                redirect(get_ticket_public_url($ticket));
+            }
+        }
+
+        $data['title']          = $ticket->subject;
+        $data['ticket_replies'] = $this->tickets_model->get_ticket_replies($ticket->ticketid);
+        $data['ticket']         = $ticket;
+        hooks()->add_action('app_customers_footer', 'ticket_public_form_customers_footer');
+        $data['single_ticket_view'] = $this->load->view($this->createThemeViewPath('single_ticket'), $data, true);
+
+        $navigationDisabled = hooks()->apply_filters('disable_navigation_on_public_ticket_view', true);
+        if($navigationDisabled) {
+            $this->disableNavigation();
+        }
+
+        $this->disableSubMenu();
+
+        $this->data($data);
+
+        $this->view('forms/public_ticket');
+        no_index_customers_area();
         $this->layout(true);
     }
 
@@ -440,7 +511,7 @@ class Forms extends ClientsController
             $success = false;
 
             $this->db->where('email', $post_data['email']);
-            $result = $this->db->get(db_prefix().'contacts')->row();
+            $result = $this->db->get(db_prefix() . 'contacts')->row();
 
             if ($result) {
                 $post_data['userid']    = $result->userid;

@@ -1,5 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -50,27 +51,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |       my-controller/my-method -> my_controller/my_method
 */
 
-$route['default_controller'] = 'clients';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['default_controller']   = 'clients';
+$route['404_override']         = '';
+$route['translate_uri_dashes'] = false;
 
 /**
  * Dashboard clean route
  */
-$route['admin']  = "admin/dashboard";
+$route['admin'] = 'admin/dashboard';
 
 /**
  * Misc controller routes
  */
-$route['admin/access_denied']  = "admin/misc/access_denied";
-$route['admin/not_found']  = "admin/misc/not_found";
+$route['admin/access_denied'] = 'admin/misc/access_denied';
+$route['admin/not_found']     = 'admin/misc/not_found';
 
 /**
  * Staff Routes
  */
-$route['admin/profile']  = "admin/staff/profile";
-$route['admin/profile/(:num)']  = "admin/staff/profile/$1";
-$route['admin/tasks/view/(:any)']  = "admin/tasks/index/$1";
+$route['admin/profile']           = 'admin/staff/profile';
+$route['admin/profile/(:num)']    = 'admin/staff/profile/$1';
+$route['admin/tasks/view/(:any)'] = 'admin/tasks/index/$1';
 
 /**
  * Items search rewrite
@@ -80,90 +81,97 @@ $route['admin/items/search'] = 'admin/invoice_items/search';
 /**
  * In case if client access directly to url without the arguments redirect to clients url
  */
-$route['/']  = "clients";
+$route['/'] = 'clients';
 
 /**
  * @deprecated
  */
-$route['viewinvoice/(:num)/(:any)']  = "invoice/index/$1/$2";
+$route['viewinvoice/(:num)/(:any)'] = 'invoice/index/$1/$2';
 
 /**
  * @since 2.0.0
  */
-$route['invoice/(:num)/(:any)']  = "invoice/index/$1/$2";
+$route['invoice/(:num)/(:any)'] = 'invoice/index/$1/$2';
 
 /**
  * @deprecated
  */
-$route['viewestimate/(:num)/(:any)']  = "estimate/index/$1/$2";
+$route['viewestimate/(:num)/(:any)'] = 'estimate/index/$1/$2';
 
 /**
  * @since 2.0.0
  */
-$route['estimate/(:num)/(:any)']  = "estimate/index/$1/$2";
-$route['subscription/(:any)']  = "subscription/index/$1";
+$route['estimate/(:num)/(:any)'] = 'estimate/index/$1/$2';
+$route['subscription/(:any)']    = 'subscription/index/$1';
 
 /**
  * @deprecated
  */
-$route['viewproposal/(:num)/(:any)']  = "proposal/index/$1/$2";
+$route['viewproposal/(:num)/(:any)'] = 'proposal/index/$1/$2';
 
 /**
  * @since 2.0.0
  */
-$route['proposal/(:num)/(:any)']  = "proposal/index/$1/$2";
+$route['proposal/(:num)/(:any)'] = 'proposal/index/$1/$2';
 
 /**
  * @since 2.0.0
  */
-$route['contract/(:num)/(:any)']  = "contract/index/$1/$2";
-
-// For backward compatilibilty
-$route['survey/(:num)/(:any)']  = "surveys/participate/index/$1/$2";
+$route['contract/(:num)/(:any)'] = 'contract/index/$1/$2';
 
 /**
  * @since 2.0.0
  */
-$route['knowledge-base']  = "knowledge_base/index";
-$route['knowledge-base/search']  = "knowledge_base/search";
-$route['knowledge-base/article']  = "knowledge_base/index";
-$route['knowledge-base/article/(:any)']  = "knowledge_base/article/$1";
-$route['knowledge-base/category']  = "knowledge_base/index";
-$route['knowledge-base/category/(:any)']  = "knowledge_base/category/$1";
+$route['knowledge-base']                 = 'knowledge_base/index';
+$route['knowledge-base/search']          = 'knowledge_base/search';
+$route['knowledge-base/article']         = 'knowledge_base/index';
+$route['knowledge-base/article/(:any)']  = 'knowledge_base/article/$1';
+$route['knowledge-base/category']        = 'knowledge_base/index';
+$route['knowledge-base/category/(:any)'] = 'knowledge_base/category/$1';
 
 /**
  * @deprecated 2.2.0
  */
-if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'],'add_kb_answer') === false) {
-    $route['knowledge-base/(:any)']  = "knowledge_base/article/$1";
-    $route['knowledge_base/(:any)']  = "knowledge_base/article/$1";
-    $route['clients/knowledge_base/(:any)']  = "knowledge_base/article/$1";
-    $route['clients/knowledge-base/(:any)']  = "knowledge_base/article/$1";
+if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'add_kb_answer') === false) {
+    $route['knowledge-base/(:any)']         = 'knowledge_base/article/$1';
+    $route['knowledge_base/(:any)']         = 'knowledge_base/article/$1';
+    $route['clients/knowledge_base/(:any)'] = 'knowledge_base/article/$1';
+    $route['clients/knowledge-base/(:any)'] = 'knowledge_base/article/$1';
 }
 
 /**
  * @deprecated 2.2.0
  * Fallback for auth clients area, changed in version 2.2.0
  */
-$route['clients/reset_password'] = 'authentication/reset_password';
+$route['clients/reset_password']  = 'authentication/reset_password';
 $route['clients/forgot_password'] = 'authentication/forgot_password';
-$route['clients/logout'] = 'authentication/logout';
-$route['clients/register'] = 'authentication/register';
-$route['clients/login'] = 'authentication/login';
+$route['clients/logout']          = 'authentication/logout';
+$route['clients/register']        = 'authentication/register';
+$route['clients/login']           = 'authentication/login';
+
+// Aliases for short routes
+$route['reset_password']  = 'authentication/reset_password';
+$route['forgot_password'] = 'authentication/forgot_password';
+$route['login']           = 'authentication/login';
+$route['logout']          = 'authentication/logout';
+$route['register']        = 'authentication/register';
 
 /**
  * Terms and conditions and Privacy Policy routes
  */
-$route['terms-and-conditions']  = "terms_and_conditions";
-$route['privacy-policy']  = "privacy_policy";
+$route['terms-and-conditions'] = 'terms_and_conditions';
+$route['privacy-policy']       = 'privacy_policy';
 
 /**
  * @since 2.3.0
  * Routes for admin/modules URL because Modules.php class is used in application/third_party/MX
  */
-$route['admin/modules']  = "admin/mods";
-$route['admin/modules/(:any)']  = "admin/mods/$1";
-$route['admin/modules/(:any)/(:any)']  = "admin/mods/$1/$2";
+$route['admin/modules']               = 'admin/mods';
+$route['admin/modules/(:any)']        = 'admin/mods/$1';
+$route['admin/modules/(:any)/(:any)'] = 'admin/mods/$1/$2';
+
+// Public single ticket route
+$route['forms/tickets/(:any)'] = 'forms/public_ticket/$1';
 
 /**
  * @since  2.3.0
@@ -173,8 +181,6 @@ $route['admin/modules/(:any)/(:any)']  = "admin/mods/$1/$2";
  */
 $route['authentication/set_password/(:num)/(:num)/(:any)'] = 'admin/authentication/set_password/$1/$2/$3';
 
-if(file_exists(APPPATH.'config/my_routes.php')){
-    include_once(APPPATH.'config/my_routes.php');
+if (file_exists(APPPATH . 'config/my_routes.php')) {
+    include_once(APPPATH . 'config/my_routes.php');
 }
-
-

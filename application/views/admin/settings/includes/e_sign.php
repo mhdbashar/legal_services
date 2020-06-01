@@ -6,3 +6,4 @@
 <?php render_yes_no_option('estimate_accept_identity_confirmation','accept_identity_confirmation_and_signature_sign'); ?>
 <hr />
 <?php echo render_textarea('settings[e_sign_legal_text]','legal_bound_text',get_option('e_sign_legal_text')); ?>
+<?php hooks()->do_action('after_settings_e_sign_fields'); ?>

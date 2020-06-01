@@ -30,12 +30,12 @@ class Statement_model extends App_Model
         concat(' . db_prefix() . 'invoices.date, \' \', RIGHT(' . db_prefix() . 'invoices.datecreated,LOCATE(\' \',' . db_prefix() . 'invoices.datecreated) - 3)) as tmp_date,
         ' . db_prefix() . 'invoices.duedate as duedate,
         ' . db_prefix() . 'invoices.total as invoice_amount
-        FROM ' . db_prefix() . 'invoices WHERE clientid =' . $customer_id;
+        FROM ' . db_prefix() . 'invoices WHERE clientid =' . $this->db->escape_str($customer_id);
 
         if ($from == $to) {
-            $sqlDate = 'date="' . $from . '"';
+            $sqlDate = 'date="' . $this->db->escape_str($from) . '"';
         } else {
-            $sqlDate = '(date BETWEEN "' . $from . '" AND "' . $to . '")';
+            $sqlDate = '(date BETWEEN "' . $this->db->escape_str($from) . '" AND "' . $this->db->escape_str($to) . '")';
         }
 
         $sql .= ' AND ' . $sqlDate;
@@ -51,7 +51,7 @@ class Statement_model extends App_Model
         ' . db_prefix() . 'creditnotes.date as date,
         concat(' . db_prefix() . 'creditnotes.date, \' \', RIGHT(' . db_prefix() . 'creditnotes.datecreated,LOCATE(\' \',' . db_prefix() . 'creditnotes.datecreated) - 3)) as tmp_date,
         ' . db_prefix() . 'creditnotes.total as credit_note_amount
-        FROM ' . db_prefix() . 'creditnotes WHERE clientid =' . $customer_id . ' AND status != 3';
+        FROM ' . db_prefix() . 'creditnotes WHERE clientid =' . $this->db->escape_str($customer_id) . ' AND status != 3';
 
         $sql_credit_notes .= ' AND ' . $sqlDate;
 
@@ -70,7 +70,7 @@ class Statement_model extends App_Model
         ';
 
         $sql_credits_applied .= '
-        WHERE clientid =' . $customer_id;
+        WHERE clientid =' . $this->db->escape_str($customer_id);
 
         $sqlDateCreditsAplied = str_replace('date', db_prefix() . 'credits.date', $sqlDate);
 
@@ -88,7 +88,7 @@ class Statement_model extends App_Model
         ' . db_prefix() . 'invoicepaymentrecords.amount as payment_total
         FROM ' . db_prefix() . 'invoicepaymentrecords
         JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid
-        WHERE ' . $sqlDatePayments . ' AND ' . db_prefix() . 'invoices.clientid = ' . $customer_id . '
+        WHERE ' . $sqlDatePayments . ' AND ' . db_prefix() . 'invoices.clientid = ' . $this->db->escape_str($customer_id) . '
         ORDER by ' . db_prefix() . 'invoicepaymentrecords.date DESC';
 
         $payments = $this->db->query($sql_payments)->result_array();
@@ -100,7 +100,7 @@ class Statement_model extends App_Model
         amount as refund_amount,
         concat(' . db_prefix() . 'creditnote_refunds.refunded_on, \' \', RIGHT(' . db_prefix() . 'creditnote_refunds.created_at,LOCATE(\' \',' . db_prefix() . 'creditnote_refunds.created_at) - 3)) as tmp_date,
         refunded_on as date FROM ' . db_prefix() . 'creditnote_refunds
-        WHERE ' . $sqlCreditNoteRefunds . ' AND credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE clientid=' . $customer_id . ')
+        WHERE ' . $sqlCreditNoteRefunds . ' AND credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE clientid=' . $this->db->escape_str($customer_id) . ')
         ';
 
         $credit_notes_refunds = $this->db->query($sql_credit_notes_refunds)->result_array();
@@ -123,7 +123,7 @@ class Statement_model extends App_Model
         $result['invoiced_amount'] = $this->db->query('SELECT
         SUM(' . db_prefix() . 'invoices.total) as invoiced_amount
         FROM ' . db_prefix() . 'invoices
-        WHERE clientid = ' . $customer_id . '
+        WHERE clientid = ' . $this->db->escape_str($customer_id) . '
         AND ' . $sqlDate . ' AND status != ' . Invoices_model::STATUS_DRAFT . ' AND status != ' . Invoices_model::STATUS_CANCELLED . '')
             ->row()->invoiced_amount;
 
@@ -134,7 +134,7 @@ class Statement_model extends App_Model
         $result['credit_notes_amount'] = $this->db->query('SELECT
         SUM(' . db_prefix() . 'creditnotes.total) as credit_notes_amount
         FROM ' . db_prefix() . 'creditnotes
-        WHERE clientid = ' . $customer_id . '
+        WHERE clientid = ' . $this->db->escape_str($customer_id) . '
         AND ' . $sqlDate . ' AND status != 3')
             ->row()->credit_notes_amount;
 
@@ -145,7 +145,7 @@ class Statement_model extends App_Model
         $result['refunds_amount'] = $this->db->query('SELECT
         SUM(' . db_prefix() . 'creditnote_refunds.amount) as refunds_amount
         FROM ' . db_prefix() . 'creditnote_refunds
-        WHERE ' . $sqlCreditNoteRefunds . ' AND credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE clientid=' . $customer_id . ')
+        WHERE ' . $sqlCreditNoteRefunds . ' AND credit_note_id IN (SELECT id FROM ' . db_prefix() . 'creditnotes WHERE clientid=' . $this->db->escape_str($customer_id) . ')
         ')->row()->refunds_amount;
 
         if ($result['refunds_amount'] === null) {
@@ -159,7 +159,7 @@ class Statement_model extends App_Model
         SUM(' . db_prefix() . 'invoicepaymentrecords.amount) as amount_paid
         FROM ' . db_prefix() . 'invoicepaymentrecords
         JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid
-        WHERE ' . $sqlDatePayments . ' AND ' . db_prefix() . 'invoices.clientid = ' . $customer_id)
+        WHERE ' . $sqlDatePayments . ' AND ' . db_prefix() . 'invoices.clientid = ' . $this->db->escape_str($customer_id))
             ->row()->amount_paid;
 
         if ($result['amount_paid'] === null) {
@@ -176,19 +176,19 @@ class Statement_model extends App_Model
             SELECT COALESCE(SUM(' . db_prefix() . 'invoicepaymentrecords.amount),0)
             FROM ' . db_prefix() . 'invoicepaymentrecords
             JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid
-            WHERE ' . db_prefix() . 'invoicepaymentrecords.date < "' . $from . '"
-            AND ' . db_prefix() . 'invoices.clientid=' . $customer_id . '
+            WHERE ' . db_prefix() . 'invoicepaymentrecords.date < "' . $this->db->escape_str($from) . '"
+            AND ' . db_prefix() . 'invoices.clientid=' . $this->db->escape_str($customer_id) . '
             ) + (
                 SELECT COALESCE(SUM(' . db_prefix() . 'creditnotes.total),0)
                 FROM ' . db_prefix() . 'creditnotes
-                WHERE ' . db_prefix() . 'creditnotes.date < "' . $from . '"
-                AND ' . db_prefix() . 'creditnotes.clientid=' . $customer_id . '
+                WHERE ' . db_prefix() . 'creditnotes.date < "' . $this->db->escape_str($from) . '"
+                AND ' . db_prefix() . 'creditnotes.clientid=' . $this->db->escape_str($customer_id) . '
             )
         )
             )
             as beginning_balance FROM ' . db_prefix() . 'invoices
-            WHERE date < "' . $from . '"
-            AND clientid = ' . $customer_id . '
+            WHERE date < "' . $this->db->escape_str($from) . '"
+            AND clientid = ' . $this->db->escape_str($customer_id) . '
             AND status != ' . Invoices_model::STATUS_DRAFT . '
             AND status != ' . Invoices_model::STATUS_CANCELLED)
               ->row()->beginning_balance;

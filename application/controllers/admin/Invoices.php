@@ -9,6 +9,7 @@ class Invoices extends AdminController
         parent::__construct();
         $this->load->model('invoices_model');
         $this->load->model('credit_notes_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     /* Get all invoices in case user go on index page */
@@ -71,6 +72,48 @@ class Invoices extends AdminController
         $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices'), [
             'clientid' => $clientid,
             'data'     => $data,
+        ]);
+    }
+
+    public function table_case($clientid = '',$ServID='', $slug = '')
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_case'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+            'ServID'   => $ServID,
+            'slug'     => $slug,
+        ]);
+    }
+
+    public function table_oservice($clientid = '',$ServID='', $slug = '')
+    {
+        if (!has_permission('invoices', '', 'view')
+            && !has_permission('invoices', '', 'view_own')
+            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            ajax_access_denied();
+        }
+        if($clientid == 0){
+            $clientid = '';
+        }
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+
+        $this->app->get_table_data(($this->input->get('recurring') ? 'recurring_invoices' : 'invoices_oservice'), [
+            'clientid' => $clientid,
+            'data'     => $data,
+            'ServID'   => $ServID,
+            'slug'     => $slug,
         ]);
     }
 
@@ -303,6 +346,8 @@ class Invoices extends AdminController
 
                     if (isset($invoice_data['save_and_record_payment'])) {
                         $this->session->set_userdata('record_payment', true);
+                    } elseif (isset($invoice_data['save_and_send_later'])) {
+                        $this->session->set_userdata('send_later', true);
                     }
 
                     redirect($redUrl);
@@ -366,6 +411,7 @@ class Invoices extends AdminController
         $data['base_currency'] = $this->currencies_model->get_base_currency();
 
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
         $this->load->view('admin/invoices/invoice', $data);
@@ -434,10 +480,14 @@ class Invoices extends AdminController
         $data['invoice'] = $invoice;
 
         $data['record_payment'] = false;
+        $data['send_later']     = false;
 
         if ($this->session->has_userdata('record_payment')) {
             $data['record_payment'] = true;
             $this->session->unset_userdata('record_payment');
+        } elseif ($this->session->has_userdata('send_later')) {
+            $data['send_later'] = true;
+            $this->session->unset_userdata('send_later');
         }
 
         $this->load->view('admin/invoices/invoice_preview_template', $data);

@@ -8,6 +8,7 @@ class Departments extends AdminController
     {
         parent::__construct();
         $this->load->model('departments_model');
+        $this->load->model('Branches_model');
 
         if (!is_admin()) {
             access_denied('Departments');
@@ -38,9 +39,27 @@ class Departments extends AdminController
                 unset($data['fakeusernameremembered']);
                 unset($data['fakepasswordremembered']);
             }
+            if($this->app_modules->is_active('branch_ides')){
+                $branch_id = $this->input->post('branch_id');
+
+                unset($data['branch_id']);
+            }
 
             if (!$this->input->post('id')) {
                 $id = $this->departments_model->add($data);
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                    $data = [
+                        'branch_id' => $branch_id, 
+                        'rel_type' => 'departments', 
+                        'rel_id' => $id
+                    ];
+                    $this->Branches_model->set_branch($data);
+                    }
+                }else{
+                    $this->load->model('hr/No_branch_model');
+                    $branch_id = $this->No_branch_model->get_branch('departments', $id);
+                }
                 if ($id) {
                     $success = true;
                     $message = _l('added_successfully', _l('department'));
@@ -51,7 +70,13 @@ class Departments extends AdminController
                     'email_exist_as_staff' => $this->email_exist_as_staff(),
                 ]);
             } else {
+
                 $id = $data['id'];
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)):
+                        $this->Branches_model->update_branch('departments', $id, $branch_id);
+                    endif;
+                }
                 unset($data['id']);
                 $success = $this->departments_model->update($data, $id);
                 if ($success) {

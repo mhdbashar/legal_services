@@ -16,14 +16,16 @@
          <ul class="nav navbar-nav navbar-right">
             <?php hooks()->do_action('customers_navigation_start'); ?>
             <?php foreach($menu as $item_id => $item) { ?>
-               <li class="customers-nav-item-<?php echo $item_id; ?>">
-                  <a href="<?php echo $item['href']; ?>">
+               <li class="customers-nav-item-<?php echo $item_id; ?>"
+                  <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
+                  <a href="<?php echo $item['href']; ?>"
+                     <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
                      <?php
                      if(!empty($item['icon'])){
                         echo '<i class="'.$item['icon'].'"></i> ';
                      }
                      echo $item['name'];
-                    ?>
+                     ?>
                   </a>
                </li>
             <?php } ?>
@@ -33,29 +35,36 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                      <img src="<?php echo contact_profile_image_url($contact->id,'thumb'); ?>" data-toggle="tooltip" data-title="<?php echo html_escape($contact->firstname . ' ' .$contact->lastname); ?>" data-placement="bottom" class="client-profile-image-small mright5">
                      <span class="caret"></span>
-                     </a>
-                     <ul class="dropdown-menu animated fadeIn">
-                        <li class="customers-nav-item-edit-profile">
-                           <a href="<?php echo site_url('clients/profile'); ?>">
-                              <?php echo _l('clients_nav_profile'); ?>
+                  </a>
+                  <ul class="dropdown-menu animated fadeIn">
+                     <li class="customers-nav-item-edit-profile">
+                        <a href="<?php echo site_url('clients/profile'); ?>">
+                           <?php echo _l('clients_nav_profile'); ?>
+                        </a>
+                     </li>
+                     <?php if($contact->is_primary == 1){ ?>
+                        <li class="customers-nav-item-company-info">
+                           <a href="<?php echo site_url('clients/company'); ?>">
+                              <?php echo _l('client_company_info'); ?>
                            </a>
                         </li>
-                        <?php if($contact->is_primary == 1){ ?>
-                           <li class="customers-nav-item-company-info">
-                              <a href="<?php echo site_url('clients/company'); ?>">
-                                 <?php echo _l('client_company_info'); ?>
-                              </a>
-                           </li>
-                        <?php } ?>
-                        <?php if(can_logged_in_contact_update_credit_card()){ ?>
-                           <li class="customers-nav-item-stripe-card">
-                              <a href="<?php echo site_url('clients/credit_card'); ?>">
-                                 <?php echo _l('credit_card'); ?>
-                              </a>
-                           </li>
-                        <?php } ?>
+                     <?php } ?>
+                     <?php if(can_logged_in_contact_update_credit_card()){ ?>
+                        <li class="customers-nav-item-stripe-card">
+                           <a href="<?php echo site_url('clients/credit_card'); ?>">
+                              <?php echo _l('credit_card'); ?>
+                           </a>
+                        </li>
+                     <?php } ?>
+                     <?php if (is_gdpr() && get_option('show_gdpr_in_customers_menu') == '1') { ?>
                         <li class="customers-nav-item-announcements">
-                           <a href="<?php echo site_url('clients/announcements'); ?>">
+                           <a href="<?php echo site_url('clients/gdpr'); ?>">
+                              <?php echo _l('gdpr_short'); ?>
+                           </a>
+                        </li>
+                     <?php } ?>
+                     <li class="customers-nav-item-announcements">
+                        <a href="<?php echo site_url('clients/announcements'); ?>">
                            <?php echo _l('announcements'); ?>
                            <?php if($total_undismissed_announcements != 0){ ?>
                               <span class="badge"><?php echo $total_undismissed_announcements; ?></span>
@@ -72,15 +81,15 @@
                               <li class="<?php if($client->default_language == ""){echo 'active';} ?>">
                                  <a href="<?php echo site_url('clients/change_language'); ?>">
                                     <?php echo _l('system_default_string'); ?>
+                                 </a>
+                              </li>
+                              <?php foreach($this->app->get_available_languages() as $user_lang) { ?>
+                                 <li <?php if($client->default_language == $user_lang){echo 'class="active"';} ?>>
+                                    <a href="<?php echo site_url('clients/change_language/'.$user_lang); ?>">
+                                       <?php echo ucfirst($user_lang); ?>
                                     </a>
                                  </li>
-                                 <?php foreach($this->app->get_available_languages() as $user_lang) { ?>
-                                    <li <?php if($client->default_language == $user_lang){echo 'class="active"';} ?>>
-                                       <a href="<?php echo site_url('clients/change_language/'.$user_lang); ?>">
-                                          <?php echo ucfirst($user_lang); ?>
-                                       </a>
-                                    </li>
-                                 <?php } ?>
+                              <?php } ?>
                            </ul>
                         </li>
                      <?php } ?>

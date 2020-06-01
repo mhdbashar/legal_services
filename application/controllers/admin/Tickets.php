@@ -11,6 +11,57 @@ class Tickets extends AdminController
             redirect(admin_url());
         }
         $this->load->model('tickets_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    }
+
+    public function table_tickets_case($status = '', $userid = '')
+    {
+        if ($this->input->is_ajax_request()) {
+            if (!$this->input->post('filters_ticket_id')) {
+                $tableParams = [
+                    'status' => $status,
+                    'userid' => $userid,
+                    'slug' => $status,
+                ];
+            } else {
+                // request for othes tickets when single ticket is opened
+                $tableParams = [
+                    'userid'              => $this->input->post('filters_userid'),
+                    'where_not_ticket_id' => $this->input->post('filters_ticket_id'),
+                ];
+                if ($tableParams['userid'] == 0) {
+                    unset($tableParams['userid']);
+                    $tableParams['by_email'] = $this->input->post('filters_email');
+                }
+            }
+
+            $this->app->get_table_data('tickets_case', $tableParams);
+        }
+    }
+
+    public function table_tickets_oservice($status = '', $userid = '')
+    {
+        if ($this->input->is_ajax_request()) {
+            if (!$this->input->post('filters_ticket_id')) {
+                $tableParams = [
+                    'status' => $status,
+                    'userid' => $userid,
+                    'slug' => $status,
+                ];
+            } else {
+                // request for othes tickets when single ticket is opened
+                $tableParams = [
+                    'userid'              => $this->input->post('filters_userid'),
+                    'where_not_ticket_id' => $this->input->post('filters_ticket_id'),
+                ];
+                if ($tableParams['userid'] == 0) {
+                    unset($tableParams['userid']);
+                    $tableParams['by_email'] = $this->input->post('filters_email');
+                }
+            }
+
+            $this->app->get_table_data('tickets_oservice', $tableParams);
+        }
     }
 
     public function index($status = '', $userid = '')
@@ -62,7 +113,15 @@ class Tickets extends AdminController
     {
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['message'] = $this->input->post('message', false);
+            if (isset($data['ServID'])) {
+                $slug = $this->legal->get_service_by_id($data['ServID'])->row()->slug;
+                $data['rel_sid'] = $data['project_id'];
+                $data['rel_stype'] = $slug;
+                $data['project_id'] = 0;
+                unset($data['ServID']);
+
+            }
+            $data['message'] = html_purify($this->input->post('message', false));
             $id              = $this->tickets_model->add($data, get_staff_user_id());
             if ($id) {
                 set_alert('success', _l('new_ticket_added_successfully', $id));
@@ -106,6 +165,28 @@ class Tickets extends AdminController
                 $contact = $this->clients_model->get_contact($contact_id);
                 if ($contact) {
                     $data['contact'] = (array) $contact;
+                }
+            }
+        } elseif ($this->input->get('caseid') && $this->input->get('caseid') > 0 && $this->input->get('ServID')) {
+            // request from case area to create new ticket
+            $data['project_id'] = $this->input->get('caseid');
+            $data['ServID'] = $this->input->get('ServID');
+            $data['userid'] = get_client_id_by_case_id($data['project_id']);
+            if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
+                $contact = $this->clients_model->get_contacts($data['userid']);
+                if (isset($contact[0])) {
+                    $data['contact'] = $contact[0];
+                }
+            }
+        } elseif ($this->input->get('oserviceid') && $this->input->get('oserviceid') > 0 && $this->input->get('ServID')) {
+            // request from oservice area to create new ticket
+            $data['project_id'] = $this->input->get('oserviceid');
+            $data['ServID'] = $this->input->get('ServID');
+            $data['userid'] = get_client_id_by_case_id($data['project_id']);
+            if (total_rows(db_prefix() . 'contacts', ['active' => 1, 'userid' => $data['userid']]) == 1) {
+                $contact = $this->clients_model->get_contacts($data['userid']);
+                if (isset($contact[0])) {
+                    $data['contact'] = $contact[0];
                 }
             }
         }
@@ -187,7 +268,7 @@ class Tickets extends AdminController
                 unset($data['ticket_add_response_and_back_to_list']);
             }
 
-            $data['message'] = $this->input->post('message', false);
+            $data['message'] = html_purify($this->input->post('message', false));
             $replyid         = $this->tickets_model->add_reply($data, $id, get_staff_user_id());
 
             if ($replyid) {
@@ -229,7 +310,7 @@ class Tickets extends AdminController
     {
         if ($this->input->post()) {
             $data         = $this->input->post();
-            $data['data'] = $this->input->post('data', false);
+            $data['data'] = html_purify($this->input->post('data', false));
 
             if ($data['type'] == 'reply') {
                 $this->db->where('id', $data['id']);
@@ -419,7 +500,7 @@ class Tickets extends AdminController
         }
         if ($this->input->post()) {
             $data              = $this->input->post();
-            $data['message']   = $this->input->post('message', false);
+            $data['message']   = html_purify($this->input->post('message', false));
             $ticketAreaRequest = isset($data['ticket_area']);
 
             if (isset($data['ticket_area'])) {

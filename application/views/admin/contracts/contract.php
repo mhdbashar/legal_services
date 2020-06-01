@@ -78,7 +78,7 @@
                <div class="panel-body">
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
                   <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
-                  <?php echo _l('view_contract'); ?>
+                     <?php echo _l('view_contract'); ?>
                   </a>
                   <hr class="hr-panel-heading" />
                   <?php if($contract->trash > 0){
@@ -163,6 +163,12 @@
                                     ); ?>
                               </div>
                            </div>
+                           <?php } else if($contract->marked_as_signed == 1) { ?>
+                              <div class="col-md-12">
+                                 <div class="alert alert-info">
+                                    <?php echo _l('contract_marked_as_signed_info'); ?>
+                                 </div>
+                              </div>
                            <?php } ?>
                            <div class="col-md-12 text-right _buttons">
                               <div class="btn-group">
@@ -191,6 +197,20 @@
                                        <?php echo _l('view_contract'); ?>
                                        </a>
                                     </li>
+                                    <?php
+                                    if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'contracts')) { ?>
+                                     <li>
+                                       <a href="<?php echo admin_url('contracts/mark_as_signed/'.$contract->id); ?>">
+                                          <?php echo _l('mark_as_signed'); ?>
+                                       </a>
+                                    </li>
+                                 <?php } else if($contract->signed == 0 && $contract->marked_as_signed == 1 && staff_can('edit', 'contracts')) { ?>
+                                       <li>
+                                       <a href="<?php echo admin_url('contracts/unmark_as_signed/'.$contract->id); ?>">
+                                          <?php echo _l('unmark_as_signed'); ?>
+                                       </a>
+                                    </li>
+                                 <?php } ?>
                                     <?php hooks()->do_action('after_contract_view_as_client_link', $contract); ?>
                                     <?php if(has_permission('contracts','','create')){ ?>
                                     <li>
@@ -234,9 +254,15 @@
                            </div>
                         </div>
                         <hr class="hr-panel-heading" />
-                        <div class="editable tc-content" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
+                        <?php if(!staff_can('edit','contracts')) { ?>
+                           <div class="alert alert-warning contract-edit-permissions">
+                              <?php echo _l('contract_content_permission_edit_warning'); ?>
+                           </div>
+                        <?php } ?>
+                        <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>"
+                           style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                            <?php
-                              if(empty($contract->content)){
+                              if(empty($contract->content) && staff_can('edit','contracts')){
                                echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
                               } else {
                                echo $contract->content;

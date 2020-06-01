@@ -41,9 +41,11 @@ class Estimates_model extends App_Model
         $this->db->select('*,' . db_prefix() . 'currencies.id as currencyid, ' . db_prefix() . 'estimates.id as id, ' . db_prefix() . 'currencies.name as currency_name');
         $this->db->from(db_prefix() . 'estimates');
         $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id = ' . db_prefix() . 'estimates.currency', 'left');
+        $this->db->where(db_prefix() . 'estimates.deleted', 0);
         $this->db->where($where);
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'estimates.id', $id);
+            $this->db->where(db_prefix() . 'estimates.deleted', 0);
             $estimate = $this->db->get()->row();
             if ($estimate) {
                 $estimate->attachments                           = $this->get_attachments($id);
@@ -140,13 +142,13 @@ class Estimates_model extends App_Model
                 $where = '(';
                 $i     = 0;
                 foreach ($fields_client as $f) {
-                    $where .= db_prefix() . 'clients.' . $f . ' LIKE "%' . $search . '%"';
+                    $where .= db_prefix() . 'clients.' . $f . ' LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'';
                     $where .= ' OR ';
                     $i++;
                 }
                 $i = 0;
                 foreach ($fields_estimates as $f) {
-                    $where .= db_prefix() . 'estimates.' . $f . ' LIKE "%' . $search . '%"';
+                    $where .= db_prefix() . 'estimates.' . $f . ' LIKE "%' . $this->db->escape_like_str($search) . '%" ESCAPE \'!\'';
                     $where .= ' OR ';
 
                     $i++;
@@ -157,7 +159,7 @@ class Estimates_model extends App_Model
             } else {
                 $this->db->where(db_prefix() . 'estimates.id IN
                 (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
-                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . strafter($search, '#') . '")
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($search, '#')) . '")
                 AND ' . db_prefix() . 'taggables.rel_type=\'estimate\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
                 ');
             }
@@ -314,7 +316,15 @@ class Estimates_model extends App_Model
                     $tmpSlug = explode('_', $field['slug'], 2);
                     if (isset($tmpSlug[1])) {
                         $this->db->where('fieldto', 'invoice');
-                        $this->db->where('slug LIKE "invoice_' . $tmpSlug[1] . '%" AND type="' . $field['type'] . '" AND options="' . $field['options'] . '" AND active=1');
+
+                        $this->db->group_start();
+                        $this->db->like('slug', 'invoice_' . $tmpSlug[1], 'after');
+                        $this->db->where('type', $field['type']);
+                        $this->db->where('options', $field['options']);
+                        $this->db->where('active', 1);
+                        $this->db->group_end();
+
+                        // $this->db->where('slug LIKE "invoice_' . $tmpSlug[1] . '%" AND type="' . $field['type'] . '" AND options="' . $field['options'] . '" AND active=1');
                         $cfTransfer = $this->db->get(db_prefix() . 'customfields')->result_array();
 
                         // Don't make mistakes
@@ -478,7 +488,7 @@ class Estimates_model extends App_Model
         }
 
         $currency = get_currency($currencyid);
-        $where  = '';
+        $where    = '';
         if (isset($data['customer_id']) && $data['customer_id'] != '') {
             $where = ' AND clientid=' . $data['customer_id'];
         }
@@ -494,9 +504,11 @@ class Estimates_model extends App_Model
         $sql = 'SELECT';
         foreach ($statuses as $estimate_status) {
             $sql .= '(SELECT SUM(total) FROM ' . db_prefix() . 'estimates WHERE status=' . $estimate_status;
-            $sql .= ' AND currency =' . $currencyid;
+            $sql .= ' AND currency =' . $this->db->escape_str($currencyid);
             if (isset($data['years']) && count($data['years']) > 0) {
-                $sql .= ' AND YEAR(date) IN (' . implode(', ', $data['years']) . ')';
+                $sql .= ' AND YEAR(date) IN (' . implode(', ', array_map(function ($year) {
+                    return get_instance()->db->escape_str($year);
+                }, $data['years'])) . ')';
             } else {
                 $sql .= ' AND YEAR(date) = ' . date('Y');
             }
@@ -510,10 +522,10 @@ class Estimates_model extends App_Model
         $i       = 1;
         foreach ($result as $key => $val) {
             foreach ($val as $status => $total) {
-                $_result[$i]['total']  = $total;
-                $_result[$i]['symbol'] = $currency->symbol;
+                $_result[$i]['total']         = $total;
+                $_result[$i]['symbol']        = $currency->symbol;
                 $_result[$i]['currency_name'] = $currency->name;
-                $_result[$i]['status'] = $status;
+                $_result[$i]['status']        = $status;
                 $i++;
             }
         }
@@ -1052,7 +1064,7 @@ class Estimates_model extends App_Model
 
             delete_tracked_emails($id, 'estimate');
 
-            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="estimate" AND rel_id="' . $id . '")');
+            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="estimate" AND rel_id="' . $this->db->escape_str($id) . '")');
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 

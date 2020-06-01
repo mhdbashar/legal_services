@@ -506,6 +506,77 @@ function handle_expense_attachments($id)
         }
     }
 }
+//////////////////
+// Ahmad Zaher Khrezaty
+function handle_procuration_attachments($id)
+{
+    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _perfex_upload_error($_FILES['file']['error']);
+        die;
+    }
+    $path = get_upload_path_by_type('procuration') . $id . '/';
+    $CI   = & get_instance();
+
+    if (isset($_FILES['file']['name'])) {
+        hooks()->do_action('before_upload_expense_attachment', $id);
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = $_FILES['file']['name'];
+            $newFilePath = $path . $filename;
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                    ];
+
+                $CI->misc_model->add_attachment_to_database($id, 'procuration', $attachment);
+            }
+        }
+    }
+}
+
+//////////////////
+// waseem abdallah
+function handle_transaction_attachments($id)
+{
+    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
+        header('HTTP/1.0 400 Bad error');
+        echo _perfex_upload_error($_FILES['file']['error']);
+        die;
+    }
+    $path = get_upload_path_by_type('transaction') . $id . '/';
+    $CI   = & get_instance();
+
+    if (isset($_FILES['file']['name'])) {
+        hooks()->do_action('before_upload_expense_attachment', $id);
+        // Get the temp file path
+        $tmpFilePath = $_FILES['file']['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            _maybe_create_upload_path($path);
+            $filename    = $_FILES['file']['name'];
+            $newFilePath = $path . $filename;
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $attachment   = [];
+                $attachment[] = [
+                    'file_name' => $filename,
+                    'filetype'  => $_FILES['file']['type'],
+                ];
+
+                $CI->misc_model->add_attachment_to_database($id, 'transaction', $attachment);
+            }
+        }
+    }
+}
+
+
 /**
  * Check for ticket attachment after inserting ticket to database
  * @param  mixed $ticketid
@@ -563,10 +634,11 @@ function handle_company_logo_upload()
 {
     $logoIndex = ['logo', 'logo_dark'];
     $success   = false;
+
     foreach ($logoIndex as $logo) {
         $index = 'company_' . $logo;
 
-        if (isset($_FILES[$index]) && _perfex_upload_error($_FILES[$index]['error'])) {
+        if (isset($_FILES[$index]) && !empty($_FILES[$index]['name']) && _perfex_upload_error($_FILES[$index]['error'])) {
             set_alert('warning', _perfex_upload_error($_FILES[$index]['error']));
 
             return false;
@@ -744,8 +816,8 @@ function handle_staff_profile_image_upload($staff_id = '')
                 $config['source_image']   = $newFilePath;
                 $config['new_image']      = 'small_' . $filename;
                 $config['maintain_ratio'] = true;
-                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 32);
-                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 32);
+                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 96);
+                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 96);
                 $CI->image_lib->initialize($config);
                 $CI->image_lib->resize();
                 $CI->db->where('staffid', $staff_id);
@@ -984,7 +1056,7 @@ function _file_attachments_index_fix($index_name)
 function _maybe_create_upload_path($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0755);
+        mkdir($path, 0755,True);
         fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
     }
 }
@@ -1006,6 +1078,23 @@ function get_upload_path_by_type($type)
             $path = EXPENSE_ATTACHMENTS_FOLDER;
 
         break;
+        ///////////////////////
+        // Ahmad Zaher Khrezaty
+        case 'procuration':
+            $path = PROCURATION_ATTACHMENTS_FOLDER;
+
+        break;
+
+        case 'hr/document':
+            $path = HR_DOCUMENT_ATTACHMENTS_FOLDER;
+
+        break;
+        ///////////////////////
+        // waseem abdallah
+        case 'transaction':
+            $path = TRANSACTION_ATTACHMENTS_FOLDER;
+
+            break;
         case 'project':
             $path = PROJECT_ATTACHMENTS_FOLDER;
 
@@ -1058,6 +1147,14 @@ function get_upload_path_by_type($type)
         $path = NEWSFEED_FOLDER;
 
         break;
+        case 'case':
+            $path = CASE_ATTACHMENTS_FOLDER;
+
+            break;
+        case 'oservice':
+            $path = OSERVICE_ATTACHMENTS_FOLDER;
+
+            break;
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

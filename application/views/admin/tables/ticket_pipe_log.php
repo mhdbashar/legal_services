@@ -14,7 +14,7 @@ $aColumns = [
 
 $sWhere = [];
 if ($this->ci->input->post('activity_log_date')) {
-    array_push($sWhere, 'AND date LIKE "' . to_sql_date($this->ci->input->post('activity_log_date')) . '%"');
+    array_push($sWhere, 'AND date LIKE "' . $this->ci->db->escape_like_str(to_sql_date($this->ci->input->post('activity_log_date'))) . '%" ESCAPE \'!\'');
 }
 
 $sIndexColumn = 'id';

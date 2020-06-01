@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+// For Stripe Checkout
 class Stripe_core
 {
     protected $ci;
@@ -10,7 +10,7 @@ class Stripe_core
 
     protected $publishableKey;
 
-    protected $apiVersion = '2019-02-19';
+    protected $apiVersion = '2019-08-14';
 
     public function __construct()
     {
@@ -32,31 +32,9 @@ class Stripe_core
         return \Stripe\Customer::retrieve($id);
     }
 
-    public function update_customer_source($customer_id, $token)
+    public function update_customer($id, $payload)
     {
-        \Stripe\Customer::update($customer_id, [
-            'source' => $token,
-        ]);
-    }
-
-    public function get_customer_with_default_source($id)
-    {
-        return \Stripe\Customer::retrieve(['id' => $id, 'expand' => ['default_source']]);
-    }
-
-    public function create_charge($data)
-    {
-        return \Stripe\Charge::create($data);
-    }
-
-    public function create_source($data)
-    {
-        return \Stripe\Source::create($data);
-    }
-
-    public function get_source($source)
-    {
-        return \Stripe\Source::retrieve($source);
+        return \Stripe\Customer::update($id, $payload);
     }
 
     public function get_publishable_key()
@@ -64,9 +42,85 @@ class Stripe_core
         return $this->publishableKey;
     }
 
-    public function retrieve_token($token_id)
+    public function list_webhook_endpoints()
     {
-        return \Stripe\Token::retrieve($token_id);
+        return \Stripe\WebhookEndpoint::all();
+    }
+
+    public function get_webhook_events()
+    {
+        return hooks()->apply_filters('stripe_webhook_events', ['checkout.session.completed', 'invoice.payment_succeeded', 'invoice.payment_action_required', 'invoice.payment_failed', 'customer.subscription.created', 'customer.subscription.deleted', 'customer.subscription.updated']);
+    }
+
+    public function get_tax_rates()
+    {
+        return \Stripe\TaxRate::all();
+    }
+
+    public function retrieve_tax_rate($id)
+    {
+        return \Stripe\TaxRate::retrieve($id);
+    }
+
+    public function create_webhook()
+    {
+        $webhook = \Stripe\WebhookEndpoint::create([
+            'url'            => $this->ci->stripe_gateway->webhookEndPoint,
+            'enabled_events' => $this->get_webhook_events(),
+            'api_version'    => $this->apiVersion,
+        ]);
+
+        update_option('stripe_webhook_id', $webhook->id);
+        update_option('stripe_webhook_signing_secret', $webhook->secret);
+
+        return $webhook;
+    }
+
+    public function enable_webhook($id)
+    {
+        \Stripe\WebhookEndpoint::update(
+          $id,
+          [
+            'disabled' => false,
+          ]
+        );
+    }
+
+    public function delete_webhook($id)
+    {
+        $endpoint = \Stripe\WebhookEndpoint::retrieve($id);
+        $endpoint->delete();
+    }
+
+    public function create_session($data)
+    {
+        return \Stripe\Checkout\Session::create($data);
+    }
+
+    public function retrieve_session($data)
+    {
+        return \Stripe\Checkout\Session::retrieve($data);
+    }
+
+    public function retrieve_payment_intent($data)
+    {
+        return \Stripe\PaymentIntent::retrieve($data);
+    }
+
+    public function retrieve_payment_method($data)
+    {
+        return \Stripe\PaymentMethod::retrieve($data);
+    }
+
+    public function construct_event($payload, $secret)
+    {
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+
+        return \Stripe\Webhook::constructEvent(
+                $payload,
+                $sig_header,
+                $secret
+          );
     }
 
     public function has_api_key()

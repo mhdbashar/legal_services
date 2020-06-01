@@ -47,8 +47,12 @@ class Verification extends ClientsController
         // from option customers_register_require_confirmation
         if (total_rows(db_prefix() . 'clients', ['userid' => $contact->userid, 'registration_confirmed' => 0]) > 0) {
             set_alert('info', _l('email_successfully_verified_but_required_admin_confirmation'));
+
+            hooks()->do_action('contact_email_verified_but_requires_admin_confirmation', $contact);
         } else {
             set_alert('success', _l('email_successfully_verified'));
+
+            hooks()->do_action('contact_email_verified', $contact);
         }
 
         $redUri = is_client_logged_in() ? 'clients' : 'authentication';

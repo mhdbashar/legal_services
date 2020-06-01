@@ -11,6 +11,7 @@
          </div>
          <div class="panel-body">
             <div class="row">
+                <input type="hidden" class="form-control" name="ServID" id="ServID" value="<?php echo $this->input->get('ServID') ? $this->input->get('ServID') : ''; ?>">
                <div class="col-md-12">
                   <div class="form-group open-ticket-subject-group">
                      <label for="subject"><?php echo _l('customer_ticket_subject'); ?></label>
@@ -93,7 +94,7 @@
                      <div class="form-group">
                         <label for="attachment" class="control-label"><?php echo _l('clients_ticket_attachments'); ?></label>
                         <div class="input-group">
-                           <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                           <input type="file" extension="<?php echo str_replace(['.', ' '], '', get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                            <span class="input-group-btn">
                            <button class="btn btn-success add_more_attachments p8-half" data-max="<?php echo get_option('maximum_allowed_ticket_attachments'); ?>" type="button"><i class="fa fa-plus"></i></button>
                            </span>

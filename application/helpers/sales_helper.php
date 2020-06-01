@@ -95,7 +95,6 @@ function app_format_money($amount, $currency, $excludeSymbol = false)
      * Check if currency is passed as Object from database or just currency name e.q. USD
      */
     if (is_string($currency)) {
-
         $dbCurrency = get_currency($currency);
 
         // Check of currency found in case does not exists in database
@@ -566,7 +565,7 @@ function get_items_by_type($type, $id)
     $CI->db->where('rel_type', $type);
     $CI->db->order_by('item_order', 'asc');
 
-    return $CI->db->get()->result_array();
+   return $CI->db->get()->result_array();
 }
 /**
 * Function that update total tax in sales table eq. invoice, proposal, estimates, credit note

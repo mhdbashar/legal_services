@@ -140,10 +140,12 @@ class Credit_notes_model extends App_Model
         $this->db->select('*,' . db_prefix() . 'currencies.id as currencyid, ' . db_prefix() . 'creditnotes.id as id, ' . db_prefix() . 'currencies.name as currency_name');
         $this->db->from(db_prefix() . 'creditnotes');
         $this->db->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'creditnotes.currency', 'left');
+        $this->db->where(db_prefix() . 'creditnotes.deleted', 0);
         $this->db->where($where);
 
         if (is_numeric($id)) {
             $this->db->where(db_prefix() . 'creditnotes.id', $id);
+            $this->db->where(db_prefix() . 'creditnotes.deleted', 0);
             $credit_note = $this->db->get()->row();
             if ($credit_note) {
                 $credit_note->refunds       = $this->get_refunds($id);
@@ -422,7 +424,7 @@ class Credit_notes_model extends App_Model
             delete_tracked_emails($id, 'credit_note');
 
             // Delete the custom field values
-            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="credit_note" AND rel_id="' . $id . '")');
+            $this->db->where('relid IN (SELECT id from ' . db_prefix() . 'itemable WHERE rel_type="credit_note" AND rel_id="' . $this->db->escape_str($id) . '")');
             $this->db->where('fieldto', 'items');
             $this->db->delete(db_prefix() . 'customfieldsvalues');
 

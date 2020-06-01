@@ -84,7 +84,7 @@ class Projects_model extends App_Model
 
     public function get_distinct_tasks_timesheets_staff($project_id)
     {
-        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="project" AND rel_id=' . $project_id)->result_array();
+        return $this->db->query('SELECT DISTINCT staff_id FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE rel_type="project" AND rel_id=' . $this->db->escape_str($project_id))->result_array();
     }
 
     public function get_distinct_projects_members()
@@ -606,7 +606,7 @@ class Projects_model extends App_Model
 
             $color = '3, 169, 244';
 
-            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id = "' . $id . '"';
+            $where = 'task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id = "' . $this->db->escape_str($id) . '"';
 
             if ($timesheets_type != 'total_logged_time_only') {
                 $where .= ' AND billable=1';
@@ -720,7 +720,7 @@ class Projects_model extends App_Model
         $has_permission = has_permission('tasks', '', 'view');
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
-                $tasks = $this->get_tasks($project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
+                $tasks = $this->get_tasks($project_id, 'milestone=' . $this->db->escape_str($data['id']) . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $this->db->escape_str($taskStatus) : ''), true);
                 $name  = $data['name'];
             } elseif ($type == 'members') {
                 if ($data['staff_id'] != 0) {
@@ -770,7 +770,7 @@ class Projects_model extends App_Model
             }
 
             if ($filters['member']) {
-                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . $filters['member'] . ')');
+                $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . $this->db->escape_str($filters['member']) . ')');
             }
 
             $this->db->where('status', $status['id']);
@@ -831,7 +831,7 @@ class Projects_model extends App_Model
                 ELSE end_time-start_time
                 END) as total_logged_time
             FROM ' . db_prefix() . 'taskstimers
-            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id=' . $id . ')')
+            WHERE task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id=' . $this->db->escape_str($id) . ')')
         ->row();
 
         return $q->total_logged_time;
@@ -839,7 +839,7 @@ class Projects_model extends App_Model
 
     public function get_milestones($project_id)
     {
-        $this->db->select('*, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE rel_type="project" AND rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id) as total_tasks, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE rel_type="project" AND rel_id='.$project_id.' and milestone='.db_prefix().'milestones.id AND status=5) as total_finished_tasks');
+        $this->db->select('*, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE rel_type="project" AND rel_id='.$this->db->escape_str($project_id).' and milestone='.db_prefix().'milestones.id) as total_tasks, (SELECT COUNT(id) FROM '.db_prefix().'tasks WHERE rel_type="project" AND rel_id='.$this->db->escape_str($project_id).' and milestone='.db_prefix().'milestones.id AND status=5) as total_finished_tasks');
         $this->db->where('project_id', $project_id);
         $this->db->order_by('milestone_order', 'ASC');
         $milestones = $this->db->get(db_prefix() . 'milestones')->result_array();
@@ -1622,7 +1622,7 @@ class Projects_model extends App_Model
 
             // Remove member from tasks where is assigned
             $this->db->where('staffid', $staff_id);
-            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id="' . $project_id . '")');
+            $this->db->where('taskid IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="project" AND rel_id="' . $this->db->escape_str($project_id) . '")');
             $this->db->delete(db_prefix() . 'task_assigned');
 
             $this->log_activity($project_id, 'project_activity_removed_team_member', get_staff_full_name($staff_id));

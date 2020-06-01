@@ -4,8 +4,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Stripe_ideal_gateway extends App_gateway
 {
+    public $webhookEndPoint;
+
+    public $apiVersion = '2019-08-14';
+
+    public $webhookEvents = ['source.chargeable', 'source.failed', 'source.canceled'];
+
     public function __construct()
     {
+        $this->webhookEndPoint = site_url('gateways/stripe_ideal/webhook');
+
         /**
         * Call App_gateway __construct function
         */
@@ -44,19 +52,12 @@ class Stripe_ideal_gateway extends App_gateway
                 'default_value' => 'Payment for Invoice {invoice_number}',
             ],
             [
-                'name'          => 'statement_descriptor',
-                'label'         => 'ideal_customer_statement_descriptor',
-                'type'          => 'textarea',
-                'default_value' => 'Payment for Invoice {invoice_number}',
-                'field_attributes'=>['maxlength' => 22],
-                'after'=>'<p class="mbot15">Statement descriptors are limited to 22 characters, cannot use the special characters <, >, \', ", or *, and must not consist solely of numbers.</p>'
-            ],
-            [
-                'name'             => 'webhook_key',
-                'label'            => 'Stripe Webhook Key',
-                'default_value'    => app_generate_hash(),
-                'after'            => '<p class="mbot15">Secret key to protect your webhook, webhook URL: ' . site_url('gateways/stripe_ideal/webhook/YOUR_WEBHOOK_KEY</p>'),
-                'field_attributes' => ['required' => true],
+                'name'             => 'statement_descriptor',
+                'label'            => 'ideal_customer_statement_descriptor',
+                'type'             => 'textarea',
+                'default_value'    => 'Payment for Invoice {invoice_number}',
+                'field_attributes' => ['maxlength' => 22],
+                'after'            => '<p class="mbot15">Statement descriptors are limited to 22 characters, cannot use the special characters <, >, \', ", or *, and must not consist solely of numbers.</p>',
             ],
             [
                 'name'             => 'currencies',
@@ -64,20 +65,93 @@ class Stripe_ideal_gateway extends App_gateway
                 'default_value'    => 'EUR',
                 'field_attributes' => ['disabled' => true],
             ],
-            [
-                'name'          => 'test_mode_enabled',
-                'type'          => 'yes_no',
-                'default_value' => 1,
-                'label'         => 'settings_paymentmethod_testing_mode',
-            ],
         ]);
+
+        hooks()->add_action('before_render_payment_gateway_settings', 'stripe_ideal_gateway_webhook_check');
+    }
+
+    /**
+     * Determine the Stripe environment based on the keys
+     *
+     * @return string
+     */
+    public function environment()
+    {
+        $environment = 'production';
+        $apiKey      = $this->decryptSetting('api_secret_key');
+
+        if (strpos($apiKey, 'sk_test') !== false) {
+            $environment = 'test';
+        }
+
+        return $environment;
+    }
+
+    /**
+     * Check whether the environment is test
+     *
+     * @return boolean
+     */
+    public function is_test()
+    {
+        return $this->environment() === 'test';
+    }
+
+    /**
+     * Get the current webhook object based on the endpoint
+     *
+     * @return boolean|\Stripe\WebhookEndpoint
+     */
+    public function get_webhook_object()
+    {
+        \Stripe\Stripe::setApiVersion($this->apiVersion);
+        \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
+
+        $endpoints = \Stripe\WebhookEndpoint::all();
+        $webhook   = false;
+
+        foreach ($endpoints->data as $endpoint) {
+            if ($endpoint->url == $this->webhookEndPoint) {
+                $webhook = $endpoint;
+
+                break;
+            }
+        }
+
+        return $webhook;
+    }
+
+    public function create_webhook()
+    {
+        \Stripe\Stripe::setApiVersion($this->apiVersion);
+        \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
+
+        $webhook = \Stripe\WebhookEndpoint::create([
+            'url'            => $this->webhookEndPoint,
+            'enabled_events' => $this->webhookEvents,
+            'api_version'    => $this->apiVersion,
+        ]);
+
+        update_option('stripe_ideal_webhook_id', $webhook->id);
+        update_option('stripe_ideal_webhook_signing_secret', $webhook->secret);
+
+        return $webhook;
+    }
+
+    public function get_source($id)
+    {
+        \Stripe\Stripe::setApiVersion($this->apiVersion);
+        \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
+
+        return \Stripe\Source::retrieve($id);
     }
 
     public function charge($source, $amount, $invoice_id)
     {
-        $this->ci->load->library('stripe_core');
+        \Stripe\Stripe::setApiVersion($this->apiVersion);
+        \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
 
-        return $this->ci->stripe_core->create_charge([
+        return \Stripe\Charge::create([
                 'currency'    => 'eur',
                 'amount'      => $amount,
                 'source'      => $source,
@@ -128,9 +202,9 @@ class Stripe_ideal_gateway extends App_gateway
         ];
 
         $stripe_data = [
-            'type'     => 'ideal',
-            'ideal'=> [
-                'statement_descriptor' =>  str_replace('{invoice_number}', format_invoice_number($data['invoice']->id), $this->getSetting('statement_descriptor'))
+            'type'  => 'ideal',
+            'ideal' => [
+                'statement_descriptor' => str_replace('{invoice_number}', format_invoice_number($data['invoice']->id), $this->getSetting('statement_descriptor')),
             ],
             'amount'   => $data['amount'] * 100,
             'currency' => 'eur',
@@ -151,8 +225,10 @@ class Stripe_ideal_gateway extends App_gateway
         ];
 
         try {
-            $this->ci->load->library('stripe_core');
-            $source = $this->ci->stripe_core->create_source($stripe_data);
+            \Stripe\Stripe::setApiVersion($this->apiVersion);
+            \Stripe\Stripe::setApiKey($this->decryptSetting('api_secret_key'));
+
+            $source = \Stripe\Source::create($stripe_data);
 
             if ($source->created != '') {
                 redirect($source->redirect->url);
@@ -166,5 +242,45 @@ class Stripe_ideal_gateway extends App_gateway
         }
 
         redirect(site_url('invoice/' . $data['invoice']->id . '/' . $data['invoice']->hash));
+    }
+}
+
+function stripe_ideal_gateway_webhook_check($gateway)
+{
+    if ($gateway['id'] === 'stripe_ideal') {
+        $CI = &get_instance();
+
+        if (!empty($CI->stripe_ideal_gateway->decryptSetting('api_secret_key')) && $gateway['active'] == '1') {
+            try {
+                $webhook = $CI->stripe_ideal_gateway->get_webhook_object();
+            } catch (Exception $e) {
+                echo '<div class="alert alert-warning">';
+                // useful when user add wrong keys
+                // e.q. This API call cannot be made with a publishable API key. Please use a secret API key. You can find a list of your API keys at https://dashboard.stripe.com/account/apikeys.
+                echo $e->getMessage();
+                echo '</div>';
+
+                return;
+            }
+
+            $environment = $CI->stripe_ideal_gateway->environment();
+            $endpoint    = $CI->stripe_ideal_gateway->webhookEndPoint;
+
+            if ($CI->session->has_userdata('stripe-ideal-webhook-failure')) {
+                echo '<div class="alert alert-warning" style="margin-bottom:15px;">';
+                echo 'The system was unable to create the <b>required</b> webhook endpoint for Stripe Ideal.';
+                echo '<br />You should consider creating webhook manually directly via Stripe dashboard for your environment (' . $environment . ')';
+                echo '<br /><br /><b>Webhook URL:</b><br />' . $endpoint;
+                echo '<br /><br /><b>Webhook events:</b><br />' . implode(',<br />', $CI->stripe_ideal_gateway->webhookEvents());
+                echo '</div>';
+            }
+
+            if (!$webhook || !startsWith($webhook->url, site_url())) {
+                echo '<div class="alert alert-warning">';
+                echo 'Webhook endpoint (' . $endpoint . ') not found for ' . $environment . ' environment.';
+                echo '<br />Click <a href="' . site_url('gateways/stripe_ideal/create_webhook') . '">here</a> to create the webhook directly in Stripe.';
+                echo '</div>';
+            }
+        }
     }
 }

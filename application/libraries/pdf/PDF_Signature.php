@@ -54,7 +54,7 @@ trait PDF_Signature
             $this->type()
         );
 
-        if (!empty($customerSignaturePath)) {
+        if (!empty($customerSignaturePath) && file_exists($customerSignaturePath)) {
             $customerSignature = _l('document_customer_signature_text');
 
             $imageData = base64_encode(file_get_contents($customerSignaturePath));

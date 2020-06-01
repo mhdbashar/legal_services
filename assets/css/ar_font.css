@@ -1,0 +1,10 @@
+
+@font-face {
+  font-family: 'ar';
+  font-style: normal;
+  font-weight: normal;
+  src: local('ar'), url("ar.otf") format('ar');
+}
+body {
+  font-family: 'ar', serif;
+}

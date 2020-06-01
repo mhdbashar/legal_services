@@ -25,26 +25,38 @@ class App_items_table extends App_items_table_template
      */
     public function items()
     {
-        $html          = '';
-        $custom_fields = $this->get_custom_fields_for_table();
+        $html = '';
+
+
+        $descriptionItemWidth = $this->get_description_item_width();
+
+        $regularItemWidth  = $this->get_regular_items_width(6);
+        $customFieldsItems = $this->get_custom_fields_for_table();
+
+        if ($this->for == 'html') {
+            $descriptionItemWidth = $descriptionItemWidth - 5;
+            $regularItemWidth     = $regularItemWidth - 5;
+        }
 
         $i = 1;
         foreach ($this->items as $item) {
             $itemHTML = '';
 
             // Open table row
-            $itemHTML .= '<tr nobr="true"' . $this->tr_attributes($item) . '>';
+            $itemHTML .= '<tr' . $this->tr_attributes($item) . '>';
 
             // Table data number
-            $itemHTML .= '<td' . $this->td_attributes() . ' align="center">' . $i . '</td>';
+            $itemHTML .= '<td' . $this->td_attributes() . ' align="center" width="5%">' . $i . '</td>';
 
-            $itemHTML .= '<td class="description" align="left;">';
+            $itemHTML .= '<td class="description" align="left;" width="' . $descriptionItemWidth . '%">';
 
             /**
              * Item description
              */
             if (!empty($item['description'])) {
-                $itemHTML .= '<span style="font-size:' . $this->get_pdf_font_size() . 'px;"><strong>' . $item['description'] . '</strong></span>';
+                $itemHTML .= '<span style="font-size:' . $this->get_pdf_font_size() . 'px;"><strong>'
+                . $this->period_merge_field($item['description'])
+                . '</strong></span>';
 
                 if (!empty($item['long_description'])) {
                     $itemHTML .= '<br />';
@@ -55,7 +67,7 @@ class App_items_table extends App_items_table_template
              * Item long description
              */
             if (!empty($item['long_description'])) {
-                $itemHTML .= '<span style="color:#424242;">' . $item['long_description'] . '</span>';
+                $itemHTML .= '<span style="color:#424242;">' . $this->period_merge_field($item['long_description']) . '</span>';
             }
 
             $itemHTML .= '</td>';
@@ -63,14 +75,14 @@ class App_items_table extends App_items_table_template
             /**
              * Item custom fields
              */
-            foreach ($custom_fields as $custom_field) {
-                $itemHTML .= '<td align="left">' . get_custom_field_value($item['id'], $custom_field['id'], 'items') . '</td>';
+            foreach ($customFieldsItems as $custom_field) {
+                $itemHTML .= '<td align="left" width="' . $regularItemWidth . '%">' . get_custom_field_value($item['id'], $custom_field['id'], 'items') . '</td>';
             }
 
             /**
              * Item quantity
              */
-            $itemHTML .= '<td align="right">' . floatVal($item['qty']);
+            $itemHTML .= '<td align="right" width="' . $regularItemWidth . '%">' . floatVal($item['qty']);
 
             /**
              * Maybe item has added unit?
@@ -91,13 +103,13 @@ class App_items_table extends App_items_table_template
                 ['item' => $item, 'transaction' => $this->transaction]
             );
 
-            $itemHTML .= '<td align="right">' . $rate . '</td>';
+            $itemHTML .= '<td align="right" width="' . $regularItemWidth . '%">' . $rate . '</td>';
 
             /**
              * Items table taxes HTML custom function because it's too general for all features/options
              * @var string
              */
-            $itemHTML .= $this->taxes_html($item);
+            $itemHTML .= $this->taxes_html($item, $regularItemWidth);
 
             /**
              * Possible action hook user to include tax in item total amount calculated with the quantiy
@@ -106,10 +118,12 @@ class App_items_table extends App_items_table_template
             $item_amount_with_quantity = hooks()->apply_filters(
                 'item_preview_amount_with_currency',
                 app_format_money(($item['qty'] * $item['rate']), $this->transaction->currency_name, $this->exclude_currency()),
-                $item
+                $item,
+                $this->transaction,
+                $this->exclude_currency()
             );
 
-            $itemHTML .= '<td class="amount" align="right">' . $item_amount_with_quantity . '</td>';
+            $itemHTML .= '<td class="amount" align="right" width="' . $regularItemWidth . '%">' . $item_amount_with_quantity . '</td>';
 
             // Close table row
             $itemHTML .= '</tr>';
@@ -130,10 +144,10 @@ class App_items_table extends App_items_table_template
     {
         $html = '<tr>';
         $html .= '<th align="center">' . $this->number_heading() . '</th>';
-        $html .= '<th class="description" width="50%" align="left">' . $this->item_heading() . '</th>';
+        $html .= '<th class="description" width="' . $this->get_description_item_width() . '%" align="left">' . $this->item_heading() . '</th>';
 
-        $custom_fields = $this->get_custom_fields_for_table();
-        foreach ($custom_fields as $cf) {
+        $customFieldsItems = $this->get_custom_fields_for_table();
+        foreach ($customFieldsItems as $cf) {
             $html .= '<th class="custom_field" align="left">' . $cf['name'] . '</th>';
         }
 
@@ -154,36 +168,89 @@ class App_items_table extends App_items_table_template
      */
     public function pdf_headings()
     {
-        $item_width = 38;
-
-        // If show item taxes is disabled in PDF we should increase the item width table heading
-        $item_width = $this->show_tax_per_item() == 0 ? $item_width + 15 : $item_width;
-
-        $custom_fields_items = $this->get_custom_fields_for_table();
-        // Calculate headings width, in case there are custom fields for items
-        $total_headings = $this->show_tax_per_item() == 1 ? 4 : 3;
-        $total_headings += count($custom_fields_items);
-        $headings_width = (100 - ($item_width + 6)) / $total_headings;
+        $descriptionItemWidth = $this->get_description_item_width();
+        $regularItemWidth     = $this->get_regular_items_width(6);
+        $customFieldsItems    = $this->get_custom_fields_for_table();
 
         $tblhtml = '<tr height="30" bgcolor="' . get_option('pdf_table_heading_color') . '" style="color:' . get_option('pdf_table_heading_text_color') . ';">';
 
         $tblhtml .= '<th width="5%;" align="center">' . $this->number_heading() . '</th>';
-        $tblhtml .= '<th width="' . $item_width . '%" align="left">' . $this->item_heading() . '</th>';
+        $tblhtml .= '<th width="' . $descriptionItemWidth . '%" align="left">' . $this->item_heading() . '</th>';
 
-        foreach ($custom_fields_items as $cf) {
-            $tblhtml .= '<th width="' . $headings_width . '%" align="left">' . $cf['name'] . '</th>';
+        foreach ($customFieldsItems as $cf) {
+            $tblhtml .= '<th width="' . $regularItemWidth . '%" align="left">' . $cf['name'] . '</th>';
         }
 
-        $tblhtml .= '<th width="' . $headings_width . '%" align="right">' . $this->qty_heading() . '</th>';
-        $tblhtml .= '<th width="' . $headings_width . '%" align="right">' . $this->rate_heading() . '</th>';
+        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->qty_heading() . '</th>';
+        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->rate_heading() . '</th>';
 
         if ($this->show_tax_per_item()) {
-            $tblhtml .= '<th width="' . $headings_width . '%" align="right">' . $this->tax_heading() . '</th>';
+            $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->tax_heading() . '</th>';
         }
 
-        $tblhtml .= '<th width="' . $headings_width . '%" align="right">' . $this->amount_heading() . '</th>';
+        $tblhtml .= '<th width="' . $regularItemWidth . '%" align="right">' . $this->amount_heading() . '</th>';
         $tblhtml .= '</tr>';
 
         return $tblhtml;
+    }
+
+    /**
+     * Check for period merge field for recurring invoices
+     *
+     * @return string
+     */
+    protected function period_merge_field($text)
+    {
+        if ($this->type != 'invoice') {
+            return $text;
+        }
+
+        // Is subscription invoice
+        if (!property_exists($this->transaction, 'recurring_type')) {
+            return $text;
+        }
+
+        $compareRecurring = $this->transaction->recurring_type;
+        $compareDate      = !$this->transaction->last_recurring_date ? $this->transaction->date : $this->transaction->last_recurring_date;
+        $transactionDate  = $this->transaction->date;
+
+        // Is not Y-m-d format
+        if (!preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $compareDate)) {
+            $compareDate = to_sql_date($compareDate);
+        }
+
+        if (!preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $transactionDate)) {
+            $transactionDate = to_sql_date($transactionDate);
+        }
+
+        if ($this->transaction->custom_recurring == 0) {
+            $compareRecurring = 'month';
+        }
+
+        $next_date = date('Y-m-d', strtotime(
+            '+' . $this->transaction->recurring . ' ' . strtoupper($compareRecurring),
+            strtotime($compareDate)
+        ));
+
+        return str_ireplace('{period}', _d($transactionDate) . ' - ' . _d(date('Y-m-d', strtotime('-1 day', strtotime($next_date)))), $text);
+    }
+
+    protected function get_description_item_width()
+    {
+        $item_width = 38;
+
+        // If show item taxes is disabled in PDF we should increase the item width table heading
+        return $this->show_tax_per_item() == 0 ? $item_width + 15 : $item_width;
+    }
+
+    protected function get_regular_items_width($adjustment)
+    {
+        $descriptionItemWidth = $this->get_description_item_width();
+        $customFieldsItems    = $this->get_custom_fields_for_table();
+        // Calculate headings width, in case there are custom fields for items
+        $totalheadings = $this->show_tax_per_item() == 1 ? 4 : 3;
+        $totalheadings += count($customFieldsItems);
+
+        return (100 - ($descriptionItemWidth + $adjustment)) / $totalheadings;
     }
 }

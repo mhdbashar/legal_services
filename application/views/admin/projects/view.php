@@ -11,7 +11,7 @@
                      <div class="col-md-7 project-heading">
                         <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                         <div id="project_view_name" class="pull-left">
-                           <select class="selectpicker" id="project_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
+                           <select class="selectpicker" id="project_top" data-width="100%"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
                               <option value="<?php echo $project->id; ?>" selected data-content="<?php echo $project->name; ?> - <small><?php echo $project->client_data->company; ?></small>">
                                 <?php echo $project->client_data->company; ?> <?php echo $project->name; ?>
                               </option>
@@ -185,6 +185,67 @@
    function discussion_comments(selector,discussion_id,discussion_type){
      var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_project_discussions_language_array()); ?>);
      var options = {
+      // https://github.com/Viima/jquery-comments/pull/169
+      wysiwyg_editor: {
+            opts: {
+                enable: true,
+                is_html: true,
+                container_id: 'editor-container',
+                comment_index: 0,
+            },
+            init: function (textarea, content) {
+                var comment_index = textarea.data('comment_index');
+                 var editorConfig = _simple_editor_config();
+                 editorConfig.setup = function(ed) {
+                      textarea.data('wysiwyg_editor', ed);
+
+                      ed.on('change', function() {
+                          var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('keyup', function() {
+                        var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('Focus', function (e) {
+                        textarea.trigger('click');
+                      });
+
+                      ed.on('init', function() {
+                        if (content) ed.setContent(content);
+                      })
+                  }
+
+                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+            },
+            get_container: function (textarea) {
+                if (!textarea.data('comment_index')) {
+                    textarea.data('comment_index', ++this.opts.comment_index);
+                }
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
+            },
+            get_contents: function(editor) {
+               return editor.getContent();
+            },
+            on_post_comment: function(editor, evt) {
+               editor.setContent('');
+            },
+            get_container_id: function(comment_index) {
+              var container_id = this.opts.container_id;
+              if (comment_index) container_id = container_id + "-" + comment_index;
+              return container_id;
+            }
+        },
       currentUserIsAdmin:current_user_is_admin,
       getComments: function(success, error) {
         $.get(admin_url + 'projects/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){

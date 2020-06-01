@@ -58,7 +58,7 @@ abstract class App_pdf extends TCPDF
         $this->setLanguageArray($this->languageArray);
 
         $this->swap       = get_option('swap_pdf_info');
-        $this->pdf_author = get_option('company');
+        $this->pdf_author = get_option('companyname');
 
         $this->set_font_size($this->get_default_font_size());
         $this->set_font_name($this->get_default_font_name());
@@ -206,6 +206,9 @@ abstract class App_pdf extends TCPDF
         $content = preg_replace('/(<img[^>]+>(?:<\/img>)?)/i', '<div>$1</div>', $content);
         // Fix BLOG images from TinyMCE Mobile Upload, could help with desktop too
         $content = preg_replace('/data:image\/jpeg;base64/m', '@', $content);
+        // Replace <img src="" width="100%" height="auto">
+        $content = str_replace('width="100%" height="auto"', '', $content);
+
         // Add cellpadding to all tables inside the html
         $content = preg_replace('/(<table\b[^><]*)>/i', '$1 cellpadding="4">', $content);
 
@@ -276,5 +279,71 @@ abstract class App_pdf extends TCPDF
         $this->ci->load->library('app_number_to_word', [ 'clientid' => $client_id ], 'numberword');
 
         return $this;
+    }
+
+    /**
+     * @internal FIXES TCPDF version 6.3.2 file not exists when destroying
+     */
+    public function _destroy($destroyall = false, $preserve_objcopy = false)
+    {
+        // restore internal encoding
+        if (isset($this->internal_encoding) and !empty($this->internal_encoding)) {
+            mb_internal_encoding($this->internal_encoding);
+        }
+
+        if (isset(self::$cleaned_ids[$this->file_id])) {
+            $destroyall = false;
+        }
+
+        if ($destroyall and !$preserve_objcopy) {
+            self::$cleaned_ids[$this->file_id] = true;
+            // remove all temporary files
+            if ($handle = opendir(K_PATH_CACHE)) {
+                while (false !== ($file_name = readdir($handle))) {
+                    if (strpos($file_name, '__tcpdf_' . $this->file_id . '_') === 0) {
+                        // CUSTOM CODE
+                        if (file_exists(K_PATH_CACHE . $file_name)) {
+                            unlink(K_PATH_CACHE . $file_name);
+                        }
+                    }
+                }
+                closedir($handle);
+            }
+
+            if (isset($this->imagekeys)) {
+                foreach ($this->imagekeys as $file) {
+                    // CUSTOM CODE,
+                    // Check if file exists
+                    // sometimes is throwing error
+                    // if the files does not exists
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+            }
+        }
+
+        $preserve = [
+            'file_id',
+            'internal_encoding',
+            'state',
+            'bufferlen',
+            'buffer',
+            'cached_files',
+            'sign',
+            'signature_data',
+            'signature_max_length',
+            'byterange_string',
+            'tsa_timestamp',
+            'tsa_data',
+        ];
+
+        foreach (array_keys(get_object_vars($this)) as $val) {
+            if ($destroyall or !in_array($val, $preserve)) {
+                if ((!$preserve_objcopy or ($val != 'objcopy')) and ($val != 'file_id') and isset($this->$val)) {
+                    unset($this->$val);
+                }
+            }
+        }
     }
 }

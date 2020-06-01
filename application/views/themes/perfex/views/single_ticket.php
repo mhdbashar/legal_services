@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="row">
     <?php if($ticket->project_id != 0){ ?>
-    <div class="col-md-12">
+    <div class="col-md-12 single-ticket-project-area">
         <div class="alert alert-info">
             <?php echo _l('ticket_linked_to_project','<a href="'.site_url('clients/project/'.$ticket->project_id).'"><b>'.get_project_name_by_id($ticket->project_id).'</b></a>') ;?>
         </div>
@@ -111,7 +111,7 @@
                                   <div class="form-group">
                                     <label for="attachment" class="control-label"><?php echo _l('clients_ticket_attachments'); ?></label>
                                     <div class="input-group">
-                                     <input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                                     <input type="file" extension="<?php echo str_replace(['.', ' '], '', get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
                                      <span class="input-group-btn">
                                         <button class="btn btn-success add_more_attachments p8-half" data-max="<?php echo get_option('maximum_allowed_ticket_attachments'); ?>" type="button"><i class="fa fa-plus"></i></button>
                                     </span>

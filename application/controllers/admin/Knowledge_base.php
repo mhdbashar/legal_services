@@ -33,7 +33,7 @@ class Knowledge_base extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
+            $data['description'] = html_purify($this->input->post('description', false));
 
             if ($id == '') {
                 if (!has_permission('knowledge_base', '', 'create')) {

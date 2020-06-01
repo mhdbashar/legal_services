@@ -527,9 +527,10 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-
-        if (isset($data['two_factor_auth_enabled'])) {
-            $data['two_factor_auth_enabled'] = 1;
+														//ShababSy.com Added this cond.
+        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
+            //ShababSy.com Changed this
+			//$data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }
@@ -651,8 +652,10 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-        if (isset($data['two_factor_auth_enabled'])) {
-            $data['two_factor_auth_enabled'] = 1;
+        												//ShababSy.com Added this cond.
+        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
+            //ShababSy.com Changed this
+			//$data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }

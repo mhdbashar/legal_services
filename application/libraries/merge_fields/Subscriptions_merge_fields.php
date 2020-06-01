@@ -8,32 +8,39 @@ class Subscriptions_merge_fields extends App_merge_fields
     {
         return  [
                 [
-                    'name'      => 'Subscription ID',
+                    'name'      => _l('subscription_id'),
                     'key'       => '{subscription_id}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => 'Subscription Name',
+                    'name'      => _l('subscription_name'),
                     'key'       => '{subscription_name}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => 'Subscription Description',
+                    'name'      => _l('subscription_description'),
                     'key'       => '{subscription_description}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => 'Subscription Subscribe Link',
+                    'name'      => _l('subscription_subscribe_link'),
                     'key'       => '{subscription_link}',
                     'available' => [
                         'subscriptions',
                     ],
+                ],
+                [
+                    'name'      => _l('subscription_authorization_link'),
+                    'key'       => '{subscription_authorize_payment_link}',
+                    'available' => [
+                    ],
+                    'templates' => ['subscription-payment-requires-action'],
                 ],
             ];
     }
@@ -43,7 +50,7 @@ class Subscriptions_merge_fields extends App_merge_fields
      * @param  mixed id
      * @return array
      */
-    public function format($id)
+    public function format($id, $confirmation_link = '')
     {
         if (!class_exists('subscriptions_model')) {
             $this->ci->load->model('subscriptions_model');
@@ -53,6 +60,12 @@ class Subscriptions_merge_fields extends App_merge_fields
 
         if (!$subscription) {
             return $fields;
+        }
+
+        $fields['{subscription_authorize_payment_link}'] = '';
+
+        if ($confirmation_link) {
+            $fields['{subscription_authorize_payment_link}'] = $confirmation_link;
         }
 
         $fields['{subscription_link}']        = site_url('subscription/' . $subscription->hash);

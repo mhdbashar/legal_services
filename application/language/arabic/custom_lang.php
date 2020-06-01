@@ -1,6 +1,6 @@
 <?php
 
-
+$lang['imported'] = 'مستوردة';
 $lang['global_hr_setting'] = 'الاعدادات الرئيسية';
 $lang['hr'] = 'الموارد البشرية';
 $lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';

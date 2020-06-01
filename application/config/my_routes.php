@@ -25,6 +25,7 @@ $route['admin/edit_category/(:num)/(:num)'] = 'admin/LegalServices/LegalServices
 $route['admin/ChildCategory/(:num)/(:num)'] = 'admin/LegalServices/LegalServices_controller/GetChildCat/$1/$2';
 $route['admin/AddChildCat/(:num)/(:num)'] = 'admin/LegalServices/LegalServices_controller/AddChildCategory/$1/$2';
 $route['admin/Service/(:num)'] = 'admin/LegalServices/LegalServices_controller/ViewSubService/$1';
+$route['admin/Service/imported/(:num)'] = 'admin/LegalServices/LegalServices_controller/ViewSubService/$1/1';
 
 //Sub Services
 $route['admin/SOther/view/(:num)/(:num)'] = 'admin/LegalServices/Other_services_controller/view/$1/$2';

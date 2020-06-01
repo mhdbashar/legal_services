@@ -9,7 +9,7 @@
                         <div class="_buttons">
                             <?php if(has_permission('projects','','create')){ ?>
                                 <?php $route = $ServID == 1 ?  admin_url("Case/add/$ServID") : admin_url("SOther/add/$ServID") ?>
-                                <a href="<?php echo $route; ?>" class="btn btn-info pull-left display-block">
+                                <a href="<?php echo $route; ?>" class="btn btn-info mright5 test pull-left display-block">
                                     <?php echo _l('permission_create').' '.$service->name; ?>
                                 </a>
                             <?php }
@@ -21,6 +21,13 @@
                             $render_class = $ServID == 1 ? 'cases' : 'my_other_services';
 
                             ?>
+
+                            <?php $imported_route = $imported == 1 ?  admin_url("Service/$ServID") : admin_url("Service/imported/$ServID") ?>
+                            <a href="<?php echo $imported_route; ?>" class="btn btn-info mright5 test pull-left display-block">
+                                <?php echo $imported == 1 ? $service->name : $service->name.' '. _l('imported') ?>
+                            </a>
+
+
                             <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-filter" aria-hidden="true"></i>
@@ -143,13 +150,20 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<?php 
+
+    $import = '';
+    if($imported == 1)
+        $import = '/imported';
+
+?>
 <script>
     $(function(){
         var ProjectsServerParams = {};
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+        initDataTable('<?php echo $class ?>', admin_url + 'Service<?php echo $import ?>/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
     });
 </script>
 </body>

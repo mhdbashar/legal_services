@@ -1,6 +1,6 @@
 <?php
 
-
+$lang['imported'] = 'Imported';
 $lang['global_hr_setting'] = 'Global HR Settings';
 $lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';

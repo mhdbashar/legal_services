@@ -22,12 +22,6 @@
 
                             ?>
 
-                            <?php $imported_route = admin_url("Service/imported/$ServID") ?>
-                            <a href="<?php echo $imported_route; ?>" class="btn btn-info mright5 test pull-left display-block">
-                                <?php echo $service->name.' '. _l('imported'); ?>
-                            </a>
-
-
                             <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-filter" aria-hidden="true"></i>
@@ -150,20 +144,13 @@
     </div>
 </div>
 <?php init_tail(); ?>
-<?php 
-
-    $import = '';
-    if($imported == 1)
-        $import = '/imported';
-
-?>
 <script>
     $(function(){
         var ProjectsServerParams = {};
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', admin_url + 'Service<?php echo $import ?>/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+        initDataTable('<?php echo $class ?>', admin_url + 'Service/<?php echo $ServID ?>', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
     });
 </script>
 </body>

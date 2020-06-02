@@ -23,7 +23,7 @@ class Other_services_controller extends AdminController
 
         $token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiemFoZXIiLCJuYW1lIjoiQWhtYWQgWmFoZXIiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTEwMDcxMTB9.arN3QJBDW48uqCIx13zhuif5FPvfLwZGghpULRgvP_8';
 
-        $url = 'http://localhost/legal_services/api/Service'.$ServID.'/data';
+        $url = 'http://localhost/legal_services/api/Service/data';
 
         $this->db->where(['id' => $id, 'service_id' => $ServID]);
         $post_data = '';

@@ -54,6 +54,11 @@ function my_module_menu_item_collapsible()
             'href'     => admin_url("Service/$service->id"), // URL of the item
         ]);
     endforeach;
+    $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("imported_services"), // The name if the item
+        'href'     => admin_url("imported_services"), // URL of the item
+    ]);
 
     $CI->app_menu->add_sidebar_menu_item('transactions', [
         'name'     => _l("transactions"), // The name if the item

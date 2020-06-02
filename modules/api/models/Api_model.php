@@ -10,6 +10,10 @@ class Api_model extends App_Model
     public function get_table($name, $id)
     {
         switch ($name) {
+            case 'Service':
+                $this->load->model('Service_model');
+                return $this->Service_model->get($id);
+                break;
             case 'projects':
                 $this->load->model('Projects_model');
                 return $this->Projects_model->get($id);

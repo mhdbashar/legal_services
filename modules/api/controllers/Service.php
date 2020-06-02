@@ -14,7 +14,7 @@ require __DIR__.'/REST_Controller.php';
  * @subpackage      Rest Server
  * @category        Controller 
  */
-class Service10 extends REST_Controller {
+class Service extends REST_Controller {
 
     function __construct()
     {
@@ -73,7 +73,7 @@ class Service10 extends REST_Controller {
     public function data_get($id = '')
     {
         // If the id parameter doesn't exist return all the
-        $data = $this->Api_model->get_table('Service10', $id);
+        $data = $this->Api_model->get_table('Service', $id);
 
         // Check if the data store contains
         if ($data)
@@ -140,7 +140,7 @@ class Service10 extends REST_Controller {
      */
     public function data_search_get($key = '')
     {
-        $data = $this->Api_model->search('Service10', $key);
+        $data = $this->Api_model->search('Service', $key);
 
         // Check if the data store contains
         if ($data)
@@ -227,6 +227,7 @@ class Service10 extends REST_Controller {
 
             // form validation
             $this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[600]', array('is_unique' => 'This %s already exists please enter another Name'));
+            $this->form_validation->set_rules('service_id', 'Service id', 'trim|required|max_length[11]');
             //$this->form_validation->set_rules('rel_type', 'Related', 'trim|required', array('is_unique' => 'This %s already exists please enter another Project Related'));
             $this->form_validation->set_rules('billing_type', 'Billing Type', 'trim|required', array('is_unique' => 'This %s already exists please enter another Project Billing Type'));
             $this->form_validation->set_rules('start_date', 'Start Date', 'trim|required', array('is_unique' => 'This %s already exists please enter another Start Date'));
@@ -247,8 +248,8 @@ class Service10 extends REST_Controller {
             {
                 $project_members = $this->Api_model->value($this->input->post('project_members', TRUE));
                 $insert_data = [
-                    'imported' => 1,
                     'name' => $this->input->post('name', TRUE),
+                    'service_id' => $this->input->post('service_id', TRUE),
                     'code' => $this->input->post('code', TRUE), 
                     'numbering' => $this->input->post('numbering', TRUE),
                     'cat_id' => $this->input->post('cat_id', TRUE),
@@ -273,8 +274,8 @@ class Service10 extends REST_Controller {
                         $insert_data['project_members'] = $project_members;
                     }
                 // insert data                    
-                $this->load->model('LegalServices/Other_services_model', 'other');             
-                $output = $this->other->add(10, $insert_data);                
+                $this->load->model('Service_model', 'other');             
+                $output = $this->other->add($this->input->post('service_id'), $insert_data);                
                 if($output > 0 && !empty($output)){
                     handle_project_file_uploads($output);
                     // success
@@ -338,7 +339,7 @@ class Service10 extends REST_Controller {
         else
         {
             // delete data
-            $this->load->model('LegalServices/Other_services_model', 'other');
+            $this->load->model('Service_model', 'other');
             $output = $this->other->delete($id);
             if($output === TRUE){
                 // success
@@ -464,7 +465,7 @@ class Service10 extends REST_Controller {
 
             $update_data = $this->input->post();
             // update data
-            $this->load->model('LegalServices/Other_services_model', 'other');
+            $this->load->model('Service_model', 'other');
             $output = $this->other->update($update_data, $id);
             if($output == true && !empty($output)){
                 // success

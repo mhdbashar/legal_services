@@ -57,6 +57,45 @@ class LegalServices_controller extends AdminController
         $this->load->view('admin/LegalServices/basic_services/manage',$data);
     }
 
+    public function ViewImportedService()
+    {
+        close_setup_menu();
+        // $data['service'] = $this->legal->get_service_by_id($ServID)->row();
+        // $data['ServID']  = $ServID;
+        // if ($ServID == 1){
+        //     $data['statuses'] = $this->case->get_project_statuses();
+        //     $data['model']    = $this->case;
+        //     if ($this->input->is_ajax_request()) {
+        //         $this->app->get_table_data('cases',$data);
+        //     }
+        // }else{
+        //     $data['statuses'] = $this->other->get_project_statuses();
+        //     $data['model']    = $this->other;
+        //     if ($this->input->is_ajax_request()) {
+        //         $this->app->get_table_data('my_other_services',$data);
+        //     }
+        // }
+        $data['statuses'] = $this->other->get_project_statuses();
+        $service = [
+            'name' => 'imported_services',
+            'slug' => 'import',
+            'prefix' => 'IMPORT',
+            'numbering' => 1,
+            'is_primary' => 1,
+            'show_in_sidbar' => 1,
+            'is_module' => 0,
+            'date_created' => '2020-01-23 21:03:43'
+        ];
+        $data['service'] = (object) $service;
+        $data['model']    = $this->other;
+        $data['ServID']  = 2;
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('my_imported_services', $data);
+        }
+        $data['title']    = _l('imported_services');
+        $this->load->view('admin/LegalServices/imported_services/manage',$data);
+    }
+
     public function PrimaryService($ServID)
     {
         $IfExist = $this->legal->CheckExistService($ServID);

@@ -17,6 +17,40 @@ class Other_services_controller extends AdminController
         $this->load->model('emails_model');
     }
 
+
+    // Example URL : http://localhost/legalserv1/admin/LegalServices/other_services_controller/export_service/2/1
+    public function export_service($ServID, $id){
+
+        $token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiemFoZXIiLCJuYW1lIjoiQWhtYWQgWmFoZXIiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTEwMDcxMTB9.arN3QJBDW48uqCIx13zhuif5FPvfLwZGghpULRgvP_8';
+
+        $url = 'http://localhost/legal_services/api/Service'.$ServID.'/data';
+
+        $this->db->where(['id' => $id, 'service_id' => $ServID]);
+        $post_data = '';
+        $data = ($this->db->get('tblmy_other_services')->row_array());
+        $post_data = http_build_query($data);
+        
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded" , $token ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$post_data);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $result = curl_exec($ch);
+        $response_object = (json_decode($result));
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200){
+            set_alert('danger', _l('problem_exporting'));
+        }else{
+            set_alert('success', _l('exported_successfully'));
+        }
+        curl_close($ch);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function add($ServID)
     {
         if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {

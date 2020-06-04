@@ -120,6 +120,83 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_other_services')->result_array();
     }
 
+    public function get_imported($id = '', $where = [])
+    {
+        $this->db->where($where);
+        if (is_numeric($id)) {
+            $this->db->where(array('my_imported_services.id' => $id, 'my_imported_services.deleted' => 0));
+            $this->db->select('my_imported_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
+            $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_imported_services.country', 'left');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_imported_services.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_imported_services.subcat_id', 'left');
+            $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+            if ($project) {
+                $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
+                $settings = $this->get_project_settings($id);
+
+                // SYNC NEW TABS
+                $tabs = get_iservice_tabs_admin();
+                $tabs_flatten = [];
+                $settings_available_features = [];
+
+                $available_features_index = false;
+                foreach ($settings as $key => $setting) {
+                    if ($setting['name'] == 'available_features') {
+                        $available_features_index = $key;
+                        $available_features = unserialize($setting['value']);
+                        if (is_array($available_features)) {
+                            foreach ($available_features as $name => $avf) {
+                                $settings_available_features[] = $name;
+                            }
+                        }
+                    }
+                }
+                foreach ($tabs as $tab) {
+                    if (isset($tab['collapse'])) {
+                        foreach ($tab['children'] as $d) {
+                            $tabs_flatten[] = $d['slug'];
+                        }
+                    } else {
+                        $tabs_flatten[] = $tab['slug'];
+                    }
+                }
+                if (count($settings_available_features) != $tabs_flatten) {
+                    foreach ($tabs_flatten as $tab) {
+                        if (!in_array($tab, $settings_available_features)) {
+                            if ($available_features_index) {
+                                $current_available_features_settings = $settings[$available_features_index];
+                                $tmp = unserialize($current_available_features_settings['value']);
+                                $tmp[$tab] = 1;
+                                $this->db->where('id', $current_available_features_settings['id']);
+                                $this->db->update(db_prefix() . 'oservice_settings', ['value' => serialize($tmp)]);
+                            }
+                        }
+                    }
+                }
+
+                $project->settings = new StdClass();
+
+                foreach ($settings as $setting) {
+                    $project->settings->{$setting['name']} = $setting['value'];
+                }
+
+                $project->client_data = new StdClass();
+                $project->client_data = $this->clients_model->get($project->clientid);
+
+                $project = hooks()->apply_filters('project_get', $project);
+                $GLOBALS['project'] = $project;
+                return $project;
+            }
+
+            return null;
+        }
+        $this->db->where(array('my_imported_services.deleted' => 0));
+        $this->db->select('*,' . get_sql_select_client_company());
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_imported_services.clientid');
+        $this->db->order_by('my_imported_services.id', 'desc');
+        return $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+    }
+
     public function GetTopNumbering()
     {
         $this->db->select('numbering');
@@ -912,6 +989,45 @@ class Other_services_model extends App_Model
     }
 
     public function calc_progress_by_tasks($id,$slug )
+    {
+        $total_project_tasks = total_rows(db_prefix() . 'tasks', [
+            'rel_type' => $slug,
+            'rel_id' => $id,
+        ]);
+        $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
+            'rel_type' => $slug,
+            'rel_id' => $id,
+            'status' => 5,
+        ]);
+        $percent = 0;
+        if ($total_finished_tasks >= floatval($total_project_tasks)) {
+            $percent = 100;
+        } else {
+            if ($total_project_tasks !== 0) {
+                $percent = number_format(($total_finished_tasks * 100) / $total_project_tasks, 2);
+            }
+        }
+
+        return $percent;
+    }
+
+    public function calc_progress_imported($slug,$id)
+    {
+        $this->db->select('progress_from_tasks,progress,status');
+        $this->db->where('id', $id);
+        $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+        if ($project->status == 4) {
+            return 100;
+        }
+
+        if ($project->progress_from_tasks == 1) {
+            return $this->calc_progress_by_tasks_imported($id,$slug);
+        }
+
+        return $project->progress;
+    }
+
+    public function calc_progress_by_tasks_imported($id,$slug )
     {
         $total_project_tasks = total_rows(db_prefix() . 'tasks', [
             'rel_type' => $slug,

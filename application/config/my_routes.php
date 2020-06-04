@@ -33,7 +33,8 @@ $route['admin/SOther/add/(:num)'] = 'admin/LegalServices/Other_services_controll
 $route['admin/SOther/edit/(:num)/(:num)'] = 'admin/LegalServices/Other_services_controller/edit/$1/$2';
 $route['admin/SOther/delete/(:num)/(:num)'] = 'admin/LegalServices/Other_services_controller/delete/$1/$2';
 //$route['admin/ServiceDetails/(:num)/(:num)'] = 'admin/LegalServices/LegalServices_controller/ViewDetailsSubService/$1/$2';
-
+// Imported Services
+$route['admin/SImported/view/(:num)'] = 'admin/LegalServices/Imported_services_controller/view/$1';
 //Cases
 $route['admin/Case/view/(:num)/(:num)'] = 'admin/LegalServices/Cases_controller/view/$1/$2';
 $route['admin/Case/add/(:num)'] = 'admin/LegalServices/Cases_controller/add/$1';

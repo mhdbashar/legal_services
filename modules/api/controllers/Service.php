@@ -269,7 +269,9 @@ class Service extends REST_Controller {
                     'service_session_link' => $this->Api_model->value($this->input->post('service_session_link', TRUE)),
                     //'tags' => $this->Api_model->value($this->input->post('tags', TRUE)),
                     
-                    'settings' => array( 'available_features' => array( 'project_overview', 'project_milestones', 'project_gantt', 'project_tasks', 'project_estimates', 'project_subscriptions', 'project_invoices', 'project_expenses', 'project_credit_notes', 'project_tickets', 'project_timesheets', 'project_files', 'project_discussions', 'project_notes', 'project_activity')) ];
+                    'settings' => array( 'available_features' => array( 'project_overview',
+                        //'project_milestones', 'project_gantt', 'project_tasks', 'project_estimates', 'project_subscriptions', 'project_invoices', 'project_expenses', 'project_credit_notes', 'project_tickets', 'project_timesheets', 'project_files', 'project_discussions', 'project_notes', 'project_activity'
+                    )) ];
                     if($project_members != ''){
                         $insert_data['project_members'] = $project_members;
                     }

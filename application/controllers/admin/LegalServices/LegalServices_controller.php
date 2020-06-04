@@ -78,7 +78,7 @@ class LegalServices_controller extends AdminController
         $data['statuses'] = $this->other->get_project_statuses();
         $service = [
             'name' => 'imported_services',
-            'slug' => 'import',
+            'slug' => 'imported_services',
             'prefix' => 'IMPORT',
             'numbering' => 1,
             'is_primary' => 1,

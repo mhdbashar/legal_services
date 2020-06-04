@@ -159,6 +159,7 @@ $autoload['helper'] = [
         'deprecated',
         'cases',
         'oservices',
+        'iservices',
     ];
 
 if (file_exists(APPPATH . 'helpers/my_functions_helper.php')) {

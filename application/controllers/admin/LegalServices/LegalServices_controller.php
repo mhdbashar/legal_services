@@ -216,6 +216,11 @@ class LegalServices_controller extends AdminController
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url('ServicesControl'));
         }
+        $RelatedService = $this->legal->CheckExistRelatedServices($ServID,$CatID);
+        if($RelatedService > 0){
+            set_alert('danger', _l('problem_deleting_rel_serv'));
+            redirect(admin_url('ServicesControl'));
+        }
         $response = $this->legal->delete_category($CatID);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('Categories')));

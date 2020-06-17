@@ -39,7 +39,7 @@ class Departments extends AdminController
                 unset($data['fakeusernameremembered']);
                 unset($data['fakepasswordremembered']);
             }
-            if($this->app_modules->is_active('branch_ides')){
+            if($this->app_modules->is_active('branches')){
                 $branch_id = $this->input->post('branch_id');
 
                 unset($data['branch_id']);

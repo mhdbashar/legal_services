@@ -106,30 +106,30 @@ function app_init_iservice_tabs()
     //     'visible' => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('sales', [
-    //     'name' => _l('sales_string'),
-    //     'position' => 45,
-    //     'collapse' => true,
-    //     'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
-    //         || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
-    //         || (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
-    // ]);
+    $CI->app_tabs->add_iservice_tab('sales', [
+        'name' => _l('sales_string'),
+        'position' => 45,
+        'collapse' => true,
+        'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
+            || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
+            || (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
+    ]);
 
-    // $CI->app_tabs->add_iservice_tab_children_item('sales', [
-    //     'slug' => 'project_invoices',
-    //     'name' => _l('project_invoices'),
-    //     'view' => 'admin/LegalServices/other_services/project_invoices',
-    //     'position' => 5,
-    //     'visible' => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
-    // ]);
+    $CI->app_tabs->add_iservice_tab_children_item('sales', [
+        'slug' => 'project_invoices',
+        'name' => _l('project_invoices'),
+        'view' => 'admin/LegalServices/imported_services/project_invoices',
+        'position' => 5,
+        'visible' => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
+    ]);
 
-    // $CI->app_tabs->add_iservice_tab_children_item('sales', [
-    //     'slug' => 'project_estimates',
-    //     'name' => _l('estimates'),
-    //     'view' => 'admin/LegalServices/other_services/project_estimates',
-    //     'position' => 10,
-    //     'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
-    // ]);
+    $CI->app_tabs->add_iservice_tab_children_item('sales', [
+        'slug' => 'project_estimates',
+        'name' => _l('estimates'),
+        'view' => 'admin/LegalServices/imported_services/project_estimates',
+        'position' => 10,
+        'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
+    ]);
 
     // $CI->app_tabs->add_iservice_tab_children_item('sales', [
     //     'slug' => 'project_expenses',

@@ -248,7 +248,7 @@ class Service_model extends App_Model
                             $value_setting = 0;
                         }
                     } else {
-                        $tabs = get_oservice_tabs_admin();
+                        $tabs = get_iservice_tabs_admin();
                         $tab_settings = [];
                         foreach ($_values[$setting] as $tab) {
                             $tab_settings[$tab] = 1;

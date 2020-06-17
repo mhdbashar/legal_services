@@ -90,7 +90,7 @@ class App_tabs
 
     public function add_iservice_tab_children_item($parent_slug, $tab)
     {
-        $this->add_child($parent_slug, $tab, 'oservice');
+        $this->add_child($parent_slug, $tab, 'iservice');
 
         return $this;
     }

@@ -14,6 +14,10 @@ class Api_model extends App_Model
                 $this->load->model('Service_model');
                 return $this->Service_model->get($id);
                 break;
+            case 'estimates':
+                $this->load->model('Estimates_model');
+                return $this->Estimates_model->get($id);
+                break;
             case 'projects':
                 $this->load->model('Projects_model');
                 return $this->Projects_model->get($id);

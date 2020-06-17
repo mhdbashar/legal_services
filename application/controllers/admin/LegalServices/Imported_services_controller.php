@@ -273,7 +273,6 @@ class Imported_services_controller extends AdminController
             $percent = $this->other->calc_progress_imported($slug,$id);
             $data['bodyclass'] = '';
 
-            //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
@@ -920,38 +919,39 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function get_pre_invoice_project_info($ServID, $project_id)
+    public function get_pre_invoice_project_info($project_id)
     {
         if (has_permission('invoices', '', 'create')) {
-            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-            $data['billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
-                'billable' => 1,
-                'billed' => 0,
+            $data['billable_tasks'] = $this->projects_model->get_tasks($project_id, [
+                'billable'     => 1,
+                'billed'       => 0,
                 'startdate <=' => date('Y-m-d'),
             ]);
-            $data['not_billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
-                'billable' => 1,
-                'billed' => 0,
+
+            $data['not_billable_tasks'] = $this->projects_model->get_tasks($project_id, [
+                'billable'    => 1,
+                'billed'      => 0,
                 'startdate >' => date('Y-m-d'),
             ]);
-            $data['project_id'] = $project_id;
-            $data['ServID']     = $ServID;
-            $data['billing_type'] = get_oservice_billing_type($project_id);
+
+            $data['project_id']   = $project_id;
+            $data['billing_type'] = get_project_billing_type($project_id);
+
             $this->load->model('expenses_model');
             $this->db->where('invoiceid IS NULL');
             $data['expenses'] = $this->expenses_model->get('', [
-                'rel_sid'    => $project_id,
-                'rel_stype'  => $slug,
+                'project_id' => $project_id,
                 'billable'   => 1,
             ]);
-            $this->load->view('admin/LegalServices/other_services/project_pre_invoice_settings', $data);
+
+            $this->load->view('admin/LegalServices/imported_services/project_pre_invoice_settings', $data);
         }
     }
 
-    public function get_invoice_project_data($ServID)
+    public function get_invoice_project_data()
     {
         if (has_permission('invoices', '', 'create')) {
-            $type = $this->input->post('type');
+            $type       = $this->input->post('type');
             $project_id = $this->input->post('project_id');
             // Check for all cases
             if ($type == '') {
@@ -962,8 +962,8 @@ class Imported_services_controller extends AdminController
                 'expenses_only !=' => 1,
             ]);
             $this->load->model('taxes_model');
-            $data['taxes'] = $this->taxes_model->get();
-            $data['currencies'] = $this->currencies_model->get();
+            $data['taxes']         = $this->taxes_model->get();
+            $data['currencies']    = $this->currencies_model->get();
             $data['base_currency'] = $this->currencies_model->get_base_currency();
             $this->load->model('invoice_items_model');
 
@@ -971,33 +971,32 @@ class Imported_services_controller extends AdminController
             if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
                 $data['items'] = $this->invoice_items_model->get_grouped();
             } else {
-                $data['items'] = [];
+                $data['items']     = [];
                 $data['ajaxItems'] = true;
             }
 
             $data['items_groups'] = $this->invoice_items_model->get_groups();
-            $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-            $project = $this->other->get($ServID, $project_id);
-            $data['project'] = $project;
+            $data['staff']        = $this->staff_model->get('', ['active' => 1]);
+            $project              = $this->projects_model->get($project_id);
+            $data['project']      = $project;
+            $items                = [];
 
-            $items = [];
-
-            $project = $this->other->get($ServID, $project_id);
+            $project    = $this->projects_model->get($project_id);
             $item['id'] = 0;
 
-            $default_tax = unserialize(get_option('default_tax'));
+            $default_tax     = unserialize(get_option('default_tax'));
             $item['taxname'] = $default_tax;
 
             $tasks = $this->input->post('tasks');
             if ($tasks) {
                 $item['long_description'] = '';
-                $item['qty'] = 0;
-                $item['task_id'] = [];
+                $item['qty']              = 0;
+                $item['task_id']          = [];
                 if ($type == 'single_line') {
                     $item['description'] = $project->name;
                     foreach ($tasks as $task_id) {
                         $task = $this->tasks_model->get($task_id);
-                        $sec = $this->tasks_model->calc_task_total_time($task_id);
+                        $sec  = $this->tasks_model->calc_task_total_time($task_id);
                         $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format($sec) . ' ' . _l('hours') . "\r\n";
                         $item['task_id'][] = $task_id;
                         if ($project->billing_type == 2) {
@@ -1008,19 +1007,19 @@ class Imported_services_controller extends AdminController
                         }
                     }
                     if ($project->billing_type == 1) {
-                        $item['qty'] = 1;
+                        $item['qty']  = 1;
                         $item['rate'] = $project->project_cost;
                     } elseif ($project->billing_type == 2) {
                         $item['rate'] = $project->project_rate_per_hour;
                     }
                     $item['unit'] = '';
-                    $items[] = $item;
+                    $items[]      = $item;
                 } elseif ($type == 'task_per_item') {
                     foreach ($tasks as $task_id) {
-                        $task = $this->tasks_model->get($task_id);
-                        $sec = $this->tasks_model->calc_task_total_time($task_id);
-                        $item['description'] = $project->name . ' - ' . $task->name;
-                        $item['qty'] = floatVal(sec2qty($sec));
+                        $task                     = $this->tasks_model->get($task_id);
+                        $sec                      = $this->tasks_model->calc_task_total_time($task_id);
+                        $item['description']      = $project->name . ' - ' . $task->name;
+                        $item['qty']              = floatVal(sec2qty($sec));
                         $item['long_description'] = seconds_to_time_format($sec) . ' ' . _l('hours');
                         if ($project->billing_type == 2) {
                             $item['rate'] = $project->project_rate_per_hour;
@@ -1028,11 +1027,11 @@ class Imported_services_controller extends AdminController
                             $item['rate'] = $task->hourly_rate;
                         }
                         $item['task_id'] = $task_id;
-                        $item['unit'] = '';
-                        $items[] = $item;
+                        $item['unit']    = '';
+                        $items[]         = $item;
                     }
                 } elseif ($type == 'timesheets_individualy') {
-                    $timesheets = $this->other->get_timesheets($ServID, $project_id, $tasks);
+                    $timesheets     = $this->projects_model->get_timesheets($project_id, $tasks);
                     $added_task_ids = [];
                     foreach ($timesheets as $timesheet) {
                         if ($timesheet['task_data']->billed == 0 && $timesheet['task_data']->billable == 1) {
@@ -1043,7 +1042,7 @@ class Imported_services_controller extends AdminController
 
                             array_push($added_task_ids, $timesheet['task_id']);
 
-                            $item['qty'] = floatVal(sec2qty($timesheet['total_spent']));
+                            $item['qty']              = floatVal(sec2qty($timesheet['total_spent']));
                             $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format($timesheet['total_spent'])) . ' ' . _l('hours');
 
                             if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
@@ -1056,7 +1055,7 @@ class Imported_services_controller extends AdminController
                                 $item['rate'] = $timesheet['task_data']->hourly_rate;
                             }
                             $item['unit'] = '';
-                            $items[] = $item;
+                            $items[]      = $item;
                         }
                     }
                 }
@@ -1071,7 +1070,7 @@ class Imported_services_controller extends AdminController
                 if (count($tasks) > 0) {
                     $data['qty_hrs_quantity'] = true;
                 }
-                $expenses = $this->input->post('expenses');
+                $expenses       = $this->input->post('expenses');
                 $addExpenseNote = $this->input->post('expenses_add_note');
                 $addExpenseName = $this->input->post('expenses_add_name');
 
@@ -1086,11 +1085,11 @@ class Imported_services_controller extends AdminController
                 $this->load->model('expenses_model');
                 foreach ($expenses as $expense_id) {
                     // reset item array
-                    $item = [];
-                    $item['id'] = 0;
-                    $expense = $this->expenses_model->get($expense_id);
-                    $item['expense_id'] = $expense->expenseid;
-                    $item['description'] = _l('item_as_expense') . ' ' . $expense->name;
+                    $item                     = [];
+                    $item['id']               = 0;
+                    $expense                  = $this->expenses_model->get($expense_id);
+                    $item['expense_id']       = $expense->expenseid;
+                    $item['description']      = _l('item_as_expense') . ' ' . $expense->name;
                     $item['long_description'] = $expense->description;
 
                     if (in_array($expense_id, $addExpenseNote) && !empty($expense->note)) {
@@ -1110,17 +1109,16 @@ class Imported_services_controller extends AdminController
                     if ($expense->tax2 != 0) {
                         array_push($item['taxname'], $expense->tax_name2 . '|' . $expense->taxrate2);
                     }
-                    $item['rate'] = $expense->amount;
+                    $item['rate']  = $expense->amount;
                     $item['order'] = 1;
-                    $item['unit'] = '';
-                    $items[] = $item;
+                    $item['unit']  = '';
+                    $items[]       = $item;
                 }
             }
-            $data['customer_id'] = $project->clientid;
+            $data['customer_id']          = $project->clientid;
             $data['invoice_from_project'] = true;
-            $data['add_items'] = $items;
-            $data['ServID']    = $ServID;
-            $this->load->view('admin/LegalServices/other_services/invoice_project', $data);
+            $data['add_items']            = $items;
+            $this->load->view('admin/LegalServices/imported_services/invoice_project', $data);
         }
     }
 
@@ -1156,10 +1154,10 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function invoice_project($ServID, $project_id)
+    public function invoice_project($project_id)
     {
         if (has_permission('invoices', '', 'create')) {
-            $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $slug = "imported";
             $this->load->model('invoices_model');
             $data               = $this->input->post();
             $data['rel_stype']  = $slug;
@@ -1170,7 +1168,7 @@ class Imported_services_controller extends AdminController
                 $this->other->log_activity($project_id, 'LService_activity_invoiced_project', format_invoice_number($invoice_id));
                 set_alert('success', _l('project_invoiced_successfully'));
             }
-            redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id . '?group=project_invoices'));
+            redirect(admin_url('SImported/view/' . $project_id . '?group=project_invoices'));
         }
     }
 

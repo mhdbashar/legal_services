@@ -13,6 +13,12 @@ class Project_contacts extends App_Model
         $this->db->order_by('contact_type');
         return $this->db->get_where('my_projects_contacts', array('project_id' => $project_id))->result();
     }
+    public function get_latest($project_id)
+    {
+        $this->db->order_by('contact_type', 'desc');
+        $this->db->select('MAX(contact_type) as contact_type');
+        return $this->db->get_where('my_projects_contacts', array('project_id' => $project_id))->row();
+    }
 
     public function update_project_temp_contact($project_id)
     {

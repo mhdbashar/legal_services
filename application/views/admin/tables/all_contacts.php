@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = ['CONCAT(firstname, \'\', lastname) as fullname'];
+$aColumns        = [ 'firstname', 'lastname'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }
@@ -21,7 +21,7 @@ $aColumns = array_merge($aColumns, [
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'contacts';
-$join[] = 'INNER JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'contacts.userid AND '.db_prefix().'clients.client_type = 0';
+$join         = ['JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid=' . db_prefix() . 'contacts.userid'];
 
 $custom_fields = get_table_custom_fields('contacts');
 
@@ -41,7 +41,7 @@ if (!has_permission('customers', '', 'view')) {
 if ($this->ci->input->post('custom_view')) {
     $filter = $this->ci->input->post('custom_view');
     if (startsWith($filter, 'consent_')) {
-        array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' AND contact_id=' . db_prefix() . 'contacts.id))');
+        array_push($where, 'AND ' . db_prefix() . 'contacts.id IN (SELECT contact_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' AND contact_id=' . db_prefix() . 'contacts.id))');
     }
 }
 
@@ -58,7 +58,7 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
-    $rowName = '<img src="' . contact_profile_image_url($aRow['id']) . '" class="client-profile-image-small mright5"><a href="#" onclick="contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . $aRow['fullname'] . '</a>';
+    $rowName = '<img src="' . contact_profile_image_url($aRow['id']) . '" class="client-profile-image-small mright5"><a href="#" onclick="contact(' . $aRow['userid'] . ',' . $aRow['id'] . ');return false;">' . $aRow['firstname'] . '</a>';
 
     $rowName .= '<div class="row-options">';
 
@@ -79,6 +79,8 @@ foreach ($rResult as $aRow) {
     $rowName .= '</div>';
 
     $row[] = $rowName;
+
+    $row[] = $aRow['lastname'];
 
     if (is_gdpr() && $consentContacts == '1') {
         $consentHTML = '<p class="bold"><a href="#" onclick="view_contact_consent(' . $aRow['id'] . '); return false;">' . _l('view_consent') . '</a></p>';

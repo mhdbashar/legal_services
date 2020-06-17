@@ -22,7 +22,7 @@ $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
-    array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
     array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
@@ -32,21 +32,21 @@ if (!$this->ci->input->post('tasks_related_to')) {
     $lastElement = end($tasks_related_to);
     foreach ($tasks_related_to as $rel_to) {
         if ($rel_to == 'invoice') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'estimate') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'contract') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'ticket') {
-            $rel_to_query .= '(rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'expense') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'proposal') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_type=' . $rel_id . ' AND rel_type="customer")';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_type=' . $this->ci->db->escape_str($rel_id) . ' AND rel_type="customer")';
         } elseif ($rel_to == 'customer') {
-            $rel_to_query .= '(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'project') {
-            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $rel_id . ')';
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
         } else{
 
             $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
@@ -61,7 +61,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
             $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix(). $table_rel. ' WHERE clientid=' . $rel_id . ')';
         }
 
-        $rel_to_query .= ' AND rel_type="' . $rel_to . '")';
+        $rel_to_query .= ' AND rel_type="' .$this->ci->db->escape_str($rel_to) . '")';
         if ($rel_to != $lastElement) {
             $rel_to_query .= ' OR ';
         }

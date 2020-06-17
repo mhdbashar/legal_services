@@ -226,6 +226,7 @@ class Leads extends AdminController
         } else {
             set_alert('warning', _l('problem_deleting', _l('lead_lowercase')));
         }
+
         $ref = $_SERVER['HTTP_REFERER'];
 
         // if user access leads/inded/ID to prevent redirecting on the same url because will throw 404
@@ -559,6 +560,15 @@ class Leads extends AdminController
                 set_alert('success', _l('lead_to_client_base_converted_success'));
 
                 if (is_gdpr() && get_option('gdpr_after_lead_converted_delete') == '1') {
+                    // When lead is deleted
+                    // move all proposals to the actual customer record
+                    $this->db->where('rel_id', $data['leadid']);
+                    $this->db->where('rel_type', 'lead');
+                    $this->db->update('proposals', [
+                        'rel_id'   => $id,
+                        'rel_type' => 'customer',
+                    ]);
+
                     $this->leads_model->delete($data['leadid']);
 
                     $this->db->where('userid', $id);

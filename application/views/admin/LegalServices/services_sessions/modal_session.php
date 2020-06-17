@@ -218,21 +218,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             <?php if(isset($task)){
-                                $value = _d($task->startdate);
+                                $value_startdate = _d($task->startdate);
                             } else if(isset($start_date)){
-                                $value = $start_date;
+                                $value_startdate = _d($start_date);
                             } else {
-                                $value = _d(date('Y-m-d'));
+                                $value_startdate = _d(date('Y-m-d'));
                             }
                             $date_attrs = array();
                             if(isset($task) && $task->recurring > 0 && $task->last_recurring_date != null) {
                                 $date_attrs['disabled'] = true;
                             }
                             ?>
-                            <?php echo render_date_input('startdate','session_date',$value, $date_attrs); ?>
+                            <?php echo render_date_input('startdate','session_date',$value_startdate, $date_attrs); ?>
                             <div class="col-md-6 hide">
-                                <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                                <?php echo render_date_input('duedate','task_add_edit_due_date',$value,$project_end_date_attrs); ?>
+                                <?php $value_due_date = (isset($task) ? _d($task->duedate) : ''); ?>
+                                <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,''); ?>
                             </div>
                         </div>
                         <div class="col-md-6">

@@ -114,9 +114,12 @@
                      <?php } ?>
                      <?php $value = (isset($member) ? $member->firstname : ''); ?>
                      <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-                     <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                     <?php echo form_hidden('lastname', ' ') ?>
+                     <!--
                      <?php $value = (isset($member) ? $member->lastname : ''); ?>
                      <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
+                     -->
                      <?php $value = (isset($member) ? $member->email : ''); ?>
                      <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
 
@@ -575,7 +578,7 @@
                required: true,
                email: true,
                remote: {
-                   url: site_url + "admin/misc/staff_email_exists",
+                  url: admin_url + "misc/staff_email_exists",
                    type: 'post',
                    data: {
                        email: function() {

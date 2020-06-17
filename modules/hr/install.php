@@ -1,15 +1,77 @@
 <?php
 
-if (!$CI->db->table_exists(db_prefix() . 'hr_holiday')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_holiday` (
-    `holiday_id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `event_name` varchar(200) NOT NULL,
-    `description` text NOT NULL,
-    `start_date` date NOT NULL,
-    `end_date` date NOT NULL,
-    `location` varchar(200) DEFAULT NULL,
-    `color` varchar(200) DEFAULT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_holiday')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_holiday` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `event_name` varchar(200) NOT NULL,
+      `description` text NOT NULL,
+      `start_date` date NOT NULL,
+      `end_date` date NOT NULL,
+      `status` varchar(200) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_setting')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_setting` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `active` int(11) NOT NULL,
+      `name` varchar(200) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+    $data = [
+      'name' => 'sub_department', 
+      'active' => 0
+    ];
+    $CI->db->insert('hr_setting', $data);
+    $insert_id = $CI->db->insert_id();
+    if ($insert_id) {
+        log_activity('hr_setting add [' . $data['sub_department'] . ']');
+        return $insert_id;
+    }
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `leave_type` varchar(200) NOT NULL,
+      `leave_reason` text NOT NULL,
+      `remarks` text NOT NULL,
+      `start_date` date NOT NULL,
+      `end_date` date NOT NULL,
+      `half_day` int(11) NOT NULL,
+      `status` varchar(200) NOT NULL,
+      `attachment` varchar(200) NOT NULL,
+      `created` timestamp NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_leave_type')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leave_type` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `name` varchar(200) NOT NULL,
+      `days` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_staffs_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_staffs_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `staff_id` int(11) NOT NULL,
+      `leave_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_staff_leaves')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_staff_leaves` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `staff_id` int(11) NOT NULL,
+      `leave_id` int(11) NOT NULL,
+      `leaveid` int(11) NOT NULL,
+      `days` int(11) NOT NULL,
+      `created` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_salary')) {
@@ -51,6 +113,36 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_loan')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_indicators')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_indicators` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `designation_id` int(11) NOT NULL,
+    `customer_experience` varchar(200) NOT NULL,
+    `marketing` varchar(200) NOT NULL,
+    `administration` varchar(200) NOT NULL,
+    `professionalism` varchar(200) NOT NULL,
+    `integrity` varchar(200) NOT NULL,
+    `attendance` varchar(200) NOT NULL,
+    `added_by` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_appraisal')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_appraisal` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `customer_experience` varchar(200) NOT NULL,
+    `marketing` varchar(200) NOT NULL,
+    `administration` varchar(200) NOT NULL,
+    `professionalism` varchar(200) NOT NULL,
+    `integrity` varchar(200) NOT NULL,
+    `attendance` varchar(200) NOT NULL,
+    `month` varchar(200) NOT NULL,
+    `remarks` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_overtime` (
@@ -62,6 +154,41 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_overtime')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_overtime_request')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_overtime_request` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `date` date NOT NULL,
+    `in_time` varchar(200) NOT NULL,
+    `out_time` varchar(200) NOT NULL,
+    `reason` text NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_office_shift')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_office_shift` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `shift_name` varchar(200) NOT NULL,
+    `saturday_in` time default NULL,
+    `saturday_out` time default NULL,
+    `sunday_in` time default NULL,
+    `sunday_out` time default NULL,
+    `monday_in` time default NULL,
+    `monday_out` time default NULL,
+    `tuesday_in` time default NULL,
+    `tuesday_out` time default NULL,
+    `wednesday_in` time default NULL,
+    `wednesday_out` time default NULL,
+    `thursday_in` time default NULL,
+    `thursday_out` time default NULL,
+    `friday_in` time default NULL,
+    `friday_out` time default NULL,
+    `default` int(11) NOT NULL,
+    `created` timestamp NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+} 
 
 if (!$CI->db->table_exists(db_prefix() . 'hr_allowances')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_allowances` (
@@ -207,25 +334,6 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_extra_info')) {
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
-// Branches
-if (!$CI->db->table_exists(db_prefix() . 'branches')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches` (
-    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-     `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    `branch_type` varchar(255) NOT NULL,
-    `legal_traning_name` varchar(255) NOT NULL, 
-    `registraion_number` varchar(255) NOT NULL,
-    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
-    `email` varchar(255) NOT NULL, 
-    `city_id` int(11) NOT NULL, 
-    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    `state_province` varchar(255) NOT NULL, 
-    `zip_code` varchar(255) NOT NULL,
-    `username` varchar(255) NOT NULL, 
-  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
-}
-
 if (!$CI->db->table_exists(db_prefix() . 'hr_emergency_contact')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_emergency_contact` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -321,6 +429,18 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_terminations')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'hr_complaints')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_complaints` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `complaint_date` date NOT NULL,
+    `description` text NOT NULL,
+    `attachment` varchar(200) NOT NULL,
+    `complaint_title` varchar(200) NOT NULL,
+    `complaint_from` int(11) NOT NULL,
+    `complaint_againts` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
   $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_transfers` (
     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -331,6 +451,64 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_transfers')) {
     `status` varchar(200) NOT NULL,
     `staff_id` int(11) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_travels')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_travels` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `start_date` date NOT NULL,
+    `end_date` date NOT NULL,
+    `expected_budget` varchar(200) NOT NULL,
+    `actual_budget` varchar(200) NOT NULL,
+    `purpose` varchar(200) NOT NULL,
+    `place` varchar(200) NOT NULL,
+    `description` text NOT NULL,
+    `travel_mode_type` varchar(200) NOT NULL,
+    `arrangement_type` varchar(200) NOT NULL,
+    `status` varchar(200) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_promotions')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_promotions` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `promotion_date` date NOT NULL,
+    `promotion_title` varchar(200) NOT NULL,
+    `description` text NOT NULL,
+    `designation` int(11) NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_resignations')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'hr_resignations` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `notice_date` date NOT NULL,
+    `resignation_date` date NOT NULL,
+    `resignation_reason` text NOT NULL,
+    `staff_id` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendance')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendance` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time_in` time NOT NULL,
+      `time_out` time NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_attendances')) {           
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_attendances` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `time` time NOT NULL,
+      `type` varchar(200) NOT NULL,
+      `created` date NOT NULL,
+      `staff_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 }
 
 
@@ -353,7 +531,14 @@ if (!option_exists('relation_type')) {
     $value = '[{"key":"Self","value":"Self"},{"key":"Parent","value":"Parent"},{"key":"Spouse","value":"Spouse"},{"key":"Child","value":"Child"},{"key":"Sibling","value":"Sibling"},{"key":"In Laws","value":"In Laws"}]';
     add_option('relation_type',$value);
 }
-
+if (!option_exists('organizational_competencies_type')) {
+    $value = '[{"key":"Beginner","value":"Beginner"},{"key":"Intermediate","value":"Intermediate"},{"key":"Advanced","value":"Advanced"}]';
+    add_option('organizational_competencies_type',$value);
+}
+if (!option_exists('technical_competencies_type')) {
+    $value = '[{"key":"Beginner","value":"Beginner"},{"key":"Intermediate","value":"Intermediate"},{"key":"Advanced","value":"Advanced"},{"key":"Expert / Leader","value":"Expert / Leader"}]';
+    add_option('technical_competencies_type',$value);
+}
 if (!option_exists('education_level_type')) {
     $value = '[{"key":"High School Diploma \/ GED","value":"High School Diploma \/ GED"}]';
     add_option('education_level_type',$value);
@@ -372,4 +557,82 @@ if (!option_exists('education_type')) {
 if (!option_exists('hr_document_reminder_notification_before')) {
     $value = '1';
     add_option('hr_document_reminder_notification_before',$value);
+}
+
+// branch
+
+if (!$CI->db->table_exists(db_prefix() . 'branches')) {
+  $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches` (
+    `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+    `title_en` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+     `title_ar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `legal_traning_name` varchar(255) NOT NULL, 
+    `registraion_number` varchar(255) NOT NULL,
+    `website` varchar(255) NOT NULL,
+    `phone` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `branch_email` varchar(255) NOT NULL, 
+    `city_id` int(11) NOT NULL, 
+    `country_id` int(11) NOT NULL,
+    `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `state_province` varchar(255) NOT NULL, 
+    `zip_code` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+
+  $data = [
+    'title_en' => 'General branch', 
+    'title_ar' => 'الفرع العام', 
+    'city_id' => '338', 
+    'country_id' => '217', 
+    'registraion_number' => '1'
+  ];
+  $CI->db->insert('tblbranches', $data);
+  $insert_id = $CI->db->insert_id();
+  if ($insert_id) {
+      log_activity('New Branches Added [' . $data['title_en'] . ']');
+      return $insert_id;
+  }
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . 'branches_services` (                   
+     `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+     `branch_id` int(11) NOT NULL,
+     `rel_type` varchar(25) NOT NULL,
+     `rel_id` int(11) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+
+
+    $staffs = $CI->db->get(db_prefix() . 'staff')->result_array();
+    foreach ($staffs as $staff){
+      $data = [
+        'branch_id' => 1, 
+        'rel_type' => 'staff', 
+        'rel_id' => $staff['staffid']
+      ];
+      $CI->db->insert('tblbranches_services', $data);
+      $insert_id = $CI->db->insert_id();
+
+      if ($insert_id) {
+          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
+      }
+    }
+
+    $departments = $CI->db->get(db_prefix() . 'departments')->result_array();
+    foreach ($departments as $department){
+      $data = [
+        'branch_id' => 1, 
+        'rel_type' => 'departments', 
+        'rel_id' => $department['departmentid']
+      ];
+      $CI->db->insert('tblbranches_services', $data);
+      $insert_id = $CI->db->insert_id();
+
+      if ($insert_id) {
+          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
+      }
+    }
+
+    
 }

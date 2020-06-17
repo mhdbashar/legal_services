@@ -7,6 +7,77 @@ hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
+hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+
+function my_module_menu_item_collapsible()
+{
+    
+    $CI = &get_instance();
+    
+    // $CI->app_menu->add_sidebar_menu_item('clients', [
+    //     'name'     => _l('clients_'), // The name if the item
+    //     'collapse' => true, // Indicates that this item will have submitems
+    //     // 'href'     => admin_url('opponents'), // URL of the item
+    //     'position' => 5, // The menu position
+    //     'icon'     => 'fa fa-user-o', // Font awesome icon
+    // ]);
+
+    // $CI->app_menu->add_sidebar_children_item('clients', [
+    //     'name'     => _l('clients'),
+    //     'slug'     => 'clients', // Required ID/slug UNIQUE for the child menu
+    //     'href'     => admin_url('clients'),
+    //     'position' => 5,
+    // ]);
+
+    // $CI->app_menu->add_sidebar_children_item('clients', [
+    //     'name'     => _l('opponents'), // The name if the item
+    //     'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+    //     'href'     => admin_url('opponents'), // URL of the item
+    //     'position' => 5, // The menu position
+    // ]);
+
+  
+
+
+    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
+        'name'     => _l('LegalServices'), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 5, // The menu position
+        'icon'     => 'fa fa-gavel', // Font awesome icon
+    ]);
+    foreach ($services as $service):
+        // The first paremeter is the parent menu ID/Slug
+        $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+            'slug'     => $service->id.'/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name'     => $service->name, // The name if the item
+            'href'     => admin_url("Service/$service->id"), // URL of the item
+        ]);
+    endforeach;
+
+    $CI->app_menu->add_sidebar_menu_item('transactions', [
+        'name'     => _l("transactions"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 7, // The menu position
+        'icon'     => 'fa fa-briefcase', // Font awesome icon
+    ]);
+    $CI->app_menu->add_sidebar_children_item('transactions', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("incoming"), // The name if the item
+        'href'     => admin_url('transactions/incoming_list'), // URL of the item
+        'position' => 1, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+    $CI->app_menu->add_sidebar_children_item('transactions', [
+        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("outgoing"), // The name if the item
+        'href'     => admin_url('transactions/outgoing_list'), // URL of the item
+        'position' => 1, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+}
 
 function my_module_clients_area_menu_items()
 {
@@ -19,7 +90,7 @@ function my_module_clients_area_menu_items()
 
     // Show menu item only if client is logged in
     $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1))->result();
+    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $position = 50;
     if (has_contact_permission('projects')) {
         if (is_client_logged_in()) {
@@ -39,22 +110,21 @@ function my_custom_setup_menu_items()
 {
     $CI = &get_instance();
 
-    $CI->app_menu->add_sidebar_menu_item('opponents', [
-        'name'     => _l('opponents'), // The name if the item
-        'href'     => admin_url('opponents'), // URL of the item
-        'position' => 5, // The menu position
-        'icon'     => 'fa fa-user-times', // Font awesome icon
-    ]);
+    // $CI->app_menu->add_setup_menu_item('0', [
+    //     'name'     => _l("dialog_box_manage"), // The name if the item
+    //     'position' => 0, // The menu position
+    //     'href'     => admin_url('Dialog_boxes'), // URL of the item
+    // ]);
 
-    $CI->app_menu->add_setup_menu_item('1', [
-        'name'     => _l("procuration"), // The name if the item
+    $CI->app_menu->add_setup_menu_item('2', [
+        'name'     => _l("procurations"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 1, // The menu position
+        'position' => 2, // The menu position
         //'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
     ]);
 
     // The first paremeter is the parent menu ID/Slug
-    $CI->app_menu->add_setup_children_item('1', [
+    $CI->app_menu->add_setup_children_item('2', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("procuration"), // The name if the item
         'href'     => admin_url('procuration/all'), // URL of the item
@@ -62,35 +132,35 @@ function my_custom_setup_menu_items()
         // 'icon'     => 'fa fa-exclamation', // Font awesome icon
     ]);
 
-    $CI->app_menu->add_setup_children_item('1', [
+    $CI->app_menu->add_setup_children_item('2', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("procuration_state"), // The name if the item
         'href'     => admin_url('procuration/state'), // URL of the item
         'position' => 2, // The menu position
     ]);
 
-    $CI->app_menu->add_setup_children_item('1', [
+    $CI->app_menu->add_setup_children_item('2', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("procuration_type"), // The name if the item
         'href'     => admin_url('procuration/type'), // URL of the item
         'position' => 3, // The menu position
     ]);
 
-    $CI->app_menu->add_setup_menu_item('2', [
+    $CI->app_menu->add_setup_menu_item('1', [
         'name'     => _l("legal_services_settings"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 2, // The menu position
+        'position' => 1, // The menu position
         //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("customer_representative"), // The name if the item
         'href'     => admin_url('customer_representative'), // URL of the item
         'position' => 1, // The menu position
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("Judges"), // The name if the item
         'href'     => admin_url('Judge'), // URL of the item
@@ -98,7 +168,7 @@ function my_custom_setup_menu_items()
 
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("case_status"), // The name if the item
         'href'     => admin_url('Case_status'), // URL of the item
@@ -107,7 +177,7 @@ function my_custom_setup_menu_items()
 
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("CourtsManagement"), // The name if the item
         'href'     => admin_url('courts_control'), // URL of the item
@@ -115,7 +185,7 @@ function my_custom_setup_menu_items()
 
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("LegalServiceManage"), // The name if the item
         'href'     => admin_url('ServicesControl'), // URL of the item
@@ -124,7 +194,7 @@ function my_custom_setup_menu_items()
 
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("legal_services_phases"), // The name if the item
         'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
@@ -133,7 +203,7 @@ function my_custom_setup_menu_items()
 
     ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
+    $CI->app_menu->add_setup_children_item('1', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("LService_recycle_bin"), // The name if the item
         'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
@@ -142,28 +212,11 @@ function my_custom_setup_menu_items()
 
     ]);
 
-
-    $CI->app_menu->add_setup_menu_item('3', [
-        'name'     => _l("transactions"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 3, // The menu position
-        //'icon'     => 'fa fa-briefcase menu-icon', // Font awesome icon
-    ]);
-    $CI->app_menu->add_setup_children_item('3', [
+     $CI->app_menu->add_setup_menu_item('opponents', [
+        'name'     => _l('opponents'), // The name if the item
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("incoming"), // The name if the item
-        'href'     => admin_url('transactions/incoming_list'), // URL of the item
-        'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-    $CI->app_menu->add_setup_children_item('3', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("outgoing"), // The name if the item
-        'href'     => admin_url('transactions/outgoing_list'), // URL of the item
-        'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
+        'href'     => admin_url('opponents'), // URL of the item
+        'position' => 6, // The menu position
     ]);
 
 }
@@ -260,7 +313,12 @@ function my_get_cities($country_id = '')
     $CI->db->select('Name_en');
     }
     $CI->db->where('Country_id',$country_id);
-    return $CI->db->get('cities')->result_array();
+    $cities =$CI->db->get('cities')->result_array();
+    $arr=[];
+    foreach ($cities as $key => $value) {
+        $arr[$value['Name_ar']]=$value['Name_ar']; 
+    }
+    return $arr;
 }
 
 function admin_assets()
@@ -310,7 +368,7 @@ function to_AD_date($date)
 
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    $current_url = current_url();
+    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
     $admin_url = admin_url();
     $this_page = str_replace(admin_url(),'',$current_url);
 
@@ -377,7 +435,8 @@ function to_hijri_date($date)
 
     /** to check if this page are included in database hijri option **/
     $hijri_pages = json_decode(get_option('hijri_pages'));
-    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
 
     $admin_url = admin_url();
     $this_page = str_replace(admin_url(),'',$current_url);
@@ -544,4 +603,25 @@ function add_sms_gateway($gateways)
     array_push($gateways, 'sms/sms_mobily');
     
     return $gateways;
+}
+
+function get_dialog_boxes()
+{
+    $CI = & get_instance();
+    $result = $CI->db->get_where(db_prefix() . 'my_dialog_boxes', ['active' => 1])->result_array();
+    if ($result) {
+        return $result;
+    }
+    return false;
+}
+
+/**
+ * Prepare general IRAC pdf
+ * @param  object $irac  irac as object with all necessary fields
+ * @param  string $tag   tag for bulk pdf exporter
+ * @return mixed object
+ */
+function irac_pdf($irac, $tag = '')
+{
+    return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);
 }

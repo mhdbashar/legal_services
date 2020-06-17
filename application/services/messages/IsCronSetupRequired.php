@@ -53,6 +53,12 @@ class IsCronSetupRequired extends AbstractMessage
             array_push($used_features, 'Recurring Expenses');
         }
 
+        $feature = total_rows(db_prefix() . 'scheduled_emails');
+        $using_cron_features += $feature;
+        if ($feature > 0) {
+            array_push($used_features, 'Send Scheduled Invoices');
+        }
+
         $feature = total_rows(db_prefix() . 'tasks', [
                 'recurring' => 1,
             ]);
@@ -89,7 +95,8 @@ class IsCronSetupRequired extends AbstractMessage
     {
         $html = '';
         $html .= 'You are using some features that requires cron job setup to work properly.';
-        $html .= '<br />Please follow the cron <a href="https://help.perfexcrm.com/setup-cron-job/" target="_blank">setup guide</a> in order all features to work well.';
+        // $html .= '<br />Please follow the cron <a href="https://help.perfexcrm.com/setup-cron-job/" target="_blank">setup guide</a> in order all features to work well.';
+        $html .= '<br />Please follow the cron <a href="##" target="_blank">setup guide</a> in order all features to work well.';
         $html .= '<br /><br /><br />';
         $html .= '<p class="bold">You are using the following features that CRON Job setup is required:</p>';
         $i = 1;

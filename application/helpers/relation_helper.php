@@ -16,26 +16,27 @@ function get_relation_data($type, $rel_id = '')
         $q = $CI->input->post('q');
         $q = trim($q);
     }
+
     $data = [];
     if ($type == 'customer' || $type == 'customers') {
         $where_clients = '';
-
         if ($q) {
-            $where_clients .= '(company LIKE "%' . $q . '%" OR CONCAT(firstname, " ", lastname) LIKE "%' . $q . '%" OR email LIKE "%' . $q . '%") AND '.db_prefix().'clients.active = 1 AND '.db_prefix().'clients.client_type = 0';
+            $where_clients .= '(company LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR CONCAT(firstname, " ", lastname) LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR email LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\') AND ' . db_prefix() . 'clients.active = 1';
         }
+
         $data = $CI->clients_model->get($rel_id, $where_clients);
     } elseif ($type == 'contact' || $type == 'contacts') {
         if ($rel_id != '') {
             $data = $CI->clients_model->get_contact($rel_id);
         } else {
-            $where_contacts = db_prefix().'contacts.active=1';
+            $where_contacts = db_prefix() . 'contacts.active=1';
             if ($CI->input->post('tickets_contacts')) {
                 if (!has_permission('customers', '', 'view') && get_option('staff_members_open_tickets_to_all_contacts') == 0) {
-                    $where_contacts .= ' AND '.db_prefix().'contacts.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';
+                    $where_contacts .= ' AND ' . db_prefix() . 'contacts.userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';
                 }
             }
             if ($CI->input->post('contact_userid')) {
-                $where_contacts .= ' AND '.db_prefix().'contacts.userid=' . $CI->input->post('contact_userid');
+                $where_contacts .= ' AND ' . db_prefix() . 'contacts.userid=' . $CI->db->escape_str($CI->input->post('contact_userid'));
             }
             $search = $CI->misc_model->_search_contacts($q, 0, $where_contacts);
             $data   = $search['result'];
@@ -115,7 +116,7 @@ function get_relation_data($type, $rel_id = '')
         } else {
             $where_projects = '';
             if ($CI->input->post('customer_id')) {
-                $where_projects .= 'clientid=' . $CI->input->post('customer_id');
+                $where_projects .= 'clientid=' . $CI->db->escape_str($CI->input->post('customer_id'));
             }
             $search = $CI->misc_model->_search_projects($q, 0, $where_projects);
             $data   = $search['result'];
@@ -137,6 +138,11 @@ function get_relation_data($type, $rel_id = '')
         if ($rel_id != '') {
             $CI->load->model('LegalServices/LegalServicesModel', 'legal');
             $data = $CI->legal->GetCategoryByServId($rel_id);
+        }
+    } elseif ($type == 'cat_modules') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+            $data = $CI->legal->getCatModules($rel_id);
         }
     } elseif ($type == 'childmycategory') {
         if ($rel_id != '') {
@@ -389,7 +395,7 @@ function get_relation_values($relation, $type)
     }
 
     return hooks()->apply_filters('relation_values', [
-        'id'       => $id,
+        'id'        => $id,
         'name'      => $name,
         'link'      => $link,
         'addedfrom' => $addedfrom,

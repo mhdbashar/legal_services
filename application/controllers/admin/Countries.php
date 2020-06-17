@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Countries extends Admin_controller {
+class Countries extends AdminController {
 
     public function build_dropdown_cities() {
 
@@ -11,8 +11,8 @@ class Countries extends Admin_controller {
         foreach ($cities as $row)
         {
             if($row->Id==$select)$selected="selected";else $selected="";
-//            $staff_language = get_staff_default_language(get_staff_user_id());
-            $staff_language = get_option('active_language');
+            $staff_language = get_staff_default_language(get_staff_user_id());
+           // $staff_language = get_option('active_language');
             if($staff_language == 'arabic'){
                 $output .= '<option value="'.$row->Name_ar.'" '.$selected.' >'.$row->Name_ar.'</option>';
             }else{

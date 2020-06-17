@@ -93,7 +93,10 @@ class Tasks extends AdminController
             //   $this->db->where('id NOT IN (SELECT task_id FROM '.db_prefix().'taskstimers WHERE staff_id = ' . get_staff_user_id() . ' AND end_time IS NULL)');
             $this->db->where('status != ', 5);
             $this->db->where('billed', 0);
-            $this->db->where('(name LIKE "%' . $q . '%" OR ' . tasks_rel_name_select_query() . ' LIKE "%' . $q . '%")');
+            $this->db->group_start();
+            $this->db->like('name', $q);
+            $this->db->or_like(tasks_rel_name_select_query(), $q);
+            $this->db->group_end();
             echo json_encode($this->db->get()->result_array());
         }
     }
@@ -167,7 +170,7 @@ class Tasks extends AdminController
         if (has_permission('tasks', '', 'edit')) {
             $this->db->where('id', $id);
             $this->db->update(db_prefix() . 'tasks', [
-                'description' => $this->input->post('description', false),
+                'description' => html_purify($this->input->post('description', false)),
             ]);
         }
     }
@@ -199,7 +202,10 @@ class Tasks extends AdminController
 
         $year       = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
         $project_id = $this->input->get('project_id');
-
+        $rel_type = $this->input->get('rel_type');
+        if(isset($rel_type)){
+            $data['ServID'] = $this->legal->get_service_id_by_slug($rel_type);
+        }
         for ($m = 1; $m <= 12; $m++) {
             if ($month != '' && $month != $m) {
                 continue;
@@ -214,7 +220,7 @@ class Tasks extends AdminController
             $selectLoggedTime = str_replace('tmp-task-id', db_prefix() . 'tasks.id', $selectLoggedTime);
 
             if (is_numeric($staff_id)) {
-                $selectLoggedTime .= ' AND staff_id=' . $staff_id;
+                $selectLoggedTime .= ' AND staff_id=' . $this->db->escape_str($staff_id);
                 $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
             } else {
                 $sqlTasksSelect .= ',(' . $selectLoggedTime . ')';
@@ -251,10 +257,16 @@ class Tasks extends AdminController
             $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
             $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
 
-            if ($project_id && $project_id != '') {
+            if($rel_type && $rel_type != ''){
                 $this->db->where('rel_id', $project_id);
-                $this->db->where('rel_type', 'project');
+                $this->db->where('rel_type', $rel_type);
+            }else{
+                if ($project_id && $project_id != '') {
+                    $this->db->where('rel_id', $project_id);
+                    $this->db->where('rel_type', 'project');
+                }
             }
+
 
             if (!$has_permission_view) {
                 $sqlWhereStaff = '(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $staff_id . ')';
@@ -353,7 +365,7 @@ class Tasks extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
+            $data['description'] = html_purify($this->input->post('description', false));
             if ($id == '') {
                 if (!has_permission('tasks', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
@@ -418,8 +430,9 @@ class Tasks extends AdminController
             $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
         }
         $data['project_end_date_attrs'] = [];
-        if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id')) {
-            $project = $this->projects_model->get($this->input->get('rel_id'));
+        if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id') || ($id !== '' && $data['task']->rel_type == 'project')) {
+            $project = $this->projects_model->get($id === '' ? $this->input->get('rel_id') : $data['task']->rel_id);
+
             if ($project->deadline) {
                 $data['project_end_date_attrs'] = [
                     'data-date-end-date' => $project->deadline,
@@ -907,7 +920,7 @@ class Tasks extends AdminController
     public function add_task_comment()
     {
         $data            = $this->input->post();
-        $data['content'] = $this->input->post('content', false);
+        $data['content'] = html_purify($this->input->post('content', false));
         if ($this->input->post('no_editor')) {
             $data['content'] = nl2br($this->input->post('content'));
         }
@@ -925,7 +938,7 @@ class Tasks extends AdminController
 
                     if (count($commentAttachments) > 0) {
                         $this->db->query('UPDATE ' . db_prefix() . "task_comments SET content = CONCAT(content, '[task_attachment]')
-                            WHERE id = " . $comment_id);
+                            WHERE id = " . $this->db->escape_str($comment_id));
                     }
                 }
             }
@@ -973,7 +986,7 @@ class Tasks extends AdminController
         $taskWhere = 'external IS NULL';
 
         if ($comment_id) {
-            $taskWhere .= ' AND task_comment_id=' . $comment_id;
+            $taskWhere .= ' AND task_comment_id=' . $this->db->escape_str($comment_id);
         }
 
         if (!has_permission('tasks', '', 'view')) {
@@ -1044,7 +1057,7 @@ class Tasks extends AdminController
     {
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['content'] = $this->input->post('content', false);
+            $data['content'] = html_purify($this->input->post('content', false));
             if ($this->input->post('no_editor')) {
                 $data['content'] = nl2br(clear_textarea_breaks($this->input->post('content')));
             }

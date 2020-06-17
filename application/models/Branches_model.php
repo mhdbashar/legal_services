@@ -170,7 +170,12 @@ class Branches_model extends App_Model
         $data = [];
         $rows = $this->db->get('tblbranches')->result_array();
         foreach ($rows as $row) {
-            $data[] = ['key'=>$row['id'],'value'=>$row['title_en']];
+            if(get_staff_default_language() == 'arabic'){
+                $title = 'title_ar';
+            }else{
+                $title ='title_ar';
+            }
+            $data[] = ['key'=>$row['id'],'value'=>$row[$title]];
         }
         return $data;
     }

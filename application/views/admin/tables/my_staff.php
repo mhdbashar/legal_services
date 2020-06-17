@@ -19,7 +19,11 @@ $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
 $ci = &get_instance();
 if($ci->app_modules->is_active('branches')){
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    if(get_staff_default_language() == 'arabic'){
+        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+    }else{
+        $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    }
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'staff.staffid AND '.db_prefix().'branches_services.rel_type="staff"';
 
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
@@ -81,12 +85,18 @@ foreach ($rResult as $aRow) {
             $_data = '<a href="' . admin_url('staff/profile/' . $aRow['staffid']) . '">' . staff_profile_image($aRow['staffid'], [
                 'staff-profile-image-small',
                 ]) . '</a>';
-            $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
-
-            $_data .= '<div class="row-options">';
-            $_data .= '<a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . _l('view') . '</a>';
+            
             if($ci->app_modules->is_active('hr')){
+                $_data .= ' <a href="' . admin_url('hr/general/general/' . $aRow['staffid']) . '?group=basic_information">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
+
+                $_data .= '<div class="row-options">';
+                $_data .= '<a href="' . admin_url('hr/general/general/' . $aRow['staffid']) . '?group=basic_information">' . _l('view') . '</a>';
                 $_data .= ' | <a class="text-success" href="' . admin_url('hr/details/salary/' . $aRow['staffid']) . '?group=update_salary">' . _l('details') . '</a>';
+            }else{
+                $_data .= ' <a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
+
+                $_data .= '<div class="row-options">';
+                $_data .= '<a href="' . admin_url('staff/member/' . $aRow['staffid']) . '">' . _l('view') . '</a>';
             }
 
             if (($has_permission_delete && ($has_permission_delete && !is_admin($aRow['staffid']))) || is_admin()) {

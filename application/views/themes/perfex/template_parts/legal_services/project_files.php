@@ -1,9 +1,14 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php if($project->settings->upload_files == 1){ ?>
-  <?php echo form_open_multipart(site_url('clients/project/'.$project->id),array('class'=>'dropzone mbot15','id'=>'project-files-upload')); ?>
+  <?php echo form_open_multipart(site_url('clients/legal_services/'.$project->id. '/' .$ServID),array('class'=>'dropzone mbot15','id'=>'project-files-upload')); ?>
   <input type="file" name="file" multiple class="hide"/>
   <?php echo form_close(); ?>
-  <div class="text-right mbot20">
+  <div class="pull-left mbot20">
+    <a href="<?php echo site_url('clients/download_all_project_files/'.$project->id); ?>" class="btn btn-info">
+      <?php echo _l('download_all'); ?>
+    </a>
+  </div>
+  <div class="pull-right mbot20">
    <button class="gpicker" data-on-pick="projectFileGoogleDriveSave">
     <i class="fa fa-google" aria-hidden="true"></i>
     <?php echo _l('choose_from_google_drive'); ?>

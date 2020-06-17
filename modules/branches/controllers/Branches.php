@@ -18,8 +18,6 @@ class Branches extends AdminController
         $this->load->model('branches_model');
 
 
-        $this->load->model('branches_model');
-
  
         if (!is_admin()) {
             access_denied('Access Branches');
@@ -46,9 +44,24 @@ class Branches extends AdminController
         $this->load->view('admin/branches/manage', $data);
     }
 
+    public function departments($id)
+    {
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('branch_departments', ['id'=>$id]);
+        }
+        $data['email_exist_as_staff'] = $this->email_exist_as_staff();
+        $data['title']                = _l('departments');
+        $this->load->view('admin/departments/manage', $data);
+    }
+
     public function field($id = '')
     {
         if ($this->input->post()) {
+            if(get_staff_default_language() == 'arabic'){
+                $_POST['title_en'] = $this->input->post()['title_ar'];
+            }else{
+                $_POST['title_ar'] = $this->input->post()['title_en'];
+            }
             if ($id == '') {
                 $id = $this->branches_model->add($this->input->post());
                 if ($id) {
@@ -121,27 +134,19 @@ class Branches extends AdminController
         die();
     }
 
+    public function get_office_shift($id)
+    {
+        echo json_encode(['success'=>true,'data'=>$this->branches_model->get_office_shift($id)]);
+        die();
+    }
+
 
 
     /**
      * Descripion: retreive  departments for Branch
      * @param $id
      */
-    public function departments($id)
-    {
-    
-        /*echo $this->app_modules->is_active('branches');
-        die();*/
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data(module_views_path('branches', 'admin/tables/branch_departments'), ['id' => $id]);
-        }
-        
-        $data['email_exist_as_staff'] = $this->email_exist_as_staff();
-        $data['branches']=$this->branches_model->getBranches();
-        $data['title']                = _l('departments');    
-        $this->load->view('admin/branches/manage_department', $data);
- 
-    }
+
 
     private function email_exist_as_staff()
     {

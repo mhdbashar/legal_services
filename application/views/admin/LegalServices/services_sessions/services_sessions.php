@@ -33,7 +33,7 @@
             ],
             _l('session_assigned'),
             _l('Court'),
-            _l('session_info'),
+            //_l('session_info'),
             _l('Customer_report'),
             _l('Send_to_customer'),
             _l('session_date'),
@@ -70,16 +70,16 @@
 
 
 <div id="session_report_data" class="hide">
-    <h3><u><?php echo _l('session_report'); ?></u></h3>
-    <table class="table scroll-responsive" style="width: 40%;">
+    <h3 align="center"><u><?php echo _l('session_report'); ?></u></h3>
+    <table class="table scroll-responsive" style="border: 1px solid #ebf5ff">
         <thead>
         <tr>
             <th style="width: 30%"><?php echo _l('case_number'); ?></th>
-            <td id="tbl1" style="border: 1px solid #ebf5ff"></td>
+            <td id="tbl1"></td>
         </tr>
         <tr>
             <th style="width: 30%"><?php echo _l('Parties_case'); ?></th>
-            <td style="border: 1px solid #ebf5ff;">
+            <td>
                 <p> <?php echo _l('claimant'); ?> <b id="tbl2"></b></p>
                 <p> <?php echo _l('accused'); ?> <b id="tbl3"></b></p>
             </td>
@@ -263,6 +263,7 @@
     }
 
     function print_session_report(task_id) {
+        disabled_print_btn(task_id);
         $("#tbl9").html('');
         tag = '#';
         $.ajax({
@@ -300,7 +301,11 @@
             document.body.innerHTML = printContents;
             window.print();
             document.body.innerHTML = originalContents;
-        },1000);
+        },2000);
+    }
+    
+    function disabled_print_btn(task_id) {
+        $("#print_btn"+task_id).attr("disabled", true).removeAttr("onclick");
     }
 
     function send_report(task_id) {

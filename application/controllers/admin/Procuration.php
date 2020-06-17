@@ -70,28 +70,30 @@ class Procuration extends AdminController
 
         if ($this->input->post()) {
             $data            = $this->input->post();
+            $data['start_date'] = to_sql_date($data['start_date']);
+            $data['end_date'] = to_sql_date($data['end_date']);
             // $data['message'] = $this->input->post('message', false);
+            $redirect = admin_url('procuration/all');
             if(is_numeric($request)){
                 // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
                 $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
-            }elseif(is_numeric($case)){
+            }
+            if(is_numeric($case)){
                 // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
                 $redirect = admin_url('Case/view/1/' . $case) . '?group=procuration';
-            }else{
-                $redirect = admin_url('procuration/all');
             }
             
             if ($id == '' or !is_numeric($id)) {
                 $data['id'] = $last_id;
                 $id = $this->procurations_model->add($data);
                 if ($id) {
-                    set_alert('success', _l('added_successfully', _l('procuration')));
+                    set_alert('success', _l('added_successfully'));
                     redirect($redirect);
                 }
             } else {
                 $success = $this->procurations_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', _l('procuration')));
+                    set_alert('success', _l('updated_successfully'));
                 }
                 redirect($redirect);
             }
@@ -108,6 +110,9 @@ class Procuration extends AdminController
         $data['states'] = $this->procurationstate_model->get();
         $data['types'] = $this->procurationtype_model->get();
         $data['cases'] = $this->case->get();
+        if(is_numeric($request)){
+            $data['cases'] = $this->case->get('', ['clientid' => $request]);
+        }
         $data['id'] = $id;
         $data['title'] = $title;
 

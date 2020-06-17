@@ -20,6 +20,21 @@ class LegalServices_controller extends AdminController
         $this->load->view('admin/LegalServices/basic_services/ShowServices',$data);
     }
 
+    public function all_legal_services()
+    {
+        $clientid = $this->input->post('clientid') ? $this->input->post('clientid') : '';
+        $slug = $this->input->post('slug') ? $this->input->post('slug') : '';
+        $ServID = $this->legal->get_service_id_by_slug($slug);
+        if ($clientid != '' || $slug != '') {
+            if($ServID == 1){
+                $res = $this->case->get('', ['clientid' => $clientid]);
+            }else{
+                $res = $this->other->get($ServID ,'', ['clientid' => $clientid]);
+            }
+            echo json_encode($res);
+        }
+    }
+
     public function ViewSubService($ServID)
     {
         close_setup_menu();
@@ -124,6 +139,12 @@ class LegalServices_controller extends AdminController
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url('ServicesControl'));
         }
+        $response = $this->legal->GetChildByCategory($CatID);
+        echo json_encode($response);
+    }
+
+    public function getChildCatModules($CatID)
+    {
         $response = $this->legal->GetChildByCategory($CatID);
         echo json_encode($response);
     }

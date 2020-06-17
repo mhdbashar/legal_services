@@ -9,7 +9,11 @@
 					<div class="panel-body">
 						<?php if(has_permission('staff','','create')){ ?>
 						<div class="_buttons">
-							<a href="<?php echo admin_url('staff/member'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_staff'); ?></a>
+							<?php if($this->app_modules->is_active('hr')) {?>
+								<a href="<?php echo admin_url('hr/general/member'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_staff'); ?></a>
+							<?php } else {?>
+								<a href="<?php echo admin_url('staff/member'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_staff'); ?></a>
+							<?php } ?>
 						</div>
 						<div class="clearfix"></div>
 						<hr class="hr-panel-heading" />

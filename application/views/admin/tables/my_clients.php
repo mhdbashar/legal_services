@@ -48,7 +48,11 @@ $join = [
 ];
 $ci = &get_instance();
 if($ci->app_modules->is_active('branches')){
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    if(get_staff_default_language() == 'arabic'){
+        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+    }else{
+        $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    }
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
 
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
@@ -238,7 +242,7 @@ foreach ($rResult as $aRow) {
     $company = '<a href="' . $url . '">' . $company . '</a>';
 
     $company .= '<div class="row-options">';
-    $company .= '<a href="' . $url . '">' . _l('view') . '</a>';
+    $company .= '<a href="' . admin_url('clients/client/' . $aRow['userid'] . ($isPerson && $aRow['contact_id'] ? '?group=contacts' : '')) . '">' . _l('view') . '</a>';
 
     if ($aRow['registration_confirmed'] == 0 && is_admin()) {
         $company .= ' | <a href="' . admin_url('clients/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';
@@ -300,6 +304,9 @@ foreach ($rResult as $aRow) {
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
@@ -315,8 +322,6 @@ foreach ($rResult as $aRow) {
     }
 
     $row = hooks()->apply_filters('customers_table_row_data', $row, $aRow);
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
+    
     $output['aaData'][] = $row;
 }

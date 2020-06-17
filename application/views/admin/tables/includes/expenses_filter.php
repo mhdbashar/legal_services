@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 if ($this->ci->input->post('invoiced')) {
     array_push($filter, 'OR invoiceid IS NOT NULL');
@@ -50,10 +52,11 @@ if ($this->ci->input->post('report_from') && $this->ci->input->post('report_to')
     $from_date = to_sql_date($this->input->post('report_from'));
     $to_date   = to_sql_date($this->input->post('report_to'));
     if ($from_date == $to_date) {
-        $custom_date_select = 'AND date = "' . $from_date . '"';
+        $custom_date_select = 'AND date = "' . $this->ci->db->escape_str($from_date) . '"';
     } else {
-        $custom_date_select = 'AND (date BETWEEN "' . $from_date . '" AND "' . $to_date . '")';
+        $custom_date_select = 'AND (date BETWEEN "' . $this->ci->db->escape_str($from_date) . '" AND "' . $this->ci->db->escape_str($to_date) . '")';
     }
+
     array_push($filter, $custom_date_select);
 }
 

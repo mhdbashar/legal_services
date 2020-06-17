@@ -13,6 +13,42 @@ class Other_services_controller extends AdminController
         $this->load->model('tasks_model');
         $this->load->model('LegalServices/Phase_model','phase');
         $this->load->helper('date');
+        $this->load->model('Staff_model');
+        $this->load->model('emails_model');
+    }
+
+
+    // Example URL : http://localhost/legalserv1/admin/LegalServices/other_services_controller/export_service/2/1
+    public function export_service($ServID, $id){
+
+        $token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiemFoZXIiLCJuYW1lIjoiQWhtYWQgWmFoZXIiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTEwMDcxMTB9.arN3QJBDW48uqCIx13zhuif5FPvfLwZGghpULRgvP_8';
+
+        $url = 'http://localhost/legal_services/api/Service/data';
+
+        $this->db->where(['id' => $id, 'service_id' => $ServID]);
+        $post_data = '';
+        $data = ($this->db->get('tblmy_other_services')->row_array());
+        $post_data = http_build_query($data);
+        
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded" , $token ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$post_data);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $result = curl_exec($ch);
+        $response_object = (json_decode($result));
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200){
+            set_alert('danger', _l('problem_exporting'));
+        }else{
+            set_alert('success', _l('exported_successfully'));
+        }
+        curl_close($ch);
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function add($ServID)
@@ -27,9 +63,21 @@ class Other_services_controller extends AdminController
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-            $data['description'] = $this->input->post('description', false);
+            $data['description'] = html_purify($this->input->post('description', false));
             $id = $this->other->add($ServID,$data);
             if ($id) {
+                foreach ($data['project_members'] as $staff_id){
+                    $staff = $this->Staff_model->get($staff_id);
+                    $send = $this->emails_model->send_email_template('new-other_services-created-to-staff', 
+                        $staff->email, 
+                        [
+                            'other_service_name' => $data['name'], 
+                            'staff_firstname' => $staff->firstname, 
+                            'other_service_description' => $data['description'], 
+                            'other_service_link' => admin_url('SOther/view/'.$ServID.'/'.$id),
+                        ]
+                    );
+                }
                 set_alert('success', _l('added_successfully'));
                 redirect(admin_url("SOther/view/$ServID/$id"));
             }
@@ -258,9 +306,10 @@ class Other_services_controller extends AdminController
             $percent = $this->other->calc_progress($slug,$id);
             $data['bodyclass'] = '';
 
+            //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
                 'projects-js',
-                base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
+                base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
@@ -270,7 +319,7 @@ class Other_services_controller extends AdminController
                 $data['members'] = $this->other->get_project_members($id);
                 foreach ($data['members'] as $key => $member) {
                     $data['members'][$key]['total_logged_time'] = 0;
-                    $member_timesheets = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $id . '")');
+                    $member_timesheets = $this->tasks_model->get_unique_member_logged_task_ids($member['staff_id'], ' AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $this->db->escape_str($id) . '")');
 
                     foreach ($member_timesheets as $member_task) {
                         $data['members'][$key]['total_logged_time'] += $this->tasks_model->calc_task_total_time($member_task->task_id, ' AND staff_id=' . $member['staff_id']);
@@ -292,7 +341,7 @@ class Other_services_controller extends AdminController
                     }
                 }
 
-                $__total_where_tasks = 'rel_type = "'.$slug.'" AND rel_id=' . $id;
+                $__total_where_tasks = 'rel_type = "'.$slug.'" AND rel_id=' . $this->db->escape_str($id);
                 if (!has_permission('tasks', '', 'view')) {
                     $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
 
@@ -393,7 +442,7 @@ class Other_services_controller extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
+
             $other_projects = [];
             $other_projects_where = 'id != ' . $id;
 
@@ -590,12 +639,12 @@ class Other_services_controller extends AdminController
 
     public function add_discussion_comment($ServID = '',$discussion_id, $type)
     {
-        echo json_encode($this->other->add_discussion_comment($ServID, $this->input->post(), $discussion_id, $type));
+        echo json_encode($this->other->add_discussion_comment($ServID, $this->input->post(null, false), $discussion_id, $type));
     }
 
     public function update_discussion_comment()
     {
-        echo json_encode($this->other->update_discussion_comment($this->input->post()));
+        echo json_encode($this->other->update_discussion_comment($this->input->post(null, false)));
     }
 
     public function delete_discussion_comment($id)

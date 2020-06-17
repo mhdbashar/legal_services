@@ -59,6 +59,178 @@
 
 <script>
 
+  $(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#department_id').empty();
+            $('#department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#department_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+  $(document).on('change','#branch_id',function () {
+    $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#office_shift_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
+$(document).ready(function(){
+  <?php if(empty($branch)) $branch = 1 ?>
+  var branch_id = <?php echo $branch ?>;
+  <?php  
+    $departmentid = 0;
+    if ($this->Extra_info_model->get($member->staffid) and $this->Extra_info_model->get_staff_department($member->staffid))
+      $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+  ?>
+  var department_id = <?php echo $departmentid ?>;
+  console.log(department_id);
+  <?php if(is_numeric($extra_info->sub_department)){ ?>
+    var sub_departmant = <?php echo $extra_info->sub_department ?>;
+    var designation = <?php echo $extra_info->designation ?>;
+    var office_shift = 
+    <?php 
+      if(($extra_info->office_sheft) != '') 
+        echo $extra_info->office_sheft; 
+      else echo 0 ;
+    ?>;
+  <?php }else{ ?>
+    var sub_departmant = '';
+    var office_shift = '';
+    var designation = '';
+  <?php  }  ?>
+  console.log(<?php echo $extra_info->sub_department ?>);
+  $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
+      if (response.success == true) {
+          $('#department_id').empty();
+          $('#department_id').append($('<option>', {
+              value: '',
+              text: ''
+          }));
+          for(let i = 0; i < response.data.length; i++) {
+              let key = response.data[i].key;
+              let value = response.data[i].value;
+              let select = false;
+              if(key == department_id)
+                select = true;
+              $('#department_id').append($('<option>', {
+                  value: key,
+                  text: value,
+                  selected: select
+              }));
+              $('department_id').selectpicker('refresh');
+          }
+      } else {
+          alert_float('danger', response.message);
+      }
+  }, 'json');
+
+  $.get(admin_url + 'branches/get_office_shift/' + branch_id, function(response) {
+        if (response.success == true) {
+            $('#office_shift_id').empty();
+            $('#office_shift_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == office_shift)
+                select = true;
+                $('#office_shift_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#office_shift_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#sub_department_id').empty();
+            $('#sub_department_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == sub_departmant)
+                  select = true;
+                $('#sub_department_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#sub_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+  $.get(admin_url + 'hr/organization/get_designations/' + department_id, function(response) {
+        if (response.success == true) {
+            $('#designation_id').empty();
+            $('#designation_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let select = false;
+                if(key == designation)
+                  select = true;
+                $('#designation_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected: select
+                }));
+                $('#designation_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
+
   function check(sel)
   {
     console.log('#designation_'+sel.value);
@@ -73,7 +245,7 @@
                 let key = response.data[i].key;
                 let value = response.data[i].value;
                 $('#designation_id').append($('<option>', {
-                    value: value,
+                    value: key,
                     text: value
                 }));
                 $('#designation_id').selectpicker('refresh');
@@ -95,7 +267,7 @@
                 let key = response.data[i].key;
                 let value = response.data[i].value;
                 $('#sub_department_id').append($('<option>', {
-                    value: value,
+                    value: key,
                     text: value
                 }));
                 $('#sub_department_id').selectpicker('refresh');

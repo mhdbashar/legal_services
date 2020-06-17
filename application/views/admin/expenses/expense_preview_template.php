@@ -52,7 +52,7 @@
                </ul>
             </div>
          </div>
-         <div class="row">
+         <div class="row mtop10">
             <div class="col-md-6" id="expenseHeadings">
                <h3 class="bold bold mbot5 no-mtop" id="expenseCategory"><?php echo $expense->category_name; ?></h3>
                <?php if(!empty($expense->expense_name)){ ?>
@@ -115,7 +115,7 @@
                     }
                   }
                   if($show_recurring_expense_info){
-                   $next_date = date('Y-m-d', strtotime('+' . $recurring_expense->recurring . ' ' . strtoupper($recurring_expense->recurring_type),strtotime($next_recurring_date_compare)));
+                   $next_date = date('Y-m-d', strtotime('+' . $recurring_expense->repeat_every . ' ' . strtoupper($recurring_expense->recurring_type),strtotime($next_recurring_date_compare)));
                  }
                  ?>
                  <?php if($expense->recurring_from == null && $recurring_expense->cycles > 0 && $recurring_expense->cycles == $recurring_expense->total_cycles) { ?>

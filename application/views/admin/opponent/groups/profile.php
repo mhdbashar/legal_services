@@ -29,7 +29,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="tab-content">
+            <div class="tab-content mtop15">
                 <?php hooks()->do_action('after_custom_profile_tab_content',isset($client) ? $client : false); ?>
                 <?php if($customer_custom_fields) { ?>
                     <div role="tabpanel" class="tab-pane <?php if($this->input->get('tab') == 'custom_fields'){echo ' active';}; ?>" id="custom_fields">
@@ -56,10 +56,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_details'); ?>"></i>
+                            <?php /* <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_details'); ?>"></i> */?>
                             <?php $value=( isset($client) ? $client->company : ''); ?>
                             <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
-                            <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
+                            <?php echo render_input( 'company', 'opponent',$value,'text',$attrs); ?>
                             <div id="company_exists_info" class="hide"></div>
                             <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
                             <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
@@ -162,10 +162,9 @@
 
                             <label for="city" class="control-label">City</label>
                             <?php
-                            $options = ( isset($client) ? my_get_cities($client->country) : '');
-                            $selected=set_value('city')  ;
-
-                            echo form_dropdown('city', $options, $selected, 'disabled id="city" class="form-control" ');
+                              $options = ( isset($client) ? my_get_cities($client->country) : my_get_cities($customer_default_country));
+                              $selected=( isset($client) ? $client->city : '');
+                              echo form_dropdown('city', $options, $selected, ' id="city" class="form-control" ');
                             ?>
                         </div>
                         <div class="col-md-6">

@@ -1,5 +1,354 @@
 <?php
 
+$lang['imported'] = 'Imported';
+$lang['export'] = 'Export';
+$lang['imported_services'] = 'Imported Services';
+
+$lang['global_hr_setting'] = 'Global HR Settings';
+$lang['hr'] = 'HR';
+$lang['date_wise_attendance'] = 'Date Wise Attendance';
+$lang['attendance_date'] = 'Attendance Date';
+$lang['calendar_date'] = 'Calendar Date';
+$lang['training'] = 'Training';
+$lang['add_training_type'] = 'Add Training Type';
+
+$lang['employee_id'] = "Employee id";
+$lang['over_time'] = "Overtime";
+$lang['early_leaving'] = "Early Leaving";
+$lang['late'] = "Late";
+$lang['total_work'] = "Total Work";
+$lang['total_rest'] = "Total Rest";
+
+$lang['is_default'] = "Is Default ?";
+$lang['shift_name'] = "Shift name";
+$lang['office_shift'] = "Office shift";
+$lang['saturday'] = "Saturday";
+$lang['sunday'] = "Sunday";
+$lang['monday'] = "Monday";
+$lang['tuesday'] = "Tuesday";
+$lang['wednesday'] = "Wednesday";
+$lang['thursday'] = "Thursday";
+$lang['friday'] = "Friday";
+
+$lang['saturday_in'] = "Saturday in";
+$lang['sunday_in'] = "Sunday in";
+$lang['monday_in'] = "Monday in";
+$lang['tuesday_in'] = "Tuesday in"; 
+$lang['wednesday_in'] = "Wednesday in";
+$lang['thursday_in'] = "Thursday in";
+$lang['friday_in'] = "Friday in";
+
+$lang['saturday_out'] = "Saturday out";
+$lang['sunday_out'] = "Sunday out";
+$lang['monday_out'] = "Monday out";
+$lang['tuesday_out'] = "Tuesday out";
+$lang['wednesday_out'] = "Wednesday out";
+$lang['thursday_out'] = "Thursday out";
+$lang['friday_out'] = "Fiday out";
+
+$lang['new_office_shift'] = "New office shift";
+$lang['default'] = "Default";
+$lang['not_default'] = "Not Default";
+
+$lang['if_you_insert_time_in_you_must_insert_time_out'] = "if you insert time in you must insert time out";
+$lang['overtime_requests'] = "Overtime Requests";
+$lang['new_overtime_request'] = "New Overtime Request";
+$lang['in_time'] = "In Time";
+$lang['out_time'] = "Out Time";
+$lang['overtime_status'] = "Status";
+
+$lang['hr_document'] = "HR Documents";
+$lang['hr_document_reminder_notification_before'] = "HR Document Reminder Notification Before";
+$lang['procurations_reminder_notification_before'] = "Procuration Reminder Notification Before";
+$lang['not_document_deadline_reminder'] = "Not Document Deadline Reminder";
+
+$lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
+$lang['completed'] = "Completed";
+$lang['not_completed'] = "Not Completed";
+$lang['completed_with_hr_system'] = "Integrated With Hr System";
+
+$lang['contract_subject'] = "Contract Subject";
+$lang['contract_description'] = "Contract Description";
+$lang['contract_date_start'] = "Contract Date Start";
+$lang['contract_date_end'] = "Contract Date End";
+$lang['contract_value'] = "Contract Value";
+$lang['contract_link'] = "Contract Link";
+
+$lang['credit_note_number'] = "Credit Note Number";
+$lang['date'] = "Date";
+$lang['status'] = "Status";
+$lang['total'] = "Total";
+$lang['subtotal'] = "Subtotal";
+$lang['credits_used'] = "Credits Used";
+$lang['credits_remaining'] = "Credits Remaining";
+
+$lang['estimate_link'] = "Estimate Link";
+$lang['estimate_number'] = "Estimate Number";
+$lang['est_ref_no'] = "Reference no";
+$lang['est_expdate'] = "Estimate Expiry Date";
+$lang['estimate_date'] = "Estimate Date";
+$lang['estimate_status'] = "Estimate Status";
+$lang['estimate_sale_agent'] = "Estimate Sale Agent";
+$lang['estimate_total'] = "Estimate Total";
+
+$lang['event_title'] = "Event Title";
+$lang['event_description'] = "Event Description";
+$lang['start_date'] = "Start Date";
+$lang['end_date'] = "End Date";
+$lang['event_link'] = "Event Link";
+
+$lang['invoice_link'] = "Invoice Link";
+$lang['invoice_number'] = "Invoice Number";
+$lang['invoice_duedate'] = "Invoice Duedate";
+$lang['invoice_date'] = "Invoice Date";
+$lang['invoice_status'] = "Invoice Status";
+$lang['invoice_sale_agent'] = "Invoice Sale Agent";
+$lang['invoice_total'] = "Invoice Total";
+$lang['invoice_subtotal'] = "Invoice Subtotal";
+$lang['invoice_amount_due'] = "Invoice Amount Due";
+$lang['payment_recorded_total'] = "Payment Recorded Total";
+$lang['payment_recorded_date'] = "Payment Recorded Date";
+
+$lang['lead_name'] = "Lead Name";
+$lang['lead_email'] = "Lead Email";
+$lang['lead_position'] = "Lead Position";
+$lang['lead_website'] = "Lead Website";
+$lang['lead_description'] = "Lead Description";
+$lang['lead_phone_number'] = "Lead Phone Number";
+$lang['lead_company'] = "Lead Company";
+$lang['lead_country'] = "Lead Country";
+$lang['lead_zip'] = "Lead Zip";
+$lang['lead_city'] = "Lead City";
+$lang['lead_state'] = "Lead State";
+$lang['lead_address'] = "Lead Address";
+$lang['lead_assigned'] = "Lead Assigned";
+$lang['lead_status'] = "Lead Status";
+$lang['lead_souce'] = "Lead Souce";
+$lang['lead_link'] = "Lead Link";
+
+$lang['project_name'] = "Project Name";
+$lang['project_description'] = "Project Description";
+$lang['project_start_date'] = "Project Start Date";
+$lang['project_deadline'] = "Project Deadline";
+$lang['project_link'] = "Project Link";
+$lang['file_creator'] = "File Creator";
+$lang['comment_creator'] = "Comment Creator";
+$lang['discussion_link'] = "Discussion Link";
+$lang['discussion_subject'] = "Discussion Subject";
+$lang['discussion_description'] = "Discussion Description";
+$lang['discussion_creator'] = "Discussion Creator";
+$lang['discussion_comment'] = "Discussion Comment";
+
+$lang['proposal_id'] = "Proposal ID";
+$lang['proposal_number'] = "Proposal Number";
+$lang['subject'] = "Subject";
+$lang['proposal_total'] = "Proposal Total";
+$lang['proposal_subtotal'] = "Proposal Subtotal";
+$lang['open_till'] = "Open Till";
+$lang['proposal_assigned'] = "Proposal Assigned";
+$lang['proposal_to'] = "Proposal To";
+$lang['address'] = "Address";
+$lang['city'] = "City";
+$lang['state'] = "State";
+$lang['zip_code'] = "Zip Code";
+$lang['country'] = "Country";
+$lang['email'] = "Email";
+$lang['phone'] = "Phone";
+$lang['proposal_link'] = "Proposal Link";
+
+$lang['staff_contact_who_take_action_on_session'] = "Staff/Contact who take action on session";
+$lang['session_link'] = "Session Link";
+$lang['comment_link'] = "Comment Link";
+$lang['session_name'] = "Session Name";
+$lang['session_description'] = "Session Description";
+$lang['session_status'] = "Session Status";
+$lang['session_comment'] = "Session Comment";
+$lang['session_priority'] = "Session Priority";
+$lang['session_start_date'] = "Session Start Date";
+$lang['session_due_date'] = "Session Due Date";
+$lang['related_to'] = "Related to";
+$lang['next_session_date'] = "Next Session Date";
+$lang['next_session_time'] = "Next Session Time";
+$lang['session_type'] = "Session Type";
+$lang['session_information'] = "Session Information";
+$lang['court_decision'] = "Court Decision";
+
+$lang['subscription_id'] = "Subscription ID";
+$lang['subscription_name'] = "Subscription Name";
+$lang['subscription_description'] = "Subscription Description";
+$lang['subscription_subscribe_link'] = "Subscription Subscribe Link";
+$lang['subscription_authorization_link'] = "Subscription Authorization Link";
+
+$lang['staff_contact_who_take_action_on_task'] = "Staff/Contact who take action on task";
+$lang['task_link'] = "Task Link";
+$lang['comment_link'] = "Comment Link";
+$lang['task_name'] = "Task Name";
+$lang['task_description'] = "Task Description";
+$lang['task_status'] = "Task Status";
+$lang['task_comment'] = "Task Comment";
+$lang['task_priority'] = "Task Priority";
+$lang['task_start_date'] = "Task Start Date";
+$lang['task_due_date'] = "Task Due Date";
+$lang['related_to'] = "Related to";
+
+$lang['ticket_id'] = "Ticket ID";
+$lang['ticket_customers_area_url'] = "Ticket Customers Area URL";
+$lang['ticket_public_url'] = "Ticket Public URL";
+$lang['department'] = "Department";
+$lang['department_email'] = "Department Email";
+$lang['date_opened'] = "Date Opened";
+$lang['ticket_subject'] = "Ticket Subject";
+$lang['ticket_message'] = "Ticket Message";
+$lang['ticket_status'] = "Ticket Status";
+$lang['ticket_priority'] = "Ticket Priority";
+$lang['ticket_service'] = "Ticket Service";
+
+
+$lang['staff_fullname'] = 'Staff Fullname';
+$lang['staff_email'] = 'Staff Email';
+$lang['staff_datecreated'] = 'Staff Date Created';
+$lang['reset_password_url'] = 'Reset Password Url';
+$lang['staff_reminder_description'] = 'Staff Reminder Description';
+$lang['staff_reminder_date'] = 'Staff Reminder Date';
+$lang['staff_reminder_relation_name'] = 'Staff Reminder Relation Name';
+$lang['staff_reminder_relation_link'] = 'Staff Reminder Relation Link';
+$lang['two_factor_auth_code'] = 'Two Factor Auth Code';
+$lang['password'] = 'Password';
+$lang['lead_public_form_url'] = 'Lead Public Form Url';
+$lang['lead_public_consent_url'] = 'Lead Public Consent Url';
+
+$lang['appraisal_date'] = 'Appraisal date';
+$lang['select_month'] = 'Select month';
+$lang['technical_competencies'] = 'Technical competencies';
+$lang['organizational_competencies'] = 'Organizational competencies';
+$lang['indicator_set_value'] = 'Indicator set value :';
+$lang['customer_experience'] = 'Customer experience';
+$lang['professionalism'] = 'Professionalism';
+$lang['marketing'] = 'Marketing';
+$lang['integrity'] = 'Integrity';
+$lang['administration'] = 'Administration';
+$lang['attendance'] = 'Attendance';
+$lang['appraisals'] = 'Appraisals';
+$lang['indicators'] = 'Indicators';
+$lang['performance'] = 'Performance';
+$lang['new_appraisal'] = 'New appraisal';
+$lang['new_indicator'] = 'New indicator';
+$lang['created'] = 'Created at';
+$lang['added_by'] = 'Added by';
+$lang['add_organizational_competencie_type'] = 'Add organizational competencie type';
+$lang['add_technical_competencie_type'] = 'Add technical competencie type';
+$lang['technical_competencie'] = 'Technical competencie';
+$lang['organizational_competencie'] = 'Organizational competencie';
+
+$lang['leave_type'] = 'Leave Type';
+$lang['request_duration'] = 'Request Duration';
+$lang['applied_on'] = 'Applied on';
+$lang['leave_reason'] = 'Leave Reason';
+$lang['remarks'] = 'Remarks';
+$lang['half_day?'] = 'Half Day?';
+$lang['from'] = 'From';
+$lang['add_leave_type'] = 'Add Leave Type';
+$lang['number_of_days'] = 'Number of days';
+$lang['leave'] = 'Leave';
+$lang['new_leave'] = 'New leave';
+$lang['apply_halfday_leave_for_more_than_one_day'] = 'You cannot apply halfday leave for more than one day';
+$lang['you_cannot_add_this_leave_for_this_staff'] = 'You cannot add this leave for this staff';
+
+$lang['logo_url'] = 'Logo url';
+$lang['logo_image_with_url'] = 'Logo image with url';
+$lang['dark_logo_image_with_url'] = 'Dark logo image with url';
+$lang['crm_url'] = 'Crm url';
+$lang['admin_url'] = 'Admin url';
+$lang['main_domain'] = 'Main domain';
+$lang['companyname'] = 'Company name';
+$lang['email_signature'] = 'Email signature';
+$lang['terms_and_conditions_url'] = '(GDPR) Terms & Conditions URL';
+$lang['privacy_policy_url'] = '(GDPR) Privacy Policy URL';
+$lang['client_zip'] = 'client_zip';
+$lang['client_id'] = 'Client id';
+$lang['password'] = 'Password';
+$lang['client_country'] = 'Client country';
+$lang['client_zip'] = 'Client zip';
+$lang['contact_email'] = 'Contact email';
+$lang['download_sample'] = 'Download sample';
+$lang['staff_add_edit_fullname'] = 'Full Name';
+
+
+$lang['label'] = 'Label';
+$lang['translate'] = 'Translate';
+$lang['native'] = 'Native';
+$lang['custom'] = 'Custom';
+$lang['add_new_lable'] = 'Add New Label';
+$lang['arabic'] = 'Arabic';
+$lang['english'] = 'English';
+
+$lang['contact_phonenumber'] = 'Contact Phone Number';
+$lang['phonenumber'] = 'Phone Number';
+$lang['longitude'] = 'Longitude';
+$lang['latitude'] = 'Latitude';
+$lang['branch_id'] = "Branch Name";
+$lang['firstname'] = "Firstname";
+$lang['lastname'] = "Lastname";
+$lang['client_type'] = "Client Type";
+$lang['add_new_holiday'] = 'Add New Holiday';
+$lang['event_name'] = "Event Name";
+$lang['LegalService'] = "Legal Service";
+$lang['service_bin'] = 'Service Bin';
+$lang['arrangement'] = "Arrangement";
+$lang['add_arrangement_type'] = "Add arrangement type";
+$lang['travel_mode'] = "Travel mode";
+$lang['add_travel_mode_type'] = "Add travel mode type";
+$lang['staff'] = "Staff";
+$lang['phone'] = "Phone";
+$lang['constants'] = "Constants";
+$lang['hr_status'] = 'Status';
+$lang['fullname'] = 'Full Name';
+$lang['official'] = 'Official';
+
+$lang['payslip_type'] = "Payslips Type";
+$lang['constants'] = "Constants";
+$lang['new_travel'] = "New travel";
+
+$lang['is_primary'] = "Is Primary";
+$lang['is_dependent'] = "Is Dependent";
+$lang['travels'] = "Travels";
+$lang['new_travel'] = "New Travel";
+
+$lang['total_allowance'] = "Total Allowance";
+$lang['total_commissions'] = "Total commissions";
+$lang['total_loan'] = "Total loan";
+$lang['total_overtime'] = "Total overtime";
+$lang['other_payment'] = "Total payment";
+$lang['net_salary'] = "Total salary";
+$lang['payment_amount'] = "Total amount";
+$lang['make_payment'] = "make payment";
+$lang['arrangement_type'] = "Arrangement type";
+$lang['travel_mode_type'] = "Travel mode";
+$lang['expected_budget'] = "Expected budget";
+$lang['actual_budget'] = "Actual budget";
+$lang['purpose_of_visit'] = "Purpose of visit";
+$lang['place_of_visit'] = "Place of visit";
+
+$lang['promotions'] = "Promotions";
+$lang['promotion_title'] = "Promotion Title";
+$lang['new_promotion'] = "New Promotion";
+$lang['promotion_date'] = "Promotion Date";
+
+$lang['details'] = "Details";
+
+$lang['resignation_date'] = "Resignation Date";
+$lang['resignation_reason'] = "Resignation Reason";
+$lang['new_resignation'] = "New Resignation";
+$lang['resignations'] = "Resignations";
+
+$lang['complaint_from'] = "Complaint From";
+$lang['complaint_againts'] = "Complaint Againts";
+$lang['complaint_date'] = "Complaint Date";
+$lang['complaint_title'] = "Complaint Title";
+$lang['new_complaint'] = "New Complaint";
+$lang['complaints'] = "Complaints";
+
+
 $lang['new_transfer'] = 'New Transfer';
 $lang['core_hr'] = "Core HR";
 $lang['organization'] = "Organization";
@@ -186,8 +535,7 @@ $lang['property_title'] = "Property Title";
 $lang['country'] = "Country";
 $lang['phone'] = "Phone";
 $lang['new_branch'] = "New Branch";
-$lang['branch_title_en'] = "Branch Title English";
-$lang['branch_title_ar'] = "Branch Title Arabic";
+$lang['branch_title_en'] = "Branch Name";
 $lang['branch_country_id'] = "Branch Country ID";
 $lang['branch_city_id'] = "Branch City ID";
 $lang['branch_address'] = "Branch Address";
@@ -2151,7 +2499,7 @@ $lang['calendar_expand'] = "expand";
 $lang['proposal_reminders'] = "Reminders";
 $lang['proposal_set_reminder_title'] = "Set Proposal Reminder";
 $lang['settings_allowed_upload_file_types'] = "Allowed file types";
-$lang['no_primary_contact'] = "This customer does have primary contact. You need to setup primary contact login as customer. Its recommended all customers to have primary contacts.";
+$lang['no_primary_opponent'] = "This opponent does not have primary contact. You need to setup primary contact as an opponent. Its recommended all opponents to have primary contacts.";
 $lang['leads_merge_customer'] = "Customer fields merging";
 $lang['leads_merge_contact'] = "Contact fields merging";
 $lang['leads_merge_as_contact_field'] = "Merge as contact field";
@@ -2954,7 +3302,6 @@ $lang['auto'] = "Auto";
 $lang['email_queue'] = "Email Queue";
 $lang['email_queue_enabled'] = "Enable Email Queue";
 $lang['email_queue_skip_attachments'] = "Do not add emails with attachments in the queue?";
-$lang['disable'] = "Disable";
 $lang['enable'] = "Enable";
 $lang['auto_dismiss_desktop_notifications_after'] = "Auto Dismiss Desktop Notifications After X Seconds (0 to disable)";
 $lang['proposal_info_format'] = "Proposal Info Format (PDF and HTML)";
@@ -3375,11 +3722,11 @@ $lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
 $lang['Parties_case'] = "Parties to the case";
 $lang['file_number_in_court'] = "File number in court";
-$lang['file_number_in_case'] = "File number in court";
+$lang['file_number_in_office'] = "File number in office";
 $lang['new_cstatus'] = "New Case Status";
 $lang['LegalServices'] = "Legal Services";
 $lang['court_competent_follow'] = "The court competent to follow up the case";
-$lang['legal_services_settings'] = "Legal Services Settings";
+$lang['legal_services_settings'] = "Legal Settings";
 $lang['empty_case_mov'] = "No case movements yet!";
 $lang['LService_activity_updated'] = "Legal Service Updated";
 $lang['LService_status_updated'] = "Legal Service status updated";
@@ -3391,7 +3738,7 @@ $lang['LService_activity_invoiced_project'] = "Invoiced Legal Service";
 $lang['CaseMov_activity_created'] = "Created the Case Movement";
 $lang['NewCaseMovement'] = "New Case Movement";
 $lang['LService_not_found'] = "Legal Service not found";
-$lang['LService_recycle_bin'] = "Legal Service Trash";
+$lang['LService_recycle_bin'] = "Recycle bin";
 $lang['restore'] = "Restore";
 $lang['LegalServicesRestored'] = "The legal service has been removed from the trash";
 $lang['ProblemRestored'] = "There was a restor problem";
@@ -3498,6 +3845,7 @@ $lang['opponent_admin_login_as_client_message'] = "Hello %s. You are added as ad
 $lang['opponent_inactive_message'] = "This is inactive opponent profile and some features may be disabled";
 $lang['opponent_profile_details'] = "Opponent Details";
 $lang['opponent_admins'] = "Opponent Admins";
+$lang['send_mail_to_opponent'] = "Send email to opponent";
 $lang['opponent_files_info_message'] = "Files from projects and tasks linked to the opponent are not shown on this table.";
 
 
@@ -3518,6 +3866,7 @@ $lang['phase_decision83'] =  'Decision 83';
 $lang['phase_order_number'] =  'Order number';
 $lang['phase_registration_number'] =  'Registration number';
 $lang['phase_belongs_to'] = "Phase belongs to";
+$lang['no_phases'] = "There are no stages for this service yet! Create it";
 
 $lang['hijri_date'] = "Hijri date";
 $lang['gregorian_date'] = "Gregorian date";
@@ -3541,3 +3890,40 @@ $lang['linked_case'] = "This case is related to the case:";
 $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
+
+$lang['services_locks'] = "Please enter the password to continue!";
+$lang['open_lock'] = "Open lock";
+$lang['case_confidential'] = "Set a password if the case is confidential";
+$lang['case_add_edit_password_note'] = 'Note: if you populate this field, password will be changed on this case.';
+$lang['CourtsManagement'] = "Courts management";
+$lang['dialog_box_manage'] = "Dialog boxes";
+$lang['dialog_boxes'] = "Dialog boxes";
+$lang['add_dialog_box'] = "Add dialog box";
+$lang['edit_dialog_box'] = "Edit dialog box";
+$lang['title'] = "Title";
+$lang['desc_ar'] = "Description arabic";
+$lang['desc_en'] = "Description english";
+$lang['link_for_page'] = "Here the link for the page where you want the dialog box to appear is determined";
+
+
+$lang['modify_module'] = "To modify the data of this service, go to the module page";
+$lang['clients_'] = "Clients";
+$lang['invoice_disputes'] = "Invoice Disputes";
+$lang['from_here'] = "From here";
+$lang['select_legal_services'] = "Choose legal services";
+$lang['case_info'] = "Case information";
+$lang['client_info'] = "Client information";
+$lang['court_info'] = "Court information";
+$lang['payment_info'] = "Payment information";
+$lang['management_info'] = "Management information";
+$lang['IRAC_method'] = "IRAC Method";
+$lang['facts'] = "Facts";
+$lang['legal_authority'] = "Legal authority / statutory text";
+$lang['analysis'] = "Analysis";
+$lang['IRAC_result'] = "Result";
+$lang['help_library'] = "Help library";
+$lang['soon'] = "Soon";
+$lang['clients_import_inst1'] = "Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is <b>UTF-8</b> to avoid unnecessary <b>encoding problems</b>.";
+$lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
+$lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
+$lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";

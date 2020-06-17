@@ -22,7 +22,7 @@
                   <a data-group='relation' href="?group=relation"><?php echo _l('relation') ?></a>
                 </li>
                 <li class="customer_tab_contacts">
-                  <a data-group='branch' href="?group=branch"><?php echo _l('branch') ?></a>
+                  <a data-group='training' href="?group=training"><?php echo _l('training') ?></a>
                 </li>
                 <li class="customer_tab_contacts">
                   <a data-group='<?php echo $qualification ?>' href="?group=education_level"><?php echo _l('qualification') ?></a>
@@ -35,6 +35,21 @@
                 </li>
                 <li class="customer_tab_contacts">
                   <a data-group='warning' href="?group=warning"><?php echo _l('warnings') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='arrangement' href="?group=arrangement"><?php echo _l('arrangement') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='travel_mode' href="?group=travel_mode"><?php echo _l('travel_mode') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='leave' href="?group=leave"><?php echo _l('leaves') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='organizational_competencies' href="?group=organizational_competencies"><?php echo _l('organizational_competencies') ?></a>
+                </li>
+                <li class="customer_tab_contacts">
+                  <a data-group='technical_competencies' href="?group=technical_competencies"><?php echo _l('technical_competencies') ?></a>
                 </li>
 			      	</ul>
             </div>

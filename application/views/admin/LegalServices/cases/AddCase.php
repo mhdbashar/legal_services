@@ -14,7 +14,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <h4 class="no-margin">
-                            <?php echo _l('permission_create') . ' ' . _l('Case'); ?>
+                            <?php echo _l('permission_create').' '._l('Case'); ?>
                         </h4>
                         <hr class="hr-panel-heading"/>
                         <?php
@@ -27,250 +27,360 @@
                             }
                         }
                         ?>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php $CodeValue = isset($Numbering->numbering) ? $Numbering->numbering + 1 : $service->numbering; ?>
-                                <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue); ?>
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="head_case_info">
+                                    <h4 class="panel-title" role="button" data-toggle="collapse" href="#case_info" aria-expanded="false" aria-controls="collapseOne">
+                                        <?php echo _l('case_info'); ?>
+                                    </h4>
+                                </div>
+                                <div id="case_info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="head_case_info">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <?php $CodeValue = isset($Numbering->numbering) ? $Numbering->numbering + 1 : $service->numbering; ?>
+                                                <?php echo render_input('code', 'CaseCode', $service->prefix . $CodeValue); ?>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <?php echo render_input('name', 'CaseTitle'); ?>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="numbering" value="<?php echo $CodeValue; ?>">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <?php
+                                                $staff_language = get_staff_default_language(get_staff_user_id());
+                                                if($staff_language == 'arabic'){
+                                                    $field = 'short_name_ar';
+                                                }else{
+                                                    $field = 'short_name';
+                                                }
+                                                ?>
+                                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
+                                                    <select id="city" name="city" class="form-control custom_select_arrow">
+                                                        <option selected disabled></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php $cats = get_relation_data('mycategory', $ServID);
+                                        if($cats){ ?>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
+                                                        <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
+                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                            <option selected disabled></option>
+                                                            <?php foreach ($cats as $row): ?>
+                                                                <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                                        <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
+                                                                placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                            <option selected disabled></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <?php echo render_input('file_number_case', 'file_number_in_office', '', 'number'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <?php echo render_input('name', 'CaseTitle'); ?>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="head_client_info">
+                                    <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#client_info" aria-expanded="false" aria-controls="collapseOne">
+                                        <?php echo _l('client_info'); ?>
+                                    </h4>
+                                </div>
+                                <div id="client_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_client_info">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="form-group select-placeholder">
+                                                    <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                                                    <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
+                                                            class="ajax-search"
+                                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <?php
+                                                        $selected = (isset($project) ? $project->clientid : '');
+                                                        if ($selected == '') {
+                                                            $selected = (isset($customer_id) ? $customer_id : '');
+                                                        }
+                                                        if ($selected != '') {
+                                                            $rel_data = get_relation_data('customer', $selected);
+                                                            $rel_val = get_relation_values($rel_data, 'customer');
+                                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                                        } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group select-placeholder">
+                                                    <label for="opponent_id"
+                                                           class="control-label"><?php echo _l('opponent'); ?></label>
+                                                    <select id="opponent_id" name="opponent_id" data-live-search="true" data-width="100%"
+                                                            class="ajax-search"
+                                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <?php
+                                                        $selected = (isset($case) ? $case->opponent_id : '');
+                                                        if($selected == ''){
+                                                            $selected = (isset($case) ? $case->opponent_id : '');
+                                                        }
+                                                        if ($selected != '') {
+                                                            $rel_data = get_relation_data('opponents', $selected);
+                                                            $rel_val = get_relation_values($rel_data, 'opponents');
+                                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                                                        }?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="representative"><?php echo _l('customer_description'); ?></label>
+                                                    <select id="representative" name="representative" class="form-control custom_select_arrow"
+                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected disabled></option>
+                                                        <?php $data = get_relation_data('representative', '');
+                                                        foreach ($data as $row): ?>
+                                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['representative']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <input type="hidden" name="numbering" value="<?php echo $CodeValue; ?>">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group select-placeholder">
-                                    <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                                    <select id="clientid" name="clientid" data-live-search="true" data-width="100%"
-                                            class="ajax-search"
-                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="head_court_info">
+                                    <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#court_info" aria-expanded="false" aria-controls="collapseOne">
+                                        <?php echo _l('court_info'); ?>
+                                    </h4>
+                                </div>
+                                <div id="court_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_court_info">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
+                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
+                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected disabled></option>
+                                                        <?php $data = get_relation_data('mycourts', '');
+                                                        foreach ($data as $row): ?>
+                                                            <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="jud_num" class="control-label"><?php echo _l('Judicial'); ?></label>
+                                                    <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
+                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected disabled></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <?php
+                                                $selected = array();
+                                                $data = get_relation_data('Judges', '');
+                                                echo render_select('judges[]',$data,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
+                                                ?>
+                                            </div>
+                                            <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <?php echo render_input('file_number_court', 'file_number_in_court', '', 'number'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="head_payment_info">
+                                    <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#payment_info" aria-expanded="false" aria-controls="collapseOne">
+                                        <?php echo _l('payment_info'); ?>
+                                    </h4>
+                                </div>
+                                <div id="payment_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_payment_info">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group select-placeholder">
+                                                    <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
+                                                    <div class="clearfix"></div>
+                                                    <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option value=""></option>
+                                                        <option value="1"><?php echo _l('project_billing_type_fixed_cost'); ?></option>
+                                                        <option value="2"><?php echo _l('project_billing_type_project_hours'); ?></option>
+                                                        <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>"><?php echo _l('project_billing_type_project_task_hours'); ?></option>
+                                                    </select>
+                                                    <?php if($disable_type_edit != ''){
+                                                        echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <?php
-                                        $selected = (isset($project) ? $project->clientid : '');
-                                        if ($selected == '') {
-                                            $selected = (isset($customer_id) ? $customer_id : '');
+                                        $input_field_hide_class_total_cost = '';
+                                        if(!isset($project)){
+                                            if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
+                                                $input_field_hide_class_total_cost = 'hide';
+                                            }
+                                        } else if(isset($project) && $project->billing_type != 1){
+                                            $input_field_hide_class_total_cost = 'hide';
                                         }
-                                        if ($selected != '') {
-                                            $rel_data = get_relation_data('customer', $selected);
-                                            $rel_val = get_relation_values($rel_data, 'customer');
-                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                            </div>
-
-                            <div class="col-md-5">
-                                <div class="form-group select-placeholder">
-                                    <label for="opponent_id"
-                                           class="control-label"><?php echo _l('opponent'); ?></label>
-                                    <select id="opponent_id" name="opponent_id" data-live-search="true" data-width="100%"
-                                            class="ajax-search"
-                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        ?>
+                                        <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
+                                            <?php $value = (isset($project) ? $project->project_cost : ''); ?>
+                                            <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
+                                        </div>
                                         <?php
-                                        $selected = (isset($case) ? $case->opponent_id : '');
-                                        if($selected == ''){
-                                            $selected = (isset($case) ? $case->opponent_id : '');
+                                        $input_field_hide_class_rate_per_hour = '';
+                                        if(!isset($project)){
+                                            if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
+                                                $input_field_hide_class_rate_per_hour = 'hide';
+                                            }
+                                        } else if(isset($project) && $project->billing_type != 2){
+                                            $input_field_hide_class_rate_per_hour = 'hide';
                                         }
-                                        if ($selected != '') {
-                                            $rel_data = get_relation_data('opponents', $selected);
-                                            $rel_val = get_relation_values($rel_data, 'opponents');
-                                            echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
-                                        }?>
-                                    </select>
+                                        ?>
+                                        <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
+                                            <?php $value = (isset($project) ? $project->project_rate_per_hour : ''); ?>
+                                            <?php
+                                            $input_disable = array();
+                                            if($disable_type_edit != ''){
+                                                $input_disable['disabled'] = true;
+                                            }
+                                            ?>
+                                            <?php echo render_input('project_rate_per_hour','project_rate_per_hour',$value,'number',$input_disable); ?>
+                                        </div>
+                                        <?php echo render_input('estimated_hours','estimated_hours','','number'); ?>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control custom_select_arrow"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                        <?php $data = get_relation_data('representative', '');
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['representative']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="head_management_info">
+                                    <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#management_info" aria-expanded="false" aria-controls="collapseOne">
+                                        <?php echo _l('management_info'); ?>
+                                    </h4>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory', $ServID);
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycourts', '');
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                            </div>
-
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="jud_num" class="control-label"><?php echo _l('Judicial'); ?></label>
-                                    <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-10">
-                                <?php
-                                $selected = array();
-                                $data = get_relation_data('Judges', '');
-                                echo render_select('judges[]',$data,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
-                                ?>
-                            </div>
-
-                                <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo render_input('file_number_case', 'file_number_in_case', '', 'number'); ?>
-                            </div>
-                            <div class="col-md-6">
-                                <?php echo render_input('file_number_court', 'file_number_in_court', '', 'number'); ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php
-//                                    $staff_language = get_staff_default_language(get_staff_user_id());
-                                $staff_language = get_option('active_language');
-                                    if($staff_language == 'arabic'){
-                                        $field = 'short_name_ar';
-                                    }else{
-                                        $field = 'short_name';
-                                    }
-                                ?>
-                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
-                                    <select id="city" name="city" class="form-control custom_select_arrow">
-                                        <option selected disabled></option>
-                                    </select>
+                                <div id="management_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_management_info">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group select-placeholder">
+                                                    <label for="case_status"><?php echo _l('case_status'); ?></label>
+                                                    <div class="clearfix"></div>
+                                                    <select name="case_status" id="case_status" class="selectpicker" data-width="100%"
+                                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected disabled></option>
+                                                        <?php $data = get_relation_data('Case_status', '');
+                                                        foreach ($data as $row): ?>
+                                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group select-placeholder">
+                                                    <label for="case_result"><?php echo _l('ResultCase'); ?></label>
+                                                    <div class="clearfix"></div>
+                                                    <select name="case_result" id="case_result" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option value="رابحة"><?php echo _l('Winning'); ?></option>
+                                                        <option value="خاسرة"><?php echo _l('Losing'); ?></option>
+                                                        <option value="متداولة" selected><?php echo _l('Circulated'); ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="control-label"><?php echo _l('contracts'); ?></label>
+                                                <select class="form-control custom_select_arrow" name="contract"
+                                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected disabled></option>
+                                                    <?php $data = get_relation_data('contracts', '');
+                                                    foreach ($data as $row): ?>
+                                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="select-placeholder form-group">
+                                                    <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
+                                                    <select class="selectpicker" id="previous_case_id" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
+                                                        <option selected disabled></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?>
+                                                    </label>
+                                                    <input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <?php
+                                                $selected = array();
+                                                array_push($selected,get_staff_user_id());
+                                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                                ?>
+                                            </div>
+                                            <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <?php $value = _d(date('Y-m-d')); ?>
+                                                <?php echo render_date_input('start_date', 'project_start_date',$value); ?>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <?php echo render_date_input('deadline', 'project_deadline'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group select-placeholder">
-                                    <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
-                                    <div class="clearfix"></div>
-                                    <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option value=""></option>
-                                        <option value="1"><?php echo _l('project_billing_type_fixed_cost'); ?></option>
-                                        <option value="2"><?php echo _l('project_billing_type_project_hours'); ?></option>
-                                        <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>"><?php echo _l('project_billing_type_project_task_hours'); ?></option>
-                                    </select>
-                                    <?php if($disable_type_edit != ''){
-                                        echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group select-placeholder">
-                                    <label for="case_status"><?php echo _l('case_status'); ?></label>
-                                    <div class="clearfix"></div>
-                                    <select name="case_status" id="case_status" class="selectpicker" data-width="100%"
-                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
-                                        <?php $data = get_relation_data('Case_status', '');
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <?php
-                        $input_field_hide_class_total_cost = '';
-                        if(!isset($project)){
-                            if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
-                                $input_field_hide_class_total_cost = 'hide';
-                            }
-                        } else if(isset($project) && $project->billing_type != 1){
-                            $input_field_hide_class_total_cost = 'hide';
-                        }
-                        ?>
-                        <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                            <?php $value = (isset($project) ? $project->project_cost : ''); ?>
-                            <?php echo render_input('project_cost','project_total_cost',$value,'number'); ?>
-                        </div>
-                        <?php
-                        $input_field_hide_class_rate_per_hour = '';
-                        if(!isset($project)){
-                            if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
-                                $input_field_hide_class_rate_per_hour = 'hide';
-                            }
-                        } else if(isset($project) && $project->billing_type != 2){
-                            $input_field_hide_class_rate_per_hour = 'hide';
-                        }
-                        ?>
-                        <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
-                            <?php $value = (isset($project) ? $project->project_rate_per_hour : ''); ?>
-                            <?php
-                            $input_disable = array();
-                            if($disable_type_edit != ''){
-                                $input_disable['disabled'] = true;
-                            }
-                            ?>
-                            <?php echo render_input('project_rate_per_hour','project_rate_per_hour',$value,'number',$input_disable); ?>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo render_input('estimated_hours','estimated_hours','','number'); ?>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group select-placeholder">
                                     <label for="status"><?php echo _l('project_status'); ?></label>
@@ -279,70 +389,6 @@
                                         <?php foreach($statuses as $status){ ?>
                                             <option value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
                                         <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <?php echo render_date_input('start_date', 'project_start_date'); ?>
-                            </div>
-                            <div class="col-md-6">
-                                <?php echo render_date_input('deadline', 'project_deadline'); ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?>
-                                    </label>
-                                    <input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
-                                </div>
-                            </div>
-                            <div class="col-md-10">
-                                <?php
-                                    $selected = array();
-                                    array_push($selected,get_staff_user_id());
-                                    echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                                ?>
-                            </div>
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group select-placeholder">
-                                    <label for="case_result"><?php echo _l('ResultCase'); ?></label>
-                                    <div class="clearfix"></div>
-                                    <select name="case_result" id="case_result" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option value="رابحة"><?php echo _l('Winning'); ?></option>
-                                        <option value="خاسرة"><?php echo _l('Losing'); ?></option>
-                                        <option value="متداولة" selected><?php echo _l('Circulated'); ?></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control custom_select_arrow" name="contract"
-                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option selected disabled></option>
-                                    <?php $data = get_relation_data('contracts', '');
-                                    foreach ($data as $row): ?>
-                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="select-placeholder form-group">
-                                    <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
-                                    <select class="selectpicker" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
-                                        <option selected disabled></option>
-                                        <?php $data = get_relation_data('cases');
-                                        foreach ($data as $row): ?>
-                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
-                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -375,7 +421,6 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
-
                             $checked = ' checked';
                             if(isset($case)){
                                 if($case->settings->{$setting} == 0){
@@ -605,7 +650,6 @@
 </div>
 <?php init_tail(); ?>
 <script>
-
     init_ajax_search('opponents', '#opponent_id.ajax-search');
 
     $("#AddClient").click(function () {
@@ -669,6 +713,7 @@
                 success: function (data) {
                     if(data){
                         alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#jud_num').html('');
                         $("#court_id").append(new Option(court_name, data, true, true));
                         $("#court_id_modal").append(new Option(court_name, data, true, true));
                         $('#add-court').modal('hide');
@@ -734,13 +779,14 @@
     });
 
     function GetSubCat() {
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#subcat_id').html('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });
@@ -770,6 +816,33 @@
             }
         });
     });
+
+    $("#clientid").change(function () {
+        var groupFilter = $('#previous_case_id');
+        groupFilter.selectpicker('val', '');
+        groupFilter.find('option').remove();
+        groupFilter.selectpicker("refresh");
+        case_clientid = $("#clientid").val();
+        if(case_clientid != ''){
+            $.ajax({
+                url: "<?php echo admin_url('LegalServices/Cases_controller/get_case_by_clientid'); ?>",
+                data: {clientid: case_clientid},
+                type: "POST",
+                success: function (data) {
+                    response = JSON.parse(data);
+                    var newOption = new Option('', '', false, true);
+                    $('#previous_case_id').append(newOption).trigger('change');
+                    $.each(response, function (response, value) {
+                        var newOption = new Option(value.name, value.id, false, false);
+                        $('#previous_case_id').append(newOption).trigger('change');
+                        $('#previous_case_id').selectpicker('refresh');
+                    });
+
+                }
+            });
+        }
+    });
+
     $(function(){
 
         $('select[name="billing_type"]').on('change',function(){
@@ -789,25 +862,25 @@
         var members = $("input[name='project_members[]']");
 
         appValidateForm($('#form'), {
-                code: 'required',
-                name: 'required',
-                clientid: 'required',
-                opponent_id: 'required',
-                representative: 'required',
-                cat_id: 'required',
-                subcat_id: 'required',
-                court_id: 'required',
-                jud_num: 'required',
-                billing_type: 'required',
-                case_status:'required',
-                //rate_per_hour: 'required',
-                members : 'required',
-                start_date: 'required',
-                case_result: 'required',
-                case_status: 'required',
-            });
+            code: 'required',
+            name: 'required',
+            clientid: 'required',
+            //opponent_id: 'required',
+            representative: 'required',
+            cat_id: 'required',
+            subcat_id: 'required',
+            court_id: 'required',
+            jud_num: 'required',
+            billing_type: 'required',
+            case_status:'required',
+            //rate_per_hour: 'required',
+            members : 'required',
+            start_date: 'required',
+            case_result: 'required',
+            case_status: 'required',
+        });
 
-            $('select[name="status"]').on('change',function(){
+        $('select[name="status"]').on('change',function(){
             var status = $(this).val();
             var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
             var notify_project_members_status_change = $('.notify_project_members_status_change');

@@ -9,34 +9,24 @@ class App_Security extends CI_Security
         parent::__construct();
     }
 
-    // --------------------------------------------------------------------
-
     /**
-     * XSS Clean
+     * Show CSRF Error
      *
-     * Sanitizes data so that Cross Site Scripting Hacks can be
-     * prevented.  This method does a fair amount of work but
-     * it is extremely thorough, designed to prevent even the
-     * most obscure XSS attempts.  Nothing is ever 100% foolproof,
-     * of course, but I haven't been able to get anything passed
-     * the filter.
-     *
-     * Note: Should only be used to deal with data upon submission.
-     *   It's not something that should be used for general
-     *   runtime processing.
-     *
-     * @link    http://channel.bitflux.ch/wiki/XSS_Prevention
-     *      Based in part on some code and ideas from Bitflux.
-     *
-     * @link    http://ha.ckers.org/xss.html
-     *      To help develop this script I used this great list of
-     *      vulnerabilities along with a few other hacks I've
-     *      harvested from examining vulnerabilities in other programs.
-     *
-     * @param   string|string[] $str        Input data
-     * @param   bool        $is_image   Whether the input is an image
-     * @return  string
+     * @return  void
      */
+    public function csrf_show_error()
+    {
+        $isAjax = (! empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+                && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+
+        if ($isAjax) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 419 Page Expired');
+            die;
+        }
+
+        parent::csrf_show_error();
+    }
+
     public function xss_clean($str, $is_image = false)
     {
         // Is the string an array?
@@ -61,6 +51,7 @@ class App_Security extends CI_Security
          * Note: Use rawurldecode() so it does not remove plus signs
          */
         if (stripos($str, '%') !== false) {
+
             // CUSTOM CODE
             $search  = ['/\s%/i', '/%\s/i'];
             $replace = ['<p-tmp1></p-tmp1>', '<p-tmp2></p-tmp2>'];
@@ -71,14 +62,12 @@ class App_Security extends CI_Security
                 $str    = rawurldecode($str);
                 $str    = preg_replace_callback('#%(?:\s*[0-9a-f]){2,}#i', [$this, '_urldecodespaces'], $str);
             } while ($oldstr !== $str);
-
             unset($oldstr);
 
             // CUSTOM CODE
             $str = str_replace('<p-tmp1></p-tmp1>', ' %', $str);
             $str = str_replace('<p-tmp2></p-tmp2>', '% ', $str);
         }
-
         /*
          * Convert character entities to ASCII
          *
@@ -88,10 +77,8 @@ class App_Security extends CI_Security
          */
         $str = preg_replace_callback("/[^a-z0-9>]+[a-z0-9]+=([\'\"]).*?\\1/si", [$this, '_convert_attribute'], $str);
         $str = preg_replace_callback('/<\w+.*/si', [$this, '_decode_entity'], $str);
-
         // Remove Invisible Characters Again!
         $str = remove_invisible_characters($str);
-
         /*
          * Convert all tabs to spaces
          *
@@ -101,13 +88,10 @@ class App_Security extends CI_Security
          * large blocks of data, so we use str_replace.
          */
         $str = str_replace("\t", ' ', $str);
-
         // Capture converted string for later comparison
         $converted_string = $str;
-
         // Remove Strings that are never allowed
         $str = $this->_do_never_allowed($str);
-
         /*
          * Makes PHP tags safe
          *
@@ -125,7 +109,6 @@ class App_Security extends CI_Security
         } else {
             $str = str_replace(['<?', '?' . '>'], ['&lt;?', '?&gt;'], $str);
         }
-
         /*
          * Compact any exploded words
          *
@@ -137,15 +120,12 @@ class App_Security extends CI_Security
             'vbs', 'script', 'base64', 'applet', 'alert', 'document',
             'write', 'cookie', 'window', 'confirm', 'prompt', 'eval',
         ];
-
         foreach ($words as $word) {
             $word = implode('\s*', str_split($word)) . '\s*';
-
             // We only want to do this when it is followed by a non-word character
             // That way valid stuff like "dealer to" does not become "dealerto"
             $str = preg_replace_callback('#(' . substr($word, 0, -3) . ')(\W)#is', [$this, '_compact_exploded_words'], $str);
         }
-
         /*
          * Remove disallowed Javascript in links or img tags
          * We used to do some version comparisons and use of stripos(),
@@ -160,21 +140,22 @@ class App_Security extends CI_Security
          */
         do {
             $original = $str;
-
             if (preg_match('/<a/i', $str)) {
                 $str = preg_replace_callback('#<a(?:rea)?[^a-z0-9>]+([^>]*?)(?:>|$)#si', [$this, '_js_link_removal'], $str);
             }
-
             if (preg_match('/<img/i', $str)) {
                 $str = preg_replace_callback('#<img[^a-z0-9]+([^>]*?)(?:\s?/?>|$)#si', [$this, '_js_img_removal'], $str);
             }
-
             if (preg_match('/script|xss/i', $str)) {
                 $str = preg_replace('#</*(?:script|xss).*?>#si', '[removed]', $str);
             }
+
+            // CUSTOM CODE
+            if (preg_match('/marquee|xss/i', $str)) {
+                $str = preg_replace('#</*(?:marquee|xss).*?>#si', '[removed]', $str);
+            }
         } while ($original !== $str);
         unset($original);
-
         /*
          * Sanitize naughty HTML elements
          *
@@ -196,7 +177,6 @@ class App_Security extends CI_Security
                 . ')?' // end optional attribute-value group
             . ')*)' // end optional attributes group
             . '[^>]*)(?<closeTag>\>)?#isS';
-
         // Note: It would be nice to optimize this for speed, BUT
         //       only matching the naughty elements here results in
         //       false positives and in turn - vulnerabilities!
@@ -205,7 +185,6 @@ class App_Security extends CI_Security
             $str     = preg_replace_callback($pattern, [$this, '_sanitize_naughty_html'], $str);
         } while ($old_str !== $str);
         unset($old_str);
-
         /*
          * Sanitize naughty scripting elements
          *
@@ -223,7 +202,6 @@ class App_Security extends CI_Security
             '\\1\\2&#40;\\3&#41;',
             $str
         );
-
         // Same thing, but for "tag functions" (e.g. eval`some code`)
         // See https://github.com/bcit-ci/CodeIgniter/issues/5420
         $str = preg_replace(
@@ -231,12 +209,10 @@ class App_Security extends CI_Security
             '\\1\\2&#96;\\3&#96;',
             $str
         );
-
         // Final clean up
         // This adds a bit of extra precaution in case
         // something got through the above filters
         $str = $this->_do_never_allowed($str);
-
         /*
          * Images are Handled in a Special Way
          * - Essentially, we want to know that after all of the character
@@ -246,6 +222,7 @@ class App_Security extends CI_Security
          * string post-removal of XSS, then it fails, as there was unwanted XSS
          * code found and removed/changed during processing.
          */
+
         if ($is_image === true) {
             return ($str === $converted_string);
         }

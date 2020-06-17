@@ -572,3 +572,10 @@ function customerExternalFileUpload(files, externalType) {
         window.location.reload();
     });
 }
+
+function task_attachments_toggle() {
+    var $taskWrapper = $('#task');
+    var $attachmentsWrapper = $taskWrapper.find('.task_attachments_wrapper');
+    $attachmentsWrapper.find('.task-attachments-more').toggleClass('hide');
+    $attachmentsWrapper.find('.task-attachments-less').toggleClass('hide');
+}

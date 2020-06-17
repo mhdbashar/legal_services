@@ -88,16 +88,8 @@
 							<label for="project_id"><?php echo _l('project'); ?></label>
 							<div id="project_ajax_search_wrapper">
 								<select name="project_id" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(isset($project_id)){ ?> data-auto-project="true" data-project-userid="<?php echo $userid; ?>"<?php } ?>>
-									<?php if(isset($project_id)){
-									    if (isset($ServID) && $ServID == 1){
-                                            $option_name = get_case_name_by_id($project_id);
-                                        }elseif (isset($ServID) && $ServID != 1){
-                                            $option_name = get_oservice_name_by_id($project_id);
-                                        }else{
-                                            $option_name = get_project_name_by_id($project_id);
-                                        }
-									    ?>
-										<option value="<?php echo $project_id; ?>" selected><?php echo '#'.$project_id. ' - ' .$option_name ; ?></option>
+									<?php if(isset($project_id)){ ?>
+										<option value="<?php echo $project_id; ?>" selected><?php echo '#'.$project_id. ' - ' . get_project_name_by_id($project_id); ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -166,7 +158,7 @@
 									<div class="form-group">
 										<label for="attachment" class="control-label"><?php echo _l('ticket_add_attachments'); ?></label>
 										<div class="input-group">
-											<input type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+											<input type="file" extension="<?php echo str_replace(['.', ' '], '', get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
 											<span class="input-group-btn">
 												<button class="btn btn-success add_more_attachments p8-half" data-max="<?php echo get_option('maximum_allowed_ticket_attachments'); ?>" type="button"><i class="fa fa-plus"></i></button>
 											</span>
@@ -181,7 +173,6 @@
 		</div>
 	</div>
 	<?php echo form_close(); ?>
-</div>
 </div>
 </div>
 <?php $this->load->view('admin/tickets/services/service'); ?>

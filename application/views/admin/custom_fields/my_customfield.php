@@ -82,7 +82,7 @@
                                 </optgroup> */ ?>
                                 <optgroup label="مراحل الخدمات القانونية">
                                     <?php foreach ($legal_services_phases as $phase): ?>
-                                        <option value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
+                                        <option data-action="hide" value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
@@ -122,6 +122,7 @@
                                     <input type="number" max="12" class="form-control" name="bs_column" id="bs_column" value="<?php if(!isset($custom_field)){echo 12;} else{echo $custom_field->bs_column;} ?>">
                                 </div>
                             </div>
+                            <div id="without_phases">
                             <div class="checkbox checkbox-primary">
                                 <input type="checkbox" name="disabled" id="disabled" <?php if(isset($custom_field) && $custom_field->active == 0){echo 'checked';} ?>>
                                 <label for="disabled"><?php echo _l('custom_field_add_edit_disabled'); ?></label>
@@ -160,6 +161,7 @@
                                 <input type="checkbox" value="1" name="show_on_ticket_form" id="show_on_ticket_form" <?php if(isset($custom_field) && $custom_field->show_on_ticket_form == 1){echo 'checked';} ?>>
                                 <label for="show_on_ticket_form"><?php echo _l('show_on_ticket_form'); ?></label>
                             </div>
+                            </div>
                             <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
                             <?php echo form_close(); ?>
                         </div>
@@ -174,6 +176,8 @@ var pdf_fields = <?php echo json_encode($pdf_fields); ?>;
 var client_portal_fields = <?php echo json_encode($client_portal_fields); ?>;
 var client_editable_fields = <?php echo json_encode($client_editable_fields); ?>;
 $(function () {
+    $('#without_phases').css("visibility", "hidden");
+
     appValidateForm($('form'), {
         fieldto: 'required',
         name: 'required',
@@ -287,6 +291,17 @@ $(function () {
     $('body').on('change', 'input[name="only_admin"]', function () {
         $('#show_on_client_portal').prop('disabled', $(this).prop('checked')).prop('checked', false);
         $('#disalow_client_to_edit').prop('disabled', $(this).prop('checked')).prop('checked', false);
+    });
+
+    $("#fieldto").change(function(){
+        var element = $(this).find('option:selected');
+        var myTag = element.attr("data-action");
+        if(myTag == 'hide'){
+            $('#without_phases').css("visibility", "hidden");
+        }else{
+            $('#without_phases').css("visibility", "visible");
+        }
+
     });
 });
 </script>

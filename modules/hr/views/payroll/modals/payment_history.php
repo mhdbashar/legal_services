@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade" id="make_payment" tabindex="-1" role="dialog" aria-labelledby="make_payment" aria-hidden="true">
+<div class="modal fade" id="show_payment" tabindex="-1" role="dialog" aria-labelledby="show_payment" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -94,7 +94,7 @@
 
                 $('[name="payment_date"]').val(data.created);
 
-                $('#make_payment').modal('show'); // show bootstrap modal when complete loaded
+                $('#show_payment').modal('show'); // show bootstrap modal when complete loaded
 
             },
             error: function (jqXHR, textStatus, errorThrown)

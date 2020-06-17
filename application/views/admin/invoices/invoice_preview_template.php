@@ -123,7 +123,7 @@
                </ul>
             </div>
          </div>
-         <div class="row">
+         <div class="row mtop10">
             <div class="col-md-3">
                <?php echo format_invoice_status($invoice->status,'mtop5'); ?>
                <?php if($invoice->status == Invoices_model::STATUS_PARTIALLY || $invoice->status == Invoices_model::STATUS_OVERDUE){
@@ -425,5 +425,7 @@
    init_tabs_scrollable();
    <?php if($record_payment) { ?>
       record_payment(<?php echo $invoice->id; ?>);
+   <?php } else if($send_later) { ?>
+      schedule_invoice_send(<?php echo $invoice->id; ?>);
    <?php } ?>
 </script>

@@ -18,7 +18,7 @@ class projects_contacts extends AdminController
         foreach ($fetch_data as $row) {
             $text .= '      <div class="contact_item">
                             <div class="form-group col-md-12">
-                                <label class="control-label col-md-12">'.$options[$row->contact_type].': '.$row->contact_name.' <a class="delete_contact" rel="'.$row->id.'" href="#" style="position: absolute; right: 5px;"><i class="fa fa-remove"></i></a></label>
+                                <label class="control-label col-md-12">'.$options[$row->contact_type].': '.$row->contact_name.' <a class="delete_contact text-danger" rel="'.$row->id.'" href="#" style="float: right;margin-left: 5px;"><i class="fa fa-remove"></i></a></label>
                                 <div class="col-md-6">'.$row->contact_address.'</div>
                                 <div class="col-md-3">'.$row->contact_email.'</div>
                                 <div class="col-md-3">'.$row->contact_phone.'</div>
@@ -40,7 +40,6 @@ class projects_contacts extends AdminController
             }
 
             if (!$id){
-                    
                 $added = $this->Project_contacts->add_new($data);
                 if ($added) {
                     //set_alert('success', _l('added_successfully'), _l('disputes'));
@@ -50,7 +49,6 @@ class projects_contacts extends AdminController
                 }
 
             }else{
-
                 $data = $this->input->post();                              
                 $success = $this->Project_contacts->update($id,$data);
                 if ($success) {
@@ -68,20 +66,20 @@ class projects_contacts extends AdminController
 
 
 	public function delete($id)
-    {    	     
-
+    {
         $data = $this->input->post();  
         if (!isset($data['project_id'])) {
             return false;
         }
         $response = $this->Project_contacts->delete($id);
         if ($response == true) {
+            echo $this->printall($data['project_id']);
+            return true;
             //set_alert('success', _l('deleted', _l('disputes')));
         } else {
             //set_alert('warning', _l('problem_deleting', _l('disputes')));
             return false;
         }
-        $this->printall($data['project_id']);
         //return json_encode($this->Project_contacts->get_all($project_id));
         //redirect(admin_url('disputes/statuses'));
     }

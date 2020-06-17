@@ -33,6 +33,16 @@ class Other_services_model extends App_Model
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
+    public function get_all_other_services($where = [])
+    {
+        $this->db->where($where);
+        $this->db->where(array('my_other_services.deleted' => 0));
+        $this->db->select('*,' . get_sql_select_client_company());
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_other_services.clientid');
+        $this->db->order_by('my_other_services.id', 'desc');
+        return $this->db->get(db_prefix() . 'my_other_services')->result_array();
+    }
+
     public function get($ServID, $id = '', $where = [])
     {
         $this->db->where($where);
@@ -40,8 +50,8 @@ class Other_services_model extends App_Model
             $this->db->where(array('my_other_services.id' => $id,'my_other_services.service_id' => $ServID, 'my_other_services.deleted' => 0));
             $this->db->select('my_other_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_other_services.country', 'left');
-            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_other_services.cat_id');
-            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_other_services.subcat_id');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_other_services.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_other_services.subcat_id', 'left');
             $project = $this->db->get(db_prefix() . 'my_other_services')->row();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
@@ -98,7 +108,6 @@ class Other_services_model extends App_Model
 
                 $project = hooks()->apply_filters('project_get', $project);
                 $GLOBALS['project'] = $project;
-
                 return $project;
             }
 
@@ -1785,9 +1794,9 @@ class Other_services_model extends App_Model
         return false;
     }
 
-    public function get_projects_for_ticket($client_id)
+    public function get_projects_for_ticket($ServID, $client_id)
     {
-        return $this->get('', [
+        return $this->get($ServID, '', [
             'clientid' => $client_id,
         ]);
     }

@@ -26,13 +26,21 @@
                             ?>
 
                             <?php $value = (isset($branch) ? $branch->title_en : ''); ?>
-                            <?php echo render_input('title_en','branch_title_en',$value); ?>
+                            <?php 
+                                if(get_staff_default_language() == 'arabic'){
+                                    $title = 'title_ar';
+                                    $value = (isset($branch) ? $branch->title_ar : '');
+                                }else{
+                                    $title = 'title_en';
+                                    $value = (isset($branch) ? $branch->title_en : '');
+                                }
+                            echo render_input($title,'branch_title_en',$value); ?>
 
-                        <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
+                        <!-- <?php $value = (isset($branch) ? $branch->title_ar : ''); ?>
                         <?php echo render_input('title_ar','branch_title_ar',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->legal_traning_name : ''); ?>
-                        <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?>
+                        <?php echo render_input('legal_traning_name','legal_traning_name',$value); ?> -->
 
                         <?php $value = (isset($branch) ? $branch->registraion_number : ''); ?>
                         <?php echo render_input('registraion_number','registraion_number',$value); ?>
@@ -48,15 +56,33 @@
 
                         <?php $value = (isset($branch) ? $branch->address : ''); ?>
                         <?php echo render_input('address','address',$value); ?>
+                        
+                        <?php $countries= my_get_all_countries();
+                            $customer_default_country = get_option('customer_default_country');
+                            $selected =( isset($branch) ? $branch->country_id : $customer_default_country);
+                            if(get_option('active_language') == 'arabic'){
+                                echo render_select( 'country_id',$countries,array( 'country_id',array( 'short_name_ar')), 'branch_country_id',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                            } else {
+                                echo render_select( 'country_id',$countries,array( 'country_id',array( 'short_name')), 'branch_country_id',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                            }
+                            ?>
 
-                        <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
+                        <div class="form-group" app-field-wrapper="city"><label for="city" class="control-label"><?= _l('city')?></label>
+                        <?php 
+                            $options = ( isset($branch) ? my_get_cities($branch->country_id) : my_get_cities($customer_default_country));
+                            $selected=( isset($branch) ? $branch->city_id : '');
+                            echo form_dropdown('city_id', $options, $selected, ' id="city_id" class="form-control" ');
+                        ?>
+                        </div>
+
+                        <!-- <?php $value = (isset($branch) ? $branch->country_id : ''); ?>
                         <?php echo render_select('country_id',(isset($countries)?$countries:[]),['key','value'],'branch_country_id',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->city_id : ''); ?>
                         <?php echo render_select('city_id',(isset($city)?$city:[]),['key','value'],'branch_city_id',$value); ?>
 
                         <?php $value = (isset($branch) ? $branch->state_province : ''); ?>
-                        <?php echo render_input('state_province','state_province',$value); ?>
+                        <?php echo render_input('state_province','state_province',$value); ?> -->
 
                         <?php $value = (isset($branch) ? $branch->zip_code : ''); ?>
                         <?php echo render_input('zip_code','zip_code',$value); ?>
@@ -79,34 +105,29 @@ var client_editable_fields = <?php echo json_encode($client_editable_fields); ?>
 $(function () {
     _validate_form($('form'), {
         title_ar: 'required',
-        title_en: 'required',
+        // title_en: 'required',
         city_id: 'required',
         country_id: 'required',
         address: 'required',
         phone: 'required',
     });
 });
+
 $(document).on('change','#country_id',function () {
-    $.get(admin_url + 'branches/getCities/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#city_id').empty();
-            $('#city_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#city_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#city_id').selectpicker('refresh');
+
+  
+        /*dropdown post *///
+        $.ajax({
+            url:"<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
+            data: {country:
+            $(this).val()},
+            type: "POST",
+            success:function(data){
+                $('#city_id').prop('disabled', false);
+                $("#city_id").html(data);
             }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
+        });
+  
 });
 </script>
 </body>

@@ -1,5 +1,4 @@
 <?php
-
   if(!is_numeric($id)){
     $id = null;
     $procuration = null;
@@ -9,13 +8,17 @@
     $come_from = '';
     $client = '';
     $status = '';
-    $selected_cases = '';
+    $selected_cases = [];
+    if(is_numeric($case_r)){
+      $code = $this->case->get($case_r)->code;
+      $selected_cases[] = ['id' => $case_r, 'code' => $code];
+    }
     $type = '';
     $case = '';
   }else{
     $selected_cases = $procuration->cases;
-    $start_date = _d($procuration->start_date);
-    $end_date = _d($procuration->end_date);
+    $start_date = $procuration->start_date;
+    $end_date = $procuration->end_date;
     $NO = $procuration->NO;
     $come_from = $procuration->come_from;
     $client = $procuration->client;
@@ -43,10 +46,10 @@
             <!-- enable language edit -->
             <div class="row">
               <div class="col-md-6">
-                <?php echo render_date_input('start_date', _l('start_date'), $start_date, ['required' => 'required']); ?>
+                <?php echo render_date_input('start_date', _l('start_date'), _d($start_date), ['required' => 'required']); ?>
               </div>
               <div class="col-md-6">
-                <?php echo render_date_input('end_date', _l('end_date'), $end_date, ['required' => 'required']); ?>
+                <?php echo render_date_input('end_date', _l('end_date'), _d($end_date), ['required' => 'required']); ?>
               </div>
             </div>
             <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
@@ -96,7 +99,7 @@
 
                           <div class="col-md-6">
                             <div class="form-group">
-                                <label for="type" class="col-form-label"><?php echo _l('type') ?>:</label>
+                                <label for="type" class="col-form-label"><?php echo _l('procurationtype') ?>:</label>
                                 <div class="row-fluid">
                                 <select name="type" data-width="100%" id="type" class="selectpicker" data-show-subtext="true" data-live-search="true">
                                   <option value=""><?php echo _l('not_selected') ?></option>
@@ -223,15 +226,15 @@
 
         $.post(form.action, $(form).serialize()).done(function(response) {
           <?php
+          $redirect = admin_url('procuration/all');
           if(is_numeric($request)){
-                  // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
-                  $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
-              }elseif(is_numeric($case_r)){
-                  // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
-                  $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
-              }else{
-                  $redirect = admin_url('procuration/all');
-              }
+              // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
+              $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
+          }
+          if(is_numeric($case_r)){
+              // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
+              $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
+          }
           ?>
           var response = '<?php echo $redirect ?>'
           if(typeof(expenseDropzone) !== 'undefined'){

@@ -12,13 +12,23 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
+                    <?php
+                    $data = array(
                         _l('staff_name'),
-                        _l('branch'),
                         _l('transfer_date'),
                         _l('status'),
                         _l('control'),
-                    ),'transfer'); ?>
+                    ); 
+                    if($this->app_modules->is_active('branches'))
+                        $data = array(
+                            _l('staff_name'),
+                            _l('branch_name'),
+                            _l('transfer_date'),
+                            _l('status'),
+                            _l('control'),
+                        ); 
+                    render_datatable($data,'transfer');
+                    ?>
                     </div>
                 </div>
             </div>
@@ -31,6 +41,36 @@
    $(function(){
         initDataTable('.table-transfer', window.location.href);
    });
+$('.modal').on('hidden.bs.modal', function (e) {
+  console.log('agt');
+  $(this)
+    .find("input,textarea,select")
+       .val('')
+       .end()
+    .find("input[type=checkbox], input[type=radio]")
+       .prop("checked", "")
+       .end()
+    .find(".branch")
+        .remove()
+    .find(".staff")
+        .remove()
+})
+$(document).on('change','#staff_id',function () {
+        $.get(admin_url + 'hr/core_hr/in_hr_system/' + $(this).val(), function(response) {
+            if (response.success == true) {
+                $('#add_transfer').modal('show'); // show bootstrap modal when complete loaded
+
+                if (!response.data){
+                    $('#add_transfer').modal('hide');
+                    console.log('You Should Add Staff To HR System');
+                    alert('You Should Add Staff To HR System');
+                    $(this).val('');
+                }
+            } else {
+                alert_float('danger', response.message);
+            }
+        }, 'json');
+    });
 $(document).on('change','#branch_id',function () {
     $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
         if (response.success == true) {
@@ -47,6 +87,27 @@ $(document).on('change','#branch_id',function () {
                     text: value
                 }));
                 $('#department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#e_staff_id').empty();
+            $('#e_staff_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#e_staff_id').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#e_staff_id').selectpicker('refresh');
             }
         } else {
             alert_float('danger', response.message);
@@ -71,6 +132,27 @@ $(document).on('change','#a_branch_id',function () {
                     class: 'department_id'
                 }));
                 $('#a_department_id').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+
+    $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
+        if (response.success == true) {
+            $('#staff_id').empty();
+            $('#staff_id').append($('<option>', {
+                value: '',
+                text: ''
+            }));
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#staff_id').append($('<option>', {
+                    value: key,
+                    text: value,
+                }));
+                $('#staff_id').selectpicker('refresh');
             }
         } else {
             alert_float('danger', response.message);

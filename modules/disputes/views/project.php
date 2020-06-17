@@ -23,22 +23,20 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','project_name',$value); ?>
-                        
-
-                        
-                        <?php $value = (isset($meta['address1']) ? $meta['address1'] : ''); ?>
-                        <?php echo render_input('address1','project_address1',$value); ?>
-                        <?php $value = (isset($meta['address2']) ? $meta['address2'] : ''); ?>
-                        <?php echo render_input('address2','project_address2',$value); ?>
-
+                        <!-- <?php //$value = (isset($meta['address1']) ? $meta['address1'] : ''); ?> -->
+                        <!-- <?php //echo render_input('address1','project_address1',$value); ?> -->
+                        <!-- <?php //$value = (isset($meta['address2']) ? $meta['address2'] : ''); ?> -->
+                        <!-- <?php //echo render_input('address2','project_address2',$value); ?> -->
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
                                 $staff_language = get_staff_default_language(get_staff_user_id());
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
+                                    $field_city = 'Name_ar';
                                 }else{
                                     $field = 'short_name';
+                                    $field_city = 'Name_en';
                                 }
                                 $selected = (isset($meta['country']) ? $meta['country'] : '');
                                 ?>
@@ -52,7 +50,7 @@
                                     <select id="city" name="city" class="form-control">
                                         <option selected disabled></option>
                                        <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->Name_en; ?>" <?php echo $selected == $row->Name_en ? 'selected': '' ?>><?php echo $row->Name_en; ?></option>
+                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $selected == $row->$field_city ? 'selected': '' ?>><?php echo $row->$field_city; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -85,7 +83,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control"
+                                    <select id="representative" name="representative" class="form-control selectpicker"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('representative', '');
@@ -99,21 +97,21 @@
                             </div>
                         </div>
 
-                        <?php $value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?>
-                        <?php echo render_input('addressed_to','project_addressed_to',$value); ?>
+                        <!-- <?php //$value = (isset($meta['addressed_to']) ? $meta['addressed_to'] : ''); ?> -->
+                        <!-- <?php //echo render_input('addressed_to','project_addressed_to',$value); ?> -->
 
 
-
+                        <?php $cats = get_relation_data('cat_modules','Dispute');
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('Categories'); ?></label>
-                                    <select class="form-control" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <select class="form-control selectpicker" id="cat_id" onchange="GetSubCat()" name="cat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory',4);
+                                        <?php
                                         $selected = (isset($meta['cat_id']) ? $meta['cat_id'] : '');
-                                        foreach ($data as $row): ?>
+                                        foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $selected == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -121,8 +119,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label"><?php echo _l('SubCategories'); ?></label>
-                                    <select class="form-control" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <label for="subcat_id" class="control-label"><?php echo _l('SubCategories'); ?></label>
+                                    <select class="form-control custom_select_arrow" id="subcat_id" name="subcat_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
                                         <?php $data = get_relation_data('childmycategory',$selected);
                                         $selected = (isset($meta['subcat_id']) ? $meta['subcat_id'] : '');
@@ -133,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php } ?>
 
                         <?php $value = (isset($meta['notes']) ? $meta['notes'] : ''); ?>
                         <?php echo render_input('notes','project_notes',$value); ?>
@@ -142,13 +140,12 @@
                     <?php
                     $opponent_id = (isset($meta['opponent_id']) ? explode(',',$meta['opponent_id']) : array()); 
                     for($i=0; $i<10; $i++) : ?>
-
                         <div class="row opponents <?php echo ($i>0?'hidden':''); ?>">
                             <div class="col-md-10">
                                 <div class="form-group select-placeholder">
-                                    <label for="opponent_id[<?php echo $i; ?>]"
+                                    <label for="opponent_id_<?php echo $i; ?>"
                                            class="control-label"><?php echo _l('opponent') . ' ' . ($i+1); ?></label>
-                                    <select id="opponent_id[<?php echo $i; ?>]" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
+                                    <select id="opponent_id_<?php echo $i; ?>" name="opponent_id[<?php echo $i; ?>]" data-live-search="true" data-width="100%"
                                             class="ajax-search opponent"
                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <?php
@@ -168,6 +165,7 @@
                         </div>
 
                     <?php endfor; ?>
+                    <p id="opponent-error" class="text-danger hide">You can not Choose same Opponent</p>
 
 
                         <div class="row opponent_lawyer">
@@ -196,9 +194,11 @@
                         </div>
 
 
-                        <div class="row">
-                            <div class="col-md-10 form-group">
-                                <label class="control-label"><?php echo _l('project_contacts'); ?></label>
+                        <div class="row mtop15 mbot10">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="control-label"><?php echo _l('project_contacts'); ?></label>
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <a href="#" data-toggle="modal" data-target="#add-contact" class="btn btn-info btn_plus"><i class="fa fa-plus"></i></a>
@@ -207,11 +207,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label" for="projects_status"><?php echo _l('projects_status'); ?></label>
                                      <?php $selected = (isset($meta['projects_status']) ? $meta['projects_status'] : ''); ?>
-                                    <select id="projects_status" name="projects_status" class="form-control">
+                                    <select id="projects_status" name="projects_status" class="form-control selectpicker">
                                         <option selected disabled></option>
                                        <?php foreach ($projects_statuses as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $selected == $row->id ? 'selected': '' ?>><?php echo $row->status_name; ?></option>
@@ -219,31 +219,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-1">
+                                <a href="#" data-toggle="modal" data-target="#add-status-modal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            </div>
                         </div>
 
 
                         <?php $value = (isset($meta['disputes_total']) ? $meta['disputes_total'] : ''); ?>
                         <?php echo render_input('disputes_total','disputes_total',$value,'number'); ?>
-
-
-                    <!--<div class="form-group">
-                        <div class="checkbox checkbox-success">
-                            <input type="checkbox" <?php if((isset($project) && $project->progress_from_tasks == 1) || !isset($project)){echo 'checked';} ?> name="progress_from_tasks" id="progress_from_tasks">
-                            <label for="progress_from_tasks"><?php echo _l('calculate_progress_through_tasks'); ?></label>
-                        </div>
-                    </div>
-                    <?php
-                    if(isset($project) && $project->progress_from_tasks == 1){
-                        $value = $this->projects_model->calc_progress_by_tasks($project->id);
-                    } else if(isset($project) && $project->progress_from_tasks == 0){
-                        $value = $project->progress;
-                    } else {
-                        $value = 0;
-                    }
-                    ?>
-                    <label for=""><?php echo _l('project_progress'); ?> <span class="label_progress"><?php echo $value; ?>%</span></label>
-                    <?php echo form_hidden('progress',$value); ?>
-                    <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div>-->
 
                     <div class="row">
                         <div class="col-md-6">
@@ -335,9 +318,6 @@
                         <?php echo render_input('project_rate_per_hour','project_rate_percent',$value,'number',$input_disable); ?>
                     </div>
                     <div class="row">
-                        <!--<div class="col-md-6">
-                            <?php echo render_input('estimated_hours','estimated_hours',isset($project) ? $project->estimated_hours : '','number'); ?>
-                        </div>-->
                         <div class="col-md-12">
                          <?php
                          $selected = array();
@@ -383,7 +363,7 @@
                  </div>
              <?php } ?>
              <div class="btn-bottom-toolbar text-right">
-                 <button type="submit" data-form="#project_form" class="btn btn-info" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('submit'); ?></button>
+                 <button type="submit" data-form="#project_form" class="my_button btn btn-info" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('submit'); ?></button>
              </div>
          </div>
      </div>
@@ -502,13 +482,13 @@
             <div class="modal-header">
                 <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <span class="add-title"><?php echo _l('client_company'); ?></span>
+                    <span class="add-title"><?php echo _l('opponent'); ?></span>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo render_input( 'opponent_company_modal', 'client_company','','text'); ?>
+                        <?php echo render_input( 'opponent_company_modal', 'opponent','','text'); ?>
                     </div>
                 </div>
             </div>
@@ -554,18 +534,20 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <!--
                     <div class="col-md-6">
-                        <?php $options = explode(",",_l('project_contacts_types')); ?>
+                        <?php //$options = explode(",",_l('project_contacts_types')); ?>
                         <div class="form-group select-placeholder">
-                            <label for="status"><?php echo _l('project_status'); ?></label>
+                            <label for="status"><?php //echo _l('project_status'); ?></label>
                             <div class="clearfix"></div>
-                            <select name="contact_type" id="contact_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                <?php foreach($options as $key => $option){ ?>
-                                    <option value="<?php echo $key; ?>"><?php echo $option; ?></option>
-                                <?php } ?>
+                            <select name="contact_type" id="contact_type" class="selectpicker" data-width="100%">
+                                <?php //foreach($options as $key => $option){ ?>
+                                    <option value="<?php //echo $key; ?>"><?php //echo $option; ?></option>
+                                <?php //} ?>
                             </select>
                         </div>
                     </div>
+                    -->
                     <div class="col-md-12">
                         <?php echo render_input( 'contact_name', 'name'); ?>
                         <?php echo render_input( 'contact_address', 'address'); ?>
@@ -581,12 +563,39 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="add-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button group="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="add-title"><?php echo _l('projects_status'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo render_input('status_name_modal','projects_status'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="button" id="add_status" class="btn btn-info"><?php echo _l('submit'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php init_tail(); ?>
 <script>
     <?php if(isset($project)){ ?>
         var original_project_status = '<?php echo $project->status; ?>';
     <?php } ?>
     init_ajax_search('customer','#clientid.ajax-search');
+    <?php for($i=0; $i<10; $i++) : ?>
+    init_ajax_search('opponents','#opponent_id_<?php echo $i; ?>.ajax-search');
+    <?php endfor; ?>
+    init_ajax_search('opponents','#opponent_lawyer_id.ajax-search');
     $("#AddOpponent").click(function () {
         company = $('#opponent_company_modal').val();
         if(company == ''){
@@ -611,21 +620,65 @@
         }
     });
 
+    $("#add_status").click(function () {
+        status_name = $('#status_name_modal').val();
+        if(status_name == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('disputes/statuses/add_from_modal'); ?>',
+                data: {status_name : status_name},
+                type: "POST",
+                success: function (data) {
+                    if(data){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $("#projects_status").append(new Option(status_name, data, true, true));
+                        $('#add-status-modal').modal('hide');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    });
 
+
+    var error = false;
     $(".opponent").on('change',function () {
+        var sel = $(this).val();
         var selected_counts = 1;
+        var val = 1000;
         $(".opponent").each(function(index){
-            if($(this).val()>0)
+            if($(this).val()>0){
                 selected_counts++;
+                if($(this).val() == val){
+                    //console.log('error');
+                    //$('option:selected', this).remove();
+                    error = true;
+                }else{
+                    val = $(this).val();
+                    error = false;
+                }
+            }
+            
         });
         $(".row.opponents").each(function(index){
-            if(index<selected_counts)
+            if(index<selected_counts){
                 $(this).removeClass('hidden');
-            else
+            }else
                 $(this).addClass('hidden');
         });
+        if(error){
+            //alert('You can not Choose same Opponent');
+            $('#opponent-error').removeClass('hide');
+            $('.my_button').prop('disabled', true);
+        }else{
+            $('#opponent-error').addClass('hide');
+            $('.my_button').prop('disabled', false);
+        }
     });
     $(".opponent").change();
+
 
     $(function(){
 
@@ -680,6 +733,12 @@
             } else {
                 $('.project_marked_as_finished').addClass('hide');
                 $('.project_marked_as_finished').prop('checked',false);
+            }
+        });
+
+        $('.my_button').on('click', function(){
+            if(error){
+                alert('You can not Choose same Opponent');
             }
         });
 
@@ -741,7 +800,7 @@
                 data: {project_id : <?php echo (isset($project) ? $project->id : -1); ?>},
                 type: "POST",
                 success: function (data) {
-                    if(data){
+                    if(data || data == ''){
                         alert_float('success', '<?php echo _l('deleted_successfully'); ?>');
                         $('.project_contacts').html(data);
                     }else {
@@ -770,25 +829,48 @@
         contact_address = $('#contact_address').val();
         contact_email = $('#contact_email').val();
         contact_phone = $('#contact_phone').val();
-        contact_type = $('#contact_type').val();
+        contact_type = 0;
         project_id = <?php echo (isset($project) ? $project->id : -1); ?>;
         if(contact_name == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else{
+
+            id = $('#cat_id').val();
             $.ajax({
-                url: '<?php echo admin_url('disputes/projects_contacts/add'); ?>',
-                data: {contact_name : contact_name,contact_address : contact_address,contact_email : contact_email,contact_phone : contact_phone,contact_type : contact_type,project_id : project_id},
                 type: "POST",
+                dataType: "JSON",
+                url: '<?php echo admin_url("disputes/get_contacts"); ?>',
                 success: function (data) {
-                    if(data){
-                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                    console.log(data.contact_type);
+                    if(data.contact_type != null)
+                        contact_type = parseFloat(data.contact_type) + 1;
+                    if(!(data.contact_type > 4)){
+                        $.ajax({
+                            url: '<?php echo admin_url('disputes/projects_contacts/add'); ?>',
+                            data: {contact_name : contact_name,contact_address : contact_address,contact_email : contact_email,contact_phone : contact_phone,contact_type : contact_type,project_id : project_id},
+                            type: "POST",
+                            success: function (data) {
+                                if(data){
+                                    alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                                    $('#add-contact').modal('hide');
+                                    $('#contact_name').val('');
+                                    $('#contact_address').val('');
+                                    $('#contact_email').val('');
+                                    $('#contact_phone').val('');
+                                    $('#contact_type').val('');
+                                    $('.project_contacts').html(data);
+                                }else {
+                                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                                }
+                            }
+                        });
+                    }else{
                         $('#add-contact').modal('hide');
-                        $('.project_contacts').html(data);
-                    }else {
-                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                        alert('you can added more than 6 witness');
                     }
                 }
             });
+
         }
     });
 
@@ -838,22 +920,30 @@
         });
 
 
-
-
     function GetSubCat() {
         $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
-            url: '<?php echo admin_url("ChildCategory/4/"); ?>' + id,
+            url: '<?php echo admin_url("LegalServices/LegalServices_controller/getChildCatModules/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
-                $('#subcat_id').append('<option selected disabled></option>');
                 $.each(response, function (key, value) {
                     $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });
     }
+
+    $("#country").change(function () {
+        $.ajax({
+            url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
+            data: {country: $(this).val()},
+            type: "POST",
+            success: function (data) {
+                $("#city").html(data);
+            }
+        });
+    });
     </script>
 </body>
 </html>

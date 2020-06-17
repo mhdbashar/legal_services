@@ -25,11 +25,19 @@ $join = [
     'JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'projects.clientid',
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
+
 $where  = [];
 $filter = [];
 
 if ($clientid != '') {
-    array_push($where, ' AND clientid=' . $clientid);
+    array_push($where, ' AND clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 // ShababSy.com Added this 12 lines.
@@ -85,6 +93,7 @@ if (count($custom_fields) > 4) {
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'clientid',
     '(SELECT GROUP_CONCAT(staff_id SEPARATOR ",") FROM ' . db_prefix() . 'project_members WHERE project_id=' . db_prefix() . 'projects.id ORDER BY staff_id) as members_ids',
+    'project_type'
 ]);
 
 $output  = $result['output'];
@@ -114,7 +123,10 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $name .= ' | <a href="' . admin_url('projects/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        if($aRow['project_type'] == '1')
+            $name .= ' | <a href="' . admin_url('disputes/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        else
+            $name .= ' | <a href="' . admin_url('projects/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 
     $name .= '</div>';
@@ -164,5 +176,8 @@ foreach ($rResult as $aRow) {
 
     $row = hooks()->apply_filters('projects_table_row_data', $row, $aRow);
 
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
+    }
     $output['aaData'][] = $row;
 }

@@ -84,36 +84,9 @@ if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
       }
     }
 
-    $clients = $CI->db->get(db_prefix() . 'clients')->result_array();
-    foreach ($clients as $client){
-      if($client['client_type'] == 0){
-        $data = [
-          'branch_id' => 1, 
-          'rel_type' => 'clients', 
-          'rel_id' => $client['userid']
-        ];
-        $CI->db->insert('tblbranches_services', $data);
-        $insert_id = $CI->db->insert_id();
-
-        if ($insert_id) {
-            log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
-        }
-      }elseif($client['client_type'] == 1){
-        $data = [
-          'branch_id' => 1, 
-          'rel_type' => 'opponent', 
-          'rel_id' => $client['userid']
-        ];
-        $CI->db->insert('tblbranches_services', $data);
-        $insert_id = $CI->db->insert_id();
-
-        if ($insert_id) {
-            log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
-        }
-      }
-    }
     
 }
+/*
 // Add branch_id column to department table
 if (!$CI->db->field_exists('branch_id', db_prefix().'departments')){
     $CI->db->query("ALTER TABLE `" . db_prefix() . "departments` ADD `branch_id` INT(11) NOT NULL DEFAULT '0' AFTER `hidefromclient`; ");
@@ -137,4 +110,4 @@ if (!$CI->db->field_exists('branch_id', db_prefix().'my_other_services')) {
 if (!$CI->db->field_exists('branch_id', db_prefix().'my_cases')) {
     $CI->db->query("ALTER TABLE `".db_prefix()."my_cases` ADD `branch_id` INT NOT NULL DEFAULT '0' AFTER `addedfrom`; ");
 }
-
+*/

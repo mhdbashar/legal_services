@@ -8,9 +8,17 @@
                <div class="panel-body">
                   <?php if(!$this->input->get('project_id')){ ?>
                   <a href="<?php echo admin_url('tasks'); ?>" class="btn btn-default pull-left"><?php echo _l('back_to_tasks_list'); ?></a>
-                  <?php } else { ?>
-                  <a href="<?php echo admin_url('projects/view/'.$this->input->get('project_id').'?group=project_tasks'); ?>" class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
-                  <?php } ?>
+                  <?php } else {
+                      if($this->input->get('rel_type')) {
+                          if(isset($ServID) && $ServID == 1){ ?>
+                              <a href="<?php echo admin_url('Case/view/'.$ServID.'/'.$this->input->get('project_id').'?group=project_tasks'); ?>" class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
+                          <?php }else{ ?>
+                              <a href="<?php echo admin_url('SOther/view/'.$ServID.'/'.$this->input->get('project_id').'?group=project_tasks'); ?>" class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
+                          <?php }?>
+                  <?php }else{ ?>
+                        <a href="<?php echo admin_url('projects/view/'.$this->input->get('project_id').'?group=project_tasks'); ?>" class="mtop5 pull-left btn btn-default"><?php echo _l('back_to_project'); ?></a>
+                  <?php }
+                        } ?>
                   <div class="clearfix"></div>
                   <hr />
                   <?php echo form_open($this->uri->uri_string() . ($this->input->get('project_id') ? '?project_id='.$this->input->get('project_id') : '')); ?>
@@ -67,7 +75,18 @@
                <div class="panel-body">
                   <?php foreach($overview as $month =>$data){ if(count($data) == 0){continue;} ?>
                   <h4 class="bold text-success"><?php echo  _l(date('F', mktime(0, 0, 0, $month, 1))); ?>
-                     <?php if($this->input->get('project_id')){ echo ' - ' . get_project_name_by_id($this->input->get('project_id'));} ?>
+                      <?php
+                      if($this->input->get('rel_type')) {
+                      if(isset($ServID) && $ServID == 1){
+                          $project_name = get_case_name_by_id($this->input->get('project_id'));
+                      }else{
+                          $project_name = get_oservice_name_by_id($this->input->get('project_id'));
+                      }
+                      }else{
+                          $project_name = get_project_name_by_id($this->input->get('project_id'));
+                      }
+                      ?>
+                     <?php if($this->input->get('project_id')){ echo ' - ' .$project_name ;} ?>
                      <?php if(is_numeric($staff_id) && has_permission('tasks','','view')) { echo ' ('.get_staff_full_name($staff_id).')';} ?>
                   </h4>
                   <table class="table tasks-overview dt-table scroll-responsive">

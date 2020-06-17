@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -28,11 +28,15 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="e_staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
-                            <?php foreach ($staffes as $value) { ?>
-                                <option value="<?php echo $value['staffid'] ?>"><?php echo $value['firstname'].' '.$value['lastname'] ?></option>
-                            <?php } ?>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($staffes as $value) { ?>
+                                    <option value="<?php echo $value['staffid'] ?>">
+                                        <?php echo $value['firstname'] ?>
+                                    </option>
+                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -40,12 +44,12 @@
                         <?php echo render_date_input('transfer_date','transfer_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="to_department" class="control-label"><?php echo _l('to_department') ?></label>
-                            <select required="required" class="form-control" id="department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
+                            <select required="required" required="required" class="form-control" id="department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
                                 
                             </select>     
                         </div>
@@ -60,8 +64,8 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="status" class="control-label"><?php echo _l('status') ?></label>
-                            <select class="form-control" id="status" name="status" placeholder="<?php echo _l('status') ?>" aria-invalid="false">
+                            <label for="status" class="control-label"><?php echo _l('hr_status') ?></label>
+                            <select required="required" class="form-control" id="status" name="status" placeholder="<?php echo _l('status') ?>" aria-invalid="false">
                                 <option value="Pending">Pending</option>
                                 <option value="Accepted">Accepted</option>
                                 <option value="Rejected">Rejected</option>
@@ -96,7 +100,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
                                 <option></option>
                             <?php foreach ($branches as $value) { ?>
                                 <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
@@ -108,11 +112,15 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="staff_id" class="control-label"><?php echo _l('staff') ?></label>
-                            <select class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
+                            <select required="required" class="form-control" id="staff_id" name="staff_id" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
-                            <?php foreach ($staffes as $value) { ?>
-                                <option value="<?php echo $value['staffid'] ?>"><?php echo $value['firstname'].' '.$value['lastname'] ?></option>
-                            <?php } ?>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($staffes as $value) { ?>
+                                    <option value="<?php echo $value['staffid'] ?>">
+                                        <?php echo $value['firstname'] ?>
+                                    </option>
+                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -120,7 +128,7 @@
                         <?php echo render_date_input('transfer_date','transfer_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -157,6 +165,7 @@ function required_file() {
 
 <script>
 
+    
     function edit(id){
 
         save_method = 'update';
@@ -182,29 +191,95 @@ function required_file() {
 
                 $('[name="to_sub_department"]').val(data.to_sub_department);
 
-                $("#department_id .department_id").remove();
-                $('#department_id').append($('<option>', {
-                    value: data.department.departmentid,
-                    text: data.department.name,
-                    class: "department_id"
-                }));
+                $.get(admin_url + 'branches/getDepartments/' + data.branch_id, function(response) {
+                    if (response.success == true) {
+                        $('#department_id').empty();
+                        $('#department_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.department.departmentid == key)
+                                select = true;
+                            $('#department_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#department_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
 
-                $("#sub_department_id .sub_department_id").remove();
-                $('#sub_department_id').append($('<option>', {
-                    value: data.sub_department.id,
-                    text: data.sub_department.sub_department_name,
-                    class: "sub_department_id"
-                }));
+
+                $.get(admin_url + 'hr/organization/get_sub_departments/' + data.department.departmentid, function(response) {
+                    if (response.success == true) {
+                        $('#sub_department_id').empty();
+                        $('#sub_department_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.sub_department.id == key)
+                                select = true;
+                            $('#sub_department_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#sub_department_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
 
                 $('[name="branch_id"]').val(data.branch_id);
 
                 $('[name="status"]').val(data.status);
 
-                $('[name="staff_id"]').val(data.staff_id);
+                $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + data.branch_id, function(response) {
+                    if (response.success == true) {
+                        $('#e_staff_id').empty();
+                        $('#e_staff_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.staff_id == key)
+                                select = true;
+                            $('#e_staff_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#e_staff_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
 
 
 
                 $('#update_transfer').modal('show'); // show bootstrap modal when complete loaded
+
+                if (!data.has_extra_info){
+                    $('#update_transfer').modal('hide');
+                    console.log('You Should Add Staff To HR System');
+                    alert('You Should Add Staff To HR System');
+                }
 
             },
             error: function (jqXHR, textStatus, errorThrown)

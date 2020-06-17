@@ -271,7 +271,7 @@ class Staff extends AdminController
     public function remove_staff_profile_image($id = '')
     {
         $staff_id = get_staff_user_id();
-        if (is_numeric($id) && (has_permission('staff', '', 'create') || has_permission('staff', '', 'edot'))) {
+        if (is_numeric($id) && (has_permission('staff', '', 'create') || has_permission('staff', '', 'edit'))) {
             $staff_id = $id;
         }
         hooks()->do_action('before_remove_staff_profile_image');

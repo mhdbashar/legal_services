@@ -117,6 +117,8 @@ class Opponents extends AdminController
                 }
 
                 $data['client_type'] = 1;
+                $data['active'] = 0;
+                $data['registration_confirmed'] = 0;
 
                 $id = $this->clients_model->add($data);
                 if (!has_permission('customers', '', 'view')) {
@@ -129,7 +131,7 @@ class Opponents extends AdminController
                         if(is_numeric($branch_id)){
                         $data = [
                             'branch_id' => $branch_id, 
-                            'rel_type' => 'opponents', 
+                            'rel_type' => 'opponent', 
                             'rel_id' => $id
                         ];
                         $this->Branches_model->set_branch($data);
@@ -370,6 +372,10 @@ class Opponents extends AdminController
 
         if ($this->input->post()) {
             $data             = $this->input->post();
+            $data['firstname'] = $data['full_name'];
+            unset($data['full_name']);
+            $data['lastname'] = '';
+            
             $data['password'] = $this->input->post('password', false);
             unset($data['contactid']);
             if ($contact_id == '') {
@@ -818,11 +824,18 @@ class Opponents extends AdminController
         }
 
         $dbFields = array_merge($dbFields, $this->db->list_fields(db_prefix().'clients'));
+        foreach ($dbFields as $key => $value) {
+            if($value == 'lastname')
+                unset($dbFields[$key]);
+            if($value == 'firstname')
+                $dbFields[$key] = 'full_name';
+        }
+        //var_dump($dbFields);exit;
 
         $this->load->library('import/import_customers', [], 'import');
 
         $this->import->setDatabaseFields($dbFields)
-            ->setCustomFields(get_custom_fields('customers'));
+                     ->setCustomFields(get_custom_fields('customers'));
 
         if ($this->input->post('download_sample') === 'true') {
             $this->import->downloadSample();
@@ -831,9 +844,9 @@ class Opponents extends AdminController
         if ($this->input->post()
             && isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
             $this->import->setSimulation($this->input->post('simulate'))
-                ->setTemporaryFileLocation($_FILES['file_csv']['tmp_name'])
-                ->setFilename($_FILES['file_csv']['name'])
-                ->perform();
+                          ->setTemporaryFileLocation($_FILES['file_csv']['tmp_name'])
+                          ->setFilename($_FILES['file_csv']['name'])
+                          ->perform();
 
 
             $data['total_rows_post'] = $this->import->totalRows();
@@ -844,9 +857,10 @@ class Opponents extends AdminController
         }
 
         $data['groups']    = $this->clients_model->get_groups();
+        $data['company_groups']    = $this->clients_model->get_company_groups();
         $data['title']     = _l('import');
         $data['bodyclass'] = 'dynamic-create-groups';
-        $this->load->view('admin/opponent/import', $data);
+        $this->load->view('admin/clients/import', $data);
     }
 
     public function groups()

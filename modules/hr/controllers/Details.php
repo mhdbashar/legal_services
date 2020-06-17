@@ -11,6 +11,9 @@ class Details extends AdminController{
 		$this->load->model('Overtime_model');
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	
@@ -288,6 +291,8 @@ class Details extends AdminController{
     }
     public function update_loan(){
         $data = $this->input->post();
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
         $id = $this->input->post('id');
         $success = $this->Loan_model->update($data, $id);
         if($success)
@@ -299,6 +304,8 @@ class Details extends AdminController{
 
 	public function add_loan(){
         $data = $this->input->post();
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
         $success = $this->Loan_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -373,8 +380,11 @@ class Details extends AdminController{
 	public function leaves($staff_id){
 
 		if ($this->input->is_ajax_request()) {
-			$this->hrmapp->get_table_data('my_deduction_types_table');
+			$this->hrmapp->get_table_data('my_leave_table', ['staff_id' => $staff_id]);
 		}
+            $ci = &get_instance();
+            $ci->load->model('branches/Branches_model');
+            $data['branches'] = $ci->Branches_model->getBranches();
 
 		$data['staff_id'] = $staff_id;
 		$this->load->view('details/leaves', $data);

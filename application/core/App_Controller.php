@@ -29,8 +29,8 @@ class App_Controller extends CI_Controller
             die('<h3>Delete the install folder</h3>');
         }
 
-        if (CI_VERSION != '3.1.10') {
-            echo '<h2>Additionally you will need to replace the <b>system</b> folder. We updated Codeigniter to 3.1.10.</h2>';
+        if (CI_VERSION != '3.1.11') {
+            echo '<h2>Additionally you will need to replace the <b>system</b> folder. We updated Codeigniter to 3.1.11.</h2>';
             echo '<p>From the newest downloaded files upload the <b>system</b> folder to your installation directory.';
             die;
         }

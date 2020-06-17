@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
@@ -39,7 +40,7 @@ $where  = [];
 $filter = [];
 
 if ($clientid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'creditnotes.clientid=' . $clientid);
+    array_push($where, 'AND ' . db_prefix() . 'creditnotes.clientid=' . $this->ci->db->escape_str($clientid));
 }
 
 if (!has_permission('credit_notes', '', 'view')) {
@@ -48,7 +49,7 @@ if (!has_permission('credit_notes', '', 'view')) {
 array_push($where, 'AND ' . db_prefix() . 'creditnotes.deleted = 0');
 $project_id = $this->ci->input->get('project_id');
 if ($project_id) {
-    array_push($where, 'AND project_id=' . $project_id);
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($project_id));
 }
 
 $statuses  = $this->ci->credit_notes_model->get_statuses();
@@ -91,6 +92,8 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'creditnotes.clientid',
     db_prefix(). 'currencies.name as currency_name',
     'project_id',
+    'rel_sid',
+    'rel_stype',
     'deleted_customer_name',
 ]);
 
@@ -127,7 +130,17 @@ foreach ($rResult as $aRow) {
 
     $row[] = format_credit_note_status($aRow['status']);
 
-    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    if ($aRow['project_id'] == 0){
+        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+        if($ServID == 1){
+            $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+        }else{
+            $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+        }
+    }else{
+        $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    }
 
     $row[] = $aRow['reference_no'];
 

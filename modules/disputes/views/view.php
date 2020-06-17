@@ -8,10 +8,11 @@
             <div class="panel_s project-top-panel panel-full">
                <div class="panel-body _buttons">
                   <div class="row">
+                    
                      <div class="col-md-7 project-heading">
                         <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                         <div id="project_view_name" class="pull-left">
-                           <select class="selectpicker" id="project_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
+                           <select class="selectpicker" id="dispute_top" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
                               <option value="<?php echo $project->id; ?>" selected data-content="<?php echo $project->name; ?> - <small><?php echo $project->client_data->company; ?></small>">
                                 <?php echo $project->client_data->company; ?> <?php echo $project->name; ?>
                               </option>
@@ -30,10 +31,16 @@
                         <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
                         <?php } ?>
                         <?php
-                           $invoice_func = 'pre_invoice_disputes';
+                           $invoice_func = 'pre_invoice_project';
                            ?>
                         <?php if(has_permission('invoices','','create')){ ?>
                         <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
+                        <?php } ?>
+                        <?php
+                           $invoice_func = 'pre_invoice_disputes';
+                           ?>
+                        <?php if(has_permission('invoices','','create')){ ?>
+                        <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_disputes'); ?></a>
                         <?php } ?>
                         <?php
                            $project_pin_tooltip = _l('pin_project');
@@ -47,7 +54,7 @@
                            </button>
                            <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
                               <li>
-                                 <a href="<?php echo admin_url('projects/pin_action/'.$project->id); ?>">
+                                 <a href="<?php echo admin_url('disputes/pin_action/'.$project->id); ?>">
                                  <?php echo $project_pin_tooltip; ?>
                                  </a>
                               </li>
@@ -78,17 +85,17 @@
                               <li class="divider"></li>
                               <?php if(has_permission('projects','','create')){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
+                                 <a href="<?php echo admin_url('disputes/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
                               </li>
                               <?php } ?>
                               <?php if(is_admin()){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
+                                 <a href="<?php echo admin_url('disputes/view_project_as_client/'.$project->id .'/'.$project->clientid); ?>" target="_blank"><?php echo _l('project_view_as_client'); ?></a>
                               </li>
                               <?php } ?>
                               <?php if(has_permission('projects','','delete')){ ?>
                               <li>
-                                 <a href="<?php echo admin_url('projects/delete/'.$project->id); ?>" class="_delete">
+                                 <a href="<?php echo admin_url('disputes/delete/'.$project->id); ?>" class="_delete">
                                  <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                  </a>
                               </li>
@@ -162,6 +169,7 @@
    taskid = '<?php echo $this->input->get('taskid'); ?>';
 </script>
 <script>
+
    var gantt_data = {};
    <?php if(isset($gantt_data)){ ?>
    gantt_data = <?php echo json_encode($gantt_data); ?>;
@@ -193,7 +201,7 @@
                 data: {project_id : <?php echo (isset($project) ? $project->id : -1); ?>},
                 type: "POST",
                 success: function (data) {
-                    if(data){
+                    if(data || data == ''){
                         alert_float('success', '<?php echo _l('deleted_successfully'); ?>');
                         $('.project_contacts').html(data);
                     }else {
@@ -340,6 +348,67 @@
    function discussion_comments(selector,discussion_id,discussion_type){
      var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_project_discussions_language_array()); ?>);
      var options = {
+          // https://github.com/Viima/jquery-comments/pull/169
+      wysiwyg_editor: {
+            opts: {
+                enable: true,
+                is_html: true,
+                container_id: 'editor-container',
+                comment_index: 0,
+            },
+            init: function (textarea, content) {
+                var comment_index = textarea.data('comment_index');
+                 var editorConfig = _simple_editor_config();
+                 editorConfig.setup = function(ed) {
+                      textarea.data('wysiwyg_editor', ed);
+
+                      ed.on('change', function() {
+                          var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('keyup', function() {
+                        var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('Focus', function (e) {
+                        textarea.trigger('click');
+                      });
+
+                      ed.on('init', function() {
+                        if (content) ed.setContent(content);
+                      })
+                  }
+
+                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+            },
+            get_container: function (textarea) {
+                if (!textarea.data('comment_index')) {
+                    textarea.data('comment_index', ++this.opts.comment_index);
+                }
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
+            },
+            get_contents: function(editor) {
+               return editor.getContent();
+            },
+            on_post_comment: function(editor, evt) {
+               editor.setContent('');
+            },
+            get_container_id: function(comment_index) {
+              var container_id = this.opts.container_id;
+              if (comment_index) container_id = container_id + "-" + comment_index;
+              return container_id;
+            }
+        },
       currentUserIsAdmin:current_user_is_admin,
       getComments: function(success, error) {
         $.get(admin_url + 'projects/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){

@@ -126,7 +126,7 @@ class Reports extends AdminController
                 foreach ($select as $_select) {
                     if ($i !== 0) {
                         $_temp = substr($_select, 0, -1);
-                        $_temp .= ' AND currency =' . $by_currency . ')';
+                        $_temp .= ' AND currency =' . $this->db->escape_str($by_currency) . ')';
                         $select[$i] = $_temp;
                     }
                     $i++;
@@ -198,7 +198,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -323,7 +323,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -338,7 +338,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -351,7 +351,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -490,7 +490,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -505,7 +505,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -517,7 +517,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -649,9 +649,9 @@ class Reports extends AdminController
                 $from_date = to_sql_date($this->input->post('report_from'));
                 $to_date   = to_sql_date($this->input->post('report_to'));
                 if ($from_date == $to_date) {
-                    $custom_date_select = 'AND ' . $field . ' = "' . $from_date . '"';
+                    $custom_date_select = 'AND ' . $field . ' = "' . $this->db->escape_str($from_date) . '"';
                 } else {
-                    $custom_date_select = 'AND (' . $field . ' BETWEEN "' . $from_date . '" AND "' . $to_date . '")';
+                    $custom_date_select = 'AND (' . $field . ' BETWEEN "' . $this->db->escape_str($from_date) . '" AND "' . $this->db->escape_str($to_date) . '")';
                 }
             }
         }
@@ -695,7 +695,7 @@ class Reports extends AdminController
             $by_currency = $this->input->post('report_currency');
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -706,7 +706,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -798,7 +798,7 @@ class Reports extends AdminController
 
             if ($by_currency) {
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency = $this->currencies_model->get_base_currency();
             }
@@ -809,7 +809,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -959,7 +959,7 @@ class Reports extends AdminController
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
                         if ($agent != '') {
-                            array_push($_agents, $agent);
+                            array_push($_agents, $this->db->escape_str($agent));
                         }
                     }
                 }
@@ -977,7 +977,7 @@ class Reports extends AdminController
                 $select[$totalPaymentsColumnIndex] = $_temp;
 
                 $currency = $this->currencies_model->get($by_currency);
-                array_push($where, 'AND currency=' . $by_currency);
+                array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
                 $currency                          = $this->currencies_model->get_base_currency();
                 $select[$totalPaymentsColumnIndex] = $select[$totalPaymentsColumnIndex] .= ' as amount_open';
@@ -989,7 +989,7 @@ class Reports extends AdminController
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
                         if ($status != '') {
-                            array_push($_statuses, $status);
+                            array_push($_statuses, $this->db->escape_str($status));
                         }
                     }
                 }
@@ -1135,7 +1135,7 @@ class Reports extends AdminController
                 $by_currency = $this->input->post('currency');
                 if ($by_currency) {
                     $currency = $this->currencies_model->get($by_currency);
-                    array_push($where, 'AND currency=' . $by_currency);
+                    array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
                 } else {
                     $currency = $this->currencies_model->get_base_currency();
                 }

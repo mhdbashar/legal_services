@@ -78,44 +78,43 @@
 
                      <?php } ?>
                      <div class="row">
-                     	<div class="col-md-6">
+                     	<div class="col-md-12">
                      		 <?php $value = (isset($member) ? $member->firstname : ''); ?>
 		                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-		                     <?php echo render_input('firstname','staff_add_edit_firstname',$value,'text',$attrs); ?>
+		                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                         <?php echo form_hidden('lastname', ' ') ?>
                      	</div>
+                      <!--
                      	<div class="col-md-6">
                      		<?php $value = (isset($member) ? $member->lastname : ''); ?>
                     		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      	</div>
+                     -->
                      </div>
                      <?php $branches = $this->Branches_model->getBranches(); ?>
-		                  <?php if($this->app_modules->is_active('branches')){?>
-	                        <?php $value = (isset($branch) ? $branch : ''); ?>
-	                        <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'Branch Name',$value, ['onchange'=> 'getval(this);']); ?>
-	                     <?php } ?>
-                     <div class="form-group">
-                        <?php if(count($departments) > 0){ ?>
-                        <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
+                        <?php if($this->app_modules->is_active('branches')){?>
+                           <?php $value = (isset($branch) ? $branch : ''); ?>
+                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
                         <?php } ?>
-                        <?php foreach($departments as $department){ ?>
+                           <?php 
+                           $departmentid = '';
+                           $name = '';
 
-                           <?php $department['branch_id'] = $this->Branches_model->get_branch('departments', $department['departmentid']); ?>
-                           <?php
-                              $checked = '';
-                              if(isset($member)){
-                               foreach ($staff_departments as $staff_department) {
-                                if($staff_department['departmentid'] == $department['departmentid']){
-                                 $checked = ' checked';
-                               }
-                              }
-                              }
-                              ?>
-                        <div class="department_<?php echo $department['branch_id'] ?> department checkbox checkbox-primary <?php if($checked == '') echo 'hide' ?>">
-                           <input class="" type="checkbox" id="dep_<?php echo $department['departmentid']; ?>" name="departments[]" onchange="check(this)" value="<?php echo $department['departmentid']; ?>"<?php echo $checked; ?>>
-                           <label for="dep_<?php echo $department['departmentid']; ?>"><?php echo $department['name']; ?></label>
+                           // if ($this->Extra_info_model->get($member->staffid)){
+                           //    $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+
+                           //    $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
+                           // }
+                          // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
+                                  <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
+                                  </select>     
+                              </div>
+                           </div>
                         </div>
-                        <?php } ?>
-                     </div>
                      <div class="row">
                      	<div class="col-md-6">
                      		<?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>
@@ -125,21 +124,33 @@
                      		<?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
                      	</div>
                      </div>
-
+                     <!-- <?php 
+                        $sub_department_name = '';
+                        $designation_name = '';
+                        if(is_numeric($extra_info->sub_department)){
+                           $sub_department = $this->Sub_department_model->get($extra_info->sub_department);
+                           $sub_department_name = $sub_department->sub_department_name;
+                        }
+                        if(is_numeric($extra_info->designation)){
+                           $designation = $this->Designation_model->get_designation($extra_info->designation);
+                           $designation_name = $designation->designation_name;
+                        }
+                     ?> -->
                      <div class="row">
+                      <?php if(is_active_sub_department()){ ?>
                         <div class="col-md-4">
                             <div class="form-group">
+                              
                                 <label for="sub_department_id" class="control-label"><?php echo _l('sub_department') ?></label>
-                                <select class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
-                                    <option value="<?php echo $extra_info->sub_department ?>"><?php echo $extra_info->sub_department ?></option>
+                                <select required="required" class="form-control" id="sub_department_id" name="sub_department" placeholder="<?php echo _l('sub_department') ?>" aria-invalid="false">
                                 </select>     
                             </div>  
                         </div>
+                      <?php }else echo form_hidden('sub_department', '0');  ?>
                      	<div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation_id" class="control-label"><?php echo _l('designation') ?></label>
-                                <select class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                                    <option value="<?php echo $extra_info->designation ?>"><?php echo $extra_info->designation ?></option>
+                                <select required="required" class="form-control" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 </select>     
                             </div>  
                         </div>
@@ -159,13 +170,31 @@
                      		<?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
                      	</div>
                      -->
+                      <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="office_shift" class="control-label"><?php echo _l('office_shift') ?></label>
+                                <select required="required" class="form-control" id="office_shift_id" name="office_sheft" placeholder="<?php echo _l('office_shift') ?>" aria-invalid="false">
+                                </select>     
+                            </div>  
+                      </div>
                      	<div class="col-md-4">
-                     		<?php echo render_input('office_sheft','office_sheft',$extra_info->office_sheft ); ?>
-                     	</div>
-                     	<div class="col-md-4">
-                     		<?php echo render_date_input('date_birth','date_birth',$extra_info->date_birth ); ?>
+                     		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
                      	</div>
                      </div>
+
+                        <?php
+                            $selected = array();
+                            if(isset($extra_info)){
+                              $selected_leaves = $extra_info->leaves;
+                              
+                              if($selected_leaves != ''){
+                                  foreach($selected_leaves as $row){
+                                    array_push($selected,$row['id']);
+                                  }
+                              }
+                            }
+                             echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                         ?>
 
                      <div class="row">
                      	<div class="col-md-4">
@@ -298,5 +327,4 @@
       $('.department input').prop('checked', false);
       $('.department_'+sel.value).removeClass('hide');
     }
-
 </script>

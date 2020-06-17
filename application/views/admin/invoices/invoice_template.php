@@ -723,6 +723,11 @@
                   </li>
                   <?php if(!isset($invoice)) { ?>
                   <li>
+                    <a href="#" class="invoice-form-submit save-and-send-later transaction-submit">
+                      <?php echo _l('save_and_send_later'); ?>
+                    </a>
+                  </li>
+                  <li>
                       <a href="#" class="invoice-form-submit save-and-record-payment transaction-submit">
                         <?php echo _l('save_and_record_payment'); ?>
                       </a>

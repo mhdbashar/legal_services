@@ -50,6 +50,12 @@
       <div class="col-md-6">
          <table class="table no-margin project-overview-table">
             <tbody>
+            <tr class="project-overview-id">
+                  <td class="bold"><?php echo _l('LegalService'); ?> <?php echo _l('the_number_sign'); ?></td>
+                  <td>
+                      <?php echo $project->id; ?>
+                  </td>
+              </tr>
               <tr class="project-overview-customer">
                   <td class="bold"><?php echo _l('project_customer'); ?></td>
                   <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo isset($project->clientid) ? $project->clientid : ''; ?>"><?php echo isset($project->client_data->company) ? $project->client_data->company : ''; ?></a>
@@ -71,7 +77,7 @@
                     ?>
                  </td>
                  <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                  echo '<tr>';
+                  echo '<tr class="project-overview-amount>';
                   if($project->billing_type == 1){
                     echo '<td class="bold">'._l('project_total_cost').'</td>';
                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
@@ -138,11 +144,11 @@
         <tbody>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('lead_country'); ?></td>
-            <td><?php echo $project->country_name; ?></td>
+            <td><?php echo $project->country_name ? $project->country_name : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('client_city'); ?></td>
-            <td><?php echo $project->city; ?></td>
+            <td><?php echo $project->city ? $project->city : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Categories'); ?></td>
@@ -245,7 +251,8 @@
            <div class="project-overview-open-tasks">
             <div class="col-md-9">
                <p class="text-uppercase bold text-dark font-medium">
-                  <?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?> <?php echo _l('project_open_tasks'); ?>
+               <span dir="ltr"><?php echo $tasks_not_completed; ?> / <?php echo $total_tasks; ?></span>
+                  <?php echo _l('project_open_tasks'); ?>
                </p>
                <p class="text-muted bold"><?php echo $tasks_not_completed_progress; ?>%</p>
             </div>
@@ -266,7 +273,8 @@
       <div class="row">
          <div class="col-md-9">
             <p class="text-uppercase bold text-dark font-medium">
-               <?php echo $project_days_left; ?> / <?php echo $project_total_days; ?> <?php echo _l('project_days_left'); ?>
+            <span dir="ltr"><?php echo $project_days_left; ?> / <?php echo $project_total_days; ?></span>
+               <?php echo _l('project_days_left'); ?>
             </p>
             <p class="text-muted bold"><?php echo $project_time_left_percent; ?>%</p>
          </div>

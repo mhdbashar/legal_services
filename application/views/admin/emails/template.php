@@ -40,7 +40,7 @@
                            $editors = array();
                            array_push($editors,'message['.$template->emailtemplateid.']');
                            ?>
-                        <h4 class="bold font-medium">English</h4>
+                        <h4 class="bold font-medium"><?php echo _l('arabic') ?></h4>
                         <p class="bold"><?php echo _l('email_template_email_message'); ?></p>
                         <?php echo render_textarea('message['.$template->emailtemplateid.']','',$template->message,array('data-url-converter-callback'=>'myCustomURLConverter'),array(),'','tinymce tinymce-manual'); ?>
                         <?php foreach($available_languages as $availableLanguage){
@@ -116,7 +116,6 @@
                                 echo '<div class="col-md-6 merge_fields_col">';
                                 echo '<h5 class="bold">'.ucfirst($key).'</h5>';
                                 foreach($val as $_field){
-                                    //echo "<pre>";print_r($template->slug);exit;
                                   if(count($_field['available']) == 0
                                     && isset($_field['templates']) && in_array($template->slug, $_field['templates'])) {
                                       // Fake data to simulate foreach loop and check the templates key for the available slugs

@@ -119,9 +119,6 @@ $route['proposal/(:num)/(:any)'] = 'proposal/index/$1/$2';
  */
 $route['contract/(:num)/(:any)'] = 'contract/index/$1/$2';
 
-// For backward compatilibilty
-$route['survey/(:num)/(:any)'] = 'surveys/participate/index/$1/$2';
-
 /**
  * @since 2.0.0
  */
@@ -172,6 +169,9 @@ $route['privacy-policy']       = 'privacy_policy';
 $route['admin/modules']               = 'admin/mods';
 $route['admin/modules/(:any)']        = 'admin/mods/$1';
 $route['admin/modules/(:any)/(:any)'] = 'admin/mods/$1/$2';
+
+// Public single ticket route
+$route['forms/tickets/(:any)'] = 'forms/public_ticket/$1';
 
 /**
  * @since  2.3.0

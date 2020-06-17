@@ -477,7 +477,9 @@ class Expenses_model extends App_Model
             $this->db->where('currency', $currencyid);
 
             if (isset($data['years']) && count($data['years']) > 0) {
-                $this->db->where('YEAR(date) IN (' . implode(', ', $data['years']) . ')');
+                $this->db->where('YEAR(date) IN (' . implode(', ', array_map(function ($year) {
+                    return get_instance()->db->escape_str($year);
+                }, $data['years'])) . ')');
             } else {
                 $this->db->where('YEAR(date) = ' . date('Y'));
             }
@@ -766,7 +768,13 @@ class Expenses_model extends App_Model
         $new_invoice_data['discount_total']   = 0;
         $new_invoice_data['sale_agent']       = 0;
         $new_invoice_data['adjustment']       = 0;
-        $new_invoice_data['project_id']       = $expense->project_id;
+        if($expense->project_id == 0){
+            $new_invoice_data['project_id']       = null;
+        }else{
+            $new_invoice_data['project_id']       = $expense->project_id;
+        }
+        $new_invoice_data['rel_sid']          = $expense->rel_sid;
+        $new_invoice_data['rel_stype']        = $expense->rel_stype;
 
         $new_invoice_data['subtotal'] = $expense->amount;
         $total                        = $expense->amount;
@@ -838,6 +846,7 @@ class Expenses_model extends App_Model
             $tax_data = get_tax_by_id($expense->tax2);
             array_push($new_invoice_data['newitems'][1]['taxname'], $tax_data->name . '|' . $tax_data->taxrate);
         }
+
         $new_invoice_data['newitems'][1]['rate']  = $expense->amount;
         $new_invoice_data['newitems'][1]['order'] = 1;
         $this->load->model('invoices_model');
@@ -857,7 +866,13 @@ class Expenses_model extends App_Model
                     $tmpSlug = explode('_', $field['slug'], 2);
                     if (isset($tmpSlug[1])) {
                         $this->db->where('fieldto', 'invoice');
-                        $this->db->where('slug LIKE "invoice_' . $tmpSlug[1] . '%" AND type="' . $field['type'] . '" AND options="' . $field['options'] . '" AND active=1');
+                        $this->db->group_start();
+                        $this->db->like('slug', 'invoice_' . $tmpSlug[1], 'after');
+                        $this->db->where('type', $field['type']);
+                        $this->db->where('options', $field['options']);
+                        $this->db->where('active', 1);
+                        $this->db->group_end();
+
                         $cfTransfer = $this->db->get(db_prefix() . 'customfields')->result_array();
 
                         // Don't make mistakes

@@ -25,7 +25,7 @@ if(!empty($client_id)){
 
 $join = [];
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'client']);
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
@@ -37,15 +37,15 @@ $ci->load->model('LegalServices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $aRow['NO'];
-    $row[] = $aRow['start_date'];
-    $row[] = $aRow['end_date'];
+    $row[] = _d($aRow['start_date']);
+    $row[] = _d($aRow['end_date']);
 
     $cases = $ci->procurations_model->get_procurations_cases($aRow['id']);
     $addition = '';
     if(isset($case_id)){
         $ca = array();
         foreach($cases as $case){
-            $ca[] = $ci->case->get($case['id'])->id;
+            $ca[] = $case['id'];
         }
         if(!in_array($case_id, $ca)){
             continue;
@@ -55,7 +55,8 @@ foreach ($rResult as $aRow) {
     }
     $show_case = '';
     foreach($cases as $case){
-        $show_case .= $ci->case->get($case['id'])->name . ', ';
+        if(is_object($ci->case->get($case['id'])))
+            $show_case .= $ci->case->get($case['id'])->name . ', ';
     }
     $row[] = $show_case;
 
@@ -83,7 +84,7 @@ foreach ($rResult as $aRow) {
     }
     $row[] = $procuration_state;
 
-    $request = (is_numeric($client_id)) ? $client_id : $request ;
+    $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
     $options = icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'pencil-square-o', 'btn-default');
     // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
     $row[]   = $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');

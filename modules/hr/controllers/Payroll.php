@@ -13,6 +13,9 @@ class Payroll extends AdminController{
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
 		$this->load->model('Payments_model');
+
+		if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	public function test($staff_id, $year, $month){
@@ -125,7 +128,7 @@ class Payroll extends AdminController{
 		if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_payment_history_table');
         }
-        $data['title'] = _l('official_documents');
+        $data['title'] = _l('payment_history');
         $this->load->view('payroll/payment_history', $data);
 	}
 	public function payment_json($id){

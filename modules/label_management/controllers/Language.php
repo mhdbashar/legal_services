@@ -10,7 +10,7 @@ class Language extends AdminController
 		$this->load->model('Language_model');
 	}
 
-	public function lang($language, $custom){
+	public function lang($language = 'english', $custom = 'custom_lang'){
 		$this->load->view('tables/lang_table', ['language' => $language, 'custom' => $custom]);
 	}
 
@@ -78,16 +78,16 @@ class Language extends AdminController
 		if(isset($lang[$key])){
 
 			unset($lang[$key]);
-
-			set_alert('success', 'Deleted successfully');
-		}else{
-			set_alert('warning', 'Problem Deleting');
+			
 		}
 
 		$a = $this->getArr($lang);
 
 		$handle = fopen($file, 'w+');
-		fwrite($handle,  $a);
+		if(fwrite($handle,  $a))
+			set_alert('success', 'Deleted successfully');
+		else
+			set_alert('warning', 'Problem Deleting');
 		fclose($handle);
 
 		$offset = $this->session->flashdata('offset');
@@ -138,9 +138,14 @@ class Language extends AdminController
 
 
 			$a = $this->getArr($lang);
-			fwrite($handle,  $a);
+			if(fwrite($handle,  $a))
+				set_alert('success', _l('updated_successfully'));
+			if (!is_writable($file)) { // Test if the file is writable
+			    set_alert('warning', _l('problem_updating'));
+			}
 			
 			fclose($handle);
+			redirect($_SERVER['HTTP_REFERER']);
 		}
 
 		$filter_lang = [];
@@ -176,7 +181,7 @@ class Language extends AdminController
     	$this->session->set_flashdata(['offset' => $offset]);
     	$data['title'] = "Label Management";
 
-    	$this->load->view('language', $data);
+    	$this->load->view('manage', $data);
 	}
 
 

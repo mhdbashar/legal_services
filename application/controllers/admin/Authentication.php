@@ -50,8 +50,6 @@ class Authentication extends App_Controller
                 if (is_array($data) && isset($data['memberinactive'])) {
                     set_alert('danger', _l('admin_auth_inactive_account'));
                     redirect(admin_url('authentication'));
-					
-																			//ShababSy.com Add this cond.
                 } elseif (is_array($data) && isset($data['two_factor_auth']) && $data['two_factor_auth']>0 ) {
                     // $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid, $data['two_factor_auth']);
 
@@ -90,10 +88,9 @@ class Authentication extends App_Controller
 					//	redirect(admin_url('authentication'));
 					//} else {
 					//	set_alert('success', _l('two_factor_auth_code_sent_successfully', $email));
-					//}
-					
+                    //}
+                    
                     redirect(admin_url('authentication/two_factor'));
-					
                 } elseif ($data == false) {
                     set_alert('danger', _l('admin_auth_invalid_email_or_password'));
                     redirect(admin_url('authentication'));
@@ -203,11 +200,10 @@ class Authentication extends App_Controller
     {
         if (!$this->Authentication_model->can_set_password($staff, $userid, $new_pass_key)) {
             set_alert('danger', _l('password_reset_key_expired'));
-            redirect(admin_url('authentication'));
             if ($staff == 1) {
                 redirect(admin_url('authentication'));
             } else {
-                redirect(site_url());
+                redirect(site_url('authentication'));
             }
         }
         $this->form_validation->set_rules('password', _l('admin_auth_set_password'), 'required');

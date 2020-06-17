@@ -78,7 +78,7 @@
             </ul>
          </div>
       </div>
-      <div class="row">
+      <div class="row mtop10">
          <div class="col-md-3">
             <?php echo format_proposal_status($proposal->status,'pull-left mright5 mtop5'); ?>
          </div>

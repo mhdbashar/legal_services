@@ -6,7 +6,7 @@ $total_client_contacts = total_rows(db_prefix() . 'contacts', ['userid' => $clie
 $this->ci->load->model('gdpr_model');
 
 $consentContacts = get_option('gdpr_enable_consent_for_contacts');
-$aColumns        = ['CONCAT(firstname, \'\', lastname) as fullname'];
+$aColumns        = ['firstname as fullname'];
 if (is_gdpr() && $consentContacts == '1') {
     array_push($aColumns, '1');
 }
@@ -31,7 +31,7 @@ foreach ($custom_fields as $key => $field) {
     array_push($join, 'LEFT JOIN ' . db_prefix() . 'customfieldsvalues as ctable_' . $key . ' ON ' . db_prefix() . 'contacts.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
 
-$where = ['AND userid=' . $client_id];
+$where = ['AND userid=' . $this->ci->db->escape_str($client_id)];
 
 // Fix for big queries. Some hosting have max_join_limit
 if (count($custom_fields) > 4) {

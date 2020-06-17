@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group" app-field-wrapper="post_hr">
-                            <label for="post_hr" class="control-label">post</label>
+                            <label for="post_hr" class="control-label"><?php echo _l('designation') ?></label>
                             <input type="text" id="post_hr" name="post" class="form-control" required="required" value="">
                         </div>                    
                     </div>
@@ -29,7 +29,7 @@
                         <?php echo render_date_input('to_date','to_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group" app-field-wrapper="post_hr">
-                            <label for="post_hr" class="control-label">post</label>
+                            <label for="post_hr" class="control-label"><?php echo _l('designation') ?></label>
                             <input type="text" id="post_hr" name="post" class="form-control" required="required" value="">
                         </div>                    
                     </div>
@@ -71,7 +71,7 @@
                         <?php echo render_date_input('to_date','to_date', '', ['required' => 'required']); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_textarea('description','description', '', ['required' => 'required']); ?>
+                        <?php echo render_textarea('description','hr_description', '', ['required' => 'required']); ?>
                     </div>
                 </div>
             </div>

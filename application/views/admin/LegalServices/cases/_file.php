@@ -79,8 +79,9 @@
    var current_user_is_admin = '<?php echo is_admin(); ?>';
    $('body').on('shown.bs.modal', '._project_file', function() {
      var content_height = ($('body').find('._project_file .modal-content').height() - 165);
-     if($('iframe').length > 0){
-       $('iframe').css('height',content_height);
+     let projectFilePreviewIframe = $('.project_file_area iframe');
+     if(projectFilePreviewIframe.length > 0){
+       projectFilePreviewIframe.css('height', content_height);
      }
      if(!is_mobile()){
       $('.project_file_area,.project_file_discusssions_area').css('height',content_height);

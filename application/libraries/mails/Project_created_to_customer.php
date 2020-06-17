@@ -34,7 +34,7 @@ class Project_created_to_customer extends App_mail_template
         ->set_merge_fields('client_merge_fields', $this->client_id, $this->contact['id'])
         ->set_merge_fields('projects_merge_fields',$this->project_id, [
                     'customer_template' => true,
-                    'ServID' => $this->ServID,
+                    'ServID'            => $this->ServID,
                 ]);
     }
 }

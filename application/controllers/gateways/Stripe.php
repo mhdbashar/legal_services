@@ -17,12 +17,36 @@ class Stripe extends App_Controller
             $this->load->library('stripe_core');
 
             try {
+                if ($this->input->get('recreate')) {
+                    $this->stripe_core->delete_webhook(get_option('stripe_webhook_id'));
+                    update_option('stripe_webhook_id', '');
+                    update_option('stripe_webhook_signing_secret', '');
+                }
+            } catch (Exception $e) {
+            }
+
+            try {
                 $this->stripe_core->create_webhook();
                 set_alert('success', _l('webhook_created'));
             } catch (Exception $e) {
-                $this->session->set_flashdata('stripe-webhook-failure', true);
-                set_alert('warning', $e->getMessage());
+                $this->session->set_flashdata('stripe-webhook-failure', $e->getMessage());
             }
+
+            redirect(admin_url('settings/?group=payment_gateways&tab=online_payments_stripe_tab'));
+        }
+    }
+
+    /**
+     * Enable the application Stripe webhook endpoint
+     *
+     * @return mixed
+     */
+    public function enable_webhook()
+    {
+        if (staff_can('edit', 'settings')) {
+            $this->load->library('stripe_core');
+
+            $this->stripe_core->enable_webhook(get_option('stripe_webhook_id'));
 
             redirect(admin_url('settings/?group=payment_gateways&tab=online_payments_stripe_tab'));
         }
@@ -42,6 +66,10 @@ class Stripe extends App_Controller
         $payload = @file_get_contents('php://input');
         $event   = null;
 
+        if (!isset($_SERVER['HTTP_STRIPE_SIGNATURE'])) {
+            return;
+        }
+
         // Validate the webhook
         try {
             $event = $this->stripe_core->construct_event($payload, get_option('stripe_webhook_signing_secret'));
@@ -55,45 +83,48 @@ class Stripe extends App_Controller
               exit();
         }
 
-        // Handle the checkout.session.completed event
-        if ($event->type == 'checkout.session.completed') {
-            $session = $event->data->object;
+        try {
+            // Handle the checkout.session.completed event
+            if ($event->type == 'checkout.session.completed') {
+                $session = $event->data->object;
 
-            // Regular invoice pay webhook
-            if ($session->payment_intent) {
-                $payment = $this->stripe_core->retrieve_payment_intent($session->payment_intent);
+                // Regular invoice pay webhook
+                if ($session->payment_intent) {
+                    $payment = $this->stripe_core->retrieve_payment_intent($session->payment_intent);
 
-                if (isset($payment->metadata->InvoiceId)) {
-                    $this->load->model('invoices_model');
+                    if (isset($payment->metadata->InvoiceId)) {
+                        $this->load->model('invoices_model');
 
-                    $invoice = $this->invoices_model->get($payment->metadata->InvoiceId);
+                        $invoice = $this->invoices_model->get($payment->metadata->InvoiceId);
 
-                    if ($invoice) {
-                        $this->stripe_gateway->addPayment([
+                        if ($invoice) {
+                            $this->stripe_gateway->addPayment([
                               'amount'        => (strcasecmp($invoice->currency_name, 'JPY') == 0 ? $payment->amount : $payment->amount / 100),
                               'invoiceid'     => $invoice->id,
                               'transactionid' => $payment->id,
                         ]);
 
-                        if (!$this->stripe_gateway->is_test()) {
-                            $this->db->where('userid', $payment->metadata->ClientId);
-                            $this->db->update('clients', ['stripe_id' => $payment->customer]);
+                            if (!$this->stripe_gateway->is_test()) {
+                                $this->db->where('userid', $payment->metadata->ClientId);
+                                $this->db->update('clients', ['stripe_id' => $payment->customer]);
+                            }
                         }
                     }
                 }
+            } elseif ($event->type == 'customer.subscription.created') {
+                $this->customerSubscriptionCreatedEvent($event);
+            } elseif ($event->type == 'invoice.payment_succeeded') {
+                $this->invoicePaymentSucceededEvent($event);
+            } elseif ($event->type == 'invoice.payment_failed') {
+                $this->invoicePaymentFailedEevent($event);
+            } elseif ($event->type == 'invoice.payment_action_required') {
+                $this->invoicePaymentActionRequiredEevent($event);
+            } elseif ($event->type == 'customer.subscription.deleted') {
+                $this->customerSubscriptionDeletedEvent($event);
+            } elseif ($event->type == 'customer.subscription.updated') {
+                $this->customerSubscriptionUpdatedEvent($event);
             }
-        } elseif ($event->type == 'customer.subscription.created') {
-            $this->customerSubscriptionCreatedEvent($event);
-        } elseif ($event->type == 'invoice.payment_succeeded') {
-            $this->invoicePaymentSucceededEvent($event);
-        } elseif ($event->type == 'invoice.payment_failed') {
-            $this->invoicePaymentFailedEevent($event);
-        } elseif ($event->type == 'invoice.payment_action_required') {
-            $this->invoicePaymentActionRequiredEevent($event);
-        } elseif ($event->type == 'customer.subscription.deleted') {
-            $this->customerSubscriptionDeletedEvent($event);
-        } elseif ($event->type == 'customer.subscription.updated') {
-            $this->customerSubscriptionUpdatedEvent($event);
+        } catch (\Exception $e) {
         }
     }
 

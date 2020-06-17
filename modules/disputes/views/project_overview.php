@@ -150,29 +150,23 @@
    </table>
 </div>
 <div class="col-md-5 project-percent-col ">
-   <!--<p class="bold"><?php echo _l('project_progress_text'); ?></p>
-   <div class="project-progress relative mtop15" data-value="<?php echo $percent_circle; ?>" data-size="150" data-thickness="22" data-reverse="true">
-      <strong class="project-percent"></strong>
-   </div>-->
    <table class="table no-margin project-overview-table">
           <tbody>
-
-          
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('opponent'); ?></td>
               <td>
                 <?php foreach ($opponents as $opponent) : ?>
-                  <a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent->userid; ?>">
+                  <a href="<?php echo admin_url(); ?>opponents/client/<?php echo $opponent->userid; ?>">
                     <?php echo $opponent->company; ?>
                   </a>, 
                   <?php endforeach; ?>
               </td>
           </tr>
 
-          <?php if(isset($opponent_lawyer)){ ?>
+          <?php if(isset($opponent_lawyer->userid)){ ?>
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('opponent_lawyer'); ?></td>
-              <td><a href="<?php echo admin_url(); ?>clients/client/<?php echo $opponent_lawyer->userid; ?>">
+              <td><a href="<?php echo admin_url(); ?>opponents/client/<?php echo $opponent_lawyer->userid; ?>">
                     <?php echo $opponent_lawyer->company; ?>
                   </a></td>
           </tr>
@@ -188,13 +182,22 @@
           <?php if(isset($meta['country']) && $meta['country']){ ?>
             <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('lead_country'); ?></td>
-              <td><?php echo $this->disputesapp->get_meta_title('countries','short_name_ar','country_id',$meta['country']); ?></td>
+              <td><?php
+                  $staff_language = get_staff_default_language(get_staff_user_id());
+                  if($staff_language == 'arabic'){
+                      $field = 'short_name_ar';
+                      $field_city = 'Name_ar';
+                  }else{
+                      $field = 'short_name';
+                      $field_city = 'Name_en';
+                  }
+                  echo $this->disputesapp->get_meta_title('countries',$field,'country_id',$meta['country']); ?></td>
           </tr>
           <?php } ?>
           <?php if(isset($meta['city']) && $meta['city']){ ?>
           <tr class="project-overview-customer">
               <td class="bold"><?php echo _l('client_city'); ?></td>
-              <td><?php echo $this->disputesapp->get_meta_title('cities','Name_ar','Name_en',$meta['city']); ?></td>
+              <td><?php echo $meta['city'] ?></td>
           </tr>
           <?php } ?>
           <?php if(isset($meta['address1']) && $meta['address1']){ ?>
@@ -291,7 +294,7 @@
       </div>
       <div class="media-body">
          <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
-         <a href="<?php echo admin_url('projects/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
+         <a href="<?php echo admin_url('disputes/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>
             <?php if(has_permission('projects','','create') || $member['staff_id'] == get_staff_user_id()){ ?>
@@ -435,7 +438,7 @@
 </div>
 <div class="modal fade" id="add-edit-members" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-      <?php echo form_open(admin_url('projects/add_edit_members/'.$project->id)); ?>
+      <?php echo form_open(admin_url('disputes/add_edit_members/'.$project->id)); ?>
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

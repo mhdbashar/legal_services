@@ -31,6 +31,13 @@
                     <label for="department_id" class="control-label"><?php echo _l('department') ?></label>
                     <select class="form-control" id="a_department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
                         <option></option>
+                        <?php
+                        if(!$this->app_modules->is_active('branches')){
+                         foreach ($departments as $department) { ?>
+                            <option value="<?php echo $department['departmentid'] ?>">
+                                <?php echo $department['name'] ?>
+                            </option>
+                        <?php }} ?>
                     </select>     
                 </div>
             </div>
@@ -74,6 +81,13 @@
                     <label for="department_id" class="control-label"><?php echo _l('department') ?></label>
                     <select class="form-control" id="department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
                         <option></option>
+                        <?php
+                        if(!$this->app_modules->is_active('branches')){
+                         foreach ($departments as $department) { ?>
+                            <option value="<?php echo $department['departmentid'] ?>">
+                                <?php echo $department['name'] ?>
+                            </option>
+                        <?php }} ?>
                     </select>     
                 </div>
             </div>
@@ -106,13 +120,34 @@
                 $('[name="id"]').val(data.id);
 
                 $('[name="designation_name"]').val(data.designation_name);
-                $("#a_department_id .department_id").remove();
-                $('#a_department_id').append($('<option>', {
-                    value: data.department.departmentid,
-                    text: data.department.name,
-                }));
-                $('[name="department_id"]').val(data.department.departmentid);
+            <?php  if($this->app_modules->is_active('branches')){  ?>
+                $.get(admin_url + 'hr/organization/get_departments_by_branch_id/' + data.branch.branch_id, function(response) {
+                    if (response.success == true) {
+                        $('#a_department_id').empty();
+                        $('#a_department_id').append($('<option>', {
+                            value: '',
+                            text: ''
+                        }));
+                        for(let i = 0; i < response.data.length; i++) {
+                            let key = response.data[i].key;
+                            let value = response.data[i].value;
+                            let select = false;
+                            if(data.department.departmentid == key)
+                                select = true;
+                            $('#a_department_id').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: select
+                            }));
+                            $('#a_department_id').selectpicker('refresh');
+                        }
+                    } else {
+                        alert_float('danger', response.message);
+                    }
+                }, 'json');
                 $('[name="branch_id"]').val(data.branch.branch_id);
+            <?php  }  ?>
+                $('[name="department_id"]').val(data.department.departmentid);
                 $('#a_department_id').selectpicker('refresh');
 
 

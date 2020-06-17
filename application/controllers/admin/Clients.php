@@ -364,15 +364,19 @@ class Clients extends AdminController
         }
         $data['customer_id'] = $customer_id;
         $data['contactid']   = $contact_id;
+        
         if ($this->input->post()) {
             $data             = $this->input->post();
+            $data['firstname'] = $data['full_name'];
+            unset($data['full_name']);
+            $data['lastname'] = '';
             $data['password'] = $this->input->post('password', false);
 
             unset($data['contactid']);
             if ($contact_id == '') {
                 if (!has_permission('customers', '', 'create')) {
                     if (!is_customer_admin($customer_id)) {
-                        header('HTTP/1.0 400 Bad error');
+                        header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad error');
                         echo json_encode([
                             'success' => false,
                             'message' => _l('access_denied'),
@@ -398,7 +402,7 @@ class Clients extends AdminController
             }
             if (!has_permission('customers', '', 'edit')) {
                 if (!is_customer_admin($customer_id)) {
-                    header('HTTP/1.0 400 Bad error');
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad error');
                     echo json_encode([
                             'success' => false,
                             'message' => _l('access_denied'),
@@ -455,7 +459,7 @@ class Clients extends AdminController
             $data['contact'] = $this->clients_model->get_contact($contact_id);
 
             if (!$data['contact']) {
-                header('HTTP/1.0 400 Bad error');
+                header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad error');
                 echo json_encode([
                     'success' => false,
                     'message' => 'Contact Not Found',
@@ -823,6 +827,13 @@ class Clients extends AdminController
         }
 
         $dbFields = array_merge($dbFields, $this->db->list_fields(db_prefix().'clients'));
+        foreach ($dbFields as $key => $value) {
+            if($value == 'lastname')
+                unset($dbFields[$key]);
+            if($value == 'firstname')
+                $dbFields[$key] = 'full_name';
+        }
+        //var_dump($dbFields);exit;
 
         $this->load->library('import/import_customers', [], 'import');
 
@@ -1096,7 +1107,7 @@ class Clients extends AdminController
 
         // Failed to decrypt
         if (!$password) {
-            header('HTTP/1.0 400 Bad error');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad error');
             echo json_encode(['error_msg' => _l('failed_to_decrypt_password')]);
             die;
         }
@@ -1175,7 +1186,7 @@ class Clients extends AdminController
     public function statement()
     {
         if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
-            header('HTTP/1.0 400 Bad error');
+            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad error');
             echo _l('access_denied');
             die;
         }

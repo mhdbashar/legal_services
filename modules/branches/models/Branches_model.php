@@ -32,7 +32,7 @@ class Branches_model extends App_Model
         $this->db->insert('tblbranches', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            log_activity('New Branches Added [' . $data['title'] . ']');
+            log_activity('New Branches Added [' . $data['title_en'] . ']');
             return $insert_id;
         }
         return false;
@@ -81,7 +81,7 @@ class Branches_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update('tblbranches', $data);
         if ($this->db->affected_rows() > 0) {
-            log_activity('Branches Updated [' . $data['title'] . ']');
+            log_activity('Branches Updated [' . $data['title_en'] . ']');
             return true;
         }
         return false;
@@ -149,13 +149,41 @@ class Branches_model extends App_Model
     public function getDepatrmentsForBranches($branch_id)
     {
         $data = [];
-        $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
-        $rows = $this->db->get('tblbranches_services')->result_array();
-        foreach ($rows as $row) {
-            $this->db->where(['departmentid' => $row['rel_id']]);
-            $r = $this->db->get('tbldepartments')->row_array();
-            $data[] = ['key' => $r['departmentid'], 'value' => $r['name']];
+        if(!$this->app_modules->is_active('branches')){
+            $departments = $this->db->get('tbldepartments')->result_array();
+            foreach ($departments as $department) {
+                $data[] = ['key' => $department['departmentid'], 'value' => $department['name']];
+            }
+        }else{
+            $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
+            $rows = $this->db->get('tblbranches_services')->result_array();
+            foreach ($rows as $row) {
+                $this->db->where(['departmentid' => $row['rel_id']]);
+                $r = $this->db->get('tbldepartments')->row_array();
+                $data[] = ['key' => $r['departmentid'], 'value' => $r['name']];
+            }
         }
+        
+        return $data;
+    }
+    public function get_office_shift($branch_id)
+    {
+        $data = [];
+        if(!$this->app_modules->is_active('branches')){
+            $office_shifts = $this->db->get('tblhr_office_shift')->result_array();
+            foreach ($office_shifts as $office_shift) {
+                $data[] = ['key' => $office_shift['id'], 'value' => $office_shift['shift_name']];
+            }
+        }else{
+            $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'office_shift']);
+            $rows = $this->db->get('tblbranches_services')->result_array();
+            foreach ($rows as $row) {
+                $this->db->where(['id' => $row['rel_id']]);
+                $r = $this->db->get('tblhr_office_shift')->row_array();
+                $data[] = ['key' => $r['id'], 'value' => $r['shift_name']];
+            }
+        }
+        
         return $data;
     }
     public function getBranches()
@@ -163,7 +191,12 @@ class Branches_model extends App_Model
         $data = [];
         $rows = $this->db->get('tblbranches')->result_array();
         foreach ($rows as $row) {
-            $data[] = ['key'=>$row['id'],'value'=>$row['title_en']];
+            if(get_staff_default_language() == 'arabic'){
+                $title = 'title_ar';
+            }else{
+                $title ='title_ar';
+            }
+            $data[] = ['key'=>$row['id'],'value'=>$row[$title]];
         }
         return $data;
     }

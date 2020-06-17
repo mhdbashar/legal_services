@@ -9,7 +9,12 @@ class Organization extends AdminController{
 		$this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
+        $this->load->model('Extra_info_model');
+        $this->load->model('No_branch_model');
 
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
 	public function officail_documents(){
@@ -75,12 +80,12 @@ class Organization extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_designation_table');
         }
+        $data['departments']   = $this->Departments_model->get();
         if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
             $data['branches'] = $ci->Branches_model->getBranches();
         }
-        $data['departments']   = $this->Departments_model->get();
         $data['title'] = _l('designation');
         $this->load->view('organization/designation', $data);
     }
@@ -112,9 +117,11 @@ class Organization extends AdminController{
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Designation_model->update($data, $id);
-        if($this->app_modules->is_active('branches')){
+        if(true){
                 $this->Branches_model->update_branch('designations', $id, $branch_id);
             }
         if($success){
@@ -132,16 +139,22 @@ class Organization extends AdminController{
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Designation_model->add($data);
         if($success){
 
-            if($this->app_modules->is_active('branches')){
+            if(true){
                 $this->Branches_model->update_branch('designations', $success, $branch_id);
             }
             set_alert('success', _l('added_successfully'));
         }else
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_staff_department(){
+        var_dump($this->Extra_info_model->get_staff_department(1));
     }
 
     public function delete_designation($id)
@@ -166,10 +179,26 @@ class Organization extends AdminController{
         die();
     }
 
+    public function get_designations_by_staff_id($staff_id){
+        echo json_encode(['success'=>true, 'data'=>$this->Designation_model->get_designations_by_staff_id($staff_id)]);
+        die();
+    }
+
+
+    public function get_staffs_by_branch_id($branch_id){
+        echo json_encode(['success'=>true,'data'=>$this->Designation_model->get_staffs_by_branch_id($branch_id)]);
+        die();
+    }
+
     // sub_department
 
     public function get_sub_departments($department_id){
         echo json_encode(['success'=>true,'data'=>$this->Sub_department_model->get_sub_departments($department_id)]);
+        die();
+    }
+
+    public function get_departments_by_branch_id($department_id){
+        echo json_encode(['success'=>true,'data'=>$this->Sub_department_model->get_departments_by_branch_id($department_id)]);
         die();
     }
 
@@ -184,9 +213,11 @@ class Organization extends AdminController{
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Sub_department_model->update($data, $id);
-        if($this->app_modules->is_active('branches')){
+        if(true){
                 $this->Branches_model->update_branch('sub_departments', $id, $branch_id);
             }
         if($success){
@@ -204,10 +235,12 @@ class Organization extends AdminController{
 
             unset($data['branch_id']);
         }
+        else
+            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Sub_department_model->add($data);
         if($success){
 
-            if($this->app_modules->is_active('branches')){
+            if(true){
                 $this->Branches_model->update_branch('sub_departments', $success, $branch_id);
             }
             set_alert('success', _l('added_successfully'));

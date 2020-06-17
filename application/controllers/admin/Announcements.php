@@ -28,7 +28,7 @@ class Announcements extends AdminController
         }
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['message'] = $this->input->post('message', false);
+            $data['message'] = html_purify($this->input->post('message', false));
             if ($id == '') {
                 $id = $this->announcements_model->add($data);
                 if ($id) {

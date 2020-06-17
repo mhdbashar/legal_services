@@ -30,7 +30,7 @@ class Authentication_model extends App_Model
             $this->db->where('email', $email);
             $user = $this->db->get($table)->row();
             //Prevent Opponents from Login
-            if($table == 'tblcontacts'){
+            if($table == 'tblcontacts' && isset($user)){
                 $userid = $user->userid;
                 $this->db->where('userid', $userid);
                 $client_type = $this->db->get(db_prefix() . 'clients')->row()->client_type;

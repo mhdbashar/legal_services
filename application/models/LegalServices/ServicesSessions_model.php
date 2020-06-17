@@ -39,7 +39,14 @@ class ServicesSessions_model extends App_Model
 
     public function update_customer_report($id, $data)
     {
-        $sent = $this->send_mail_next_action_session($id);
+        if(isset($data['send_mail_to_opponent']) && $data['send_mail_to_opponent'] == 'true'){
+            $send_mail_to_opponent = true;
+            unset($data['send_mail_to_opponent']);
+        }else{
+            $send_mail_to_opponent = false;
+            unset($data['send_mail_to_opponent']);
+        }
+        $sent = $this->send_mail_next_action_session($id, $send_mail_to_opponent);
         if($sent == 1){
             $data['next_session_date'] = to_sql_date($data['next_session_date']);
             $this->db->where('task_id' , $id);
@@ -49,13 +56,13 @@ class ServicesSessions_model extends App_Model
                 log_activity(' Customer report added [ Session ID ' . $id . ']');
                 return true;
             }
-        }elseif ($sent == 2){
-            return 2;
+        }else{
+            return $sent;
         }
         return false;
     }
 
-    function send_mail_next_action_session($id)
+    function send_mail_next_action_session($id, $send_mail_to_opponent)
     {
         $this->db->where('id', $id);
         $row = $this->db->get(db_prefix() .'tasks')->row();
@@ -67,17 +74,30 @@ class ServicesSessions_model extends App_Model
             $opponent_id = get_opponent_id_by_case_id($rel_id);
         }else{
             $client_id = get_client_id_by_oservice_id($rel_id);
+            $opponent_id = '';
         }
         $this->db->where('userid', $client_id);
         $contact_client = $this->db->get(db_prefix() . 'contacts')->row();
-        $this->db->where('userid', $opponent_id);
-        $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
-        if(isset($contact_client) && isset($contact_opponent)){
+        if(!isset($contact_client)){
+            echo 'error_client'; // This customer doesn't have primary contact
+            return;
+        }
+        if($send_mail_to_opponent == true){
+            $this->db->where('userid', $opponent_id);
+            $contact_opponent = $this->db->get(db_prefix() . 'contacts')->row();
+            if(!isset($contact_opponent)){
+                echo 'error_opponent'; // This opponent doesn't have primary contact
+                return;
+            }  else{
+                send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
+            }
+        }
+
+        if(isset($contact_client)){ // && isset($contact_opponent)
             send_mail_template('reminder_for_next_session_action',$contact_client, $id);
-            send_mail_template('reminder_for_next_session_action',$contact_opponent, $id);
             return true;
         }
-        return 2; // This customer or opponent doesn't have primary contact
+        return false;
     }
 
     public function update_send_to_customer($id)

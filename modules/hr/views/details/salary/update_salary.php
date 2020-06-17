@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="select-placeholder form-group">
-				<label for="type" class="control-label">Payslip Type</label><br>
+				<label for="type" class="control-label"><?php echo _l('payslip_type') ?></label><br>
 				<select id="type" name="type" class="selectpicker">
 		          	<option <?php if($staff->type == 1) echo 'selected="selected"' ?> value="1"><?php echo _l('monthly_payslip') ?></option> 
 		          	<option <?php if($staff->type == 2) echo 'selected="selected"' ?> value="2"><?php echo _l('hourly_payslip') ?></option>  		                    

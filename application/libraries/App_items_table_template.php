@@ -186,12 +186,12 @@ abstract class App_items_table_template
      * @param  array $item
      * @return string
      */
-    protected function taxes_html($item)
+    protected function taxes_html($item, $width)
     {
         $itemHTML = '';
 
         if ($this->show_tax_per_item()) {
-            $itemHTML .= '<td align="right">';
+            $itemHTML .= '<td align="right" width="' . $width . '%">';
             if (count($item['taxes']) > 0) {
                 foreach ($item['taxes'] as $tax) {
                     $item_tax = '';
@@ -335,13 +335,9 @@ abstract class App_items_table_template
     public function table()
     {
         $html = $this->{$this->for . '_table_open'}();
-        if ($this->for == 'html') {
-            $html .= '<thead>';
-        }
+        $html .= '<thead>';
         $html .= $this->{$this->for . '_headings'}();
-        if ($this->for == 'html') {
-            $html .= '</thead>';
-        }
+        $html .= '</thead>';
         $html .= '<tbody>';
         $html .= $this->items();
         $html .= '</tbody>';

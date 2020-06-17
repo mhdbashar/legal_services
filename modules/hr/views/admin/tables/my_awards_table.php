@@ -11,7 +11,15 @@
     `staff_id` int(11) NOT NULL
 */
 defined('BASEPATH') or exit('No direct script access allowed');
-$aColumns = ['award_type', 'CONCAT(firstname, " ", lastname) as fullname', db_prefix().'branches.title_en as branch_id', 'gift'];
+$aColumns = ['award_type', 'CONCAT(firstname, " ", lastname) as fullname', 'gift'];
+
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
+if(get_staff_default_language() == 'arabic'){
+    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+}else{
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_awards';
@@ -35,7 +43,8 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['award_type'];
 
     $row[] = $aRow['fullname'];
-
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches'))
     $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['gift'];

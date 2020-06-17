@@ -132,6 +132,7 @@ class App_mail_template
 
         $this->template->message = get_option('email_header') . $this->template->message . get_option('email_footer');
 
+
         // Parse merge fields again in case there is merge fields found in email_header and email_footer option.
         // We cant parse this in parse_email_template function because in case the template content is send via $_POST wont work
         $this->template = parse_email_template_merge_fields($this->template, $this->merge_fields);
@@ -193,7 +194,7 @@ class App_mail_template
         $this->_attachments();
 
         if ($this->ci->email->send()) {
-            log_activity('Email Send To [Email: ' . $this->send_to . ', Template: ' . $this->template->name . ']');
+            log_activity('Email Sent To [Email: ' . $this->send_to . ', Template: ' . $this->template->name . ']');
 
             hooks()->do_action('email_template_sent', [
                 'template'     => $this->template,
@@ -209,6 +210,8 @@ class App_mail_template
         if (ENVIRONMENT !== 'production') {
             log_activity('Failed to send email template - ' . $this->ci->email->print_debugger());
         }
+
+        $this->clear();
 
         return false;
     }
@@ -288,16 +291,16 @@ class App_mail_template
                 $fromname = get_option('companyname');
             }
 
-        return [
-            'fromemail' => $fromemail,
-            'fromname'  => $fromname,
-        ];
+            return [
+                'fromemail' => $fromemail,
+                'fromname'  => $fromname,
+            ];
         }
 
-        return [
+        return hooks()->apply_filters('email_template_from_headers', [
                 'fromemail' => get_option('smtp_email'),
                 'fromname'  => $this->template->fromname != '' ? $this->template->fromname : get_option('companyname'),
-            ];
+            ], $this->template);
     }
 
     /**
@@ -657,7 +660,6 @@ class App_mail_template
     private function clear()
     {
         $this->clear_attachments();
-
         $this->set_staff_id(null);
         $this->set_rel_type(null);
         $this->set_rel_id(null);

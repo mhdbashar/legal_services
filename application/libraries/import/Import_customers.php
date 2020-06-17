@@ -19,9 +19,9 @@ class Import_customers extends App_import
             $this->requiredFields[] = 'company';
         }
 
-        $this->addImportGuidelinesInfo('Duplicate email rows won\'t be imported.', true);
+        $this->addImportGuidelinesInfo(_l('clients_import_inst4'), true);
 
-        $this->addImportGuidelinesInfo('Make sure you configure the default contact permission in <a href="' . admin_url('settings?group=clients') . '" target="_blank">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.');
+        $this->addImportGuidelinesInfo(_l('clients_import_inst3'));
 
         parent::__construct();
     }
@@ -84,16 +84,29 @@ class Import_customers extends App_import
                         continue;
                     }
 
+                    if(isset($insert['individual'])){
+                        if($insert['individual'] == 'company'
+                            or $insert['individual'] == 'شركة'
+                            or $insert['individual'] == "شركات")
+                            $insert['individual'] = 0;
+                        elseif($insert['individual'] == 'individual'
+                            or $insert['individual'] == 'فرد'
+                            or $insert['individual'] == "أفراد")
+                            $insert['individual'] = 1;
+                    }
                     if(isset($insert['client_type'])){
-                        if($insert['client_type'] == 'company'
-                            or $insert['client_type'] == 'شركة'
-                            or $insert['client_type'] == "شركات")
+                        if($insert['client_type'] == 'client'
+                            or $insert['client_type'] == 'عميل'
+                            or $insert['client_type'] == "عملاء")
                             $insert['client_type'] = 0;
-                        elseif($insert['client_type'] == 'individual'
-                            or $insert['client_type'] == 'فرد'
-                            or $insert['client_type'] == "أفراد")
+                        elseif($insert['client_type'] == 'opponent'
+                            or $insert['client_type'] == 'خصم'
+                            or $insert['client_type'] == "خصوم")
                             $insert['client_type'] = 1;
                     }
+
+                    $insert['firstname'] = $insert['full_name'];
+                    unset($insert['full_name']);
 
                     $insert['is_primary'] = 1;
                     $id                   = $this->ci->clients_model->add($insert, true);

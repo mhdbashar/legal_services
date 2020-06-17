@@ -62,7 +62,7 @@ if ($this->ci->input->post('custom_view')) {
     } elseif ($filter == 'public') {
         array_push($where, 'AND is_public = 1');
     } elseif (startsWith($filter, 'consent_')) {
-        array_push($where, 'AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . strafter($filter, 'consent_') . ' AND lead_id=' . db_prefix() . 'leads.id))');
+        array_push($where, 'AND ' . db_prefix() . 'leads.id IN (SELECT lead_id FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' and action="opt-in" AND date IN (SELECT MAX(date) FROM ' . db_prefix() . 'consents WHERE purpose_id=' . $this->ci->db->escape_str(strafter($filter, 'consent_')) . ' AND lead_id=' . db_prefix() . 'leads.id))');
     }
 }
 
@@ -71,17 +71,17 @@ if (!$filter || ($filter && $filter != 'lost' && $filter != 'junk')) {
 }
 
 if (has_permission('leads', '', 'view') && $this->ci->input->post('assigned')) {
-    array_push($where, 'AND assigned =' . $this->ci->input->post('assigned'));
+    array_push($where, 'AND assigned =' . $this->ci->db->escape_str($this->ci->input->post('assigned')));
 }
 
 if ($this->ci->input->post('status')
     && count($this->ci->input->post('status')) > 0
     && ($filter != 'lost' && $filter != 'junk')) {
-    array_push($where, 'AND status IN (' . implode(',', $this->ci->input->post('status')) . ')');
+    array_push($where, 'AND status IN (' . implode(',', $this->ci->db->escape_str($this->ci->input->post('status'))) . ')');
 }
 
 if ($this->ci->input->post('source')) {
-    array_push($where, 'AND source =' . $this->ci->input->post('source'));
+    array_push($where, 'AND source =' . $this->ci->db->escape_str($this->ci->input->post('source')));
 }
 
 if (!has_permission('leads', '', 'view')) {
@@ -181,7 +181,7 @@ foreach ($rResult as $aRow) {
             $outputStatus = '<span class="label label-warning inline-block">' . _l('lead_junk') . '</span>';
         }
     } else {
-        $outputStatus = '<span class="inline-block label label-' . (empty($aRow['color']) ? 'default': '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
+        $outputStatus = '<span class="inline-block lead-status-'.$aRow['status'].' label label-' . (empty($aRow['color']) ? 'default': '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
         if (!$locked) {
             $outputStatus .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
             $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="tableLeadsStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';

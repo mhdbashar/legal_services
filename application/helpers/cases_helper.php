@@ -4,8 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('admin_init', 'app_init_case_tabs');
 hooks()->add_action('app_admin_assets', '_maybe_init_admin_case_assets', 5);
-hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
-
 
 function _maybe_init_admin_case_assets()
 {
@@ -21,32 +19,6 @@ function _maybe_init_admin_case_assets()
         $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
 }
-
-function my_module_menu_item_collapsible()
-{
-    $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1))->result();
-    $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
-        'name'     => _l('LegalServices'), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 25, // The menu position
-        'icon'     => 'fa fa-gavel', // Font awesome icon
-    ]);
-foreach ($services as $service):
-    // The first paremeter is the parent menu ID/Slug
-    $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
-        'slug'     => $service->id.'/child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => $service->name, // The name if the item
-        'href'     => admin_url("Service/$service->id"), // URL of the item
-    ]);
-endforeach;
-
-}
-
-/**
- * Default project tabs
- * @return array
- */
 
 function get_case_tabs_admin()
 {
@@ -214,6 +186,20 @@ function app_init_case_tabs()
         'icon'                      => 'fa fa-list-ol',
         'view'                      => 'admin/LegalServices/phases/tab',
         'position'                  => 70,
+    ]);
+
+    $CI->app_tabs->add_case_tab('IRAC', [
+        'name'                      => _l('IRAC_method'),
+        'icon'                      => 'fa fa-sitemap',
+        'view'                      => 'admin/LegalServices/irac/tab',
+        'position'                  => 75,
+    ]);
+
+    $CI->app_tabs->add_case_tab('help_library', [
+        'name'                      => _l('help_library'),
+        'icon'                      => 'fa fa-book',
+        'view'                      => 'admin/help_library/tab',
+        'position'                  => 80,
     ]);
 }
 
@@ -630,7 +616,7 @@ function init_relation_tasks_case_table($table_attributes = [])
     }
 
     if ($table_attributes['data-new-rel-type'] == "$slug") {
-        echo "<a href='" . admin_url('tasks/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
+        echo "<a href='" . admin_url('tasks/detailed_overview?rel_type='.$slug.'&project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
         echo "<a href='" . admin_url('tasks/list_tasks_for_LegalServices?rel_type='.$slug.'&project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default pull-right mbot25 mright5 hidden-xs'>" . _l('view_kanban') . '</a>';
         echo '<div class="clearfix"></div>';
         echo $CI->load->view('admin/tasks/_bulk_actions', ['table' => '.table-rel-tasks_case'], true);

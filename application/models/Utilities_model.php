@@ -103,6 +103,11 @@ class Utilities_model extends App_Model
 
     public function get_calendar_data($start, $end, $client_id = '', $contact_id = '', $filters = false)
     {
+        $start      = $this->db->escape_str($start);
+        $end        = $this->db->escape_str($end);
+        $client_id  = $this->db->escape_str($client_id);
+        $contact_id = $this->db->escape_str($contact_id);
+
         $is_admin                     = is_admin();
         $has_permission_tasks_view    = has_permission('tasks', '', 'view');
         $has_permission_projects_view = has_permission('projects', '', 'view');
@@ -143,7 +148,6 @@ class Utilities_model extends App_Model
         }
 
         if (get_option('show_invoices_on_calendar') == 1 && !$ff || $ff && array_key_exists('invoices', $filters)) {
-
             $noPermissionsQuery = get_invoices_where_sql_for_staff(get_staff_user_id());
 
             $this->db->select('duedate as date,number,id,clientid,hash,' . get_sql_select_client_company());
@@ -246,7 +250,6 @@ class Utilities_model extends App_Model
             }
         }
         if (get_option('show_proposals_on_calendar') == 1 && !$ff || $ff && array_key_exists('proposals', $filters)) {
-
             $noPermissionsQuery = get_proposals_sql_where_staff(get_staff_user_id());
 
             $this->db->select('subject,id,hash,CASE WHEN open_till IS NULL THEN date ELSE open_till END as date', false);

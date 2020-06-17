@@ -7,11 +7,18 @@ class LegalServicesModel extends App_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('LegalServices/Cases_model','case');
+        $this->load->model('LegalServices/Other_services_model','other');
     }
 
-    public function get_all_services()
+    public function get_all_services($where = [], $result_array=false)
     {
-        return $this->db->get('my_basic_services')->result();
+        $this->db->where($where);
+        if($result_array){
+            return $this->db->get('my_basic_services')->result_array();
+        }else{
+            return $this->db->get('my_basic_services')->result();
+        }
     }
 
     public function get_service_by_id($ServID)
@@ -80,6 +87,15 @@ class LegalServicesModel extends App_Model
             return true;
         }
         return false;
+    }
+
+    public function getCatModules($prefix)
+    {
+        $modules = $this->get_all_services(['is_module' => 1 , 'prefix' => $prefix]);
+        foreach ($modules as $module):
+            $module_id = $module->id;
+        endforeach;
+        return $this->db->get_where('my_categories', array('service_id' => $module_id , 'parent_id' => 0))->result();
     }
 
     public function GetCategoryByServId($ServID)

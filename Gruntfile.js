@@ -90,7 +90,7 @@ module.exports = function(grunt) {
             moment: {
                 src: [
                     'assets/plugins/moment/moment-with-locales.min.js',
-                    'assets/plugins/moment-timezone/moment-timezone-with-data-2012-2022.min.js',
+                    'assets/plugins/moment-timezone/moment-timezone-with-data-10-year-range.min.js',
                 ],
                 dest: 'assets/builds/moment.min.js',
             },

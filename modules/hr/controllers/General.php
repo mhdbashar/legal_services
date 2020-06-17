@@ -17,9 +17,41 @@ class General extends AdminController{
         $this->load->model('Extra_info_model');
         $this->load->model('Emergency_contact_model');
         $this->load->model('Branches_model');
+        $this->load->model('Sub_department_model');
+        $this->load->model('Designation_model');
+        $this->load->model('Leave_type_model');
+        $this->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
 
+    public function staff()
+    {
+        if (!has_permission('staff', '', 'view')) {
+            access_denied('staff');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->hrmapp->get_table_data('staff');
+        }
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+        $data['title']         = _l('staff_members');
+        $this->load->view('staff/manage', $data);
+    }
+
+    /* Get role permission for specific role id */
+    public function role_changed($id)
+    {
+        if (!has_permission('staff', '', 'view')) {
+            ajax_access_denied('staff');
+        }
+
+        echo json_encode($this->roles_model->get($id)->permissions);
+    }
+
 	public function general($staff_id){
+
+        $this->load->model('No_branch_model');
 
         $member = $this->staff_model->get($staff_id);
         if (!$member) {
@@ -34,6 +66,7 @@ class General extends AdminController{
         $group = '';
 
         if(!$this->input->get('group') or $this->input->get('group') == 'basic_information'){
+            $data['leaves'] = $this->Leave_type_model->get();
             $_GET['group'] = 'basic_information';
             $ts_filter_data = [];
             if ($this->input->get('filter')) {
@@ -46,12 +79,12 @@ class General extends AdminController{
             } else {
                 $ts_filter_data['this_month'] = true;
             }
-            if($this->app_modules->is_active('branches')) {
                 $ci = &get_instance();
                 $ci->load->model('branches/Branches_model');
                 $data['branches'] = $ci->Branches_model->getBranches();
                 $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
-            }
+                if(!$this->app_modules->is_active('branches'))
+                    $data['branch'] = $this->No_branch_model->get_branch('staff', $staff_id);
             $data['logged_time'] = $this->staff_model->get_logged_time_data($staff_id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
             $data['base_currency'] = $this->Currencies_model->get_base_currency();
@@ -59,7 +92,7 @@ class General extends AdminController{
             $data['user_notes']    = $this->Misc_model->get_notes($staff_id, 'staff');
             $data['departments']   = $this->Departments_model->get();
             $data['staff_departments'] = $this->Departments_model->get_staff_departments($member->staffid);
-            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => '', 'state_province' => '', 'city' => '', 'zip_code' => '', 'address' => ''];
+            $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
 
             $data['extra_info'] = (object)$extra_info;
 
@@ -147,6 +180,7 @@ class General extends AdminController{
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
         $this->load->model('departments_model');
+        $this->load->model('No_branch_model');
 
         $hr_data = [];
 
@@ -155,24 +189,31 @@ class General extends AdminController{
         $hr_data['designation'] = $this->input->post('designation');
         $hr_data['gender'] = $this->input->post('gender');
         //$hr_data['marital_status'] = $this->input->post('marital_status');
-        $hr_data['sub_department'] = $this->input->post('sub_department');
+        if(is_active_sub_department())
+            $hr_data['sub_department'] = $this->input->post('sub_department');
+        else
+            $hr_data['sub_department'] = 1;
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
-        $hr_data['date_birth'] = $this->input->post('date_birth');
+        $hr_data['date_birth'] = to_sql_date($this->input->post('date_birth'));
         $hr_data['state_province'] = $this->input->post('state_province');
         $hr_data['city'] = $this->input->post('city');
         $hr_data['zip_code'] = $this->input->post('zip_code');
         $hr_data['address'] = $this->input->post('address');
+        $hr_data['leaves'] = $this->input->post('leaves');
         $staff_id = $id;
 
         if ($this->input->post()) {
             $data = $this->input->post();
-            if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
+                if(!$this->app_modules->is_active('branches'))
+                    $branch_id = $this->No_branch_model->get_general_branch();
+                else
+                    $branch_id = $this->input->post()['branch_id'];
 
                 unset($data['branch_id']);
-            }
             foreach ($data as $key => $value){
                 if (in_array($value, $hr_data))
+                    unset($data[$key]);
+                if($key == 'date_birth')
                     unset($data[$key]);
             }
             // Don't do XSS clean here.
@@ -191,23 +232,29 @@ class General extends AdminController{
                     access_denied('staff');
                 }
                 $id = $this->staff_model->add($data);
-                if ($id) {
-
-                    handle_staff_profile_image_upload($id);
-                    set_alert('success', _l('added_successfully', _l('staff_member')));
-                    redirect(admin_url('staff/member/' . $id));
-                }
-            } else {
-                if (!has_permission('staff', '', 'edit')) {
-                    access_denied('staff');
-                }
-                if($this->app_modules->is_active('branches')){
+                $hr_data['staff_id'] = $id;
+                $success = $this->Extra_info_model->add($hr_data);
                     if(is_numeric($branch_id)){
                         $this->Branches_model->update_branch('staff', $id, $branch_id);
                     }else{
                         $this->Branches_model->delete_branch('staff', $id);
                     }                handle_staff_profile_image_upload($id);
+                if ($id) {
+
+                    handle_staff_profile_image_upload($id);
+                    set_alert('success', _l('added_successfully', _l('staff_member')));
+                    redirect(admin_url('hr/general/general/' . $id.'?group=basic_information'));
                 }
+            } else {
+                if (!has_permission('staff', '', 'edit')) {
+                    access_denied('staff');
+                }
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }                handle_staff_profile_image_upload($id);
+                $data['lastname'] = '';
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
                     $response = $this->staff_model->update($data, $id);
@@ -250,12 +297,10 @@ class General extends AdminController{
                 $ts_filter_data['this_month'] = true;
             }
 
-            if($this->app_modules->is_active('branches')) {
                 $ci = &get_instance();
                 $ci->load->model('branches/Branches_model');
                 $data['branches'] = $ci->Branches_model->getBranches();
                 $data['branch'] = $this->Branches_model->get_branch('staff', $id);
-            }
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
@@ -266,16 +311,20 @@ class General extends AdminController{
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
+        $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+        $data['extra_info'] = (object)$extra_info;
+        $data['leaves'] = $this->Leave_type_model->get();
 
-        $this->load->view('admin/staff/member', $data);
+        $this->load->view('details/general/member', $data);
     }
 
 
     public function change_password(){
-        $data = $this->input->post();
+        $password = $this->input->post()['password'];
         $staff_id = $this->input->post('staffid');
 
-        $success = $this->staff_model->update($data, $staff_id);
+        $success = $this->staff_model->update_profile(['password' => $password], $staff_id);
+        //exit();
         if($success)
             set_alert('success', _l('updated_successfully'));
         else
@@ -312,6 +361,8 @@ class General extends AdminController{
     }
     public function update_qualification(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $id = $this->input->post('id');
         $success = $this->Qualification_model->update($data, $id);
         if($success)
@@ -323,6 +374,8 @@ class General extends AdminController{
 
     public function add_qualification(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $success = $this->Qualification_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -401,6 +454,8 @@ class General extends AdminController{
     }
     public function update_work_experience(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $id = $this->input->post('id');
         $success = $this->Work_experience_model->update($data, $id);
         if($success)
@@ -412,6 +467,8 @@ class General extends AdminController{
 
 	public function add_work_experience(){
         $data = $this->input->post();
+        $data['from_date'] = to_sql_date($data['from_date']);
+        $data['to_date'] = to_sql_date($data['to_date']);
         $success = $this->Work_experience_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -489,6 +546,7 @@ class General extends AdminController{
     }
     public function update_document(){
         $data = $this->input->post();
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $id = $this->input->post('id');
         $success = $this->Document_model->update($data, $id);
         if($success)
@@ -500,6 +558,7 @@ class General extends AdminController{
 
     public function add_document(){
         $data = $this->input->post();
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $success = $this->Document_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -533,6 +592,9 @@ class General extends AdminController{
     }
     public function update_immigration(){
         $data = $this->input->post();
+        $data['issue_date'] = to_sql_date($data['issue_date']);
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
+        $data['eligible_review_date'] = to_sql_date($data['eligible_review_date']);
         $id = $this->input->post('id');
         $success = $this->Immigration_model->update($data, $id);
         if($success)
@@ -544,6 +606,9 @@ class General extends AdminController{
 
     public function add_immigration(){
         $data = $this->input->post();
+        $data['issue_date'] = to_sql_date($data['issue_date']);
+        $data['date_expiry'] = to_sql_date($data['date_expiry']);
+        $data['eligible_review_date'] = to_sql_date($data['eligible_review_date']);
         $success = $this->Immigration_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));

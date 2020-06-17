@@ -5,7 +5,30 @@ class Setting extends AdminController{
 
 	public function __construct(){
 		parent::__construct();
+        $this->load->model('Leave_type_model');
+
+        if (!has_permission('hr', '', 'view'))
+            access_denied();
 	}
+
+    public function global_hr_setting(){
+        if($this->input->post()){
+            $data = $this->input->post();
+            foreach($data as $name => $active){
+                $this->db->where('name', $name);
+                $this->db->update('tblhr_setting', ['active'=>$active]);
+                if($this->db->affected_rows() > 0){
+                    log_activity('tblhr_setting' . ' updated [ Name: '. $name . ']');
+                    //return true;
+                }
+            }
+        }
+        $data['title'] = _l('global_hr_setting');
+        //$this->db->where('name', 'sub_department');
+        $this->db->from('tblhr_setting');
+        $data['settings'] = $this->db->get()->result_array();
+        $this->load->view('settings/global_hr_setting/manage', $data);
+    }
 
     public function index(){
 
@@ -30,16 +53,27 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_skill_types_table');
             }elseif($group == 'relation'){
                 $this->hrmapp->get_table_data('types/my_relation_types_table');
-            }elseif($group == 'branch'){
-                $this->hrmapp->get_table_data('types/my_branch_types_table');
+            }elseif($group == 'training'){
+                $this->hrmapp->get_table_data('types/my_training_types_table');
             }elseif($group == 'award'){
                 $this->hrmapp->get_table_data('types/my_award_types_table');
             }elseif($group == 'termination'){
                 $this->hrmapp->get_table_data('types/my_termination_types_table');
             }elseif($group == 'warning'){
                 $this->hrmapp->get_table_data('types/my_warning_types_table');
+            }elseif($group == 'arrangement'){
+                $this->hrmapp->get_table_data('types/my_arrangement_types_table');
+            }elseif($group == 'travel_mode'){
+                $this->hrmapp->get_table_data('types/my_travel_mode_types_table');
+            }elseif($group == 'leave'){
+                $this->hrmapp->get_table_data('types/my_leave_types_table');
+            }elseif($group == 'technical_competencies'){
+                $this->hrmapp->get_table_data('types/my_technical_competencies_types_table');
+            }elseif($group == 'organizational_competencies'){
+                $this->hrmapp->get_table_data('types/my_organizational_competencies_types_table');
             }
         }
+
 
         $data['group'] = $group;
         $data['title'] = _l('manage_custom_tabs');
@@ -145,4 +179,44 @@ class Setting extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function add_leave_type(){
+        $data = $this->input->get();
+        $success = $this->Leave_type_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    public function update_leave_type(){
+        $data = $this->input->get();
+        $id = $this->input->get('id');
+        $success = $this->Leave_type_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_leave_type($id){
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if (!is_admin()) {
+            access_denied();
+        }
+        $response = $this->Leave_type_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function leave_type_json($id){
+        $data = $this->Leave_type_model->get($id);
+        echo json_encode($data);
+    }
 }

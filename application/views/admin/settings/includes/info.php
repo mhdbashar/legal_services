@@ -327,7 +327,7 @@
 			<td class="bold">CSRF Enabled</td>
 			<td>
 				<?php
-				echo defined('APP_CSRF_PROTECTION') && defined('APP_CSRF_PROTECTION') ? 'Yes' : 'No';
+				echo $this->config->item('csrf_protection') ? 'Yes' : 'No';
 				?>
 			</td>
 		</tr>

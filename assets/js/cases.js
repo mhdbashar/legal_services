@@ -481,14 +481,14 @@ function edit_discussion(invoker, id) {
     $('#discussion .add-title').addClass('hide');
 }
 
-function mass_stop_timers(only_billable) {
-    requestGetJSON('projects/mass_stop_timers/' + project_id + '/' + only_billable).done(function(response) {
+function mass_stop_timers(only_billable,servid) {
+    requestGetJSON('LegalServices/Cases_controller/mass_stop_timers/' + project_id + '/' + only_billable).done(function(response) {
         alert_float(response.type, response.message);
         setTimeout(function() {
             $('body').find('.modal-backdrop').eq(0).remove();
             init_timers();
             reload_tasks_tables();
-            pre_invoice_project();
+            //pre_invoice_project();
             pre_invoice_case(servid);
         }, 500);
     });
@@ -505,6 +505,172 @@ function pre_invoice_case(servid) {
     requestGet('LegalServices/Cases_controller/get_pre_invoice_project_info/' + servid + '/' + project_id).done(function(response) {
         $('#pre_invoice_project').html(response);
         $('#pre_invoice_project_settings').modal('show');
+    });
+}
+
+function load_small_table_item(id, selector, input_name, url, table) {
+    var _tmpID = $('input[name="' + input_name + '"]').val();
+    // Check if id passed from url, hash is prioritized becuase is last
+    if (_tmpID !== '' && !window.location.hash) {
+        id = _tmpID;
+        // Clear the current id value in case user click on the left sidebar credit_note_ids
+        $('input[name="' + input_name + '"]').val('');
+    } else {
+        // check first if hash exists and not id is passed, becuase id is prioritized
+        if (window.location.hash && !id) {
+            id = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+        }
+    }
+    if (typeof(id) == 'undefined' || id === '') { return; }
+    destroy_dynamic_scripts_in_element($(selector))
+    if (!$("body").hasClass('small-table')) { toggle_small_view(table, selector); }
+    $('input[name="' + input_name + '"]').val(id);
+    do_hash_helper(id);
+    $(selector).load(admin_url + url + '/' + id);
+    if (is_mobile()) {
+        $('html, body').animate({
+            scrollTop: $(selector).offset().top + 150
+        }, 600);
+    }
+}
+
+function init_invoice_case(id) {
+    load_small_table_item(id, '#invoice', 'invoiceid', 'invoices/get_invoice_data_ajax', '.table-invoices_case');
+}
+
+// Init single credit note case
+function init_credit_note_case(id) {
+    load_small_table_item(id, '#credit_note', 'credit_note_id', 'credit_notes/get_credit_note_data_ajax', '.table-credit-notes_case');
+}
+
+function init_expense_case(id) {
+    load_small_table_item(id, '#expense', 'expenseid', 'expenses/get_expense_data_ajax', '.table-expenses_case');
+}
+
+// Delete credit note attachment
+function delete_credit_note_attachment(id) {
+    if (confirm_delete()) {
+        requestGet('credit_notes/delete_attachment/' + id).done(function(success) {
+            if (success == 1) {
+                $("body").find('[data-attachment-id="' + id + '"]').remove();
+                init_credit_note($("body").find('input[name="_attachment_sale_id"]').val());
+                init_credit_note_case($("body").find('input[name="_attachment_sale_id"]').val());
+            }
+        }).fail(function(error) {
+            alert_float('danger', error.responseText);
+        });
+    }
+}
+
+init_table_tickets_case();
+var table_invoices_case,
+    table_estimates_case;
+
+table_invoices_case = $('table.table-invoices_case');
+table_estimates_case = $('table.table-estimates_case');
+
+
+if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
+
+    // Invoices additional server params
+    var Invoices_Estimates_ServerParamsCase = {};
+    var Invoices_Estimates_FilterCase = $('._hidden_inputs._filters input');
+
+    $.each(Invoices_Estimates_FilterCase, function() {
+        Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    servid_invoices_case = $(".table-invoices_case").attr('data-servid');
+    slug_invoices_case = $(".table-invoices_case").attr('data-slug');
+    clientid = 0;
+    if (table_invoices_case.length) {
+        // Invoices tables
+        initDataTable(table_invoices_case, (admin_url + 'invoices/table_case/'+ clientid + '/' + servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
+            [3, 'desc'],
+            [0, 'desc']
+        ] : [table_invoices_case.find('th.next-recurring-date').index(), 'asc']);
+    }
+
+    if (table_estimates_case.length) {
+        // Estimates table
+        servid_estimates_case = $(".table-estimates_case").attr('data-servid');
+        slug_estimates_case = $(".table-estimates_case").attr('data-slug');
+        initDataTable(table_estimates_case, admin_url + 'estimates/table_case/' + clientid + '/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, [
+            [3, 'desc'],
+            [0, 'desc']
+        ]);
+    }
+}
+
+function init_table_tickets_case(manual) {
+
+    // Single ticket is for other tickets from user
+    if (typeof(manual) == 'undefined' &&
+        ($("body").hasClass('dashboard') || $('body').hasClass('single-ticket'))) {
+        return false;
+    }
+
+    if ($("body").find('.tickets_case-table').length === 0) { return; }
+
+    var TicketServerParamsCase = {},
+        Tickets_FiltersCase = $('._hidden_inputs._filters.tickets_filters input');
+    var tickets_date_created_index_case = $('table.tickets_case-table thead .ticket_created_column').index();
+    $.each(Tickets_FiltersCase, function() {
+        TicketServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    slug_tickets_case = $(".tickets_case-table").attr('data-slug');
+    TicketServerParamsCase['project_id'] = '[name="project_id"]';
+
+    var ticketsTableNotSortableCase = [0]; // bulk actions
+    var _tickets_table_url_case = admin_url + 'tickets/table_tickets_case/'+slug_tickets_case;
+
+    if ($("body").hasClass('tickets-page')) {
+        _tickets_table_url_case += '?bulk_actions=true';
+    }
+
+    _table_api = initDataTable('.tickets_case-table', _tickets_table_url_case, ticketsTableNotSortableCase, ticketsTableNotSortableCase, TicketServerParamsCase, [tickets_date_created_index_case, 'desc']);
+
+    if (_table_api && $("body").hasClass('dashboard')) {
+        var notVisibleDashboardDefault = [4, tickets_date_created_index_case, 5, 6];
+        for (var i in notVisibleDashboardDefault) {
+            _table_api.column(notVisibleDashboardDefault[i]).visible(false, false);
+        }
+        _table_api.columns.adjust();
+    }
+}
+
+function invoice_case(ServID , project_id) {
+    $('#pre_invoice_project_settings').modal('hide');
+    var data = {};
+
+    data.type = $('input[name="invoice_data_type"]:checked').val();
+    data.timesheets_include_notes = $('input[name="timesheets_include_notes"]:checked').val();
+
+    data.project_id = project_id;
+
+    data.tasks = $("#tasks_who_will_be_billed input:checkbox:checked").map(function() {
+        return $(this).val();
+    }).get();
+
+    data.expenses = $("#expenses_who_will_be_billed .expense-to-bill input:checkbox:checked").map(function() {
+        return $(this).val();
+    }).get();
+
+    data.expenses_add_note = $("#expenses_who_will_be_billed .expense-add-note input:checkbox:checked").map(function() {
+        return $(this).val();
+    }).get();
+
+    data.expenses_add_name = $("#expenses_who_will_be_billed .expense-add-name input:checkbox:checked").map(function() {
+        return $(this).val();
+    }).get();
+
+    $.post(admin_url + 'LegalServices/Other_services_controller/get_invoice_project_data/'+ServID, data).done(function(response) {
+        $('#invoice_project').html(response);
+        $('#invoice-project-modal').modal({
+            show: true,
+            backdrop: 'static'
+        });
     });
 }
 

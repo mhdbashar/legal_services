@@ -113,7 +113,7 @@
   </div>
    </div>
    <!-- Tab panes -->
-   <div class="tab-content">
+   <div class="tab-content mtop20">
       <!-- from leads modal -->
       <div role="tabpanel" class="tab-pane active" id="tab_lead_profile">
          <?php $this->load->view('admin/leads/profile'); ?>

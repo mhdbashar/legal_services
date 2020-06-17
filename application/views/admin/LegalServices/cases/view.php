@@ -22,7 +22,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
-                                <?php if(isset($project->previous_case_id)): ?>
+                                <?php if(isset($project->previous_case_id) && $project->previous_case_id != 0): ?>
                                 <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
                                     <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
                                 </h4>
@@ -190,6 +190,68 @@ echo form_hidden('project_percent',$percent);
     function discussion_comments_case(selector,discussion_id,discussion_type){
         var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_case_discussions_language_array()); ?>);
         var options = {
+            
+      // https://github.com/Viima/jquery-comments/pull/169
+      wysiwyg_editor: {
+            opts: {
+                enable: true,
+                is_html: true,
+                container_id: 'editor-container',
+                comment_index: 0,
+            },
+            init: function (textarea, content) {
+                var comment_index = textarea.data('comment_index');
+                 var editorConfig = _simple_editor_config();
+                 editorConfig.setup = function(ed) {
+                      textarea.data('wysiwyg_editor', ed);
+
+                      ed.on('change', function() {
+                          var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('keyup', function() {
+                        var value = ed.getContent();
+                          if (value !== ed._lastChange) {
+                            ed._lastChange = value;
+                            textarea.trigger('change');
+                          }
+                      });
+
+                      ed.on('Focus', function (e) {
+                        textarea.trigger('click');
+                      });
+
+                      ed.on('init', function() {
+                        if (content) ed.setContent(content);
+                      })
+                  }
+
+                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+            },
+            get_container: function (textarea) {
+                if (!textarea.data('comment_index')) {
+                    textarea.data('comment_index', ++this.opts.comment_index);
+                }
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
+            },
+            get_contents: function(editor) {
+               return editor.getContent();
+            },
+            on_post_comment: function(editor, evt) {
+               editor.setContent('');
+            },
+            get_container_id: function(comment_index) {
+              var container_id = this.opts.container_id;
+              if (comment_index) container_id = container_id + "-" + comment_index;
+              return container_id;
+            }
+        },
             currentUserIsAdmin:current_user_is_admin,
             getComments: function(success, error) {
                 $.get(admin_url + 'LegalServices/Cases_controller/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){
@@ -366,6 +428,7 @@ echo form_hidden('project_percent',$percent);
         next_session_date = $('#next_session_date'+task_id).val();
         next_session_time = $('#next_session_time'+task_id).val();
         court_decision    = $('#edit_court_decision'+task_id).val();
+        send_mail_to_opponent    = $('#send_mail_to_opponent'+task_id).prop("checked");
         if(next_session_date == '' || next_session_time == '' || court_decision == ''){
             alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
         }else {
@@ -375,6 +438,7 @@ echo form_hidden('project_percent',$percent);
                     next_session_date : next_session_date,
                     next_session_time : next_session_time,
                     court_decision : court_decision,
+                    send_mail_to_opponent : send_mail_to_opponent,
                 },
                 type: "POST",
                 success: function (data) {
@@ -384,9 +448,12 @@ echo form_hidden('project_percent',$percent);
                         $('#next_session_date'+task_id).val('');
                         $('#next_session_time'+task_id).val('');
                         $('#edit_court_decision'+task_id).val('');
+                        $("#send_mail_to_opponent"+task_id).prop('checked', false);
                         reload_tasks_tables();
-                    }else if (data == 2){
+                    }else if (data == 'error_client'){
                         alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                    }else if (data == 'error_opponent'){
+                        alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
                     }else {
                         alert_float('danger', '<?php echo _l('faild'); ?>');
                     }

@@ -634,10 +634,11 @@ function handle_company_logo_upload()
 {
     $logoIndex = ['logo', 'logo_dark'];
     $success   = false;
+
     foreach ($logoIndex as $logo) {
         $index = 'company_' . $logo;
 
-        if (isset($_FILES[$index]) && _perfex_upload_error($_FILES[$index]['error'])) {
+        if (isset($_FILES[$index]) && !empty($_FILES[$index]['name']) && _perfex_upload_error($_FILES[$index]['error'])) {
             set_alert('warning', _perfex_upload_error($_FILES[$index]['error']));
 
             return false;
@@ -815,8 +816,8 @@ function handle_staff_profile_image_upload($staff_id = '')
                 $config['source_image']   = $newFilePath;
                 $config['new_image']      = 'small_' . $filename;
                 $config['maintain_ratio'] = true;
-                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 32);
-                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 32);
+                $config['width']          = hooks()->apply_filters('staff_profile_image_small_width', 96);
+                $config['height']         = hooks()->apply_filters('staff_profile_image_small_height', 96);
                 $CI->image_lib->initialize($config);
                 $CI->image_lib->resize();
                 $CI->db->where('staffid', $staff_id);

@@ -10,9 +10,9 @@ class Project_staff_added_as_member extends App_mail_template
 
     protected $client_id;
 
-    protected $ServID;
-
     protected $staff;
+
+    protected $ServID;
 
     public $slug = 'staff-added-as-project-member';
 
@@ -34,9 +34,8 @@ class Project_staff_added_as_member extends App_mail_template
         ->set_rel_id($this->project_id)
         ->set_merge_fields('client_merge_fields', $this->client_id)
         ->set_merge_fields('staff_merge_fields', $this->staff['staff_id'])
-        ->set_merge_fields('projects_merge_fields', $this->project_id,
-            [
-                'ServID' => $this->ServID
-            ]);
+        ->set_merge_fields('projects_merge_fields', $this->project_id,[
+            'ServID' => $this->ServID
+        ]);
     }
 }

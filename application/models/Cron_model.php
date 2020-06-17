@@ -800,6 +800,39 @@ class Cron_model extends App_Model
         }
     }
 
+    private function send_scheduled_emails()
+    {
+        $this->db->where('scheduled_at <=', date('Y-m-d H:i:s'));
+        $emails = $this->db->get('scheduled_emails')->result_array();
+
+        $this->load->model('invoices_model');
+
+        foreach ($emails as $email) {
+            $type = $email['rel_type'];
+
+            $GLOBALS['scheduled_email_contacts'] = explode(',', $email['contacts']);
+
+            switch ($type) {
+                case 'invoice':
+                    $this->invoices_model->send_invoice_to_client(
+                        $email['rel_id'],
+                        $email['template'],
+                        $email['attach_pdf'],
+                        $email['cc']
+                    );
+
+                break;
+            }
+
+            $this->db->where('id', $email['id']);
+            $this->db->delete('scheduled_emails');
+        }
+
+        if (isset($GLOBALS['scheduled_email_contacts'])) {
+            unset($GLOBALS['scheduled_email_contacts']);
+        }
+    }
+
     private function tasks_reminders()
     {
         $reminder_before = get_option('tasks_reminder_notification_before');
@@ -873,7 +906,7 @@ class Cron_model extends App_Model
         // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'procurations_reminder_notification_before', '3', '1');
 
         $this->db->where('end_date IS NOT NULL');
-       // $this->db->where('deadline_notified', 0);
+        $this->db->where('deadline_notified', 0);
 
         $procurations = $this->db->get(db_prefix() . 'procurations')->result_array();
         $now   = new DateTime(date('Y-m-d'));
@@ -1104,7 +1137,7 @@ class Cron_model extends App_Model
         $this->load->model('invoices_model');
         $this->db->select('id,date,status,last_overdue_reminder,duedate,cancel_overdue_reminders');
         $this->db->from(db_prefix() . 'invoices');
-        $this->db->where('(duedate != "" AND duedate IS NOT NULL)'); // We dont need invoices with no duedate
+        $this->db->where('duedate IS NOT NULL'); // We dont need invoices with no duedate
         $this->db->where('status !=', 2); // We dont need paid status
         $this->db->where('status !=', 5); // We dont need cancelled status
         $this->db->where('status !=', 6); // We dont need draft status
@@ -1112,6 +1145,11 @@ class Cron_model extends App_Model
 
         $now = time();
         foreach ($invoices as $invoice) {
+
+            if (empty($invoice['duedate'])) {
+                continue;
+            }
+
             $statusid = update_invoice_status($invoice['id']);
 
             if ($invoice['cancel_overdue_reminders'] == 0 && is_invoices_overdue_reminders_enabled()) {

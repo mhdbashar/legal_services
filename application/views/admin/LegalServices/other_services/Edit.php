@@ -60,17 +60,16 @@
                             </div>
 
                         </div>
-
+                        <?php $cats = get_relation_data('mycategory', $ServID);
+                        if($cats){ ?>
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label for="cat_id" class="control-label"><?php echo _l('Categories'); ?></label>
                                     <select class="form-control custom_select_arrow" id="cat_id" onchange="GetSubCat()" name="cat_id"
                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option selected disabled></option>
-                                        <?php $data = get_relation_data('mycategory',$ServID);
-                                        foreach ($data as $row): ?>
+                                        <?php foreach ($cats as $row): ?>
                                             <option value="<?php echo $row->id; ?>" <?php echo $OtherServ->cat_id == $row->id ? 'selected': '' ?>><?php echo $row->name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -92,7 +91,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php } ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
@@ -430,13 +429,14 @@
     <?php } ?>
 
     function GetSubCat() {
+        $('#subcat_id').html('');
         id = $('#cat_id').val();
         $.ajax({
             url: '<?php echo admin_url("ChildCategory/$ServID/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#subcat_id').html('<option value="' + value['id'] + '">' + value['name'] + '</option>');
+                    $('#subcat_id').append('<option value="' + value['id'] + '">' + value['name'] + '</option>');
                 });
             }
         });

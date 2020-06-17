@@ -19,11 +19,11 @@ $filter = [];
 $where  = [];
 
 if ($this->ci->input->get('project_id')) {
-    array_push($where, 'AND project_id=' . $this->ci->input->get('project_id'));
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($this->ci->input->get('project_id')));
 }
 
 if ($this->ci->input->get('client_id')) {
-    array_push($where, 'AND ' . db_prefix() . 'subscriptions.clientid=' . $this->ci->input->get('client_id'));
+    array_push($where, 'AND ' . db_prefix() . 'subscriptions.clientid=' . $this->ci->db->escape_str($this->ci->input->get('client_id')));
 }
 
 if (!has_permission('subscriptions', '', 'view')) {

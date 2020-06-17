@@ -7,11 +7,13 @@ define('HR_MODULE_NAME', 'hr');
 //ShababSy.com Added this line
 
 /*
-Author: Ahmad Zaher khrezaty
-Module Name: HR System
-Description: Default module for Human Resources Management
+Author: Babil Team
+Module Name: hr_name
+Description: hr_desc
 Version: 1.0.0
 Requires at least: 2.3.*
+Author URI: #
+
 */
 
 register_activation_hook('hr', 'hr_module_activation_hook');

@@ -3,10 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Custom Email & SMS Notifications
-Description: Default module to send sms or email to customers
+Module Name: smsemail_name
+Description: smsemail_desc
 Version: 2.3.0
 Requires at least: 2.3.*
+Author: Babil Team
+Author URI: #
 */
 
 define('CUSTOM_EMAIL_AND_SMS_NOTIFICATIONS_MODULE_NAME', 'custom_email_and_sms_notifications');

@@ -14,7 +14,17 @@
         'uploadMethod': '<?php echo site_url('prchat/Prchat_ClientsController/uploadMethod'); ?>',
         'debug': <?php if (ENVIRONMENT != 'production') { ?> true <?php } else { ?> false <?php }; ?>,
     };
+    $(function() {
+        $(window).on("load resize", function(e) {
+            if (is_mobile()) {
+                // Wait until metsiMenu, collapse and other effect finish and set wrapper height
+                setTimeout(function() {
+                    $('#wrapper').css('min-height', '100%');
+                }, 500);
 
+            };
+        })
+    });
     /*---------------* Parse emojies in chat area do not touch *---------------*/
     emojify.setConfig({
         emojify_tag_type: 'div',
@@ -160,27 +170,34 @@
         return text.value;
     };
 
-    $(window).resize(function() {
-        // Mobile version not allowed due to better client staff contact in full view only
-        ($(window).width() < 768) ?
-        $('#clientChat, .ch_pointer').hide():
-            $('#clientChat, .ch_pointer').show();
-        // Clients mobile version not allowed due to better client staff contact in full view only
-        if ($(window).width() < 768) {
-            if ($('#crm_clients').hasClass('active')) {
-                $('#frame .staff a').click();
-            }
-        }
-    });
-
     if ($(window).width() > 733) {
-        $('#switchTheme, #shared_user_files, #announcement, #frame .groupOptions').show();
         $('body').removeClass('hide-sidebar').addClass('show-sidebar');
     } else {
-        $('#switchTheme, #sharedFiles, #shared_user_files, #announcementm, #frame .groupOptions').hide();
         $('body').removeClass('show-sidebar').addClass('hide-sidebar');
     }
 
+    function animateContent() {
+        if (window.matchMedia("only screen and (max-width: 735px)").matches) {
+            var contentWidth = $('#frame .content');
+            contentWidth.show().animate({
+                "left": '0',
+                'opacity': '1'
+            }, 50, 'linear');
+            $('#frame #sidepanel').fadeOut(50);
+        }
+    }
+
+    function chatBackMobile() {
+        if (window.matchMedia("only screen and (max-width: 735px)").matches) {
+            $('#frame #sidepanel').fadeIn(50);
+            $('#frame .content').animate({
+                "left": '+=100%',
+                'opacity': '0'
+            }, 200, 'linear', function() {
+                $(this).hide();
+            });
+        }
+    }
 
     function _debounce(func, wait, immediate) {
         var timeout;
@@ -197,4 +214,15 @@
             if (callNow) func.apply(context, args);
         };
     };
+
+    $('#frame textarea').on('focus click', function() {
+        if (window.matchMedia("only screen and (max-width: 735px)").matches) {
+            setTimeout(function() {
+                scroll_event();
+            }, 500);
+        }
+    });
+    $('body').on('click', '.connection_field', function() {
+        $(this).fadeOut();
+    });
 </script>

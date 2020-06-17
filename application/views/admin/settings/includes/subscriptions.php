@@ -24,5 +24,5 @@
   <input type="radio" id="nothing" name="settings[after_subscription_payment_captured]" value="nothing"<?php if(get_option('after_subscription_payment_captured') == 'nothing'){echo ' checked';} ?>>
   <label for="nothing"><?php echo _l('subscription_option_do_nothing'); ?></label>
 </div>
-<p><?php echo _l('email_template'); ?>: <b>Subscription Payment Succeeded</b></p>
+<p><?php echo _l('email_template'); ?>: <b><?php echo _l('sub_template_succeed'); ?></b></p>
 <hr />

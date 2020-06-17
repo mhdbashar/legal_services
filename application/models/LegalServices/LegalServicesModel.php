@@ -41,6 +41,14 @@ class LegalServicesModel extends App_Model
         return $this->db->get_where('my_basic_services', array('id' => $ServID))->num_rows();
     }
 
+    public function CheckExistRelatedServices($ServID,$CatID)
+    {
+        if($ServID == 1)
+        return $this->db->get_where('my_cases', array('cat_id' => $CatID))->num_rows();
+        else
+        return $this->db->get_where('my_other_services', array('cat_id' => $CatID))->num_rows();
+    }
+
     public function ActivePrimary($ServID)
     {
         $old_stat = $this->get_service_by_id($ServID)->row()->is_primary;
@@ -98,8 +106,9 @@ class LegalServicesModel extends App_Model
         return $this->db->get_where('my_categories', array('service_id' => $module_id , 'parent_id' => 0))->result();
     }
 
-    public function GetCategoryByServId($ServID)
+    public function GetCategoryByServId($ServID, $where = [])
     {
+        $this->db->where($where);
         return $this->db->get_where('my_categories', array('service_id' => $ServID , 'parent_id' => 0))->result();
     }
 
@@ -156,7 +165,7 @@ class LegalServicesModel extends App_Model
             log_activity('Category Deleted [CatID: ' . $CatID . ']');
         }
         $query = $this->db->where('parent_id', $CatID)->get('my_categories');
-        foreach( $query->result() as $Child ) {
+        foreach($query->result() as $Child) {
             $this->delete_category($Child->id);
         }
         return true;

@@ -57,6 +57,19 @@ class Settings extends AdminController
                 set_debug_alert(_l('logo_favicon_changed_notice'));
             }
 
+            if ($tab == 'license') {
+                if (isset($post_data['settings']['license_key'])) {
+                
+                $licensekey=$post_data['settings']['license_key'];
+
+                $base = getcwd()."/license";
+                $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
+                $contents = $licensekey . "\n";
+                fwrite($textfile, $contents);
+                fclose($textfile);
+                }
+            }
+
             // Do hard refresh on general for the logo
             if ($tab == 'general') {
                 redirect(admin_url('settings?group=' . $tab), 'refresh');
@@ -83,7 +96,7 @@ class Settings extends AdminController
         $data['leads_statuses']                          = $this->leads_model->get_status();
         $data['title']                                   = _l('options');
 
-        $data['admin_tabs'] = ['update', 'info'];
+        $data['admin_tabs'] = ['update', 'info','license'];
 
         if (!$tab || (in_array($tab, $data['admin_tabs']) && !is_admin())) {
             $tab = 'general';

@@ -3,10 +3,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Mailbox 
-Description: Mailbox is a webmail client.
+Author: Babil Team
+Module Name: maily_name
+Description: maily_desc
 Version: 1.0.0
 Requires at least: 2.3.2
+Author URI: #
+
 */
 
 define('MAILBOX_MODULE_NAME', 'mailbox');

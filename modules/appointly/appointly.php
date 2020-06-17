@@ -1,9 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Appointly
-Description: Appointments Module
+Module Name: appointly_name
+Description: appointly_desc
 Version: 1.1.4
 Requires at least: 2.4.1
+Author: Babil Team
+Author URI: #
 */
 
 define('APPOINTLY_MODULE_NAME', 'appointly');
@@ -283,8 +285,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment approved (Sent to Contact)',
-        'info'         => 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.',
+        'label'        => _l('sms_appointment_approved_Sent_to_contact'),
+        'info'         => _l('sms_trigger_when_appointment_is_approved'),
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_CANCELLED_TO_CLIENT] = [
@@ -293,8 +295,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment cancelled (Sent to Contact)',
-        'info'         => 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.',
+        'label'        => _l('appointment_cancelled_sent_to_contact'),
+        'info'         => _l('sms_trigger_when_appointment_is_cancelled'),
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT] = [
@@ -303,8 +305,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment reminder (Sent to Contact)',
-        'info'         => 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.',
+        'label'        => _l('sms_appointment_reminder_Sent_to_contact'),
+        'info'         => _l('sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'),
     ];
 
     return $triggers;

@@ -11,8 +11,8 @@ if (!function_exists('appointly_clients_area_schedule_appointment')) {
         // Item is available for all clients if enabled in Setup->Settings->Appointment
         if (get_option('appointly_show_clients_schedule_button') == 1 && !is_client_logged_in()) {
             add_theme_menu_item('schedule-appointment-id', [
-                'name'     => _l('appointly_schedule_new_appointment'),
-                'href'     => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
+                'name' => _l('appointly_schedule_new_appointment'),
+                'href' => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
                 'position' => 10,
             ]);
         }
@@ -21,8 +21,8 @@ if (!function_exists('appointly_clients_area_schedule_appointment')) {
         if (is_client_logged_in()) {
             if (get_option('appointly_tab_on_clients_page') == 1) {
                 add_theme_menu_item('schedule-appointment-logged-in-id', [
-                    'name'     => _l('appointly_schedule_new_appointment'),
-                    'href'     => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
+                    'name' => _l('appointly_schedule_new_appointment'),
+                    'href' => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
                     'position' => 1,
                 ]);
             }
@@ -40,9 +40,7 @@ if (!function_exists('add_appointly_email_templates')) {
     {
         $CI = &get_instance();
 
-        $lang = get_staff_default_language();
-
-        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => $lang]);
+        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
 
         $CI->load->view('appointly/email_templates', $data);
     }
@@ -115,6 +113,7 @@ if (!function_exists('fetch_appointment_data')) {
      * Fetch current apppointment data
      *
      * @param [string] $appointment_id
+     *
      * @return array
      */
     function fetch_appointment_data($appointment_id)
@@ -153,6 +152,7 @@ if (!function_exists('redirect_after_event')) {
      *
      * @param [string] $type 'success' | 'danger'
      * @param [string] $message
+     *
      * @return void
      */
     function appointly_redirect_after_event($type, $message, $path = null)
@@ -162,9 +162,9 @@ if (!function_exists('redirect_after_event')) {
         $CI->session->set_flashdata('message-' . $type . '', $message);
 
         if ($path) {
-            redirect('appointly/' . $path);
+            redirect('admin/appointly/' . $path);
         } else {
-            redirect('appointly/appointments');
+            redirect('admin/appointly/appointments');
         }
     }
 }
@@ -175,6 +175,7 @@ if (!function_exists('get_appointment_contact_details')) {
      * Helper function to get contact specific data
      *
      * @param [string] $contact_id
+     *
      * @return array
      */
     function get_appointment_contact_details($contact_id)
@@ -188,9 +189,10 @@ if (!function_exists('get_appointment_contact_details')) {
 
 
 /**
- * Get staff 
+ * Get staff
  *
  * @param [string] $staffid
+ *
  * @return array
  */
 function appointly_get_staff($staffid)
@@ -205,6 +207,7 @@ function appointly_get_staff($staffid)
  * Include appointment view
  *
  * @param [string] view name
+ *
  * @return mixed
  */
 function include_appointment_view($path, $name)
@@ -213,14 +216,14 @@ function include_appointment_view($path, $name)
 }
 
 /**
- * Get projects summary 
+ * Get projects summary
  * @return array
  */
 function get_appointments_summary()
 {
     $CI = &get_instance();
 
-    if (!is_admin() && !is_staff_appointments_responsible()) {
+    if (!is_admin() && !staff_appointments_responsible()) {
 
         $CI->db->where('(' . db_prefix() . 'appointly_appointments.created_by=' . get_staff_user_id() . ') 
         OR ' . db_prefix() . 'appointly_appointments.id 
@@ -232,27 +235,27 @@ function get_appointments_summary()
     $data = [
         'total_appointments' => 0,
         'upcoming' => [
-            'total' =>  0,
+            'total' => 0,
             'name' => _l('appointment_upcoming'),
             'color' => 'rgb(86, 111, 236)'
         ],
         'not_approved' => [
-            'total' =>  0,
+            'total' => 0,
             'name' => _l('appointment_pending_approval'),
             'color' => 'rgb(236, 169, 86)'
         ],
         'cancelled' => [
-            'total' =>  0,
+            'total' => 0,
             'name' => _l('appointment_cancelled'),
             'color' => 'rgba(244, 3, 47, 0.59)'
         ],
         'missed' => [
-            'total' =>  0,
+            'total' => 0,
             'name' => _l('appointment_missed_label'),
             'color' => 'rgba(244, 3, 47, 0.59)'
         ],
         'finished' => [
-            'total' =>  0,
+            'total' => 0,
             'name' => _l('appointment_finished'),
             'color' => 'rgb(132, 197, 41)'
         ]
@@ -289,7 +292,9 @@ function get_appointments_summary()
 
 /**
  * Get staff current role.
+ *
  * @param [type] $role_id
+ *
  * @return string
  */
 function get_appointly_staff_userrole($role_id)
@@ -298,10 +303,14 @@ function get_appointly_staff_userrole($role_id)
     $CI->db->select('name');
     $CI->db->where('roleid', $role_id);
 
-    return $CI->db->get(db_prefix() . 'roles')->row_array()['name'];
+    $result = $CI->db->get(db_prefix() . 'roles')->row_array();
+
+    if ($result !== null) {
+        return $result['name'];
+    }
 }
 
-/** 
+/**
  * Get contact user id from contacts table
  * Used for when creating new task in appointments
  * @return string
@@ -311,10 +320,13 @@ function appointly_get_contact_customer_id($contact_id)
     $CI = &get_instance();
     $CI->db->select('userid');
     $CI->db->where('id', $contact_id);
-    return $CI->db->get(db_prefix() . 'contacts')->row_array()['userid'];
+    $result = $CI->db->get(db_prefix() . 'contacts')->row_array();
+    if ($result !== null) {
+        return $result['userid'];
+    }
 }
 
-/** 
+/**
  * Get all appointment types
  * @return array
  */
@@ -325,7 +337,7 @@ function get_appointment_types()
 }
 
 
-/** 
+/**
  * Get single appointment type
  * @return array
  */
@@ -334,20 +346,28 @@ function get_appointment_type($type_id)
     $CI = &get_instance();
     $CI->db->select('type');
     $CI->db->where('id', $type_id);
-    return $CI->db->get(db_prefix() . 'appointly_appointment_types')->row_array()['type'];
+    $result = $CI->db->get(db_prefix() . 'appointly_appointment_types')->row_array();
+    if ($result !== null) {
+        return $result['type'];
+    }
 }
 
 
-/** 
+/**
  * Get appointment assigned color type
+ *
  * @param [string] $type_id
+ *
  * @return string
  */
 function get_appointment_color_type($type_id)
 {
     $CI = &get_instance();
     $CI->db->where('id', $type_id);
-    return $CI->db->get(db_prefix() . 'appointly_appointment_types')->row_array()['color'];
+    $result = $CI->db->get(db_prefix() . 'appointly_appointment_types')->row_array();
+    if ($result !== null) {
+        return $result['color'];
+    }
 }
 
 function get_appointments_table_filters()
@@ -372,12 +392,20 @@ function get_appointments_table_filters()
         [
             'id' => 'finished',
             'status' => _l('appointment_finished')
+        ],
+        [
+            'id' => 'upcoming',
+            'status' => _l('appointment_upcoming')
+        ],
+        [
+            'id' => 'missed',
+            'status' => _l('appointment_missed_label')
         ]
     ];
 }
 
 
-/** 
+/**
  * Get staff or contact email
  */
 function appointly_get_user_email($id, $type = 'staff')
@@ -393,13 +421,21 @@ function appointly_get_user_email($id, $type = 'staff')
     }
 
     $CI->db->where($selector, $id);
-    return $CI->db->get(db_prefix() . $table)->row_array()['email'];
+    $result = $CI->db->get(db_prefix() . $table)->row_array();
+    if ($result !== null) {
+        return $result['email'];
+    }
 }
 
 
-/** 
+/**
  * Insert new appointment to google calendar
- * @return void
+ *
+ * @param $data
+ * @param $attendees
+ *
+ * @return array
+ * @throws Exception
  */
 function insertAppointmentToGoogleCalendar($data, $attendees)
 {
@@ -411,7 +447,7 @@ function insertAppointmentToGoogleCalendar($data, $attendees)
 
         $data['date'] = date_format($dateForGoogleCalendar, 'Y-m-d\TH:i:00');
 
-        $insertDate =  $data['date'];
+        $insertDate = $data['date'];
 
 
         $gmail_guests = [];
@@ -419,21 +455,21 @@ function insertAppointmentToGoogleCalendar($data, $attendees)
 
 
         foreach ($gmail_attendees as $attendee) {
-            $gmail_guests[] = array('email' => appointly_get_user_email($attendee));
+            $gmail_guests[] = ['email' => appointly_get_user_email($attendee)];
         }
 
         if (!empty($data['contact_id']) && $data['source'] != 'lead_related') {
-            $gmail_guests[] =  array('email' => appointly_get_user_email($data['contact_id'], 'contact'));
+            $gmail_guests[] = ['email' => appointly_get_user_email($data['contact_id'], 'contact')];
         } else {
-            $gmail_guests[] =  array('email' => $data['email']);
+            $gmail_guests[] = ['email' => $data['email']];
         }
 
         $response = get_instance()->googlecalendar->addEvent('primary', [
             'summary' => $data['subject'],
             'location' => $data['address'],
             'description' => $data['description'],
-            'start' =>    $insertDate,
-            'end' =>    $insertDate,
+            'start' => $insertDate,
+            'end' => $insertDate,
             'attendees' => $gmail_guests
         ]);
 
@@ -442,6 +478,7 @@ function insertAppointmentToGoogleCalendar($data, $attendees)
 
             $return_data['google_event_id'] = $response['id'];
             $return_data['htmlLink'] = $response['htmlLink'];
+            $return_data['hangoutLink'] = $response['hangoutLink'];
             $return_data['google_added_by_id'] = get_staff_user_id();
 
             return $return_data;
@@ -459,36 +496,38 @@ function updateAppointmentToGoogleCalendar($data)
 
         $data['date'] = date_format($dateForGoogleCalendar, 'Y-m-d\TH:i:00');
 
-        $insertDate =  $data['date'];
+        $insertDate = $data['date'];
 
         $gmail_guests = [];
         $gmail_attendees = $data['attendees'];
 
 
         foreach ($gmail_attendees as $attendee) {
-            $gmail_guests[] = array('email' => appointly_get_user_email($attendee));
+            $gmail_guests[] = ['email' => appointly_get_user_email($attendee)];
         }
 
         if (!empty($data['contact_id']) && $data['source'] != 'lead_related') {
-            $gmail_guests[] =  array('email' => appointly_get_user_email($data['contact_id'], 'contact'));
-        } else if ($data['selected_contact'] && $data['source'] != 'lead_related') {
-            $gmail_guests[] =  array('email' => appointly_get_user_email($data['selected_contact'], 'contact'));
+            $gmail_guests[] = ['email' => appointly_get_user_email($data['contact_id'], 'contact')];
+        } else if (isset($data['selected_contact']) && $data['source'] != 'lead_related') {
+            $gmail_guests[] = ['email' => appointly_get_user_email($data['selected_contact'], 'contact')];
         } else if ($data['source'] != 'lead_related') {
-            $gmail_guests[] =  array('email' => $data['email']);
+            $gmail_guests[] = ['email' => $data['email']];
         }
 
         $response = get_instance()->googlecalendar->updateEvent($data['google_event_id'], [
             'summary' => $data['subject'],
             'location' => $data['address'],
             'description' => $data['description'],
-            'start' =>    $insertDate,
-            'end' =>    $insertDate,
+            'start' => $insertDate,
+            'end' => $insertDate,
             'attendees' => $gmail_guests
         ]);
 
         if ($response) {
             $return_data = [];
-
+            if (isset($response['hangoutLink'])) {
+                $return_data['google_meet_link'] = $response['hangoutLink'];
+            }
             $return_data['google_event_id'] = $response['id'];
             $return_data['htmlLink'] = $response['htmlLink'];
 
@@ -498,7 +537,7 @@ function updateAppointmentToGoogleCalendar($data)
 }
 
 
-/** 
+/**
  * Check if user is authenticated with google calendar
  * Refresh access token
  */
@@ -664,7 +703,7 @@ function getAppointmentHours()
     ];
 }
 
-/** 
+/**
  * Get appointment default feedbacks
  */
 function getAppointmentsFeedbacks()
@@ -688,19 +727,19 @@ function renderAppointmentFeedbacks($appointment, $fallback = false)
         $CI = &get_instance();
         $appointment = $CI->apm->get_appointment_data($appointment);
     }
-    $html  = '<div class="col-lg-12 col-xs-12 mtop20 text-center" id="feedback_wrapper">';
-    $html  .= '<span class="label label-default" style="line-height: 30px;">' . _l('appointment_feedback_label') . '</span><br>';
+    $html = '<div class="col-lg-12 col-xs-12 mtop20 text-center" id="feedback_wrapper">';
+    $html .= '<span class="label label-default" style="line-height: 30px;">' . _l('appointment_feedback_label') . '</span><br>';
 
     if ($appointment['feedback'] !== null && !is_staff_logged_in()) {
-        $html  = '<span class="label label-primary" style="line-height: 30px;">' . _l('appointment_feedback_label_current') . '</span><br>';
+        $html = '<span class="label label-primary" style="line-height: 30px;">' . _l('appointment_feedback_label_current') . '</span><br>';
     }
     if ($fallback) {
-        $html  = '<span class="label label-success" style="line-height: 30px;">' . _l('appointment_feedback_label_added') . '</span><br>';
+        $html = '<span class="label label-success" style="line-height: 30px;">' . _l('appointment_feedback_label_added') . '</span><br>';
     }
     $savedFeedbacks = json_decode(get_option('appointly_default_feedbacks'));
     $count = 0;
     foreach ($appointmentFeedbacks as $feedback) {
-        if ($savedFeedbacks !== NULL) {
+        if ($savedFeedbacks !== null) {
             if (!in_array($feedback['value'], $savedFeedbacks)) {
                 continue;
             }
@@ -733,8 +772,8 @@ function renderAppointmentFeedbacks($appointment, $fallback = false)
     return $html;
 }
 
-/** 
- * Render callbacks timezone 
+/**
+ * Render callbacks timezone
  */
 function render_callbacks_timezone($datetime)
 {
@@ -743,7 +782,7 @@ function render_callbacks_timezone($datetime)
     return '<i data-toggle="tooltip" title="' . $datetime . ' GMT ' . $dt->format('P') . '" class="fa fa-globe timezone" aria-hidden="true"></i>';
 }
 
-/** 
+/**
  * Handle callbacks types
  */
 function callbacks_handle_call_type(array $types)
@@ -775,7 +814,7 @@ function callbacks_handle_call_type(array $types)
     return $url;
 }
 
-/** 
+/**
  * Render callbacks types
  */
 function render_callbacks_handle_call_type()
@@ -806,7 +845,7 @@ function render_callbacks_handle_call_type()
     return $url;
 }
 
-/** 
+/**
  * Check if staff is set as responsible person for callbacks
  */
 function is_staff_callbacks_responsible()
@@ -814,11 +853,15 @@ function is_staff_callbacks_responsible()
     return get_option('callbacks_responsible_person') == get_staff_user_id();
 }
 
-/** 
+/**
  * Check if staff is set as responsible person for appointments
  */
-function is_staff_appointments_responsible()
+function staff_appointments_responsible()
 {
+    if (is_admin()) {
+        return true;
+    }
+
     return get_option('appointly_responsible_person') == get_staff_user_id();
 }
 
@@ -832,7 +875,7 @@ function getCallbacksTableStatuses()
     ];
 }
 
-/** 
+/**
  * Validate status name
  */
 function fetchCallbackStatusName($status)
@@ -857,7 +900,7 @@ function fetchCallbackStatusName($status)
     return $status;
 }
 
-/** 
+/**
  * Sql helper to get all assigned ids for callbacks and save space on query
  */
 function get_sql_select_callback_assignees_ids()
@@ -865,10 +908,43 @@ function get_sql_select_callback_assignees_ids()
     return '(SELECT GROUP_CONCAT(user_id SEPARATOR ",") FROM ' . db_prefix() . 'appointly_callbacks_assignees WHERE ' . db_prefix() . 'appointly_callbacks_assignees.callbackid = ' . db_prefix() . 'appointly_callbacks.id ORDER by user_id ASC) ';
 }
 
-/** 
+/**
  * Sql helper to get all assigned staff names for callbacks and save space on query
  */
 function get_sql_select_callback_asignees_full_names()
 {
     return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'appointly_callbacks_assignees JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'appointly_callbacks_assignees.user_id WHERE ' . db_prefix() . 'appointly_callbacks_assignees.callbackid=' . db_prefix() . 'appointly_callbacks.id ORDER BY ' . db_prefix() . 'appointly_callbacks_assignees.user_id ASC) ';
+}
+
+/**
+ * Function helper to get client details
+ *
+ * @param string $contact_id
+ * @param string $detail
+ * @return mixed
+ */
+function get_contact_detail($contact_id, $detail)
+{
+    $allowedFields = ['firstname', 'lastname', 'email', 'phonenumber'];
+
+    if (!in_array($detail, $allowedFields)) {
+        return '';
+    }
+
+    return get_instance()->db->get_where(db_prefix() . 'contacts', ['id' => $contact_id])->row($detail);
+}
+
+/**
+ * Get module version
+ *
+ * @return string
+ */
+function get_appointly_version()
+{
+    get_instance()->db->where('module_name', 'appointly');
+    $version = get_instance()->db->get(db_prefix() . 'modules');
+
+    if ($version->num_rows() > 0) {
+        return _l('appointly_current_version') . $version->row('installed_version');
+    }
 }

@@ -80,11 +80,17 @@ class Appointments extends AdminController
         $this->app->get_table_data(module_views_path(APPOINTLY_MODULE_NAME, 'tables/index'));
     }
 
+    /**
+     * Get contact data
+     *
+     * @return json
+     */
     public function fetch_contact_data()
     {
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
+
         $id = $this->input->post('contact_id');
         $is_lead = $this->input->post('lead');
 
@@ -135,16 +141,16 @@ class Appointments extends AdminController
      */
     public function update()
     {
-        if (!staff_can('edit', 'appointments') && !is_staff_appointments_responsible()) {
-            access_denied();
-        }
 
         $appointment = $this->input->post();
         $appointment['notes'] = $this->input->post('notes', false);
 
-        if ($appointment) {
-            if ($this->apm->update_appointment($appointment)) {
-                appointly_redirect_after_event('success', _l('appointment_updated'));
+        if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
+            if ($appointment) {
+                if ($this->apm->update_appointment($appointment)) {
+                    header('Content-Type: application/json');
+                    echo json_encode(['result' => true]);
+                }
             }
         }
     }
@@ -156,15 +162,17 @@ class Appointments extends AdminController
      */
     public function create()
     {
-        if (!staff_can('create', 'appointments') && !is_staff_appointments_responsible()) {
+        if (!staff_can('create', 'appointments') && !staff_appointments_responsible()) {
             access_denied();
         }
+
         $data = array();
 
         $data = $this->input->post();
         if (!empty($data)) {
             if ($this->apm->insert_appointment($data)) {
-                appointly_redirect_after_event('success', _l('appointment_created'));
+                header('Content-Type: application/json');
+                echo json_encode(['result' => true]);
             }
         }
     }
@@ -173,20 +181,27 @@ class Appointments extends AdminController
      * Delete appointment
      *
      * @param [type] appointment $id
-     * @return void
+     * @return mixed
      */
     public function delete($id)
     {
-        if (!staff_can('delete', 'appointments')) {
-            access_denied();
-        }
+        $appointment = $this->apm->get_appointment_data($id);
 
-        if (isset($id)) {
-            if ($this->apm->delete_appointment($id)) {
-                appointly_redirect_after_event('success', _l('appointment_deleted'));
+        if (staff_can('delete', 'appointments') && $appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+            if (!$this->input->is_ajax_request() && isset($id)) {
+                if ($this->apm->delete_appointment($id)) {
+                    appointly_redirect_after_event('success', _l('appointment_deleted'));
+                }
             }
-        } else {
-            show_404();
+
+            if (isset($id)) {
+                if ($this->apm->delete_appointment($id)) {
+                    echo json_encode(['success' => true, 'message' => _l('appointment_deleted')]);
+                    return;
+                }
+            } else {
+                show_404();
+            }
         }
     }
 
@@ -198,7 +213,7 @@ class Appointments extends AdminController
      */
     public function approve()
     {
-        if (!is_admin() && !is_staff_appointments_responsible()) {
+        if (!is_admin() && !staff_appointments_responsible()) {
             access_denied();
         }
 
@@ -214,20 +229,15 @@ class Appointments extends AdminController
      */
     public function finished()
     {
-
-        if ($this->staff_no_view_permissions &&  !is_staff_appointments_responsible()) {
-            access_denied();
-        }
-
         $id = $this->input->post('id');
 
         $appointment = $this->apm->get_appointment_data($id);
 
-        if (!is_admin() && !is_staff_appointments_responsible() && $appointment['created_by'] !== get_staff_user_id()) {
-            access_denied();
+        if (staff_can('edit', 'appointments') && $appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+            return $this->apm->mark_as_finished($id);
         }
 
-        return $this->apm->mark_as_finished($id);
+        return false;
     }
 
     /**
@@ -237,18 +247,15 @@ class Appointments extends AdminController
      */
     public function mark_as_ongoing_appointment()
     {
-        if ($this->staff_no_view_permissions || !is_staff_appointments_responsible()) {
-            access_denied();
-        }
-
         $id = $this->input->post('id');
 
         $appointment = $this->apm->get_appointment_data($id);
-        if (!is_admin() && !is_staff_appointments_responsible() && $appointment['created_by'] != get_staff_user_id()) {
-            access_denied();
+
+        if (staff_can('edit', 'appointments') && $appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+            return $this->apm->mark_as_ongoing($appointment);
         }
 
-        return $this->apm->mark_as_ongoing($appointment);
+        return false;
     }
 
     /**
@@ -258,18 +265,15 @@ class Appointments extends AdminController
      */
     public function cancel_appointment()
     {
-        if ($this->staff_no_view_permissions || !is_staff_appointments_responsible()) {
-            access_denied();
-        }
-
         $id = $this->input->post('id');
 
         $appointment = $this->apm->get_appointment_data($id);
-        if (!is_admin() && !is_staff_appointments_responsible() && $appointment['created_by'] != get_staff_user_id()) {
-            access_denied();
+
+        if (staff_can('edit', 'appointments') && $appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+            return $this->apm->cancel_appointment($id);
         }
 
-        return $this->apm->cancel_appointment($id);
+        return false;
     }
 
     /**
@@ -290,9 +294,10 @@ class Appointments extends AdminController
      */
     public function send_appointment_early_reminders()
     {
-        if ($this->staff_no_view_permissions || !is_staff_appointments_responsible()) {
+        if ($this->staff_no_view_permissions || !staff_appointments_responsible()) {
             access_denied();
         }
+
         if ($this->apm->send_appointment_early_reminders($this->input->post('id'))) {
             echo json_encode(['success' => true]);
         } else {
@@ -337,10 +342,7 @@ class Appointments extends AdminController
                 'appointly_default_table_filter' => $this->input->post('appointly_default_table_filter'),
             ];
 
-            $this->apm->update_appointment_types(
-                $data,
-                $meta
-            );
+            $this->apm->update_appointment_types($data, $meta);
 
             appointly_redirect_after_event('success', _l('settings_updated'), 'appointments/user_settings_view/settings');
         }
@@ -352,7 +354,7 @@ class Appointments extends AdminController
      */
     public function new_appointment_type()
     {
-        if (!staff_can('create', 'appointments') || !is_staff_appointments_responsible()) {
+        if (!staff_appointments_responsible() && !staff_can('create', 'appointments')) {
             access_denied();
         }
 
@@ -371,12 +373,12 @@ class Appointments extends AdminController
 
     /**
      * Delete appointment type
-     *@param [string] id
+     * @param [string] id
      * @return boolean
      */
     public function delete_appointment_type()
     {
-        if (!staff_can('delete', 'appointments') || !is_staff_appointments_responsible()) {
+        if (!staff_can('delete', 'appointments') && !staff_appointments_responsible()) {
             access_denied();
         }
         return $this->apm->delete_appointment_type($this->input->post('id'));
@@ -392,7 +394,7 @@ class Appointments extends AdminController
             show_404();
         }
 
-        if (!staff_can('edit', 'appointments') && !is_staff_appointments_responsible()) {
+        if (!staff_can('edit', 'appointments') && !staff_appointments_responsible()) {
             access_denied();
         }
 
@@ -408,6 +410,12 @@ class Appointments extends AdminController
         }
     }
 
+    /**
+     * Request new appointment feedback
+     *
+     * @param string $id
+     * @return json
+     */
     public function requestAppointmentFeedback($id)
     {
         if ($id && !empty($id)) {
@@ -416,6 +424,84 @@ class Appointments extends AdminController
             if ($result) {
                 echo json_encode($result);
             }
+        }
+    }
+
+    /**
+     * Get attendee details
+     *
+     * @return json
+     */
+    public function getAttendeeData()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        if ($this->input->post('ids')) {
+            header('Content-Type: application/json');
+            echo json_encode($this->atm->details($this->input->post('ids')));
+        }
+    }
+
+    /**
+     * Add new outlook event to calendar
+     *
+     * @return json
+     */
+    public function newOutlookEvent()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $data = array();
+
+        $data = $this->input->post();
+
+        if ($data && !empty($data)) {
+            header('Content-Type: application/json');
+            echo json_encode(['result' => $this->apm->inserNewOutlookEvent($data)]);
+        }
+    }
+    /**
+     * Add new outlook event to calendar from existing appointnent
+     *
+     * @return json
+     */
+    public function updateAndAddExistingOutlookEvent()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $data = array();
+        $data = $this->input->post();
+
+        if ($data && !empty($data)) {
+            header('Content-Type: application/json');
+            echo json_encode(['result' => $this->apm->updateAndAddExistingOutlookEvent($data)]);
+        }
+    }
+
+    /**
+     * Send custom email to request meet via Google Meet
+     *
+     * @return json
+     */
+    public function sendCustomEmail()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $data = array();
+
+        $data = $this->input->post();
+
+        if ($data && !empty($data)) {
+            header('Content-Type: application/json');
+            echo json_encode($this->apm->sendGoogleMeetRequestEmail($data));
         }
     }
 }

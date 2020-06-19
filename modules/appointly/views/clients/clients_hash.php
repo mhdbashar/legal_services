@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="<?= site_url('assets\plugins\font-awesome/css/font-awesome.css'); ?>">
     <!-- Client side styles -->
     <link rel="stylesheet" href="<?= site_url('modules/' . APPOINTLY_MODULE_NAME . '/assets/css/client_styles.css?v=' . time()); ?>">
+    <link rel="stylesheet" type="text/css" id="roboto-css" href="<?php echo site_url('assets/plugins/roboto/roboto.css'); ?>">
+
 </head>
 
 <body>
@@ -41,8 +43,17 @@
                 <div class="col-lg-12 col-xs-12">
                     <div class="panel_s <?= (!is_staff_logged_in()) ? 'nomargin' : '' ?>">
                         <div class="panel-body">
+
                             <div class="panel-heading info-header">
-                                <h3> <?= _l('appointment_overview'); ?></h3>
+                                <h3> <?= _l('appointment_overview'); ?>
+                                    <?php if (isset($appointment['google_meet_link'])) : ?>
+                                        <div class="google_meet_client_main">
+                                            <a href="<?= $appointment['google_meet_link']; ?>" target="_blank" data-toggle="tooltip" title="<?= _l('appointment_google_client_meet_info'); ?>">
+                                                <img width="30" src="<?= base_url('/modules/appointly/assets/images/google_meet.png') ?>" alt="">
+                                            </a>
+                                        </div>
+                                    <?php endif; ?></h3>
+
                             </div>
                             <div class="text-center" id="appointment_feedbacks">
                                 <?php
@@ -58,7 +69,7 @@
                                 <h4 class="appointly-default reorder-content"><?= _l('appointment_general_info'); ?></h4>
                                 <div class="appointly_single_container">
                                     <span class="spmodified">
-                                        <boldit><?= _l('appointment_initiated_by'); ?></boldit><?= ($appointment['created_by'])  ? get_staff_full_name($appointment['created_by']) : $appointment['name']; ?>
+                                        <boldit><?= _l('appointment_initiated_by'); ?></boldit><?= ($appointment['created_by']) ? get_staff_full_name($appointment['created_by']) : $appointment['name']; ?>
                                     </span><br>
                                     <span class="spmodified">
                                         <boldit><?= _l('appointment_description'); ?></boldit> <?= $appointment['description']; ?>
@@ -87,7 +98,7 @@
                                     </span><br>
                                     <span class="spmodified">
                                         <boldit><?= _l('appointment_location_address'); ?></boldit>
-                                        <?php $appAddress =  $appointment['address'] ? $appointment['address'] : ''; ?>
+                                        <?php $appAddress = $appointment['address'] ? $appointment['address'] : ''; ?>
 
                                         <a data-toggle="tooltip" title="Open in Google Maps" target="_blank" href="https://maps.google.com/?q=<?= $appAddress; ?>"><?= $appAddress; ?></a>
                                     </span><br>
@@ -101,7 +112,8 @@
                                         <span class="spmodified">
                                             <boldit><?= _l('appointments_type_heading'); ?></boldit>
                                             <?= get_appointment_type($appointment['type_id']); ?>
-                                        </span><br>
+                                        </span>
+                                        <br>
                                     <?php } ?>
                                     <?php
                                     $custom_fields = get_custom_fields('appointly');
@@ -114,7 +126,8 @@
                                                     <span>
                                                         <?= ($value != '' ? $value : '-'); ?>
                                                     </span>
-                                                </span><br>
+                                                </span>
+                                                <br>
                                             <?php } ?>
                                         <?php } ?>
                                     <?php } ?>
@@ -129,7 +142,7 @@
                                         if (!empty($appointment['attendees'])) {
                                             $role = '';
                                             foreach ($appointment['attendees'] as $staff) {
-                                                $role =  get_appointly_staff_userrole($staff['role']);
+                                                $role = get_appointly_staff_userrole($staff['role']);
                                                 if (!$role) {
                                                     if ($staff['admin']) {
                                                         $role = ' ' . _l('appointments_admin_label');
@@ -159,7 +172,7 @@
                                             <?php if ($appointment['finished'] == 0) : ?>
                                                 <?php if ($appointment['cancelled'] == 0) : ?>
                                                     <button <?= ($appointment['cancel_notes']) ? 'disabled' : ''; ?> class="btn btn-<?= ($appointment['cancel_notes']) ? 'mywarning' : 'mydanger'; ?>" data-toggle="modal" data-target="<?= ($appointment['cancel_notes']) ? 'return false' : '#cancellationModal'; ?>">
-                                                        <?= ($appointment['cancel_notes']) ?  _l('appointment_pending_cancellation') : _l('appointment_cancel'); ?>
+                                                        <?= ($appointment['cancel_notes']) ? _l('appointment_pending_cancellation') : _l('appointment_cancel'); ?>
                                                     </button>
                                                 <?php endif; ?>
                                             <?php endif; ?>
@@ -182,7 +195,9 @@
                 <input type="text" name="hash" value="<?= $appointment['hash']; ?>" hidden>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
                         <h4 class="modal-title"><?= _l('appointment_feedback_title'); ?></h4>
                     </div>
                     <div class="modal-body">
@@ -196,6 +211,7 @@
                         <button type="submit" id="reviewModalSubmitBtn" class="btn btn-primary"><?= _l('appointment_submit'); ?></button>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
     <!--Cancellation Modal -->
@@ -206,7 +222,9 @@
                 <input type="text" name="hash" value="<?= $appointment['hash']; ?>" hidden>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
                         <h4 class="modal-title"><?= _l('appointment_cancel'); ?></h4>
                     </div>
                     <div class="modal-body">
@@ -220,9 +238,10 @@
                         <button type="submit" id="cancelAppointmentForm" class="btn btn-primary"><?= _l('appointment_request_to_cancel'); ?></button>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
-    </div>
+
     <script src="<?= module_dir_url('appointly', 'assets\third-party\jquery\jquery-3.4.1.min.js'); ?>"></script>
     <script src="<?= site_url('assets\plugins\bootstrap\js\bootstrap.min.js'); ?>"></script>
     <?php

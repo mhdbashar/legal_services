@@ -35,6 +35,25 @@ class Appointly_attendees_model extends App_Model
         return $this->db->get('appointly_attendees')->result_array();
     }
 
+    public function details($attendee_ids)
+    {
+        $data = [];
+
+        $this->db->select('CONCAT(firstname, " ", lastname) as name, email');
+        $this->db->where_in('staffid', $attendee_ids);
+
+        $attendees = $this->db->get(db_prefix() . 'staff')->result();
+
+        if ($attendees) {
+            foreach ($attendees as $attendee) {
+                $data[] = ['emailAddress' => [
+                    'address' => $attendee->email,
+                    'name' => $attendee->name
+                ]];
+            }
+            return $data;
+        }
+    }
 
     /**
      * Get appointment active attendees

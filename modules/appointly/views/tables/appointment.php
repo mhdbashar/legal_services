@@ -5,17 +5,24 @@
         <div class="panel_s">
             <div class="panel-body">
                 <div class="col-md-12">
-                    <?php if (staff_can('view', 'appointments') || staff_can('view_own', 'appointments') || is_staff_appointments_responsible()) : ?>
+                    <?php if (staff_can('view', 'appointments') || staff_can('view_own', 'appointments') || staff_appointments_responsible()) : ?>
                         <a href="<?= admin_url('appointly/appointments'); ?>" class="btn btn-default appointment_go_back">
                             <?= _l('go_back'); ?></a>
                     <?php endif; ?>
                 </div>
-                <div class="col-md-12 mtop15">
-                    <div class="panel-heading info-header">
+                <div class="col-md-12 mtop15 no-padding">
+                    <div class="panel-heading info-header no-padding">
                         <h3 class="pull-left"> <?= _l('appointment_overview'); ?></h3>
                         <a data-toggle="tooltip" title="<?= _l('appointment_public_url'); ?>" class="appointment_public_url pull-right" href="<?= $appointment['public_url']; ?>" target="_blank">
                             <i class="fa fa-external-link-square appointment_public_link" aria-hidden="true"></i>
                         </a>
+                        <?php if (isset($appointment['google_meet_link'])) : ?>
+                            <div class="google_meet_main">
+                                <a href="<?= $appointment['google_meet_link']; ?>" target="_blank" data-toggle="tooltip" title="<?= _l('appointment_google_meet_info'); ?>">
+                                    <img width="30" src="<?= base_url('/modules/appointly/assets/images/google_meet.png') ?>" alt="">
+                                </a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <span class="spmodified_fit_center">
                         <boldit><?= _l('appointment_status_text'); ?></boldit>
@@ -150,15 +157,15 @@
 
                                 <span class="spmodified">
                                     <?php $mail_to = isset($appointment['email']) ? $appointment['email'] : $appointment['details']['email']; ?>
-                                    <boldit><?= _l('appointment_email'); ?></boldit><a href="mailto:<?= $mail_to; ?>"><?= $mail_to; ?></a>
+                                    <boldit><?= _l('appointment_email'); ?></boldit><a href="mailto:<?= $mail_to; ?>" id="g_client_email"><?= $mail_to; ?></a>
                                 </span><br>
 
                                 <span class="spmodified client_phone">
                                     <boldit><?= _l('appointment_phone'); ?></boldit>
                                     <?php
-                                    $phoneToCall = isset($appointment['details']['phone'])
+                                    $phoneToCall = (isset($appointment['details']['phone'])
                                         ? ($appointment['details']['phone'])
-                                        : ($appointment['phone'])
+                                        : ($appointment['phone']))
                                         ? $appointment['phone']
                                         : '';
                                     ?>
@@ -273,37 +280,51 @@
                 </div>
             <?php } ?>
             <div class="pull-right appointment_group_buttons mtop25">
-
-                <?php if (staff_can('edit', 'appointments') || is_staff_appointments_responsible()) { ?>
+                <?php if (staff_can('edit', 'appointments')) { ?>
 
                     <?php if ($appointment['cancelled'] == 0 && $appointment['finished'] == 0) { ?>
-                        <button class="btn btn-danger" type="submit" onClick="cancelAppointment()" id="cancelAppointment"><?= _l('appointment_cancel'); ?></button>
+
+                        <?php if ($appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) { ?>
+                            <button class="btn btn-danger" type="submit" onClick="cancelAppointment()" id="cancelAppointment"><?= _l('appointment_cancel'); ?></button>
+                        <?php } ?>
 
                     <?php } ?>
 
                     <?php if ($appointment['finished'] == 0 && $appointment['cancelled'] == 0) { ?>
-                        <button class="btn btn-primary" type="submit" onClick="markAppointmentAsFinished()" id="markAsFinished"><?= _l('appointment_mark_as_finished'); ?></button>
+
+                        <?php if ($appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) { ?>
+                            <button class="btn btn-primary" type="submit" onClick="markAppointmentAsFinished()" id="markAsFinished"><?= _l('appointment_mark_as_finished'); ?></button>
+                        <?php } ?>
 
                     <?php } ?>
 
                     <?php if ($appointment['cancelled'] == 1 && $appointment['finished'] == 0) { ?>
-                        <button class="btn btn-primary" type="submit" onClick="markAppointmentAsOngoing()" id="markAppointmentAsOngoing"><?= _l('appointment_mark_as_ongoing'); ?></button>
+
+                        <?php if ($appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) { ?>
+                            <button class="btn btn-primary" type="submit" onClick="markAppointmentAsOngoing()" id="markAppointmentAsOngoing"><?= _l('appointment_mark_as_ongoing'); ?></button>
+                        <?php } ?>
 
                     <?php } ?>
 
                 <?php } ?>
 
-                <?php if (staff_can('delete', 'appointments') || is_staff_appointments_responsible()) { ?>
-
+                <?php if (staff_can('delete', 'appointments') && $appointment['created_by'] == get_staff_user_id() || staff_appointments_responsible()) { ?>
                     <a class="btn btn-danger" id="confirmDelete" data-toggle="tooltip" title="<?= _l('appointment_dismiss_meeting');  ?>" href="<?= admin_url('appointly/appointments/delete/' . $this->input->get('appointment_id'));  ?>" onclick="if(confirm('<?= _l('appointment_are_you_sure'); ?>')){ disableButtonsAfterDelete(); }"><?= _l('delete'); ?></a>
+                <?php }
 
+                if ($appointment['google_meet_link'] !== null && $appointment['google_added_by_id'] == get_staff_user_id()) { ?>
+                    <button data-toggle="tooltip" title="<?= _l('appointment_google_meet_connect_message');; ?>" onclick="sendGoogleMeetRequestEmail(this)" data-client="<?= $appointment['email']; ?>" class="btn btn-primary btn-xs btn_send_mails"><svg class="google_meet_send" viewBox="0 0 24 24">
+                            <path fill="#ffffff" d="M13 17H17V14L22 18.5L17 23V20H13V17M20 4H4A2 2 0 0 0 2 6V18A2 2 0 0 0 4 20H11V18H4V8L12 13L20 8V14H22V6A2 2 0 0 0 20 4M12 11L4 6H20Z" />
+                        </svg></button>
                 <?php }
 
                 if ($appointment['google_calendar_link'] !== null && $appointment['google_added_by_id'] == get_staff_user_id()) { ?>
-
                     <a data-toggle="tooltip" title="<?= _l('appointment_open_google_calendar'); ?>" href="<?= $appointment['google_calendar_link']; ?>" target="_blank" class="btn btn-primary-google"><i class="fa fa-google" aria-hidden="true"></i></a>
-
+                <?php }
+                if ($appointment['outlook_calendar_link'] !== null && $appointment['outlook_added_by_id'] == get_staff_user_id()) { ?>
+                    <a data-toggle="tooltip" title="<?= _l('appointment_open_outlook_calendar'); ?>" href="<?= $appointment['outlook_calendar_link']; ?>" target="_blank" class="btn btn-primary-google"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                 <?php } ?>
+
             </div> <!-- end - appointment_group_buttons -->
             <?php
             if ($appointment['finished'] == 1 && $appointment['feedback'] !== NULL) {
@@ -316,8 +337,46 @@
     </div>
 </div>
 </div>
+<?php if (isset($appointment['google_meet_link'])) : ?>
+    <!-- Modal -->
+    <div class="modal fade" id="customEmailModal" tabindex="-1" role="dialog" aria-labelledby="customEmailLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" style="padding-top:4px;" id="customEmailLabel"><?= _l('appointment_google_meet_modal_custom_label'); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <?php $message = '<p>' . _l('appointment_meet_message') . '' . $appointment['google_meet_link'] . '</p>'; ?>
+                        <textarea class="form-control" name="google_meet_notify_message" id="" cols="30" rows="10">
+                    <?= $message; ?>
+                    </textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= _l('close'); ?></button>
+                    <button type="button" id="submit_google_meet_email_btn" onclick="sendAppointmentRemindersEmail()" class="btn btn-primary"><?= _l('send'); ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <div id="modal_wrapper"></div>
 </body>
+<?php
+
+$google_meet_attendees = array();
+
+// get email
+$google_meet_attendees[] = array_map(function ($attendee) {
+    return $attendee['email'];
+}, $appointment['attendees']);
+// then used in tables_appointment_js as var attendees = json_encode($google_meet_attendees);
+?>
+
 <?php init_tail(); ?>
 <?php require('modules/appointly/assets/js/tables_appointment_js.php'); ?>
 

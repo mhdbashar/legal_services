@@ -37,7 +37,7 @@
                                 );
                                 echo '<hr>';
                                 ?>
-                                <?php if (is_admin() || is_staff_appointments_responsible() || staff_can('create', 'appointments')) { ?>
+                                <?php if (staff_can('create', 'appointments') || staff_appointments_responsible()) { ?>
                                     <button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#typesModal"><?= _l('appointments_type_add'); ?></button>
                                     <label for="appointly_default_table_filter" class="control-label font-medium"><?= _l('appointments_type_heading'); ?></label>
                                     <hr>
@@ -45,7 +45,9 @@
                                     <div class="col-md-12 d-flex flex-wrap">
                                         <?php foreach (get_appointment_types() as $type) { ?>
                                             <div class="mright20" id="aptype_<?= $type['id']; ?>">
-                                                <a href="#" class="btn btn-danger pull-right delete_apppointment_type" onclick="delete_appointment_type(<?= $type['id']; ?>); return false;"><i class="fa fa-times"></i></a>
+                                                <?php if (staff_can('delete', 'appointments') || staff_appointments_responsible()) : ?>
+                                                    <a href="#" class="btn btn-danger pull-right delete_apppointment_type" onclick="delete_appointment_type(<?= $type['id']; ?>); return false;"><i class="fa fa-times"></i></a>
+                                                <?php endif; ?>
                                                 <?php echo render_color_picker('type_id_' . $type['id'], $type['type'], $type['color']); ?>
                                             </div>
                                         <?php } ?>

@@ -88,16 +88,14 @@ function appointly_allow_staff_merge_fields_for_appointment_templates($fields)
             if ($key == 'staff') {
                 foreach ($groupFields as $groupIndex => $groupField) {
                     if (in_array($groupField['key'], $appointlyStaffFields)) {
-                        $fields[$index][$key][$groupIndex]['available'] = array_merge(
-                            $fields[$index][$key][$groupIndex]['available'],
-                            ['appointly']
-                        );
+                        $fields[$index][$key][$groupIndex]['available'] = array_merge($fields[$index][$key][$groupIndex]['available'], ['appointly']);
                     }
                 }
                 break;
             }
         }
     }
+
     return $fields;
 }
 
@@ -160,18 +158,26 @@ function appointly_register_menu_items()
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
+            'slug'     => 'appointly_sidemenu appointly-user-history',
+            'name'     => _l('appointment_history_label'),
+            'href'     => admin_url('appointly/appointments_history'),
+            'position' => 2,
+            'icon'     => 'fa fa-history',
+        ]);
+
+        $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
             'slug'     => 'appointly_sidemenu appointly-callbacks',
             'name'     => _l('appointly_callbacks'),
             'href'     => admin_url('appointly/callbacks'),
-            'position' => 2,
+            'position' => 3,
             'icon'     => 'fa fa-phone',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
             'slug'     => 'appointly_sidemenu appointly-user-settings',
             'name'     => _l('appointments_your_settings'),
-            'href'     => admin_url('appointly/appointments/user_settings_view'),
-            'position' => 2,
+            'href'     => admin_url('appointly/appointments/user_settings_view/settings'),
+            'position' => 4,
             'icon'     => 'fa fa-cog',
         ]);
     }

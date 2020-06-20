@@ -2,7 +2,7 @@
 /*
 Module Name: appointly_name
 Description: appointly_desc
-Version: 1.1.4
+Version: 1.1.5
 Requires at least: 2.4.1
 Author: Babil Team
 Author URI: #

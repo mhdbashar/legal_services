@@ -40,7 +40,11 @@ if (!function_exists('add_appointly_email_templates')) {
     {
         $CI = &get_instance();
 
-        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
+        $lang = get_staff_default_language();
+
+        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => $lang]);
+
+        //$data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
 
         $CI->load->view('appointly/email_templates', $data);
     }

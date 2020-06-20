@@ -1,2 +1,3 @@
 logs/
 application/config/app-config.php
+application/controllers/admin/LegalServices/Other_services_controller.php

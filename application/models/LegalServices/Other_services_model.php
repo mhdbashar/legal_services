@@ -640,6 +640,53 @@ class Other_services_model extends App_Model
         return false;
     }
 
+    public function move_imported_to_recycle_bin($id)
+    {
+        $slug = "imported";
+        $ServiceName = "imported";
+
+        $this->db->set('deleted', 1);
+        $this->db->where(array('id' => $id, 'deleted' => 0));
+        $this->db->update(db_prefix() . 'my_imported_services');
+
+        if ($this->db->affected_rows() > 0) {
+
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->update(db_prefix() . 'tasks', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'expenses', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'invoices', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'creditnotes', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'estimates', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'tickets', [
+                'deleted' => 1,
+            ]);
+
+            log_activity($ServiceName.' Moved To Recycle Bin [ServiceID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
     public function delete($ServID, $id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
@@ -700,6 +747,91 @@ class Other_services_model extends App_Model
 
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'oservice_activity');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'expenses');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'invoices');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'creditnotes');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'estimates');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tickets');
+
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'pinned_oservices');
+
+            log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function delete_imported($ServID, $id)
+    {
+        $slug = "imported";
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
+
+        $this->db->where(array('id' => $id, 'deleted' => 1));
+        $this->db->delete(db_prefix() . 'my_imported_services');
+
+        if ($this->db->affected_rows() > 0) {
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'my_members_services');
+
+            //$this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            //$this->db->delete(db_prefix() . 'my_service_session');
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_notes');
+
+            // $this->db->where('rel_sid', $id);
+            // $this->db->where('rel_stype', $slug);
+            // $this->db->delete(db_prefix() . 'milestones');
+
+            // // Delete the custom field values
+            // $this->db->where('relid', $id);
+            // $this->db->where('fieldto', $slug);
+            // $this->db->delete('customfieldsvalues');
+
+            // $this->db->where('rel_id', $id);
+            // $this->db->where('rel_type', $slug);
+            // $this->db->delete(db_prefix() . 'taggables');
+
+            // $this->db->where('oservice_id', $id);
+            // $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
+            // foreach ($discussions as $discussion) {
+            //     $discussion_comments = $this->get_discussion_comments($discussion['id'], 'regular');
+            //     foreach ($discussion_comments as $comment) {
+            //         $this->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+            //     }
+            //     $this->db->where('discussion_id', $discussion['id']);
+            //     $this->db->delete(db_prefix() . 'oservicediscussioncomments');
+            // }
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservicediscussions');
+
+            // $files = $this->get_files($id);
+            // foreach ($files as $file) {
+            //     $this->remove_file($file['id']);
+            // }
+
+            // $tasks = $this->get_tasks($ServID, $id);
+            // foreach ($tasks as $task) {
+            //     $this->tasks_model->delete_task($task['id'], false);
+            // }
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_settings');
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_activity');
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'expenses');

@@ -146,7 +146,7 @@
         <tbody>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('lead_country'); ?></td>
-            <td><?php echo $project->country_name ? $project->country_name : _l('smtp_encryption_none'); ?></td>
+            <td><?php echo $project->country ? $project->country : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('client_city'); ?></td>

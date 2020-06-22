@@ -251,6 +251,8 @@ class Service extends REST_Controller {
                     'name' => $this->input->post('name', TRUE),
                     'service_id' => $this->input->post('service_id', TRUE),
                     'code' => $this->input->post('code', TRUE), 
+                    'country' => $this->input->post('country', TRUE), 
+                    'city' => $this->input->post('city', TRUE), 
                     'numbering' => $this->input->post('numbering', TRUE),
                     'cat_id' => $this->input->post('cat_id', TRUE),
                     'subcat_id' => $this->input->post('subcat_id', TRUE),

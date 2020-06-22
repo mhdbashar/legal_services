@@ -47,7 +47,7 @@ CREATE TABLE `tblmy_imported_services` (
   `deadline` date DEFAULT NULL,
   `date_finished` date DEFAULT NULL,
   `description` text NOT NULL,
-  `country` int(11) NOT NULL,
+  `country` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,

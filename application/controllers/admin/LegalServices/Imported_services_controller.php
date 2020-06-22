@@ -265,6 +265,7 @@ class Imported_services_controller extends AdminController
             $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
 
             $data['project'] = $project;
+            $data['project_id'] = $project->id;
             $data['currency'] = $this->other->get_currency($id);
 
             $data['project_total_logged_time'] = $this->other->total_logged_time($slug,$id);
@@ -977,11 +978,11 @@ class Imported_services_controller extends AdminController
 
             $data['items_groups'] = $this->invoice_items_model->get_groups();
             $data['staff']        = $this->staff_model->get('', ['active' => 1]);
-            $project              = $this->projects_model->get($project_id);
+            $project    = $this->other->get_imported($project_id);
             $data['project']      = $project;
             $items                = [];
 
-            $project    = $this->projects_model->get($project_id);
+            
             $item['id'] = 0;
 
             $default_tax     = unserialize(get_option('default_tax'));

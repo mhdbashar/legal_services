@@ -343,4 +343,4 @@ echo form_hidden('project_percent',$percent);
 </script>
 </body>
 </html>
-<script type="text/javascript" id="projects-js" src="http://localhost/legal_services/assets/js/iservices.js?v=1592151481"></script>
+<script type="text/javascript" id="projects-js" src="<?php echo base_url() ?>assets/js/iservices.js?v=1592151481"></script>

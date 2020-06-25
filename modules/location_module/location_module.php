@@ -9,11 +9,13 @@ define('LOCATION_MODULE_NAME', 'location_module');
 define('LOCATION_MODULE_PATH', __DIR__ );
 
 /*
-Module Name: Location Module
-Description: Manages cities and countries inside your app by adding, modifying and deleting Countries or Cities
+Module Name: loc_name
+Description: loc_desc
 Version: 2.3.0
 Requires at least: 2.3.*
-Author: Anas Shaikhany
+Author: Babil Team
+Author URI: #
+
 */
 
 hooks()->add_action('admin_init', 'location_module_init_menu_item');

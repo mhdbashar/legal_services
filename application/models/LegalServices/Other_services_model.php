@@ -31,6 +31,7 @@ class Other_services_model extends App_Model
         ];
         $this->project_settings = hooks()->apply_filters('project_settings', $project_settings);
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
     }
 
     public function get_all_other_services($where = [])
@@ -766,6 +767,12 @@ class Other_services_model extends App_Model
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'pinned_oservices');
 
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+            foreach ($lists as $list):
+                $this->procedures->delete_list($list['id']);
+            endforeach;
+
             log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
             return true;
         }
@@ -850,6 +857,11 @@ class Other_services_model extends App_Model
 
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'pinned_oservices');
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+            foreach ($lists as $list):
+                $this->procedures->delete_list($list['id']);
+            endforeach;
 
             log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
             return true;

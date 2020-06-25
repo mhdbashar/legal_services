@@ -78,6 +78,12 @@
                     $('.message_wrapper').html('<div class="alert alert-success" role="alert"><h4 class="alert-heading"><?= _l('callback_was_submited'); ?></h4><p><?= _l('callback_was_submited_thank_you'); ?></p></div>');
 
                     setTimeout(function() {
+                        <?php if (is_client_logged_in()) : ?>
+                            window.location.href = "<?= base_url(); ?>";
+                        <?php endif; ?>
+                    }, 2000)
+
+                    setTimeout(function() {
                         $('.message_wrapper').html(orignal_form);
                         $(this).removeClass('bar-active').addClass('bar-deactive');;
                         $('.cb-form-wrapper').removeClass('pfx-cb-show').addClass('pfx-cb-hide');

@@ -61,18 +61,18 @@ foreach($purposes as $purpose) { ?>
 <div class="clearfix"></div>
 <hr />
 <div class="col-md-12">
-    <h4>History</h4>
+    <h4><?php echo _l('gdpr_consent_user_info_history');?></h4>
     <table class="table dt-table scroll-responsive" data-order-type="asc" data-order-col="2" id="consentHistoryTable">
         <thead>
             <tr>
-                <th>Purpose</th>
-                <th>Date</th>
-                <th>Action</th>
+                <th><?php echo _l('gdpr_consent_user_info_purpose');?></th>
+                <th><?php echo _l('gdpr_consent_user_info_date');?></th>
+                <th><?php echo _l('gdpr_consent_user_info_action');?></th>
                 <th><?php echo _l('view_ip'); ?></th>
                 <th>
                     <i class="fa fa-question-circle" data-toggle="tooltip" title="Only used if consent is updated from staff member."></i> <?php echo _l('staff_member'); ?>
                 </th>
-                <th>Additional Description</th>
+                <th><?php echo _l('gdpr_consent_user_info_additional_description');?></th>
             </tr>
         </thead>
         <tbody>

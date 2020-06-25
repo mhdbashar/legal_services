@@ -596,7 +596,9 @@ class Staff_model extends App_Model
                 }
             }
         }
-
+        if (isset($data['sub_department'])) {
+            unset($data['sub_department']);
+        }
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);

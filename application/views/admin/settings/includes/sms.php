@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 hooks()->do_action('before_sms_gateways_settings');
 
-$gateways = $this->app_sms->get_gateways();
+$gateways = array_reverse($this->app_sms->get_gateways());
 $triggers = $this->app_sms->get_available_triggers();
 $total_gateways = count($gateways);
 

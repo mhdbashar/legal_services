@@ -43,7 +43,7 @@ $lang['chat_files_text'] = 'Files';
 $lang['chat_shared_photos_text'] = 'Shared photos';
 $lang['chat_shared_files_text'] = 'Shared files';
 $lang['chat_user_is_online'] = ' has just logged in!';
-$lang['chat_settings_name'] = ' Chat Settings';
+$lang['chat_settings_name'] = 'Chat Settings';
 $lang['chat_allow_delete_messages'] = 'Allow staff to delete own messages';
 $lang['chat_app_key_not_found'] = 'App key for pusher not found';
 $lang['chat_error_table'] = 'Error while fetching users, check if table or database exists!';
@@ -150,3 +150,13 @@ $lang['chat_header_deleted'] = 'Deleted';
 $lang['chat_header_datetime'] = 'Date / Time';
 $lang['chat_no_departments_found'] = 'No staff departments were found, please add at least one department';
 $lang['chat_announcement_success'] = 'Your announcement was send to selected members successfully';
+
+#Version 1.4.1
+$lang['chat_status_online'] = 'Online';
+$lang['chat_status_away'] = 'Away';
+$lang['chat_status_busy'] = 'Busy';
+$lang['chat_status_offline'] = 'Offline';
+$lang['chat_header_status'] = 'Chat Status';
+$lang['chat_mentioned_you'] = 'mentioned you in a message';
+$lang['chat_in_group'] = 'In group';
+$lang['chat_type_a_message_mention'] = 'Type a message, @name...';

@@ -49,7 +49,7 @@
                 if ($('.chat_clients_list').children().length > 16) {
                     $('.chat_clients_list').after('<button type="button" onClick="fetchMoreClients(this)" class="btn btn-primary btn-block chat_load_more_clients"><?= _l('chat_load_more_clients'); ?></button');
                 } else {
-                    $('#frame #clients_container').css('height', '72vh');
+                    // $('#frame #clients_container').css('height', '72vh');
                 }
 
                 f.checkForUnreadMessages();
@@ -132,8 +132,10 @@
 
             var hasNotifications = $('.contact_name .client-unread-notifications');
 
-            if (customersUlFirst !== '' && customersUlFirst.find('li:first').length > 0) {
-                customersUlFirst.find('li:first').click();
+            if (!window.matchMedia("only screen and (max-width: 735px)").matches) {
+                if (customersUlFirst !== '' && customersUlFirst.find('li:first').length > 0) {
+                    customersUlFirst.find('li:first').click();
+                }
             }
 
             if (customersUlFirst.length > 0 && !customersUlFirst.hasClass('active')) {
@@ -145,8 +147,11 @@
                 var id = customersUlFirst.children('li:first').attr('id');
                 f.updateUnreadMessages(id);
             }
+
             $('#frame form[name=groupMessagesForm],#frame form[name=pusherMessagesForm],#frame .content .group_messages, #frame .groupOptions').hide();
-            $('#frame .chat_group_options.active').hide().removeClass('active');
+            $('#frame .chat_group_options.active').hide().removeClass('active').css({
+                'right': '-360px'
+            });
 
             $('#search #search_field').attr('id', 'search_clients_field');
             $('#search #search_clients_field').attr('placeholder', '<?= _l('chat_search_customers'); ?>');
@@ -161,7 +166,9 @@
             $('.group_members_inline').remove();
 
             // Hide staff chatbox form
-            $('#frame #pusherMessagesForm, #sharedFiles').hide();
+            $('#frame #pusherMessagesForm, #sharedFiles').hide().css({
+                'right': '-360px'
+            });
             $(this).removeClass('flashit');
 
             $('#frame .content .client_messages, #frame form[name=clientMessagesForm]').show();
@@ -192,8 +199,6 @@
                 return;
             }
             var key = e.keyCode || e.which;
-
-            // var removeClassActive = $('#crm_clients ul').removeClass('active');
 
             if (key == 8 || key == 46)
                 crmClientsChildren.hide() &&
@@ -412,7 +417,9 @@
                 .then(function() {
                     ($(".client_messages").hasScrollBar())
                     scroll_event();
-                    $('.client_chatbox').focus();
+                    if ($(window).width() > 760) {
+                        $('.client_chatbox').focus();
+                    }
                 });
             return false;
         }
@@ -495,17 +502,10 @@
             $('body').find('.chat_clients_list ul.company_selector li').toggle('fast');
         });
 
-        // Hide all contacts
-        // $('#frame').on('click', '#clients_hide', function() {
-        //     // Used and duplicated due to evenent delegation
-        //     $('body').find('.chat_clients_list ul.company_selector').children('p').removeClass('chevron-default').addClass('chevron-right')
-        //     $('body').find('.chat_clients_list ul.company_selector li').slideUp('400');
-        // });
-
         /*---------------* Event that handles when clicked on a specific contact in sidebar *---------------*/
         $('#clients_container').on('click', '.contact_name', function(e) {
             e.preventDefault();
-
+            animateContent();
             if ($(this).children('.client-unread-notifications').length > 0)
                 f.updateUnreadMessages($(this).attr('id'));
 
@@ -536,9 +536,11 @@
 
             var extraClass = $(this).find('span.contact_name_placeholder').length ? '' : 'notitle';
 
+            var text_class = ($('body').hasClass("chat_light")) ? "dark-text" : "white-text";
+
             clientData += '<div class="client_data">';
             clientData += '<span class="contact_lang ' + extraClass + '"> ' + lang_contact + ' <a href="' + site_url + 'admin/clients/client/' + clientId + '?group=contacts&contactid=' + contactId + '" target="_blank""><strong>' + clientName + ' </strong></a></span>';
-            clientData += '<p> <strong class="dark-text">' + lang_customer + '</strong> <a id="' + clientId + '" href="' + site_url + 'admin/clients/client/' + clientId + '" target="_blank"><strong>' + customerName + ' </strong></a></p>';
+            clientData += '<p> <strong class="' + text_class + '">' + lang_customer + '</strong> <a id="' + clientId + '" href="' + site_url + 'admin/clients/client/' + clientId + '" target="_blank"><strong>' + customerName + ' </strong></a></p>';
             clientData += '</div>';
             contactProfile.prepend(clientData);
         });
@@ -575,18 +577,20 @@
 
         /*---------------* Pusher Trigger user connected *---------------*/
         clientsChannel.bind('pusher:member_added', function(member) {
+
             var contact = member.info;
 
             var contactIsLoggedIn = $('ul.company_selector#client_' + contact.client_id);
             if (member.info.justLoggedIn == true) {
                 appendClientIfNotInOnlineClients();
             }
-            if (typeof contact.company !== "undefined") {
+
+            if (typeof contact.company !== "undefined" && contact.contact_id !== 'undefined') {
                 if (contactIsLoggedIn.length === 0) {
                     $('<ul class="list-group company_selector active" id="client_' + contact.client_id + '"><p class="customers_toggler chevron-down">' + contact.company.name + '</p><li class="list-group-item contact_name contactActive" id="' + contact.contact_id + '" style="display: list-item;">' + contact.name + '</li></ul>').prependTo('.chat_clients_list');
                 }
+                addClientMember(member);
             }
-            addClientMember(member);
         });
 
         /*---------------* New staff member activity online / offline  *---------------*/
@@ -755,14 +759,14 @@
                 'body': lang_contact + ' ' + contact.info.name + ' ' + prchatSettings.hasComeOnlineText,
                 'requireInteraction': true,
                 'tag': 'contact-join-' + contact.id,
-                'closeTime': 5000,
+                'closeTime': app.options.dismiss_desktop_not_after != "0" ? app.options.dismiss_desktop_not_after * 1000 : null
             });
         }
 
         var onlineToggled = false;
         var mainClientsContainer = $('.chat_clients_list');
 
-        $('body').on('click', '#resetContacts', function(e) {
+        $('body').on('click touchstart', '#resetContacts', function(e) {
             e.stopPropagation();
             $.each(mainClientsContainer.children('ul'), function(i, el) {
                 el = $(el);
@@ -776,7 +780,7 @@
             onlineToggled = false;
 
         });
-        $('body').on('click', '#showOnlineContacts', function(e) {
+        $('body').on('click touchstart', '#showOnlineContacts', function(e) {
             e.stopPropagation();
             if (!onlineToggled) {
                 onlineToggled = true;
@@ -826,7 +830,7 @@
 
                 if (contact.title !== '') {
                     $('#crm_clients .chat_clients_list ul#client_' + client_id)
-                        .append('<li class="list-group-item contact_name" id="' + contact_id + '"><img class="chatContactImage" src="' + image_path + '"/><span class="contact_name_placeholder">' + firstname + ' ' + lastname + '<br><span><span class="pull-left">' + contact.title + '</span></li>');
+                        .append('<li class="list-group-item contact_name" id="' + contact_id + '"><img class="chatContactImage" src="' + image_path + '"/><span class="contact_name_placeholder">' + firstname + ' ' + lastname + '<br><span><span class="pull-left"><?= ucfirst(_l('title')); ?>: ' + contact.title + '</span></li>');
                 } else {
                     $('#crm_clients .chat_clients_list ul#client_' + client_id)
                         .append('<li class="list-group-item contact_name" id="' + contact_id + '"><img class="chatContactImage" src="' + image_path + '"/><span class="contact_name_placeholder_notitle">' + firstname + ' ' + lastname + '</span></li>');
@@ -1023,7 +1027,7 @@
     <?php endif; ?>
 </script>
 
-<?php if (get_option('chat_allow_staff_to_create_tickets') == 1 || is_admin() && is_staff_member()) :  ?>
-    <!-- Include conver to ticket modal javascript code -->
-    <?php require('modules/prchat/assets/module_includes/modal_additional_files_includes/convert_to_ticket_inc.php'); ?>
-<?php endif; ?>
+<?php if (get_option('chat_allow_staff_to_create_tickets') == 1 || is_admin() && is_staff_member()) {
+    // Include conver to ticket modal javascript code 
+    require('modules/prchat/assets/module_includes/modal_additional_files_includes/convert_to_ticket_inc.php');
+} ?>

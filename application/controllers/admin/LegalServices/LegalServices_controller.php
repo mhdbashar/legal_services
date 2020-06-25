@@ -236,10 +236,10 @@ class LegalServices_controller extends AdminController
             $success = $this->legal->update_category_data($CatID,$data);
             if ($success) {
                 set_alert('success', _l('updated_successfully', _l('Categories')));
-                redirect(admin_url("CategoryControl/$ServID"));
+                redirect($_SERVER['HTTP_REFERER']);
             }else {
                 set_alert('warning', _l('problem_updating', _l('Categories')));
-                redirect(admin_url("CategoryControl/$ServID"));
+                redirect($_SERVER['HTTP_REFERER']);
             }
         }
         $data['category'] = $this->legal->GetCategoryById($CatID)->row();
@@ -255,13 +255,18 @@ class LegalServices_controller extends AdminController
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url('ServicesControl'));
         }
+        $RelatedService = $this->legal->CheckExistRelatedServices($ServID,$CatID);
+        if($RelatedService > 0){
+            set_alert('danger', _l('problem_deleting_rel_serv'));
+            redirect(admin_url('ServicesControl'));
+        }
         $response = $this->legal->delete_category($CatID);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('Categories')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('Categories')));
         }
-        redirect(admin_url("CategoryControl/$ServID"));
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function legal_recycle_bin($ServID = '')

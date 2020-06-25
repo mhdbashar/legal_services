@@ -28,7 +28,7 @@
                     disabledWeekDays: appWeekends,
                     onGenerate: function(ct) {
 
-                        // $(this).find('.xdsoft_date.xdsoft_day_of_week0').addClass('xdsoft_disabled');
+                        // $(this).find('.xdsoft_date.xdsoft_day_of_week3, .xdsoft_date.xdsoft_day_of_week5').addClass('xdsoft_disabled');
 
                         if (is_busy_times_enabled == 1) {
                             var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
@@ -85,7 +85,6 @@
                 $.post(url, {
                     contact_id: contact_id
                 }).done(function(response) {
-                    console.log(response)
                     full_name = response.firstname + ' ' + response.lastname;
                     email = response.email;
                     phone = response.phonenumber;
@@ -138,9 +137,13 @@
                         $header = $('.appointment-header');
                         $(form_id).remove();
                         $('#response').html($header);
-                        $('#response').append('<div class="alert alert-success text-center" style="margin:0 auto;">' + response.message + '</div>');
+                        $('#response').append('<div class="alert alert-success text-center" style="margin:0 auto;margin-bottom:15px;">' + response.message + '</div>');
                         setTimeout(function() {
-                            location.reload();
+                            <?php if (is_client_logged_in()) : ?>
+                                window.location.href = "<?= base_url(); ?>";
+                            <?php else : ?>
+                                location.reload();
+                            <?php endif; ?>
                         }, 2000)
                     } else if (response.success == false && response.recaptcha == false) {
                         $('#recaptcha_response_field').show().html(response.message);

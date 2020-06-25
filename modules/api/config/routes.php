@@ -9,10 +9,3 @@ $route['api/login/view'] = 'login/view';
 $route['api/login/key'] = 'login/api_key';
 $route['api/(:any)/(:num)'] = '$1/data/$2'; 
 $route['api/(:any)'] = '$1/data';
-
-/*
-	Service 1: tblmy_cases
-	Service 2: tblmy_other_services
-	Service 3: tblmy_other_services
-	Service 10: tblmy_other_services
-*/

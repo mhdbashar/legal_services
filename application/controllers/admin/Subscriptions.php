@@ -23,7 +23,8 @@ class Subscriptions extends AdminController
         close_setup_menu();
 
         $data['title'] = _l('subscriptions');
-        $this->load->view('admin/subscriptions/manage', $data);
+        // $this->load->view('admin/subscriptions/manage', $data);
+        $this->load->view('admin/subscriptions/my_soon', $data);
     }
 
     public function table()

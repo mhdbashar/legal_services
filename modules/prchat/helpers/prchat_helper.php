@@ -1,10 +1,4 @@
 <?php
-/*
-Module Name: babillawnet CRM Chat
-Description: Chat Module for babillawnet CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
-*/
 
 defined('BASEPATH') or exit('No direct script access allowed');
 define('CHAT_CURRENT_URI', strtolower($_SERVER['REQUEST_URI']));
@@ -89,6 +83,9 @@ function pr_chat_load_js()
     if (!strpos($_SERVER['REQUEST_URI'], 'chat_full_view') !== false) {
         echo '<script src="' . module_dir_url('prchat', 'assets/js/pr-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
     }
+    echo '<script src="' . base_url('modules/prchat/assets/js/mentions/underscore.js' . '?v=' . VERSIONING . '') . '"></script>';
+    echo '<script src="' . base_url('modules/prchat/assets/js/mentions/jquery-elastic.js' . '?v=' . VERSIONING . '') . '"></script>';
+    echo '<script src="' . base_url('modules/prchat/assets/js/mentions/mentions.js' . '?v=' . VERSIONING . '') . '"></script>';
 }
 
 /**
@@ -120,8 +117,11 @@ function pr_chat_add_head_components()
     } else {
         chat_check_theme_options();
     }
+    // Mutual files for both chat views
     echo '<link href="' . base_url('modules/prchat/assets/css/tooltipster.bundle.min.css' . '?v=' . VERSIONING . '') . '"  rel="stylesheet" type="text/css" >';
     echo '<link href="' . base_url('modules/prchat/assets/css/lity.css' . '?v=' . VERSIONING . '') . '"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . base_url('modules/prchat/assets/css/chat_statuses.css') . '" rel="stylesheet" type="text/css"/>';
+    echo '<link href="' . base_url('modules/prchat/assets/css/mentions.css') . '" rel="stylesheet" type="text/css"/>';
 }
 
 /**
@@ -633,6 +633,19 @@ function chat_get_tickets_last_inserted_row()
     return get_instance()->db->select('ticketid')->order_by('ticketid', "desc")->limit(1)->get(db_prefix() . 'tickets')->row()->ticketid;
 }
 
+/** 
+ * Receives user active chat status
+ * @return string
+ */
+function get_user_chat_status()
+{
+    $CI = &get_instance();
+    $CI->db->where('user_id', get_staff_user_id());
+    $CI->db->where('name', 'chat_status');
+    $response = $CI->db->get(db_prefix() . 'chatsettings')->row_array()['value'];
+    return $response;
+}
+
 /**
  * Check is chat module enabled.
  *
@@ -642,3 +655,48 @@ function isClientsEnabled()
 {
     return get_option('chat_client_enabled');
 }
+
+
+/** 
+ * After header is rendered add statuses design functionality
+ * @return string
+ */
+if (staff_can('view', PR_CHAT_MODULE_NAME)) {
+
+    hooks()->add_action('after_render_top_search', 'chat_insert_chat_statuses');
+
+    function chat_insert_chat_statuses()
+    {
+
+        $CI = &get_instance();
+        if ($CI->db->table_exists(db_prefix() . 'chatsettings')) {
+            $CI->db->where('user_id', get_staff_user_id());
+            $CI->db->where('name', 'chat_status');
+            $status =  $CI->db->get(db_prefix() . 'chatsettings')->row_array()['value'];
+        } else {
+            $status = '';
+        }
+?>
+        <div id="prchat-header-wrapper">
+            <svg class="<?= ($status != "") ? $status : 'online' ?>" id="chat_status_top_icon" data-toggle="tooltip" title="<?= _l('chat_header_status') ?>" data-placement="bottom" viewBox="0 0 24 24">
+                <path d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9M10,16V19.08L13.08,16H20V4H4V16H10M16,14H8V13C8,11.67 10.67,11 12,11C13.33,11 16,11.67 16,13V14M12,6A2,2 0 0,1 14,8A2,2 0 0,1 12,10A2,2 0 0,1 10,8A2,2 0 0,1 12,6Z" />
+            </svg>
+            <div id="top_status-options" class="">
+                <ul>
+                    <li id="status-online" class="active"><span class="status-circle"></span>
+                        <p><?= _l('chat_status_online'); ?></p>
+                    </li>
+                    <li id="status-away"><span class="status-circle"></span>
+                        <p><?= _l('chat_status_away'); ?></p>
+                    </li>
+                    <li id="status-busy"><span class="status-circle"></span>
+                        <p><?= _l('chat_status_busy'); ?></p>
+                    </li>
+                    <li id="status-offline"><span class="status-circle"></span>
+                        <p><?= _l('chat_status_offline'); ?></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    <?php } ?>
+<?php } ?>

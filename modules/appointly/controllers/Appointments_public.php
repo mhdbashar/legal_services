@@ -55,7 +55,7 @@ class Appointments_public extends ClientsController
         $id = $this->input->post('contact_id');
 
         header('Content-Type: application/json');
-        echo json_encode($this->apm->apply_contact_data($id));
+        echo json_encode($this->apm->apply_contact_data($id, false));
     }
 
 

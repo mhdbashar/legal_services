@@ -206,9 +206,9 @@ class App_tabs
         return app_sort_by_position($tabs);
     }
 
-    public function get3($group)
+    public function get4($group)
     {
-        hooks()->do_action('get_oservice_tabs', $group);
+        hooks()->do_action('get_iservice_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);
@@ -221,9 +221,9 @@ class App_tabs
         return app_sort_by_position($tabs);
     }
 
-    public function get4($group)
+    public function get3($group)
     {
-        hooks()->do_action('get_iservice_tabs', $group);
+        hooks()->do_action('get_oservice_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);

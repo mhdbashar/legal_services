@@ -2,7 +2,7 @@
 
 # Version 2.3.0
 
-$lang['assets']                                                         = 'Asset Management';
+$lang['assets']                                                         = 'Resources Management';
 $lang['eviction'] = 'Revoke';
 $lang['allocation'] = 'Allocation';
 $lang['depreciation'] = 'Depreciation';

@@ -17,6 +17,7 @@ if (!function_exists('init_appointly_database_tables')) {
         add_option('appointments_disable_weekends', 1);
         add_option('appointly_client_meeting_approved_default', 0);
         add_option('appointly_google_client_secret', '');
+        add_option('appointly_outlook_client_id', '');
 
         add_option(
             'appointly_available_hours',
@@ -37,7 +38,11 @@ if (!function_exists('init_appointly_database_tables')) {
                 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 `google_event_id` varchar(191) DEFAULT NULL,
                 `google_calendar_link` varchar(191) DEFAULT NULL,
+                `google_meet_link` varchar(191) DEFAULT NULL,
                 `google_added_by_id` int(11) DEFAULT NULL,
+                `outlook_event_id` VARCHAR(191) DEFAULT NULL,
+                `outlook_calendar_link` VARCHAR(255) DEFAULT NULL,
+                `outlook_added_by_id` INT(11) DEFAULT NULL,
                 `subject` varchar(191) NOT NULL,
                 `description` text,
                 `email` varchar(191) DEFAULT NULL,
@@ -196,6 +201,22 @@ if (!function_exists('checkForModuleReinstallation')) {
 
         if (!$CI->db->field_exists('google_added_by_id', db_prefix() . 'appointly_appointments')) {
             $CI->db->query("ALTER TABLE " . db_prefix() . "appointly_appointments ADD `google_added_by_id` int(11) NULL DEFAULT NULL AFTER `google_calendar_link`;");
+        }
+        if (!$CI->db->field_exists('google_meet_link', db_prefix() . 'appointly_appointments')) {
+            $CI->db->query("ALTER TABLE " . db_prefix() . "appointly_appointments ADD `google_meet_link` VARCHAR(191) NULL DEFAULT NULL AFTER `google_calendar_link`;");
+        }
+    }
+    if (!function_exists('bugCheckCommentsField')) {
+        function bugCheckCommentsField()
+        {
+            $CI = &get_instance();
+
+            if (!$CI->db->field_exists('feedback', db_prefix() . "appointly_appointments")) {
+                $CI->db->query("ALTER TABLE " . db_prefix() . "appointly_appointments ADD `feedback` SMALLINT NULL DEFAULT NULL AFTER `type_id`;");
+            }
+            if (!$CI->db->field_exists('feedback_comment', db_prefix() . "appointly_appointments")) {
+                $CI->db->query("ALTER TABLE " . db_prefix() . "appointly_appointments ADD `feedback_comment` TEXT NULL DEFAULT NULL AFTER `feedback`;");
+            }
         }
     }
 }

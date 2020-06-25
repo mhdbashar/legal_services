@@ -345,3 +345,16 @@ function get_legal_services_by_slug()
     });
 
 }
+
+$(function() {
+
+     /** Create New Case **/
+     add_hotkey('Shift+P', function() {
+        window.location.href = admin_url + 'Case/add/1';
+    });
+
+    /** List Cases **/
+    add_hotkey('Alt+P', function() {
+        window.location.href = admin_url + 'Service/1';
+    });
+});

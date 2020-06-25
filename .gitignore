@@ -1,2 +1,6 @@
+.idea/
 logs/
+system/
+plugins/
+vendor/
 application/config/app-config.php

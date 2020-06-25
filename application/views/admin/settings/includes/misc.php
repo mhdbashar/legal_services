@@ -51,7 +51,7 @@
         <hr />
         <div class="form-group">
           <label for="save_last_order_for_tables" class="control-label clearfix">
-            <i class="fa fa-question-circle pointer" data-toggle="popover" data-html="true" data-content="Currently supported tables: Customers, Leads, Tickets, Tasks, Projects, Payments, Subscriptions, Expenses, Proposals, Knowledge Base, Contracts <br /><br /> Note: Changing this option will delete all saved table orders!" data-position="top"></i> <?php echo _l('save_last_order_for_tables'); ?>
+            <i class="fa fa-question-circle pointer" data-toggle="popover" data-html="true" data-content=<?php echo _l('save_last_order_for_tables_infor'); ?> data-position="top"></i> <?php echo _l('save_last_order_for_tables'); ?>
           </label>
           <div class="radio radio-primary radio-inline">
             <input type="radio" id="y_opt_1_save_last_order_for_tables" name="settings[save_last_order_for_tables]" value="1"<?php if(get_option('save_last_order_for_tables') == '1'){echo ' checked';} ?>>

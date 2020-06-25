@@ -8,6 +8,7 @@
           }
 
           initDataTable('.table-appointments', '<?php echo admin_url('appointly/appointments/table'); ?>', [7], [7], apointmentsServerParams);
+
           $('body').on('click', '.approve_appointment', function() {
                $(this).attr('disabled', true);
                $(this).prev().next().addClass('approve_appointment_spacing');
@@ -32,7 +33,7 @@
 
      function appointmentUpdateModal(el) {
           var id = $(el).data('id');
-          $("#modal_wrapper").load("<?php echo admin_url('appointly/appointments/modal'); ?>", {
+          var modal = $("#modal_wrapper").load("<?php echo admin_url('appointly/appointments/modal'); ?>", {
                slug: 'update',
                appointment_id: id
           }, function() {
@@ -43,6 +44,9 @@
                     $('#appointmentModal').modal({
                          show: true
                     });
+               }
+               if (!isOutlookLoggedIn()) {
+                    $('#addToOutlookBtn').remove();
                }
           });
      }
@@ -75,6 +79,8 @@
                     minTime: appMinTime,
                     disabledWeekDays: appWeekends,
                     onGenerate: function(ct) {
+
+                         // $(this).find('.xdsoft_date.xdsoft_day_of_week3, .xdsoft_date.xdsoft_day_of_week5').addClass('xdsoft_disabled');
 
                          if (is_busy_times_enabled == 1) {
                               var selectedGeneratedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
@@ -183,5 +189,34 @@
                $("body").find('.dt-loader').remove();
                console.log('An unknown error has been thrown' + err);
           });
+     }
+
+     function deleteAppointment(id, el) {
+          if (confirm("<?= _l('appointment_are_you_sure'); ?>")) {
+               var outlookId = $(el).parents('td').find('a#outlookLink').data('outlook-id');
+
+               if (outlookId != undefined) {
+                    deleteOutlookEvent(outlookId);
+               }
+
+               $.post(site_url + 'appointly/appointments/delete/' + id).done(function(res) {
+                    res = JSON.parse(res);
+                    if (res.success) {
+                         alert_float('success', res.message);
+                         $('.table-appointments').DataTable().ajax.reload();
+                    }
+               });
+          }
+     }
+     /**
+      * Check if user is logged in to outlook
+      *
+      * @return boolean
+      */
+     function isOutlookLoggedIn() {
+          if (typeof myMSALObj !== "undefined" && myMSALObj.getAccount()) {
+               return true;
+          }
+          return false;
      }
 </script>

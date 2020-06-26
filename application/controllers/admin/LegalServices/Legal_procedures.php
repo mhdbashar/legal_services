@@ -148,7 +148,7 @@ class Legal_procedures extends AdminController
                 $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('legal_procedure')));
-                    redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id));
+                    redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
                 }
             } else {
                 /*if (!has_permission('contracts', '', 'edit')) {
@@ -158,7 +158,7 @@ class Legal_procedures extends AdminController
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('legal_procedure')));
                 }
-                redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id));
+                redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
             }
         }
         if ($id == '') {

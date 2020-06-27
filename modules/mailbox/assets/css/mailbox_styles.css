@@ -98,3 +98,7 @@ img.mr-2.rounded-circle {
 .sorting_1 {
     max-width: 450px;
 }
+#mail_signature {
+    height: 5em;
+    width: 41em;
+}

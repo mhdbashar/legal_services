@@ -27,6 +27,10 @@ class Prchat_Controller extends AdminController
             redirect('admin');
         }
 
+        if (!defined('PR_CHAT_MODULE_NAME')) {
+            show_404();
+        }
+
         if (!staff_can('view', PR_CHAT_MODULE_NAME)) {
             access_denied(_l('chat_access_label'));
         }
@@ -44,8 +48,8 @@ class Prchat_Controller extends AdminController
             get_option('pusher_cluster') == ''
         ) {
             echo '<h1>Seems that your Pusher account it is not setup correctly.</h1>';
-            echo '<h4>Setup Pusher now: <a href="' . site_url('admin/settings?group=pusher') . '">Babil CRM Settings->Pusher.com</a></h4>';
-            echo '<h4>Tutorial: <a target="blank" href="#">See example how to setup Pusher from Babil CRM documentation</a>';
+            echo '<h4>Setup Pusher now: <a href="' . site_url('admin/settings?group=pusher') . '">Perfex CRM Settings->Pusher.com</a></h4>';
+            echo '<h4>Tutorial: <a target="blank" href="https://help.perfexcrm.com/setup-realtime-notifications-with-pusher-com/">See example how to setup Pusher from Perfex CRM documentation</a>';
             die;
         }
 
@@ -80,7 +84,7 @@ class Prchat_Controller extends AdminController
                         'message' => htmlentities($this->input->post('msg')),
                         'viewed' => 0,
                     );
-
+                    
                     $last_id = $this->chat_model->createMessage($message_data);
 
                     $this->pusher->trigger('presence-mychanel', 'send-event', array(
@@ -950,6 +954,21 @@ class Prchat_Controller extends AdminController
         }
         if ($data) {
             $this->chat_model->handleMentionEvent($data, $this->pusher);
+        }
+    }
+
+    /**
+     * Renders to file 
+     *
+     * @return json
+     */
+    public function handleAudio()
+    {
+        $audioBase64Data = $this->input->post('audio');
+
+        if ($audioBase64Data) {
+            header('Content-Type: application/json');
+            return $this->chat_model->handleAudioData($audioBase64Data);
         }
     }
 }

@@ -351,6 +351,11 @@ body #frame #no_messages {
     background: #dce3ec;
 }
 
+#frame #sidepanel #contacts ul li.contact:hover .wrap span {
+    border: 2px solid #dce3ec;
+    transition: 300ms ease;
+}
+
 #frame #sidepanel #contacts ul li.contact .wrap {
     width: 88%;
     margin: 0 auto;
@@ -390,8 +395,9 @@ body #frame #no_messages {
     margin-top: -3px;
 }
 
-.Prchat_Controller .tooltipster-base.tooltipster-sidetip.tooltipster-left.tooltipster-fade.tooltipster-show {
+.Prchat_Controller .tooltipster-base.tooltipster-sidetip.tooltipster-fade.tooltipster-show {
     height: 31px !important;
+    z-index: 99999999999 !important;
 }
 
 .Prchat_Controller .tooltipster-sidetip .tooltipster-box {
@@ -400,18 +406,18 @@ body #frame #no_messages {
     border-radius: 0px !important;
 }
 
-.Prchat_Controller .tooltipster-sidetip.tooltipster-left .tooltipster-arrow-border {
+.Prchat_Controller .tooltipster-sidetip .tooltipster-arrow-border {
     border-left-color: rgba(204, 204, 204, 0.88) !important;
 }
 
-.Prchat_Controller .tooltipster-sidetip.tooltipster-left .tooltipster-arrow-background {
+.Prchat_Controller .tooltipster-sidetip .tooltipster-arrow-background {
     border-left-color: rgba(204, 204, 204, 0.88) !important;
     left: 0px !important;
     top: 0 !important;
 }
 
-.Prchat_Controller .tooltipster-sidetip.tooltipster-left .tooltipster-arrow {
-    right: -2px;
+.Prchat_Controller .tooltipster-sidetip .tooltipster-arrow {
+    right: -2px !important;
 }
 
 #frame #sidepanel #contacts ul li.contact .wrap .meta .name {
@@ -1240,6 +1246,7 @@ img.shaking {
     position: relative;
     height: inherit;
     margin: 0 auto;
+    margin-left:0px;
 }
 
 #sharedFiles .nav-tabs>li.active>a:focus,
@@ -1263,10 +1270,9 @@ img.shaking {
 }
 
 #sharedFiles .tab-content>.active {
-    overflow: hidden;
+    overflow-y: auto;
     width: 360px;
     margin: 0 auto;
-    margin-left: -13px;
     margin-top: 7px;
 }
 
@@ -1472,13 +1478,15 @@ svg.chat_back_mobile {
     }
 }
 
+#frame .preview audio {
+    height: 1px;
+}
+
 
 /* Chat Full Screen Loader for uploading files */
 
 .main_loader_init:before {
     content: '';
-    /* position: absolute;
-    bottom: 50vh; */
     color: #ffffff;
 }
 
@@ -1613,6 +1621,10 @@ svg.chat_back_mobile {
 body.rtl #wrapper #frame .contact_name_placeholder {
     top: -15px;
     left: -39px;
+}
+
+body.rtl #frame .content .message-input .wrap textarea {
+    padding: 13px 102px 8px 8px;
 }
 
 body.rtl #wrapper #frame img.chatContactImage {
@@ -1919,11 +1931,34 @@ body.rtl #frame #sidepanel .group_selector .group_wrapper .groups_image {
     float: right;
 }
 
+#frame .content .startMic {
+    display: none;
+    position: absolute;
+    right: 151px;
+    z-index: 4;
+    margin-top: 9px;
+    font-size: 2em;
+    width: 20px;
+    fill: #6986e8;
+    cursor: pointer;
+    width: 29px;
+    height: 29px;
+}
+
+body #frame .content .group_msg_input .startMic {
+    right: 115px;
+}
+
+#frame .content p audio {
+    margin-bottom: -6px;
+    height: 35px;
+}
+
 
 /* Flash class and keyframe animation */
 
 .flashit {
-    color: #f2f;
+    color: #ce0e20;
     -webkit-animation: flash linear 2s infinite;
     animation: flash linear 2s infinite;
 }
@@ -2368,6 +2403,15 @@ body #frame .white-text {
 /* Group chat device responseive media screen */
 
 @media (max-width: 768px) {
+    body #sharedFiles .tab-content>.active {
+    overflow: scroll;
+    max-height: fit-content;
+    margin: 0 auto;
+    margin-top: 7px;
+    }
+    body #wrapper #frame .content p audio {
+        width: 250px;
+    }
     body #wrapper #frame .nav.nav-tabs.chat_nav>li {
         margin-bottom: 0px !important;
     }
@@ -2478,8 +2522,8 @@ body #frame .white-text {
         display: flex;
     }
     body #wrapper #frame .active_group_members {
-        font-size: 12px;
-        padding-top: 16px !important;
+        font-size: 10px;
+        padding-top: 14px !important;
     }
     body #frame .chat_groups_list .g_new_msg i.fa-comments {
         font-size: 15px;
@@ -2588,18 +2632,18 @@ body.Prchat_Controller #frame .contact_name.contactActive::before {
 body #frame .contact_name::before {
     content: '';
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: #a7adb3;
     background-color: #a7adb3;
-    border: 1px solid #dce3ec;
+    border: 2px solid #ffffff;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     position: relative;
-    left: 12px;
+    left: 11px;
     top: 22px;
     z-index: 9;
 }
@@ -2659,8 +2703,12 @@ body #frame .contact_name {
     -o-border-radius: 50%;
 }
 
+body #frame .contact_name:hover::before {
+    border: 2px solid #dce3ec;
+}
+
 body #frame .contact_name:hover {
-    background: #dce3ec !important;
+    background-color: #a7adb3;
 }
 
 body #frame .customers_toggler::after,
@@ -2701,6 +2749,11 @@ body #frame .customers_toggler {
 
 body .company_selector.active li {
     color: #333;
+}
+
+body #wrapper #frame .company_selector.active li.selected.contact_name::before {
+    background-color: #a7adb3;
+    border: 2px solid #dce3ec;
 }
 
 body .company_selector.active li.selected {
@@ -3166,7 +3219,7 @@ body.Prchat_Controller .contact_name_placeholder_notitle {
 #frame #sidepanel #contacts ul li.contact .wrap img.offline,
 #frame .wrap #profile-img.offline {
     border: 2px solid #d2d0d0;
-    padding: 1px !important;
+    padding: 0px !important;
 }
 
 #frame #sidepanel #contacts ul li.contact .wrap img {

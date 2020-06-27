@@ -4,6 +4,7 @@ Module Name: chat_name
 Description: chat_desc
 Version: 1.4.3
 Requires at least: 2.3.2
+Author: Babil Team
 Author URI: #
 
 */

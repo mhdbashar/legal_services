@@ -220,8 +220,8 @@ $lang['mcreator_name'] = "منشئ قوالب البريد";
 $lang['mcreator_desc'] = "منمذج بسيط لقوالب البريد الإلكتروني";
 
 
-$lang['chat_name'] = "الدردشة";
-$lang['chat_desc'] = "إضافة الدردشة";
+$lang['chat_name'] = "المحادثة والاجتماعات";
+$lang['chat_desc'] = "إضافة المحادثة والاجتماعات";
 
 
 $lang['surveys_name'] = "الدراسات الاستقصائية";

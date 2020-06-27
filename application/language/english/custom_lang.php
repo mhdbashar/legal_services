@@ -215,8 +215,8 @@ $lang['mcreator_name'] = "Mail templates creator";
 $lang['mcreator_desc'] = "Simple mail templates creator module";
 
 
-$lang['chat_name'] = "Chat me";
-$lang['chat_desc'] = "Chat Module";
+$lang['chat_name'] = "Chat & Meetings";
+$lang['chat_desc'] = "Chat & Meetings Module";
 
 
 $lang['surveys_name'] = "Surveys";

@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/project_overview.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +155,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="db6274e1-29ce-4fd0-a4ea-b7ad9acfb865" name="Default" comment="" />
+      <changelist id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="" />
       <created>1572105291510</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -262,6 +266,10 @@
       <workItem from="1587995746718" duration="7912000" />
       <workItem from="1588163715421" duration="2309000" />
       <workItem from="1588168508278" duration="46000" />
+      <workItem from="1593036322733" duration="2187000" />
+      <workItem from="1593072372521" duration="26000" />
+      <workItem from="1593201948865" duration="1641000" />
+      <workItem from="1593241401853" duration="7504000" />
     </task>
     <servers />
   </component>
@@ -290,14 +298,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1586379081957" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1593036481782">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1593202289857">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593036481782" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1588168507948">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1593202289857" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1593241477480">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1588168507948" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1593241477480" />
     <state x="369" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585852031189">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -306,10 +314,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587329109637" />
-    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1588165984765">
+    <state x="274" y="126" width="1088" height="623" key="find.popup" timestamp="1593243061649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1588165984765" />
+    <state x="274" y="126" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1593243061649" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1587926708545">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

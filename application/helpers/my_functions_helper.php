@@ -743,3 +743,63 @@ function get_cat_name_by_id($id)
     }
     return false;
 }
+
+function convert_to_tags($string)
+{
+    $string_after_replace = preg_replace("/(?!.[.=$'€%-])\p{P}/u", "", $string);
+    $string_array         = explode(' ', $string_after_replace);
+    $array_after_filter   = array_filter($string_array);
+    return $array_after_filter;
+}
+
+/**
+ * Function that add tags based on passed arguments
+ * @param  string $tags
+ * @param  mixed $rel_id
+ * @param  string $rel_type
+ * @return boolean
+ */
+function save_services_tags($tags, $rel_id, $rel_type)
+{
+    $CI = & get_instance();
+    // Check if there is tags
+    $old_tags = get_service_tags($rel_id, $rel_type);
+
+    if(!empty($current_tags)) {
+        foreach ($current_tags as $tag) {
+            /*if (!in_array($tag, $tags_array)) {
+                //$tag = $this->get($tag);
+                $CI->db->where('rel_id', $rel_id);
+                $CI->db->where('rel_type', $rel_type);
+                $CI->db->where('id', $tag->id);
+                $CI->db->delete(db_prefix() . 'my_services_tags');
+                if ($CI->db->affected_rows() > 0) {
+                    //$affectedRows++;
+                }
+            }*/
+        }
+    }else{
+        foreach ($tags as $tag) {
+            $data = array(
+                'tag'      => $tag,
+                'rel_type' => $rel_type,
+                'rel_id'   => $rel_id
+            );
+            $CI->db->insert(db_prefix() . 'my_services_tags', $data);
+            $CI->db->insert_id();
+        }
+        return true;
+    }
+
+}
+
+function get_service_tags($rel_id, $rel_type)
+{
+    $CI = & get_instance();
+    $CI->db->where(array(
+        'rel_id' => $rel_id,
+        'rel_type' => $rel_type
+    ));
+    return $CI->db->get(db_prefix().'my_services_tags')->result_array();
+}
+

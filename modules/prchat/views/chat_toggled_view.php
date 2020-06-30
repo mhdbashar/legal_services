@@ -307,6 +307,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
             } else {
               value.message = emojify.replace(value.message);
             }
+            value.message = ifAudioRender(value.message);
             var element = $('.pusherChatBox#id_' + to + ' .logMsg .msgTxt');
             if (value.reciever_id == from) {
               element.prepend('<em><div class="conversation_from"><img class="friendProfilePic" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><p data-toggle="tooltip" title="' + value.time_sent_formatted + '" class="friend">' + value.message + '</p></div></em>');
@@ -419,9 +420,10 @@ $currentChatColor = validateChatColorBeforeApply($color);
     if (presenceChannel.members.me.id == data.to && data.from != presenceChannel.members.me.id) {
       if (app.options.desktop_notifications && chat_desktop_notifications_enabled) {
         if (user_chat_status != 'busy' && user_chat_status != 'offline') {
+
           $.notify('', {
             'title': data.from_name,
-            'body': data.message,
+            'body': (data.message.match('type="audio/ogg"&gt;&lt;/audio&gt')) ? "<?= _l('chat_i_sent_new_message'); ?>" : data.message,
             'requireInteraction': false,
             'icon': fetchUserAvatar(data.from, data.sender_image),
             'tag': 'user-message-' + data.from,
@@ -447,6 +449,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
       pusherFrom.addClass('stillActive');
       pusherFrom.addClass('receiveMsg').removeClass('writing');
       pusherDataLogMsg.find('.msgTxt').show();
+      data.message = ifAudioRender(data.message);
       $('#pusherChat .pusherChatBox#id_' + data.from + ' .msgTxt').append('<div class="conversation_from"><img class="friendProfilePic" data-toggle="tooltip" title="' + current_time + '" src="' + fetchUserAvatar(data.from, data.sender_image) + '"/></br><p class="friend">' + data.message + '</p></div>');
       $('title').html('');
       if ($('title').text().search('<?php echo _l('chat_sent_you_a_message'); ?>') == -1) {
@@ -812,6 +815,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
             } else {
               value.message = emojify.replace(value.message);
             }
+            value.message = ifAudioRender(value.message);
             if (value.reciever_id == userSessionId) {
               $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_from"><img class="friendProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><p class="friend">' + value.message + '</p></div>');
             } else {
@@ -835,6 +839,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
             } else {
               value.message = emojify.replace(value.message);
             }
+            value.message = ifAudioRender(value.message);
             if (value.reciever_id == userSessionId) {
               $('.pusherChatBox#' + id + ' .logMsg .msgTxt').prepend('<div class="conversation_from"><img class="friendProfilePic" data-toggle="tooltip" title="' + value.time_sent_formatted + '" src="' + fetchUserAvatar(value.sender_id, value.user_image) + '"/></br><p class="friend">' + value.message + '</p></div>');
             } else {
@@ -852,7 +857,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
           });
         }
         $('#pusherChat #' + id + ' .logMsg').scrollTop($('#pusherChat #' + id + ' .logMsg')[0].scrollHeight);
-
+        $('.pusherChatBox#' + id + ' p').has('audio').css('max-width', '235px');
       });
 
       if (!onlyLoadMessages) {
@@ -905,6 +910,7 @@ $currentChatColor = validateChatColorBeforeApply($color);
     $('.pusherChatBox#' + id + ' .to').val(obj.attr('href'));
     $('.pusherChatBox#' + id).addClass(off);
     $('.pusherChatBox#' + id).addClass('stillActive ' + (user_status_label != 'undefined') ? user_status_label : obj.data('status'));
+
     updateBoxPosition();
 
     return false;

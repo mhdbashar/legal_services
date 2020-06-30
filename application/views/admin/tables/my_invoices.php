@@ -184,14 +184,20 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    if ($aRow['project_id'] == 0){
-        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-        $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
-        if($ServID == 1){
-            $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+    if ($aRow['project_id'] == 0 and $aRow['rel_stype'] != ''){
+
+        if($aRow['rel_stype'] == 'imported'){
+            $row[] = '<a href="' . admin_url('SImported/view/' . $aRow['rel_sid']) . '">' . get_iservice_name_by_id($aRow['rel_sid']) . '</a>';
         }else{
-            $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+            if($ServID == 1){
+                $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+            }else{
+                $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+            }
         }
+        
     }else{
         $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
     }

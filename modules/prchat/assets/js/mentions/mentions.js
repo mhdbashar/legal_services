@@ -11,7 +11,21 @@
 (function($, _, undefined) {
 
     // Settings
-    var KEY = { CLICK: 1, BACKSPACE: 8, TAB: 9, RETURN: 13, ESC: 27, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, COMMA: 188, SPACE: 32, HOME: 36, END: 35 }; // Keys "enum"
+    var KEY = {
+        CLICK: 1,
+        BACKSPACE: 8,
+        TAB: 9,
+        RETURN: 13,
+        ESC: 27,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40,
+        COMMA: 188,
+        SPACE: 32,
+        HOME: 36,
+        END: 35
+    }; // Keys "enum"
     //Default settings
     var defaultSettings = {
         triggerChar: '@', //Char that respond to event
@@ -76,7 +90,7 @@
 
     //Main class of MentionsInput plugin
     var MentionsInput = function(settings) {
-
+        var isUserOnMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         var domInput,
             elmInputBox,
             elmInputWrapper,
@@ -105,10 +119,10 @@
             elmWrapperBox = $(settings.templates.wrapper());
             elmInputBox.wrapAll(elmWrapperBox); //Wrap all the text area into the div elmWrapperBox
             elmWrapperBox = elmInputWrapper.find('> div.mentions-input-box'); //Obtains the div elmWrapperBox that now contains the text area
-
+            var keyEventVal = (isUserOnMobile) ? 'keyup' : 'keypress';
             $('body').find(elmInputBox).attr('data-mentions-input', 'true'); //Sets the attribute data-mentions-input to true -> Defines if the text area is already configured
             $('body').on('keydown', elmInputBox, onInputBoxKeyDown); //Bind the keydown event to the text area
-            $('body').on('keypress', elmInputBox, onInputBoxKeyPress); //on the keypress event to the text area
+            $('body').on(keyEventVal, elmInputBox, onInputBoxKeyPress); //on the keypress event to the text area
             $('body').on('click', elmInputBox, onInputBoxClick); //on the click event to the text area
             $('body').on('blur', elmInputBox, onInputBoxBlur); //on the blur event to the text area
 
@@ -149,7 +163,9 @@
             var mentionText = utils.htmlEncode(syntaxMessage); //Encode the syntaxMessage
 
             _.each(mentionsCollection, function(mention) {
-                var formattedMention = _.extend({}, mention, { value: utils.htmlEncode(mention.value) });
+                var formattedMention = _.extend({}, mention, {
+                    value: utils.htmlEncode(mention.value)
+                });
                 var textSyntax = settings.templates.mentionItemSyntax(formattedMention);
                 var textHighlight = settings.templates.mentionItemHighlight(formattedMention);
 
@@ -208,7 +224,9 @@
             var startEndIndex = (start + mention.value).length + 1;
 
             // See if there's the same mention in the list
-            if (!_.find(mentionsCollection, function(object) { return object.id == mention.id; })) {
+            if (!_.find(mentionsCollection, function(object) {
+                    return object.id == mention.id;
+                })) {
                 mentionsCollection.push(mention); //Add the mention to mentionsColletions
             }
 
@@ -218,6 +236,11 @@
             hideAutoComplete();
             // Mentions and syntax message
             var updatedMessageText = start + mention.value + ' ' + end;
+
+            if (isUserOnMobile) {
+                updatedMessageText = updatedMessageText.slice(0, -1)
+            }
+
             elmInputBox.val(updatedMessageText); //Set the value to the txt area
             elmInputBox.trigger('mention');
             updateValues();
@@ -324,34 +347,31 @@
         }
 
         //Takes the keypress event
-        function onInputBoxKeyPress(e) {
-            if (e.keyCode !== KEY.BACKSPACE) { //If the key pressed is not the backspace
-                var is_chrome = /chrome/.test(navigator.userAgent.toLowerCase());
-                if (window.matchMedia("only screen and (max-width: 735px)").matches &&
-                    is_chrome &&
-                    /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                    // check if user is really on mobile not just in smaller browser size
-                    // When return is pressed on mobile it gives undefined
-                    if (e.keyCode !== 13 && typeof e.originalEvent != "undefined" && typeof e.originalEvent.data != "undefined") {
-                        var chartCode = e.originalEvent.data.charCodeAt(0);
-                        var typedValue = String.fromCharCode(chartCode); //Takes the string that represent this CharCode
-                    }
+        function onInputBoxKeyPress(event) {
+            var event = event || window.event;
+
+            if (event.keyCode !== KEY.BACKSPACE) { //If the key pressed is not the backspace
+                var typedValue = '';
+
+                if (window.matchMedia("only screen and (max-width: 735px)").matches && isUserOnMobile) {
+
+                    typedValue = event.target.value.charAt(event.target.selectionStart - 1).charCodeAt();
+                    typedValue = String.fromCharCode(typedValue);
+
                 } else {
-                    var typedValue = String.fromCharCode(e.which || e.keyCode); //Takes the string that represent this CharCode
+
+                    var typedValue = String.fromCharCode(event.which || event.keyCode);
+
                 }
+
                 inputBuffer.push(typedValue); //Push the value pressed into inputBuffer
+
             }
+
         }
 
         //Takes the keydown event
         function onInputBoxKeyDown(e) {
-            // 186 chrome, 59 firefox when pressed :
-            // var isFirefox = typeof InstallTrigger !== 'undefined';
-            // var kbKey = (isFirefox) ? 59 : 186;
-
-            // if (e.keyCode == kbKey && mentioned_users.length) {
-            //     return false;
-            // }
             // This also matches HOME/END on OSX which is CMD+LEFT, CMD+RIGHT
             if (e.keyCode === KEY.LEFT || e.keyCode === KEY.RIGHT || e.keyCode === KEY.HOME || e.keyCode === KEY.END) {
                 // Defer execution to ensure carat pos has changed after HOME/END keys then call the resetBuffer function
@@ -450,7 +470,9 @@
             _.each(results, function(item, index) {
                 var itemUid = _.uniqueId('mention_'); //Gets the item with unique id
 
-                autocompleteItemCollection[itemUid] = _.extend({}, item, { value: item.name }); //Inserts the new item to autocompleteItemCollection
+                autocompleteItemCollection[itemUid] = _.extend({}, item, {
+                    value: item.name
+                }); //Inserts the new item to autocompleteItemCollection
 
                 var elmListItem = $(settings.templates.autocompleteListItem({
                     'id': utils.htmlEncode(item.id),
@@ -471,9 +493,13 @@
 
                     //If the item has an avatar
                     if (item.avatar) {
-                        elmIcon = $(settings.templates.autocompleteListItemAvatar({ avatar: item.avatar }));
+                        elmIcon = $(settings.templates.autocompleteListItemAvatar({
+                            avatar: item.avatar
+                        }));
                     } else { //If not then we set an default icon
-                        elmIcon = $(settings.templates.autocompleteListItemIcon({ icon: item.icon }));
+                        elmIcon = $(settings.templates.autocompleteListItemIcon({
+                            icon: item.icon
+                        }));
                     }
                     elmIcon.prependTo(elmListItem); //Inserts the elmIcon to elmListItem
                 }
@@ -533,7 +559,12 @@
             var match, newMentionText = mentionText;
             while ((match = regex.exec(mentionText)) != null) {
                 newMentionText = newMentionText.replace(match[0], match[1] + match[2]);
-                mentionsCollection.push({ 'id': match[4], 'type': match[3], 'value': match[2], 'trigger': match[1] });
+                mentionsCollection.push({
+                    'id': match[4],
+                    'type': match[3],
+                    'value': match[2],
+                    'trigger': match[1]
+                });
             }
             elmInputBox.val(newMentionText);
             updateValues();

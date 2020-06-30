@@ -76,6 +76,10 @@ if (!$CI->db->field_exists('mail_password', 'staff')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `mail_password` VARCHAR(250) NULL');
 }
 
+if (!$CI->db->field_exists('mail_signature', 'staff')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `mail_signature` VARCHAR(250) NULL');
+}
+
 if (!$CI->db->field_exists('last_email_check', 'staff')) {
     $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `last_email_check` VARCHAR(50) NULL');
 }

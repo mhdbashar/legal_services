@@ -17,12 +17,20 @@
 	        <input type="password" class="form-control password" name="mail_password" value="<?php echo $value;?>" autocomplete="new-password">
 	        <span class="input-group-addon">
 	        <a href="#mail_password" class="show_password" onclick="showPassword('mail_password'); return false;"><i class="fa fa-eye"></i></a>
-	        </span>	        
+	        </span>
+	    </div>
+    </div>
+    <div class="col-md-12">
+        <label for="signature" class="control-label"><?php echo _l('mailbox_email_signature'); ?></label>
+        <div class="input-group">
+        <?php $value = (isset($member) ? $member->mail_signature : 'Sent from Perfex'); ?>
+        <?php echo render_textarea('mail_signature','',$value); ?>
 	    </div>
     </div>
 </div>
 <div class="row">
 	<div class="col-md-12 center-block">
+	<br>
 		<button type="submit" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info">          
           <?php echo _l('save'); ?>          
         </button>

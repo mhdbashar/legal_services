@@ -188,8 +188,6 @@ class Cases_model extends App_Model
             $data['progress_from_tasks'] = 0;
         }
 
-
-
         $data['start_date'] = to_sql_date($data['start_date']);
 
         if (!empty($data['deadline'])) {
@@ -238,7 +236,7 @@ class Cases_model extends App_Model
             $name_array        = convert_to_tags($data['name']);
             $description_array = convert_to_tags($data['description']);
             $services_tags     = array_merge($name_array, $description_array);
-            save_services_tags($services_tags, $insert_id, $slug);
+            save_edit_services_tags($services_tags, $insert_id, $slug);
 
             //Add Case Movement
             $this->movement->add($ServID, $insert_id, $data);
@@ -337,6 +335,13 @@ class Cases_model extends App_Model
     public function update($ServID,$id,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        //Make tags from name and description
+        $name_array        = convert_to_tags($data['name']);
+        $description_array = convert_to_tags($data['description']);
+        $services_tags     = array_merge($name_array, $description_array);
+        save_edit_services_tags($services_tags, $id, $slug);
+
         $this->db->select('status');
         $this->db->where('id', $id);
         $old_status = $this->db->get(db_prefix() . 'my_cases')->row()->status;
@@ -654,6 +659,14 @@ class Cases_model extends App_Model
             foreach ($lists as $list):
                 $this->procedures->delete_list($list['id']);
             endforeach;
+
+            //Delete services tags
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+            foreach ($tags as $tag) {
+                $this->db->where('id', $tag['id']);
+                $this->db->delete(db_prefix() . 'my_services_tags');
+            }
 
             log_activity('Case Deleted [CaseID: ' . $id . ']');
             return true;

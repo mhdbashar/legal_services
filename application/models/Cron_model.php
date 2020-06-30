@@ -1993,6 +1993,14 @@ class Cron_model extends App_Model
                             $this->procedures->delete_list($list['id']);
                         endforeach;
 
+                        //Delete services tags
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+                        foreach ($tags as $tag) {
+                            $this->db->where('id', $tag['id']);
+                            $this->db->delete(db_prefix() . 'my_services_tags');
+                        }
+
                         log_activity('Case Deleted [CaseID: ' . $row->id . ']');
                     }
                     return true;
@@ -2085,6 +2093,14 @@ class Cron_model extends App_Model
                         foreach ($lists as $list):
                             $this->procedures->delete_list($list['id']);
                         endforeach;
+
+                        //Delete services tags
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
+                        $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+                        foreach ($tags as $tag) {
+                            $this->db->where('id', $tag['id']);
+                            $this->db->delete(db_prefix() . 'my_services_tags');
+                        }
 
                         log_activity($ServiceName.' Deleted [ServiceID: ' . $row->id . ']');
                     }

@@ -400,6 +400,15 @@ class Other_services_controller extends AdminController
             } elseif ($group == 'Procedures'){
                 $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
                 $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
+            }elseif ($group == 'help_library'){
+                $tags_array = get_service_tags($id, $slug);
+                $tags = array();
+                foreach ($tags_array as $tag){
+                    $tags[] = $tag['tag'];
+                }
+                $tags = implode(',', $tags);
+                $books = get_books_by_api($tags);
+                print_r($books);exit();
             }
 
             // Discussions

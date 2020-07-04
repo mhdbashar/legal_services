@@ -2064,7 +2064,7 @@ class Other_services_model extends App_Model
     public function get_project_settings($project_id)
     {
         $this->db->where('oservice_id', $project_id);
-        return $this->db->get(db_prefix() . 'oservice_settings')->result_array();
+        return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
     }
 
     public function remove_team_member($ServID = '',$project_id, $staff_id)

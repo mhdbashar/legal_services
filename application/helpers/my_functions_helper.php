@@ -810,7 +810,6 @@ function get_service_tags($rel_id, $rel_type)
 
 function get_books_by_api($tags)
 {
-    //$tags = "قضا,نماذج,الابحاث,السعودية";
     $info  = array(
         'tags' => $tags
     );
@@ -831,7 +830,11 @@ function get_books_by_api($tags)
     $response = curl_exec($curl);
     $err 	  = curl_error($curl);
     curl_close($curl);
-    echo json_encode(array($response, $err));
+    if(!empty($err)):
+        return array($response, $err);
+    else:
+        return $response;
+    endif;
 }
 
 //function search_book_api()

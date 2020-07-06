@@ -411,7 +411,7 @@ class Cases_controller extends AdminController
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
-                //echo "<pre>";print_r($data['books']); exit();
+                //echo "<pre>";print_r($data['books']);exit();
             }
 
             // Discussions

@@ -25,13 +25,13 @@ class No_branch_model extends App_Model{
     }
     public function get_general_branch()
     {
-            $this->db->where('title_en', 'General Branch');
+            $this->db->where('title_en', 'المركز الرئيسي');
             if($this->db->get('tblbranches')->row())
                 $branch_id = $this->db->get('tblbranches')->row()->id;
             else{
                 $data = [
-                    'title_en' => 'General branch', 
-                    'title_ar' => 'الفرع العام', 
+                    'title_en' => 'المركز الرئيسي', 
+                    'title_ar' => 'المركز الرئيسي', 
                     'city_id' => '338', 
                     'country_id' => '217', 
                     'registraion_number' => '1'

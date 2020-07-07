@@ -580,8 +580,8 @@ if (!$CI->db->table_exists(db_prefix() . 'branches')) {
   ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
 
   $data = [
-    'title_en' => 'General branch', 
-    'title_ar' => 'الفرع العام', 
+    'title_en' => 'المركز الرئيسي', 
+    'title_ar' => 'المركز الرئيسي', 
     'city_id' => '338', 
     'country_id' => '217', 
     'registraion_number' => '1'

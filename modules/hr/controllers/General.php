@@ -216,6 +216,7 @@ class General extends AdminController{
                 if($key == 'date_birth')
                     unset($data[$key]);
             }
+            unset($data['sub_department']);
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);

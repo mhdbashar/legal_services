@@ -107,7 +107,9 @@ class Branches extends AdminController
             redirect(admin_url('branches'));
         }
         $response = $this->branches_model->delete($id);
-        if ($response == true) {
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced', _l('branches_lowercase')));
+        } elseif  ($response == true) {
             set_alert('success', _l('deleted', _l('branch')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('branches_lowercase')));

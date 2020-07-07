@@ -8,6 +8,7 @@ class Performance extends AdminController{
 		$this->load->model('Appraisal_model');
         $this->load->model('No_branch_model');
         $this->load->model('Extra_info_model');
+        $this->load->model('Designation_model');
 
         if (!has_permission('hr', '', 'view'))
             access_denied();
@@ -21,6 +22,7 @@ class Performance extends AdminController{
         }
         $data['title'] = _l('indicator');
         $data['staffes'] = $this->Extra_info_model->get_staffs();
+        $data['designations'] = $this->Designation_model->get();
         if($this->app_modules->is_active('branches')) {
             $ci = &get_instance();
             $ci->load->model('branches/Branches_model');
@@ -133,7 +135,7 @@ class Performance extends AdminController{
 
     public function get_designations_by_branch_id($branch_id){
     	$this->db->select('*');
-    	$this->db->where(['branch_id' => $branch_id, 'rel_type' => 'designations']);
+    	$this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
     	$this->db->from('tblbranches_services');
     	$this->db->join('tblhr_designations', 'tblhr_designations.department_id = tblbranches_services.rel_id', 'inner');
     	$branches = $this->db->get()->result();

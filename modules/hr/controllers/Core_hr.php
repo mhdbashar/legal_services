@@ -308,7 +308,7 @@ class Core_hr extends AdminController{
             $data['branches'] = $ci->Branches_model->getBranches();
         }
 
-        $data['staffes'] = $this->Staff_model->get();
+        $data['staffes'] = $this->Extra_info_model->get_staffs();
         $data['title'] = _l('promotions');
         $this->load->view('core_hr/promotions/manage', $data);
     }

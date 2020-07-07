@@ -59,26 +59,6 @@ $('.modal').on('hidden.bs.modal', function (e) {
         .remove()
 })
 
-$(document).on('change','.staff',function () {
-    $.get(admin_url + 'hr/core_hr/in_hr_system/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#add_transfer').modal('show'); // show bootstrap modal when complete loaded
-            $('#update_transfer').modal('show');
-
-            if (!response.data){
-                $('#add_promotion').modal('hide');
-                $('#update_transfer').modal('hide');
-                console.log('You Should Add Staff To HR System');
-                alert('You Should Add Staff To HR System');
-                $('button[group="submit"]').attr('disabled', true);
-            }else{
-                $('button[group="submit"]').prop("disabled", false);
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
 $(document).on('change','#branch_id',function () {
     $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + $(this).val(), function(response) {
         if (response.success == true) {

@@ -118,8 +118,10 @@ class Designation_model extends App_Model{
         $this->db->where('id', $id);
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
-            $this->db->delete('tblbranches_services');
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
+                $this->db->delete('tblbranches_services');
+            }
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
  
             return true;

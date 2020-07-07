@@ -4,6 +4,8 @@ $lang['zoom_name'] = 'Zoom meetings';
 $lang['zoom_desc'] = 'You can set your zoom account and start your meetings within the Babel APP';
 
 $lang['imported'] = 'Imported';
+$lang['export'] = 'Export';
+$lang['imported_services'] = 'Imported Services';
 $lang['license_info'] = 'License Info';
 
 $lang['license_key'] = 'License Key';
@@ -251,8 +253,6 @@ $lang['email_queue_skip_attachments_exp']= "Most likely you will encounter probl
 $lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.";
 $lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
 $lang['settings_sales_bo_box'] = "BO Box";
-
->>>>>>> 3be4d623d756af48015fd04b44f517ddf1be5215
 $lang['global_hr_setting'] = 'Global HR Settings';
 $lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';

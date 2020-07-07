@@ -35,12 +35,11 @@ class LegalServices_controller extends AdminController
         }
     }
 
-    public function ViewSubService($ServID, $imported = 0)
+    public function ViewSubService($ServID)
     {
         close_setup_menu();
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['ServID']  = $ServID;
-        $data['imported'] = $imported;
         if ($ServID == 1){
             $data['statuses'] = $this->case->get_project_statuses();
             $data['model']    = $this->case;

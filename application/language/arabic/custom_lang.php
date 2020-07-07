@@ -31,6 +31,57 @@ $lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_con
 $lang['sms_contract_expiration_reminder'] = "تذكير بانتهاء العقد";
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = "يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.";
 $lang['sms_staff_reminder'] = "تذكيرات فريق العمل";
+
+$lang['imported'] = 'مستوردة';
+$lang['export'] = 'تصدير';
+$lang['imported_services'] = 'الخدمات المستوردة';
+$lang['problem_deleting_rel_serv']= "الرجاء التأكد من عدم وجود خدمات متعلقة بهذا التصنيف قبل الحذف";
+$lang['zoom_name'] = ' اجتماعات Zoom';
+$lang['zoom_desc'] = 'يمكنك ضبط حسابك على zoom والبدء بعقد اجتماعاتك ضمن منصة بابل';
+
+$lang['license_info'] = 'معلومات الترخيص';
+
+$lang['license_key'] = 'مفتاح الترخيص';
+
+$lang['appointly'] = 'المواعيد';
+
+$lang['tbookmarks_name'] = 'الاشارات المرجعية المتعلقة بالمهمة';
+$lang['tbookmarks_desc'] = 'تمكنك من تجميع المهام وفق إشارة مرجعية معينة';
+
+$lang['account_name'] = 'تخطيط الحساب';
+$lang['account_desc'] = 'التخطيط الاستراتيجي للحسابات من خلال نهج يركز على العملاء لتحديد الحسابات ذات الأولوية ، والتقاط المعلومات المهمة وتحليلها ، ووضع استراتيجية لتوسيع علاقات العملاء الحالية وتنميتها.';
+
+$lang['save_last_order_for_tables_infor']="\"الجداول المدعومة حاليًا: العملاء ، العملاء المحتملون ، التذاكر ، المهام ، الخدمات ، المدفوعات ، النفقات ، العطاءات ، قاعدة المعرفة ، العقود <br /> <br /> ملاحظة: سيؤدي تغيير هذا الخيار إلى حذف جميع طلبات الجدول المحفوظة!\"";
+
+$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+
+$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
+
+$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
+
+$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
+
+$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
+
+$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
+
+$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
+
+$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
+
+$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
+
+$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+>>>>>>> 45c2b4485700ee74494cfe2c88d60f94c08ed024
 $lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";
 $lang['sms_clickatell_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
 $lang['sms_api_key_trans'] = "مفتاح API";
@@ -191,13 +242,15 @@ $lang['email_queue_skip_attachments_exp'] = "على الأرجح ستواجه م
 $lang['email_queue_enabled_exp'] = "لتسريع عملية البريد الإلكتروني ، سيضيف النظام رسائل البريد الإلكتروني في قائمة الانتظار ويرسلها عبر وظيفة cron ، تأكد من تكوين وظيفة cron بشكل صحيح من أجل استخدام هذه الميزة.";
 $lang['cronjob_req'] = "تتطلب هذه الميزة مهمة من نوع cron مضبوطة بشكل صحيح. قبل تنشيط هذه الميزة ، تأكد من تكوين اعدادت وظيفة cron ";
 $lang['settings_sales_bo_box'] = "صندوق البريد";
-$lang['global_hr_setting'] = "الاعدادات الرئيسية";
-$lang['hr'] = "الموارد البشرية";
-$lang['date_wise_attendance'] = "تقويم الحضور وفق تاريخ معين";
-$lang['attendance_date'] = "ضبط وقت الحضور";
-$lang['calendar_date'] = "ضبط وقت التقويم";
-$lang['training'] = "التدريب";
-$lang['add_training_type'] = "اضافة نوع تدريب";
+
+$lang['global_hr_setting'] = 'الاعدادات الرئيسية';
+$lang['hr'] = 'الموارد البشرية';
+$lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';
+$lang['attendance_date'] = 'ضبط وقت الحضور';
+$lang['calendar_date'] = 'ضبط وقت التقويم';
+$lang['training'] = 'التدريب';
+$lang['add_training_type'] = 'اضافة نوع تدريب';
+
 $lang['employee_id'] = "رقم الموظف";
 $lang['over_time'] = "الوقت الاضافي";
 $lang['early_leaving'] = "الخروج المبكر";

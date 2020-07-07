@@ -1057,7 +1057,6 @@ class Misc_model extends App_Model
             'type'           => 'contracts',
             'search_heading' => _l('contracts'),
         ];
-
         $has_permission_view_contracts = has_permission('contracts', '', 'view');
         if ($has_permission_view_contracts || has_permission('contracts', '', 'view_own')) {
             // Contracts
@@ -1066,9 +1065,8 @@ class Misc_model extends App_Model
             if (!$has_permission_view_contracts) {
                 $this->db->where(db_prefix() . 'contracts.addedfrom', get_staff_user_id());
             }
-
             $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR subject LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
-
+            $this->db->where('type_id', 0);
             if ($limit != 0) {
                 $this->db->limit($limit);
             }

@@ -36,7 +36,7 @@
                 foreach ($books as $book):
                     if($book != 'success'):
                         foreach ($book as $row):
-                            if($row->main_section == 1): ?>
+                            if($row->main_section == 31): ?>
                                 <div class="col-sm-3 col-md-3">
                                     <div class="thumbnail" style="height: 155px;">
                                         <div class="caption">
@@ -61,7 +61,7 @@
                 foreach ($books as $book):
                     if($book != 'success'):
                         foreach ($book as $row):
-                            if($row->main_section == 2): ?>
+                            if($row->main_section == 32): ?>
                                 <div class="col-sm-3 col-md-3">
                                     <div class="thumbnail" style="height: 155px;">
                                         <div class="caption">
@@ -86,7 +86,7 @@
                 foreach ($books as $book):
                     if($book != 'success'):
                         foreach ($book as $row):
-                            if($row->main_section == 3): ?>
+                            if($row->main_section == 33): ?>
                                 <div class="col-sm-3 col-md-3">
                                     <div class="thumbnail" style="height: 155px;">
                                         <div class="caption">
@@ -111,7 +111,7 @@
                 foreach ($books as $book):
                     if($book != 'success'):
                         foreach ($book as $row):
-                            if($row->main_section == 4): ?>
+                            if($row->main_section == 34): ?>
                                 <div class="col-sm-3 col-md-3">
                                     <div class="thumbnail" style="height: 155px;">
                                         <div class="caption">

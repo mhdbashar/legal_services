@@ -814,7 +814,8 @@ function get_books_by_api($tags)
         'tags' => $tags
     );
     $postdata    = http_build_query($info);
-    $webservices = 'http://localhost/babillawlib/';
+    //$webservices = 'http://localhost/babillawlib/';
+    $webservices = 'http://lib.babillawnet.com/';
     $url         = $webservices."Book/search_book_api";
     $curl 	     = curl_init();
     curl_setopt_array($curl, array(

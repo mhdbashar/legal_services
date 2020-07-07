@@ -26,7 +26,7 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_setting')) {
     $CI->db->insert('hr_setting', $data);
     $insert_id = $CI->db->insert_id();
     if ($insert_id) {
-        log_activity('hr_setting add [' . $data['sub_department'] . ']');
+        log_activity('hr_setting add [' . $data['name'] . ']');
         return $insert_id;
     }
 }

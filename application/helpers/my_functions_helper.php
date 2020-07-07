@@ -2,6 +2,81 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
+function my_check_license()
+{
+    include('./license/check.php');
+                
+                // Get the license key and local key from storage
+                // These are typically stored either in flat files or an SQL database
+                $licensekey = "";
+                $localkey = "";
+                $base = getcwd()."/license";
+                $handle = fopen($base."/license.txt", "r");
+                if ($handle) {
+                    $count = 0;
+                    while (($line = fgets($handle)) !== false) {
+                        // process the line read.
+                        if ($count == 0) {
+                            $licensekey = trim($line);
+                        } else if ($count == 1) {
+                            $localkey = trim($line);
+                            break;
+                        }
+                        $count++;
+                    }
+                    fclose($handle);
+                } else {
+                    die("Could not read license file. Please contact support.");
+                }
+                // echo $licensekey."<br/>";
+                // echo $localkey."<br/>";
+                // Validate the license key information
+                $results = check_license($licensekey, $localkey);
+                // Raw output of results for debugging purpose
+                
+
+                // Interpret response
+                switch ($results['status']) {
+                    case "Active":
+                        // get new local key and save it somewhere
+                        $localkeydata = str_replace(' ','',preg_replace('/\s+/', ' ', $results['localkey']));
+                        $handle = fopen($base."/license.txt", "r");
+                        if ($handle) {
+                            $count = 0;
+                            while (($line = fgets($handle)) !== false) {
+                                // process the line read.
+                                if ($count == 0) {
+                                    $licensekey = trim($line);
+                                    break;
+                                }
+                                $count++;
+                            }
+                            fclose($handle);
+                            if (isset($results['localkey'])) {
+                                $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
+                                $contents = $licensekey . "\n" . $localkeydata . "\n";
+                                fwrite($textfile, $contents);
+                                fclose($textfile);
+                            }
+                            return $results;
+                        } else {
+                            die("Could not read license file. Please contact support.");
+                        }
+                        break;
+                    case "Invalid":
+                        die("License key is Invalid");
+                        break;
+                    case "Expired":
+                        die("License key is Expired");
+                        break;
+                    case "Suspended":
+                        die("License key is Suspended");
+                        break;
+                    default:
+                        die("Invalid Response");
+                        break;
+                }
+}
 // add_action('after_render_single_aside_menu', 'my_custom_menu_items');
 hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
@@ -116,6 +191,81 @@ function my_custom_setup_menu_items()
     //     'href'     => admin_url('Dialog_boxes'), // URL of the item
     // ]);
 
+    $CI->app_menu->add_setup_menu_item('1', [
+        'name'     => _l("legal_services_settings"), // The name if the item
+        'collapse' => true, // Indicates that this item will have submitems
+        'position' => 1, // The menu position
+        //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item1', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("customer_representative"), // The name if the item
+        'href'     => admin_url('customer_representative'), // URL of the item
+        'position' => 1, // The menu position
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item2', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("Judges"), // The name if the item
+        'href'     => admin_url('Judge'), // URL of the item
+        'position' => 2, // The menu position
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item3', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("case_status"), // The name if the item
+        'href'     => admin_url('Case_status'), // URL of the item
+        'position' => 3, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item4', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("CourtsManagement"), // The name if the item
+        'href'     => admin_url('courts_control'), // URL of the item
+        'position' => 4, // The menu position
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("LegalServiceManage"), // The name if the item
+        'href'     => admin_url('ServicesControl'), // URL of the item
+        'position' => 5, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("legal_services_phases"), // The name if the item
+        'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
+        'position' => 6, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item7', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("LService_recycle_bin"), // The name if the item
+        'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
+        'position' => 7, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
+    $CI->app_menu->add_setup_children_item('1', [
+        'slug'     => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu
+        'name'     => _l("legal_procedures_management"), // The name if the item
+        'href'     => admin_url('LegalServices/legal_procedures'), // URL of the item
+        'position' => 8, // The menu position
+        // 'icon'     => 'fa fa-adjust', // Font awesome icon
+
+    ]);
+
     $CI->app_menu->add_setup_menu_item('2', [
         'name'     => _l("procurations"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
@@ -144,72 +294,6 @@ function my_custom_setup_menu_items()
         'name'     => _l("procuration_type"), // The name if the item
         'href'     => admin_url('procuration/type'), // URL of the item
         'position' => 3, // The menu position
-    ]);
-
-    $CI->app_menu->add_setup_menu_item('1', [
-        'name'     => _l("legal_services_settings"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 1, // The menu position
-        //'icon'     => 'fa fa-user-circle menu-icon', // Font awesome icon
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("customer_representative"), // The name if the item
-        'href'     => admin_url('customer_representative'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("Judges"), // The name if the item
-        'href'     => admin_url('Judge'), // URL of the item
-        'position' => 2, // The menu position
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("case_status"), // The name if the item
-        'href'     => admin_url('Case_status'), // URL of the item
-        'position' => 3, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("CourtsManagement"), // The name if the item
-        'href'     => admin_url('courts_control'), // URL of the item
-        'position' => 4, // The menu position
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("LegalServiceManage"), // The name if the item
-        'href'     => admin_url('ServicesControl'), // URL of the item
-        'position' => 5, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("legal_services_phases"), // The name if the item
-        'href'     => admin_url('LegalServices/Phases_controller'), // URL of the item
-        'position' => 6, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
-    ]);
-
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name'     => _l("LService_recycle_bin"), // The name if the item
-        'href'     => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
-        'position' => 7, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
 
      $CI->app_menu->add_setup_menu_item('opponents', [
@@ -355,7 +439,6 @@ function to_AD_date($date)
         $dateArray = explode(' ', $date);
         $date = $dateArray[0];
         $time = $dateArray[1];
-//        var_dump($dateArray);exit;
     }
     $sys_format = get_option('dateformat');
     $formats = explode('|', $sys_format);
@@ -624,4 +707,39 @@ function get_dialog_boxes()
 function irac_pdf($irac, $tag = '')
 {
     return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);
+}
+
+function legal_procedure_by_list_id($list_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('list_id', $list_id);
+    $CI->db->select(db_prefix() . 'legal_procedures.*,subcat.name AS subcat_name');
+    $CI->db->join(db_prefix() . 'my_categories AS subcat', 'subcat.id = ' . db_prefix() . 'legal_procedures.subcat_id', 'left');
+    return $CI->db->get(db_prefix() . 'legal_procedures')->result_array();
+}
+
+function list_procedure_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    return $CI->db->get(db_prefix() . 'legal_procedures_lists')->row();
+}
+
+function legal_procedure_by_ref_id($ref_id)
+{
+    $CI = & get_instance();
+    $CI->db->where('reference_id', $ref_id);
+    return $CI->db->get(db_prefix() . 'legal_procedures')->row();
+}
+
+function get_cat_name_by_id($id)
+{
+    $CI = & get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $cat = $CI->db->get(db_prefix() . 'my_categories')->row();
+    if ($cat) {
+        return $cat->name;
+    }
+    return false;
 }

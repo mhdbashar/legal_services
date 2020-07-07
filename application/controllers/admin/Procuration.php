@@ -131,13 +131,13 @@ class Procuration extends AdminController
             if ($id == '') {
                 $id = $this->procurationstate_model->add($data);
                 if ($id) {
-                    set_alert('success', _l('added_successfully', 'Procuration State'));
+                    set_alert('success', _l('added_successfully', _l('procuration_state')));
                     redirect(admin_url('procuration/state'));
                 }
             } else {
                 $success = $this->procurationstate_model->update($data, $id);
                 if ($success) {
-                    set_alert('success', _l('updated_successfully', 'Procuration State'));
+                    set_alert('success', _l('updated_successfully', _l('procuration_state')));
                 }
                 redirect(admin_url('procuration/state'));
             }

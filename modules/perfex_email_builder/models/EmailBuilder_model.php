@@ -79,7 +79,7 @@ class EmailBuilder_model extends App_Model {
 
         foreach ($items as $item) {
             if (!isset($item['type'])) continue;
-            $type = $item['type'];
+            $type = _l($item['type']);
             unset($item['type']);
             $key = array_search($item['emailtemplateid'], array_column($savedItems, 'emailtemplateid'));
             if ($key) {

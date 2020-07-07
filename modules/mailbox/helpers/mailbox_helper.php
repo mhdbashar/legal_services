@@ -72,6 +72,7 @@ function handle_mail_attachments($mail_id, $type = 'inbox', $index_name = 'attac
                     }
                     _maybe_create_upload_path($path);
                     $filename    = unique_filename($path, $_FILES[$index_name]['name'][$i]);
+					$filename    = str_replace(' ', '_', $filename);
                     $newFilePath = $path . $filename;
                     // Upload the file into the temp dir
                     if($method == 'copy'){                        

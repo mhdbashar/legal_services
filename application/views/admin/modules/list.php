@@ -9,14 +9,14 @@
                     <?php echo form_open_multipart(admin_url('modules/upload'),['id'=>'module_install_form']); ?>
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <p class="font-medium">If you have a module in a .zip format, you may install it by uploading it here.</p>
+                            <p class="font-medium"><?php echo _l('module_upload_msg')?></p>
                         </div>
                         <div class="col-md-4 col-md-offset-4">
-                            <label for="module" class="control-label">Upload Module</label>
+                            <label for="module" class="control-label"><?php echo _l('module_upload')?></label>
                             <div class="input-group">
                                 <input type="file" class="form-control" name="module">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default p8" type="submit">Install</button>
+                                    <button class="btn btn-default p8" type="submit"><?php echo _l('install')?></button>
                                 </span>
                             </div><!-- /input-group -->
                         </div><!-- /.col-md-6 -->
@@ -44,7 +44,7 @@
                                         <td data-order="<?php echo $system_name; ?>">
                                             <p>
                                                 <b>
-                                                    <?php echo $module['headers']['module_name']; ?>
+                                                    <?php echo _l($module['headers']['module_name']); ?>
                                                 </b>
                                             </p>
                                             <?php
@@ -100,7 +100,7 @@
                                         </td>
                                         <td>
                                             <p>
-                                                <?php echo isset($module['headers']['description']) ? $module['headers']['description'] : ''; ?>
+                                                <?php echo isset($module['headers']['description']) ? _l($module['headers']['description']) : ''; ?>
                                             </p>
                                             <?php
 

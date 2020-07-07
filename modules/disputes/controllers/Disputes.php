@@ -21,7 +21,8 @@ class Disputes extends AdminController
         close_setup_menu();
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['title']    = _l('disputes');
-        $this->load->view('disputes/manage', $data);
+        // $this->load->view('disputes/manage', $data);
+        $this->load->view('disputes/soon', $data);
     }
 
     public function table($clientid = '')

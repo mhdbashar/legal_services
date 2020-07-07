@@ -1,5 +1,5 @@
 <?php
-$lang['mailbox']                                                        = 'Mailbox';
+$lang['mailbox']                                                        = 'Maily';
 $lang['mailbox_setting']                                                = 'Mailbox Settings';
 $lang['mailbox_inbox']                                                 	= 'Inbox';
 $lang['mailbox_enable_option']                                          = 'Enable Mailbox';
@@ -35,5 +35,6 @@ $lang['mailbox_fail']                                					= 'fail';
 $lang['mailbox_email_draft_successfully']                               = 'Email was saved as draft';
 $lang['mailbox_config']                                					= 'Configuration';
 $lang['mailbox_email_password']                               	 		= 'Email Password';
+$lang['mailbox_email_signature']                               	 		= 'Your HTML Signature';
 $lang['mailbox_email_config_successfully']                              = 'Account successfully configured ';
 $lang['mailbox_user_pass_instructions']                                 = 'Enter your IMAP username and password here. Once you save the button, you will need to configure your server details in Settings - Mailbox menu item';

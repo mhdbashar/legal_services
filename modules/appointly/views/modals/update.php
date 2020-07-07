@@ -5,30 +5,43 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?php echo _l('appointment_edit_appointment'); ?></h4>
             </div>
+            <input type="hidden" id="ms-access-token" value="" />
+            <input type="hidden" id="ms-outlook-event-id" value="<?= $history['outlook_event_id']; ?>" />
             <?php echo form_open('appointly/appointments/update', array('id' => 'appointment-form')); ?>
             <div class="modal-body">
                 <div class="row">
                     <input type="text" hidden value="<?= $history['appointment_id']; ?>" name="appointment_id">
                     <input type="text" hidden value="<?= $history['source']; ?>" name="source">
+
+                    <?php if ($history['source'] == 'lead_related') : ?>
+                        <input type="text" hidden value="<?= $history['email']; ?>" name="email">
+                    <?php endif; ?>
+
                     <input type="text" hidden value="<?= $history['approved']; ?>" name="approved">
                     <input type="text" hidden value="<?= $history['google_added_by_id']; ?>" name="google_added_by_id">
                     <?php if (isset($history['selected_contact'])) { ?>
                         <input type="text" hidden value="<?= $history['selected_contact']; ?>" name="selected_contact">
                     <?php } ?>
                     <div class="col-md-12">
+                        <?php if ($history['outlook_event_id'] && $history['outlook_added_by_id'] == get_staff_user_id()) : ?>
+                            <div class="checkbox pull-right mleft10" id="addedToOutlook">
+                                <input disabled type="checkbox" id="outlook" checked>
+                                <label data-toggle="tooltip" title="<?= _l('appointment_added_to_outlook'); ?>" for="outlook"> <i class="fa fa-envelope" aria-hidden="true"></i></label>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (appointlyGoogleAuth()) { ?>
                             <?php if ($history['google_event_id'] !== NULL && $history['google_added_by_id'] == get_staff_user_id()) { ?>
                                 <input type="text" hidden value="<?= $history['google_event_id']; ?>" name="google_event_id">
                             <?php } ?>
-
                             <?php if ($history['google_event_id'] && $history['google_added_by_id'] == get_staff_user_id()) : ?>
                                 <div class="checkbox pull-right mleft10 mtop1">
                                     <input disabled data-toggle="tooltip" title="<?= _l('appointments_added_to_google_calendar'); ?>" type="checkbox" id="google" checked />
                                     <label data-toggle="tooltip" title="<?= _l('appointments_added_to_google_calendar'); ?>" for="google"> <i class="fa fa-google" aria-hidden="true"></i></label>
                                 </div>
                             <?php endif; ?>
-
                         <?php } ?>
+
                         <?php if ($history['source'] == 'external' && !isset($history['details'])) : ?>
                             <div class="pull-right"><span class="label label-info"><?= _l('appointment_source_external'); ?></span></div>
                             <div class="clearfix"></div>
@@ -37,12 +50,14 @@
                         <?php elseif ($history['source'] == 'lead_related' && isset($history['contact_id'])) :  ?>
                             <div class="pull-right"><span class="label label-info"><?= _l('appointment_source_leads_label'); ?></span></div>
                         <?php endif; ?>
+
                         <label for="subject"><?= _l('appointment_subject'); ?></label><br>
                         <input type="text" class="form-control" name="subject" id="subject" value="<?= $history['subject']; ?>">
                         <div class="form-group mtop20">
                             <label for="description"><?= _l('appointment_description'); ?></label>
                             <textarea name="description" class="form-control" id="description" rows="5"><?= $history['description']; ?></textarea>
                         </div>
+
                         <div class="form-group select-placeholder">
                             <label for="rel_type" class="control-label"><?= _l('proposal_related'); ?></label>
                             <select <?= isset($history['details']) || $history['source'] == 'lead_related' ? 'disabled' : ''; ?> name="rel_type" id="rel_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -200,9 +215,19 @@
                         && $history['google_added_by_id'] === null
                         && $history['approved']
                     ) { ?>
-                        <button type="button" data-toggle="tooltip" title="<?= _l('appointment_google_not_added_yet'); ?>" onClick="addEventToGoogleCalendar(this)" class="btn btn-primary"><?= _l('appointment_add_to_calendar'); ?>&nbsp;<i class="fa fa-google" aria-hidden="true"></i></button>
+                        <button type="button" data-toggle="tooltip" title="<?= _l('appointment_google_not_added_yet'); ?>" onclick="addEventToGoogleCalendar(this)" class="btn btn-primary"><?= _l('appointment_add_to_calendar'); ?>&nbsp;<i class="fa fa-google" aria-hidden="true"></i></button>
                     <?php } ?>
                 <?php } ?>
+                <?php
+                if (
+                    $history['outlook_event_id'] === NULL
+                    && $history['outlook_calendar_link'] === NULL
+                    && $history['outlook_added_by_id'] === NULL
+                    && $history['approved']
+                ) { ?>
+                    <button type="button" data-toggle="tooltip" id="addToOutlookBtn" title="<?= _l('appointment_outlook_not_added_yet'); ?>" onclick="addEventToOutlookCalendar(this, '<?= $history['appointment_id']; ?>')" class="btn btn-primary"><?= _l('appointment_add_to_outlook'); ?>&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i></button>
+                <?php } ?>
+
             </div>
             <?php echo form_close(); ?>
         </div><!-- /.modal-content -->

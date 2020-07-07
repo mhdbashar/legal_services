@@ -4,7 +4,7 @@
 	<label for="clients_default_theme" class="control-label"><?php echo _l('settings_clients_default_theme'); ?></label>
 	<select name="settings[clients_default_theme]" id="clients_default_theme" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
 		<?php foreach(get_all_client_themes() as $theme){ ?>
-		<option value="<?php echo $theme; ?>" <?php if(active_clients_theme() == $theme){echo 'selected';} ?>><?php echo ucfirst($theme); ?></option>
+		<option value="<?php echo $theme; ?>" <?php if(active_clients_theme() == $theme){echo 'selected';} ?>><?php if( $theme == 'perfex'){echo 'Babil';} ?></option>
 		<?php } ?>
 	</select>
 </div>
@@ -66,11 +66,11 @@
 <p>
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{company_name}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{customer_id}</a>,
-	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{street}</a>,
+	<!-- <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{street}</a>, -->
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{city}</a>,
-	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{state}</a>,
+	<!-- <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{state}</a>, -->
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{zip_code}</a>,
-	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{country_code}</a>,
+	<!-- <a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{country_code}</a>, -->
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{country_name}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{phone}</a>,
 	<a href="#" class="settings-textarea-merge-field" data-to="customer_info_format">{vat_number}</a>,

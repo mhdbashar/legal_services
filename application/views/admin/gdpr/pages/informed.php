@@ -6,23 +6,23 @@
     </small>
 </h4>
 <hr class="hr-panel-heading" />
-<?php render_yes_no_option('gdpr_enable_terms_and_conditions','Enable Terms & Conditions for registration and customers portal'); ?>
+<?php render_yes_no_option('gdpr_enable_terms_and_conditions','gdpr_informed_enable_terms_conditions_for_registration_and_customers_portal'); ?>
 <hr />
-<?php render_yes_no_option('gdpr_enable_terms_and_conditions_lead_form','Enable Terms & Conditions for web to lead forms'); ?>
+<?php render_yes_no_option('gdpr_enable_terms_and_conditions_lead_form','gdpr_informed_enable_terms__onditions_for_web_to_lead_forms'); ?>
 <hr />
-<?php render_yes_no_option('gdpr_enable_terms_and_conditions_ticket_form','Enable Terms & Conditions for ticket form'); ?>
+<?php render_yes_no_option('gdpr_enable_terms_and_conditions_ticket_form','gdpr_informed_enable_terms_conditions_for_ticket_form'); ?>
 <hr />
-<?php render_yes_no_option('gdpr_show_terms_and_conditions_in_footer','Show Terms & Conditions in customers area footer'); ?>
+<?php render_yes_no_option('gdpr_show_terms_and_conditions_in_footer','gdpr_informed_show_terms_conditions_in_customers_area_footer'); ?>
 <hr class="hr-panel-heading" />
 <p class="">
-    Terms and Conditions
+<?php echo _l('gdpr_informed_terms_and_conditions');?>
     <br />
     <a href="<?php echo terms_url(); ?>" target="_blank"><?php echo terms_url(); ?></a>
 </p>
 <?php echo render_textarea('settings[terms_and_conditions]','',get_option('terms_and_conditions'),array(),array(),'','tinymce'); ?>
 <hr />
 <p class="">
-    <i class="fa fa-question-circle" data-toggle="tooltip" data-title="You may want to include the privacy policy in your terms and condtions content."></i> Privacy Policy
+    <i class="fa fa-question-circle" data-toggle="tooltip" data-title="You may want to include the privacy policy in your terms and condtions content."></i> <?php echo _l('gdpr_informed_privacy_policy');?>
     <br />
     <a href="<?php echo privacy_policy_url(); ?>" target="_blank"><?php echo privacy_policy_url(); ?></a>
 </p>

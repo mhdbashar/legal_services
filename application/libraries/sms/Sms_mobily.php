@@ -18,17 +18,17 @@ class Sms_mobily extends App_sms
         $this->api_key  = $this->get_option('mobily', 'api_key');
 
         $this->add_gateway('mobily', [
-                'info'    => "<p>mobily SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
-                'name'    => 'mobily',
+                'info'    => _l("sms_babil_sms_integration_is_one_way_messaging"),
+                'name'    => 'Babil SMS',
                 'options' => [
                     [
                         'name'  => 'sender_id',
-                        'label' => 'Sender ID',
+                        'label' => _l('sms_sender_id_trans'),
                         // 'info'  => '<p><a href="https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.mobily.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
                     ],
                      [
                         'name'  => 'api_key',
-                        'label' => 'Api Key',
+                        'label' => _l('sms_api_key_trans'),
                     ],
                 ],
             ]);

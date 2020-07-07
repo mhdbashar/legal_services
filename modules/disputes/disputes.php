@@ -3,10 +3,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: disputes
-Description: Default module for managing Financial disputes
+Module Name: disputes_name
+Description: disputes_desc
 Version: 1.0.0
 Requires at least: 2.3.*
+Author: Babil Team
 */
 
 define('DISPUTES_MODULE_NAME', 'disputes');
@@ -151,7 +152,7 @@ function disputes_module_init_menu_items()
     if (has_permission('disputes', '', 'view')) {
         $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
                 'slug'     => 'disputes',
-                'name'     => _l('نزاعات مالية'),
+                'name'     => _l('قضايا مالية'),
                 'href'     => admin_url('disputes'),
                 'position' => 24,
         ]);

@@ -90,7 +90,7 @@
 
                 if (!_reviewHasComment == 'false' || _reviewHasComment == 'null') {
                     $("body").on('click', '.feedback_star', function() {
-                        var comment = confirm('Do you want to leave a comment');
+                        var comment = confirm("<?= _l('appointment_leave_a_comment'); ?>");
                         if (comment) {
 
                             if ($('.modal-backdrop.fade').hasClass('in')) {

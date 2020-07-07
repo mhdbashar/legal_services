@@ -144,13 +144,13 @@ function app_init_case_tabs()
         'visible'  => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_case_tab_children_item('sales', [
-        'slug'     => 'project_subscriptions',
-        'name'     => _l('subscriptions'),
-        'view'     => 'admin/LegalServices/cases/project_subscriptions',
-        'position' => 25,
-        'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
-    ]);
+    // $CI->app_tabs->add_case_tab_children_item('sales', [
+    //     'slug'     => 'project_subscriptions',
+    //     'name'     => _l('subscriptions'),
+    //     'view'     => 'admin/LegalServices/cases/project_subscriptions',
+    //     'position' => 25,
+    //     'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
+    // ]);
 
     $CI->app_tabs->add_case_tab('project_notes', [
         'name'     => _l('project_notes'),
@@ -195,11 +195,18 @@ function app_init_case_tabs()
         'position'                  => 75,
     ]);
 
+    $CI->app_tabs->add_case_tab('Procedures', [
+        'name'                      => _l('legal_procedures'),
+        'icon'                      => 'fa fa-braille',
+        'view'                      => 'admin/LegalServices/legal_procedures/tab',
+        'position'                  => 80,
+    ]);
+
     $CI->app_tabs->add_case_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
-        'position'                  => 80,
+        'position'                  => 85,
     ]);
 }
 
@@ -316,6 +323,7 @@ function get_user_pinned_cases($slug)
     $CI->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'pinned_cases.project_id');
     $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_cases.clientid');
     $CI->db->where(db_prefix() . 'pinned_cases.staff_id', get_staff_user_id());
+    $CI->db->where(db_prefix() . 'my_cases.deleted', 0);
     $projects = $CI->db->get(db_prefix() . 'pinned_cases')->result_array();
     $CI->load->model('LegalServices/Cases_model', 'case');
 

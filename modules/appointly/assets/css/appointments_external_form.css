@@ -11,6 +11,11 @@ body .available_time_info {
     background: #3af;
 }
 
+body .go_back_button {
+    font-weight: 500;
+    font-size: 16px;
+}
+
 body .busy_time_info_google {
     background: #ffb100;
 }

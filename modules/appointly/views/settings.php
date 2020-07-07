@@ -21,6 +21,7 @@ $appointly_show_summary = get_option('appointly_show_summary');
         <?php if (is_admin()) {
 
             $google_client_id = get_option('google_client_id');
+            $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
             $appointly_google_client_secret = get_option('appointly_google_client_secret');
             $appointly_also_delete_in_google_calendar = get_option('appointly_also_delete_in_google_calendar');
             $appointments_disable_weekends = get_option('appointments_disable_weekends');
@@ -100,6 +101,7 @@ $appointly_show_summary = get_option('appointly_show_summary');
                 </select>
             </div>
             <hr />
+            <h4>Google Calendar API</h4>
             <div class="form-group">
                 <label for="google_client_id"><?= _l('appointments_google_calendar_client_id'); ?></label>
                 <input type="text" class="form-control" value="<?= $google_client_id; ?>" id="google_client_id" name="settings[google_client_id]">
@@ -108,9 +110,20 @@ $appointly_show_summary = get_option('appointly_show_summary');
                 <label for="appointly_google_client_secret"><?= _l('appointments_google_calendar_client_secret'); ?></label>
                 <input type="text" class="form-control" value="<?= $appointly_google_client_secret; ?>" id="appointly_google_client_secret" name="settings[appointly_google_client_secret]">
             </div>
-
             <div class="alert alert-info alert-dismissible" role="alert">
                 <?= _l('appointments_redirect_url'); ?>: <strong> <?= base_url() . 'appointly/google/auth/oauth'; ?></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="<?= _l('close'); ?>">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <h4><?= _l('appointment_outlook_api_label'); ?></h4>
+            <div class="form-group">
+                <label for="appointly_outlook_client_id"><?= _l('appointment_outlook_client_id'); ?></label>
+                <input type="text" class="form-control" value="<?= $appointly_outlook_client_id; ?>" id="appointly_outlook_client_id" name="settings[appointly_outlook_client_id]">
+            </div>
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <?= _l('appointment_redirect_url_logout'); ?>: <strong> <?= base_url() . 'admin/appointly/appointments'; ?></strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="<?= _l('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -256,6 +269,9 @@ $appointly_show_summary = get_option('appointly_show_summary');
             <hr />
 
         <?php } ?>
+        <div class="mtop10">
+            <span class="label label-info"><strong><?= get_appointly_version(); ?></strong></span>
+        </div>
     </div>
     <?php if (is_admin()) { ?>
         <div role="tabpanel" class="tab-pane" id="form">

@@ -34,8 +34,18 @@
     <?php echo render_input('to','mailbox_to',$to); ?>
     <?php echo render_input('cc','CC'); ?>
     <?php echo render_input('subject','mailbox_subject',$subject); ?>
+	<?php 
+        $CI = &get_instance();
+        $CI->db->select()
+            ->from(db_prefix() . 'staff')
+            ->where(db_prefix() . 'staff.mail_password !=', '');
+        $staffs = $CI->db->get()->result_array();    
+        foreach ($staffs as $staff) {
+            $mail_signature = $staff['mail_signature'];
+		}
+	?>
     <hr />    
-    <?php echo render_textarea('body','',$mail->body,array(),array(),'','tinymce tinymce-compose'); ?>    
+    <?php echo render_textarea('body','',$mail->body . $mail_signature,array(),array(),'','tinymce tinymce-compose'); ?>    
     </div>
     <div class="attachments">
       <div class="attachment">

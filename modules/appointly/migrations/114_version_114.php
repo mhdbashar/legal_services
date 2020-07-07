@@ -23,5 +23,7 @@ class Migration_Version_114 extends App_module_migration
         create_email_template('New appointment feedback rating received', '<span 12pt=""><span 12pt="">Hello {staff_firstname} {staff_lastname} <br /><br />A new feedback rating has been received from client {appointment_client_name}. View the new feedback rating submitted at the following link:</strong> <a href="{appointment_admin_url}">{appointment_admin_url}</a></span><br /><br /><br />{companyname}<br />{crm_url}<br /><span 12pt=""></span></span>', 'appointly', 'New Feedback Received (Sent to Responsible Person)', 'appointly-appointment-feedback-received');
 
         create_email_template('Appointment feedback rating updated', '<span 12pt=""><span 12pt="">Hello {staff_firstname} {staff_lastname} <br /><br />An existing feedback was just updated from client {appointment_client_name}. View the new rating submitted at the following link:</strong> <a href="{appointment_admin_url}">{appointment_admin_url}</a></span><br /><br /><br />{companyname}<br />{crm_url}<br /><span 12pt=""></span></span>', 'appointly', 'Feedback Updated (Sent to Responsible Person)', 'appointly-appointment-feedback-updated');
+
+        bugCheckCommentsField();
     }
 }

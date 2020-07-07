@@ -54,25 +54,25 @@
     <?php echo render_select('settings[email_piping_default_priority]',$ticket_priorities,array('priorityid','name'),'email_piping_default_priority',get_option('email_piping_default_priority')); ?>
   </div>
   <div role="tabpanel" class="tab-pane" id="ticket_form">
-    <h4 class="bold">Form Info</h4>
-    <p><b>Form url:</b>
+    <h4 class="bold"><?php echo _l('form_info');?></h4>
+    <p><b><?php echo _l('form_url');?>:</b>
      <span class="label label-default">
         <a href="<?php echo site_url('forms/ticket'); ?>" target="_blank">
         <?php echo site_url('forms/ticket'); ?>
       </a>
      </span>
     </p>
-    <p><b>Form file location:</b> <code><?php echo hooks()->apply_filters('ticket_form_file_location_settings', VIEWPATH.'forms\ticket.php'); ?></code></p>
+    <p><b><?php echo _l('form_file_location');?>:</b> <code><?php echo hooks()->apply_filters('ticket_form_file_location_settings', VIEWPATH.'forms\ticket.php'); ?></code></p>
     <hr />
-    <h4 class="bold">Embed form</h4>
+    <h4 class="bold"><?php echo _l('embed_form');?></h4>
     <p><?php echo _l('form_integration_code_help'); ?></p>
     <textarea class="form-control" rows="2"><iframe width="600" height="850" src="<?php echo site_url('forms/ticket'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
-    <p class="bold mtop15">When placing the iframe snippet code consider the following:</p>
-    <p class="<?php if(strpos(site_url(),'http://') !== false){echo 'bold text-success';} ?>">1. If the protocol of your installation is http use a http page inside the iframe.</p>
-    <p class="<?php if(strpos(site_url(),'https://') !== false){echo 'bold text-success';} ?>">2. If the protocol of your installation is https use a https page inside the iframe.</p>
-    <p>None SSL installation will need to place the link in non ssl eq. landing page and backwards.</p>
+    <p class="bold mtop15"><?php echo _l('tick_inst');?></p>
+    <p class="<?php if(strpos(site_url(),'http://') !== false){echo 'bold text-success';} ?>"><?php echo _l('tick_inst1');?></p>
+    <p class="<?php if(strpos(site_url(),'https://') !== false){echo 'bold text-success';} ?>"><?php echo _l('tick_inst2');?></p>
+    <p><?php echo _l('tick_inst_note');?></p>
     <hr />
-    <h4 class="bold">Change form container column (Bootstrap)</h4>
+    <h4 class="bold"><?php echo _l('tick_cssnote');?></h4>
     <p>
       <span class="label label-default">
       <a href="<?php echo site_url('forms/ticket?col=col-md-8'); ?>" target="_blank">

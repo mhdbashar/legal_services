@@ -147,13 +147,13 @@ function app_init_oservice_tabs()
         'visible' => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_oservice_tab_children_item('sales', [
-        'slug' => 'project_subscriptions',
-        'name' => _l('subscriptions'),
-        'view' => 'admin/LegalServices/other_services/project_subscriptions',
-        'position' => 25,
-        'visible' => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
-    ]);
+    // $CI->app_tabs->add_oservice_tab_children_item('sales', [
+    //     'slug' => 'project_subscriptions',
+    //     'name' => _l('subscriptions'),
+    //     'view' => 'admin/LegalServices/other_services/project_subscriptions',
+    //     'position' => 25,
+    //     'visible' => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
+    // ]);
 
     $CI->app_tabs->add_oservice_tab('project_notes', [
         'name' => _l('project_notes'),
@@ -188,11 +188,18 @@ function app_init_oservice_tabs()
         'position'                  => 65,
     ]);
 
+    $CI->app_tabs->add_oservice_tab('Procedures', [
+        'name'                      => _l('legal_procedures'),
+        'icon'                      => 'fa fa-braille',
+        'view'                      => 'admin/LegalServices/legal_procedures/tab',
+        'position'                  => 70,
+    ]);
+
     $CI->app_tabs->add_oservice_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
-        'position'                  => 70,
+        'position'                  => 75,
     ]);
 }
 
@@ -309,6 +316,7 @@ function get_user_pinned_oservices()
     $CI->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'pinned_oservices.oservice_id');
     $CI->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_other_services.clientid');
     $CI->db->where(db_prefix() . 'pinned_oservices.staff_id', get_staff_user_id());
+    $CI->db->where(db_prefix() . 'my_other_services.deleted', 0);
     $oservices = $CI->db->get(db_prefix() . 'pinned_oservices')->result_array();
 
     $CI->load->model('LegalServices/Other_services_model',"other");

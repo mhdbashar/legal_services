@@ -150,3 +150,25 @@ $lang['chat_header_deleted'] = 'تم الحذف';
 $lang['chat_header_datetime'] = 'التاريخ / الوقت';
 $lang['chat_no_departments_found'] = 'لم يتم العثور على أقسام للموظفين ، يرجى إضافة قسم واحد على الأقل';
 $lang['chat_announcement_success'] = 'تم إرسال إعلانك إلى الأعضاء المختارين بنجاح';
+
+#Version 1.4.1
+$lang['chat_status_online'] = 'متصل';
+$lang['chat_status_away'] = 'بالخارج';
+$lang['chat_status_busy'] = 'مشغول';
+$lang['chat_status_offline'] = 'غير متصل';
+$lang['chat_header_status'] = 'حالة المحادثة';
+$lang['chat_mentioned_you'] = 'أشار إليك في رسالة';
+$lang['chat_in_group'] = 'في المجموعة';
+$lang['chat_type_a_message_mention'] = 'اكتب رسالة ،@الأسم ...';
+
+#Version 1.4.2
+$lang['chat_record_btn_label'] = 'سجل';
+$lang['chat_send_btn_label'] = 'أرسل';
+$lang['chat_new_audio_message'] = ' أرسل لك رسالة صوتية جديدة';
+$lang['chat_new_audio_message_sent'] = 'رسالة صوتية جديدة ...';
+$lang['chat_i_sent_new_message'] = 'لقد أرسلت لك رسالة صوتية جديدة ...';
+$lang['chat_new_audio_group_message'] = ' إرسل رسالة صوتية جديدة إلى المجموعة';
+$lang['chat_click_to_record'] = 'أرسل رسالة صوتية جديدة.';
+$lang['chat_is_recording'] = 'تسجيل';
+$lang['chat_recording_finished'] = 'انتهى ... جارٍ تقديم ملف صوتي ...';
+$lang['chat_send_audio_message'] = 'إرسل رسالة صوتية جديدة إلى الموظف أو المجموعة المحددة';

@@ -412,6 +412,13 @@ class General extends AdminController{
     public function update_emergency_contact(){
         $data = $this->input->post();
         $id = $this->input->post('id');
+        if(empty($data['is_dependent'])){
+            $data['is_dependent'] = 0;
+        }
+        if(empty($data['is_primary'])){
+            $data['is_primary'] = 0;
+        }
+        //var_dump($data);exit;
         $success = $this->Emergency_contact_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));

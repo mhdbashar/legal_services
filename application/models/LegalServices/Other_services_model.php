@@ -222,6 +222,13 @@ class Other_services_model extends App_Model
         $this->db->insert(db_prefix() . 'my_other_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+
+            //Make tags from name and description
+            $name_array        = convert_to_tags($data['name']);
+            $description_array = convert_to_tags($data['description']);
+            $services_tags     = array_merge($name_array, $description_array);
+            save_edit_services_tags($services_tags, $insert_id, $slug);
+
             handle_tags_save($tags, $insert_id, $slug);
 
             if (isset($custom_fields)) {
@@ -309,6 +316,13 @@ class Other_services_model extends App_Model
     public function update($ServID,$id, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        //Make tags from name and description
+        $name_array        = convert_to_tags($data['name']);
+        $description_array = convert_to_tags($data['description']);
+        $services_tags     = array_merge($name_array, $description_array);
+        save_edit_services_tags($services_tags, $id, $slug);
+
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $this->db->select('status');
         $this->db->where(array('id' => $id, 'service_id' => $ServID));
@@ -462,6 +476,7 @@ class Other_services_model extends App_Model
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id);
         }
+
         $data['service_id']= $ServID;
         $data = hooks()->apply_filters('before_update_project', $data, $id);
         $this->db->where(array('id' => $id, 'service_id' => $ServID));
@@ -648,6 +663,14 @@ class Other_services_model extends App_Model
             foreach ($lists as $list):
                 $this->procedures->delete_list($list['id']);
             endforeach;
+
+            //Delete services tags
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+            foreach ($tags as $tag) {
+                $this->db->where('id', $tag['id']);
+                $this->db->delete(db_prefix() . 'my_services_tags');
+            }
 
             log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
             return true;

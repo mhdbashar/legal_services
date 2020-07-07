@@ -45,13 +45,14 @@ class Cases_model extends App_Model
             $this->db->where(array('my_cases.id' => $id, 'my_cases.deleted' => 0));
             $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
-            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id');
-            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
             $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id');
             $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num');
             $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative');
             $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
+            //print_r($project);exit();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
                 $settings                      = $this->get_case_settings($id);
@@ -187,8 +188,6 @@ class Cases_model extends App_Model
             $data['progress_from_tasks'] = 0;
         }
 
-
-
         $data['start_date'] = to_sql_date($data['start_date']);
 
         if (!empty($data['deadline'])) {
@@ -232,6 +231,12 @@ class Cases_model extends App_Model
         $this->db->insert(db_prefix() . 'my_cases', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+
+            //Make tags from name and description
+            $name_array        = convert_to_tags($data['name']);
+            $description_array = convert_to_tags($data['description']);
+            $services_tags     = array_merge($name_array, $description_array);
+            save_edit_services_tags($services_tags, $insert_id, $slug);
 
             //Add Case Movement
             $this->movement->add($ServID, $insert_id, $data);
@@ -330,6 +335,13 @@ class Cases_model extends App_Model
     public function update($ServID,$id,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        //Make tags from name and description
+        $name_array        = convert_to_tags($data['name']);
+        $description_array = convert_to_tags($data['description']);
+        $services_tags     = array_merge($name_array, $description_array);
+        save_edit_services_tags($services_tags, $id, $slug);
+
         $this->db->select('status');
         $this->db->where('id', $id);
         $old_status = $this->db->get(db_prefix() . 'my_cases')->row()->status;
@@ -647,6 +659,14 @@ class Cases_model extends App_Model
             foreach ($lists as $list):
                 $this->procedures->delete_list($list['id']);
             endforeach;
+
+            //Delete services tags
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $tags = $this->db->get(db_prefix().'my_services_tags')->result_array();
+            foreach ($tags as $tag) {
+                $this->db->where('id', $tag['id']);
+                $this->db->delete(db_prefix() . 'my_services_tags');
+            }
 
             log_activity('Case Deleted [CaseID: ' . $id . ']');
             return true;

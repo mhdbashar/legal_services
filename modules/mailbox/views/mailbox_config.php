@@ -23,7 +23,7 @@
     <div class="col-md-12">
         <label for="signature" class="control-label"><?php echo _l('mailbox_email_signature'); ?></label>
         <div class="input-group">
-        <?php $value = (isset($member) ? $member->mail_signature : 'Sent from Perfex'); ?>
+        <?php $value = (isset($member) ? $member->mail_signature : 'Sent from Babil'); ?>
         <?php echo render_textarea('mail_signature','',$value); ?>
 	    </div>
     </div>

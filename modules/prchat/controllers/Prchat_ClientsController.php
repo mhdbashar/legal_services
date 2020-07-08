@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: Perfex CRM Powerful Chat
-Description: Chat Module for Perfex CRM
-Author: Aleksandar Stojanov
-Author URI: https://idevalex.com
+Module Name: Babil Powerful Chat
+Description: Chat Module for Babil Law Services
+Author: Babil Team
+Author URI: https://babil.com.sa
 Requires at least: 2.3.2
 */
 

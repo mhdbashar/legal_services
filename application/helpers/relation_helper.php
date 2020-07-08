@@ -67,7 +67,6 @@ function get_relation_data($type, $rel_id = '')
         }
     } elseif ($type == 'contract' || $type == 'contracts') {
         $CI->load->model('contracts_model');
-
         if ($rel_id != '') {
             $CI->load->model('contracts_model');
             $data = $CI->contracts_model->get($rel_id);

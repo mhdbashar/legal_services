@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $project_id = $this->ci->input->post('project_id');
@@ -24,6 +25,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'invoices.project_id',
     'LEFT JOIN ' . db_prefix() . 'my_basic_services ON ' . db_prefix() . 'my_basic_services.slug = ' . db_prefix() . 'invoices.rel_stype',
 ];
+
 
 $ci = &get_instance();
 if($ci->app_modules->is_active('branches')){
@@ -183,10 +185,10 @@ foreach ($rResult as $aRow) {
     } else {
         $row[] = $aRow['deleted_customer_name'];
     }
-
-    if ($aRow['project_id'] == 0){
+    if ($aRow['project_id'] == 0 && $aRow['rel_stype'] != '' && $aRow['rel_sid'] != ''){
         $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
         $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+
         if($ServID == 1){
             $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
         }else{

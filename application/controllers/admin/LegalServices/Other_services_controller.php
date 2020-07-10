@@ -147,9 +147,9 @@ class Other_services_controller extends AdminController
         ]);
     }
 
-    public function staff_projects()
+    public function staff_services()
     {
-        $this->app->get_table_data('staff_projects');
+        $this->app->get_table_data('staff_services');
     }
 
     public function expenses($id, $slug = '')

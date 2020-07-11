@@ -149,9 +149,9 @@ class Cases_controller extends AdminController
         ]);
     }
 
-    public function staff_projects()
+    public function staff_cases()
     {
-        $this->app->get_table_data('staff_projects');
+        $this->app->get_table_data('staff_cases');
     }
 
     public function expenses($id, $slug = '')

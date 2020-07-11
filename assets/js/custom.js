@@ -420,3 +420,37 @@ $(window).load(function() {
 
     });
 });
+
+$(function() {
+    init_table_staff_cases();
+    init_table_staff_services();
+});
+// Staff cases table in staff profile
+function init_table_staff_cases(manual) {
+    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if ($("body").find('.table-staff-cases').length === 0) { return; }
+
+    var staffProjectsParams = {},
+        Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
+
+    $.each(Staff_Projects_Filters, function() {
+        staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    initDataTable('.table-staff-cases', admin_url + 'LegalServices/Cases_controller/staff_cases', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+}
+
+// Staff services table in staff profile
+function init_table_staff_services(manual) {
+    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if ($("body").find('.table-staff-services').length === 0) { return; }
+
+    var staffProjectsParams = {},
+        Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
+
+    $.each(Staff_Projects_Filters, function() {
+        staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    initDataTable('.table-staff-services', admin_url + 'LegalServices/Other_services_controller/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+}

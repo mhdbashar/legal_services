@@ -1,4 +1,6 @@
 <?php
+$lang['home_my_cases'] = "القضايا";
+$lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";
 $lang['technical_competencies'] = "الكفاءة المهنية";
 $lang['problem_deleting_rel_serv'] = "الرجاء التأكد من عدم وجود خدمات متعلقة بهذا التصنيف قبل الحذف";

@@ -14,8 +14,13 @@
                      </a>
                   </li>
                   <li role="presentation">
-                     <a href="#home_my_projects" onclick="init_table_staff_cases(true);" aria-controls="home_my_projects" role="tab" data-toggle="tab">
-                     <i class="fa fa-bars menu-icon"></i> <?php echo _l('home_my_projects'); ?>
+                     <a href="#home_my_cases" onclick="init_table_staff_cases(true);" aria-controls="home_my_projects" role="tab" data-toggle="tab">
+                     <i class="fa fa-gavel menu-icon"></i> <?php echo _l('home_my_cases'); ?>
+                     </a>
+                  </li>
+                  <li role="presentation">
+                     <a href="#home_my_services" onclick="init_table_staff_services(true);" aria-controls="home_my_projects" role="tab" data-toggle="tab">
+                     <i class="fa fa-bars menu-icon"></i> <?php echo _l('home_my_services'); ?>
                      </a>
                   </li>
                   <li role="presentation">
@@ -91,7 +96,7 @@
                      <?php echo AdminTicketsTableStructure(); ?>
                   </div>
                   <?php } ?>
-                  <div role="tabpanel" class="tab-pane" id="home_my_projects">
+                  <div role="tabpanel" class="tab-pane" id="home_my_cases">
                      <a href="<?php echo admin_url('Service/1'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
                      <div class="clearfix"></div>
                      <?php render_datatable(array(
@@ -99,7 +104,20 @@
                         _l('project_start_date'),
                         _l('project_deadline'),
                         _l('project_status'),
-                        ),'staff-projects',[], [
+                        ),'staff-cases',[], [
+                        'data-last-order-identifier' => 'my-projects',
+                        'data-default-order'  => get_table_last_order('my-projects'),
+                        ]);
+                        ?>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="home_my_services">
+                     <div class="clearfix"></div>
+                     <?php render_datatable(array(
+                        _l('project_name'),
+                        _l('project_start_date'),
+                        _l('project_deadline'),
+                        _l('project_status'),
+                        ),'staff-services',[], [
                         'data-last-order-identifier' => 'my-projects',
                         'data-default-order'  => get_table_last_order('my-projects'),
                         ]);

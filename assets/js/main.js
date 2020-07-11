@@ -7222,20 +7222,3 @@ function init_currency_symbol() {
     console.warn('"init_currency_symbol" is deprecated, use "init_currency" instead')
     init_currency();
 }
-
-init_table_staff_cases();
-
-// Staff projects table in staff profile
-function init_table_staff_cases(manual) {
-    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
-    if ($("body").find('.table-staff-projects').length === 0) { return; }
-
-    var staffProjectsParams = {},
-        Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
-
-    $.each(Staff_Projects_Filters, function() {
-        staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
-    });
-
-    initDataTable('.table-staff-projects', admin_url + 'LegalServices/Cases_controller/staff_projects', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
-}

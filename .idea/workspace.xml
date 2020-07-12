@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application/views/admin/tables/my_staff_timesheets.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Staff.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/relation_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/relation_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/LegalServicesModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/LegalServicesModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/dashboard/widgets/my_top_stats.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/dashboard/widgets/my_top_stats.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +293,11 @@
       <workItem from="1594157686506" duration="641000" />
       <workItem from="1594415673680" duration="1412000" />
       <workItem from="1594417477808" duration="1921000" />
-      <workItem from="1594583950147" duration="471000" />
+      <workItem from="1594583950147" duration="1548000" />
+      <workItem from="1594585754883" duration="1846000" />
+      <workItem from="1594587613803" duration="2172000" />
+      <workItem from="1594589797827" duration="1795000" />
+      <workItem from="1594591604324" duration="611000" />
     </task>
     <servers />
   </component>
@@ -319,18 +330,18 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1594157974695" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1594583950055">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1594591604553">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1594583950055" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1594591604553" />
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587329109637">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587329109637" />
-    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1594418599585">
+    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1594591180807">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594418599585" />
+    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594591180807" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1587926708545">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

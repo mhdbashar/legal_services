@@ -13,7 +13,7 @@ if (!function_exists('get_appointment_types')) {
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <title><?php echo hooks()->apply_filters('appointments_form_title', _l('appointment_create_new_appointment')); ?></title>
     <link href="<?= module_dir_url('appointly', 'assets/css/appointments_external_form.css'); ?>" rel="stylesheet" type="text/css">
-    <?php app_external_form_header($form); ?>
+    <?php app_external_form_header(isset($form)); ?>
     </style>
 </head>
 
@@ -22,21 +22,39 @@ if (!function_exists('get_appointment_types')) {
                                             } ?>>
     <div class="container-fluid">
         <div id="response"></div>
+
+        <?php $clientUserData = $this->session->userdata(); ?>
+
         <?php echo form_open('appointly/appointments_public/create_external_appointment', array('id' => 'appointments-form')); ?>
+
         <input type="text" hidden name="rel_type" value="external">
+
         <div class="row">
-            <div class="main_wrapper <?php if ($this->input->get('col')) {
-                                            echo $this->input->get('col');
-                                        } else {
-                                            echo 'col-md-12';
-                                        } ?>">
-                <div class="appointment-header">
-                    <?php hooks()->do_action('appointly_form_header'); ?>
+
+            <div class="main_wrapper <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
+
+                <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
+
+                <div class="text-center">
+
+                    <h4 class="text-center"><?= _l('appointment_create_new_appointment'); ?></h4>
+
+                    <?php if (is_client_logged_in()) : ?>
+                        <div class="col-md-12" style="margin-bottom: 15px;">
+                            <div class="row">
+                                <a href="<?= base_url(); ?>" class="go_back_button"><?= _l('appointment_want_to_go_back'); ?></a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
-                <h4 class="text-center"><?= _l('appointment_create_new_appointment'); ?></h4>
+
                 <?php echo render_input('subject', 'appointment_subject'); ?>
+
                 <?php echo render_textarea('description', 'appointment_description', '', array('rows' => 5)); ?>
+
                 <?php $appointment_types = get_appointment_types();
+
                 if (count($appointment_types) > 0) { ?>
                     <div class="form-group appointment_type_holder">
                         <label for="appointment_select_type" class="control-label"><?= _l('appointments_type_heading'); ?></label>
@@ -52,15 +70,15 @@ if (!function_exists('get_appointment_types')) {
                 <?php } ?>
                 <div class="form-group">
                     <label for="name"><?= _l('appointment_full_name'); ?></label>
-                    <input type="text" class="form-control" value="" name="name" id="name">
+                    <input type="text" class="form-control" value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_full_name($clientUserData['contact_user_id']) : ''; ?>" name="name" id="name">
                 </div>
                 <div class="form-group">
                     <label for="email"><?= _l('appointment_your_email'); ?></label>
-                    <input type="email" class="form-control" value="" name="email" id="email">
+                    <input type="email" class="form-control" value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'email') : ''; ?>" name="email" id="email">
                 </div>
                 <div class="form-group">
                     <label for="number"><?= _l('appointment_phone'); ?> (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
-                    <input type="text" class="form-control" value="" name="phone" id="phone">
+                    <input type="text" class="form-control" value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>" name="phone" id="phone">
                 </div>
                 <div class="hours_wrapper">
                     <span class="available_time_info hwp"><?= _l('appointment_available_hours'); ?></span>
@@ -100,8 +118,8 @@ if (!function_exists('get_appointment_types')) {
         app.locale = "<?= get_locale_key($form->language); ?>";
     </script>
     <?php require('modules/appointly/assets/js/appointments_external_form.php'); ?>
-    
-    <!-- 
+
+    <!--
         If callbacks is enabled load on appointments external form
      -->
     <?php if (get_option('callbacks_mode_enabled') == 1) : ?>

@@ -19,7 +19,7 @@ $sTable       = db_prefix() . 'appointly_appointments';
 
 $where  = [];
 
-if (!is_admin() && !is_staff_appointments_responsible()) {
+if (!is_admin() && !staff_appointments_responsible()) {
     array_push($where, 'AND (' . db_prefix() . 'appointly_appointments.created_by=' . get_staff_user_id() . ') 
     OR ' . db_prefix() . 'appointly_appointments.id 
     IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
@@ -31,16 +31,28 @@ if ($this->ci->input->post('custom_view')) {
         $where[] = 'AND approved = "1" AND cancelled = "0"';
     }
 
+    /** Cancelled filter */
     if ($this->ci->input->post('custom_view') == 'cancelled') {
         $where[] = 'AND cancelled= "1"';
     }
 
+    /** Finished filter */
     if ($this->ci->input->post('custom_view') == 'finished') {
         $where[] = 'AND cancelled= "0" AND finished = "1" AND approved = "1"';
     }
 
+    /** Not approved filter */
     if ($this->ci->input->post('custom_view') == 'not_approved') {
         $where[] = 'AND approved != "1"';
+    }
+    /** Upcoming filter */
+    if ($this->ci->input->post('custom_view') == 'upcoming') {
+        $where[] = 'AND finished = "0" AND cancelled = "0" AND approved = "1" AND date > CURDATE()';
+    }
+
+    /** Missed filter */
+    if ($this->ci->input->post('custom_view') == 'missed') {
+        $where[] = 'AND date < CURDATE()';
     }
 }
 
@@ -58,6 +70,9 @@ $additionalSelect = [
     'contact_id',
     'google_calendar_link',
     'google_added_by_id',
+    'outlook_calendar_link',
+    'outlook_added_by_id',
+    'outlook_event_id',
     'feedback'
 ];
 
@@ -127,7 +142,7 @@ foreach ($rResult as $aRow) {
     $isContact = ($aRow['contact_id']) ? 0 : 1;
     $options .= '
                 <div class="btn-group" data-toggle="tooltip" title="' . _l('appointments_select_option') . '">
-                <button class="btn btn-primary btn-xs dropdown-toggle appointly_dropdown_options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-primary-options btn-xs dropdown-toggle appointly_dropdown_options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="fa fa-tasks"></i>
                 </button>
                 <ul class="dropdown-menu">
@@ -148,16 +163,15 @@ foreach ($rResult as $aRow) {
         $options .= '<li><a onclick="request_appointment_feedback(\'' . $aRow['id'] . '\')" data-toggle="tooltip" title="' . _l('appointments_request_feedback_from_client') . '" href="#">' . _l('appointments_request_feedback') . '</a></li>';
     }
 
+    if (staff_can('delete', 'appointments') && $aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+        $options .= '<li><a id="confirmDelete" data-toggle="tooltip" title="' . _l('appointment_dismiss_meeting') . '" href="" onclick="deleteAppointment(' . $aRow['id'] . ',this); return false;"><i class="fa fa-trash text-danger"></i> ' . _l('delete') . '</a></li>';
+    }
+
     $options .= '</ul>';
     $options .= '</div>';
 
-
-    if (staff_can('edit', 'appointments') || is_staff_appointments_responsible()) {
-        $options .= '<button class="btn btn-warning btn-xs mleft5" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this)"><i class="fa fa-edit"></i></button>';
-    }
-
-    if (staff_can('delete', 'appointments')) {
-        $options .= '<a class="btn btn-danger btn-xs mleft5" id="confirmDelete" data-toggle="tooltip" title="' . _l('appointment_dismiss_meeting') . '" href="' . admin_url('appointly/appointments/delete/' . $aRow['id']) . '" onclick="return confirm(\'' . _l('appointment_are_you_sure') . '\')"><i class="fa fa-trash"></i></a>';
+    if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
+        $options .= '<button class="btn btn-primary btn-xs mleft5" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this)"><i class="fa fa-edit"></i></button>';
     }
 
     if (
@@ -188,6 +202,13 @@ foreach ($rResult as $aRow) {
         && $aRow['google_added_by_id'] == get_staff_user_id()
     ) {
         $options .= '<a data-toggle="tooltip" title="' . _l('appointment_open_google_calendar') . '" href="' . $aRow['google_calendar_link'] . '" target="_blank" class="btn btn-primary-google btn-xs mleft5"><i class="fa fa-google" aria-hidden="true"></i></a>';
+    }
+
+    if (
+        $aRow['outlook_calendar_link'] !== null
+        && $aRow['outlook_added_by_id'] == get_staff_user_id()
+    ) {
+        $options .= '<a data-outlook-id="' . $aRow['outlook_event_id'] . '" id="outlookLink" data-toggle="tooltip" title="' . _l('appointment_open_outlook_calendar') . '" href="' . $aRow['outlook_calendar_link'] . '" target="_blank" class="btn btn-primary-outlook btn-xs mleft5 float-right"><i class="fa fa-envelope" aria-hidden="true"></i></a>';
     }
 
 

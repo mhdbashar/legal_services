@@ -253,7 +253,6 @@ $lang['email_queue_skip_attachments_exp']= "Most likely you will encounter probl
 $lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.";
 $lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
 $lang['settings_sales_bo_box'] = "BO Box";
->>>>>>> 50127459c321e8415b313ec063ee2dd38ed1511a
 
 $lang['global_hr_setting'] = 'Global HR Settings';
 $lang['hr'] = 'HR';

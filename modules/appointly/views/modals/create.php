@@ -3,24 +3,39 @@
     $rel_type = 'lead';
     $rel_id = '';
     ?>
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?= _l('close'); ?>"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?php echo _l('appointment_new_appointment'); ?></h4>
             </div>
+            <input type="hidden" id="ms-access-token" value="" />
+            <input type="hidden" id="ms-outlook-event-id" value="" />
             <?php echo form_open('appointly/appointments/create', array('id' => 'appointment-form')); ?>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="checkbox pull-right mrtopmin5" id="showOutlookCheckbox">
+                            <input type="checkbox" id="outlook-checkbox">
+                            <label data-toggle="tooltip" title="<?= _l('appointment_add_to_outlook'); ?>" for="outlook"> <i class="fa fa-envelope" aria-hidden="true"></i></label>
+                        </div>
                         <?php if (appointlyGoogleAuth() && get_option('appointly_google_client_secret')) : ?>
-                            <div class="checkbox pull-right mtop1">
+                            <div class="checkbox pull-right mright15 mtop1">
                                 <input type="checkbox" name="google" id="google" checked>
                                 <label data-toggle="tooltip" title="<?= _l('appointment_add_to_google_calendar'); ?>" for="google"> <i class="fa fa-google" aria-hidden="true"></i></label>
                             </div>
                         <?php endif; ?>
                         <?php echo render_input('subject', 'appointment_subject'); ?>
                         <?php echo render_textarea('description', 'appointment_description', '', array('rows' => 5)); ?>
+                        <div class="form-group select-placeholder">
+                            <label for="rel_type" class="control-label"><?php echo _l('proposal_related'); ?></label>
+                            <select name="rel_type" id="rel_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                <option value=""></option>
+                                <option id="lead_related" value="lead_related"><?= _l('lead'); ?></option>
+                                <option id="external" value="external"><?= _l('appointments_source_external_label'); ?></option>
+                                <option id="internal" value="internal"><?= _l('appointment_source_internal'); ?></option>
+                            </select>
+                        </div>
                         <div class="form-group select-placeholder hide" id="rel_id_wrapper">
                             <input type="text" hidden name="rel_lead_type" id="rel_lead_type" value="leads">
                             <label for="rel_id"><?= _l('leads'); ?></label>
@@ -34,15 +49,6 @@
                                     } ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group select-placeholder">
-                            <label for="rel_type" class="control-label"><?php echo _l('proposal_related'); ?></label>
-                            <select name="rel_type" id="rel_type" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                <option value=""></option>
-                                <option id="lead_related" value="lead_related"><?= _l('lead'); ?></option>
-                                <option id="external" value="external"><?= _l('appointments_source_external_label'); ?></option>
-                                <option id="internal" value="internal"><?= _l('appointment_source_internal'); ?></option>
-                            </select>
                         </div>
                         <div class="form-group hidden" id="select_contacts">
                             <?php echo render_select('contact_id', $contacts, array('contact_id', array('firstname', 'lastname', 'company')), 'appointment_select_single_contact', '', array(),  array(), '', '', true); ?>
@@ -163,3 +169,5 @@
 </div><!-- /.modal -->
 <?php require('modules/appointly/assets/js/modals/create_js.php'); ?>
 <script>
+
+</script>

@@ -66,8 +66,11 @@ class Appointly_model extends App_Model
                  * Means it is comming from inside crm form as External not internal (Contact)
                  */
                 $data['created_by'] = get_staff_user_id();
-                $external_cid = $data['contact_id'];
-                $data['contact_id'] = NULL;
+
+                if (isset($data['contact_id'])) {
+                    $external_cid = $data['contact_id'];
+                    $data['contact_id'] = NULL;
+                }
                 /**
                  * We are setting source to external because it is relation is marked as an External Contact
                  */
@@ -110,6 +113,9 @@ class Appointly_model extends App_Model
                 $googleEvent = insertAppointmentToGoogleCalendar($data, $attendees);
                 $data['google_event_id'] = $googleEvent['google_event_id'];
                 $data['google_calendar_link'] = $googleEvent['htmlLink'];
+                if (isset($googleEvent['hangoutLink'])) {
+                    $data['google_meet_link'] = $googleEvent['hangoutLink'];
+                }
                 $data['google_added_by_id'] = get_staff_user_id();
 
                 unset($data['google'], $data['external_contact_id']);
@@ -148,6 +154,7 @@ class Appointly_model extends App_Model
                 'fromcompany'     => true,
                 'link'            => 'appointly/appointments/view?appointment_id=' . $appointment_id,
             ]);
+            pusher_trigger_notification(array_unique([$responsiblePerson]));
         }
 
         return true;
@@ -162,7 +169,6 @@ class Appointly_model extends App_Model
             )
         ];
 
-
         if (appointlyGoogleAuth()) {
 
             if (isset($data['google_added_by_id']) && $data['google_added_by_id'] == null) {
@@ -173,6 +179,11 @@ class Appointly_model extends App_Model
                 // It means that meeting is internal an created from CRM inside
                 $data['google_event_id'] = $googleEvent['google_event_id'];
                 $data['google_calendar_link'] = $googleEvent['htmlLink'];
+
+                if (isset($googleEvent['hangoutLink'])) {
+                    $data['google_meet_link'] = $googleEvent['hangoutLink'];
+                }
+
                 $data['google_added_by_id'] = get_staff_user_id();
 
                 $data['id'] = $data['appointment_id'];
@@ -180,9 +191,12 @@ class Appointly_model extends App_Model
                 $data = array_merge($data, $this->convertDateForDatabase($data['date']));
 
                 if ($googleEvent) {
+
                     unset($data['selected_contact']);
                     unset($data['appointment_id']);
                     unset($data['attendees']);
+                    unset($data['custom_fields']);
+
                     $this->db->where('id', $data['id']);
                     $this->db->update(db_prefix() . 'appointly_appointments', $data);
                     if ($this->db->affected_rows() !== 0) {
@@ -260,7 +274,9 @@ class Appointly_model extends App_Model
             pusher_trigger_notification($notified_users);
         }
 
-        hooks()->do_action('send_sms_after_external_appointment_submitted');
+        $appointment_link = site_url() . 'appointly/appointments/view?appointment_id=' . $appointment_id;
+
+        hooks()->do_action('send_sms_after_external_appointment_submitted', $appointment_link);
 
         return true;
     }
@@ -379,7 +395,7 @@ class Appointly_model extends App_Model
 
         $_appointment = $this->get_appointment_data($appointment_id);
 
-        if ($_appointment['created_by'] !== get_staff_user_id() && !is_admin() && !is_staff_appointments_responsible()) {
+        if ($_appointment['created_by'] != get_staff_user_id() && !is_admin() && !staff_appointments_responsible()) {
             set_alert('danger', _l('appointments_no_delete_permissions'));
 
             if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
@@ -402,7 +418,7 @@ class Appointly_model extends App_Model
 
         $this->db->where('id', $appointment_id);
 
-        if (!is_admin() && !is_staff_appointments_responsible()) {
+        if (!is_admin() && !staff_appointments_responsible()) {
             $this->db->where('created_by', get_staff_user_id());
         }
 
@@ -563,8 +579,7 @@ class Appointly_model extends App_Model
      */
     function apply_contact_data($contact_id, $is_lead)
     {
-
-        if ($is_lead == 'false') {
+        if ($is_lead === "false") {
             return $this->clients_model->get_contact($contact_id);
         } else {
             $this->load->model('leads_model');
@@ -879,6 +894,8 @@ class Appointly_model extends App_Model
 
         $template->send();
 
+        pusher_trigger_notification(array_unique($notified_users));
+
         if ($appointment['by_sms']) {
             $this->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
         }
@@ -977,6 +994,12 @@ class Appointly_model extends App_Model
         return $data;
     }
 
+    /**
+     * Handles the request for new appointment feedback
+     *
+     * @param string $appointment_id
+     * @return json
+     */
     public function request_appointment_feedback($appointment_id)
     {
         $appointment = $this->get_appointment_data($appointment_id);
@@ -990,6 +1013,14 @@ class Appointly_model extends App_Model
         }
     }
 
+    /**
+     * Handles new feedback
+     *
+     * @param string $id
+     * @param string $feedback
+     * @param string $comment
+     * @return boolean
+     */
     function handle_feedback_post($id, $feedback, $comment = null)
     {
 
@@ -1036,5 +1067,94 @@ class Appointly_model extends App_Model
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * Inserts new event to outlook calendar
+     *
+     * @param array $data
+     * @return boolean
+     */
+    public function inserNewOutlookEvent($data)
+    {
+        $last_appointment_id = $this->db->get(db_prefix() . 'appointly_appointments')->last_row()->id;
+
+        $this->db->where('id', $last_appointment_id);
+
+        $this->db->update(
+            db_prefix() . 'appointly_appointments',
+            [
+                'outlook_event_id' => $data['outlook_event_id'],
+                'outlook_calendar_link' => $data['outlook_calendar_link'],
+                'outlook_added_by_id' => get_staff_user_id(),
+            ]
+        );
+        return true;
+    }
+
+    /**
+     * Inserts new event to outlook calendar
+     *
+     * @param array $data
+     * @return boolean
+     */
+    public function updateAndAddExistingOutlookEvent($data)
+    {
+        $this->db->where('id', $data['appointment_id']);
+
+        $this->db->update(
+            db_prefix() . 'appointly_appointments',
+            [
+                'outlook_event_id' => $data['outlook_event_id'],
+                'outlook_calendar_link' => $data['outlook_calendar_link'],
+                'outlook_added_by_id' => get_staff_user_id(),
+            ]
+        );
+
+        if ($this->db->affected_rows() !== 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles sending custom email to client
+     *
+     * @param array $data
+     * @return boolean
+     */
+    public function sendGoogleMeetRequestEmail($data)
+    {
+        $this->load->model('emails_model');
+        $attendees = json_decode($data['attendees']);
+        $message = $data['message'];
+
+        if (is_array($attendees) && count($attendees) > 1) {
+            $staff = appointly_get_staff($this->session->userdata('staff_user_id'));
+            foreach ($attendees as $attendee) {
+                // dont sent to own email
+                if ($staff['email'] !== $attendee) {
+                    // send to attendees
+                    $this->emails_model->send_simple_email(
+                        $attendee,
+                        _l('appointment_connect_via_google_meet'),
+                        $message
+                    );
+                }
+            }
+            // client email
+            return $this->emails_model->send_simple_email(
+                $data['to'],
+                _l('appointment_connect_via_google_meet'),
+                $message
+            );
+        } else {
+            return $this->emails_model->send_simple_email(
+                $data['to'],
+                _l('appointment_connect_via_google_meet'),
+                $message
+            );
+        }
     }
 }

@@ -176,6 +176,10 @@ class Service_model extends App_Model
             $project_settings = $data['settings'];
             unset($data['settings']);
         }
+        if (isset($data['available_features'])) {
+            $available_features = $data['available_features'];
+            unset($data['available_features']);
+        }
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
@@ -221,6 +225,11 @@ class Service_model extends App_Model
         $this->db->insert(db_prefix() . 'my_imported_services', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $this->db->insert(db_prefix() . 'iservice_settings', [
+                'oservice_id' => $insert_id,
+                'name' => 'available_features',
+                'value' => $available_features,
+            ]);
             handle_tags_save($tags, $insert_id, $slug);
 
             if (isset($custom_fields)) {
@@ -247,28 +256,8 @@ class Service_model extends App_Model
                         } else {
                             $value_setting = 0;
                         }
-                    } else {
-                        $tabs = get_iservice_tabs_admin();
-                        $tab_settings = [];
-                        foreach ($_values[$setting] as $tab) {
-                            $tab_settings[$tab] = 1;
-                        }
-                        foreach ($tabs as $tab) {
-                            if (!isset($tab['collapse'])) {
-                                if (!in_array($tab['slug'], $_values[$setting])) {
-                                    $tab_settings[$tab['slug']] = 0;
-                                }
-                            } else {
-                                foreach ($tab['children'] as $tab_dropdown) {
-                                    if (!in_array($tab_dropdown['slug'], $_values[$setting])) {
-                                        $tab_settings[$tab_dropdown['slug']] = 0;
-                                    }
-                                }
-                            }
-                        }
-                        $value_setting = serialize($tab_settings);
                     }
-                    $this->db->insert(db_prefix() . 'oservice_settings', [
+                    $this->db->insert(db_prefix() . 'iservice_settings', [
                         'oservice_id' => $insert_id,
                         'name' => $setting,
                         'value' => $value_setting,
@@ -276,12 +265,14 @@ class Service_model extends App_Model
                 }
             } else {
                 foreach ($original_settings as $setting) {
-                    $value_setting = 0;
-                    $this->db->insert(db_prefix() . 'oservice_settings', [
-                        'oservice_id' => $insert_id,
-                        'name' => $setting,
-                        'value' => $value_setting,
-                    ]);
+                    if ($setting != 'available_features'){
+                        $value_setting = 0;
+                        $this->db->insert(db_prefix() . 'iservice_settings', [
+                            'oservice_id' => $insert_id,
+                            'name' => $setting,
+                            'value' => $value_setting,
+                        ]);
+                    }
                 }
             }
 
@@ -388,7 +379,7 @@ class Service_model extends App_Model
 
                 $this->db->where('oservice_id', $id);
                 $this->db->where('name', $setting['name']);
-                $this->db->update(db_prefix() . 'oservice_settings', [
+                $this->db->update(db_prefix() . 'iservice_settings', [
                     'value' => $value_setting,
                 ]);
 

@@ -244,10 +244,7 @@ class Imported_services_controller extends AdminController
                 blank_page(_l('LService_not_found'));
             }
 
-            $project->settings->available_features = [
-                'project_overview',
-                'project_invoices'
-            ];
+            $project->settings->available_features = unserialize($project->settings->available_features);
             $data['statuses'] = $this->other->get_project_statuses();
 
             $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');

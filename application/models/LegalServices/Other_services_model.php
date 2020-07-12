@@ -133,7 +133,7 @@ class Other_services_model extends App_Model
             $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
-                $settings = $this->get_project_settings($id);
+                $settings = $this->get_imported_project_settings($id);
 
                 // SYNC NEW TABS
                 $tabs = get_iservice_tabs_admin();
@@ -1132,6 +1132,22 @@ class Other_services_model extends App_Model
         return $project->progress;
     }
 
+    public function calc_imported_progress($slug,$id)
+    {
+        $this->db->select('progress_from_tasks,progress,status');
+        $this->db->where('id', $id);
+        $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+        if ($project->status == 4) {
+            return 100;
+        }
+
+        if ($project->progress_from_tasks == 1) {
+            return $this->calc_progress_by_tasks($id,$slug);
+        }
+
+        return $project->progress;
+    }
+
     public function calc_progress_by_tasks($id,$slug )
     {
         $total_project_tasks = total_rows(db_prefix() . 'tasks', [
@@ -2065,6 +2081,12 @@ class Other_services_model extends App_Model
     {
         $this->db->where('oservice_id', $project_id);
         return $this->db->get(db_prefix() . 'oservice_settings')->result_array();
+    }
+
+    public function get_imported_project_settings($project_id)
+    {
+        $this->db->where('oservice_id', $project_id);
+        return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
     }
 
     public function remove_team_member($ServID = '',$project_id, $staff_id)

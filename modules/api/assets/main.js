@@ -18,6 +18,12 @@ function new_user() {
     $('div[app-field-wrapper="repeat_passwork"]').removeClass('hide');
 }
 
+
+
+
+
+
+
 function edit_user(invoker, id) {
     appValidateForm($('form'), {
         user: 'required',
@@ -38,3 +44,6 @@ function edit_user(invoker, id) {
     $('#user_api').modal('show');
     $('.add-title').addClass('hide');
 }
+
+
+

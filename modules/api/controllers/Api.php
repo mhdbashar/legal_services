@@ -8,6 +8,8 @@ class Api extends AdminController
     {
         parent::__construct();
         $this->load->model('api_model');
+		 $this->load->model('service_model');
+	
     }
     public function api_management()
     {
@@ -30,8 +32,12 @@ class Api extends AdminController
         if ($this->input->post()) {
             if (!$this->input->post('id')) {
                 $id = $this->api_model->add_user($this->input->post());
-               
+           
                 if ($id) {
+                    $this->db->where('id',$id);
+                    $result=$this->db->get(db_prefix() . 'user_api')->row();
+                     $token_t = $result->token;
+                     $this->insert_into_api($token_t);
                     set_alert('success', _l('added_successfully', _l('user_api')));
                 }
                  redirect(admin_url('api/api_management'));
@@ -45,6 +51,12 @@ class Api extends AdminController
                 }
                 redirect(admin_url('api/api_management'));
             }
+            
+           
+            
+            
+            
+            
             die;
         }
     }
@@ -63,6 +75,33 @@ class Api extends AdminController
             set_alert('success', _l('deleted', _l('user_api')));
         }
         redirect(admin_url('api/api_management'));
+    }
+	    public function insert_into_api($token_t) {
+      
+        
+$url='https://legaloffices.babillawnet.com/api/insert';
+
+        //$data['offic_name'] = $this->input->post('office_name');
+        $companyname = get_option('companyname');
+        //$data['token'] = $this->service_model->get_token($data['offic_name']);
+        $office_url = base_url();
+        //$office_name = $data['offic_name'];
+        $token = $token_t;
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "offic_name=$companyname&token=$token&office_url=$office_url");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+
+        curl_close($ch);
+       
+      
+        //echo json_encode($office_url);
     }
 
 }

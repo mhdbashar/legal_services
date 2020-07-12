@@ -582,4 +582,14 @@ class Api_model extends App_Model
 
         return $milestones;
     }
+	
+	
+	  public function get_token($office_name) {
+          $this->db->where('name', $office_name);
+        $name = $this->db->get(db_prefix() . 'user_api')->row();
+        if(isset($name)){
+            return $name->token;
+        }
+        return false;
+    }
 }

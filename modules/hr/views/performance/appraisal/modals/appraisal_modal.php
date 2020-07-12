@@ -329,7 +329,7 @@
                 $('[id="branch_id"]').val(data.branch_id);
 
                 $('[id="remarks"]').val(data.remarks);
-
+<?php  if($this->app_modules->is_active('branches')){  ?>
                 $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + data.branch_id, function(response) {
                     if (response.success == true) {
                         $('#e_staff_id').empty();
@@ -354,7 +354,9 @@
                         alert_float('danger', response.message);
                     }
                 }, 'json');
-
+<?php }else{ ?>
+                $('[id="e_staff_id"]').val(data.staff_id);
+<?php } ?>
                 //$('[name="staff_id"]').val(data.staff_id);
 
 

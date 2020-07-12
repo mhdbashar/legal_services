@@ -52,9 +52,24 @@
         })
     };
 
+    // Shows the full screen wrapper with buttons to start recording
+    function showRecordingWrapper() {
+        ifRecordingCancelledAndClose();
+    }
+
     /*-------* Live internet connection tracker *-------*/
     function internetConnectionCheck() {
         return navigator.onLine ? true : false;
+    }
+
+    function isAudioMessage(message) {
+        /** 
+         * Check if it is audio message and decode html
+         */
+        if (message.match('type="audio/ogg"&gt;&lt;/audio&gt')) {
+            return message = renderHtmlForAudio(message);
+        }
+        return message;
     }
 
     /*---------------* Security escaping html in chatboxes prevent database injection *---------------*/
@@ -179,6 +194,9 @@
     function animateContent() {
         if (window.matchMedia("only screen and (max-width: 735px)").matches) {
             var contentWidth = $('#frame .content');
+            setTimeout(function() {
+                isContentActive = true;
+            }, 1000);
             contentWidth.show().animate({
                 "left": '0',
                 'opacity': '1'
@@ -196,6 +214,7 @@
             }, 200, 'linear', function() {
                 $(this).hide();
             });
+            isContentActive = false;
         }
     }
 
@@ -225,4 +244,29 @@
     $('body').on('click', '.connection_field', function() {
         $(this).fadeOut();
     });
+
+    /**
+     * Delete action on tooltipster for staff or groups dynamic
+     */
+    var tooltipserContent = function(message_id, trigger) {
+        var fnc = (trigger == 'group') ? 'delete_group_chat_message(this)' : 'delete_chat_message(this)';
+        var event = (is_mobile()) ? 'ontouchstart' : 'onclick';
+
+        return {
+            content: $("<span id='" + message_id + "' class='prchat_message_delete' " + event + "='" + fnc + "'>" + prchatSettings.deleteChatMessage + "</span>"),
+            interactive: true,
+            side: 'left',
+            animation: 'fade',
+            delay: 200,
+            trigger: "custom",
+            triggerOpen: {
+                mouseenter: true,
+                tap: true
+            },
+            triggerClose: {
+                mouseleave: true,
+                tap: true
+            }
+        };
+    };
 </script>

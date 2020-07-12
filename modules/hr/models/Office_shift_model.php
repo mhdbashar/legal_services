@@ -59,8 +59,10 @@ class Office_shift_model extends App_Model{
         $this->db->delete($this->table_name);
         if ($this->db->affected_rows() > 0) {
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
-            $this->db->where('rel_id', $id);
-            $this->db->delete('tblbranches_services');
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type' => 'office_shift']);
+                $this->db->delete('tblbranches_services');
+            }
             return true;
         } 
  

@@ -1,4 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+/*
+Module Name: Babil Powerful Chat
+Description: Chat Module for Babil Law Services
+Author: Babil Team
+Author URI: https://babil.com.sa
+Requires at least: 2.3.2
+*/
 
 class Prchat_ClientsController extends ClientsController
 {
@@ -99,7 +106,7 @@ class Prchat_ClientsController extends ClientsController
     /**
      * Main function that handles, sending messages, notify events, typing events and inserts message data in database.
      *
-     * @return @websocket event
+     * @throws \Pusher\PusherException
      */
     public function initClientChat()
     {
@@ -184,7 +191,6 @@ class Prchat_ClientsController extends ClientsController
             : $limit = 10;
 
         $offset = 0;
-        $message = '';
 
         if ($this->input->get('offset')) {
             $offset = $this->input->get('offset');
@@ -258,10 +264,9 @@ class Prchat_ClientsController extends ClientsController
         }
     }
 
+
     /**
      * Update unread messages.
-     *
-     * @return json
      */
     public function updateClientUnreadMessages()
     {
@@ -270,10 +275,9 @@ class Prchat_ClientsController extends ClientsController
         echo json_encode($this->chat_model->updateClientUnreadMessages($id, isset($client) ? $client : null));
     }
 
+
     /**
      * Loading more clients from database on click Load more button.
-     *
-     * @return json
      */
     public function loadMoreClients()
     {
@@ -310,7 +314,7 @@ class Prchat_ClientsController extends ClientsController
     /**
      * Live Search clients.
      *
-     * @return json
+     * @return void
      */
     public function searchClients()
     {
@@ -346,6 +350,10 @@ class Prchat_ClientsController extends ClientsController
         $this->load->view('prchat/includes/search_messages_modal', $data);
     }
 
+
+    /**
+     * @throws \Pusher\PusherException
+     */
     public function trigger_ticket_event()
     {
         $trigger = $this->pusher->trigger(

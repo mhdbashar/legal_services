@@ -2,8 +2,9 @@
 /*
 Module Name: chat_name
 Description: chat_desc
-Version: 1.4.0
+Version: 1.4.3
 Requires at least: 2.3.2
+Author: Babil Team
 Author URI: #
 
 */
@@ -11,6 +12,7 @@ Author URI: #
 define('PR_CHAT_MODULE_NAME', 'prchat');
 define('PR_CHAT_MODULE_UPLOAD_FOLDER', module_dir_path(PR_CHAT_MODULE_NAME, 'uploads'));
 define('PR_CHAT_MODULE_GROUPS_UPLOAD_FOLDER', module_dir_path(PR_CHAT_MODULE_NAME, 'uploads/groups'));
+define('PR_CHAT_MODULE_AUDIO_UPLOAD_FOLDER', module_dir_path(PR_CHAT_MODULE_NAME, 'uploads/audio'));
 
 /*
  Defined group chat table names

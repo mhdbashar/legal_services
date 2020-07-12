@@ -216,7 +216,9 @@
                                                     foreach ($data as $row) {
                                                         if($case->jud_num == $row->j_id) { ?>
                                                             <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
-                                                        <?php } } ?>
+                                                        <?php }else { ?>
+                                                            <option value="<?php echo $row->j_id ?>"><?php echo $row->Jud_number ?></option>
+                                                              <?php } } ?>
                                                 </select>
                                             </div>
                                         </div>

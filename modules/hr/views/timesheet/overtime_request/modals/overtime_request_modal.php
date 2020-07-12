@@ -37,13 +37,6 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php }} ?>
-                                <?php
-                                if(!$this->app_modules->is_active('branches')){
-                                 foreach ($staffes as $value) { ?>
-                                    <option value="<?php echo $value['staffid'] ?>">
-                                        <?php echo $value['firstname'] ?>
-                                    </option>
-                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -121,13 +114,6 @@
                                         <?php echo $value['firstname'] ?>
                                     </option>
                                 <?php }} ?>
-                                <?php
-                            if(!$this->app_modules->is_active('branches')){
-                             foreach ($staffes as $value) { ?>
-                                <option value="<?php echo $value['staffid'] ?>">
-                                    <?php echo $value['firstname'] ?>
-                                </option>
-                            <?php }} ?>
                             </select>     
                         </div>
                     </div>

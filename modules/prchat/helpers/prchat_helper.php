@@ -1,10 +1,16 @@
 <?php
+/*
+Module Name: Babil Law Servic Chat
+Description: Chat Module for Babil Law Servises
+Author: Babil Team
+Author URI: https://babil.com.sa
+*/
 
 defined('BASEPATH') or exit('No direct script access allowed');
 define('CHAT_CURRENT_URI', strtolower($_SERVER['REQUEST_URI']));
 define('VERSIONING', get_instance()->app_scripts->core_version());
 
-if (staff_can('view', PR_CHAT_MODULE_NAME)) {
+if (staff_can('view', PR_CHAT_MODULE_NAME) && get_option('pusher_chat_enabled') == '1') {
     hooks()->add_action('before_staff_login', 'prchat_set_session_variable_before_login_for_notification');
     hooks()->add_action('app_admin_head', 'pr_chat_add_head_components');
     hooks()->add_action('app_admin_footer', 'pr_chat_init_checkView');
@@ -12,9 +18,10 @@ if (staff_can('view', PR_CHAT_MODULE_NAME)) {
     hooks()->add_action('app_admin_head', 'pr_chat_add_js_before_admin_render');
     hooks()->add_filter('migration_tables_to_replace_old_links', 'pr_chat_migration_tables_to_replace_old_links');
     hooks()->add_action('staff_member_deleted', 'pr_chat_staff_member_data_transfer');
+    hooks()->add_action('after_render_top_search', 'chat_insert_chat_statuses');
 }
 // Check if clients view is enabled in Setup->Settings->Chat Settings
-if (isClientsEnabled()) {
+if (isClientsEnabled() && get_option('pusher_chat_enabled') == '1') {
     hooks()->add_action('before_client_login', 'prchat_set_session_variable_before_login_for_notification_client');
     hooks()->add_action('app_customers_head', 'handle_clients_css_styles');
     hooks()->add_action('app_customers_footer', 'pr_chat_init_checkViewClients');
@@ -83,9 +90,23 @@ function pr_chat_load_js()
     if (!strpos($_SERVER['REQUEST_URI'], 'chat_full_view') !== false) {
         echo '<script src="' . module_dir_url('prchat', 'assets/js/pr-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
     }
+    /**
+     * Mentions js
+     */
     echo '<script src="' . base_url('modules/prchat/assets/js/mentions/underscore.js' . '?v=' . VERSIONING . '') . '"></script>';
     echo '<script src="' . base_url('modules/prchat/assets/js/mentions/jquery-elastic.js' . '?v=' . VERSIONING . '') . '"></script>';
     echo '<script src="' . base_url('modules/prchat/assets/js/mentions/mentions.js' . '?v=' . VERSIONING . '') . '"></script>';
+
+    if (strpos(CHAT_CURRENT_URI, '/prchat/prchat_controller/chat_full_view')) {
+        /**
+         * Audio record js
+         */
+        if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') {
+            echo '<script src="' . module_dir_url('prchat', 'assets/js/audio/WebAudioRecorder.min.js' . '?v=' . VERSIONING . '') . '"></script>';
+            echo '<script src="' . module_dir_url('prchat', 'assets/js/audio/WebAudioRecorderOgg.min.js' . '?v=' . VERSIONING . '') . '"></script>';
+            echo '<script src="' . module_dir_url('prchat', 'assets/js/audio/sound_app.js' . '?v=' . VERSIONING . '') . '"></script>';
+        }
+    }
 }
 
 /**
@@ -287,7 +308,10 @@ function get_staff_userrole($role_id)
     $CI->db->select('name');
     $CI->db->where('roleid', $role_id);
 
-    return $CI->db->get(db_prefix() . 'roles')->row_array()['name'];
+    $result = $CI->db->get(db_prefix() . 'roles')->row_array();
+    if ($result !== NULL) {
+        return $result['name'];
+    }
 }
 
 /**
@@ -564,7 +588,7 @@ function get_customer_admins()
 
     $select = 'SELECT firstname, lastname, staffid, email, profile_image, admin, role FROM ' . db_prefix() . 'staff';
     $where = 'WHERE (staffid IN (SELECT staff_id from ' . db_prefix() . 'customer_admins WHERE customer_id =' . get_client_user_id() . ')';
-
+    // add new option clients to choose either to show admins to clients or just assigned customer admins
     $customer_admins = $CI->db->query('' . $select . ' ' . $where . '  OR admin=1) AND active=1')->result_array();
 
     foreach ($customer_admins as $key => &$admin) {
@@ -606,7 +630,10 @@ function get_chat_staff_userrole($role_id)
     $CI->db->select('name');
     $CI->db->where('roleid', $role_id);
 
-    return $CI->db->get(db_prefix() . 'roles')->row_array()['name'];
+    $result = $CI->db->get(db_prefix() . 'roles')->row_array();
+    if ($result !== null) {
+        return $result['name'];
+    }
 }
 
 
@@ -620,7 +647,10 @@ function get_contact_customer_user_id($contact_id)
     $CI = &get_instance();
     $CI->db->select('userid');
     $CI->db->where('id', $contact_id);
-    return $CI->db->get(db_prefix() . 'contacts')->row_array()['userid'];
+    $result = $CI->db->get(db_prefix() . 'contacts')->row_array();
+    if ($result !== NULL) {
+        return $result['userid'];
+    }
 }
 
 
@@ -642,8 +672,10 @@ function get_user_chat_status()
     $CI = &get_instance();
     $CI->db->where('user_id', get_staff_user_id());
     $CI->db->where('name', 'chat_status');
-    $response = $CI->db->get(db_prefix() . 'chatsettings')->row_array()['value'];
-    return $response;
+    $result = $CI->db->get(db_prefix() . 'chatsettings')->row_array();
+    if ($result !== NULL) {
+        return $result['value'];
+    }
 }
 
 /**
@@ -662,12 +694,8 @@ function isClientsEnabled()
  * @return string
  */
 if (staff_can('view', PR_CHAT_MODULE_NAME)) {
-
-    hooks()->add_action('after_render_top_search', 'chat_insert_chat_statuses');
-
     function chat_insert_chat_statuses()
     {
-
         $CI = &get_instance();
         if ($CI->db->table_exists(db_prefix() . 'chatsettings')) {
             $CI->db->where('user_id', get_staff_user_id());
@@ -699,4 +727,25 @@ if (staff_can('view', PR_CHAT_MODULE_NAME)) {
             </div>
         </div>
     <?php } ?>
-<?php } ?>
+<?php }
+
+/** 
+ * Template components js loader
+ * @param $params is user over all components do not remove in any case
+ */
+function loadChatComponent($name, $params = [])
+{    // Used in chat_full_view as ['prop' => 'class or something else']
+    // Then reuse this in the $name.php $params['prop']
+    require('modules/prchat/assets/module_includes/Components/' . $name . '.php');
+}
+
+// /** 
+//  * Template components js loader
+//  * @param $params is user over all components do not remove in any case
+//  */
+// function loadChatJsComponent($name, $attrs = [])
+// {    // Used in chat_full_view as ['prop' => 'class or something else']
+//     // Then reuse this in the $name.php $params['prop']
+//     require('modules/prchat/assets/module_includes/Components/Javascript/' . $name . '.php');
+// }
+?>

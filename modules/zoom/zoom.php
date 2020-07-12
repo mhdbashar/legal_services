@@ -6,6 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   Module Name: zoom_name
   Description: zoom_desc
   Author: Babil Team
+  Version: 1.0.0
   Author URI: #
  */
 

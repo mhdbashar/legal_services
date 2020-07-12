@@ -19,7 +19,7 @@
     var clientModal = $('#contract_send_to_client_modal');
 
     if (clientModal) {
-      clientModal.find('#attach_pdf').parent().after('<div class="checkbox checkbox-primary"> <input type="checkbox" name="include_default_template" id="include_default_template"> <label for="include_default_template">Send default template <small>by Perfex Email Builder</small></label> </div>')
+      clientModal.find('#attach_pdf').parent().after('<div class="checkbox checkbox-primary"> <input type="checkbox" name="include_default_template" id="include_default_template"> <label for="include_default_template">Send default template <small>by Babil Email Builder</small></label> </div>')
      
   
       $('#include_default_template').on('change', function () {

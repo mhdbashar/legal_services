@@ -64,7 +64,7 @@ body .lity {
 #pusherChat #membersContent {
     position: absolute;
     z-index: 99999;
-    left: 10px;
+    right: 10px;
     bottom: 0px;
     width: 310px;
     background: #eee;
@@ -570,8 +570,9 @@ body #pusherChat #membersContent .on.busy::before {
 
 #pusherChat .pusherChatBox .msgTxt p {
     word-break: break-word;
-    max-width: 190px;
-    font-size: 13px;
+    font-size: 14px;
+    max-width: 235px;
+    white-space: break-spaces;
 }
 
 #pusherChat .pusherChatBox .msgTxt p.you {
@@ -589,8 +590,8 @@ body #pusherChat #membersContent .on.busy::before {
     -moz-border-radius: 7px;
     -ms-border-radius: 7px;
     -o-border-radius: 7px;
-    padding-top: 3px;
-    padding-bottom: 4px;
+    padding-top: 2px;
+    padding-bottom: 5px;
 }
 
 #pusherChat .pusherChatBox .msgTxt .friend {
@@ -600,8 +601,8 @@ body #pusherChat #membersContent .on.busy::before {
     width: -moz-max-content;
     background: #dedede;
     padding: 7px;
-    padding-top: 3px;
-    padding-bottom: 4px;
+    padding-top: 2px;
+    padding-bottom: 5px;
     margin-left: 11px;
     margin-top: -16px;
     float: left;
@@ -1085,6 +1086,12 @@ body #pusherChat #membersContent .on.busy::before {
     font-size: 15px;
 }
 
+#pusherChat .msgTxt audio {
+    width: 222px;
+    margin-bottom: -4px;
+    height: 24px;
+}
+
 
 /* Chat Full Screen Loader */
 
@@ -1204,6 +1211,15 @@ body #pusherChat #membersContent .on.busy::before {
 body.rtl #pusherChat .pusherChatBox .closeBox {
     left: 8px;
     right: auto;
+}
+
+body.rtl #pusherChat .chatMain svg.main_chat {
+    margin-right: 86px;
+}
+
+body.rtl #pusherChat p.cname {
+    padding-right: 16px;
+    float: right;
 }
 
 body.rtl #pusherChat #colorChangerMenu svg,

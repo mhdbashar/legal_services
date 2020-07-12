@@ -76,7 +76,7 @@ foreach ($rResult as $aRow) {
 
    $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
 
-    $exported_data = $ci->db->get(db_prefix() .'tblmy_exported_services')->row_array();
+    $exported_data = $ci->db->get('tblmy_exported_services')->row_array();
     
     if(empty($exported_data)){
         $_data .= ' |  <a href="#" onclick="office_name_other_services('. $aRow['id'] .','.$ServID.'); return false" >'. _l('export') .'</a>';

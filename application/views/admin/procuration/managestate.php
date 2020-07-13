@@ -7,11 +7,13 @@
 				<div class="panel_s">
 					<div class="panel-body">
 						<div class="_buttons">
-							<?php if(is_admin()) { ?>
+							<!-- <?php// if(is_admin()) { ?> -->
 							<a href="<?php echo admin_url('procuration/statecu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration_state'); ?></a>
 							<div class="clearfix"></div>
 							<hr class="hr-panel-heading" />
-							<!-- <?php render_datatable(array(_l('Id'),_l('procuration_state'),"c1","c2","c3"),'procurationstate');  } ?> -->
+              <!-- <?php render_datatable(array(_l('Id'),_l('procuration_state'),"c1","c2","c3"),'procurationstate'); 
+            //  }
+              ?> -->
 							<?php
                      $table_data = array();
                      $_table_data = array(

@@ -38,7 +38,7 @@ class Other_services_controller extends AdminController {
         return false;
     }
 
-    private function create_client_for_company($token, $url, $company, $email) {
+    private function create_client_for_company($token, $url, $company, $email, $password) {
         $url .= 'customers/data';
         $data = [
             'company' => $company,
@@ -46,7 +46,7 @@ class Other_services_controller extends AdminController {
             'firstname' => $company,
             'email' => $email,
             'createddate' => date("Y-m-d h:i:sa"),
-            'password' => '12345678',
+            'password' => $password,
             'email_verified_at' => date("Y-m-d h:i:sa"),
             'active' => 1,
             'invoice_emails' => 1,
@@ -147,12 +147,13 @@ class Other_services_controller extends AdminController {
 
         $client_id = 0;
         $smtp_email = 'hiastskype@gmail.com';
+        $password = '12345678';
 
         $client_exists = $this->check_if_client_exists($token, $main_url, $smtp_email);
         if ($client_exists)
             $client_id = $client_exists;
         else {
-            if ($this->create_client_for_company($token, $main_url, $companyname, $smtp_email)) {
+            if ($this->create_client_for_company($token, $main_url, $companyname, $smtp_email, $password)) {
                 $try_2 = $this->check_if_client_exists($token, $main_url, $smtp_email);
                 if ($try_2)
                     $client_id = $try_2;
@@ -184,6 +185,15 @@ class Other_services_controller extends AdminController {
             exit;
             set_alert('danger', _l('problem_exporting'));
         } else {
+            $exported_data = [
+                'email' => $smtp_email,
+                'password' => $password,
+                'url' => $office_url,
+                'service_id' => $ServID,
+                'rel_id' => $id
+            ];
+            $this->db->insert('tblmy_exported_services', $exported_data);
+            $insert_id = $this->db->insert_id();
             set_alert('success', _l('exported_successfully'));
         }
         curl_close($ch);
@@ -193,6 +203,12 @@ class Other_services_controller extends AdminController {
     // Example URL : http://localhost/legalserv1/admin/LegalServices/other_services_controller/export_service/2/1
     public function export_case($id) {
         $this->export_service(1, $id, true);
+    }
+
+    public function follow_service($ServID, $id){
+        $this->db->where(['service_id' => $ServID, 'rel_id' => $id]);
+        $url = $this->db->get('tblmy_exported_services')->row()->url;
+        redirect($url);
     }
 
     public function add($ServID) {

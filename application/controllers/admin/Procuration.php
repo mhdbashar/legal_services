@@ -61,9 +61,9 @@ class Procuration extends AdminController
     /* Edit Procuration or add new if passed id */
     public function procurationcu($request = '', $id = '', $case = '')
     {
-        if (!is_admin()) {
-            access_denied('Procuration');
-        }
+        // if (!is_admin()) {
+        //     access_denied('Procuration');
+        // }
         
         $last_id = $this->index();
         
@@ -122,9 +122,9 @@ class Procuration extends AdminController
     /* Edit Procuration state or add new if passed id */
     public function statecu($id = '')
     {
-        if (!is_admin()) {
-            access_denied('Procuration State');
-        }
+        // if (!is_admin()) {
+        //     access_denied('Procuration State');
+        // }
         if ($this->input->post()) {
             $data            = $this->input->post();
             // $data['message'] = $this->input->post('message', false);
@@ -155,9 +155,9 @@ class Procuration extends AdminController
     /* Edit Procuration type or add new if passed id */
     public function typecu($id = '')
     {
-        if (!is_admin()) {
-            access_denied('Procuration Type');
-        }
+        // if (!is_admin()) {
+        //     access_denied('Procuration Type');
+        // }
         if ($this->input->post()) {
             $data            = $this->input->post();
             // $data['message'] = $this->input->post('message', false);
@@ -191,9 +191,9 @@ class Procuration extends AdminController
         if (!$id) {
             redirect(admin_url('procuration/state'));
         }
-        if (!is_admin()) {
-            access_denied('Procuration State');
-        }
+        // if (!is_admin()) {
+        //     access_denied('Procuration State');
+        // }
         $response = $this->procurationstate_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted', 'Procuration State'));
@@ -209,9 +209,9 @@ class Procuration extends AdminController
           if (!$id) {
               redirect(admin_url('procuration/type'));
           }
-          if (!is_admin()) {
-              access_denied('Procuration Type');
-          }
+        //   if (!is_admin()) {
+        //       access_denied('Procuration Type');
+        //   }
           $response = $this->procurationtype_model->delete($id);
           if ($response == true) {
               set_alert('success', _l('deleted', 'Procuration Type'));
@@ -226,9 +226,9 @@ class Procuration extends AdminController
           if (!$id) {
               redirect(admin_url('procuration/type'));
           }
-          if (!is_admin()) {
-              access_denied('Procuration Type');
-          }
+        //   if (!is_admin()) {
+        //       access_denied('Procuration Type');
+        //   }
           $response = $this->procurations_model->delete($id);
           if ($response == true) {
               set_alert('success', _l('deleted', 'Procuration'));

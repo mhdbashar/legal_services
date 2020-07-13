@@ -304,7 +304,7 @@ class Case_movement_model extends App_Model
                 }
 
                 if (isset($notify_project_members_status_change)) {
-                    $this->case->_notify_project_members_status_change($id, $original_project->status, $data['status']);
+                    $this->case->_notify_project_members_status_change($ServID, $id, $original_project->status, $data['status']);
                 }
             }
             hooks()->do_action('after_update_project', $id);

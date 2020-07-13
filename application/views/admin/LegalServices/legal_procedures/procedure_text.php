@@ -415,7 +415,7 @@
                                        <?php endforeach; ?>
                                    </select>
                                </div>
-                               <div class="form-group hide3" id="rel_id_wrapper">
+                               <div class="form-group hide" id="rel_id_wrapper">
                                    <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
                                    <div id="rel_id_select">
                                        <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">

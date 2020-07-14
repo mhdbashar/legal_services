@@ -737,7 +737,7 @@ class Other_services_model extends App_Model
                                 $notified = add_notification([
                                     'fromuserid' => get_staff_user_id(),
                                     'description' => 'not_staff_added_as_project_member',
-                                    'link' => 'view/' . $id,
+                                    'link' => 'SOther/view/' .$ServID.'/' . $id,
                                     'touserid' => $staff_id,
                                     'additional_data' => serialize([
                                         $project_name,
@@ -773,7 +773,7 @@ class Other_services_model extends App_Model
                             $notified = add_notification([
                                 'fromuserid' => get_staff_user_id(),
                                 'description' => 'not_staff_added_as_project_member',
-                                'link' => 'view/' . $id,
+                                'link' => 'SOther/view/' .$ServID.'/'. $id,
                                 'touserid' => $staff_id,
                                 'additional_data' => serialize([
                                     $project_name,

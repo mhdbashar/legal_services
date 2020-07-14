@@ -27,6 +27,9 @@ class Procuration extends AdminController
     }
 
     public function all(){
+        if (!has_permission('procurations', '', 'view') && !is_admin()) {
+            access_denied('Procurations');
+        }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_procurations', [
                 'client_id' => '', 
@@ -61,9 +64,6 @@ class Procuration extends AdminController
     /* Edit Procuration or add new if passed id */
     public function procurationcu($request = '', $id = '', $case = '')
     {
-        if (!is_admin()) {
-            access_denied('Procuration');
-        }
         
         $last_id = $this->index();
         
@@ -85,15 +85,19 @@ class Procuration extends AdminController
             
             if ($id == '' or !is_numeric($id)) {
                 $data['id'] = $last_id;
-                $id = $this->procurations_model->add($data);
-                if ($id) {
-                    set_alert('success', _l('added_successfully'));
-                    redirect($redirect);
+                if (has_permission('procurations', '', 'create') or is_admin()){
+                    $id = $this->procurations_model->add($data);
+                    if ($id) {
+                        set_alert('success', _l('added_successfully'));
+                        redirect($redirect);
+                    }
                 }
             } else {
-                $success = $this->procurations_model->update($data, $id);
-                if ($success) {
-                    set_alert('success', _l('updated_successfully'));
+                if (has_permission('procurations', '', 'edit') or is_admin()) {
+                    $success = $this->procurations_model->update($data, $id);
+                    if ($success) {
+                        set_alert('success', _l('updated_successfully'));
+                    }
                 }
                 redirect($redirect);
             }
@@ -122,7 +126,7 @@ class Procuration extends AdminController
     /* Edit Procuration state or add new if passed id */
     public function statecu($id = '')
     {
-        if (!is_admin()) {
+        if (!has_permission('procurations', '', 'create') && !is_admin()) {
             access_denied('Procuration State');
         }
         if ($this->input->post()) {
@@ -155,7 +159,7 @@ class Procuration extends AdminController
     /* Edit Procuration type or add new if passed id */
     public function typecu($id = '')
     {
-        if (!is_admin()) {
+        if (!has_permission('procurations', '', 'create') && !is_admin()) {
             access_denied('Procuration Type');
         }
         if ($this->input->post()) {
@@ -191,7 +195,7 @@ class Procuration extends AdminController
         if (!$id) {
             redirect(admin_url('procuration/state'));
         }
-        if (!is_admin()) {
+        if (!has_permission('procurations', '', 'create') && !is_admin()) {
             access_denied('Procuration State');
         }
         $response = $this->procurationstate_model->delete($id);
@@ -209,7 +213,7 @@ class Procuration extends AdminController
           if (!$id) {
               redirect(admin_url('procuration/type'));
           }
-          if (!is_admin()) {
+          if (!has_permission('procurations', '', 'create') && !is_admin()) {
               access_denied('Procuration Type');
           }
           $response = $this->procurationtype_model->delete($id);
@@ -226,7 +230,7 @@ class Procuration extends AdminController
           if (!$id) {
               redirect(admin_url('procuration/type'));
           }
-          if (!is_admin()) {
+          if (!has_permission('procurations', '', 'delete') && !is_admin()) {
               access_denied('Procuration Type');
           }
           $response = $this->procurations_model->delete($id);
@@ -252,7 +256,7 @@ class Procuration extends AdminController
         $this->db->where('rel_type', 'procuration');
         $file = $this->db->get(db_prefix().'files')->row();
 
-        if ($file->staffid == get_staff_user_id() || is_admin()) {
+        if ($file->staffid == get_staff_user_id() || has_permission('procurations', '', 'delete') ) {
             $success = $this->procurations_model->delete_procuration_attachment($id);
             if ($success) {
                 set_alert('success', _l('deleted', _l('procuration_receipt')));

@@ -11,7 +11,7 @@
 							<a href="<?php echo admin_url('procuration/procurationcu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
 							<div class="clearfix"></div>
 							<hr class="hr-panel-heading" />
-							<?php } else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?>
+							<?php } ?>
 						</div>
 						<div class="clearfix"></div>
 						<?php render_datatable(array(

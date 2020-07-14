@@ -19,9 +19,9 @@ class Procurations extends AdminController
     /* List all client Procurations */
     public function table($clientid = '')
     {
-        if (!has_permission('procurations', '', 'view') && !has_permission('procurations', '', 'view_own')) {
-            ajax_access_denied();
-        }
+        // if (!has_permission('procurations', '', 'view') && !has_permission('procurations', '', 'view_own')) {
+        //     ajax_access_denied();
+        // }
 
         $this->app->get_table_data('my_procurations', [
             'clientid' => $clientid,
@@ -30,9 +30,9 @@ class Procurations extends AdminController
     /* Edit Procuration or Add new if passed id */
     public function procuration($id = '')
     {
-        if (!is_admin()) {
-            access_denied('procurations');
-        }
+        // if (!is_admin()) {
+        //     access_denied('procurations');
+        // }
         $client_id=$this->input->get('client_id');
         if ($this->input->post()) {
             $data            = $this->input->post();
@@ -87,9 +87,9 @@ class Procurations extends AdminController
         if (!$id) {
             redirect(admin_url('clients/client/'.$client_id.'?group=procurations'));
         }
-        if (!is_admin()) {
-            access_denied('procurations');
-        }
+        // if (!is_admin()) {
+        //     access_denied('procurations');
+        // }
         $response = $this->Procurations_model->delete($id);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('procuration')));

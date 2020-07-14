@@ -776,7 +776,7 @@ class Cases_model extends App_Model
                                 $notified = add_notification([
                                     'fromuserid'      => get_staff_user_id(),
                                     'description'     => 'not_staff_added_as_project_member',
-                                    'link'            => 'view/' . $id,
+                                    'link'            => 'Case/view/' .$ServID.'/' .$id,
                                     'touserid'        => $staff_id,
                                     'additional_data' => serialize([
                                         $project_name,
@@ -812,7 +812,7 @@ class Cases_model extends App_Model
                             $notified = add_notification([
                                 'fromuserid'      => get_staff_user_id(),
                                 'description'     => 'not_staff_added_as_project_member',
-                                'link'            => 'view/' . $id,
+                                'link'            => 'Case/view/' .$ServID.'/' .$id,
                                 'touserid'        => $staff_id,
                                 'additional_data' => serialize([
                                     $project_name,

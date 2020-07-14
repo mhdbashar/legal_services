@@ -200,6 +200,7 @@ function app_init_customer_profile_tabs()
         'name'     => _l('procurations'),
         'icon'     => 'fa fa-briefcase',
         'view'     => 'admin/clients/groups/procurations',
+        'visible'  => (has_permission('procurations', '', 'view') || is_admin()),
         'position' => 10,
     ]);
 

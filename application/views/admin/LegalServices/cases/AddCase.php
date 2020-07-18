@@ -201,7 +201,7 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <label for="jud_num" class="control-label"><?php echo _l('Judicial'); ?></label>
+                                                    <label for="jud_num" class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                                     <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
                                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                         <option selected disabled></option>

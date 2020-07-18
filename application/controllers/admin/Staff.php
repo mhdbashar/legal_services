@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Staff extends AdminController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    }
+
     /* List all staff members */
     public function index()
     {
@@ -217,6 +223,7 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
         $this->load->view('admin/staff/timesheets', $data);

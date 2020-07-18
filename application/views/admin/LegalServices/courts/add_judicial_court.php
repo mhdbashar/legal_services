@@ -12,7 +12,7 @@
                </h4>
                <hr class="hr-panel-heading" />
                <div class="clearfix"></div>                                                               
-               <?php echo render_input('Jud_number','NumJudicialDept','','number'); ?>
+               <?php echo render_input('Jud_number','NumJudicialDept',''); ?>
             </div>
          </div>
       </div>

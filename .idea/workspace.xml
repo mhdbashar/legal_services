@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Staff.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/AddCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/project_overview.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/add_judicial_court.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/add_judicial_court.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/edit_judicial_court.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/edit_judicial_court.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/invoices/my_invoice_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/invoices/my_invoice_template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_staff_timesheets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_staff_timesheets.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,17 +119,17 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/tables" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/views/admin/staff" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\staff" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\contracts" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\LegalServices\legal_procedures" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\themes\perfex\views" />
-      <recent name="C:\xampp\htdocs\legal_services\application\libraries\pdf" />
     </key>
   </component>
   <component name="RunManager">
@@ -297,6 +306,11 @@
       <workItem from="1594673639206" duration="1795000" />
       <workItem from="1594675448649" duration="801000" />
       <workItem from="1594676829029" duration="13000" />
+      <workItem from="1594835672072" duration="819000" />
+      <workItem from="1595104375633" duration="1926000" />
+      <workItem from="1595106355273" duration="1788000" />
+      <workItem from="1595108166335" duration="1783000" />
+      <workItem from="1595109977005" duration="42000" />
     </task>
     <servers />
   </component>
@@ -317,34 +331,30 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586462554145">
+    <state x="393" y="7" key="CommitChangelistDialog2" timestamp="1595110007064">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1586462554145" />
-    <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586379081957">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="484" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1586379081957" />
+    <state x="393" y="7" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1595110007064" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1594157974695">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1594157974695" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1594676827799">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1595109977299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1594676827799" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1595109977299" />
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587329109637">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587329109637" />
-    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1594676838904">
+    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1595110004344">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594676838904" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1587926708545">
+    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1595110004344" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1595109583548">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1587926708545" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1595109583548" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1593554100716">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

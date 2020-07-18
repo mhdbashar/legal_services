@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $v = $this->ci->db->query('SELECT VERSION() as version')->row();
@@ -91,8 +92,9 @@ if ($staff_id != false) {
         ];
 }
 
+$legal_services = $this->ci->input->post('legal_services');
+//print_r($legal_services);exit();
 $project_ids = $this->ci->input->post('project_id');
-
 if ($project_ids && is_array($project_ids)) {
     $project_ids = array_filter($project_ids, function ($value) {
         return $value !== '';

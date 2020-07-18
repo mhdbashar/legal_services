@@ -209,7 +209,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label class="control-label"><?php echo _l('Judicial'); ?></label>
+                                                <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                                 <select class="form-control custom_select_arrow" id="jud_num" name="jud_num" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('myjudicial',$case->court_id);

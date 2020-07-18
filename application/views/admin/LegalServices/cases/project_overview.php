@@ -168,7 +168,7 @@
             <td><?php echo $project->court_name; ?></td>
         </tr>
         <tr class="project-overview-customer">
-            <td class="bold"><?php echo _l('Judicial'); ?></td>
+            <td class="bold"><?php echo _l('NumJudicialDept'); ?></td>
             <td><?php echo $project->Jud_number; ?></td>
         </tr>
         <tr class="project-overview-customer">

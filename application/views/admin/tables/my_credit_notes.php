@@ -24,6 +24,18 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'creditnotes.project_id',
 ];
 
+$ci = &get_instance();
+if($ci->app_modules->is_active('branches')){
+    if(get_staff_default_language() == 'arabic'){
+        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+    }else{
+        $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    }
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'creditnotes.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+}
+
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'creditnotes';
 
@@ -151,6 +163,10 @@ foreach ($rResult as $aRow) {
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+    }
+
+    if($ci->app_modules->is_active('branches')){
+        $row[] = $aRow['branch_id'];
     }
 
     $output['aaData'][] = $row;

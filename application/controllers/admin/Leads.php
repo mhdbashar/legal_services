@@ -185,9 +185,7 @@ class Leads extends AdminController
         $data['statuses'] = $this->leads_model->get_status();
         $data['sources']  = $this->leads_model->get_source();
         if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
+            $data['branches'] = $this->Branches_model->getBranches();
             $data['branch'] = $this->Branches_model->get_branch('leads', $id);
             $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
         }
@@ -374,6 +372,11 @@ class Leads extends AdminController
             $this->load->model('gdpr_model');
             $data['purposes'] = $this->gdpr_model->get_consent_purposes($id, 'lead');
         }
+        if($this->app_modules->is_active('branches')) {
+            $data['branches'] = $this->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('leads', $id);
+            $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
+        }
         $data['lead'] = $this->leads_model->get($id);
         $this->load->view('admin/leads/convert_to_customer', $data);
     }
@@ -396,6 +399,13 @@ class Leads extends AdminController
 
             $original_lead_email = $data['original_lead_email'];
             unset($data['original_lead_email']);
+
+            if($this->app_modules->is_active('branches')) {
+                if (isset($data['branch_id'])) {
+                    $branch_id = $this->Branches_model->get_branch('leads', $data['leadid']);
+                    unset($data['branch_id']);
+                }
+            }
 
             if (isset($data['transfer_notes'])) {
                 $notes = $this->misc_model->get_notes($data['leadid'], 'lead');
@@ -437,6 +447,12 @@ class Leads extends AdminController
             $id                 = $this->clients_model->add($data, true);
             if ($id) {
                 $primary_contact_id = get_primary_contact_user_id($id);
+
+                if(isset($branch_id)){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                    }
+                }
 
                 if (isset($notes)) {
                     foreach ($notes as $note) {

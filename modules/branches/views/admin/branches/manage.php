@@ -31,5 +31,41 @@
         initDataTable('.table-custom-fields', window.location.href);
     });
 </script>
+<div class="modal fade" id="delete_branch" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <?php echo form_open(admin_url('branches/delete',array('delete_branch_form'))); ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?php echo _l('delete_branch'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <div class="delete_id">
+                    <?php echo form_hidden('id'); ?>
+                </div>
+                <p><?php echo _l('delete_branch_info'); ?></p>
+                <?php echo render_select('transfer_data_to',(isset($branches)?$branches:[]),['key','value'],'branch_name'); ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button type="submit" class="btn btn-danger _delete"><?php echo _l('confirm'); ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+        <?php echo form_close(); ?>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<?php init_tail(); ?>
+<script>
+    $(function(){
+        initDataTable('.table-staff', window.location.href);
+    });
+    function delete_branch(id){
+        $('#delete_branch').modal('show');
+        $('#transfer_data_to').find('option').prop('disabled',false);
+        $('#transfer_data_to').find('option[value="'+id+'"]').prop('disabled',true);
+        $('#delete_branch .delete_id input').val(id);
+        $('#transfer_data_to').selectpicker('refresh');
+    }
+</script>
 </body>
 </html>

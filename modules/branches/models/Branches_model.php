@@ -126,13 +126,10 @@ class Branches_model extends App_Model
      * Delete Custom fields
      * All values for this custom field will be deleted from database
      */
-    public function delete($id)
+    public function delete($id, $transfer_data_to)
     {
-        if (is_reference_in_table('branch_id', db_prefix() . 'branches_services', $id)) {
-            return [
-                'referenced' => true,
-            ];
-        }
+        $this->db->where('branch_id', $id);
+        $this->db->update('tblbranches_services', ['branch_id' => $transfer_data_to]);
         $this->db->where('id', $id);
         $this->db->delete('tblbranches');
         if ($this->db->affected_rows() > 0) {

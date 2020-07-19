@@ -97,6 +97,13 @@ class Branches_model extends App_Model
         
         return $branch_id;
     }
+
+    public function get_branch_name($rel_type, $rel_id)
+    {
+        $branch_id = $this->get_branch($rel_type, $rel_id);
+        $this->db->where(['id' => $branch_id]);
+        return $this->db->get('tblbranches')->row_array()['title_en'];
+    }
     /**
      * Update custom field
      * @param mixed $data All $_POST data

@@ -657,6 +657,8 @@
     var data = {};
     data.content = comment;
     data.contract_id = contract_id;
+    data.service_type_id = <?php echo $service_type_id; ?>;
+    data.service_id = <?php echo $service_id; ?>;
     $('body').append('<div class="dt-loader"></div>');
     $.post(admin_url + 'LegalServices/legal_procedures/add_comment', data).done(function (response) {
        response = JSON.parse(response);

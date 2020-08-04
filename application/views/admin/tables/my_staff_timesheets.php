@@ -90,11 +90,10 @@ if ($staff_id != false) {
     $where = [
         'AND staff_id=' . $this->ci->db->escape_str($staff_id),
         ];
-}
+} 
 
-$legal_services = $this->ci->input->post('legal_services');
-//print_r($legal_services);exit();
-$project_ids = $this->ci->input->post('project_id');
+
+/*$project_ids = $this->ci->input->post('project_id');
 if ($project_ids && is_array($project_ids)) {
     $project_ids = array_filter($project_ids, function ($value) {
         return $value !== '';
@@ -106,9 +105,10 @@ if ($project_ids && is_array($project_ids)) {
         }, $project_ids));
         array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id  IN (' . $project_ids . '))');
     }
-}
+}*/
 
-if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id')) {
+
+/*if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id')) {
     $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
     array_push($where, 'AND (
                 (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
@@ -127,6 +127,45 @@ if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id'))
                 OR
                 (rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $customer_id . ') AND rel_type="project")
                 )');
+}*/
+
+$legal_services = $this->ci->input->post('legal_services');
+if ($legal_services && $legal_services != '') {
+    /*$legal_services = array_filter($legal_services, function ($value) {
+        return $value !== '';
+    });*/
+
+    //if (count($legal_services) > 0) {
+       /* $legal_services = implode(',', array_map(function ($service_id) {
+            return get_instance()->db->escape_str($service_id);
+        }, $legal_services));*/
+        $rel_type = get_legal_service_slug_by_id($legal_services);       
+        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$rel_type.'")');
+    //}
+}
+
+if($this->ci->input->post('clientid') && !$this->ci->input->post('legal_services')){
+    $rel_type = get_legal_service_slug_by_id($legal_services); 
+    $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
+    array_push($where, 'AND (
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $customer_id . ') AND rel_type="estimate")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $customer_id . ') AND rel_type="contract")
+        OR
+        ( rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $customer_id . ') AND rel_type="ticket")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $customer_id . ') AND rel_type="expense")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $customer_id . ' AND rel_type="customer") AND rel_type="proposal")
+        OR
+        (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $customer_id . ') AND rel_type="customer")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_cases WHERE clientid=' . $customer_id . ') AND rel_type="'.$rel_type.'")
+        OR
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_other_services WHERE clientid=' . $customer_id . ') AND rel_type="'.$rel_type.'")
+        )');
 }
 
 array_push($where, 'AND task_id != 0');

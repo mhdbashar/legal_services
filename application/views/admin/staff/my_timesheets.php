@@ -68,8 +68,7 @@
                      <?php } ?>
                      <div class="col-md-5ths">
                         <div class="select-placeholder">
-                           <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-empty-title="<?php echo _l('client'); ?>" data-none-selected-text="<?php echo _l('client'); ?>">
-                           </select>
+                           <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-empty-title="<?php echo _l('client'); ?>" data-none-selected-text="<?php echo _l('client'); ?>"></select>
                         </div>
                      </div>
                      <div class="col-md-5ths">
@@ -81,7 +80,7 @@
                           <?php /* <div id="project_ajax_search_wrapper">
                               <select data-empty-title="<?php echo _l('project'); ?>" multiple="true" name="project_id[]" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%">
                               </select>
-                           </div> */?>
+                           </div> */ ?>
                         </div>
                      </div>
                      <div class="col-md-5ths">
@@ -142,7 +141,6 @@
 <script>
    var staff_member_select = $('select[name="staff_id"]');
    $(function() {
-
     init_ajax_projects_search();
     var ctx = document.getElementById("timesheetsChart");
     var chartOptions = {
@@ -215,7 +213,7 @@
     Timesheets_ServerParams['project_id'] = 'select#project_id';
     Timesheets_ServerParams['clientid'] = 'select#clientid';
     Timesheets_ServerParams['group_by_task'] = '[name="group_by_task"]:checked';
-    Timesheets_ServerParams['legal_services'] = '1';
+    Timesheets_ServerParams['legal_services'] = 'select#legal_services';
     initDataTable('.table-timesheets-report', window.location.href, undefined, undefined, Timesheets_ServerParams, [<?php if(isset($view_all)){echo 3;} else {echo 2;} ?>, 'desc']);
 
     init_ajax_project_search_by_customer_id();

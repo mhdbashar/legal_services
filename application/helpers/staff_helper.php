@@ -147,6 +147,46 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
             ],
         ],
+        'judges_manage' => [
+            'name'         => _l('judges_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'customer_representative' => [
+            'name'         => _l('customer_representative_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'case_status' => [
+            'name'         => _l('case_status_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'courts' => [
+            'name'         => _l('CourtsManagement'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'judicial_departments' => [
+            'name'         => _l('judicial_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
     ];
 
     $addLeadsPermission = true;

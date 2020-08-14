@@ -12,6 +12,9 @@ class Judge extends AdminController
 
     public function index()
     {
+        if (!has_permission('judges_manage', '', 'create')) {
+            access_denied('Judge');
+        }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_judges');
         }
@@ -21,13 +24,16 @@ class Judge extends AdminController
 
     function add()
     {
+        if (!has_permission('judges_manage', '', 'create')) {
+            access_denied('Judge');
+        }
         $data = $this->input->post();
         echo  $this->Judges_model->add($data);
     }
 
     public function judgecu($id = '')
     {
-        if (!is_admin()) {
+        if (!has_permission('judges_manage', '', 'create') && !has_permission('judges_manage', '', 'edit')) {
             access_denied('Judge');
         }
         if ($this->input->post()) {
@@ -48,10 +54,10 @@ class Judge extends AdminController
             }
         }
         if ($id == '') {
-            $title = _l('add_new', _l('Judges'));
+            $title = _l('add_new', _l('judge'));
         } else {
             $data['Judge'] = $this->Judges_model->get($id);
-            $title                = _l('edit', _l('Judge'));
+            $title                = _l('edit', _l('judge'));
         }
         $data['title'] = $title;
         $this->load->view('admin/judges/judge', $data);
@@ -59,11 +65,11 @@ class Judge extends AdminController
 
     public function judged($id)
     {
+        if (!has_permission('judges_manage', '', 'delete')) {
+            access_denied('Judge');
+        }
         if (!$id) {
             redirect(admin_url('Judge/judgecu'));
-        }
-        if (!is_admin()) {
-            access_denied('Judge');
         }
         $response = $this->Judges_model->delete($id);
         if ($response == true) {

@@ -3,10 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Legal_procedures_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/staff/my_timesheets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/staff/my_timesheets.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_staff_timesheets.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_staff_timesheets.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Case_status.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Case_status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Customer_representative.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Customer_representative.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Judge.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Judge.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Courts_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Courts_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/staff_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/staff_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/courts_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/courts_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/judicial_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/courts/judicial_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/case_status/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/case_status/manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/customer_representative/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/customer_representative/manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/judges/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/judges/manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_case_status.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_case_status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_customer_representative.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_customer_representative.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_judges.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_judges.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,6 +323,16 @@
       <workItem from="1596296314927" duration="975000" />
       <workItem from="1596298625061" duration="613000" />
       <workItem from="1596462971437" duration="4000" />
+      <workItem from="1596742781831" duration="831000" />
+      <workItem from="1597170304020" duration="56000" />
+      <workItem from="1597170383754" duration="1028000" />
+      <workItem from="1597174308645" duration="75000" />
+      <workItem from="1597174430965" duration="873000" />
+      <workItem from="1597177422218" duration="1913000" />
+      <workItem from="1597179352084" duration="1581000" />
+      <workItem from="1597181684494" duration="1540000" />
+      <workItem from="1597183654506" duration="865000" />
+      <workItem from="1597410278481" duration="8666000" />
     </task>
     <servers />
   </component>
@@ -339,14 +361,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1594157974695" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1596462971536">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1597413139613">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1596462971536" />
-    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1596298729092">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597413139613" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1597413139613">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1596298729092" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1597413139613" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1597413139613">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1597413139613" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1597413139613">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1597413139613" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1597411797175">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1597411797175" />
+    <state x="225" y="103" width="1088" height="623" key="find.popup" timestamp="1597416327099">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="225" y="103" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1597416327099" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1595109583548">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

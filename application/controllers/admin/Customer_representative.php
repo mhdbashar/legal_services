@@ -13,6 +13,9 @@ class Customer_representative extends AdminController
     /* List all Customer representative */
     public function index()
     {
+        if (!has_permission('customer_representative', '', 'create')) {
+            access_denied('customer_representative');
+        }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_customer_representative');
         }
@@ -24,7 +27,7 @@ class Customer_representative extends AdminController
     /* Edit Customer representative or Add new if passed id */
     public function cust_representativecu($id = '')
     {
-        if (!is_admin()) {
+        if (!has_permission('customer_representative', '', 'create') && has_permission('customer_representative', '', 'edit')) {
             access_denied('customer_representative');
         }
         if ($this->input->post()) {
@@ -57,11 +60,11 @@ class Customer_representative extends AdminController
     /* Delete Customer representative from database */
     public function cust_representatived($id)
     {
+        if (!has_permission('customer_representative', '', 'delete')) {
+            access_denied('customer_representative');
+        }
         if (!$id) {
             redirect(admin_url('customer_representative/cust_representativecu'));
-        }
-        if (!is_admin()) {
-            access_denied('customer_representative');
         }
         $response = $this->Customer_representative_model->delete($id);
         if ($response == true) {

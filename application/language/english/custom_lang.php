@@ -9,7 +9,9 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['imported_services'] = 'Imported Services';
 $lang['license_info'] = 'License Info';
+$lang['project_setting_view_session_logs'] = 'view session logs';
 
+$lang['project_setting_view_procurations'] = 'view procurations';
 $lang['license_key'] = 'License Key';
 
 $lang['appointly'] = 'Appointment';

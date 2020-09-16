@@ -18,6 +18,7 @@ class Clients extends ClientsController
         $this->load->model('LegalServices/Cases_model', 'case');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         hooks()->do_action('after_clients_area_init', $this);
     }
 
@@ -873,6 +874,17 @@ class Clients extends ClientsController
                 }else{
                     $data['gantt_data'] = $this->other->get_gantt_data($slug, $id);
                 }
+            } elseif ($group == 'CaseSession') {
+                if($ServID == 1){
+                    $data['service_id']  = $ServID;
+                    $data['rel_id']      = $id;
+                    $data['project_tasks']  = $this->case->get_CaseSession($id);
+                   // $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
+                    $data['judges']      = $this->service_sessions->get_judges();
+                    $data['courts']      = $this->service_sessions->get_court();
+                }else{
+                    $data['gantt_data'] = $this->other->get_gantt_data($slug, $id);
+                }
             } elseif ($group == 'project_discussions') {
                 if ($this->input->get('discussion_id')) {
                     $data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
@@ -965,6 +977,16 @@ class Clients extends ClientsController
                     'rel_id'   => $project->id,
                     'rel_type' => $slug,
                 ]);
+
+                $data['title'] = $data['view_task']->name;
+            }
+            if ($this->input->get('session_id')) {
+                $data['view_task'] = $this->tasks_model->get($this->input->get('session_id'), [
+                    'rel_id'   => $project->id,
+                    'rel_type' => $slug,
+                ], 1);
+                $data['session_data'] = $this->service_sessions->get_session_data($this->input->get('session_id'));
+                $data['court_decision'] = $data['session_data']->tbl8;
 
                 $data['title'] = $data['view_task']->name;
             }

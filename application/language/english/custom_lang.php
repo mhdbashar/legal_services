@@ -4214,3 +4214,4 @@ $lang['procedure_not_found'] = "legal procedure not found. Maybe is deleted, che
 $lang['delete_list'] = "Delete List";
 $lang['delete_procedure'] = "Delete Legal Procedure";
 $lang['judges_manage'] = "Judges management";
+$lang['categories_management'] = "Categories management";

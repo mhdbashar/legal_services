@@ -187,6 +187,24 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
             ]
         ],
+        'legal_recycle_bin' => [
+            'name'         => _l('LService_recycle_bin'),
+            'capabilities' => [
+                'view'    => $viewGlobalName,
+                'delete'  => _l('permission_delete'),
+                'restore' => _l('restore'),
+            ]
+        ],
+        'legal_services' => [
+            'name'         => _l('LegalServiceManage'),
+            'capabilities' => [
+                'create'     => _l('permission_create'),
+                'edit'       => _l('permission_edit'),
+                'delete'     => _l('permission_delete'),
+                'active'     => _l('MakePrimary'),
+                'categories' => _l('categories_management'),
+            ]
+        ],
     ];
 
     $addLeadsPermission = true;

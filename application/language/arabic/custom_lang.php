@@ -1023,3 +1023,4 @@ $lang['procedure_template_assigned_to_service'] = "تم حفظ الاجراء ا
 $lang['procedure_not_found'] = "الإجراء القانوني غير موجود ربما تم حذفه ، تحقق من سجل النشاط";
 $lang['delete_list'] = "حذف القائمة";
 $lang['delete_procedure'] = "حذف الإجراء القانوني";
+$lang['categories_management'] = "إدارة التصنيفات";

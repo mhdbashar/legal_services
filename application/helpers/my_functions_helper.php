@@ -226,12 +226,14 @@ function my_custom_setup_menu_items()
         ]);
     }
 
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug' => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("LegalServiceManage"), // The name if the item
-        'href' => admin_url('ServicesControl'), // URL of the item
-        'position' => 5, // The menu position
-    ]);
+    if (has_permission('legal_services', '', 'create')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item5', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("LegalServiceManage"), // The name if the item
+            'href' => admin_url('ServicesControl'), // URL of the item
+            'position' => 5, // The menu position
+        ]);
+    }
 
     $CI->app_menu->add_setup_children_item('1', [
         'slug' => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
@@ -240,12 +242,14 @@ function my_custom_setup_menu_items()
         'position' => 6, // The menu position
     ]);
 
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug' => 'child-to-custom-menu-item7', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("LService_recycle_bin"), // The name if the item
-        'href' => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
-        'position' => 7, // The menu position
-    ]);
+    if (has_permission('legal_recycle_bin', '', 'view')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item7', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("LService_recycle_bin"), // The name if the item
+            'href' => admin_url('LegalServices/LegalServices_controller/legal_recycle_bin'), // URL of the item
+            'position' => 7, // The menu position
+        ]);
+    }
 
     $CI->app_menu->add_setup_children_item('1', [
         'slug' => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu

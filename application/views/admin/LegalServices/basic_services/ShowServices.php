@@ -6,54 +6,69 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
+                        <?php if (has_permission('judges_manage', '', 'create')) { ?>
                             <div class="_buttons">
-                                <a href="#"  data-toggle="modal" data-target="#add-services" class="btn btn-info pull-left display-block">
+                                <a href="#" data-toggle="modal" data-target="#add-services" class="btn btn-info pull-left display-block">
                                     <?php echo _l('AddLegalService'); ?>
                                 </a>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
                             </div>
-                            <table class="table dt-table scroll-responsive">
-                                <thead>
-                                <th>#</th>
-                                <th><?php echo _l('name'); ?></th>
+                        <?php } ?>
+                        <table class="table dt-table scroll-responsive">
+                            <thead>
+                            <th>#</th>
+                            <th><?php echo _l('name'); ?></th>
+                            <?php if (has_permission('legal_services', '', 'active')): ?>
                                 <th><?php echo _l('MakePrimary'); ?></th>
+                            <?php endif; ?>
+                            <?php if (has_permission('legal_services', '', 'active') || has_permission('legal_services', '', 'delete') || has_permission('legal_services', '', 'categories')): ?>
                                 <th><?php echo _l('options'); ?></th>
-                                </thead>
-                                <tbody>
-                                <?php $i=1; foreach($services as $service){ ?>
-                                    <tr>
-                                        <td><?php echo $i; ?></td>
-                                        <td>
-                                            <?php echo $service->name; ?>
-                                        </td>
-                                        <td>
-                                        <?php if ($service->show_on_sidebar == 1 && $service->is_module == 0): ?>
-                                            <div class="onoffswitch">
-                                                <input type="checkbox" name="is_primary" class="onoffswitch-checkbox" onchange="MakePrimary(this.id)" id="<?php echo $service->id; ?>" value="<?php echo $service->is_primary; ?>" data-id="<?php echo $service->id; ?>" <?php if($service->is_primary == 1) echo "checked" ;?>>
-                                                <label class="onoffswitch-label" for="<?php echo $service->id; ?>"></label>
-                                            </div>
-                                        <?php else: ?>
-                                        <a href="<?php echo admin_url('modules'); ?>" target="_blank"><?php echo _l('modify_module'); ?></a>
-                                        <?php endif; ?>
-                                        </td>
+                            <?php endif; ?>
+                            </thead>
+                            <tbody>
+                            <?php $i=1; foreach($services as $service){ ?>
+                                <tr>
+                                    <td><?php echo $i; ?></td>
+                                    <td>
+                                        <?php echo $service->name; ?>
+                                    </td>
+                                    <?php if (has_permission('legal_services', '', 'active')): ?>
                                         <td>
                                             <?php if ($service->show_on_sidebar == 1 && $service->is_module == 0): ?>
-                                            <a href="<?php echo admin_url("edit_service/$service->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                                            <?php if ($service->id != 1): ?>
-                                            <a href="<?php echo admin_url("delete_service/$service->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="is_primary" class="onoffswitch-checkbox" onchange="MakePrimary(this.id)" id="<?php echo $service->id; ?>" value="<?php echo $service->is_primary; ?>" data-id="<?php echo $service->id; ?>" <?php if($service->is_primary == 1) echo "checked" ;?>>
+                                                    <label class="onoffswitch-label" for="<?php echo $service->id; ?>"></label>
+                                                </div>
+                                            <?php else: ?>
+                                                <a href="<?php echo admin_url('modules'); ?>" target="_blank"><?php echo _l('modify_module'); ?></a>
                                             <?php endif; ?>
-                                            <?php endif; ?>
-                                            <a href="<?php echo admin_url("CategoryControl/$service->id"); ?>" class="btn btn-info btn-icon">
-                                                <?php echo _l('Categories'); ?>
-                                            </a>
                                         </td>
-                                    </tr>
-                                    <?php $i++; } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <?php endif; ?>
+                                    <?php if (has_permission('legal_services', '', 'edit') || has_permission('legal_services', '', 'delete') || has_permission('legal_services', '', 'categories')): ?>
+                                        <td>
+                                            <?php
+                                            if ($service->show_on_sidebar == 1 && $service->is_module == 0):
+                                                if (has_permission('legal_services', '', 'edit')): ?>
+                                                    <a href="<?php echo admin_url("edit_service/$service->id"); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                                <?php endif; ?>
+                                                <?php if (has_permission('legal_services', '', 'delete')): ?>
+                                                <?php if ($service->id != 1): ?>
+                                                    <a href="<?php echo admin_url("delete_service/$service->id"); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                            <?php endif; ?>
+                                            <?php if (has_permission('legal_services', '', 'categories')): ?>
+                                                <a href="<?php echo admin_url("CategoryControl/$service->id"); ?>" class="btn btn-info btn-icon">
+                                                    <?php echo _l('Categories'); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                                <?php $i++; } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -107,5 +122,5 @@
         });
     }
 </script>
-    </body>
-    </html>
+</body>
+</html>

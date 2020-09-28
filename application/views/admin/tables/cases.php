@@ -50,6 +50,10 @@ foreach ($model->get_project_statuses() as $status) {
 
 array_push($where, 'AND ' . db_prefix() . 'my_cases.deleted = 0');
 
+if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
+    array_push($where, ' AND ' . db_prefix() . 'my_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');
+}
+
 if (count($statusIds) > 0) {
     array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
 }
@@ -73,6 +77,7 @@ foreach ($rResult as $aRow) {
     $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
     $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
+    // $_data .= ' | <a href="'.admin_url("LegalServices/other_services_controller/export_case/".$aRow['id']."").'">'. _l('export') .'</a>';
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsCases($aRow['id']);

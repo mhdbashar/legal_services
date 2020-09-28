@@ -149,9 +149,9 @@ class Cases_controller extends AdminController
         ]);
     }
 
-    public function staff_projects()
+    public function staff_cases()
     {
-        $this->app->get_table_data('staff_projects');
+        $this->app->get_table_data('staff_cases');
     }
 
     public function expenses($id, $slug = '')
@@ -403,6 +403,14 @@ class Cases_controller extends AdminController
             } elseif ($group == 'Procedures'){
                 $data['category'] = $this->procedures->get('', ['type_id' => 2, 'parent_id' => 0]);
                 $data['procedure_lists'] = $this->procedures->get_lists_procedure('', ['rel_id' => $id, 'rel_type' => $slug]);
+            }elseif ($group == 'help_library'){
+                $tags_array = get_service_tags($id, $slug);
+                $tags = array();
+                foreach ($tags_array as $tag){
+                    $tags[] = $tag['tag'];
+                }
+                $tags = implode(',', $tags);
+                $data['books'] = json_decode(get_books_by_api($tags));
             }
 
             // Discussions

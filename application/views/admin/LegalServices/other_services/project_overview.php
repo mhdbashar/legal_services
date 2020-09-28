@@ -1,4 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<style>
+    .bold{
+        font-weight: 600;
+    }
+</style>
 <div class="row">
    <div class="col-md-6 border-right project-overview-left">
       <div class="row">
@@ -77,7 +82,7 @@
                     ?>
                  </td>
                  <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                  echo '<tr class="project-overview-amount>';
+                  echo '<tr class="project-overview-amount">';
                   if($project->billing_type == 1){
                     echo '<td class="bold">'._l('project_total_cost').'</td>';
                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';

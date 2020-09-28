@@ -28,7 +28,12 @@ class LegalServicesModel extends App_Model
 
     public function get_service_id_by_slug($slug)
     {
-        return $this->db->get_where('my_basic_services', array('slug' => $slug))->row()->id;
+        $num_rows = $this->db->get_where('my_basic_services', array('slug' => $slug))->num_rows();
+        if($num_rows > 0){
+            return $this->db->get_where('my_basic_services', array('slug' => $slug))->row()->id;
+        }else{
+            return array();
+        }
     }
 
     public function CheckExistCategory($CatID)

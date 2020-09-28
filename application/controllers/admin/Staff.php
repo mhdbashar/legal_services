@@ -21,6 +21,7 @@ class Staff extends AdminController
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
+
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }
@@ -228,7 +229,11 @@ class Staff extends AdminController
         }
 
         if (has_permission('staff', '', 'delete')) {
-            $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+            if($this->app_modules->is_active('hr')){
+                $this->load->model('hr/Global_model', 'global');
+                $success = $this->global->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+            }else
+                $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
             if ($success) {
                 set_alert('success', _l('deleted', _l('staff_member')));
             }

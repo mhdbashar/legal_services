@@ -51,6 +51,10 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_customers_based_on_admins'),
             ],
         ],
+        'procurations' => [
+            'name'         => _l('procurations'),
+            'capabilities' => $withNotApplicableViewOwn,
+        ],
         'email_templates' => [
             'name'         => _l('email_templates'),
             'capabilities' => [

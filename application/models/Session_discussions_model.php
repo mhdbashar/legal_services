@@ -1403,16 +1403,27 @@ class Session_discussions_model extends App_Model
         return false;
     }
 
-    private function _notify_project_members_status_change($id, $old_status, $new_status)
+    private function _notify_project_members_status_change($id, $old_status, $new_status, $ServID='')
     {
-        $members       = $this->get_project_members($id);
+        if (isset($ServID) && $ServID != ''){
+            if ($ServID == 1) {
+                $members = $this->get_case_members($id);
+                $link = 'Case/view/' .$ServID.'/' .$id;
+            } else {
+                $members = $this->get_oservice_members($id);
+                $link = 'SOther/view/' .$ServID.'/' .$id;
+            }
+        }else{
+            $members = $this->get_project_members($id);
+            $link = 'projects/view/' . $id;
+        }
         $notifiedUsers = [];
         foreach ($members as $member) {
             if ($member['staff_id'] != get_staff_user_id()) {
                 $notified = add_notification([
                     'fromuserid'      => get_staff_user_id(),
                     'description'     => 'not_project_status_updated',
-                    'link'            => 'projects/view/' . $id,
+                    'link'            => $link,
                     'touserid'        => $member['staff_id'],
                     'additional_data' => serialize([
                         '<lang>project_status_' . $old_status . '</lang>',
@@ -1611,6 +1622,24 @@ class Session_discussions_model extends App_Model
         $this->db->where('project_id', $id);
 
         return $this->db->get(db_prefix() . 'project_members')->result_array();
+    }
+
+    public function get_case_members($id)
+    {
+        $this->db->select('email,project_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_cases.staff_id');
+        $this->db->where('project_id', $id);
+
+        return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
+
+    public function get_oservice_members($id)
+    {
+        $this->db->select('email,oservice_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_services.staff_id');
+        $this->db->where('oservice_id', $id);
+
+        return $this->db->get(db_prefix() . 'my_members_services')->result_array();
     }
 
     public function remove_team_member($project_id, $staff_id)

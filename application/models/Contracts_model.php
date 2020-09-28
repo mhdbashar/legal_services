@@ -47,10 +47,10 @@ class Contracts_model extends App_Model
                     }
                 }
             }
-
             return $contract;
         }
         $contracts = $this->db->get(db_prefix() . 'contracts')->result_array();
+
         $i         = 0;
         foreach ($contracts as $contract) {
             $contracts[$i]['attachments'] = $this->get_contract_attachments('', $contract['id']);

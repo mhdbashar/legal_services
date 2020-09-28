@@ -216,6 +216,7 @@ class General extends AdminController{
                 if($key == 'date_birth')
                     unset($data[$key]);
             }
+            unset($data['sub_department']);
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
@@ -411,6 +412,13 @@ class General extends AdminController{
     public function update_emergency_contact(){
         $data = $this->input->post();
         $id = $this->input->post('id');
+        if(empty($data['is_dependent'])){
+            $data['is_dependent'] = 0;
+        }
+        if(empty($data['is_primary'])){
+            $data['is_primary'] = 0;
+        }
+        //var_dump($data);exit;
         $success = $this->Emergency_contact_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));

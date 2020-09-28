@@ -5,6 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 Module Name: account_name
 Description: account_desc
 Author: Babil Team
+Version: 1.0.0
 Author URI: #
 */
 

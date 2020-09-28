@@ -165,11 +165,13 @@ class Organization extends AdminController{
         if (!is_admin()) {
             access_denied();
         }
-        $response = $this->Designation_model->delete($id);
-        if ($response == true) {
-            set_alert('success', _l('deleted_successfully'));
+        $response = $this->Sub_department_model->delete($id);
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced'));
+        } elseif  ($response == true) {
+            et_alert('success', _l('deleted_successfully'));
         } else {
-            set_alert('warning', 'Problem deleting');
+            set_alert('warning', _l('problem_deleting'));
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -257,12 +259,16 @@ class Organization extends AdminController{
         if (!is_admin()) {
             access_denied();
         }
+
         $response = $this->Sub_department_model->delete($id);
-        if ($response == true) {
-            set_alert('success', _l('deleted_successfully'));
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced'));
+        } elseif  ($response == true) {
+            et_alert('success', _l('deleted_successfully'));
         } else {
-            set_alert('warning', 'Problem deleting');
+            set_alert('warning', _l('problem_deleting'));
         }
+
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

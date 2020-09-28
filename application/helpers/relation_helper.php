@@ -67,7 +67,6 @@ function get_relation_data($type, $rel_id = '')
         }
     } elseif ($type == 'contract' || $type == 'contracts') {
         $CI->load->model('contracts_model');
-
         if ($rel_id != '') {
             $CI->load->model('contracts_model');
             $data = $CI->contracts_model->get($rel_id);
@@ -205,6 +204,7 @@ function get_relation_data($type, $rel_id = '')
  */
 function get_relation_values($relation, $type)
 {
+    $CI = & get_instance();
     if ($relation == '') {
         return [
             'name'      => '',
@@ -384,13 +384,33 @@ function get_relation_values($relation, $type)
         $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
 
         $link = admin_url('projects/view/' . $id);
-    }else{
-        if (is_array($relation)) {
-            $id       = $relation['id'];
-            $name     = $relation['name'];
+    }else {
+        $CI->load->model('LegalServices/LegalServicesModel', 'legal');
+        $service_id = $CI->legal->get_service_id_by_slug($type);
+        if (!empty($service_id)) {
+            if (is_array($relation)) {
+                $id       = $relation['id'];
+                $name     = $relation['name'];
+                $clientId = $relation['clientid'];
+            } else {
+                $id       = $relation->id;
+                $name     = $relation->name;
+                $clientId = $relation->clientid;
+            }
+            $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
+        if ($service_id == 1) {
+            $link = admin_url('Case/view/' .$service_id.'/'. $id);
         } else {
-            $id       = $relation->id;
-            $name     = $relation->name;
+            $link = admin_url('SOther/view/' .$service_id.'/'. $id);
+        }
+        }else{
+            if (is_array($relation)) {
+                $id = $relation['id'];
+                $name = $relation['name'];
+            } else {
+                $id = $relation->id;
+                $name = $relation->name;
+            }
         }
     }
 

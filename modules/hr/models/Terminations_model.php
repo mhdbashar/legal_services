@@ -128,8 +128,10 @@ class Terminations_model extends App_Model{
         if ($this->db->affected_rows() > 0) {
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
             $this->deleteDirectory("uploads/hr/terminations/$id");
-            $this->db->where(['rel_type' => 'terminations', 'rel_id' => $id]);
-            $this->db->delete(db_prefix().'branches_services');
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type' => 'terminations']);
+                $this->db->delete('tblbranches_services');
+            }
             return true;
         } 
  

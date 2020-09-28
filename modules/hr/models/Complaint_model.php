@@ -128,8 +128,10 @@ class Complaint_model extends App_Model{
         if ($this->db->affected_rows() > 0) {
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
             $this->deleteDirectory("uploads/hr/comlaints/$id");
-            $this->db->where(['rel_type' => 'comlaints', 'rel_id' => $id]);
-            $this->db->delete(db_prefix().'branches_services');
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_type' => 'complaints', 'rel_id' => $id]);
+                $this->db->delete(db_prefix().'branches_services');
+            }
             return true;
         } 
  

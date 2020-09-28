@@ -235,12 +235,14 @@ function my_custom_setup_menu_items()
         ]);
     }
 
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug' => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("legal_services_phases"), // The name if the item
-        'href' => admin_url('LegalServices/Phases_controller'), // URL of the item
-        'position' => 6, // The menu position
-    ]);
+    if (has_permission('legal_services_phases', '', 'create')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item6', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("legal_services_phases"), // The name if the item
+            'href' => admin_url('LegalServices/Phases_controller'), // URL of the item
+            'position' => 6, // The menu position
+        ]);
+    }
 
     if (has_permission('legal_recycle_bin', '', 'view')) {
         $CI->app_menu->add_setup_children_item('1', [

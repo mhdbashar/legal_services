@@ -205,6 +205,15 @@ function get_available_staff_permissions($data = [])
                 'categories' => _l('categories_management'),
             ]
         ],
+        'legal_services_phases' => [
+            'name'         => _l('legal_services_phases'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+                'active' => _l('active_phase'),
+            ]
+        ],
     ];
 
     $addLeadsPermission = true;

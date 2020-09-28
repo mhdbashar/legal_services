@@ -87,14 +87,11 @@
                                     echo form_hidden('project_status_' . $status['id'], $value);
                                     ?>
                                     <div class="col-md-2 col-xs-6 border-right">
-                                        <?php $where = ($_where == '' ? '' : $_where . ' AND ') . 'status = ' . $status['id']; ?>
-                                        <?php
-                                        $where .= ($ServID == 1 ? '' : $_where . ' AND ' . db_prefix() . $TableService . '.service_id = ' . $ServID);
-                                        $where .= ($_where . ' AND ' . db_prefix() . $TableService . '.deleted = 0');
-                                        ?>
-                                        <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>', '<?php echo $class; ?>', 'project_status_<?php echo $status['id']; ?>', true);
-                                                    return false;">
-                                            <h3 class="bold"><?php echo total_rows(db_prefix() . $TableService, $where); ?></h3>
+                                        <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; ?>
+                                        <?php $where .= ($ServID == 1 ? '' : ' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
+                                              $where .= (' AND '.db_prefix().$TableService.'.deleted = 0'); ?>
+                                        <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
+                                            <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">
                                             <?php echo $status['name']; ?>
                                         </span>

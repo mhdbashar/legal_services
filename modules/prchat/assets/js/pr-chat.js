@@ -453,3 +453,16 @@ function chatCircleTransform() {
         localStorage.isToggled = 'false';
     }
 }
+
+/** 
+ * Check for audio message then convert to html readable element
+ */
+function ifAudioRender(message) {
+    /** 
+     * Check if it is audio message and decode html
+     */
+    if (message.match('type="audio/ogg"&gt;&lt;/audio&gt')) {
+        message = renderHtmlForAudio(message);
+    }
+    return message;
+}

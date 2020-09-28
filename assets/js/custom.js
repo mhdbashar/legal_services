@@ -358,3 +358,99 @@ $(function() {
         window.location.href = admin_url + 'Service/1';
     });
 });
+
+$(document).ready(function() {
+
+
+
+    var numItems = $('li.fancyTab').length;
+
+
+    if (numItems == 12){
+        $("li.fancyTab").width('8.3%');
+    }
+    if (numItems == 11){
+        $("li.fancyTab").width('9%');
+    }
+    if (numItems == 10){
+        $("li.fancyTab").width('10%');
+    }
+    if (numItems == 9){
+        $("li.fancyTab").width('11.1%');
+    }
+    if (numItems == 8){
+        $("li.fancyTab").width('12.5%');
+    }
+    if (numItems == 7){
+        $("li.fancyTab").width('14.2%');
+    }
+    if (numItems == 6){
+        $("li.fancyTab").width('16.666666666666667%');
+    }
+    if (numItems == 5){
+        $("li.fancyTab").width('20%');
+    }
+    if (numItems == 4){
+        $("li.fancyTab").width('25%');
+    }
+    if (numItems == 3){
+        $("li.fancyTab").width('33.3%');
+    }
+    if (numItems == 2){
+        $("li.fancyTab").width('50%');
+    }
+
+
+
+
+});
+
+$(window).load(function() {
+
+    $('.fancyTabs').each(function() {
+
+        var highestBox = 0;
+        $('.fancyTab a', this).each(function() {
+
+            if ($(this).height() > highestBox)
+                highestBox = $(this).height();
+        });
+
+        $('.fancyTab a', this).height(highestBox);
+
+    });
+});
+
+$(function() {
+    init_table_staff_cases();
+    init_table_staff_services();
+});
+// Staff cases table in staff profile
+function init_table_staff_cases(manual) {
+    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if ($("body").find('.table-staff-cases').length === 0) { return; }
+
+    var staffProjectsParams = {},
+        Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
+
+    $.each(Staff_Projects_Filters, function() {
+        staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    initDataTable('.table-staff-cases', admin_url + 'LegalServices/Cases_controller/staff_cases', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+}
+
+// Staff services table in staff profile
+function init_table_staff_services(manual) {
+    if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
+    if ($("body").find('.table-staff-services').length === 0) { return; }
+
+    var staffProjectsParams = {},
+        Staff_Projects_Filters = $('._hidden_inputs._filters.staff_projects_filter input');
+
+    $.each(Staff_Projects_Filters, function() {
+        staffProjectsParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    initDataTable('.table-staff-services', admin_url + 'LegalServices/Other_services_controller/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+}

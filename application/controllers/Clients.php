@@ -918,7 +918,8 @@ class Clients extends ClientsController
                 if (has_contact_permission('invoices')) {
                     $whereInvoices = [
                         'clientid'   => get_client_user_id(),
-                        'project_id' => $id,
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug
                     ];
                     if (get_option('exclude_invoice_from_client_area_with_draft_status') == 1) {
                         $whereInvoices['status !='] = 6;
@@ -930,7 +931,8 @@ class Clients extends ClientsController
                 if (has_contact_permission('support')) {
                     $where_tickets = [
                         db_prefix() . 'tickets.userid' => get_client_user_id(),
-                        'project_id'                   => $id,
+                        'project_id'                   => 0,
+                        'rel_stype'                    => $slug
                     ];
 
                     if (!!can_logged_in_contact_view_all_tickets()) {
@@ -945,7 +947,9 @@ class Clients extends ClientsController
                 if (has_contact_permission('estimates')) {
                     $data['estimates'] = $this->estimates_model->get('', [
                         'clientid'   => get_client_user_id(),
-                        'project_id' => $id,
+                        'project_id' => 0,
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug
                     ]);
                 }
             } elseif ($group == 'project_timesheets') {
@@ -1216,7 +1220,7 @@ class Clients extends ClientsController
                 ];
                 if (isset($data['ServID']) && $data['ServID'] != '') {
                     $slug = $this->legal->get_service_by_id($data['ServID'])->row()->slug;
-                    $tkt_data['rel_sid'] = $data['project_id'];
+                    $tkt_data['rel_sid'] = $data['rel_sid'];
                     $tkt_data['rel_stype'] = $slug;
                     $tkt_data['project_id'] = 0;
                     unset($data['ServID']);

@@ -94,6 +94,11 @@ class Branches_model extends App_Model
      */
     public function delete($id)
     {
+        if (is_reference_in_table('branch_id', db_prefix() . 'branches_services', $id)) {
+            return [
+                'referenced' => true,
+            ];
+        }
         $this->db->where('id', $id);
         $this->db->delete('tblbranches');
         if ($this->db->affected_rows() > 0) {

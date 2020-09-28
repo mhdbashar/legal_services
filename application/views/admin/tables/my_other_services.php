@@ -57,6 +57,9 @@ if (count($filter) > 0) {
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.service_id='.$ServID);
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.deleted=0');
 
+if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
+    array_push($where, ' AND ' . db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')');
+}
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_other_services';
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'my_other_services.clientid']);
@@ -86,7 +89,6 @@ foreach ($rResult as $aRow) {
         $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/".$ServID."/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
     }
         
-
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsServices($aRow['id']);

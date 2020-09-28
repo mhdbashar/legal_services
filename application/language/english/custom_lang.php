@@ -1,4 +1,6 @@
 <?php
+$lang['home_my_cases'] = "Cases";
+$lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
 $lang['zoom_name'] = 'Zoom meetings';
 $lang['zoom_desc'] = 'You can set your zoom account and start your meetings within the Babel APP';
@@ -218,8 +220,8 @@ $lang['mcreator_name'] = "Mail templates creator";
 $lang['mcreator_desc'] = "Simple mail templates creator module";
 
 
-$lang['chat_name'] = "Chat me";
-$lang['chat_desc'] = "Chat Module";
+$lang['chat_name'] = "Chat & Meetings";
+$lang['chat_desc'] = "Chat & Meetings Module";
 
 
 $lang['surveys_name'] = "Surveys";
@@ -253,7 +255,6 @@ $lang['email_queue_skip_attachments_exp']= "Most likely you will encounter probl
 $lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.";
 $lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
 $lang['settings_sales_bo_box'] = "BO Box";
-
 $lang['global_hr_setting'] = 'Global HR Settings';
 $lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';
@@ -794,6 +795,8 @@ $lang['branch_name'] = "Branch Name";
 $lang['case_id'] = "Cases";
 $lang['not_selected'] = "Not Selected";
 $lang['cases'] = "Cases";
+$lang['cases_dashboard'] = "Cases";
+$lang['legal_services_dashboard'] = "Legal Services";
 $lang['customer_company_groups'] = "Company Groups";
 $lang['session_info'] = "Session Information";
 $lang['start_at'] = "Start At";

@@ -15,11 +15,17 @@
     transition: 0.4s all cubic-bezier(1, 1.6, 1, 1);
 }
 
+body #header ul.navbar-nav>li>.profile {
+    margin-right: 27px;
+}
+
 #prchat-header-wrapper {
     position: absolute;
     cursor: pointer;
     top: 15px;
-    margin-right: -25px;
+    right: 203px;
+    margin: 0 auto;
+    z-index: 99999;
     font-size: 25px;
     /* icon */
 }
@@ -81,7 +87,7 @@
 }
 
 #prchat-header-wrapper #top_status-options ul li p {
-    padding-right: 20px;
+    padding-left: 20px;
 }
 
 #prchat-header-wrapper #top_status-options ul li#status-online span.status-circle {
@@ -124,6 +130,7 @@ svg#chat_status_top_icon {
     width: 26px;
     height: 26px;
     margin-top: 6px;
+    margin-right: 8px;
 }
 
 #chat_status_top_icon.online {

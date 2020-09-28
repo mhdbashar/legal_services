@@ -139,7 +139,7 @@ CREATE TABLE `tblbranches` (
 --
 
 INSERT INTO `tblbranches` (`id`, `title_en`, `title_ar`, `legal_traning_name`, `registraion_number`, `website`, `phone`, `branch_email`, `city_id`, `country_id`, `address`, `state_province`, `zip_code`, `username`) VALUES
-(1, 'General branch', 'الفرع العام', '', '1', '', '', '', 338, 217, '', '', '', '');
+(1, 'المركز الرئيسي', 'المركز الرئيسي', '', '1', '', '', '', 338, 217, '', '', '', '');
 
 -- --------------------------------------------------------
 

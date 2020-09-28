@@ -946,6 +946,10 @@ class Clients_model extends App_Model
         }
         if ($affectedRows > 0) {
             hooks()->do_action('after_client_deleted', $id);
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type="clients" or rel_type="opponent"']);
+                $this->db->delete('tblbranches_services');
+            }
 
             // Delete activity log caused by delete customer function
             if ($last_activity) {

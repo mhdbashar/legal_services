@@ -24,14 +24,14 @@ $currentChatColor = !empty($color) ? $color : '#546bf1';
 
   .main_loader_init:before {
     content: '<?= _l("chat_accessing_channels"); ?>';
-    position: absolute;
     color: #ffffff;
     font-size: 15px;
+    margin-top: -100px;
+    text-align: center;
   }
 </style>
 
 <script src="<?php echo base_url('modules/prchat/assets/js/tooltipster.bundle.min.js'); ?>"></script>
-
 <!-- Check if user has permission to delete own messages enabled -->
 <?php $chat_delete_option = get_option('chat_staff_can_delete_messages'); ?>
 <?php $chat_desktop_messages_notifications = get_option('chat_desktop_messages_notifications'); ?>
@@ -115,7 +115,7 @@ $currentChatColor = !empty($color) ? $color : '#546bf1';
       if ($(window).width() > 733) {
         $('body').removeClass('hide-sidebar').addClass('show-sidebar');
       } else {
-          $('body').removeClass('show-sidebar').addClass('hide-sidebar');
+        $('body').removeClass('show-sidebar').addClass('hide-sidebar');
       }
       if ($('#frame #sidepanel #contacts li').length > 10) {
         $('#frame #sidepanel #contacts').css({
@@ -124,6 +124,17 @@ $currentChatColor = !empty($color) ? $color : '#546bf1';
       }
     });
   }
+
+  // Html audio helper function to decode html
+  function renderHtmlForAudio(unsafe) {
+    return unsafe
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, "\"")
+      .replace(/&#039;/g, "'");
+  }
+
   /**
    * Global Array where mentioned users are saved
    */

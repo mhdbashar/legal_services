@@ -238,16 +238,16 @@
                 
                 // $('[name="is_primary"]').val(data.is_primary);
                 if(data.is_primary == 1){
-                    $('[name="is_primary"]').attr('checked', 'true');
+                    $('[name="is_primary"]').prop("checked", true);
                 }else{
-                    $('[name="is_primary"]').attr('checked', 'false')
+                    $('[name="is_primary"]').prop("checked", false);
                 }
 
                 // $('[name="is_dependent"]').val(data.is_dependent);
                 if(data.is_dependent == 1){
-                    $('[name="is_dependent"]').attr('checked', 'true')
+                    $('[name="is_dependent"]').prop("checked", true);
                 }else{
-                    $('[name="is_dependent"]').attr('checked', 'false')
+                    $('[name="is_dependent"]').prop("checked", false);
                 }
 
                 $('[name="name"]').val(data.name);

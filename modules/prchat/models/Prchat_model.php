@@ -45,10 +45,15 @@ class Prchat_model extends App_Model
 
             foreach ($query as &$chat) {
                 $users[$key]['time_sent_formatted'] = $chat->time_sent_formatted = time_ago($chat->time_sent);
+
+                $render_message = preg_match('~\b(src|audio|controls|ogg)\b~i', $chat->message);
+
+                $render_message = ($render_message) ? _l('chat_new_audio_message_sent') : $chat->message;
+
                 if ($user['staffid'] !== $chat->sender_id) {
-                    $users[$key]['message'] = _l('chat_message_you') . ' ' . $chat->message;
+                    $users[$key]['message'] = _l('chat_message_you') . ' ' . $render_message;
                 } else {
-                    $users[$key]['message'] = $chat->message;
+                    $users[$key]['message'] = $render_message;
                 }
                 $users[$key]['status'] = ($this->_get_chat_status($user['staffid'])) ? $this->_get_chat_status($user['staffid']) : 'online';
             }
@@ -96,7 +101,10 @@ class Prchat_model extends App_Model
     {
         $this->db->where('user_id', ($id) ? $id : get_staff_user_id());
         $this->db->where('name', 'chat_status');
-        return $this->db->get(db_prefix() . 'chatsettings')->row_array()['value'];
+        $result = $this->db->get(db_prefix() . 'chatsettings')->row_array();
+        if ($result !== NULL) {
+            return $result['value'];
+        }
     }
 
     /**
@@ -183,6 +191,7 @@ class Prchat_model extends App_Model
             $chat->message = $chat->message;
             $chat->message = pr_chat_convertLinkImageToString($chat->message);
             $chat->message = check_for_links_lity($chat->message);
+            $this->checkMessageForAudio($chat);
             $chat->user_image = $this->getUserImage($chat->sender_id);
             $chat->sender_fullname = get_staff_full_name($chat->sender_id);
             $chat->time_sent_formatted = _dt($chat->time_sent);
@@ -252,6 +261,9 @@ class Prchat_model extends App_Model
                 }
 
                 $chat->message = check_for_links_lity($chat->message);
+
+                $this->checkMessageForAudio($chat);
+
                 $chat->user_image = $this->getUserImage($chat->sender_id);
                 $chat->sender_fullname = get_staff_full_name($chat->sender_id);
                 $chat->time_sent_formatted = _dt($chat->time_sent);
@@ -281,6 +293,13 @@ class Prchat_model extends App_Model
         }
 
         return false;
+    }
+
+    private function checkMessageForAudio($chat)
+    {
+        if (preg_match('~\b(src|audio|controls|ogg)\b~i', $chat->message)) {
+            $chat->message = html_entity_decode($chat->message);
+        }
     }
 
     /**
@@ -569,13 +588,20 @@ class Prchat_model extends App_Model
     }
 
     /**
-     * Delete group shared files from folder.
+     * Delete group shared files and audio from folder.
      * @param string $group_id
      * @return boolean
      */
     public function deleteGroupSharedFiles($group_id)
     {
         $files = $this->db->select('file_name')->where('group_id', $group_id)->get(db_prefix() . 'chatgroupsharedfiles')->result_array();
+        $audio_files = $this->db->query("SELECT message FROM " . db_prefix() . "chatgroupmessages WHERE message LIKE '%.ogg%' AND group_id = $group_id")->result_array();
+
+        if (count($audio_files) > 0) {
+            foreach ($audio_files as $file) {
+                $this->handleAudioDeleteFile($file['message']);
+            }
+        }
 
         if (!empty($files) && is_array($files)) {
             foreach ($files as $file) {
@@ -603,11 +629,11 @@ class Prchat_model extends App_Model
      */
     public function deleteMessage($id, $mixed_id)
     {
-        $staff_id = get_staff_user_id();
-
         if (strpos($mixed_id, 'group_id') !== false) {
             $mixed_id = str_replace('group_id', '', $mixed_id);
             $possible_file = $this->db->select('message')->where('group_id', $mixed_id)->where('id', $id)->get(db_prefix() . 'chatgroupmessages')->row();
+
+            $this->handleAudioDeleteFile($possible_file);
 
             if (prchat_checkMessageIfFileExists($possible_file->message)) {
                 $file_name = getImageFullName($possible_file->message);
@@ -629,6 +655,9 @@ class Prchat_model extends App_Model
             }
         } else {
             $possible_file = $this->db->select()->where('id', $id)->get(db_prefix() . 'chatmessages')->row()->message;
+
+            $this->handleAudioDeleteFile($possible_file);
+
             if (prchat_checkMessageIfFileExists($possible_file)) {
                 $file_name = getImageFullName($possible_file);
                 if (is_dir(PR_CHAT_MODULE_UPLOAD_FOLDER)) {
@@ -649,6 +678,48 @@ class Prchat_model extends App_Model
         }
 
         return false;
+    }
+
+    /**
+     * Handle deleting audio files for staff and staff groups
+     *
+     * @param string $possible_file
+     * @return string
+     */
+    private function handleAudioDeleteFile($possible_file)
+    {
+        /** 
+         * This is when deleting from groups it returns object
+         */
+        if (isset($possible_file->message)) {
+            $possible_file = $possible_file->message;
+        }
+
+        $finallyFileToDelete = '';
+
+        if (preg_match('~\b(src|audio|controls|.ogg)\b~i', $possible_file)) {
+            $parsedUrl = '';
+            $file_to_delete = html_entity_decode($possible_file);
+            $regex = '/https?\:\/\/[^\",]+/i';
+
+            preg_match_all($regex, $file_to_delete, $matches);
+
+            if (isset($matches[0]) && !empty($matches[0])) {
+                // Parse url conver to url
+                $parsedUrl = parse_url($matches[0][0]);
+                // Get path host scheme path ...
+                $pathFragments = explode('/', $parsedUrl['path']);
+
+                // Last path of url hash-247823849729bsd9f823dbn2378db283db82d.ogg
+                $finallyFileToDelete = end($pathFragments);
+
+                if (is_dir(PR_CHAT_MODULE_UPLOAD_FOLDER . '/audio')) {
+                    @unlink(PR_CHAT_MODULE_UPLOAD_FOLDER . '/audio/' . $finallyFileToDelete);
+                }
+            }
+        }
+
+        return $finallyFileToDelete;
     }
 
     /**
@@ -950,13 +1021,14 @@ class Prchat_model extends App_Model
         $this->db->trans_start();
         foreach ($group_members as $member) {
             if ($member['group_id'] == $group_id) {
+
+                $this->chat_model->deleteGroupSharedFiles($group_id);
+
                 $this->db->where('group_id', $group_id);
                 $this->db->delete(TABLE_CHATGROUPMEMBERS);
 
                 $this->db->where('group_id', $group_id);
                 $this->db->delete(TABLE_CHATGROUPMESSAGES);
-
-                $this->chat_model->deleteGroupSharedFiles($group_id);
             }
         }
 
@@ -1217,7 +1289,15 @@ class Prchat_model extends App_Model
         foreach ($query as &$chat) {
             $chat['message'] = check_for_links_lity($chat['message']);
             $chat['message'] = pr_chat_convertLinkImageToString($chat['message']);
-            $chat['message'] = stripslashes(htmlentities($chat['message'], ENT_QUOTES));
+            $chat['message'] = stripslashes(htmlentities($chat['message'], ENT_COMPAT));
+
+            /**
+             * New line break blows return json so need to replace with spaces
+             */
+            if (strpos($chat['message'], "\n") !== FALSE) {
+                $chat['message'] = preg_replace('/\s+/', ' ', trim($chat['message']));
+            }
+
             $chat['sender_fullname'] = get_staff_full_name(str_replace('staff_', '', $chat['sender_id']));
             ($contact_full_name !== '') ? $chat['contact_fullname'] = $contact_full_name : '';
             $chat['user_image_path'] = contact_profile_image_url(str_replace('staff_', '', $chat['sender_id']));
@@ -1465,6 +1545,33 @@ class Prchat_model extends App_Model
             'userImage' => $userImage,
             'name' => $staff_fullname
         ));
+    }
+
+
+    /**
+     * Handle base64 audio data from recording
+     *
+     * @param string $audioData
+     * @return json
+     */
+    public function handleAudioData($audioB64Data)
+    {
+
+        $audioB64Data = str_replace('data:audio/ogg;base64,', '', str_replace('[removed]', 'data:audio/ogg;base64, ', $audioB64Data));
+
+        $decodedAudio = base64_decode($audioB64Data);
+
+        $hashFilename = app_generate_hash() . '-' . app_generate_hash();
+
+        $fileSaveLocation = PR_CHAT_MODULE_UPLOAD_FOLDER . "/audio/{$hashFilename}.ogg";
+
+        try {
+            if (file_put_contents($fileSaveLocation, $decodedAudio)) {
+                echo json_encode(['filename' => $hashFilename . '.ogg']);
+            }
+        } catch (\Exception $e) {
+            echo json_encode(['error' => 'Whoops! Something went wrong... and the message is: ' . $e->getMessage() . '']);
+        }
     }
 }
 

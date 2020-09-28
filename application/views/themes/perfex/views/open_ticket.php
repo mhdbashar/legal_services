@@ -1,5 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); ?>
+<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); 
+?>
+<?php
+if($this->input->get('project_id'))
+      echo form_hidden('rel_sid', $this->input->get('project_id'));
+
+?>
+
 <div class="row">
    <div class="col-md-12">
 

@@ -13,7 +13,7 @@
             <?php echo form_hidden('added_by'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if(true){  ?>
+                <?php  if($this->app_modules->is_active('branches')){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -31,6 +31,13 @@
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 <option></option>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($designations as $value) { ?>
+                                    <option value="<?php echo $value['id'] ?>">
+                                        <?php echo $value['designation_name'] ?>
+                                    </option>
+                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -145,7 +152,7 @@
             <?php echo form_open_multipart(admin_url('hr/performance/add_indicator'),array('id'=>'form_transout')); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if(true){  ?>
+                <?php  if($this->app_modules->is_active('branches')){  ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
@@ -163,6 +170,13 @@
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control staff" id="designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 <option></option>
+                                <?php
+                                if(!$this->app_modules->is_active('branches')){
+                                 foreach ($designations as $value) { ?>
+                                    <option value="<?php echo $value['id'] ?>">
+                                        <?php echo $value['designation_name'] ?>
+                                    </option>
+                                <?php }} ?>
                             </select>     
                         </div>
                     </div>
@@ -300,7 +314,7 @@
                 $('[name="created"]').val(data.created);
 
                 $('[id="branch_id"]').val(data.branch_id);
-
+<?php  if($this->app_modules->is_active('branches')){  ?>
                 $.get(admin_url + 'hr/performance/get_designations_by_branch_id/' + data.branch_id, function(response) {
                     if (response.success == true) {
                         $('#e_designation_id').empty();
@@ -325,7 +339,9 @@
                         alert_float('danger', response.message);
                     }
                 }, 'json');
-
+<?php }else{ ?>
+                $('[id="e_designation_id"]').val(data.designation_id);
+<?php } ?>
                 //$('[name="staff_id"]').val(data.staff_id);
 
 

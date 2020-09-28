@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('LegalServices/Other_services_Controller/upload_file/'.$ServID.'/'.$project->id),array('class'=>'dropzone','id'=>'project-files-upload')); ?>
+<?php echo form_open_multipart(admin_url('LegalServices/Other_services_controller/upload_file/'.$ServID.'/'.$project->id),array('class'=>'dropzone','id'=>'project-files-upload')); ?>
 <input type="file" name="file" multiple />
 <?php echo form_close(); ?>
 <small class="mtop5"><?php echo _l('project_file_visible_to_customer'); ?></small><br />
@@ -51,7 +51,7 @@
 <a href="#" data-toggle="modal" data-target="#project_files_bulk_actions" class="bulk-actions-btn table-btn hide" data-table=".table-oservice-files">
     <?php echo _l('bulk_actions'); ?>
 </a>
-<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Other_services_Controller/download_all_files/'.$ServID.'/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-oservice-files"><?php echo _l('download_all'); ?></a>
+<a href="#" onclick="window.location.href = '<?php echo admin_url('LegalServices/Other_services_controller/download_all_files/'.$ServID.'/'.$project->id); ?>'; return false;" class="table-btn hide" data-table=".table-oservice-files"><?php echo _l('download_all'); ?></a>
 <div class="clearfix"></div>
 <table class="table dt-table scroll-responsive table-oservice-files" data-order-col="7" data-order-type="desc">
     <thead>
@@ -108,7 +108,7 @@
                 }
                 ?>
                 <div class="onoffswitch">
-                    <input type="checkbox" data-switch-url="<?php echo admin_url(); ?>LegalServices/Other_services_Controller/change_file_visibility" id="<?php echo $file['id']; ?>" data-id="<?php echo $file['id']; ?>" class="onoffswitch-checkbox" value="<?php echo $file['id']; ?>" <?php echo $checked; ?>>
+                    <input type="checkbox" data-switch-url="<?php echo admin_url(); ?>LegalServices/Other_services_controller/change_file_visibility" id="<?php echo $file['id']; ?>" data-id="<?php echo $file['id']; ?>" class="onoffswitch-checkbox" value="<?php echo $file['id']; ?>" <?php echo $checked; ?>>
                     <label class="onoffswitch-label" for="<?php echo $file['id']; ?>"></label>
                 </div>
 
@@ -132,7 +132,7 @@
                     <button type="button" data-toggle="modal" data-original-file-name="<?php echo $file['file_name']; ?>" data-filetype="<?php echo $file['filetype']; ?>" data-path="<?php echo OSERVICE_ATTACHMENTS_FOLDER .$project_id.'/'.$file['file_name']; ?>" data-target="#send_file" class="btn btn-info btn-icon"><i class="fa fa-envelope"></i></button>
                 <?php } ?>
                 <?php if($file['staffid'] == get_staff_user_id() || has_permission('projects','','delete')){ ?>
-                    <a href="<?php echo admin_url('LegalServices/Other_services_Controller/remove_file/'.$ServID.'/'.$project_id.'/'.$file['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                    <a href="<?php echo admin_url('LegalServices/Other_services_controller/remove_file/'.$ServID.'/'.$project_id.'/'.$file['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                 <?php } ?>
             </td>
         </tr>

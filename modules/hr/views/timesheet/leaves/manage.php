@@ -14,14 +14,14 @@
                     <div class="clearfix"></div>
                     <?php 
                     $data = array(
-                        _l('leave_type'),
                         _l('staff_name'),
                         _l('request_duration'),
                         _l('applied_on'),
                         _l('control'),
                     ); 
                     if($this->app_modules->is_active('branches'))
-                        $data[1] = _l('branch');
+                        $data = array_merge([_l('branch')], $data);
+                    $data = array_merge([_l('leave_type')], $data);
                     render_datatable($data,'resignation'); ?>
                     </div>
                 </div>

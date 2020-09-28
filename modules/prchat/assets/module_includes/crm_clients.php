@@ -14,11 +14,13 @@
         var lang_customer = "<?= _l('chat_lang_customer'); ?>";
         var lang_contact = "<?= _l('chat_lang_contact'); ?>";
         var checkForNewClientUnreadMessages = prchatSettings.getClientUnreadMessages;
+        var myCustomers = '';
 
         var f = {
             fetchClients: function() {
                 var customers = JSON.stringify(<?php get_staff_customers(); ?>);
-                return JSON.parse(customers);
+                myCustomers = JSON.parse(customers);
+                return myCustomers;
             },
             chatAppendCustomers: function(customers) {
                 var dfd = new $.Deferred();
@@ -148,7 +150,7 @@
                 f.updateUnreadMessages(id);
             }
 
-            $('#frame form[name=groupMessagesForm],#frame form[name=pusherMessagesForm],#frame .content .group_messages, #frame .groupOptions').hide();
+            $('#frame form[name=groupMessagesForm],#frame form[name=pusherMessagesForm],#frame .content .group_messages, #frame .groupOptions, #frame .startMic').hide();
             $('#frame .chat_group_options.active').hide().removeClass('active').css({
                 'right': '-360px'
             });
@@ -253,9 +255,11 @@
                                 try {
                                     var items = [];
                                     $.each(obj, function(i, val) {
+
                                         var isOnline = '';
                                         var span_class = "contact_name_placeholder_notitle";
                                         var span_title = "";
+
                                         var client_id = val.client_id,
                                             contact_id = val.contact_id,
                                             company = val.company,
@@ -577,10 +581,23 @@
 
         /*---------------* Pusher Trigger user connected *---------------*/
         clientsChannel.bind('pusher:member_added', function(member) {
+            /** 
+             * Check if clients is in my own list clients
+             */
+            var ownClient = myCustomers.customers.find(function(client) {
+                if (client.client_id !== undefined) {
+                    return client.client_id == member.info.client_id;
+                }
+            });
+
+            if (ownClient == undefined) {
+                return false;
+            }
 
             var contact = member.info;
 
             var contactIsLoggedIn = $('ul.company_selector#client_' + contact.client_id);
+
             if (member.info.justLoggedIn == true) {
                 appendClientIfNotInOnlineClients();
             }
@@ -625,7 +642,6 @@
             var c = f.fetchClients();
             for (var i = 0; i < c.customers.length; i++) {
                 var contact = clientsChannel.members.get('client_' + c.customers[i].contact_id);
-
                 if (contact !== null) {
                     if (contact.info.justLoggedIn && 'client_' + member == contact.id) {
                         pushDesktopOnlineNotification(contact);
@@ -741,6 +757,10 @@
 
         function checkIfContactIsActive(member) {
             member.each(function(m) {
+
+                if (m.id.startsWith('client')) {
+                    return false;
+                }
                 var contact = m.info;
                 var contactIsLoggedIn = $('body').find('ul.company_selector#client_' + contact.client_id);
                 // If contact has been deleted also !== null
@@ -801,6 +821,7 @@
                 clientsChannel.members.each(function(m) {
                     var contact = m.info;
                     var contactIsLoggedIn = $('body').find('ul.company_selector#client_' + contact.client_id);
+
                     if (typeof contact.company !== "undefined") {
                         if (contactIsLoggedIn.length === 0) {
                             $('<ul class="list-group company_selector active" id="client_' + contact.client_id + '"><p class="customers_toggler chevron-down">' + contact.company.name + '</p><li class="list-group-item contact_name contactActive" id="' + contact.contact_id + '" style="display: list-item;">' + contact.name + '</li></ul>').prependTo('.chat_clients_list');

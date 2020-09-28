@@ -1,4 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<style>
+    .bold{
+        font-weight: 600;
+    }
+</style>
 <div class="row">
    <div class="col-md-6 border-right project-overview-left">
       <div class="row">
@@ -51,9 +56,9 @@
          <table class="table no-margin project-overview-table">
             <tbody>
             <tr class="project-overview-id">
-                  <td class="bold"><?php echo _l('LegalService'); ?> <?php echo _l('the_number_sign'); ?></td>
+                  <td class="bold"><?php echo _l('LegalService'); ?> </td>
                   <td>
-                      <?php echo $project->id; ?>
+                      <?php echo _l('the_number_sign'); ?> <?php echo $project->id; ?>
                   </td>
               </tr>
               <tr class="project-overview-customer">
@@ -77,7 +82,7 @@
                     ?>
                  </td>
                  <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                  echo '<tr class="project-overview-amount>';
+                  echo '<tr class="project-overview-amount">';
                   if($project->billing_type == 1){
                     echo '<td class="bold">'._l('project_total_cost').'</td>';
                     echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
@@ -152,11 +157,11 @@
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Categories'); ?></td>
-            <td><?php echo $project->cat; ?></td>
+            <td><?php echo isset($project->cat) && $project->cat != '' ? $project->cat : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('SubCategories'); ?></td>
-            <td><?php echo $project->subcat; ?></td>
+            <td><?php echo isset($project->subcat) && $project->subcat != '' ? $project->subcat : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Court'); ?></td>

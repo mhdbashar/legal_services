@@ -335,7 +335,7 @@
                                                 <select class="form-control custom_select_arrow" name="contract"
                                                         placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
-                                                    <?php $data = get_relation_data('contracts', '');
+                                                    <?php $data = get_relation_data('contracts', '');      
                                                     foreach ($data as $row): ?>
                                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
                                                     <?php endforeach; ?>

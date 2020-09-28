@@ -18,7 +18,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo form_hidden('project_id',$project->id); ?>
+                        <?php echo form_hidden('oservice_id',$project->id); ?>
                         <?php echo form_hidden('action','new_discussion'); ?>
                         <div id="additional_discussion"></div>
                         <?php echo render_input('subject','project_discussion_subject'); ?>

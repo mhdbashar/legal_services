@@ -14,6 +14,9 @@ class Legal_procedures extends AdminController
 
     public function index()
     {
+        if (!has_permission('legal_procedures', '', 'create')) {
+            access_denied('legal_procedures');
+        }
         $data['category'] = $this->procedures->get('',
            array(
                'type_id'   => 2,
@@ -37,6 +40,9 @@ class Legal_procedures extends AdminController
 
     public function add($parent_id='')
     {
+        if (!has_permission('legal_procedures', '', 'create')) {
+            access_denied('legal_procedures');
+        }
         if ($this->input->post()) {
             $data = $this->input->post();
             $id = $this->procedures->add($parent_id,$data);
@@ -49,6 +55,9 @@ class Legal_procedures extends AdminController
 
     public function edit($CatID)
     {
+        if (!has_permission('legal_procedures', '', 'edit')) {
+            access_denied('legal_procedures');
+        }
         if ($this->input->post()) {
             $data = $this->input->post();
             $success = $this->legal->update_category_data($CatID,$data);
@@ -66,6 +75,9 @@ class Legal_procedures extends AdminController
 
     public function delete($CatID)
     {
+        if (!has_permission('legal_procedures', '', 'delete')) {
+            access_denied('legal_procedures');
+        }
         $response = $this->legal->delete_category($CatID);
         if ($response == true) {
             set_alert('success', _l('deleted'));
@@ -108,6 +120,9 @@ class Legal_procedures extends AdminController
 
     public function add_legal_procedure()
     {
+//        if (!has_permission('legal_procedures', '', 'create')) {
+//            access_denied('legal_procedures');
+//        }
         if ($this->input->post()) {
             $data = $this->input->post();
             $id = $this->procedures->add_legal_procedure($data);
@@ -120,6 +135,9 @@ class Legal_procedures extends AdminController
 
     public function delete_procedure($id)
     {
+        if (!has_permission('legal_procedures', '', 'delete')) {
+            access_denied('legal_procedures');
+        }
         if(!$id || $id == ''){
             set_alert('warning', _l('problem_deleting'));
             return false;
@@ -142,18 +160,18 @@ class Legal_procedures extends AdminController
     {
         if ($this->input->post()) {
             if ($id == '') {
-                /*if (!has_permission('contracts', '', 'create')) {
-                    access_denied('contracts');
-                }*/
+                if (!has_permission('legal_procedures', '', 'create')) {
+                    access_denied('legal_procedures');
+                }
                 $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('legal_procedure')));
                     redirect(admin_url('LegalServices/legal_procedures/procedure_text/' . $id.'/'.$service_type_id.'/'.$service_id));
                 }
             } else {
-                /*if (!has_permission('contracts', '', 'edit')) {
-                    access_denied('contracts');
-                }*/
+                if (!has_permission('legal_procedures', '', 'edit')) {
+                    access_denied('legal_procedures');
+                }
                 $success = $this->contracts_model->update($this->input->post(), $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('legal_procedure')));
@@ -227,14 +245,14 @@ class Legal_procedures extends AdminController
 
     public function save_contract_data()
     {
-        /*if (!has_permission('contracts', '', 'edit')) {
+        if (!has_permission('legal_procedures', '', 'edit')) {
             header('HTTP/1.0 400 Bad error');
             echo json_encode([
                 'success' => false,
                 'message' => _l('access_denied'),
             ]);
             die;
-        }*/
+        }
 
         $success = false;
         $message = '';
@@ -255,9 +273,9 @@ class Legal_procedures extends AdminController
 
     public function pdf($id)
     {
-        /*if (!has_permission('contracts', '', 'view') && !has_permission('contracts', '', 'view_own')) {
-            access_denied('contracts');
-        }*/
+        if (!has_permission('legal_procedures', '', 'view') && !has_permission('legal_procedures', '', 'view_own')) {
+            access_denied('legal_procedures');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -295,9 +313,9 @@ class Legal_procedures extends AdminController
     /* Delete contract from database */
     public function delete_contract($id, $service_type_id, $service_id)
     {
-        /*if (!has_permission('contracts', '', 'delete')) {
-         access_denied('contracts');
-        }*/
+//        if (!has_permission('legal_procedures', '', 'delete')) {
+//         access_denied('legal_procedures');
+//        }
         if($service_type_id == 1){
             $redirect_url = "Case/view/$service_type_id/$service_id?group=Procedures";
         }else{

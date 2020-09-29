@@ -51,6 +51,13 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_customers_based_on_admins'),
             ],
         ],
+        'opponents' => [
+            'name'         => _l('opponents'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view_own' => _l('permission_customers_based_on_admins'),
+            ],
+        ],
         'procurations' => [
             'name'         => _l('procurations'),
             'capabilities' => $withNotApplicableViewOwn,
@@ -213,6 +220,10 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
                 'active' => _l('active_phase'),
             ]
+        ],
+        'legal_procedures' => [
+            'name'         => _l('legal_procedures_management'),
+            'capabilities' => $allPermissionsArray,
         ],
     ];
 

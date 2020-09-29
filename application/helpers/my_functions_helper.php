@@ -253,47 +253,53 @@ function my_custom_setup_menu_items()
         ]);
     }
 
-    $CI->app_menu->add_setup_children_item('1', [
-        'slug' => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("legal_procedures_management"), // The name if the item
-        'href' => admin_url('LegalServices/legal_procedures'), // URL of the item
-        'position' => 8, // The menu position
-    ]);
+    if (has_permission('legal_procedures', '', 'create')) {
+        $CI->app_menu->add_setup_children_item('1', [
+            'slug' => 'child-to-custom-menu-item8', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("legal_procedures_management"), // The name if the item
+            'href' => admin_url('LegalServices/legal_procedures'), // URL of the item
+            'position' => 8, // The menu position
+        ]);
+    }
 
-    $CI->app_menu->add_setup_menu_item('2', [
-        'name' => _l("procurations"), // The name if the item
-        'collapse' => true, // Indicates that this item will have submitems
-        'position' => 2, // The menu position
-    ]);
+    if (has_permission('procurations', '', 'create')) {
+        $CI->app_menu->add_setup_menu_item('2', [
+            'name' => _l("procurations"), // The name if the item
+            'collapse' => true, // Indicates that this item will have submitems
+            'position' => 2, // The menu position
+        ]);
 
-    // The first paremeter is the parent menu ID/Slug
-    $CI->app_menu->add_setup_children_item('2', [
-        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("procuration"), // The name if the item
-        'href' => admin_url('procuration/all'), // URL of the item
-        'position' => 1, // The menu position
-    ]);
+        // The first paremeter is the parent menu ID/Slug
+        $CI->app_menu->add_setup_children_item('2', [
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("procuration"), // The name if the item
+            'href' => admin_url('procuration/all'), // URL of the item
+            'position' => 1, // The menu position
+        ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
-        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("procuration_state"), // The name if the item
-        'href' => admin_url('procuration/state'), // URL of the item
-        'position' => 2, // The menu position
-    ]);
+        $CI->app_menu->add_setup_children_item('2', [
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("procuration_state"), // The name if the item
+            'href' => admin_url('procuration/state'), // URL of the item
+            'position' => 2, // The menu position
+        ]);
 
-    $CI->app_menu->add_setup_children_item('2', [
-        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'name' => _l("procuration_type"), // The name if the item
-        'href' => admin_url('procuration/type'), // URL of the item
-        'position' => 3, // The menu position
-    ]);
+        $CI->app_menu->add_setup_children_item('2', [
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name' => _l("procuration_type"), // The name if the item
+            'href' => admin_url('procuration/type'), // URL of the item
+            'position' => 3, // The menu position
+        ]);
+    }
 
-    $CI->app_menu->add_setup_menu_item('opponents', [
-        'name' => _l('opponents'), // The name if the item
-        'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-        'href' => admin_url('opponents'), // URL of the item
-        'position' => 6, // The menu position
-    ]);
+    if (has_permission('opponents', '', 'create')) {
+        $CI->app_menu->add_setup_menu_item('opponents', [
+            'name' => _l('opponents'), // The name if the item
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'href' => admin_url('opponents'), // URL of the item
+            'position' => 6, // The menu position
+        ]);
+    }
 
 }
 

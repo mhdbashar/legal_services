@@ -182,11 +182,6 @@ function my_module_clients_area_menu_items()
                 'position' => $position+5,
             ]);
             endforeach;
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => _l('imported_services'),
-                'href'     => site_url('clients/imported/'),
-                'position' => 40,
-            ]);
         }
     }
 }

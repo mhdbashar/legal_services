@@ -26,7 +26,7 @@ foreach ($rResult as $aRow) {
             if ($aColumns[$i] == 'title_en') {
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . admin_url('branches/field/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-                $_data .= ' | <a href="' . admin_url('branches/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+                $_data .= ' | <a href="#" onclick="delete_branch(' . $aRow['id'] . '); return false;" class="text-danger">' . _l('delete') . '</a>';
                 $_data .= ' | <a href="' . admin_url('branches/branches/departments/' . $aRow['id']) . '" class="text-danger">' . _l('departments') . '</a>';
                 $_data .= '</div>';
             }

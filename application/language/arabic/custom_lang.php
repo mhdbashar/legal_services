@@ -4,6 +4,9 @@ $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";
 $lang['technical_competencies'] = "الكفاءة المهنية";
 $lang['problem_deleting_rel_serv'] = "الرجاء التأكد من عدم وجود خدمات متعلقة بهذا التصنيف قبل الحذف";
+$lang['project_setting_view_session_logs'] = 'عرض سجل الجلسات';
+
+$lang['project_setting_view_procurations'] = 'عرض الوكالات';
 $lang['zoom_name'] = " اجتماعات Zoom";
 $lang['zoom_desc'] = "يمكنك ضبط حسابك على zoom والبدء بعقد اجتماعاتك ضمن منصة بابل";
 $lang['license_info'] = "معلومات الترخيص";

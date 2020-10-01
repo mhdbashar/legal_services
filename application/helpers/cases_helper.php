@@ -45,6 +45,7 @@ function app_init_case_tabs()
         'icon'     => 'fa fa-th',
         'view'     => 'admin/LegalServices/cases/case_procuration',
         'position' => 6,
+        'visible'  => (has_permission('procurations', '', 'view') || is_admin()),
     ]);
 
     $CI->app_tabs->add_case_tab('project_tasks', [

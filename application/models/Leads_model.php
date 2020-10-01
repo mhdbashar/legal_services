@@ -387,6 +387,11 @@ class Leads_model extends App_Model
             $this->db->where('rel_id', $id);
             $this->db->delete(db_prefix() . 'taggables');
 
+            if($this->app_modules->is_active('branches')){
+                $this->db->where(['rel_id' => $id, 'rel_type="leads"']);
+                $this->db->delete('tblbranches_services');
+            }
+
             $this->load->model('proposals_model');
             $this->db->where('rel_id', $id);
             $this->db->where('rel_type', 'lead');

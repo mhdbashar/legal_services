@@ -71,8 +71,12 @@ foreach ($rResult as $aRow) {
     $row[] = $i;
     $_data =  '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
-    $_data .= '  <a href="' . admin_url('SOther/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    if ($hasPermissionEdit) {
+        $_data .= '  <a href="' . admin_url('SOther/edit/' . $ServID . '/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
+    if ($hasPermissionDelete) {
+        $_data .= ' | <a href="' . admin_url('LegalServices/Other_services_controller/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    }
     $_data .= ' | <a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
 
  

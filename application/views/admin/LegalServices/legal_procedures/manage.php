@@ -6,64 +6,71 @@
             <div class="col-md-6">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
+                        <?php if (has_permission('legal_procedures', '', 'create')) { ?>
                             <div class="_buttons">
                                 <a href="#" data-toggle="modal" data-target="#add-cat" class="btn btn-info pull-left display-block">
                                     <?php echo _l('add_legal_procedures'); ?>
                                 </a>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
-                                <h4 class="text-center">  <?php echo _l('legal_procedures'); ?></h4>
                             </div>
-                            <table class="table dt-table scroll-responsive">
-                                <thead>
-                                <th>#</th>
-                                <th><?php echo _l('name'); ?></th>
-                                <th><?php echo _l('options'); ?></th>
-                                </thead>
-                                <tbody>
-                                <?php $i=1; foreach($category as $cat){ ?>
-                                    <tr>
-                                        <td><?php echo $i; ?></td>
-                                        <td>
-                                            <?php echo $cat['name']; ?>
-                                        </td>
-                                        <td>
-                                            <a href="<?php echo admin_url("LegalServices/legal_procedures/edit/".$cat['id']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a href="<?php echo admin_url("LegalServices/legal_procedures/delete/".$cat['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-                                            <div class="radio radio-primary radio-inline">
-                                                <input type="radio" name="CatDetails" id="<?php echo $cat['id']; ?>" onchange="get_sub_cat(<?php echo $cat['id']; ?>)">
-                                                <label for="<?php echo $cat['id']; ?>"><?php echo _l('sub_legal_procedures'); ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php $i++; } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        <?php } ?>
+                        <h4 class="text-center">  <?php echo _l('legal_procedures'); ?></h4>
+                        <table class="table dt-table scroll-responsive">
+                            <thead>
+                            <th>#</th>
+                            <th><?php echo _l('name'); ?></th>
+                            <th><?php echo _l('options'); ?></th>
+                            </thead>
+                            <tbody>
+                            <?php $i=1; foreach($category as $cat){ ?>
+                                <tr>
+                                    <td><?php echo $i; ?></td>
+                                    <td>
+                                        <?php echo $cat['name']; ?>
+                                    </td>
+                                    <td>
+                                        <?php if (has_permission('legal_procedures', '', 'edit')) { ?>
+                                        <a href="<?php echo admin_url("LegalServices/legal_procedures/edit/".$cat['id']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                                        <?php } ?>
+                                        <?php if (has_permission('legal_procedures', '', 'delete')) { ?>
+                                        <a href="<?php echo admin_url("LegalServices/legal_procedures/delete/".$cat['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                                        <?php } ?>
+                                        <div class="radio radio-primary radio-inline">
+                                            <input type="radio" name="CatDetails" id="<?php echo $cat['id']; ?>" onchange="get_sub_cat(<?php echo $cat['id']; ?>)">
+                                            <label for="<?php echo $cat['id']; ?>"><?php echo _l('sub_legal_procedures'); ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php $i++; } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
+                        <?php if (has_permission('legal_procedures', '', 'create')) { ?>
                             <div class="_buttons">
                                 <button id="BtnAddChild" data-toggle="modal" data-target="#add-child-cat" class="btn btn-info pull-left" disabled><?php echo _l('add').' ' ._l('sub_legal_procedures'); ?></button>
                                 <div class="clearfix"></div>
                                 <hr class="hr-panel-heading" />
-                                <h4 class="text-center">  <?php echo _l('sub_legal_procedures'); ?></h4>
+
                             </div>
+                        <?php } ?>
+                        <h4 class="text-center">  <?php echo _l('sub_legal_procedures'); ?></h4>
                             <table id="SubCatChild" class="table dt-table scroll-responsive">
                                 <thead>
                                 <th>#</th>
                                 <th><?php echo _l('name'); ?></th>
+                                <?php if (has_permission('legal_procedures', '', 'edit') || has_permission('legal_procedures', '', 'delete')) { ?>
                                 <th><?php echo _l('options'); ?></th>
+                                <?php } ?>
                                 </thead>
                                 <tbody id="BodyTable">
                                 </tbody>
                             </table>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -147,10 +154,16 @@
                         '<tr>' +
                         '<td>' + count + '</td>' +
                         '<td>' + val.name + '</td>' +
+                        <?php if (has_permission('legal_procedures', '', 'edit') || has_permission('legal_procedures', '', 'delete')) { ?>
                         '<td>' +
+                        <?php if (has_permission('legal_procedures', '', 'edit')) { ?>
                         '<a href="<?php echo admin_url('LegalServices/legal_procedures/edit/'); ?>' + val.id +'" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>' +
+                        <?php } ?>
+                        <?php if (has_permission('legal_procedures', '', 'delete')) { ?>
                         '<a href="<?php echo admin_url('LegalServices/legal_procedures/delete/'); ?>'+ val.id +'" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>' +
+                        <?php } ?>
                         '</td>' +
+                        <?php } ?>
                         '</tr>'
                     );
                     count++;

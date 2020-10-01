@@ -15,6 +15,9 @@ class LegalServices_controller extends AdminController
 
     public function ShowLegalServices()
     {
+        if (!has_permission('legal_services', '', 'create')) {
+            access_denied('legal_services');
+        }
         $data['services'] = $this->legal->get_all_services();
         $data['title']    = _l('LegalServiceManage');
         $this->load->view('admin/LegalServices/basic_services/ShowServices',$data);
@@ -59,6 +62,9 @@ class LegalServices_controller extends AdminController
 
     public function PrimaryService($ServID)
     {
+        if (!has_permission('legal_services', '', 'active')) {
+            access_denied('legal_services');
+        }
         $IfExist = $this->legal->CheckExistService($ServID);
         if($IfExist == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -69,6 +75,9 @@ class LegalServices_controller extends AdminController
 
     public function AddNewServices()
     {
+        if (!has_permission('legal_services', '', 'create')) {
+            access_denied('legal_services');
+        }
         if ($this->input->post()) {
             $data = $this->input->post();
             $added = $this->legal->InsertServices($data);
@@ -81,6 +90,9 @@ class LegalServices_controller extends AdminController
 
     public function edit_service_data($ServID)
     {
+        if (!has_permission('legal_services', '', 'edit')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -104,6 +116,9 @@ class LegalServices_controller extends AdminController
 
     public function del_service($ServID)
     {
+        if (!has_permission('legal_services', '', 'delete')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -120,6 +135,9 @@ class LegalServices_controller extends AdminController
 
     public function CategoriesManagment($ServID)
     {
+        if (!has_permission('legal_services', '', 'categories')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -151,6 +169,9 @@ class LegalServices_controller extends AdminController
 
     public function AddNewCategory($ServID)
     {
+        if (!has_permission('legal_services', '', 'categories')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));
@@ -168,6 +189,9 @@ class LegalServices_controller extends AdminController
 
     public function AddChildCategory($ServID,$CatID)
     {
+        if (!has_permission('legal_services', '', 'categories')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         $ExistCat = $this->legal->CheckExistCategory($CatID);
         if($ExistServ == 0 || $ExistCat == 0 || !$ServID || !$CatID){
@@ -186,6 +210,9 @@ class LegalServices_controller extends AdminController
 
     public function edit_category_data($ServID,$CatID)
     {
+        if (!has_permission('legal_services', '', 'categories')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         $ExistCat = $this->legal->CheckExistCategory($CatID);
         if($ExistServ == 0 || $ExistCat == 0 || !$ServID || !$CatID){
@@ -210,6 +237,9 @@ class LegalServices_controller extends AdminController
 
     public function del_category($ServID,$CatID)
     {
+        if (!has_permission('legal_services', '', 'categories')) {
+            access_denied('legal_services');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         $ExistCat = $this->legal->CheckExistCategory($CatID);
         if($ExistServ == 0 || $ExistCat == 0 || !$ServID || !$CatID){
@@ -232,6 +262,9 @@ class LegalServices_controller extends AdminController
 
     public function legal_recycle_bin($ServID = '')
     {
+        if (!has_permission('legal_recycle_bin', '', 'view')) {
+            access_denied('legal_recycle_bin');
+        }
         $data['ServID'] = $ServID;
         if($ServID == ''){
             //Do Nothing...
@@ -251,6 +284,9 @@ class LegalServices_controller extends AdminController
 
     public function restore_legal_services($ServID,$id)
     {
+        if (!has_permission('legal_recycle_bin', '', 'restore')) {
+            access_denied('legal_recycle_bin');
+        }
         $ExistServ = $this->legal->CheckExistService($ServID);
         if($ExistServ == 0 || !$ServID){
             set_alert('danger', _l('WrongEntry'));

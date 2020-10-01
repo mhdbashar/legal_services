@@ -6,12 +6,14 @@
 			<div class="col-md-12">
 				<div class="panel_s">
 					<div class="panel-body">
+                        <?php if (has_permission('judges_manage', '', 'create')) { ?>
 						<div class="_buttons">							
 							<a href="<?php echo admin_url('judge/judgecu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_judge'); ?></a>
 							<div class="clearfix"></div>
 							<hr class="hr-panel-heading" />
 						</div>
 						<div class="clearfix"></div>
+                        <?php } ?>
                         <?php
                              $table_data = array();
                              $_table_data = array(

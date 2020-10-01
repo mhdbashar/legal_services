@@ -37,10 +37,19 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['id'];
 
-    $_data = ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . $aRow['representative'] . '</a>';
+    if (has_permission('customer_representative', '', 'create') && has_permission('customer_representative', '', 'edit')) {
+        $link = admin_url('customer_representative/cust_representativecu/' . $aRow['id']);
+    }else{
+        $link = '#';
+    }
+    $_data = ' <a href="' . $link . '">' . $aRow['representative'] . '</a>';
     $_data .= '<div class="row-options">';
-    $_data .= ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('customer_representative/cust_representatived/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    if (has_permission('customer_representative', '', 'edit')) {
+        $_data .= ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
+    if (has_permission('customer_representative', '', 'delete')) {
+        $_data .= ' | <a href="' . admin_url('customer_representative/cust_representatived/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    }
     $row[] = $_data;
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

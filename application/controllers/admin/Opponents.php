@@ -14,9 +14,9 @@ class Opponents extends AdminController
     /* List all clients */
     public function index()
     {
-        if (!has_permission('customers', '', 'view')) {
+        if (!has_permission('opponents', '', 'view')) {
             if (!have_assigned_customers() && !has_permission('customers', '', 'create')) {
-                access_denied('customers');
+                access_denied('opponents');
             }
         }
 
@@ -55,7 +55,7 @@ class Opponents extends AdminController
 
     public function table()
     {
-        if (!has_permission('customers', '', 'view')) {
+        if (!has_permission('opponents', '', 'view')) {
             if (!have_assigned_customers() && !has_permission('customers', '', 'create')) {
                 ajax_access_denied();
             }
@@ -88,9 +88,9 @@ class Opponents extends AdminController
     /* Edit client or add new client*/
     public function client($id = '')
     {
-        if (!has_permission('customers', '', 'view')) {
+        if (!has_permission('opponents', '', 'view')) {
             if ($id != '' && !is_customer_admin($id)) {
-                access_denied('customers');
+                access_denied('opponents');
             }
         }
 
@@ -105,8 +105,8 @@ class Opponents extends AdminController
             }
 
             if ($id == '') {
-                if (!has_permission('customers', '', 'create')) {
-                    access_denied('customers');
+                if (!has_permission('opponents', '', 'create')) {
+                    access_denied('opponents');
                 }
 
 
@@ -121,7 +121,7 @@ class Opponents extends AdminController
                 $data['registration_confirmed'] = 0;
 
                 $id = $this->clients_model->add($data);
-                if (!has_permission('customers', '', 'view')) {
+                if (!has_permission('opponents', '', 'view')) {
                     $assign['customer_admins']   = [];
                     $assign['customer_admins'][] = get_staff_user_id();
                     $this->clients_model->assign_admins($assign, $id);
@@ -146,9 +146,9 @@ class Opponents extends AdminController
                     }
                 }
             } else {
-                if (!has_permission('customers', '', 'edit')) {
+                if (!has_permission('opponents', '', 'edit')) {
                     if (!is_customer_admin($id)) {
-                        access_denied('customers');
+                        access_denied('opponents');
                     }
                 }
                 if($this->app_modules->is_active('branches')){
@@ -329,7 +329,7 @@ class Opponents extends AdminController
     // Used to give a tip to the user if the company exists when new company is created
     public function check_duplicate_customer_name()
     {
-        if (has_permission('customers', '', 'create')) {
+        if (has_permission('opponents', '', 'create')) {
             $companyName = trim($this->input->post('company'));
             $response    = [
                 'exists'  => (bool) total_rows(db_prefix().'clients', ['company' => $companyName]) > 0,
@@ -341,7 +341,7 @@ class Opponents extends AdminController
 
     public function save_longitude_and_latitude($client_id)
     {
-        if (!has_permission('customers', '', 'edit')) {
+        if (!has_permission('opponents', '', 'edit')) {
             if (!is_customer_admin($client_id)) {
                 ajax_access_denied();
             }
@@ -361,7 +361,7 @@ class Opponents extends AdminController
 
     public function form_contact($customer_id, $contact_id = '')
     {
-        if (!has_permission('customers', '', 'view')) {
+        if (!has_permission('opponents', '', 'view')) {
             if (!is_customer_admin($customer_id)) {
                 echo _l('access_denied');
                 die;
@@ -379,7 +379,7 @@ class Opponents extends AdminController
             $data['password'] = $this->input->post('password', false);
             unset($data['contactid']);
             if ($contact_id == '') {
-                if (!has_permission('customers', '', 'create')) {
+                if (!has_permission('opponents', '', 'create')) {
                     if (!is_customer_admin($customer_id)) {
                         header('HTTP/1.0 400 Bad error');
                         echo json_encode([
@@ -405,7 +405,7 @@ class Opponents extends AdminController
                 ]);
                 die;
             }
-            if (!has_permission('customers', '', 'edit')) {
+            if (!has_permission('opponents', '', 'edit')) {
                 if (!is_customer_admin($customer_id)) {
                     header('HTTP/1.0 400 Bad error');
                     echo json_encode([
@@ -534,7 +534,7 @@ class Opponents extends AdminController
 
     public function consents($id)
     {
-        if (!has_permission('customers', '', 'view')) {
+        if (!has_permission('opponents', '', 'view')) {
             if (!is_customer_admin(get_user_id_by_contact_id($id))) {
                 echo _l('access_denied');
                 die;
@@ -591,8 +591,8 @@ class Opponents extends AdminController
 
     /*public function assign_admins($id)
     {
-        if (!has_permission('customers', '', 'create') && !has_permission('customers', '', 'edit')) {
-            access_denied('customers');
+        if (!has_permission('opponents', '', 'create') && !has_permission('customers', '', 'edit')) {
+            access_denied('opponents');
         }
         $success = $this->clients_model->assign_admins($this->input->post(), $id);
         if ($success == true) {
@@ -604,8 +604,8 @@ class Opponents extends AdminController
 
     public function delete_customer_admin($customer_id, $staff_id)
     {
-        if (!has_permission('customers', '', 'create') && !has_permission('customers', '', 'edit')) {
-            access_denied('customers');
+        if (!has_permission('opponents', '', 'create') && !has_permission('customers', '', 'edit')) {
+            access_denied('opponents');
         }
 
         $this->db->where('customer_id', $customer_id);
@@ -616,9 +616,9 @@ class Opponents extends AdminController
 
     public function delete_contact($customer_id, $id)
     {
-        if (!has_permission('customers', '', 'delete')) {
+        if (!has_permission('opponents', '', 'delete')) {
             if (!is_customer_admin($customer_id)) {
-                access_denied('customers');
+                access_denied('opponents');
             }
         }
         $contact      = $this->clients_model->get_contact($id);
@@ -666,8 +666,8 @@ class Opponents extends AdminController
     /* Delete client */
     public function delete($id)
     {
-        if (!has_permission('customers', '', 'delete')) {
-            access_denied('customers');
+        if (!has_permission('opponents', '', 'delete')) {
+            access_denied('opponents');
         }
         if (!$id) {
             redirect(admin_url('opponents'));
@@ -812,8 +812,8 @@ class Opponents extends AdminController
 
     public function import()
     {
-        if (!has_permission('customers', '', 'create')) {
-            access_denied('customers');
+        if (!has_permission('opponents', '', 'create')) {
+            access_denied('opponents');
         }
 
         $dbFields = $this->db->list_fields(db_prefix().'contacts');

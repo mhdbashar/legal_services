@@ -36,11 +36,19 @@ foreach ($rResult as $aRow) {
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
-
-    $_data = ' <a href="' . admin_url('Case_status/cstatuscu/' . $aRow['id']) . '">' . $aRow['name'] . '</a>';
+    if (has_permission('case_status', '', 'create') && has_permission('case_status', '', 'edit')) {
+        $link = admin_url('Case_status/cstatuscu/' . $aRow['id']);
+    }else{
+        $link = '#';
+    }
+    $_data = ' <a href="' . $link . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
-    $_data .= ' <a href="' . admin_url('Case_status/cstatuscu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('Case_status/cstatusd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    if (has_permission('case_status', '', 'edit')){
+        $_data .= ' <a href="' . admin_url('Case_status/cstatuscu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
+    if (has_permission('case_status', '', 'delete')) {
+        $_data .= ' | <a href="' . admin_url('Case_status/cstatusd/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    }
     $row[] = $_data;
 
     // Custom fields add values

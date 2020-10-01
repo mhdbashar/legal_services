@@ -106,6 +106,9 @@ class Cases_controller extends AdminController
 
     public function delete($ServID,$id)
     {
+        if (!has_permission('legal_recycle_bin', '', 'delete')) {
+            access_denied('legal_recycle_bin');
+        }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));

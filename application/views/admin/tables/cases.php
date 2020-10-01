@@ -74,8 +74,12 @@ foreach ($rResult as $aRow) {
     $_data =  '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
     $_data .= '  <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '?group=CaseMovement">' . _l('CaseMovement') . '</a>';
-    $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    if ($hasPermissionEdit) {
+        $_data .= ' | <a href="' . admin_url('Case/edit/' . $ServID . '/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
+    if ($hasPermissionDelete) {
+        $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    }
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
     $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
 

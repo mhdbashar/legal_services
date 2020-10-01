@@ -13,6 +13,9 @@ class Phases_controller extends AdminController
 
     public function index()
     {
+        if (!has_permission('legal_services_phases', '', 'create')) {
+            access_denied('legal_services_phases');
+        }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_legal_services_phases');
         }
@@ -22,8 +25,8 @@ class Phases_controller extends AdminController
 
         public function add_edit_phase($id = '')
         {
-            if (!is_admin()) {
-                access_denied('Phase View');
+            if (!has_permission('legal_services_phases', '', 'create') || !has_permission('legal_services_phases', '', 'edit')) {
+                access_denied('legal_services_phases');
             }
             if ($this->input->post()) {
                 $data  = $this->input->post();
@@ -67,12 +70,18 @@ class Phases_controller extends AdminController
 
         public function activeStatus($id)
         {
+            if (!has_permission('legal_services_phases', '', 'active')) {
+                access_denied('legal_services_phases');
+            }
             $response = $this->phase->changeStatus($id);
             echo $response;
         }
 
         public function delete_phase($id)
         {
+            if (!has_permission('legal_services_phases', '', 'delete')) {
+                access_denied('legal_services_phases');
+            }
             if (!$id) {
                 redirect(admin_url('LegalServices/Phases_controller'));
             }

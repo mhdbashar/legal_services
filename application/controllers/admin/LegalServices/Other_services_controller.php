@@ -304,6 +304,9 @@ class Other_services_controller extends AdminController
 
     public function delete($ServID, $id)
     {
+        if (!has_permission('legal_recycle_bin', '', 'delete')) {
+            access_denied('legal_recycle_bin');
+        }
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
@@ -600,7 +603,6 @@ class Other_services_controller extends AdminController
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
-                //echo "<pre>";print_r($data['books']);exit();
             }
 
             // Discussions

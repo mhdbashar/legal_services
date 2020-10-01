@@ -6,13 +6,22 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <?php if (has_permission('legal_services_phases', '', 'create')) { ?>
                         <div class="_buttons">
                             <a href="<?php echo admin_url('LegalServices/Phases_controller/add_edit_phase'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_phase'); ?></a>
                             <div class="clearfix"></div>
                             <hr class="hr-panel-heading" />
                         </div>
                         <div class="clearfix"></div>
+                        <?php } ?>
                         <?php
+                        $active_array = '';
+                        if (has_permission('legal_services_phases', '', 'active')) {
+                            $active_array = array(
+                                'name'=>  _l('active_phase'),
+                                'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
+                            );
+                        }
                         $table_data = array();
                         $_table_data = array(
                             array(
@@ -27,10 +36,7 @@
                                 'name'=> _l('phase_belongs_to'),
                                 'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
                             ),
-                            array(
-                                'name'=>  _l('active_phase'),
-                                'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-name')
-                            ),
+                            $active_array
                         );
                         foreach($_table_data as $_t){
                             array_push($table_data,$_t);

@@ -1028,3 +1028,4 @@ $lang['delete_list'] = "حذف القائمة";
 $lang['delete_procedure'] = "حذف الإجراء القانوني";
 $lang['categories_management'] = "إدارة التصنيفات";
 $lang['no_phases'] = "لا توجد مراحل لهذه الخدمة بعد! إنشاء";
+$lang['date_time'] = "التاريخ / الوقت";

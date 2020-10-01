@@ -4217,3 +4217,4 @@ $lang['delete_list'] = "Delete List";
 $lang['delete_procedure'] = "Delete Legal Procedure";
 $lang['judges_manage'] = "Judges management";
 $lang['categories_management'] = "Categories management";
+$lang['date_time'] = "Date / Time";

@@ -1,5 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-
+if (is_rtl()) {
+    $align = 'R'; //Right align
+    $style = 'style="direction: rtl;text-align: right"';
+}else{
+    $align = 'L'; //Left align
+    $style = '';
+}
 $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
 $this->ci->load->model('LegalServices/Cases_model', 'case');
 $slug = $this->ci->legal->get_service_by_id(1)->row()->slug;
@@ -21,7 +27,7 @@ if (!empty($project->description)) {
     $html .= '<p><b style="background-color:#f0f0f0;">' . _l('project_description') . '</b><br /><br /> ' . $project->description . '</p>';
 }
 
-$pdf->writeHTML($html, true, false, false, false, '');
+$pdf->writeHTML($html, true, false, false, false, $align);
 $pdf->Ln(10);
 $html = '';
 // Project overview
@@ -69,7 +75,7 @@ $html .= '<b>' . _l('total_milestones') . ': </b>' . $total_milestones . '<br />
 // Total Tickets
 $html .= '<b>' . _l('total_tickets_related_to_project') . ': </b>' . $total_tickets . '<br />';
 // Write project overview data
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, 'L', 0, 0, '', '', true, 0, true);
+$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 
 $html = '';
 $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('finance_overview')) . '</b><br /><br />';
@@ -106,7 +112,7 @@ $html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_
 // Unbilled expenses + money
 $html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Write finance overview
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, 'L', 0, 0, '', '', true, 0, true);
+$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 
 // Custom fields
 // Check for custom fields
@@ -121,7 +127,7 @@ if (count($custom_fields) > 0) {
     }
 
     // Write custom fields
-    $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, 'L', 0, 0, '', '', true, 0, true);
+    $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 }
 
 $html = '';
@@ -150,7 +156,7 @@ if (!empty($project->client_data->vat)) {
 }
 
 // Write custom info
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, 'L', 0, 0, '', '', true, 0, true);
+$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 
 // Set new lines to prevent overlaping the content
 $pdf->Ln(80);
@@ -159,7 +165,7 @@ $pdf->Ln(80);
 $html = '';
 // Heading
 $html .= '<p><b style="background-color:#f0f0f0;">' . ucwords(_l('project_members_overview')) . '</b></p>';
-$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1">';
+$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1" '.$style.'>';
 $html .= '<thead>';
 $html .= '<tr bgcolor="#323a45" style="color:#ffffff;">';
 $html .= '<th width="12.5%"><b>' . _l('project_member') . '</b></th>';
@@ -193,13 +199,13 @@ foreach ($members as $member) {
 $html .= '</tbody>';
 $html .= '</table>';
 // Write project members table data
-$pdf->writeHTML($html, true, false, false, false, '');
+$pdf->writeHTML($html, true, false, false, false, $align);
 
 // Tasks overview
 $pdf->Ln(5);
 $html = '';
 $html .= '<p><b style="background-color:#f0f0f0;">' . ucwords(_l('detailed_overview')) . '</b></p>';
-$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1">';
+$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1" '.$style.'>';
 $html .= '<thead>';
 $html .= '<tr bgcolor="#323a45" style="color:#ffffff;">';
 $html .= '<th width="26.12%"><b>' . _l('tasks_dt_name') . '</b></th>';
@@ -229,13 +235,13 @@ foreach ($tasks as $task) {
 $html .= '</tbody>';
 $html .= '</table>';
 // Write tasks data
-$pdf->writeHTML($html, true, false, false, false, '');
+$pdf->writeHTML($html, true, false, false, false, $align);
 
 // Timesheets overview
 $pdf->Ln(5);
 $html = '';
 $html .= '<p><b style="background-color:#f0f0f0;">' . ucwords(_l('timesheets_overview')) . '</b></p>';
-$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1">';
+$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1" '.$style.'>';
 $html .= '<thead>';
 $html .= '<tr bgcolor="#323a45" style="color:#ffffff;">';
 $html .= '<th width="16.66%"><b>' . _l('project_timesheet_user') . '</b></th>';
@@ -261,13 +267,13 @@ foreach ($timesheets as $timesheet) {
 $html .= '</tbody>';
 $html .= '</table>';
 // Write timesheets data
-$pdf->writeHTML($html, true, false, false, false, '');
+$pdf->writeHTML($html, true, false, false, false, $align);
 
 // Milestones overview
 $pdf->Ln(5);
 $html = '';
 $html .= '<p><b style="background-color:#f0f0f0;">' . ucwords(_l('project_milestones_overview')) . '</b></p>';
-$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1">';
+$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1" '.$style.'>';
 $html .= '<thead>';
 $html .= '<tr bgcolor="#323a45" style="color:#ffffff;">';
 $html .= '<th width="20%"><b>' . _l('milestone_name') . '</b></th>';
@@ -290,7 +296,7 @@ foreach ($milestones as $milestone) {
 $html .= '</tbody>';
 $html .= '</table>';
 // Write milestones table data
-$pdf->writeHTML($html, true, false, false, false, '');
+$pdf->writeHTML($html, true, false, false, false, $align);
 
 if (ob_get_length() > 0 && ENVIRONMENT == 'production') {
     ob_end_clean();

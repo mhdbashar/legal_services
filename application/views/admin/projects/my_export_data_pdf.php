@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 if (is_rtl()) {
     $align = 'R'; //Right align
     $style = 'style="direction: rtl;text-align: right"';
@@ -6,11 +9,9 @@ if (is_rtl()) {
     $align = 'L'; //Left align
     $style = '';
 }
-$this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-$this->ci->load->model('LegalServices/Other_services_model', 'other');
-$slug = $this->ci->legal->get_service_by_id(1)->row()->slug;
+
 $dimensions    = $pdf->getPageDimensions();
-$custom_fields = get_custom_fields("$slug");
+$custom_fields = get_custom_fields('projects');
 
 $divide_document_overview = 3;
 // If custom fields found divide the overview in 4 parts not in 3 to include the custom fields too
@@ -50,7 +51,7 @@ if ($project->billing_type == 1 || $project->billing_type == 2) {
         $html .= '<b>' . _l('project_rate_per_hour') . ': </b>' . app_format_money($project->project_rate_per_hour, $project->currency_data) . '<br />';
     }
 }
-$status = get_oservice_status_by_id($project->status);
+$status = get_project_status_by_id($project->status);
 // Project status
 $html .= '<b>' . _l('project_status') . ': </b>' . $status['name'] . '<br />';
 // Date created
@@ -90,27 +91,27 @@ $html .= '<b>' . _l('paid_invoices') . ' </b>' . app_format_money($invoices_tota
 // Finance Overview
 if ($project->billing_type == 2 || $project->billing_type == 3) {
     // Total logged time + money
-    $logged_time_data = $this->ci->other->total_logged_time_by_billing_type($slug, $project->id);
+    $logged_time_data = $this->ci->projects_model->total_logged_time_by_billing_type($project->id);
     $html .= '<b>' . _l('project_overview_logged_hours') . ' </b>' . $logged_time_data['logged_time'] . ' - ' . app_format_money($logged_time_data['total_money'], $project->currency_data) . '<br />';
     // Total billable time + money
-    $logged_time_data = $this->ci->other->data_billable_time($slug, $project->id);
+    $logged_time_data = $this->ci->projects_model->data_billable_time($project->id);
     $html .= '<b>' . _l('project_overview_billable_hours') . ' </b>' . $logged_time_data['logged_time'] . ' - ' . app_format_money($logged_time_data['total_money'], $project->currency_data) . '<br />';
     // Total billed time + money
-    $logged_time_data = $this->ci->other->data_billed_time($slug, $project->id);
+    $logged_time_data = $this->ci->projects_model->data_billed_time($project->id);
     $html .= '<b>' . _l('project_overview_billed_hours') . ' </b>' . $logged_time_data['logged_time'] . ' - ' . app_format_money($logged_time_data['total_money'], $project->currency_data) . '<br />';
     // Total unbilled time + money
-    $logged_time_data = $this->ci->other->data_unbilled_time($slug, $project->id);
+    $logged_time_data = $this->ci->projects_model->data_unbilled_time($project->id);
     $html .= '<b>' . _l('project_overview_unbilled_hours') . ' </b>' . $logged_time_data['logged_time'] . ' - ' . app_format_money($logged_time_data['total_money'], $project->currency_data) . '<br /><br/>';
 }
 
 // Total expenses + money
-$html .= '<b>' . _l('project_overview_expenses') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id], 'rel_stype' => $slug, 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['project_id' => $project->id], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Billable expenses + money
-$html .= '<b>' . _l('project_overview_expenses_billable') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_billable') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['project_id' => $project->id, 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Billed expenses + money
-$html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid !=' => 'NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['project_id' => $project->id, 'invoiceid !=' => 'NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Unbilled expenses + money
-$html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
+$html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['project_id' => $project->id, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Write finance overview
 $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 
@@ -121,7 +122,7 @@ if (count($custom_fields) > 0) {
     $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('project_custom_fields')) . '</b><br /><br />';
 
     foreach ($custom_fields as $field) {
-        $value = get_custom_field_value($project->id, $field['id'], "$slug");
+        $value = get_custom_field_value($project->id, $field['id'], 'projects');
         $value = $value === '' ? '/' : $value;
         $html .= '<b>' . ucfirst($field['name']) . ': </b>' . $value . '<br />';
     }
@@ -182,12 +183,12 @@ $html .= '<tbody>';
 foreach ($members as $member) {
     $html .= '<tr style="color:#4a4a4a;">';
     $html .= '<td>' . get_staff_full_name($member['staff_id']) . '</td>';
-    $html .= '<td>' . total_rows(db_prefix().'tasks', 'rel_type="'.$slug.'" AND rel_id="' . $project->id . '" AND id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid="' . $member['staff_id'] . '")') . '</td>';
-    $html .= '<td>' . total_rows(db_prefix().'task_comments', 'staffid = ' . $member['staff_id'] . ' AND taskid IN (SELECT id FROM '.db_prefix().'tasks WHERE rel_type="'.$slug.'" AND rel_id="' . $project->id . '")') . '</td>';
-    $html .= '<td>' . total_rows(db_prefix().'oservicediscussions', ['staff_id' => $member['staff_id'], 'oservice_id' => $project->id]) . '</td>';
-    $html .= '<td>' . total_rows(db_prefix().'oservicediscussioncomments', 'staff_id=' . $member['staff_id'] . ' AND discussion_id IN (SELECT id FROM '.db_prefix().'oservicediscussions WHERE oservice_id=' . $project->id . ')') . '</td>';
-    $html .= '<td>' . total_rows(db_prefix().'oservice_files', ['staffid' => $member['staff_id'], 'oservice_id' => $project->id]) . '</td>';
-    $member_tasks_assigned = $this->ci->tasks_model->get_tasks_by_staff_id($member['staff_id'], ['rel_id' => $project->id, 'rel_type' => "$slug"]);
+    $html .= '<td>' . total_rows(db_prefix().'tasks', 'rel_type="project" AND rel_id="' . $project->id . '" AND id IN (SELECT taskid FROM '.db_prefix().'task_assigned WHERE staffid="' . $member['staff_id'] . '")') . '</td>';
+    $html .= '<td>' . total_rows(db_prefix().'task_comments', 'staffid = ' . $member['staff_id'] . ' AND taskid IN (SELECT id FROM '.db_prefix().'tasks WHERE rel_type="project" AND rel_id="' . $project->id . '")') . '</td>';
+    $html .= '<td>' . total_rows(db_prefix().'projectdiscussions', ['staff_id' => $member['staff_id'], 'project_id' => $project->id]) . '</td>';
+    $html .= '<td>' . total_rows(db_prefix().'projectdiscussioncomments', 'staff_id=' . $member['staff_id'] . ' AND discussion_id IN (SELECT id FROM '.db_prefix().'projectdiscussions WHERE project_id=' . $project->id . ')') . '</td>';
+    $html .= '<td>' . total_rows(db_prefix().'project_files', ['staffid' => $member['staff_id'], 'project_id' => $project->id]) . '</td>';
+    $member_tasks_assigned = $this->ci->tasks_model->get_tasks_by_staff_id($member['staff_id'], ['rel_id' => $project->id, 'rel_type' => 'project']);
     $seconds               = 0;
     foreach ($member_tasks_assigned as $member_task) {
         $seconds += $this->ci->tasks_model->calc_task_total_time($member_task['id'], ' AND staff_id=' . $member['staff_id']);
@@ -289,7 +290,7 @@ foreach ($milestones as $milestone) {
     $html .= '<td width="20%">' . $milestone['name'] . '</td>';
     $html .= '<td width="30%">' . $milestone['description'] . '</td>';
     $html .= '<td width="15%">' . _d($milestone['due_date']) . '</td>';
-    $html .= '<td width="15%">' . total_rows(db_prefix().'tasks', ['milestone' => $milestone['id'], 'rel_id' => $project->id, 'rel_type' => "$slug"]) . '</td>';
+    $html .= '<td width="15%">' . total_rows(db_prefix().'tasks', ['milestone' => $milestone['id'], 'rel_id' => $project->id, 'rel_type' => 'project']) . '</td>';
     $html .= '<td width="20%">' . seconds_to_time_format($milestone['total_logged_time']) . '</td>';
     $html .= '</tr>';
 }

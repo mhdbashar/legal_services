@@ -77,7 +77,18 @@ foreach ($rResult as $aRow) {
     $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
     $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
-   $_data .= ' |  <a href="#" onclick="office_name('. $aRow['id'] .'); return false" >'. _l('export') .'</a>';
+    $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
+
+    $exported_data = $ci->db->get('tblmy_exported_services')->row_array();
+    
+    if(empty($exported_data)){
+        $_data .= ' |  <a href="#" onclick="office_name('. $aRow['id'] .'); return false" >'. _l('export') .'</a>';
+    }
+        
+    else{
+        $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/".$ServID."/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
+    }
+   
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsCases($aRow['id']);

@@ -31,6 +31,8 @@ $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
+    if($aRow['id'] == 1)
+        continue;
     $row = [];
 
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';

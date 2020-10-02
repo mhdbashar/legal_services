@@ -7,6 +7,7 @@ class Imported_services_controller extends AdminController
         parent::__construct();
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Other_services_model', 'other');
+        $this->load->model('LegalServices/Imported_services_model', 'imported');
         $this->load->model('Customer_representative_model', 'representative');
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
@@ -874,16 +875,18 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function copy($ServID,$project_id)
+    public function copy($project_id)
     {
+        $service_id = $this->input->post('service_id');
         if (has_permission('projects', '', 'create')) {
-            $id = $this->other->copy($ServID,$project_id, $this->input->post());
+            $id = $this->imported->copy($service_id, $project_id, $this->input->post());
+            $name = $service_id == 1 ? "Case" : "SOther";
             if ($id) {
                 set_alert('success', _l('project_copied_successfully'));
-                redirect(admin_url('SOther/view/' .$ServID.'/'. $id));
+                redirect(admin_url($name.'/view/' .$service_id. '/' . $id));
             } else {
                 set_alert('danger', _l('failed_to_copy_project'));
-                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
+                redirect($_SERVER['HTTP_REFERER']);
             }
         }
     }

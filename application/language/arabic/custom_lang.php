@@ -2,6 +2,7 @@
 
 $lang['imported'] = 'مستوردة';
 $lang['export'] = 'تصدير';
+$lang['export_service'] = 'تصدير الخدمة';
 $lang['imported_services'] = 'الخدمات المستوردة';
 
 $lang['problem_deleting_rel_serv']= "الرجاء التأكد من عدم وجود خدمات متعلقة بهذا التصنيف قبل الحذف";

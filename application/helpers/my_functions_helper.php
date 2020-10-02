@@ -182,11 +182,6 @@ function my_module_clients_area_menu_items()
                 'position' => $position+5,
             ]);
             endforeach;
-            add_theme_menu_item('LegalServices'.$service->id, [
-                'name'     => _l('imported_services'),
-                'href'     => site_url('clients/imported/'),
-                'position' => 40,
-            ]);
         }
     }
 }
@@ -754,3 +749,167 @@ function get_cat_name_by_id($id)
     }
     return false;
 }
+<<<<<<< HEAD
+=======
+
+function convert_to_tags($string)
+{
+   // $string_after_replace = preg_replace("/(?!.[.=$'€%-])\p{P}/u", "", $string);
+    $string_array         = explode(' ', $string);
+    $array_after_filter   = array_filter($string_array);
+    return $array_after_filter;
+}
+
+/**
+ * Function that add tags based on passed arguments
+ * @param  string $tags
+ * @param  mixed $rel_id
+ * @param  string $rel_type
+ * @return boolean
+ */
+function save_edit_services_tags($tags, $rel_id, $rel_type)
+{
+    $CI = & get_instance();
+    // Check if there is tags
+    $old_tags = get_service_tags($rel_id, $rel_type);
+    if(!empty($old_tags)) {
+        foreach ($old_tags as $tag) {
+            $CI->db->where('id', $tag['id']);
+            $CI->db->where('rel_id', $tag['rel_id']);
+            $CI->db->where('rel_type', $tag['rel_type']);
+            $CI->db->delete(db_prefix() . 'my_services_tags');
+        }
+        foreach ($tags as $row) {
+            /*$tag_text = clear_textarea_breaks($tag);
+            $tag_purify = html_purify($tag_text);
+            $tag_purify1 = html_escape($tag_purify);*/
+            $data = array(
+                'tag'      => $row,
+                'rel_type' => $rel_type,
+                'rel_id'   => $rel_id
+            );
+            $CI->db->insert(db_prefix() . 'my_services_tags', $data);
+            $CI->db->insert_id();
+        }
+        return true;
+    }else{
+        foreach ($tags as $row) {
+            $data = array(
+                'tag'      => $row,
+                'rel_type' => $rel_type,
+                'rel_id'   => $rel_id
+            );
+            $CI->db->insert(db_prefix() . 'my_services_tags', $data);
+            $CI->db->insert_id();
+        }
+        return true;
+    }
+}
+
+function get_service_tags($rel_id, $rel_type)
+{
+    $CI = & get_instance();
+    $CI->db->where(array(
+        'rel_id' => $rel_id,
+        'rel_type' => $rel_type
+    ));
+    return $CI->db->get(db_prefix().'my_services_tags')->result_array();
+}
+
+function get_books_by_api($tags)
+{
+    $info  = array(
+        'tags' => $tags
+    );
+    $postdata    = http_build_query($info);
+    //$webservices = 'http://localhost/babillawlib/';
+    $webservices = 'http://lib.babillawnet.com/';
+    $url         = $webservices."Book/search_book_api";
+    $curl        = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "$url",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "$postdata",
+    ));
+    $response = curl_exec($curl);
+    $err      = curl_error($curl);
+    curl_close($curl);
+    if(!empty($err)):
+        return array($response, $err);
+    else:
+        return $response;
+    endif;
+}
+
+//function search_book_api()
+//{
+//    if($this->input->post()){
+//        $tags_array = $this->input->post();
+//        if(isset($tags_array['tags']) && !empty($tags_array['tags'])){
+//            $new_tag_name = str_replace(' ', '', $tags_array['tags']);
+//
+//            $tags_name = explode(',', $new_tag_name);
+//
+//            foreach ($tags_name as $tag) {
+//                $this->db->like('tag_name', $tag);
+//                $result[] = $this->db->get('tag')->result();
+//            }
+//            if($result){
+//                foreach ($result as $value => $key) {
+//                    foreach ($result[$value] as $item){
+//                        $arr[] = $item->tag_id;
+//                    }
+//                }
+//                $sql = "SELECT section_id,book_id,book_title,url,file,
+//                        COUNT(book_title) AS relevance
+//                        FROM
+//                        (SELECT book.section_id,book.book_id,file,url, book_title
+//                         FROM book,book_tag,section
+//                         WHERE  book.book_id = book_tag.book_id
+//                         AND book.main_section = section.section_id
+//                         AND tag_id IN('" . implode("','", $arr) . "')
+//                         ) AS matches
+//                         GROUP BY section_id, book_id, book_title, url, file
+//                         ORDER BY relevance DESC";
+//                $books = $this->db->query($sql)->result();
+//
+//                foreach ($books as $book) {
+//                    $sql2 = "SELECT c.*
+//                            FROM (
+//                                SELECT
+//                                    @r AS _id,
+//                                    (SELECT @r := parent_id FROM section WHERE section_id = _id) AS parent_id,
+//                                    @l := @l + 1 AS level
+//                                FROM
+//                                    (SELECT @r := " . $book->section_id . ", @l := 0) vars, section m
+//                                WHERE @r <> 0) d
+//                            JOIN section c
+//                            ON d._id = c.section_id ORDER BY section_id ASC";
+//                    $sections = $this->db->query($sql2)->result();
+//                    $book->sections = $sections;
+//                }
+//                // set response code - 200 OK
+//                http_response_code(200);
+//                echo json_encode(array("message" => "success", "books" => $books), JSON_UNESCAPED_UNICODE);
+//            }else{
+//                // set response code - 503 service unavailable
+//                http_response_code(503);
+//                echo json_encode(array("message" => "No data found."));
+//            }
+//        }else{
+//            // set response code - 400 bad request
+//            http_response_code(400);
+//            echo json_encode(array("message" => "Unable to read tags. The data is incomplete."));
+//        }
+//    }else{
+//        // set response code - 405 method not allowed
+//        http_response_code(405);
+//        echo json_encode(array("message" => "Method Not Allowed"));
+//    }
+//}
+>>>>>>> e9326ad12d427ecb58553b9aa4b9af1afb9e90c7

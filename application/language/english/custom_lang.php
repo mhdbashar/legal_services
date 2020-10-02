@@ -3,6 +3,7 @@
 
 $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
+$lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
 $lang['zoom_name'] = 'Zoom meetings';

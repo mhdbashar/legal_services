@@ -26,15 +26,6 @@
                         <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
                      </div>
                      <div class="col-md-5 text-right">
-                        <?php if(has_permission('tasks','','create')){ ?>
-                        <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
-                        <?php } ?>
-                        <?php
-                           $invoice_func = 'pre_invoice_iservice';
-                           ?>
-                        <?php if(has_permission('invoices','','create')){ ?>
-                        <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>);" class="invoice-project btn btn-info"><?php echo _l('invoice_project'); ?></a>
-                        <?php } ?>
                         <?php
                            $project_pin_tooltip = _l('pin_project');
                            if(total_rows(db_prefix().'pinned_projects',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){
@@ -46,7 +37,7 @@
                            <?php echo _l('more'); ?> <span class="caret"></span>
                            </button>
                            <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
-                              <li>
+                              <!-- <li>
                                  <a href="<?php echo admin_url('projects/pin_action/'.$project->id); ?>">
                                  <?php echo $project_pin_tooltip; ?>
                                  </a>
@@ -57,15 +48,15 @@
                                  <?php echo _l('edit_project'); ?>
                                  </a>
                               </li>
-                              <?php } ?>
+                              <?php } ?> -->
                               <?php if(has_permission('projects','','create')){ ?>
                               <li>
                                  <a href="#" onclick="copy_project(); return false;">
-                                 <?php echo _l('copy_project'); ?>
+                                 <?php echo _l('export_service'); ?>
                                  </a>
                               </li>
                               <?php } ?>
-                              <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
+                              <!-- <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                               <li class="divider"></li>
                               <?php foreach($statuses as $status){
                                  if($status['id'] == $project->status){continue;}
@@ -74,8 +65,8 @@
                                  <a href="#" data-name="<?php echo _l('project_status_'.$status['id']); ?>" onclick="project_mark_as_modal(<?php echo $status['id']; ?>,<?php echo $project->id; ?>, this); return false;"><?php echo _l('project_mark_as',$status['name']); ?></a>
                               </li>
                               <?php } ?>
-                              <?php } ?>
-                              <li class="divider"></li>
+                              <?php } ?> -->
+                              <!-- <li class="divider"></li>
                               <?php if(has_permission('projects','','create')){ ?>
                               <li>
                                  <a href="<?php echo admin_url('projects/export_project_data/'.$project->id); ?>" target="_blank"><?php echo _l('export_project_data'); ?></a>
@@ -92,7 +83,7 @@
                                  <span class="text-danger"><?php echo _l('delete_project'); ?></span>
                                  </a>
                               </li>
-                              <?php } ?>
+                              <?php } ?> -->
                            </ul>
                         </div>
                      </div>
@@ -154,7 +145,7 @@ echo form_hidden('project_percent',$percent);
 <div id="invoice_project"></div>
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/projects/milestone'); ?>
-<?php $this->load->view('admin/projects/copy_settings'); ?>
+<?php $this->load->view('admin/LegalServices/imported_services/copy_settings'); ?>
 <?php $this->load->view('admin/projects/_mark_tasks_finished'); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->

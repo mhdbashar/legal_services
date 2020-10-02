@@ -82,7 +82,7 @@ class Api extends AdminController
 $url='https://legaloffices.babillawnet.com/api/insert';
 
         //$data['offic_name'] = $this->input->post('office_name');
-        $companyname = get_option('companyname');
+        $companyname = get_option('office_name_in_center');
         //$data['token'] = $this->service_model->get_token($data['offic_name']);
         $office_url = base_url();
         //$office_name = $data['offic_name'];

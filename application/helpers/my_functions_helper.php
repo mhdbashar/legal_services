@@ -749,9 +749,6 @@ function get_cat_name_by_id($id)
     }
     return false;
 }
-<<<<<<< HEAD
-=======
-
 function convert_to_tags($string)
 {
    // $string_after_replace = preg_replace("/(?!.[.=$'€%-])\p{P}/u", "", $string);
@@ -912,4 +909,3 @@ function get_books_by_api($tags)
 //        echo json_encode(array("message" => "Method Not Allowed"));
 //    }
 //}
->>>>>>> e9326ad12d427ecb58553b9aa4b9af1afb9e90c7

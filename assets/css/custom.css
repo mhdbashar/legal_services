@@ -494,3 +494,7 @@ li.fancyTab.active a {
     }
 
 }
+
+.form-control{
+    padding: 3px 12px;
+}

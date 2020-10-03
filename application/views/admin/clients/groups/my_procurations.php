@@ -2,7 +2,9 @@
 <h4 class="customer-profile-group-heading"><?php echo _l('procurations'); ?></h4>
                   <div class="_buttons">
                      <!-- <?php// if(is_admin()) { ?> -->
+                  <?php if (has_permission('procurations', '', 'create') || is_admin()) { ?>
                      <a href="<?php echo admin_url('procuration/procurationcu/'.$id); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_procuration'); ?></a>
+                  <?php } ?>
                      <div class="clearfix"></div>
                      <hr class="hr-panel-heading" />
                      <!-- <?php //} else { echo '<h4 class="no-margin bold">'._l('announcements').'</h4>';} ?> -->

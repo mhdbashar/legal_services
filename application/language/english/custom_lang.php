@@ -5,12 +5,19 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+$lang['home_my_cases'] = "Cases";
+$lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
 $lang['zoom_name'] = 'Zoom meetings';
 $lang['zoom_desc'] = 'You can set your zoom account and start your meetings within the Babel APP';
 
+$lang['imported'] = 'Imported';
+$lang['export'] = 'Export';
+$lang['imported_services'] = 'Imported Services';
 $lang['license_info'] = 'License Info';
+$lang['project_setting_view_session_logs'] = 'view session logs';
 
+$lang['project_setting_view_procurations'] = 'view procurations';
 $lang['license_key'] = 'License Key';
 
 $lang['appointly'] = 'Appointment';
@@ -256,7 +263,6 @@ $lang['email_queue_skip_attachments_exp']= "Most likely you will encounter probl
 $lang['email_queue_enabled_exp'] = "To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.";
 $lang['cronjob_req'] = "This feature requires a properly configured cron job. Before activating the feature, make sure that the cron job is configured.";
 $lang['settings_sales_bo_box'] = "BO Box";
-
 $lang['global_hr_setting'] = 'Global HR Settings';
 $lang['hr'] = 'HR';
 $lang['date_wise_attendance'] = 'Date Wise Attendance';
@@ -797,6 +803,8 @@ $lang['branch_name'] = "Branch Name";
 $lang['case_id'] = "Cases";
 $lang['not_selected'] = "Not Selected";
 $lang['cases'] = "Cases";
+$lang['cases_dashboard'] = "Cases";
+$lang['legal_services_dashboard'] = "Legal Services";
 $lang['customer_company_groups'] = "Company Groups";
 $lang['session_info'] = "Session Information";
 $lang['start_at'] = "Start At";
@@ -3970,9 +3978,11 @@ $lang['customer_details'] = "Customer Name (Company or Individual)";
 $lang['customer_type'] = "Customer Type";
 $lang['customer_representative'] = "Customer Representative";
 $lang['new_customer_representative'] = "New Customer Representative";
+$lang['customer_representative_manage'] = "Customer representative management";
 $lang['new_judge'] = "New Judge";
 $lang['case_number'] = "Case Number";
 $lang['case_status'] = "Case Status";
+$lang['case_status_manage'] = "Case Status management";
 $lang['Parties_case'] = "Parties to the case";
 $lang['file_number_in_court'] = "File number in court";
 $lang['file_number_in_office'] = "File number in office";
@@ -4030,6 +4040,11 @@ $lang['Waiting_sessions'] = "Waiting sessions";
 $lang['Previous_Sessions'] = "Previous sessions";
 $lang['session_type'] = "Session Type";
 $lang['judicial_office_number'] = "Judicial office number";
+$lang['Judicial'] = "Judicial departments";
+$lang['judicial_manage'] = "Judicial departments management";
+$lang['AddJudicialDept'] = "Add a judicial department";
+$lang['EditJudicialDept'] = "Edit a judicial department";
+$lang['NumJudicialDept'] = "Judicial department number";
 $lang['session_number'] = "Session number";
 $lang['upcoming_actions'] = "Upcoming actions";
 $lang['session'] = "Session";
@@ -4205,3 +4220,8 @@ $lang['procedure_not_found'] = "legal procedure not found. Maybe is deleted, che
 
 $lang['delete_list'] = "Delete List";
 $lang['delete_procedure'] = "Delete Legal Procedure";
+<<<<<<< HEAD
+=======
+$lang['judges_manage'] = "Judges management";
+$lang['categories_management'] = "Categories management";
+>>>>>>> 3e9a2a78f62c54fc32766c056e56cb487c89d330

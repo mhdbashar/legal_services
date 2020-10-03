@@ -14,11 +14,19 @@
                 <div class="row">
                     <?php echo form_hidden('rel_id',$project->id); ?>
                     <?php echo form_hidden('rel_type',$service->slug); ?>
-                    <div class="col-md-12">
-                        <?php
-                        echo render_select_with_input_group('cat_id',isset($category) ? $category : array(),array('id','name'),'legal_procedure','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>');
-                        ?>
-                    </div>
+                    <?php if (has_permission('legal_procedures', '', 'create')) { ?>
+                        <div class="col-md-12">
+                            <?php
+                            echo render_select_with_input_group('cat_id',isset($category) ? $category : array(),array('id','name'),'legal_procedure','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>');
+                            ?>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="col-md-12">
+                            <?php
+                            echo render_select('cat_id',isset($category) ? $category : array(),array('id','name'),'legal_procedure','');
+                            ?>
+                        </div>
+                    <?php }?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
@@ -99,11 +107,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 div_subcat<?php echo $list['id']; ?>">
-                            <?php
-                            echo render_select_with_input_group('subcat_id',array(),array('id','name'),'sub_legal_procedures','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>',array('required' => 'required'));
-                            ?>
-                        </div>
+                        <?php if (has_permission('legal_procedures', '', 'create')) { ?>
+                            <div class="col-md-12 div_subcat<?php echo $list['id']; ?>">
+                                <?php
+                                echo render_select_with_input_group('subcat_id',array(),array('id','name'),'sub_legal_procedures','','<a href="'.admin_url("LegalServices/legal_procedures").'" target="_blank"><i class="fa fa-plus"></i></a>',array('required' => 'required'));
+                                ?>
+                            </div>
+                        <?php }else{ ?>
+                            <div class="col-md-12 div_subcat<?php echo $list['id']; ?>">
+                                <?php
+                                echo render_select('subcat_id',array(),array('id','name'),'sub_legal_procedures','',array('required' => 'required'));
+                                ?>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
                 <div class="modal-footer">

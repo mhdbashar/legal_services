@@ -55,9 +55,11 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php if (has_permission('customers', '', 'create')) { ?>
                             <div class="col-md-1">
                                 <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
+                            <?php } ?>
 
                         </div>
                         <?php $cats = get_relation_data('mycategory', $ServID);
@@ -225,9 +227,9 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-
+                            <?php if (has_permission('staff', '', 'create')) { ?>
                                 <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-
+                            <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
                                 <select class="form-control custom_select_arrow" name="contract"
@@ -375,6 +377,7 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
+<?php if (has_permission('customers', '', 'create')) { ?>
 <div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -398,9 +401,10 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <?php init_tail(); ?>
 <script>
-
+    <?php if (has_permission('customers', '', 'create')) { ?>
     $("#AddClient").click(function () {
         company = $('#company').val();
         if(company == ''){
@@ -423,6 +427,7 @@
             });
         }
     });
+    <?php } ?>
 
     <?php if(isset($OtherServ)){ ?>
     var original_project_status = '<?php echo $OtherServ->status; ?>';

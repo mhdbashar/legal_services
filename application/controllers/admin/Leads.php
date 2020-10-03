@@ -9,6 +9,9 @@ class Leads extends AdminController
     {
         parent::__construct();
         $this->load->model('leads_model');
+        if($this->app_modules->is_active('branches')){
+            $this->load->model('branches/Branches_model', 'Branches_model');
+        }
     }
 
     /* List all leads */
@@ -66,8 +69,28 @@ class Leads extends AdminController
         }
 
         if ($this->input->post()) {
+            $data = $this->input->post();
+            if($this->app_modules->is_active('branches')){
+
+                $branch_id = $this->input->post('branch_id');
+                
+                unset($data['branch_id']);
+            }
             if ($id == '') {
-                $id      = $this->leads_model->add($this->input->post());
+                $id      = $this->leads_model->add($data);
+                if($id){
+                    if($this->app_modules->is_active('branches')){
+                            if(is_numeric($branch_id)){
+                            $data = [
+                                'branch_id' => $branch_id, 
+                                'rel_type' => 'leads', 
+                                'rel_id' => $id
+                            ];
+                            $this->Branches_model->set_branch($data);
+                        }
+                    }
+                }
+                
                 $message = $id ? _l('added_successfully', _l('lead')) : '';
 
                 echo json_encode([
@@ -80,7 +103,16 @@ class Leads extends AdminController
                 $emailOriginal   = $this->db->select('email')->where('id', $id)->get(db_prefix() . 'leads')->row()->email;
                 $proposalWarning = false;
                 $message         = '';
-                $success         = $this->leads_model->update($this->input->post(), $id);
+                $success         = $this->leads_model->update($data, $id);
+
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('leads', $id, $branch_id);
+                    }
+                    else{
+                        $this->Branches_model->delete_branch('leads', $id);
+                    }
+                }
 
                 if ($success) {
                     $emailNow = $this->db->select('email')->where('id', $id)->get(db_prefix() . 'leads')->row()->email;
@@ -152,6 +184,11 @@ class Leads extends AdminController
 
         $data['statuses'] = $this->leads_model->get_status();
         $data['sources']  = $this->leads_model->get_source();
+        if($this->app_modules->is_active('branches')) {
+            $data['branches'] = $this->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('leads', $id);
+            $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
+        }
 
         $data = hooks()->apply_filters('lead_view_data', $data);
 
@@ -335,6 +372,11 @@ class Leads extends AdminController
             $this->load->model('gdpr_model');
             $data['purposes'] = $this->gdpr_model->get_consent_purposes($id, 'lead');
         }
+        if($this->app_modules->is_active('branches')) {
+            $data['branches'] = $this->Branches_model->getBranches();
+            $data['branch'] = $this->Branches_model->get_branch('leads', $id);
+            $data['branch_name'] = $this->Branches_model->get_branch_name('leads', $id);
+        }
         $data['lead'] = $this->leads_model->get($id);
         $this->load->view('admin/leads/convert_to_customer', $data);
     }
@@ -357,6 +399,13 @@ class Leads extends AdminController
 
             $original_lead_email = $data['original_lead_email'];
             unset($data['original_lead_email']);
+
+            if($this->app_modules->is_active('branches')) {
+                if (isset($data['branch_id'])) {
+                    $branch_id = $this->Branches_model->get_branch('leads', $data['leadid']);
+                    unset($data['branch_id']);
+                }
+            }
 
             if (isset($data['transfer_notes'])) {
                 $notes = $this->misc_model->get_notes($data['leadid'], 'lead');
@@ -398,6 +447,12 @@ class Leads extends AdminController
             $id                 = $this->clients_model->add($data, true);
             if ($id) {
                 $primary_contact_id = get_primary_contact_user_id($id);
+
+                if(isset($branch_id)){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('clients', $id, $branch_id);
+                    }
+                }
 
                 if (isset($notes)) {
                     foreach ($notes as $note) {

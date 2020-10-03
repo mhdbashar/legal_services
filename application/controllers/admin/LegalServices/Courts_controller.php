@@ -12,6 +12,9 @@ class Courts_controller extends AdminController
 
     public function courts_managment()
     {
+        if (!has_permission('courts', '', 'create') && !has_permission('judicial_departments', '', 'create')) {
+            access_denied('courts');
+        }
         $data['courts'] = $this->court->get_all_courts();
         $data['title']  = _l('CourtsManagement');		
         $this->load->view('admin/LegalServices/courts/courts_view',$data);
@@ -19,6 +22,9 @@ class Courts_controller extends AdminController
 	
 	public function judicial_managment($id)
     {
+        if (!has_permission('judicial_departments', '', 'create')) {
+            access_denied('judicial_departments');
+        }
     	$exist = $this->court->get_court_by_id($id)->num_rows();
         if(!$exist || $id == ''){  		
 			set_alert('danger', _l('CourtNofound'));
@@ -38,12 +44,18 @@ class Courts_controller extends AdminController
 
     function add_court_from_modal()
     {
+        if (!has_permission('courts', '', 'create')) {
+            access_denied('courts');
+        }
         $data = $this->input->post();
         echo $this->court->add_court_new($data);
     }
 	
 	public function add_new_court()
-    {    		
+    {
+        if (!has_permission('courts', '', 'create')) {
+            access_denied('courts');
+        }
         if ($this->input->post()) {        	
             $data = $this->input->post();                              
             $added = $this->court->add_court_new($data);
@@ -58,12 +70,18 @@ class Courts_controller extends AdminController
 
     function add_judicial_department_modal($id)
     {
+        if (!has_permission('judicial_departments', '', 'create')) {
+            access_denied('judicial_departments');
+        }
         $data = $this->input->post();
         echo $this->court->add_judicial_for_court($id, $data);
     }
 	
 	public function Add_new_judicial_department($id)
     {
+        if (!has_permission('judicial_departments', '', 'create')) {
+            access_denied('judicial_departments');
+        }
     	$exist = $this->court->get_court_by_id($id)->num_rows();
         if(!$exist || $id == ''){    		
 			set_alert('danger', _l('CourtNofound'));
@@ -83,7 +101,10 @@ class Courts_controller extends AdminController
     }
 	
 	public function edit_court_data($id)
-    {    	     
+    {
+        if (!has_permission('courts', '', 'edit')) {
+            access_denied('courts');
+        }
         if (!$id) {
             redirect(admin_url('courts_control'));
         }			        
@@ -104,7 +125,10 @@ class Courts_controller extends AdminController
     }
 
 	public function edit_judicial_data($c_id,$j_id)
-    {    	     
+    {
+        if (!has_permission('judicial_departments', '', 'edit')) {
+            access_denied('judicial_departments');
+        }
         if (!$c_id || !$j_id) {
             redirect(admin_url("judicial_control/$c_id"));
         }		        
@@ -125,7 +149,10 @@ class Courts_controller extends AdminController
     }
 	
 	public function del_court($id)
-    {    	     
+    {
+        if (!has_permission('courts', '', 'delete')) {
+            access_denied('courts');
+        }
         if (!$id) {
             redirect(admin_url('courts_control'));
         }
@@ -139,7 +166,10 @@ class Courts_controller extends AdminController
     }
 	
 	public function del_judicial($c_id,$j_id)
-    {    	
+    {
+        if (!has_permission('judicial_departments', '', 'delete')) {
+            access_denied('judicial_departments');
+        }
         if (!$c_id || !$j_id) {
             redirect(admin_url("judicial_control/$c_id"));
         }

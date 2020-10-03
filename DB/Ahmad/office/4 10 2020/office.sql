@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2020 at 10:56 PM
+-- Generation Time: Oct 03, 2020 at 11:21 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -34,23 +34,6 @@ CREATE TABLE `tblactivity_log` (
   `date` datetime NOT NULL,
   `staffid` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblactivity_log`
---
-
-INSERT INTO `tblactivity_log` (`id`, `description`, `date`, `staffid`) VALUES
-(1, 'New User Added [ID: 1, Name: legal_serv1]', '2020-09-28 19:59:29', 'Mhdbashar  '),
-(2, 'New User Added [ID: 2, Name: legal_serv2]', '2020-09-28 20:11:07', 'Mhdbashar  '),
-(3, 'New Client Created [ID: 1]', '2020-09-28 20:12:01', NULL),
-(4, 'Failed to send email template - The following From address failed: root@localhost : MAIL FROM command failed,Access denied - Invalid HELO name (See RFC2821 4.1.1.1)\r\n,550,SMTP server error: MAIL FROM command failed Detail: Access denied - Invalid HELO name (See RFC2821 4.1.1.1)\r\n SMTP code: 550SMTP server error: MAIL FROM command failed Detail: Access denied - Invalid HELO name (See RFC2821 4.1.1.1)\r\n SMTP code: 550<br /><pre>\n\n</pre>', '2020-09-28 20:12:06', NULL),
-(5, 'Contact Created [ID: 1]', '2020-09-28 20:12:06', NULL),
-(6, 'New قضايا Added [ServiceID: 2]', '2020-09-28 20:49:57', NULL),
-(7, 'New قضايا Added [ServiceID: 4]', '2020-09-28 20:54:35', NULL),
-(8, 'imported Moved To Recycle Bin [ServiceID: 1]', '2020-09-28 20:54:50', 'Mhdbashar  '),
-(9, 'imported Moved To Recycle Bin [ServiceID: 2]', '2020-09-28 20:54:59', 'Mhdbashar  '),
-(10, 'imported Moved To Recycle Bin [ServiceID: 3]', '2020-09-28 20:55:06', 'Mhdbashar  '),
-(11, 'imported Moved To Recycle Bin [ServiceID: 4]', '2020-09-28 20:55:13', 'Mhdbashar  ');
 
 -- --------------------------------------------------------
 
@@ -508,13 +491,6 @@ CREATE TABLE `tblclients` (
   `client_type` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblclients`
---
-
-INSERT INTO `tblclients` (`userid`, `company`, `vat`, `phonenumber`, `country`, `city`, `zip`, `state`, `address`, `website`, `datecreated`, `active`, `leadid`, `billing_street`, `billing_city`, `billing_state`, `billing_zip`, `billing_country`, `shipping_street`, `shipping_city`, `shipping_state`, `shipping_zip`, `shipping_country`, `longitude`, `latitude`, `default_language`, `default_currency`, `show_primary_contact`, `stripe_id`, `registration_confirmed`, `addedfrom`, `individual`, `branch_id`, `client_type`) VALUES
-(1, 'شركة زاهر', '', '', 0, '', '', '', '', '', '2020-09-28 20:12:01', 1, NULL, '', '', '', '', 0, '', '', '', '', 0, NULL, NULL, '', 0, 0, NULL, 1, 0, 1, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -585,13 +561,6 @@ CREATE TABLE `tblcontacts` (
   `ticket_emails` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblcontacts`
---
-
-INSERT INTO `tblcontacts` (`id`, `userid`, `is_primary`, `firstname`, `lastname`, `email`, `phonenumber`, `title`, `datecreated`, `password`, `new_pass_key`, `new_pass_key_requested`, `email_verified_at`, `email_verification_key`, `email_verification_sent_at`, `last_ip`, `last_login`, `last_password_change`, `active`, `profile_image`, `direction`, `invoice_emails`, `estimate_emails`, `credit_note_emails`, `contract_emails`, `task_emails`, `project_emails`, `ticket_emails`) VALUES
-(1, 1, 1, 'شركة زاهر', NULL, 'hiastskype@gmail.com', '', NULL, '2020-09-28 20:12:02', '$2a$08$F32b2shIYd49FYUTZYyQyOVZGCGg3LTrb9KYEqzlPJsGS3Aei36Hm', NULL, NULL, '2020-09-28 20:12:01', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 1, 1, 1, 1, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -603,18 +572,6 @@ CREATE TABLE `tblcontact_permissions` (
   `permission_id` int(11) NOT NULL,
   `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblcontact_permissions`
---
-
-INSERT INTO `tblcontact_permissions` (`id`, `permission_id`, `userid`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 1),
-(4, 4, 1),
-(5, 5, 1),
-(6, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -1804,791 +1761,6 @@ CREATE TABLE `tbliservice_settings` (
   `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tbliservice_settings`
---
-
-INSERT INTO `tbliservice_settings` (`id`, `oservice_id`, `name`, `value`) VALUES
-(366, 37, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:18:\"project_milestones\";i:0;s:19:\"project_discussions\";i:0;s:13:\"project_gantt\";i:0;s:15:\"project_tickets\";i:0;s:16:\"project_invoices\";i:0;s:17:\"project_estimates\";i:0;s:16:\"project_expenses\";i:0;s:20:\"project_credit_notes\";i:0;s:13:\"project_notes\";i:0;s:16:\"project_activity\";i:0;s:5:\"Phase\";i:0;s:10:\"Procedures\";i:0;s:12:\"help_library\";i:0;}'),
-(367, 37, 'view_tasks', '0'),
-(368, 37, 'create_tasks', '0'),
-(369, 37, 'edit_tasks', '0'),
-(370, 37, 'comment_on_tasks', '0'),
-(371, 37, 'view_task_comments', '0'),
-(372, 37, 'view_task_attachments', '0'),
-(373, 37, 'view_task_checklist_items', '0'),
-(374, 37, 'upload_on_tasks', '0'),
-(375, 37, 'view_task_total_logged_time', '0'),
-(376, 37, 'view_finance_overview', '0'),
-(377, 37, 'upload_files', '0'),
-(378, 37, 'open_discussions', '0'),
-(379, 37, 'view_milestones', '0'),
-(380, 37, 'view_gantt', '0'),
-(381, 37, 'view_timesheets', '0'),
-(382, 37, 'view_activity_log', '0'),
-(383, 37, 'view_team_members', '0'),
-(384, 37, 'hide_tasks_on_main_tasks_table', '0'),
-(385, 38, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(386, 38, 'view_tasks', '0'),
-(387, 38, 'create_tasks', '0'),
-(388, 38, 'edit_tasks', '0'),
-(389, 38, 'comment_on_tasks', '0'),
-(390, 38, 'view_task_comments', '0'),
-(391, 38, 'view_task_attachments', '0'),
-(392, 38, 'view_task_checklist_items', '0'),
-(393, 38, 'upload_on_tasks', '0'),
-(394, 38, 'view_task_total_logged_time', '0'),
-(395, 38, 'view_finance_overview', '0'),
-(396, 38, 'upload_files', '0'),
-(397, 38, 'open_discussions', '0'),
-(398, 38, 'view_milestones', '0'),
-(399, 38, 'view_gantt', '0'),
-(400, 38, 'view_timesheets', '0'),
-(401, 38, 'view_activity_log', '0'),
-(402, 38, 'view_team_members', '0'),
-(403, 38, 'hide_tasks_on_main_tasks_table', '0'),
-(404, 39, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(405, 39, 'view_tasks', '0'),
-(406, 39, 'create_tasks', '0'),
-(407, 39, 'edit_tasks', '0'),
-(408, 39, 'comment_on_tasks', '0'),
-(409, 39, 'view_task_comments', '0'),
-(410, 39, 'view_task_attachments', '0'),
-(411, 39, 'view_task_checklist_items', '0'),
-(412, 39, 'upload_on_tasks', '0'),
-(413, 39, 'view_task_total_logged_time', '0'),
-(414, 39, 'view_finance_overview', '0'),
-(415, 39, 'upload_files', '0'),
-(416, 39, 'open_discussions', '0'),
-(417, 39, 'view_milestones', '0'),
-(418, 39, 'view_gantt', '0'),
-(419, 39, 'view_timesheets', '0'),
-(420, 39, 'view_activity_log', '0'),
-(421, 39, 'view_team_members', '0'),
-(422, 39, 'hide_tasks_on_main_tasks_table', '0'),
-(423, 40, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(424, 40, 'view_tasks', '0'),
-(425, 40, 'create_tasks', '0'),
-(426, 40, 'edit_tasks', '0'),
-(427, 40, 'comment_on_tasks', '0'),
-(428, 40, 'view_task_comments', '0'),
-(429, 40, 'view_task_attachments', '0'),
-(430, 40, 'view_task_checklist_items', '0'),
-(431, 40, 'upload_on_tasks', '0'),
-(432, 40, 'view_task_total_logged_time', '0'),
-(433, 40, 'view_finance_overview', '0'),
-(434, 40, 'upload_files', '0'),
-(435, 40, 'open_discussions', '0'),
-(436, 40, 'view_milestones', '0'),
-(437, 40, 'view_gantt', '0'),
-(438, 40, 'view_timesheets', '0'),
-(439, 40, 'view_activity_log', '0'),
-(440, 40, 'view_team_members', '0'),
-(441, 40, 'hide_tasks_on_main_tasks_table', '0'),
-(442, 41, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(443, 41, 'view_tasks', '0'),
-(444, 41, 'create_tasks', '0'),
-(445, 41, 'edit_tasks', '0'),
-(446, 41, 'comment_on_tasks', '0'),
-(447, 41, 'view_task_comments', '0'),
-(448, 41, 'view_task_attachments', '0'),
-(449, 41, 'view_task_checklist_items', '0'),
-(450, 41, 'upload_on_tasks', '0'),
-(451, 41, 'view_task_total_logged_time', '0'),
-(452, 41, 'view_finance_overview', '0'),
-(453, 41, 'upload_files', '0'),
-(454, 41, 'open_discussions', '0'),
-(455, 41, 'view_milestones', '0'),
-(456, 41, 'view_gantt', '0'),
-(457, 41, 'view_timesheets', '0'),
-(458, 41, 'view_activity_log', '0'),
-(459, 41, 'view_team_members', '0'),
-(460, 41, 'hide_tasks_on_main_tasks_table', '0'),
-(461, 42, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(462, 42, 'view_tasks', '0'),
-(463, 42, 'create_tasks', '0'),
-(464, 42, 'edit_tasks', '0'),
-(465, 42, 'comment_on_tasks', '0'),
-(466, 42, 'view_task_comments', '0'),
-(467, 42, 'view_task_attachments', '0'),
-(468, 42, 'view_task_checklist_items', '0'),
-(469, 42, 'upload_on_tasks', '0'),
-(470, 42, 'view_task_total_logged_time', '0'),
-(471, 42, 'view_finance_overview', '0'),
-(472, 42, 'upload_files', '0'),
-(473, 42, 'open_discussions', '0'),
-(474, 42, 'view_milestones', '0'),
-(475, 42, 'view_gantt', '0'),
-(476, 42, 'view_timesheets', '0'),
-(477, 42, 'view_activity_log', '0'),
-(478, 42, 'view_team_members', '0'),
-(479, 42, 'hide_tasks_on_main_tasks_table', '0'),
-(480, 43, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(481, 43, 'view_tasks', '0'),
-(482, 43, 'create_tasks', '0'),
-(483, 43, 'edit_tasks', '0'),
-(484, 43, 'comment_on_tasks', '0'),
-(485, 43, 'view_task_comments', '0'),
-(486, 43, 'view_task_attachments', '0'),
-(487, 43, 'view_task_checklist_items', '0'),
-(488, 43, 'upload_on_tasks', '0'),
-(489, 43, 'view_task_total_logged_time', '0'),
-(490, 43, 'view_finance_overview', '0'),
-(491, 43, 'upload_files', '0'),
-(492, 43, 'open_discussions', '0'),
-(493, 43, 'view_milestones', '0'),
-(494, 43, 'view_gantt', '0'),
-(495, 43, 'view_timesheets', '0'),
-(496, 43, 'view_activity_log', '0'),
-(497, 43, 'view_team_members', '0'),
-(498, 43, 'hide_tasks_on_main_tasks_table', '0'),
-(499, 44, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(500, 44, 'view_tasks', '0'),
-(501, 44, 'create_tasks', '0'),
-(502, 44, 'edit_tasks', '0'),
-(503, 44, 'comment_on_tasks', '0'),
-(504, 44, 'view_task_comments', '0'),
-(505, 44, 'view_task_attachments', '0'),
-(506, 44, 'view_task_checklist_items', '0'),
-(507, 44, 'upload_on_tasks', '0'),
-(508, 44, 'view_task_total_logged_time', '0'),
-(509, 44, 'view_finance_overview', '0'),
-(510, 44, 'upload_files', '0'),
-(511, 44, 'open_discussions', '0'),
-(512, 44, 'view_milestones', '0'),
-(513, 44, 'view_gantt', '0'),
-(514, 44, 'view_timesheets', '0'),
-(515, 44, 'view_activity_log', '0'),
-(516, 44, 'view_team_members', '0'),
-(517, 44, 'hide_tasks_on_main_tasks_table', '0'),
-(518, 45, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(519, 45, 'view_tasks', '0'),
-(520, 45, 'create_tasks', '0'),
-(521, 45, 'edit_tasks', '0'),
-(522, 45, 'comment_on_tasks', '0'),
-(523, 45, 'view_task_comments', '0'),
-(524, 45, 'view_task_attachments', '0'),
-(525, 45, 'view_task_checklist_items', '0'),
-(526, 45, 'upload_on_tasks', '0'),
-(527, 45, 'view_task_total_logged_time', '0'),
-(528, 45, 'view_finance_overview', '0'),
-(529, 45, 'upload_files', '0'),
-(530, 45, 'open_discussions', '0'),
-(531, 45, 'view_milestones', '0'),
-(532, 45, 'view_gantt', '0'),
-(533, 45, 'view_timesheets', '0'),
-(534, 45, 'view_activity_log', '0'),
-(535, 45, 'view_team_members', '0'),
-(536, 45, 'hide_tasks_on_main_tasks_table', '0'),
-(537, 46, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(538, 46, 'view_tasks', '0'),
-(539, 46, 'create_tasks', '0'),
-(540, 46, 'edit_tasks', '0'),
-(541, 46, 'comment_on_tasks', '0'),
-(542, 46, 'view_task_comments', '0'),
-(543, 46, 'view_task_attachments', '0'),
-(544, 46, 'view_task_checklist_items', '0'),
-(545, 46, 'upload_on_tasks', '0'),
-(546, 46, 'view_task_total_logged_time', '0'),
-(547, 46, 'view_finance_overview', '0'),
-(548, 46, 'upload_files', '0'),
-(549, 46, 'open_discussions', '0'),
-(550, 46, 'view_milestones', '0'),
-(551, 46, 'view_gantt', '0'),
-(552, 46, 'view_timesheets', '0'),
-(553, 46, 'view_activity_log', '0'),
-(554, 46, 'view_team_members', '0'),
-(555, 46, 'hide_tasks_on_main_tasks_table', '0'),
-(556, 47, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(557, 47, 'view_tasks', '0'),
-(558, 47, 'create_tasks', '0'),
-(559, 47, 'edit_tasks', '0'),
-(560, 47, 'comment_on_tasks', '0'),
-(561, 47, 'view_task_comments', '0'),
-(562, 47, 'view_task_attachments', '0'),
-(563, 47, 'view_task_checklist_items', '0'),
-(564, 47, 'upload_on_tasks', '0'),
-(565, 47, 'view_task_total_logged_time', '0'),
-(566, 47, 'view_finance_overview', '0'),
-(567, 47, 'upload_files', '0'),
-(568, 47, 'open_discussions', '0'),
-(569, 47, 'view_milestones', '0'),
-(570, 47, 'view_gantt', '0'),
-(571, 47, 'view_timesheets', '0'),
-(572, 47, 'view_activity_log', '0'),
-(573, 47, 'view_team_members', '0'),
-(574, 47, 'hide_tasks_on_main_tasks_table', '0'),
-(575, 48, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(576, 48, 'view_tasks', '0'),
-(577, 48, 'create_tasks', '0'),
-(578, 48, 'edit_tasks', '0'),
-(579, 48, 'comment_on_tasks', '0'),
-(580, 48, 'view_task_comments', '0'),
-(581, 48, 'view_task_attachments', '0'),
-(582, 48, 'view_task_checklist_items', '0'),
-(583, 48, 'upload_on_tasks', '0'),
-(584, 48, 'view_task_total_logged_time', '0'),
-(585, 48, 'view_finance_overview', '0'),
-(586, 48, 'upload_files', '0'),
-(587, 48, 'open_discussions', '0'),
-(588, 48, 'view_milestones', '0'),
-(589, 48, 'view_gantt', '0'),
-(590, 48, 'view_timesheets', '0'),
-(591, 48, 'view_activity_log', '0'),
-(592, 48, 'view_team_members', '0'),
-(593, 48, 'hide_tasks_on_main_tasks_table', '0'),
-(594, 49, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(595, 49, 'view_tasks', '0'),
-(596, 49, 'create_tasks', '0'),
-(597, 49, 'edit_tasks', '0'),
-(598, 49, 'comment_on_tasks', '0'),
-(599, 49, 'view_task_comments', '0'),
-(600, 49, 'view_task_attachments', '0'),
-(601, 49, 'view_task_checklist_items', '0'),
-(602, 49, 'upload_on_tasks', '0'),
-(603, 49, 'view_task_total_logged_time', '0'),
-(604, 49, 'view_finance_overview', '0'),
-(605, 49, 'upload_files', '0'),
-(606, 49, 'open_discussions', '0'),
-(607, 49, 'view_milestones', '0'),
-(608, 49, 'view_gantt', '0'),
-(609, 49, 'view_timesheets', '0'),
-(610, 49, 'view_activity_log', '0'),
-(611, 49, 'view_team_members', '0'),
-(612, 49, 'hide_tasks_on_main_tasks_table', '0'),
-(613, 50, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(614, 50, 'view_tasks', '0'),
-(615, 50, 'create_tasks', '0'),
-(616, 50, 'edit_tasks', '0'),
-(617, 50, 'comment_on_tasks', '0'),
-(618, 50, 'view_task_comments', '0'),
-(619, 50, 'view_task_attachments', '0'),
-(620, 50, 'view_task_checklist_items', '0'),
-(621, 50, 'upload_on_tasks', '0'),
-(622, 50, 'view_task_total_logged_time', '0'),
-(623, 50, 'view_finance_overview', '0'),
-(624, 50, 'upload_files', '0'),
-(625, 50, 'open_discussions', '0'),
-(626, 50, 'view_milestones', '0'),
-(627, 50, 'view_gantt', '0'),
-(628, 50, 'view_timesheets', '0'),
-(629, 50, 'view_activity_log', '0'),
-(630, 50, 'view_team_members', '0'),
-(631, 50, 'hide_tasks_on_main_tasks_table', '0'),
-(632, 51, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(633, 51, 'view_tasks', '0'),
-(634, 51, 'create_tasks', '0'),
-(635, 51, 'edit_tasks', '0'),
-(636, 51, 'comment_on_tasks', '0'),
-(637, 51, 'view_task_comments', '0'),
-(638, 51, 'view_task_attachments', '0'),
-(639, 51, 'view_task_checklist_items', '0'),
-(640, 51, 'upload_on_tasks', '0'),
-(641, 51, 'view_task_total_logged_time', '0'),
-(642, 51, 'view_finance_overview', '0'),
-(643, 51, 'upload_files', '0'),
-(644, 51, 'open_discussions', '0'),
-(645, 51, 'view_milestones', '0'),
-(646, 51, 'view_gantt', '0'),
-(647, 51, 'view_timesheets', '0'),
-(648, 51, 'view_activity_log', '0'),
-(649, 51, 'view_team_members', '0'),
-(650, 51, 'hide_tasks_on_main_tasks_table', '0'),
-(651, 52, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(652, 52, 'view_tasks', '0'),
-(653, 52, 'create_tasks', '0'),
-(654, 52, 'edit_tasks', '0'),
-(655, 52, 'comment_on_tasks', '0'),
-(656, 52, 'view_task_comments', '0'),
-(657, 52, 'view_task_attachments', '0'),
-(658, 52, 'view_task_checklist_items', '0'),
-(659, 52, 'upload_on_tasks', '0'),
-(660, 52, 'view_task_total_logged_time', '0'),
-(661, 52, 'view_finance_overview', '0'),
-(662, 52, 'upload_files', '0'),
-(663, 52, 'open_discussions', '0'),
-(664, 52, 'view_milestones', '0'),
-(665, 52, 'view_gantt', '0'),
-(666, 52, 'view_timesheets', '0'),
-(667, 52, 'view_activity_log', '0'),
-(668, 52, 'view_team_members', '0'),
-(669, 52, 'hide_tasks_on_main_tasks_table', '0'),
-(670, 53, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(671, 53, 'view_tasks', '0'),
-(672, 53, 'create_tasks', '0'),
-(673, 53, 'edit_tasks', '0'),
-(674, 53, 'comment_on_tasks', '0'),
-(675, 53, 'view_task_comments', '0'),
-(676, 53, 'view_task_attachments', '0'),
-(677, 53, 'view_task_checklist_items', '0'),
-(678, 53, 'upload_on_tasks', '0'),
-(679, 53, 'view_task_total_logged_time', '0'),
-(680, 53, 'view_finance_overview', '0'),
-(681, 53, 'upload_files', '0'),
-(682, 53, 'open_discussions', '0'),
-(683, 53, 'view_milestones', '0'),
-(684, 53, 'view_gantt', '0'),
-(685, 53, 'view_timesheets', '0'),
-(686, 53, 'view_activity_log', '0'),
-(687, 53, 'view_team_members', '0'),
-(688, 53, 'hide_tasks_on_main_tasks_table', '0'),
-(689, 54, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(690, 54, 'view_tasks', '0'),
-(691, 54, 'create_tasks', '0'),
-(692, 54, 'edit_tasks', '0'),
-(693, 54, 'comment_on_tasks', '0'),
-(694, 54, 'view_task_comments', '0'),
-(695, 54, 'view_task_attachments', '0'),
-(696, 54, 'view_task_checklist_items', '0'),
-(697, 54, 'upload_on_tasks', '0'),
-(698, 54, 'view_task_total_logged_time', '0'),
-(699, 54, 'view_finance_overview', '0'),
-(700, 54, 'upload_files', '0'),
-(701, 54, 'open_discussions', '0'),
-(702, 54, 'view_milestones', '0'),
-(703, 54, 'view_gantt', '0'),
-(704, 54, 'view_timesheets', '0'),
-(705, 54, 'view_activity_log', '0'),
-(706, 54, 'view_team_members', '0'),
-(707, 54, 'hide_tasks_on_main_tasks_table', '0'),
-(708, 55, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(709, 55, 'view_tasks', '0'),
-(710, 55, 'create_tasks', '0'),
-(711, 55, 'edit_tasks', '0'),
-(712, 55, 'comment_on_tasks', '0'),
-(713, 55, 'view_task_comments', '0'),
-(714, 55, 'view_task_attachments', '0'),
-(715, 55, 'view_task_checklist_items', '0'),
-(716, 55, 'upload_on_tasks', '0'),
-(717, 55, 'view_task_total_logged_time', '0'),
-(718, 55, 'view_finance_overview', '0'),
-(719, 55, 'upload_files', '0'),
-(720, 55, 'open_discussions', '0'),
-(721, 55, 'view_milestones', '0'),
-(722, 55, 'view_gantt', '0'),
-(723, 55, 'view_timesheets', '0'),
-(724, 55, 'view_activity_log', '0'),
-(725, 55, 'view_team_members', '0'),
-(726, 55, 'hide_tasks_on_main_tasks_table', '0'),
-(727, 56, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(728, 56, 'view_tasks', '0'),
-(729, 56, 'create_tasks', '0'),
-(730, 56, 'edit_tasks', '0'),
-(731, 56, 'comment_on_tasks', '0'),
-(732, 56, 'view_task_comments', '0'),
-(733, 56, 'view_task_attachments', '0'),
-(734, 56, 'view_task_checklist_items', '0'),
-(735, 56, 'upload_on_tasks', '0'),
-(736, 56, 'view_task_total_logged_time', '0'),
-(737, 56, 'view_finance_overview', '0'),
-(738, 56, 'upload_files', '0'),
-(739, 56, 'open_discussions', '0'),
-(740, 56, 'view_milestones', '0'),
-(741, 56, 'view_gantt', '0'),
-(742, 56, 'view_timesheets', '0'),
-(743, 56, 'view_activity_log', '0'),
-(744, 56, 'view_team_members', '0'),
-(745, 56, 'hide_tasks_on_main_tasks_table', '0'),
-(746, 57, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(747, 57, 'view_tasks', '0'),
-(748, 57, 'create_tasks', '0'),
-(749, 57, 'edit_tasks', '0'),
-(750, 57, 'comment_on_tasks', '0'),
-(751, 57, 'view_task_comments', '0'),
-(752, 57, 'view_task_attachments', '0'),
-(753, 57, 'view_task_checklist_items', '0'),
-(754, 57, 'upload_on_tasks', '0'),
-(755, 57, 'view_task_total_logged_time', '0'),
-(756, 57, 'view_finance_overview', '0'),
-(757, 57, 'upload_files', '0'),
-(758, 57, 'open_discussions', '0'),
-(759, 57, 'view_milestones', '0'),
-(760, 57, 'view_gantt', '0'),
-(761, 57, 'view_timesheets', '0'),
-(762, 57, 'view_activity_log', '0'),
-(763, 57, 'view_team_members', '0'),
-(764, 57, 'hide_tasks_on_main_tasks_table', '0'),
-(765, 58, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(766, 58, 'view_tasks', '0'),
-(767, 58, 'create_tasks', '0'),
-(768, 58, 'edit_tasks', '0'),
-(769, 58, 'comment_on_tasks', '0'),
-(770, 58, 'view_task_comments', '0'),
-(771, 58, 'view_task_attachments', '0'),
-(772, 58, 'view_task_checklist_items', '0'),
-(773, 58, 'upload_on_tasks', '0'),
-(774, 58, 'view_task_total_logged_time', '0'),
-(775, 58, 'view_finance_overview', '0'),
-(776, 58, 'upload_files', '0'),
-(777, 58, 'open_discussions', '0'),
-(778, 58, 'view_milestones', '0'),
-(779, 58, 'view_gantt', '0'),
-(780, 58, 'view_timesheets', '0'),
-(781, 58, 'view_activity_log', '0'),
-(782, 58, 'view_team_members', '0'),
-(783, 58, 'hide_tasks_on_main_tasks_table', '0'),
-(784, 59, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(785, 59, 'view_tasks', '0'),
-(786, 59, 'create_tasks', '0'),
-(787, 59, 'edit_tasks', '0'),
-(788, 59, 'comment_on_tasks', '0'),
-(789, 59, 'view_task_comments', '0'),
-(790, 59, 'view_task_attachments', '0'),
-(791, 59, 'view_task_checklist_items', '0'),
-(792, 59, 'upload_on_tasks', '0'),
-(793, 59, 'view_task_total_logged_time', '0'),
-(794, 59, 'view_finance_overview', '0'),
-(795, 59, 'upload_files', '0'),
-(796, 59, 'open_discussions', '0'),
-(797, 59, 'view_milestones', '0'),
-(798, 59, 'view_gantt', '0'),
-(799, 59, 'view_timesheets', '0'),
-(800, 59, 'view_activity_log', '0'),
-(801, 59, 'view_team_members', '0'),
-(802, 59, 'hide_tasks_on_main_tasks_table', '0'),
-(803, 60, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(804, 60, 'view_tasks', '0'),
-(805, 60, 'create_tasks', '0'),
-(806, 60, 'edit_tasks', '0'),
-(807, 60, 'comment_on_tasks', '0'),
-(808, 60, 'view_task_comments', '0'),
-(809, 60, 'view_task_attachments', '0'),
-(810, 60, 'view_task_checklist_items', '0'),
-(811, 60, 'upload_on_tasks', '0'),
-(812, 60, 'view_task_total_logged_time', '0'),
-(813, 60, 'view_finance_overview', '0'),
-(814, 60, 'upload_files', '0'),
-(815, 60, 'open_discussions', '0'),
-(816, 60, 'view_milestones', '0'),
-(817, 60, 'view_gantt', '0'),
-(818, 60, 'view_timesheets', '0'),
-(819, 60, 'view_activity_log', '0'),
-(820, 60, 'view_team_members', '0'),
-(821, 60, 'hide_tasks_on_main_tasks_table', '0'),
-(822, 61, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(823, 61, 'view_tasks', '0'),
-(824, 61, 'create_tasks', '0'),
-(825, 61, 'edit_tasks', '0'),
-(826, 61, 'comment_on_tasks', '0'),
-(827, 61, 'view_task_comments', '0'),
-(828, 61, 'view_task_attachments', '0'),
-(829, 61, 'view_task_checklist_items', '0'),
-(830, 61, 'upload_on_tasks', '0'),
-(831, 61, 'view_task_total_logged_time', '0'),
-(832, 61, 'view_finance_overview', '0'),
-(833, 61, 'upload_files', '0'),
-(834, 61, 'open_discussions', '0'),
-(835, 61, 'view_milestones', '0'),
-(836, 61, 'view_gantt', '0'),
-(837, 61, 'view_timesheets', '0'),
-(838, 61, 'view_activity_log', '0'),
-(839, 61, 'view_team_members', '0'),
-(840, 61, 'hide_tasks_on_main_tasks_table', '0'),
-(841, 62, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(842, 62, 'view_tasks', '0'),
-(843, 62, 'create_tasks', '0'),
-(844, 62, 'edit_tasks', '0'),
-(845, 62, 'comment_on_tasks', '0'),
-(846, 62, 'view_task_comments', '0'),
-(847, 62, 'view_task_attachments', '0'),
-(848, 62, 'view_task_checklist_items', '0'),
-(849, 62, 'upload_on_tasks', '0'),
-(850, 62, 'view_task_total_logged_time', '0'),
-(851, 62, 'view_finance_overview', '0'),
-(852, 62, 'upload_files', '0'),
-(853, 62, 'open_discussions', '0'),
-(854, 62, 'view_milestones', '0'),
-(855, 62, 'view_gantt', '0'),
-(856, 62, 'view_timesheets', '0'),
-(857, 62, 'view_activity_log', '0'),
-(858, 62, 'view_team_members', '0'),
-(859, 62, 'hide_tasks_on_main_tasks_table', '0'),
-(860, 63, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(861, 63, 'view_tasks', '0'),
-(862, 63, 'create_tasks', '0'),
-(863, 63, 'edit_tasks', '0'),
-(864, 63, 'comment_on_tasks', '0'),
-(865, 63, 'view_task_comments', '0'),
-(866, 63, 'view_task_attachments', '0'),
-(867, 63, 'view_task_checklist_items', '0'),
-(868, 63, 'upload_on_tasks', '0'),
-(869, 63, 'view_task_total_logged_time', '0'),
-(870, 63, 'view_finance_overview', '0'),
-(871, 63, 'upload_files', '0'),
-(872, 63, 'open_discussions', '0'),
-(873, 63, 'view_milestones', '0'),
-(874, 63, 'view_gantt', '0'),
-(875, 63, 'view_timesheets', '0'),
-(876, 63, 'view_activity_log', '0'),
-(877, 63, 'view_team_members', '0'),
-(878, 63, 'hide_tasks_on_main_tasks_table', '0'),
-(879, 64, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(880, 64, 'view_tasks', '0'),
-(881, 64, 'create_tasks', '0'),
-(882, 64, 'edit_tasks', '0'),
-(883, 64, 'comment_on_tasks', '0'),
-(884, 64, 'view_task_comments', '0'),
-(885, 64, 'view_task_attachments', '0'),
-(886, 64, 'view_task_checklist_items', '0'),
-(887, 64, 'upload_on_tasks', '0'),
-(888, 64, 'view_task_total_logged_time', '0'),
-(889, 64, 'view_finance_overview', '0'),
-(890, 64, 'upload_files', '0'),
-(891, 64, 'open_discussions', '0'),
-(892, 64, 'view_milestones', '0'),
-(893, 64, 'view_gantt', '0'),
-(894, 64, 'view_timesheets', '0'),
-(895, 64, 'view_activity_log', '0'),
-(896, 64, 'view_team_members', '0'),
-(897, 64, 'hide_tasks_on_main_tasks_table', '0'),
-(898, 65, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_gantt\";i:1;s:13:\"project_tasks\";i:1;s:17:\"project_estimates\";i:1;s:21:\"project_subscriptions\";i:1;s:16:\"project_invoices\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:15:\"project_tickets\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(899, 65, 'view_tasks', '0'),
-(900, 65, 'create_tasks', '0'),
-(901, 65, 'edit_tasks', '0'),
-(902, 65, 'comment_on_tasks', '0'),
-(903, 65, 'view_task_comments', '0'),
-(904, 65, 'view_task_attachments', '0'),
-(905, 65, 'view_task_checklist_items', '0'),
-(906, 65, 'upload_on_tasks', '0'),
-(907, 65, 'view_task_total_logged_time', '0'),
-(908, 65, 'view_finance_overview', '0'),
-(909, 65, 'upload_files', '0'),
-(910, 65, 'open_discussions', '0'),
-(911, 65, 'view_milestones', '0'),
-(912, 65, 'view_gantt', '0'),
-(913, 65, 'view_timesheets', '0'),
-(914, 65, 'view_activity_log', '0'),
-(915, 65, 'view_team_members', '0'),
-(916, 65, 'hide_tasks_on_main_tasks_table', '0'),
-(917, 66, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:16:\"project_invoices\";i:1;s:11:\"procuration\";i:0;s:13:\"project_tasks\";i:0;s:18:\"project_timesheets\";i:0;s:18:\"project_milestones\";i:0;s:13:\"project_files\";i:0;s:19:\"project_discussions\";i:0;s:13:\"project_gantt\";i:0;s:15:\"project_tickets\";i:0;s:17:\"project_estimates\";i:0;s:16:\"project_expenses\";i:0;s:20:\"project_credit_notes\";i:0;s:13:\"project_notes\";i:0;s:16:\"project_activity\";i:0;s:12:\"CaseMovement\";i:0;s:11:\"CaseSession\";i:0;s:5:\"Phase\";i:0;s:4:\"IRAC\";i:0;s:10:\"Procedures\";i:0;s:12:\"help_library\";i:0;}'),
-(918, 66, 'view_tasks', '0'),
-(919, 66, 'create_tasks', '0'),
-(920, 66, 'edit_tasks', '0'),
-(921, 66, 'comment_on_tasks', '0'),
-(922, 66, 'view_task_comments', '0'),
-(923, 66, 'view_task_attachments', '0'),
-(924, 66, 'view_task_checklist_items', '0'),
-(925, 66, 'upload_on_tasks', '0'),
-(926, 66, 'view_task_total_logged_time', '0'),
-(927, 66, 'view_finance_overview', '0'),
-(928, 66, 'upload_files', '0'),
-(929, 66, 'open_discussions', '0'),
-(930, 66, 'view_milestones', '0'),
-(931, 66, 'view_gantt', '0'),
-(932, 66, 'view_timesheets', '0'),
-(933, 66, 'view_activity_log', '0'),
-(934, 66, 'view_team_members', '0'),
-(935, 66, 'hide_tasks_on_main_tasks_table', '0'),
-(936, 67, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;s:12:\"help_library\";i:0;}'),
-(937, 67, 'view_tasks', '0'),
-(938, 67, 'create_tasks', '0'),
-(939, 67, 'edit_tasks', '0'),
-(940, 67, 'comment_on_tasks', '0'),
-(941, 67, 'view_task_comments', '0'),
-(942, 67, 'view_task_attachments', '0'),
-(943, 67, 'view_task_checklist_items', '0'),
-(944, 67, 'upload_on_tasks', '0'),
-(945, 67, 'view_task_total_logged_time', '0'),
-(946, 67, 'view_finance_overview', '0'),
-(947, 67, 'upload_files', '0'),
-(948, 67, 'open_discussions', '0'),
-(949, 67, 'view_milestones', '0'),
-(950, 67, 'view_gantt', '0'),
-(951, 67, 'view_timesheets', '0'),
-(952, 67, 'view_activity_log', '0'),
-(953, 67, 'view_team_members', '0'),
-(954, 67, 'hide_tasks_on_main_tasks_table', '0'),
-(955, 68, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:18:\"project_milestones\";i:0;s:19:\"project_discussions\";i:0;s:13:\"project_gantt\";i:0;s:15:\"project_tickets\";i:0;s:16:\"project_invoices\";i:0;s:17:\"project_estimates\";i:0;s:16:\"project_expenses\";i:0;s:20:\"project_credit_notes\";i:0;s:13:\"project_notes\";i:0;s:16:\"project_activity\";i:0;s:5:\"Phase\";i:0;s:10:\"Procedures\";i:0;s:12:\"help_library\";i:0;}'),
-(956, 68, 'view_tasks', '0'),
-(957, 68, 'create_tasks', '0'),
-(958, 68, 'edit_tasks', '0'),
-(959, 68, 'comment_on_tasks', '0'),
-(960, 68, 'view_task_comments', '0'),
-(961, 68, 'view_task_attachments', '0'),
-(962, 68, 'view_task_checklist_items', '0'),
-(963, 68, 'upload_on_tasks', '0'),
-(964, 68, 'view_task_total_logged_time', '0'),
-(965, 68, 'view_finance_overview', '0'),
-(966, 68, 'upload_files', '0'),
-(967, 68, 'open_discussions', '0'),
-(968, 68, 'view_milestones', '0'),
-(969, 68, 'view_gantt', '0'),
-(970, 68, 'view_timesheets', '0'),
-(971, 68, 'view_activity_log', '0'),
-(972, 68, 'view_team_members', '0'),
-(973, 68, 'hide_tasks_on_main_tasks_table', '0'),
-(974, 69, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:18:\"project_milestones\";i:0;s:19:\"project_discussions\";i:0;s:13:\"project_gantt\";i:0;s:15:\"project_tickets\";i:0;s:16:\"project_invoices\";i:0;s:17:\"project_estimates\";i:0;s:16:\"project_expenses\";i:0;s:20:\"project_credit_notes\";i:0;s:13:\"project_notes\";i:0;s:16:\"project_activity\";i:0;s:5:\"Phase\";i:0;s:10:\"Procedures\";i:0;s:12:\"help_library\";i:0;}'),
-(975, 69, 'view_tasks', '0'),
-(976, 69, 'create_tasks', '0'),
-(977, 69, 'edit_tasks', '0'),
-(978, 69, 'comment_on_tasks', '0'),
-(979, 69, 'view_task_comments', '0'),
-(980, 69, 'view_task_attachments', '0'),
-(981, 69, 'view_task_checklist_items', '0'),
-(982, 69, 'upload_on_tasks', '0'),
-(983, 69, 'view_task_total_logged_time', '0'),
-(984, 69, 'view_finance_overview', '0'),
-(985, 69, 'upload_files', '0'),
-(986, 69, 'open_discussions', '0'),
-(987, 69, 'view_milestones', '0'),
-(988, 69, 'view_gantt', '0'),
-(989, 69, 'view_timesheets', '0'),
-(990, 69, 'view_activity_log', '0'),
-(991, 69, 'view_team_members', '0'),
-(992, 69, 'hide_tasks_on_main_tasks_table', '0'),
-(993, 70, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_gantt\";i:1;s:13:\"project_tasks\";i:1;s:17:\"project_estimates\";i:1;s:21:\"project_subscriptions\";i:1;s:16:\"project_invoices\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:15:\"project_tickets\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(994, 70, 'view_tasks', '0'),
-(995, 70, 'create_tasks', '0'),
-(996, 70, 'edit_tasks', '0'),
-(997, 70, 'comment_on_tasks', '0'),
-(998, 70, 'view_task_comments', '0'),
-(999, 70, 'view_task_attachments', '0'),
-(1000, 70, 'view_task_checklist_items', '0'),
-(1001, 70, 'upload_on_tasks', '0'),
-(1002, 70, 'view_task_total_logged_time', '0'),
-(1003, 70, 'view_finance_overview', '0'),
-(1004, 70, 'upload_files', '0'),
-(1005, 70, 'open_discussions', '0'),
-(1006, 70, 'view_milestones', '0'),
-(1007, 70, 'view_gantt', '0'),
-(1008, 70, 'view_timesheets', '0'),
-(1009, 70, 'view_activity_log', '0'),
-(1010, 70, 'view_team_members', '0'),
-(1011, 70, 'hide_tasks_on_main_tasks_table', '0'),
-(1012, 71, 'available_features', 'a:15:{s:16:\"project_overview\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_gantt\";i:1;s:13:\"project_tasks\";i:1;s:17:\"project_estimates\";i:1;s:21:\"project_subscriptions\";i:1;s:16:\"project_invoices\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:15:\"project_tickets\";i:1;s:18:\"project_timesheets\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;}'),
-(1013, 71, 'view_tasks', '0'),
-(1014, 71, 'create_tasks', '0'),
-(1015, 71, 'edit_tasks', '0'),
-(1016, 71, 'comment_on_tasks', '0'),
-(1017, 71, 'view_task_comments', '0'),
-(1018, 71, 'view_task_attachments', '0'),
-(1019, 71, 'view_task_checklist_items', '0'),
-(1020, 71, 'upload_on_tasks', '0'),
-(1021, 71, 'view_task_total_logged_time', '0'),
-(1022, 71, 'view_finance_overview', '0'),
-(1023, 71, 'upload_files', '0'),
-(1024, 71, 'open_discussions', '0'),
-(1025, 71, 'view_milestones', '0'),
-(1026, 71, 'view_gantt', '0'),
-(1027, 71, 'view_timesheets', '0'),
-(1028, 71, 'view_activity_log', '0'),
-(1029, 71, 'view_team_members', '0'),
-(1030, 71, 'hide_tasks_on_main_tasks_table', '0'),
-(1031, 72, 'available_features', 'a:17:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;s:12:\"help_library\";i:0;}'),
-(1032, 72, 'view_tasks', '0'),
-(1033, 72, 'create_tasks', '0'),
-(1034, 72, 'edit_tasks', '0'),
-(1035, 72, 'comment_on_tasks', '0'),
-(1036, 72, 'view_task_comments', '0'),
-(1037, 72, 'view_task_attachments', '0'),
-(1038, 72, 'view_task_checklist_items', '0'),
-(1039, 72, 'upload_on_tasks', '0'),
-(1040, 72, 'view_task_total_logged_time', '0'),
-(1041, 72, 'view_finance_overview', '0'),
-(1042, 72, 'upload_files', '0'),
-(1043, 72, 'open_discussions', '0'),
-(1044, 72, 'view_milestones', '0'),
-(1045, 72, 'view_gantt', '0'),
-(1046, 72, 'view_timesheets', '0'),
-(1047, 72, 'view_activity_log', '0'),
-(1048, 72, 'view_team_members', '0'),
-(1049, 72, 'hide_tasks_on_main_tasks_table', '0'),
-(1050, 73, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:16:\"project_invoices\";i:1;s:11:\"procuration\";i:0;s:13:\"project_tasks\";i:0;s:18:\"project_timesheets\";i:0;s:18:\"project_milestones\";i:0;s:13:\"project_files\";i:0;s:19:\"project_discussions\";i:0;s:13:\"project_gantt\";i:0;s:15:\"project_tickets\";i:0;s:17:\"project_estimates\";i:0;s:16:\"project_expenses\";i:0;s:20:\"project_credit_notes\";i:0;s:13:\"project_notes\";i:0;s:16:\"project_activity\";i:0;s:12:\"CaseMovement\";i:0;s:11:\"CaseSession\";i:0;s:5:\"Phase\";i:0;s:4:\"IRAC\";i:0;s:10:\"Procedures\";i:0;s:12:\"help_library\";i:0;}'),
-(1051, 73, 'view_tasks', '0'),
-(1052, 73, 'create_tasks', '0'),
-(1053, 73, 'edit_tasks', '0'),
-(1054, 73, 'comment_on_tasks', '0'),
-(1055, 73, 'view_task_comments', '0'),
-(1056, 73, 'view_task_attachments', '0'),
-(1057, 73, 'view_task_checklist_items', '0'),
-(1058, 73, 'upload_on_tasks', '0'),
-(1059, 73, 'view_task_total_logged_time', '0'),
-(1060, 73, 'view_finance_overview', '0'),
-(1061, 73, 'upload_files', '0'),
-(1062, 73, 'open_discussions', '0'),
-(1063, 73, 'view_milestones', '0'),
-(1064, 73, 'view_gantt', '0'),
-(1065, 73, 'view_timesheets', '0'),
-(1066, 73, 'view_activity_log', '0'),
-(1067, 73, 'view_team_members', '0'),
-(1068, 73, 'hide_tasks_on_main_tasks_table', '0'),
-(1069, 74, 'available_features', 'a:16:{s:16:\"project_overview\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:21:\"project_subscriptions\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:5:\"Phase\";i:1;}'),
-(1070, 74, 'view_tasks', '0'),
-(1071, 74, 'create_tasks', '0'),
-(1072, 74, 'edit_tasks', '0'),
-(1073, 74, 'comment_on_tasks', '0'),
-(1074, 74, 'view_task_comments', '0'),
-(1075, 74, 'view_task_attachments', '0'),
-(1076, 74, 'view_task_checklist_items', '0'),
-(1077, 74, 'upload_on_tasks', '0'),
-(1078, 74, 'view_task_total_logged_time', '0'),
-(1079, 74, 'view_finance_overview', '0'),
-(1080, 74, 'upload_files', '0'),
-(1081, 74, 'open_discussions', '0'),
-(1082, 74, 'view_milestones', '0'),
-(1083, 74, 'view_gantt', '0'),
-(1084, 74, 'view_timesheets', '0'),
-(1085, 74, 'view_activity_log', '0'),
-(1086, 74, 'view_team_members', '0'),
-(1087, 74, 'hide_tasks_on_main_tasks_table', '0'),
-(1088, 2, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(1089, 2, 'view_tasks', '0'),
-(1090, 2, 'create_tasks', '0'),
-(1091, 2, 'edit_tasks', '0'),
-(1092, 2, 'comment_on_tasks', '0'),
-(1093, 2, 'view_task_comments', '0'),
-(1094, 2, 'view_task_attachments', '0'),
-(1095, 2, 'view_task_checklist_items', '0'),
-(1096, 2, 'upload_on_tasks', '0'),
-(1097, 2, 'view_task_total_logged_time', '0'),
-(1098, 2, 'view_finance_overview', '0'),
-(1099, 2, 'upload_files', '0'),
-(1100, 2, 'open_discussions', '0'),
-(1101, 2, 'view_milestones', '0'),
-(1102, 2, 'view_gantt', '0'),
-(1103, 2, 'view_timesheets', '0'),
-(1104, 2, 'view_activity_log', '0'),
-(1105, 2, 'view_team_members', '0'),
-(1106, 2, 'hide_tasks_on_main_tasks_table', '0'),
-(1107, 3, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(1108, 3, 'view_tasks', '0'),
-(1109, 3, 'create_tasks', '0'),
-(1110, 3, 'edit_tasks', '0'),
-(1111, 3, 'comment_on_tasks', '0'),
-(1112, 3, 'view_task_comments', '0'),
-(1113, 3, 'view_task_attachments', '0'),
-(1114, 3, 'view_task_checklist_items', '0'),
-(1115, 3, 'upload_on_tasks', '0'),
-(1116, 3, 'view_task_total_logged_time', '0'),
-(1117, 3, 'view_finance_overview', '0'),
-(1118, 3, 'upload_files', '0'),
-(1119, 3, 'open_discussions', '0'),
-(1120, 3, 'view_milestones', '0'),
-(1121, 3, 'view_gantt', '0'),
-(1122, 3, 'view_timesheets', '0'),
-(1123, 3, 'view_activity_log', '0'),
-(1124, 3, 'view_team_members', '0'),
-(1125, 3, 'hide_tasks_on_main_tasks_table', '0'),
-(1126, 4, 'available_features', 'a:21:{s:16:\"project_overview\";i:1;s:11:\"procuration\";i:1;s:13:\"project_tasks\";i:1;s:18:\"project_timesheets\";i:1;s:18:\"project_milestones\";i:1;s:13:\"project_files\";i:1;s:19:\"project_discussions\";i:1;s:13:\"project_gantt\";i:1;s:15:\"project_tickets\";i:1;s:16:\"project_invoices\";i:1;s:17:\"project_estimates\";i:1;s:16:\"project_expenses\";i:1;s:20:\"project_credit_notes\";i:1;s:13:\"project_notes\";i:1;s:16:\"project_activity\";i:1;s:12:\"CaseMovement\";i:1;s:11:\"CaseSession\";i:1;s:5:\"Phase\";i:1;s:4:\"IRAC\";i:1;s:10:\"Procedures\";i:1;s:12:\"help_library\";i:1;}'),
-(1127, 4, 'view_tasks', '0'),
-(1128, 4, 'create_tasks', '0'),
-(1129, 4, 'edit_tasks', '0'),
-(1130, 4, 'comment_on_tasks', '0'),
-(1131, 4, 'view_task_comments', '0'),
-(1132, 4, 'view_task_attachments', '0'),
-(1133, 4, 'view_task_checklist_items', '0'),
-(1134, 4, 'upload_on_tasks', '0'),
-(1135, 4, 'view_task_total_logged_time', '0'),
-(1136, 4, 'view_finance_overview', '0'),
-(1137, 4, 'upload_files', '0'),
-(1138, 4, 'open_discussions', '0'),
-(1139, 4, 'view_milestones', '0'),
-(1140, 4, 'view_gantt', '0'),
-(1141, 4, 'view_timesheets', '0'),
-(1142, 4, 'view_activity_log', '0'),
-(1143, 4, 'view_team_members', '0'),
-(1144, 4, 'hide_tasks_on_main_tasks_table', '0');
-
 -- --------------------------------------------------------
 
 --
@@ -3083,7 +2255,7 @@ INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VA
 (18, 'prchat', '1.4.3', 0),
 (19, 'assets', '1.0.0', 0),
 (20, 'zoom', '1.0.0', 0),
-(21, 'api', '1.0.0', 1);
+(21, 'api', '1.0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -3167,6 +2339,13 @@ CREATE TABLE `tblmy_casestatus` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblmy_casestatus`
+--
+
+INSERT INTO `tblmy_casestatus` (`id`, `name`) VALUES
+(1, 'لم يتم تحديد شيء');
+
 -- --------------------------------------------------------
 
 --
@@ -3218,6 +2397,13 @@ CREATE TABLE `tblmy_courts` (
   `datecreated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tblmy_courts`
+--
+
+INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`) VALUES
+(1, 'لم يتم تحديد شيء', '2020-10-04');
+
 -- --------------------------------------------------------
 
 --
@@ -3251,6 +2437,13 @@ CREATE TABLE `tblmy_customer_representative` (
   `id` int(11) NOT NULL,
   `representative` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_customer_representative`
+--
+
+INSERT INTO `tblmy_customer_representative` (`id`, `representative`) VALUES
+(1, 'لم يتم تحديد شيء');
 
 -- --------------------------------------------------------
 
@@ -3324,16 +2517,6 @@ CREATE TABLE `tblmy_imported_services` (
   `imported` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblmy_imported_services`
---
-
-INSERT INTO `tblmy_imported_services` (`id`, `service_id`, `code`, `numbering`, `name`, `clientid`, `cat_id`, `subcat_id`, `service_session_link`, `billing_type`, `status`, `project_rate_per_hour`, `project_cost`, `start_date`, `project_created`, `deadline`, `date_finished`, `description`, `country`, `city`, `contract`, `estimated_hours`, `progress`, `progress_from_tasks`, `addedfrom`, `branch_id`, `deleted`, `imported`) VALUES
-(1, 1, 'CASE1', 1, 'new case', 1, 2, 3, 1, 2, 1, 0, '0.00', '2020-09-28', '2020-09-28', NULL, NULL, '', 'مصر', '', 0, '0.00', 0, 1, 0, 0, 1, 0),
-(2, 1, 'CASE1', 1, 'new case', 1, 2, 3, 1, 2, 1, 0, '0.00', '2020-09-28', '2020-09-28', NULL, NULL, '', 'مصر', '', 0, '0.00', 0, 1, 0, 0, 1, 0),
-(3, 1, 'CASE1', 1, 'new case', 1, 2, 3, 1, 2, 1, 0, '0.00', '2020-09-28', '2020-09-28', NULL, NULL, '', 'مصر', '', 0, '0.00', 0, 1, 0, 0, 1, 0),
-(4, 1, 'CASE1', 1, 'new case', 1, 2, 3, 1, 2, 1, 0, '0.00', '2020-09-28', '2020-09-28', NULL, NULL, '', 'مصر', '', 0, '0.00', 0, 1, 0, 0, 1, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -3358,6 +2541,13 @@ CREATE TABLE `tblmy_judicialdept` (
   `c_id` int(255) NOT NULL,
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblmy_judicialdept`
+--
+
+INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `datecreated`) VALUES
+(1, 0, 1, '2020-10-16 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3700,7 +2890,7 @@ CREATE TABLE `tbloptions` (
 
 INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (1, 'dateformat', 'Y-m-d|%Y-%m-%d', 1),
-(2, 'companyname', 'local_office', 1),
+(2, 'companyname', 'شبكة بابل لخدمات القانون', 1),
 (3, 'services', '1', 1),
 (4, 'maximum_allowed_ticket_attachments', '4', 1),
 (5, 'ticket_attachments_file_extensions', '.jpg,.png,.pdf,.doc,.zip,.rar', 1),
@@ -4197,7 +3387,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (507, 'award_type', '[{\"key\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\",\"value\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\"}]', 1),
 (508, 'termination_type', '[{\"key\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\",\"value\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\"},{\"key\":\"\\u0641\\u0635\\u0644\",\"value\":\"\\u0641\\u0635\\u0644\"},{\"key\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\",\"value\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\"}]', 1),
 (509, 'warning_type', '[{\"key\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\",\"value\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\"},{\"key\":\"\\u063a\\u064a\\u0627\\u0628\",\"value\":\"\\u063a\\u064a\\u0627\\u0628\"}]', 1);
-
+(501, 'office_name_in_center', 'office_name_in_center', 1),
 -- --------------------------------------------------------
 
 --
@@ -4254,13 +3444,6 @@ CREATE TABLE `tbloservice_activity` (
   `additional_data` text,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbloservice_activity`
---
-
-INSERT INTO `tbloservice_activity` (`id`, `oservice_id`, `staff_id`, `contact_id`, `fullname`, `visible_to_customer`, `description_key`, `additional_data`, `dateadded`) VALUES
-(1, 4, 0, 0, NULL, 1, 'LService_activity_updated', '', '2020-09-28 20:54:35');
 
 -- --------------------------------------------------------
 
@@ -4710,51 +3893,6 @@ CREATE TABLE `tblsessions` (
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblsessions`
---
-
-INSERT INTO `tblsessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('0fsq68trfuarfuduloevdlfsbcvu1mfg', '::1', 1601315624, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353632343b),
-('3me07r8ois2o1f38hqe5g8q4ca3njoi1', '::1', 1601315241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353234313b),
-('5av5tsom7ou07o8ut3i05g2vkhu9gq97', '::1', 1601315022, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353032323b),
-('61r20rogo15smcl882era2fvvohi7jga', '::1', 1601313128, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333132373b),
-('67oqskce94rt82mh392h4epdl51fo9da', '::1', 1601315023, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353032323b),
-('6k7fj79bqq5hvnfv486ihadlubbe2iml', '::1', 1601313183, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333138333b),
-('6smo7jue1t7pe962rk866btvl88tt8lj', '::1', 1601315625, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353632343b),
-('86l7k8bh14ggtlfmohidoeldjadlvb31', '::1', 1601314703, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331343730333b),
-('8naah21hh0md4j246qa9gqeakenhdevc', '::1', 1601313952, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333935323b),
-('a29n8mcn134kseolvt37biq182es7aln', '::1', 1601313548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333534383b),
-('a9i2gf9l14acgqv3iao5o5j6elde5j8o', '::1', 1601313184, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333138343b),
-('abaqnuqa938fhu7cqjg0vlkmnhqslcuo', '::1', 1601313548, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333534383b),
-('ar1104s9faierruor4kv6telcvol7m2r', '::1', 1601312789, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331323738393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('ba4cg1phivso9a3ha5hdc6tjgib0c5pm', '::1', 1601315675, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353637353b),
-('d5c993u03ec2sm3jik4q370vt3k9bd9k', '::1', 1601315690, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353639303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('dlvecr85gtqubnijr6hd1blnob87v6am', '::1', 1601315241, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353234313b),
-('eqe55o26pdadfg44150e1s2s8d2hi2k2', '::1', 1601314736, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331343733363b),
-('fr5pcq73rei0hotceap6rol1vpmnr494', '::1', 1601313483, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333438333b),
-('gv9kter60deitnuo1a8qb7g1nlk566ta', '::1', 1601314736, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331343733363b),
-('ihk7ccaame15k56vc0ggpaert10rku57', '::1', 1601312289, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331323238393b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c623a313b),
-('k3pjajbpu8gnibuu9fcd4h7j0vqpjuom', '::1', 1601313120, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333132303b),
-('k5j0qpu4limfi56ongs6fqmc8tof1p60', '::1', 1601315716, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353639303b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('k7kcppbrai2ts3jl3c55cng8j6k10bd4', '::1', 1601313505, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333530353b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('kauk5iuat5lq2v6hkjlfvsjasmfc5hpb', '::1', 1601313126, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333132313b),
-('kbkb31450dhq8f0q96tfknmq31qks28q', '::1', 1601315054, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353035333b),
-('lhgkr44rmuut3ac8lh34lfe6e8safo6e', '::1', 1601313484, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333438333b),
-('lksqi3ml84sfcf4pqukq4588dar31v1e', '::1', 1601315094, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353039343b73746166665f757365725f69647c733a313a2231223b73746166665f6c6f676765645f696e7c623a313b73657475702d6d656e752d6f70656e7c733a303a22223b),
-('lqpib630qrjj11q51kp5eeton3m3q5ou', '::1', 1601315397, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353339373b),
-('mj4lt0rh3ev96k77jttm0cl444s1rsp9', '::1', 1601315054, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353035343b),
-('n94gvjl1g3oc6mf7tlqsi6ccf2ushpae', '::1', 1601313462, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333436323b),
-('nkpvhhnmacubmejrgjt97gsd5agd9tmm', '::1', 1601315397, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353339373b),
-('npr167hk91n40lld3e7jaavvk18efp4m', '::1', 1601314972, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331343937323b),
-('nqu6n8hi2jc2ut57vblev2kvjv68033f', '::1', 1601314973, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331343937323b),
-('om4ik43385avaf3va2cfv8neqbg6j869', '::1', 1601313462, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333436323b),
-('paq5i8f19r30ebuiu7o75ktgktqoo0se', '::1', 1601313127, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333132373b),
-('phf8f6ep5g2n7fqnkvrlvbpco35sllpf', '::1', 1601315675, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331353637353b),
-('s3mqq9dcnj0ijod8ndtvbkejpo8hih4l', '::1', 1601313156, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333135363b),
-('un1id1jtd2q1fplmjntpofs3s9n1ndo0', '::1', 1601313953, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333935323b),
-('vm8ri8asblh3urtlrou1l4vb70bkljp9', '::1', 1601313157, 0x5f5f63695f6c6173745f726567656e65726174657c693a313630313331333135373b);
-
 -- --------------------------------------------------------
 
 --
@@ -4824,7 +3962,7 @@ CREATE TABLE `tblstaff` (
 --
 
 INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`, `mail_password`, `last_email_check`) VALUES
-(1, 'admin@babillawnet.com', 'Mhdbashar', ' ', '', '', '966566664074', 'm.almuslat', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', 'IMG_0101.jpg', '::1', '2020-09-28 20:38:23', '2020-09-28 20:55:16', NULL, NULL, NULL, 1, 3, 1, 'arabic', '', NULL, 0, '0.00', 0, NULL, '2019-12-07 10:20:05', '', 'wp9h@fdw}BMx', '1590835502'),
+(1, 'admin@babillawnet.com', 'Mhdbashar', ' ', '', '', '966566664074', 'm.almuslat', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', 'IMG_0101.jpg', '::1', '2020-07-08 13:28:16', '2020-07-08 13:28:58', NULL, NULL, NULL, 1, 3, 1, 'arabic', '', NULL, 0, '0.00', 0, NULL, '2019-12-07 10:20:05', '', 'wp9h@fdw}BMx', '1590835502'),
 (2, 'new@babil.com', 'موظف جديد', ' ', '', '', '', '', '$2a$08$h6b1mmjH6BtTKLTCVZURw.iGzUtmYkk0SUJUQvVoxexo55B/aTCDa', '2020-06-01 19:37:35', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, '', '', 'mothf-gdyd', 0, '2.00', 0, NULL, NULL, '', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -5291,29 +4429,6 @@ CREATE TABLE `tbltracked_mails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbluser_api`
---
-
-CREATE TABLE `tbluser_api` (
-  `id` int(11) NOT NULL,
-  `user` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `expiration_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbluser_api`
---
-
-INSERT INTO `tbluser_api` (`id`, `user`, `name`, `password`, `token`, `expiration_date`) VALUES
-(1, 'legal_serv1', 'legal_serv1', '$2a$08$eGIb/bawug2eMneA3KVdOOrC4FebhBZasDOEEVUmvYo', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibGVnYWxfc2VydjEiLCJuYW1lIjoibGVnYWxfc2VydjEiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE2MDEzMTIzNjl9.9ZI4Dle4p9_CSS1CfJiMSYCAVPuF6PejaQlSM5-tl_Q', '2025-09-16 07:59:00'),
-(2, 'legal_serv2', 'legal_serv2', '$2a$08$7Hobyuohl4i2.tcWxHikd.MypdR6yuEVhA05D2QZh9p', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibGVnYWxfc2VydjIiLCJuYW1lIjoibGVnYWxfc2VydjIiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE2MDEzMTMwNjd9.XzqZHy3ftH95m_YdP6FhOIzmQZgk0bN7ONfEGL94o1U', '2025-09-23 08:11:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbluser_auto_login`
 --
 
@@ -5325,13 +4440,6 @@ CREATE TABLE `tbluser_auto_login` (
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `staff` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbluser_auto_login`
---
-
-INSERT INTO `tbluser_auto_login` (`key_id`, `user_id`, `user_agent`, `last_ip`, `last_login`, `staff`) VALUES
-('cdb15865006e3315845f51f494cf85e5', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 Edg/85.0.564.63', '::1', '2020-09-28 17:38:23', 1);
 
 -- --------------------------------------------------------
 
@@ -6575,12 +5683,6 @@ ALTER TABLE `tbltracked_mails`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbluser_api`
---
-ALTER TABLE `tbluser_api`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbluser_meta`
 --
 ALTER TABLE `tbluser_meta`
@@ -6618,7 +5720,7 @@ ALTER TABLE `tbl_perfex_email_builder`
 -- AUTO_INCREMENT for table `tblactivity_log`
 --
 ALTER TABLE `tblactivity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblannouncements`
@@ -6684,7 +5786,7 @@ ALTER TABLE `tblcities`
 -- AUTO_INCREMENT for table `tblclients`
 --
 ALTER TABLE `tblclients`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblconsents`
@@ -6702,13 +5804,13 @@ ALTER TABLE `tblconsent_purposes`
 -- AUTO_INCREMENT for table `tblcontacts`
 --
 ALTER TABLE `tblcontacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcontact_permissions`
 --
 ALTER TABLE `tblcontact_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblcontracts`
@@ -6906,7 +6008,7 @@ ALTER TABLE `tblirac_method`
 -- AUTO_INCREMENT for table `tbliservice_settings`
 --
 ALTER TABLE `tbliservice_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1240;
 
 --
 -- AUTO_INCREMENT for table `tblitemable`
@@ -6957,28 +6059,687 @@ ALTER TABLE `tblleads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblleads_email_integration`
+--
+ALTER TABLE `tblleads_email_integration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'the ID always must be 1';
+
+--
 -- AUTO_INCREMENT for table `tblleads_sources`
 --
 ALTER TABLE `tblleads_sources`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tblleads_status`
+--
+ALTER TABLE `tblleads_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbllead_activity_log`
+--
+ALTER TABLE `tbllead_activity_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbllead_integration_emails`
+--
+ALTER TABLE `tbllead_integration_emails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbllegal_procedures`
+--
+ALTER TABLE `tbllegal_procedures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbllegal_procedures_lists`
+--
+ALTER TABLE `tbllegal_procedures_lists`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbllistemails`
+--
+ALTER TABLE `tbllistemails`
+  MODIFY `emailid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmaillistscustomfields`
+--
+ALTER TABLE `tblmaillistscustomfields`
+  MODIFY `customfieldid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmaillistscustomfieldvalues`
+--
+ALTER TABLE `tblmaillistscustomfieldvalues`
+  MODIFY `customfieldvalueid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmail_attachment`
+--
+ALTER TABLE `tblmail_attachment`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmail_inbox`
+--
+ALTER TABLE `tblmail_inbox`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmail_outbox`
+--
+ALTER TABLE `tblmail_outbox`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmail_queue`
+--
+ALTER TABLE `tblmail_queue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmilestones`
+--
+ALTER TABLE `tblmilestones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmodules`
+--
+ALTER TABLE `tblmodules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `tblmy_basic_services`
+--
+ALTER TABLE `tblmy_basic_services`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tblmy_cases`
+--
+ALTER TABLE `tblmy_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_casestatus`
+--
+ALTER TABLE `tblmy_casestatus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblmy_cases_judges`
+--
+ALTER TABLE `tblmy_cases_judges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_cases_movement_judges`
+--
+ALTER TABLE `tblmy_cases_movement_judges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_categories`
+--
+ALTER TABLE `tblmy_categories`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_courts`
+--
+ALTER TABLE `tblmy_courts`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblmy_customers_company_groups`
+--
+ALTER TABLE `tblmy_customers_company_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_customer_company_groups`
+--
+ALTER TABLE `tblmy_customer_company_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_customer_representative`
+--
+ALTER TABLE `tblmy_customer_representative`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblmy_dialog_boxes`
+--
+ALTER TABLE `tblmy_dialog_boxes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_employee_basic`
+--
+ALTER TABLE `tblmy_employee_basic`
+  MODIFY `employee_basic_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tblmy_imported_services`
 --
 ALTER TABLE `tblmy_imported_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_judges`
+--
+ALTER TABLE `tblmy_judges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_judicialdept`
+--
+ALTER TABLE `tblmy_judicialdept`
+  MODIFY `j_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tblmy_members_cases`
+--
+ALTER TABLE `tblmy_members_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_members_movement_cases`
+--
+ALTER TABLE `tblmy_members_movement_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_members_services`
+--
+ALTER TABLE `tblmy_members_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_other_services`
+--
+ALTER TABLE `tblmy_other_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_phase_data`
+--
+ALTER TABLE `tblmy_phase_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_procurationstate`
+--
+ALTER TABLE `tblmy_procurationstate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_procurationtype`
+--
+ALTER TABLE `tblmy_procurationtype`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_services_tags`
+--
+ALTER TABLE `tblmy_services_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_service_phases`
+--
+ALTER TABLE `tblmy_service_phases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_sessiondiscussioncomments`
+--
+ALTER TABLE `tblmy_sessiondiscussioncomments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_sessiondiscussions`
+--
+ALTER TABLE `tblmy_sessiondiscussions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_session_info`
+--
+ALTER TABLE `tblmy_session_info`
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblmy_transactions`
+--
+ALTER TABLE `tblmy_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnewsfeed_comment_likes`
+--
+ALTER TABLE `tblnewsfeed_comment_likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnewsfeed_posts`
+--
+ALTER TABLE `tblnewsfeed_posts`
+  MODIFY `postid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnewsfeed_post_comments`
+--
+ALTER TABLE `tblnewsfeed_post_comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnewsfeed_post_likes`
+--
+ALTER TABLE `tblnewsfeed_post_likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnotes`
+--
+ALTER TABLE `tblnotes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblnotifications`
+--
+ALTER TABLE `tblnotifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloptions`
+--
+ALTER TABLE `tbloptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussioncomments`
+--
+ALTER TABLE `tbloservicediscussioncomments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservicediscussions`
+--
+ALTER TABLE `tbloservicediscussions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbloservice_activity`
 --
 ALTER TABLE `tbloservice_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbluser_api`
+-- AUTO_INCREMENT for table `tbloservice_files`
 --
-ALTER TABLE `tbluser_api`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `tbloservice_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_notes`
+--
+ALTER TABLE `tbloservice_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbloservice_settings`
+--
+ALTER TABLE `tbloservice_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpayment_modes`
+--
+ALTER TABLE `tblpayment_modes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpinned_cases`
+--
+ALTER TABLE `tblpinned_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpinned_oservices`
+--
+ALTER TABLE `tblpinned_oservices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblpinned_projects`
+--
+ALTER TABLE `tblpinned_projects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprocurations`
+--
+ALTER TABLE `tblprocurations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprocuration_cases`
+--
+ALTER TABLE `tblprocuration_cases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprojectdiscussioncomments`
+--
+ALTER TABLE `tblprojectdiscussioncomments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprojectdiscussions`
+--
+ALTER TABLE `tblprojectdiscussions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblprojects`
+--
+ALTER TABLE `tblprojects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproject_activity`
+--
+ALTER TABLE `tblproject_activity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproject_files`
+--
+ALTER TABLE `tblproject_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproject_members`
+--
+ALTER TABLE `tblproject_members`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproject_notes`
+--
+ALTER TABLE `tblproject_notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproject_settings`
+--
+ALTER TABLE `tblproject_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproposals`
+--
+ALTER TABLE `tblproposals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblproposal_comments`
+--
+ALTER TABLE `tblproposal_comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblrelated_items`
+--
+ALTER TABLE `tblrelated_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblreminders`
+--
+ALTER TABLE `tblreminders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblroles`
+--
+ALTER TABLE `tblroles`
+  MODIFY `roleid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsales_activity`
+--
+ALTER TABLE `tblsales_activity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblscheduled_emails`
+--
+ALTER TABLE `tblscheduled_emails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblservices`
+--
+ALTER TABLE `tblservices`
+  MODIFY `serviceid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblspam_filters`
+--
+ALTER TABLE `tblspam_filters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblstaff`
+--
+ALTER TABLE `tblstaff`
+  MODIFY `staffid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tblstaff_departments`
+--
+ALTER TABLE `tblstaff_departments`
+  MODIFY `staffdepartmentid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsubscriptions`
+--
+ALTER TABLE `tblsubscriptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsurveyresultsets`
+--
+ALTER TABLE `tblsurveyresultsets`
+  MODIFY `resultsetid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsurveys`
+--
+ALTER TABLE `tblsurveys`
+  MODIFY `surveyid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsurveysemailsendcron`
+--
+ALTER TABLE `tblsurveysemailsendcron`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblsurveysendlog`
+--
+ALTER TABLE `tblsurveysendlog`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltags`
+--
+ALTER TABLE `tbltags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltasks`
+--
+ALTER TABLE `tbltasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltaskstimers`
+--
+ALTER TABLE `tbltaskstimers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltasks_checklist_templates`
+--
+ALTER TABLE `tbltasks_checklist_templates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltask_assigned`
+--
+ALTER TABLE `tbltask_assigned`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltask_checklist_items`
+--
+ALTER TABLE `tbltask_checklist_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltask_comments`
+--
+ALTER TABLE `tbltask_comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltask_followers`
+--
+ALTER TABLE `tbltask_followers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltaxes`
+--
+ALTER TABLE `tbltaxes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltickets`
+--
+ALTER TABLE `tbltickets`
+  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltickets_pipe_log`
+--
+ALTER TABLE `tbltickets_pipe_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltickets_predefined_replies`
+--
+ALTER TABLE `tbltickets_predefined_replies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltickets_priorities`
+--
+ALTER TABLE `tbltickets_priorities`
+  MODIFY `priorityid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbltickets_status`
+--
+ALTER TABLE `tbltickets_status`
+  MODIFY `ticketstatusid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tblticket_attachments`
+--
+ALTER TABLE `tblticket_attachments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblticket_replies`
+--
+ALTER TABLE `tblticket_replies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltodos`
+--
+ALTER TABLE `tbltodos`
+  MODIFY `todoid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbltracked_mails`
+--
+ALTER TABLE `tbltracked_mails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbluser_meta`
+--
+ALTER TABLE `tbluser_meta`
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tblvault`
+--
+ALTER TABLE `tblvault`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblviews_tracking`
+--
+ALTER TABLE `tblviews_tracking`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblweb_to_lead`
+--
+ALTER TABLE `tblweb_to_lead`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_perfex_email_builder`
+--
+ALTER TABLE `tbl_perfex_email_builder`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbllegal_procedures`
+--
+ALTER TABLE `tbllegal_procedures`
+  ADD CONSTRAINT `list_key` FOREIGN KEY (`list_id`) REFERENCES `tbllegal_procedures_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tblmy_categories`
+--
+ALTER TABLE `tblmy_categories`
+  ADD CONSTRAINT `CateServKey` FOREIGN KEY (`service_id`) REFERENCES `tblmy_basic_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `categoty_type_key` FOREIGN KEY (`type_id`) REFERENCES `tblcategory_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tblmy_judicialdept`
+--
+ALTER TABLE `tblmy_judicialdept`
+  ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `tblmy_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

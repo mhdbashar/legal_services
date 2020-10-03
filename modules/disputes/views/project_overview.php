@@ -272,7 +272,7 @@
 </div>
 <div class="team-members project-overview-team-members">
    <hr class="hr-panel-heading project-area-separation" />
-   <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+   <?php if(has_permission('projects','','edit')){ ?>
    <div class="inline-block pull-right mright10 project-member-settings" data-toggle="tooltip" data-title="<?php echo _l('add_edit_members'); ?>">
       <a href="#" data-toggle="modal" class="pull-right" data-target="#add-edit-members"><i class="fa fa-cog"></i></a>
    </div>
@@ -293,7 +293,7 @@
          </a>
       </div>
       <div class="media-body">
-         <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+         <?php if(has_permission('projects','','edit')){ ?>
          <a href="<?php echo admin_url('disputes/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>

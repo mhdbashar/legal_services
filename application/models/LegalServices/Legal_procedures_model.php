@@ -187,14 +187,14 @@ class Legal_procedures_model extends App_Model
         if ($client == false) {
             $data['staffid'] = get_staff_user_id();
         }
-
+        
         $data['content'] = nl2br($data['content']);
         $this->db->insert(db_prefix() . 'contract_comments', $data);
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
             $contract = $this->get_contract($data['contract_id']);
-
+            
             if (($contract->not_visible_to_client == '1' || $contract->trash == '1') && $client == false) {
                 return true;
             }
@@ -205,16 +205,15 @@ class Legal_procedures_model extends App_Model
                 $this->db->select('staffid, email, phonenumber');
                 $this->db->where('staffid', $contract->addedfrom);
                 $staff_contract = $this->db->get(db_prefix() . 'staff')->result_array();
-
                 $notifiedUsers = [];
-
+                
                 foreach ($staff_contract as $member) {
                     $notified = add_notification([
                         'description'     => 'not_contract_comment_from_client',
                         'touserid'        => $member['staffid'],
                         'fromcompany'     => 1,
                         'fromuserid'      => null,
-                        'link'            => 'contracts/contract/' . $data['contract_id'],
+                        'link'            => 'LegalServices/legal_procedures/procedure_text/' . $data['contract_id']. '/' .$data['service_type_id'] .'/'. $data['service_id'],
                         'additional_data' => serialize([
                             $contract->subject,
                         ]),

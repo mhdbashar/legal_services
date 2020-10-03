@@ -13,6 +13,8 @@ class Cases_model extends App_Model
         $project_settings = [
             'available_features',
             'view_tasks',
+            'view_session_logs',
+            'view_procurations',
             'create_tasks',
             'edit_tasks',
             'comment_on_tasks',
@@ -47,10 +49,10 @@ class Cases_model extends App_Model
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
-            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id', 'left');
-            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num', 'left');
-            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative', 'left');
-            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status', 'left');
+            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'my_cases.court_id');
+            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'my_cases.jud_num');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative');
+            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
             //print_r($project);exit();
             if ($project) {
@@ -1130,6 +1132,56 @@ class Cases_model extends App_Model
         ];
     }
 
+    public function get_CaseSession($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
+    {
+        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+
+        $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'tasks.id as id,
+        '.db_prefix() . 'tasks.name as task_name,
+        '.db_prefix() . 'my_judges.name as judge,
+        court_name,
+        customer_report,
+        send_to_customer,
+        startdate,
+        time
+        ';
+        $this->db->select($select);
+
+        $this->db->where(db_prefix() .'tasks.rel_id', $id);
+        $this->db->where(db_prefix() .'tasks.rel_type', $slug);
+
+        $this->db->where($where);
+        $this->db->join(db_prefix() . 'my_session_info', db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id', 'inner');
+        $this->db->join(db_prefix() . 'my_courts', db_prefix() . 'my_courts.c_id = ' . db_prefix() . 'my_session_info.court_id', 'inner');
+        $this->db->join(db_prefix() . 'my_judges', db_prefix() . 'my_judges.id = ' . db_prefix() . 'my_session_info.judge_id', 'inner');
+
+        if ($count == false) {
+            $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
+        } else {
+            $tasks = $this->db->count_all_results(db_prefix() . 'tasks');
+        }
+
+        return $tasks;
+    }
+
+    public function cancel_recurring_tasks($id, $slug)
+    {
+        $this->db->where('rel_type', $slug);
+        $this->db->where('rel_id', $id);
+        $this->db->where('recurring', 1);
+        $this->db->where('(cycles != total_cycles OR cycles=0)');
+
+        $this->db->update(db_prefix() . 'tasks', [
+            'recurring_type'      => null,
+            'repeat_every'        => 0,
+            'cycles'              => 0,
+            'recurring'           => 0,
+            'custom_recurring'    => 0,
+            'last_recurring_date' => null,
+        ]);
+    }
+
     public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
@@ -1187,22 +1239,6 @@ class Cases_model extends App_Model
         return $tasks;
     }
 
-    public function cancel_recurring_tasks($id, $slug)
-    {
-        $this->db->where('rel_type', $slug);
-        $this->db->where('rel_id', $id);
-        $this->db->where('recurring', 1);
-        $this->db->where('(cycles != total_cycles OR cycles=0)');
-
-        $this->db->update(db_prefix() . 'tasks', [
-            'recurring_type'      => null,
-            'repeat_every'        => 0,
-            'cycles'              => 0,
-            'recurring'           => 0,
-            'custom_recurring'    => 0,
-            'last_recurring_date' => null,
-        ]);
-    }
 
     public function do_milestones_kanban_query($milestone_id, $project_id, $page = 1, $where = [], $count = false)
     {

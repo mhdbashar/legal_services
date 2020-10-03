@@ -187,7 +187,7 @@ foreach ($rResult as $aRow) {
     if ($aRow['project_id'] == 0 and $aRow['rel_stype'] != ''){
 
         if($aRow['rel_stype'] == 'imported'){
-            $row[] = '<a href="' . admin_url('SImported/view/' . $aRow['rel_sid']) . '">' . get_iservice_name_by_id($aRow['rel_sid']) . '</a>';
+            $row[] = '<a href="' . admin_url('SImported/view/' . $aRow['rel_sid']) . '">' . '</a>';
         }else{
             $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
             $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);

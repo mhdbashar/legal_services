@@ -150,29 +150,12 @@ class Departments_model extends App_Model
             ];
         }
 
-        if($this->app_modules->is_active('hr')){
-            if (is_reference_in_table('department_id', db_prefix() . 'hr_designations', $id)) {
-                return [
-                    'referenced' => true,
-                ];
-            }
-            if (is_reference_in_table('department_id', db_prefix() . 'hr_sub_departments', $id)) {
-                return [
-                    'referenced' => true,
-                ];
-            }
-        }
-
         hooks()->do_action('before_delete_department', $id);
 
         $this->db->where('departmentid', $id);
         $this->db->delete(db_prefix() . 'departments');
         if ($this->db->affected_rows() > 0) {
             log_activity('Department Deleted [ID: ' . $id . ']');
-            if($this->app_modules->is_active('branches')){
-                $this->db->where(['rel_id' => $id, 'rel_type' => 'departments']);
-                $this->db->delete('tblbranches_services');
-            }
 
             return true;
         }

@@ -15,12 +15,12 @@ class Sms_clickatell extends App_sms
         $this->api_key = $this->get_option('clickatell', 'api_key');
 
         $this->add_gateway('clickatell', [
-            'info'    => _l("sms_clickatell_sms_integration_is_one_way_messaging"),
+            'info'    => "<p>Clickatell SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
             'name'    => 'Clickatell',
             'options' => [
                 [
                     'name'  => 'api_key',
-                    'label' => _l('sms_api_key_trans'),
+                    'label' => 'API Key',
                 ],
             ],
         ]);
@@ -45,7 +45,7 @@ class Sms_clickatell extends App_sms
 
             if ($result) {
                 if (isset($result->messages[0]->accepted) && $result->messages[0]->accepted == true) {
-                    log_activity('SMS sent via Clickatell to ' . $number . ', Message: ' . $message);
+                    $this->logSuccess($number, $message);
 
                     return true;
                 } elseif (isset($result->messages) && isset($result->error)) {

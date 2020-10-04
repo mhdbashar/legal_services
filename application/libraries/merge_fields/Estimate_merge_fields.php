@@ -8,64 +8,71 @@ class Estimate_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('estimate_link'),
+                    'name'      => 'Estimate Link',
                     'key'       => '{estimate_link}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_number'),
+                    'name'      => 'Estimate Number',
                     'key'       => '{estimate_number}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('est_ref_no'),
+                    'name'      => 'Reference no.',
                     'key'       => '{estimate_reference_no}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('est_expdate'),
+                    'name'      => 'Estimate Expiry Date',
                     'key'       => '{estimate_expirydate}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_date'),
+                    'name'      => 'Estimate Date',
                     'key'       => '{estimate_date}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_status'),
+                    'name'      => 'Estimate Status',
                     'key'       => '{estimate_status}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_sale_agent'),
+                    'name'      => 'Estimate Sale Agent',
                     'key'       => '{estimate_sale_agent}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_total'),
+                    'name'      => 'Estimate Total',
                     'key'       => '{estimate_total}',
                     'available' => [
                         'estimate',
                     ],
                 ],
                 [
-                    'name'      => _l('estimate_subtotal'),
+                    'name'      => 'Estimate Subtotal',
                     'key'       => '{estimate_subtotal}',
+                    'available' => [
+                        'estimate',
+                    ],
+                ],
+                [
+                    'name'      => 'Project name',
+                    'key'       => '{project_name}',
                     'available' => [
                         'estimate',
                     ],
@@ -99,6 +106,7 @@ class Estimate_merge_fields extends App_merge_fields
         $fields['{estimate_expirydate}']   = _d($estimate->expirydate);
         $fields['{estimate_date}']         = _d($estimate->date);
         $fields['{estimate_status}']       = format_estimate_status($estimate->status, '', false);
+        $fields['{project_name}']    = get_project_name_by_id($estimate->project_id);
 
         $custom_fields = get_custom_fields('estimate');
         foreach ($custom_fields as $field) {

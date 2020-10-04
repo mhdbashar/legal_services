@@ -23,7 +23,7 @@ class Sms_twilio extends App_sms
 
         $this->add_gateway('twilio', [
             'name'    => 'Twilio',
-            'info'    => _l('sms_twilio_sms_integration_is_one_way_messaging',"https://www.twilio.com/docs/glossary/what-e164"),
+            'info'    => '<p>Twilio SMS integration is one way messaging, means that your customers won\'t be able to reply to the SMS. Phone numbers must be in format <a href="https://www.twilio.com/docs/glossary/what-e164" target="_blank">E.164</a>. Click <a href="https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers" target="_blank">here</a> to read more how phone numbers should be formatted.</p><hr class="hr-10" />',
             'options' => [
                 [
                     'name'  => 'account_sid',
@@ -62,8 +62,7 @@ class Sms_twilio extends App_sms
                 ]
             );
 
-            log_activity('SMS sent via Twilio to ' . $number . ', Message: ' . $message);
-
+            $this->logSuccess($number, $message);
         } catch (Exception $e) {
             $this->set_error($e->getMessage());
 

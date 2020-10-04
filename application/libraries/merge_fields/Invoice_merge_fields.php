@@ -8,7 +8,7 @@ class Invoice_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('invoice_link'),
+                    'name'      => 'Invoice Link',
                     'key'       => '{invoice_link}',
                     'available' => [
                         'invoice',
@@ -18,7 +18,7 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_number'),
+                    'name'      => 'Invoice Number',
                     'key'       => '{invoice_number}',
                     'available' => [
                         'invoice',
@@ -28,14 +28,14 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_duedate'),
+                    'name'      => 'Invoice Duedate',
                     'key'       => '{invoice_duedate}',
                     'available' => [
                         'invoice',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_date'),
+                    'name'      => 'Invoice Date',
                     'key'       => '{invoice_date}',
                     'available' => [
                         'invoice',
@@ -46,7 +46,7 @@ class Invoice_merge_fields extends App_merge_fields
 
                 ],
                 [
-                    'name'      => _l('invoice_status'),
+                    'name'      => 'Invoice Status',
                     'key'       => '{invoice_status}',
                     'available' => [
                         'invoice',
@@ -56,14 +56,14 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_sale_agent'),
+                    'name'      => 'Invoice Sale Agent',
                     'key'       => '{invoice_sale_agent}',
                     'available' => [
                         'invoice',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_total'),
+                    'name'      => 'Invoice Total',
                     'key'       => '{invoice_total}',
                     'available' => [
                         'invoice',
@@ -73,7 +73,7 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_subtotal'),
+                    'name'      => 'Invoice Subtotal',
                     'key'       => '{invoice_subtotal}',
                     'available' => [
                         'invoice',
@@ -83,14 +83,14 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_amount_due'),
+                    'name'      => 'Invoice Amount Due',
                     'key'       => '{invoice_amount_due}',
                     'available' => [
                         'invoice',
                     ],
                 ],
                 [
-                    'name'      => _l('payment_recorded_total'),
+                    'name'      => 'Payment Recorded Total',
                     'key'       => '{payment_total}',
                     'available' => [
 
@@ -102,7 +102,7 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('payment_recorded_date'),
+                    'name'      => 'Payment Recorded Date',
                     'key'       => '{payment_date}',
                     'available' => [
 
@@ -111,6 +111,13 @@ class Invoice_merge_fields extends App_merge_fields
                         'subscription-payment-succeeded',
                         'invoice-payment-recorded-to-staff',
                         'invoice-payment-recorded',
+                    ],
+                ],
+                [
+                    'name'      => 'Project name',
+                    'key'       => '{project_name}',
+                    'available' => [
+                        'invoice',
                     ],
                 ],
             ];
@@ -155,6 +162,7 @@ class Invoice_merge_fields extends App_merge_fields
         $fields['{invoice_duedate}'] = _d($invoice->duedate);
         $fields['{invoice_date}']    = _d($invoice->date);
         $fields['{invoice_status}']  = format_invoice_status($invoice->status, '', false);
+        $fields['{project_name}']    = get_project_name_by_id($invoice->project_id);
 
         $custom_fields = get_custom_fields('invoice');
         foreach ($custom_fields as $field) {

@@ -19,7 +19,6 @@ class Contracts_model extends App_Model
      */
     public function get($id = '', $where = [], $for_editor = false)
     {
-        $where = ['type_id' => 0];
         $this->db->select('*,' . db_prefix() . 'contracts_types.name as type_name,' . db_prefix() . 'contracts.id as id, ' . db_prefix() . 'contracts.addedfrom');
         $this->db->where($where);
         $this->db->join(db_prefix() . 'contracts_types', '' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type', 'left');
@@ -47,10 +46,10 @@ class Contracts_model extends App_Model
                     }
                 }
             }
+
             return $contract;
         }
         $contracts = $this->db->get(db_prefix() . 'contracts')->result_array();
-
         $i         = 0;
         foreach ($contracts as $contract) {
             $contracts[$i]['attachments'] = $this->get_contract_attachments('', $contract['id']);
@@ -258,7 +257,7 @@ class Contracts_model extends App_Model
                         'description'     => 'not_contract_comment_from_client',
                         'touserid'        => $member['staffid'],
                         'fromcompany'     => 1,
-                        'fromuserid'      => null,
+                        'fromuserid'      => 0,
                         'link'            => 'contracts/contract/' . $data['contract_id'],
                         'additional_data' => serialize([
                             $contract->subject,
@@ -468,7 +467,7 @@ class Contracts_model extends App_Model
     public function mark_as_signed($id)
     {
         $this->db->where('id', $id);
-        $this->db->update('contracts', ['marked_as_signed'=>1]);
+        $this->db->update('contracts', ['marked_as_signed' => 1]);
 
         return $this->db->affected_rows() > 0;
     }
@@ -483,7 +482,7 @@ class Contracts_model extends App_Model
     public function unmark_as_signed($id)
     {
         $this->db->where('id', $id);
-        $this->db->update('contracts', ['marked_as_signed'=>0]);
+        $this->db->update('contracts', ['marked_as_signed' => 0]);
 
         return $this->db->affected_rows() > 0;
     }
@@ -678,6 +677,33 @@ class Contracts_model extends App_Model
         }
 
         return false;
+    }
+
+    /**
+     * Get the contracts about to expired in the given days
+     *
+     * @param  integer|null $staffId
+     * @param  integer $days
+     *
+     * @return array
+     */
+    public function get_contracts_about_to_expire($staffId = null, $days = 7)
+    {
+        $diff1 = date('Y-m-d', strtotime('-' . $days . ' days'));
+        $diff2 = date('Y-m-d', strtotime('+' . $days . ' days'));
+
+        if ($staffId && ! staff_can('view', 'contracts', $staffId)) {
+            $this->db->where('addedfrom', $staffId);
+        }
+
+        $this->db->select('id,subject,client,datestart,dateend');
+
+        $this->db->where('dateend IS NOT NULL');
+        $this->db->where('trash', 0);
+        $this->db->where('dateend >=', $diff1);
+        $this->db->where('dateend <=', $diff2);
+
+        return $this->db->get(db_prefix() . 'contracts')->result_array();
     }
 
     /**

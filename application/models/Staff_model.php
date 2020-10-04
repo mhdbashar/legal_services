@@ -286,11 +286,6 @@ class Staff_model extends App_Model
 
         $this->db->where('staffid', $id);
         $this->db->delete(db_prefix() . 'staff');
-
-        if($this->app_modules->is_active('branches')){
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'staff']);
-            $this->db->delete('tblbranches_services');
-        }
         log_activity('Staff Member Deleted [Name: ' . $name . ', Data Transferred To: ' . $transferred_to . ']');
 
         hooks()->do_action('staff_member_deleted', [
@@ -309,7 +304,7 @@ class Staff_model extends App_Model
      */
     public function get($id = '', $where = [])
     {
-        $select_str = '*,CONCAT(firstname," ",lastname) as full_name';
+        $select_str = '*,CONCAT(firstname,\' \',lastname) as full_name';
 
         // Used to prevent multiple queries on logged in staff to check the total unread notifications in core/AdminController.php
         if (is_staff_logged_in() && $id != '' && $id == get_staff_user_id()) {
@@ -532,13 +527,12 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-														//ShababSy.com Added this cond.
-        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
-            //ShababSy.com Changed this
-			//$data['two_factor_auth_enabled'] = 1;
-        } else {
-            $data['two_factor_auth_enabled'] = 0;
-        }
+
+        // if (isset($data['two_factor_auth_enabled'])) {
+        //     $data['two_factor_auth_enabled'] = 1;
+        // } else {
+        //     $data['two_factor_auth_enabled'] = 0;
+        // }
 
         if (isset($data['is_not_staff'])) {
             $data['is_not_staff'] = 1;
@@ -549,8 +543,6 @@ class Staff_model extends App_Model
         if (isset($data['admin']) && $data['admin'] == 1) {
             $data['is_not_staff'] = 0;
         }
-
-        $data['email_signature'] = nl2br_save_html($data['email_signature']);
 
         $this->load->model('departments_model');
         $staff_departments = $this->departments_model->get_staff_departments($id);
@@ -601,9 +593,7 @@ class Staff_model extends App_Model
                 }
             }
         }
-        if (isset($data['sub_department'])) {
-            unset($data['sub_department']);
-        }
+
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);
@@ -659,10 +649,8 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-        												//ShababSy.com Added this cond.
-        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
-            //ShababSy.com Changed this
-			//$data['two_factor_auth_enabled'] = 1;
+        if (isset($data['two_factor_auth_enabled'])) {
+            $data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }

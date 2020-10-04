@@ -8,39 +8,46 @@ class Subscriptions_merge_fields extends App_merge_fields
     {
         return  [
                 [
-                    'name'      => _l('subscription_id'),
+                    'name'      => 'Subscription ID',
                     'key'       => '{subscription_id}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => _l('subscription_name'),
+                    'name'      => 'Subscription Name',
                     'key'       => '{subscription_name}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => _l('subscription_description'),
+                    'name'      => 'Subscription Description',
                     'key'       => '{subscription_description}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => _l('subscription_subscribe_link'),
+                    'name'      => 'Subscription Subscribe Link',
                     'key'       => '{subscription_link}',
                     'available' => [
                         'subscriptions',
                     ],
                 ],
                 [
-                    'name'      => _l('subscription_authorization_link'),
+                    'name'      => 'Subscription Authorization Link',
                     'key'       => '{subscription_authorize_payment_link}',
                     'available' => [
                     ],
                     'templates' => ['subscription-payment-requires-action'],
+                ],
+                [
+                    'name'      => 'Estimate Subtotal',
+                    'key'       => '{estimate_subtotal}',
+                    'available' => [
+                        'subscriptions',
+                    ],
                 ],
             ];
     }
@@ -72,6 +79,7 @@ class Subscriptions_merge_fields extends App_merge_fields
         $fields['{subscription_id}']          = $subscription->id;
         $fields['{subscription_name}']        = $subscription->name;
         $fields['{subscription_description}'] = $subscription->description;
+        $fields['{project_name}']    = get_project_name_by_id($subscription->project_id);
 
         return hooks()->apply_filters('subscription_merge_fields', $fields, [
         'id'           => $id,

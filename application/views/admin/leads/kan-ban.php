@@ -33,10 +33,11 @@ foreach ($statuses as $status) {
                 <?php echo _l('new_lead'); ?>
               </button>
             </div>
+            <?php if (is_admin()){?>
             <hr />
             <div class='kan-ban-settings cpicker-wrapper'>
               <?php echo $settings; ?>
-            </div>" data-html="true" data-trigger="focus">
+            </div><?php } ?>" data-html="true" data-trigger="focus">
             <i class="fa fa-angle-down"></i>
           </a>
         </div>
@@ -47,7 +48,7 @@ foreach ($statuses as $status) {
               $leads = $this->leads_model->do_kanban_query($status['id'],$this->input->get('search'),1,array('sort_by'=>$this->input->get('sort_by'),'sort'=>$this->input->get('sort')));
               $total_leads = count($leads);
               foreach ($leads as $lead) {
-                $this->load->view('admin/leads/_kan_ban_card',array('lead'=>$lead,'status'=>$status));
+                $this->load->view('admin/leads/_kan_ban_card',array('lead'=>$lead,'status'=>$status,'base_currency'=>$base_currency));
               } ?>
               <?php if($total_leads > 0 ){ ?>
               <li class="text-center not-sortable kanban-load-more" data-load-status="<?php echo $status['id']; ?>">
@@ -66,4 +67,4 @@ foreach ($statuses as $status) {
         </div>
       </li>
     </ul>
-    <?php $i++; } ?>
+    <?php $i++; } ?> 

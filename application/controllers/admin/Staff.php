@@ -4,12 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Staff extends AdminController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-    }
-
     /* List all staff members */
     public function index()
     {
@@ -27,22 +21,14 @@ class Staff extends AdminController
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
-
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
-        $this->load->model('Branches_model');
         $this->load->model('departments_model');
-
         if ($this->input->post()) {
             $data = $this->input->post();
-            if($this->app_modules->is_active('branches')){
-                $branch_id = $this->input->post()['branch_id'];
-
-                unset($data['branch_id']);
-            }
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
@@ -60,18 +46,6 @@ class Staff extends AdminController
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
-
-                    if($this->app_modules->is_active('branches')){
-                        if(is_numeric($branch_id)){
-                            $data = [
-                                'branch_id' => $branch_id, 
-                                'rel_type' => 'staff', 
-                                'rel_id' => $id
-                            ];
-                            $this->Branches_model->set_branch($data);
-                        }
-                    }
-
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
@@ -79,13 +53,6 @@ class Staff extends AdminController
             } else {
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
-                }
-                if($this->app_modules->is_active('branches')){
-                    if(is_numeric($branch_id)){
-                        $this->Branches_model->update_branch('staff', $id, $branch_id);
-                    }else{
-                        $this->Branches_model->delete_branch('staff', $id);
-                    }
                 }
                 handle_staff_profile_image_upload($id);
                 $response = $this->staff_model->update($data, $id);
@@ -124,13 +91,6 @@ class Staff extends AdminController
                 $ts_filter_data['this_month'] = true;
             }
 
-            if($this->app_modules->is_active('branches')) {
-                $ci = &get_instance();
-                $ci->load->model('branches/Branches_model');
-                $data['branches'] = $ci->Branches_model->getBranches();
-                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
-            }
-
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
         }
@@ -140,8 +100,6 @@ class Staff extends AdminController
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
-        if($this->app_modules->is_active('branches'))
-            $data['branches'] = $this->Branches_model->getBranches();
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -223,7 +181,6 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
-        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
         $this->load->view('admin/staff/timesheets', $data);
@@ -236,11 +193,7 @@ class Staff extends AdminController
         }
 
         if (has_permission('staff', '', 'delete')) {
-            if($this->app_modules->is_active('hr')){
-                $this->load->model('hr/Global_model', 'global');
-                $success = $this->global->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
-            }else
-                $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+            $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
             if ($success) {
                 set_alert('success', _l('deleted', _l('staff_member')));
             }
@@ -265,9 +218,11 @@ class Staff extends AdminController
             }
 
             $success = $this->staff_model->update_profile($data, get_staff_user_id());
+
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
             }
+
             redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
         }
         $member = $this->staff_model->get(get_staff_user_id());
@@ -375,10 +330,10 @@ class Staff extends AdminController
                 if (($notification['fromcompany'] == null && $notification['fromuserid'] != 0) || ($notification['fromcompany'] == null && $notification['fromclientid'] != 0)) {
                     if ($notification['fromuserid'] != 0) {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('staff/profile/' . $notification['fromuserid']) . '">' . staff_profile_image($notification['fromuserid'], [
-                        'staff-profile-image-small',
-                        'img-circle',
-                        'pull-left',
-                    ]) . '</a>';
+                            'staff-profile-image-small',
+                            'img-circle',
+                            'pull-left',
+                        ]) . '</a>';
                     } else {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('clients/client/' . $notification['fromclientid']) . '">
                     <img class="client-profile-image-small img-circle pull-left" src="' . contact_profile_image_url($notification['fromclientid']) . '"></a>';
@@ -410,6 +365,72 @@ class Staff extends AdminController
                 $i++;
             } //$notifications as $notification
             echo json_encode($notifications);
+            die;
+        }
+    }
+
+    public function update_two_factor()
+    {
+        $fail_reason = _l('set_two_factor_authentication_failed');
+        if ($this->input->post()) {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('two_factor_auth', _l('two_factor_auth'), 'required');
+
+            if ($this->input->post('two_factor_auth') == 'google') {
+                $this->form_validation->set_rules('google_auth_code', _l('google_authentication_code'), 'required');
+            }
+
+            if ($this->form_validation->run() !== false) {
+                $two_factor_auth_mode = $this->input->post('two_factor_auth');
+                $id = get_staff_user_id();
+                if ($two_factor_auth_mode == 'google') {
+                    $this->load->model('Authentication_model');
+                    $secret = $this->input->post('secret');
+                    $success = $this->authentication_model->set_google_two_factor($secret);
+                    $fail_reason = _l('set_google_two_factor_authentication_failed');
+                } elseif ($two_factor_auth_mode == 'email') {
+                    $this->db->where('staffid', $id);
+                    $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 1]);
+                } else {
+                    $this->db->where('staffid', $id);
+                    $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 0]);
+                }
+                if ($success) {
+                    set_alert('success', _l('set_two_factor_authentication_successful'));
+                    redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
+                }
+            }
+        }
+        set_alert('danger', $fail_reason);
+        redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
+    }
+
+    public function verify_google_two_factor()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+            die;
+        }
+
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->load->model('authentication_model');
+            $is_success = $this->authentication_model->is_google_two_factor_code_valid($data['code'],$data['secret']);
+            $result = [];
+
+            header('Content-Type: application/json');
+            if ($is_success) {
+                $result['status'] = 'success';
+                $result['message'] = _l('google_2fa_code_valid');;
+
+                echo json_encode($result);
+                die;
+            }
+
+            $result['status'] = 'failed';
+            $result['message'] = _l('google_2fa_code_invalid');;
+
+            echo json_encode($result);
             die;
         }
     }

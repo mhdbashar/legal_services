@@ -144,7 +144,7 @@ function handle_project_file_uploads($project_id)
                     } else {
                         $data['visible_to_customer'] = ($CI->input->post('visible_to_customer') == 'true' ? 1 : 0);
                     }
-                    $CI->db->insert(db_prefix().'project_files', $data);
+                    $CI->db->insert(db_prefix() . 'project_files', $data);
 
                     $insert_id = $CI->db->insert_id();
                     if ($insert_id) {
@@ -318,9 +318,10 @@ function handle_task_attachments_array($taskid, $index_name = 'attachments')
                 // Upload the file into the temp dir
                 if (move_uploaded_file($tmpFilePath, $newFilePath)) {
                     array_push($uploaded_files, [
-                    'file_name' => $filename,
-                    'filetype'  => $_FILES[$index_name]['type'][$i],
+                        'file_name' => $filename,
+                        'filetype'  => $_FILES[$index_name]['type'][$i],
                     ]);
+
                     if (is_image($newFilePath)) {
                         create_img_thumb($path, $filename);
                     }
@@ -354,7 +355,7 @@ function handle_sales_attachments($rel_id, $rel_type)
     $CI = & get_instance();
     if (isset($_FILES['file']['name'])) {
         $uploaded_files = false;
-        $file_uploaded = false;
+        $file_uploaded  = false;
         // Get the temp file path
         $tmpFilePath = $_FILES['file']['tmp_name'];
         // Make sure we have a filepath
@@ -375,7 +376,7 @@ function handle_sales_attachments($rel_id, $rel_type)
                 $insert_id = $CI->misc_model->add_attachment_to_database($rel_id, $rel_type, $attachment);
                 // Get the key so we can return to ajax request and show download link
                 $CI->db->where('id', $insert_id);
-                $_attachment = $CI->db->get(db_prefix().'files')->row();
+                $_attachment = $CI->db->get(db_prefix() . 'files')->row();
                 $key         = $_attachment->attachment_key;
 
                 if ($rel_type == 'invoice') {
@@ -506,77 +507,6 @@ function handle_expense_attachments($id)
         }
     }
 }
-//////////////////
-// Ahmad Zaher Khrezaty
-function handle_procuration_attachments($id)
-{
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
-        header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
-        die;
-    }
-    $path = get_upload_path_by_type('procuration') . $id . '/';
-    $CI   = & get_instance();
-
-    if (isset($_FILES['file']['name'])) {
-        hooks()->do_action('before_upload_expense_attachment', $id);
-        // Get the temp file path
-        $tmpFilePath = $_FILES['file']['tmp_name'];
-        // Make sure we have a filepath
-        if (!empty($tmpFilePath) && $tmpFilePath != '') {
-            _maybe_create_upload_path($path);
-            $filename    = $_FILES['file']['name'];
-            $newFilePath = $path . $filename;
-            // Upload the file into the temp dir
-            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-                $attachment   = [];
-                $attachment[] = [
-                    'file_name' => $filename,
-                    'filetype'  => $_FILES['file']['type'],
-                    ];
-
-                $CI->misc_model->add_attachment_to_database($id, 'procuration', $attachment);
-            }
-        }
-    }
-}
-
-//////////////////
-// waseem abdallah
-function handle_transaction_attachments($id)
-{
-    if (isset($_FILES['file']) && _perfex_upload_error($_FILES['file']['error'])) {
-        header('HTTP/1.0 400 Bad error');
-        echo _perfex_upload_error($_FILES['file']['error']);
-        die;
-    }
-    $path = get_upload_path_by_type('transaction') . $id . '/';
-    $CI   = & get_instance();
-
-    if (isset($_FILES['file']['name'])) {
-        hooks()->do_action('before_upload_expense_attachment', $id);
-        // Get the temp file path
-        $tmpFilePath = $_FILES['file']['tmp_name'];
-        // Make sure we have a filepath
-        if (!empty($tmpFilePath) && $tmpFilePath != '') {
-            _maybe_create_upload_path($path);
-            $filename    = $_FILES['file']['name'];
-            $newFilePath = $path . $filename;
-            // Upload the file into the temp dir
-            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-                $attachment   = [];
-                $attachment[] = [
-                    'file_name' => $filename,
-                    'filetype'  => $_FILES['file']['type'],
-                ];
-
-                $CI->misc_model->add_attachment_to_database($id, 'transaction', $attachment);
-            }
-        }
-    }
-}
-
-
 /**
  * Check for ticket attachment after inserting ticket to database
  * @param  mixed $ticketid
@@ -657,9 +587,12 @@ function handle_company_logo_upload()
                     'jpeg',
                     'png',
                     'gif',
+                    'svg',
                 ];
 
-                $allowed_extensions = hooks()->apply_filters('company_logo_upload_allowed_extensions', $allowed_extensions);
+                $allowed_extensions = array_unique(
+                    hooks()->apply_filters('company_logo_upload_allowed_extensions', $allowed_extensions)
+                );
 
                 if (!in_array($extension, $allowed_extensions)) {
                     set_alert('warning', 'Image extension not allowed.');
@@ -668,7 +601,7 @@ function handle_company_logo_upload()
                 }
 
                 // Setup our new file path
-                $filename    = $logo . '.' . $extension;
+                $filename    = md5($logo . time()) . '.' . $extension;
                 $newFilePath = $path . $filename;
                 _maybe_create_upload_path($path);
                 // Upload the file into the company uploads dir
@@ -821,7 +754,7 @@ function handle_staff_profile_image_upload($staff_id = '')
                 $CI->image_lib->initialize($config);
                 $CI->image_lib->resize();
                 $CI->db->where('staffid', $staff_id);
-                $CI->db->update(db_prefix().'staff', [
+                $CI->db->update(db_prefix() . 'staff', [
                     'profile_image' => $filename,
                 ]);
                 // Remove original image
@@ -894,7 +827,7 @@ function handle_contact_profile_image_upload($contact_id = '')
                 $CI->image_lib->resize();
 
                 $CI->db->where('id', $contact_id);
-                $CI->db->update(db_prefix().'contacts', [
+                $CI->db->update(db_prefix() . 'contacts', [
                     'profile_image' => $filename,
                 ]);
                 // Remove original image
@@ -1003,7 +936,7 @@ function _upload_extension_allowed($filename)
 
     //  https://discussions.apple.com/thread/7229860
     //  Used in main.js too for Dropzone
-    if(strtolower($browser) === 'safari'
+    if (strtolower($browser) === 'safari'
         && in_array('.jpg', $allowed_extensions)
         && !in_array('.jpeg', $allowed_extensions)
     ) {
@@ -1056,7 +989,7 @@ function _file_attachments_index_fix($index_name)
 function _maybe_create_upload_path($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0755,True);
+        mkdir($path, 0755);
         fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
     }
 }
@@ -1078,23 +1011,6 @@ function get_upload_path_by_type($type)
             $path = EXPENSE_ATTACHMENTS_FOLDER;
 
         break;
-        ///////////////////////
-        // Ahmad Zaher Khrezaty
-        case 'procuration':
-            $path = PROCURATION_ATTACHMENTS_FOLDER;
-
-        break;
-
-        case 'hr/document':
-            $path = HR_DOCUMENT_ATTACHMENTS_FOLDER;
-
-        break;
-        ///////////////////////
-        // waseem abdallah
-        case 'transaction':
-            $path = TRANSACTION_ATTACHMENTS_FOLDER;
-
-            break;
         case 'project':
             $path = PROJECT_ATTACHMENTS_FOLDER;
 
@@ -1147,14 +1063,6 @@ function get_upload_path_by_type($type)
         $path = NEWSFEED_FOLDER;
 
         break;
-        case 'case':
-            $path = CASE_ATTACHMENTS_FOLDER;
-
-            break;
-        case 'oservice':
-            $path = OSERVICE_ATTACHMENTS_FOLDER;
-
-            break;
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

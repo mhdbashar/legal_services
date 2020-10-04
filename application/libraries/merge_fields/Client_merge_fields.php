@@ -8,8 +8,8 @@ class Client_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('full_name'),
-                    'key'       => '{contact_fullname}',
+                    'name'      => 'Contact Firstname',
+                    'key'       => '{contact_firstname}',
                     'available' => [
                         'client',
                         'ticket',
@@ -30,30 +30,30 @@ class Client_merge_fields extends App_merge_fields
 
                     ],
                 ],
-                // [
-                //     'name'      => 'Contact Lastname',
-                //     'key'       => '{contact_lastname}',
-                //     'available' => [
-                //         'client',
-                //         'ticket',
-                //         'invoice',
-                //         'estimate',
-                //         'project',
-                //         'credit_note',
-                //         'subscriptions',
-                //     ],
-                //           'templates' => [
-                //         'gdpr-removal-request',
-                //          'contract-expiration',
-                //           'send-contract',
-                //            'contract-comment-to-client',
-                //            'task-added-attachment-to-contacts',
-                //            'task-commented-to-contacts',
-                //            'task-status-change-to-contacts',
-                //     ],
-                // ],
                 [
-                    'name'      => _l('contact_phonenumber'),
+                    'name'      => 'Contact Lastname',
+                    'key'       => '{contact_lastname}',
+                    'available' => [
+                        'client',
+                        'ticket',
+                        'invoice',
+                        'estimate',
+                        'project',
+                        'credit_note',
+                        'subscriptions',
+                    ],
+                          'templates' => [
+                        'gdpr-removal-request',
+                         'contract-expiration',
+                          'send-contract',
+                           'contract-comment-to-client',
+                           'task-added-attachment-to-contacts',
+                           'task-commented-to-contacts',
+                           'task-status-change-to-contacts',
+                    ],
+                ],
+                [
+                    'name'      => 'Contact Phone Number',
                     'key'       => '{contact_phonenumber}',
                     'available' => [
                         'client',
@@ -72,7 +72,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('title'),
+                    'name'      => 'Contact Title',
                     'key'       => '{contact_title}',
                     'available' => [
                         'client',
@@ -90,7 +90,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('contact_email'),
+                    'name'      => 'Contact Email',
                     'key'       => '{contact_email}',
                     'available' => [
                         'client',
@@ -156,7 +156,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_company'),
+                    'name'      => 'Client Company',
                     'key'       => '{client_company}',
                     'available' => [
                         'client',
@@ -173,7 +173,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_phonenumber'),
+                    'name'      => 'Client Phone Number',
                     'key'       => '{client_phonenumber}',
                     'available' => [
                         'client',
@@ -190,7 +190,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_country'),
+                    'name'      => 'Client Country',
                     'key'       => '{client_country}',
                     'available' => [
                         'client',
@@ -207,7 +207,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_city'),
+                    'name'      => 'Client City',
                     'key'       => '{client_city}',
                     'available' => [
                         'client',
@@ -221,7 +221,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_zip'),
+                    'name'      => 'Client Zip',
                     'key'       => '{client_zip}',
                     'available' => [
                         'client',
@@ -235,7 +235,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_state'),
+                    'name'      => 'Client State',
                     'key'       => '{client_state}',
                     'available' => [
                         'client',
@@ -249,7 +249,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_address'),
+                    'name'      => 'Client Address',
                     'key'       => '{client_address}',
                     'available' => [
                         'client',
@@ -263,7 +263,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_vat_number'),
+                    'name'      => 'Client Vat Number',
                     'key'       => '{client_vat_number}',
                     'available' => [
                         'client',
@@ -277,7 +277,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('client_id'),
+                    'name'      => 'Client ID',
                     'key'       => '{client_id}',
                     'available' => [
                         'client',
@@ -291,7 +291,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('password'),
+                    'name'      => 'Password',
                     'key'       => '{password}',
                     'available' => [
                     ],
@@ -300,7 +300,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_from'),
+                    'name'      => 'Statement From',
                     'key'       => '{statement_from}',
                     'available' => [
 
@@ -310,7 +310,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_to'),
+                    'name'      => 'Statement To',
                     'key'       => '{statement_to}',
                     'available' => [
 
@@ -320,7 +320,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_balance_due'),
+                    'name'      => 'Statement Balance Due',
                     'key'       => '{statement_balance_due}',
                     'available' => [
 
@@ -330,7 +330,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_amount_paid'),
+                    'name'      => 'Statement Amount Paid',
                     'key'       => '{statement_amount_paid}',
                     'available' => [
 
@@ -340,7 +340,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_invoiced_amount'),
+                    'name'      => 'Statement Invoiced Amount',
                     'key'       => '{statement_invoiced_amount}',
                     'available' => [
 
@@ -350,7 +350,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('statement_beginning_balance'),
+                    'name'      => 'Statement Beginning Balance',
                     'key'       => '{statement_beginning_balance}',
                     'available' => [
 
@@ -360,7 +360,7 @@ class Client_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('customer_profile_files_admin_link'),
+                    'name'      => 'Customer Files Admin Link',
                     'key'       => '{customer_profile_files_admin_link}',
                     'available' => [
 
@@ -387,7 +387,8 @@ class Client_merge_fields extends App_merge_fields
             $contact_id = get_primary_contact_user_id($client_id);
         }
 
-        $fields['{contact_fullname}']                 = '';
+        $fields['{contact_firstname}']                 = '';
+        $fields['{contact_lastname}']                  = '';
         $fields['{contact_email}']                     = '';
         $fields['{contact_phonenumber}']               = '';
         $fields['{contact_title}']                     = '';
@@ -419,8 +420,8 @@ class Client_merge_fields extends App_merge_fields
         $contact = $this->ci->db->get(db_prefix() . 'contacts')->row();
 
         if ($contact) {
-            $fields['{contact_fullname}']          = $contact->firstname;
-            //$fields['{contact_lastname}']           = $contact->lastname;
+            $fields['{contact_firstname}']          = $contact->firstname;
+            $fields['{contact_lastname}']           = $contact->lastname;
             $fields['{contact_email}']              = $contact->email;
             $fields['{contact_phonenumber}']        = $contact->phonenumber;
             $fields['{contact_title}']              = $contact->title;

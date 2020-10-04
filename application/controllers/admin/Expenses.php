@@ -8,7 +8,6 @@ class Expenses extends AdminController
     {
         parent::__construct();
         $this->load->model('expenses_model');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index($id = '')
@@ -39,28 +38,6 @@ class Expenses extends AdminController
         }
 
         $this->app->get_table_data('expenses', [
-            'clientid' => $clientid,
-        ]);
-    }
-
-    public function table_case($clientid = '')
-    {
-        if (!has_permission('expenses', '', 'view') && !has_permission('expenses', '', 'view_own')) {
-            ajax_access_denied();
-        }
-
-        $this->app->get_table_data('case-expenses', [
-            'clientid' => $clientid,
-        ]);
-    }
-
-    public function table_oservice($clientid = '')
-    {
-        if (!has_permission('expenses', '', 'view') && !has_permission('expenses', '', 'view_own')) {
-            ajax_access_denied();
-        }
-
-        $this->app->get_table_data('oservice-expenses', [
             'clientid' => $clientid,
         ]);
     }
@@ -132,10 +109,9 @@ class Expenses extends AdminController
         $data['payment_modes'] = $this->payment_modes_model->get('', [
             'invoices_only !=' => 1,
         ]);
-        $data['bodyclass']      = 'expense';
-        $data['currencies']     = $this->currencies_model->get();
-        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
-        $data['title']          = $title;
+        $data['bodyclass']  = 'expense';
+        $data['currencies'] = $this->currencies_model->get();
+        $data['title']      = $title;
         $this->load->view('admin/expenses/expense', $data);
     }
 

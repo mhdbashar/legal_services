@@ -8,50 +8,57 @@ class Contract_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('contract_id'),
+                    'name'      => 'Contract ID',
                     'key'       => '{contract_id}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_subject'),
+                    'name'      => 'Contract Subject',
                     'key'       => '{contract_subject}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_description'),
+                    'name'      => 'Contract Description',
                     'key'       => '{contract_description}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_date_start'),
+                    'name'      => 'Contract Date Start',
                     'key'       => '{contract_datestart}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_date_end'),
+                    'name'      => 'Contract Date End',
                     'key'       => '{contract_dateend}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_value'),
+                    'name'      => 'Contract Value',
                     'key'       => '{contract_contract_value}',
                     'available' => [
                         'contract',
                     ],
                 ],
                 [
-                    'name'      => _l('contract_link'),
+                    'name'      => 'Contract Link',
                     'key'       => '{contract_link}',
+                    'available' => [
+                        'contract',
+                    ],
+                ],
+                [
+                    'name'      => 'Project name',
+                    'key'       => '{project_name}',
                     'available' => [
                         'contract',
                     ],
@@ -84,6 +91,7 @@ class Contract_merge_fields extends App_merge_fields
         $fields['{contract_contract_value}'] = app_format_money($contract->contract_value, $currency);
 
         $fields['{contract_link}'] = site_url('contract/' . $contract->id . '/' . $contract->hash);
+        $fields['{project_name}']    = get_project_name_by_id($contract->project_id);
 
         $custom_fields = get_custom_fields('contracts');
         foreach ($custom_fields as $field) {

@@ -227,6 +227,7 @@
 
                     if (data.status == true) {
                         //alert(data.status);
+                           $(window).off('beforeunload');
                         $("#settings-form").unbind('submit').submit();
 
 

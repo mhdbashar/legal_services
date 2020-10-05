@@ -93,20 +93,16 @@ class Other_services_controller extends AdminController
         curl_close($cURLConnection);
 
         $jsonArrayResponse = json_decode($List);
+        if(!isset($jsonArrayResponse->token)){
+            set_alert('danger', _l('problem_exporting'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
         $t = $jsonArrayResponse->token;
         $office_url = $jsonArrayResponse->office_url;
 
 //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
         $token = 'authtoken:' . $t;
         $main_url = $office_url . 'api/';
-
-
-
-
-
-
-
-
         $url = $main_url . 'Service/data';
 
 

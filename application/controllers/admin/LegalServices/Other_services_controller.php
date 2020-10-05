@@ -163,6 +163,7 @@ class Other_services_controller extends AdminController
             set_alert('danger', _l('problem_exporting'));
             redirect($_SERVER['HTTP_REFERER']);
         }
+        
 
 
         $data['clientid'] = $client_id;
@@ -183,6 +184,12 @@ class Other_services_controller extends AdminController
         if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
             set_alert('danger', _l('problem_exporting'));
         } else {
+            if($client_exists){
+                $this->db->where('url', $office_url);
+                $old_exported = $this->db->get('tblmy_exported_services')->row();
+                $smtp_email = $old_exported->email;
+                $password = $old_exported->password;
+            }
             $exported_data = [
                 'email' => $smtp_email,
                 'password' => $password,

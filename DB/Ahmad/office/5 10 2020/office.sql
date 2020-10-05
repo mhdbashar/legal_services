@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2020 at 11:21 PM
+-- Generation Time: Oct 05, 2020 at 01:29 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `office`
+-- Database: `office2`
 --
 
 -- --------------------------------------------------------
@@ -3386,8 +3386,9 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (506, 'training_type', '[{\"key\":\"\\u062f\\u0648\\u0631\\u0629 \\u062a\\u062f\\u0631\\u064a\\u0628\\u064a\\u0629 \\u0623\\u0648\\u0646 \\u0644\\u0627\\u064a\\u0646\",\"value\":\"\\u062f\\u0648\\u0631\\u0629 \\u062a\\u062f\\u0631\\u064a\\u0628\\u064a\\u0629 \\u0623\\u0648\\u0646 \\u0644\\u0627\\u064a\\u0646\"}]', 1),
 (507, 'award_type', '[{\"key\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\",\"value\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\"}]', 1),
 (508, 'termination_type', '[{\"key\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\",\"value\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\"},{\"key\":\"\\u0641\\u0635\\u0644\",\"value\":\"\\u0641\\u0635\\u0644\"},{\"key\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\",\"value\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\"}]', 1),
-(509, 'warning_type', '[{\"key\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\",\"value\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\"},{\"key\":\"\\u063a\\u064a\\u0627\\u0628\",\"value\":\"\\u063a\\u064a\\u0627\\u0628\"}]', 1);
-(501, 'office_name_in_center', 'office_name_in_center', 1),
+(509, 'warning_type', '[{\"key\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\",\"value\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\"},{\"key\":\"\\u063a\\u064a\\u0627\\u0628\",\"value\":\"\\u063a\\u064a\\u0627\\u0628\"}]', 1),
+(510, 'office_name_in_center', '1', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -6362,7 +6363,7 @@ ALTER TABLE `tblnotifications`
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=511;
 
 --
 -- AUTO_INCREMENT for table `tbloservicediscussioncomments`

@@ -1,4 +1,12 @@
 <?php
+
+$lang['follow_up_service'] = "متابعة تقدم الخدمة";
+$lang['login_details'] = "تفاصيل تسجيل الدخول";
+$lang['exported_successfully'] = "تم التصدير بنجاح";
+$lang['problem_exporting'] = "خطأ في التصدير";
+$lang['go'] = "اذهب";
+
+
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";

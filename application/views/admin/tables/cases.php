@@ -74,12 +74,8 @@ foreach ($rResult as $aRow) {
     $_data =  '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
     $_data .= '  <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '?group=CaseMovement">' . _l('CaseMovement') . '</a>';
-    if ($hasPermissionEdit) {
-        $_data .= ' | <a href="' . admin_url('Case/edit/' . $ServID . '/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    }
-    if ($hasPermissionDelete) {
-        $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' . $ServID . '/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-    }
+    $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
+    $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
     $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
 
@@ -90,7 +86,8 @@ foreach ($rResult as $aRow) {
     }
         
     else{
-        $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/".$ServID."/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
+        $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/1/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
+        $_data .= ' |  <a href="#" onclick=\'login_details("'. $exported_data['email'] .'", "'.$exported_data['password'].'", "'.$exported_data['url'].'"); return false\' >'. _l('login_details') .'</a>';
     }
    
     $_data .= '</div>';

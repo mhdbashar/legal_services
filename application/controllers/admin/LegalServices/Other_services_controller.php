@@ -146,8 +146,13 @@ class Other_services_controller extends AdminController
         $smtp_email = $this->db->get('tbloptions')->row_array()['value'];
 
         $client_id = 0;
-        $smtp_email = 'hiastskype@gmail.com';
-        $password = '12345678';
+        //$smtp_email = 'hiastskype@gmail.com';
+        if($smtp_email == ''){
+            set_alert('danger', _l('problem_exporting'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $password = substr(str_shuffle($charset), -5, 4);
 
         $client_exists = $this->check_if_client_exists($token, $main_url, $smtp_email);
         if ($client_exists)
@@ -181,8 +186,6 @@ class Other_services_controller extends AdminController
         $result = curl_exec($ch);
         $response_object = (json_decode($result));
         if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
-            var_dump($result);
-            exit;
             set_alert('danger', _l('problem_exporting'));
         } else {
             $exported_data = [
@@ -194,6 +197,14 @@ class Other_services_controller extends AdminController
             ];
             $this->db->insert('tblmy_exported_services', $exported_data);
             $insert_id = $this->db->insert_id();
+            $notified = add_notification([
+                'description'     => 'Service exported successfully <br>email: '.$smtp_email.' <br>password: '.$password,
+                'touserid'        => get_staff_user_id(),
+                'fromcompany'     => 1,
+                'fromuserid'      => null,
+                'link'            => 'LegalServices/other_services_controller/follow_service_from_notification?url='.$office_url,
+                
+            ]);
             set_alert('success', _l('exported_successfully'));
         }
         curl_close($ch);
@@ -208,6 +219,12 @@ class Other_services_controller extends AdminController
     public function follow_service($ServID, $id){
         $this->db->where(['service_id' => $ServID, 'rel_id' => $id]);
         $url = $this->db->get('tblmy_exported_services')->row()->url;
+        redirect($url);
+    }
+
+    public function follow_service_from_notification()
+    {
+        $url = $this->input->get('url');
         redirect($url);
     }
 

@@ -213,6 +213,71 @@
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<div class="modal fade" id="login_details" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+<!--       <php $route = $ServID == 1 ? admin_url("Case/add/$ServID") : admin_url("SOther/add/$ServID") ?>  -->
+
+        <!-- <?php
+        $attributes = array('id' => 'myform');
+        echo form_open(admin_url('LegalServices/Other_services_controller'), $attributes);
+        ?> -->
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+
+                    <span class="add-title"><?php echo _l('login_details'); ?></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="additional"></div>
+
+                        <!-- <?php echo render_input('email', 'email', '', 'text', ['readonly' => 'true', 'id' => 'email']); ?>-->
+                        <div style="
+                            display: flex;
+                            justify-content: 'space-between';
+                            align-items: 'center';
+                            flex-direction: 'row';
+                        "> 
+                            <div style="font-size: 20px; flex: 1">
+                                <?php echo _l('client_email') ?>:
+                            </div>
+                            <div style="font-size: 20px; flex: 1; color: #0e80bd" id="email"></div>
+                        </div>
+                        <div style="
+                            display: flex;
+                            justify-content: 'space-between';
+                            align-items: 'center';
+                            flex-direction: 'row';
+                            margin-top: 10px
+                        "> 
+                            <div style="font-size: 20px; flex: 1">
+                                <?php echo _l('password') ?>:
+                            </div>
+                            <div style="font-size: 20px; flex: 1; color: #0e80bd" id="password"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="close_login_details" type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <a href="" target="_blank" id="go" class="btn btn-info"><?php echo _l('go'); ?></a>
+            </div>
+        </div><!-- /.modal-content -->
+
+
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 </html>
 
@@ -257,6 +322,22 @@
 
         $('#office_name').modal('show');
         $("#close").click(function () {
+
+            window.location.reload();
+
+        });
+
+    }
+
+    function login_details(email, password, url) {
+
+        $('#email').html(email);
+        $('#password').html(password);
+        $('#go').attr('href', url);
+
+
+        $('#login_details').modal('show');
+        $("#close_login_details").click(function () {
 
             window.location.reload();
 

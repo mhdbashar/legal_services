@@ -127,7 +127,11 @@ class Other_services_controller extends AdminController
         // ));
 
         $this->db->where('country_id', $data['country']);
-        $country = $this->db->get("tblcountries")->row_array()['short_name_ar'];
+        $country = null;
+        $country_array = $this->db->get("tblcountries")->row_array();
+        if(isset($country_array['short_name_ar']))
+            $country = $country_array['short_name_ar'];
+
         if ($country == null)
             $country = '';
         $data['country'] = $country;

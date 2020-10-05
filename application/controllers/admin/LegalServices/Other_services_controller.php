@@ -1,4 +1,3 @@
-
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Other_services_controller extends AdminController

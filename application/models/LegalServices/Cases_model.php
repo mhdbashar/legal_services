@@ -600,6 +600,11 @@ class Cases_model extends App_Model
             $this->db->where('fieldto', $slug);
             $this->db->delete('customfieldsvalues');
 
+            // Delete Exported service
+            $this->db->where('rel_id', $id);
+            $this->db->where('service_id', $ServID);
+            $this->db->delete(db_prefix() . 'my_exported_services');
+
             $this->db->where('rel_id', $id);
             $this->db->where('rel_type', $slug);
             $this->db->delete(db_prefix() . 'taggables');
@@ -715,6 +720,11 @@ class Cases_model extends App_Model
             $this->db->update(db_prefix() . 'tickets', [
                 'deleted' => 1,
             ]);
+
+            // Delete Exported service
+            $this->db->where('rel_id', $id);
+            $this->db->where('service_id', $ServID);
+            $this->db->delete(db_prefix() . 'my_exported_services');
 
             log_activity('Case Moved To Recycle Bin [CaseID: ' . $id . ']');
             return true;

@@ -573,6 +573,11 @@ class Other_services_model extends App_Model
                 'deleted' => 1,
             ]);
 
+            // Delete Exported service
+            $this->db->where('rel_id', $id);
+            $this->db->where('service_id', $ServID);
+            $this->db->delete(db_prefix() . 'my_exported_services');
+
             log_activity($ServiceName.' Moved To Recycle Bin [ServiceID: ' . $id . ']');
             return true;
         }
@@ -601,6 +606,11 @@ class Other_services_model extends App_Model
             $this->db->where('rel_sid', $id);
             $this->db->where('rel_stype', $slug);
             $this->db->delete(db_prefix() . 'milestones');
+
+            // Delete Exported service
+            $this->db->where('rel_id', $id);
+            $this->db->where('service_id', $ServID);
+            $this->db->delete(db_prefix() . 'my_exported_services');
 
             // Delete the custom field values
             $this->db->where('relid', $id);

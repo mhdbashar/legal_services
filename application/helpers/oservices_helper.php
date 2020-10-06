@@ -174,7 +174,7 @@ function app_init_oservice_tabs()
         if($service_session_link == 1):
             $CI->app_tabs->add_oservice_tab('OserviceSession', [
                 'name'     => _l('SessionLog'),
-                'icon'     => 'fa fa-gavel',
+                'icon'     => 'fa fa-font-awesome',
                 'view'     => 'admin/LegalServices/services_sessions/services_sessions',
                 'position' => 60,
             ]);

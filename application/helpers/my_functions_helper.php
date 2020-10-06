@@ -86,8 +86,22 @@ hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 
 function my_module_menu_item_collapsible()
 {
+    /*The default menu items position
+    Dashboard – 1
+    Customers – 5
+    Sales – 10
+    Subscriptions – 15
+    Expenses – 20
+    Contracts – 25
+    Projects – 30
+    Tasks – 35
+    Tickets – 40
+    Leads – 45
+    Knowledge Base – 50
+    Utilities – 55
+    Reports – 60*/
     $CI = &get_instance();
-    
+
     // $CI->app_menu->add_sidebar_menu_item('clients', [
     //     'name'     => _l('clients_'), // The name if the item
     //     'collapse' => true, // Indicates that this item will have submitems
@@ -126,10 +140,17 @@ function my_module_menu_item_collapsible()
         ]);
     endforeach;
 
+    $CI->app_menu->add_sidebar_menu_item('sessions', [
+        'name'     => _l("sessions"), // The name if the item
+        'href'     => admin_url('LegalServices/Sessions'), // URL of the item
+        'position' => 5, // The menu position, see below for default positions.
+        'icon'     => 'fa fa-font-awesome', // Font awesome icon
+    ]);
+
     $CI->app_menu->add_sidebar_menu_item('transactions', [
         'name'     => _l("transactions"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 7, // The menu position
+        'position' => 10, // The menu position
         'icon'     => 'fa fa-briefcase', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('transactions', [
@@ -137,16 +158,12 @@ function my_module_menu_item_collapsible()
         'name'     => _l("incoming"), // The name if the item
         'href'     => admin_url('transactions/incoming_list'), // URL of the item
         'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
     $CI->app_menu->add_sidebar_children_item('transactions', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("outgoing"), // The name if the item
         'href'     => admin_url('transactions/outgoing_list'), // URL of the item
         'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
 }
 
@@ -702,6 +719,7 @@ function get_dialog_boxes()
  * @param  string $tag   tag for bulk pdf exporter
  * @return mixed object
  */
+
 function irac_pdf($irac, $tag = '')
 {
     return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);

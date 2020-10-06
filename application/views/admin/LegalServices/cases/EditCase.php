@@ -434,7 +434,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -930,18 +930,20 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            representative: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            court_id: 'required',
-            jud_num: 'required',
-            billing_type: 'required',
-            case_status:'required',
+            //opponent_id: 'required',
+            //representative: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //court_id: 'required',
+            //jud_num: 'required',
+            //billing_type: 'required',
+            //case_status:'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
-            case_result: 'required',
-            case_status: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            //case_result: 'required',
+            //case_status: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

@@ -177,7 +177,7 @@ function app_init_case_tabs()
 
     $CI->app_tabs->add_case_tab('CaseSession', [
         'name'                      => _l('SessionLog'),
-        'icon'                      => 'fa fa-gavel',
+        'icon'                      => 'fa fa-font-awesome',
         'view'                      => 'admin/LegalServices/services_sessions/services_sessions',
         'position'                  => 65,
     ]);

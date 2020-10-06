@@ -246,7 +246,7 @@
                             <input type="checkbox" name="service_session_link" id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$OtherServ->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -479,15 +479,16 @@
 
         _validate_form($('#form'), {
             code: 'required',
-            title: 'required',
+            name: 'required',
             clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //billing_type: 'required',
             //rate_per_hour: 'required',
-            members: 'required',
-            start_date: 'required',
-            end_date: 'required',
+            //members: 'required',
+            //start_date: 'required',
+            //end_date: 'required',
+            description: 'required',
         });
 
 

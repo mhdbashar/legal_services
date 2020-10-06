@@ -405,7 +405,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
@@ -898,18 +898,19 @@
             name: 'required',
             clientid: 'required',
             //opponent_id: 'required',
-            representative: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            court_id: 'required',
-            jud_num: 'required',
-            billing_type: 'required',
-            case_status:'required',
+            //representative: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //court_id: 'required',
+            //jud_num: 'required',
+            //billing_type: 'required',
+            //case_status:'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
-            case_result: 'required',
-            case_status: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            //case_result: 'required',
+            //case_status: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

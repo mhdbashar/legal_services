@@ -242,7 +242,6 @@ class Cases_controller extends AdminController
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             close_setup_menu();
             $project = $this->case->get($id);
-
             if (!$project) {
                 blank_page(_l('LService_not_found'));
             }

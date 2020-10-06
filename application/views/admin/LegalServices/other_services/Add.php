@@ -233,7 +233,7 @@
                             <input type="checkbox" name="service_session_link" id="service_session_link">
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
@@ -480,12 +480,13 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //billing_type: 'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

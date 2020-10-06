@@ -165,23 +165,27 @@
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Court'); ?></td>
-            <td><?php echo $project->court_name; ?></td>
+            <td><?php echo isset($project->court_name) && $project->court_name != '' ? $project->court_name : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('NumJudicialDept'); ?></td>
-            <td><?php echo $project->Jud_number; ?></td>
+            <td><?php echo isset($project->Jud_number) && $project->Jud_number != '' ? $project->Jud_number : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('judge'); ?></td>
             <td>
-                <?php foreach($judges_case as $judge): ?>
-                    <?php echo $judge->name.',  '; ?>
-                <?php endforeach; ?>
+                <?php if(!empty($judges_case)) {
+                    foreach ($judges_case as $judge):
+                        echo $judge->name . ',  ';
+                    endforeach;
+                }else{
+                    echo _l('smtp_encryption_none');
+                }?>
             </td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('case_status'); ?></td>
-            <td><?php echo $project->StatusCase; ?></td>
+            <td><?php echo isset($project->StatusCase) && $project->StatusCase != '' ? $project->StatusCase : _l('smtp_encryption_none'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('ResultCase'); ?></td>

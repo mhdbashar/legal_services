@@ -277,7 +277,7 @@ class Imported_services_controller extends AdminController
 
             $this->app_scripts->add(
                 'projects-js',
-                base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
+                base_url($this->app_scripts->core_file('assets/js', 'iservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
             );
@@ -882,6 +882,8 @@ class Imported_services_controller extends AdminController
             $id = $this->imported->copy($service_id, $project_id, $this->input->post());
             $name = $service_id == 1 ? "Case" : "SOther";
             if ($id) {
+                $this->db->where(array('id' => $project_id));
+                $this->db->delete(db_prefix() . 'my_imported_services');
                 set_alert('success', _l('project_copied_successfully'));
                 redirect(admin_url($name.'/view/' .$service_id. '/' . $id));
             } else {

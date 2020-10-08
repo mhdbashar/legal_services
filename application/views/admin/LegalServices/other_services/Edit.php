@@ -114,7 +114,7 @@
                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                         <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': $OtherServ->city == $row->Name_ar ?  'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': ($OtherServ->city == $row->Name_ar ?  'selected' : '') ?>><?php echo $row->$field_city; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -275,10 +275,10 @@
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
 
-            $checked = ' checked';
+            $checked = ' ';
             if(isset($OtherServ)){
-                if($OtherServ->settings->{$setting} == 0){
-                    $checked = '';
+                if($OtherServ->settings->{$setting} == 1){
+                    $checked = ' checked';
                 }
             } else {
                 foreach($last_project_settings as $last_setting) {

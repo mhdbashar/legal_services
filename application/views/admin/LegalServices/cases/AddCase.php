@@ -421,10 +421,12 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
-                            $checked = ' checked';
+                            // $checked = ' checked';
+                            $checked = '';
+
                             if(isset($case)){
-                                if($case->settings->{$setting} == 0){
-                                    $checked = '';
+                                if($case->settings->{$setting} == 1){
+                                $checked = ' checked';
                                 }
                             } else {
                                 foreach($last_case_settings as $last_setting) {

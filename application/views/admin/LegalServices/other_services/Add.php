@@ -259,10 +259,10 @@
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
 
-            $checked = ' checked';
-         /*  if(isset($OtherServ)){
-                if($OtherServ->settings->{$setting} == 0){
-                    $checked = '';
+            $checked = ' ';
+           if(isset($OtherServ)){
+                if($OtherServ->settings->{$setting} == 1){
+                    $checked = ' checked';
                 }
             } else {
                 // var_dump($last_project_settings);
@@ -282,7 +282,7 @@
                 if(count($last_project_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
-            } */?>
+            } ?>
             <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">

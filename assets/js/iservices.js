@@ -24,9 +24,9 @@ $(function() {
         $.Shortcuts.start();
     });
 
-    $('body').on('show.bs.modal', '._project_file', function() {
-        discussion_comments_oservice('#oservice-file-discussion', discussion_id, 'file');
-    });
+    // $('body').on('show.bs.modal', '._project_file', function() {
+    //     discussion_comments_oservice('#oservice-file-discussion', discussion_id, 'file');
+    // });
 
     $('body').on('shown.bs.modal', '#milestone', function() {
         $('#milestone').find('input[name="name"]').focus();
@@ -786,9 +786,9 @@ function view_project_file(id, $project_id) {
     });
 }
 
-function view_oservice_file(id, $project_id) {
+function view_iservice_file(id, $project_id) {
     $('#project_file_data').empty();
-    $("#project_file_data").load(admin_url + 'LegalServices/Other_services_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
+    $("#project_file_data").load(admin_url + 'LegalServices/Imported_services_controller/file/' + id + '/' + project_id, function(response, status, xhr) {
         if (status == "error") {
             alert_float('danger', xhr.statusText);
         }
@@ -865,7 +865,7 @@ function project_files_bulk_action(e) {
 
 }
 
-function oservice_files_bulk_action(e) {
+function iservice_files_bulk_action(e) {
     if (confirm_delete()) {
         var mass_delete = $('#mass_delete').prop('checked');
         var ids = [];
@@ -876,7 +876,7 @@ function oservice_files_bulk_action(e) {
             data.mass_delete = true;
         }
 
-        var rows = $('.table-oservice-files').find('tbody tr');
+        var rows = $('.table-iservice-files').find('tbody tr');
         $.each(rows, function() {
             var checkbox = $($(this).find('td').eq(0)).find('input');
             if (checkbox.prop('checked') == true) {
@@ -888,7 +888,7 @@ function oservice_files_bulk_action(e) {
         $(e).addClass('disabled');
 
         setTimeout(function() {
-            $.post(admin_url + 'LegalServices/Other_services_controller/bulk_action_files', data).done(function() {
+            $.post(admin_url + 'LegalServices/Imported_services_controller/bulk_action_files', data).done(function() {
                 window.location.reload();
             });
         }, 200);

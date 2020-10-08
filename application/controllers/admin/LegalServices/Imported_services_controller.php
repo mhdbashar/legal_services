@@ -359,7 +359,7 @@ class Imported_services_controller extends AdminController
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['rel_sid' => $id, 'rel_stype' => $slug]);
                 $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => $slug, 'milestone' => 0]) > 0);
             } elseif ($group == 'project_files') {
-                $data['files'] = $this->other->get_files($id);
+                $data['files'] = $this->other->get_imported_files($id);
             } elseif ($group == 'project_expenses') {
                 $this->load->model('taxes_model');
                 $this->load->model('expenses_model');
@@ -484,12 +484,12 @@ class Imported_services_controller extends AdminController
         $data['discussion_user_profile_image_url'] = staff_profile_image_url(get_staff_user_id());
         $data['current_user_is_admin'] = is_admin();
 
-        $data['file'] = $this->other->get_file($id, $project_id);
+        $data['file'] = $this->other->get_imported_file($id, $project_id);
         if (!$data['file']) {
             header('HTTP/1.0 404 Not Found');
             die;
         }
-        $this->load->view('admin/LegalServices/other_services/_file', $data);
+        $this->load->view('admin/LegalServices/imported_services/_file', $data);
     }
 
     public function update_file_data()
@@ -512,20 +512,20 @@ class Imported_services_controller extends AdminController
         }
     }
 
-    public function download_all_files($ServID = '', $id)
+    public function download_all_files($id)
     {
         if ($this->other->is_member($id) || has_permission('projects', '', 'view')) {
-            $files = $this->other->get_files($id);
+            $files = $this->other->get_imported_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
-                redirect(admin_url('SOther/view/'.$ServID.'/'. $id . '?group=project_files'));
+                redirect(admin_url('SImported/view/'. $id . '?group=project_files'));
             }
-            $path = get_upload_path_by_type_oservice('oservice') . $id;
+            $path = get_upload_path_by_type_iservice('iservice') . $id;
             $this->load->library('zip');
             foreach ($files as $file) {
                 $this->zip->read_file($path . '/' . $file['file_name']);
             }
-            $this->zip->download(slug_it(get_oservice_name_by_id($id)) . '-files.zip');
+            $this->zip->download(slug_it(get_iservice_name_by_id($id)) . '-files.zip');
             $this->zip->clear_data();
         }
     }

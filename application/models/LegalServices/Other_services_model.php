@@ -661,9 +661,15 @@ class Other_services_model extends App_Model
         $slug = "imported";
         $ServiceName = "imported";
 
+        $files = $this->get_imported_files($id);
+        foreach ($files as $file) {
+            $this->remove_imported_file($file['id']);
+        }
+
         $this->db->set('deleted', 1);
         $this->db->where(array('id' => $id, 'deleted' => 0));
         $this->db->update(db_prefix() . 'my_imported_services');
+
 
         if ($this->db->affected_rows() > 0) {
 
@@ -847,10 +853,10 @@ class Other_services_model extends App_Model
             // $this->db->where('oservice_id', $id);
             // $this->db->delete(db_prefix() . 'oservicediscussions');
 
-            // $files = $this->get_files($id);
-            // foreach ($files as $file) {
-            //     $this->remove_file($file['id']);
-            // }
+            $files = $this->get_imported_files($id);
+            foreach ($files as $file) {
+                $this->remove_imported_file($file['id']);
+            }
 
             // $tasks = $this->get_tasks($ServID, $id);
             // foreach ($tasks as $task) {
@@ -1384,6 +1390,16 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'oservice_files')->result_array();
     }
 
+    public function get_imported_files($project_id)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('iservice_id', $project_id);
+
+        return $this->db->get(db_prefix() . 'iservice_files')->result_array();
+    }
+
     public function get_file($id, $project_id = false)
     {
         if (is_client_logged_in()) {
@@ -1394,6 +1410,23 @@ class Other_services_model extends App_Model
 
         if ($file && $project_id) {
             if ($file->oservice_id != $project_id) {
+                return false;
+            }
+        }
+
+        return $file;
+    }
+
+    public function get_imported_file($id, $project_id = false)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+
+        if ($file && $project_id) {
+            if ($file->iservice_id != $project_id) {
                 return false;
             }
         }
@@ -1460,6 +1493,52 @@ class Other_services_model extends App_Model
                 $other_attachments = list_files(get_upload_path_by_type_oservice('oservice') . $file->oservice_id);
                 if (count($other_attachments) == 0) {
                     delete_dir(get_upload_path_by_type_oservice('oservice') . $file->oservice_id);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function remove_imported_file($id, $logActivity = true)
+    {
+        hooks()->do_action('before_remove_project_file', $id);
+
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+        if ($file) {
+            if (empty($file->external)) {
+                $path = get_upload_path_by_type_iservice('iservice') . $file->iservice_id . '/';
+                $fullPath = $path . $file->file_name;
+                if (file_exists($fullPath)) {
+                    unlink($fullPath);
+                    $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                    $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    $thumbPath = $path . $fname . '_thumb.' . $fext;
+
+                    if (file_exists($thumbPath)) {
+                        unlink($thumbPath);
+                    }
+                }
+            }
+
+            $this->db->where('id', $id);
+            $this->db->delete(db_prefix() . 'iservice_files');
+            if ($logActivity) {
+                $this->log_activity($file->iservice_id, 'LService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+            }
+
+            // Delete discussion comments
+            $this->_delete_discussion_comments($id, 'file');
+
+            if (is_dir(get_upload_path_by_type_iservice('iservice') . $file->iservice_id)) {
+                // Check if no attachments left, so we can delete the folder also
+                $other_attachments = list_files(get_upload_path_by_type_iservice('iservice') . $file->iservice_id);
+                if (count($other_attachments) == 0) {
+                    delete_dir(get_upload_path_by_type_iservice('iservice') . $file->iservice_id);
                 }
             }
 

@@ -52,11 +52,6 @@ class Api extends AdminController
                 redirect(admin_url('api/api_management'));
             }
             
-           
-            
-            
-            
-            
             die;
         }
     }
@@ -76,10 +71,11 @@ class Api extends AdminController
         }
         redirect(admin_url('api/api_management'));
     }
-	    public function insert_into_api($token_t) {
+  public function insert_into_api($token_t) {
       
         
 $url='https://legaloffices.babillawnet.com/api/insert';
+
 
         //$data['offic_name'] = $this->input->post('office_name');
         $companyname = get_option('office_name_in_center');

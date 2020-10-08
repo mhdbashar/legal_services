@@ -395,11 +395,22 @@ class Api_model extends App_Model
 
      public function add_user($data)
     {
-        $payload = [
+		if(isset($data['password'])){
+					   $payload = [
             'user' => $data['user'],
             'name' => $data['name'],
-            'password' => $data['password']
+          'password'=> $data['password']
         ];
+			
+		}
+		else{
+					   $payload = [
+            'user' => $data['user'],
+            'name' => $data['name']
+        
+        ];
+		}
+     
         // Load Authorization Library or Load in autoload config file
         $this->load->library('Authorization_Token');
         // generate a token
@@ -407,7 +418,11 @@ class Api_model extends App_Model
         $today = date('Y-m-d H:i:s');
                 
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
-        $data['password'] = app_hash_password($data['password']);
+	if(isset($data['password'])){
+		$data['password'] = app_hash_password($data['password']);
+	}
+		
+        
        $this->db->insert(db_prefix() . 'user_api', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {

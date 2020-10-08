@@ -7,7 +7,7 @@ function new_user() {
         password: 'required',
         expiration_date: 'required'
     });
-    $('#user_api').modal('show');
+   
     $('.edit-title').addClass('hide');
     $('#user_api input[name="user"]').val('');
     $('#user_api input[name="name"]').val('');

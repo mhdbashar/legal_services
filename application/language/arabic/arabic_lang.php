@@ -1,6 +1,6 @@
 <?php
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
-$lang['swap_pdf_info'] = "مبادلة معلومات الشركة / العميل (تفاصيل الشركة إلى الجانب الأيمن ، تفاصيل العميل إلى الجانب الأيسر)";
+$lang['swap_pdf_info'] = "مبادلة معلومات الشركة / الموكل (تفاصيل الشركة إلى الجانب الأيمن ، تفاصيل الموكل إلى الجانب الأيسر)";
 $lang['ticket_form'] = "نموذج التذاكر";
 $lang['remove_tax_name_from_item_table_help'] = "مثال ذلك: سيتم عرض الضريبة للعنصر 5٪ على أنها 5٪ بدون ذكر اسم الضريبة (لا يتم تطبيقها إذا تم العثور على ضرائب متعددة بنفس الاسم ونسبة الضرائب للعنصر)";
 $lang['settings_number_padding_prefix'] = "تنسيق البدايات الصفرية للأرقام <br> <small> مثال ذلك: إذا كانت هذه القيمة 3 ، فسيتم تنسيق الرقم: 007 أو 043 </small>";
@@ -52,15 +52,15 @@ $lang['proposals_pipeline'] = "إمداد العطاءات";
 $lang['pipeline_limit_status'] = "حد الإمداد لكل حالة";
 $lang['estimates_sort_pipeline'] = "ترتيب إمداد البريد";
 $lang['estimates_pipeline'] = "إمداد عروض الأتعاب";
-$lang['email_piping_only_registered'] = "الإمداد فقط من العملاء المسجلين";
+$lang['email_piping_only_registered'] = "الإمداد فقط من الوكلاء المسجلين";
 $lang['email_piping_default_priority'] = "اولوية التذكرة الواردة عبر إمداد البريد";
 $lang['default_pipeline_sort'] = "فرز إمداد البريد الإفتراضي";
 $lang['view_kanban'] = "عرض تدفق البيانات";
 $lang['tasks_kanban_limit'] = "حد صفوف تدفق البيانات للمهام لكل حالة";
-$lang['settings_leads_kanban_limit'] = "حد صفوف تدفق البيانات للعملاء المحتملين لكل حالة";
+$lang['settings_leads_kanban_limit'] = "حد صفوف تدفق البيانات للوكلاء المحتملين لكل حالة";
 $lang['leads_switch_to_kanban'] = "تحويل إلى نظام تدفق البيانات";
 $lang['leads_sort_by_kanban_order'] = "ترتيب تدفق البيانات";
-$lang['default_leads_kanban_sort'] = "فرز تدفق البيانات للعملاءالمحتملين الإفتراضي";
+$lang['default_leads_kanban_sort'] = "فرز تدفق البيانات للوكلاء المحتملين الإفتراضي";
 $lang['copy_project'] = "نسخ الخدمة";
 $lang['home_my_todo_items'] = "عناصر يجب القيام بها";
 $lang['projects'] = "خدمات";
@@ -68,11 +68,11 @@ $lang['project_status_4'] = "منتهية";
 $lang['project_status_1'] = "لم تبدأ";
 $lang['project_status_2'] = "متداولة";
 $lang['new_expense'] = "سجل المصروفات";
-$lang['allow_customer_to_change_ticket_status'] = "السماح للعميل بتغيير حالة التذكرة من منطقة العملاء";
-$lang['project_allow_client_to'] = "السماح للعميل بـ %s";
-$lang['clients_list_company'] = "إسم العميل";
-$lang['clients_company'] = "العميل";
-$lang['client_company'] = "إسم العميل";
+$lang['allow_customer_to_change_ticket_status'] = "السماح للموكل بتغيير حالة التذكرة من منطقة الوكلاء";
+$lang['project_allow_client_to'] = "السماح للموكل بـ %s";
+$lang['clients_list_company'] = "إسم الموكل";
+$lang['clients_company'] = "الموكل";
+$lang['client_company'] = "إسم الموكل";
 $lang['contract_edit_overview'] = "نظرة عامة على العقود";
 $lang['home_estimate_overview'] = "نظرة عامة على عروض الأسعار";
 $lang['id'] = "المعرف";
@@ -122,12 +122,12 @@ $lang['new_announcement'] = "إعلان جديد";
 $lang['announcement_name'] = "الموضوع";
 $lang['announcement_message'] = "الرسالة";
 $lang['announcement_show_to_staff'] = "إظهار لفريق العمل";
-$lang['announcement_show_to_clients'] = "إظهار للعملاء";
+$lang['announcement_show_to_clients'] = "إظهار للوكلاء";
 $lang['announcement_show_my_name'] = "إظهار الأسم";
-$lang['clients'] = "العملاء";
-$lang['client'] = "العميل";
-$lang['new_client'] = "عميل جديد";
-$lang['client_lowercase'] = "العميل";
+$lang['clients'] = "الوكلاء";
+$lang['client'] = "الموكل";
+$lang['new_client'] = "موكل جديد";
+$lang['client_lowercase'] = "الموكل";
 $lang['client_firstname'] = "الأسم الأول";
 $lang['client_lastname'] = "الأسم الأخير";
 $lang['client_email'] = "البريد الإلكتروني";
@@ -139,7 +139,7 @@ $lang['client_state'] = "المنطقة";
 $lang['client_password'] = "كلمة المرور";
 $lang['client_password_change_populate_note'] = "ملاحظة: إذا قمت بملء هذا الحقل ، فسيتم تغيير كلمة المرور على جهة الاتصال هذه.";
 $lang['client_password_last_changed'] = "أخر تعديل لكلمة المرور :";
-$lang['login_as_client'] = "تسجيل الدخول كعميل";
+$lang['login_as_client'] = "تسجيل الدخول كموكل";
 $lang['client_invoices_tab'] = "الفواتير";
 $lang['contracts_invoices_tab'] = "العقود";
 $lang['contracts_tickets_tab'] = "التذاكر";
@@ -159,10 +159,10 @@ $lang['contract_start_date'] = "يبدأ بتاريخ";
 $lang['contract_end_date'] = "ينتهي بتاريخ";
 $lang['contract_subject'] = "الموضوع";
 $lang['contract_description'] = "الوصف";
-$lang['contract_subject_tooltip'] = "الموضوع مرئي أيضًا للعميل";
-$lang['contract_client_string'] = "العميل";
+$lang['contract_subject_tooltip'] = "الموضوع مرئي أيضًا للموكل";
+$lang['contract_client_string'] = "الموكل";
 $lang['contract_attach'] = "إرفاق مستندات";
-$lang['contract_list_client'] = "العميل";
+$lang['contract_list_client'] = "الموكل";
 $lang['contract_list_subject'] = "الموضوع";
 $lang['contract_list_start_date'] = "يبدأ بتاريخ";
 $lang['contract_list_end_date'] = "ينتهي بتاريخ";
@@ -185,7 +185,7 @@ $lang['new_department'] = "قسم جديد";
 $lang['department_lowercase'] = "القسم";
 $lang['department_name'] = "اسم القسم";
 $lang['department_email'] = "بريد القسم";
-$lang['department_hide_from_client'] = "إخفاء من العميل؟";
+$lang['department_hide_from_client'] = "إخفاء من الموكل؟";
 $lang['department_list_name'] = "الأسم";
 $lang['email_templates'] = "قوالب البريد";
 $lang['email_template'] = "قالب البريد";
@@ -193,7 +193,7 @@ $lang['email_template_lowercase'] = "قالب البريد";
 $lang['email_templates_lowercase'] = "قوالب البريد";
 $lang['email_template_ticket_fields_heading'] = "التذاكر";
 $lang['email_template_invoices_fields_heading'] = "الفواتير";
-$lang['email_template_clients_fields_heading'] = "العملاء";
+$lang['email_template_clients_fields_heading'] = "الوكلاء";
 $lang['template_name'] = "اسم القالب";
 $lang['template_subject'] = "الموضوع";
 $lang['template_fromname'] = "أسم المرسل";
@@ -253,32 +253,32 @@ $lang['create_new_invoice'] = "انشاء فاتورة جديدة";
 $lang['view_invoice'] = "عرض الفاتورة";
 $lang['invoice_payment_recorded'] = "سجل الدفعات";
 $lang['invoice_payment_record_failed'] = "فشل في تسجيل دفع الفاتورة";
-$lang['invoice_sent_to_client_success'] = "تم إرسال الفاتورة بنجاح إلى العميل";
+$lang['invoice_sent_to_client_success'] = "تم إرسال الفاتورة بنجاح إلى الموكل";
 $lang['invoice_sent_to_client_fail'] = "مشكلة عند إرسال الفاتورة";
 $lang['invoice_reminder_send_problem'] = "مشكلة عند ارسال تذكير لفاتورة متأخرة الدفع";
-$lang['invoice_overdue_reminder_sent'] = "تم ارسال تذكير الدفع لفاتورة متأخرة إلى العميل بنجاح";
+$lang['invoice_overdue_reminder_sent'] = "تم ارسال تذكير الدفع لفاتورة متأخرة إلى الموكل بنجاح";
 $lang['invoice_details'] = "تفاصيل الفاتورة";
 $lang['invoice_view'] = "عرض الفاتورة";
-$lang['invoice_select_customer'] = "العميل";
+$lang['invoice_select_customer'] = "الموكل";
 $lang['invoice_add_edit_number'] = "رقم الفاتورة";
 $lang['invoice_add_edit_date'] = "تاريخ الفاتورة";
 $lang['invoice_add_edit_duedate'] = "تاريخ الإستحقاق";
 $lang['invoice_add_edit_currency'] = "العملة";
-$lang['invoice_add_edit_client_note'] = "ملاحظة العميل";
+$lang['invoice_add_edit_client_note'] = "ملاحظة الموكل";
 $lang['invoices_toggle_table_tooltip'] = "تبديل الجدول";
 $lang['edit_invoice_tooltip'] = "تحرير الفاتورة";
 $lang['delete_invoice_tooltip'] = "حذف الفاتورة. ملاحظة: سيتم حذف جميع المدفوعات المتعلقة بهذه الفاتورة (إن وجدت).";
 $lang['invoice_sent_to_email_tooltip'] = "إرسال عبر البريد الإلكتروني";
-$lang['invoice_already_send_to_client_tooltip'] = "هذه الفاتورة تم إرسالها فعلا إلى العميل %s";
+$lang['invoice_already_send_to_client_tooltip'] = "هذه الفاتورة تم إرسالها فعلا إلى الموكل %s";
 $lang['send_overdue_notice_tooltip'] = "إرسال إشعار تأخير الدفع";
 $lang['invoice_view_activity_tooltip'] = "سجل الأنشطة";
 $lang['invoice_record_payment'] = "سجل الدفع";
-$lang['invoice_send_to_client_modal_heading'] = "إرسال الفاتورة إلى العميل";
+$lang['invoice_send_to_client_modal_heading'] = "إرسال الفاتورة إلى الموكل";
 $lang['invoice_send_to_client_attach_pdf'] = "إرفاق فاتورة PDF";
 $lang['invoice_send_to_client_preview_template'] = "معاينة قالب البريد الإلكتروني";
 $lang['invoice_dt_table_heading_number'] = "الفاتورة #";
 $lang['invoice_dt_table_heading_date'] = "التاريخ";
-$lang['invoice_dt_table_heading_client'] = "العميل";
+$lang['invoice_dt_table_heading_client'] = "الموكل";
 $lang['invoice_dt_table_heading_duedate'] = "تاريخ الاستحقاق";
 $lang['invoice_dt_table_heading_amount'] = "المبلغ";
 $lang['invoice_dt_table_heading_status'] = "الحالة";
@@ -297,7 +297,7 @@ $lang['payments_table_invoicenumber_heading'] = "الفاتورة #";
 $lang['payments_table_mode_heading'] = "طريقة الدفع";
 $lang['payments_table_date_heading'] = "التاريخ";
 $lang['payments_table_amount_heading'] = "المبلغ";
-$lang['payments_table_client_heading'] = "العميل";
+$lang['payments_table_client_heading'] = "الموكل";
 $lang['payment_not_exists'] = "الدفعات غير موجودة";
 $lang['payment_edit_for_invoice'] = "دفع الفاتورة";
 $lang['payment_edit_amount_received'] = "المبلغ المستلم";
@@ -350,12 +350,12 @@ $lang['reports_choose_kb_group'] = "اختيار مجموعة";
 $lang['report_kb_yes'] = "نعم";
 $lang['report_kb_no'] = "لا";
 $lang['report_kb_no_votes'] = "لا يوجد تصويت حتى الآن";
-$lang['report_this_week_leads_conversions'] = "عملاء هذا الأسبوع الذين تم تحويلهم";
+$lang['report_this_week_leads_conversions'] = "وكلاء هذا الأسبوع الذين تم تحويلهم";
 $lang['report_leads_sources_conversions'] = "مصادر التحويل";
 $lang['report_leads_monthly_conversions'] = "شهري";
 $lang['sales_report_heading'] = "تقرير المبيعات";
 $lang['report_sales_type_income'] = "إجمالي الدخل";
-$lang['report_sales_type_customer'] = "تقارير العملاء";
+$lang['report_sales_type_customer'] = "تقارير الوكلاء";
 $lang['report_sales_base_currency_select_explanation'] = "تحتاج إلى تحديد العملة لأن لديك فواتير بعملة مختلفة";
 $lang['report_sales_from_date'] = "من تاريخ";
 $lang['report_sales_to_date'] = "إلى تاريخ";
@@ -363,7 +363,7 @@ $lang['report_sales_months_all_time'] = "كل الوقت";
 $lang['report_sales_months_six_months'] = "أخر 6 شهور";
 $lang['report_sales_months_twelve_months'] = "أخر 12 شهر";
 $lang['reports_sales_generated_report'] = "توليد تقرير";
-$lang['reports_sales_dt_customers_client'] = "عميل";
+$lang['reports_sales_dt_customers_client'] = "موكل";
 $lang['reports_sales_dt_customers_total_invoices'] = "مجموع الفواتير";
 $lang['reports_sales_dt_items_customers_amount'] = "المبلغ";
 $lang['reports_sales_dt_items_customers_amount_with_tax'] = "المبلغ مع الضريبة";
@@ -389,16 +389,16 @@ $lang['settings_group_localization'] = "الموقع";
 $lang['settings_group_tickets'] = "التذاكر";
 $lang['settings_group_sales'] = "المالية";
 $lang['settings_group_email'] = "البريد الإلكتروني";
-$lang['settings_group_clients'] = "العملاء";
+$lang['settings_group_clients'] = "الوكلاء";
 $lang['settings_group_newsfeed'] = "تغذية الأخبار";
 $lang['settings_group_cronjob'] = "وظائف النظام";
 $lang['settings_yes'] = "نعم";
 $lang['settings_no'] = "لا";
-$lang['settings_clients_default_theme'] = "شكل منطقة العملاء الإفتراضي";
-$lang['settings_clients_allow_registration'] = "السماح للعملاء بالتسجيل";
+$lang['settings_clients_default_theme'] = "شكل منطقة الوكلاء الإفتراضي";
+$lang['settings_clients_allow_registration'] = "السماح للوكلاء بالتسجيل";
 $lang['settings_clients_allow_kb_view_without_registration'] = "السماح بإستعراض قاعدة المعرفة لغير المسجلين";
 $lang['settings_cron_send_overdue_reminder'] = "إرسال تذكير بالفاتورة المتأخرة";
-$lang['settings_cron_send_overdue_reminder_tooltip'] = "إرسال بريد الإلكتروني بالدفعات المتأخرة إلى العميل عند تحديث حالة الفاتورة إلى متأخرة الدفع من خلال وظائف النظام";
+$lang['settings_cron_send_overdue_reminder_tooltip'] = "إرسال بريد الإلكتروني بالدفعات المتأخرة إلى الموكل عند تحديث حالة الفاتورة إلى متأخرة الدفع من خلال وظائف النظام";
 $lang['automatically_send_invoice_overdue_reminder_after'] = "إرسال تذكير تلقائي بعد (أيام)";
 $lang['automatically_resend_invoice_overdue_reminder_after'] = "إعادة إرسال تذكير تلقائي بعد (أيام)";
 $lang['settings_email_host'] = "خادم البريد الصادر SMTP";
@@ -413,7 +413,7 @@ $lang['settings_general_company_remove_logo_tooltip'] = "إزالة شعار ا�
 $lang['settings_general_company_name'] = "إسم الشركة";
 $lang['settings_general_company_main_domain'] = "نطاق الشركة الرئيسي";
 $lang['settings_general_use_knowledgebase'] = "إستخدام قاعدة المعرفة";
-$lang['settings_general_use_knowledgebase_tooltip'] = "إذا تم السماح بهذا الخيار سيتم عرض قاعدة المعرفة أيضًا من قبل العملاء";
+$lang['settings_general_use_knowledgebase_tooltip'] = "إذا تم السماح بهذا الخيار سيتم عرض قاعدة المعرفة أيضًا من قبل الوكلاء";
 $lang['settings_general_tables_limit'] = "الحد الأقصى لعدد أسطر الصفحة في الجدول";
 $lang['settings_general_default_staff_role'] = "الدور الرئيسي للموظفين";
 $lang['settings_general_default_staff_role_tooltip'] = "عند إضافة موظف جديد ، سيتم تحديد هذا الدور افتراضيًا";
@@ -435,7 +435,7 @@ $lang['settings_sales_thousand_separator'] = "فاصلة الألف";
 $lang['settings_sales_currency_placement'] = "وضع العملة";
 $lang['settings_sales_currency_placement_before'] = "قبل المبلغ";
 $lang['settings_sales_currency_placement_after'] = "بعد المبلغ";
-$lang['settings_sales_require_client_logged_in_to_view_invoice'] = "يتطلب تسجيل دخول العميل لعرض الفاتورة";
+$lang['settings_sales_require_client_logged_in_to_view_invoice'] = "يتطلب تسجيل دخول الموكل لعرض الفاتورة";
 $lang['settings_sales_next_invoice_number'] = "رقم الفاتورة التالية";
 $lang['settings_sales_next_invoice_number_tooltip'] = "اضبط هذا الحقل على 1 إذا كنت تريد البدء من البداية";
 $lang['settings_sales_decrement_invoice_number_on_delete'] = "انقاص رقم الفاتورة عند الحذف";
@@ -450,28 +450,28 @@ $lang['settings_sales_city'] = "المدينة";
 $lang['settings_sales_country_code'] = "كودالدولة";
 $lang['settings_sales_postal_code'] = "الرمز البريدي";
 $lang['settings_sales_phonenumber'] = "رقم الهاتف";
-$lang['new_lead'] = "عميل متوقع جديد";
-$lang['leads'] = "العملاء المتوقعين";
-$lang['lead'] = "عميل متوقع";
-$lang['lead_lowercase'] = "عميل متوقع";
+$lang['new_lead'] = "موكل متوقع جديد";
+$lang['leads'] = "الوكلاء المتوقعين";
+$lang['lead'] = "موكل متوقع";
+$lang['lead_lowercase'] = "موكل متوقع";
 $lang['leads_all'] = "الكل";
 $lang['leads_canban_notes'] = "ملاحظات: %s";
 $lang['leads_canban_source'] = "المصدر: %s";
 $lang['lead_new_source'] = "مصدر جديد";
-$lang['lead_sources'] = "مصادر العملاء المتوقعين";
-$lang['lead_source'] = "مصدر العميل المتوقع";
-$lang['lead_source_lowercase'] = "lمصدر العميل المتوقع";
-$lang['leads_sources_not_found'] = "لم يتم العثور على مصادر عملاء متوقعين";
+$lang['lead_sources'] = "مصادر الوكلاء المتوقعين";
+$lang['lead_source'] = "مصدر الموكل المتوقع";
+$lang['lead_source_lowercase'] = "lمصدر الموكل المتوقع";
+$lang['leads_sources_not_found'] = "لم يتم العثور على مصادر وكلاء متوقعين";
 $lang['leads_sources_table_name'] = "إسم المصدر";
-$lang['lead_new_status'] = "حالة عميل متوقع جديدة";
-$lang['lead_status'] = "حالة العميل المتوقع";
-$lang['lead_status_lowercase'] = "حالة العميل المتوقع";
+$lang['lead_new_status'] = "حالة موكل متوقع جديدة";
+$lang['lead_status'] = "حالة الموكل المتوقع";
+$lang['lead_status_lowercase'] = "حالة الموكل المتوقع";
 $lang['leads_status_table_name'] = "اسم الحالة";
 $lang['leads_status_add_edit_name'] = "اسم الحالة";
 $lang['leads_status_add_edit_order'] = "الترتيب";
-$lang['lead_statuses_not_found'] = "لميتم العثور على حالات عملاء متوقعين";
-$lang['leads_search'] = "البحث عن العملاء المتوقعين";
-$lang['leads_table_total'] = "مجموع العملاء المتوقعين: %s";
+$lang['lead_statuses_not_found'] = "لميتم العثور على حالات وكلاء متوقعين";
+$lang['leads_search'] = "البحث عن الوكلاء المتوقعين";
+$lang['leads_table_total'] = "مجموع الوكلاء المتوقعين: %s";
 $lang['leads_dt_name'] = "الأسم";
 $lang['leads_dt_email'] = "البريد الإلكتروني";
 $lang['leads_dt_phonenumber'] = "رقم الهاتف";
@@ -489,8 +489,8 @@ $lang['lead_add_edit_contacted_today'] = "اتصل اليوم";
 $lang['lead_add_edit_activity'] = "سجل النشاطات";
 $lang['lead_add_edit_notes'] = "الملاحظات";
 $lang['lead_add_edit_add_note'] = "إضافة ملاحظة";
-$lang['lead_not_contacted'] = "أنا لم أتصل بهذا العميل المتوقع";
-$lang['lead_add_edit_contacted_this_lead'] = "تم الاتصال مع هذا العميل المتوقع";
+$lang['lead_not_contacted'] = "أنا لم أتصل بهذا الموكل المتوقع";
+$lang['lead_add_edit_contacted_this_lead'] = "تم الاتصال مع هذا الموكل المتوقع";
 $lang['access_denied'] = "غير مسموح بالدخول";
 $lang['prev'] = "السابق";
 $lang['next'] = "التالي";
@@ -512,8 +512,8 @@ $lang['wd_friday'] = "الجمعة";
 $lang['wd_saturday'] = "السبت";
 $lang['wd_sunday'] = "الأحد";
 $lang['als_dashboard'] = "لوحة التحكم";
-$lang['als_clients'] = "العملاء";
-$lang['als_leads'] = "العملاء المتوقعين";
+$lang['als_clients'] = "الوكلاء";
+$lang['als_leads'] = "الوكلاء المتوقعين";
 $lang['als_contracts'] = "العقود";
 $lang['als_sales'] = "المبيعات";
 $lang['als_staff'] = "الموظفين";
@@ -522,7 +522,7 @@ $lang['als_kb'] = "قاعدة المعرفة";
 $lang['als_media'] = "الوسائط";
 $lang['als_reports'] = "التقارير";
 $lang['als_reports_sales_submenu'] = "المبيعات";
-$lang['als_reports_leads_submenu'] = "العملاء المتوقعين";
+$lang['als_reports_leads_submenu'] = "الوكلاء المتوقعين";
 $lang['als_kb_articles_submenu'] = "المقالات";
 $lang['als_utilities'] = "الأدوات";
 $lang['als_announcements_submenu'] = "الإعلانات";
@@ -533,7 +533,7 @@ $lang['acs_ticket_statuses_submenu'] = "حالات التذكرة";
 $lang['acs_ticket_predefined_replies_submenu'] = "الردود المحددة مسبقا";
 $lang['acs_ticket_services_submenu'] = "الخدمات";
 $lang['acs_departments'] = "الأقسام";
-$lang['acs_leads'] = "العملاء المحتملون";
+$lang['acs_leads'] = "الوكلاء المحتملون";
 $lang['acs_leads_sources_submenu'] = "المصادر";
 $lang['acs_leads_statuses_submenu'] = "الحالات";
 $lang['acs_sales_taxes_submenu'] = "قيمة الضريبة";
@@ -546,8 +546,8 @@ $lang['new_ticket'] = "تذكرة جديدة";
 $lang['tickets'] = "التذاكر";
 $lang['ticket'] = "التذكرة";
 $lang['ticket_lowercase'] = "التذكرة";
-$lang['support_tickets'] = "تذاكر خدمة العملاء";
-$lang['support_ticket'] = "تذكرة خدمة عملاء";
+$lang['support_tickets'] = "تذاكر خدمة الوكلاء";
+$lang['support_ticket'] = "تذكرة خدمة وكلاء";
 $lang['ticket_settings_to'] = "الأسم";
 $lang['ticket_settings_email'] = "عنوان البريد الإلكتروني";
 $lang['ticket_settings_departments'] = "القسم";
@@ -588,7 +588,7 @@ $lang['ticket_settings_none_assigned'] = "لاشيء";
 $lang['ticket_status_changed_successfully'] = "تم تغيير حالة التذكرة";
 $lang['ticket_status_changed_fail'] = "هناك مشكلة في تغيير حالة التذكرة";
 $lang['ticket_staff_string'] = "الموظفين";
-$lang['ticket_client_string'] = "العملاء";
+$lang['ticket_client_string'] = "الوكلاء";
 $lang['ticket_posted'] = "تم النشر: %s";
 $lang['ticket_access_by_department_denied'] = "ليس لديك حق الوصول إلى هذه التذكرة. تنتمي هذه التذكرة إلى القسم الذي لم يتم تعيينه لك.";
 $lang['new_staff'] = "موظف جديد";
@@ -762,7 +762,7 @@ $lang['clients_article_only_1_vote_today'] = "يمكنك التصويت مرة �
 $lang['clients_article_voted_thanks_for_feedback'] = "شكرا لملاحظاتك";
 $lang['clients_ticket_open_subject'] = "فتح تذكرة";
 $lang['clients_ticket_open_departments'] = "القسم";
-$lang['clients_tickets_heading'] = "تذاكر خدمة العملاء";
+$lang['clients_tickets_heading'] = "تذاكر خدمة الوكلاء";
 $lang['clients_ticket_open_priority'] = "الاولوية";
 $lang['clients_ticket_open_body'] = "هيئة التذكرة";
 $lang['clients_ticket_attachments'] = "المرفقات";
@@ -809,15 +809,15 @@ $lang['payments_table_transaction_id'] = "معرف المعاملة: %s";
 $lang['payment_getaway_token_not_found'] = "الرمز غير موجود";
 $lang['online_payment_recorded_success'] = "تم تسجيل الدفع بنجاح";
 $lang['online_payment_recorded_success_fail_database'] = "تم الدفع بنجاح لكنه فشل في إدراج الدفع في قاعدة البيانات ، اتصل بالمسؤول";
-$lang['lead_convert_to_client'] = "التحويل لعميل";
+$lang['lead_convert_to_client'] = "التحويل لموكل";
 $lang['lead_convert_to_email'] = "البريد الإلكتروني";
 $lang['lead_convert_to_client_firstname'] = "الأسم الاول";
 $lang['lead_convert_to_client_lastname'] = "الإسم الأخير";
-$lang['lead_email_already_exists'] = "البريد الإلكتروني للعميل المتوقع موجود بالفعل في بيانات العملاء";
-$lang['lead_to_client_base_converted_success'] = "تم التحويل لعميل بنجاح";
-$lang['lead_have_client_profile'] = "هذا العميل المتوقع لديه ملف عميل.";
+$lang['lead_email_already_exists'] = "البريد الإلكتروني للموكل المتوقع موجود بالفعل في بيانات الوكلاء";
+$lang['lead_to_client_base_converted_success'] = "تم التحويل لموكل بنجاح";
+$lang['lead_have_client_profile'] = "هذا الموكل المتوقع لديه ملف موكل.";
 $lang['lead_converted_edit_client_profile'] = "تحرير الملف";
-$lang['view_invoice_as_customer_tooltip'] = "عرض الفاتورة كعميل";
+$lang['view_invoice_as_customer_tooltip'] = "عرض الفاتورة كموكل";
 $lang['invoice_add_edit_recurring'] = "فاتورة متكررة؟";
 $lang['invoice_add_edit_recurring_no'] = "لا";
 $lang['invoice_add_edit_recurring_month'] = "كل %s شهر";
@@ -891,7 +891,7 @@ $lang['client_zip_status_all'] = "الكل";
 $lang['client_zip_payment_modes'] = "تم الدفع بوايطة";
 $lang['client_zip_no_data_found'] = "لم يتم العثور على %s";
 $lang['payment_view_heading'] = "الدفع";
-$lang['settings_allow_payment_amount_to_be_modified'] = "السماح للعميل بتعديل المبلغ الواجب دفعه (للمدفوعات عبر الإنترنت)";
+$lang['settings_allow_payment_amount_to_be_modified'] = "السماح للموكل بتعديل المبلغ الواجب دفعه (للمدفوعات عبر الإنترنت)";
 $lang['settings_delete_only_on_last_invoice'] = "الفاتورة المسموح بحذفها هي آخر فاتورة فقط";
 $lang['settings_sales_estimate_prefix'] = "بادئة رقم عرض السعر";
 $lang['settings_sales_next_estimate_number'] = "رقم عرض السعر التالي";
@@ -914,9 +914,9 @@ $lang['settings_sales_cron_invoice_heading'] = "الفاتورة";
 $lang['tasks_dt_datestart'] = "تاريخ البداية";
 $lang['invoice_discount'] = "الخصم";
 $lang['settings_rtl_support_admin'] = "منطقة المسؤول RTL (من اليمين إلى اليسار)";
-$lang['settings_rtl_support_client'] = "منطقة العملاء RTL (من اليمين إلى اليسار)";
-$lang['settings_estimate_auto_convert_to_invoice_on_client_accept'] = "تحويل تلقائي لعرض السعر إلى فاتورة بعد قبول العميل للعرض";
-$lang['settings_exclude_estimate_from_client_area_with_draft_status'] = "استبعاد عروض الأسعار ذات الحالة مسودة من منطقة العملاء";
+$lang['settings_rtl_support_client'] = "منطقة الوكلاء RTL (من اليمين إلى اليسار)";
+$lang['settings_estimate_auto_convert_to_invoice_on_client_accept'] = "تحويل تلقائي لعرض السعر إلى فاتورة بعد قبول الموكل للعرض";
+$lang['settings_exclude_estimate_from_client_area_with_draft_status'] = "استبعاد عروض الأسعار ذات الحالة مسودة من منطقة الوكلاء";
 $lang['January'] = "يناير";
 $lang['February'] = "فبراير";
 $lang['March'] = "مارس";
@@ -947,15 +947,15 @@ $lang['estimate'] = "عرض سعر";
 $lang['estimate_lowercase'] = "عرض سعر";
 $lang['create_new_estimate'] = "إنشاءعرض سعر";
 $lang['view_estimate'] = "إستعراض عرض السعر";
-$lang['estimate_sent_to_client_success'] = "تم إرسال عرض السعر إلى العميل بنجاح";
-$lang['estimate_sent_to_client_fail'] = "مشكلة عن إرسال عرض السعر إلى العميل";
+$lang['estimate_sent_to_client_success'] = "تم إرسال عرض السعر إلى الموكل بنجاح";
+$lang['estimate_sent_to_client_fail'] = "مشكلة عن إرسال عرض السعر إلى الموكل";
 $lang['estimate_view'] = "إستعراض عرض السعر";
-$lang['estimate_select_customer'] = "العميل";
+$lang['estimate_select_customer'] = "الموكل";
 $lang['estimate_add_edit_number'] = "رقم عرض السعر";
 $lang['estimate_add_edit_date'] = "تاريخ عرض السعر";
 $lang['estimate_add_edit_expirydate'] = "تاريخ إنتهاء الصلاحية";
 $lang['estimate_add_edit_currency'] = "العملة";
-$lang['estimate_add_edit_client_note'] = "ملاحظة العميل";
+$lang['estimate_add_edit_client_note'] = "ملاحظة الموكل";
 $lang['estimate_add_edit_admin_note'] = "ملاحظة المسؤول";
 $lang['estimate_add_edit_advanced_options'] = "خيارات متقدمة";
 $lang['estimate_to'] = "إلى";
@@ -964,14 +964,14 @@ $lang['estimate_invoiced_date'] = "تم فوترة عرض السعر في %s";
 $lang['edit_estimate_tooltip'] = "تحرير عرض السعر";
 $lang['delete_estimate_tooltip'] = "حذف عرض السعر";
 $lang['estimate_sent_to_email_tooltip'] = "إرسال عبر البريد الإلكتروني";
-$lang['estimate_already_send_to_client_tooltip'] = "تم إرسال عرض السعر بالفعل إلى العميل %s";
+$lang['estimate_already_send_to_client_tooltip'] = "تم إرسال عرض السعر بالفعل إلى الموكل %s";
 $lang['estimate_view_activity_tooltip'] = "سجل الأنشطة";
-$lang['estimate_send_to_client_modal_heading'] = "إرسال عرض السعر إلى العميل";
+$lang['estimate_send_to_client_modal_heading'] = "إرسال عرض السعر إلى الموكل";
 $lang['estimate_send_to_client_attach_pdf'] = "أرفق عرض السعر PDF";
 $lang['estimate_send_to_client_preview_template'] = "معاينة قالب البريد الإلكتروني";
 $lang['estimate_dt_table_heading_number'] = "عرض السعر #";
 $lang['estimate_dt_table_heading_date'] = "التاريخ";
-$lang['estimate_dt_table_heading_client'] = "العميل";
+$lang['estimate_dt_table_heading_client'] = "الموكل";
 $lang['estimate_dt_table_heading_expirydate'] = "تاريخ إنتهاءالصلاحية";
 $lang['estimate_dt_table_heading_amount'] = "المبلغ";
 $lang['estimate_dt_table_heading_status'] = "الحالة";
@@ -1036,7 +1036,7 @@ $lang['acs_contract_types'] = "انواع العقود";
 $lang['invoice_item_long_description'] = "وصف طويل";
 $lang['clients_list_phone'] = "رقم الهاتف";
 $lang['client_expenses_tab'] = "مصروفات";
-$lang['customers_summary'] = "ملخص العملاء";
+$lang['customers_summary'] = "ملخص الوكلاء";
 $lang['customers_summary_active'] = "اتصالات نشطة";
 $lang['customers_summary_inactive'] = "اتصالات غير نشطة";
 $lang['customers_summary_logged_in_today'] = "اتصالات سجلت دخول اليوم";
@@ -1056,28 +1056,28 @@ $lang['admin_auth_inactive_account'] = "حساب غير نشط";
 $lang['calendar_estimate'] = "عرض السعر";
 $lang['calendar_invoice'] = "Iالفاتورة";
 $lang['calendar_contract'] = "العقد";
-$lang['calendar_customer_reminder'] = "تذكيرات العميل";
+$lang['calendar_customer_reminder'] = "تذكيرات الموكل";
 $lang['calendar_event'] = "الحدث";
 $lang['calendar_task'] = "المهمة";
-$lang['lead_edit_delete_tooltip'] = "حذف العميل المتوقع";
+$lang['lead_edit_delete_tooltip'] = "حذف الموكل المتوقع";
 $lang['lead_attachments'] = "المرفقات";
 $lang['acs_finance'] = "المالية";
 $lang['settings_show_sale_agent_on_invoices'] = "إظهار اسم مندوب المبيعات على الفاتورة";
 $lang['settings_show_sale_agent_on_estimates'] = "إظهار اسم مندوب المبيعات على عرض السعر";
 $lang['settings_predefined_predefined_term'] = "الشروط والأحكام المحددة مسبقا";
-$lang['settings_predefined_clientnote'] = "ملاحظة العميل المعرفة مسبقا";
+$lang['settings_predefined_clientnote'] = "ملاحظة الموكل المعرفة مسبقا";
 $lang['settings_custom_pdf_logo_image_url'] = "رابط ملف PDF مخصص  لشعار الشركة";
 $lang['settings_custom_pdf_logo_image_url_tooltip'] = "ربما ستواجه مشكلات مع شفافية صور PNG  يتم التعامل معها بطريقة مختلفة اعتمادًا على إصدار php-imagick أو php-gd المستخدم. حاول تحديث php-imagick وتعطيل php-gd. إذا تركت هذا الحقل فارغًا ، فسيتم استخدام الشعار الذي تم تحميله.";
 $lang['sale_agent_string'] = "مندوب المبيعات";
 $lang['amount_display_in_base_currency'] = "يتم عرض المبلغ بالعملة الأساسية الخاصة بك - استخدم هذا التقرير فقط إذا كنت تستخدم عملة واحدة للمدفوعات والنفقات.";
-$lang['leads_summary'] = "ملخص العملاء المتوقعين";
+$lang['leads_summary'] = "ملخص الوكلاء المتوقعين";
 $lang['contract_value'] = "قيمة العقد";
 $lang['contract_trash'] = "سلة المحذوفات";
 $lang['contracts_view_trash'] = "عرض سلة المحذوفات";
 $lang['contracts_view_all'] = "الكل";
 $lang['contracts_view_exclude_trashed'] = "استبعاد العقود المحذوفة";
 $lang['contract_value_tooltip'] = "سيتم استخدام العملة الأساسية.";
-$lang['contract_trash_tooltip'] = "إذا أضفت عقدًا إلى سلة المهملات ، فلن يتم عرضها من قبل العميل ، ولن يتم تضمينها في المخطط والإحصائيات الأخرى وأيضًا بشكل افتراضي ، لن يتم إظهارها عند إدراج جميع العقود.";
+$lang['contract_trash_tooltip'] = "إذا أضفت عقدًا إلى سلة المهملات ، فلن يتم عرضها من قبل الموكل ، ولن يتم تضمينها في المخطط والإحصائيات الأخرى وأيضًا بشكل افتراضي ، لن يتم إظهارها عند إدراج جميع العقود.";
 $lang['contract_summary_active'] = "نشط";
 $lang['contract_renew_heading'] = "تجديد العقد";
 $lang['contract_summary_heading'] = "ملحص العقد";
@@ -1120,7 +1120,7 @@ $lang['dt_expense_description'] = "الوصف";
 $lang['expense'] = "المصروف";
 $lang['expenses'] = "المصروفات";
 $lang['expense_lowercase'] = "المصروف";
-$lang['expense_add_edit_customer'] = "العميل";
+$lang['expense_add_edit_customer'] = "الموكل";
 $lang['expense_add_edit_note'] = "ملاحظة";
 $lang['expense_add_edit_date'] = "تاريخ الصرف";
 $lang['expense_add_edit_amount'] = "المبلغ";
@@ -1133,7 +1133,7 @@ $lang['expense_dt_table_heading_category'] = "الفئة";
 $lang['expense_dt_table_heading_amount'] = "المبلغ";
 $lang['expense_dt_table_heading_date'] = "التاريخ";
 $lang['expense_dt_table_heading_reference_no'] = "المرجع #";
-$lang['expense_dt_table_heading_customer'] = "العميل";
+$lang['expense_dt_table_heading_customer'] = "الموكل";
 $lang['expense_dt_table_heading_payment_mode'] = "طريقة الدفع";
 $lang['expense_converted_to_invoice'] = "تم تحويل المصروف إلى فاتورة بنجاح";
 $lang['expense_converted_to_invoice_fail'] = "فشل في تحويل هذه المصروفات إلى الفاتورة راجع سجل الأخطاء.";
@@ -1151,7 +1151,7 @@ $lang['expense_edit'] = "تحرير المصروف";
 $lang['expense_delete'] = "حذف";
 $lang['expense_copy'] = "نسخ";
 $lang['expense_not_billed'] = "الفاتورة غير مدفوعة";
-$lang['expense_customer'] = "العميل";
+$lang['expense_customer'] = "الموكل";
 $lang['expense_note'] = "ملاحظة:";
 $lang['expense_date'] = "التاريخ:";
 $lang['expense_ref_noe'] = "المرجع # :";
@@ -1159,15 +1159,15 @@ $lang['expense_amount'] = "المبلغ:";
 $lang['expense_recurring_indicator'] = "التكرار";
 $lang['expense_already_invoiced'] = "هذا المصروف تم فوترة بالفعل";
 $lang['expense_recurring_auto_create_invoice'] = "إنشاء فاتورة تلقائياً";
-$lang['expense_recurring_send_custom_on_renew'] = "إرسال الفاتورة إلى البريد الإلكتروني للعميل عند إعادة إنشاء مصروف";
-$lang['expense_recurring_autocreate_invoice_tooltip'] = "إذا تم تحديد هذا الخيار ، فسيتم إنشاء الفاتورة للعميل تلقائيًا عند تجديد المصروف.";
+$lang['expense_recurring_send_custom_on_renew'] = "إرسال الفاتورة إلى البريد الإلكتروني للموكل عند إعادة إنشاء مصروف";
+$lang['expense_recurring_autocreate_invoice_tooltip'] = "إذا تم تحديد هذا الخيار ، فسيتم إنشاء الفاتورة للموكل تلقائيًا عند تجديد المصروف.";
 $lang['expenses_yearly_by_categories'] = "المصروفات السنوية حسب الفئات";
 $lang['total_expenses_for'] = "مجموع المصاريف لـ";
 $lang['expenses_report_for'] = "مصروفات لـ";
 $lang['custom_field_required'] = "مطلوب";
 $lang['custom_field_show_on_pdf'] = "إظهار PDF";
-$lang['custom_field_leads'] = "العملاء المتوقعين";
-$lang['custom_field_customers'] = "العملاء";
+$lang['custom_field_leads'] = "الوكلاء المتوقعين";
+$lang['custom_field_customers'] = "الوكلاء";
 $lang['custom_field_staff'] = "الموظفين";
 $lang['custom_field_contracts'] = "العقود";
 $lang['custom_field_tasks'] = "المهام";
@@ -1197,7 +1197,7 @@ $lang['show_shipping_on_invoice'] = "عرض تفاصيل الشحن في الف�
 $lang['show_shipping_on_estimate'] = "عرض تفاصيل الشحن في عرض السعر";
 $lang['is_invoiced_estimate_delete_error'] = "عرض السعر هذا تمت فوترته . لا يمكنك حذف عرض السعر";
 $lang['ship_to'] = "الشحن إلى";
-$lang['customer_profile_details'] = "بيانات العميل";
+$lang['customer_profile_details'] = "بيانات الموكل";
 $lang['billing_shipping'] = "الفواتير والشحن";
 $lang['billing_address'] = "عنوان الفوترة";
 $lang['shipping_address'] = "عنوان الشحن";
@@ -1211,18 +1211,18 @@ $lang['shipping_city'] = "المدينة";
 $lang['shipping_state'] = "المنطقة";
 $lang['shipping_zip'] = "الرمز البريدي";
 $lang['shipping_country'] = "الدولة";
-$lang['get_shipping_from_customer_profile'] = "الحصول على تفاصيل الشحن من ملف العميل";
+$lang['get_shipping_from_customer_profile'] = "الحصول على تفاصيل الشحن من ملف الموكل";
 $lang['customer_default_currency'] = "العملة الإفتراضية";
 $lang['customer_update_address_info_on_invoices'] = "قم بتحديث معلومات الشحن / المطالبات المالية في جميع الفواتير / عروض الأسعار السابقة";
 $lang['customer_update_address_info_on_invoices_help'] = "إذا قمت بالتحقق من هذا الحقل ، فسيتم تحديث معلومات الشحن والمطالبات المالية لجميع الفواتير وعروض الأسعار. ملاحظة: لن تتأثر الفواتير ذات الحالة المدفوعة.";
-$lang['setup_google_api_key_customer_map'] = "قم بإعداد مفتاح google api لعرض خريطة العميل";
+$lang['setup_google_api_key_customer_map'] = "قم بإعداد مفتاح google api لعرض خريطة الموكل";
 $lang['customer_attachments_file'] = "ملف";
 $lang['client_send_set_password_email'] = "إرسال تعيين كلمة المرور عبر البريد الإلكتروني";
-$lang['customer_billing_same_as_profile'] = "نفس معلومات العميل";
+$lang['customer_billing_same_as_profile'] = "نفس معلومات الموكل";
 $lang['customer_billing_copy'] = "نسخ عنوان الفوترة";
 $lang['customer_map'] = "الخريطة";
 $lang['set_password_email_sent_to_client'] = "تم إرسال البريد الإلكتروني لتعيين كلمة المرور بنجاح";
-$lang['set_password_email_sent_to_client_and_profile_updated'] = "تم تحديث الملف الشخصي وإرسالة رسالة إعادة تعيين كلمة المرور إلى العميل بنجاح";
+$lang['set_password_email_sent_to_client_and_profile_updated'] = "تم تحديث الملف الشخصي وإرسالة رسالة إعادة تعيين كلمة المرور إلى الموكل بنجاح";
 $lang['customer_attachments'] = "الملفات";
 $lang['customer_longitude'] = "خط الطول (Google Maps)";
 $lang['customer_latitude'] = "خط العرض (Google Maps)";
@@ -1240,22 +1240,22 @@ $lang['expense_list_unbilled'] = "لم تفوتر";
 $lang['lead_merge_custom_field'] = "دمج كحقل مخصص";
 $lang['lead_merge_custom_field_existing'] = "دمج مع حقل قاعدة البيانات";
 $lang['lead_dont_merge_custom_field'] = "لا تقم بالدمج";
-$lang['lost_leads'] = "عملاء محتملون تم فقدانهم";
-$lang['junk_leads'] = "عملاء محتملون غير مرغوب بهم";
+$lang['lost_leads'] = "وكلاء محتملون تم فقدانهم";
+$lang['junk_leads'] = "وكلاء محتملون غير مرغوب بهم";
 $lang['lead_mark_as_lost'] = "علم كمفقود";
-$lang['lead_unmark_as_lost'] = "الغاء تحديد العميل المتوقع على انه مفقود";
-$lang['lead_marked_as_lost'] = "تم تعليم العميل المتوقع على انه مفقود بنجاح";
-$lang['lead_unmarked_as_lost'] = "تم إلغاء تحديد العميل المتوقع على أنه مفقود بنجاح";
+$lang['lead_unmark_as_lost'] = "الغاء تحديد الموكل المتوقع على انه مفقود";
+$lang['lead_marked_as_lost'] = "تم تعليم الموكل المتوقع على انه مفقود بنجاح";
+$lang['lead_unmarked_as_lost'] = "تم إلغاء تحديد الموكل المتوقع على أنه مفقود بنجاح";
 $lang['leads_status_color'] = "اللون";
 $lang['lead_mark_as_junk'] = "علم كغير مرغوب به";
-$lang['lead_unmark_as_junk'] = "إلغاء تحديد العميل المتوقع على انه غير مرغوب به";
-$lang['lead_marked_as_junk'] = "تم تعليم العميل المتوقع كغير مرغوب به بنجاح";
-$lang['lead_unmarked_as_junk'] = "تم الغاء تحديد العميل المتوقع كغير مرغوب به بنجاح";
-$lang['lead_not_found'] = "لم يتم العثور على العميل المتوقع";
+$lang['lead_unmark_as_junk'] = "إلغاء تحديد الموكل المتوقع على انه غير مرغوب به";
+$lang['lead_marked_as_junk'] = "تم تعليم الموكل المتوقع كغير مرغوب به بنجاح";
+$lang['lead_unmarked_as_junk'] = "تم الغاء تحديد الموكل المتوقع كغير مرغوب به بنجاح";
+$lang['lead_not_found'] = "لم يتم العثور على الموكل المتوقع";
 $lang['lead_lost'] = "مفقود";
 $lang['lead_junk'] = "غير مرغوب به";
 $lang['leads_not_assigned'] = "غير معين";
-$lang['contract_not_visible_to_client'] = "الإخفاء عن العميل";
+$lang['contract_not_visible_to_client'] = "الإخفاء عن الموكل";
 $lang['contract_attachments'] = "المرفقات";
 $lang['task_view_make_public'] = "إجعله عام";
 $lang['task_is_private'] = "مهمة خاصة";
@@ -1267,8 +1267,8 @@ $lang['task_relation'] = "مرتبطة";
 $lang['task_public'] = "عام";
 $lang['task_public_help'] = "إذا قمت بتعيين هذه المهمة عامة ستكون مرئية لجميع الموظفين. في المقابل لن تكون مرئية إلا للموظفين المعينين أو المتابعين أو المنشئ أو المسؤولين";
 $lang['settings_general_favicon'] = "Favicon";
-$lang['settings_output_client_pdfs_from_admin_area_in_client_language'] = "إخراج مستندات العميل بصيغة  PDF  من منطقة المسؤول بلغة العميل";
-$lang['settings_output_client_pdfs_from_admin_area_in_client_language_help'] = "إذا تم تعيين هذه الخيارات على نعم مثال. اللغة الافتراضية للنظام هي اللغة العربية والعميل له لغة الإعداد الإنجليزية سيتم إخراج مستندات pdf بلغة العميل";
+$lang['settings_output_client_pdfs_from_admin_area_in_client_language'] = "إخراج مستندات الموكل بصيغة  PDF  من منطقة المسؤول بلغة الموكل";
+$lang['settings_output_client_pdfs_from_admin_area_in_client_language_help'] = "إذا تم تعيين هذه الخيارات على نعم مثال. اللغة الافتراضية للنظام هي اللغة العربية والموكل له لغة الإعداد الإنجليزية سيتم إخراج مستندات pdf بلغة الموكل";
 $lang['settings_default_tax'] = "الضريبة الإفتراضية";
 $lang['setup_calendar_by_departments'] = "إعداد التقويم من قبل الأقسام";
 $lang['settings_calendar'] = "التقويم";
@@ -1281,11 +1281,11 @@ $lang['show_invoices_on_calendar'] = "الفواتير";
 $lang['show_estimates_on_calendar'] = "عروض الأسعار";
 $lang['show_contracts_on_calendar'] = "العقود";
 $lang['show_tasks_on_calendar'] = "المهام";
-$lang['show_customer_reminders_on_calendar'] = "تذكيرات العميل";
-$lang['copy_custom_fields_convert_to_customer'] = "نسخ الحقول المخصصة إلى ملف تعريف العميل";
-$lang['copy_custom_fields_convert_to_customer_help'] = "في حالة عدم وجود أي من الحقول المخصصة التالية للعميل ، سيتم إنشاء تلقائي بنفس الاسم وإلا سيتم نسخ القيمة فقط من ملف تعريف العميل المتوقع.";
+$lang['show_customer_reminders_on_calendar'] = "تذكيرات الموكل";
+$lang['copy_custom_fields_convert_to_customer'] = "نسخ الحقول المخصصة إلى ملف تعريف الموكل";
+$lang['copy_custom_fields_convert_to_customer_help'] = "في حالة عدم وجود أي من الحقول المخصصة التالية للموكل ، سيتم إنشاء تلقائي بنفس الاسم وإلا سيتم نسخ القيمة فقط من ملف تعريف الموكل المتوقع.";
 $lang['lead_profile'] = "الملف الشخصي";
-$lang['lead_is_client'] = "العميل";
+$lang['lead_is_client'] = "الموكل";
 $lang['leads_email_integration_folder_no_encryption'] = "لا تشفير";
 $lang['leads_email_integration'] = "تكامل البريد الإلكتروني";
 $lang['leads_email_active'] = "نشط";
@@ -1294,15 +1294,15 @@ $lang['leads_email_integration_email'] = "عنوان البريد الإلكتر
 $lang['leads_email_integration_password'] = "كلمة المرور";
 $lang['leads_email_integration_default_source'] = "المصدر الإفتراضي";
 $lang['leads_email_integration_check_every'] = "تحقق كل (دقائق)";
-$lang['leads_email_integration_default_assigned'] = "المسؤول عن العملاءالمحتملون الجدد";
+$lang['leads_email_integration_default_assigned'] = "المسؤول عن الوكلاءالمحتملون الجدد";
 $lang['leads_email_encryption'] = "التشفير";
 $lang['leads_email_integration_updated'] = "تم تحديث تكامل البريد الإلكتروني";
 $lang['leads_email_integration_default_status'] = "الحالة الإفتراضية";
 $lang['leads_email_integration_folder'] = "المجلد";
-$lang['leads_email_integration_notify_when_lead_imported'] = "إشعار عند إستيراد عملاء محتملون";
+$lang['leads_email_integration_notify_when_lead_imported'] = "إشعار عند إستيراد وكلاء محتملون";
 $lang['leads_email_integration_only_check_unseen_emails'] = "تحقق فقط من رسائل البريد الإلكتروني غير المفتوحة";
-$lang['leads_email_integration_only_check_unseen_emails_help'] = "سيقوم النص التلقائي بتعيين البريد الإلكتروني ليتم فتحه بعد التحقق. يستخدم هذا لمنع فحص جميع رسائل البريد الإلكتروني مرارًا وتكرارًا. لا ينصح بإلغاء تحديد هذا الخيار إذا كان لديك الكثير من رسائل البريد الإلكتروني وكان لديك الكثير من إعادة التوجيه إلى البريد الإلكتروني الذي تقوم بإعداده للعملاء المتوقعين.";
-$lang['leads_email_integration_notify_when_lead_contact_more_times'] = "يخطر إذا قام العميل المتوقع بإرسال البريد الإلكتروني عدة مرات";
+$lang['leads_email_integration_only_check_unseen_emails_help'] = "سيقوم النص التلقائي بتعيين البريد الإلكتروني ليتم فتحه بعد التحقق. يستخدم هذا لمنع فحص جميع رسائل البريد الإلكتروني مرارًا وتكرارًا. لا ينصح بإلغاء تحديد هذا الخيار إذا كان لديك الكثير من رسائل البريد الإلكتروني وكان لديك الكثير من إعادة التوجيه إلى البريد الإلكتروني الذي تقوم بإعداده للوكلاء المتوقعين.";
+$lang['leads_email_integration_notify_when_lead_contact_more_times'] = "يخطر إذا قام الموكل المتوقع بإرسال البريد الإلكتروني عدة مرات";
 $lang['leads_email_integration_test_connection'] = "اختبار اتصال IMAP";
 $lang['lead_email_connection_ok'] = "اتصال IMAP جيد";
 $lang['lead_email_connection_not_ok'] = "اتصال IMAP غير جيد";
@@ -1324,7 +1324,7 @@ $lang['bulk_export_zip_payment_modes'] = "تم الدفع بواسطة";
 $lang['bulk_export_include_tag'] = "يتضمن الكلمة الدلالية";
 $lang['bulk_export_include_tag_help'] = "مثال. الأصل أو النسخة. سيتم إخراج الكلمة الدلالية في PDF. يوصى باستخدام كلمة دلالية واحدة فقط";
 $lang['clients_nav_proposals'] = "العطاءات";
-$lang['clients_nav_support'] = "خدمة العملاء";
+$lang['clients_nav_support'] = "خدمة الوكلاء";
 $lang['more'] = "أكثر";
 $lang['add_item'] = "إضافة عنصر";
 $lang['goto_admin_area'] = "إذهب إلى لوحة التحكم";
@@ -1335,7 +1335,7 @@ $lang['customer_permission_invoice'] = "الفواتير";
 $lang['customer_permission_estimate'] = "عروض الأسعار";
 $lang['customer_permission_proposal'] = "العطائات";
 $lang['customer_permission_contract'] = "العقود";
-$lang['customer_permission_support'] = "خدمة العملاء";
+$lang['customer_permission_support'] = "خدمة الوكلاء";
 $lang['custom_file_fail_send'] = "فشل في إرسال الملف";
 $lang['custom_file_success_send'] = "تم إرسال الملف بنجاح إلى %s";
 $lang['send_file_subject'] = "موضوع البريد الإلكتروني";
@@ -1348,8 +1348,8 @@ $lang['default_pass_clients_import'] = "كلمة المرور الإفتراضي
 $lang['simulate_import'] = "محاكاة الاستيراد";
 $lang['import_upload_failed'] = "فشل التحميل";
 $lang['import_total_imported'] = "إجمالي المستورد: %s";
-$lang['import_leads'] = "إستيراد العملاء المتوقعين";
-$lang['import_customers'] = "إستيراد العملاء";
+$lang['import_leads'] = "إستيراد الوكلاء المتوقعين";
+$lang['import_customers'] = "إستيراد الوكلاء";
 $lang['choose_csv_file'] = "اختر ملف CSV";
 $lang['import'] = "إستيراد";
 $lang['lead_import_status'] = "الحالة";
@@ -1357,10 +1357,10 @@ $lang['lead_import_source'] = "المصدر";
 $lang['bulk_export_pdf_proposals'] = "العطاءات";
 $lang['delete_invoice'] = "حذف";
 $lang['items'] = "العناصر";
-$lang['support'] = "خدمة العملاء";
-$lang['calendar_lead_reminder'] = "تذكيرات العميل المتوقع";
-$lang['lead_set_reminder_title'] = "تعيين تذكير عميل متوقع";
-$lang['set_reminder_tooltip'] = "يتيح لك هذا الخيار عدم نسيان أي شيء يخص عملائك.";
+$lang['support'] = "خدمة الوكلاء";
+$lang['calendar_lead_reminder'] = "تذكيرات الموكل المتوقع";
+$lang['lead_set_reminder_title'] = "تعيين تذكير موكل متوقع";
+$lang['set_reminder_tooltip'] = "يتيح لك هذا الخيار عدم نسيان أي شيء يخص وكلائك.";
 $lang['client_reminders_tab'] = "التذكيرات";
 $lang['leads_reminders_tab'] = "التذكيرات";
 $lang['delete_ticket_reply'] = "حذف الرد";
@@ -1371,7 +1371,7 @@ $lang['ticket_service_edit'] = "تحرير خدمة التذكرة";
 $lang['edit_department'] = "تحرير القسم";
 $lang['edit_expense_category'] = "تحرير تصنيف المصروف";
 $lang['customer_default_country'] = "الدولة الإفتراضية";
-$lang['settings_sales_require_client_logged_in_to_view_estimate'] = "تتطلب تسجيل دخول العميل لإستعراض عرض السعر";
+$lang['settings_sales_require_client_logged_in_to_view_estimate'] = "تتطلب تسجيل دخول الموكل لإستعراض عرض السعر";
 $lang['set_reminder'] = "تعيين تذكير";
 $lang['set_reminder_date'] = "تعيين تاريخ التذكير";
 $lang['reminder_description'] = "الوصف";
@@ -1386,9 +1386,9 @@ $lang['reminder_set_to'] = "تعيين تذكير إلى";
 $lang['reminder_deleted'] = "تم حذف التذكير بنجاح";
 $lang['reminder_failed_to_delete'] = "فشل في حذف التذكير";
 $lang['show_invoice_estimate_status_on_pdf'] = "عرض الحالة فاتورة / عرض السعر PDF";
-$lang['show_lead_reminders_on_calendar'] = "إخطارات العملاء المتوقعين";
+$lang['show_lead_reminders_on_calendar'] = "إخطارات الوكلاء المتوقعين";
 $lang['email_piping_only_replies'] = "الردود فقط المسموح بها عن طريق البريد الإلكتروني";
-$lang['view_estimate_as_client'] = "إستعراض عرض السعر كعميل";
+$lang['view_estimate_as_client'] = "إستعراض عرض السعر كموكل";
 $lang['estimate_mark_as'] = "وضع علامة كـ %s";
 $lang['estimate_status_changed_success'] = "تم تغيير حالة عرض السعر";
 $lang['estimate_status_changed_fail'] = "فشل في تغيير حالة عرض السعر";
@@ -1408,11 +1408,11 @@ $lang['proposal_subject'] = "الموضوع";
 $lang['proposal_total'] = "الإجمالي";
 $lang['proposal_status'] = "الحالة";
 $lang['proposals_list_all'] = "الكل";
-$lang['proposals_leads_related'] = "مرتبط بالعملاء المتوقعين";
-$lang['proposals_customers_related'] = "مرتبط بالعملاء";
+$lang['proposals_leads_related'] = "مرتبط بالوكلاء المتوقعين";
+$lang['proposals_customers_related'] = "مرتبط بالوكلاء";
 $lang['proposal_related'] = "مرتبط بـ";
-$lang['proposal_for_lead'] = "العميل المتوقع";
-$lang['proposal_for_customer'] = "العميل";
+$lang['proposal_for_lead'] = "الموكل المتوقع";
+$lang['proposal_for_customer'] = "الموكل";
 $lang['proposal'] = "العطاء";
 $lang['proposal_lowercase'] = "العطاء";
 $lang['proposals'] = "العطاءات";
@@ -1420,7 +1420,7 @@ $lang['proposals_lowercase'] = "العطاءات";
 $lang['new_proposal'] = "عطاء جديد";
 $lang['proposal_currency'] = "العملة";
 $lang['proposal_allow_comments'] = "السماح بالتعليقات";
-$lang['proposal_allow_comments_help'] = "إذا قمت بتحديد هذه الخيارات ، فسيتم السماح بالتعليقات عندما يقوم عميلك بعرض العطاء.";
+$lang['proposal_allow_comments_help'] = "إذا قمت بتحديد هذه الخيارات ، فسيتم السماح بالتعليقات عندما يقوم موكلك بعرض العطاء.";
 $lang['proposal_edit'] = "تحرير";
 $lang['proposal_pdf'] = "PDF";
 $lang['proposal_send_to_email'] = "إرسال عبر البريد الإلكتروني";
@@ -1444,8 +1444,8 @@ $lang['proposal_convert_estimate'] = "عرض سعر";
 $lang['proposal_convert_invoice'] = "فاتورة";
 $lang['proposal_convert_to_estimate'] = "تحويل إلى عرض سعر";
 $lang['proposal_convert_to_invoice'] = "تحويل إلى فاتورة";
-$lang['proposal_convert_to_lead_disabled_help'] = "تحتاج إلى تحويل العميل المتوقع إلى عميل من أجل إنشاء %s";
-$lang['proposal_convert_not_related_help'] = "يجب أن يرتبط العطاء بالعملاء من أجل التحويل إلى %s";
+$lang['proposal_convert_to_lead_disabled_help'] = "تحتاج إلى تحويل الموكل المتوقع إلى موكل من أجل إنشاء %s";
+$lang['proposal_convert_not_related_help'] = "يجب أن يرتبط العطاء بالوكلاء من أجل التحويل إلى %s";
 $lang['proposal_converted_to_estimate_success'] = "تم تحويل العطاء إلى عرض سعر بنجاح";
 $lang['proposal_converted_to_invoice_success'] = "تم تحويل العطاء إلى فاتورة بنجاح";
 $lang['proposal_converted_to_estimate_fail'] = "فشل في تحويل العطاء إلى عرض سعر";
@@ -1467,18 +1467,18 @@ $lang['email_template_proposals_fields_heading'] = "العطاءات";
 $lang['add_task_attachments'] = "المرفق";
 $lang['task_view_attachments'] = "المرفقات";
 $lang['task_view_description'] = "الوصف";
-$lang['customer_group_add_heading'] = "أضافة مجموعة عملاء جديدة";
-$lang['customer_group_edit_heading'] = "تحرير مجموعة العملاء";
-$lang['new_customer_group'] = "مجموعة عملاء جديدة";
+$lang['customer_group_add_heading'] = "أضافة مجموعة وكلاء جديدة";
+$lang['customer_group_edit_heading'] = "تحرير مجموعة الوكلاء";
+$lang['new_customer_group'] = "مجموعة وكلاء جديدة";
 $lang['customer_group_name'] = "الأسم";
 $lang['customer_groups'] = "المجموعات";
-$lang['customer_group'] = "مجموعات العملاء";
-$lang['customer_group_lowercase'] = "مجموعات العملاء";
+$lang['customer_group'] = "مجموعات الوكلاء";
+$lang['customer_group_lowercase'] = "مجموعات الوكلاء";
 $lang['customer_have_invoices_by'] = "يحتوي على فواتير حسب الحالة %s";
 $lang['customer_have_estimates_by'] = "يحتوي على عروض أسعار حسب الحالة %s";
 $lang['customer_have_contracts_by_type'] = "يحتوي على عقود حسب الحالة %s";
 $lang['custom_field_show_on_table'] = "إظهار في الجدول";
-$lang['custom_field_show_on_client_portal'] = "إظهار في بوابة العميل";
+$lang['custom_field_show_on_client_portal'] = "إظهار في بوابة الموكل";
 $lang['custom_field_show_on_client_portal_help'] = "إذا تم تحديد هذا الحقل أيضًا سيتم عرضه في الجداول";
 $lang['custom_field_visibility'] = "الظهور";
 $lang['view_articles_list'] = "عرض المقالات";
@@ -1506,7 +1506,7 @@ $lang['edit_kb_group'] = "تحرير المجموعة";
 $lang['edit_source'] = "تحرير المصدر";
 $lang['edit_status'] = "تحرير الحالة";
 $lang['contract_type_edit'] = "تحرير نوع العقد";
-$lang['report_by_customer_groups'] = "القيمة الإجمالية حسب مجموعات العملاء";
+$lang['report_by_customer_groups'] = "القيمة الإجمالية حسب مجموعات الوكلاء";
 $lang['ticket_pipe_name'] = "من الأسم";
 $lang['ticket_pipe_email_to'] = "إلى";
 $lang['ticket_pipe_email'] = "من البريد الإلكتروني";
@@ -1532,34 +1532,34 @@ $lang['not_recurring_expenses_action_taken_from'] = "الإجراءات التي
 $lang['not_invoice_created'] = "فاتورة منشأة:";
 $lang['not_invoice_renewed'] = "فاتورة مجددة:";
 $lang['not_expense_renewed'] = "عرضسعر مجدد:";
-$lang['not_invoice_sent_to_customer'] = "تم إرسال الفاتورة إلى العميل: %s";
+$lang['not_invoice_sent_to_customer'] = "تم إرسال الفاتورة إلى الموكل: %s";
 $lang['not_invoice_sent_yes'] = "نعم";
 $lang['not_invoice_sent_not'] = "لا";
 $lang['not_action_taken_from_recurring_invoice'] = "الإجراءات التي اتخذت من الفواتير المتكررة";
 $lang['not_new_reminder_for'] = "إطار جديد لـ %s ";
-$lang['not_received_one_or_more_messages_lead'] = "تلقى رسالة بريد إلكتروني أخرى من العميل المتوقع";
-$lang['not_received_lead_imported_email_integration'] = "العميل المتوقع المستورد من تكامل البريد الإلكتروني";
+$lang['not_received_one_or_more_messages_lead'] = "تلقى رسالة بريد إلكتروني أخرى من الموكل المتوقع";
+$lang['not_received_lead_imported_email_integration'] = "الموكل المتوقع المستورد من تكامل البريد الإلكتروني";
 $lang['not_lead_imported_attachment'] = "المرفقات المستوردة من البريد الإلكتروني";
 $lang['not_estimate_status_change'] = "المرفق المستورد من البريد الإلكتروني";
 $lang['not_estimate_status_updated'] = "تم تحديث حالة عرض السعر: من %s إلى %s";
-$lang['not_assigned_lead_to_you'] = "تعيين العميل المتوقع %s لك";
+$lang['not_assigned_lead_to_you'] = "تعيين الموكل المتوقع %s لك";
 $lang['not_lead_activity_assigned_to'] = "تم تعيين %s إلى %s ";
 $lang['not_lead_activity_attachment_deleted'] = "المرفق المحذوف";
-$lang['not_lead_activity_status_updated'] = "%s قام بتحديث حالة العميل المتوقع من %s  إلى %s ";
-$lang['not_lead_activity_contacted'] = "أتصل %s بالعميل المتوقع %s";
-$lang['not_lead_activity_created'] = "قام %s بإنشاء عميل متوقع";
+$lang['not_lead_activity_status_updated'] = "%s قام بتحديث حالة الموكل المتوقع من %s  إلى %s ";
+$lang['not_lead_activity_contacted'] = "أتصل %s بالموكل المتوقع %s";
+$lang['not_lead_activity_created'] = "قام %s بإنشاء موكل متوقع";
 $lang['not_lead_activity_marked_lost'] = "علم كمفقود";
 $lang['not_lead_activity_unmarked_lost'] = "ازالة علامة كمفقود";
 $lang['not_lead_activity_marked_junk'] = "علم كغير مرغوب به";
 $lang['not_lead_activity_unmarked_junk'] = "إزالة علامة كغبر مرغوب به";
 $lang['not_lead_activity_added_attachment'] = "أضف مرفق";
-$lang['not_lead_activity_converted_email'] = "تم تغيير البريد الإلكتروني للعميل المتوقع. أول رسالة إلكترونية كانت: %s وتم إضافتها كعميل مع البريد الإلكتروني %s";
-$lang['not_lead_activity_converted'] = "قام %s بتحول العميل المتوقع إلى العميل";
+$lang['not_lead_activity_converted_email'] = "تم تغيير البريد الإلكتروني للموكل المتوقع. أول رسالة إلكترونية كانت: %s وتم إضافتها كموكل مع البريد الإلكتروني %s";
+$lang['not_lead_activity_converted'] = "قام %s بتحول الموكل المتوقع إلى الموكل";
 $lang['not_liked_your_post'] = "أعجب %s بمنشورك %s  ...";
 $lang['not_commented_your_post'] = "علق %s على منشورك %s  ...";
 $lang['not_liked_your_comment'] = "أعجب %s بتعليقك %s  ...";
 $lang['not_proposal_assigned_to_you'] = "تم تخصيص العطاء لك - %s ...";
-$lang['not_proposal_comment_from_client'] = "تعليق جديد من العميل على العطاء %s ...";
+$lang['not_proposal_comment_from_client'] = "تعليق جديد من الموكل على العطاء %s ...";
 $lang['not_proposal_proposal_accepted'] = "تم قبول العطاء - %s";
 $lang['not_proposal_proposal_declined'] = "تم رفض العطاء - %s";
 $lang['not_task_added_you_as_follower'] = "تمت أضافك كمتابع في المهمة  %s ...";
@@ -1573,8 +1573,8 @@ $lang['not_task_marked_as_complete'] = "تم وضع علامة على المهم
 $lang['not_task_unmarked_as_complete'] = "تم وضع علامة على المهمة كغير مكتملة %s";
 $lang['not_ticket_assigned_to_you'] = "تم تخصيص تذكرة لك - %s ...";
 $lang['not_ticket_reassigned_to_you'] = "تم إعادة تعيين التذكرة لك - %s ...";
-$lang['not_estimate_customer_accepted'] = "تهانينا! قام العميل بقبول عرض السعر رقم %s";
-$lang['not_estimate_customer_declined'] = "رفض العميل عرض السعر رقم %s";
+$lang['not_estimate_customer_accepted'] = "تهانينا! قام الموكل بقبول عرض السعر رقم %s";
+$lang['not_estimate_customer_declined'] = "رفض الموكل عرض السعر رقم %s";
 $lang['estimate_activity_converted'] = "تم تحويل هذا التقدير إلى فاتورة. <br /> %s  ";
 $lang['estimate_activity_created'] = "تم إنشاء عرض السعر";
 $lang['invoice_estimate_activity_removed_item'] = "تمت إزالة العنصر <b>%s </b>";
@@ -1585,21 +1585,21 @@ $lang['invoice_estimate_activity_updated_item_long_description'] = "تم تحد�
 $lang['invoice_estimate_activity_updated_item_rate'] = "تم تحديث قيمة العنصر من %s إلى %s";
 $lang['invoice_estimate_activity_updated_qty_item'] = "تم تحديث كمية على العنصر <b>%s </b> من %s إلى %s";
 $lang['invoice_estimate_activity_added_item'] = "تمت إضافة عنصر جديد <b> %s </b>";
-$lang['invoice_estimate_activity_sent_to_client'] = "إرسال عرض السعر إلى العميل";
-$lang['estimate_activity_client_accepted_and_converted'] = "قبل العميل هذا العرض. تم تحويل عرض السعر إلى فاتورة برقم %s";
-$lang['estimate_activity_client_accepted'] = "العميل قام بقبول عرض السعر";
-$lang['estimate_activity_client_declined'] = "العميل قام برفض عرض السعر";
+$lang['invoice_estimate_activity_sent_to_client'] = "إرسال عرض السعر إلى الموكل";
+$lang['estimate_activity_client_accepted_and_converted'] = "قبل الموكل هذا العرض. تم تحويل عرض السعر إلى فاتورة برقم %s";
+$lang['estimate_activity_client_accepted'] = "الموكل قام بقبول عرض السعر";
+$lang['estimate_activity_client_declined'] = "الموكل قام برفض عرض السعر";
 $lang['estimate_activity_marked'] = "تم تعليم العرض بأنه %s";
 $lang['invoice_activity_status_updated'] = "تم تحديث حالة الفاتورة من %s إلى %s";
 $lang['invoice_activity_created'] = "تم إنشاء الفاتورة";
 $lang['invoice_activity_from_expense'] = "تم تحويلها من عرض سعر إلى فاتورة";
 $lang['invoice_activity_recurring_created'] = "[متكرر] فاتورة تم إنشاؤها بواسطة وظائف النظام";
 $lang['invoice_activity_recurring_from_expense_created'] = "[فاتورة من المصاريف] فاتورة تم إنشاؤها بواسطة وظائف النظام";
-$lang['invoice_activity_sent_to_client_cron'] = "تم إرسال الفاتورة إلى العميل بواسطة وظائف النظام";
-$lang['invoice_activity_sent_to_client'] = "إرسال الفاتورة إلى العميل";
+$lang['invoice_activity_sent_to_client_cron'] = "تم إرسال الفاتورة إلى الموكل بواسطة وظائف النظام";
+$lang['invoice_activity_sent_to_client'] = "إرسال الفاتورة إلى الموكل";
 $lang['invoice_activity_marked_as_sent'] = "علم الفاتورة كمرسلة";
 $lang['invoice_activity_payment_deleted'] = "حذف دفعة من القاتورة للفاتورة. الدفعة # %s ، المبلغ الإجمالي %s";
-$lang['invoice_activity_payment_made_by_client'] = "قام العميل بسداد دفعة من الفاتورة من إجمالي <b>%s </b> - %s";
+$lang['invoice_activity_payment_made_by_client'] = "قام الموكل بسداد دفعة من الفاتورة من إجمالي <b>%s </b> - %s";
 $lang['invoice_activity_payment_made_by_staff'] = "دفعة مسجلة من إجمالي <b>%s </b> - %s";
 $lang['invoice_activity_added_attachment'] = "تم إضافة مرفق";
 $lang['top_search_placeholder'] = "بحث...";
@@ -1628,7 +1628,7 @@ $lang['settings_total_to_words_lowercase'] = "كلمات الأرقام بأحر
 $lang['settings_show_tax_per_item'] = "إظهار الضريبة لكل عنصر";
 $lang['report_sales_months_three_months'] = "أخر 3 شهور";
 $lang['report_invoice_number'] = "الفاتورة #";
-$lang['report_invoice_customer'] = "العميل";
+$lang['report_invoice_customer'] = "الموكل";
 $lang['report_invoice_date'] = "التاريخ";
 $lang['report_invoice_duedate'] = "تاريخ الإستحقاق";
 $lang['report_invoice_amount'] = "المبلغ";
@@ -1638,12 +1638,12 @@ $lang['report_invoice_status'] = "الحالة";
 $lang['home_stats_by_project_status'] = "إحصائيات حسب حالة الخدمة";
 $lang['home_invoice_overview'] = "نظرة عامة على الفواتير";
 $lang['home_proposal_overview'] = "نظرة عامة على العطاءات";
-$lang['home_lead_overview'] = "نظرة عامة على العملاء المتوقعين";
+$lang['home_lead_overview'] = "نظرة عامة على الوكلاء المتوقعين";
 $lang['home_announcements'] = "الإعلانات";
 $lang['settings_group_misc'] = "متفرقات";
 $lang['show_projects_on_calendar'] = "الخدمات";
 $lang['settings_media_max_file_size_upload'] = "الحد الأقصى لحجم ملف التحميل في الوسائط (MB)";
-$lang['settings_client_staff_add_edit_delete_task_comments_first_hour'] = "السماح للعملاء / الموظفين بإضافة / تحرير تعليقات المهام فقط في الساعة الأولى (لا ينطبق على المسؤولين)";
+$lang['settings_client_staff_add_edit_delete_task_comments_first_hour'] = "السماح للوكلاء / الموظفين بإضافة / تحرير تعليقات المهام فقط في الساعة الأولى (لا ينطبق على المسؤولين)";
 $lang['email_template_only_domain_email'] = "البريد الإلكتروني للنطاق فقط";
 $lang['dismiss_announcement'] = "رفض الإعلان";
 $lang['announcement_from'] = "من:";
@@ -1660,14 +1660,14 @@ $lang['invoice_total_paid'] = "مجموع المبالغ المدفوعة";
 $lang['invoice_amount_due'] = "المبلغ المستحق";
 $lang['calendar_project'] = "الخدمة";
 $lang['leads_import_assignee'] = "المسؤول (محال إليه)";
-$lang['customer_from_lead'] = "العملاء من %s";
-$lang['lead_kan_ban_attachments'] = "المرفقات: العملاء من %s";
+$lang['customer_from_lead'] = "الوكلاء من %s";
+$lang['lead_kan_ban_attachments'] = "المرفقات: الوكلاء من %s";
 $lang['leads_sort_by_lastcontact'] = "آخر اتصال";
 $lang['task_comment_added'] = "تم إضافة التعليق بنجاح";
 $lang['task_duedate'] = "Due Date";
 $lang['task_view_comments'] = "التعليقات";
 $lang['task_comment_updated'] = "تحديث التعليقات";
-$lang['task_visible_to_client'] = "مرئي للعميل";
+$lang['task_visible_to_client'] = "مرئي للموكل";
 $lang['task_hourly_rate'] = "السعر لكل ساعة";
 $lang['hours'] = "ساعات";
 $lang['seconds'] = "ثواني";
@@ -1693,7 +1693,7 @@ $lang['quantity_as_hours'] = "الساعات";
 $lang['invoice_table_hours_heading'] = "الساعات";
 $lang['invoice_estimate_sent_to_email'] = "إرسال بريد إلى";
 $lang['estimate_table_hours_heading'] = "الساعات";
-$lang['is_customer_indicator'] = "العميل";
+$lang['is_customer_indicator'] = "الموكل";
 $lang['print'] = "طباعة";
 $lang['customer_permission_projects'] = "الخدمات";
 $lang['no_timers_found'] = "لم يتم العثور على بدايات المؤقت";
@@ -1705,7 +1705,7 @@ $lang['project_customer_permission_warning'] = "أشار النظام إلى أ�
 $lang['project_invoice_timesheet_start_time'] = "وقت البدء: %s";
 $lang['project_invoice_timesheet_end_time'] = "وقت الإنتهاء: %s";
 $lang['project_invoice_timesheet_total_logged_time'] = "وقت تسجيل الدخول: %s";
-$lang['project_view_as_client'] = "عرض الخدمة كعميل";
+$lang['project_view_as_client'] = "عرض الخدمة كموكل";
 $lang['project_mark_all_tasks_as_completed'] = "تعليم جميع المهام على أنها مكتملة وإيقاف جميع أجهزة ضبط الوقت (لا توجد خطارات مرسلة إلى أعضاء الخدمة)";
 $lang['project_not_started_status_tasks_timers_found'] = "تم العثور على مؤقتات المهام لهذه الخدمة ولكن الخدمة في حالة \"لم يتم البدء\". يوصى بتغيير حالة الخدمة إلى قيد التقدم";
 $lang['project_status'] = "الحالة";
@@ -1713,7 +1713,7 @@ $lang['project_status_3'] = "في الإنتظار";
 $lang['project_file_dateadded'] = "تاريخ الرفع";
 $lang['project_file_filename'] = "إسم الملف";
 $lang['project_file__filetype'] = "نوع الملف";
-$lang['project_file_visible_to_customer'] = "مرئي للعميل";
+$lang['project_file_visible_to_customer'] = "مرئي للموكل";
 $lang['project_file_uploaded_by'] = "تم الرفع بواسطة";
 $lang['edit_project'] = "تحرير الخدمة";
 $lang['delete_project'] = "حذف الخدمة";
@@ -1728,7 +1728,7 @@ $lang['project_files'] = "الملفات";
 $lang['project_activity'] = "النشاط";
 $lang['project_name'] = "الموضوع";
 $lang['project_description'] = "الوصف";
-$lang['project_customer'] = "العميل";
+$lang['project_customer'] = "الموكل";
 $lang['project_start_date'] = "تاريخ البداية";
 $lang['project_datecreated'] = "تاريخ الإنشاء";
 $lang['project_deadline'] = "الموعد النهائي";
@@ -1813,7 +1813,7 @@ $lang['edit_discussion'] = "تحرير النقاش";
 $lang['new_project_discussion'] = "إنشاء مناقشة";
 $lang['project_discussion_subject'] = "الموضوع";
 $lang['project_discussion_description'] = "الوصف";
-$lang['project_discussion_show_to_customer'] = "مرئي للعميل";
+$lang['project_discussion_show_to_customer'] = "مرئي للموكل";
 $lang['project_discussion_total_comments'] = "إجمالي التعليقات";
 $lang['project_discussion_last_activity'] = "أخر نشاط";
 $lang['discussion_add_comment'] = "إضافة تعليق";
@@ -1861,7 +1861,7 @@ $lang['project_activity_task_assignee_removed'] = "تمت إزالة مكلف م
 $lang['project_activity_task_timesheet_deleted'] = "ازالة الجدول الزمني";
 $lang['project_activity_uploaded_file'] = "تم تحميل ملف الخدمة";
 $lang['project_activity_status_updated'] = "تم تحديث حالة الخدمة";
-$lang['project_activity_visible_to_customer'] = "مرئي للعميل";
+$lang['project_activity_visible_to_customer'] = "مرئي للموكل";
 $lang['project_activity_project_file_removed'] = "ازالة ملف الخدمة";
 $lang['client_no_reply'] = "لا يوجد رد";
 $lang['clients_nav_projects'] = "الخدمات";
@@ -1957,8 +1957,8 @@ $lang['calendar_expand'] = "توسيع";
 $lang['proposal_reminders'] = "التذكيرات";
 $lang['proposal_set_reminder_title'] = "تعيين تذكير العطاء";
 $lang['settings_allowed_upload_file_types'] = "أنواع الملفات المسموح بها";
-$lang['no_primary_contact'] = "هذا العميل ليس لديه جهة اتصال أساسية. تحتاج إلى إعداد تسجيل دخول جهة الاتصال الأساسية كعميل. نوصي بأن يكون لجميع العملاء جهة اتصال أساسية.";
-$lang['leads_merge_customer'] = "دمج حقول العميل";
+$lang['no_primary_contact'] = "هذا الموكل ليس لديه جهة اتصال أساسية. تحتاج إلى إعداد تسجيل دخول جهة الاتصال الأساسية كموكل. نوصي بأن يكون لجميع الوكلاء جهة اتصال أساسية.";
+$lang['leads_merge_customer'] = "دمج حقول الموكل";
 $lang['leads_merge_contact'] = "دمج حقول جهة الاتصال";
 $lang['leads_merge_as_contact_field'] = "دمج كحقل جهة إتصال";
 $lang['lead_convert_to_client_phone'] = "رقم الهاتف";
@@ -1982,13 +1982,13 @@ $lang['contract_send_to'] = "الإرسال إلى";
 $lang['contract_send_to_client_attach_pdf'] = "إرفاق PDF";
 $lang['contract_send_to_client_preview_template'] = "استعراض قالب البريد";
 $lang['include_attachments_to_email'] = "تشمل المرفقات إلى البريد الإلكتروني";
-$lang['contract_sent_to_client_success'] = "تم إرسال العقد إلى العميل بنجاح";
+$lang['contract_sent_to_client_success'] = "تم إرسال العقد إلى الموكل بنجاح";
 $lang['contract_sent_to_client_fail'] = "فشل في إرسال العقد";
 $lang['client_invalid_username_or_password'] = "خطأ في إسم المستخدم أو كلمة المرور";
 $lang['client_old_password_incorrect'] = "كلمة المرور القديمة خاطئة";
 $lang['client_password_changed'] = "تم تغيير كلمة المرور";
 $lang['total_leads_deleted'] = "Total leads deleted: %s";
-$lang['total_clients_deleted'] = "إجمالي العملاء المحذوفين: %s";
+$lang['total_clients_deleted'] = "إجمالي الوكلاء المحذوفين: %s";
 $lang['confirm_action_prompt'] = "هل أنت متأكد من أنك تريد تنفيذ هذا الإجراء؟";
 $lang['mass_delete'] = "حذف جماعي";
 $lang['email_protocol'] = "Email Protocol";
@@ -2023,14 +2023,14 @@ $lang['expense_report_category'] = "الفئة";
 $lang['expense_paid_via'] = "مدفوع عبر %s";
 $lang['item_as_expense'] = "[مصروف]";
 $lang['show_help_on_setup_menu'] = "إظهار عنصر قائمة المساعدة في قائمة الإعداد";
-$lang['customers_summary_total'] = "إجمالي العملاء";
+$lang['customers_summary_total'] = "إجمالي الوكلاء";
 $lang['filter_by'] = "الفلترة بحسب";
 $lang['re_captcha'] = "reCAPTCHA";
 $lang['recaptcha_site_key'] = "Site key";
 $lang['recaptcha_secret_key'] = "Secret key";
 $lang['recaptcha_error'] = "The reCAPTCHA field is telling that you are a robot.";
 $lang['smtp_username'] = "SMTP اسم مستخدم";
-$lang['smtp_username_help'] = "املأ فقط إذا كان عميل البريد الإلكتروني الخاص بك يستخدم اسم المستخدم لتسجيل الدخول عبر SMTP.";
+$lang['smtp_username_help'] = "املأ فقط إذا كان موكل البريد الإلكتروني الخاص بك يستخدم اسم المستخدم لتسجيل الدخول عبر SMTP.";
 $lang['pinned_project'] = "خدمة مثبتة";
 $lang['pin_project'] = "تثبيت الخدمة";
 $lang['unpin_project'] = "إلغاء تثبيت الخدمة";
@@ -2062,7 +2062,7 @@ $lang['task_filter_detailed_all_months'] = "كل الشهور";
 $lang['kb_article_slug'] = "الاسم المختصر";
 $lang['email_template_ticket_warning'] = "إذا تم استيراد التذكرة باستخدام أنابيب البريد الإلكتروني ولم تكن جهة الاتصال موجودة في البرنامج فلن يتم استبدال الحقول.";
 $lang['auto_stop_tasks_timers_on_new_timer'] = "إيقاف جميع الموقتات الأخرى عند بدء توقيت جديد";
-$lang['notification_when_customer_pay_invoice'] = "تلقي إشعار عندما يقوم العميل بدفع فاتورة  (مدمجة)";
+$lang['notification_when_customer_pay_invoice'] = "تلقي إشعار عندما يقوم الموكل بدفع فاتورة  (مدمجة)";
 $lang['not_invoice_payment_recorded'] = "دفعة فاتورة جديدة - %s";
 $lang['email_template_contact_warning'] = "إذا لم يتم تسجيل جهة الاتصال أثناء اتخاذ إجراء ، فلن يتم استبدال حقول دمج جهات الاتصال.";
 $lang['change_role_permission_warning'] = "لن يؤثر تغيير صلاحيات هذا الدور على صلاحيات الموظفين الحالية التي تستخدم هذا الدور.";
@@ -2077,9 +2077,9 @@ $lang['copy_task_confirm'] = "تأكيد";
 $lang['changing_items_affect_warning'] = "لن يؤثر تغيير معلومات العنصر على الفواتير / عروض الأسعار / العطاءات / ملاحظات الرصيد التي تم إنشاؤها.";
 $lang['tax_is_used_in_expenses_warning'] = "لا يمكنك تحديث هذه الضريبة لأن الضريبة تستخدم في معاملات المصروفات.";
 $lang['note'] = "ملاحظة";
-$lang['leads_staff_report_converted'] = "مجموع العملاء المتوقعين المحولين";
-$lang['leads_staff_report_created'] = "مجموع العملاء المتوقعين الذين تم انشائهم";
-$lang['leads_staff_report_lost'] = "مجموع العملاء المتوقعين المفقودين";
+$lang['leads_staff_report_converted'] = "مجموع الوكلاء المتوقعين المحولين";
+$lang['leads_staff_report_created'] = "مجموع الوكلاء المتوقعين الذين تم انشائهم";
+$lang['leads_staff_report_lost'] = "مجموع الوكلاء المتوقعين المفقودين";
 $lang['client_go_to_dashboard'] = "العودة إلى البوابة";
 $lang['show_estimate_reminders_on_calendar'] = "تذكيرات عروض السعر";
 $lang['show_invoice_reminders_on_calendar'] = "تذكيرات الفواتير";
@@ -2096,7 +2096,7 @@ $lang['generate'] = "توليد";
 $lang['from_date'] = "من تاريخ";
 $lang['to_date'] = "إلى تاريخ";
 $lang['not_results_found'] = "لم يتم العثور على نتائج";
-$lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير العملاء المتوقعين بعد تحويلهم إلى عملاء (لاينطبق على المسؤولين)";
+$lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير الوكلاء المتوقعين بعد تحويلهم إلى وكلاء (لاينطبق على المسؤولين)";
 $lang['toggle_full_view'] = "Toggle full view";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
@@ -2159,14 +2159,14 @@ $lang['do_not_redirect_payment'] = "لا تعيد توجيهي إلى معالج
 $lang['project_tickets'] = "التذاكر";
 $lang['invoice_report'] = "تقرير الفواتير";
 $lang['payment_modes_report'] = "طرق الدفع (المعاملات)";
-$lang['customer_admins'] = "مدير حساب العميل";
+$lang['customer_admins'] = "مدير حساب الموكل";
 $lang['assign_admin'] = "تعيين مدير حساب";
 $lang['customer_admin_date_assigned'] = "تاريخ التعيين";
-$lang['customer_admin_login_as_client_message'] = "مرحبًا %s . لقد تم إضافتك كمدير حساب لهذا العميل.";
+$lang['customer_admin_login_as_client_message'] = "مرحبًا %s . لقد تم إضافتك كمدير حساب لهذا الموكل.";
 $lang['ticket_form_validation_file_size'] = "يجب أن يكون حجم الملف أقل من %s";
 $lang['has_transactions_currency_base_change'] = "لا يمكن تغيير العملة الأساسية إلا في حالة عدم وجود معاملات مسجلة بتلك العملة. احذف المعاملات لتغيير العملة الأساسية";
 $lang['customers_sort_all'] = "الكل";
-$lang['use_recaptcha_customers_area'] = "تمكين reCAPTCHA في منطقة العملاء (تسجيل الدخول / التسجيل)";
+$lang['use_recaptcha_customers_area'] = "تمكين reCAPTCHA في منطقة الوكلاء (تسجيل الدخول / التسجيل)";
 $lang['project_marked_as_finished'] = "إكتملت الخدمة";
 $lang['project_status_updated'] = "تم تحديث حالة الخدمة";
 $lang['remove_decimals_on_zero'] = "قم بإزالة الكسور العشرية عن الأرقام / المبالغ بدون صفر عشري (2.00 ستصبح 2 ، 2.25 ستبقى 2.25)";
@@ -2181,8 +2181,8 @@ $lang['estimate_status'] = "الحالة";
 $lang['expenses_report_exclude_billable'] = "استبعاد المصاروفات القابلة للفوترة";
 $lang['expenses_total'] = "الإجمالي";
 $lang['estimate_activity_added_attachment'] = "المرفقات المضافة";
-$lang['show_to_customer'] = "إظهار للعميل";
-$lang['hide_from_customer'] = "إخفاء عن العميل";
+$lang['show_to_customer'] = "إظهار للموكل";
+$lang['hide_from_customer'] = "إخفاء عن الموكل";
 $lang['expenses_report_total'] = "الإجمالي";
 $lang['expenses_report_total_tax'] = "إجمالي الضريبة";
 $lang['expenses_detailed_report'] = "تقرير مفصل";
@@ -2203,7 +2203,7 @@ $lang['past_due_invoices'] = "فواتير متأخرة الدفع";
 $lang['paid_invoices'] = "فواتير مدفوعة";
 $lang['invoice_estimate_year'] = "سنة";
 $lang['task_stats_logged_hours'] = "الساعات المسجلة";
-$lang['leads_converted_to_client'] = "عملاء متوقعين تم إستقطابهم";
+$lang['leads_converted_to_client'] = "وكلاء متوقعين تم إستقطابهم";
 $lang['task_assigned_from'] = "تم تخصيص هذه المهمة لك بواسطة %s";
 $lang['new_note'] = "ملاحظة جديدة";
 $lang['my_tickets_assigned'] = "التذاكر المخصصة لي";
@@ -2222,7 +2222,7 @@ $lang['task_log_time_start'] = "تاريخ البدء";
 $lang['task_log_time_end'] = "تاريخ الإنتهاء";
 $lang['task_single_log_user'] = "الموظف";
 $lang['milestone_description'] = "الوصف";
-$lang['description_visible_to_customer'] = "إظهار الوصف للعميل";
+$lang['description_visible_to_customer'] = "إظهار الوصف للموكل";
 $lang['upcoming_tasks'] = "المهام القادمة";
 $lang['paymentmethod_two_checkout_account_number'] = "رقم الحساب (معرف البائع)";
 $lang['paymentmethod_two_checkout_private_key'] = "Private Key";
@@ -2233,9 +2233,9 @@ $lang['payment_billing_email'] = "البريد الإلكتروني";
 $lang['submit_payment'] = "تسجيل دفعة";
 $lang['2checkout_notice_payment'] = "تتم معالجة تفاصيل بطاقة الائتمان عبر رمز آمن مقدم من 2Checkout";
 $lang['2checkout_usage_notice'] = "يلزم توفر طبقة المقابس الآمنة (SSL) إذا كنت تستخدم واجهة برمجة تطبيقات دفع 2Checkout. يلزم استدعاء الرمز المميز والأذونات بأمان. سيعمل النظام بدون طبقة المقابس الآمنة (SSL) ، ومع ذلك ، فإن هذا سيضعك خارج نطاق الالتزام ، مما يهدد بإلغاء تنشيط أذونات واجهة برمجة التطبيقات.";
-$lang['custom_field_disallow_customer_to_edit'] = "عدم السماح للعميل بتعديل هذا الحقل";
+$lang['custom_field_disallow_customer_to_edit'] = "عدم السماح للموكل بتعديل هذا الحقل";
 $lang['project_due_notice'] = "تأخرت هذه الخدمة %s أيام";
-$lang['not_lead_added_attachment'] = "تمت إضافة مرفق جديد للعميل المتوقع %s";
+$lang['not_lead_added_attachment'] = "تمت إضافة مرفق جديد للموكل المتوقع %s";
 $lang['lead_note_date_added'] = "تم إضافة الملاحظة: %s";
 $lang['recurring_custom'] = "مخصص";
 $lang['invoice_recurring_months'] = "شهر";
@@ -2265,21 +2265,21 @@ $lang['finance_overview'] = "نظرة عامة على المالية";
 $lang['project_custom_fields'] = "الحقول المخصصة";
 $lang['total_tickets_related_to_project'] = "مجموع التذاكر المرتبطة بالخدمة";
 $lang['projects_total_invoices_created'] = "مجموع الفواتير التي تم إنشاؤها";
-$lang['do_not_send_invoice_payment_email_template_contact'] = "لا ترسل سجل مدفوعات الفاتورة إلى البريد الإلكتروني المسجل لجهات اتصال العميل";
+$lang['do_not_send_invoice_payment_email_template_contact'] = "لا ترسل سجل مدفوعات الفاتورة إلى البريد الإلكتروني المسجل لجهات اتصال الموكل";
 $lang['no_preview_available_for_file'] = "لا تتوفر معاينة لهذا الملف.";
 $lang['project_activity_deleted_file_discussion_comment'] = "تم حذف تعليق مناقشة الملف";
 $lang['email_template_discussion_info'] = "يستخدم هذا القالب لكل من رسائل البريد الإلكتروني الخاصة بتعليقات مناقشة الخدمة. (مناقشات الملفات والمناقشات العادية)";
 $lang['format_a4_portrait_size'] = "Portrait";
-$lang['only_show_contact_tickets'] = "في منطقة العملاء ، لا تُظهر سوى التذاكر المتعلقة بجهة الاتصال التي تم تسجيل دخولها (جهة الاتصال الرئيسية غير مطبقة)";
+$lang['only_show_contact_tickets'] = "في منطقة الوكلاء ، لا تُظهر سوى التذاكر المتعلقة بجهة الاتصال التي تم تسجيل دخولها (جهة الاتصال الرئيسية غير مطبقة)";
 $lang['cancel_overdue_reminders_invoice'] = "منع إرسال تذكيرات متأخرة لهذه الفاتورة";
-$lang['customer_shipping_address_notice'] = "لا تملأ معلومات عنوان الدفع إذا لم تستخدم عنوان الدفع في فواتير العميل";
+$lang['customer_shipping_address_notice'] = "لا تملأ معلومات عنوان الدفع إذا لم تستخدم عنوان الدفع في فواتير الموكل";
 $lang['timesheets_overview'] = "نظرة عامة على الجداول الزمنية";
 $lang['invoice_status_draft'] = "مسودة";
 $lang['save_as_draft'] = "حفظ كمسودة";
 $lang['convert_and_save_as_draft'] = "تحويل وحفظ كمسودة";
 $lang['convert'] = "تحويل";
-$lang['exclude_invoices_draft_from_client_area'] = "استبعاد الفواتير ذات الحالة مسودة من منطقة العملاء";
-$lang['invoice_draft_status_info'] = "هذه الفاتورة مع حالة المسودة ، سيتم تغيير الحالة تلقائيًا عند إرسال الفاتورة إلى العميل أو وضع علامة على أنها مرسلة.";
+$lang['exclude_invoices_draft_from_client_area'] = "استبعاد الفواتير ذات الحالة مسودة من منطقة الوكلاء";
+$lang['invoice_draft_status_info'] = "هذه الفاتورة مع حالة المسودة ، سيتم تغيير الحالة تلقائيًا عند إرسال الفاتورة إلى الموكل أو وضع علامة على أنها مرسلة.";
 $lang['task_info'] = "معلومات المهمة";
 $lang['recurring_tasks'] = "متكرر";
 $lang['task_repeat_every'] = "التكرار كل";
@@ -2299,12 +2299,12 @@ $lang['recurring_task'] = "مهمة متكررة";
 $lang['disable_email_from_being_sent'] = "تعطيل إرسال هذا البريد الإلكتروني";
 $lang['not_sent_indicator'] = "غير مرسلة";
 $lang['proposal_status_revised'] = "قيد المراجعة";
-$lang['customer_currency_change_notice'] = "إذا كان العميل يستخدم عملة أخرى ، فتأكد من تحديد العملة الأساسية للعملة المناسبة لهذا العميل. تغيير العملة غير ممكن بعد تسجيل المعاملات.";
+$lang['customer_currency_change_notice'] = "إذا كان الموكل يستخدم عملة أخرى ، فتأكد من تحديد العملة الأساسية للعملة المناسبة لهذا الموكل. تغيير العملة غير ممكن بعد تسجيل المعاملات.";
 $lang['click_to_add_content'] = "أنقر هنا لإضافة محتوى";
 $lang['related_to_project'] = "هذا %s مرتبط بـ %s : %s";
-$lang['back_to_lead'] = "العودة للعميل المتوقع";
+$lang['back_to_lead'] = "العودة للموكل المتوقع";
 $lang['add_task_timer_started_warning'] = "إيقاف مؤقت بدء التشغيل الحالي لهذه المهمة حتى تتمكن من إضافة مؤقت جديد يدويًا.";
-$lang['sending_email_contact_permissions_warning'] = "فشل في تحديد جهات اتصال العملاء تلقائيًا. تأكد من أن العميل لديه جهات اتصال نشطة وجهات اتصال مرتبطة مع تمكين إعلامات البريد الإلكتروني لـ %s .";
+$lang['sending_email_contact_permissions_warning'] = "فشل في تحديد جهات اتصال الوكلاء تلقائيًا. تأكد من أن الموكل لديه جهات اتصال نشطة وجهات اتصال مرتبطة مع تمكين إعلامات البريد الإلكتروني لـ %s .";
 $lang['currently_supported_currencies'] = "العملات المدعومة حاليا";
 $lang['authorize_notice'] = "يلزم توفر طبقة المقابس الآمنة (SSL) إذا كنت تستخدم واجهة برمجة تطبيقات الدفع Authorize.Net AIM. لا يدعم موقع Authorize.net سوى عملة واحدة لكل حساب. تأكد من إضافة عملة واحدة فقط مرتبطة بحساب التفويض في حقل العملات.";
 $lang['settings_paymentmethod_developer_mode'] = "وضع التطوير";
@@ -2313,7 +2313,7 @@ $lang['settings_paymentmethod_authorize_api_login_id'] = "API Login ID";
 $lang['settings_paymentmethod_mollie_api_key'] = "API Key";
 $lang['settings_paymentmethod_authorize_api_transaction_key'] = "API Transaction ID";
 $lang['settings_paymentmethod_authorize_secret_key'] = "Secret Key";
-$lang['leads_report_converted_notice'] = "فقط العملاء المتوقعون الذين ينتمون إلى الحالة الافتراضية للعميل سيتم اعتبارهم عملاء  تم تحويلهم ، إذا كان العملاء المتوقعون ينتمون إلى الحالة الإفتراضية للعميل ولم يتم تحويلهم إلى عميل سيظل حساب العميل غير المحول إلى عميل متوقع";
+$lang['leads_report_converted_notice'] = "فقط الوكلاء المتوقعون الذين ينتمون إلى الحالة الافتراضية للموكل سيتم اعتبارهم وكلاء  تم تحويلهم ، إذا كان الوكلاء المتوقعون ينتمون إلى الحالة الإفتراضية للموكل ولم يتم تحويلهم إلى موكل سيظل حساب الموكل غير المحول إلى موكل متوقع";
 $lang['payment_method'] = "طرق الدفع";
 $lang['payment_method_info'] = "تدعم بعض بوابات الدفع طرق دفع مختلفة / متعددة مثل بطاقة الائتمان ، و PayPal ، و التحويلات البنكية.";
 $lang['dropbox_app_key'] = "Dropbox APP Key";
@@ -2337,8 +2337,8 @@ $lang['additional_action_required'] = "إجراءات إضافية مطلوبة!
 $lang['project_mark_tasks_finished_confirm'] = "تأكيد";
 $lang['project_marked_as_success'] = "تم وضع علامة كـ %s على الخدمة بنجاح";
 $lang['project_marked_as_failed'] = "فشل في وضع علامة %s على الخدمة";
-$lang['auto_assign_customer_admin_after_lead_convert'] = "تعيين تلقائي كمشرف للعميل بعد التحويل";
-$lang['auto_assign_customer_admin_after_lead_convert_help'] = "إذا تم تعيين هذا الخيار على نعم، فسيتم تعيين الموظف الذي قام بتحويل العميل المتوقع إلى عميل تلقائيًا كمشرف على العميل. ملاحظة: سيتم تطبيق هذا الخيار فقط على الموظفين الذين ليس لديهم صلاحية بعرض العملاء";
+$lang['auto_assign_customer_admin_after_lead_convert'] = "تعيين تلقائي كمشرف للموكل بعد التحويل";
+$lang['auto_assign_customer_admin_after_lead_convert_help'] = "إذا تم تعيين هذا الخيار على نعم، فسيتم تعيين الموظف الذي قام بتحويل الموكل المتوقع إلى موكل تلقائيًا كمشرف على الموكل. ملاحظة: سيتم تطبيق هذا الخيار فقط على الموظفين الذين ليس لديهم صلاحية بعرض الوكلاء";
 $lang['auto_close_tickets_disable'] = "تعيين 0 لتعطيل";
 $lang['task_checklist_item_completed_by'] = "أنجزت بواسطة %s";
 $lang['staff_email_signature_help'] = "إذا كان فارغ سيتم استخدام توقيع البريد الإلكتروني الافتراضي من الإعدادات";
@@ -2348,9 +2348,9 @@ $lang['show_transactions_on_invoice_pdf'] = "عرض مدفوعات الفاتو�
 $lang['bulk_actions'] = "جملة إجراءات";
 $lang['additional_filters'] = "مرشحات إضافية";
 $lang['expenses_available_to_bill'] = "المصروفات المتاحة للفوترة";
-$lang['bulk_action_customers_groups_warning'] = "إذا لم تختر أي مجموعة ، فستتم إزالة جميع المجموعات المخصصة للعملاء المحددين.";
-$lang['customer_attachments_show_in_customers_area'] = "عرض في منطقة العملاء";
-$lang['customer_attachments_show_notice'] = "فقط الملفات التي تم تحميلها من ملف العميل يمكن  الإظهار / الإخفاء في منطقة العملاء.";
+$lang['bulk_action_customers_groups_warning'] = "إذا لم تختر أي مجموعة ، فستتم إزالة جميع المجموعات المخصصة للوكلاء المحددين.";
+$lang['customer_attachments_show_in_customers_area'] = "عرض في منطقة الوكلاء";
+$lang['customer_attachments_show_notice'] = "فقط الملفات التي تم تحميلها من ملف الموكل يمكن  الإظهار / الإخفاء في منطقة الوكلاء.";
 $lang['customer_profile_files'] = "الملفات";
 $lang['no_files_found'] = "لم يتم العثور على ملفات";
 $lang['task_status'] = "الحالة";
@@ -2364,7 +2364,7 @@ $lang['task_marked_as_success'] = "تم وضع علامة على المهمة ك
 $lang['search_tasks'] = "البحث في المهام";
 $lang['show_on_invoice_on_pdf'] = "إظهار %s على فاتورة PDF";
 $lang['show_pay_link_to_invoice_pdf'] = "إظهار رابط دفع الفاتورة إلى PDF (لا يتم تطبيقه إذا كانت حالة الفاتورة ملغي)";
-$lang['no_leads_found'] = "لم يتم العثور على عملاءمحتملين";
+$lang['no_leads_found'] = "لم يتم العثور على وكلاء محتملين";
 $lang['created_today'] = "تم إنشاؤها اليوم";
 $lang['total_tasks_deleted'] = "إجمالي المهام المحذوفة: %s";
 $lang['total_tickets_delete'] = "إجمالي التذاكر المحذوفة: %s";
@@ -2393,7 +2393,7 @@ $lang['lead_country'] = "الدولة";
 $lang['lead_zip'] = "الرمز البريدي";
 $lang['lead_is_public_yes'] = "نعم";
 $lang['lead_is_public_no'] = "لا";
-$lang['lead_info'] = "معلومات العميل المتوقع";
+$lang['lead_info'] = "معلومات الموكل المتوقع";
 $lang['lead_general_info'] = "معلومات عامة";
 $lang['lead_latest_activity'] = "أخر الأنشطة";
 $lang['item_description_new_lines_notice'] = "الأسطر الجديدة غير مدعومة لوصف العنصر. استخدم وصف العنصر الطويل بدلاً من ذلك.";
@@ -2412,9 +2412,9 @@ $lang['latest_version'] = "النسخة الأخيرة";
 $lang['your_version'] = "النسخة الحالية";
 $lang['using_latest_version'] = "انت تستخدم أخر أصدار";
 $lang['mark_as_active'] = "علم كمفعل";
-$lang['customer_inactive_message'] = "هذا ملف تعريف عميل غير نشط وقد يتم تعطيل بعض الميزات";
-$lang['active_customers'] = "عميل نشط";
-$lang['inactive_active_customers'] = "عميل غير نشط";
+$lang['customer_inactive_message'] = "هذا ملف تعريف موكل غير نشط وقد يتم تعطيل بعض الميزات";
+$lang['active_customers'] = "موكل نشط";
+$lang['inactive_active_customers'] = "موكل غير نشط";
 $lang['include_proposal_items_merge_field_help'] = "قم بتضمين عناصر العطاء مع حقل الدمج في أي مكان في محتوى الاقتراح كـ %s";
 $lang['all_data_synced_successfully'] = "تم مزامنة جميع البيانات بنجاح";
 $lang['sync_now'] = "زامن الآن";
@@ -2444,7 +2444,7 @@ $lang['no_announcements'] = "لايوجد إعلانات";
 $lang['unit'] = "الوحدة";
 $lang['permission_view_own'] = "عرض (خاص)";
 $lang['permission_global'] = "شامل";
-$lang['permission_customers_based_on_admins'] = "بناء على مدراء العميل";
+$lang['permission_customers_based_on_admins'] = "بناء على مدراء الموكل";
 $lang['permission_payments_based_on_invoices'] = "Based on invoices VIEW (Own) permission";
 $lang['permission_projects_based_on_assignee'] = "إذا لم يكن لدى الموظف صلاحية عرض، فسيكون العرض (شامل) فقط على المشروعات التي يضاف إليها الموظف كعضو في الخدمة.";
 $lang['settings_paymentmethod_default_selected_on_invoice'] = "تم اختيارها افتراضيًا في الفاتورة";
@@ -2455,10 +2455,10 @@ $lang['company_requires_vat_number_field'] = "تتطلب الشركة استخد
 $lang['no_company_view_profile'] = "Person - View Profile";
 $lang['company_is_required'] = "حقل الشركة مطلوب؟";
 $lang['file_date_uploaded'] = "تاريخ الرفع";
-$lang['allow_contact_to_delete_files'] = "السماح لجهات الاتصال بحذف الملفات الخاصة التي تم تحميلها من منطقة العملاء";
+$lang['allow_contact_to_delete_files'] = "السماح لجهات الاتصال بحذف الملفات الخاصة التي تم تحميلها من منطقة الوكلاء";
 $lang['file'] = "الملف";
-$lang['customer_contact_person_only_one_allowed'] = "لا يُسمح إلا بجهة اتصال واحدة عندما لا يتم ملء حقل الشركة. سوف يتعامل النظام مع هذا العميل كشخص";
-$lang['web_to_lead_form'] = "نموذج الويب الخاص بالعميل المحتمل";
+$lang['customer_contact_person_only_one_allowed'] = "لا يُسمح إلا بجهة اتصال واحدة عندما لا يتم ملء حقل الشركة. سوف يتعامل النظام مع هذا الموكل كشخص";
+$lang['web_to_lead_form'] = "نموذج الويب الخاص بالموكل المحتمل";
 $lang['new_form'] = "نموذج جديد";
 $lang['form_name'] = "إسم النموذج";
 $lang['cf_option_in_use'] = "يوجد خيار قمت بإزالته قيد الاستخدام ولا يمكن إزالته. يتم إلحاق الخيار تلقائيًا بالخيارات الموجودة.";
@@ -2473,7 +2473,7 @@ $lang['form_btn_submit_text'] = "نص زر الإرسال";
 $lang['form_success_submit_msg'] = "رسالة النجاح التي تظهر بعد تقديم النموذج";
 $lang['total_submissions'] = "إجمالي الطلبات";
 $lang['form_integration_code'] = "كود التكامل";
-$lang['not_lead_imported_from_form'] = "استيراد عملاء محتملين جدد من خلال النماذج - %s";
+$lang['not_lead_imported_from_form'] = "استيراد وكلاء محتملين جدد من خلال النماذج - %s";
 $lang['not_lead_activity_log_attachment'] = "الملفات المرفقة المستوردة من النموذج - %s";
 $lang['form_integration_code_help'] = "انسخ الشفرة والصقها في أي مكان في موقعك لإظهار النموذج ، بالإضافة إلى ذلك ، يمكنك ضبط العرض والارتفاع بكسل لتناسب موقع الويب الخاص بك.";
 $lang['invoice_not_found'] = "لم يتم العثور على الفاتورة";
@@ -2483,8 +2483,8 @@ $lang['proposal_not_found'] = "لم يتم العثور على العطاء";
 $lang['new_task_assigned_non_user'] = "تم تعيين مهمة جديدة لك - %s";
 $lang['no_child_found'] = "No Child %s Found";
 $lang['company_vat_number'] = "الرقم الضريبي";
-$lang['not_lead_assigned_from_form'] = "تم تخصيص عميل محتمل جديد لك";
-$lang['not_lead_activity_assigned_from_form'] = "تم تخصيص العميل المتوقع لـ %s";
+$lang['not_lead_assigned_from_form'] = "تم تخصيص موكل محتمل جديد لك";
+$lang['not_lead_activity_assigned_from_form'] = "تم تخصيص الموكل المتوقع لـ %s";
 $lang['form_allow_duplicate'] = "هل تريد السماح بإدراج %s مكرر في قاعدة البيانات؟";
 $lang['track_duplicate_by_field'] = "منع التكرار في الحقل";
 $lang['and_track_duplicate_by_field'] = "+ حقل (اتركه فارغًا لتتبع التكرارات بحقل واحد فقط)";
@@ -2516,8 +2516,8 @@ $lang['task_edit_delete_timesheet_notice'] = "الجدول الزمني للمه
 $lang['department_username_help'] = "املأ هذا الحقل فقط إذا كان خادم IMAP يستخدم اسم المستخدم لتسجيل الدخول بدلاً من عنوان البريد الإلكتروني. لاحظ أنك ستظل بحاجة إلى إضافة عنوان بريد إلكتروني.";
 $lang['total_tickets_deleted'] = "إجمالي التذاكر المحذوفة: %s";
 $lang['ticket_linked_to_project'] = "هذه التذكرة مرتبطة بالخدمة: %s";
-$lang['only_own_files_contacts'] = "جهات الاتصال ترى فقط الملفات الخاصة بهم التي تم تحميلها في منطقة العملاء (الملفات التي تم تحميلها في ملف تعريف العميل)";
-$lang['only_own_files_contacts_help'] = "إذا قمت بمشاركة الملف يدويًا من ملف تعريف العميل إلى جهات اتصال أخرى ، فسيكون بإمكانهم رؤية الملف.";
+$lang['only_own_files_contacts'] = "جهات الاتصال ترى فقط الملفات الخاصة بهم التي تم تحميلها في منطقة الوكلاء (الملفات التي تم تحميلها في ملف تعريف الموكل)";
+$lang['only_own_files_contacts_help'] = "إذا قمت بمشاركة الملف يدويًا من ملف تعريف الموكل إلى جهات اتصال أخرى ، فسيكون بإمكانهم رؤية الملف.";
 $lang['share_file_with'] = "مشاركة الملف مع";
 $lang['file_share_visibility_notice'] = "لا تتم مشاركة هذا الملف مع جهات الاتصال ، قم بتبديل الرؤية مرة أخرى لإعادة التحميل";
 $lang['share_file_with_show'] = "تتم مشاركة هذا الملف مع: %s";
@@ -2533,7 +2533,7 @@ $lang['fetch_from_google'] = "الجلب من Google";
 $lang['customer_fetch_lat_lng_usage'] = "للحصول على أفضل نتيجة يرجى ملء العنوان والمدينة والبلد للحصول على أفضل نتيجة قبل الجلب. لا يمكن العثور عليها ، يرجى المحاولة مرة أخرى";
 $lang['g_search_address_not_found'] = "لم يتم العثور على العنوان ، يرجى المحاولة مرة أخرى";
 $lang['proposals_report'] = "تقرير العطاءات";
-$lang['staff_members_open_tickets_to_all_contacts_help'] = "إذا لم يكن لدى الموظف صلاحية بإستعراض العملاء ، فسيكون بإمكانه فقط إنشاء تذاكر جديدة من منطقة المشرف إلى جهات اتصال العميل للجهات الي تم تعيينه كمسؤول عميل.";
+$lang['staff_members_open_tickets_to_all_contacts_help'] = "إذا لم يكن لدى الموظف صلاحية بإستعراض الوكلاء ، فسيكون بإمكانه فقط إنشاء تذاكر جديدة من منطقة المشرف إلى جهات اتصال الموكل للجهات الي تم تعيينه كمسؤول موكل.";
 $lang['staff_members_open_tickets_to_all_contacts'] = "هل تسمح للموظفين بفتح تذاكر لجميع جهات الاتصال؟";
 $lang['charts_based_report'] = "تقرير الرسوم البيانية";
 $lang['responsible_admin'] = "المسؤول المختص";
@@ -2594,7 +2594,7 @@ $lang['vault_password_user_not_correct'] = "كلمة المرور غير صحي�
 $lang['no_vault_entries'] = "Vault entries not found for this customer.";
 $lang['vault_entry_created_from'] = "This vault entry is created by %s";
 $lang['vault_entry_last_update'] = "آخر تحديث بواسطة %s";
-$lang['vault_entry_visible_to_all'] = "مرئي لجميع الموظفين الذين لديهم حق الوصول إلى هذا العميل";
+$lang['vault_entry_visible_to_all'] = "مرئي لجميع الموظفين الذين لديهم حق الوصول إلى هذا الموكل";
 $lang['vault_entry_visible_creator'] = "مرئي فقط لي (لا يستبعد المسؤولون)";
 $lang['vault_entry_visible_administrators'] = "مرئية فقط للمسؤولين";
 $lang['my_reminders'] = "إخطاراتي";
@@ -2610,7 +2610,7 @@ $lang['not_customer_viewed_estimate'] = "تم استعراض عرض السعر �
 $lang['not_customer_viewed_proposal'] = "تم استعراض العطاء رقم %s";
 $lang['email_header'] = "رأس محدد مسبقاً";
 $lang['email_footer'] = "تذييل محدد مسبقاً";
-$lang['exclude_proposal_from_client_area_with_draft_status'] = "إستبعاد العطاءات ذات الحالة مسودة من منطقة العميل";
+$lang['exclude_proposal_from_client_area_with_draft_status'] = "إستبعاد العطاءات ذات الحالة مسودة من منطقة الموكل";
 $lang['pusher_app_key'] = "APP Key";
 $lang['pusher_app_secret'] = "APP Secret";
 $lang['pusher_app_id'] = "APP ID";
@@ -2620,7 +2620,7 @@ $lang['task_is_overdue'] = "هذه المهمة متأخرة";
 $lang['this_year'] = "هذه السنة";
 $lang['last_year'] = "السنة الماضية";
 $lang['customer_statement'] = "كشف حساب";
-$lang['customer_statement_for'] = "كشف حساب العميل %s";
+$lang['customer_statement_for'] = "كشف حساب الموكل %s";
 $lang['statement_beginning_balance'] = "الحساب الإفتتاحي";
 $lang['invoiced_amount'] = "المبلغ المفوتر";
 $lang['amount_paid'] = "المبلغ المدفوع";
@@ -2636,8 +2636,8 @@ $lang['statement_invoice_details'] = "الفاتورة %s - مستحقة في %s
 $lang['statement_payment_details'] = "مدفوعات (%s) للفاتورة %s";
 $lang['statement_bill_to'] = "إلى";
 $lang['send_to_email'] = "إرسال إلى البريد إلإلكتروني";
-$lang['statement_sent_to_client_success'] = "تم إرسال كشف الحساب بنجاح إلى العميل";
-$lang['statement_sent_to_client_fail'] = "مشكلة في إرسال كشف الحساب إلى العميل";
+$lang['statement_sent_to_client_success'] = "تم إرسال كشف الحساب بنجاح إلى الموكل";
+$lang['statement_sent_to_client_fail'] = "مشكلة في إرسال كشف الحساب إلى الموكل";
 $lang['view_account_statement'] = "استعراض كشف الحساب";
 $lang['text_not_recommended_for_servers_limited_resources'] = "غير مستحسن إذا كان لدى الخادم موارد محدودة. مثل الإستضافة المشتركة";
 $lang['tasks_bull_actions_assign_notice'] = "إذا كانت المهمة مرتبطة بالخدمة والموظف الذي تقوم بتعيين المهمة إليه ليس عضوًا في الخدمة، فسيتم إضافة هذا الموظف تلقائيًا كعضو.";
@@ -2653,7 +2653,7 @@ $lang['ticket_form_submit'] = "تقديم";
 $lang['ticket_form_attachments'] = "المرفقات";
 $lang['success_submit_msg'] = "شكر لتواصلك معنا. سوف نقوم بالرد عليكم في أقرب وقت.";
 $lang['vault_entry_share_on_projects'] = "Share this vault entry in projects with project members";
-$lang['project_shared_vault_entry_login_details'] = "عرض تفاصيل تسجيل دخول منطقة العميل";
+$lang['project_shared_vault_entry_login_details'] = "عرض تفاصيل تسجيل دخول منطقة الموكل";
 $lang['iso_code'] = "كود ISO";
 $lang['estimates_not_invoiced'] = "لم تفوتر";
 $lang['show_on_ticket_form'] = "عرض على شكل تذكرة";
@@ -2686,7 +2686,7 @@ $lang['modal_width_class'] = "فئة عرض الوسائط";
 $lang['contract_copy'] = "نسخ";
 $lang['contract_copied_successfully'] = "تم نسخ العقد بنجاح";
 $lang['contract_copied_fail'] = "فشل في نسخ العقد";
-$lang['project_marked_as_finished_to_contacts'] = "أرسل رسالة <b> تم تعليم الخدمة كمنتهية </b> إلى جهات اتصال العملاء";
+$lang['project_marked_as_finished_to_contacts'] = "أرسل رسالة <b> تم تعليم الخدمة كمنتهية </b> إلى جهات اتصال الوكلاء";
 $lang['only_admins'] = "فقط المسؤولين";
 $lang['new_notification'] = "إخطار جديد!";
 $lang['enable_desktop_notifications'] = "تمكين إشعارات سطح المكتب";
@@ -2708,9 +2708,9 @@ $lang['item_report_paid_invoices_notice'] = "يتم إنشاء تقرير الع
 $lang['overview'] = "نظرة عامة";
 $lang['timer_started_change_status_in_progress'] = "تغيير حالة المهمة إلى قيد التقدم عند بدء تشغيل الموقت (صالح فقط إذا لم تكن حالة المهمة قد بدأت)";
 $lang['company_info_format'] = "تنسيق معلومات الشركة (PDF و HTML)";
-$lang['customer_info_format'] = "تنسيق معلومات العميل (PDF و HTML)";
+$lang['customer_info_format'] = "تنسيق معلومات الموكل (PDF و HTML)";
 $lang['custom_field_info_format_embed_info'] = "يمكن تضمين الحقول المخصصة لـ %s بسهولة في مستندات PDF و HTML عن طريق إضافة حقول الدمج في تنسيق الصفحة في الصفحة التالية: %s ";
-$lang['transfer_lead_notes_to_customer'] = "نقل ملاحظات العميل المتوقع إلى ملف تعريف العميل";
+$lang['transfer_lead_notes_to_customer'] = "نقل ملاحظات الموكل المتوقع إلى ملف تعريف الموكل";
 $lang['authorized_signature_text'] = "التوقيع المعتمد";
 $lang['show_pdf_signature_invoice'] = "إظهار التوقيع PDF على الفاتورة";
 $lang['show_pdf_signature_estimate'] = "إظهار التوقيع PDF على عرض السعر";
@@ -2728,7 +2728,7 @@ $lang['settings_paymentmethod_description'] = "وصف بوابة تحكم الد
 $lang['default_ticket_reply_status'] = "تم تحديد الحالة الافتراضية عند الرد على التذكرة";
 $lang['ticket_add_response_and_back_to_list'] = "العودة إلى قائمة التذاكر بعد تقديم الرد";
 $lang['default_task_status'] = "الحالة الافتراضية عند إنشاء مهمة جديدة";
-$lang['custom_field_pdf_html_help'] = "تأكد من التحققإظهار في بوابة العميلالحقل إذا كنت تريد أن تكون الحقول المخصصة مرئية للعملاء ، وعندما يقوم العميل بتنزيل PDF أو استلام PDF عبر البريد الإلكتروني.";
+$lang['custom_field_pdf_html_help'] = "تأكد من التحققإظهار في بوابة الموكلالحقل إذا كنت تريد أن تكون الحقول المخصصة مرئية للوكلاء ، وعندما يقوم الموكل بتنزيل PDF أو استلام PDF عبر البريد الإلكتروني.";
 $lang['auto'] = "أوتوماتيكي";
 $lang['email_queue'] = "قائمة البريد الإلكتروني في الإنتظار";
 $lang['email_queue_enabled'] = "تمكين قائمة البريد الإلكتروني في الإنتظار";
@@ -2740,17 +2740,17 @@ $lang['proposal_info_format'] = "تنسيق معلومات العطاء (PDF و 
 $lang['hide_tasks_on_main_tasks_table'] = "إخفاء مهام الخدمة في جدول المهام الرئيسية (منطقة المسؤول)";
 $lang['ticket_replies_order'] = "ترتيب ردود التذاكر";
 $lang['ticket_replies_order_notice'] = "سيتم عرض رسالة التذكرة الأولية دائمًا في الأول.";
-$lang['invoice_cancelled_email_disabled'] = "تم إلغاء الفاتورة. قم بإلغاء تحديد ما تم إلغاؤه لتمكين البريد الإلكتروني للعميل";
+$lang['invoice_cancelled_email_disabled'] = "تم إلغاء الفاتورة. قم بإلغاء تحديد ما تم إلغاؤه لتمكين البريد الإلكتروني للموكل";
 $lang['email_notifications'] = "إخطارات البريد الإلكتروني";
 $lang['invoice_activity_record_payment_email_to_customer'] = "تم تسجيل الدفعة ، تم إرسال البريد الإلكتروني إلى: %s";
 $lang['exclude_inactive'] = " إستثناء الغير نشط من";
 $lang['disable_all'] = "تعطيل الكل";
 $lang['enable_all'] = "تمكين الكل";
-$lang['reccuring_invoice_option_gen_and_send'] = "توليد وإرسال فاتورة التجديد آلياً إلى العميل";
+$lang['reccuring_invoice_option_gen_and_send'] = "توليد وإرسال فاتورة التجديد آلياً إلى الموكل";
 $lang['reccuring_invoice_option_gen_unpaid'] = "توليد فاتورة غير مدفوعة";
 $lang['reccuring_invoice_option_gen_draft'] = "توليد مسودة فاتورة";
 $lang['event_created_by'] = "تم إنشاء هذا الحدث بواسطة %s";
-$lang['customers_assigned_to_me'] = "العملاء المخصصين لي";
+$lang['customers_assigned_to_me'] = "الوكلاء المخصصين لي";
 $lang['confirmation_of_identity'] = "تأكيد الهوية";
 $lang['accept_identity_confirmation'] = "تتطلب تأكيد الهوية عند القبول";
 $lang['accepted_identity_info'] = "تم قبول %s بواسطة %s في %s من عنوان IP %s";
@@ -2812,10 +2812,10 @@ $lang['credit_invoice_date'] = "تاريخ الفاتورة";
 $lang['apply_to_invoice'] = "تنطبق على الفاتورة";
 $lang['apply_credits_from'] = "تطبيق الأرصدة من %s";
 $lang['credits_successfully_applied_to_invoices'] = "تم تطبيق أرصدة الفواتير بنجاح";
-$lang['credit_note_send_to_client_modal_heading'] = "إرسال مذكرة الرصيد للعميل";
-$lang['credit_note_sent_to_client_success'] = "تم إرسال مذكرة الرصيد للعميل بنجاح";
-$lang['credit_note_sent_to_client_fail'] = "مشكلة عند تم إرسال مذكرة الرصيد للعميل";
-$lang['credit_note_no_invoices_available'] = "لا توجد فواتير متاحة لهذا العميل.";
+$lang['credit_note_send_to_client_modal_heading'] = "إرسال مذكرة الرصيد للموكل";
+$lang['credit_note_sent_to_client_success'] = "تم إرسال مذكرة الرصيد للموكل بنجاح";
+$lang['credit_note_sent_to_client_fail'] = "مشكلة عند تم إرسال مذكرة الرصيد للموكل";
+$lang['credit_note_no_invoices_available'] = "لا توجد فواتير متاحة لهذا الموكل.";
 $lang['show_total_paid_on_invoice'] = "إظهار إجمالي المبلغ المدفوع في الفاتورة";
 $lang['show_credits_applied_on_invoice'] = "إظهار الأرصدة المطبقة على الفاتورة";
 $lang['show_amount_due_on_invoice'] = "إظهار المبلغ المستحق على الفاتورة";
@@ -2826,7 +2826,7 @@ $lang['statement_credits_applied_details'] = "تم تطبيق الأرصدة م�
 $lang['credit_note_files'] = "ملفات مذكرة الرصيد";
 $lang['credit_notes_report'] = "تقرير الأرصدة";
 $lang['credit_note_set_reminder_title'] = "عين تذكير مذكرة الرصيد";
-$lang['credit_note_add_edit_client_note'] = "ملاحظة العميل";
+$lang['credit_note_add_edit_client_note'] = "ملاحظة الموكل";
 $lang['credit_note_bill_to'] = "فاتورة إلى";
 $lang['credit_note_prefix'] = "بادئة رقم الفاتورة";
 $lang['credit_note_admin_note'] = "ملاحظةالمشرف";
@@ -2868,12 +2868,12 @@ $lang['inline_create_option_predefined_replies'] = "السماح للموظفي�
 $lang['reminders_view_none_admin'] = "عرض التذكيرات الخاصة بك والتذكيرات التي قمت انت بإنشائها.";
 $lang['show_tabs_and_options'] = "إظهار علامات التبويب والخيارات";
 $lang['no_milestones_found'] = "هذه الخدمة لا يوجد لديها مراحل عمل";
-$lang['lead_is_contact_create_task'] = "قم بإنشاء مهمة إذا كان مرسل البريد الإلكتروني عميلًا بالفعل وقم بتعيينه للموظف المسؤول.";
-$lang['existing_customer'] = "عميل حالي";
+$lang['lead_is_contact_create_task'] = "قم بإنشاء مهمة إذا كان مرسل البريد الإلكتروني موكلًا بالفعل وقم بتعيينه للموظف المسؤول.";
+$lang['existing_customer'] = "موكل حالي";
 $lang['use_company_name_instead'] = "استخدم اسم الشركة بدلاً من ذلك";
-$lang['customer_delete_transactions_warning'] = "لدى هذا العميل معاملات ،%s ، يجب عليك حذف المعاملات أو الانتقال إلى عميل آخر لتنفيذ هذا الإجراء.";
-$lang['help_leads_create_permission'] = "يمكن لجميع الموظفين إنشاء العملاء المتوقعين ، باستثناء الأعضاء الذين تم تحديدهم على أنهم ليسوا موظفين";
-$lang['help_leads_edit_permission'] = "يمكن لأي شخص لديه حق الوصول إلى عميل متوقع معين تعديل معظم معلومات العميل المتوقع";
+$lang['customer_delete_transactions_warning'] = "لدى هذا الموكل معاملات ،%s ، يجب عليك حذف المعاملات أو الانتقال إلى موكل آخر لتنفيذ هذا الإجراء.";
+$lang['help_leads_create_permission'] = "يمكن لجميع الموظفين إنشاء الوكلاء المتوقعين ، باستثناء الأعضاء الذين تم تحديدهم على أنهم ليسوا موظفين";
+$lang['help_leads_edit_permission'] = "يمكن لأي شخص لديه حق الوصول إلى موكل متوقع معين تعديل معظم معلومات الموكل المتوقع";
 $lang['triggers'] = "المشغلون";
 $lang['notice_only_one_active_sms_gateway'] = "يُسمح ببوابة رسائل نصية قصيرة نشطة واحدة فقط";
 $lang['sms_trigger_disable_tip'] = "اترك المحتويات فارغة لتعطيل المشغل المحدد.";
@@ -2882,19 +2882,19 @@ $lang['only_project_tasks'] = "المهام المتعلقة بالخدمة فق
 $lang['download_all'] = "تحميل الكل";
 $lang['settings_sales_credit_note_number_format'] = "تنسيق رقم مذكرة الرصيد";
 $lang['sms_reminder_sent_to'] = "تم إرسال تذكير SMS إلى %s";
-$lang['ideal_customer_statement_descriptor'] = "وصف كشف الحساب (كما هو موضح في كشف حساب العميل)";
+$lang['ideal_customer_statement_descriptor'] = "وصف كشف الحساب (كما هو موضح في كشف حساب الموكل)";
 $lang['payment_received_awaiting_confirmation'] = "تم استلام دفعتك وهي في انتظار التأكيد.";
 $lang['discount_fixed_amount'] = "مبلغ ثابت";
 $lang['timesheet_duration_instead'] = "أدخل المدة الزمنية بدلاً من ذلك";
 $lang['timesheet_date_instead'] = "اضبط وقت البدء والانتهاء بدلاً من ذلك";
-$lang['allow_non_admin_members_to_import_leads'] = "السماح للموظفين غير المشرفين باستيراد العملاء المتوقعين";
+$lang['allow_non_admin_members_to_import_leads'] = "السماح للموظفين غير المشرفين باستيراد الوكلاء المتوقعين";
 $lang['project_hide_tasks_settings_info'] = "يتم استبعاد المهام من جدول المهام الرئيسية لهذه الخدمة ، ويمكنك عرض مهام الخدمة فقط في هذه المنطقة.";
 $lang['ticket_create_no_contact'] = "تذكرة بدون جهة إتصال";
 $lang['ticket_create_to_contact'] = "تذكرة لجهة اتصال";
 $lang['showing_billable_tasks_from_project'] = "عرض المهام القابلة للفوترة من الخدمة";
 $lang['no_billable_tasks_found'] = "المهام القابلة للفوترة غير موجودة";
-$lang['help_leads_permission_view'] = "إذا لم يتم تحديد هذا الإذن ، فلن يتمكن أي موظف من عرض العملاء المتوقعين إلا في المكان المخصص له ، والعملاء المتوقعين الذين أنشأهم الموظفون والعملاء المتوقعون الذين تم وضع علامة عليهم كعام";
-$lang['customers'] = "العملاء";
+$lang['help_leads_permission_view'] = "إذا لم يتم تحديد هذا الإذن ، فلن يتمكن أي موظف من عرض الوكلاء المتوقعين إلا في المكان المخصص له ، والوكلاء المتوقعين الذين أنشأهم الموظفون والوكلاء المتوقعون الذين تم وضع علامة عليهم كعام";
+$lang['customers'] = "الوكلاء";
 $lang['knowledge_base'] = "قاعدة المعرفة";
 $lang['staff'] = "الموظفين";
 $lang['checklist_templates'] = "قوالب قائمة فحص المهام";
@@ -2905,10 +2905,10 @@ $lang['tracked_email_subject'] = "الموضوع";
 $lang['tracked_email_to'] = "إلى";
 $lang['tracked_email_opened'] = "فتحت";
 $lang['tracked_email_not_opened'] = "لم تفتح";
-$lang['not_viewed_yet'] = "لم يقم العميل باستعراض %s حتى الأن";
+$lang['not_viewed_yet'] = "لم يقم الموكل باستعراض %s حتى الأن";
 $lang['undo'] = "إبطال";
 $lang['sign_document_validation'] = "يرجى التوقيع على الوثيقة.";
-$lang['document_customer_signature_text'] = "التوقيع (العميل)";
+$lang['document_customer_signature_text'] = "التوقيع (الموكل)";
 $lang['accept_identity_confirmation_and_signature_sign'] = "يتطلب قبول التوقيع الرقمي وتأكيد الهوية";
 $lang['legal_bound_text'] = "نص الملزمة القانونية";
 $lang['e_signature_sign'] = "وقع";
@@ -2919,14 +2919,14 @@ $lang['view_pdf_in_new_window'] = "عرض PDF في علامة تبويب جدي�
 $lang['show_pdf_signature_contract'] = "عرض التوقيع بصيغة PDF على العقد";
 $lang['document_signed_successfully'] = "لقد قمت بالتوقيع على هذه الوثيقة بنجاح";
 $lang['document_signed_info'] = "تم توقيع هذا المستند بواسطة %s على %s من عنوان IP %s";
-$lang['keep_signature'] = "إبقاء توقيع العميل";
+$lang['keep_signature'] = "إبقاء توقيع الموكل";
 $lang['view_contract'] = "عرض العقد";
 $lang['summary'] = "ملخص";
 $lang['discussion'] = "نقاش";
 $lang['general_information'] = "معلومات عامة";
 $lang['proposal_information'] = "معلومات العطاء";
 $lang['contract_comments'] = "التعليقات";
-$lang['not_contract_comment_from_client'] = "تعليق جديد من العميل على العقد %s ...";
+$lang['not_contract_comment_from_client'] = "تعليق جديد من الموكل على العقد %s ...";
 $lang['contract_files'] = "ملفات العقد";
 $lang['date_signed'] = "تاريخ التوقيع";
 $lang['clear_signature'] = "مسح التوقيع";
@@ -2951,8 +2951,8 @@ $lang['subscribe'] = "الإشتراك";
 $lang['subscription_date'] = "التاريخ";
 $lang['first_billing_date'] = "تاريخ أول فوترة";
 $lang['allow_primary_contact_to_update_credit_card'] = "هل تسمح لجهة الاتصال الأساسية بتحديث رمز بطاقة الائتمان المخزنة؟";
-$lang['show_subscriptions_in_customers_area'] = "إظهار الاشتراكات في منطقة العملاء؟";
-$lang['show_subscriptions_in_customers_area_help'] = "هذا الخيار صالح فقط لجهة اتصال العميل الأساسية.";
+$lang['show_subscriptions_in_customers_area'] = "إظهار الاشتراكات في منطقة الوكلاء؟";
+$lang['show_subscriptions_in_customers_area_help'] = "هذا الخيار صالح فقط لجهة اتصال الموكل الأساسية.";
 $lang['subscription_sent_to_email_success'] = "تم إرسال الإشتراك إلى البريد الإلكتروني بنجاح";
 $lang['subscription_sent_to_email_fail'] = "فشل في إرسال الاشتراك إلى البريد الإلكتروني";
 $lang['new_subscription'] = "اشنراك جديد";
@@ -2974,7 +2974,7 @@ $lang['subscription_unpaid'] = "غير مدفوعة";
 $lang['billing_plan'] = "خطة الفوترة";
 $lang['upcoming_invoice'] = "الفاتورة القادمة";
 $lang['resume_now'] = "استئناف الآن";
-$lang['subscription_not_yet_subscribed'] = "لم يشترك العميل بعد في هذا الاشتراك.";
+$lang['subscription_not_yet_subscribed'] = "لم يشترك الموكل بعد في هذا الاشتراك.";
 $lang['subscription_is_canceled_no_resume'] = "تم إلغاء هذا الاشتراك ولا يمكن استئنافه.";
 $lang['subscription_will_be_canceled_at_end_of_billing_period'] = "سيتم إلغاء هذا الاشتراك في نهاية فترة الفوترة.";
 $lang['customer_successfully_subscribed_to_subscription'] = "شكرًا لك على الاشتراك في %s";
@@ -2984,7 +2984,7 @@ $lang['subscriptions_summary'] = "ملخص الاشتراكات";
 $lang['calendar_only_assigned_tasks'] = "إظهار المهام المعينة للموظف الذي تم تسجيل دخوله فقط";
 $lang['invoice_activity_subscription_payment_succeeded'] = "تم دفع الاشتراك بنجاح ، تم إرسال البريد الإلكتروني إلى: %s";
 $lang['mail_engine'] = "محرك البريد";
-$lang['settings_require_client_logged_in_to_view_contract'] = "يتطلب تسجيل دخول العميل لعرض العقد";
+$lang['settings_require_client_logged_in_to_view_contract'] = "يتطلب تسجيل دخول الموكل لعرض العقد";
 $lang['privacy_policy'] = "سياسة الخصوصية";
 $lang['gdpr_terms_agree'] = "أوافق على <a href=\"%s\" target=\"_blank\"> البنود والشروط</a>";
 $lang['terms_and_conditions_validation'] = "يجب عليك قبول الشروط والأحكام من أجل المتابعة.";
@@ -3017,14 +3017,14 @@ $lang['explanation_for_data_removal'] = "شرح لإزالة البيانات";
 $lang['briefly_describe_why_remove_data'] = "صف بإيجاز سبب رغبتك في إزالة البيانات";
 $lang['date_published'] = "تاريخ النشر";
 $lang['view'] = "عرض";
-$lang['customer_is_subscribed_to_subscription_info'] = "العميل مشترك في هذه الرسوم";
+$lang['customer_is_subscribed_to_subscription_info'] = "الموكل مشترك في هذه الرسوم";
 $lang['save_last_order_for_tables'] = "حفظ الطلب الأخير للجداول";
 $lang['date_created'] = "تاريخ الإنشاء";
 $lang['company_logo_dark'] = "الشعار المائي القاتم للشركة";
-$lang['customers_register_require_confirmation'] = "يتطلب تأكيد التسجيل من المسؤول بعد تسجيل العميل";
+$lang['customers_register_require_confirmation'] = "يتطلب تأكيد التسجيل من المسؤول بعد تسجيل الموكل";
 $lang['customer_requires_registration_confirmation'] = "يتطلب تأكيد التسجيل";
 $lang['confirm_registration'] = "تأكيد التسجيل";
-$lang['customer_registration_successfully_confirmed'] = "تم تأكيد تسجيل العميل بنجاح";
+$lang['customer_registration_successfully_confirmed'] = "تم تأكيد تسجيل الموكل بنجاح";
 $lang['customer_register_account_confirmation_approval_notice'] = "شكرًا للتسجيل ، حسابك في انتظار الموافقة وسيتم تأكيده قريبًا.";
 $lang['after_subscription_payment_succeeded'] = "بعد نجاح عملية دفع الاشتراك";
 $lang['subscription_option_send_invoice'] = "إرسال الفاتورة";
@@ -3041,11 +3041,11 @@ $lang['gdpr_short'] = "GDPR";
 $lang['allow_non_admin_staff_to_delete_ticket_attachments'] = "السماح للموظفين غير المشرفين بحذف مرفقات التذاكر";
 $lang['contract_number'] = "رقم العقد";
 $lang['project_changing_status_recurring_tasks_notice'] = "أنت بصدد تغيير الحالة إلى {0}, سيتم إلغاء جميع المهام المتكررة";
-$lang['not_contract_signed'] = " العقد ذو الموضوع %s تم توقيعه من قبل العميل";
+$lang['not_contract_signed'] = " العقد ذو الموضوع %s تم توقيعه من قبل الموكل";
 $lang['the_number_sign'] = "#";
-$lang['not_new_ticket_reply'] = "رد العميل على التذكرة - %s";
-$lang['receive_notification_on_new_ticket_replies'] = "تلقي إشعار عند رد العميل على التذكرة";
-$lang['receive_notification_on_new_ticket_reply_help'] = "سيتلقى جميع الموظفين الذين ينتمون إلى قسم التذاكر هذا إشعارًا عند رد العميل على التذكرة";
+$lang['not_new_ticket_reply'] = "رد الموكل على التذكرة - %s";
+$lang['receive_notification_on_new_ticket_replies'] = "تلقي إشعار عند رد الموكل على التذكرة";
+$lang['receive_notification_on_new_ticket_reply_help'] = "سيتلقى جميع الموظفين الذين ينتمون إلى قسم التذاكر هذا إشعارًا عند رد الموكل على التذكرة";
 $lang['payment_gateway_enable_paypal'] = "تمكين مدفوعات PayPal";
 $lang['contract_notes'] = "الملاحظات";
 $lang['contract_add_note'] = "إضافة ملاحظة";
@@ -3062,7 +3062,7 @@ $lang['enable_google_picker'] = "تمكين Google Picker";
 $lang['google_api_client_id'] = "Google API Client ID";
 $lang['subtract_tax_total_from_amount'] = "طرح إجمالي الضريبة (%s) من المبلغ";
 $lang['expense_subtract_info_text'] = "استخدم هذا الخيار لطرح إجمالي مبلغ الضريبة من مبلغ المصاريف ، وهو مفيد عند إدخال مبلغ المصاريف مع تضمين الضريبة (شاملة الضريبة).";
-$lang['company_exists_info'] = "يبدو أن العميل الذي يحمل الاسم %s موجود بالفعل ، إذا كنت لا تزال ترغب في إنشاء العميل ، فيمكنك تجاهل هذه الرسالة.";
+$lang['company_exists_info'] = "يبدو أن الموكل الذي يحمل الاسم %s موجود بالفعل ، إذا كنت لا تزال ترغب في إنشاء الموكل ، فيمكنك تجاهل هذه الرسالة.";
 $lang['import_items'] = "إستيراد عناصر";
 $lang['total_items_deleted'] = "إجمالي العناصر المحذوفة: %s";
 $lang['billable_amount'] = "مبلغ قابل للفوترة";
@@ -3090,7 +3090,7 @@ $lang['reminder_for'] = "تذكير لـ %s في %s";
 $lang['no_description_provided'] = "لم يتم تقديم وصف";
 $lang['pay_with_card'] = "الدفع باستخدام البطاقة";
 $lang['not_customer_uploaded_file'] = "تم رفع ملف (ملفات) جديدة في ملف التعريف";
-$lang['customer_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالعملاء في هذا الجدول.";
+$lang['customer_files_info_message'] = "لا يتم عرض الملفات من الخدمات القانونية والمهام المرتبطة بالوكلاء في هذا الجدول.";
 $lang['ticket_import_reply_only'] = "حاول استيراد فقط الرد الفعلي للتذكرة (بدون رسالة مقتبسة / معاد توجيهها)";
 $lang['learn_more'] = "معرفة المزيد";
 $lang['sales_item'] = "عنصر";
@@ -3117,16 +3117,16 @@ $lang['refunds_applied_cant_delete_credit_note'] = "تحتوي مذكرة الا
 $lang['create_recurring_from_child_error_message'] = "لا يمكنك تعيين هذا %s كتكرار لأن هذا %s هو فرع من آخر %s متكرر.";
 $lang['statement_credit_note_refund'] = "Credit Note Refund - %s";
 $lang['no_validation'] = "لم يتم التحقق";
-$lang['lead_unique_validation_on'] = "إجراء التحقق من صحة تكرار العميل المتوقع في الحقول التالية:";
+$lang['lead_unique_validation_on'] = "إجراء التحقق من صحة تكرار الموكل المتوقع في الحقول التالية:";
 $lang['phonenumber_exists'] = "رقم الهاتف موجود بالفعل";
 $lang['company_exists'] = "الشركة موجودة بالفعل";
 $lang['website_exists'] = "الموقع الإلكتروني موجود بالفعل";
-$lang['send_payment_receipt_to_client'] = "إرسال إيصال استلام الدفعة إلى العميل";
+$lang['send_payment_receipt_to_client'] = "إرسال إيصال استلام الدفعة إلى الموكل";
 $lang['payment_sent_successfully'] = "تم ارسال ايصال استلام الدفعة بنجاح.";
 $lang['payment_sent_failed'] = "فشل في إرسال إيصال الدفع.";
 $lang['tags_update_replace_warning'] = "لا يتم تحديث بعض الكلمات الدلالية لأن الكلمة موجودة بالفعل";
-$lang['attach_statement'] = "ارفاق بيان العميل";
-$lang['clients_'] = "الموكلين";
+$lang['attach_statement'] = "ارفاق بيان الموكل";
+$lang['clients_'] = "الوكلاء";
 $lang['from_here'] = "من هنا";
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
 $lang['office_name_in_center']='اسم المكتب في المركز';

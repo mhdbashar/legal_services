@@ -222,39 +222,14 @@ class Settings extends AdminController {
         ]);
     }
 
-    public function get_office_name_f() {
-        $office_name = $this->input->post('office_name_in_center');
-        $url = 'http://legaloffices.babillawnet.com/api/list/';
-
-
-        $cURLConnection = curl_init();
-        curl_setopt($cURLConnection, CURLOPT_URL, $url);
-        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
-        $List = curl_exec($cURLConnection);
-        curl_close($cURLConnection);
-
-        $jsonArrayResponse = json_decode($List);
-        foreach ($jsonArrayResponse as $item) { //foreach element in $arr
-            if (($office_name == $item->offic_name) && ($office_name == get_option('office_name_in_center'))) {
-
-                $data['status'] = get_option('office_name_in_center');
-            } elseif (($office_name == $item->offic_name) && ($office_name != get_option('office_name_in_center'))) {
-
-                $data['status'] = FALSE;
-            } elseif ($office_name != $item->offic_name) {
-                $data['status'] = get_option('office_name_in_center');
-            }
-        }
-
-        echo json_encode($data);
-    }
-
     function get_office_name() {
+
+
         $office_name = $this->input->post('office_name_in_center');
 
+
         $url = 'http://legaloffices.babillawnet.com/api/list/';
-        //$url = 'http://localhost/legal/api/list/';
+
 
         $cURLConnection = curl_init();
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
@@ -288,6 +263,28 @@ class Settings extends AdminController {
         }
 
         echo json_encode($data);
+
+
+
+
+        $option = get_option('office_name_in_center');
+      
+
+        $url_url = 'http://legaloffices.babillawnet.com/api/update_office_name/';
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "old_offic_name=$option&new_office_name=$office_name");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+
+        curl_close($ch);
     }
+
+
 
 }

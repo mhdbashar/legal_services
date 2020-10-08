@@ -212,7 +212,6 @@
             var office_name_in_center = $("input[name='settings[office_name_in_center]']").val();
             e.preventDefault();
 
-
             $.ajax({
                 url: '<?php echo site_url($this->uri->uri_string()); ?>/get_office_name',
                 type: 'POST',

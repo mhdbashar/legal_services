@@ -3130,3 +3130,4 @@ $lang['clients_'] = "الموكلين";
 $lang['from_here'] = "من هنا";
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
 $lang['office_name_in_center']='اسم المكتب في المركز';
+$lang['no_office_name_in_center']='لايوجد اسم للمكتب في مركز الخدمات';

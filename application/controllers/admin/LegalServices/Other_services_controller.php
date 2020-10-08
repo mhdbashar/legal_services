@@ -77,6 +77,9 @@ class Other_services_controller extends AdminController
     public function export_service($ServID, $id, $case = false) {
 
         //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
+        
+        $this->load->model('LegalServices/Cases_model', 'case');
+
         $office_name = $this->input->post('office_name');
         $cURLConnection = curl_init();
 
@@ -105,14 +108,20 @@ class Other_services_controller extends AdminController
             $this->db->where(['id' => $id]);
             $data = ($this->db->get('tblmy_cases')->row_array());
             $data['service_id'] = 1;
+            $data['rel_id'] = $id;
+            $data['files'] = $this->case->get_files($id);
             $this->db->where('case_id', $id);
             $data['available_features'] = $this->db->get("tblcase_settings")->row_array()['value'];
         } else {
             $this->db->where(['id' => $id, 'service_id' => $ServID]);
             $data = ($this->db->get('tblmy_other_services')->row_array());
+            $data['files'] = $this->other->get_files($id);
+            $data['rel_id'] = $id;
             $this->db->where('oservice_id', $id);
             $data['available_features'] = $this->db->get("tbloservice_settings")->row_array()['value'];
         }
+
+        //echo '<pre>'; print_r($data['files']); exit;
 
         $service_name = $data['name'];
         // $data['settings'] = array( 'available_features' => array( 'project_overview => 1','project_estimates => 1'
@@ -129,6 +138,7 @@ class Other_services_controller extends AdminController
         if ($country == null)
             $country = '';
         $data['country'] = $country;
+        $data['company_url'] = base_url();
 
 
 
@@ -180,7 +190,8 @@ class Other_services_controller extends AdminController
         $result = curl_exec($ch);
         $response_object = (json_decode($result));
         if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
-            set_alert('danger', _l('problem_exporting'));
+            var_dump($result);
+            exit;
         } else {
             if($client_exists){
                 $this->db->where('url', $office_url);

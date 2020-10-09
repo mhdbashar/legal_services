@@ -178,7 +178,7 @@
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('representative', '');
                                                     foreach ($data as $row): ?>
-                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo $row['representative']; ?></option>
+                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo maybe_translate(_l('nothing_was_specified'), $row['representative']); ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -463,8 +463,7 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
-                            //$checked = ' checked';
-                            $checked = '';
+                            $checked = ' checked';
                             if(isset($case)){
                                 if($case->settings->{$setting} == 0){
                                     $checked = '';

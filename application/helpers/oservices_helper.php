@@ -12,7 +12,6 @@ function _maybe_init_admin_oservice_assets()
 
         $CI->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js', 'admin', ['vendor-js']);
         $CI->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js', 'admin', ['vendor-js']);
-
         $CI->app_css->add('jquery-comments-css', 'assets/plugins/jquery-comments/css/jquery-comments.css', 'admin', ['reset-css']);
         $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
@@ -28,6 +27,17 @@ function get_oservice_tabs_admin()
     return get_instance()->app_tabs->get_oservice_tabs();
 }
 
+function add_session_tab()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_oservice_tab('OserviceSession', [
+        'name'     => _l('SessionLog'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/LegalServices/services_sessions/services_sessions',
+        'position' => 60,
+    ]);
+}
+
 /**
  * Init the default project tabs
  * @return null
@@ -35,13 +45,6 @@ function get_oservice_tabs_admin()
 function app_init_oservice_tabs()
 {
     $CI = &get_instance();
-
-    $CI->db->select('service_session_link');
-    $data = $CI->db->get(db_prefix() . 'my_other_services')->result();
-    foreach ($data as $item):
-        $service_session_link = $item->service_session_link;
-    endforeach;
-
 
     $CI->app_tabs->add_oservice_tab('project_overview', [
         'name' => _l('project_overview'),
@@ -169,17 +172,6 @@ function app_init_oservice_tabs()
         'position' => 55,
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
-
-    if(isset($service_session_link)):
-        if($service_session_link == 1):
-            $CI->app_tabs->add_oservice_tab('OserviceSession', [
-                'name'     => _l('SessionLog'),
-                'icon'     => 'fa fa-font-awesome',
-                'view'     => 'admin/LegalServices/services_sessions/services_sessions',
-                'position' => 60,
-            ]);
-        endif;
-    endif;
 
     $CI->app_tabs->add_oservice_tab('Phase', [
         'name'                      => _l('phases'),

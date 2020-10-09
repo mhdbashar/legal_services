@@ -95,22 +95,29 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-//                                $staff_language = get_staff_default_language(get_staff_user_id());
-                                $staff_language = get_option('active_language');
-
+                                $staff_language = get_staff_default_language(get_staff_user_id());
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
+                                    $field_city = 'Name_ar';
                                 }else{
                                     $field = 'short_name';
+                                    $field_city = 'Name_en';
                                 }
                                 ?>
-                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('invoice_company_city')); ?>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
+                                    <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                     <select id="city" name="city" class="form-control custom_select_arrow">
-                                        <option value=""></option>
+                                        <option selected disabled></option>
+                                        <?php
+                                        if(get_option('company_state') != ''){
+                                            foreach ($data as $row): ?>
+                                                <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_state') == $row->Name_en ? 'selected' : get_option('company_state') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                                            <?php endforeach;
+                                        } ?>
                                     </select>
                                 </div>
                             </div>
@@ -261,8 +268,7 @@
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
-            //$checked = ' checked';
-            $checked = '';
+            $checked = ' checked';
            if(isset($OtherServ)){
                 if($OtherServ->settings->{$setting} == 0){
                     $checked = '';

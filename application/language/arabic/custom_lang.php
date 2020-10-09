@@ -30,6 +30,7 @@ $lang['license_info'] = 'معلومات الترخيص';
 $lang['license_key'] = 'مفتاح الترخيص';
 
 $lang['appointly'] = 'المواعيد';
+$lang['nothing_was_specified'] = 'لم يتم تحديد شيء';
 
 $lang['tbookmarks_name'] = 'الاشارات المرجعية المتعلقة بالمهمة';
 $lang['tbookmarks_desc'] = 'تمكنك من تجميع المهام وفق إشارة مرجعية معينة';

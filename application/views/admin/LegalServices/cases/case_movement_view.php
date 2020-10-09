@@ -28,7 +28,7 @@
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php echo _l('Court') . ' :'; ?>
-                                <?php echo isset($movement['court_name']) && $movement['court_name'] != '' ? $movement['court_name'] : _l('smtp_encryption_none'); ?>
+                                <?php echo isset($movement['court_name']) && $movement['court_name'] != '' ? $movement['court_name'] : _l('nothing_was_specified'); ?>
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php
@@ -40,7 +40,7 @@
                                     echo ' &nbsp; <span class="label label-success inline-block mbot5">' . $judge->name. '</span>';
                                 }
                                 else:
-                                    echo  _l('smtp_encryption_none');
+                                    echo  _l('nothing_was_specified');
                                 endif;
                                 ?>
                             </p>
@@ -49,7 +49,7 @@
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php echo _l('customer_description') . ' :'; ?>
-                                <?php echo isset($movement['Representative']) && $movement['Representative'] != '' ? $movement['Representative'] : _l('smtp_encryption_none'); ?>
+                                <?php echo isset($movement['Representative']) && $movement['Representative'] != '' ? $movement['Representative'] : _l('nothing_was_specified'); ?>
                             </p>
                             <p class="mtop10 no-mbot"><?php echo _l('project_description'). ' :'; ?></p>
                             <p class="no-mbot text-muted mleft30 mtop5"><?php echo $movement['description']; ?></p>

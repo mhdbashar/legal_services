@@ -41,10 +41,10 @@ class Case_movement_model extends App_Model
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'case_movement.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'case_movement.cat_id' , 'left');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'case_movement.subcat_id' , 'left');
-            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'case_movement.court_id' , 'left');
-            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'case_movement.jud_num' , 'left');
-            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'case_movement.representative' , 'left');
-            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'case_movement.case_status' , 'left');
+            $this->db->join(db_prefix() . 'my_courts',  'my_courts.c_id=' . db_prefix() . 'case_movement.court_id');
+            $this->db->join(db_prefix() . 'my_judicialdept',  'my_judicialdept.j_id=' . db_prefix() . 'case_movement.jud_num');
+            $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'case_movement.representative');
+            $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'case_movement.case_status');
             return $this->db->get(db_prefix() . 'case_movement')->row();
         }
     }
@@ -52,6 +52,22 @@ class Case_movement_model extends App_Model
     public function add($ServID,$id, $data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        if (!isset($data['court_id'])) {
+            $data['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+        }
+
+        if (!isset($data['jud_num'])) {
+            $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
+        }
+
+        if (!isset($data['representative'])) {
+            $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
+        }
+
+        if (!isset($data['case_status'])) {
+            $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
+        }
 
         if (isset($data['notify_project_members_status_change'])) {
             unset($data['notify_project_members_status_change']);

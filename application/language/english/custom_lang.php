@@ -13,7 +13,7 @@ $lang['project_setting_view_session_logs'] = 'view session logs';
 
 $lang['project_setting_view_procurations'] = 'view procurations';
 $lang['license_key'] = 'License Key';
-
+$lang['nothing_was_specified'] = 'Nothing was specified';
 $lang['appointly'] = 'Appointment';
 
 $lang['tbookmarks_name'] = 'Bookmark your Task';

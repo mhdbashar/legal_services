@@ -247,6 +247,11 @@ class Other_services_controller extends AdminController
                 blank_page(_l('LService_not_found'));
             }
 
+            if ($project->service_session_link == 1){
+                //Unable to load session tab if service_session_link is active
+                add_session_tab();
+            }
+
             $project->settings->available_features = unserialize($project->settings->available_features);
             $data['statuses'] = $this->other->get_project_statuses();
 

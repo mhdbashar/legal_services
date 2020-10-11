@@ -1,4 +1,5 @@
 
+
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -74,6 +75,7 @@ class Other_services_controller extends AdminController {
         }
         curl_close($ch);
     }
+
     public function encode_string($office_name = '', $length = 1000) {
 
         $key = '';
@@ -87,19 +89,23 @@ class Other_services_controller extends AdminController {
 
         return $rr;
     }
+
     // Example URL : http://localhost/legalserv1/admin/LegalServices/other_services_controller/export_service/2/1
     public function export_service($ServID, $id, $case = false) {
 
         //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
 
-
+        $this->load->model('LegalServices/Cases_model', 'case');
 
         $office_name = $this->input->post('office_name');
 
-$keycode=$this->encode_string($office_name);
+
+        $keycode = $this->encode_string($office_name);
+
+
 
         $cURLConnection = curl_init();
-        
+
         //$url = 'http://localhost/legal/api/get_token/';
         $url = 'https://legaloffices.babillawnet.com/api/get_token/';
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
@@ -110,20 +116,16 @@ $keycode=$this->encode_string($office_name);
         curl_close($cURLConnection);
 
         $jsonArrayResponse = json_decode($List);
+        if (!isset($jsonArrayResponse->token)) {
+            set_alert('danger', _l('problem_exporting'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
         $t = $jsonArrayResponse->token;
         $office_url = $jsonArrayResponse->office_url;
 
 //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
         $token = 'authtoken:' . $t;
         $main_url = $office_url . 'api/';
-
-
-
-
-
-
-
-
         $url = $main_url . 'Service/data';
 
 
@@ -132,26 +134,37 @@ $keycode=$this->encode_string($office_name);
             $this->db->where(['id' => $id]);
             $data = ($this->db->get('tblmy_cases')->row_array());
             $data['service_id'] = 1;
+            $data['rel_id'] = $id;
+            $data['files'] = $this->case->get_files($id);
             $this->db->where('case_id', $id);
             $data['available_features'] = $this->db->get("tblcase_settings")->row_array()['value'];
         } else {
             $this->db->where(['id' => $id, 'service_id' => $ServID]);
             $data = ($this->db->get('tblmy_other_services')->row_array());
+            $data['files'] = $this->other->get_files($id);
+            $data['rel_id'] = $id;
             $this->db->where('oservice_id', $id);
             $data['available_features'] = $this->db->get("tbloservice_settings")->row_array()['value'];
         }
 
+        //echo '<pre>'; print_r($data['files']); exit;
 
+        $service_name = $data['name'];
         // $data['settings'] = array( 'available_features' => array( 'project_overview => 1','project_estimates => 1'
         //     ,'project_milestones => 1', 'project_gantt => 1', 'project_tasks => 1', 'project_estimates => 1', 'project_subscriptions => 1', 'project_invoices => 1', 'project_expenses => 1', 
         //     'project_credit_notes => 1', 'project_tickets => 1', 'project_timesheets => 1', 'project_files => 1', 'project_discussions => 1', 'project_notes => 1', 'project_activity => 1'
         // ));
 
         $this->db->where('country_id', $data['country']);
-        $country = $this->db->get("tblcountries")->row_array()['short_name_ar'];
+        $country = null;
+        $country_array = $this->db->get("tblcountries")->row_array();
+        if (isset($country_array['short_name_ar']))
+            $country = $country_array['short_name_ar'];
+
         if ($country == null)
             $country = '';
         $data['country'] = $country;
+        $data['company_url'] = base_url();
 
 
 
@@ -186,6 +199,7 @@ $keycode=$this->encode_string($office_name);
         }
 
 
+
         $data['clientid'] = $client_id;
         $post_data = http_build_query($data);
 
@@ -202,8 +216,19 @@ $keycode=$this->encode_string($office_name);
         $result = curl_exec($ch);
         $response_object = (json_decode($result));
         if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
-            set_alert('danger', _l('problem_exporting'));
+            var_dump($result);
+            exit;
         } else {
+            if ($client_exists) {
+                $this->db->where('url', $office_url);
+                $old_exported = $this->db->get('tblmy_exported_services')->row();
+                if (isset($old_exported->email) and isset($old_exported->password)) {
+                    $smtp_email = $old_exported->email;
+                    $password = $old_exported->password;
+                } else {
+                    $password = '';
+                }
+            }
             $exported_data = [
                 'email' => $smtp_email,
                 'password' => $password,
@@ -215,6 +240,11 @@ $keycode=$this->encode_string($office_name);
             $insert_id = $this->db->insert_id();
             $notified = add_notification([
                 'description' => 'Service exported successfully <br>email: ' . $smtp_email . ' <br>password: ' . $password,
+                'touserid' => get_staff_user_id(),
+                'fromcompany' => 1,
+                'fromuserid' => null,
+                'link' => 'LegalServices/other_services_controller/follow_service_from_notification?url=' . $office_url,
+                'description' => 'Service exported successfully<br>Service name: ' . $service_name . '<br>Email: ' . $smtp_email . '<br>Password: ' . $password,
                 'touserid' => get_staff_user_id(),
                 'fromcompany' => 1,
                 'fromuserid' => null,

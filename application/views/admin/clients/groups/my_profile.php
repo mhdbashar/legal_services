@@ -162,12 +162,12 @@
                   <?php } ?>
                </div>
                <div class="col-md-6">
-                  <?php $value=( isset($client) ? $client->address : ''); ?>
+                  <?php $value= (isset($client) ? $client->address : ''); ?>
                   <?php echo render_textarea( 'address', 'client_address',$value); ?>
                  
                   <?php $countries= my_get_all_countries();
-                     $customer_default_country = get_option('customer_default_country');
-                     $selected =( isset($client) ? $client->country : $customer_default_country);
+                     $customer_default_country = get_option('customer_default_country') ? get_option('customer_default_country') : get_option('company_country');
+                     $selected = (isset($client) ? $client->country : $customer_default_country);
                      if(get_option('active_language') == 'arabic'){
                         echo render_select( 'country',$countries,array( 'country_id',array( 'short_name_ar')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                      } else {
@@ -239,7 +239,7 @@
 
                         <?php 
                               $countries= my_get_all_countries();
-                              $customer_default_country = get_option('customer_default_country');
+                              $customer_default_country = get_option('customer_default_country') ? get_option('customer_default_country') : get_option('company_country');
                               $selected1 =( isset($client) ? $client->billing_country : $customer_default_country); 
                               if(get_option('active_language') == 'arabic'){
                               echo render_select( 'billing_country',$countries,array( 'country_id',array( 'short_name_ar')), 'billing_country',$selected1,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
@@ -272,7 +272,7 @@
                         <hr />
                         <?php 
                               $countries= my_get_all_countries();
-                              $customer_default_country = get_option('customer_default_country');
+                              $customer_default_country = get_option('customer_default_country') ? get_option('customer_default_country') : get_option('company_country');
                               $selected2 =( isset($client) ? $client->shipping_country : $customer_default_country); 
                               if(get_option('active_language') == 'arabic'){
                               echo render_select( 'shipping_country',$countries,array( 'country_id',array( 'short_name_ar')), 'shipping_country',$selected2,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));

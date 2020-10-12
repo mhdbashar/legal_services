@@ -211,6 +211,7 @@ $autoload['model'] = [
     'roles_model',
     'clients_model',
     'tasks_model',
+    'sessions_model',
 ];
 
 if (file_exists(APPPATH . 'config/my_autoload.php')) {

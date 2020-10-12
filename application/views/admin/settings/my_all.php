@@ -187,7 +187,7 @@
 <?php if ($tab['slug'] == 'company') { ?>
 <script type="text/javascript">
     function get_city(){
-        var invoice_company_city = $( "[name^='settings[invoice_company_city]']");
+        var invoice_company_city = $( "[name^='settings[company_country]']");
         $.ajax({
             url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
             data: {country: invoice_company_city.val()},

@@ -140,7 +140,7 @@ function my_module_menu_item_collapsible()
 
     $CI->app_menu->add_sidebar_menu_item('sessions', [
         'name'     => _l("sessions"), // The name if the item
-        'href'     => admin_url('LegalServices/Sessions'), // URL of the item
+        'href'     => admin_url('LegalServices/sessions'), // URL of the item
         'position' => 5, // The menu position, see below for default positions.
         'icon'     => 'fa fa-font-awesome', // Font awesome icon
     ]);

@@ -19,16 +19,16 @@
                 $field_city = 'Name_en';
             }
             ?>
-            <?php echo render_select('settings[invoice_company_city]', get_cases_countries($field), array('country_id', array($field)), 'settings_sales_city', get_option('invoice_company_city'), array('onchange' => 'get_city()')); ?>
+            <?php echo render_select('settings[company_country]', get_cases_countries($field), array('country_id', array($field)), 'clients_country', get_option('company_country'), array('onchange' => 'get_city()')); ?>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label" for="city"><?php echo _l('billing_state'); ?></label>
+                <label class="control-label" for="city"><?php echo _l('clients_city'); ?></label>
                 <?php $data = get_relation_data('build_dropdown_cities',''); ?>
-                <select id="city" name="settings[company_state]" class="form-control custom_select_arrow">
+                <select id="city" name="settings[company_city]" class="form-control custom_select_arrow">
                     <option selected disabled></option>
                     <?php foreach ($data as $row): ?>
-                        <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_state') == $row->Name_en ? 'selected' : get_option('company_state') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                        <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : get_option('company_city') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

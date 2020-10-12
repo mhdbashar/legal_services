@@ -149,9 +149,8 @@
                         <div class="col-md-6">
                             <?php $value=( isset($client) ? $client->address : ''); ?>
                             <?php echo render_textarea( 'address', 'client_address',$value); ?>
-
                             <?php $countries= my_get_all_countries();
-                            $customer_default_country = get_option('customer_default_country');
+                            $customer_default_country = get_option('customer_default_country') ? get_option('customer_default_country') : get_option('company_country');
                             $selected =( isset($client) ? $client->country : $customer_default_country);
                             if(get_option('active_language') == 'arabic'){
                                 echo render_select( 'country',$countries,array( 'country_id',array( 'short_name_ar')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
@@ -159,8 +158,7 @@
                                 echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                             }
                             ?>
-
-                            <label for="city" class="control-label">City</label>
+                            <label for="city" class="control-label"><?php echo _l('city'); ?></label>
                             <?php
                               $options = ( isset($client) ? my_get_cities($client->country) : my_get_cities($customer_default_country));
                               $selected=( isset($client) ? $client->city : '');

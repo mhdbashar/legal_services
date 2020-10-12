@@ -58,7 +58,7 @@
                                                     $field_city = 'Name_en';
                                                 }
                                                 ?>
-                                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('invoice_company_city')); ?>
+                                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('company_country')); ?>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -67,9 +67,9 @@
                                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                                         <option selected disabled></option>
                                                         <?php
-                                                        if(get_option('company_state') != ''){
+                                                        if(get_option('company_city') != ''){
                                                             foreach ($data as $row): ?>
-                                                                <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_state') == $row->Name_en ? 'selected' : get_option('company_state') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                                                                <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : get_option('company_city') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
                                                             <?php endforeach;
                                                         } ?>
                                                     </select>
@@ -442,10 +442,12 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
-                            $checked = ' checked';
+                            //$checked = ' checked';
+                            $checked = '';
                             if(isset($case)){
-                                if($case->settings->{$setting} == 0){
-                                    $checked = '';
+                                //if($case->settings->{$setting} == 0){
+                                if($case->settings->{$setting} == 1){
+                                    $checked = ' checked';
                                 }
                             } else {
                                 foreach($last_case_settings as $last_setting) {

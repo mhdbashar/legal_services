@@ -276,10 +276,12 @@
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
-            $checked = ' checked';
+            //$checked = ' checked';
+            $checked = '';
             if(isset($OtherServ)){
-                if($OtherServ->settings->{$setting} == 0){
-                    $checked = '';
+                //if($OtherServ->settings->{$setting} == 0){
+                if($OtherServ->settings->{$setting} == 1){
+                    $checked = ' checked';
                 }
             } else {
                 foreach($last_project_settings as $last_setting) {

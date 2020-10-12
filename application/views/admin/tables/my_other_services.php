@@ -91,7 +91,7 @@ foreach ($rResult as $aRow) {
         
     else{
         $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/".$ServID."/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
-        $_data .= ' |  <a href="#" onclick=\'login_details("'. $exported_data['email'] .'", "'.$exported_data['password'].'", "'.$exported_data['url'].'"); return false\' >'. _l('login_details') .'</a>';
+        $_data .= ' |  <a href="#" onclick=\'login_details("'. $exported_data['email'] .'", "'.$exported_data['password'].'", "'.$exported_data['url'].', ","'.$exported_data['rel_id'].'", "'.$exported_data['service_id'].'"); return false\' >'. _l('login_details') .'</a>';
     }
         
     $_data .= '</div>';

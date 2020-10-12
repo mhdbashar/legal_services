@@ -21,6 +21,26 @@ class Other_services_controller extends AdminController {
         $this->load->model('emails_model');
     }
 
+    public function get_token_by_office_name($office_name){
+        $cURLConnection = curl_init();
+        $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
+        curl_setopt($cURLConnection, CURLOPT_URL, $url);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+
+
+        $List = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+
+        $jsonArrayResponse = json_decode($List);
+        if (!isset($jsonArrayResponse->token)) {
+            // var_dump($jsonArrayResponse); echo $url; exit;
+            set_alert('danger', _l('problem_exporting'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        return $jsonArrayResponse;
+    }
+
     private function check_if_client_exists($token, $url, $email) {
         $url .= 'customers/data_search/' . $email;
         $ch = curl_init();
@@ -100,34 +120,54 @@ class Other_services_controller extends AdminController {
         $office_name = $this->input->post('office_name');
 
 
-        $keycode = $this->encode_string($office_name);
+        // $keycode = $this->encode_string($office_name);
 
 
 
-        $cURLConnection = curl_init();
+        // $cURLConnection = curl_init();
 
         //$url = 'http://localhost/legal/api/get_token/';
-        $url = 'https://legaloffices.babillawnet.com/api/get_token/';
-        curl_setopt($cURLConnection, CURLOPT_URL, $url);
-        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($cURLConnection, CURLOPT_POST, 1);
-        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "office_name=$office_name&keycode=$keycode");
-        $List = curl_exec($cURLConnection);
-        curl_close($cURLConnection);
 
-        $jsonArrayResponse = json_decode($List);
-        if (!isset($jsonArrayResponse->token)) {
-            set_alert('danger', _l('problem_exporting'));
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-        $t = $jsonArrayResponse->token;
-        $office_url = $jsonArrayResponse->office_url;
 
-//$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
-        $token = 'authtoken:' . $t;
+//================== Unknown method =====================
+        // $url = 'https://legaloffices.babillawnet.com/api/get_token/';
+        // curl_setopt($cURLConnection, CURLOPT_URL, $url);
+        // curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($cURLConnection, CURLOPT_POST, 1);
+        // curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "office_name=$office_name&keycode=$keycode");
+        // $List = curl_exec($cURLConnection);
+        // curl_close($cURLConnection);
+//================== Unknown method =====================
+
+
+//         $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
+//         curl_setopt($cURLConnection, CURLOPT_URL, $url);
+//         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+
+
+//         $List = curl_exec($cURLConnection);
+//         curl_close($cURLConnection);
+
+//         $jsonArrayResponse = json_decode($List);
+//         if (!isset($jsonArrayResponse->token)) {
+//             // var_dump($jsonArrayResponse); echo $url; exit;
+//             set_alert('danger', _l('problem_exporting'));
+//             redirect($_SERVER['HTTP_REFERER']);
+//         }
+//         $t = $jsonArrayResponse->token;
+//         $office_url = $jsonArrayResponse->office_url;
+
+// //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
+//         $token = 'authtoken:' . $t;
+//         $main_url = $office_url . 'api/';
+        $token_object = $this->get_token_by_office_name($office_name);
+
+        // print_r($token_object->office_url); exit;
+        $token = 'authtoken:' . $token_object->token;
+        $office_url = $token_object->office_url;
         $main_url = $office_url . 'api/';
         $url = $main_url . 'Service/data';
-
 
         $post_data = '';
         if ($case) {
@@ -219,6 +259,7 @@ class Other_services_controller extends AdminController {
             var_dump($result);
             exit;
         } else {
+            $office_id = $response_object->office_id;
             if ($client_exists) {
                 $this->db->where('url', $office_url);
                 $old_exported = $this->db->get('tblmy_exported_services')->row();
@@ -234,7 +275,9 @@ class Other_services_controller extends AdminController {
                 'password' => $password,
                 'url' => $office_url,
                 'service_id' => $ServID,
-                'rel_id' => $id
+                'rel_id' => $id,
+                'office_id' => $office_id,
+                'office_name' => $office_name
             ];
             $this->db->insert('tblmy_exported_services', $exported_data);
             $insert_id = $this->db->insert_id();
@@ -263,14 +306,35 @@ class Other_services_controller extends AdminController {
 
     public function follow_service($ServID, $id) {
         $this->db->where(['service_id' => $ServID, 'rel_id' => $id]);
-        $url = $this->db->get('tblmy_exported_services')->row()->url;
-        redirect($url);
+        $exported_service = $this->db->get('tblmy_exported_services')->row();
+
+
+        $tokenObject = $this->get_token_by_office_name($exported_service->office_name);
+        $token = 'authtoken:' . $tokenObject->token;
+        $url = $tokenObject->office_url;
+
+        $url .= 'api/Service/deleted_imported?id=' . $exported_service->office_id;
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $token));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+
+        $result = curl_exec($ch);
+        $result = json_decode($result);
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 200) {
+            $this->db->where(['service_id' => $ServID, 'rel_id' => $id]);
+            $this->db->delete('tblmy_exported_services');
+            set_alert('danger', _l('LService_not_found'));
+            redirect($_SERVER['HTTP_REFERER']);
+        } 
+        curl_close($ch);
+
+        redirect($exported_service->url);
     }
 
-    public function follow_service_from_notification() {
-        $url = $this->input->get('url');
-        redirect($url);
-    }
 
     public function add($ServID) {
         if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {

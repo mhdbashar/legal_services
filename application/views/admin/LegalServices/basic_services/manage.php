@@ -329,11 +329,14 @@
 
     }
 
-    function login_details(email, password, url) {
+    function login_details(email, password, uri, rel_id, service_id) {
 
         $('#email').html(email);
         $('#password').html(password);
-        $('#go').attr('href', url);
+        // Example
+        //http://localhost/legal_services/admin/LegalServices/other_services_controller/follow_service/1/2
+        let url = "<?php echo admin_url('LegalServices/other_services_controller/follow_service') ?>";
+        $('#go').attr('href', `${url}/${service_id}/${rel_id}`);
 
 
         $('#login_details').modal('show');

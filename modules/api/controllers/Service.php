@@ -335,6 +335,23 @@ class Service extends REST_Controller {
             }
     }
 
+    public function deleted_imported_get(){
+
+        $id = $this->input->get('id');
+        $data = $this->Api_model->get_table('imported_services', $id);
+        if($data){
+            $this->response([
+                'id' => $id
+            ], REST_Controller::HTTP_OK);
+        }else{
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No data were found',
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+
+    }
+
 
     /**
      * @api {delete} api/delete/projects/:id Delete a Project
@@ -380,7 +397,7 @@ class Service extends REST_Controller {
         {
             // delete data
             $this->load->model('Service_model', 'other');
-            $output = $this->other->delete($id);
+            $output = 1; //$this->other->delete($id);
             if($output === TRUE){
                 // success
                 $message = array(

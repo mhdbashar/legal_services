@@ -882,8 +882,13 @@ class Imported_services_controller extends AdminController
             $id = $this->imported->copy($service_id, $project_id, $this->input->post());
             $name = $service_id == 1 ? "Case" : "SOther";
             if ($id) {
+                $files = $this->other->get_imported_files($project_id);
+                foreach ($files as $file) {
+                    $this->other->remove_imported_file($file['id']);
+                }
                 $this->db->where(array('id' => $project_id));
                 $this->db->delete(db_prefix() . 'my_imported_services');
+
                 set_alert('success', _l('project_copied_successfully'));
                 redirect(admin_url($name.'/view/' .$service_id. '/' . $id));
             } else {

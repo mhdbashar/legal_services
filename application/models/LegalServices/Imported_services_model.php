@@ -138,6 +138,34 @@ class Imported_services_model extends App_Model
             $this->db->insert(db_prefix() . 'my_cases', $_new_data);
             $id = $this->db->insert_id();
             if ($id) {
+                $files = $this->other->get_imported_files($project_id);
+                if(!file_exists('uploads/cases/'.$id)){
+                        mkdir(FCPATH.'uploads/cases/'.$id, 0777);
+                }
+                foreach ($files as $key => $value) {
+                    $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
+                    $file_content = file_get_contents($file_url);
+                    $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
+
+                    file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
+                    $file_data = [
+                        'file_name' => $value['file_name'],
+                        'subject' => $value['subject'],
+                        'description' => isset($value['description']) ? $value['description'] : '',
+                        'filetype' => $value['filetype'],
+                        'dateadded' => $value['dateadded'],
+                        'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                        'project_id' => $id,
+                        'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                        'staffid' => get_staff_user_id(),    //$value['staffid'],
+                        'contact_id' => 0,   //$value['contact_id'],
+                        'external' => isset($value['external']) ? $value['external'] : '',
+                        'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                        'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                    ];
+                    $this->db->insert('tblcase_files', $file_data);
+
+                }
                 $tags = get_tags_in($project_id, $slug);
                 handle_tags_save($tags, $id, $slug);
 
@@ -202,6 +230,34 @@ class Imported_services_model extends App_Model
             $id = $this->db->insert_id();
 
             if ($id) {
+                $files = $this->other->get_imported_files($project_id);
+                if(!file_exists('uploads/cases/'.$id)){
+                        mkdir(FCPATH.'uploads/cases/'.$id, 0777);
+                }
+                foreach ($files as $key => $value) {
+                    $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
+                    $file_content = file_get_contents($file_url);
+                    $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
+
+                    file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
+                    $file_data = [
+                        'file_name' => $value['file_name'],
+                        'subject' => $value['subject'],
+                        'description' => isset($value['description']) ? $value['description'] : '',
+                        'filetype' => $value['filetype'],
+                        'dateadded' => $value['dateadded'],
+                        'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                        'oservice_id' => $id,
+                        'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                        'staffid' => get_staff_user_id(),    //$value['staffid'],
+                        'contact_id' => 0,   //$value['contact_id'],
+                        'external' => isset($value['external']) ? $value['external'] : '',
+                        'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                        'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                    ];
+                    $this->db->insert('tbloservice_files', $file_data);
+
+                }
                 $tags = get_tags_in($project_id, $slug);
                 handle_tags_save($tags, $id, $slug);
 

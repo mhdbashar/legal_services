@@ -144,7 +144,7 @@ class Imported_services_model extends App_Model
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents($file_url);
+                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
                     $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
 
                     file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
@@ -231,15 +231,15 @@ class Imported_services_model extends App_Model
 
             if ($id) {
                 $files = $this->other->get_imported_files($project_id);
-                if(!file_exists('uploads/cases/'.$id)){
-                        mkdir(FCPATH.'uploads/cases/'.$id, 0777);
+                if(!file_exists('uploads/oservices/'.$id)){
+                        mkdir(FCPATH.'uploads/oservices/'.$id, 0777);
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents($file_url);
-                    $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
+                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $myFile = fopen(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], 'w', true);
 
-                    file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
+                    file_put_contents(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], $file_content);
                     $file_data = [
                         'file_name' => $value['file_name'],
                         'subject' => $value['subject'],

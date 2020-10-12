@@ -296,7 +296,7 @@ class Service extends REST_Controller {
                     }
                     foreach ($files as $key => $value) {
                         $file_url = $company_url.'uploads/'.$service_slug.'/'.$rel_id.'/'.$value['file_name'];
-                        $file_content = file_get_contents($file_url);
+                        $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
                         $myFile = fopen(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], 'w', true);
 
                         file_put_contents(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], $file_content);
@@ -321,6 +321,7 @@ class Service extends REST_Controller {
                     // success
                     $message = array(
                     'status' => TRUE,
+                    'office_id' => $output,
                     'message' => 'Service add successful.'
                     );
                     $this->response($message, REST_Controller::HTTP_OK);
@@ -397,7 +398,7 @@ class Service extends REST_Controller {
         {
             // delete data
             $this->load->model('Service_model', 'other');
-            $output = 1; //$this->other->delete($id);
+            $output = $this->other->delete($id);
             if($output === TRUE){
                 // success
                 $message = array(

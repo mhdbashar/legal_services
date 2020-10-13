@@ -286,19 +286,9 @@ class Customers extends REST_Controller {
                 }
 
             // insert data
-
-            $contact_data = [
-                'is_primary' => $this->Api_model->value($this->input->post('is_primary', TRUE)),
-                'firstname' => $this->Api_model->value($this->input->post('firstname', TRUE)),
-                'email' => $this->Api_model->value($this->input->post('email', TRUE)),
-                'datecreated' => $this->Api_model->value($this->input->post('datecreated', TRUE)),
-                'password' => $this->Api_model->value($this->input->post('password', TRUE)),
-                'email_verified_at' => $this->Api_model->value($this->input->post('email_verified_at', TRUE)),
-            ];
             $this->load->model('clients_model');
             $output = $this->clients_model->add($insert_data);
             if($output > 0 && !empty($output)){
-                $this->clients_model->add_contact($contact_data, $output, true);
                 // success
                 $message = array(
                 'status' => TRUE,

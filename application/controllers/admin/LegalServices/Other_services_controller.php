@@ -21,15 +21,22 @@ class Other_services_controller extends AdminController {
     }
 
     public function get_token_by_office_name($office_name){
+
         $cURLConnection = curl_init();
-        $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
+
+        $keycode = $this->encode_string($office_name);
+        $url = 'https://legaloffices.babillawnet.com/api/get_token/';
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
-
-
+        curl_setopt($cURLConnection, CURLOPT_POST, 1);
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "office_name=$office_name&keycode=$keycode");
         $List = curl_exec($cURLConnection);
         curl_close($cURLConnection);
+
+
+        // $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
+        // curl_setopt($cURLConnection, CURLOPT_URL, $url);
+        // curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
 
         $jsonArrayResponse = json_decode($List);
         if (!isset($jsonArrayResponse->token)) {

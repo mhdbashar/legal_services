@@ -340,8 +340,9 @@ class Service extends REST_Controller {
     }
 
     public function deleted_imported_get(){
-
-        $id = $this->input->get('id');
+        $id = '';
+        if($this->input->get('id'))
+            $id = $this->input->get('id');
         $data = $this->Api_model->get_table('imported_services', $id);
         if($data){
             $this->response([
@@ -350,7 +351,7 @@ class Service extends REST_Controller {
         }else{
             $this->response([
                 'status' => FALSE,
-                'message' => 'No data were found',
+                'message' => 'not found'
             ], REST_Controller::HTTP_NOT_FOUND);
         }
 

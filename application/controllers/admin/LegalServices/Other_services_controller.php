@@ -319,7 +319,7 @@ class Other_services_controller extends AdminController {
         $token = 'authtoken:' . $tokenObject->token;
         $url = $tokenObject->office_url;
 
-        $url .= 'api/Service/deleted_imported?id=' . $exported_service->office_id;
+        $url .= 'api/Service/deleted_imported/' . $exported_service->office_id;
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $token));

@@ -294,28 +294,31 @@ class Service extends REST_Controller {
                     if(!file_exists('uploads/imported_services/'.$output)){
                         mkdir(FCPATH.'uploads/imported_services/'.$output, 0777);
                     }
-                    foreach ($files as $key => $value) {
-                        $file_url = $company_url.'uploads/'.$service_slug.'/'.$rel_id.'/'.$value['file_name'];
-                        $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
-                        $myFile = fopen(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], 'w', true);
+                    if(!empty($files)){
+                        foreach ($files as $key => $value) {
+                            $file_url = $company_url.'uploads/'.$service_slug.'/'.$rel_id.'/'.$value['file_name'];
+                            $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                            $myFile = fopen(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], 'w', true);
 
-                        file_put_contents(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], $file_content);
-                        $file_data = [
-                            'file_name' => $value['file_name'],
-                            'subject' => $value['subject'],
-                            'description' => isset($value['description']) ? $value['description'] : '',
-                            'filetype' => $value['filetype'],
-                            'dateadded' => $value['dateadded'],
-                            'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
-                            'iservice_id' => $output,
-                            'visible_to_customer' => 0,   //$value['visible_to_customer'],
-                            'staffid' => 1,    //$value['staffid'],
-                            'contact_id' => 0,   //$value['contact_id'],
-                            'external' => isset($value['external']) ? $value['external'] : '',
-                            'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
-                            'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
-                        ];
-                        $this->db->insert('tbliservice_files', $file_data);
+                            file_put_contents(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], $file_content);
+                            $file_data = [
+                                'file_name' => $value['file_name'],
+                                'subject' => $value['subject'],
+                                'description' => isset($value['description']) ? $value['description'] : '',
+                                'filetype' => $value['filetype'],
+                                'dateadded' => $value['dateadded'],
+                                'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                                'iservice_id' => $output,
+                                'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                                'staffid' => 1,    //$value['staffid'],
+                                'contact_id' => 0,   //$value['contact_id'],
+                                'external' => isset($value['external']) ? $value['external'] : '',
+                                'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                                'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                            ];
+                            $this->db->insert('tbliservice_files', $file_data);
+
+                        }
 
                     }
                     // success

@@ -312,7 +312,7 @@ class Settings extends AdminController {
 
 
        $url = 'https://legaloffices.babillawnet.com/api/list/';
-       // $url = 'http://localhost/legal/api/list/';
+        //$url = 'http://localhost/legal/api/list/';
 
         $cURLConnection = curl_init();
         curl_setopt($cURLConnection, CURLOPT_URL, $url);

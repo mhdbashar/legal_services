@@ -339,10 +339,7 @@ class Service extends REST_Controller {
             }
     }
 
-    public function deleted_imported_get(){
-        $id = '';
-        if($this->input->get('id'))
-            $id = $this->input->get('id');
+    public function deleted_imported_get($id = ''){
         $data = $this->Api_model->get_table('imported_services', $id);
         if($data){
             $this->response([

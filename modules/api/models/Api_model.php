@@ -732,6 +732,11 @@ class Api_model extends App_Model
         $this->db->order_by('id', 'ASC');
         $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
 
+        if(empty($imported_services)){
+            $this->db->where(['id' => $id, 'deleted' => 1, 'imported' => 1]);
+            $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+        }
+
         return $imported_services;
     }
 

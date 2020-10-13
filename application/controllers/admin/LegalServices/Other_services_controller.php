@@ -20,20 +20,26 @@ class Other_services_controller extends AdminController {
         $this->load->model('emails_model');
     }
 
-    public function get_token_by_office_name($office_name){
+    public function get_token_by_office_name(){
+       $office_name = $this->input->post('office_name');
+
+            $keycode = $this->encode_string($office_name);
+
+
+
         $cURLConnection = curl_init();
-        $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
+
+       // $url = 'http://localhost/legal/api/get_token/';
+        $url = 'https://legaloffices.babillawnet.com/api/get_token/';
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
-
-
+        curl_setopt($cURLConnection, CURLOPT_POST, 1);
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "office_name=$office_name&keycode=$keycode");
         $List = curl_exec($cURLConnection);
         curl_close($cURLConnection);
 
         $jsonArrayResponse = json_decode($List);
         if (!isset($jsonArrayResponse->token)) {
-            // var_dump($jsonArrayResponse); echo $url; exit;
             set_alert('danger', _l('problem_exporting'));
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -116,7 +122,7 @@ class Other_services_controller extends AdminController {
 
         $this->load->model('LegalServices/Cases_model', 'case');
 
-        $office_name = $this->input->post('office_name');
+       /*  $office_name = $this->input->post('office_name');
 
             $keycode = $this->encode_string($office_name);
 
@@ -142,9 +148,9 @@ class Other_services_controller extends AdminController {
         $office_url = $jsonArrayResponse->office_url;
 
 //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
-        $token = 'authtoken:' . $t;
-        $main_url = $office_url . 'api/';
-        $token_object = $this->get_token_by_office_name($office_name);
+        $token = 'authtoken:' . $t; */
+     /*    $main_url = $office_url . 'api/'; */
+        $token_object = $this->get_token_by_office_name();
 
         // print_r($token_object->office_url); exit;
         $token = 'authtoken:' . $token_object->token;

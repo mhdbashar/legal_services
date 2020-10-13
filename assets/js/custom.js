@@ -357,6 +357,32 @@ $(function() {
     add_hotkey('Alt+P', function() {
         window.location.href = admin_url + 'Service/1';
     });
+
+    table_sessions = $('.table-sessions');
+    if (table_sessions.length) {
+        var SessionsServerParams = {},
+            Sessions_Filters;
+        Sessions_Filters = $('._hidden_inputs._filters._tasks_filters input');
+        $.each(Sessions_Filters, function() {
+            SessionsServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+
+        // Tasks not sortable
+        var sessionsTableNotSortable = [0]; // bulk actions
+        var sessionsTableURL = admin_url + 'LegalServices/sessions/table';
+
+        if ($("body").hasClass('tasks-page')) {
+            sessionsTableURL += '?bulk_actions=true';
+        }
+
+        _table_api = initDataTable(table_sessions, sessionsTableURL, sessionsTableNotSortable, sessionsTableNotSortable, SessionsServerParams, [table_sessions.find('th.duedate').index(), 'asc']);
+
+        if (_table_api && $("body").hasClass('dashboard')) {
+            _table_api.column(5).visible(false, false)
+                .column(6).visible(false, false)
+                .columns.adjust();
+        }
+    }
 });
 
 $(document).ready(function() {
@@ -453,4 +479,108 @@ function init_table_staff_services(manual) {
     });
 
     initDataTable('.table-staff-services', admin_url + 'LegalServices/Other_services_controller/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
+}
+
+// Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
+function reload_sessions_tables() {
+    var av_sessions_tables = ['.table-sessions', '.table-rel-sessions', '.table-rel-sessions-leads', '.table-timesheets', '.table-timesheets-report'];
+    $.each(av_sessions_tables, function(i, selector) {
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Init task modal and get data from server
+function init_session_modal(task_id, comment_id) {
+    var queryStr = '';
+    var $leadModal = $('#lead-modal');
+    var $taskAddEditModal = $('#_task_modal');
+    if ($leadModal.is(':visible')) {
+        queryStr += '?opened_from_lead_id=' + $leadModal.find('input[name="leadid"]').val();
+        $leadModal.modal('hide');
+    } else if ($taskAddEditModal.attr('data-lead-id') != undefined) {
+        queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
+    }
+
+    requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
+        _task_append_html(response);
+        if (typeof(comment_id) != 'undefined') {
+            setTimeout(function() {
+                $('[data-task-comment-href-id="' + comment_id + '"]').click();
+            }, 1000);
+        }
+    }).fail(function(data) {
+        $('#task-modal').modal('hide');
+        alert_float('danger', data.responseText);
+    });
+}
+
+// New task function, various actions performed
+function new_session(url) {
+    url = typeof(url) != 'undefined' ? url : admin_url + 'LegalServices/Sessions/task';
+
+    var $leadModal = $('#lead-modal');
+    if ($leadModal.is(':visible')) {
+        url += '&opened_from_lead_id=' + $leadModal.find('input[name="leadid"]').val();
+        if (url.indexOf('?') === -1) { url = url.replace('&', '?'); }
+        $leadModal.modal('hide');
+    }
+
+    var $taskSingleModal = $('#task-modal');
+    if ($taskSingleModal.is(':visible')) { $taskSingleModal.modal('hide'); }
+
+    var $taskEditModal = $('#_task_modal');
+    if ($taskEditModal.is(':visible')) { $taskEditModal.modal('hide'); }
+
+    requestGet(url).done(function(response) {
+        $('#_task').html(response);
+        $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
+    }).fail(function(error) {
+        alert_float('danger', error.responseText);
+    })
+}
+
+// Tasks bulk actions action
+function sessions_bulk_action(event) {
+    if (confirm_delete()) {
+        var ids = [],
+            data = {},
+            mass_delete = $('#mass_delete').prop('checked');
+        if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+            data.status = $('#move_to_status_tasks_bulk_action').val();
+
+            var assignees = $('#task_bulk_assignees');
+            data.assignees = assignees.length ? assignees.selectpicker('val') : '';
+
+            var tags_bulk = $('#tags_bulk');
+            data.tags = tags_bulk.length ? tags_bulk.tagit('assignedTags') : '';
+
+            var milestone = $('#task_bulk_milestone');
+            data.milestone = milestone.length ? milestone.selectpicker('val') : '';
+
+            data.priority = $('#task_bulk_priority').val();
+            data.priority = typeof(data.priority) == 'undefined' ? '' : data.priority;
+
+            if (data.status === '' && data.priority === '' && data.tags === '' && data.assignees === '' && data.milestone === '') {
+                return;
+            }
+        } else {
+            data.mass_delete = true;
+        }
+        var rows = $($('#tasks_bulk_actions').attr('data-table')).find('tbody tr');
+        $.each(rows, function() {
+            var checkbox = $($(this).find('td').eq(0)).find('input');
+            if (checkbox.prop('checked') === true) {
+                ids.push(checkbox.val());
+            }
+        });
+        data.ids = ids;
+        $(event).addClass('disabled');
+        setTimeout(function() {
+            $.post(admin_url + 'LegalServices/Sessions/bulk_action', data).done(function() {
+                window.location.reload();
+            });
+        }, 200);
+    }
 }

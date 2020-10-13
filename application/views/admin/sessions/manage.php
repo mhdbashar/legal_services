@@ -26,7 +26,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                         <div class="row _buttons">
                             <div class="col-md-8">
                                 <?php if(has_permission('sessions','','create')){ ?>
-                                    <a href="#" onclick="new_task(<?php if($this->input->get('project_id')){ echo "'".admin_url('LegalServices/sessions/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_session'); ?></a>
+                                    <a href="#" onclick="new_session(<?php if($this->input->get('project_id')){ echo "'".admin_url('LegalServices/sessions/task?rel_id='.$this->input->get('project_id').'&rel_type='.$rel_type.'')."'";} ?>); return false;" class="btn btn-info pull-left new"><?php echo _l('new_session'); ?></a>
                                 <?php } ?>
                                 <a href="<?php if(!$this->input->get('project_id')){ echo admin_url('LegalServices/sessions/switch_kanban/'.$switch_kanban); } else { echo admin_url(''.$route.'/view/'.$ServID.$this->input->get('project_id').'?group=project_tasks'); }; ?>" class="btn btn-default mleft10 pull-left hidden-xs">
                                     <?php if($switch_kanban == 1){ echo _l('switch_to_list_view');}else{echo _l('leads_switch_to_kanban');}; ?>
@@ -38,7 +38,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                         <?php echo render_input('search','','','search',array('data-name'=>'search','onkeyup'=>'tasks_kanban();','placeholder'=>_l('search_tasks')),array(),'no-margin') ?>
                                     </div>
                                 <?php } else { ?>
-                                    <?php $this->load->view('admin/sessions/tasks_filter_by',array('view_table_name'=>'.table-tasks')); ?>
+                                    <?php $this->load->view('admin/sessions/tasks_filter_by',array('view_table_name'=>'.table-sessions')); ?>
                                     <a href="<?php echo admin_url('LegalServices/sessions/detailed_overview'); ?>" class="btn btn-success pull-right mright5"><?php echo _l('session_detailed_overview'); ?></a>
                                 <?php } ?>
                             </div>
@@ -58,8 +58,8 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                 </div>
                             </div>
                         <?php } else { ?>
-                            <?php $this->load->view('admin/sessions/_summary',array('table'=>'.table-tasks')); ?>
-                            <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-tasks"><?php echo _l('bulk_actions'); ?></a>
+                            <?php $this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
+                            <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-sessions"><?php echo _l('bulk_actions'); ?></a>
                             <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
                             <?php $this->load->view('admin/sessions/_bulk_actions'); ?>
                         <?php } ?>
@@ -79,7 +79,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
 
     // Init tasks kan ban
     function tasks_kanban() {
-        init_kanban('tasks/kanban_for_LegalServices/'+rel_type, tasks_kanban_update, '.tasks-status', 265, 360);
+        init_kanban('LegalServices/sessions/kanban_for_LegalServices/'+rel_type, tasks_kanban_update, '.tasks-status', 265, 360);
     }
 </script>
 </body>

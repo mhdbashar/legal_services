@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="modal fade bulk_actions" id="tasks_bulk_actions" tabindex="-1" role="dialog" data-table="<?php echo (isset($table) ? $table : '.table-tasks'); ?>">
+<div class="modal fade bulk_actions" id="tasks_bulk_actions" tabindex="-1" role="dialog" data-table="<?php echo (isset($table) ? $table : '.table-sessions'); ?>">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
 
-                <?php if(has_permission('tasks','','delete')){ ?>
+                <?php if(has_permission('sessions','','delete')){ ?>
                     <div class="checkbox checkbox-danger">
                         <input type="checkbox" name="mass_delete" id="mass_delete">
                         <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
@@ -17,15 +17,15 @@
                 <?php } ?>
                 <div id="bulk_change">
                     <div class="form-group">
-                        <label for="move_to_status_tasks_bulk_action"><?php echo _l('task_status'); ?></label>
-                        <select name="move_to_status_tasks_bulk_action" id="move_to_status_tasks_bulk_action" data-width="100%" class="selectpicker" data-none-selected-text="<?php echo _l('task_status'); ?>">
+                        <label for="move_to_status_tasks_bulk_action"><?php echo _l('session_status'); ?></label>
+                        <select name="move_to_status_tasks_bulk_action" id="move_to_status_tasks_bulk_action" data-width="100%" class="selectpicker" data-none-selected-text="<?php echo _l('session_status'); ?>">
                             <option value=""></option>
                             <?php foreach($task_statuses as $status){ ?>
                                 <option value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
-                    <?php if(has_permission('tasks','','edit')){ ?>
+                    <?php if(has_permission('sessions','','edit')){ ?>
 
                         <div class="form-group">
                             <label for="task_bulk_priority" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
@@ -58,7 +58,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <a href="#" class="btn btn-info" onclick="tasks_bulk_action(this); return false;"><?php echo _l('confirm'); ?></a>
+                <a href="#" class="btn btn-info" onclick="sessions_bulk_action(this); return false;"><?php echo _l('confirm'); ?></a>
             </div>
         </div>
         <!-- /.modal-content -->

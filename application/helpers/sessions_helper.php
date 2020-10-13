@@ -2,21 +2,21 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
- * Function that format task status for the final user
+ * Function that format session status for the final user
  * @param  string  $id    status id
  * @param  boolean $text
  * @param  boolean $clean
  * @return string
  */
-function format_task_status($status, $text = false, $clean = false)
+function format_session_status($status, $text = false, $clean = false)
 {
     if (!is_array($status)) {
-        $status = get_task_status_by_id($status);
+        $status = get_session_status_by_id($status);
     }
 
     $status_name = $status['name'];
 
-    $status_name = hooks()->apply_filters('task_status_name', $status_name, $status);
+    $status_name = hooks()->apply_filters('session_status_name', $status_name, $status);
 
     if ($clean == true) {
         return $status_name;
@@ -35,10 +35,10 @@ function format_task_status($status, $text = false, $clean = false)
 }
 
 /**
- * Return predefined tasks priorities
+ * Return predefined sessions priorities
  * @return array
  */
-function get_tasks_priorities()
+function get_sessions_priorities()
 {
     return hooks()->apply_filters('tasks_priorities', [
         [
@@ -71,28 +71,28 @@ function get_tasks_priorities()
  * @param  mixed $id
  * @return string
  */
-function get_task_subject_by_id($id)
+function get_session_subject_by_id($id)
 {
     $CI = & get_instance();
     $CI->db->select('name');
     $CI->db->where('id', $id);
-    $task = $CI->db->get(db_prefix() . 'tasks')->row();
-    if ($task) {
-        return $task->name;
+    $session = $CI->db->get(db_prefix() . 'tasks')->row();
+    if ($session) {
+        return $session->name;
     }
 
     return '';
 }
 
 /**
- * Get task status by passed task id
- * @param  mixed $id task id
+ * Get session status by passed session id
+ * @param  mixed $id session id
  * @return array
  */
-function get_task_status_by_id($id)
+function get_session_status_by_id($id)
 {
     $CI       = &get_instance();
-    $statuses = $CI->tasks_model->get_statuses();
+    $statuses = $CI->sessions_model->get_statuses();
 
     $status = [
       'id'         => 0,
@@ -114,13 +114,13 @@ function get_task_status_by_id($id)
 }
 
 /**
- * Format task priority based on passed priority id
+ * Format session priority based on passed priority id
  * @param  mixed $id
  * @return string
  */
-function task_priority($id)
+function session_priority($id)
 {
-    foreach (get_tasks_priorities() as $priority) {
+    foreach (get_sessions_priorities() as $priority) {
         if ($priority['id'] == $id) {
             return $priority['name'];
         }
@@ -131,13 +131,13 @@ function task_priority($id)
 }
 
 /**
- * Get and return task priority color
+ * Get and return session priority color
  * @param  mixed $id priority id
  * @return string
  */
-function task_priority_color($id)
+function session_priority_color($id)
 {
-    foreach (get_tasks_priorities() as $priority) {
+    foreach (get_sessions_priorities() as $priority) {
         if ($priority['id'] == $id) {
             return $priority['color'];
         }
@@ -147,13 +147,13 @@ function task_priority_color($id)
     return '#333';
 }
 /**
- * Format html task assignees
+ * Format html session assignees
  * This function is used to save up on query
  * @param  string $ids   string coma separated assignee staff id
  * @param  string $names compa separated in the same order like assignee ids
  * @return string
  */
-function format_members_by_ids_and_names($ids, $names, $hidden_export_table = true, $image_class = 'staff-profile-image-small')
+/*function format_members_by_ids_and_names($ids, $names, $hidden_export_table = true, $image_class = 'staff-profile-image-small')
 {
     $outputAssignees = '';
     $exportAssignees = '';
@@ -180,16 +180,16 @@ function format_members_by_ids_and_names($ids, $names, $hidden_export_table = tr
     }
 
     return $outputAssignees;
-}
+}*/
 
 /**
- * Format task relation name
+ * Format session relation name
  * @param  string $rel_name current rel name
  * @param  mixed $rel_id   relation id
  * @param  string $rel_type relation type
  * @return string
  */
-function task_rel_name($rel_name, $rel_id, $rel_type)
+function session_rel_name($rel_name, $rel_id, $rel_type)
 {
     if ($rel_type == 'invoice') {
         $rel_name = format_invoice_number($rel_id);
@@ -203,12 +203,12 @@ function task_rel_name($rel_name, $rel_id, $rel_type)
 }
 
 /**
- * Task relation link
+ * session relation link
  * @param  mixed $rel_id   relation id
  * @param  string $rel_type relation type
  * @return string
  */
-function task_rel_link($rel_id, $rel_type)
+function session_rel_link($rel_id, $rel_type)
 {
     $link = '#';
     if ($rel_type == 'customer') {
@@ -234,32 +234,32 @@ function task_rel_link($rel_id, $rel_type)
     return $link;
 }
 /**
- * Prepares task array gantt data to be used in the gantt chart
- * @param  array $task task array
+ * Prepares session array gantt data to be used in the gantt chart
+ * @param  array $session session array
  * @return array
  */
-function get_task_array_gantt_data($task)
+function get_session_array_gantt_data($session)
 {
     $data           = [];
     $data['values'] = [];
     $values         = [];
 
-    $data['desc'] = $task['name'];
+    $data['desc'] = $session['name'];
     $data['name'] = '';
 
-    $values['from']  = strftime('%Y/%m/%d', strtotime($task['startdate']));
-    $values['to']    = strftime('%Y/%m/%d', strtotime($task['duedate']));
-    $values['desc']  = $task['name'] . ' - ' . _l('task_total_logged_time') . ' ' . seconds_to_time_format($task['total_logged_time']);
-    $values['label'] = $task['name'];
-    if ($task['duedate'] && date('Y-m-d') > $task['duedate'] && $task['status'] != Tasks_model::STATUS_COMPLETE) {
+    $values['from']  = strftime('%Y/%m/%d', strtotime($session['startdate']));
+    $values['to']    = strftime('%Y/%m/%d', strtotime($session['duedate']));
+    $values['desc']  = $session['name'] . ' - ' . _l('session_total_logged_time') . ' ' . seconds_to_time_format($session['total_logged_time']);
+    $values['label'] = $session['name'];
+    if ($session['duedate'] && date('Y-m-d') > $session['duedate'] && $session['status'] != Tasks_model::STATUS_COMPLETE) {
         $values['customClass'] = 'ganttRed';
-    } elseif ($task['status'] == Tasks_model::STATUS_COMPLETE) {
+    } elseif ($session['status'] == Tasks_model::STATUS_COMPLETE) {
         $values['label']       = ' <i class="fa fa-check"></i> ' . $values['label'];
         $values['customClass'] = 'ganttGreen';
     }
 
     $values['dataObj'] = [
-        'task_id' => $task['id'],
+        'session_id' => $session['id'],
     ];
 
     $data['values'][] = $values;
@@ -267,10 +267,10 @@ function get_task_array_gantt_data($task)
     return $data;
 }
 /**
- * Common function used to select task relation name
+ * Common function used to select session relation name
  * @return string
  */
-function tasks_rel_name_select_query()
+function sessions_rel_name_select_query()
 {
     return '(CASE rel_type
         WHEN "contract" THEN (SELECT subject FROM ' . db_prefix() . 'contracts WHERE ' . db_prefix() . 'contracts.id = ' . db_prefix() . 'tasks.rel_id)
@@ -289,12 +289,12 @@ function tasks_rel_name_select_query()
 
 
 /**
- * Tasks html table used all over the application for relation tasks
- * This table is not used for the main tasks table
+ * sessions html table used all over the application for relation sessions
+ * This table is not used for the main sessions table
  * @param  array  $table_attributes
  * @return string
  */
-function init_relation_tasks_table($table_attributes = [])
+function init_relation_sessions_table($table_attributes = [])
 {
     $table_data = [
         _l('the_number_sign'),
@@ -351,7 +351,7 @@ function init_relation_tasks_table($table_attributes = [])
     $table      = '';
     $CI         = & get_instance();
     $table_name = '.table-' . $name;
-    $CI->load->view('admin/tasks/tasks_filter_by', [
+    $CI->load->view('admin/sessions/tasks_filter_by', [
         'view_table_name' => $table_name,
     ]);
     if (has_permission('sessions', '', 'create')) {
@@ -372,16 +372,16 @@ function init_relation_tasks_table($table_attributes = [])
     }
 
     if ($table_attributes['data-new-rel-type'] == 'project') {
-        echo "<a href='" . admin_url('tasks/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
-        echo "<a href='" . admin_url('tasks/list_tasks?project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default pull-right mbot25 mright5 hidden-xs'>" . _l('view_kanban') . '</a>';
+        echo "<a href='" . admin_url('sessions/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
+        echo "<a href='" . admin_url('sessions/list_sessions?project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default pull-right mbot25 mright5 hidden-xs'>" . _l('view_kanban') . '</a>';
         echo '<div class="clearfix"></div>';
-        echo $CI->load->view('admin/tasks/_bulk_actions', ['table' => '.table-rel-tasks'], true);
-        echo $CI->load->view('admin/tasks/_summary', ['rel_id' => $table_attributes['data-new-rel-id'], 'rel_type' => 'project', 'table' => $table_name], true);
+        echo $CI->load->view('admin/sessions/_bulk_actions', ['table' => '.table-rel-tasks'], true);
+        echo $CI->load->view('admin/sessions/_summary', ['rel_id' => $table_attributes['data-new-rel-id'], 'rel_type' => 'project', 'table' => $table_name], true);
         echo '<a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-rel-tasks">' . _l('bulk_actions') . '</a>';
     } elseif ($table_attributes['data-new-rel-type'] == 'customer') {
         echo '<div class="clearfix"></div>';
         echo '<div id="tasks_related_filter">';
-        echo '<p class="bold">' . _l('task_related_to') . ': </p>';
+        echo '<p class="bold">' . _l('session_related_to') . ': </p>';
 
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
@@ -427,8 +427,8 @@ function init_relation_tasks_table($table_attributes = [])
     }
     echo "<div class='clearfix'></div>";
 
-    // If new column is added on tasks relations table this will not work fine
-    // In this case we need to add new identifier eq task-relation
+    // If new column is added on sessions relations table this will not work fine
+    // In this case we need to add new identifier eq session-relation
     $table_attributes['data-last-order-identifier'] = 'tasks';
     $table_attributes['data-default-order']         = get_table_last_order('tasks');
 
@@ -438,97 +438,96 @@ function init_relation_tasks_table($table_attributes = [])
 }
 
 /**
- * Return tasks summary formated data
+ * Return sessions summary formated data
  * @param  string $where additional where to perform
  * @return array
  */
 function sessions_summary_data($rel_id = null, $rel_type = null)
 {
     $CI            = &get_instance();
-    $tasks_summary = [];
+    $sessions_summary = [];
     $statuses      = $CI->sessions_model->get_statuses();
     foreach ($statuses as $status) {
-        $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
-        $tasks_where .= ' AND is_session = 1';
+        $sessions_where = 'status = ' . $CI->db->escape_str($status['id']);
+        $sessions_where .= ' AND is_session = 1';
         if (!has_permission('sessions', '', 'view')) {
-            $tasks_where .= ' ' . get_sessions_where_string();
+            $sessions_where .= ' ' . get_sessions_where_string();
         }
-        $tasks_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $CI->db->escape_str($status['id']);
+        $sessions_my_where = 'id IN(SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . get_staff_user_id() . ') AND status=' . $CI->db->escape_str($status['id']);
         if ($rel_id && $rel_type) {
-            $tasks_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
-            $tasks_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
+            $sessions_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
+            $sessions_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
         } else {
-            $sqlProjectTasksWhere = ' AND is_session= 1';
-            $sqlProjectTasksWhere .= ' AND CASE
+            $sqlProjecSessionsWhere = ' AND is_session= 1';
+            $sqlProjecSessionsWhere .= ' AND CASE
             WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1)
             THEN rel_type != "project"
             ELSE 1=1
             END';
-            $tasks_where .= $sqlProjectTasksWhere;
-            $tasks_my_where .= $sqlProjectTasksWhere;
+            $sessions_where .= $sqlProjecSessionsWhere;
+            $sessions_my_where .= $sqlProjecSessionsWhere;
         }
 
         $summary                   = [];
-        $summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $tasks_where);
-        $summary['total_my_tasks'] = total_rows(db_prefix() . 'tasks', $tasks_my_where);
+        $summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $sessions_where);
+        $summary['total_my_tasks'] = total_rows(db_prefix() . 'tasks', $sessions_my_where);
         $summary['color']          = $status['color'];
         $summary['name']           = $status['name'];
         $summary['status_id']      = $status['id'];
-        $tasks_summary[]           = $summary;
+        $sessions_summary[]           = $summary;
     }
-
-    return $tasks_summary;
+    return $sessions_summary;
 }
 
 
-function get_sql_calc_task_logged_time($task_id)
+function get_sql_calc_session_logged_time($session_id)
 {
     /**
-    * Do not remove where task_id=
-    * Used in tasks detailed_overview to overwrite the taskid
+    * Do not remove where session_id=
+    * Used in sessions detailed_overview to overwrite the sessionid
     */
     return 'SELECT SUM(CASE
             WHEN end_time is NULL THEN ' . time() . '-start_time
             ELSE end_time-start_time
-            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . get_instance()->db->escape_str($task_id);
+            END) as total_logged_time FROM ' . db_prefix() . 'taskstimers WHERE task_id =' . get_instance()->db->escape_str($session_id);
 }
 
-function get_sql_select_task_assignees_ids()
+function get_sql_select_session_assignees_ids()
 {
     return '(SELECT GROUP_CONCAT(staffid SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
 }
 
-function get_sql_select_task_asignees_full_names()
+function get_sql_select_session_asignees_full_names()
 {
     return '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM ' . db_prefix() . 'task_assigned JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'task_assigned.staffid WHERE taskid=' . db_prefix() . 'tasks.id ORDER BY ' . db_prefix() . 'task_assigned.staffid)';
 }
 
-function get_sql_select_task_total_checklist_items()
+function get_sql_select_session_total_checklist_items()
 {
     return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id) as total_checklist_items';
 }
 
-function get_sql_select_task_total_finished_checklist_items()
+function get_sql_select_session_total_finished_checklist_items()
 {
     return '(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id AND finished=1) as total_finished_checklist_items';
 }
 
 /**
- * This text is used in WHERE statements for tasks if the staff member don't have permission for tasks VIEW
- * This query will shown only tasks that are created from current user, public tasks or where this user is added is task follower.
- * Other statement will be included the tasks to be visible for this user only if Show All Tasks For Project Members is set to YES
+ * This text is used in WHERE statements for sessions if the staff member don't have permission for sessions VIEW
+ * This query will shown only sessions that are created from current user, public sessions or where this user is added is session follower.
+ * Other statement will be included the sessions to be visible for this user only if Show All sessions For Project Members is set to YES
  * @return string
  */
 function get_sessions_where_string($table = true)
 {
-    $_tasks_where = '(' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
+    $_sessions_where = '(' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ') OR ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_followers WHERE staffid = ' . get_staff_user_id() . ') OR (addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0)';
     if (get_option('show_all_tasks_for_project_member') == 1) {
-        $_tasks_where .= ' OR (' . db_prefix() . 'tasks.rel_type="project" AND ' . db_prefix() . 'tasks.rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . '))';
+        $_sessions_where .= ' OR (' . db_prefix() . 'tasks.rel_type="project" AND ' . db_prefix() . 'tasks.rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . '))';
     }
-    $_tasks_where .= ' OR is_public = 1)';
+    $_sessions_where .= ' OR is_public = 1)';
     if ($table == true) {
-        $_tasks_where = 'AND ' . $_tasks_where;
+        $_sessions_where = 'AND ' . $_sessions_where;
     }
 
-    return $_tasks_where;
+    return $_sessions_where;
 }

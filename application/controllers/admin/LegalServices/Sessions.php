@@ -75,7 +75,7 @@ class Sessions extends AdminController
 
     public function table()
     {
-        $this->app->get_table_data('tasks');
+        $this->app->get_table_data('sessions');
     }
 
     public function kanban()

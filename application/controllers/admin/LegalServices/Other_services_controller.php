@@ -124,8 +124,8 @@ class Other_services_controller extends AdminController {
 
         $cURLConnection = curl_init();
 
-        $url = 'http://localhost/legal/api/get_token/';
-       // $url = 'https://legaloffices.babillawnet.com/api/get_token/';
+       // $url = 'http://localhost/legal/api/get_token/';
+        $url = 'https://legaloffices.babillawnet.com/api/get_token/';
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($cURLConnection, CURLOPT_POST, 1);

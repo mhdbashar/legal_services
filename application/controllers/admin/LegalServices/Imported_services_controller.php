@@ -112,6 +112,9 @@ class Imported_services_controller extends AdminController
 
     public function delete($ServID, $id)
     {
+        if (!has_permission('imported_services', '', 'delete')) {
+            access_denied('imported_services');
+        }
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
@@ -127,6 +130,9 @@ class Imported_services_controller extends AdminController
 
     public function move_to_recycle_bin($id)
     {
+        if (!has_permission('imported_services', '', 'delete')) {
+            access_denied('imported_services');
+        }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("Service/$ServID"));
@@ -235,7 +241,7 @@ class Imported_services_controller extends AdminController
 
     public function view($id)
     {
-        if (has_permission('projects', '', 'view') || $this->other->is_member($id)) {
+        if (has_permission('imported_services', '', 'view') || $this->other->is_member($id)) {
             // $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $slug = 'imported_services';
             close_setup_menu();
@@ -427,10 +433,6 @@ class Imported_services_controller extends AdminController
 
             $other_projects_where .= ')';
 
-            if (!has_permission('projects', '', 'view')) {
-                $other_projects_where .= ' AND ' . db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')';
-            }
-
 
             $data['project_id']=$id;
             $data['other_projects'] = $this->other->get_imported($other_projects_where);
@@ -452,7 +454,7 @@ class Imported_services_controller extends AdminController
             $data['oservice_model']  = $this->other;
             $this->load->view('admin/LegalServices/imported_services/view', $data);
         } else {
-            access_denied('Other services View');
+            access_denied('Imported services View');
         }
     }
 
@@ -514,7 +516,7 @@ class Imported_services_controller extends AdminController
 
     public function download_all_files($id)
     {
-        if ($this->other->is_member($id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($id) || has_permission('imported_services', '', 'view')) {
             $files = $this->other->get_imported_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
@@ -527,6 +529,8 @@ class Imported_services_controller extends AdminController
             }
             $this->zip->download(slug_it(get_iservice_name_by_id($id)) . '-files.zip');
             $this->zip->clear_data();
+        }else{
+            access_denied('Imported services View');
         }
     }
 
@@ -878,7 +882,7 @@ class Imported_services_controller extends AdminController
     public function copy($project_id)
     {
         $service_id = $this->input->post('service_id');
-        if (has_permission('projects', '', 'create')) {
+        if (has_permission('imported_services', '', 'export')) {
             $id = $this->imported->copy($service_id, $project_id, $this->input->post());
             $name = $service_id == 1 ? "Case" : "SOther";
             if ($id) {
@@ -896,6 +900,8 @@ class Imported_services_controller extends AdminController
                 set_alert('danger', _l('failed_to_copy_project'));
                 redirect($_SERVER['HTTP_REFERER']);
             }
+        }else{
+            access_denied('Imported services');
         }
     }
 

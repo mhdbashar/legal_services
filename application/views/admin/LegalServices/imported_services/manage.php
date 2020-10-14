@@ -54,9 +54,6 @@
                                 <h4 class="no-margin"><?php echo _l('summary').' '._l('imported_services') ; ?></h4>
                                 <?php
                                 $_where = '';
-                                if(!has_permission('projects','','view')){
-                                    $_where = 'id IN (SELECT '.$field.' FROM '.db_prefix().$TableStaff.' WHERE staff_id='.get_staff_user_id().')';
-                                }
                                 ?>
                             </div>
                             <div class="_filters _hidden_inputs">

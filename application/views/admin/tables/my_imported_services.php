@@ -3,7 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $hasPermissionEdit   = has_permission('projects', '', 'edit');
-$hasPermissionDelete = has_permission('projects', '', 'delete');
+$hasPermissionDelete = has_permission('imported_services', '', 'delete');
 $hasPermissionCreate = has_permission('projects', '', 'create');
 
 $custom_fields = get_table_custom_fields($service->slug);
@@ -67,8 +67,11 @@ foreach ($rResult as $aRow) {
     $row[] = $i;
     $_data =  '<a href="' . admin_url('SImported/view/' . $aRow['id']) . '">' . $aRow['name'] . '</a>';
     $_data .= '<div class="row-options">';
-    $_data .= ' | <a href="' . admin_url('LegalServices/Imported_services_controller/move_to_recycle_bin/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
-    $_data .= ' | <a href="' . admin_url('SImported/view/' . $aRow['id']) . '">' . _l('view') . '</a>';
+    if (has_permission('imported_services', '', 'delete')) {
+        
+        $_data .= ' | <a href="' . admin_url('LegalServices/Imported_services_controller/move_to_recycle_bin/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a> | ';
+    }
+    $_data .= '<a href="' . admin_url('SImported/view/' . $aRow['id']) . '">' . _l('view') . '</a>';
     $_data .= '</div>';
     $row[] = $_data;
     //$customers = $model->GetClientsServices($aRow['id']);

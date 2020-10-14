@@ -32,6 +32,7 @@
                              $project_pin_tooltip = _l('unpin_project');
                            }
                            ?>
+                      <?php if(has_permission('imported_services','','export')){ ?>
                         <div class="btn-group">
                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            <?php echo _l('more'); ?> <span class="caret"></span>
@@ -49,13 +50,11 @@
                                  </a>
                               </li>
                               <?php } ?> -->
-                              <?php if(has_permission('projects','','create')){ ?>
                               <li>
                                  <a href="#" onclick="copy_project(); return false;">
                                  <?php echo _l('export_service'); ?>
                                  </a>
                               </li>
-                              <?php } ?>
                               <!-- <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
                               <li class="divider"></li>
                               <?php foreach($statuses as $status){
@@ -86,6 +85,7 @@
                               <?php } ?> -->
                            </ul>
                         </div>
+                      <?php } ?>
                      </div>
                   </div>
                </div>

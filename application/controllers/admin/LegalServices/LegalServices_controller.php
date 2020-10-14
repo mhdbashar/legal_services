@@ -62,6 +62,9 @@ class LegalServices_controller extends AdminController
 
     public function ViewImportedService()
     {
+        if (!has_permission('imported_services', '', 'view')) {
+            access_denied('imported_services');
+        }
         close_setup_menu();
         // $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         // $data['ServID']  = $ServID;

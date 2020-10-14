@@ -69,6 +69,14 @@ function get_available_staff_permissions($data = [])
                 'edit' => _l('permission_edit'),
             ],
         ],
+        'imported_services' => [
+            'name'         => _l('imported_services'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+                'export' => _l('export'),
+                'delete' => _l('permission_delete')
+            ],
+        ],
         'estimates' => [
             'name'         => _l('estimates'),
             'capabilities' => $allPermissionsArray,

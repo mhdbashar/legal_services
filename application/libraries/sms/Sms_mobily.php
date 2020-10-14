@@ -132,7 +132,7 @@ class Sms_mobily extends App_sms
                 break;
 
             case 'Normal':
-                if ($apiResult{0} != '#')
+                if ($apiResult[0] != '#')
                     return $arrayMsgs[$apiResult];
                 else
                     return $apiResult;

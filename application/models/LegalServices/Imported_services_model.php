@@ -108,13 +108,27 @@ class Imported_services_model extends App_Model
             $_new_data['clientid'] = $data['clientid_copy_project'];
             unset($_new_data['clientid_copy_project']);
             $_new_data['country'] = 0;
-            $_new_data['case_status'] = 1;
-            $_new_data['jud_num'] = 1;
-            $_new_data['court_id'] = 1;
-            $_new_data['representative'] = 1;
+
+            $this->db->where('default', 1);
+            $case_status = $this->db->get('tblmy_casestatus')->row();
+            $_new_data['case_status'] = $case_status->id;
+
+            $this->db->where('default', 1);
+            $court = $this->db->get('tblmy_courts')->row();
+            $_new_data['court_id'] = $court->c_id;
+
+            $this->db->where('c_id', $court->c_id);
+            $jud = $this->db->get('tblmy_judicialdept')->row();
+            $_new_data['jud_num'] = $jud->j_id;
+
+            $this->db->where('default', 1);
+            $representative = $this->db->get('tblmy_customer_representative')->row();
+            $_new_data['representative'] = $representative->id;
+
             $_new_data['case_result'] = "متداولة";
             $_new_data['file_number_case'] = 0;
             $_new_data['file_number_court'] = 0;
+
 
 
             $_new_data['start_date'] = to_sql_date($data['start_date']);

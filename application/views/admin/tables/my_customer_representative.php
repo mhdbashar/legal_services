@@ -25,13 +25,15 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'my_customer_representative';
 
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
+    db_prefix() .'my_customer_representative.default'
+]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
-    if($aRow['id'] == 1)
+    if($aRow['default'] == 1)
         continue;
     $row = [];
 

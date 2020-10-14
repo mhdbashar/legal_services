@@ -118,7 +118,9 @@ class Other_services_controller extends AdminController {
 
     // Example URL : http://localhost/legalserv1/admin/LegalServices/other_services_controller/export_service/2/1
     public function export_service($ServID, $id, $case = false) {
-
+        if (!has_permission('projects', '', 'export')) {
+            access_denied('Projects');
+        }
         //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
 
         $this->load->model('LegalServices/Cases_model', 'case');
@@ -311,6 +313,9 @@ class Other_services_controller extends AdminController {
     }
 
     public function follow_service($ServID, $id) {
+        if (!has_permission('projects', '', 'export')) {
+            access_denied('Projects');
+        }
         $this->db->where(['service_id' => $ServID, 'rel_id' => $id]);
         $exported_service = $this->db->get('tblmy_exported_services')->row();
 

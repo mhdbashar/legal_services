@@ -98,7 +98,9 @@ function get_available_staff_permissions($data = [])
         ],
         'projects' => [
             'name'         => _l('projects'),
-            'capabilities' => $withNotApplicableViewOwn,
+            'capabilities' => array_merge($withNotApplicableViewOwn, [
+                'export' => _l('export')
+            ]),
             'help'         => [
                 'view'     => _l('help_project_permissions'),
                 'view_own' => _l('permission_projects_based_on_assignee'),

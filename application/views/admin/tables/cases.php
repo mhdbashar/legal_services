@@ -77,17 +77,20 @@ foreach ($rResult as $aRow) {
     $_data .= ' | <a href="' . admin_url('Case/edit/' .$ServID.'/'. $aRow['id']) . '">' . _l('edit') . '</a>';
     $_data .= ' | <a href="' . admin_url('LegalServices/Cases_controller/move_to_recycle_bin/' .$ServID.'/'. $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     $_data .= ' | <a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['id']) . '">' . _l('view') . '</a>';
-    $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
 
-    $exported_data = $ci->db->get('tblmy_exported_services')->row_array();
-    
-    if(empty($exported_data)){
-        $_data .= ' |  <a href="#" onclick="office_name('. $aRow['id'] .'); return false" >'. _l('export') .'</a>';
-    }
+    if (has_permission('projects', '', 'export')) {
+        $ci->db->where(['service_id' => $ServID, 'rel_id' => $aRow['id']]);
+
+        $exported_data = $ci->db->get('tblmy_exported_services')->row_array();
         
-    else{
-        $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/1/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
-        $_data .= ' |  <a href="#" onclick=\'login_details("'. $exported_data['email'] .'", "'.$exported_data['password'].'", "'.$exported_data['url'].', ","'.$exported_data['rel_id'].'", "'.$exported_data['service_id'].'"); return false\' >'. _l('login_details') .'</a>';
+        if(empty($exported_data)){
+            $_data .= ' |  <a href="#" onclick="office_name('. $aRow['id'] .'); return false" >'. _l('export') .'</a>';
+        }
+            
+        else{
+            $_data .= ' | <a target="_blank" href="'.admin_url("LegalServices/other_services_controller/follow_service/1/".$aRow['id']."").'">'. _l('follow_up_service') .'</a>';
+            $_data .= ' |  <a href="#" onclick=\'login_details("'. $exported_data['email'] .'", "'.$exported_data['password'].'", "'.$exported_data['url'].', ","'.$exported_data['rel_id'].'", "'.$exported_data['service_id'].'"); return false\' >'. _l('login_details') .'</a>';
+        }
     }
    
     $_data .= '</div>';

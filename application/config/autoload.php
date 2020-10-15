@@ -158,6 +158,8 @@ $autoload['helper'] = [
         'widgets',
         'sms',
         'deprecated',
+        'cases',
+        'oservices',
     ];
 
 if (file_exists(APPPATH . 'helpers/my_functions_helper.php')) {

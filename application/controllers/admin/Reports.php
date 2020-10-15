@@ -529,6 +529,18 @@ class Reports extends AdminController
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
             ];
 
+            $ci = &get_instance();
+            if($ci->app_modules->is_active('branches')){
+                if(get_staff_default_language() == 'arabic'){
+                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+                }else{
+                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+                }
+                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'estimates.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+            }
+
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
                 'clientid',
@@ -603,6 +615,10 @@ class Reports extends AdminController
                 $row[] = $aRow['reference_no'];
 
                 $row[] = format_estimate_status($aRow['status']);
+
+                if($ci->app_modules->is_active('branches')){
+                    $row[] = $aRow['branch_id'];
+                }
 
                 $output['aaData'][] = $row;
             }
@@ -825,6 +841,18 @@ class Reports extends AdminController
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'creditnotes.clientid',
             ];
 
+            $ci = &get_instance();
+            if($ci->app_modules->is_active('branches')){
+                if(get_staff_default_language() == 'arabic'){
+                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+                }else{
+                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+                }
+                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'creditnotes.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
+
+                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+            }
+
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
                 'clientid',
@@ -891,6 +919,10 @@ class Reports extends AdminController
                 $footer_data['remaining_amount'] += $aRow['remaining_amount'];
 
                 $row[] = format_credit_note_status($aRow['status']);
+
+                if($ci->app_modules->is_active('branches')){
+                    $row[] = $aRow['branch_id'];
+                }
 
                 $output['aaData'][] = $row;
             }
@@ -1004,7 +1036,17 @@ class Reports extends AdminController
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
             ];
+            $ci = &get_instance();
+            if($ci->app_modules->is_active('branches')){
+                if(get_staff_default_language() == 'arabic'){
+                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+                }else{
+                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+                }
+                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
 
+                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+            }
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
                 'clientid',
@@ -1079,6 +1121,10 @@ class Reports extends AdminController
                 $footer_data['amount_open'] += $amountOpen;
 
                 $row[] = format_invoice_status($aRow['status']);
+
+                if($ci->app_modules->is_active('branches')){
+                    $row[] = $aRow['branch_id'];
+                }
 
                 $output['aaData'][] = $row;
             }

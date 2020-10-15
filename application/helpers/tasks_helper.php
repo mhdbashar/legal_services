@@ -463,6 +463,7 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
     $statuses      = $CI->tasks_model->get_statuses();
     foreach ($statuses as $status) {
         $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
+        $tasks_where .= ' AND is_session= 0';
         if (!has_permission('tasks', '', 'view')) {
             $tasks_where .= ' ' . get_tasks_where_string();
         }
@@ -471,7 +472,8 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
             $tasks_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
             $tasks_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
         } else {
-            $sqlProjectTasksWhere = ' AND CASE
+            $sqlProjectTasksWhere = ' AND is_session= 0';
+            $sqlProjectTasksWhere .= ' AND CASE
             WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1)
             THEN rel_type != "project"
             ELSE 1=1

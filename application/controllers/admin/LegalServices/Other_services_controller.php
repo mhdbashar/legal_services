@@ -281,7 +281,7 @@ class Other_services_controller extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
             $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
 
@@ -372,6 +372,10 @@ class Other_services_controller extends AdminController
                 $data['activity'] = $this->other->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->other->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years'] = $this->estimates_model->get_estimates_years();

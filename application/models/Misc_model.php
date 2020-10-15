@@ -1070,6 +1070,7 @@ class Misc_model extends App_Model
             }
 
             $this->db->where('(description LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR subject LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\')');
+            $this->db->where('type_id', 0);
 
             if ($limit != 0) {
                 $this->db->limit($limit);

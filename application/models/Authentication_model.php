@@ -31,6 +31,16 @@ class Authentication_model extends App_Model
             }
             $this->db->where('email', $email);
             $user = $this->db->get($table)->row();
+            //Prevent Opponents from Login
+            if($table == 'tblcontacts' && isset($user)){
+                $userid = $user->userid;
+                $this->db->where('userid', $userid);
+                $client_type = $this->db->get(db_prefix() . 'clients')->row()->client_type;
+                if($client_type == 1){
+                    log_activity('Cant Login Opponents [Opponent ID: ' .$userid. ', IP: ' . $this->input->ip_address() . ']');
+                    return false;
+                }
+            }
             if ($user) {
                 // Email is okey lets check the password now
                 if (!app_hasher()->CheckPassword($password, $user->password)) {
@@ -45,9 +55,10 @@ class Authentication_model extends App_Model
                     return false;
                 }
             } else {
+
                 hooks()->do_action('non_existent_user_login_attempt', [
-                    'email'           => $email,
-                    'is_staff_member' => $staff,
+                        'email'           => $email,
+                        'is_staff_member' => $staff,
                 ]);
 
                 log_activity('Non Existing User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
@@ -57,8 +68,8 @@ class Authentication_model extends App_Model
 
             if ($user->active == 0) {
                 hooks()->do_action('inactive_user_login_attempt', [
-                    'user'            => $user,
-                    'is_staff_member' => $staff,
+                        'user'            => $user,
+                        'is_staff_member' => $staff,
                 ]);
                 log_activity('Inactive User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
@@ -82,7 +93,7 @@ class Authentication_model extends App_Model
                         'staff_logged_in' => true,
                     ];
                 } else {
-                    $user_data                = [];
+                    $user_data = [];
                     $user_data['tfa_staffid'] = $user->staffid;
                     if ($remember) {
                         $user_data['tfa_remember'] = true;
@@ -101,6 +112,7 @@ class Authentication_model extends App_Model
                     'client_logged_in' => true,
                 ];
             }
+
             $this->session->set_userdata($user_data);
 
             if (!$twoFactorAuth) {
@@ -110,7 +122,9 @@ class Authentication_model extends App_Model
 
                 $this->update_login_info($user->$_id, $staff);
             } else {
-                return ['two_factor_auth' => true, 'user' => $user];
+                //ShababSy.com Changed this
+				return ['two_factor_auth' => $user->two_factor_auth_enabled, 'user' => $user];
+                //return ['two_factor_auth' => true, 'user' => $user];
             }
 
             return true;
@@ -603,11 +617,18 @@ class Authentication_model extends App_Model
      * Set 2 factor authentication code for staff member
      * @param mixed $id staff id
      */
-    public function set_two_factor_auth_code($id)
+	 
+    public function set_two_factor_auth_code($id, $auth_type=1)
     {
-        $code = generate_two_factor_auth_key();
-        $code .= $id;
-
+		// ShababSy.com Added this
+        if($auth_type==1){
+			$code = generate_two_factor_auth_key();
+		}else{
+			$code = rand(1000, 9999);
+		}
+		//$code = generate_two_factor_auth_key();
+		$code .= $id;
+		
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', [
             'two_factor_auth_code'           => $code,
@@ -615,6 +636,21 @@ class Authentication_model extends App_Model
         ]);
 
         return $code;
+    }
+	
+	
+	
+	// ShababSy.com Added this func
+	public function send_verification_sms($userdata)
+    {
+        is_numeric($this->set_two_factor_auth_code($userdata->staffid,2)) ? $code= $this->set_two_factor_auth_code($userdata->staffid,2) : "Unavailable";
+        $numbers = $userdata->phonenumber;
+        $msg = 'Your verification code is: ' . $code;
+
+        // Send verification code with activated sms gateway
+        $result =$this->app_sms->g_send($numbers,$msg); 
+       
+        return $result;
     }
 
     public function get_qr($System_name)

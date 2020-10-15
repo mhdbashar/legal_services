@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Staff extends AdminController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    }
+
     /* List all staff members */
     public function index()
     {
@@ -21,14 +27,22 @@ class Staff extends AdminController
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
+
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
+        $this->load->model('Branches_model');
         $this->load->model('departments_model');
+
         if ($this->input->post()) {
             $data = $this->input->post();
+            if($this->app_modules->is_active('branches')){
+                $branch_id = $this->input->post()['branch_id'];
+
+                unset($data['branch_id']);
+            }
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
@@ -46,6 +60,18 @@ class Staff extends AdminController
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
+
+                    if($this->app_modules->is_active('branches')){
+                        if(is_numeric($branch_id)){
+                            $data = [
+                                'branch_id' => $branch_id, 
+                                'rel_type' => 'staff', 
+                                'rel_id' => $id
+                            ];
+                            $this->Branches_model->set_branch($data);
+                        }
+                    }
+
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
@@ -53,6 +79,13 @@ class Staff extends AdminController
             } else {
                 if (!has_permission('staff', '', 'edit')) {
                     access_denied('staff');
+                }
+                if($this->app_modules->is_active('branches')){
+                    if(is_numeric($branch_id)){
+                        $this->Branches_model->update_branch('staff', $id, $branch_id);
+                    }else{
+                        $this->Branches_model->delete_branch('staff', $id);
+                    }
                 }
                 handle_staff_profile_image_upload($id);
                 $response = $this->staff_model->update($data, $id);
@@ -91,6 +124,13 @@ class Staff extends AdminController
                 $ts_filter_data['this_month'] = true;
             }
 
+            if($this->app_modules->is_active('branches')) {
+                $ci = &get_instance();
+                $ci->load->model('branches/Branches_model');
+                $data['branches'] = $ci->Branches_model->getBranches();
+                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
+            }
+
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
         }
@@ -100,6 +140,8 @@ class Staff extends AdminController
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
+        if($this->app_modules->is_active('branches'))
+            $data['branches'] = $this->Branches_model->getBranches();
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -181,6 +223,7 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
         $this->load->view('admin/staff/timesheets', $data);
@@ -193,7 +236,11 @@ class Staff extends AdminController
         }
 
         if (has_permission('staff', '', 'delete')) {
-            $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+            if($this->app_modules->is_active('hr')){
+                $this->load->model('hr/Global_model', 'global');
+                $success = $this->global->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+            }else
+                $success = $this->staff_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
             if ($success) {
                 set_alert('success', _l('deleted', _l('staff_member')));
             }
@@ -218,11 +265,9 @@ class Staff extends AdminController
             }
 
             $success = $this->staff_model->update_profile($data, get_staff_user_id());
-
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
             }
-
             redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
         }
         $member = $this->staff_model->get(get_staff_user_id());
@@ -330,10 +375,10 @@ class Staff extends AdminController
                 if (($notification['fromcompany'] == null && $notification['fromuserid'] != 0) || ($notification['fromcompany'] == null && $notification['fromclientid'] != 0)) {
                     if ($notification['fromuserid'] != 0) {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('staff/profile/' . $notification['fromuserid']) . '">' . staff_profile_image($notification['fromuserid'], [
-                            'staff-profile-image-small',
-                            'img-circle',
-                            'pull-left',
-                        ]) . '</a>';
+                        'staff-profile-image-small',
+                        'img-circle',
+                        'pull-left',
+                    ]) . '</a>';
                     } else {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('clients/client/' . $notification['fromclientid']) . '">
                     <img class="client-profile-image-small img-circle pull-left" src="' . contact_profile_image_url($notification['fromclientid']) . '"></a>';

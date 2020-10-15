@@ -286,6 +286,11 @@ class Staff_model extends App_Model
 
         $this->db->where('staffid', $id);
         $this->db->delete(db_prefix() . 'staff');
+
+        if($this->app_modules->is_active('branches')){
+            $this->db->where(['rel_id' => $id, 'rel_type' => 'staff']);
+            $this->db->delete('tblbranches_services');
+        }
         log_activity('Staff Member Deleted [Name: ' . $name . ', Data Transferred To: ' . $transferred_to . ']');
 
         hooks()->do_action('staff_member_deleted', [

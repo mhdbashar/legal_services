@@ -19,6 +19,7 @@ class Contracts_model extends App_Model
      */
     public function get($id = '', $where = [], $for_editor = false)
     {
+        $where = ['type_id' => 0];
         $this->db->select('*,' . db_prefix() . 'contracts_types.name as type_name,' . db_prefix() . 'contracts.id as id, ' . db_prefix() . 'contracts.addedfrom');
         $this->db->where($where);
         $this->db->join(db_prefix() . 'contracts_types', '' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type', 'left');

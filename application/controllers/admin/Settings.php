@@ -4,6 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Settings extends AdminController {
 
+    public $x = false;
+
     public function __construct() {
         parent::__construct();
         $this->load->model('payment_modes_model');
@@ -299,7 +301,7 @@ class Settings extends AdminController {
 //        }
 //    }
 
-   
+
 
     function get_office_name() {
 
@@ -311,7 +313,7 @@ class Settings extends AdminController {
 
 
 
-       $url = 'https://legaloffices.babillawnet.com/api/list/';
+         $url = 'https://legaloffices.babillawnet.com/api/list/';
         //$url = 'http://localhost/legal/api/list/';
 
         $cURLConnection = curl_init();
@@ -352,33 +354,39 @@ class Settings extends AdminController {
         if (($new_office_name !== $arr[$r])) {
 
             $data['status'] = true;
+            $this->x = true;
         }
 
         echo json_encode($data);
 
-        $url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
-        //$url_url = 'http://localhost/legal/api/update_office_name/';
+        if ($this->x == true) {
 
-        $ch = curl_init();
+             $url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
+           // $url_url = 'http://localhost/legal/api/update_office_name/';
 
-        curl_setopt($ch, CURLOPT_URL, $url_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "old_office_name=$old_office_name&new_office_name=$new_office_name&keycode=$keycode");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec($ch);
-        $response_object = (json_decode($server_output));
-        $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
+            $ch = curl_init();
 
-        if ($result->id) {
-            $data = array(
-                'keycode' => $response_object->keycode,
-                'office_name_in_center' => $response_object->offic_name
-            );
+            curl_setopt($ch, CURLOPT_URL, $url_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "old_office_name=$old_office_name&new_office_name=$new_office_name&keycode=$keycode");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            $response_object = (json_decode($server_output));
 
-            $this->db->where('id', $result->id)->update('tblkeycode', $data);
+            $result1 = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
 
-            curl_close($ch);
-            
+            $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
+
+            if ($result->id) {
+                $data = array(
+                    'keycode' => $response_object->keycode,
+                    'office_name_in_center' => $response_object->offic_name
+                );
+
+                $this->db->where('id', $result->id)->update('tblkeycode', $data);
+
+                curl_close($ch);
+            }
         }
     }
 

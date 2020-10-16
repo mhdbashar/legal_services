@@ -255,6 +255,7 @@ class Tasks_model extends App_Model
         return (total_rows(db_prefix() . 'tasks', [
             'id'     => $id,
             'billed' => 1,
+            'is_session' => 0,
         ]) > 0 ? true : false);
     }
 
@@ -421,6 +422,7 @@ class Tasks_model extends App_Model
 
         $this->db->where('billable', 1);
         $this->db->where('billed', 0);
+        $this->db->where('is_session', 0);
 
         if ($project_id == '') {
             $this->db->where('rel_type != "project"');
@@ -485,6 +487,7 @@ class Tasks_model extends App_Model
     public function get_billable_task_data($task_id)
     {
         $this->db->where('id', $task_id);
+        $this->db->where('is_session', 0);
         $data = $this->db->get(db_prefix() . 'tasks')->row();
         if ($data->rel_type == 'project') {
             $this->db->select('billing_type,project_rate_per_hour,name');
@@ -508,6 +511,7 @@ class Tasks_model extends App_Model
     public function get_tasks_by_staff_id($id, $where = [])
     {
         $this->db->where($where);
+        $this->db->where('is_session', 0);
         $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $this->db->escape_str($id) . '))');
 
         return $this->db->get(db_prefix() . 'tasks')->result_array();
@@ -1098,7 +1102,7 @@ class Tasks_model extends App_Model
     {
         $this->db->select('addedfrom');
         $this->db->where('id', $taskid);
-
+        $this->db->where('is_session', 0);
         return $this->db->get(db_prefix() . 'tasks')->row()->addedfrom;
     }
 

@@ -213,8 +213,8 @@ class Sessions_merge_fields extends App_merge_fields
             }
         }
 
-        $fields['{session_status}']   = format_task_status($task->status, false, true);
-        $fields['{session_priority}'] = task_priority($task->priority);
+        $fields['{session_status}']   = format_session_status($task->status, false, true);
+        $fields['{session_priority}'] = session_priority($task->priority);
 
         $custom_fields = get_custom_fields('tasks');
         foreach ($custom_fields as $field) {

@@ -76,6 +76,7 @@ function get_task_subject_by_id($id)
     $CI = & get_instance();
     $CI->db->select('name');
     $CI->db->where('id', $id);
+    $CI->db->where('is_session', 0);
     $task = $CI->db->get(db_prefix() . 'tasks')->row();
     if ($task) {
         return $task->name;

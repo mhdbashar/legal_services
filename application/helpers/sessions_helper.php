@@ -76,6 +76,7 @@ function get_session_subject_by_id($id)
     $CI = & get_instance();
     $CI->db->select('name');
     $CI->db->where('id', $id);
+    $CI->db->where('is_session', 1);
     $session = $CI->db->get(db_prefix() . 'tasks')->row();
     if ($session) {
         return $session->name;
@@ -153,11 +154,10 @@ function session_priority_color($id)
  * @param  string $names compa separated in the same order like assignee ids
  * @return string
  */
-/*function format_members_by_ids_and_names($ids, $names, $hidden_export_table = true, $image_class = 'staff-profile-image-small')
+function format_members_by_ids_and_names_session($ids, $names, $hidden_export_table = true, $image_class = 'staff-profile-image-small')
 {
     $outputAssignees = '';
     $exportAssignees = '';
-
     $assignees   = explode(',', $names);
     $assigneeIds = explode(',', $ids);
     foreach ($assignees as $key => $assigned) {
@@ -178,9 +178,8 @@ function session_priority_color($id)
     if ($exportAssignees != '') {
         $outputAssignees .= '<span class="hide">' . mb_substr($exportAssignees, 0, -2) . '</span>';
     }
-
     return $outputAssignees;
-}*/
+}
 
 /**
  * Format session relation name
@@ -251,9 +250,9 @@ function get_session_array_gantt_data($session)
     $values['to']    = strftime('%Y/%m/%d', strtotime($session['duedate']));
     $values['desc']  = $session['name'] . ' - ' . _l('session_total_logged_time') . ' ' . seconds_to_time_format($session['total_logged_time']);
     $values['label'] = $session['name'];
-    if ($session['duedate'] && date('Y-m-d') > $session['duedate'] && $session['status'] != Tasks_model::STATUS_COMPLETE) {
+    if ($session['duedate'] && date('Y-m-d') > $session['duedate'] && $session['status'] != Sessions_model::STATUS_COMPLETE) {
         $values['customClass'] = 'ganttRed';
-    } elseif ($session['status'] == Tasks_model::STATUS_COMPLETE) {
+    } elseif ($session['status'] == Sessions_model::STATUS_COMPLETE) {
         $values['label']       = ' <i class="fa fa-check"></i> ' . $values['label'];
         $values['customClass'] = 'ganttGreen';
     }
@@ -304,7 +303,7 @@ function init_relation_sessions_table($table_attributes = [])
                 'style' => 'min-width:200px',
                 ],
             ],
-             _l('task_status'),
+             _l('session_status'),
          [
             'name'     => _l('tasks_dt_datestart'),
             'th_attrs' => [
@@ -329,7 +328,7 @@ function init_relation_sessions_table($table_attributes = [])
     ];
 
     array_unshift($table_data, [
-        'name'     => '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-tasks"><label></label></div>',
+        'name'     => '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-sessions"><label></label></div>',
         'th_attrs' => ['class' => ($table_attributes['data-new-rel-type'] !== 'project' ? 'not_visible' : '')],
     ]);
 
@@ -341,11 +340,11 @@ function init_relation_sessions_table($table_attributes = [])
         array_push($table_data, $field['name']);
     }
 
-    $table_data = hooks()->apply_filters('tasks_related_table_columns', $table_data);
+    $table_data = hooks()->apply_filters('sessions_related_table_columns', $table_data);
 
-    $name = 'rel-tasks';
+    $name = 'rel-sessions';
     if ($table_attributes['data-new-rel-type'] == 'lead') {
-        $name = 'rel-tasks-leads';
+        $name = 'rel-sessions-leads';
     }
 
     $table      = '';
@@ -367,17 +366,17 @@ function init_relation_sessions_table($table_attributes = [])
         }
         // projects have button on top
         if ($table_attributes['data-new-rel-type'] != 'project') {
-            echo "<a href='#' class='btn btn-info pull-left mbot25 mright5 new-task-relation" . $disabled . "' onclick=\"new_task_from_relation('$table_name'); return false;\" data-rel-id='" . $table_attributes['data-new-rel-id'] . "' data-rel-type='" . $table_attributes['data-new-rel-type'] . "'>" . _l('new_task') . '</a>';
+            echo "<a href='#' class='btn btn-info pull-left mbot25 mright5 new-session-relation" . $disabled . "' onclick=\"new_session_from_relation('$table_name'); return false;\" data-rel-id='" . $table_attributes['data-new-rel-id'] . "' data-rel-type='" . $table_attributes['data-new-rel-type'] . "'>" . _l('new_session') . '</a>';
         }
     }
 
     if ($table_attributes['data-new-rel-type'] == 'project') {
-        echo "<a href='" . admin_url('sessions/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('detailed_overview') . '</a>';
+        echo "<a href='" . admin_url('sessions/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-right mbot25'>" . _l('session_detailed_overview') . '</a>';
         echo "<a href='" . admin_url('sessions/list_sessions?project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default pull-right mbot25 mright5 hidden-xs'>" . _l('view_kanban') . '</a>';
         echo '<div class="clearfix"></div>';
-        echo $CI->load->view('admin/sessions/_bulk_actions', ['table' => '.table-rel-tasks'], true);
+        echo $CI->load->view('admin/sessions/_bulk_actions', ['table' => '.table-rel-sessions'], true);
         echo $CI->load->view('admin/sessions/_summary', ['rel_id' => $table_attributes['data-new-rel-id'], 'rel_type' => 'project', 'table' => $table_name], true);
-        echo '<a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-rel-tasks">' . _l('bulk_actions') . '</a>';
+        echo '<a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-rel-sessions">' . _l('bulk_actions') . '</a>';
     } elseif ($table_attributes['data-new-rel-type'] == 'customer') {
         echo '<div class="clearfix"></div>';
         echo '<div id="tasks_related_filter">';

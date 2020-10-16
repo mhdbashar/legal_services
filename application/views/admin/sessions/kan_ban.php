@@ -5,14 +5,14 @@ if($this->input->get('project_id')){
     $where['rel_type'] = $rel_type;
 }
 foreach ($task_statuses as $status) {
-    $total_pages = ceil($this->tasks_model->do_kanban_query($status['id'],$this->input->get('search'),1,true,$where)/get_option('tasks_kanban_limit'));
+    $total_pages = ceil($this->sessions_model->do_kanban_query($status['id'],$this->input->get('search'),1,true,$where)/get_option('tasks_kanban_limit'));
     ?>
     <ul class="kan-ban-col tasks-kanban" data-col-status-id="<?php echo $status['id']; ?>" data-total-pages="<?php echo $total_pages; ?>">
         <li class="kan-ban-col-wrapper">
             <div class="border-right panel_s">
                 <div class="panel-heading-bg" style="background:<?php echo $status['color']; ?>;border-color:<?php echo $status['color']; ?>;color:#fff; ?>" data-status-id="<?php echo $status['id']; ?>">
-                    <div class="kan-ban-step-indicator<?php if($status['id'] == Tasks_model::STATUS_COMPLETE){ echo ' kan-ban-step-indicator-full'; } ?>"></div>
-                    <span class="heading"><?php echo format_task_status($status['id'],false,true); ?>
+                    <div class="kan-ban-step-indicator<?php if($status['id'] == Sessions_model::STATUS_COMPLETE){ echo ' kan-ban-step-indicator-full'; } ?>"></div>
+                    <span class="heading"><?php echo format_session_status($status['id'],false,true); ?>
           </span>
                     <a href="#" onclick="return false;" class="pull-right color-white">
                     </a>
@@ -21,7 +21,7 @@ foreach ($task_statuses as $status) {
                     <div class="kan-ban-content">
                         <ul class="status tasks-status sortable relative" data-task-status-id="<?php echo $status['id']; ?>">
                             <?php
-                            $tasks = $this->tasks_model->do_kanban_query($status['id'],$this->input->get('search'),1,false,$where);
+                            $tasks = $this->sessions_model->do_kanban_query($status['id'],$this->input->get('search'),1,false,$where);
                             $total_tasks = count($tasks);
                             foreach ($tasks as $task) {
                                 if ($task['status'] == $status['id']) {

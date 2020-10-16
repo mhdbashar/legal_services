@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<li data-task-id="<?php echo $task['id']; ?>" class="task<?php if($task['current_user_is_assigned']){echo ' current-user-task';} if((!empty($task['duedate']) && $task['duedate'] < date('Y-m-d')) && $task['status'] != Tasks_model::STATUS_COMPLETE){ echo ' overdue-task'; } ?><?php if(!$task['current_user_is_assigned'] && $task['current_user_is_creator'] == '0' && !is_admin()){echo ' not-sortable';} ?>">
+<li data-task-id="<?php echo $task['id']; ?>" class="task<?php if($task['current_user_is_assigned']){echo ' current-user-task';} if((!empty($task['duedate']) && $task['duedate'] < date('Y-m-d')) && $task['status'] != Sessions_model::STATUS_COMPLETE){ echo ' overdue-task'; } ?><?php if(!$task['current_user_is_assigned'] && $task['current_user_is_creator'] == '0' && !is_admin()){echo ' not-sortable';} ?>">
   <div class="panel-body">
     <div class="row">
       <div class="col-md-12 task-name">
-        <a href="<?php echo admin_url('tasks/view/' . $task['id']); ?>" onclick="init_task_modal(<?php echo $task['id']; ?>);return false;">
+        <a href="<?php echo admin_url('tasks/view/' . $task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>);return false;">
           <span class="inline-block full-width mtop10 mbot10"><?php echo $task['name']; ?></span>
         </a>
       </div>
       <div class="col-md-6 text-muted">
        <?php
-       echo format_members_by_ids_and_names($task['assignees_ids'],$task['assignees'],false,'staff-profile-image-xs');
+       echo format_members_by_ids_and_names_session($task['assignees_ids'],$task['assignees'],false,'staff-profile-image-xs');
        ?>
      </div>
      <div class="col-md-6 text-right text-muted">

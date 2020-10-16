@@ -311,7 +311,7 @@ class Session_discussions_model extends App_Model
 
     public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false)
     {
-        $has_permission                    = has_permission('tasks', '', 'view');
+        $has_permission                    = has_permission('sessions', '', 'view');
         $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
 
         if (is_client_logged_in()) {
@@ -707,7 +707,7 @@ class Session_discussions_model extends App_Model
             }
         } else {
             if (!$taskStatus) {
-                $statuses = $this->tasks_model->get_statuses();
+                $statuses = $this->sessions_model->get_statuses();
                 foreach ($statuses as $status) {
                     $type_data[] = $status['id'];
                 }
@@ -717,7 +717,7 @@ class Session_discussions_model extends App_Model
         }
 
         $gantt_data     = [];
-        $has_permission = has_permission('tasks', '', 'view');
+        $has_permission = has_permission('sessions', '', 'view');
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
                 $tasks = $this->get_tasks($project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
@@ -735,7 +735,7 @@ class Session_discussions_model extends App_Model
                     'status' => $data,
                 ], true);
 
-                $name = format_task_status($data, false, true);
+                $name = format_session_status($data, false, true);
             }
 
             if (count($tasks) > 0) {
@@ -1676,7 +1676,7 @@ class Session_discussions_model extends App_Model
             $timesheets = $this->db->get(db_prefix() . 'taskstimers')->result_array();
             $i          = 0;
             foreach ($timesheets as $t) {
-                $task                         = $this->tasks_model->get($t['task_id']);
+                $task                         = $this->sessions_model->get($t['task_id']);
                 $timesheets[$i]['task_data']  = $task;
                 $timesheets[$i]['staff_name'] = get_staff_full_name($t['staff_id']);
                 if (!is_null($t['end_time'])) {
@@ -2073,7 +2073,7 @@ class Session_discussions_model extends App_Model
                         $copy_task_data['copy_task_checklist_items'] = 'true';
                     }
                     $copy_task_data['copy_from'] = $task['id'];
-                    $task_id                     = $this->tasks_model->copy($copy_task_data, [
+                    $task_id                     = $this->sessions_model->copy($copy_task_data, [
                         'rel_id'              => $id,
                         'rel_type'            => 'project',
                         'last_recurring_date' => null,

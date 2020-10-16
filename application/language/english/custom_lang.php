@@ -4032,6 +4032,7 @@ $lang['next_session_time'] = "Next Session time";
 $lang['Waiting_sessions'] = "Waiting sessions";
 $lang['Previous_Sessions'] = "Previous sessions";
 $lang['session_type'] = "Session Type";
+$lang['session_lowercase'] = "session";
 $lang['judicial_office_number'] = "Judicial office number";
 $lang['Judicial'] = "Judicial departments";
 $lang['judicial_manage'] = "Judicial departments management";

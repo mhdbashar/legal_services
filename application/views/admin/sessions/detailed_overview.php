@@ -108,16 +108,16 @@
                         <?php
                            foreach($data as $task){ ?>
                         <tr>
-                           <td data-order="<?php echo htmlentities($task['name']); ?>"><a href="<?php echo admin_url('tasks/view/'.$task['id']); ?>" onclick="init_task_modal(<?php echo $task['id']; ?>); return false;"><?php echo $task['name']; ?></a>
+                           <td data-order="<?php echo htmlentities($task['name']); ?>"><a href="<?php echo admin_url('tasks/view/'.$task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>); return false;"><?php echo $task['name']; ?></a>
                               <?php
                                  if (!empty($task['rel_id'])) {
-                                   echo '<br />'. _l('task_related_to').': <a class="text-muted" href="' . task_rel_link($task['rel_id'],$task['rel_type']) . '">' . task_rel_name($task['rel_name'],$task['rel_id'],$task['rel_type']) . '</a>';
+                                   echo '<br />'. _l('task_related_to').': <a class="text-muted" href="' . session_rel_link($task['rel_id'],$task['rel_type']) . '">' . session_rel_name($task['rel_name'],$task['rel_id'],$task['rel_type']) . '</a>';
                                  }
                                  ?>
                            </td>
                            <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['duedate']; ?>"><?php echo _d($task['duedate']); ?></td>
-                           <td><?php echo format_task_status($task['status']); ?></td>
+                           <td><?php echo format_session_status($task['status']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">
                               <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_added_attachments'); ?>">
                               <i class="fa fa-paperclip"></i>
@@ -157,10 +157,10 @@
                            <?php
                               $finished_on_time_class = '';
                               $finishedOrder = 0;
-                              if(date('Y-m-d',strtotime($task['datefinished'])) > $task['duedate'] && $task['status'] == Tasks_model::STATUS_COMPLETE && is_date($task['duedate'])){
+                              if(date('Y-m-d',strtotime($task['datefinished'])) > $task['duedate'] && $task['status'] == Sessions_model::STATUS_COMPLETE && is_date($task['duedate'])){
                                $finished_on_time_class = 'text-danger';
                                $finished_showcase = _l('task_not_finished_on_time_indicator');
-                              } else if(date('Y-m-d',strtotime($task['datefinished'])) <= $task['duedate'] && $task['status'] == Tasks_model::STATUS_COMPLETE && is_date($task['duedate'])){
+                              } else if(date('Y-m-d',strtotime($task['datefinished'])) <= $task['duedate'] && $task['status'] == Sessions_model::STATUS_COMPLETE && is_date($task['duedate'])){
                                $finishedOrder = 1;
                                $finished_showcase = _l('task_finished_on_time_indicator');
                               } else {
@@ -175,7 +175,7 @@
                            </td>
                            <td>
                               <?php
-                                 echo format_members_by_ids_and_names($task['assignees_ids'],$task['assignees'], false);
+                                 echo format_members_by_ids_and_names_session($task['assignees_ids'],$task['assignees'], false);
                                  ?>
                            </td>
                         </tr>

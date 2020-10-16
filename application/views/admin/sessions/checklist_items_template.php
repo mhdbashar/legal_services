@@ -13,8 +13,8 @@
     <div class="checkbox checkbox-success checklist-checkbox" data-toggle="tooltip" title="">
         <input type="checkbox" <?php if($list['finished'] == 1 && $list['finished_from'] != get_staff_user_id() && !is_admin()){echo 'disabled';} ?> name="checklist-box" <?php if($list['finished'] == 1){echo 'checked';}; ?>>
         <label for=""><span class="hide"><?php echo $list['description']; ?></span></label>
-        <textarea data-taskid="<?php echo $task_id; ?>" name="checklist-description" rows="1"<?php if($list['addedfrom'] != get_staff_user_id() && !has_permission('tasks','','edit')){echo ' disabled';} ?>><?php echo clear_textarea_breaks($list['description']); ?></textarea>
-        <?php if(has_permission('tasks','','delete') || $list['addedfrom'] == get_staff_user_id()){ ?>
+        <textarea data-taskid="<?php echo $task_id; ?>" name="checklist-description" rows="1"<?php if($list['addedfrom'] != get_staff_user_id() && !has_permission('sessions','','edit')){echo ' disabled';} ?>><?php echo clear_textarea_breaks($list['description']); ?></textarea>
+        <?php if(has_permission('sessions','','delete') || $list['addedfrom'] == get_staff_user_id()){ ?>
         <a href="#" class="pull-right text-muted remove-checklist" onclick="delete_checklist_item(<?php echo $list['id']; ?>,this); return false;"><i class="fa fa-remove"></i>
         </a>
         <?php } ?>

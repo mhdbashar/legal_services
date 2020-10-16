@@ -605,6 +605,8 @@
    </div>
    <div class="btn-bottom-pusher"></div>
 </div>
+</div>
+</div>
 <?php init_tail(); ?>
 <script>
 

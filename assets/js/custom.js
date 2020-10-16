@@ -383,6 +383,32 @@ $(function() {
                 .columns.adjust();
         }
     }
+
+    // Copy task href/button event.
+    $("body").on('click', '.copy_session_action', function() {
+        var data = {};
+        $(this).prop('disabled', true);
+        data.copy_from = $(this).data('task-copy-from');
+        data.copy_task_assignees = $("body").find('#copy_task_assignees').prop('checked');
+        data.copy_task_followers = $("body").find('#copy_task_followers').prop('checked');
+        data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
+        data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
+        data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
+        $.post(admin_url + 'LegalServices/sessions/copy', data).done(function(response) {
+            response = JSON.parse(response);
+            if (response.success === true || response.success == 'true') {
+                var $taskModal = $('#_task_modal');
+                if ($taskModal.is(':visible')) {
+                    $taskModal.modal('hide');
+                }
+                init_session_modal(response.new_task_id);
+                reload_sessions_tables();
+
+            }
+            alert_float(response.alert_type, response.message);
+        });
+        return false;
+    });
 });
 
 $(document).ready(function() {
@@ -481,7 +507,7 @@ function init_table_staff_services(manual) {
     initDataTable('.table-staff-services', admin_url + 'LegalServices/Other_services_controller/staff_services', 'undefined', 'undefined', staffProjectsParams, [2, 'asc']);
 }
 
-// Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
+// Reload all session possible table where the table data needs to be refreshed after an action is performed on session.
 function reload_sessions_tables() {
     var av_sessions_tables = ['.table-sessions', '.table-rel-sessions', '.table-rel-sessions-leads', '.table-timesheets', '.table-timesheets-report'];
     $.each(av_sessions_tables, function(i, selector) {
@@ -491,7 +517,7 @@ function reload_sessions_tables() {
     });
 }
 
-// Init task modal and get data from server
+// Init session modal and get data from server
 function init_session_modal(task_id, comment_id) {
     var queryStr = '';
     var $leadModal = $('#lead-modal');
@@ -516,7 +542,7 @@ function init_session_modal(task_id, comment_id) {
     });
 }
 
-// New task function, various actions performed
+// New session function, various actions performed
 function new_session(url) {
     url = typeof(url) != 'undefined' ? url : admin_url + 'LegalServices/Sessions/task';
 
@@ -541,7 +567,7 @@ function new_session(url) {
     })
 }
 
-// Tasks bulk actions action
+// Sessions bulk actions action
 function sessions_bulk_action(event) {
     if (confirm_delete()) {
         var ids = [],
@@ -583,4 +609,81 @@ function sessions_bulk_action(event) {
             });
         }, 200);
     }
+}
+
+// Create new session directly from relation, related options selected after modal is shown
+function new_session_from_relation(table, rel_type, rel_id) {
+    if (typeof(rel_type) == 'undefined' && typeof(rel_id) == 'undefined') {
+        rel_id = $(table).data('new-rel-id');
+        rel_type = $(table).data('new-rel-type');
+    }
+    var url = admin_url + 'LegalServices/Sessions/task?rel_id=' + rel_id + '&rel_type=' + rel_type;
+    new_session(url);
+}
+
+// Init session modal and get data from server
+function init_session_modal(task_id, comment_id) {
+
+    var queryStr = '';
+    var $leadModal = $('#lead-modal');
+    var $taskAddEditModal = $('#_task_modal');
+    if ($leadModal.is(':visible')) {
+        queryStr += '?opened_from_lead_id=' + $leadModal.find('input[name="leadid"]').val();
+        $leadModal.modal('hide');
+    } else if ($taskAddEditModal.attr('data-lead-id') != undefined) {
+        queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
+    }
+
+    requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
+        _task_append_html(response);
+        if (typeof(comment_id) != 'undefined') {
+            setTimeout(function() {
+                $('[data-task-comment-href-id="' + comment_id + '"]').click();
+            }, 1000);
+        }
+    }).fail(function(data) {
+        $('#task-modal').modal('hide');
+        alert_float('danger', data.responseText);
+    });
+}
+
+// Change session priority from sigle modal
+function session_change_priority(priority_id, task_id) {
+    url = 'LegalServices/Sessions/change_priority/' + priority_id + '/' + task_id;
+    var taskModalVisible = $('#task-modal').is(':visible');
+    url += '?single_task=' + taskModalVisible;
+    requestGetJSON(url).done(function(response) {
+        if (response.success === true || response.success == 'true') {
+            reload_sessions_tables();
+            if (taskModalVisible) { _task_append_html(response.taskHtml); }
+        }
+    });
+}
+
+// Go to edit view
+function edit_session(task_id) {
+    requestGet('LegalServices/Sessions/task/' + task_id).done(function(response) {
+        $('#_task').html(response);
+        $('#task-modal').modal('hide');
+        $("body").find('#_task_modal').modal({ show: true, backdrop: 'static' });
+    });
+}
+
+// Mark session status
+function session_mark_as(status, task_id, url) {
+    url = typeof(url) == 'undefined' ? 'LegalServices/Sessions/mark_as/' + status + '/' + task_id : url;
+    var taskModalVisible = $('#task-modal').is(':visible');
+    url += '?single_task=' + taskModalVisible;
+    $("body").append('<div class="dt-loader"></div>');
+    requestGetJSON(url).done(function(response) {
+        $("body").find('.dt-loader').remove();
+        if (response.success === true || response.success == 'true') {
+            reload_sessions_tables();
+            if (taskModalVisible) { _task_append_html(response.taskHtml); }
+            if (status == 5 && typeof(_maybe_remove_task_from_project_milestone) == 'function') {
+                _maybe_remove_task_from_project_milestone(task_id);
+            }
+            if ($('.tasks-kanban').length === 0) { alert_float('success', response.message); }
+        }
+    });
 }

@@ -88,7 +88,7 @@ class Sessions extends AdminController
         if ($this->input->is_ajax_request()) {
             $q = $this->input->post('q');
             $q = trim($q);
-            $this->db->select('name, id,' . tasks_rel_name_select_query() . ' as subtext');
+            $this->db->select('name, id,' . sessions_rel_name_select_query() . ' as subtext');
             $this->db->from(db_prefix() . 'tasks');
             $this->db->where('' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')');
             //   $this->db->where('id NOT IN (SELECT task_id FROM '.db_prefix().'taskstimers WHERE staff_id = ' . get_staff_user_id() . ' AND end_time IS NULL)');
@@ -96,7 +96,7 @@ class Sessions extends AdminController
             $this->db->where('billed', 0);
             $this->db->group_start();
             $this->db->like('name', $q);
-            $this->db->or_like(tasks_rel_name_select_query(), $q);
+            $this->db->or_like(sessions_rel_name_select_query(), $q);
             $this->db->group_end();
             echo json_encode($this->db->get()->result_array());
         }
@@ -213,10 +213,10 @@ class Sessions extends AdminController
             }
 
             // Task rel_name
-            $sqlTasksSelect = '*,' . tasks_rel_name_select_query() . ' as rel_name';
+            $sqlTasksSelect = '*,' . sessions_rel_name_select_query() . ' as rel_name';
 
             // Task logged time
-            $selectLoggedTime = get_sql_calc_task_logged_time('tmp-task-id');
+            $selectLoggedTime = get_sql_calc_session_logged_time('tmp-task-id');
             // Replace tmp-task-id to be the same like tasks.id
             $selectLoggedTime = str_replace('tmp-task-id', db_prefix() . 'tasks.id', $selectLoggedTime);
 
@@ -230,12 +230,12 @@ class Sessions extends AdminController
             $sqlTasksSelect .= ' as total_logged_time';
 
             // Task checklist items
-            $sqlTasksSelect .= ',' . get_sql_select_task_total_checklist_items();
+            $sqlTasksSelect .= ',' . get_sql_select_session_total_checklist_items();
 
             if (is_numeric($staff_id)) {
                 $sqlTasksSelect .= ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_checklist_items WHERE taskid=' . db_prefix() . 'tasks.id AND finished=1 AND finished_from=' . $staff_id . ') as total_finished_checklist_items';
             } else {
-                $sqlTasksSelect .= ',' . get_sql_select_task_total_finished_checklist_items();
+                $sqlTasksSelect .= ',' . get_sql_select_session_total_finished_checklist_items();
             }
 
             // Task total comment and total files
@@ -251,7 +251,7 @@ class Sessions extends AdminController
             $sqlTasksSelect .= $selectTotalFiles . ') as total_files';
 
             // Task assignees
-            $sqlTasksSelect .= ',' . get_sql_select_task_asignees_full_names() . ' as assignees' . ',' . get_sql_select_task_assignees_ids() . ' as assignees_ids';
+            $sqlTasksSelect .= ',' . get_sql_select_session_asignees_full_names() . ' as assignees' . ',' . get_sql_select_session_assignees_ids() . ' as assignees_ids';
 
             $this->db->select($sqlTasksSelect);
 
@@ -290,7 +290,7 @@ class Sessions extends AdminController
                 $this->db->where('status', $status);
             }
 
-            $this->db->where('is_session', 0);
+            $this->db->where('is_session', 1);
             $this->db->order_by($fetch_month_from, 'ASC');
             array_push($overview, $m);
 
@@ -422,13 +422,13 @@ class Sessions extends AdminController
         $data['milestones']         = [];
         $data['checklistTemplates'] = $this->sessions_model->get_checklist_templates();
         if ($id == '') {
-            $title = _l('add_new', _l('task_lowercase'));
+            $title = _l('add_new', _l('session_lowercase'));
         } else {
             $data['task'] = $this->sessions_model->get($id);
             if ($data['task']->rel_type == 'project') {
                 $data['milestones'] = $this->projects_model->get_milestones($data['task']->rel_id);
             }
-            $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
+            $title = _l('edit', _l('session_lowercase')) . ' ' . $data['task']->name;
         }
         $data['project_end_date_attrs'] = [];
         if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id') || ($id !== '' && $data['task']->rel_type == 'project')) {
@@ -610,7 +610,7 @@ class Sessions extends AdminController
         $tasks_where = [];
 
         if (!has_permission('sessions', '', 'view')) {
-            $tasks_where = get_tasks_where_string(false);
+            $tasks_where = get_sessions_where_string(false);
         }
 
         $task = $this->sessions_model->get($taskid, $tasks_where);
@@ -646,7 +646,7 @@ class Sessions extends AdminController
         $tasks_where = [];
 
         if (!has_permission('sessions', '', 'view')) {
-            $tasks_where = get_tasks_where_string(false);
+            $tasks_where = get_sessions_where_string(false);
         }
 
         $task = $this->sessions_model->get_with_session_info($taskid, $tasks_where);
@@ -991,7 +991,7 @@ class Sessions extends AdminController
         }
 
         if (!has_permission('sessions', '', 'view')) {
-            $taskWhere .= ' AND ' . get_tasks_where_string(false);
+            $taskWhere .= ' AND ' . get_sessions_where_string(false);
         }
 
         $files = $this->sessions_model->get_task_attachments($task_id, $taskWhere);
@@ -1240,7 +1240,7 @@ class Sessions extends AdminController
             $message = '';
 
             if ($success) {
-                $message = _l('task_marked_as_success', format_task_status($status, true, true));
+                $message = _l('task_marked_as_success', format_session_status($status, true, true));
             }
 
             echo json_encode([
@@ -1270,7 +1270,7 @@ class Sessions extends AdminController
             $message = '';
 
             if ($success) {
-                $message = _l('task_marked_as_success', format_task_status($status, true, true));
+                $message = _l('task_marked_as_success', format_session_status($status, true, true));
             }
 
             echo json_encode([
@@ -1614,7 +1614,7 @@ class Sessions extends AdminController
                                         ];
 
                                         $notification_data['additional_data'] = serialize([
-                                            get_task_subject_by_id($id),
+                                            get_session_subject_by_id($id),
                                         ]);
                                         if (add_notification($notification_data)) {
                                             array_push($notifiedUsers, $user_id);

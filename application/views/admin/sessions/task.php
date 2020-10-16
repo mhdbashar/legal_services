@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('tasks/task/'.$id),array('id'=>'task-form')); ?>
+<?php echo form_open_multipart(admin_url('LegalServices/Sessions/task/'.$id),array('id'=>'task-form')); ?>
 <div class="modal fade<?php if(isset($task)){echo ' edit';} ?>" id="_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"<?php if($this->input->get('opened_from_lead_id')){echo 'data-lead-id='.$this->input->get('opened_from_lead_id'); } ?>>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -27,7 +27,7 @@
                             <div class="pull-right mbot10 task-single-menu task-menu-options">
                                 <div class="content-menu hide">
                                     <ul>
-                                        <?php if(has_permission('tasks','','create')){ ?>
+                                        <?php if(has_permission('sessions','','create')){ ?>
                                             <?php
                                             $copy_template = "";
                                             if(total_rows(db_prefix().'task_assigned',array('taskid'=>$task->id)) > 0){
@@ -50,22 +50,22 @@
                                             }
 
                                             $copy_template .= "<div class='text-center'>";
-                                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_task_action'>"._l('copy_task_confirm')."</button>";
+                                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_session_action'>"._l('copy_task_confirm')."</button>";
                                             $copy_template .= "</div>";
                                             ?>
                                             <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a>
                                             </li>
                                         <?php } ?>
-                                        <?php if(has_permission('tasks','','delete')){ ?>
+                                        <?php if(has_permission('sessions','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('tasks/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                                <a href="<?php echo admin_url('LegalServices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                                     <?php echo _l('task_single_delete'); ?>
                                                 </a>
                                             </li>
                                         <?php } ?>
                                     </ul>
                                 </div>
-                                <?php if(has_permission('tasks','','delete') || has_permission('tasks','','create')){ ?>
+                                <?php if(has_permission('sessions','','delete') || has_permission('sessions','','create')){ ?>
                                     <a href="#" onclick="return false;" class="trigger manual-popover mright5">
                                         <i class="fa fa-circle-thin" aria-hidden="true"></i>
                                         <i class="fa fa-circle-thin" aria-hidden="true"></i>
@@ -156,7 +156,7 @@
                                 <div class="form-group">
                                     <label for="priority" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
                                     <select name="priority" class="selectpicker" id="priority" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <?php foreach(get_tasks_priorities() as $priority) { ?>
+                                        <?php foreach(get_sessions_priorities() as $priority) { ?>
                                             <option value="<?php echo $priority['id']; ?>"<?php if(isset($task) && $task->priority == $priority['id'] || !isset($task) && get_option('default_task_priority') == $priority['id']){echo ' selected';} ?>><?php echo $priority['name']; ?></option>
                                         <?php } ?>
                                         <?php hooks()->do_action('task_priorities_select', (isset($task) ? $task : 0)); ?>
@@ -279,7 +279,7 @@
                         </div>
                         <?php
                         if(isset($task)
-                            && $task->status == Tasks_model::STATUS_COMPLETE
+                            && $task->status == Sessions_model::STATUS_COMPLETE
                             && (has_permission('create') || has_permission('edit'))){
                             echo render_datetime_input('datefinished','task_finished',_dt($task->datefinished));
                         }

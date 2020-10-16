@@ -13,14 +13,14 @@ foreach ($startedTimers as $timer) {
     $data .= '<li class="timer relative" id="timer-'.$timer['id'].'">';
 
     if ($timer['task_id'] != '0') {
-        $data.= '<a href="'.admin_url('tasks/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_task_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
+        $data.= '<a href="'.admin_url('tasks/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
     } else {
         $noTimersWithoutTask = false;
     }
 
     $data .= '<span class="pointer pull-right unfinished-timesheet-delete" onclick="delete_user_unfinished_timesheet('.$timer['id'].'); return false;"><i class="fa fa-trash-o"></i></span>';
 
-    $data .= '<span class="text-muted">' . _l('timer_top_started', _dt($timer['start_time'], true)) . '</span><br /><span class="text-success">'._l('task_total_logged_time') .' '. seconds_to_time_format($this->tasks_model->calc_task_total_time($timer['task_id'], ' AND staff_id='.get_staff_user_id())).'</span>';
+    $data .= '<span class="text-muted">' . _l('timer_top_started', _dt($timer['start_time'], true)) . '</span><br /><span class="text-success">'._l('task_total_logged_time') .' '. seconds_to_time_format($this->sessions_model->calc_task_total_time($timer['task_id'], ' AND staff_id='.get_staff_user_id())).'</span>';
 
     $data .= '<p class="mtop10"><a href="#" class="label label-danger top-stop-timer" ';
 

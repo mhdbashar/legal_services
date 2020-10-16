@@ -50,29 +50,31 @@
 			</div>
 		</div>
 	</div>
-	<?php init_tail(); ?>
-	<script>
-		var gantt_data = <?php echo json_encode($gantt_data); ?>;
-		$(function(){
+	</div>
+</div>
+<?php init_tail(); ?>
+<script>
+    var gantt_data = <?php echo json_encode($gantt_data); ?>;
+    $(function(){
 
-			$("#gantt").gantt({
-				source: gantt_data,
-				itemsPerPage: 25,
-				months: app.months_json,
-				navigate: 'scroll',
-				onRender: function() {
-					$('#gantt .leftPanel .name .fn-label:empty').parents('.name').css('background', 'initial');
-				},
-				onItemClick: function(data) {
-					if(typeof(data.project_id) != 'undefined') {
-						var projectViewUrl = '<?php echo admin_url('projects/view'); ?>';
-						window.location.href = projectViewUrl+'/'+data.project_id;
-					} else if(typeof(data.task_id) != 'undefined') {
-						init_task_modal(data.task_id);
-					}
-				},
-			});
-		});
-	</script>
+        $("#gantt").gantt({
+            source: gantt_data,
+            itemsPerPage: 25,
+            months: app.months_json,
+            navigate: 'scroll',
+            onRender: function() {
+                $('#gantt .leftPanel .name .fn-label:empty').parents('.name').css('background', 'initial');
+            },
+            onItemClick: function(data) {
+                if(typeof(data.project_id) != 'undefined') {
+                    var projectViewUrl = '<?php echo admin_url('projects/view'); ?>';
+                    window.location.href = projectViewUrl+'/'+data.project_id;
+                } else if(typeof(data.task_id) != 'undefined') {
+                    init_task_modal(data.task_id);
+                }
+            },
+        });
+    });
+</script>
 </body>
 </html>

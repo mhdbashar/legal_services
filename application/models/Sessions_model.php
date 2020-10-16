@@ -83,7 +83,7 @@ class Sessions_model extends App_Model
      * @param  mixed $id task id
      * @return object
      */
-    public function get($id, $where = [], $is_session = 0)
+    public function get($id, $where = [], $is_session = 1)
     {
         $is_admin = is_admin();
         $this->db->where( array('id' => $id, 'deleted' => 0, 'is_session' => $is_session));
@@ -189,15 +189,15 @@ class Sessions_model extends App_Model
     public function do_kanban_query($status, $search = '', $page = 1, $count = false, $where = [])
     {
         $tasks_where = '';
-        if (!has_permission('tasks', '', 'view')) {
-            $tasks_where = get_tasks_where_string(false);
+        if (!has_permission('sessions', '', 'view')) {
+            $tasks_where = get_sessions_where_string(false);
         }
 
-        $this->db->select('id,name,duedate,startdate,status,' . get_sql_select_task_total_checklist_items() . ',' . get_sql_select_task_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_task_asignees_full_names() . ' as assignees' . ',' . get_sql_select_task_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
+        $this->db->select('id,name,duedate,startdate,status,' . get_sql_select_session_total_checklist_items() . ',' . get_sql_select_session_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_session_asignees_full_names() . ' as assignees' . ',' . get_sql_select_session_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
 
         $this->db->from(db_prefix() . 'tasks');
         $this->db->where('status', $status);
-        $this->db->where('is_session', 0);
+        $this->db->where('is_session', 1);
         $this->db->where($where);
 
         if ($tasks_where != '') {
@@ -255,6 +255,7 @@ class Sessions_model extends App_Model
         return (total_rows(db_prefix() . 'tasks', [
             'id'     => $id,
             'billed' => 1,
+            'is_session' => 1,
         ]) > 0 ? true : false);
     }
 
@@ -416,11 +417,12 @@ class Sessions_model extends App_Model
 
     public function get_billable_tasks($customer_id = false, $project_id = '')
     {
-        $has_permission_view = has_permission('tasks', '', 'view');
-        $noPermissionsQuery  = get_tasks_where_string(false);
+        $has_permission_view = has_permission('sessions', '', 'view');
+        $noPermissionsQuery  = get_sessions_where_string(false);
 
         $this->db->where('billable', 1);
         $this->db->where('billed', 0);
+        $this->db->where('is_session', 1);
 
         if ($project_id == '') {
             $this->db->where('rel_type != "project"');
@@ -485,6 +487,7 @@ class Sessions_model extends App_Model
     public function get_billable_task_data($task_id)
     {
         $this->db->where('id', $task_id);
+        $this->db->where('is_session', 1);
         $data = $this->db->get(db_prefix() . 'tasks')->row();
         if ($data->rel_type == 'project') {
             $this->db->select('billing_type,project_rate_per_hour,name');
@@ -508,6 +511,7 @@ class Sessions_model extends App_Model
     public function get_tasks_by_staff_id($id, $where = [])
     {
         $this->db->where($where);
+        $this->db->where('is_session', 1);
         $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $this->db->escape_str($id) . '))');
 
         return $this->db->get(db_prefix() . 'tasks')->result_array();
@@ -527,6 +531,7 @@ class Sessions_model extends App_Model
             unset($data['ticket_to_task']);
         }
 
+        $data['is_session']            = 1;
         $data['startdate']             = to_sql_date($data['startdate']);
         $data['duedate']               = to_sql_date($data['duedate']);
         $data['dateadded']             = date('Y-m-d H:i:s');
@@ -701,7 +706,7 @@ class Sessions_model extends App_Model
             if (isset($data['rel_type']) && $data['rel_type'] == 'lead') {
                 $this->load->model('leads_model');
                 $this->leads_model->log_lead_activity($data['rel_id'], 'not_activity_new_task_created', false, serialize([
-                    '<a href="' . admin_url('tasks/view/' . $insert_id) . '" onclick="init_task_modal(' . $insert_id . ');return false;">' . $data['name'] . '</a>',
+                    '<a href="' . admin_url('tasks/view/' . $insert_id) . '" onclick="init_session_modal(' . $insert_id . ');return false;">' . $data['name'] . '</a>',
                     ]));
             }
 
@@ -1098,7 +1103,7 @@ class Sessions_model extends App_Model
     {
         $this->db->select('addedfrom');
         $this->db->where('id', $taskid);
-
+        $this->db->where('is_session', 1);
         return $this->db->get(db_prefix() . 'tasks')->row()->addedfrom;
     }
 
@@ -1138,7 +1143,7 @@ class Sessions_model extends App_Model
             ]);
 
             if ($task->rel_type == 'project') {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_task_comment', $task->name, $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_session_comment', $task->name, $task->visible_to_client);
             }
 
             if(check_session_by_id($data['taskid'])){
@@ -1173,7 +1178,7 @@ class Sessions_model extends App_Model
             'staffid' => $data['follower'],
         ]);
         if ($this->db->affected_rows() > 0) {
-            $taskName = get_task_subject_by_id($data['taskid']);
+            $taskName = get_session_subject_by_id($data['taskid']);
 
             if (get_staff_user_id() != $data['follower']) {
                 $notified = add_notification([
@@ -1294,7 +1299,7 @@ class Sessions_model extends App_Model
             }
 
             if ($task->rel_type == 'project') {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_task_assignee', $task->name . ' - ' . get_staff_full_name($data['assignee']), $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_session_assignee', $task->name . ' - ' . get_staff_full_name($data['assignee']), $task->visible_to_client);
             }
 
             $this->_send_task_responsible_users_notification($description, $data['taskid'], $data['assignee'], '', $additional_notification_data);
@@ -1357,7 +1362,7 @@ class Sessions_model extends App_Model
             $this->db->delete(db_prefix() . 'files');
             if ($this->db->affected_rows() > 0) {
                 $deleted = true;
-                log_activity('Task Attachment Deleted [TaskID: ' . $attachment->rel_id . ']');
+                log_activity('Session Attachment Deleted [SessionID: ' . $attachment->rel_id . ']');
             }
 
             if (is_dir(get_upload_path_by_type('task') . $attachment->rel_id)) {
@@ -1419,7 +1424,7 @@ class Sessions_model extends App_Model
             $task = $this->db->get(db_prefix() . 'tasks')->row();
 
             if ($task->rel_type == 'project') {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_task_attachment', $task->name, $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_new_session_attachment', $task->name, $task->visible_to_client);
             }
 
             if ($notification == true) {
@@ -1531,7 +1536,7 @@ class Sessions_model extends App_Model
         // Check if user really creator
         $this->db->where('id', $data['id']);
         $comment = $this->db->get(db_prefix() . 'task_comments')->row();
-        if ($comment->staffid == get_staff_user_id() || has_permission('tasks', '', 'edit') || $comment->contact_id == get_contact_user_id()) {
+        if ($comment->staffid == get_staff_user_id() || has_permission('sessions', '', 'edit') || $comment->contact_id == get_contact_user_id()) {
             $comment_added = strtotime($comment->dateadded);
             $minus_1_hour  = strtotime('-1 hours');
             if (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour) || is_admin()) {
@@ -1575,7 +1580,7 @@ class Sessions_model extends App_Model
             return true;
         }
 
-        if ($comment->staffid == get_staff_user_id() || has_permission('tasks', '', 'delete') || $comment->contact_id == get_contact_user_id() || $force === true) {
+        if ($comment->staffid == get_staff_user_id() || has_permission('sessions', '', 'delete') || $comment->contact_id == get_contact_user_id() || $force === true) {
             $comment_added = strtotime($comment->dateadded);
             $minus_1_hour  = strtotime('-1 hours');
             if (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour)
@@ -1634,7 +1639,7 @@ class Sessions_model extends App_Model
         $this->db->delete(db_prefix() . 'task_assigned');
         if ($this->db->affected_rows() > 0) {
             if ($task->rel_type == 'project') {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_task_assignee_removed', $task->name . ' - ' . get_staff_full_name($assignee_data->staffid), $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_session_assignee_removed', $task->name . ' - ' . get_staff_full_name($assignee_data->staffid), $task->visible_to_client);
             }
 
             return true;
@@ -1689,7 +1694,7 @@ class Sessions_model extends App_Model
 
             $not_data = [
                 $task->name,
-                format_task_status($status, false, true),
+                format_session_status($status, false, true),
             ];
 
             if ($status == self::STATUS_COMPLETE) {
@@ -1704,12 +1709,12 @@ class Sessions_model extends App_Model
             }
 
             if ($task->rel_type == 'project') {
-                $project_activity_log = $status == self::STATUS_COMPLETE ? 'project_activity_task_marked_complete' : 'not_project_activity_task_status_changed';
+                $project_activity_log = $status == self::STATUS_COMPLETE ? 'project_activity_session_marked_complete' : 'not_project_activity_session_status_changed';
 
                 $project_activity_desc = $task->name;
 
                 if ($status != self::STATUS_COMPLETE) {
-                    $project_activity_desc .= ' - ' . format_task_status($status);
+                    $project_activity_desc .= ' - ' . format_session_status($status);
                 }
 
                 $this->projects_model->log_activity($task->rel_id, $project_activity_log, $project_activity_desc, $task->visible_to_client);
@@ -1767,7 +1772,7 @@ class Sessions_model extends App_Model
             $task = $this->db->get(db_prefix() . 'tasks')->row();
 
             if ($task->rel_type == 'project') {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_task_unmarked_complete', $task->name, $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_session_unmarked_complete', $task->name, $task->visible_to_client);
             }
 
             $description = 'not_task_unmarked_as_complete';
@@ -1806,7 +1811,7 @@ class Sessions_model extends App_Model
 
             // Log activity only if task is deleted indivudual not when deleting all projects
             if ($task->rel_type == 'project' && $log_activity == true) {
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_task_deleted', $task->name, $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_session_deleted', $task->name, $task->visible_to_client);
             }
 
             $this->db->where('taskid', $id);
@@ -2307,7 +2312,7 @@ class Sessions_model extends App_Model
 
     public function calc_task_total_time($task_id, $where = '')
     {
-        $sql = get_sql_calc_task_logged_time($task_id) . $where;
+        $sql = get_sql_calc_session_logged_time($task_id) . $where;
 
         $result = $this->db->query($sql)->row();
 
@@ -2364,7 +2369,7 @@ class Sessions_model extends App_Model
                 $additional_data = $task->name;
                 $total           = $timesheet->end_time - $timesheet->start_time;
                 $additional_data .= '<br /><seconds>' . $total . '</seconds>';
-                $this->projects_model->log_activity($task->rel_id, 'project_activity_task_timesheet_deleted', $additional_data, $task->visible_to_client);
+                $this->projects_model->log_activity($task->rel_id, 'project_activity_session_timesheet_deleted', $additional_data, $task->visible_to_client);
             }
 
             hooks()->do_action('task_timer_deleted', $timesheet);
@@ -2433,7 +2438,7 @@ class Sessions_model extends App_Model
         $this->db->insert(db_prefix(). 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
-            log_activity('New Task Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
+            log_activity('New Session Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
             return $insert_id;
         }
         return false;

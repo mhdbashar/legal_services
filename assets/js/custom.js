@@ -18,7 +18,6 @@ $.ajax({
 
 });
 
-
 var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
@@ -135,6 +134,7 @@ if(search_url(hijriPages,this_page) != 0){
 }
 
 var hijri_page = window.location.href;
+
 hijri_page = hijri_page.replace(admin_url,'');
 
 if(hijri_page == 'settings?group=Hijri'){
@@ -310,7 +310,6 @@ if(hijri_page == 'settings?group=Hijri'){
     });
 }
 
-
 $("body").on('change', '.f_client_id select[name="clientid"]', function() {
     $('#rel_sid').html('');
     var val = $(this).val();
@@ -322,8 +321,7 @@ $("body").on('change', '.f_client_id select[name="clientid"]', function() {
     }
 });
 
-function get_legal_services_by_slug()
-{
+function get_legal_services_by_slug() {
     $('#div_rel_sid').removeClass('hide');
     $('#rel_sid').html('');
     slug = $('#rel_stype').val();
@@ -409,6 +407,84 @@ $(function() {
         });
         return false;
     });
+
+    // Add follower to task
+    $("body").on('change', 'select[name="select-session-followers"]', function() {
+        var data = {};
+        data.follower = $('select[name="select-session-followers"]').val();
+        if (data.follower !== '') {
+            data.taskid = $(this).attr('data-task-id');
+            $("body").append('<div class="dt-loader"></div>');
+            $.post(admin_url + 'LegalServices/Sessions/add_task_followers', data).done(function(response) {
+                response = JSON.parse(response);
+                $("body").find('.dt-loader').remove();
+                _task_append_html(response.taskHtml);
+            });
+        }
+    });
+
+    // Assign task to staff member
+    $("body").on('change', 'select[name="select-session-assignees"]', function() {
+        $("body").append('<div class="dt-loader"></div>');
+        var data = {};
+        data.assignee = $('select[name="select-session-assignees"]').val();
+        if (data.assignee !== '') {
+            data.taskid = $(this).attr('data-task-id');
+            $.post(admin_url + 'LegalServices/Sessions/add_task_assignees', data).done(function(response) {
+                $("body").find('.dt-loader').remove();
+                response = JSON.parse(response);
+                reload_sessions_tables();
+                _task_append_html(response.taskHtml);
+            });
+        }
+    });
+
+    // New timesheet add manually from session single modal
+    $("body").on('click', '.session-single-add-timesheet', function(e) {
+        e.preventDefault();
+        var start_time = $("body").find('#task-modal input[name="timesheet_start_time"]').val();
+        var end_time = $("body").find('#task-modal input[name="timesheet_end_time"]').val();
+        var duration = $("body").find('#task-modal input[name="timesheet_duration"]').val();
+        if ((start_time !== '' && end_time !== '') || duration !== '') {
+            var data = {};
+            data.timesheet_duration = duration;
+            data.start_time = start_time;
+            data.end_time = end_time;
+            data.timesheet_task_id = $(this).data('task-id');
+            data.note = $("body").find('#task_single_timesheet_note').val();
+            data.timesheet_staff_id = $("body").find('#task-modal select[name="single_timesheet_staff_id"]').val();
+            $.post(admin_url + 'LegalServices/Sessions/log_time', data).done(function(response) {
+                response = JSON.parse(response);
+                if (response.success === true || response.success == 'true') {
+                    init_session_modal(data.timesheet_task_id);
+                    alert_float('success', response.message);
+                    setTimeout(function() {
+                        reload_sessions_tables();
+                    }, 20);
+                } else {
+                    alert_float('warning', response.message);
+                }
+            });
+        }
+    });
+
+    // Delete session timesheet from the session single modal
+    $("body").on('click', '.session-single-delete-timesheet', function(e) {
+        e.preventDefault();
+        if (confirm_delete()) {
+            var _delete_timesheet_task_id = $(this).data('task-id');
+            requestGet($(this).attr('href')).done(function(response) {
+                init_session_modal(_delete_timesheet_task_id);
+                setTimeout(function() {
+                    reload_sessions_tables();
+                    init_timers();
+                }, 20);
+            });
+        }
+    });
+
+    init_table_staff_cases();
+    init_table_staff_services();
 });
 
 $(document).ready(function() {
@@ -473,10 +549,6 @@ $(window).load(function() {
     });
 });
 
-$(function() {
-    init_table_staff_cases();
-    init_table_staff_services();
-});
 // Staff cases table in staff profile
 function init_table_staff_cases(manual) {
     if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
@@ -684,6 +756,245 @@ function session_mark_as(status, task_id, url) {
                 _maybe_remove_task_from_project_milestone(task_id);
             }
             if ($('.tasks-kanban').length === 0) { alert_float('success', response.message); }
+        }
+    });
+}
+
+// New session reminder custom function
+function new_session_reminder(id) {
+    var $container = $('#newTaskReminderToggle');
+    if (!$container.is(':visible') || $container.is(':visible') && $container.attr('data-edit') != undefined) {
+
+        $container.slideDown(400, function() {
+            fix_task_modal_left_col_height();
+        });
+
+        $('#taskReminderFormSubmit').html(app.lang.create_reminder);
+        $container.find('form').attr('action', admin_url + 'LegalServices/Sessions/add_reminder/' + id);
+
+        $container.find('#description').val('');
+        $container.find('#date').val('');
+        $container.find('#staff').selectpicker('val', $container.find('#staff').attr('data-current-staff'));
+        $container.find('#notify_by_email').prop('checked', false);
+        if ($container.attr('data-edit') != undefined) {
+            $container.removeAttr('data-edit');
+        }
+        if (!$container.isInViewport()) {
+            $('#task-modal').animate({
+                scrollTop: $container.offset().top + 'px'
+            }, 'fast');
+        }
+    } else {
+        $container.slideUp();
+    }
+}
+
+// Edit reminder function
+function edit_session_reminder(id, e) {
+    requestGetJSON('misc/get_reminder/' + id).done(function(response) {
+        var $container = $('.reminder-modal-' + response.rel_type + '-' + response.rel_id);
+        var actionURL = admin_url + 'misc/edit_reminder/' + id;
+        if ($container.length === 0 && $('body').hasClass('all-reminders')) {
+            // maybe from view all reminders?
+            $container = $('.reminder-modal--');
+            $container.find('input[name="rel_type"]').val(response.rel_type);
+            $container.find('input[name="rel_id"]').val(response.rel_id);
+        } else if ($('#task-modal').is(':visible')) {
+
+            $container = $('#newTaskReminderToggle');
+
+            if ($container.attr('data-edit') && $container.attr('data-edit') == id) {
+                $container.slideUp();
+                $container.removeAttr('data-edit');
+            } else {
+                $container.slideDown(400, function() {
+                    fix_task_modal_left_col_height();
+                });
+                $container.attr('data-edit', id);
+                if (!$container.isInViewport()) {
+                    $('#task-modal').animate({
+                        scrollTop: $container.offset().top + 'px'
+                    }, 'fast');
+                }
+            }
+            actionURL = admin_url + 'LegalServices/Sessions/edit_reminder/' + id;
+            $('#taskReminderFormSubmit').html(app.lang.save);
+        }
+
+        $container.find('form').attr('action', actionURL);
+        // For focusing the date field
+        $container.find('form').attr('data-edit', true);
+        $container.find('#description').val(response.description);
+        $container.find('#date').val(response.date);
+        $container.find('#staff').selectpicker('val', response.staff);
+        $container.find('#notify_by_email').prop('checked', response.notify_by_email == 1 ? true : false);
+        if ($container.hasClass('modal')) {
+            $container.modal('show');
+        }
+    });
+}
+
+// Remove session assignee
+function remove_session_assignee(id, task_id) {
+    if (confirm_delete()) {
+        requestGetJSON('LegalServices/Sessions/remove_assignee/' + id + '/' + task_id).done(function(response) {
+            if (response.success === true || response.success == 'true') {
+                alert_float('success', response.message);
+                _task_append_html(response.taskHtml);
+            }
+        });
+    }
+}
+
+// Remove session follower
+function remove_session_follower(id, task_id) {
+    if (confirm_delete()) {
+        requestGetJSON('LegalServices/Sessions/remove_follower/' + id + '/' + task_id).done(function(response) {
+            if (response.success === true || response.success == 'true') {
+                alert_float('success', response.message);
+                _task_append_html(response.taskHtml);
+            }
+        });
+    }
+}
+
+// Save session edited comment
+function save_session_edited_comment(id, task_id) {
+    tinymce.triggerSave();
+    var data = {};
+    data.id = id;
+    data.task_id = task_id;
+    data.content = $('[data-edit-comment="' + id + '"]').find('textarea').val();
+    if (is_ios()) {
+        data.no_editor = true;
+    }
+    $.post(admin_url + 'LegalServices/Sessions/edit_comment', data).done(function(response) {
+        response = JSON.parse(response);
+        if (response.success === true || response.success == 'true') {
+            alert_float('success', response.message);
+            _task_append_html(response.taskHtml);
+        } else {
+            cancel_edit_comment(id);
+        }
+        tinymce.remove('[data-edit-comment="' + id + '"] textarea');
+    });
+}
+
+// Add new session comment from the modal
+function add_session_comment(task_id) {
+    var data = {};
+
+    if (taskCommentAttachmentDropzone.files.length > 0) {
+        taskCommentAttachmentDropzone.processQueue(task_id);
+        return;
+    }
+    if (tinymce.activeEditor) {
+        data.content = tinyMCE.activeEditor.getContent();
+    } else {
+        data.content = $('#task_comment').val();
+        data.no_editor = true;
+    }
+    data.taskid = task_id;
+    $.post(admin_url + 'LegalServices/Sessions/add_task_comment', data).done(function(response) {
+        response = JSON.parse(response);
+        _task_append_html(response.taskHtml);
+        // Remove task comment editor instance
+        // Causing error because of are you sure you want to leave this page, the plugin still sees as active and dirty.
+        tinymce.remove('#task_comment');
+    });
+}
+
+// Action for session timer start/stop
+function timer_session_action(e, task_id, timer_id, adminStop) {
+
+    timer_id = typeof(timer_id) == 'undefined' ? '' : timer_id;
+
+    var $timerSelectTask = $('#timer-select-task');
+    if (task_id === '' && $timerSelectTask.is(':visible')) {
+        return;
+    }
+    if (timer_id !== '' && task_id == '0') {
+        var popupData = {};
+        popupData.content = '';
+        popupData.content += '<div class="row">';
+        popupData.content += '<div class="form-group"><select id="timer_add_task_id" data-empty-title="' + app.lang.search_tasks + '" data-width="60%" class="ajax-search" data-live-search="true">';
+        popupData.content += '</select></div>';
+        popupData.content += '<div class="form-group">';
+        popupData.content += '<textarea id="timesheet_note" placeholder="' + app.lang.note + '" style="margin:0 auto;width:60%;" rows="4" class="form-control"></textarea>';
+        popupData.content += '</div>';
+        popupData.content += '<button type=\'button\' onclick=\'timer_session_action(this,document.getElementById("timer_add_task_id").value,' + timer_id + ');return false;\' class=\'btn btn-info\'>' + app.lang.confirm + '</button>';
+
+        popupData.message = app.lang.task_stop_timer;
+        var $popupHTML = system_popup(popupData);
+        $popupHTML.attr('id', 'timer-select-task');
+        init_ajax_search('tasks', '#timer_add_task_id', undefined, admin_url + 'LegalServices/Sessions/ajax_search_assign_task_to_timer');
+        return false;
+    }
+
+    $(e).addClass('disabled');
+
+    var data = {};
+    data.task_id = task_id;
+    data.timer_id = timer_id;
+    data.note = $("body").find('#timesheet_note').val();
+    if (!data.note) { data.note = ''; }
+    var taskModalVisible = $('#task-modal').is(':visible');
+    var reqUrl = admin_url + 'LegalServices/Sessions/timer_tracking?single_task=' + taskModalVisible;
+    if (adminStop) {
+        reqUrl += '&admin_stop=' + adminStop;
+    }
+    $.post(reqUrl, data).done(function(response) {
+        response = JSON.parse(response);
+
+        // Timer action, stopping from staff/member/id
+        if ($('body').hasClass('member')) {
+            window.location.reload();
+        }
+
+        if (taskModalVisible) { _task_append_html(response.taskHtml); }
+
+        if ($timerSelectTask.is(':visible')) {
+            $timerSelectTask.find('.system-popup-close').click();
+        }
+
+        _init_timers_top_html(JSON.parse(response.timers));
+
+        $('.popover-top-timer-note').popover('hide');
+        reload_sessions_tables();
+    });
+}
+
+// Fetches all staff timers and append to DOM
+function init_session_timers() {
+    requestGetJSON('LegalServices/Sessions/get_staff_started_timers').done(function(response) {
+        _init_timers_top_html(response);
+    });
+}
+
+// Tracking stats modal from session single
+function session_tracking_stats(id) {
+    requestGet('LegalServices/Sessions/task_tracking_stats/' + id).done(function(response) {
+        $('<div/>', { id: 'tracking-stats' }).appendTo('body').html(response);
+        $('#task-tracking-stats-modal').modal('toggle');
+    });
+}
+
+// Marking session as complete
+function session_mark_complete(task_id) {
+    session_mark_as(5, task_id);
+}
+
+// Unmarking session as complete
+function session_unmark_complete(task_id) {
+    session_mark_as(4, task_id, 'LegalServices/Sessions/unmark_complete/' + task_id);
+}
+
+// Makes session public with AJAX request
+function make_session_public(task_id) {
+    requestGetJSON('LegalServices/Sessions/make_public/' + task_id).done(function(response) {
+        if (response.success === true || response.success == 'true') {
+            reload_sessions_tables();
+            _task_append_html(response.taskHtml);
         }
     });
 }

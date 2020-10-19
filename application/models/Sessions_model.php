@@ -1286,13 +1286,13 @@ class Sessions_model extends App_Model
 
             }
 
-            $description                  = 'not_task_assigned_someone';
+            $description                  = 'not_session_assigned_someone';
             $additional_notification_data = serialize([
                 get_staff_full_name($data['assignee']),
                 $task->name,
             ]);
             if ($data['assignee'] == get_staff_user_id()) {
-                $description                  = 'not_task_will_do_user';
+                $description                  = 'not_session_will_do_user';
                 $additional_notification_data = serialize([
                     $task->name,
                 ]);

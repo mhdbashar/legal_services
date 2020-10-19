@@ -29,6 +29,8 @@ $lang['license_info'] = 'معلومات الترخيص';
 
 $lang['license_key'] = 'مفتاح الترخيص';
 
+$lang['session_marked_as_success'] = "تم وضع علامة على الجلسة كـ %s بنجاح";
+$lang['session_unmarked_as_complete'] = "جلسة لم يتم تعليمها كمكتملة";
 $lang['appointly'] = 'المواعيد';
 $lang['nothing_was_specified'] = 'لم يتم تحديد شيء';
 
@@ -429,6 +431,7 @@ $lang['next_session_date'] = "تاريخ الجلسة القادمة";
 $lang['next_session_time'] = "وقت الجلسة القادمة";
 $lang['session_type'] = "نوع الجلسة";
 $lang['session_information'] = "معلومات الجلسة";
+$lang['recurring_session'] = "جلسة متكررة";
 $lang['court_decision'] = "قرار المحكمة";
 $lang['subscription_id'] = "معرف الإشتراك";
 $lang['subscription_name'] = "إسم الإشتراك";
@@ -439,6 +442,7 @@ $lang['staff_contact_who_take_action_on_task'] = "الموظفين أو جهات
 $lang['task_link'] = "رابط المهمة";
 $lang['task_name'] = "عنوان المهمة";
 $lang['task_description'] = "وصف المهمة";
+$lang['session_add_edit_description'] = "وصف الجلسة";
 $lang['task_status'] = "حالة المهمة";
 $lang['task_comment'] = "التعليق على المهمة";
 $lang['task_priority'] = "أولوية المهمة";

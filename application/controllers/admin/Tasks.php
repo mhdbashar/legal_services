@@ -175,7 +175,6 @@ class Tasks extends AdminController
         }
     }
 
-
     public function detailed_overview()
     {
         $overview = [];
@@ -907,7 +906,6 @@ class Tasks extends AdminController
             'taskHtml' => $this->get_task_data_with_session($task_id, true),
         ]);
     }
-
 
     public function add_external_attachment()
     {

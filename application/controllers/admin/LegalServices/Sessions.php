@@ -142,7 +142,7 @@ class Sessions extends AdminController
         if ($manual == false) {
             // clicked on VIEW KANBAN from projects area and will redirect again to the same view
             if (strpos($_SERVER['HTTP_REFERER'], 'project_id') !== false) {
-                redirect(admin_url('tasks'));
+                redirect(admin_url('LegalServices/Sessions'));
             } else {
                 redirect($_SERVER['HTTP_REFERER']);
             }
@@ -617,7 +617,7 @@ class Sessions extends AdminController
 
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
-            echo 'Task not found';
+            echo 'Session not found';
             die();
         }
 
@@ -1044,7 +1044,7 @@ class Sessions extends AdminController
         }
     }
 
-    public function add_session_assignees()
+    /*public function add_session_assignees()
     {
         if (has_permission('sessions', '', 'edit') || has_permission('sessions', '', 'create')) {
             echo json_encode([
@@ -1052,7 +1052,7 @@ class Sessions extends AdminController
                 'taskHtml' => $this->get_task_data_with_session($this->input->post('taskid'), true),
             ]);
         }
-    }
+    }*/
 
     public function edit_comment()
     {
@@ -1183,7 +1183,7 @@ class Sessions extends AdminController
 
             $message = '';
             if ($success) {
-                $message = _l('task_unmarked_as_complete');
+                $message = _l('session_unmarked_as_complete');
             }
             echo json_encode([
                 'success'  => $success,
@@ -1240,7 +1240,7 @@ class Sessions extends AdminController
             $message = '';
 
             if ($success) {
-                $message = _l('task_marked_as_success', format_session_status($status, true, true));
+                $message = _l('session_marked_as_success', format_session_status($status, true, true));
             }
 
             echo json_encode([

@@ -65,6 +65,17 @@ function theme_assets()
             base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'clients.js')) . '?v=' . $CI->app_css->core_version(),
              ['common-js']
         );
+        $CI->app_scripts->theme(
+            'oservices-js',
+            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'oservices.js')) . '?v=' . $CI->app_css->core_version(),
+             ['common-js']
+        );
+
+        $CI->app_scripts->theme(
+            'cases-js',
+            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'cases.js')) . '?v=' . $CI->app_css->core_version(),
+            ['common-js']
+        );
     }
 
     // CSS

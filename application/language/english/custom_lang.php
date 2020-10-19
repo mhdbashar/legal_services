@@ -1,4 +1,6 @@
 <?php
+
+$lang['cases_summary'] = "Cases Summary";
 $lang['home_my_cases'] = "Cases";
 $lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";

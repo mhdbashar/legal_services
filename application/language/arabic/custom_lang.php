@@ -1,4 +1,6 @@
 <?php
+
+$lang['cases_summary'] = "ملخص القضايا";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";

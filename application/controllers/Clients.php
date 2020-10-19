@@ -30,6 +30,7 @@ class Clients extends ClientsController
 
         $data['project_statuses'] = $this->projects_model->get_project_statuses();
         $data['title']            = get_company_name(get_client_user_id());
+        $data['ServID'] = 1;
         $this->data($data);
         $this->view('home');
         $this->layout();
@@ -506,7 +507,7 @@ class Clients extends ClientsController
         $data['members']  = $this->projects_model->get_project_members($id);
 
         $this->data($data);
-        $this->view('project');
+        $this->view('legal_services');
         $this->layout();
     }
 
@@ -728,7 +729,7 @@ class Clients extends ClientsController
                     break;
                 case 'get_file':
                     $file_data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
-                    $file_data['current_user_is_admin']             = false;
+                    //$file_data['current_user_is_admin']             = false;
                     if($ServID == 1){
                         $file_data['file']                          = $this->case->get_file($this->input->post('id'), $this->input->post('project_id'));
                     }else{
@@ -782,7 +783,7 @@ class Clients extends ClientsController
                     $comment_data            = $this->input->post();
                     $comment_data['content'] = nl2br($comment_data['content']);
                     $comment_id              = $this->tasks_model->add_task_comment($comment_data);
-                    $url                     = site_url('clients/legal_services/' . $id . '?group=project_tasks&taskid=' . $comment_data['taskid']);
+                    $url                     = site_url('clients/legal_services/' . $id .'/'. $ServID . '?group=project_tasks&taskid=' . $comment_data['taskid']);
 
                     if ($comment_id) {
                         set_alert('success', _l('task_comment_added'));

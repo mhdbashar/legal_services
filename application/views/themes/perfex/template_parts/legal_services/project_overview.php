@@ -25,21 +25,25 @@ if ($ServID == 1){
         <td class="bold"><?php echo _l('project'); ?> <?php echo _l('the_number_sign'); ?></td>
         <td><?php echo $project->id; ?></td> 
       </tr>
-      <tr class="project-billing-type">
-        <td class="bold"><?php echo _l('project_billing_type'); ?></td>
-        <td>
-         <?php
-         if($project->billing_type == 1){
-          $type_name = 'project_billing_type_fixed_cost';
-        } else if($project->billing_type == 2){
-          $type_name = 'project_billing_type_project_hours';
-        } else {
-          $type_name = 'project_billing_type_project_task_hours';
-        }
-        echo _l($type_name);
-        ?>
-      </td>
-    </tr>
+
+      <?php if($project->settings->view_finance_overview == 1){ ?>
+        <tr class="project-billing-type">
+          <td class="bold"><?php echo _l('project_billing_type'); ?></td>
+          <td>
+           <?php
+              if($project->billing_type == 1){
+                $type_name = 'project_billing_type_fixed_cost';
+              } else if($project->billing_type == 2){
+                $type_name = 'project_billing_type_project_hours';
+              } else {
+                $type_name = 'project_billing_type_project_task_hours';
+              }
+              echo _l($type_name);
+          ?>
+        </td>
+      </tr>
+    <?php } ?>
+
     <?php if($project->billing_type == 1 || $project->billing_type == 2){
      echo '<tr class="project-cost">';
      if($project->billing_type == 1){

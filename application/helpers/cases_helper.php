@@ -104,10 +104,10 @@ function app_init_case_tabs()
         'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     ]);
 
-    $CI->app_tabs->add_project_tab('project_contracts', [
+    $CI->app_tabs->add_case_tab('project_contracts', [
         'name'     => _l('contracts'),
         'icon'     => 'fa fa-file',
-        'view'     => 'admin/projects/project_contracts',
+        'view'     => 'admin/LegalServices/cases/project_contracts',
         'position' => 45,
         'visible'  => has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own'),
     ]);

@@ -173,7 +173,7 @@
                         <label for="skype" class="control-label"><i class="fa fa-skype"></i> <?php echo _l('staff_add_edit_skype'); ?></label>
                         <input type="text" class="form-control" name="skype" value="<?php if(isset($member)){echo $member->skype;} ?>">
                      </div>
-                     <?php if(get_option('disable_language') == 0){ ?>
+                     <?php if(!is_language_disabled()){ ?>
                      <div class="form-group select-placeholder">
                         <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?></label>
                         <select name="default_language" data-live-search="true" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -243,7 +243,7 @@
                               <label for="administrator"><?php echo _l('staff_add_edit_administrator'); ?></label>
                            </div>
                             <?php } ?>
-                            <?php if(!isset($member) && total_rows(db_prefix().'emailtemplates',array('slug'=>'new-staff-created','active'=>0)) === 0){ ?>
+                            <?php if(!isset($member) && is_email_template_active('new-staff-created')){ ?>
                               <div class="checkbox checkbox-primary">
                                  <input type="checkbox" name="send_welcome_email" id="send_welcome_email" checked>
                                  <label for="send_welcome_email"><?php echo _l('staff_send_welcome_email'); ?></label>

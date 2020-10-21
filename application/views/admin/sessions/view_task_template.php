@@ -14,7 +14,7 @@
    <small class="no-margin color-white">
    <?php echo _l('session_is_private'); ?>
    <?php if(has_permission('sessions','','edit')) { ?> -
-   <a href="#" class="color-white text-has-action"onclick="make_session_public  (<?php echo $task->id; ?>); return false;">
+   <a href="#" class="color-white text-has-action"onclick="make_session_public(<?php echo $task->id; ?>); return false;">
    <?php echo _l('task_view_make_public'); ?>
    </a>
    <?php } ?>
@@ -108,7 +108,7 @@
          <?php if($task->billed == 0){
             $is_assigned = $task->current_user_is_assigned;
             if(!$this->sessions_model->is_timer_started($task->id)) { ?>
-            <p class="no-margin pull-left"<?php if(!$is_assigned){ ?> data-toggle="tooltip" data-title="<?php echo _l('task_start_timer_only_assignee'); ?>"<?php } ?>>
+            <p class="no-margin pull-left"<?php if(!$is_assigned){ ?> data-toggle="tooltip" data-title="<?php echo _l('session_start_timer_only_assignee'); ?>"<?php } ?>>
                <a href="#" class="mbot10 btn<?php if(!$is_assigned || $task->status == Sessions_model::STATUS_COMPLETE){echo ' disabled btn-default';}else {echo ' btn-success';} ?>" onclick="timer_session_action(this, <?php echo $task->id; ?>); return false;">
                <i class="fa fa-clock-o"></i> <?php echo _l('task_start_timer'); ?>
                </a>
@@ -274,7 +274,7 @@
          </div>
          <div class="clearfix"></div>
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
-         <?php if(has_permission('sessions','','edit')){ ?><a href="#" onclick="edit_task_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
+         <?php if(has_permission('sessions','','edit')){ ?><a href="#" onclick="edit_session_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>
          <div class="clearfix"></div>
          <?php if(!empty($task->description)){
@@ -284,7 +284,7 @@
             } ?>
          <div class="clearfix"></div>
          <hr />
-         <a href="#" onclick="add_task_checklist_item('<?php echo $task->id; ?>', undefined, this); return false" class="mbot10 inline-block">
+         <a href="#" onclick="add_session_checklist_item('<?php echo $task->id; ?>', undefined, this); return false" class="mbot10 inline-block">
          <span class="new-checklist-item"><i class="fa fa-plus-circle"></i>
          <?php echo _l('add_checklist_item'); ?>
          </span>
@@ -300,11 +300,11 @@
             </select>
          </div>
          <div class="clearfix"></div>
-         <p class="hide text-muted no-margin" id="task-no-checklist-items"><?php echo _l('task_no_checklist_items_found'); ?></p>
+         <p class="hide text-muted no-margin" id="task-no-checklist-items"><?php echo _l('session_no_checklist_items_found'); ?></p>
          <div class="row checklist-items-wrapper">
             <div class="col-md-12 ">
                <div id="checklist-items">
-                  <?php $this->load->view('admin/tasks/checklist_items_template',
+                  <?php $this->load->view('admin/sessions/checklist_items_template',
                      array(
                        'task_id'=>$task->id,
                        'checklists'=>$task->checklist_items)); ?>
@@ -412,7 +412,7 @@
             <?php } ?>
             <div class="col-md-12 text-center">
                <hr />
-               <a href="<?php echo admin_url('tasks/download_files/'.$task->id); ?>" class="bold">
+               <a href="<?php echo admin_url('LegalServices/sessions/download_files/'.$task->id); ?>" class="bold">
                <?php echo _l('download_all'); ?> (.zip)
                </a>
             </div>
@@ -442,7 +442,7 @@
                   $i = 0;
                   foreach ($task->comments as $comment) {
                     $comments .= '<div id="comment_'.$comment['id'].'" data-commentid="' . $comment['id'] . '" data-task-attachment-id="'.$comment['file_id'].'" class="tc-content task-comment'.(strtotime($comment['dateadded']) >= strtotime('-16 hours') ? ' highlight-bg' : '').'">';
-                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('tasks/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
+                    $comments .= '<a data-task-comment-href-id="'.$comment['id'].'" href="'.admin_url('LegalServices/sessions/view/'.$task->id).'#comment_'.$comment['id'].'" class="task-date-as-comment-id"><small><span class="text-has-action inline-block mbot5" data-toggle="tooltip" data-title="'._dt($comment['dateadded']).'">' . time_ago($comment['dateadded']) . '</span></small></a>';
                     if($comment['staffid'] != 0){
                      $comments .= '<a href="' . admin_url('profile/' . $comment['staffid']) . '" target="_blank">' . staff_profile_image($comment['staffid'], array(
                       'staff-profile-image-small',
@@ -455,7 +455,7 @@
                      $comment_added = strtotime($comment['dateadded']);
                      $minus_1_hour = strtotime('-1 hours');
                      if(get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour) || is_admin()){
-                       $comments .= '<span class="pull-right"><a href="#" onclick="remove_task_comment(' . $comment['id'] . '); return false;"><i class="fa fa-times text-danger"></i></span></a>';
+                       $comments .= '<span class="pull-right"><a href="#" onclick="remove_session_comment(' . $comment['id'] . '); return false;"><i class="fa fa-times text-danger"></i></span></a>';
                        $comments .= '<span class="pull-right mright5"><a href="#" onclick="edit_task_comment(' . $comment['id'] . '); return false;"><i class="fa fa-pencil-square-o"></i></span></a>';
                     }
                   }
@@ -485,7 +485,7 @@
                    $comment['content'] .='<div class="clearfix"></div>';
                    $comment['content'] .='<div class="text-center download-all">
                    <hr class="hr-10" />
-                   <a href="'.admin_url('tasks/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
+                   <a href="'.admin_url('LegalServices/sessions/download_files/'.$task->id.'/'.$comment['id']).'" class="bold">'._l('download_all').' (.zip)
                    </a>
                    </div>';
                   }
@@ -767,7 +767,7 @@
          </a>
          <?php if(count($reminders) == 0) { ?>
          <div class="display-block text-muted mtop10">
-            <?php echo _l('no_reminders_for_this_task'); ?>
+            <?php echo _l('no_reminders_for_this_session'); ?>
          </div>
          <?php } else { ?>
          <ul class="mtop10">
@@ -896,7 +896,7 @@
                 </span>';
                }
                if ($_followers == '') {
-               $_followers = '<div class="display-block text-muted mbot15">'._l('task_no_followers').'</div>';
+               $_followers = '<div class="display-block text-muted mbot15">'._l('session_no_followers').'</div>';
                }
                echo $_followers;
                ?>
@@ -955,7 +955,7 @@
    if (typeof (Dropbox) != 'undefined') {
       document.getElementById("dropbox-chooser-task").appendChild(Dropbox.createChooseButton({
          success: function (files) {
-            taskExternalFileUpload(files,'dropbox',<?php echo $task->id; ?>);
+             sessionExternalFileUpload(files,'dropbox',<?php echo $task->id; ?>);
          },
          linkType: "preview",
          extensions: app.options.allowed_files.split(','),
@@ -990,7 +990,7 @@
    }));
 
    $('#task-modal').find('.gpicker').googleDrivePicker({ onPick: function(pickData) {
-      taskExternalFileUpload(pickData, 'gdrive', <?php echo $task->id; ?>);
+           sessionExternalFileUpload(pickData, 'gdrive', <?php echo $task->id; ?>);
    }});
 
 </script>

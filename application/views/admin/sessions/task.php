@@ -76,7 +76,7 @@
                         <?php } ?>
                         <div class="checkbox checkbox-primary no-mtop checkbox-inline task-add-edit-public">
                             <input type="checkbox" id="task_is_public" name="is_public" <?php if(isset($task)){if($task->is_public == 1){echo 'checked';}}; ?>>
-                            <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('task_public_help'); ?>"><?php echo _l('task_public'); ?></label>
+                            <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('session_public_help'); ?>"><?php echo _l('task_public'); ?></label>
                         </div>
                         <div class="checkbox checkbox-primary checkbox-inline task-add-edit-billable">
                             <input type="checkbox" id="task_is_billable" name="billable"
@@ -350,7 +350,7 @@
                 name: 'required',
                 startdate: 'required',
                 repeat_every_custom: { min: 1},
-            },task_form_handler);
+            },session_form_handler);
 
             $('.rel_id_label').html(_rel_type.find('option:selected').text());
 

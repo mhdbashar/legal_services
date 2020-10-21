@@ -25,17 +25,17 @@ foreach ($task_statuses as $status) {
                             $total_tasks = count($tasks);
                             foreach ($tasks as $task) {
                                 if ($task['status'] == $status['id']) {
-                                    $this->load->view('admin/tasks/_kan_ban_card',array('task'=>$task,'status'=>$status['id']));
+                                    $this->load->view('admin/sessions/_kan_ban_card',array('task'=>$task,'status'=>$status['id']));
                                 } } ?>
                             <?php if($total_tasks > 0 ){ ?>
                                 <li class="text-center not-sortable kanban-load-more" data-load-status="<?php echo $status['id']; ?>">
-                                    <a href="#" class="btn btn-default btn-block<?php if($total_pages <= 1){echo ' disabled';} ?>" data-page="1" onclick="kanban_load_more(<?php echo $status['id']; ?>,this,'tasks/tasks_kanban_load_more',265,360); return false;";><?php echo _l('load_more'); ?></a>
+                                    <a href="#" class="btn btn-default btn-block<?php if($total_pages <= 1){echo ' disabled';} ?>" data-page="1" onclick="kanban_load_more(<?php echo $status['id']; ?>,this,'LegalServices/Sessions/tasks_kanban_load_more',265,360); return false;";><?php echo _l('load_more'); ?></a>
                                 </li>
                             <?php } ?>
                             <li class="text-center not-sortable mtop30 kanban-empty<?php if($total_tasks > 0){echo ' hide';} ?>">
                                 <h4>
                                     <i class="fa fa-circle-o-notch" aria-hidden="true"></i><br /><br />
-                                    <?php echo _l('no_tasks_found'); ?></h4>
+                                    <?php echo _l('no_sessions_found'); ?></h4>
                             </li>
                         </ul>
                     </div>

@@ -549,6 +549,21 @@ $(window).load(function() {
     });
 });
 
+$(function() {
+    init_table_staff_cases();
+    init_table_staff_services();
+
+    $('#dispute_top').on('change', function() {
+        var val = $(this).val();
+        var __project_group = get_url_param('group');
+        if (__project_group) {
+            __project_group = '?group=' + __project_group;
+        } else {
+            __project_group = '';
+        }
+        window.location.href = admin_url + 'disputes/view/' + val + __project_group;
+    });
+});
 // Staff cases table in staff profile
 function init_table_staff_cases(manual) {
     if (typeof(manual) == 'undefined' && $("body").hasClass('dashboard')) { return false; }
@@ -996,5 +1011,228 @@ function make_session_public(task_id) {
             reload_sessions_tables();
             _task_append_html(response.taskHtml);
         }
+    });
+}
+
+// Init session kan ban
+function sessions_kanban() {
+    init_kanban('LegalServices/Sessions/kanban', sessions_kanban_update, '.tasks-status', 265, 360);
+}
+
+// Updates session when action performed form kan ban area eq status changed.
+function sessions_kanban_update(ui, object) {
+    if (object === ui.item.parent()[0]) {
+        var status = $(ui.item.parent()[0]).data('task-status-id');
+        var tasks = $(ui.item.parent()[0]).find('[data-task-id]');
+
+        var data = {};
+        data.order = [];
+        var i = 0;
+        $.each(tasks, function () {
+            data.order.push([$(this).data('task-id'), i]);
+            i++;
+        });
+
+        session_mark_as(status, $(ui.item).data('task-id'));
+        check_kanban_empty_col('[data-task-id]');
+        setTimeout(function () {
+            $.post(admin_url + 'LegalServices/Sessions/update_order', data);
+        }, 200);
+    }
+}
+
+// Handles session add/edit form modal.
+function session_form_handler(form) {
+
+    tinymce.triggerSave();
+
+    $('#_task_modal').find('input[name="startdate"]').prop('disabled', false);
+    // Disable the save button in cases od duplicate clicks
+    $('#_task_modal').find('button[type="submit"]').prop('disabled', true);
+
+    $("#_task_modal input[type=file]").each(function () {
+        if ($(this).val() === "") {
+            $(this).prop('disabled', true);
+        }
+    });
+
+    var formURL = form.action;
+    var formData = new FormData($(form)[0]);
+
+    $.ajax({
+        type: $(form).attr('method'),
+        data: formData,
+        mimeType: $(form).attr('enctype'),
+        contentType: false,
+        cache: false,
+        processData: false,
+        url: formURL
+    }).done(function (response) {
+        response = JSON.parse(response);
+        if (response.success === true || response.success == 'true') {
+            alert_float('success', response.message);
+        }
+
+        if (window._timer_id) {
+            requestGet(admin_url + '/LegalServices/Sessions/get_task_by_id/' + response.id).done(function (response) {
+                $('[data-timer-id="' + window._timer_id + '"').click();
+                response = JSON.parse(response);
+                var option = '<option value="' + response.id + '" title="' + response.name + '" selected>' + response.name + '</option>';
+                $('#timer_add_task_id').append(option);
+                $('#timer_add_task_id').trigger('change').data('AjaxBootstrapSelect').list.cache = {};
+                $('#timer_add_task_id').selectpicker('refresh')
+                delete window._timer_id;
+            });
+            $('#_task_modal').modal('hide');
+            $('#task-modal').modal('hide');
+            return false;
+        }
+
+        if (!$("body").hasClass('project')) {
+            $('#_task_modal').attr('data-task-created', true);
+            $('#_task_modal').modal('hide');
+            init_session_modal(response.id);
+            reload_sessions_tables();
+            if ($('body').hasClass('kan-ban-body') && $('body').hasClass('tasks')) {
+                sessions_kanban();
+            }
+        } else {
+            // reload page on project area
+            var location = window.location.href;
+            var params = [];
+            location = location.split('?');
+            var group = get_url_param('group');
+            var excludeCompletedTasks = get_url_param('exclude_completed');
+            if (group) {
+                params['group'] = group;
+            }
+            if (excludeCompletedTasks) {
+                params['exclude_completed'] = excludeCompletedTasks;
+            }
+            params['taskid'] = response.id;
+            window.location.href = buildUrl(location[0], params);
+        }
+    }).fail(function (error) {
+        alert_float('danger', JSON.parse(error.responseText));
+    });
+
+    return false;
+}
+
+// Session single edit description with inline editor, used from session single modal
+function edit_session_inline_description(e, id) {
+
+    tinyMCE.remove('#task_view_description');
+
+    if ($(e).hasClass('editor-initiated')) {
+        $(e).removeClass('editor-initiated');
+        return;
+    }
+
+    $(e).addClass('editor-initiated');
+    $.Shortcuts.stop();
+    tinymce.init({
+        selector: '#task_view_description',
+        theme: 'inlite',
+        skin: 'perfex',
+        auto_focus: "task_view_description",
+        plugins: 'table link paste contextmenu textpattern',
+        contextmenu: "link table paste pastetext",
+        insert_toolbar: 'quicktable',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        inline: true,
+        table_default_styles: {
+            width: '100%'
+        },
+        setup: function (editor) {
+            editor.on('blur', function (e) {
+                if (editor.isDirty()) {
+                    $.post(admin_url + 'LegalServices/Sessions/update_task_description/' + id, {
+                        description: editor.getContent()
+                    });
+                }
+                setTimeout(function () {
+                    editor.remove();
+                    $.Shortcuts.start();
+                }, 500);
+            });
+        }
+    });
+}
+
+// New session checklist item
+function add_session_checklist_item(task_id, description, e) {
+    if (e) {
+        $(e).addClass('disabled');
+    }
+
+    description = typeof (description) == 'undefined' ? '' : description;
+
+    $.post(admin_url + 'LegalServices/Sessions/add_checklist_item', {
+        taskid: task_id,
+        description: description
+    }).done(function () {
+        init_session_checklist_items(true, task_id);
+    }).always(function () {
+        if (e) {
+            $(e).removeClass('disabled');
+        }
+    })
+}
+
+// Fetches session checklist items.
+function init_session_checklist_items(is_new, task_id) {
+    $.post(admin_url + 'LegalServices/Sessions/init_checklist_items', {
+        taskid: task_id
+    }).done(function (data) {
+        $('#checklist-items').html(data);
+        if (typeof (is_new) != 'undefined') {
+            var first = $('#checklist-items').find('.checklist textarea').eq(0);
+            if (first.val() === '') {
+                first.focus();
+            }
+        }
+        recalculate_checklist_items_progress();
+        update_session_checklist_order();
+    });
+}
+
+// Updates session checklist items order
+function update_session_checklist_order() {
+    var order = [];
+    var items = $("body").find('.checklist');
+    if (items.length === 0) {
+        return;
+    }
+    var i = 1;
+    $.each(items, function () {
+        order.push([$(this).data('checklist-id'), i]);
+        i++;
+    });
+    var data = {};
+    data.order = order;
+    $.post(admin_url + 'LegalServices/Sessions/update_checklist_order', data);
+}
+
+// Deletes session comment from database
+function remove_session_comment(commentid) {
+    if (confirm_delete()) {
+        requestGetJSON('LegalServices/Sessions/remove_comment/' + commentid).done(function (response) {
+            if (response.success === true || response.success == 'true') {
+                $('[data-commentid="' + commentid + '"]').remove();
+                $('[data-comment-attachment="' + commentid + '"]').remove();
+                _task_attachments_more_and_less_checks();
+            }
+        });
+    }
+}
+
+function sessionExternalFileUpload(files, externalType, taskId) {
+    $.post(admin_url + 'LegalServices/Sessions/add_external_attachment', {
+        files: files,
+        task_id: taskId,
+        external: externalType
+    }).done(function () {
+        init_session_modal(taskId);
     });
 }

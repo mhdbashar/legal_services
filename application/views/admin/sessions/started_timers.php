@@ -13,7 +13,7 @@ foreach ($startedTimers as $timer) {
     $data .= '<li class="timer relative" id="timer-'.$timer['id'].'">';
 
     if ($timer['task_id'] != '0') {
-        $data.= '<a href="'.admin_url('tasks/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
+        $data.= '<a href="'.admin_url('LegalServices/sessions/view/'.$timer['task_id']).'" class="_timer font-medium" onclick="init_session_modal('.$timer['task_id'].');return false;">'.$timer['task_subject'].'</a>';
     } else {
         $noTimersWithoutTask = false;
     }
@@ -31,10 +31,10 @@ foreach ($startedTimers as $timer) {
 
         $data .= 'data-content="';
         $data .= htmlspecialchars(render_textarea("timesheet_note"));
-        $data .= '<button type=\'button\' onclick=\'timer_action(this,'.$timer['task_id'].','.$timer['id'].');\' class=\'btn btn-info btn-xs\'>'._l('save').'</button>" ';
+        $data .= '<button type=\'button\' onclick=\'timer_session_action(this,'.$timer['task_id'].','.$timer['id'].');\' class=\'btn btn-info btn-xs\'>'._l('save').'</button>" ';
         $data .= 'onclick="return false;">';
     } else {
-        $data .= 'onclick=\'timer_action(this,'.$timer['task_id'].','.$timer['id'].'); return false;\'>';
+        $data .= 'onclick=\'timer_session_action(this,'.$timer['task_id'].','.$timer['id'].'); return false;\'>';
     }
 
     $data .= '<i class="fa fa-clock-o"></i> '._l('task_stop_timer').'</a>';
@@ -53,7 +53,7 @@ if ($noTimersWithoutTask
     && !(get_option('auto_stop_tasks_timers_on_new_timer') == 1
         && total_rows(db_prefix().'taskstimers','staff_id='.get_staff_user_id().' AND end_time IS NULL') > 0)
     ) {
-    echo '<button class="mtop15 text-center btn btn-success started-timers-button top-dropdown-btn" onclick="timer_action(this,0); return false;"><i class="fa fa-clock-o"></i> '._l('task_start_timer').'</button>';
+    echo '<button class="mtop15 text-center btn btn-success started-timers-button top-dropdown-btn" onclick="timer_session_action(this,0); return false;"><i class="fa fa-clock-o"></i> '._l('task_start_timer').'</button>';
 }
 
 if (is_admin()) {

@@ -109,13 +109,13 @@
                 $is_assigned = $task->current_user_is_assigned;
                 if(!$this->sessions_model->is_timer_started($task->id)) { ?>
                     <p class="no-margin pull-left"<?php if(!$is_assigned){ ?> data-toggle="tooltip" data-title="<?php echo _l('task_start_timer_only_assignee'); ?>"<?php } ?>>
-                        <a href="#" class="mbot10 btn<?php if(!$is_assigned || $task->status == Sessions_model::STATUS_COMPLETE){echo ' disabled btn-default';}else {echo ' btn-success';} ?>" onclick="timer_action(this, <?php echo $task->id; ?>); return false;">
+                        <a href="#" class="mbot10 btn<?php if(!$is_assigned || $task->status == Sessions_model::STATUS_COMPLETE){echo ' disabled btn-default';}else {echo ' btn-success';} ?>" onclick="timer_session_action(this, <?php echo $task->id; ?>); return false;">
                             <i class="fa fa-clock-o"></i> <?php echo _l('task_start_timer'); ?>
                         </a>
                     </p>
                 <?php } else { ?>
                     <p class="no-margin pull-left">
-                        <a href="#" data-toggle="popover" data-placement="<?php echo is_mobile() ? 'bottom' : 'right'; ?>" data-html="true" data-trigger="manual" data-title="<?php echo _l('note'); ?>" data-content='<?php echo render_textarea('timesheet_note'); ?><button type="button" onclick="timer_action(this, <?php echo $task->id; ?>, <?php echo $this->sessions_model->get_last_timer($task->id)->id; ?>);" class="btn btn-info btn-xs"><?php echo _l('save'); ?></button>' class="btn mbot10 btn-danger<?php if(!$is_assigned){echo ' disabled';} ?>" onclick="return false;">
+                        <a href="#" data-toggle="popover" data-placement="<?php echo is_mobile() ? 'bottom' : 'right'; ?>" data-html="true" data-trigger="manual" data-title="<?php echo _l('note'); ?>" data-content='<?php echo render_textarea('timesheet_note'); ?><button type="button" onclick="timer_session_action(this, <?php echo $task->id; ?>, <?php echo $this->sessions_model->get_last_timer($task->id)->id; ?>);" class="btn btn-info btn-xs"><?php echo _l('save'); ?></button>' class="btn mbot10 btn-danger<?php if(!$is_assigned){echo ' disabled';} ?>" onclick="return false;">
                             <i class="fa fa-clock-o"></i> <?php echo _l('task_stop_timer'); ?>
                         </a>
                     </p>
@@ -164,7 +164,7 @@
                                                    data-html="true"
                                                    data-trigger="manual"
                                                    data-title="<?php echo _l('note'); ?>"
-                                                   data-content='<?php echo render_textarea('timesheet_note'); ?><button type="button" onclick="timer_action(this, <?php echo $task->id; ?>, <?php echo $timesheet['id']; ?>, 1);" class="btn btn-info btn-xs"><?php echo _l('save'); ?></button>'
+                                                   data-content='<?php echo render_textarea('timesheet_note'); ?><button type="button" onclick="timer_session_action(this, <?php echo $task->id; ?>, <?php echo $timesheet['id']; ?>, 1);" class="btn btn-info btn-xs"><?php echo _l('save'); ?></button>'
                                                    class="text-danger"
                                                    onclick="return false;">
                                                     <i class="fa fa-clock-o"></i>
@@ -572,7 +572,7 @@
             <h4 class="task-info-heading"><?php echo _l('session_info'); ?>
                 <?php
                 if($task->recurring == 1){
-                    echo '<span class="label label-info inline-block mleft5">'._l('recurring_task').'</span>';
+                    echo '<span class="label label-info inline-block mleft5">'._l('recurring_session').'</span>';
                 }
                 ?>
             </h4>
@@ -1271,7 +1271,7 @@
             popupData.content += '<div class="form-group">';
             popupData.content += '<textarea id="timesheet_note" placeholder="' + app.lang.note + '" style="margin:0 auto;width:60%;" rows="4" class="form-control"></textarea>';
             popupData.content += '</div>';
-            popupData.content += '<button type=\'button\' onclick=\'timer_action(this,document.getElementById("timer_add_task_id").value,' + timer_id + ');return false;\' class=\'btn btn-info\'>' + app.lang.confirm + '</button>';
+            popupData.content += '<button type=\'button\' onclick=\'timer_session_action(this,document.getElementById("timer_add_task_id").value,' + timer_id + ');return false;\' class=\'btn btn-info\'>' + app.lang.confirm + '</button>';
 
             popupData.message = app.lang.task_stop_timer;
             var $popupHTML = system_popup(popupData);

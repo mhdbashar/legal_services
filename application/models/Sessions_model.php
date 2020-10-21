@@ -26,6 +26,7 @@ class Sessions_model extends App_Model
     {
         $this->db->where('id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')');
         $this->db->where('status !=', 5);
+        $this->db->where('is_session', 1);
         $this->db->order_by('duedate', 'asc');
 
         return $this->db->get(db_prefix() . 'tasks')->result_array();
@@ -1421,6 +1422,7 @@ class Sessions_model extends App_Model
         if ($file_id) {
             $this->db->select('rel_type,rel_id,name,visible_to_client');
             $this->db->where('id', $rel_id);
+            $this->db->where('is_session', 1);
             $task = $this->db->get(db_prefix() . 'tasks')->row();
 
             if ($task->rel_type == 'project') {
@@ -1619,6 +1621,7 @@ class Sessions_model extends App_Model
     {
         $this->db->select('rel_type,rel_id,name,visible_to_client');
         $this->db->where('id', $taskid);
+        $this->db->where('is_session', 1);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
 
         $this->db->where('id', $id);
@@ -1675,6 +1678,7 @@ class Sessions_model extends App_Model
     {
         $this->db->select('rel_type,rel_id,name,visible_to_client,status');
         $this->db->where('id', $task_id);
+        $this->db->where('is_session', 1);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
 
         if ($task->status == self::STATUS_COMPLETE) {

@@ -9,8 +9,6 @@
     </li>
     <?php
     foreach ($payment_gateways as $gateway) {
-        $notusedgatway = array("Instamojo", "Braintree", "PayU Money", "Stripe Checkout","Stripe iDEAL","2Checkout");
-        if (!in_array($gateway['instance']->getName(), $notusedgatway)) {
         ?>
       <li role="presentation">
         <a href="#online_payments_<?php echo $gateway['id']; ?>_tab"
@@ -21,7 +19,6 @@
           </a>
       </li>
     <?php
-        }
     } ?>
   </ul>
   <div class="tab-content mtop30">

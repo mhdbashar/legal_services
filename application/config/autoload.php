@@ -109,9 +109,10 @@ $autoload['drivers'] = ['session'];
 /*
 * @deprecated version 2.3.0
  */
-include_once(APPPATH.'third_party/action_hooks.php');
+include_once(APPPATH . 'third_party/action_hooks.php');
 
 $autoload['helper'] = [
+        'language',
         'url',
         'file',
         'form',
@@ -159,7 +160,6 @@ $autoload['helper'] = [
         'deprecated',
         'cases',
         'oservices',
-        'sessions',
     ];
 
 if (file_exists(APPPATH . 'helpers/my_functions_helper.php')) {
@@ -212,7 +212,6 @@ $autoload['model'] = [
     'roles_model',
     'clients_model',
     'tasks_model',
-    'sessions_model',
 ];
 
 if (file_exists(APPPATH . 'config/my_autoload.php')) {

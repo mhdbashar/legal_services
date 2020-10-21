@@ -3,7 +3,7 @@
   <div class="panel-body">
     <div class="row">
       <div class="col-md-12 task-name">
-        <a href="<?php echo admin_url('tasks/view/' . $task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>);return false;">
+        <a href="<?php echo admin_url('LegalServices/Sessions/view/' . $task['id']); ?>" onclick="init_session_modal(<?php echo $task['id']; ?>);return false;">
           <span class="inline-block full-width mtop10 mbot10"><?php echo $task['name']; ?></span>
         </a>
       </div>

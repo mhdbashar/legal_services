@@ -309,7 +309,7 @@ class Staff_model extends App_Model
      */
     public function get($id = '', $where = [])
     {
-        $select_str = '*,CONCAT(firstname," ",lastname) as full_name';
+        $select_str = '*,CONCAT(firstname,\' \',lastname) as full_name';
 
         // Used to prevent multiple queries on logged in staff to check the total unread notifications in core/AdminController.php
         if (is_staff_logged_in() && $id != '' && $id == get_staff_user_id()) {
@@ -532,13 +532,12 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-														//ShababSy.com Added this cond.
-        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
-            //ShababSy.com Changed this
-			//$data['two_factor_auth_enabled'] = 1;
-        } else {
-            $data['two_factor_auth_enabled'] = 0;
-        }
+
+        // if (isset($data['two_factor_auth_enabled'])) {
+        //     $data['two_factor_auth_enabled'] = 1;
+        // } else {
+        //     $data['two_factor_auth_enabled'] = 0;
+        // }
 
         if (isset($data['is_not_staff'])) {
             $data['is_not_staff'] = 1;
@@ -549,8 +548,6 @@ class Staff_model extends App_Model
         if (isset($data['admin']) && $data['admin'] == 1) {
             $data['is_not_staff'] = 0;
         }
-
-        $data['email_signature'] = nl2br_save_html($data['email_signature']);
 
         $this->load->model('departments_model');
         $staff_departments = $this->departments_model->get_staff_departments($id);
@@ -601,9 +598,7 @@ class Staff_model extends App_Model
                 }
             }
         }
-        if (isset($data['sub_department'])) {
-            unset($data['sub_department']);
-        }
+
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);
@@ -659,10 +654,8 @@ class Staff_model extends App_Model
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
-        												//ShababSy.com Added this cond.
-        if (isset($data['two_factor_auth_enabled']) && $data['two_factor_auth_enabled']>0 ) {
-            //ShababSy.com Changed this
-			//$data['two_factor_auth_enabled'] = 1;
+        if (isset($data['two_factor_auth_enabled'])) {
+            $data['two_factor_auth_enabled'] = 1;
         } else {
             $data['two_factor_auth_enabled'] = 0;
         }
@@ -769,6 +762,105 @@ class Staff_model extends App_Model
 
         $this->db->select('task_id,start_time,end_time,staff_id,' . db_prefix() . 'taskstimers.hourly_rate,name,' . db_prefix() . 'taskstimers.id,rel_id,rel_type, billed');
         $this->db->where('staff_id', $id);
+        $this->db->where(db_prefix() . 'tasks.is_session', 0);
+        $this->db->join(db_prefix() . 'tasks', db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id', 'left');
+        $timers           = $this->db->get(db_prefix() . 'taskstimers')->result_array();
+        $_end_time_static = time();
+
+        $filter_period = false;
+        if (isset($filter_data['period-from']) && $filter_data['period-from'] != '' && isset($filter_data['period-to']) && $filter_data['period-to'] != '') {
+            $filter_period = true;
+            $from          = to_sql_date($filter_data['period-from']);
+            $from          = date('Y-m-d', strtotime($from));
+            $to            = to_sql_date($filter_data['period-to']);
+            $to            = date('Y-m-d', strtotime($to));
+        }
+
+        foreach ($timers as $timer) {
+            $start_date = strftime('%Y-%m-%d', $timer['start_time']);
+
+            $end_time    = $timer['end_time'];
+            $notFinished = false;
+            if ($timer['end_time'] == null) {
+                $end_time    = $_end_time_static;
+                $notFinished = true;
+            }
+
+            $total = $end_time - $timer['start_time'];
+
+            $result['total'][]     = $total;
+            $timer['total']        = $total;
+            $timer['end_time']     = $end_time;
+            $timer['not_finished'] = $notFinished;
+
+            if ($start_date >= $first_day_this_month && $start_date <= $last_day_this_month) {
+                $result['this_month'][] = $total;
+                if (isset($filter_data['this_month']) && $filter_data['this_month'] != '') {
+                    $result['timesheets'][$timer['id']] = $timer;
+                }
+            }
+            if ($start_date >= $first_day_last_month && $start_date <= $last_day_last_month) {
+                $result['last_month'][] = $total;
+                if (isset($filter_data['last_month']) && $filter_data['last_month'] != '') {
+                    $result['timesheets'][$timer['id']] = $timer;
+                }
+            }
+            if ($start_date >= $first_day_this_week && $start_date <= $last_day_this_week) {
+                $result['this_week'][] = $total;
+                if (isset($filter_data['this_week']) && $filter_data['this_week'] != '') {
+                    $result['timesheets'][$timer['id']] = $timer;
+                }
+            }
+            if ($start_date >= $first_day_last_week && $start_date <= $last_day_last_week) {
+                $result['last_week'][] = $total;
+                if (isset($filter_data['last_week']) && $filter_data['last_week'] != '') {
+                    $result['timesheets'][$timer['id']] = $timer;
+                }
+            }
+
+            if ($filter_period == true) {
+                if ($start_date >= $from && $start_date <= $to) {
+                    $result['timesheets'][$timer['id']] = $timer;
+                }
+            }
+        }
+        $result['total']      = array_sum($result['total']);
+        $result['this_month'] = array_sum($result['this_month']);
+        $result['last_month'] = array_sum($result['last_month']);
+        $result['this_week']  = array_sum($result['this_week']);
+        $result['last_week']  = array_sum($result['last_week']);
+
+        return $result;
+    }
+
+    public function get_logged_time_data_sessions($id = '', $filter_data = [])
+    {
+        if ($id == '') {
+            $id = get_staff_user_id();
+        }
+        $result['timesheets'] = [];
+        $result['total']      = [];
+        $result['this_month'] = [];
+
+        $first_day_this_month = date('Y-m-01'); // hard-coded '01' for first day
+        $last_day_this_month  = date('Y-m-t 23:59:59');
+
+        $result['last_month'] = [];
+        $first_day_last_month = date('Y-m-01', strtotime('-1 MONTH')); // hard-coded '01' for first day
+        $last_day_last_month  = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
+
+        $result['this_week'] = [];
+        $first_day_this_week = date('Y-m-d', strtotime('monday this week'));
+        $last_day_this_week  = date('Y-m-d 23:59:59', strtotime('sunday this week'));
+
+        $result['last_week'] = [];
+
+        $first_day_last_week = date('Y-m-d', strtotime('monday last week'));
+        $last_day_last_week  = date('Y-m-d 23:59:59', strtotime('sunday last week'));
+
+        $this->db->select('task_id,start_time,end_time,staff_id,' . db_prefix() . 'taskstimers.hourly_rate,name,' . db_prefix() . 'taskstimers.id,rel_id,rel_type, billed');
+        $this->db->where('staff_id', $id);
+        $this->db->where(db_prefix() . 'tasks.is_session', 1);
         $this->db->join(db_prefix() . 'tasks', db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id', 'left');
         $timers           = $this->db->get(db_prefix() . 'taskstimers')->result_array();
         $_end_time_static = time();

@@ -159,7 +159,7 @@ class App_tabs
 
     public function get($group)
     {
-        hooks()->do_action('get_project_tabs', $group);
+        hooks()->do_action('before_get_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);

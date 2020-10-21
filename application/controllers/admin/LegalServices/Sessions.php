@@ -176,7 +176,6 @@ class Sessions extends AdminController
         }
     }
 
-
     public function detailed_overview()
     {
         $overview = [];

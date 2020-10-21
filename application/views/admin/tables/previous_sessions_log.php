@@ -89,7 +89,7 @@ foreach ($rResult as $aRow) {
     $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
 
     if ($aRow['recurring'] == 1) {
-        $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
+        $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
 
     $outputName .= '<div class="row-options">';

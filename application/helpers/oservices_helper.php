@@ -9,11 +9,10 @@ function _maybe_init_admin_oservice_assets()
     if (strpos($_SERVER['REQUEST_URI'], get_admin_uri() . '/SOther/view') !== false
         || strpos($_SERVER['REQUEST_URI'], get_admin_uri() . '/LegalServices/Other_services_controller/gantt') !== false) {
         $CI = &get_instance();
-
         $CI->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js', 'admin', ['vendor-js']);
-        $CI->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js', 'admin', ['vendor-js']);
+        $CI->app_scripts->add('frappe-gantt-js','assets/plugins/frappe/frappe-gantt-es2015.js', 'admin', ['vendor-js']);
+        $CI->app_css->add('frappe-gantt-js', 'assets/plugins//frappe/frappe-gantt.css', 'admin', ['vendor-css']);
         $CI->app_css->add('jquery-comments-css', 'assets/plugins/jquery-comments/css/jquery-comments.css', 'admin', ['reset-css']);
-        $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
 }
 
@@ -109,9 +108,18 @@ function app_init_oservice_tabs()
         'visible' => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     ]);
 
+    $CI->app_tabs->add_oservice_tab('project_contracts', [
+        'name'     => _l('contracts'),
+        'icon'     => 'fa fa-file',
+        'view'     => 'admin/LegalServices/other_services/project_contracts',
+        'position' => 45,
+        'visible'  => has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own'),
+    ]);
+
     $CI->app_tabs->add_oservice_tab('sales', [
         'name' => _l('sales_string'),
-        'position' => 45,
+        'icon'     => 'fa fa-balance-scale',
+        'position' => 47,
         'collapse' => true,
         'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
             || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
@@ -466,12 +474,13 @@ function get_oservice_discussions_language_array()
  */
 function oservice_has_recurring_tasks($id)
 {
-    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project"') > 0;
+    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project AND is_session=0') > 0;
 }
 
 function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
+        'is_session' => 0,
         'rel_type' => $slug,
         'rel_id' => $project_id,
         'milestone' => $milestone_id,
@@ -481,6 +490,7 @@ function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
 function total_oservice_finished_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
+        'is_session' => 0,
         'rel_type' => $slug,
         'rel_id' => $project_id,
         'status' => 5,

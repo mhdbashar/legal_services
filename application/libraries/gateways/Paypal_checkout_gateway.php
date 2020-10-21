@@ -26,7 +26,7 @@ class Paypal_checkout_gateway extends App_gateway
          * REQUIRED
          * Gateway name
          */
-        $this->setName('Paypal Checkout');
+        $this->setName('Paypal Smart Checkout');
 
         /**
          * Add gateway settings

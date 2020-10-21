@@ -107,6 +107,7 @@ class Session_discussions_model extends App_Model
         $this->db->where('end_time IS NULL');
         $this->db->where(db_prefix() . 'tasks.rel_id', $project_id);
         $this->db->where(db_prefix() . 'tasks.rel_type', 'project');
+        $this->db->where(db_prefix() . 'tasks.is_session', 1);
         $this->db->join(db_prefix() . 'tasks', db_prefix() . 'tasks.id=' . db_prefix() . 'taskstimers.task_id');
         $total = $this->db->count_all_results(db_prefix() . 'taskstimers');
 
@@ -166,10 +167,12 @@ class Session_discussions_model extends App_Model
     public function calc_progress_by_tasks($id)
     {
         $total_project_tasks = total_rows(db_prefix() . 'tasks', [
+            'is_session' => 1,
             'rel_type' => 'project',
             'rel_id'   => $id,
         ]);
         $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
+            'is_session' => 1,
             'rel_type' => 'project',
             'rel_id'   => $id,
             'status'   => 5,

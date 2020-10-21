@@ -44,7 +44,7 @@ class Import_customers extends App_import
 
                 $row[$i] = $this->checkNullValueAddedByUser($row[$i]);
 
-                if (in_array($databaseFields[$i], $this->requiredFields) && $row[$i] == '' && $databaseFields[$i] != 'company') {
+                if (in_array($databaseFields[$i], $this->requiredFields) && $row[$i] == '' && $databaseFields[$i] != 'company'  && $databaseFields[$i] != 'email') {
                     $row[$i] = '/';
                 } elseif (in_array($databaseFields[$i], $this->countryFields)) {
                     $row[$i] = $this->countryValue($row[$i]);

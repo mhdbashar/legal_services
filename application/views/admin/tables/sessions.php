@@ -92,7 +92,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($aRow['recurring'] == 1) {
-        $outputName .= '<br /><span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
+        $outputName .= '<br /><span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
 
     $outputName .= '<div class="row-options">';
@@ -114,10 +114,10 @@ foreach ($rResult as $aRow) {
     }
 
     if ($aRow['not_finished_timer_by_current_staff']) {
-        $outputName .= '<a href="#" class="text-danger tasks-table-stop-timer" onclick="timer_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
+        $outputName .= '<a href="#" class="text-danger tasks-table-stop-timer" onclick="timer_session_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
     } else {
         $outputName .= '<span' . $tooltip . ' ' . $style . '>
-        <a href="#" class="' . $class . ' tasks-table-start-timer" onclick="timer_action(this,' . $aRow['id'] . '); return false;">' . _l('task_start_timer') . '</a>
+        <a href="#" class="' . $class . ' tasks-table-start-timer" onclick="timer_session_action(this,' . $aRow['id'] . '); return false;">' . _l('task_start_timer') . '</a>
         </span>';
     }
 

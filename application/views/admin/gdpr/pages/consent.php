@@ -6,28 +6,28 @@
     </small>
 </h4>
 <hr class="hr-panel-heading">
-<?php render_yes_no_option('gdpr_enable_consent_for_contacts','gdbr_enable_consent_for_contacts'); ?>
+<?php render_yes_no_option('gdpr_enable_consent_for_contacts','Enable consent for contacts'); ?>
 <hr />
-<?php render_yes_no_option('gdpr_enable_consent_for_leads','gdpr_enable_consent_for_leads'); ?>
+<?php render_yes_no_option('gdpr_enable_consent_for_leads','Enable consent for leads'); ?>
 <hr />
 <p class="">
-    <?php echo _l('gdpr_public_page_consent_information_block');?>
+    Public page consent information block
 </p>
 <?php echo render_textarea('settings[gdpr_consent_public_page_top_block]','',get_option('gdpr_consent_public_page_top_block'),array(),array(),'','tinymce'); ?>
 
 <hr class="hr-panel-heading" />
-<button type="button" class="btn btn-info pull-left mright10" onclick="conset_purpose(); return false;" data-toggle="tooltip" title=<?php echo _l("gdpr_new_consent_purpose");?>><i class="fa fa-plus-square-o"></i></button>
-<h4 class="mbot30 mtop7 pull-left"><?php echo _l('gdpr_purposes_of_consent');?></h4>
+<button type="button" class="btn btn-info pull-left mright10" onclick="conset_purpose(); return false;" data-toggle="tooltip" title="New Consent Purpose"><i class="fa fa-plus-square-o"></i></button>
+<h4 class="mbot30 mtop7 pull-left">Purposes of consent</h4>
 
 <div class="clearfix"></div>
 <table class="table dt-table scroll-responsive" data-order-type="desc" data-order-col="1">
     <thead>
         <tr>
-            <th> <?php echo _l('gdpr_name');?> </th>
-            <th> <?php echo _l('gdpr_description');?> </th>
-            <th> <?php echo _l('gdpr_created');?> </th>
-            <th> <?php echo _l('gdpr_last_update');?> </th>
-            <th> <?php echo _l('gdpr_options');?> </th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created</th>
+            <th>Last Updated</th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>

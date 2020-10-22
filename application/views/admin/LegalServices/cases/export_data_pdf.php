@@ -1,4 +1,4 @@
-form_contact<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 if (is_rtl()) {
     $align = 'R'; //Right align
     $style = 'style="direction: rtl;text-align: right"';

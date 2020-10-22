@@ -116,7 +116,7 @@
                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                         <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': $OtherServ->city == $row->Name_ar ?  'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': ($OtherServ->city == $row->Name_ar ?  'selected' : '') ?>><?php echo $row->$field_city; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

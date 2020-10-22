@@ -28,7 +28,7 @@
                 <select id="city" name="settings[company_city]" class="form-control custom_select_arrow">
                     <option selected disabled></option>
                     <?php foreach ($data as $row): ?>
-                        <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : get_option('company_city') == $row->Name_ar ? 'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                        <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : (get_option('company_city') == $row->Name_ar ? 'selected' : '') ?>><?php echo $row->$field_city; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

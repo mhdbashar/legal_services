@@ -233,7 +233,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="row">
-                     <div class="col-md-6">
+                     <div class="col-md-12">
                         <h4 class="no-mtop"><?php echo _l('billing_address'); ?> <a href="#" class="pull-right billing-same-as-customer"><small class="font-medium-xs"><?php echo _l('customer_billing_same_as_profile'); ?></small></a></h4>
                         <hr />
 
@@ -264,7 +264,7 @@
                         <?php $value=( isset($client) ? $client->billing_street : ''); ?>
                         <?php echo render_textarea( 'billing_street', 'billing_street',$value); ?>
                      </div>
-                     <div class="col-md-6">
+                     <!-- <div class="col-md-6">
                         <h4 class="no-mtop">
                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('customer_shipping_address_notice'); ?>"></i>
                            <?php echo _l('shipping_address'); ?> <a href="#" class="pull-right customer-copy-billing-address"><small class="font-medium-xs"><?php echo _l('customer_billing_copy'); ?></small></a>
@@ -295,7 +295,7 @@
                         <?php $value=( isset($client) ? $client->shipping_street : ''); ?>
                         <?php echo render_textarea( 'shipping_street', 'shipping_street',$value); ?>
                      
-                     </div>
+                     </div> -->
                      <?php if(isset($client) &&
                         (total_rows(db_prefix().'invoices',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'estimates',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'creditnotes',array('clientid'=>$client->userid)) > 0)){ ?>
                      <div class="col-md-12">

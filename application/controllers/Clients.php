@@ -449,8 +449,8 @@ class Clients extends ClientsController
                     $data['contracts'] = $this->contracts_model->get('', [
                             'client'     => get_client_user_id(),
                             'project_id' => $id,
-                        ]);
-            }elseif ($group == 'project_activity') {
+                        ]);}
+            } elseif ($group == 'project_activity') {
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_milestones') {
                 $data['milestones'] = $this->projects_model->get_milestones($id);

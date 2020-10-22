@@ -229,26 +229,26 @@ function get_available_staff_permissions($data = [])
         ],
     ];
 
-    $addLeadsPermission = true;
-    if (isset($data['staff_id']) && $data['staff_id']) {
-        $is_staff_member = is_staff_member($data['staff_id']);
-        if (!$is_staff_member) {
-            $addLeadsPermission = false;
-        }
-    }
+    // $addLeadsPermission = true;
+    // if (isset($data['staff_id']) && $data['staff_id']) {
+    //     $is_staff_member = is_staff_member($data['staff_id']);
+    //     if (!$is_staff_member) {
+    //         $addLeadsPermission = false;
+    //     }
+    // }
 
-    if ($addLeadsPermission) {
-        $corePermissions['leads'] = [
-            'name'         => _l('leads'),
-            'capabilities' => [
-                'view'   => $viewGlobalName,
-                'delete' => _l('permission_delete'),
-            ],
-            'help' => [
-                'view' => _l('help_leads_permission_view'),
-            ],
-        ];
-    }
+    // // if ($addLeadsPermission) {
+    // //     $corePermissions['leads'] = [
+    // //         'name'         => _l('leads'),
+    // //         'capabilities' => [
+    // //             'view'   => $viewGlobalName,
+    // //             'delete' => _l('permission_delete'),
+    // //         ],
+    // //         'help' => [
+    // //             'view' => _l('help_leads_permission_view'),
+    // //         ],
+    // //     ];
+    // // }
 
     return hooks()->apply_filters('staff_permissions', $corePermissions, $data);
 }

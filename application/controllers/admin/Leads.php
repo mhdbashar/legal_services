@@ -7,7 +7,13 @@ class Leads extends AdminController
 {
     public function __construct()
     {
+
         parent::__construct();
+
+        // uninstall lead
+        redirect(admin_url());
+
+        
         $this->load->model('leads_model');
         if($this->app_modules->is_active('branches')){
             $this->load->model('branches/Branches_model', 'Branches_model');

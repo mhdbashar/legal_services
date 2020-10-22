@@ -139,14 +139,14 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
-    if (is_staff_member()) {
-        $CI->app_menu->add_sidebar_menu_item('leads', [
-                'name'     => _l('als_leads'),
-                'href'     => admin_url('leads'),
-                'icon'     => 'fa fa-tty',
-                'position' => 14,
-        ]);
-    }
+    // if (is_staff_member()) {
+    //     $CI->app_menu->add_sidebar_menu_item('leads', [
+    //             'name'     => _l('als_leads'),
+    //             'href'     => admin_url('leads'),
+    //             'icon'     => 'fa fa-tty',
+    //             'position' => 14,
+    //     ]);
+    // }
 
     if (has_permission('knowledge_base', '', 'view')) {
         $CI->app_menu->add_sidebar_menu_item('knowledge-base', [
@@ -238,12 +238,12 @@ function app_init_admin_sidebar_menu_items()
                 'href'     => admin_url('reports/expenses_vs_income'),
                 'position' => 15,
         ]);
-        $CI->app_menu->add_sidebar_children_item('reports', [
-                'slug'     => 'leads-reports',
-                'name'     => _l('als_reports_leads_submenu'),
-                'href'     => admin_url('reports/leads'),
-                'position' => 20,
-        ]);
+        // $CI->app_menu->add_sidebar_children_item('reports', [
+        //         'slug'     => 'leads-reports',
+        //         'name'     => _l('als_reports_leads_submenu'),
+        //         'href'     => admin_url('reports/leads'),
+        //         'position' => 20,
+        // ]);
 
         if (is_admin()) {
             $CI->app_menu->add_sidebar_children_item('reports', [
@@ -328,35 +328,35 @@ function app_init_admin_sidebar_menu_items()
                     'position' => 30,
             ]);
 
-        $CI->app_menu->add_setup_menu_item('leads', [
-                    'collapse' => true,
-                    'name'     => _l('acs_leads'),
-                    'position' => 20,
-            ]);
-        $CI->app_menu->add_setup_children_item('leads', [
-                    'slug'     => 'leads-sources',
-                    'name'     => _l('acs_leads_sources_submenu'),
-                    'href'     => admin_url('leads/sources'),
-                    'position' => 5,
-            ]);
-        $CI->app_menu->add_setup_children_item('leads', [
-                    'slug'     => 'leads-statuses',
-                    'name'     => _l('acs_leads_statuses_submenu'),
-                    'href'     => admin_url('leads/statuses'),
-                    'position' => 10,
-            ]);
-        $CI->app_menu->add_setup_children_item('leads', [
-                    'slug'     => 'leads-email-integration',
-                    'name'     => _l('leads_email_integration'),
-                    'href'     => admin_url('leads/email_integration'),
-                    'position' => 15,
-            ]);
-        $CI->app_menu->add_setup_children_item('leads', [
-                    'slug'     => 'web-to-lead',
-                    'name'     => _l('web_to_lead'),
-                    'href'     => admin_url('leads/forms'),
-                    'position' => 20,
-            ]);
+        // $CI->app_menu->add_setup_menu_item('leads', [
+        //             'collapse' => true,
+        //             'name'     => _l('acs_leads'),
+        //             'position' => 20,
+        //     ]);
+        // $CI->app_menu->add_setup_children_item('leads', [
+        //             'slug'     => 'leads-sources',
+        //             'name'     => _l('acs_leads_sources_submenu'),
+        //             'href'     => admin_url('leads/sources'),
+        //             'position' => 5,
+        //     ]);
+        // $CI->app_menu->add_setup_children_item('leads', [
+        //             'slug'     => 'leads-statuses',
+        //             'name'     => _l('acs_leads_statuses_submenu'),
+        //             'href'     => admin_url('leads/statuses'),
+        //             'position' => 10,
+        //     ]);
+        // $CI->app_menu->add_setup_children_item('leads', [
+        //             'slug'     => 'leads-email-integration',
+        //             'name'     => _l('leads_email_integration'),
+        //             'href'     => admin_url('leads/email_integration'),
+        //             'position' => 15,
+        //     ]);
+        // $CI->app_menu->add_setup_children_item('leads', [
+        //             'slug'     => 'web-to-lead',
+        //             'name'     => _l('web_to_lead'),
+        //             'href'     => admin_url('leads/forms'),
+        //             'position' => 20,
+        //     ]);
 
         $CI->app_menu->add_setup_menu_item('finance', [
                     'collapse' => true,

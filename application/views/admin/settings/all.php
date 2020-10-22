@@ -218,7 +218,7 @@
                 dataType: 'json',
                 data: {office_name_in_center: office_name_in_center},
                 error: function () {
-                    alert('Error ajax');
+                    alert('لا يوجد توكن مرتبطة بهذا الاسم');
                 },
                 success: function (data) {
 

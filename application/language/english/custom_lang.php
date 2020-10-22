@@ -1,6 +1,7 @@
 <?php
 
-
+$lang['failed_to_export_service'] = 'Failed to export service';
+$lang['service_exported_successfully'] = 'Service exported succcesfully';
 $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';

@@ -1,5 +1,10 @@
 <?php
 
+
+
+
+$lang['failed_to_export_service'] = 'فشل تصدير الخدمة';
+$lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';
 $lang['imported'] = 'مستوردة';
 $lang['export'] = 'تصدير';
 $lang['export_service'] = 'تصدير الخدمة';

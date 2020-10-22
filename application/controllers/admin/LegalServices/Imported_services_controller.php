@@ -894,10 +894,10 @@ class Imported_services_controller extends AdminController
                 $this->db->where(array('id' => $project_id, 'deleted' => 0));
                 $this->db->update(db_prefix() . 'my_imported_services');
 
-                set_alert('success', _l('project_copied_successfully'));
+                set_alert('success', _l('service_exported_successfully'));
                 redirect(admin_url($name.'/view/' .$service_id. '/' . $id));
             } else {
-                set_alert('danger', _l('failed_to_copy_project'));
+                set_alert('danger', _l('failed_to_export_service'));
                 redirect($_SERVER['HTTP_REFERER']);
             }
         }else{

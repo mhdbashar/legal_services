@@ -194,6 +194,8 @@ class Other_services_controller extends AdminController {
             $data['available_features'] = $this->db->get("tbloservice_settings")->row_array()['value'];
         }
 
+        $data['company_staff_id'] = get_staff_user_id();
+
         //echo '<pre>'; print_r($data['files']); exit;
 
         $service_name = $data['name'];

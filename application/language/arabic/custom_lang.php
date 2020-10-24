@@ -1,5 +1,7 @@
 <?php
 
+$lang['approved'] = 'تم قبولها';
+
 $lang['follow_up_service'] = "متابعة تقدم الخدمة";
 $lang['login_details'] = "تفاصيل تسجيل الدخول";
 $lang['exported_successfully'] = "تم التصدير بنجاح";

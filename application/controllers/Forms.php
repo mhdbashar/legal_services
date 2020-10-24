@@ -15,6 +15,30 @@ class Forms extends ClientsController
      * @param  string $key web to lead form key identifier
      * @return mixed
      */
+
+    public function notification_from_office() {
+        // var_dump($this->input->get()); exit;
+        // $staff_id, $office_id, $office_url
+        $staff_id = $this->input->get('company_staff_id');
+        $office_id = $this->input->get('office_id');
+        $office_url = $this->input->get('office_url');
+        $service_name = $this->input->get('name');
+        $this->db->where([
+            'url' => $office_url,
+            'office_id' => $office_id
+        ]);
+        $exported = $this->db->get('tblmy_exported_services')->row();
+        if ($exported) {
+            $notified = add_notification([
+                'description'     => _l('LegalService').': '. $service_name .' '._l('approved'),
+                'touserid'        => $staff_id,
+                'link'            => ('Service/'.$exported->service_id),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
+        }
+    }
     public function wtl($key)
     {
         $this->load->model('leads_model');

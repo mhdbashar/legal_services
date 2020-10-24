@@ -260,6 +260,8 @@ class Service extends REST_Controller {
                     'clientid' => $this->input->post('clientid', TRUE),
                     'billing_type' => $this->input->post('billing_type', TRUE),
                     'start_date' => $this->input->post('start_date', TRUE),
+                    'company_staff_id' => $this->input->post('company_staff_id', TRUE),
+                    'company_url' => $this->input->post('company_url', TRUE),
                     'status' => $this->input->post('status', TRUE),
                     'project_cost' => $this->Api_model->value($this->input->post('project_cost', TRUE)),
                     'estimated_hours' => $this->Api_model->value($this->input->post('estimated_hours', TRUE)),

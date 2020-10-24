@@ -137,10 +137,10 @@
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->city != '' ? $lead->city : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_state'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->state != '' ? $lead->state : '-') ?></p>
-<?php if($this->app_modules->is_active('branches')){?>
+<?php if($this->app_modules->is_active('branches')){ ?>
             <p class="text-muted lead-field-heading"><?php echo _l('branch_name'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($branch_name) ? $branch_name : '-') ?></p>
-<? } ?>
+<?php } ?>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_country'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->country != 0 ? get_country($lead->country)->short_name : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_zip'); ?></p>

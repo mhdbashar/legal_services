@@ -886,6 +886,7 @@ class Imported_services_controller extends AdminController
             $id = $this->imported->copy($service_id, $project_id, $this->input->post());
             $name = $service_id == 1 ? "Case" : "SOther";
             if ($id) {
+                $imported_service = $this->imported->get($project_id);
                 $files = $this->other->get_imported_files($project_id);
                 foreach ($files as $file) {
                     $this->other->remove_imported_file($file['id']);
@@ -893,6 +894,27 @@ class Imported_services_controller extends AdminController
                 $this->db->set(['deleted'=> 1, 'imported' => 1]);
                 $this->db->where(array('id' => $project_id, 'deleted' => 0));
                 $this->db->update(db_prefix() . 'my_imported_services');
+
+                
+                //var_dump($imported_services);
+                $url = $imported_service->company_url . '/forms/notification_from_office/';
+
+                $data = [
+                    'company_staff_id' => $imported_service->company_staff_id,
+                    'office_id' => $imported_service->id,
+                    'office_url' => base_url(),
+                    'name' => $imported_service->name
+                ];
+                $post_data = http_build_query($data);
+
+                $cURLConnection = curl_init();
+                curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
+
+                $List = curl_exec($cURLConnection);
+                // var_dump($List); exit;
+                curl_close($cURLConnection);
 
                 set_alert('success', _l('service_exported_successfully'));
                 redirect(admin_url($name.'/view/' .$service_id. '/' . $id));

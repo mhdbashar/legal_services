@@ -222,33 +222,7 @@
                                     <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                                     <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option value=""></option>
-                                        <!--<option value="project"
-                                            <?php //if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>-->
-                                        <option value="invoice" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'invoice'){echo 'selected';}} ?>>
-                                            <?php echo _l('invoice'); ?>
-                                        </option>
-                                        <option value="customer"
-                                            <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
-                                            <?php echo _l('client'); ?>
-                                        </option>
-                                        <option value="estimate" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'estimate'){echo 'selected';}} ?>>
-                                            <?php echo _l('estimate'); ?>
-                                        </option>
-                                        <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
-                                            <?php echo _l('contract'); ?>
-                                        </option>
-                                        <option value="ticket" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'ticket'){echo 'selected';}} ?>>
-                                            <?php echo _l('ticket'); ?>
-                                        </option>
-                                        <option value="expense" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'expense'){echo 'selected';}} ?>>
-                                            <?php echo _l('expense'); ?>
-                                        </option>
-                                        <option value="lead" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'lead'){echo 'selected';}} ?>>
-                                            <?php echo _l('lead'); ?>
-                                        </option>
-                                        <option value="proposal" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'proposal'){echo 'selected';}} ?>>
-                                            <?php echo _l('proposal'); ?>
-                                        </option>
+                                        
                                         <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'legal_procedures'){echo 'selected';}} ?>>
                                             <?php echo _l('legal_procedures'); ?>
                                         </option>

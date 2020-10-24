@@ -323,6 +323,21 @@ class Service extends REST_Controller {
                         }
 
                     }
+                    $this->db->where(['feature' => 'imported_services', 'capability' => 'view']);
+                    $this->db->join('tblstaff', 'tblstaff.staffid = tblstaff_permissions.staff_id or tblstaff.admin=1', 'inner');
+                    $staff_can = $this->db->get('tblstaff_permissions')->result();
+                    // var_dump($staff_can); exit;
+                    foreach ($staff_can as $staff) {
+                        $notified = add_notification([
+                            'description'     => _l('LegalService').': '. $insert_data['name'] .' '._l('imported'),
+                            'touserid'        => $staff->staffid,
+                            'link'            => ('imported_services/'),
+                        ]);
+                        if ($notified) {
+                            pusher_trigger_notification([$staff->staffid]);
+                        }
+                        
+                    }
                     // success
                     $message = array(
                     'status' => TRUE,

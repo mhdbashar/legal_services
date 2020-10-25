@@ -228,7 +228,7 @@ class Other_services_controller extends AdminController {
                     $smtp_email = $old_exported->email;
                     $password = $old_exported->password;
                 } else {
-                    $password = '';
+                    $password = _l('maybe_you_already_have_account_in_office_please_contact_with_office_to_get_the_password');
                 }
             }
             $exported_data = [

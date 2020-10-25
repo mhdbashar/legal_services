@@ -1,5 +1,6 @@
 <?php
 
+$lang['maybe_you_already_have_account_in_office_please_contact_with_office_to_get_the_password'] = 'Maybe you already have account in office please contact with office to get the password';
 $lang['office_not_found'] = 'Office not found';
 $lang['service_exported_successfully'] = 'Service exported successfully';
 $lang['service_exported_name'] = 'Service exported name';

@@ -1,5 +1,6 @@
 <?php
 
+$lang['maybe_you_already_have_account_in_office_please_contact_with_office_to_get_the_password'] = 'من الممكن أن تكون مسجل كعميل مسبقا لدى هذا المكتب, لذلك يرجى التواصل مع المكتب للحصول على كلمة مرورك';
 $lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';
 $lang['service_exported_name'] = 'اسم الخدمة المصدرة';
 $lang['office_not_found'] = 'اسم المكتب الذي أدخلته غير موجود';

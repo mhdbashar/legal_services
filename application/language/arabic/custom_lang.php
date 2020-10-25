@@ -237,6 +237,7 @@ $lang['hr'] = 'الموارد البشرية';
 $lang['date_wise_attendance'] = 'تقويم الحضور وفق تاريخ معين';
 $lang['attendance_date'] = 'ضبط وقت الحضور';
 $lang['calendar_date'] = 'ضبط وقت التقويم';
+$lang['session_billed_cant_start_timer'] = "فوترة الجلسة. لا يمكن بدء المؤقت";
 $lang['training'] = 'التدريب';
 $lang['add_training_type'] = 'اضافة نوع تدريب';
 
@@ -286,7 +287,7 @@ $lang['not_completed'] = "غير مكتمل";
 $lang['completed_with_hr_system'] = "التكامل مع نظام الموارد البشرية";
 $lang['lead_country'] = "الدولة";
 $lang['new_cstatus'] = "نوع خدمة جديد";
-$lang['case_status'] = "نوع الخدمة";
+$lang['case_status'] = "حالة القضية";
 $lang['case_status_manage'] = "إدارة نوع الخدمة";
 $lang['travel_mode'] = "نوع الإنتداب";
 $lang['add_travel_mode_type'] = "اضافة نوع إنتداب جديد";

@@ -40,7 +40,7 @@ class Sessions extends AdminController
             $data['bodyclass']     = 'tasks-page kan-ban-body';
         }
 
-        $data['title'] = _l('tasks');
+        $data['title'] = _l('sessions');
         $this->load->view('admin/sessions/manage', $data);
     }
 
@@ -382,7 +382,7 @@ class Sessions extends AdminController
                 if ($id) {
                     $success       = true;
                     $_id           = $id;
-                    $message       = _l('added_successfully', _l('task'));
+                    $message       = _l('added_successfully', _l('session'));
                     $uploadedFiles = handle_task_attachments_array($id);
                     if ($uploadedFiles && is_array($uploadedFiles)) {
                         foreach ($uploadedFiles as $file) {
@@ -407,7 +407,7 @@ class Sessions extends AdminController
                 $success = $this->sessions_model->update($data, $id);
                 $message = '';
                 if ($success) {
-                    $message = _l('updated_successfully', _l('task'));
+                    $message = _l('updated_successfully', _l('session'));
                 }
                 echo json_encode([
                     'success' => $success,
@@ -439,8 +439,17 @@ class Sessions extends AdminController
                 ];
             }
         }
-        $data['id']    = $id;
+        $data['id'] = $id;
+        //Remove service option from rel_type dropdown if not link with session
         $data['legal_services'] = $this->legal->get_all_services();
+        foreach ($data['legal_services'] as $service => $object):
+            if($object->id != 1):
+                $count = check_service_if_link_with_seesion($object->id);
+                if($count == 0):
+                    unset($data['legal_services'][$service]);
+                endif;
+            endif;
+        endforeach;
         $data['title'] = $title;
         $this->load->view('admin/sessions/task', $data);
     }

@@ -37,15 +37,15 @@
           $style = '';
           $tooltip = '';
 
-          if ($task['billed'] == 1 || $task['status'] == Tasks_model::STATUS_COMPLETE) {
+          if ($task['billed'] == 1 || $task['status'] == Sessions_model::STATUS_COMPLETE) {
               $class = 'text-dark disabled';
               $style = 'style="opacity:0.6;cursor: not-allowed;"';
-              if ($task['status'] == Tasks_model::STATUS_COMPLETE) {
+              if ($task['status'] == Sessions_model::STATUS_COMPLETE) {
                   $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($task['status'], false, true) . '"';
               } elseif ($task['billed'] == 1) {
-                  $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
+                  $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';
               } elseif (!$task['is_assigned']) {
-                  $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_start_timer_only_assignee') . '"';
+                  $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_start_timer_only_assignee') . '"';
               }
           }
 

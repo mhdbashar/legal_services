@@ -222,8 +222,6 @@
                                     <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                                     <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option value=""></option>
-                                        
-                                        <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'legal_procedures'){echo 'selected';}} ?>>
                                             <?php echo _l('legal_procedures'); ?>
                                         </option>
                                         <?php foreach ($legal_services as $service): ?>
@@ -232,7 +230,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 <?php echo $rel_type == 'legal_procedures' ? 'hide' : '' ?>">
+                            <div class="col-md-6">
                                 <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
                                     <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
                                     <div id="rel_id_select">

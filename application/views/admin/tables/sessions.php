@@ -107,9 +107,9 @@ foreach ($rResult as $aRow) {
         if ($aRow['status'] == Tasks_model::STATUS_COMPLETE) {
             $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
         } elseif ($aRow['billed'] == 1) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';
         } elseif (!$aRow['is_assigned']) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_start_timer_only_assignee') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_start_timer_only_assignee') . '"';
         }
     }
 

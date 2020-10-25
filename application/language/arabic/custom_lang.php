@@ -2,6 +2,7 @@
 
 $lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';
 $lang['service_exported_name'] = 'اسم الخدمة المصدرة';
+$lang['office_not_found'] = 'اسم المكتب الذي أدخلته غير موجود';
 
 $lang['approved'] = 'تم قبولها';
 $lang['rejected'] = 'تم رفضها';

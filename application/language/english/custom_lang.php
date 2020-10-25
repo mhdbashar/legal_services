@@ -1,5 +1,6 @@
 <?php
 
+$lang['office_not_found'] = 'Office not found';
 $lang['service_exported_successfully'] = 'Service exported successfully';
 $lang['service_exported_name'] = 'Service exported name';
 

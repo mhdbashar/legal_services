@@ -40,7 +40,7 @@ class Other_services_controller extends AdminController {
         $jsonArrayResponse = json_decode($List);
         if (!isset($jsonArrayResponse->token)) {
             // var_dump($jsonArrayResponse); echo $url; exit;
-            set_alert('danger', _l('problem_exporting'));
+            set_alert('danger', _l('office_not_found'));
             redirect($_SERVER['HTTP_REFERER']);
         }
         return $jsonArrayResponse;

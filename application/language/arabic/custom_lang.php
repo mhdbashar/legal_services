@@ -1,5 +1,8 @@
 <?php
 
+$lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';
+$lang['service_exported_name'] = 'اسم الخدمة المصدرة';
+
 $lang['approved'] = 'تم قبولها';
 $lang['rejected'] = 'تم رفضها';
 $lang['follow_up_service'] = "متابعة تقدم الخدمة";

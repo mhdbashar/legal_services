@@ -1,5 +1,8 @@
 <?php
 
+$lang['service_exported_successfully'] = 'Service exported successfully';
+$lang['service_exported_name'] = 'Service exported name';
+
 $lang['approved'] = 'Approved';
 $lang['rejected'] = 'Rejected';
 $lang['follow_up_service'] = "Follow up service";

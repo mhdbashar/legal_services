@@ -126,48 +126,6 @@ class Other_services_controller extends AdminController {
 
         $office_name = $this->input->post('office_name');
 
-
-        // $keycode = $this->encode_string($office_name);
-
-
-
-        // $cURLConnection = curl_init();
-
-        //$url = 'http://localhost/legal/api/get_token/';
-
-
-//================== Unknown method =====================
-        // $url = 'https://legaloffices.babillawnet.com/api/get_token/';
-        // curl_setopt($cURLConnection, CURLOPT_URL, $url);
-        // curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($cURLConnection, CURLOPT_POST, 1);
-        // curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "office_name=$office_name&keycode=$keycode");
-        // $List = curl_exec($cURLConnection);
-        // curl_close($cURLConnection);
-//================== Unknown method =====================
-
-
-//         $url = 'https://legaloffices.babillawnet.com/api/get_token/'.$office_name;
-//         curl_setopt($cURLConnection, CURLOPT_URL, $url);
-//         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
-
-
-//         $List = curl_exec($cURLConnection);
-//         curl_close($cURLConnection);
-
-//         $jsonArrayResponse = json_decode($List);
-//         if (!isset($jsonArrayResponse->token)) {
-//             // var_dump($jsonArrayResponse); echo $url; exit;
-//             set_alert('danger', _l('problem_exporting'));
-//             redirect($_SERVER['HTTP_REFERER']);
-//         }
-//         $t = $jsonArrayResponse->token;
-//         $office_url = $jsonArrayResponse->office_url;
-
-// //$token = 'authtoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoia2FtZWwiLCJuYW1lIjoia2FtZWwiLCJwYXNzd29yZCI6bnVsbCwiQVBJX1RJTUUiOjE1OTQ0ODA4MDV9.XP3GpLSFnjZDrpPp9yEm22V80Y385iBeAo3TmTRgZ78	';
-//         $token = 'authtoken:' . $t;
-//         $main_url = $office_url . 'api/';
         $token_object = $this->get_token_by_office_name($office_name);
 
         // print_r($token_object->office_url); exit;
@@ -196,13 +154,7 @@ class Other_services_controller extends AdminController {
 
         $data['company_staff_id'] = get_staff_user_id();
 
-        //echo '<pre>'; print_r($data['files']); exit;
-
         $service_name = $data['name'];
-        // $data['settings'] = array( 'available_features' => array( 'project_overview => 1','project_estimates => 1'
-        //     ,'project_milestones => 1', 'project_gantt => 1', 'project_tasks => 1', 'project_estimates => 1', 'project_subscriptions => 1', 'project_invoices => 1', 'project_expenses => 1', 
-        //     'project_credit_notes => 1', 'project_tickets => 1', 'project_timesheets => 1', 'project_files => 1', 'project_discussions => 1', 'project_notes => 1', 'project_activity => 1'
-        // ));
 
         $this->db->where('country_id', $data['country']);
         $country = null;
@@ -291,12 +243,11 @@ class Other_services_controller extends AdminController {
             $this->db->insert('tblmy_exported_services', $exported_data);
             $insert_id = $this->db->insert_id();
             $notified = add_notification([
-                'description' => 'Service exported successfully <br>email: ' . $smtp_email . ' <br>password: ' . $password,
                 'touserid' => get_staff_user_id(),
                 'fromcompany' => 1,
                 'fromuserid' => null,
                 'link' => 'LegalServices/other_services_controller/follow_service_from_notification?url=' . $office_url,
-                'description' => 'Service exported successfully<br>Service name: ' . $service_name . '<br>Email: ' . $smtp_email . '<br>Password: ' . $password,
+                'description' => _l('service_exported_successfully').'<br>'._l('service_exported_name').': ' . $service_name . '<br>'._l('staff_add_edit_email').': ' . $smtp_email . '<br>'._l('password').': ' . $password,
                 'touserid' => get_staff_user_id(),
                 'fromcompany' => 1,
                 'fromuserid' => null,

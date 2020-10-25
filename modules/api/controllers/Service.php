@@ -329,7 +329,7 @@ class Service extends REST_Controller {
                     // var_dump($staff_can); exit;
                     foreach ($staff_can as $staff) {
                         $notified = add_notification([
-                            'description'     => _l('LegalService').': '. $insert_data['name'] .' '._l('imported'),
+                            'description'     => _l('new_imported_service').'<br>'._l('imported_service_name').': '. $insert_data['name'],
                             'touserid'        => $staff->staffid,
                             'link'            => ('imported_services/'),
                         ]);

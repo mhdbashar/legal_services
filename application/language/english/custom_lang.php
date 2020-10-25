@@ -1,5 +1,8 @@
 <?php
 
+$lang['new_imported_service'] = 'New imported service';
+$lang['imported_service_name'] = 'Imported service name';
+
 $lang['failed_to_export_service'] = 'Failed to export service';
 $lang['service_exported_successfully'] = 'Service exported succcesfully';
 $lang['imported'] = 'Imported';

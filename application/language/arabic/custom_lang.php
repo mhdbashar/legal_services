@@ -1,7 +1,8 @@
 <?php
 
 
-
+$lang['new_imported_service'] = 'خدمة مستوردة جديدة';
+$lang['imported_service_name'] = 'اسم الخدمة المستوردة';
 
 $lang['failed_to_export_service'] = 'فشل تصدير الخدمة';
 $lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';

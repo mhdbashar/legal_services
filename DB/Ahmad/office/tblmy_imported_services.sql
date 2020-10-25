@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2020 at 01:47 PM
+-- Generation Time: Oct 26, 2020 at 12:04 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -58,7 +58,9 @@ CREATE TABLE `tblmy_imported_services` (
   `deleted` int(11) NOT NULL DEFAULT '0',
   `imported` int(11) NOT NULL,
   `company_staff_id` int(11) NOT NULL,
-  `company_url` varchar(255) NOT NULL
+  `company_url` varchar(255) NOT NULL,
+  `exported_service_id` int(11) NOT NULL,
+  `exported_rel_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -79,7 +81,7 @@ ALTER TABLE `tblmy_imported_services`
 -- AUTO_INCREMENT for table `tblmy_imported_services`
 --
 ALTER TABLE `tblmy_imported_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

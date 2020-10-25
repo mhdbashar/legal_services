@@ -912,7 +912,7 @@ class Imported_services_controller extends AdminController
                 foreach ($files as $file) {
                     $this->other->remove_imported_file($file['id']);
                 }
-                $this->db->set(['deleted'=> 1, 'imported' => 1]);
+                $this->db->set(['deleted'=> 1, 'imported' => 1, 'exported_rel_id' => $id, 'exported_service_id' => $service_id]);
                 $this->db->where(array('id' => $project_id, 'deleted' => 0));
                 $this->db->update(db_prefix() . 'my_imported_services');
 

@@ -620,6 +620,13 @@ class Other_services_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
 
+            $this->db->where(array('exported_rel_id' => $id, 'exported_service_id' => $ServID));
+            $this->db->update(db_prefix() . 'my_imported_services', [
+                'deleted' => 1,
+                'imported' => 0
+            ]);
+
+
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tasks', [
                 'deleted' => 1,

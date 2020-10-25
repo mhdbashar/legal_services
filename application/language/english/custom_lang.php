@@ -1,6 +1,7 @@
 <?php
 
 $lang['approved'] = 'Approved';
+$lang['rejected'] = 'Rejected';
 $lang['follow_up_service'] = "Follow up service";
 $lang['login_details'] = "Login details";
 $lang['exported_successfully'] = "Exported Successfully";

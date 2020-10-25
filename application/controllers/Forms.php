@@ -16,7 +16,7 @@ class Forms extends ClientsController
      * @return mixed
      */
 
-    public function notification_from_office() {
+    public function notification_from_office($approved = 'yes') {
         // var_dump($this->input->get()); exit;
         // $staff_id, $office_id, $office_url
         $staff_id = $this->input->get('company_staff_id');
@@ -29,8 +29,10 @@ class Forms extends ClientsController
         ]);
         $exported = $this->db->get('tblmy_exported_services')->row();
         if ($exported) {
+            $description = _l('LegalService').': '. $service_name .' ';
+            $description .= $approved == 'yes' ? _l('approved') : _l('rejected');
             $notified = add_notification([
-                'description'     => _l('LegalService').': '. $service_name .' '._l('approved'),
+                'description'     => $description,
                 'touserid'        => $staff_id,
                 'link'            => ('Service/'.$exported->service_id),
             ]);

@@ -235,7 +235,7 @@ class Projects extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
 
             if ($group == 'project_overview') {
@@ -325,6 +325,10 @@ class Projects extends AdminController
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->projects_model->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years']       = $this->estimates_model->get_estimates_years();

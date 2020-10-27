@@ -242,7 +242,6 @@ class Cases_controller extends AdminController
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             close_setup_menu();
             $project = $this->case->get($id);
-
             if (!$project) {
                 blank_page(_l('LService_not_found'));
             }
@@ -280,7 +279,7 @@ class Cases_controller extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'cases.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
             $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
             if ($group == 'project_overview') {
@@ -370,6 +369,10 @@ class Cases_controller extends AdminController
                 $data['activity'] = $this->case->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->case->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years']       = $this->estimates_model->get_estimates_years();

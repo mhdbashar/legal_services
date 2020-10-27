@@ -54,7 +54,6 @@ class Cases_model extends App_Model
             $this->db->join(db_prefix() . 'my_customer_representative',  'my_customer_representative.id=' . db_prefix() . 'my_cases.representative');
             $this->db->join(db_prefix() . 'my_casestatus', db_prefix() . 'my_casestatus.id=' . db_prefix() . 'my_cases.case_status');
             $project = $this->db->get(db_prefix() . 'my_cases')->row();
-            //print_r($project);exit();
             if ($project) {
                 $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
                 $settings                      = $this->get_case_settings($id);
@@ -161,9 +160,27 @@ class Cases_model extends App_Model
     public function add($ServID,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+
+        if (!isset($data['court_id'])) {
+            $data['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+        }
+
+        if (!isset($data['jud_num'])) {
+            $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
+        }
+
+        if (!isset($data['representative'])) {
+            $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
+        }
+
+        if (!isset($data['case_status'])) {
+            $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
+        }
+
         if (isset($data['notify_project_members_status_change'])) {
             unset($data['notify_project_members_status_change']);
         }
+
         $send_created_email = false;
         if (isset($data['send_created_email'])) {
             unset($data['send_created_email']);
@@ -189,6 +206,9 @@ class Cases_model extends App_Model
         } else {
             $data['progress_from_tasks'] = 0;
         }
+
+        $data['project_cost']    = !empty($data['project_cost']) ? $data['project_cost'] : null;
+        $data['estimated_hours'] = !empty($data['estimated_hours']) ? $data['estimated_hours'] : null;
 
         $data['start_date'] = to_sql_date($data['start_date']);
 
@@ -431,6 +451,10 @@ class Cases_model extends App_Model
             }
         }
 
+        $data['project_cost']    = !empty($data['project_cost']) ? $data['project_cost'] : null;
+        $data['estimated_hours'] = !empty($data['estimated_hours']) ? $data['estimated_hours'] : null;
+
+
         if ($old_status == 4 && $data['status'] != 4) {
             $data['date_finished'] = null;
         } elseif (isset($data['date_finished'])) {
@@ -640,6 +664,11 @@ class Cases_model extends App_Model
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'invoices');
+
+            $this->db->where('project_id', $id);
+            $this->db->update(db_prefix() . 'contracts', [
+                'project_id' => null,
+            ]);
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'creditnotes');
@@ -1182,15 +1211,12 @@ class Cases_model extends App_Model
         ]);
     }
 
-    public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1)
+    public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false, $ServID = 1, $callback = null)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
         $has_permission                    = has_permission('tasks', '', 'view');
         $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
 
-        if (is_client_logged_in()) {
-            $this->db->where('visible_to_client', 1);
-        }
 
         $select = implode(', ', prefixed_table_fields_array(db_prefix() . 'tasks')) . ',' . db_prefix() . 'milestones.name as milestone_name,
         (SELECT SUM(CASE
@@ -1202,6 +1228,9 @@ class Cases_model extends App_Model
 
         if (!is_client_logged_in() && is_staff_logged_in()) {
             $select .= ',(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned';
+        }
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_client', 1);
         }
         $this->db->select($select);
 
@@ -1223,11 +1252,15 @@ class Cases_model extends App_Model
 
         // Milestones kanban order
         // Request is admin/projects/milestones_kanban
-        if ($this->uri->segment(3) == 'milestones_kanban') {
+        if ($this->uri->segment(3) == 'milestones_kanban' | $this->uri->segment(3) == 'milestones_kanban_load_more') {
             $this->db->order_by('milestone_order', 'asc');
         } else {
             $orderByString = hooks()->apply_filters('project_tasks_array_default_order', 'FIELD(status, 5), duedate IS NULL ASC, duedate');
             $this->db->order_by($orderByString, '', false);
+        }
+
+        if ($callback) {
+            $callback();
         }
 
         if ($count == false) {
@@ -1243,18 +1276,19 @@ class Cases_model extends App_Model
     public function do_milestones_kanban_query($milestone_id, $project_id, $page = 1, $where = [], $count = false)
     {
         $where['milestone'] = $milestone_id;
-
-        if ($count == false) {
-            if ($page > 1) {
-                $page--;
-                $position = ($page * get_option('tasks_kanban_limit'));
-                $this->db->limit(get_option('tasks_kanban_limit'), $position);
-            } else {
-                $this->db->limit(get_option('tasks_kanban_limit'));
+        $limit              = get_option('tasks_kanban_limit');
+        $tasks              = $this->get_tasks($project_id, $where, true, $count,$ServID = 1, function () use ($count, $page, $limit) {
+            if ($count == false) {
+                if ($page > 1) {
+                    $position = (($page - 1) * $limit);
+                    $this->db->limit($limit, $position);
+                } else {
+                    $this->db->limit($limit);
+                }
             }
-        }
+        });
 
-        return $this->get_tasks($project_id, $where, true, $count);
+        return $tasks;
     }
 
     public function get_files($project_id)
@@ -1544,33 +1578,45 @@ class Cases_model extends App_Model
 
     public function get_gantt_data($slug, $project_id, $type = 'milestones', $taskStatus = null)
     {
+        $project_data = $this->get($project_id);
         $type_data = [];
         if ($type == 'milestones') {
             $type_data[] = [
-                'name' => _l('milestones_uncategorized'),
-                'id'   => 0,
+                'name'   => _l('milestones_uncategorized'),
+                'dep_id' => 'milestone_0',
+                'id'     => 0,
             ];
             $_milestones = $this->get_milestones($slug, $project_id);
             foreach ($_milestones as $m) {
-                $type_data[] = $m;
+                $m['dep_id']       = 'milestone_' . $m['id'];
+                $m['milestone_id'] = $m['id'];
+                $type_data[]       = $m;
             }
         } elseif ($type == 'members') {
             $type_data[] = [
                 'name'     => _l('task_list_not_assigned'),
+                'dep_id'   => 'member_0' ,
                 'staff_id' => 0,
             ];
             $_members = $this->get_project_members($project_id);
             foreach ($_members as $m) {
+                $m['dep_id'] = 'member_' . $m['staff_id'];
+                $m['name']   = get_staff_full_name($m['staff_id']);
                 $type_data[] = $m;
             }
         } else {
             if (!$taskStatus) {
                 $statuses = $this->tasks_model->get_statuses();
                 foreach ($statuses as $status) {
-                    $type_data[] = $status['id'];
+                    $status['dep_id'] = 'status_' . $status['id'];
+                    $status['name']   = format_task_status($status['id'], false, true);
+                    $type_data[]      = $status;
                 }
             } else {
-                $type_data[] = $taskStatus;
+                $status['id']     = $taskStatus;
+                $status['dep_id'] = 'status_' . $taskStatus;
+                $status['name']   = format_task_status($taskStatus, false, true);
+                $type_data[]      = $status;
             }
         }
 
@@ -1579,32 +1625,36 @@ class Cases_model extends App_Model
         foreach ($type_data as $data) {
             if ($type == 'milestones') {
                 $tasks = $this->get_tasks($project_id, 'milestone=' . $data['id'] . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                $name  = $data['name'];
+                if (isset($data['due_date'])) {
+                    $data['end'] = $data['due_date'];
+                }
+                unset($data['description']);
             } elseif ($type == 'members') {
                 if ($data['staff_id'] != 0) {
                     $tasks = $this->get_tasks($project_id, db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $data['staff_id'] . ')' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                    $name  = get_staff_full_name($data['staff_id']);
                 } else {
                     $tasks = $this->get_tasks($project_id, db_prefix() . 'tasks.id NOT IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned)' . ($taskStatus ? ' AND ' . db_prefix() . 'tasks.status=' . $taskStatus : ''), true);
-                    $name  = $data['name'];
                 }
             } else {
                 $tasks = $this->get_tasks($project_id, [
-                    'status' => $data,
+                    'status' => $data['id'],
                 ], true);
 
                 $name = format_task_status($data, false, true);
             }
 
             if (count($tasks) > 0) {
-                $data         = get_task_array_gantt_data($tasks[0]);
-                $data['name'] = $name;
+                $data['id']           = $data['dep_id'];
+                $data['start']        = $project_data->start_date;
+                $data['end']          = (isset($data['end'])) ? $data['end'] : $project_data->deadline;
+                $data['custom_class'] = 'noDrag';
+                unset($data['dep_id']);
 
                 $gantt_data[] = $data;
-                unset($tasks[0]);
 
                 foreach ($tasks as $task) {
-                    $gantt_data[] = get_task_array_gantt_data($task);
+                    $gantt_data[] = get_task_array_gantt_data($task, $data['id']);
+
                 }
             }
         }
@@ -1637,27 +1687,27 @@ class Cases_model extends App_Model
             foreach ($projects as $project) {
                 $tasks = $this->get_tasks($project['id'], [], true);
 
-                $data             = [];
-                $data['values']   = [];
-                $values           = [];
-                $data['desc']     = ' '; // right white background
-                $data['name'] = $project['name']; // the heading
+                $data               = [];
+                $data['id']         = 'proj_' . $project['id'];
+                $data['project_id'] = $project['id'];
+                $data['name']       = $project['name'];
+                $data['progress']   = 0;
+                $data['start']      = strftime('%Y-%m-%d', strtotime($project['start_date']));
 
-                $values['from'] = strftime('%Y/%m/%d', strtotime($project['start_date']));
-                $values['to']       = strftime('%Y/%m/%d', strtotime($project['deadline']));
-                $values['desc']     = '';
-                $values['label']    = $project['name'];
+                if (!empty($project['deadline'])) {
+                    $data['end'] = strftime('%Y-%m-%d', strtotime($project['deadline']));
+                }
 
-                $values['dataObj'] = [
-                    'project_id' => $project['id'],
-                ];
-                $values['customClass'] = 'ganttProject';
-                $data['values'][]      = $values;
-                $gantt_data[]          = $data;
+                $data['custom_class'] = 'noDrag';
+                $gantt_data[]         = $data;
+
 
                 if (count($tasks) > 0) {
                     foreach ($tasks as $task) {
-                        $gantt_data[] = get_task_array_gantt_data($task);
+                        $task_data                 = get_task_array_gantt_data($task, null, isset($data['end']) ? $data['end'] : null);
+                        $task_data['progress']     = 0;
+                        $task_data['dependencies'] = $data['id'];
+                        $gantt_data[]              = $task_data;
                     }
                 }
             }
@@ -2217,7 +2267,7 @@ class Cases_model extends App_Model
                 $discussion->show_to_customer = $discussion->visible_to_customer;
             }
 
-            $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, [
+            $emailTemplateData = [
                 'staff' => [
                     'discussion_id'         => $discussion_id,
                     'discussion_comment_id' => $insert_id,
@@ -2231,7 +2281,21 @@ class Cases_model extends App_Model
                     'discussion_type'       => $type,
                     'ServID'                => $ServID,
                 ],
-            ]);
+            ];
+
+            if (isset($_data['file_name'])) {
+                $emailTemplateData['attachments'] = [
+                    [
+                        'attachment' => CASE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id . '/' . $_data['file_name'],
+                        'filename'   => $_data['file_name'],
+                        'type'       => $_data['file_mime_type'],
+                        'read'       => true,
+                    ],
+                ];
+            }
+
+            $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
+
 
 
             $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
@@ -2501,12 +2565,41 @@ class Cases_model extends App_Model
                         $copy_task_data['copy_task_checklist_items'] = 'true';
                     }
                     $copy_task_data['copy_from'] = $task['id'];
-                    $task_id                     = $this->tasks_model->copy($copy_task_data, [
+                     // For new task start date, we will find the difference in days between
+                    // the old project start and and the old task start date and then
+                    // based on the new project start date, we will add e.q. 15 days to be
+                    // new task start date to the task
+                    // e.q. old project start date 2020-04-01, old task start date 2020-04-15 and due date 2020-04-30
+                    // copy project and set start date 2020-06-01
+                    // new task start date will be 2020-06-15 and below due date 2020-06-30
+                    $dStart    = new DateTime($project->start_date);
+                    $dEnd      = new DateTime($task['startdate']);
+                    $dDiff     = $dStart->diff($dEnd);
+                    $startDate = new DateTime($_new_data['start_date']);
+                    $startDate->modify('+' . $dDiff->days . ' DAY');
+                    $newTaskStartDate = $startDate->format('Y-m-d');
+
+                    $merge = [
                         'rel_id'              => $id,
                         'rel_type'            => $slug,
                         'last_recurring_date' => null,
+                        'startdate'           => $newTaskStartDate,
                         'status'              => $data['copy_project_task_status'],
-                    ]);
+                    ];
+
+                    // Calculate the diff in days between the task start and due date
+                    // then add these days to the new task start date to be used as this task due date
+                    if ($task['duedate']) {
+                        $dStart  = new DateTime($task['startdate']);
+                        $dEnd    = new DateTime($task['duedate']);
+                        $dDiff   = $dStart->diff($dEnd);
+                        $dueDate = new DateTime($newTaskStartDate);
+                        $dueDate->modify('+' . $dDiff->days . ' DAY');
+                        $merge['duedate'] = $dueDate->format('Y-m-d');
+                    }
+
+                    $task_id = $this->tasks_model->copy($copy_task_data, $merge);
+
                     if ($task_id) {
                         array_push($added_tasks, $task_id);
                     }
@@ -2684,6 +2777,10 @@ class Cases_model extends App_Model
             }
             if (strpos($_additional_data, 'project_status_') !== false) {
                 $_additional_data = get_case_status_by_id(strafter($_additional_data, 'project_status_'));
+
+                if (isset($_additional_data['name'])) {
+                    $_additional_data = $_additional_data['name'];
+                }
             }
             $activities[$i]['description']     = _l($activities[$i]['description_key']);
             $activities[$i]['additional_data'] = $_additional_data;
@@ -2820,7 +2917,13 @@ class Cases_model extends App_Model
             if (is_staff_logged_in() && $member['staff_id'] == get_staff_user_id()) {
                 continue;
             }
-            send_mail_template($staff_template, $project, $member, $additional_data['staff']);
+            $mailTemplate = mail_template($staff_template, $project, $member, $additional_data['staff']);
+            if (isset($additional_data['attachments'])) {
+                foreach ($additional_data['attachments'] as $attachment) {
+                    $mailTemplate->add_attachment($attachment);
+                }
+            }
+            $mailTemplate->send();
         }
         if ($action_visible_to_customer == 1) {
             $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
@@ -2829,7 +2932,13 @@ class Cases_model extends App_Model
                 if (is_client_logged_in() && $contact['id'] == get_contact_user_id()) {
                     continue;
                 }
-                send_mail_template($customer_template, $project, $contact, $additional_data['customers']);
+                $mailTemplate = mail_template($customer_template, $project, $contact, $additional_data['customers']);
+                if (isset($additional_data['attachments'])) {
+                    foreach ($additional_data['attachments'] as $attachment) {
+                        $mailTemplate->add_attachment($attachment);
+                    }
+                }
+                $mailTemplate->send();
             }
         }
     }

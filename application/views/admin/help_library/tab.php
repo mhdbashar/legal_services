@@ -32,6 +32,7 @@
     <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
         <div class="tab-pane fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
             <div class="row">
+                <?php if(!empty($books)): ?>
                 <?php
                 foreach ($books as $book):
                     if($book != 'success'):
@@ -53,10 +54,14 @@
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
+                <?php else: ?>
+                    <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
+                <?php endif; ?>
             </div>
         </div>
         <div class="tab-pane fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
             <div class="row">
+                <?php if(!empty($books)): ?>
                 <?php
                 foreach ($books as $book):
                     if($book != 'success'):
@@ -78,10 +83,14 @@
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
+                <?php else: ?>
+                <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
+                <?php endif; ?>
             </div>
         </div>
         <div class="tab-pane fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
             <div class="row">
+                <?php if(!empty($books)): ?>
                 <?php
                 foreach ($books as $book):
                     if($book != 'success'):
@@ -103,10 +112,14 @@
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
+                <?php else: ?>
+                    <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
+                <?php endif; ?>
             </div>
         </div>
         <div class="tab-pane fade" id="tabBody3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true" tabindex="0">
             <div class="row">
+                <?php if(!empty($books)): ?>
                 <?php
                 foreach ($books as $book):
                     if($book != 'success'):
@@ -128,6 +141,9 @@
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
+                <?php else: ?>
+                <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
+                <?php endif; ?>
             </div>
         </div>
     </div>

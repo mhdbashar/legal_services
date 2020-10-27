@@ -222,8 +222,8 @@
                         <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                         <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                            <option value=""></option>
-                           <option value="project"
-                              <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
+                           <!--<option value="project"
+                              <?php //if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>-->
                            <option value="invoice" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'invoice'){echo 'selected';}} ?>>
                               <?php echo _l('invoice'); ?>
                            </option>

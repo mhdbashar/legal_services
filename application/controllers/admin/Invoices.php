@@ -190,6 +190,7 @@ class Invoices extends AdminController
         if (total_rows(db_prefix().'invoices', [
             'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
             'number' => $number,
+            'status !=' => Invoices_model::STATUS_DRAFT,
         ]) > 0) {
             echo 'false';
         } else {

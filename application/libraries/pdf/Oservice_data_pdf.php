@@ -35,7 +35,9 @@ class Oservice_data_pdf extends App_pdf
         $data['milestones'] = $this->ci->other->get_milestones($slug, $project->id);
         $data['timesheets'] = $this->ci->other->get_timesheets($this->ServID, $project->id);
 
-        $data['tasks']             = $this->ci->other->get_tasks($this->ServID,$project->id, [], false);
+        $data['tasks']             = $this->ci->other->get_tasks($this->ServID, $project->id, ['is_session' => 0], false);
+
+        $data['sessions']             = $this->ci->other->get_tasks($this->ServID, $project->id, ['is_session' => 1], false);
 
         $data['total_logged_time'] = seconds_to_time_format($this->ci->other->total_logged_time($slug, $project->id));
         if ($project->deadline) {

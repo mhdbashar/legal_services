@@ -35,7 +35,10 @@ class Case_data_pdf extends App_pdf
         $data['milestones'] = $this->ci->case->get_milestones($slug, $project->id);
         $data['timesheets'] = $this->ci->case->get_timesheets($project->id);
 
-        $data['tasks']             = $this->ci->case->get_tasks($project->id, [], false);
+        $data['tasks']             = $this->ci->case->get_tasks($project->id, ['is_session' => 0], false);
+
+        $data['sessions']             = $this->ci->case->get_tasks($project->id, ['is_session' => 1], false);
+
         $data['total_logged_time'] = seconds_to_time_format($this->ci->case->total_logged_time($slug, $project->id));
         if ($project->deadline) {
             $data['total_days'] = round((human_to_unix($project->deadline . ' 00:00') - human_to_unix($project->start_date . ' 00:00')) / 3600 / 24);

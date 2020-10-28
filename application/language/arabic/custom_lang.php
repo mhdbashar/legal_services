@@ -1,6 +1,7 @@
 <?php
 
-
+$lang['approved'] = 'مقبول';
+$lang['rejected'] = 'مرفوض';
 $lang['new_imported_service'] = 'خدمة مستوردة جديدة';
 $lang['imported_service_name'] = 'اسم الخدمة المستوردة';
 

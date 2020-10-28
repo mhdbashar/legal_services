@@ -294,6 +294,39 @@ class Imported_services_model extends App_Model
 
         return false;
     }
+
+    public function get_project_statuses()
+    {
+        $statuses = hooks()->apply_filters('before_get_project_statuses', [
+            [
+                'id' => 1,
+                'color' => '#989898',
+                'name' => _l('project_status_3'),
+                'order' => 1,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 2,
+                'color' => '#03a9f4',
+                'name' => _l('approved'),
+                'order' => 2,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 3,
+                'color' => '#ff6f00',
+                'name' => _l('rejected'),
+                'order' => 3,
+                'filter_default' => true,
+            ],
+        ]);
+
+        usort($statuses, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $statuses;
+    }
     public function log_activity($project_id, $description_key, $additional_data = '', $visible_to_customer = 1)
     {
         if (!DEFINED('CRON')) {

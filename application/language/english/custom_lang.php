@@ -1,5 +1,7 @@
 <?php
 
+$lang['approved'] = 'Approved';
+$lang['rejected'] = 'Rejected';
 $lang['new_imported_service'] = 'New imported service';
 $lang['imported_service_name'] = 'Imported service name';
 

@@ -10,6 +10,7 @@ class LegalServices_controller extends AdminController
         $this->load->model('LegalServices/LegalServicesModel' , 'legal');
         $this->load->model('LegalServices/Cases_model','case');
         $this->load->model('LegalServices/Other_services_model','other');
+        $this->load->model('LegalServices/Imported_services_model','imported');
         $this->load->model('projects_model');
     }
 
@@ -81,7 +82,7 @@ class LegalServices_controller extends AdminController
         //         $this->app->get_table_data('my_other_services',$data);
         //     }
         // }
-        $data['statuses'] = $this->other->get_project_statuses();
+        $data['statuses'] = $this->imported->get_project_statuses();
         $service = [
             'name' => 'imported_services',
             'slug' => 'imported_services',

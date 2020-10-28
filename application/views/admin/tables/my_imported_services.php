@@ -9,14 +9,11 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 $custom_fields = get_table_custom_fields($service->slug);
 
 $aColumns = [
-    '1',
     db_prefix() .'my_imported_services.id as id',
     'name',
     db_prefix().'clients.company as company',
-    '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'my_imported_services.id and rel_type="'.$service->slug.'" ORDER by tag_order ASC) as tags',
     'start_date',
     'deadline',
-    'status',
 ];
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_imported_services.clientid',
@@ -47,9 +44,9 @@ foreach ($model->get_project_statuses() as $status) {
 }
 
 
-if (count($statusIds) > 0) {
-    array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
-}
+// if (count($statusIds) > 0) {
+//     array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
+// }
 
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
@@ -76,23 +73,8 @@ foreach ($rResult as $aRow) {
     $row[] = $_data;
     //$customers = $model->GetClientsServices($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
-    $row[] = render_tags($aRow['tags']);
     $row[] = _d($aRow['start_date']);
     $row[] = _d($aRow['deadline']);
-    $members = $model->GetMembersServices($aRow['id']);
-    $membersOutput='';
-    foreach ($members as $member):
-        $membersOutput .= '<a href="' . admin_url('profile/' . $member->staffid) . '">' .
-            staff_profile_image($member->staffid, [
-                'staff-profile-image-small mright5',
-            ], 'small', [
-                'data-toggle' => 'tooltip',
-                'data-title'  => $member->firstname.' '.$member->lastname,
-            ]) . '</a>';
-    endforeach;
-    $row[] = $membersOutput;
-    $status = get_oservice_status_by_id($aRow['status']);
-    $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
     //$row[]  = '---';
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

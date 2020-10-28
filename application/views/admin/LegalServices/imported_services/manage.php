@@ -10,44 +10,14 @@
                             <?php 
 
                             $TableStaff = $ServID == 1 ? 'my_members_cases' : 'my_members_services';
-                            $TableService = $ServID == 1 ? 'my_cases' : 'my_other_services';
+                            $TableService = $ServID == 1 ? 'my_cases' : 'my_imported_services';
                             $field = $ServID == 1 ? 'project_id' : 'oservice_id';
-                            $class = $ServID == 1 ? '.table-cases' : '.table-my_other_services';
-                            $render_class = $ServID == 1 ? 'cases' : 'my_other_services';
+                            $class = $ServID == 1 ? '.table-cases' : '.table-my_imported_services';
+                            $render_class = $ServID == 1 ? 'cases' : 'my_imported_services';
 
                             ?>
 
-                            <div class="btn-group pull-right mleft4 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right width300">
-                                    <li>
-                                        <a href="#" data-cview="all" onclick="dt_custom_view('','<?php echo $class; ?>',''); return false;">
-                                            <?php echo _l('expenses_list_all'); ?>
-                                        </a>
-                                    </li>
-                                    <?php
-                                    // Only show this filter if user has permission for projects view otherwise wont need this becuase by default this filter will be applied
-                                    if(has_permission('projects','','view')){ ?>
-                                        <li>
-                                            <a href="#" data-cview="my_projects" onclick="dt_custom_view('','<?php echo $class; ?>',''); return false;">
-                                                <?php echo _l('home_my_projects'); ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                    <li class="divider"></li>
-                                    <?php foreach($statuses as $status){ ?>
-                                        <li class="<?php if($status['filter_default'] == true && !$this->input->get('status') || $this->input->get('status') == $status['id']){echo 'active';} ?>">
-                                            <a href="#" data-cview="<?php echo 'project_status_'.$status['id']; ?>" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>'); return false;">
-                                                <?php echo $status['name']; ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <hr class="hr-panel-heading" />
+                            
                         </div>
                             <div class="row mbot15">
                             <div class="col-md-12">
@@ -69,11 +39,26 @@
                                     echo form_hidden('project_status_'.$status['id'],$value);
                                     ?>
                                     <div class="col-md-2 col-xs-6 border-right">
-                                        <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']; ?>
-                                        <?php $where .= ($ServID == 1 ? '' : $_where.' AND '.db_prefix().$TableService.'.service_id = '.$ServID);
-                                              $where .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 0'); ?>
-                                        <a href="#" onclick="dt_custom_view('project_status_<?php echo $status['id']; ?>','<?php echo $class; ?>','project_status_<?php echo $status['id']; ?>',true); return false;">
-                                            <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where); ?></h3>
+                                        <?php $where = '1 = 1'; ?>
+                                        <?php
+
+                                        $where2 = '1 = 1';
+
+                                        if($status['id'] == 2){
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.imported = 1'); 
+                                        }elseif($status['id'] == 3){
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 1');
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.imported = 0');
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.exported_service_id = 0');  
+                                        }else{
+                                            $where2 .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 0'); 
+                                        }
+                                        $where .= ($_where.' AND '.db_prefix().$TableService.'.deleted = 0');
+                                        
+
+                                        ?>
+                                        <a>
+                                            <h3 class="bold"><?php echo total_rows(db_prefix().$TableService,$where2); ?></h3>
                                             <span style="color:<?php echo $status['color']; ?>" project-status-<?php echo $status['id']; ?>">
                                             <?php echo $status['name']; ?>
                                             </span>
@@ -98,19 +83,10 @@
                                     'name' => _l('proposal_for_customer'),
                                 ),
                                 array(
-                                    'name' => _l('tags'),
-                                ),
-                                array(
                                     'name' => _l('project_start_date'),
                                 ),
                                 array(
                                     'name' => _l('project_deadline'),
-                                ),
-                                array(
-                                    'name' => _l('project_members'),
-                                ),
-                                array(
-                                    'name' => _l('project_status'),
                                 )
                             );
                             if($this->app_modules->is_active('branches')){
@@ -142,7 +118,7 @@
         $.each($('._hidden_inputs._filters input'),function(){
             ProjectsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
         });
-        initDataTable('<?php echo $class ?>', window.location.href, undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+        initDataTable('<?php echo $class ?>', window.location.href, undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(1,'asc'))); ?>);
     });
 </script>
 </body>

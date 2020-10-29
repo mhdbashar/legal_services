@@ -75,6 +75,7 @@ class Subscriptions extends AdminController
                 'quantity'            => $this->input->post('quantity'),
                 'terms'               => nl2br($this->input->post('terms')),
                 'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
+                'stripe_tax_id_2'     => $this->input->post('stripe_tax_id_2') ? $this->input->post('stripe_tax_id_2') : false,
                 'currency'            => $this->input->post('currency'),
                 'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
                 'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null
@@ -144,6 +145,7 @@ class Subscriptions extends AdminController
                 'terms'               => nl2br($this->input->post('terms')),
                 'quantity'            => $this->input->post('quantity'),
                 'stripe_tax_id'       => $this->input->post('stripe_tax_id') ? $this->input->post('stripe_tax_id') : false,
+                'stripe_tax_id_2'     => $this->input->post('stripe_tax_id_2') ? $this->input->post('stripe_tax_id_2') : false,
                 'currency'            => $this->input->post('currency'),
                 'rel_sid'             => $this->input->post('rel_sid') ? $this->input->post('rel_sid') : null,
                 'rel_stype'           => $this->input->post('currency') ? $this->input->post('rel_stype') : null

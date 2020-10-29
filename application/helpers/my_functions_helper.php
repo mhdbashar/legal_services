@@ -6,88 +6,100 @@ function my_check_license()
 {
     include('./license/check.php');
                 
-                // Get the license key and local key from storage
-                // These are typically stored either in flat files or an SQL database
-                $licensekey = "";
-                $localkey = "";
-                $base = getcwd()."/license";
-                $handle = fopen($base."/license.txt", "r");
-                if ($handle) {
-                    $count = 0;
-                    while (($line = fgets($handle)) !== false) {
-                        // process the line read.
-                        if ($count == 0) {
-                            $licensekey = trim($line);
-                        } else if ($count == 1) {
-                            $localkey = trim($line);
-                            break;
-                        }
-                        $count++;
-                    }
-                    fclose($handle);
-                } else {
-                    die("Could not read license file. Please contact support.");
-                }
-                // echo $licensekey."<br/>";
-                // echo $localkey."<br/>";
-                // Validate the license key information
-                $results = check_license($licensekey, $localkey);
-                // Raw output of results for debugging purpose
-                
+    // Get the license key and local key from storage
+    // These are typically stored either in flat files or an SQL database
+    $licensekey = "";
+    $localkey = "";
+    $base = getcwd()."/license";
+    $handle = fopen($base."/license.txt", "r");
+    if ($handle) {
+        $count = 0;
+        while (($line = fgets($handle)) !== false) {
+            // process the line read.
+            if ($count == 0) {
+                $licensekey = trim($line);
+            } else if ($count == 1) {
+                $localkey = trim($line);
+                break;
+            }
+            $count++;
+        }
+        fclose($handle);
+    } else {
+        die("Could not read license file. Please contact support.");
+    }
+    // echo $licensekey."<br/>";
+    // echo $localkey."<br/>";
+    // Validate the license key information
+    $results = check_license($licensekey, $localkey);
+    // Raw output of results for debugging purpose
 
-                // Interpret response
-                switch ($results['status']) {
-                    case "Active":
-                        // get new local key and save it somewhere
-                        $localkeydata = str_replace(' ','',preg_replace('/\s+/', ' ', $results['localkey']));
-                        $handle = fopen($base."/license.txt", "r");
-                        if ($handle) {
-                            $count = 0;
-                            while (($line = fgets($handle)) !== false) {
-                                // process the line read.
-                                if ($count == 0) {
-                                    $licensekey = trim($line);
-                                    break;
-                                }
-                                $count++;
-                            }
-                            fclose($handle);
-                            if (isset($results['localkey'])) {
-                                $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
-                                $contents = $licensekey . "\n" . $localkeydata . "\n";
-                                fwrite($textfile, $contents);
-                                fclose($textfile);
-                            }
-                            return $results;
-                        } else {
-                            die("Could not read license file. Please contact support.");
-                        }
+    // Interpret response
+    switch ($results['status']) {
+        case "Active":
+            // get new local key and save it somewhere
+            $localkeydata = str_replace(' ','',preg_replace('/\s+/', ' ', $results['localkey']));
+            $handle = fopen($base."/license.txt", "r");
+            if ($handle) {
+                $count = 0;
+                while (($line = fgets($handle)) !== false) {
+                    // process the line read.
+                    if ($count == 0) {
+                        $licensekey = trim($line);
                         break;
-                    case "Invalid":
-                        die("License key is Invalid");
-                        break;
-                    case "Expired":
-                        die("License key is Expired");
-                        break;
-                    case "Suspended":
-                        die("License key is Suspended");
-                        break;
-                    default:
-                        die("Invalid Response");
-                        break;
+                    }
+                    $count++;
                 }
+                fclose($handle);
+                if (isset($results['localkey'])) {
+                    $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
+                    $contents = $licensekey . "\n" . $localkeydata . "\n";
+                    fwrite($textfile, $contents);
+                    fclose($textfile);
+                }
+                return $results;
+            } else {
+                die("Could not read license file. Please contact support.");
+            }
+            break;
+        case "Invalid":
+            die("License key is Invalid");
+            break;
+        case "Expired":
+            die("License key is Expired");
+            break;
+        case "Suspended":
+            die("License key is Suspended");
+            break;
+        default:
+            die("Invalid Response");
+            break;
+    }
 }
 // add_action('after_render_single_aside_menu', 'my_custom_menu_items');
 hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
-
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 
 function my_module_menu_item_collapsible()
 {
+    /*The default menu items position
+    Dashboard – 1
+    Customers – 5
+    Sales – 10
+    Subscriptions – 15
+    Expenses – 20
+    Contracts – 25
+    Projects – 30
+    Tasks – 35
+    Tickets – 40
+    Leads – 45
+    Knowledge Base – 50
+    Utilities – 55
+    Reports – 60*/
     $CI = &get_instance();
-    
+
     // $CI->app_menu->add_sidebar_menu_item('clients', [
     //     'name'     => _l('clients_'), // The name if the item
     //     'collapse' => true, // Indicates that this item will have submitems
@@ -126,10 +138,17 @@ function my_module_menu_item_collapsible()
         ]);
     endforeach;
 
+    $CI->app_menu->add_sidebar_menu_item('sessions', [
+        'name'     => _l("sessions"), // The name if the item
+        'href'     => admin_url('LegalServices/sessions'), // URL of the item
+        'position' => 5, // The menu position, see below for default positions.
+        'icon'     => 'fa fa-font-awesome', // Font awesome icon
+    ]);
+
     $CI->app_menu->add_sidebar_menu_item('transactions', [
         'name'     => _l("transactions"), // The name if the item
         'collapse' => true, // Indicates that this item will have submitems
-        'position' => 7, // The menu position
+        'position' => 10, // The menu position
         'icon'     => 'fa fa-briefcase', // Font awesome icon
     ]);
     $CI->app_menu->add_sidebar_children_item('transactions', [
@@ -137,16 +156,12 @@ function my_module_menu_item_collapsible()
         'name'     => _l("incoming"), // The name if the item
         'href'     => admin_url('transactions/incoming_list'), // URL of the item
         'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
     $CI->app_menu->add_sidebar_children_item('transactions', [
         'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
         'name'     => _l("outgoing"), // The name if the item
         'href'     => admin_url('transactions/outgoing_list'), // URL of the item
         'position' => 1, // The menu position
-        // 'icon'     => 'fa fa-adjust', // Font awesome icon
-
     ]);
 }
 
@@ -702,6 +717,7 @@ function get_dialog_boxes()
  * @param  string $tag   tag for bulk pdf exporter
  * @return mixed object
  */
+
 function irac_pdf($irac, $tag = '')
 {
     return app_pdf('irac', LIBSPATH . 'pdf/irac_pdf', $irac, $tag);
@@ -750,6 +766,28 @@ function convert_to_tags($string)
     return $array_after_filter;
 }
 
+function maybe_translate($label, $value)
+{
+    return _l($label, '', false) != $value ? _l($label, '', false) : $label;
+}
+
+/**
+ * Function get default value id by table name
+ * @param string $table table name
+ * @param string $id id name
+ * @return default value
+ */
+function get_default_value_id_by_table_name($table, $id)
+{
+    $CI = & get_instance();
+    $CI->db->select($id);
+    $CI->db->where('is_default', 1);
+    $row = $CI->db->get(db_prefix() . $table)->row();
+    if ($row) {
+        return $row->$id;
+    }
+    return false;
+}
 /**
  * Function that add tags based on passed arguments
  * @param  string $tags

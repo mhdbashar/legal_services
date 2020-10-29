@@ -84,6 +84,13 @@ class Ticket_merge_fields extends App_merge_fields
                         'ticket',
                     ],
                 ],
+                [
+                    'name'      => 'Project name',
+                    'key'       => '{project_name}',
+                    'available' => [
+                        'ticket',
+                    ],
+                ],
             ];
     }
 
@@ -196,6 +203,7 @@ class Ticket_merge_fields extends App_merge_fields
         $fields['{ticket_date}']       = _dt($ticket->date);
         $fields['{ticket_subject}']    = $ticket->subject;
         $fields['{ticket_public_url}'] = get_ticket_public_url($ticket);
+        $fields['{project_name}']      = get_project_name_by_id($ticket->project_id);
 
         return hooks()->apply_filters('ticket_merge_fields', $fields, [
         'id'       => $ticket_id,

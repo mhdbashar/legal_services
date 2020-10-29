@@ -1,5 +1,6 @@
 <?php
 
+use app\services\utilities\Date;
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Tasks extends AdminController
@@ -93,6 +94,7 @@ class Tasks extends AdminController
             //   $this->db->where('id NOT IN (SELECT task_id FROM '.db_prefix().'taskstimers WHERE staff_id = ' . get_staff_user_id() . ' AND end_time IS NULL)');
             $this->db->where('status != ', 5);
             $this->db->where('billed', 0);
+            $this->db->where('is_session', 0);
             $this->db->group_start();
             $this->db->like('name', $q);
             $this->db->or_like(tasks_rel_name_select_query(), $q);
@@ -1629,6 +1631,34 @@ class Tasks extends AdminController
             if ($this->input->post('mass_delete')) {
                 set_alert('success', _l('total_tasks_deleted', $total_deleted));
             }
+        }
+    }
+
+    public function gantt_date_update($task_id)
+    {
+        if (staff_can('edit', 'tasks')) {
+            $post_data = $this->input->post();
+            foreach ($post_data as $key => $val) {
+                $this->db->where('id', $task_id);
+                $this->db->update(db_prefix() . 'tasks', [$key => $val]);
+            }
+        }
+    }
+
+    public function get_task_by_id($id)
+    {
+        if ($this->input->is_ajax_request()) {
+            $tasks_where = [];
+            if (!staff_can('view', 'tasks')) {
+                $tasks_where = get_tasks_where_string(false);
+            }
+            $task = $this->tasks_model->get($id, $tasks_where);
+            if (!$task) {
+                header('HTTP/1.0 404 Not Found');
+                echo 'Task not found';
+                die();
+            }
+            echo json_encode($task);
         }
     }
 }

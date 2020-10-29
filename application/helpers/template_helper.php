@@ -15,9 +15,23 @@ function html_purify($content)
         return $content;
     }
 
-    $config = HTMLPurifier_HTML5Config::createDefault();
+    $CI = &get_instance();
+    $CI->load->config('migration');
+
+    $config = HTMLPurifier_HTML5Config::create(
+        HTMLPurifier_HTML5Config::createDefault()
+    );
+
+    $config->set('HTML.DefinitionID', 'CustomHTML5');
+    $config->set('HTML.DefinitionRev', $CI->config->item('migration_version'));
+
+    // Disables cache
+   // $config->set('Cache.DefinitionImpl', null);
+
     $config->set('HTML.SafeIframe', true);
+    $config->set('Attr.AllowedFrameTargets', ['_blank']);
     $config->set('Core.EscapeNonASCIICharacters', true);
+    $config->set('CSS.AllowTricky', true);
 
     // These config option disables the pixel checks and allows
     // specifiy e.q. widht="auto" or height="auto" for example on images
@@ -30,10 +44,39 @@ function html_purify($content)
     $config->set('URI.SafeIframeRegexp', $regex);
     hooks()->apply_filters('html_purifier_config', $config);
 
+    $def = $config->maybeGetRawHTMLDefinition();
+
+    if ($def) {
+        $def->addAttribute('p', 'pagebreak', 'Text');
+        $def->addAttribute('div', 'align', 'Enum#left,right,center');
+        $def->addElement(
+            'iframe',
+            'Inline',
+            'Flow',
+            'Common',
+            [
+                'src'                   => 'URI#embedded',
+                'width'                 => 'Length',
+                'height'                => 'Length',
+                'name'                  => 'ID',
+                'scrolling'             => 'Enum#yes,no,auto',
+                'frameborder'           => 'Enum#0,1',
+                'allow'                 => 'Text',
+                'allowfullscreen'       => 'Bool',
+                'webkitallowfullscreen' => 'Bool',
+                'mozallowfullscreen'    => 'Bool',
+                'longdesc'              => 'URI',
+                'marginheight'          => 'Pixels',
+                'marginwidth'           => 'Pixels',
+            ]
+        );
+    }
+
     $purifier = new HTMLPurifier($config);
 
     return $purifier->purify($content);
 }
+
 /**
  * Remove <br /> html tags from string to show in textarea with new linke
  * @param  string $text
@@ -218,7 +261,7 @@ function app_external_form_header($form)
 
     echo app_compile_css($assetsGroup);
 
-    if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '' && $form->recaptcha == 1) {
+    if (show_recaptcha() && $form->recaptcha == 1) {
         echo "<script src='https://www.google.com/recaptcha/api.js'></script>" . PHP_EOL;
     } ?>
     <script>

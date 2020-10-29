@@ -35,5 +35,6 @@
    render_datatable(array(
       _l('milestone_name'),
       _l('milestone_due_date'),
+      _l('milestone_description'),
    ),'milestones_case', [], $table_attributes); ?>
 </div>

@@ -2,6 +2,8 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+
 class Authentication_model extends App_Model
 {
     public function __construct()
@@ -92,6 +94,7 @@ class Authentication_model extends App_Model
                     ];
                 } else {
                     $user_data = [];
+                    $user_data['tfa_staffid'] = $user->staffid;
                     if ($remember) {
                         $user_data['tfa_remember'] = true;
                     }
@@ -648,5 +651,71 @@ class Authentication_model extends App_Model
         $result =$this->app_sms->g_send($numbers,$msg); 
        
         return $result;
+    }
+
+    public function get_qr($System_name)
+    {
+        $staff    = get_staff(get_staff_user_id());
+        $g        = new GoogleAuthenticator();
+        $secret   = $g->generateSecret();
+        $username = urlencode($staff->email);
+        $url      = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($username, $secret, $System_name);
+
+        return ['qrURL' => $url, 'secret' => $secret];
+    }
+
+    public function set_google_two_factor($secret)
+    {
+        $id     = get_staff_user_id();
+        $secret = $this->encrypt($secret);
+
+        $this->db->where('staffid', $id);
+        $success = $this->db->update(db_prefix() . 'staff', [
+            'two_factor_auth_enabled' => 2,
+            'google_auth_secret'      => $secret,
+        ]);
+
+        if ($success) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function is_google_two_factor_code_valid($code, $secret = null)
+    {
+        $g = new GoogleAuthenticator();
+
+        if (!is_null($secret)) {
+            return $g->checkCode($secret, $code);
+        }
+
+        $staffid = $this->session->userdata('tfa_staffid');
+
+        $this->db->select('google_auth_secret')
+            ->where('staffid', $staffid);
+
+        if ($staff = $this->db->get('staff')->row()) {
+            return $g->checkCode(
+                $this->decrypt($staff->google_auth_secret),
+                $code
+            );
+        }
+
+        return false;
+    }
+
+    public function encrypt($string)
+    {
+        $this->load->library('encryption');
+
+        return $this->encryption->encrypt($string);
+    }
+
+    public function decrypt($string)
+    {
+        $this->load->library('encryption');
+
+        return $this->encryption->decrypt($string);
     }
 }

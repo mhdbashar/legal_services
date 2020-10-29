@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php if (has_permission('tasks', '', 'create')) { ?>
+<?php if (has_permission('sessions', '', 'create')) { ?>
     <a href="#" onclick="new_session(undefined,'<?php echo $service->slug; ?>',<?php echo $rel_id; ?>); return false;" class="btn btn-info"><?php echo _l('add_new_session'); ?></a>
 <?php } ?>
 <div class="clearfix"></div>

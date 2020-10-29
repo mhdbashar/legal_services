@@ -1,12 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); 
-?>
-<?php
-if($this->input->get('project_id'))
-      echo form_hidden('rel_sid', $this->input->get('project_id'));
-
-?>
-
+<?php echo form_open_multipart('clients/open_ticket',array('id'=>'open-new-ticket-form')); ?>
 <div class="row">
    <div class="col-md-12">
 
@@ -18,7 +11,6 @@ if($this->input->get('project_id'))
          </div>
          <div class="panel-body">
             <div class="row">
-                <input type="hidden" class="form-control" name="ServID" id="ServID" value="<?php echo $this->input->get('ServID') ? $this->input->get('ServID') : ''; ?>">
                <div class="col-md-12">
                   <div class="form-group open-ticket-subject-group">
                      <label for="subject"><?php echo _l('customer_ticket_subject'); ?></label>

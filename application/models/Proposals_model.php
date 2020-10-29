@@ -543,7 +543,7 @@ class Proposals_model extends App_Model
                         'description'     => 'not_proposal_comment_from_client',
                         'touserid'        => $member['staffid'],
                         'fromcompany'     => 1,
-                        'fromuserid'      => null,
+                        'fromuserid'      => 0,
                         'link'            => 'proposals/list_proposals/' . $data['proposalid'],
                         'additional_data' => serialize([
                             $proposal->subject,
@@ -848,6 +848,7 @@ class Proposals_model extends App_Model
             // Get related tasks
             $this->db->where('rel_type', 'proposal');
             $this->db->where('rel_id', $id);
+            $this->db->where('is_session', 0);
 
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
             foreach ($tasks as $task) {

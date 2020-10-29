@@ -415,7 +415,7 @@ class Invoices_model extends App_Model
                 foreach ($tasks as $t) {
                     $this->db->select('status')
                         ->where('id', $t);
-
+                    $this->db->where('is_session', 0);
                     $_task = $this->db->get(db_prefix() . 'tasks')->row();
 
                     $taskUpdateData = [
@@ -881,7 +881,7 @@ class Invoices_model extends App_Model
                 foreach ($tasks as $t) {
                     $this->db->select('status')
                         ->where('id', $t);
-
+                    $this->db->where('is_session', 0);
                     $_task = $this->db->get(db_prefix() . 'tasks')->row();
 
                     $taskUpdateData = [
@@ -1236,6 +1236,7 @@ class Invoices_model extends App_Model
             foreach ($tasks as $t) {
                 $this->db->select('status')
                     ->where('id', $t);
+                $this->db->where('is_session', 0);
                 $_task          = $this->db->get(db_prefix() . 'tasks')->row();
                 $taskUpdateData = [
                         'billed'     => 1,
@@ -1665,6 +1666,7 @@ class Invoices_model extends App_Model
 
             // Get billed tasks for this invoice and set to unbilled
             $this->db->where('invoice_id', $id);
+            $this->db->where('is_session', 0);
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
             foreach ($tasks as $task) {
                 $this->db->where('id', $task['id']);
@@ -1681,6 +1683,7 @@ class Invoices_model extends App_Model
             // Get related tasks
             $this->db->where('rel_type', 'invoice');
             $this->db->where('rel_id', $id);
+            $this->db->where('is_session', 0);
             $tasks = $this->db->get(db_prefix() . 'tasks')->result_array();
             foreach ($tasks as $task) {
                 $this->tasks_model->delete_task($task['id']);

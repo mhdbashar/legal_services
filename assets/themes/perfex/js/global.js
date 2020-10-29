@@ -19,7 +19,9 @@ $(function() {
 
     // Lightbox for knowledge base images
     $.each($('.kb-article').find('img'), function() {
-        $(this).wrap('<a href="' + $(this).attr('src') + '" data-lightbox="kb-attachment"></a>');
+        if(!$(this).parent().is('a')){
+            $(this).wrap('<a href="' + $(this).attr('src') + '" data-lightbox="kb-attachment"></a>');
+        }
     });
 
     $('body').tooltip({
@@ -92,4 +94,9 @@ function createDropzone(elementId, options) {
 
     var settings = $.extend({}, defaults, options);
     new Dropzone(elementId, settings);
+}
+
+function change_contact_language(element) {
+    var path = 'authentication/change_language/' + $(element).val();
+    window.location.href = site_url + path;
 }

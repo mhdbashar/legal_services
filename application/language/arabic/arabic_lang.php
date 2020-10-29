@@ -1664,7 +1664,7 @@ $lang['customer_from_lead'] = "الموكلين من %s";
 $lang['lead_kan_ban_attachments'] = "المرفقات: الموكلين من %s";
 $lang['leads_sort_by_lastcontact'] = "آخر اتصال";
 $lang['task_comment_added'] = "تم إضافة التعليق بنجاح";
-$lang['task_duedate'] = "Due Date";
+$lang['task_duedate'] = "تاريخ الاستحقاق";
 $lang['task_view_comments'] = "التعليقات";
 $lang['task_comment_updated'] = "تحديث التعليقات";
 $lang['task_visible_to_client'] = "مرئي للموكل";
@@ -2287,7 +2287,7 @@ $lang['task_recurring_months'] = "شهر";
 $lang['task_recurring_years'] = "سنة";
 $lang['task_recurring_days'] = "يوم";
 $lang['task_recurring_weeks'] = "أسبوع";
-$lang['todays_tasks'] = "Today's tasks";
+$lang['todays_tasks'] = "مهام اليوم";
 $lang['payment_mode_invoices_only'] = "الفواتير فقط";
 $lang['payment_mode_expenses_only'] = "عروض الأسعار فقط";
 $lang['task_no_checklist_items_found'] = "عناصر قائمة التحقق غير موجودة لهذه المهمة";
@@ -3130,3 +3130,77 @@ $lang['clients_'] = "الموكلين";
 $lang['from_here'] = "من هنا";
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
 $lang['office_name']='اسم المكتب';
+
+# Version 2.4.0
+$lang['delete_credit_card']                        = 'حذف البطاقة';
+$lang['delete_credit_card_info']                   = 'لا يمكنك حذف بطاقة الائتمان لأن لديك اشتراكات نشطة.';
+$lang['credit_card_successfully_deleted']          = 'تم حذف بطاقة الائتمان بنجاح.';
+$lang['subscription_incomplete']                   = 'غير مكتمل';
+$lang['subscription_incomplete_expired']           = 'منتهية الصلاحية غير مكتملة';
+$lang['credit_card_short']                         = 'البطاقة';
+$lang['webhook_created']                           = 'تم إنشاء Webhook بنجاح.';
+$lang['subscriptions_terms_info']                  = 'أدخل الشروط والأحكام ليتم عرضها على العميل قبل الاشتراك.';
+$lang['subscription_complete_payment']             = 'دفع كامل';
+$lang['subscription_is_subscription_is_expired']   = 'انتهت صلاحية هذا الاشتراك.';
+$lang['subscription_plan_currency_does_not_match'] = 'عملة الخطة المحددة لا تتطابق مع العملة المحددة أدناه.';
+$lang['subscription_first_billing_date_info']      = 'اتركه فارغًا لاستخدام التاريخ عندما يكون العميل مشتركًا . يجب أن يكون هذا الحقل تاريخًا مستقبليًا ، إذا حددت التاريخ وتم تجاوز التاريخ ولكن العميل لم يشترك بعد ، فسيتم استخدام التاريخ الذي سيشترك فيه العميل.';
+$lang['stripe_subscription_select_plan']           = 'حدد خطة Stripe';
+
+# Version 2.4.1
+$lang['contract_content_permission_edit_warning'] = 'صلاحياتك الحالية لا تسمح لك بتعديل محتوى العقد. أطلب من المسؤول السماح لك بالإذن لتحرير العقود.';
+$lang['mark_as_signed']                 = 'وضع علامة كموقع';
+$lang['unmark_as_signed']               = 'إلغاء علامة كموقع';
+$lang['marked_as_signed']               = 'تم وضع علامة عليه كموقع';
+$lang['contract_marked_as_signed_info'] = 'تم تمييز هذا العقد يدويًا على أنه موقع.';
+$lang['save_and_send_later']            = 'احفظ وأرسل لاحقًا';
+$lang['schedule']                       = 'جدول';
+$lang['schedule_email_for']             = 'جدولة البريد الإلكتروني لـ %s';
+$lang['schedule_date']                  = 'متى ترغب في إرسال البريد الإلكتروني؟';
+$lang['email_scheduled_successfully']   = 'تمت جدولة البريد الإلكتروني بنجاح';
+$lang['invoice_will_be_sent_at']        = 'سيتم إرسال الفاتورة في  %s';
+
+# Version 2.5.0
+$lang['recaptcha_ignore_ips']               = 'عناوين IP التي تم تجاهلها';
+$lang['recaptcha_ignore_ips_info']          = 'أدخل عناوين IP مفصولة بفواصل والتي تريد أن يتخطى reCaptcha التحقق من صحتها.';
+$lang['show_task_reminders_on_calendar']    = 'تذكيرات المهام';
+$lang['contracts_about_to_expire']          = 'عقود تنتهي قريبا';
+$lang['no_contracts_about_to_expire']       = 'لا توجد عقود ستنتهي صلاحيتها في الأيام  %s القادمة.';
+$lang['lead_value']                         = 'قيمة العميل المحتمل';
+$lang['lead_value_tooltip']                 = 'سيتم استخدام العملة الأساسية.';
+$lang['leads_dt_lead_value']                = 'قيمة العميل المحتمل';
+$lang['leads_canban_lead_value']            = 'قيمة العميل المحتمل : %s ';
+$lang['lead_add_edit_lead_value']           = 'قيمة العميل المحتمل';
+
+# Version 2.6.0
+$lang['gantt_view_day'] = 'عرض الأيام';
+$lang['gantt_view_week'] = 'عرض الأسابيع';
+$lang['gantt_view_month'] = 'عرض الشهور';
+$lang['gantt_view_year'] = 'عرض السنوات';
+
+# Version 2.7.0
+$lang['hour_of_day_perform_tasks_reminder_notification_help'] = 'تنسيق 24 ساعة مثال. 9 للساعة 9 صباحًا أو 15 الساعة 3 مساءً. لا يتم استخدامه للتذكير بالمهام المتكررة وما إلى ذلك.';
+$lang['clients_nav_contacts']                                 = 'جهات الإتصال';
+$lang['clients_my_contacts']                                  = 'جهات الإتصال';
+$lang['clients_my_contact']                                   = 'جهة إتصال';
+$lang['new_contact']                                          = 'جهة إتصال جديدة';
+$lang['customer_contact']                                     = 'جهات الاتصال الخاصة بي';
+$lang['clients_contact_added']                                = 'تمت إضافة جهة الاتصال بنجاح';
+$lang['clients_contact_updated']                              = 'تم تحديث جهة الاتصال بنجاح';
+$lang['allow_primary_contact_to_manage_other_contacts']       = 'السماح لجهة الاتصال الأساسية بإدارة جهات اتصال العملاء الأخرى';
+$lang['contact_form_validation_is_unique']                    = 'جهة الإتصال بالحقل {field} موجود بالفعل في النظام';
+$lang['invoice_number_not_applied_on_draft']                  = 'إذا تم حفظ الفاتورة كمسودة ، فلن يتم تطبيق الرقم ، وبدلاً من ذلك ، سيتم إعطاء رقم الفاتورة التالية عندما يتم إرسال الفاتورة إلى العميل أو يتم تمييزها على أنها مرسلة.';
+
+$lang['two_factor_authentication_disabed']                    = 'معطل';
+$lang['enable_google_two_factor_authentication']              = 'تمكين مصادقة Google';
+$lang['set_google_two_factor_authentication_failed']          = 'فشل حفظ المصادقة ، يرجى المحاولة مرة أخرى';
+$lang['enter_two_factor_auth_code_from_mobile']               = 'أدخل رمز المصادقة من تطبيق أداة المصادقة';
+$lang['staff_two_factor_authentication']                      = 'المصادقة الثنائية';
+$lang['google_authentication_code']                           = 'أدخل الرمز من تطبيق أداة المصادقة';
+$lang['set_two_factor_authentication_successful']             = 'تم تحديث إعدادات المصادقة الثنائية بنجاح';
+$lang['set_two_factor_authentication_failed']                 = 'تعذر تحديث إعدادات المصادقة الثنائية';
+$lang['google_2fa_code_valid']                                = 'تم التحقق من المصادقة بنجاح';
+$lang['google_2fa_code_invalid']                              = 'تم إدخال رمز مصادقة غير صالح ، حاول مرة أخرى.';
+$lang['google_2fa_scan_qr_guide']                             = 'امسح QR أدناه باستخدام تطبيق Google Authenticator على جهازك المحمول ، بعد ذلك املأ الحقل أدناه بالرمز الذي تم إنشاؤه في التطبيق';
+$lang['google_2fa_manul_input_secret']                        = 'مفتاح سري للإدخال اليدوي';
+
+

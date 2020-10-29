@@ -9,13 +9,7 @@ class Forms extends ClientsController
         show_404();
     }
 
-    /**
-     * Web to lead form
-     * User no need to see anything like LEAD in the url, this is the reason the method is named wtl
-     * @param  string $key web to lead form key identifier
-     * @return mixed
-     */
-
+    
     public function notification_from_office($approved = 'yes') {
         // var_dump($this->input->get()); exit;
         // $staff_id, $office_id, $office_url
@@ -41,6 +35,14 @@ class Forms extends ClientsController
             }
         }
     }
+
+
+    /**
+     * Web to lead form
+     * User no need to see anything like LEAD in the url, this is the reason the method is named wtl
+     * @param  string $key web to lead form key identifier
+     * @return mixed
+     */
     public function wtl($key)
     {
         $this->load->model('leads_model');
@@ -84,7 +86,7 @@ class Forms extends ClientsController
                     }
                 }
 
-                if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '' && $form->recaptcha == 1) {
+                if (show_recaptcha() && $form->recaptcha == 1) {
                     if (!do_recaptcha_validation($post_data['g-recaptcha-response'])) {
                         echo json_encode([
                             'success' => false,
@@ -319,7 +321,7 @@ class Forms extends ClientsController
                                         'description'     => 'not_lead_imported_from_form',
                                         'touserid'        => $member['staffid'],
                                         'fromcompany'     => 1,
-                                        'fromuserid'      => null,
+                                        'fromuserid'      => 0,
                                         'additional_data' => serialize([
                                             $form->name,
                                             ]),
@@ -509,7 +511,7 @@ class Forms extends ClientsController
                 }
             }
 
-            if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '' && $form->recaptcha == 1) {
+            if (show_recaptcha() && $form->recaptcha == 1) {
                 if (!do_recaptcha_validation($post_data['g-recaptcha-response'])) {
                     echo json_encode([
                             'success' => false,

@@ -194,7 +194,7 @@
                         </div>
 
 
-                        <div class="row mtop15 mbot10">
+                        <!-- <div class="row mtop15 mbot10">
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label"><?php echo _l('project_contacts'); ?></label>
@@ -204,7 +204,7 @@
                                 <a href="#" data-toggle="modal" data-target="#add-contact" class="btn btn-info btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                             <div class="project_contacts"></div>
-                        </div>
+                        </div> -->
 
                         <div class="row">
                             <div class="col-md-10">

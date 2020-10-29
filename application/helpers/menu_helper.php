@@ -89,14 +89,14 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
-    if (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')) {
-        $CI->app_menu->add_sidebar_menu_item('subscriptions', [
-                'name'     => _l('subscriptions'),
-                'href'     => admin_url('subscriptions'),
-                'icon'     => 'fa fa-repeat',
-                'position' => 13,
-        ]);
-    }
+//     if (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')) {
+//         $CI->app_menu->add_sidebar_menu_item('subscriptions', [
+//                 'name'     => _l('subscriptions'),
+//                 'href'     => admin_url('subscriptions'),
+//                 'icon'     => 'fa fa-repeat',
+//                 'position' => 13,
+//         ]);
+//     }
 
     if (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')) {
         $CI->app_menu->add_sidebar_menu_item('expenses', [

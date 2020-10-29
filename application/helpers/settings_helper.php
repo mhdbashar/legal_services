@@ -186,11 +186,11 @@ function app_init_settings_tabs()
         'position' => 50,
     ]);
 
-    $CI->app_tabs->add_settings_tab('leads', [
-        'name'     => _l('leads'),
-        'view'     => 'admin/settings/includes/leads',
-        'position' => 55,
-    ]);
+    // $CI->app_tabs->add_settings_tab('leads', [
+    //     'name'     => _l('leads'),
+    //     'view'     => 'admin/settings/includes/leads',
+    //     'position' => 55,
+    // ]);
 
     $CI->app_tabs->add_settings_tab('calendar', [
         'name'     => _l('settings_calendar'),

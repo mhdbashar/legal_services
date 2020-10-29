@@ -139,10 +139,14 @@
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->city != '' ? $lead->city : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_state'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->state != '' ? $lead->state : '-') ?></p>
-<?php if($this->app_modules->is_active('branches')){?>
-            <p class="text-muted lead-field-heading"><?php echo _l('branch_name'); ?></p>
-            <p class="bold font-medium-xs"><?php echo (isset($branch_name) ? $branch_name : '-') ?></p>
-<? } ?>
+            <?php if($this->app_modules->is_active('branches')){
+            echo ('<p class="text-muted lead-field-heading">');
+            echo _l('branch_name');
+            echo('</p>');
+            echo ('<p class="bold font-medium-xs">');
+            echo (isset($branch_name) ? $branch_name : '-');
+            echo('</p>');
+             } ?>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_country'); ?></p>
             <p class="bold font-medium-xs"><?php echo (isset($lead) && $lead->country != 0 ? get_country($lead->country)->short_name : '-') ?></p>
             <p class="text-muted lead-field-heading"><?php echo _l('lead_zip'); ?></p>
@@ -273,11 +277,11 @@
             <?php echo render_input('title','lead_title',$value); ?>
             <?php $value = (isset($lead) ? $lead->email : ''); ?>
             <?php echo render_input('email','lead_add_edit_email',$value); ?>
-            <?php if($this->app_modules->is_active('branches')){?>
-                  <br/>
-                 <?php $value = (isset($branch) ? $branch : ''); ?>
-                 <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value); ?>
-             <?php } ?>
+            <?php if($this->app_modules->is_active('branches')){
+                  echo "<br/>";
+                  $value = (isset($branch) ? $branch : '');
+                  echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value);
+              } ?>
            <?php if((isset($lead) && empty($lead->website)) || !isset($lead)){
                  $value = (isset($lead) ? $lead->website : '');
                  echo render_input('website','lead_website',$value);

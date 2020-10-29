@@ -133,20 +133,20 @@ class AdminController extends App_Controller
             'position'   => 25,
             ]);
 
-        $this->app->add_quick_actions_link([
-            'name'       => _l('subscription'),
-            'permission' => 'subscriptions',
-            'url'        => 'subscriptions/create',
-            'position'   => 30,
-            ]);
+        // $this->app->add_quick_actions_link([
+        //     'name'       => _l('subscription'),
+        //     'permission' => 'subscriptions',
+        //     'url'        => 'subscriptions/create',
+        //     'position'   => 30,
+        //     ]);
 
 
-        $this->app->add_quick_actions_link([
-            'name'       => _l('project'),
-            'url'        => 'projects/project',
-            'permission' => 'projects',
-            'position'   => 35,
-            ]);
+        // $this->app->add_quick_actions_link([
+        //     'name'       => _l('project'),
+        //     'url'        => 'projects/project',
+        //     'permission' => 'projects',
+        //     'position'   => 35,
+        //     ]);
 
 
         $this->app->add_quick_actions_link([

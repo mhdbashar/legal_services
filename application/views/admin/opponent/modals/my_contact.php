@@ -125,9 +125,9 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <?php } ?>
-                 <hr /> */ ?>
-            <?php /* <p class="bold"><?php echo _l('email_notifications'); ?><?php if(is_sms_trigger_active()){echo '/SMS';} ?></p>
+                <?php } ?>*/ ?>
+                 <hr /> 
+            <p class="bold"><?php echo _l('email_notifications'); ?><?php if(is_sms_trigger_active()){echo '/SMS';} ?></p>
                  <div id="contact_email_notifications">
                     <div class="col-md-6 row">
                      <div class="row">
@@ -141,8 +141,8 @@
                             </div>
                         </div>
                     </div>
-                </div>*/?>
-                <?php /* <div class="col-md-6 row">
+                </div>
+                <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('estimate'); ?></span>
@@ -181,8 +181,8 @@
                         </div>
                     </div>
                 </div>
-                */ ?>
-                    <?php /* <div class="col-md-6 row">
+                
+                     <div class="col-md-6 row">
                     <div class="row">
                        <div class="col-md-6 mtop10 border-right">
                             <span><?php echo _l('tickets'); ?></span>
@@ -203,8 +203,8 @@
                             </div>
                         </div>
                     </div>
-                </div>*/ ?>
-                <?php /*
+                </div>
+                
                 <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
@@ -219,7 +219,7 @@
                     </div>
                 </div>
 
-                </div>*/ ?>
+                </div> 
             </div>
         </div>
     </div>
@@ -231,7 +231,7 @@
 </div>
 </div>
 </div>
-<?php /*if(!isset($contact)){ ?>
+<?php if(!isset($contact)){ ?>
     <script>
         $(function(){
             // Guess auto email notifications based on the default contact permissios
@@ -244,4 +244,4 @@
             });
         });
     </script>
-<?php }*/ ?>
+<?php } ?>

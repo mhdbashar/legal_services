@@ -36,12 +36,12 @@
       </ul>
       <div class="panel_s">
        <div class="panel-body">
-        <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
+        <!-- <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
           echo 'bold';
       } ?>">
           <?php echo _l('settings_update'); ?>
         </a>
-        <!-- <?php if (is_admin()) {
+         <?php if (is_admin()) {
           ?>
           <hr class="hr-10" />
           <a href="<?php echo admin_url('settings?group=info'); ?>" class="<?php if ($this->input->get('group') == 'info') {
@@ -50,7 +50,7 @@
             System/Server Info
           </a>
         <?php
-      } ?> -->
+      } ?> 
       <?php if (is_admin()) {
           ?>
           <hr class="hr-10" />
@@ -60,7 +60,7 @@
               <?php echo _l('license_key'); ?>
           </a>
         <?php
-      } ?> 
+      } ?>  -->
         <div class="btn-bottom-toolbar text-right">
           <button type="submit" class="btn btn-info">
             <?php echo _l('settings_save'); ?>

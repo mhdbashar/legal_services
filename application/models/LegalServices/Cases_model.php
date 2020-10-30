@@ -2770,11 +2770,17 @@ class Cases_model extends App_Model
             $service_table = db_prefix() . 'my_cases';
             $settings_table = db_prefix() . 'case_settings';
             $setting_id = 'case_id';
+            $upload_folder = 'cases';
+            $files_table = 'tblcase_files';
+            $files_id = 'project_id';
         } else {
             $service_table = db_prefix() . 'my_other_services';
             $settings_table = db_prefix() . 'oservice_settings';
             $setting_id = 'oservice_id';
             $_new_data['service_id'] = $ServID2;
+            $upload_folder = 'oservices';
+            $files_table = 'tbloservice_files';
+            $files_id = 'oservice_id';
             unset($_new_data['opponent_id']);
             unset($_new_data['representative']);
             unset($_new_data['court_id']);
@@ -2810,6 +2816,35 @@ class Cases_model extends App_Model
         $this->db->insert($service_table, $_new_data);
         $id = $this->db->insert_id();
         if ($id) {
+            $files = $this->get_files($project_id);
+            if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
+                    mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0777);
+            }
+            foreach ($files as $key => $value) {
+                $file_url = base_url().'uploads/cases/'.$project_id.'/'.$value['file_name'];
+                $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                $myFile = fopen(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], 'w', true);
+
+                file_put_contents(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], $file_content);
+                $file_data = [
+                    'file_name' => $value['file_name'],
+                    'subject' => $value['subject'],
+                    'description' => isset($value['description']) ? $value['description'] : '',
+                    'filetype' => $value['filetype'],
+                    'dateadded' => $value['dateadded'],
+                    'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                    $files_id => $id,
+                    'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                    'last_activity' => null,
+                    'staffid' => get_staff_user_id(),    //$value['staffid'],
+                    'contact_id' => 0,   //$value['contact_id'],
+                    'external' => isset($value['external']) ? $value['external'] : '',
+                    'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                    'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                ];
+                $this->db->insert($files_table, $file_data);
+
+            }
             $tags = get_tags_in($project_id, $slug);
             handle_tags_save($tags, $id, $slug);
 

@@ -1,5 +1,12 @@
 <?php
 
+$lang['project_linked_successfully'] = 'تم ربط الخدمة بنجاح';
+$lang['failed_to_link_project'] = 'خطأ في ربط الخدمة';
+$lang['linked_services'] = "الخدمات المرتبطة";
+$lang['father_linked_services'] = 'الخدمة المرتبطة الأب';
+$lang['child_linked_services'] = 'الخدمات المرتبطة الأبناء';
+$lang['link_service'] = 'ربط الخدمة';
+
 $lang['cases_summary'] = "ملخص القضايا";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";

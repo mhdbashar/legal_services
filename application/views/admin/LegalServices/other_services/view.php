@@ -33,6 +33,11 @@
                                 <?php if(has_permission('invoices','','create')){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
+                                <?php if(has_permission('invoices','','create')){ ?>
+                                    <a class="btn btn-info" href="#" onclick="linked_services(); return false;">
+                                            <?php echo _l('linked_services'); ?>
+                                    </a>
+                                <?php } ?>
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
                                 if(total_rows(db_prefix().'pinned_oservices',array('staff_id'=>get_staff_user_id(),'oservice_id'=>$project->id)) > 0){
@@ -44,6 +49,11 @@
                                         <?php echo _l('more'); ?> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
+                                        <li>
+                                             <a href="#" onclick="link_service(); return false;">
+                                             <?php echo _l('link_service'); ?>
+                                             </a>
+                                        </li>
                                         <li>
                                             <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
                                                 <?php echo _l('service_bin'); ?>
@@ -153,6 +163,8 @@ echo form_hidden('project_percent',$percent);
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/LegalServices/other_services/milestone'); ?>
 <?php $this->load->view('admin/LegalServices/other_services/copy_settings'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/link_service'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/linked_services'); ?>
 <?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->

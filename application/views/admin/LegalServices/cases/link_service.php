@@ -56,7 +56,18 @@
                         </div>
                         <div class="form-group">
                           <label for="clientid_copy_project"><?php echo _l('project_customer'); ?></label>
-                          <select id="clientid_copy_project" name="clientid_copy_project" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                          <select id="clientid" name="clientid_copy_project" data-live-search="true" data-width="100%"
+                                            class="ajax-search"
+                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                            <?php $selected = (isset($project) ? $project->clientid : '');
+                            if($selected == ''){
+                                $selected = (isset($project) ? $project->clientid : '');
+                            }
+                            if ($selected != '') {
+                                $rel_data = get_relation_data('customer', $selected);
+                                $rel_val = get_relation_values($rel_data, 'customer');
+                                echo '<option value="' . $rel_val['id'] . '" selected>' . $rel_val['name'] . '</option>';
+                            } ?>
                         </select>
                       </div>
                         <div class="row">

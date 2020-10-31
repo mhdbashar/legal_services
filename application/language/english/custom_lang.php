@@ -1,6 +1,16 @@
 <?php
 $lang['projects_charts'] = "Projects Charts";
 $lang['home_my_sessions'] = "Sessions";
+
+$lang['project_linked_successfully'] = 'Service linked successfully';
+$lang['failed_to_link_project'] = 'Failed to link service';
+$lang['linked_services'] = "Linked services";
+$lang['father_linked_services'] = 'Father linked service';
+$lang['child_linked_services'] = 'Child linked services';
+$lang['link_service'] = 'Link service';
+
+
+$lang['cases_summary'] = "Cases Summary";
 $lang['home_my_cases'] = "Cases";
 $lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
@@ -2670,7 +2680,7 @@ $lang['not_task_deadline_reminder'] = "Task deadline reminder";
 $lang['not_procuration_deadline_reminder'] = "Procuration deadline reminder";
 $lang['dt_length_menu_all'] = "All";
 $lang['task_not_finished'] = "Not Completed";
-$lang['task_billed_cant_start_timer'] = "Task billed. Timer cant be start";
+$lang['session_billed_cant_start_timer'] = "Session billed. Timer cant be start";
 $lang['invoice_task_billable_timers_found'] = "Started timers found";
 $lang['project_timesheet_not_updated'] = "Timesheet not affected";
 $lang['project_invoice_task_no_timers_found'] = "No timers found for this task";

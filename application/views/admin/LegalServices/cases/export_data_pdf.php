@@ -155,6 +155,12 @@ if (!empty($project->client_data->vat)) {
     $html .= '<br />' . _l('client_vat_number') . ': ' . $project->client_data->vat;
 }
 
+// Case Result
+$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('ResultCase')) . '</b><br /><br /><b>' . $project->case_result . '</b><br />';
+$html .= '<br />';
+// Case Result
+$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('case_status')) . '</b><br /><br /><b>' . maybe_translate(_l('nothing_was_specified'), $project->StatusCase) . '</b><br />';
+
 // Write custom info
 $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
 
@@ -235,6 +241,42 @@ foreach ($tasks as $task) {
 $html .= '</tbody>';
 $html .= '</table>';
 // Write tasks data
+$pdf->writeHTML($html, true, false, false, false, $align);
+
+// Sessions overview
+$pdf->Ln(5);
+$html = '';
+$html .= '<p><b style="background-color:#f0f0f0;">' . ucwords(_l('session_detailed_overview')) . '</b></p>';
+$html .= '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="1" '.$style.'>';
+$html .= '<thead>';
+$html .= '<tr bgcolor="#323a45" style="color:#ffffff;">';
+$html .= '<th width="26.12%"><b>' . _l('tasks_dt_name') . '</b></th>';
+$html .= '<th width="12%"><b>' . _l('total_task_members_assigned') . '</b></th>';
+$html .= '<th width="12%"><b>' . _l('total_task_members_followers') . '</b></th>';
+$html .= '<th width="9.28%"><b>' . _l('task_single_start_date') . '</b></th>';
+$html .= '<th width="9.28%"><b>' . _l('task_single_due_date') . '</b></th>';
+$html .= '<th width="7%"><b>' . _l('session_status') . '</b></th>';
+$html .= '<th width="14.28%"><b>' . _l('time_h') . '</b></th>';
+$html .= '<th width="10%"><b>' . _l('time_decimal') . '</b></th>';
+$html .= '</tr>';
+$html .= '</thead>';
+$html .= '<tbody>';
+foreach ($sessions as $session) {
+    $html .= '<tr style="color:#4a4a4a;">';
+    $html .= '<td width="26.12%">' . $session['name'] . '</td>';
+    $html .= '<td width="12%">' . total_rows(db_prefix().'task_assigned', ['taskid' => $session['id']]) . '</td>';
+    $html .= '<td width="12%">' . total_rows(db_prefix().'task_followers', ['taskid' => $session['id']]) . '</td>';
+    $html .= '<td width="9.28%">' . _d($session['startdate']) . '</td>';
+    $html .= '<td width="9.28%">' . (is_date($session['duedate']) ? _d($session['duedate']): '') . '</td>';
+    $html .= '<td width="7%">' . format_session_status($session['status'], true, true) . '</td>';
+    $html .= '<td width="14.28%">' . seconds_to_time_format($session['total_logged_time']) . '</td>';
+    $html .= '<td width="10%">' . sec2qty($session['total_logged_time']) . '</td>';
+
+    $html .= '</tr>';
+}
+$html .= '</tbody>';
+$html .= '</table>';
+// Write sessions data
 $pdf->writeHTML($html, true, false, false, false, $align);
 
 // Timesheets overview

@@ -108,7 +108,7 @@
             <?php if($task->billed == 0){
                 $is_assigned = $task->current_user_is_assigned;
                 if(!$this->sessions_model->is_timer_started($task->id)) { ?>
-                    <p class="no-margin pull-left"<?php if(!$is_assigned){ ?> data-toggle="tooltip" data-title="<?php echo _l('task_start_timer_only_assignee'); ?>"<?php } ?>>
+                    <p class="no-margin pull-left"<?php if(!$is_assigned){ ?> data-toggle="tooltip" data-title="<?php echo _l('session_start_timer_only_assignee'); ?>"<?php } ?>>
                         <a href="#" class="mbot10 btn<?php if(!$is_assigned || $task->status == Sessions_model::STATUS_COMPLETE){echo ' disabled btn-default';}else {echo ' btn-success';} ?>" onclick="timer_session_action(this, <?php echo $task->id; ?>); return false;">
                             <i class="fa fa-clock-o"></i> <?php echo _l('task_start_timer'); ?>
                         </a>

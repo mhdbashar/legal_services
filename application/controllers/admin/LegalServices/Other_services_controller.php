@@ -275,6 +275,21 @@ class Other_services_controller extends AdminController
             $data['project'] = $project;
             $data['currency'] = $this->other->get_currency($id);
 
+            $linked_services = $this->other->get_linked_services($ServID, $id);
+           //var_dump($linked_services); exit;
+            $father_linked_services = [];
+            $child_linked_services = [];
+            foreach ($linked_services as $linked_service) {
+                if($linked_service->l_service_id == $ServID && $linked_service->rel_id == $id){
+                    $child_linked_services[] = $linked_service;
+                }elseif($linked_service->to_service_id == $ServID && $linked_service->to_rel_id == $id){
+                    $father_linked_services = $linked_service;
+                }
+            }
+
+            $data['father_linked_services'] = $father_linked_services;
+            $data['child_linked_services'] = $child_linked_services;
+
             $data['project_total_logged_time'] = $this->other->total_logged_time($slug,$id);
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
@@ -896,6 +911,24 @@ class Other_services_controller extends AdminController
                 redirect(admin_url('SOther/view/' .$ServID.'/'. $id));
             } else {
                 set_alert('danger', _l('failed_to_copy_project'));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
+            }
+        }
+    }
+
+    public function link($ServID,$project_id)
+    {
+        if (has_permission('projects', '', 'create')) {
+            $ServID2 = $this->input->post('service_id');
+            $id = $this->other->link($ServID,$project_id, $this->input->post(), $ServID2);
+            if ($id) {
+                set_alert('success', _l('project_linked_successfully'));
+                if($ServID2 != 1)
+                    redirect(admin_url('SOther/view/' .$ServID2.'/'. $id));
+                else
+                    redirect(admin_url('Case/view/' .$ServID2.'/'. $id));
+            } else {
+                set_alert('danger', _l('failed_to_link_project'));
                 redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
             }
         }

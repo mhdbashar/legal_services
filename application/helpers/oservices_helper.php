@@ -474,7 +474,7 @@ function get_oservice_discussions_language_array()
  */
 function oservice_has_recurring_tasks($id)
 {
-    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project AND is_session=0') > 0;
+    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project" AND is_session=0') > 0;
 }
 
 function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
@@ -884,4 +884,11 @@ function handle_oservice_discussion_comment_attachments($discussion_id, $post_da
     }
 
     return $insert_data;
+}
+
+function check_service_if_link_with_seesion($service_id)
+{
+    $CI = & get_instance();
+    $count = $CI->db->get_where(db_prefix() . 'my_other_services',['service_session_link' => 1, 'service_id' => $service_id])->num_rows();
+    return $count;
 }

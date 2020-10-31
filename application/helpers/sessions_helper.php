@@ -147,6 +147,7 @@ function session_priority_color($id)
     // Not exists?
     return '#333';
 }
+
 /**
  * Format html session assignees
  * This function is used to save up on query
@@ -232,6 +233,7 @@ function session_rel_link($rel_id, $rel_type)
 
     return $link;
 }
+
 /**
  * Prepares session array gantt data to be used in the gantt chart
  * @param  array $session session array
@@ -285,7 +287,6 @@ function sessions_rel_name_select_query()
         ELSE NULL
         END)';
 }
-
 
 /**
  * sessions html table used all over the application for relation sessions
@@ -477,7 +478,6 @@ function sessions_summary_data($rel_id = null, $rel_type = null)
     }
     return $sessions_summary;
 }
-
 
 function get_sql_calc_session_logged_time($session_id)
 {

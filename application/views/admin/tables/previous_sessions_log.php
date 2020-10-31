@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-$hasPermissionEdit   = has_permission('tasks', '', 'edit');
-$hasPermissionDelete = has_permission('tasks', '', 'delete');
+$hasPermissionEdit   = has_permission('sessions', '', 'edit');
+$hasPermissionDelete = has_permission('sessionst', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
 $aColumns = [
@@ -51,7 +51,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
     $rel_to_query .= ')';
     array_push($where, $rel_to_query);
 }
-array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
+//array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
+array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d %H:%i:%s")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [
@@ -98,15 +99,15 @@ foreach ($rResult as $aRow) {
     $style = '';
     $tooltip = '';
 
-    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Sessions_model::STATUS_COMPLETE) {
         $class = 'text-dark disabled';
         $style = 'style="opacity:0.6;cursor: not-allowed;"';
-        if ($aRow['status'] == Tasks_model::STATUS_COMPLETE) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
+        if ($aRow['status'] == Sessions_model::STATUS_COMPLETE) {
+            $tooltip = ' data-toggle="tooltip" data-title="' . format_session_status($aRow['status'], false, true) . '"';
         } elseif ($aRow['billed'] == 1) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';
         } elseif (!$aRow['is_assigned']) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_start_timer_only_assignee') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_start_timer_only_assignee') . '"';
         }
     }
 

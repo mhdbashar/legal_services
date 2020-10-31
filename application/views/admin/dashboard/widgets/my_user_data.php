@@ -14,6 +14,11 @@
                      </a>
                   </li>
                   <li role="presentation">
+                     <a href="#home_my_sessions" aria-controls="home_my_sessions" role="tab" data-toggle="tab">
+                        <i class="fa fa-tasks menu-icon"></i> <?php echo _l('home_my_sessions'); ?>
+                     </a>
+                  </li>
+                  <li role="presentation">
                      <a href="#home_my_cases" onclick="init_table_staff_cases(true);" aria-controls="home_my_projects" role="tab" data-toggle="tab">
                      <i class="fa fa-gavel menu-icon"></i> <?php echo _l('home_my_cases'); ?>
                      </a>
@@ -81,6 +86,25 @@
                      </div>
                      <?php $this->load->view('admin/tasks/_table'); ?>
                   </div>
+               
+                  <div role="tabpanel" class="tab-pane" id="home_my_sessions">
+                     <a href="<?php echo admin_url('LegalServices/sessions/list_tasks'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
+                     <div class="clearfix"></div>
+                     <div class="_hidden_inputs _filters _tasks_filters">
+                        <?php
+                           echo form_hidden('my_tasks',true);
+                           foreach($task_statuses as $status){
+                            $val = 'true';
+                            if($status['id'] == Tasks_model::STATUS_COMPLETE){
+                              $val = '';
+                           }
+                           echo form_hidden('task_status_'.$status['id'],$val);
+                           }
+                           ?>
+                     </div>
+                     <?php $this->load->view('admin/sessions/_table'); ?>
+                  </div>
+                 
                   <?php if((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()){ ?>
                   <div role="tabpanel" class="tab-pane" id="home_tab_tickets">
                      <a href="<?php echo admin_url('tickets'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>

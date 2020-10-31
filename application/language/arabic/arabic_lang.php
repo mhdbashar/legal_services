@@ -602,12 +602,12 @@ $lang['staff_problem_changing_password'] = "هناك مشكلة عند تغيي�
 $lang['staff_profile_string'] = "الملف الشخصي";
 $lang['staff_cant_remove_main_admin'] = "لا يمكن إزالة المسؤول الرئيسي";
 $lang['staff_cant_remove_yourself_from_admin'] = "لا يمكنك إزالة نفسك دور المسؤول";
-$lang['staff_dt_name'] = "الإسم الكامل";
+$lang['staff_dt_name'] = "الاسم الكامل";
 $lang['staff_dt_email'] = "البريد الإلكتروني";
 $lang['staff_dt_last_Login'] = "أخر تسجيل دخول";
 $lang['staff_dt_active'] = "نشط";
 $lang['staff_add_edit_firstname'] = "الأسم الاول";
-$lang['staff_add_edit_lastname'] = "الإسم الأخير";
+$lang['staff_add_edit_lastname'] = "الاسم الأخير";
 $lang['staff_add_edit_email'] = "البريد الإلكتروني";
 $lang['staff_add_edit_phonenumber'] = "رقم الهاتف";
 $lang['staff_add_edit_facebook'] = "Facebook";
@@ -647,7 +647,7 @@ $lang['task_no_followers'] = "ليس هناك متابع لهذه المهمة";
 $lang['task_list_all'] = "الكل";
 $lang['task_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_duedate_passed'] = "انقضى تاريخ الاستحقاق";
-$lang['tasks_dt_name'] = "الإسم";
+$lang['tasks_dt_name'] = "الاسم";
 $lang['task_single_priority'] = "الاولوية";
 $lang['task_single_start_date'] = "تاريخ البداية";
 $lang['task_single_due_date'] = "تاريخ الإستحقاق";
@@ -734,8 +734,8 @@ $lang['clients_invoice_dt_duedate'] = "تاريخ الإستحقاق";
 $lang['clients_invoice_dt_amount'] = "المبلغ";
 $lang['clients_invoice_dt_status'] = "الحالة";
 $lang['clients_profile_heading'] = "الملف الشخصي";
-$lang['clients_firstname'] = "الإسم الأول";
-$lang['clients_lastname'] = "الإسم الأخير";
+$lang['clients_firstname'] = "الاسم الأول";
+$lang['clients_lastname'] = "الاسم الأخير";
 $lang['clients_email'] = "عنوان البريد الإلكتروني";
 $lang['clients_vat'] = "الرقم الضريبي";
 $lang['clients_phone'] = "رقم الهاتف";
@@ -811,8 +811,8 @@ $lang['online_payment_recorded_success'] = "تم تسجيل الدفع بنجا�
 $lang['online_payment_recorded_success_fail_database'] = "تم الدفع بنجاح لكنه فشل في إدراج الدفع في قاعدة البيانات ، اتصل بالمسؤول";
 $lang['lead_convert_to_client'] = "التحويل لموكل";
 $lang['lead_convert_to_email'] = "البريد الإلكتروني";
-$lang['lead_convert_to_client_firstname'] = "الأسم الاول";
-$lang['lead_convert_to_client_lastname'] = "الإسم الأخير";
+$lang['lead_convert_to_client_firstname'] = "الاسم الاول";
+$lang['lead_convert_to_client_lastname'] = "الاسم الأخير";
 $lang['lead_email_already_exists'] = "البريد الإلكتروني للموكل المتوقع موجود بالفعل في بيانات الموكلين";
 $lang['lead_to_client_base_converted_success'] = "تم التحويل لموكل بنجاح";
 $lang['lead_have_client_profile'] = "هذا الموكل المتوقع لديه ملف موكل.";
@@ -2643,7 +2643,7 @@ $lang['text_not_recommended_for_servers_limited_resources'] = "غير مستحس
 $lang['tasks_bull_actions_assign_notice'] = "إذا كانت المهمة مرتبطة بالخدمة والموظف الذي تقوم بتعيين المهمة إليه ليس عضوًا في الخدمة، فسيتم إضافة هذا الموظف تلقائيًا كعضو.";
 $lang['company_information'] = "معلومات الشركة";
 $lang['ticket_form_subject'] = "الموضوع";
-$lang['ticket_form_name'] = "الإسم";
+$lang['ticket_form_name'] = "الاسم";
 $lang['ticket_form_email'] = "عنوان البريد الإلكتروني";
 $lang['ticket_form_department'] = "القسم";
 $lang['ticket_form_message'] = "الرسالة";

@@ -14,6 +14,8 @@ $lang['problem_exporting'] = "خطأ في التصدير";
 $lang['go'] = "اذهب";
 
 
+$lang['projects_charts'] = "مخطط الخدمات";
+$lang['home_my_sessions'] = "الجلسات";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";
@@ -133,7 +135,7 @@ $lang['gdbr_enable_consent_for_contacts'] = "تمكين الموافقة لجه�
 $lang['gdpr_enable_consent_for_leads'] = "تمكين الموافقة للعملاء المحتملين";
 $lang['gdpr_public_page_consent_information_block'] = "كتلة معلومات الموافقة على الصفحة العامة";
 $lang['gdpr_purposes_of_consent'] = "أغراض الموافقة";
-$lang['gdpr_name'] = "الإسم";
+$lang['gdpr_name'] = "الاسم";
 $lang['gdpr_description'] = "الوصف";
 $lang['gdpr_created'] = "أنشئت";
 $lang['gdpr_last_update'] = "أخر تحديث";

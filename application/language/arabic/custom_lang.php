@@ -1051,3 +1051,8 @@ $lang['categories_management'] = "إدارة التصنيفات";
 $lang['no_phases'] = "لا توجد مراحل لهذه الخدمة بعد! إنشاء";
 $lang['date_time'] = "التاريخ / الوقت";
 $lang['billing_shipping'] = "الفواتير";
+
+$lang['written_reports'] = "التقارير المكتوبة";
+$lang['report'] = "التقرير";
+$lang['date_updated'] = "تم تحريره بتاريخ";
+$lang['updated_by_staff'] = "تم تحريره من قبل الموظف";

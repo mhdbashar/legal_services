@@ -844,6 +844,18 @@ function get_service_tags($rel_id, $rel_type)
     return $CI->db->get(db_prefix().'my_services_tags')->result_array();
 }
 
+/**
+ * Prepare general written reports pdf
+ * @param  object $reports  written reports as object with all necessary fields
+ * @param  string $tag tag for bulk pdf exporter
+ * @return mixed object
+ */
+
+function written_reports_pdf($report, $tag = '')
+{
+    return app_pdf('written_reports', LIBSPATH . 'pdf/written_reports_pdf', $report, $tag);
+}
+
 function get_books_by_api($tags)
 {
     $info  = array(

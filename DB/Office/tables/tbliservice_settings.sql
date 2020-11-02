@@ -54,7 +54,7 @@ ALTER TABLE `tbliservice_settings`
 -- AUTO_INCREMENT for table `tbliservice_settings`
 --
 ALTER TABLE `tbliservice_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

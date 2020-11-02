@@ -81,7 +81,7 @@ ALTER TABLE `tblmy_imported_services`
 -- AUTO_INCREMENT for table `tblmy_imported_services`
 --
 ALTER TABLE `tblmy_imported_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

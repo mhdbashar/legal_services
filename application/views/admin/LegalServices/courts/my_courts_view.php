@@ -22,7 +22,7 @@
                      </thead>
                      <tbody>
                         <?php $i=1; foreach($courts as $court){
-                           if($court->default == 1)
+                           if($court->is_default == 1)
                               continue;
                          ?>
                         <tr>

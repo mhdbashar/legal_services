@@ -109,11 +109,11 @@ class Imported_services_model extends App_Model
             unset($_new_data['clientid_copy_project']);
             $_new_data['country'] = 0;
 
-            $this->db->where('default', 1);
+            $this->db->where('is_default', 1);
             $case_status = $this->db->get('tblmy_casestatus')->row();
             $_new_data['case_status'] = $case_status->id;
 
-            $this->db->where('default', 1);
+            $this->db->where('is_default', 1);
             $court = $this->db->get('tblmy_courts')->row();
             $_new_data['court_id'] = $court->c_id;
 
@@ -121,7 +121,7 @@ class Imported_services_model extends App_Model
             $jud = $this->db->get('tblmy_judicialdept')->row();
             $_new_data['jud_num'] = $jud->j_id;
 
-            $this->db->where('default', 1);
+            $this->db->where('is_default', 1);
             $representative = $this->db->get('tblmy_customer_representative')->row();
             $_new_data['representative'] = $representative->id;
 

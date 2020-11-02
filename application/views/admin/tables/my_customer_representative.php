@@ -26,14 +26,14 @@ $sTable       = db_prefix() . 'my_customer_representative';
 
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
-    db_prefix() .'my_customer_representative.default'
+    db_prefix() .'my_customer_representative.is_default'
 ]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
-    if($aRow['default'] == 1)
+    if($aRow['is_default'] == 1)
         continue;
     $row = [];
 

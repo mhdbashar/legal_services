@@ -155,6 +155,14 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_tasks_based_on_assignee'),
             ],
         ],
+        'sessions' => [
+            'name'         => _l('sessions'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'        => [
+                'view'     => _l('help_sessions_permissions'),
+                'view_own' => _l('permission_sessions_based_on_assignee'),
+            ],
+        ],
         'checklist_templates' => [
             'name'         => _l('checklist_templates'),
             'capabilities' => [

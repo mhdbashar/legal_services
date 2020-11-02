@@ -52,17 +52,26 @@
                                                 $staff_language = get_staff_default_language(get_staff_user_id());
                                                 if($staff_language == 'arabic'){
                                                     $field = 'short_name_ar';
+                                                    $field_city = 'Name_ar';
                                                 }else{
                                                     $field = 'short_name';
+                                                    $field_city = 'Name_en';
                                                 }
                                                 ?>
-                                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('company_country')); ?>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
+                                                    <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                                         <option selected disabled></option>
+                                                        <?php
+                                                        if(get_option('company_city') != ''){
+                                                            foreach ($data as $row): ?>
+                                                                <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : (get_option('company_city') == $row->Name_ar ? 'selected' : '') ?>><?php echo $row->$field_city; ?></option>
+                                                            <?php endforeach;
+                                                        } ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -405,7 +414,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
@@ -433,10 +442,12 @@
                         </h4>
                         <hr class="hr-panel-heading" />
                         <?php  foreach($settings as $setting){
-                            $checked = ' checked';
+                            //$checked = ' checked';
+                            $checked = '';
                             if(isset($case)){
-                                if($case->settings->{$setting} == 0){
-                                    $checked = '';
+                                //if($case->settings->{$setting} == 0){
+                                if($case->settings->{$setting} == 1){
+                                    $checked = ' checked';
                                 }
                             } else {
                                 foreach($last_case_settings as $last_setting) {
@@ -898,18 +909,19 @@
             name: 'required',
             clientid: 'required',
             //opponent_id: 'required',
-            representative: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            court_id: 'required',
-            jud_num: 'required',
-            billing_type: 'required',
-            case_status:'required',
+            //representative: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //court_id: 'required',
+            //jud_num: 'required',
+            //billing_type: 'required',
+            //case_status:'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
-            case_result: 'required',
-            case_status: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            //case_result: 'required',
+            //case_status: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

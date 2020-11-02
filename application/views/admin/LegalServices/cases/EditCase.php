@@ -178,7 +178,7 @@
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('representative', '');
                                                     foreach ($data as $row): ?>
-                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo $row['representative']; ?></option>
+                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo maybe_translate(_l('nothing_was_specified'), $row['representative']); ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -434,7 +434,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -462,11 +462,13 @@
                             <?php echo _l('project_settings'); ?>
                         </h4>
                         <hr class="hr-panel-heading" />
-                        <?php  foreach($settings as $setting){
-                            $checked = ' checked';
+                        <?php foreach($settings as $setting){
+                            //$checked = ' checked';
+                            $checked = '';
                             if(isset($case)){
-                                if($case->settings->{$setting} == 0){
-                                    $checked = '';
+                                //if($case->settings->{$setting} == 0){
+                                if($case->settings->{$setting} == 1){
+                                    $checked = ' checked';
                                 }
                             } else {
                                 foreach($last_case_settings as $last_setting) {
@@ -930,18 +932,20 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            representative: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            court_id: 'required',
-            jud_num: 'required',
-            billing_type: 'required',
-            case_status:'required',
+            //opponent_id: 'required',
+            //representative: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //court_id: 'required',
+            //jud_num: 'required',
+            //billing_type: 'required',
+            //case_status:'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
-            case_result: 'required',
-            case_status: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            //case_result: 'required',
+            //case_status: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

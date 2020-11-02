@@ -338,7 +338,7 @@ class Disputes extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
 
 
@@ -454,7 +454,7 @@ class Disputes extends AdminController
                 $data['milestones_exclude_completed_tasks'] = $this->input->get('exclude_completed') && $this->input->get('exclude_completed') == 'yes' || !$this->input->get('exclude_completed');
 
                 $data['total_milestones'] = total_rows(db_prefix() . 'milestones', ['project_id' => $id]);
-                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['rel_id' => $id, 'rel_type' => 'project', 'milestone' => 0]) > 0);
+                $data['milestones_found'] = $data['total_milestones'] > 0 || (!$data['total_milestones'] && total_rows(db_prefix() . 'tasks', ['is_session' => 0, 'rel_id' => $id, 'rel_type' => 'project', 'milestone' => 0]) > 0);
             } elseif ($group == 'project_files') {
                 $data['files'] = $this->projects_model->get_files($id);
             } elseif ($group == 'project_expenses') {
@@ -467,6 +467,10 @@ class Disputes extends AdminController
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->projects_model->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years']       = $this->estimates_model->get_estimates_years();

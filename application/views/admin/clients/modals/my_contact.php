@@ -51,18 +51,14 @@
                     </div>
                     <?php $rel_id=( isset($contact) ? $contact->id : false); ?>
                     <?php echo render_custom_fields( 'contacts',$rel_id); ?>
-
-
                     <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
-                    <input  type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1" />
-                    <input  type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
-
+                    <input type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1" />
+                    <input type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
                     <div class="client_password_set_wrapper">
                         <label for="password" class="control-label">
                             <?php echo _l( 'client_password'); ?>
                         </label>
                         <div class="input-group">
-
                             <input type="password" class="form-control password" name="password" autocomplete="false">
                             <span class="input-group-addon">
                                 <a href="#password" class="show_password" onclick="showPassword('password'); return false;"><i class="fa fa-eye"></i></a>

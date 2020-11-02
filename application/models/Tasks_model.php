@@ -26,6 +26,7 @@ class Tasks_model extends App_Model
     {
         $this->db->where('id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')');
         $this->db->where('status !=', 5);
+        $this->db->where('is_session', 0);
         $this->db->order_by('duedate', 'asc');
 
         return $this->db->get(db_prefix() . 'tasks')->result_array();
@@ -193,11 +194,12 @@ class Tasks_model extends App_Model
             $tasks_where = get_tasks_where_string(false);
         }
 
-        $this->db->select('id,name,duedate,startdate,status,' . get_sql_select_task_total_checklist_items() . ',' . get_sql_select_task_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_task_asignees_full_names() . ' as assignees' . ',' . get_sql_select_task_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
+        $this->db->select(tasks_rel_name_select_query() . ' as rel_name,rel_type,rel_id,id,priority,name,duedate,startdate,status,' . get_sql_select_task_total_checklist_items() . ',' . get_sql_select_task_total_finished_checklist_items() . ',(SELECT COUNT(id) FROM ' . db_prefix() . 'task_comments WHERE taskid=' . db_prefix() . 'tasks.id) as total_comments,(SELECT COUNT(id) FROM ' . db_prefix() . 'files WHERE rel_id=' . db_prefix() . 'tasks.id AND rel_type="task") as total_files,' . get_sql_select_task_asignees_full_names() . ' as assignees' . ',' . get_sql_select_task_assignees_ids() . ' as assignees_ids,(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned, (SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator');
 
         $this->db->from(db_prefix() . 'tasks');
         $this->db->where('status', $status);
         $this->db->where('is_session', 0);
+
         $this->db->where($where);
 
         if ($tasks_where != '') {
@@ -255,6 +257,7 @@ class Tasks_model extends App_Model
         return (total_rows(db_prefix() . 'tasks', [
             'id'     => $id,
             'billed' => 1,
+            'is_session' => 0,
         ]) > 0 ? true : false);
     }
 
@@ -271,6 +274,7 @@ class Tasks_model extends App_Model
         }
         $fields_tasks   = $this->db->list_fields(db_prefix() . 'tasks');
         $_new_task_data = [];
+
         foreach ($fields_tasks as $field) {
             if (isset($task->$field)) {
                 $_new_task_data[$field] = $task->$field;
@@ -278,6 +282,7 @@ class Tasks_model extends App_Model
         }
 
         unset($_new_task_data['id']);
+
         if (isset($data['copy_task_status']) && is_numeric($data['copy_task_status'])) {
             $_new_task_data['status'] = $data['copy_task_status'];
         } else {
@@ -299,12 +304,14 @@ class Tasks_model extends App_Model
             $dDiff                     = $dStart->diff($dEnd);
             $_new_task_data['duedate'] = date('Y-m-d', strtotime(date('Y-m-d', strtotime('+' . $dDiff->days . 'DAY'))));
         }
+
         // Overwrite data options
         if (count($overwrites) > 0) {
             foreach ($overwrites as $key => $val) {
                 $_new_task_data[$key] = $val;
             }
         }
+
         unset($_new_task_data['datefinished']);
 
         $_new_task_data = hooks()->apply_filters('before_add_task', $_new_task_data);
@@ -321,20 +328,26 @@ class Tasks_model extends App_Model
 
             $tags = get_tags_in($data['copy_from'], 'task');
             handle_tags_save($tags, $insert_id, 'task');
+
             if (isset($data['copy_task_assignees']) && $data['copy_task_assignees'] == 'true') {
                 $this->copy_task_assignees($data['copy_from'], $insert_id);
             }
+
             if (isset($data['copy_task_followers']) && $data['copy_task_followers'] == 'true') {
                 $this->copy_task_followers($data['copy_from'], $insert_id);
             }
+
             if (isset($data['copy_task_checklist_items']) && $data['copy_task_checklist_items'] == 'true') {
                 $this->copy_task_checklist_items($data['copy_from'], $insert_id);
             }
+
             if (isset($data['copy_task_attachments']) && $data['copy_task_attachments'] == 'true') {
                 $attachments = $this->get_task_attachments($data['copy_from']);
+
                 if (is_dir(get_upload_path_by_type('task') . $data['copy_from'])) {
                     xcopy(get_upload_path_by_type('task') . $data['copy_from'], get_upload_path_by_type('task') . $insert_id);
                 }
+
                 foreach ($attachments as $at) {
                     $_at      = [];
                     $_at[]    = $at;
@@ -350,6 +363,7 @@ class Tasks_model extends App_Model
                     $this->add_attachment_to_database($insert_id, $_at, $external, false);
                 }
             }
+
             $this->copy_task_custom_fields($data['copy_from'], $insert_id);
 
             hooks()->do_action('after_add_task', $insert_id);
@@ -421,7 +435,7 @@ class Tasks_model extends App_Model
 
         $this->db->where('billable', 1);
         $this->db->where('billed', 0);
-
+        $this->db->where('is_session', 0);
         if ($project_id == '') {
             $this->db->where('rel_type != "project"');
         } else {
@@ -485,6 +499,7 @@ class Tasks_model extends App_Model
     public function get_billable_task_data($task_id)
     {
         $this->db->where('id', $task_id);
+        $this->db->where('is_session', 0);
         $data = $this->db->get(db_prefix() . 'tasks')->row();
         if ($data->rel_type == 'project') {
             $this->db->select('billing_type,project_rate_per_hour,name');
@@ -509,7 +524,7 @@ class Tasks_model extends App_Model
     {
         $this->db->where($where);
         $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid=' . $this->db->escape_str($id) . '))');
-
+        $this->db->where('is_session', 0);
         return $this->db->get(db_prefix() . 'tasks')->result_array();
     }
 
@@ -522,6 +537,7 @@ class Tasks_model extends App_Model
     {
         $ticket_to_task = false;
         $session_info = false;
+
         if (isset($data['ticket_to_task'])) {
             $ticket_to_task = true;
             unset($data['ticket_to_task']);
@@ -580,7 +596,8 @@ class Tasks_model extends App_Model
                 $data['custom_recurring'] = 0;
             }
         } else {
-            $data['recurring'] = 0;
+            $data['recurring']    = 0;
+            $data['repeat_every'] = null;
         }
 
         if (isset($data['repeat_type_custom']) && isset($data['repeat_every_custom'])) {
@@ -762,7 +779,7 @@ class Tasks_model extends App_Model
             }
 
             log_activity('New '.$log_text.' Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
-                hooks()->do_action('after_add_task', $insert_id);
+            hooks()->do_action('after_add_task', $insert_id);
 
             return $insert_id;
         }
@@ -932,6 +949,7 @@ class Tasks_model extends App_Model
             unset($data['session_information']);
         }
         //End Block For Legal Services Session
+
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'tasks', $data);
 
@@ -1098,7 +1116,7 @@ class Tasks_model extends App_Model
     {
         $this->db->select('addedfrom');
         $this->db->where('id', $taskid);
-
+        $this->db->where('is_session', 0);
         return $this->db->get(db_prefix() . 'tasks')->row()->addedfrom;
     }
 
@@ -1147,10 +1165,17 @@ class Tasks_model extends App_Model
                 $this->_send_task_responsible_users_notification($description, $data['taskid'], false, 'task_new_comment_to_staff', $additional_data, $insert_id);
             }
 
-            if(check_session_by_id($data['taskid'])){
-                $this->_send_customer_contacts_notification($data['taskid'], 'session_new_comment_to_customer');
-            }else{
-                $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+            $this->db->where('project_id', $task->rel_id);
+            $this->db->where('name', 'view_task_comments');
+            $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
+
+            if ($project_settings && $project_settings->value == 1) {
+                
+                if(check_session_by_id($data['taskid'])){
+                    $this->_send_customer_contacts_notification($data['taskid'], 'session_new_comment_to_customer');
+                }else{
+                    $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+                }
             }
 
             hooks()->do_action('task_comment_added', ['task_id' => $data['taskid'], 'comment_id' => $insert_id]);
@@ -1278,7 +1303,6 @@ class Tasks_model extends App_Model
                 }else{
                     send_mail_template('task_assigned_to_staff', $member->email, $data['assignee'], $data['taskid']);
                 }
-
             }
 
             $description                  = 'not_task_assigned_someone';
@@ -1424,7 +1448,6 @@ class Tasks_model extends App_Model
 
             if ($notification == true) {
                 $description = 'not_task_new_attachment';
-
                 if(check_session_by_id($rel_id)){
                     $this->_send_task_responsible_users_notification($description, $rel_id, false, 'session_new_attachment_to_staff');
                 }else{
@@ -1544,7 +1567,6 @@ class Tasks_model extends App_Model
                     'content' => $data['content'],
                 ]);
                 if ($this->db->affected_rows() > 0) {
-
                     hooks()->do_action('task_comment_updated', [
                         'comment_id' => $comment->id,
                         'task_id'    => $comment->taskid,
@@ -1726,7 +1748,6 @@ class Tasks_model extends App_Model
             }else{
                 $this->_send_customer_contacts_notification($task_id, 'task_status_changed_to_customer');
             }
-
 
             hooks()->do_action('task_status_changed', ['status' => $status, 'task_id' => $task_id]);
 
@@ -2386,6 +2407,14 @@ class Tasks_model extends App_Model
         return $this->db->get(db_prefix() . 'reminders')->result_array();
     }
 
+    /**
+     * Check whether the given staff can access the given task
+     *
+     * @param  int $staff_id
+     * @param  int $task_id
+     *
+     * @return boolean
+     */
     public function can_staff_access_task($staff_id, $task_id)
     {
         $retVal              = false;
@@ -2401,6 +2430,13 @@ class Tasks_model extends App_Model
         return $retVal;
     }
 
+    /**
+     * Get the staff members that can view the given task
+     *
+     * @param  int $task_id
+     *
+     * @return array
+     */
     public function get_staff_members_that_can_access_task($task_id)
     {
         $task_id = $this->db->escape_str($task_id);
@@ -2416,16 +2452,25 @@ class Tasks_model extends App_Model
             AND active=1')->result_array();
     }
 
+    /**
+     * Check whether the given staff should receive notification for
+     * the given task
+     *
+     * @param  int $staffid
+     * @param  int $taskid  [description]
+     *
+     * @return boolean
+     */
     private function should_staff_receive_notification($staffid, $taskid)
     {
         if (!$this->can_staff_access_task($staffid, $taskid)) {
             return false;
         }
 
-        return ($this->is_task_assignee($staffid, $taskid)
+        return hooks()->apply_filters('should_staff_receive_task_notification', ($this->is_task_assignee($staffid, $taskid)
                 || $this->is_task_follower($staffid, $taskid)
                 || $this->is_task_creator($staffid, $taskid)
-                || $this->staff_has_commented_on_task($staffid, $taskid));
+                || $this->staff_has_commented_on_task($staffid, $taskid)), ['staff_id' => $staffid, 'task_id' => $taskid]);
     }
 
     public function new_task_to_select_timesheet($data)

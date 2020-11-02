@@ -116,7 +116,7 @@
                                     <select id="city" name="city" class="form-control custom_select_arrow">
                                         <option selected disabled></option>
                                         <?php foreach ($data as $row): ?>
-                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': $OtherServ->city == $row->Name_ar ?  'selected' : '' ?>><?php echo $row->$field_city; ?></option>
+                                            <option value="<?php echo $row->$field_city; ?>" <?php echo $OtherServ->city == $row->Name_en ? 'selected': ($OtherServ->city == $row->Name_ar ?  'selected' : '') ?>><?php echo $row->$field_city; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -246,7 +246,7 @@
                             <input type="checkbox" name="service_session_link" id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$OtherServ->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -276,11 +276,12 @@
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
-
-            $checked = ' checked';
+            //$checked = ' checked';
+            $checked = '';
             if(isset($OtherServ)){
-                if($OtherServ->settings->{$setting} == 0){
-                    $checked = '';
+                //if($OtherServ->settings->{$setting} == 0){
+                if($OtherServ->settings->{$setting} == 1){
+                    $checked = ' checked';
                 }
             } else {
                 foreach($last_project_settings as $last_setting) {
@@ -295,7 +296,7 @@
                     $checked = '';
                 }
             } ?>
-            <?php  if($setting != 'available_features'){ ?>
+            <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
                     <label for="<?php echo $setting; ?>">
@@ -479,15 +480,16 @@
 
         _validate_form($('#form'), {
             code: 'required',
-            title: 'required',
+            name: 'required',
             clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //billing_type: 'required',
             //rate_per_hour: 'required',
-            members: 'required',
-            start_date: 'required',
-            end_date: 'required',
+            //members: 'required',
+            //start_date: 'required',
+            //end_date: 'required',
+            description: 'required',
         });
 
 

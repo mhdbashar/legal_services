@@ -5,7 +5,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo _l('gdpr_consent_incloudes_page_new_consent_purpose');?></h4>
+        <h4 class="modal-title">New consent purpose</h4>
       </div>
       <div class="modal-body">
        <?php $value = ( isset($purpose) ? $purpose->name : '');
@@ -14,13 +14,13 @@
           $attrs['disabled'] = true;
        }
         ?>
-       <?php echo render_input( 'name', 'gdpr_name_puropse', $value,'text', $attrs); ?>
+       <?php echo render_input( 'name', 'Name / Purpose', $value,'text', $attrs); ?>
        <?php $value = (isset($purpose) ? $purpose->description : ''); ?>
-       <?php echo render_textarea('description','description', $value, array('placeholder'=>_l('gdpr_consent_includes_page_describe'),'rows'=>10)); ?>
+       <?php echo render_textarea('description','Description', $value, array('placeholder'=>'Briefly describe the purpose of this consent. Eq. for what the data will be used.','rows'=>10)); ?>
      </div>
      <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('gdpr_consent_includes_page_close');?></button>
-      <button type="submit" class="btn btn-info"><?php echo _l('gdpr_consent_includes_page_save');?></button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-info">Save</button>
     </div>
   </div><!-- /.modal-content -->
   <?php echo form_close(); ?>

@@ -27,6 +27,11 @@
 				<label for="codeigniter">CodeIgniter</label>
 			</div>
 			<hr />
+			<?php if(get_option('email_protocol') == 'mail'){ ?>
+				<div class="alert alert-warning">
+					The "mail" protocol is not the recommended protocol to send emails, you should strongly consider configuring the "SMTP" protocol to avoid any distruptions and delivery issues.
+				</div>
+			<?php } ?>
 			<label for="email_protocol"><?php echo _l('email_protocol'); ?></label><br />
 			<div class="radio radio-inline radio-primary">
 				<input type="radio" name="settings[email_protocol]" id="smtp" value="smtp" <?php if(get_option('email_protocol') == 'smtp'){echo 'checked';} ?>>
@@ -92,11 +97,11 @@
 	<div role="tabpanel" class="tab-pane" id="email_queue">
 		<?php if(get_option('cron_has_run_from_cli') != '1') { ?>
 			<div class="alert alert-danger">
-				<?php echo _l("cronjob_req"); ?>
+				This feature requires a properly configured cron job. Before activating the feature, make sure that the <a href="<?php echo admin_url('settings?group=cronjob'); ?>">cron job</a> is configured as explanation in the documentation.
 			</div>
 		<?php } ?>
-		<?php render_yes_no_option('email_queue_enabled','email_queue_enabled',_l('email_queue_enabled_exp')); ?>
+		<?php render_yes_no_option('email_queue_enabled','email_queue_enabled','To speed up the emailing process, the system will add the emails in queue and will send them via cron job, make sure that the cron job is properly configured in order to use this feature.'); ?>
 		<hr />
-		<?php render_yes_no_option('email_queue_skip_with_attachments','email_queue_skip_attachments',_l('email_queue_skip_attachments_exp')); ?>
+		<?php render_yes_no_option('email_queue_skip_with_attachments','email_queue_skip_attachments','Most likely you will encounter problems with the email queue if the system needs to add big files to the queue. If you plan to use this option consult with your server administrator/hosting provider to increase the max_allowed_packet and wait_timeout options in your server config, otherwise when this option is set to yes the system won\'t add emails with attachments in the queue and will be sent immediately.'); ?>
 	</div>
 </div>

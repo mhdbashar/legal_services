@@ -256,12 +256,12 @@
 </div>
 <div class="clearfix"></div>
 <?php } ?>
-<div class="tc-content project-overview-contacts">
+<!-- <div class="tc-content project-overview-contacts">
   <hr class="hr-panel-heading project-area-separation" />
   <p class="bold font-size-14 project-info"><?php echo _l('project_contacts'); ?></p>
   <div id="project-overview-contacts" class="project_contacts"></div>
 </div>
-<div class="clearfix"></div>
+<div class="clearfix"></div> -->
 <div class="tc-content project-overview-description">
    <hr class="hr-panel-heading project-area-separation" />
    <p class="bold font-size-14 project-info"><?php echo _l('project_description'); ?></p>

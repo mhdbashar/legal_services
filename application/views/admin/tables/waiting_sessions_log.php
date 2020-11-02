@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $hasPermissionEdit   = has_permission('tasks', '', 'edit');
 $hasPermissionDelete = has_permission('tasks', '', 'delete');
-$tasksPriorities     = get_tasks_priorities();
+$tasksPriorities     = get_sessions_priorities();
 
 $aColumns = [
     db_prefix() . 'tasks.id as id',
@@ -51,13 +51,14 @@ if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, $rel_to_query);
 }
 
-array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
+//array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") <= STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
+array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [
-    ' JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
-    ' JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
-    ' JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
+    'LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
+    'LEFT JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
+    'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
 
 $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
@@ -67,7 +68,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'billed',
     'recurring',
     '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as is_assigned',
-    get_sql_select_task_assignees_ids() . ' as assignees_ids',
+    get_sql_select_session_assignees_ids() . ' as assignees_ids',
     '(SELECT MAX(id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . db_prefix() . 'tasks.id and staff_id=' . get_staff_user_id() . ' and end_time IS NULL) as not_finished_timer_by_current_staff',
     '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned',
     '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
@@ -85,7 +86,7 @@ foreach ($rResult as $aRow) {
     }
     $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
     if ($aRow['recurring'] == 1) {
-        $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
+        $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
 
     $outputName .= '<div class="row-options">';
@@ -94,23 +95,23 @@ foreach ($rResult as $aRow) {
     $style = '';
     $tooltip = '';
 
-    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Sessions_model::STATUS_COMPLETE) {
         $class = 'text-dark disabled';
         $style = 'style="opacity:0.6;cursor: not-allowed;"';
-        if ($aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+        if ($aRow['status'] == Sessions_model::STATUS_COMPLETE) {
             $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
         } elseif ($aRow['billed'] == 1) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';
         } elseif (!$aRow['is_assigned']) {
-            $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_start_timer_only_assignee') . '"';
+            $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';
         }
     }
 
     if ($aRow['not_finished_timer_by_current_staff']) {
-        $outputName .= '<a href="#" class="text-danger tasks-table-stop-timer" onclick="timer_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
+        $outputName .= '<a href="#" class="text-danger tasks-table-stop-timer" onclick="timer_session_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
     } else {
         $outputName .= '<span' . $tooltip . ' ' . $style . '>
-      <a href="#" class="' . $class . ' tasks-table-start-timer" onclick="timer_action(this,' . $aRow['id'] . '); return false;">' . _l('task_start_timer') . '</a>
+      <a href="#" class="' . $class . ' tasks-table-start-timer" onclick="timer_session_action(this,' . $aRow['id'] . '); return false;">' . _l('task_start_timer') . '</a>
       </span>';
     }
 

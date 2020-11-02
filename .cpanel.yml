@@ -1,5 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/babillawnet/public_html/legaloffice/office
-    - /bin/cp -a * $DEPLOYPATH

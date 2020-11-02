@@ -197,7 +197,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="row">
-                     <div class="col-md-6">
+                     <div class="col-md-12">
                         <h4 class="no-mtop"><?php echo _l('billing_address'); ?> <a href="#" class="pull-right billing-same-as-customer"><small class="font-medium-xs"><?php echo _l('customer_billing_same_as_profile'); ?></small></a></h4>
                         <hr />
                         <?php $value=( isset($client) ? $client->billing_street : ''); ?>
@@ -211,7 +211,7 @@
                         <?php $selected=( isset($client) ? $client->billing_country : '' ); ?>
                         <?php echo render_select( 'billing_country',$countries,array( 'country_id',array( 'short_name')), 'billing_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex'))); ?>
                      </div>
-                     <div class="col-md-6">
+                     <!-- <div class="col-md-6">
                         <h4 class="no-mtop">
                            <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('customer_shipping_address_notice'); ?>"></i>
                            <?php echo _l('shipping_address'); ?> <a href="#" class="pull-right customer-copy-billing-address"><small class="font-medium-xs"><?php echo _l('customer_billing_copy'); ?></small></a>
@@ -227,7 +227,7 @@
                         <?php echo render_input( 'shipping_zip', 'shipping_zip',$value); ?>
                         <?php $selected=( isset($client) ? $client->shipping_country : '' ); ?>
                         <?php echo render_select( 'shipping_country',$countries,array( 'country_id',array( 'short_name')), 'shipping_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex'))); ?>
-                     </div>
+                     </div> -->
                      <?php if(isset($client) &&
                         (total_rows(db_prefix().'invoices',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'estimates',array('clientid'=>$client->userid)) > 0 || total_rows(db_prefix().'creditnotes',array('clientid'=>$client->userid)) > 0)){ ?>
                      <div class="col-md-12">

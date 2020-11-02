@@ -13,9 +13,7 @@ $table_data = [
    _l('project_members'),
    _l('project_status'),
 ];
-if($this->app_modules->is_active('branches')){
-  $table_data[] = _l('branches');
-}
+
 $custom_fields = get_custom_fields('projects', ['show_on_table' => 1]);
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);

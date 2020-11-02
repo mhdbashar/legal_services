@@ -602,12 +602,12 @@ $lang['staff_problem_changing_password'] = "هناك مشكلة عند تغيي�
 $lang['staff_profile_string'] = "الملف الشخصي";
 $lang['staff_cant_remove_main_admin'] = "لا يمكن إزالة المسؤول الرئيسي";
 $lang['staff_cant_remove_yourself_from_admin'] = "لا يمكنك إزالة نفسك دور المسؤول";
-$lang['staff_dt_name'] = "الإسم الكامل";
+$lang['staff_dt_name'] = "الاسم الكامل";
 $lang['staff_dt_email'] = "البريد الإلكتروني";
 $lang['staff_dt_last_Login'] = "أخر تسجيل دخول";
 $lang['staff_dt_active'] = "نشط";
 $lang['staff_add_edit_firstname'] = "الأسم الاول";
-$lang['staff_add_edit_lastname'] = "الإسم الأخير";
+$lang['staff_add_edit_lastname'] = "الاسم الأخير";
 $lang['staff_add_edit_email'] = "البريد الإلكتروني";
 $lang['staff_add_edit_phonenumber'] = "رقم الهاتف";
 $lang['staff_add_edit_facebook'] = "Facebook";
@@ -647,7 +647,7 @@ $lang['task_no_followers'] = "ليس هناك متابع لهذه المهمة";
 $lang['task_list_all'] = "الكل";
 $lang['task_list_not_assigned'] = "لم يتم احالتها";
 $lang['task_list_duedate_passed'] = "انقضى تاريخ الاستحقاق";
-$lang['tasks_dt_name'] = "الإسم";
+$lang['tasks_dt_name'] = "الاسم";
 $lang['task_single_priority'] = "الاولوية";
 $lang['task_single_start_date'] = "تاريخ البداية";
 $lang['task_single_due_date'] = "تاريخ الإستحقاق";
@@ -734,8 +734,8 @@ $lang['clients_invoice_dt_duedate'] = "تاريخ الإستحقاق";
 $lang['clients_invoice_dt_amount'] = "المبلغ";
 $lang['clients_invoice_dt_status'] = "الحالة";
 $lang['clients_profile_heading'] = "الملف الشخصي";
-$lang['clients_firstname'] = "الإسم الأول";
-$lang['clients_lastname'] = "الإسم الأخير";
+$lang['clients_firstname'] = "الاسم الأول";
+$lang['clients_lastname'] = "الاسم الأخير";
 $lang['clients_email'] = "عنوان البريد الإلكتروني";
 $lang['clients_vat'] = "الرقم الضريبي";
 $lang['clients_phone'] = "رقم الهاتف";
@@ -812,7 +812,7 @@ $lang['online_payment_recorded_success_fail_database'] = "تم الدفع بنج
 $lang['lead_convert_to_client'] = "التحويل لعميل";
 $lang['lead_convert_to_email'] = "البريد الإلكتروني";
 $lang['lead_convert_to_client_firstname'] = "الأسم الاول";
-$lang['lead_convert_to_client_lastname'] = "الإسم الأخير";
+$lang['lead_convert_to_client_lastname'] = "الاسم الأخير";
 $lang['lead_email_already_exists'] = "البريد الإلكتروني للعميل المتوقع موجود بالفعل في بيانات العملاء";
 $lang['lead_to_client_base_converted_success'] = "تم التحويل لعميل بنجاح";
 $lang['lead_have_client_profile'] = "هذا العميل المتوقع لديه ملف عميل.";
@@ -1664,7 +1664,7 @@ $lang['customer_from_lead'] = "العملاء من %s";
 $lang['lead_kan_ban_attachments'] = "المرفقات: العملاء من %s";
 $lang['leads_sort_by_lastcontact'] = "آخر اتصال";
 $lang['task_comment_added'] = "تم إضافة التعليق بنجاح";
-$lang['task_duedate'] = "Due Date";
+$lang['task_duedate'] = "تاريخ الاستحقاق";
 $lang['task_view_comments'] = "التعليقات";
 $lang['task_comment_updated'] = "تحديث التعليقات";
 $lang['task_visible_to_client'] = "مرئي للعميل";
@@ -2287,7 +2287,7 @@ $lang['task_recurring_months'] = "شهر";
 $lang['task_recurring_years'] = "سنة";
 $lang['task_recurring_days'] = "يوم";
 $lang['task_recurring_weeks'] = "أسبوع";
-$lang['todays_tasks'] = "Today's tasks";
+$lang['todays_tasks'] = "مهام اليوم";
 $lang['payment_mode_invoices_only'] = "الفواتير فقط";
 $lang['payment_mode_expenses_only'] = "عروض الأسعار فقط";
 $lang['task_no_checklist_items_found'] = "عناصر قائمة التحقق غير موجودة لهذه المهمة";
@@ -2643,7 +2643,7 @@ $lang['text_not_recommended_for_servers_limited_resources'] = "غير مستحس
 $lang['tasks_bull_actions_assign_notice'] = "إذا كانت المهمة مرتبطة بالخدمة والموظف الذي تقوم بتعيين المهمة إليه ليس عضوًا في الخدمة، فسيتم إضافة هذا الموظف تلقائيًا كعضو.";
 $lang['company_information'] = "معلومات الشركة";
 $lang['ticket_form_subject'] = "الموضوع";
-$lang['ticket_form_name'] = "الإسم";
+$lang['ticket_form_name'] = "الاسم";
 $lang['ticket_form_email'] = "عنوان البريد الإلكتروني";
 $lang['ticket_form_department'] = "القسم";
 $lang['ticket_form_message'] = "الرسالة";
@@ -3131,3 +3131,77 @@ $lang['from_here'] = "من هنا";
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
 $lang['office_name_in_center']='اسم المكتب في المركز';
 $lang['no_office_name_in_center']='لايوجد اسم للمكتب في مركز الخدمات';
+
+# Version 2.4.0
+$lang['delete_credit_card']                        = 'حذف البطاقة';
+$lang['delete_credit_card_info']                   = 'لا يمكنك حذف بطاقة الائتمان لأن لديك اشتراكات نشطة.';
+$lang['credit_card_successfully_deleted']          = 'تم حذف بطاقة الائتمان بنجاح.';
+$lang['subscription_incomplete']                   = 'غير مكتمل';
+$lang['subscription_incomplete_expired']           = 'منتهية الصلاحية غير مكتملة';
+$lang['credit_card_short']                         = 'البطاقة';
+$lang['webhook_created']                           = 'تم إنشاء Webhook بنجاح.';
+$lang['subscriptions_terms_info']                  = 'أدخل الشروط والأحكام ليتم عرضها على العميل قبل الاشتراك.';
+$lang['subscription_complete_payment']             = 'دفع كامل';
+$lang['subscription_is_subscription_is_expired']   = 'انتهت صلاحية هذا الاشتراك.';
+$lang['subscription_plan_currency_does_not_match'] = 'عملة الخطة المحددة لا تتطابق مع العملة المحددة أدناه.';
+$lang['subscription_first_billing_date_info']      = 'اتركه فارغًا لاستخدام التاريخ عندما يكون العميل مشتركًا . يجب أن يكون هذا الحقل تاريخًا مستقبليًا ، إذا حددت التاريخ وتم تجاوز التاريخ ولكن العميل لم يشترك بعد ، فسيتم استخدام التاريخ الذي سيشترك فيه العميل.';
+$lang['stripe_subscription_select_plan']           = 'حدد خطة Stripe';
+
+# Version 2.4.1
+$lang['contract_content_permission_edit_warning'] = 'صلاحياتك الحالية لا تسمح لك بتعديل محتوى العقد. أطلب من المسؤول السماح لك بالإذن لتحرير العقود.';
+$lang['mark_as_signed']                 = 'وضع علامة كموقع';
+$lang['unmark_as_signed']               = 'إلغاء علامة كموقع';
+$lang['marked_as_signed']               = 'تم وضع علامة عليه كموقع';
+$lang['contract_marked_as_signed_info'] = 'تم تمييز هذا العقد يدويًا على أنه موقع.';
+$lang['save_and_send_later']            = 'احفظ وأرسل لاحقًا';
+$lang['schedule']                       = 'جدول';
+$lang['schedule_email_for']             = 'جدولة البريد الإلكتروني لـ %s';
+$lang['schedule_date']                  = 'متى ترغب في إرسال البريد الإلكتروني؟';
+$lang['email_scheduled_successfully']   = 'تمت جدولة البريد الإلكتروني بنجاح';
+$lang['invoice_will_be_sent_at']        = 'سيتم إرسال الفاتورة في  %s';
+
+# Version 2.5.0
+$lang['recaptcha_ignore_ips']               = 'عناوين IP التي تم تجاهلها';
+$lang['recaptcha_ignore_ips_info']          = 'أدخل عناوين IP مفصولة بفواصل والتي تريد أن يتخطى reCaptcha التحقق من صحتها.';
+$lang['show_task_reminders_on_calendar']    = 'تذكيرات المهام';
+$lang['contracts_about_to_expire']          = 'عقود تنتهي قريبا';
+$lang['no_contracts_about_to_expire']       = 'لا توجد عقود ستنتهي صلاحيتها في الأيام  %s القادمة.';
+$lang['lead_value']                         = 'قيمة العميل المحتمل';
+$lang['lead_value_tooltip']                 = 'سيتم استخدام العملة الأساسية.';
+$lang['leads_dt_lead_value']                = 'قيمة العميل المحتمل';
+$lang['leads_canban_lead_value']            = 'قيمة العميل المحتمل : %s ';
+$lang['lead_add_edit_lead_value']           = 'قيمة العميل المحتمل';
+
+# Version 2.6.0
+$lang['gantt_view_day'] = 'عرض الأيام';
+$lang['gantt_view_week'] = 'عرض الأسابيع';
+$lang['gantt_view_month'] = 'عرض الشهور';
+$lang['gantt_view_year'] = 'عرض السنوات';
+
+# Version 2.7.0
+$lang['hour_of_day_perform_tasks_reminder_notification_help'] = 'تنسيق 24 ساعة مثال. 9 للساعة 9 صباحًا أو 15 الساعة 3 مساءً. لا يتم استخدامه للتذكير بالمهام المتكررة وما إلى ذلك.';
+$lang['clients_nav_contacts']                                 = 'جهات الإتصال';
+$lang['clients_my_contacts']                                  = 'جهات الإتصال';
+$lang['clients_my_contact']                                   = 'جهة إتصال';
+$lang['new_contact']                                          = 'جهة إتصال جديدة';
+$lang['customer_contact']                                     = 'جهات الاتصال الخاصة بي';
+$lang['clients_contact_added']                                = 'تمت إضافة جهة الاتصال بنجاح';
+$lang['clients_contact_updated']                              = 'تم تحديث جهة الاتصال بنجاح';
+$lang['allow_primary_contact_to_manage_other_contacts']       = 'السماح لجهة الاتصال الأساسية بإدارة جهات اتصال العملاء الأخرى';
+$lang['contact_form_validation_is_unique']                    = 'جهة الإتصال بالحقل {field} موجود بالفعل في النظام';
+$lang['invoice_number_not_applied_on_draft']                  = 'إذا تم حفظ الفاتورة كمسودة ، فلن يتم تطبيق الرقم ، وبدلاً من ذلك ، سيتم إعطاء رقم الفاتورة التالية عندما يتم إرسال الفاتورة إلى العميل أو يتم تمييزها على أنها مرسلة.';
+
+$lang['two_factor_authentication_disabed']                    = 'معطل';
+$lang['enable_google_two_factor_authentication']              = 'تمكين مصادقة Google';
+$lang['set_google_two_factor_authentication_failed']          = 'فشل حفظ المصادقة ، يرجى المحاولة مرة أخرى';
+$lang['enter_two_factor_auth_code_from_mobile']               = 'أدخل رمز المصادقة من تطبيق أداة المصادقة';
+$lang['staff_two_factor_authentication']                      = 'المصادقة الثنائية';
+$lang['google_authentication_code']                           = 'أدخل الرمز من تطبيق أداة المصادقة';
+$lang['set_two_factor_authentication_successful']             = 'تم تحديث إعدادات المصادقة الثنائية بنجاح';
+$lang['set_two_factor_authentication_failed']                 = 'تعذر تحديث إعدادات المصادقة الثنائية';
+$lang['google_2fa_code_valid']                                = 'تم التحقق من المصادقة بنجاح';
+$lang['google_2fa_code_invalid']                              = 'تم إدخال رمز مصادقة غير صالح ، حاول مرة أخرى.';
+$lang['google_2fa_scan_qr_guide']                             = 'امسح QR أدناه باستخدام تطبيق Google Authenticator على جهازك المحمول ، بعد ذلك املأ الحقل أدناه بالرمز الذي تم إنشاؤه في التطبيق';
+$lang['google_2fa_manul_input_secret']                        = 'مفتاح سري للإدخال اليدوي';
+
+

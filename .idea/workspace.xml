@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/libraries/pdf/written_reports_pdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/models/Written_reports_model.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/written_reportspdf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/migrations/271_version_271.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/oservices_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/oservices_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/views/iracpdf.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/iracpdf.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -368,7 +357,7 @@
       <workItem from="1603912228324" duration="2117000" />
       <workItem from="1604076403918" duration="10635000" />
       <workItem from="1604305929465" duration="449000" />
-      <workItem from="1604337049186" duration="691000" />
+      <workItem from="1604337049186" duration="4191000" />
     </task>
     <servers />
   </component>
@@ -421,10 +410,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1604100250351">
+    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1604355385851">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604100250351" />
+    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604355385851" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1603313899667">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

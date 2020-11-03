@@ -14,42 +14,56 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- <div class="checkbox checkbox-primary">
-                            <input type="checkbox" class="copy" name="tasks" id="c_tasks" checked>
-                            <label for="c_tasks"><?php echo _l('tasks'); ?></label>
-                        </div>
-                        <div class="checkbox checkbox-primary mleft10 tasks-copy-option">
-                            <input type="checkbox" name="tasks_include_checklist_items" id="tasks_include_checklist_items" checked>
-                            <label for="tasks_include_checklist_items"><small><?php echo _l('copy_project_task_include_check_list_items'); ?></small></label>
-                        </div>
-                        <div class="checkbox checkbox-primary mleft10 tasks-copy-option">
-                            <input type="checkbox" name="task_include_assignees" id="task_include_assignees" checked>
-                            <label for="task_include_assignees"><small><?php echo _l('copy_project_task_include_assignees'); ?></small></label>
-                        </div>
-                        <div class="checkbox checkbox-primary mleft10 tasks-copy-option">
-                            <input type="checkbox" name="task_include_followers" id="copy_project_task_include_followers" checked>
-                            <label for="copy_project_task_include_followers"><small><?php echo _l('copy_project_task_include_followers'); ?></small></label>
-                        </div>
-                        <div class="checkbox checkbox-primary">
-                            <input type="checkbox" name="milestones" id="c_milestones" checked>
-                            <label for="c_milestones"><?php echo _l('project_milestones'); ?></label>
-                        </div>
-                        <div class="checkbox checkbox-primary">
-                            <input type="checkbox" name="members" id="c_members" class="copy" checked>
-                            <label for="c_members"><?php echo _l('project_members'); ?></label>
-                        </div>
-                        <hr /> -->
                         <?php 
                           $this->db->where('show_on_sidebar', 1);
                           $services = $this->db->get('tblmy_basic_services')->result_array();
                           // var_dump($services);
                         ?>
-                        <div class="copy-project-tasks-status-wrapper">
+                        <div class="">
                             <p class="bold"><?php echo _l('LegalService'); ?></p>
                             <?php foreach($services as $service){ ?>
                                 <div class="radio radio-primary">
-                                    <input type="radio" name="service_id" value="<?php echo $service['id']; ?>" id="cp_task_status_<?php echo $service['id']; ?>"<?php if($service['id'] == '1'){echo ' checked';} ?>>
-                                    <label for="cp_task_status_<?php echo $service['id']; ?>"><?php echo $service['name']; ?></label>
+                                    <input type="radio" name="service_id" value="<?php echo $service['id']; ?>" id="service_id<?php echo $service['id']; ?>"<?php if($service['id'] == '1'){echo ' checked';} ?>>
+                                    <label for="service_id<?php echo $service['id']; ?>"><?php echo $service['name']; ?></label>
+                                </div>
+                            <?php } ?>
+                            <hr />
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" class="copy" name="tasks" id="c_link_tasks" checked>
+                            <label for="c_link_tasks"><?php echo _l('tasks'); ?></label>
+                        </div>
+                        <div class="checkbox checkbox-primary mleft10 link_tasks-copy-option">
+                            <input type="checkbox" name="tasks_include_checklist_items" id="link_tasks_include_checklist_items" checked>
+                            <label for="link_tasks_include_checklist_items"><small><?php echo _l('copy_project_task_include_check_list_items'); ?></small></label>
+                        </div>
+                        <div class="checkbox checkbox-primary mleft10 link_tasks-copy-option">
+                            <input type="checkbox" name="task_include_assignees" id="link_task_include_assignees" checked>
+                            <label for="link_task_include_assignees"><small><?php echo _l('copy_project_task_include_assignees'); ?></small></label>
+                        </div>
+                        <div class="checkbox checkbox-primary mleft10 link_tasks-copy-option">
+                            <input type="checkbox" name="task_include_followers" id="copy_project_link_task_include_followers" checked>
+                            <label for="copy_project_link_task_include_followers"><small><?php echo _l('copy_project_task_include_followers'); ?></small></label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" name="milestones" id="link_c_milestones" checked>
+                            <label for="link_c_milestones"><?php echo _l('project_milestones'); ?></label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" name="members" id="link_c_members" class="copy" checked>
+                            <label for="link_c_members"><?php echo _l('project_members'); ?></label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" name="files" id="link_c_files" class="copy" checked>
+                            <label for="link_c_files"><?php echo _l('project_files'); ?></label>
+                        </div>
+                        <hr />
+                        <div class="copy-project-link_tasks-status-wrapper">
+                            <p class="bold"><?php echo _l('copy_project_tasks_status'); ?></p>
+                            <?php foreach($task_statuses as $cp_link_task_status){ ?>
+                                <div class="radio radio-primary">
+                                    <input type="radio" name="copy_project_task_status" value="<?php echo $cp_link_task_status['id']; ?>" id="cp_link_task_status_<?php echo $cp_link_task_status['id']; ?>"<?php if($cp_link_task_status['id'] == '1'){echo ' checked';} ?>>
+                                    <label for="cp_link_task_status_<?php echo $cp_link_task_status['id']; ?>"><?php echo $cp_link_task_status['name']; ?></label>
                                 </div>
                             <?php } ?>
                             <hr />
@@ -108,12 +122,12 @@ function link_service(id) {
         clientid_copy_project: 'required',
     });
 
-    var copy_members = $('#c_members');
-    var copy_tasks = $('input[name="tasks"].copy');
-    var copy_assignees_and_followers = $('input[name="task_include_assignees"],input[name="task_include_followers"]');
+    var copy_members = $('#link_c_members');
+    var copy_link_tasks = $('input[name="tasks"].copy');
+    var copy_assignees_and_followers = $('input[name="link_task_include_assignees"],input[name="link_task_include_followers"]');
 
     copy_members.off('change');
-    copy_tasks.off('change');
+    copy_link_tasks.off('change');
     copy_assignees_and_followers.off('change');
 
         copy_members.on('change',function(){
@@ -122,23 +136,23 @@ function link_service(id) {
            }
        });
 
-        copy_tasks.on('change', function() {
+        copy_link_tasks.on('change', function() {
           var checked = $(this).prop('checked');
           if (checked) {
 
-              var copy_assignees = $('input[name="task_include_assignees"]').prop('checked');
-              var copy_followers = $('input[name="task_include_followers"]').prop('checked');
+              var copy_assignees = $('input[name="link_task_include_assignees"]').prop('checked');
+              var copy_followers = $('input[name="link_task_include_followers"]').prop('checked');
 
               if (copy_assignees || copy_followers) {
                   $('input[name="members"].copy').prop('checked', true);
               }
 
-              $('.copy-project-tasks-status-wrapper').removeClass('hide');
-              $('.tasks-copy-option').removeClass('hide');
+              $('.copy-project-link_tasks-status-wrapper').removeClass('hide');
+              $('.link_tasks-copy-option').removeClass('hide');
 
           } else {
-              $('.copy-project-tasks-status-wrapper').addClass('hide');
-              $('.tasks-copy-option').addClass('hide');
+              $('.copy-project-link_tasks-status-wrapper').addClass('hide');
+              $('.link_tasks-copy-option').addClass('hide');
           }
       });
 

@@ -281,6 +281,7 @@ class Cases_controller extends AdminController
                 }
             }
 
+            $data['linked_services'] = $linked_services;
             $data['father_linked_services'] = $father_linked_services;
             $data['child_linked_services'] = $child_linked_services;
 

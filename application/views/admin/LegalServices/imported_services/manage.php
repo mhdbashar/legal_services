@@ -67,6 +67,13 @@
                                 <?php } ?>
                             </div>
                         </div>
+                        <?php if(!$this->app_modules->is_active('api')){?>
+                            <div class="clearfix"></div>
+                            <hr class="hr-panel-heading" />
+                            <h4 class="no-margin">
+                            <a class=" text-danger" href="<?php echo site_url('admin/modules') ?>"><?php echo _l('to_make_imported_services_work_properly_please_active_api_module_from_here') ?></a></h4>
+
+                        <?php } ?>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
                             <?php

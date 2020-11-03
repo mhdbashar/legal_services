@@ -160,6 +160,7 @@ $autoload['helper'] = [
         'deprecated',
         'cases',
         'oservices',
+        'iservices',
         'sessions',
     ];
 

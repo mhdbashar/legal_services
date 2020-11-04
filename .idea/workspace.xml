@@ -126,7 +126,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../perfex/legal_services/application/migrations/271_version_271.php" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -359,7 +359,9 @@
       <workItem from="1604305929465" duration="449000" />
       <workItem from="1604337049186" duration="4436000" />
       <workItem from="1604392898416" duration="22000" />
-      <workItem from="1604433948353" duration="8342000" />
+      <workItem from="1604433948353" duration="8944000" />
+      <workItem from="1604477571317" duration="25000" />
+      <workItem from="1604530645064" duration="3670000" />
     </task>
     <servers />
   </component>
@@ -380,10 +382,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1604392917053">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1604533378810">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604392917053" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604533378810" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1597420811709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -400,10 +402,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1597420811709" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1604392900122">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1604477571818">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1604392900122" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1604477571818" />
     <state x="374" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603319333910">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -412,17 +414,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1604441481332">
+    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1604530966650">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604441481332" />
+    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604530966650" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1603313899667">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1603313899667" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1604098811203">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1604533244400">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604098811203" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604533244400" />
   </component>
 </project>

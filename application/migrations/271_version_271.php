@@ -90,7 +90,6 @@ class Migration_Version_271 extends CI_Migration
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 
-
         $this->db->query("ALTER TABLE `tblcasediscussions`
   ADD PRIMARY KEY (`id`);");
 
@@ -466,7 +465,7 @@ class Migration_Version_271 extends CI_Migration
 ");
 
         // Add new table tblcountries
-       /* $this->db->query("CREATE TABLE IF NOT EXISTS `tblcountries` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `tblcountries` (
   `country_id` int(5) NOT NULL,
   `iso2` char(2) DEFAULT NULL,
   `short_name` varchar(80) NOT NULL DEFAULT '',
@@ -479,7 +478,13 @@ class Migration_Version_271 extends CI_Migration
   `cctld` varchar(5) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
-        $this->db->query("ALTER TABLE tblcountries ADD COLUMN IF NOT EXISTS short_name_ar varchar(80) NOT NULL;");
+        //Alter table tblcountries
+        if (!$this->db->field_exists('short_name_ar', db_prefix() . 'countries')) {
+            $this->db->query("ALTER TABLE `" . db_prefix() . "countries` ADD `short_name_ar` varchar(80) NOT NULL;");
+        }
+
+        //TRUNCATE tblcountries
+        $this->db->query("TRUNCATE `tblcountries`");
 
         // insert default value table tblcountries
         $this->db->query("INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
@@ -733,13 +738,6 @@ class Migration_Version_271 extends CI_Migration
 (248, 'YE', 'Yemen', '', 'Republic of Yemen', 'YEM', '887', 'yes', '967', '.ye'),
 (249, 'ZM', 'Zambia', '', 'Republic of Zambia', 'ZMB', '894', 'yes', '260', '.zm'),
 (250, 'ZW', 'Zimbabwe', '', 'Republic of Zimbabwe', 'ZWE', '716', 'yes', '263', '.zw');");
-
-        $this->db->query("ALTER TABLE `tblcountries`
-  ADD PRIMARY KEY (`country_id`);");
-
-        $this->db->query("ALTER TABLE `tblcountries`
-  MODIFY `country_id` int(5) NOT NULL AUTO_INCREMENT;
-");*/
 
         // Add new table tblirac_method
         $this->db->query("CREATE TABLE IF NOT EXISTS `tblirac_method` (
@@ -1401,6 +1399,82 @@ class Migration_Version_271 extends CI_Migration
         $this->db->query("ALTER TABLE `tblprocuration_cases`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ");
+
+        //Alter table tblcontracts
+        if (!$this->db->field_exists('type_id', 'tblcontracts')) {
+            $this->db->query("ALTER TABLE `tblcontracts` ADD `type_id` int(11) NOT NULL DEFAULT '0';");
+            $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
+        }
+
+        //Alter table tbldepartments
+        if (!$this->db->field_exists('branch_id', 'tbldepartments')) {
+            $this->db->query("ALTER TABLE `tbldepartments` ADD `branch_id` int(11) NOT NULL DEFAULT '0';");
+        }
+
+        //Alter table tblestimates
+        if (!$this->db->field_exists('rel_sid', 'tblestimates')) {
+            $this->db->query("ALTER TABLE `tblestimates` ADD `rel_sid` int(11) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_sid` (`rel_sid`)");
+        }
+        if (!$this->db->field_exists('rel_stype', 'tblestimates')) {
+            $this->db->query("ALTER TABLE `tblestimates` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_stype` (`rel_stype`)");
+        }
+
+        //Alter table tblexpenses
+        if (!$this->db->field_exists('rel_sid', 'tblexpenses')) {
+            $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_sid` int(11) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_sid` (`rel_sid`)");
+        }
+        if (!$this->db->field_exists('rel_stype', 'tblexpenses')) {
+            $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_stype` (`rel_stype`)");
+        }
+
+        //Alter table tblinvoices
+        if (!$this->db->field_exists('rel_sid', 'tblinvoices')) {
+            $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_sid` int(11) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_sid` (`rel_sid`)");
+        }
+        if (!$this->db->field_exists('rel_stype', 'tblinvoices')) {
+            $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_stype` (`rel_stype`)");
+        }
+
+        //Alter table tblmilestones
+        if (!$this->db->field_exists('rel_sid', 'tblmilestones')) {
+            $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_sid` int(11) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_sid` (`rel_sid`)");
+        }
+        if (!$this->db->field_exists('rel_stype', 'tblmilestones')) {
+            $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_stype` (`rel_stype`)");
+        }
+
+        //Alter table tbltickets
+        if (!$this->db->field_exists('rel_sid', 'tbltickets')) {
+            $this->db->query("ALTER TABLE `tbltickets` ADD `rel_sid` int(11) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_sid` (`rel_sid`)");
+        }
+        if (!$this->db->field_exists('rel_stype', 'tbltickets')) {
+            $this->db->query("ALTER TABLE `tbltickets` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+            $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_stype` (`rel_stype`)");
+        }
+
+        //Alter table tbltasks
+        if (!$this->db->field_exists('is_session', 'tbltasks')) {
+            $this->db->query("ALTER TABLE `tbltasks` ADD `is_session` int(11) DEFAULT '0';");
+        }
+
+        //Alter table tblstaff
+        if (!$this->db->field_exists('firstname', 'tblstaff')) {
+            $this->db->query("ALTER TABLE `tbltasks` ADD `firstname` varchar(50) NOT NULL;");
+            $this->db->query("ALTER TABLE `tbltasks` ADD KEY `firstname` (`firstname`)");
+        }
+        if (!$this->db->field_exists('lastname', 'tblstaff')) {
+            $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
+            $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
+        }
 
     }
 }

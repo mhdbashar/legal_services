@@ -119,7 +119,7 @@ function app_init_oservice_tabs()
     $CI->app_tabs->add_oservice_tab('sales', [
         'name' => _l('sales_string'),
         'icon'     => 'fa fa-balance-scale',
-        'position' => 47,
+        'position' => 50,
         'collapse' => true,
         'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
             || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
@@ -170,14 +170,14 @@ function app_init_oservice_tabs()
         'name' => _l('project_notes'),
         'icon' => 'fa fa-file-o',
         'view' => 'admin/LegalServices/other_services/project_notes',
-        'position' => 50,
+        'position' => 55,
     ]);
 
     $CI->app_tabs->add_oservice_tab('project_activity', [
         'name' => _l('project_activity'),
         'icon' => 'fa fa-exclamation',
         'view' => 'admin/LegalServices/other_services/project_activity',
-        'position' => 55,
+        'position' => 60,
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
 
@@ -200,6 +200,13 @@ function app_init_oservice_tabs()
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
         'position'                  => 75,
+    ]);
+
+    $CI->app_tabs->add_oservice_tab('written_reports', [
+        'name'                      => _l('written_reports'),
+        'icon'                      => 'fa fa-pencil-square',
+        'view'                      => 'admin/written_reports/tab',
+        'position'                  => 80,
     ]);
 }
 

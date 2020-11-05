@@ -18,6 +18,7 @@ class Cases_controller extends AdminController
     $this->load->model('LegalServices/Phase_model','phase');
     $this->load->model('LegalServices/irac_model', 'irac');
     $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
+    $this->load->model('Written_reports_model','reports');
     $this->load->helper('date');
 }
 
@@ -240,6 +241,7 @@ class Cases_controller extends AdminController
     {
         if (has_permission('projects', '', 'view') || $this->case->is_member($id)) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['slug'] = $slug;
             close_setup_menu();
             $project = $this->case->get($id);
             if (!$project) {
@@ -433,6 +435,8 @@ class Cases_controller extends AdminController
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
+            }elseif ($group == 'written_reports'){
+                $data['reports'] = $this->reports->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

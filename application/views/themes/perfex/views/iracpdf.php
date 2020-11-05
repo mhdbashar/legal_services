@@ -74,7 +74,7 @@ endforeach;
             <tr>
             <td>' . _d($case_info->start_date) . '</td>
             <td>' . $case_info->file_number_court . '</td>
-            <td>' . $court . '</td>
+            <td>' . maybe_translate(_l('nothing_was_specified'), $court) . '</td>
             <td>' . get_company_name($case_info->clientid) . '</td>
             <td>' . $member_name . '</td>
             </tr>

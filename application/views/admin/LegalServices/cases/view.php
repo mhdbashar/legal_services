@@ -22,6 +22,14 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <?php if(has_permission('invoices','','create') && !empty($linked_services)){ ?>
+                                    <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
+                                            <?php echo _l('linked_services'); ?>
+                                    </div>
+                                <?php } ?>
                                 <?php if(isset($project->previous_case_id) && $project->previous_case_id != 0): ?>
                                 <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
                                     <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
@@ -39,11 +47,6 @@
                                 <?php if(has_permission('invoices','','create')){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if(isset($project->client_data->active) && $project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
-                                <?php if(has_permission('invoices','','create')){ ?>
-                                    <a class="btn btn-info" href="#" onclick="linked_services(); return false;">
-                                            <?php echo _l('linked_services'); ?>
-                                    </a>
-                                <?php } ?> 
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
                                 if(total_rows(db_prefix().'pinned_cases',array('staff_id'=>get_staff_user_id(),'project_id'=>$project->id)) > 0){

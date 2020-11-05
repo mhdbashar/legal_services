@@ -820,6 +820,140 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
     }
 
+    public function get_case_members($id)
+    {
+        $this->db->select('email,project_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_cases.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
+
+    public function add_edit_cases_members($data, $ServID, $id)
+    {
+        $affectedRows = 0;
+        if (isset($data['project_members'])) {
+            $project_members = $data['project_members'];
+        }
+        $new_project_members_to_receive_email = [];
+        $this->db->select('name,clientid');
+        $this->db->where('id', $id);
+        $project      = $this->db->get(db_prefix() . 'my_cases')->row();
+        $project_name = $project->name;
+        $client_id    = $project->clientid;
+        $project_members_in = $this->get_case_members($id);
+        if (sizeof($project_members_in) > 0) {
+            foreach ($project_members_in as $project_member) {
+                if (isset($project_members)) {
+                    if (!in_array($project_member['staff_id'], $project_members)) {
+                        $this->db->where('project_id', $id);
+                        $this->db->where('staff_id', $project_member['staff_id']);
+                        $this->db->delete(db_prefix() . 'my_members_cases');
+                        if ($this->db->affected_rows() > 0) {
+                            $this->db->where('staff_id', $project_member['staff_id']);
+                            $this->db->where('project_id', $id);
+                            $this->db->delete(db_prefix() . 'pinned_cases');
+
+                            $this->log_activity($id, 'project_activity_removed_team_member', get_staff_full_name($project_member['staff_id']));
+                            $affectedRows++;
+                        }
+                    }
+                } else {
+                    $this->db->where('project_id', $id);
+                    $this->db->delete(db_prefix() . 'my_members_cases');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($project_members)) {
+                $notifiedUsers = [];
+                foreach ($project_members as $staff_id) {
+                    $this->db->where('project_id', $id);
+                    $this->db->where('staff_id', $staff_id);
+                    $_exists = $this->db->get(db_prefix() . 'my_members_cases')->row();
+                    if (!$_exists) {
+                        if (empty($staff_id)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix() . 'my_members_cases', [
+                            'project_id' => $id,
+                            'staff_id'   => $staff_id,
+                        ]);
+                        if ($this->db->affected_rows() > 0) {
+                            if ($staff_id != get_staff_user_id()) {
+                                $notified = add_notification([
+                                    'fromuserid'      => get_staff_user_id(),
+                                    'description'     => 'not_staff_added_as_project_member',
+                                    'link'            => 'Case/view/' .$ServID.'/' .$id,
+                                    'touserid'        => $staff_id,
+                                    'additional_data' => serialize([
+                                        $project_name,
+                                    ]),
+                                ]);
+                                array_push($new_project_members_to_receive_email, $staff_id);
+                                if ($notified) {
+                                    array_push($notifiedUsers, $staff_id);
+                                }
+                            }
+
+
+                            $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                            $affectedRows++;
+                        }
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
+            }
+        } else {
+            if (isset($project_members)) {
+                $notifiedUsers = [];
+                foreach ($project_members as $staff_id) {
+                    if (empty($staff_id)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'my_members_cases', [
+                        'project_id' => $id,
+                        'staff_id'   => $staff_id,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+                        if ($staff_id != get_staff_user_id()) {
+                            $notified = add_notification([
+                                'fromuserid'      => get_staff_user_id(),
+                                'description'     => 'not_staff_added_as_project_member',
+                                'link'            => 'Case/view/' .$ServID.'/' .$id,
+                                'touserid'        => $staff_id,
+                                'additional_data' => serialize([
+                                    $project_name,
+                                ]),
+                            ]);
+                            array_push($new_project_members_to_receive_email, $staff_id);
+                            if ($notifiedUsers) {
+                                array_push($notifiedUsers, $staff_id);
+                            }
+                        }
+                        $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                        $affectedRows++;
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
+            }
+        }
+
+        if (count($new_project_members_to_receive_email) > 0) {
+            $all_members = $this->get_case_members($id);
+            foreach ($all_members as $data) {
+                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
+                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id, $ServID);
+                }
+            }
+        }
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function get_project_statuses()
     {
         $statuses = hooks()->apply_filters('before_get_project_statuses', [
@@ -1077,6 +1211,7 @@ class Other_services_model extends App_Model
         return $tasks;
     }
 
+   
     public function cancel_recurring_tasks($id, $slug)
     {
         $this->db->where('rel_type', $slug);
@@ -2527,6 +2662,7 @@ class Other_services_model extends App_Model
     public function link($ServID,$project_id, $data, $ServID2)
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $slug2      = $this->legal->get_service_by_id($ServID2)->row()->slug;
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $project = $this->get($ServID, $project_id);
         $settings = $this->get_project_settings($project_id);
@@ -2600,34 +2736,36 @@ class Other_services_model extends App_Model
         $this->db->insert($service_table, $_new_data);
         $id = $this->db->insert_id();
         if ($id) {
-            $files = $this->get_files($project_id);
-            if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
-                    mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0777);
-            }
-            foreach ($files as $key => $value) {
-                $file_url = base_url().'uploads/oservices/'.$project_id.'/'.$value['file_name'];
-                $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
-                $myFile = fopen(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], 'w', true);
+            if(isset($data['files'])){
+                $files = $this->get_files($project_id);
+                if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
+                        mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0755);
+                }
+                foreach ($files as $key => $value) {
+                    $file_url = base_url().'uploads/oservices/'.$project_id.'/'.$value['file_name'];
+                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $myFile = fopen(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], 'w', true);
 
-                file_put_contents(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], $file_content);
-                $file_data = [
-                    'file_name' => $value['file_name'],
-                    'subject' => $value['subject'],
-                    'description' => isset($value['description']) ? $value['description'] : '',
-                    'filetype' => $value['filetype'],
-                    'dateadded' => $value['dateadded'],
-                    'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
-                    $files_id => $id,
-                    'visible_to_customer' => 0,   //$value['visible_to_customer'],
-                    'last_activity' => null,
-                    'staffid' => get_staff_user_id(),    //$value['staffid'],
-                    'contact_id' => 0,   //$value['contact_id'],
-                    'external' => isset($value['external']) ? $value['external'] : '',
-                    'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
-                    'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
-                ];
-                $this->db->insert($files_table, $file_data);
+                    file_put_contents(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], $file_content);
+                    $file_data = [
+                        'file_name' => $value['file_name'],
+                        'subject' => $value['subject'],
+                        'description' => isset($value['description']) ? $value['description'] : '',
+                        'filetype' => $value['filetype'],
+                        'dateadded' => $value['dateadded'],
+                        'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                        $files_id => $id,
+                        'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                        'last_activity' => null,
+                        'staffid' => get_staff_user_id(),    //$value['staffid'],
+                        'contact_id' => 0,   //$value['contact_id'],
+                        'external' => isset($value['external']) ? $value['external'] : '',
+                        'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                        'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                    ];
+                    $this->db->insert($files_table, $file_data);
 
+                }
             }
             $tags = get_tags_in($project_id,  $slug);
             handle_tags_save($tags, $id, $slug);
@@ -2640,7 +2778,7 @@ class Other_services_model extends App_Model
                 ]);
             }
             $added_tasks = [];
-            $tasks = $this->get_tasks($ServID,$project_id);
+                $tasks = $this->get_tasks($ServID,$project_id);
             if (isset($data['tasks'])) {
                 foreach ($tasks as $task) {
                     if (isset($data['task_include_followers'])) {
@@ -2655,7 +2793,7 @@ class Other_services_model extends App_Model
                     $copy_task_data['copy_from'] = $task['id'];
                     $task_id = $this->tasks_model->copy($copy_task_data, [
                         'rel_id' => $id,
-                        'rel_type'            => $slug,
+                        'rel_type'            => $slug2,
                         'last_recurring_date' => null,
                         'status' => $data['copy_project_task_status'],
                     ]);
@@ -2744,9 +2882,15 @@ class Other_services_model extends App_Model
                 foreach ($members as $member) {
                     array_push($_members, $member['staff_id']);
                 }
-                $this->add_edit_members([
+                if($ServID2 == 1){
+                    $this->add_edit_cases_members([
                     'project_members' => $_members,
-                ], $ServID,$id);
+                    ], $ServID,$id);
+                }else{
+                    $this->add_edit_members([
+                    'project_members' => $_members,
+                    ], $ServID,$id);
+                }
             }
 
             $custom_fields = get_custom_fields($slug);

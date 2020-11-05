@@ -9,6 +9,7 @@
                     <div class="panel-body _buttons">
                         <div class="row">
                             <div class="col-md-7 project-heading">
+
                                 <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                                 <div id="project_view_name" class="pull-left">
                                     <select class="selectpicker" id="project_top" data-servid="<?php echo $ServID; ?>" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
@@ -22,6 +23,14 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <?php if(has_permission('invoices','','create') && !empty($linked_services)){ ?>
+                                    <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
+                                            <?php echo _l('linked_services'); ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <div class="col-md-5 text-right">
                                 <?php if(has_permission('tasks','','create')){ ?>
@@ -33,11 +42,7 @@
                                 <?php if(has_permission('invoices','','create')){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
-                                <?php if(has_permission('invoices','','create')){ ?>
-                                    <a class="btn btn-info" href="#" onclick="linked_services(); return false;">
-                                            <?php echo _l('linked_services'); ?>
-                                    </a>
-                                <?php } ?>
+                                
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
                                 if(total_rows(db_prefix().'pinned_oservices',array('staff_id'=>get_staff_user_id(),'oservice_id'=>$project->id)) > 0){

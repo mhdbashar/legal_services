@@ -816,10 +816,10 @@ class Migration_Version_271 extends CI_Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
                   $this->db->query("INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) VALUES
-(1, 'قضايا', 'kd-y', 'CASE', 1, 1, 1, 0, '2019-04-15 18:03:19'),
-(2, 'عقود', 'aakod', 'Akd', 1, 1, 1, 0, '2019-05-01 19:43:08'),
-(3, 'استشارات', 'stsh-r-t', 'Istsh', 1, 1, 1, 0, '2019-05-08 01:28:21'),
-(9, 'نزاعات مالية', 'nz_aa_t_m_ly', 'Dispute', NULL, 1, 0, 1, '2020-01-23 21:03:43');");
+(1, 'قضايا', 'kd-y', 'CASE', 1, 1, 1, 0, NOW()),
+(2, 'عقود', 'aakod', 'Akd', 1, 1, 1, 0, NOW()),
+(3, 'استشارات', 'stsh-r-t', 'Istsh', 1, 1, 1, 0, NOW()),
+(9, 'نزاعات مالية', 'nz_aa_t_m_ly', 'Dispute', NULL, 1, 0, 1, NOW());");
             }
 
             if (!$this->db->table_exists(db_prefix() . 'my_cases')) {

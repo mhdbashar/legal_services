@@ -11,6 +11,19 @@ class Migration_Version_271 extends CI_Migration
 
       public function up()
       {
+          // Options
+          add_option('automatically_resend_disputes_invoice_overdue_reminder_after', '-3');
+          add_option('automatically_send_disputes_invoice_overdue_reminder_after', '1');
+          add_option('next_disputes_invoice_number', '6');
+          add_option('automatically_send_lawyer_daily_agenda', '7');
+          add_option('hr_document_reminder_notification_before', '1');
+          add_option('isHijri', 'off');
+          add_option('hijri_format', 'Y-m-d|%Y-%m-%d|hijri');
+          add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
+          add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
+          add_option('automatically_empty_recycle_bin_after_days', '1');
+
+          //Tables
 
             if (!$this->db->table_exists(db_prefix() . 'my_link_services')) {
                   $this->db->query('CREATE TABLE `' . db_prefix() .  'my_link_services` (
@@ -81,7 +94,7 @@ class Migration_Version_271 extends CI_Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
                   // insert default value table tblmy_courts
-                  $this->db->query("INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `is_default`, `datecreated`) VALUES
+                $this->db->query("INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `is_default`, `datecreated`) VALUES
             (1, 'nothing_was_specified', 1, NOW())");
             }
 
@@ -226,8 +239,8 @@ class Migration_Version_271 extends CI_Migration
               `previous_case_id` int(11) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tblcase_movement`
-  ADD KEY `case_id` (`case_id`);");
+
+            $this->db->query("ALTER TABLE `tblcase_movement` ADD KEY `case_id` (`case_id`);");
             }
 
             if (!$this->db->table_exists(db_prefix() . 'case_notes')) {
@@ -506,10 +519,10 @@ class Migration_Version_271 extends CI_Migration
                         $this->db->query("ALTER TABLE `" . db_prefix() . "countries` ADD `short_name_ar` varchar(80) NOT NULL;");
                   }
 
-                  $this->db->query("TRUNCATE `tblcountries`");
+                  $this->db->query("TRUNCATE ". db_prefix() . "countries");
 
                   // insert default value table tblcountries
-                  $this->db->query("INSERT INTO `tblcountries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
+                  $this->db->query("INSERT INTO ". db_prefix() . " `countries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
 ('1', 'AF', 'Afghanistan', '', 'Islamic Republic of Afghanistan', 'AFG', '004', 'yes', '93', '.af'),
 (2, 'AX', 'Aland Islands', '', '&Aring;land Islands', 'ALA', '248', 'no', '358', '.ax'),
 (3, 'AL', 'Albania', '', 'Republic of Albania', 'ALB', '008', 'yes', '355', '.al'),
@@ -797,8 +810,8 @@ class Migration_Version_271 extends CI_Migration
               `datecreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tbllegal_procedures`
-  ADD KEY `list_key` (`list_id`);");
+
+                  $this->db->query("ALTER TABLE `tbllegal_procedures` ADD KEY `list_key` (`list_id`);");
             }
 
             if (!$this->db->table_exists(db_prefix() . 'my_basic_services')) {
@@ -869,6 +882,7 @@ class Migration_Version_271 extends CI_Migration
               `is_default` int(1) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
+
                   $this->db->query("INSERT INTO `tblmy_casestatus` (`id`, `name`, `is_default`) VALUES
 (1, 'nothing_was_specified', 1);");
             }
@@ -1316,5 +1330,34 @@ class Migration_Version_271 extends CI_Migration
                   $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
                   $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
             }
+
+          $sessions_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'sessions']);
+            if($sessions_rows == 0){
+                $this->db->query("
+                INSERT INTO `tblemailtemplates` (type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
+('sessions', 'session-added-as-follower', 'arabic', 'تمت إضافة موظف لمتابعة جلسة (مرسلة إلى فريق العمل)', 'تمت إضافة موظف كمتابع في الجلسة', '{companyname} ', '', 0, 1, 0),
+('sessions', 'session-assigned', 'english', 'New Session Assigned (Sent to Staff)', '', '{companyname}', '', 0, 1, 0),
+('sessions', 'session-assigned', 'arabic', 'تخصيص جلسة جديدة (مرسلة إلى فريق العمل)', 'تكليف بحضور جلسة', '{companyname}', '', 0, 1, 0),
+('sessions', 'session-deadline-notification', 'english', 'Session Deadline Reminder - Sent to Assigned Members', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-deadline-notification', 'arabic', 'تذكير بالموعد النهائي للجلسة - مرسلة إلى الموظفين المعينين', 'تذكير نهائي بموعد الجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-added-attachment-to-contacts', 'arabic', 'مرفقات جديدة في الجلسة (مرسلة إلى جهات اتصال العملاء)', 'تم إضافة مرفقات للجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-added-attachment', 'arabic', 'مرفقات جديدة للجلسة (مرسلة لفريق العمل)', 'تم إضافة مرفقات للجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-commented-to-contacts', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى جهات اتصال العملاء)', 'تعليق جديد على الجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-commented', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى فريق العمل)', 'تعليق جديد على الجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-status-change-to-contacts', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى جهات اتصال العملاء)', 'تم تغيير حالة الجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
+('sessions', 'session-status-change-to-staff', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى فريق العمل)', 'تم تغيير حالة الجلسة', '', '{companyname}', NULL, 0, 1, 0),
+('sessions', 'send_report_session', 'arabic', 'تقرير الجلسة (مرسل إلى فريق العمل)', 'تقرير الجلسة', 'عربية, '{companyname}', '', 0, 1, 0),
+('sessions', 'send_report_session', 'english', 'Session Send Report (Sent to Staff)', 'send_report_session', '{companyname}', '', 0, 1, 0),
+('sessions', 'next_session_action', 'english', 'Reminder For Next Session Action', '', '{companyname}', '', 0, 1, 0),
+('sessions', 'next_session_action', 'arabic', 'تذكير بإجراءات الجلسة القادمة', 'إجراءات مطلوبة للجلسة القادمة', '{companyname}', '', 0, 1, 0)");
+            }
+
       }
+
 }

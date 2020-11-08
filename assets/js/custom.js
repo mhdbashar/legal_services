@@ -1236,3 +1236,21 @@ function sessionExternalFileUpload(files, externalType, taskId) {
         init_session_modal(taskId);
     });
 }
+
+function send_written_report (report_id, service_id, msg) {
+    var res = confirm(""+msg+"");
+    if(res){
+        $.ajax({
+            url: admin_url + 'Written_reports/send_mail_to_client/' + report_id + '/' + service_id,
+            success: function (data) {
+                if(data[0] == 1){
+                    alert_float('success', data[1]);
+                }else if (data[0] == 2){
+                    alert_float('danger', data[1]);
+                }else {
+                    alert_float('danger', 'Operation failed!');
+                }
+            }
+        });
+    }
+}

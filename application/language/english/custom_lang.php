@@ -9,7 +9,7 @@ $lang['father_linked_services'] = 'Father linked service';
 $lang['child_linked_services'] = 'Child linked services';
 $lang['link_service'] = 'Link service';
 
-
+$lang['updated_at'] = "Updated at";
 $lang['cases_summary'] = "Cases Summary";
 $lang['home_my_cases'] = "Cases";
 $lang['home_my_services'] = "Other Services";

@@ -4247,5 +4247,9 @@ $lang['delete_list'] = "Delete List";
 $lang['delete_procedure'] = "Delete Legal Procedure";
 $lang['judges_manage'] = "Judges management";
 $lang['categories_management'] = "Categories management";
-
 $lang['date_time'] = "Date / Time";
+
+$lang['written_reports'] = "Written reports";
+$lang['report'] = "Report";
+$lang['date_updated'] = "Edited on";
+$lang['updated_by_staff'] = "Edited by employee";

@@ -2855,7 +2855,7 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0', 'inner');
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 1', 'inner');
         $cases = $this->db->get(db_prefix() . 'my_link_services')->result();
         // foreach ($cases as $key => $case) {
         //     $cases[$key]->l_service_id = "1"; 

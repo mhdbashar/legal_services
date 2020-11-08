@@ -13,7 +13,7 @@
                <hr class="hr-panel-heading" />
                <div class="clearfix"></div>          
                <?php $value = (isset($judicial) ? $judicial->Jud_number : ''); ?>                                                           
-               <?php echo render_input('Jud_number','NumJudicialDept',$value,'number'); ?>
+               <?php echo render_input('Jud_number','NumJudicialDept',$value); ?>
             </div>
          </div>
       </div>

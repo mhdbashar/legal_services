@@ -55,9 +55,11 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php if (has_permission('customers', '', 'create')) { ?>
                             <div class="col-md-1">
                                 <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
+                            <?php } ?>
 
                         </div>
                         <?php $cats = get_relation_data('mycategory', $ServID);
@@ -225,9 +227,9 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-
+                            <?php if (has_permission('staff', '', 'create')) { ?>
                                 <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-
+                            <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
                                 <select class="form-control custom_select_arrow" name="contract"
@@ -244,7 +246,7 @@
                             <input type="checkbox" name="service_session_link" id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$OtherServ->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -274,9 +276,10 @@
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
-
-            $checked = ' ';
+            //$checked = ' checked';
+            $checked = '';
             if(isset($OtherServ)){
+                //if($OtherServ->settings->{$setting} == 0){
                 if($OtherServ->settings->{$setting} == 1){
                     $checked = ' checked';
                 }
@@ -293,7 +296,7 @@
                     $checked = '';
                 }
             } ?>
-            <?php  if($setting != 'available_features'){ ?>
+            <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
                     <label for="<?php echo $setting; ?>">
@@ -375,6 +378,7 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
+<?php if (has_permission('customers', '', 'create')) { ?>
 <div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -398,9 +402,10 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <?php init_tail(); ?>
 <script>
-
+    <?php if (has_permission('customers', '', 'create')) { ?>
     $("#AddClient").click(function () {
         company = $('#company').val();
         if(company == ''){
@@ -423,6 +428,7 @@
             });
         }
     });
+    <?php } ?>
 
     <?php if(isset($OtherServ)){ ?>
     var original_project_status = '<?php echo $OtherServ->status; ?>';
@@ -474,15 +480,16 @@
 
         _validate_form($('#form'), {
             code: 'required',
-            title: 'required',
+            name: 'required',
             clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //billing_type: 'required',
             //rate_per_hour: 'required',
-            members: 'required',
-            start_date: 'required',
-            end_date: 'required',
+            //members: 'required',
+            //start_date: 'required',
+            //end_date: 'required',
+            description: 'required',
         });
 
 

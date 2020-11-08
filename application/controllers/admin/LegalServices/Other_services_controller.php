@@ -112,6 +112,9 @@ class Other_services_controller extends AdminController
 
     public function delete($ServID, $id)
     {
+        if (!has_permission('legal_recycle_bin', '', 'delete')) {
+            access_denied('legal_recycle_bin');
+        }
         if (!$id) {
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
@@ -244,6 +247,11 @@ class Other_services_controller extends AdminController
                 blank_page(_l('LService_not_found'));
             }
 
+            if ($project->service_session_link == 1){
+                //Unable to load session tab if service_session_link is active
+                add_session_tab();
+            }
+
             $project->settings->available_features = unserialize($project->settings->available_features);
             $data['statuses'] = $this->other->get_project_statuses();
 
@@ -267,6 +275,22 @@ class Other_services_controller extends AdminController
             $data['project'] = $project;
             $data['currency'] = $this->other->get_currency($id);
 
+            $linked_services = $this->other->get_linked_services($ServID, $id);
+           //var_dump($linked_services); exit;
+            $father_linked_services = [];
+            $child_linked_services = [];
+            foreach ($linked_services as $linked_service) {
+                if($linked_service->l_service_id == $ServID && $linked_service->rel_id == $id){
+                    $child_linked_services[] = $linked_service;
+                }elseif($linked_service->to_service_id == $ServID && $linked_service->to_rel_id == $id){
+                    $father_linked_services = $linked_service;
+                }
+            }
+
+            $data['linked_services'] = $linked_services;
+            $data['father_linked_services'] = $father_linked_services;
+            $data['child_linked_services'] = $child_linked_services;
+
             $data['project_total_logged_time'] = $this->other->total_logged_time($slug,$id);
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
@@ -278,7 +302,7 @@ class Other_services_controller extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
             $this->app_scripts->add('legal_proc', 'assets/js/legal_proc.js');
 
@@ -369,6 +393,10 @@ class Other_services_controller extends AdminController
                 $data['activity'] = $this->other->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->other->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years'] = $this->estimates_model->get_estimates_years();
@@ -408,7 +436,6 @@ class Other_services_controller extends AdminController
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
-                //echo "<pre>";print_r($data['books']);exit();
             }
 
             // Discussions
@@ -885,6 +912,24 @@ class Other_services_controller extends AdminController
                 redirect(admin_url('SOther/view/' .$ServID.'/'. $id));
             } else {
                 set_alert('danger', _l('failed_to_copy_project'));
+                redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
+            }
+        }
+    }
+
+    public function link($ServID,$project_id)
+    {
+        if (has_permission('projects', '', 'create')) {
+            $ServID2 = $this->input->post('service_id');
+            $id = $this->other->link($ServID,$project_id, $this->input->post(), $ServID2);
+            if ($id) {
+                set_alert('success', _l('project_linked_successfully'));
+                if($ServID2 != 1)
+                    redirect(admin_url('SOther/view/' .$ServID2.'/'. $id));
+                else
+                    redirect(admin_url('Case/view/' .$ServID2.'/'. $id));
+            } else {
+                set_alert('danger', _l('failed_to_link_project'));
                 redirect(admin_url('SOther/view/' .$ServID.'/'. $project_id));
             }
         }

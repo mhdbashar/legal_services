@@ -149,19 +149,19 @@
         <tbody>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('lead_country'); ?></td>
-            <td><?php echo $project->country_name ? $project->country_name : _l('smtp_encryption_none'); ?></td>
+            <td><?php echo $project->country_name ? $project->country_name : _l('nothing_was_specified'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('client_city'); ?></td>
-            <td><?php echo $project->city ? $project->city : _l('smtp_encryption_none'); ?></td>
+            <td><?php echo $project->city ? $project->city : _l('nothing_was_specified'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('Categories'); ?></td>
-            <td><?php echo $project->cat ? $project->cat : _l('smtp_encryption_none'); ?></td>
+            <td><?php echo $project->cat ? $project->cat : _l('nothing_was_specified'); ?></td>
         </tr>
         <tr class="project-overview-customer">
             <td class="bold"><?php echo _l('SubCategories'); ?></td>
-            <td><?php echo $project->subcat ? $project->subcat : _l('smtp_encryption_none'); ?></td>
+            <td><?php echo $project->subcat ? $project->subcat : _l('nothing_was_specified'); ?></td>
         </tr>
         </tbody>
     </table>
@@ -187,7 +187,7 @@
 </div>
 <div class="team-members project-overview-team-members">
    <hr class="hr-panel-heading project-area-separation" />
-   <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+   <?php if(has_permission('projects','','edit')){ ?>
    <div class="inline-block pull-right mright10 project-member-settings" data-toggle="tooltip" data-title="<?php echo _l('add_edit_members'); ?>">
       <a href="#" data-toggle="modal" class="pull-right" data-target="#add-edit-members"><i class="fa fa-cog"></i></a>
    </div>
@@ -208,7 +208,7 @@
          </a>
       </div>
       <div class="media-body">
-         <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
+         <?php if(has_permission('projects','','edit')){ ?>
          <a href="<?php echo admin_url('LegalServices/Other_services_controller/remove_team_member/'.$ServID.'/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
          <?php } ?>
          <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>

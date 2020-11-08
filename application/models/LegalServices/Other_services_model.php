@@ -121,6 +121,83 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_other_services')->result_array();
     }
 
+    public function get_imported($id = '', $where = [])
+    {
+        $this->db->where($where);
+        if (is_numeric($id)) {
+            $this->db->where(array('my_imported_services.id' => $id, 'my_imported_services.deleted' => 0));
+            $this->db->select('my_imported_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
+            $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_imported_services.country', 'left');
+            $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_imported_services.cat_id', 'left');
+            $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_imported_services.subcat_id', 'left');
+            $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+            if ($project) {
+                $project->shared_vault_entries = $this->clients_model->get_vault_entries($project->clientid, ['share_in_projects' => 1]);
+                $settings = $this->get_imported_project_settings($id);
+
+                // SYNC NEW TABS
+                $tabs = get_iservice_tabs_admin();
+                $tabs_flatten = [];
+                $settings_available_features = [];
+
+                $available_features_index = false;
+                foreach ($settings as $key => $setting) {
+                    if ($setting['name'] == 'available_features') {
+                        $available_features_index = $key;
+                        $available_features = unserialize($setting['value']);
+                        if (is_array($available_features)) {
+                            foreach ($available_features as $name => $avf) {
+                                $settings_available_features[] = $name;
+                            }
+                        }
+                    }
+                }
+                foreach ($tabs as $tab) {
+                    if (isset($tab['collapse'])) {
+                        foreach ($tab['children'] as $d) {
+                            $tabs_flatten[] = $d['slug'];
+                        }
+                    } else {
+                        $tabs_flatten[] = $tab['slug'];
+                    }
+                }
+                if (count($settings_available_features) != $tabs_flatten) {
+                    foreach ($tabs_flatten as $tab) {
+                        if (!in_array($tab, $settings_available_features)) {
+                            if ($available_features_index) {
+                                $current_available_features_settings = $settings[$available_features_index];
+                                $tmp = unserialize($current_available_features_settings['value']);
+                                $tmp[$tab] = 1;
+                                $this->db->where('id', $current_available_features_settings['id']);
+                                $this->db->update(db_prefix() . 'oservice_settings', ['value' => serialize($tmp)]);
+                            }
+                        }
+                    }
+                }
+
+                $project->settings = new StdClass();
+
+                foreach ($settings as $setting) {
+                    $project->settings->{$setting['name']} = $setting['value'];
+                }
+
+                $project->client_data = new StdClass();
+                $project->client_data = $this->clients_model->get($project->clientid);
+
+                $project = hooks()->apply_filters('project_get', $project);
+                $GLOBALS['project'] = $project;
+                return $project;
+            }
+
+            return null;
+        }
+        $this->db->where(array('my_imported_services.deleted' => 0));
+        $this->db->select('*,' . get_sql_select_client_company());
+        $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_imported_services.clientid');
+        $this->db->order_by('my_imported_services.id', 'desc');
+        return $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+    }
+
     public function GetTopNumbering()
     {
         $this->db->select('numbering');
@@ -543,6 +620,66 @@ class Other_services_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
 
+            $this->db->where(array('exported_rel_id' => $id, 'exported_service_id' => $ServID));
+            $this->db->update(db_prefix() . 'my_imported_services', [
+                'deleted' => 1,
+                'imported' => 0
+            ]);
+
+
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $this->db->update(db_prefix() . 'tasks', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'expenses', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'invoices', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'creditnotes', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'estimates', [
+                'deleted' => 1,
+            ]);
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug));
+            $this->db->update(db_prefix() . 'tickets', [
+                'deleted' => 1,
+            ]);
+
+            log_activity($ServiceName.' Moved To Recycle Bin [ServiceID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function move_imported_to_recycle_bin($id)
+    {
+        $slug = "imported";
+        $ServiceName = "imported";
+
+        $files = $this->get_imported_files($id);
+        foreach ($files as $file) {
+            $this->remove_imported_file($file['id']);
+        }
+
+        $this->db->set('deleted', 1);
+        $this->db->where(array('id' => $id, 'deleted' => 0));
+        $this->db->update(db_prefix() . 'my_imported_services');
+
+
+        if ($this->db->affected_rows() > 0) {
+
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tasks', [
                 'deleted' => 1,
@@ -588,6 +725,12 @@ class Other_services_model extends App_Model
         $this->db->delete(db_prefix() . 'my_other_services');
 
         if ($this->db->affected_rows() > 0) {
+
+            $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
+            $this->db->delete(db_prefix() . 'my_link_services');
+
+            $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
+            $this->db->delete(db_prefix() . 'my_link_services');
 
             $this->db->where('oservice_id', $id);
             $this->db->delete(db_prefix() . 'my_members_services');
@@ -671,6 +814,96 @@ class Other_services_model extends App_Model
                 $this->db->where('id', $tag['id']);
                 $this->db->delete(db_prefix() . 'my_services_tags');
             }
+
+            log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function delete_imported($ServID, $id)
+    {
+        $slug = "imported";
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
+
+        $this->db->where(array('id' => $id, 'deleted' => 1));
+        $this->db->delete(db_prefix() . 'my_imported_services');
+
+        if ($this->db->affected_rows() > 0) {
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'my_members_services');
+
+            //$this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
+            //$this->db->delete(db_prefix() . 'my_service_session');
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_notes');
+
+            // $this->db->where('rel_sid', $id);
+            // $this->db->where('rel_stype', $slug);
+            // $this->db->delete(db_prefix() . 'milestones');
+
+            // // Delete the custom field values
+            // $this->db->where('relid', $id);
+            // $this->db->where('fieldto', $slug);
+            // $this->db->delete('customfieldsvalues');
+
+            // $this->db->where('rel_id', $id);
+            // $this->db->where('rel_type', $slug);
+            // $this->db->delete(db_prefix() . 'taggables');
+
+            // $this->db->where('oservice_id', $id);
+            // $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
+            // foreach ($discussions as $discussion) {
+            //     $discussion_comments = $this->get_discussion_comments($discussion['id'], 'regular');
+            //     foreach ($discussion_comments as $comment) {
+            //         $this->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
+            //     }
+            //     $this->db->where('discussion_id', $discussion['id']);
+            //     $this->db->delete(db_prefix() . 'oservicediscussioncomments');
+            // }
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservicediscussions');
+
+            $files = $this->get_imported_files($id);
+            foreach ($files as $file) {
+                $this->remove_imported_file($file['id']);
+            }
+
+            // $tasks = $this->get_tasks($ServID, $id);
+            // foreach ($tasks as $task) {
+            //     $this->tasks_model->delete_task($task['id'], false);
+            // }
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_settings');
+
+            // $this->db->where('oservice_id', $id);
+            // $this->db->delete(db_prefix() . 'oservice_activity');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'expenses');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'invoices');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'creditnotes');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'estimates');
+
+            $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
+            $this->db->delete(db_prefix() . 'tickets');
+
+            $this->db->where('oservice_id', $id);
+            $this->db->delete(db_prefix() . 'pinned_oservices');
+            $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
+            $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
+            foreach ($lists as $list):
+                $this->procedures->delete_list($list['id']);
+            endforeach;
 
             log_activity($ServiceName.' Deleted [ServiceID: ' . $id . ']');
             return true;
@@ -814,6 +1047,140 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_members_services')->result_array();
     }
 
+    public function get_case_members($id)
+    {
+        $this->db->select('email,project_id,staff_id');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid=' . db_prefix() . 'my_members_cases.staff_id');
+        $this->db->where('project_id', $id);
+        return $this->db->get(db_prefix() . 'my_members_cases')->result_array();
+    }
+
+    public function add_edit_cases_members($data, $ServID, $id)
+    {
+        $affectedRows = 0;
+        if (isset($data['project_members'])) {
+            $project_members = $data['project_members'];
+        }
+        $new_project_members_to_receive_email = [];
+        $this->db->select('name,clientid');
+        $this->db->where('id', $id);
+        $project      = $this->db->get(db_prefix() . 'my_cases')->row();
+        $project_name = $project->name;
+        $client_id    = $project->clientid;
+        $project_members_in = $this->get_case_members($id);
+        if (sizeof($project_members_in) > 0) {
+            foreach ($project_members_in as $project_member) {
+                if (isset($project_members)) {
+                    if (!in_array($project_member['staff_id'], $project_members)) {
+                        $this->db->where('project_id', $id);
+                        $this->db->where('staff_id', $project_member['staff_id']);
+                        $this->db->delete(db_prefix() . 'my_members_cases');
+                        if ($this->db->affected_rows() > 0) {
+                            $this->db->where('staff_id', $project_member['staff_id']);
+                            $this->db->where('project_id', $id);
+                            $this->db->delete(db_prefix() . 'pinned_cases');
+
+                            $this->log_activity($id, 'project_activity_removed_team_member', get_staff_full_name($project_member['staff_id']));
+                            $affectedRows++;
+                        }
+                    }
+                } else {
+                    $this->db->where('project_id', $id);
+                    $this->db->delete(db_prefix() . 'my_members_cases');
+                    if ($this->db->affected_rows() > 0) {
+                        $affectedRows++;
+                    }
+                }
+            }
+            if (isset($project_members)) {
+                $notifiedUsers = [];
+                foreach ($project_members as $staff_id) {
+                    $this->db->where('project_id', $id);
+                    $this->db->where('staff_id', $staff_id);
+                    $_exists = $this->db->get(db_prefix() . 'my_members_cases')->row();
+                    if (!$_exists) {
+                        if (empty($staff_id)) {
+                            continue;
+                        }
+                        $this->db->insert(db_prefix() . 'my_members_cases', [
+                            'project_id' => $id,
+                            'staff_id'   => $staff_id,
+                        ]);
+                        if ($this->db->affected_rows() > 0) {
+                            if ($staff_id != get_staff_user_id()) {
+                                $notified = add_notification([
+                                    'fromuserid'      => get_staff_user_id(),
+                                    'description'     => 'not_staff_added_as_project_member',
+                                    'link'            => 'Case/view/' .$ServID.'/' .$id,
+                                    'touserid'        => $staff_id,
+                                    'additional_data' => serialize([
+                                        $project_name,
+                                    ]),
+                                ]);
+                                array_push($new_project_members_to_receive_email, $staff_id);
+                                if ($notified) {
+                                    array_push($notifiedUsers, $staff_id);
+                                }
+                            }
+
+
+                            $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                            $affectedRows++;
+                        }
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
+            }
+        } else {
+            if (isset($project_members)) {
+                $notifiedUsers = [];
+                foreach ($project_members as $staff_id) {
+                    if (empty($staff_id)) {
+                        continue;
+                    }
+                    $this->db->insert(db_prefix() . 'my_members_cases', [
+                        'project_id' => $id,
+                        'staff_id'   => $staff_id,
+                    ]);
+                    if ($this->db->affected_rows() > 0) {
+                        if ($staff_id != get_staff_user_id()) {
+                            $notified = add_notification([
+                                'fromuserid'      => get_staff_user_id(),
+                                'description'     => 'not_staff_added_as_project_member',
+                                'link'            => 'Case/view/' .$ServID.'/' .$id,
+                                'touserid'        => $staff_id,
+                                'additional_data' => serialize([
+                                    $project_name,
+                                ]),
+                            ]);
+                            array_push($new_project_members_to_receive_email, $staff_id);
+                            if ($notifiedUsers) {
+                                array_push($notifiedUsers, $staff_id);
+                            }
+                        }
+                        $this->log_activity($id, 'project_activity_added_team_member', get_staff_full_name($staff_id));
+                        $affectedRows++;
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
+            }
+        }
+
+        if (count($new_project_members_to_receive_email) > 0) {
+            $all_members = $this->get_case_members($id);
+            foreach ($all_members as $data) {
+                if (in_array($data['staff_id'], $new_project_members_to_receive_email)) {
+                    send_mail_template('project_staff_added_as_member', $data, $id, $client_id, $ServID);
+                }
+            }
+        }
+        if ($affectedRows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function get_project_statuses()
     {
         $statuses = hooks()->apply_filters('before_get_project_statuses', [
@@ -941,7 +1308,62 @@ class Other_services_model extends App_Model
         return $project->progress;
     }
 
+    public function calc_imported_progress($slug,$id)
+    {
+        $this->db->select('progress_from_tasks,progress,status');
+        $this->db->where('id', $id);
+        $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+        if ($project->status == 4) {
+            return 100;
+        }
+
+        if ($project->progress_from_tasks == 1) {
+            return $this->calc_progress_by_tasks($id,$slug);
+        }
+
+        return $project->progress;
+    }
+
     public function calc_progress_by_tasks($id,$slug )
+    {
+        $total_project_tasks = total_rows(db_prefix() . 'tasks', [
+            'rel_type' => $slug,
+            'rel_id' => $id,
+        ]);
+        $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
+            'rel_type' => $slug,
+            'rel_id' => $id,
+            'status' => 5,
+        ]);
+        $percent = 0;
+        if ($total_finished_tasks >= floatval($total_project_tasks)) {
+            $percent = 100;
+        } else {
+            if ($total_project_tasks !== 0) {
+                $percent = number_format(($total_finished_tasks * 100) / $total_project_tasks, 2);
+            }
+        }
+
+        return $percent;
+    }
+
+    public function calc_progress_imported($slug,$id)
+    {
+        $this->db->select('progress_from_tasks,progress,status');
+        $this->db->where('id', $id);
+        $project = $this->db->get(db_prefix() . 'my_imported_services')->row();
+        if ($project->status == 4) {
+            return 100;
+        }
+
+        if ($project->progress_from_tasks == 1) {
+            return $this->calc_progress_by_tasks_imported($id,$slug);
+        }
+
+        return $project->progress;
+    }
+
+    public function calc_progress_by_tasks_imported($id,$slug )
     {
         $total_project_tasks = total_rows(db_prefix() . 'tasks', [
             'rel_type' => $slug,
@@ -1071,6 +1493,7 @@ class Other_services_model extends App_Model
         return $tasks;
     }
 
+   
     public function cancel_recurring_tasks($id, $slug)
     {
         $this->db->where('rel_type', $slug);
@@ -1115,6 +1538,16 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'oservice_files')->result_array();
     }
 
+    public function get_imported_files($project_id)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('iservice_id', $project_id);
+
+        return $this->db->get(db_prefix() . 'iservice_files')->result_array();
+    }
+
     public function get_file($id, $project_id = false)
     {
         if (is_client_logged_in()) {
@@ -1125,6 +1558,23 @@ class Other_services_model extends App_Model
 
         if ($file && $project_id) {
             if ($file->oservice_id != $project_id) {
+                return false;
+            }
+        }
+
+        return $file;
+    }
+
+    public function get_imported_file($id, $project_id = false)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+
+        if ($file && $project_id) {
+            if ($file->iservice_id != $project_id) {
                 return false;
             }
         }
@@ -1191,6 +1641,52 @@ class Other_services_model extends App_Model
                 $other_attachments = list_files(get_upload_path_by_type_oservice('oservice') . $file->oservice_id);
                 if (count($other_attachments) == 0) {
                     delete_dir(get_upload_path_by_type_oservice('oservice') . $file->oservice_id);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function remove_imported_file($id, $logActivity = true)
+    {
+        hooks()->do_action('before_remove_project_file', $id);
+
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+        if ($file) {
+            if (empty($file->external)) {
+                $path = get_upload_path_by_type_iservice('iservice') . $file->iservice_id . '/';
+                $fullPath = $path . $file->file_name;
+                if (file_exists($fullPath)) {
+                    unlink($fullPath);
+                    $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                    $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    $thumbPath = $path . $fname . '_thumb.' . $fext;
+
+                    if (file_exists($thumbPath)) {
+                        unlink($thumbPath);
+                    }
+                }
+            }
+
+            $this->db->where('id', $id);
+            $this->db->delete(db_prefix() . 'iservice_files');
+            if ($logActivity) {
+                $this->log_activity($file->iservice_id, 'LService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+            }
+
+            // Delete discussion comments
+            $this->_delete_discussion_comments($id, 'file');
+
+            if (is_dir(get_upload_path_by_type_iservice('iservice') . $file->iservice_id)) {
+                // Check if no attachments left, so we can delete the folder also
+                $other_attachments = list_files(get_upload_path_by_type_iservice('iservice') . $file->iservice_id);
+                if (count($other_attachments) == 0) {
+                    delete_dir(get_upload_path_by_type_iservice('iservice') . $file->iservice_id);
                 }
             }
 
@@ -1837,6 +2333,12 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'oservice_settings')->result_array();
     }
 
+    public function get_imported_project_settings($project_id)
+    {
+        $this->db->where('oservice_id', $project_id);
+        return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
+    }
+
     public function remove_team_member($ServID = '',$project_id, $staff_id)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
@@ -2460,6 +2962,317 @@ class Other_services_model extends App_Model
                     ]);
                 }
             }
+
+            $this->log_activity($id, 'LService_activity_created');
+            log_activity($ServiceName.' Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
+
+            return $id;
+        }
+
+        return false;
+    }
+
+    public function get_linked_services($ServID, $id)
+    {
+        $father_linked_services = [];
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0');
+        $father_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
+
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0');
+        $cases = $this->db->get(db_prefix() . 'my_link_services')->result();
+        // foreach ($cases as $key => $case) {
+        //     $cases[$key]->l_service_id = "1"; 
+        // }
+
+//        $father_linked_services = [
+//                ...$father_linked_services,
+//                ...$cases
+//        ];
+
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0');
+        $child_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
+
+
+        $this->db->select('*');
+        $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
+        $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=1 AND '.db_prefix() . 'my_cases.deleted = 0');
+//        $child_linked_services = [
+//            ...$child_linked_services,
+//            ...$this->db->get(db_prefix() . 'my_link_services')->result()
+//        ];
+        // echo '<pre>'; print_r([
+        //         ...$father_linked_services,
+        //         ...$child_linked_services
+        // ]); exit;
+//        return $linked_services = [
+//                ...$father_linked_services,
+//                ...$child_linked_services
+//        ];
+    }
+
+    public function link($ServID,$project_id, $data, $ServID2)
+    {
+        $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
+        $slug2      = $this->legal->get_service_by_id($ServID2)->row()->slug;
+        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
+        $project = $this->get($ServID, $project_id);
+        $settings = $this->get_project_settings($project_id);
+        $_new_data = [];
+        $fields = $this->db->list_fields(db_prefix() . 'my_other_services');
+        foreach ($fields as $field) {
+            if (isset($project->$field)) {
+                $_new_data[$field] = $project->$field;
+            }
+        }
+        if($ServID2 == 1) {
+            $service_table = db_prefix() . 'my_cases';
+            $settings_table = db_prefix() . 'case_settings';
+            $setting_id = 'case_id';
+            unset($_new_data['service_id']);
+            unset($_new_data['service_session_link']);
+
+            $this->db->where('is_default', 1);
+            $case_status = $this->db->get('tblmy_casestatus')->row();
+            $_new_data['case_status'] = $case_status->id;
+
+            $this->db->where('is_default', 1);
+            $court = $this->db->get('tblmy_courts')->row();
+            $_new_data['court_id'] = $court->c_id;
+
+            $this->db->where('c_id', $court->c_id);
+            $jud = $this->db->get('tblmy_judicialdept')->row();
+            $_new_data['jud_num'] = $jud->j_id;
+
+            $this->db->where('is_default', 1);
+            $representative = $this->db->get('tblmy_customer_representative')->row();
+            $_new_data['representative'] = $representative->id;
+
+            $upload_folder = 'cases';
+            $files_table = 'tblcase_files';
+            $files_id = 'project_id';
+        } else {
+            $service_table = db_prefix() . 'my_other_services';
+            $settings_table = db_prefix() . 'oservice_settings';
+            $setting_id = 'oservice_id';
+            $_new_data['service_id'] = $ServID2;
+
+            $upload_folder = 'oservices';
+            $files_table = 'tbloservice_files';
+            $files_id = 'oservice_id';
+        }
+        // echo '<pre>'; print_r($_new_data); exit;
+
+        unset($_new_data['id']);
+        $_new_data['clientid'] = $data['clientid_copy_project'];
+        unset($_new_data['clientid_copy_project']);
+
+        $_new_data['start_date'] = to_sql_date($data['start_date']);
+
+        if ($_new_data['start_date'] > date('Y-m-d')) {
+            $_new_data['status'] = 1;
+        } else {
+            $_new_data['status'] = 2;
+        }
+        if ($data['deadline']) {
+            $_new_data['deadline'] = to_sql_date($data['deadline']);
+        } else {
+            $_new_data['deadline'] = null;
+        }
+
+        $_new_data['project_created'] = date('Y-m-d H:i:s');
+        $_new_data['addedfrom'] = get_staff_user_id();
+
+        $_new_data['date_finished'] = null;
+
+        $this->db->insert($service_table, $_new_data);
+        $id = $this->db->insert_id();
+        if ($id) {
+            if(isset($data['files'])){
+                $files = $this->get_files($project_id);
+                if(!file_exists('uploads/'.$upload_folder.'/'.$id)){
+                        mkdir(FCPATH.'uploads/'.$upload_folder.'/'.$id, 0755);
+                }
+                foreach ($files as $key => $value) {
+                    $file_url = base_url().'uploads/oservices/'.$project_id.'/'.$value['file_name'];
+                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $myFile = fopen(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], 'w', true);
+
+                    file_put_contents(FCPATH.'uploads/'.$upload_folder.'/'.$id.'/'.$value['file_name'], $file_content);
+                    $file_data = [
+                        'file_name' => $value['file_name'],
+                        'subject' => $value['subject'],
+                        'description' => isset($value['description']) ? $value['description'] : '',
+                        'filetype' => $value['filetype'],
+                        'dateadded' => $value['dateadded'],
+                        'last_activity' => isset($value['last_activity']) ? $value['last_activity'] : '',
+                        $files_id => $id,
+                        'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                        'last_activity' => null,
+                        'staffid' => get_staff_user_id(),    //$value['staffid'],
+                        'contact_id' => 0,   //$value['contact_id'],
+                        'external' => isset($value['external']) ? $value['external'] : '',
+                        'external_link' => isset($value['external_link']) ? $value['external_link'] : '',
+                        'file_name' => isset($value['file_name']) ? $value['file_name'] : '',
+                    ];
+                    $this->db->insert($files_table, $file_data);
+
+                }
+            }
+            $tags = get_tags_in($project_id,  $slug);
+            handle_tags_save($tags, $id, $slug);
+
+            foreach ($settings as $setting) {
+                $this->db->insert($settings_table, [
+                    $setting_id => $id,
+                    'name' => $setting['name'],
+                    'value' => $setting['value'],
+                ]);
+            }
+            $added_tasks = [];
+                $tasks = $this->get_tasks($ServID,$project_id);
+            if (isset($data['tasks'])) {
+                foreach ($tasks as $task) {
+                    if (isset($data['task_include_followers'])) {
+                        $copy_task_data['copy_task_followers'] = 'true';
+                    }
+                    if (isset($data['task_include_assignees'])) {
+                        $copy_task_data['copy_task_assignees'] = 'true';
+                    }
+                    if (isset($data['tasks_include_checklist_items'])) {
+                        $copy_task_data['copy_task_checklist_items'] = 'true';
+                    }
+                    $copy_task_data['copy_from'] = $task['id'];
+                    $task_id = $this->tasks_model->copy($copy_task_data, [
+                        'rel_id' => $id,
+                        'rel_type'            => $slug2,
+                        'last_recurring_date' => null,
+                        'status' => $data['copy_project_task_status'],
+                    ]);
+                    if ($task_id) {
+                        array_push($added_tasks, $task_id);
+                    }
+                }
+            }
+            if (isset($data['milestones'])) {
+                $milestones = $this->get_milestones($slug,$project_id);
+                $_added_milestones = [];
+                foreach ($milestones as $milestone) {
+                    $dCreated = new DateTime($milestone['datecreated']);
+                    $dDuedate = new DateTime($milestone['due_date']);
+                    $dDiff = $dCreated->diff($dDuedate);
+                    $due_date = date('Y-m-d', strtotime(date('Y-m-d', strtotime('+' . $dDiff->days . 'DAY'))));
+
+                    $milestone_data = $ServID2 != 1 ? [
+                        'name' => $milestone['name'],
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug,
+                        'milestone_order' => $milestone['milestone_order'],
+                        'description_visible_to_customer' => $milestone['description_visible_to_customer'],
+                        'description' => $milestone['description'],
+                        'due_date' => $due_date,
+                        'datecreated' => date('Y-m-d'),
+                        'color' => $milestone['color'],
+                    ] : [
+                        'name'                            => $milestone['name'],
+                        'project_id'                      => $id,
+                        'milestone_order'                 => $milestone['milestone_order'],
+                        'description_visible_to_customer' => $milestone['description_visible_to_customer'],
+                        'description'                     => $milestone['description'],
+                        'due_date'                        => $due_date,
+                        'datecreated'                     => date('Y-m-d'),
+                        'color'                           => $milestone['color'],
+                    ];
+
+                    $this->db->insert(db_prefix() . 'milestones', $milestone_data);
+
+                    $milestone_id = $this->db->insert_id();
+                    if ($milestone_id) {
+                        $_added_milestone_data = [];
+                        $_added_milestone_data['id'] = $milestone_id;
+                        $_added_milestone_data['name'] = $milestone['name'];
+                        $_added_milestones[] = $_added_milestone_data;
+                    }
+                }
+                if (isset($data['tasks'])) {
+                    if (count($added_tasks) > 0) {
+                        // Original project tasks
+                        foreach ($tasks as $task) {
+                            if ($task['milestone'] != 0) {
+                                $this->db->where('id', $task['milestone']);
+                                $milestone = $this->db->get(db_prefix() . 'milestones')->row();
+                                if ($milestone) {
+                                    $name = $milestone->name;
+                                    foreach ($_added_milestones as $added_milestone) {
+                                        if ($name == $added_milestone['name']) {
+                                            $this->db->where('id IN (' . implode(', ', $added_tasks) . ')');
+                                            $this->db->where('milestone', $task['milestone']);
+                                            $this->db->update(db_prefix() . 'tasks', [
+                                                'milestone' => $added_milestone['id'],
+                                            ]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                // milestones not set
+                if (count($added_tasks)) {
+                    foreach ($added_tasks as $task) {
+                        $this->db->where('id', $task['id']);
+                        $this->db->update(db_prefix() . 'tasks', [
+                            'milestone' => 0,
+                        ]);
+                    }
+                }
+            }
+            if (isset($data['members'])) {
+                $members = $this->get_project_members($project_id);
+                $_members = [];
+                foreach ($members as $member) {
+                    array_push($_members, $member['staff_id']);
+                }
+                if($ServID2 == 1){
+                    $this->add_edit_cases_members([
+                    'project_members' => $_members,
+                    ], $ServID,$id);
+                }else{
+                    $this->add_edit_members([
+                    'project_members' => $_members,
+                    ], $ServID,$id);
+                }
+            }
+
+            $custom_fields = get_custom_fields($slug);
+            foreach ($custom_fields as $field) {
+                $value = get_custom_field_value($project_id, $field['id'], $slug, false);
+                if ($value != '') {
+                    $this->db->insert(db_prefix() . 'customfieldsvalues', [
+                        'relid' => $id,
+                        'fieldid' => $field['id'],
+                        'fieldto' => $slug,
+                        'value' => $value,
+                    ]);
+                }
+            }
+
+            $this->db->insert(db_prefix() . 'my_link_services', [
+                'rel_id' => $project_id,
+                'service_id' => $ServID,
+                'to_rel_id' => $id,
+                'to_service_id' => $ServID2
+            ]);
 
             $this->log_activity($id, 'LService_activity_created');
             log_activity($ServiceName.' Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');

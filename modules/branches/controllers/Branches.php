@@ -15,7 +15,7 @@ class Branches extends AdminController
     {
         parent::__construct();
 
-        $this->load->model('branches_model');
+        $this->load->model('Branches_model');
 
 
  
@@ -24,9 +24,9 @@ class Branches extends AdminController
         }
         // Add the pdf allowed fields
 
-        $this->pdf_fields             = $this->branches_model->get_pdf_allowed_fields();
-        $this->client_portal_fields   = $this->branches_model->get_client_portal_allowed_fields();
-        $this->client_editable_fields = $this->branches_model->get_client_editable_fields();
+        $this->pdf_fields             = $this->Branches_model->get_pdf_allowed_fields();
+        $this->client_portal_fields   = $this->Branches_model->get_client_portal_allowed_fields();
+        $this->client_editable_fields = $this->Branches_model->get_client_editable_fields();
     }
 
 
@@ -41,6 +41,7 @@ class Branches extends AdminController
  
         }
         $data['title'] = _l('branches');
+        $data['branches'] = $this->Branches_model->getBranches();
         $this->load->view('admin/branches/manage', $data);
     }
 
@@ -63,13 +64,13 @@ class Branches extends AdminController
                 $_POST['title_ar'] = $this->input->post()['title_en'];
             }
             if ($id == '') {
-                $id = $this->branches_model->add($this->input->post());
+                $id = $this->Branches_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('branch')));
                     redirect(admin_url('branches/field/' . $id));
                 }
             } else {
-                $success = $this->branches_model->update($this->input->post(), $id);
+                $success = $this->Branches_model->update($this->input->post(), $id);
                 if (is_array($success) && isset($success['cant_change_option_custom_field'])) {
                     set_alert('warning', _l('cf_option_in_use'));
                 } elseif ($success === true) {
@@ -81,15 +82,15 @@ class Branches extends AdminController
         if ($id == '') {
             $title = _l('add_new', _l('branches_lowercase'));
         } else {
-            $data['branch'] = $this->branches_model->get($id);
+            $data['branch'] = $this->Branches_model->get($id);
             $title                = _l('edit', _l('branches_lowercase'));
-            $data['city']=$this->branches_model->getCitiesForCountry($data['branch']->country_id);
+            $data['city']=$this->Branches_model->getCitiesForCountry($data['branch']->country_id);
         }
         $data['pdf_fields']             = $this->pdf_fields;
         $data['client_portal_fields']   = $this->client_portal_fields;
         $data['client_editable_fields'] = $this->client_editable_fields;
         $data['title']                  = $title;
-        $data['countries']=$this->branches_model->getCountries();
+        $data['countries']=$this->Branches_model->getCountries();
         $this->load->view('admin/branches/branch', $data);
     }
 
@@ -101,15 +102,10 @@ class Branches extends AdminController
 
     /* Delete announcement from database */
  
-    public function delete($id)
+    public function delete()
     {
-        if (!$id) {
-            redirect(admin_url('branches'));
-        }
-        $response = $this->branches_model->delete($id);
-        if (is_array($response) && isset($response['referenced'])) {
-            set_alert('warning', _l('is_referenced', _l('branches_lowercase')));
-        } elseif  ($response == true) {
+        $response = $this->Branches_model->delete($this->input->post('id'), $this->input->post('transfer_data_to'));
+        if  ($response == true) {
             set_alert('success', _l('deleted', _l('branch')));
         } else {
             set_alert('warning', _l('problem_deleting', _l('branches_lowercase')));
@@ -126,19 +122,19 @@ class Branches extends AdminController
  
     public function getCities($id)
     {
-        echo json_encode(['success'=>true,'data'=>$this->branches_model->getCitiesForCountry($id)]);
+        echo json_encode(['success'=>true,'data'=>$this->Branches_model->getCitiesForCountry($id)]);
         die();
     }
 
     public function getDepartments($id)
     {
-        echo json_encode(['success'=>true,'data'=>$this->branches_model->getDepatrmentsForBranches($id)]);
+        echo json_encode(['success'=>true,'data'=>$this->Branches_model->getDepatrmentsForBranches($id)]);
         die();
     }
 
     public function get_office_shift($id)
     {
-        echo json_encode(['success'=>true,'data'=>$this->branches_model->get_office_shift($id)]);
+        echo json_encode(['success'=>true,'data'=>$this->Branches_model->get_office_shift($id)]);
         die();
     }
 

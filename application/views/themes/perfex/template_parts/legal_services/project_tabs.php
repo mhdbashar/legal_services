@@ -10,6 +10,21 @@
         <a data-group="project_tasks" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=project_tasks'); ?>" role="tab"><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo _l('tasks'); ?></a>
     </li>
     <?php } ?>
+    <?php if(isset($project->settings->available_features['CaseSession'])){ ?>
+    <?php if($project->settings->view_session_logs == 1 && $project->settings->available_features['CaseSession'] == 1){ ?>
+    <li role="presentation" class="project_tab_tasks">
+        <a data-group="CaseSession" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=CaseSession'); ?>" role="tab"><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo _l('SessionLog'); ?></a>
+    </li>
+    <?php } ?>
+    <?php } ?>
+
+    <?php if(isset($project->settings->available_features['procuration'])){ ?>
+    <?php if($project->settings->view_procurations == 1 && $project->settings->available_features['procuration'] == 1){ ?>
+    <li role="presentation" class="project_tab_tasks">
+        <a data-group="procuration" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=procuration'); ?>" role="tab"><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo _l('procuration'); ?></a>
+    </li>
+    <?php } ?>
+    <?php } ?>
 
     <?php if($project->settings->view_timesheets == 1 && $project->settings->available_features['project_timesheets'] == 1){ ?>
     <li role="presentation" class="project_tab_timesheets">
@@ -46,6 +61,13 @@
         <a data-group="project_tickets" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=project_tickets'); ?>" role="tab"><i class="fa fa-life-ring" aria-hidden="true"></i> <?php echo _l('project_tickets'); ?></a>
     </li>
     <?php } ?>
+
+    <?php if(has_contact_permission('contracts') && $project->settings->available_features['project_contracts'] == 1){ ?>
+    <li role="presentation" class="project_tab_contracts">
+        <a data-group="project_contracts" href="<?php echo site_url('clients/project/'.$project->id.'?group=project_contracts'); ?>" role="tab"><i class="fa fa-life-ring" aria-hidden="true"></i> <?php echo _l('contracts'); ?></a>
+    </li>
+    <?php } ?>
+
 
     <?php if(has_contact_permission('estimates') && $project->settings->available_features['project_estimates'] == 1){ ?>
     <li role="presentation" class="project_tab_estimates">

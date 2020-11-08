@@ -10,25 +10,17 @@ class Api_model extends App_Model
     public function get_table($name, $id)
     {
         switch ($name) {
-            case 'projects':
-                $this->load->model('Projects_model');
-                return $this->Projects_model->get($id);
+            case 'Service':
+                $this->load->model('Service_model');
+                return $this->Service_model->get($id);
                 break;
             case 'cases':
                 $this->load->model('LegalServices/Cases_model', 'case');  
                 return $this->case->get($id);
                 break;
-            case 'Service2':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
-                return $this->other->get(2, $id);
-                break;
-            case 'Service3':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
-                return $this->other->get(3, $id);
-                break;
-            case 'Service10':
-                $this->load->model('LegalServices/Other_services_model', 'other');  
-                return $this->other->get(10, $id);
+            case 'projects':
+                $this->load->model('Projects_model');
+                return $this->Projects_model->get($id);
                 break;
             case 'tasks':
                 $this->load->model('Tasks_model');
@@ -49,10 +41,6 @@ class Api_model extends App_Model
             case 'clients':
                 $this->load->model('Clients_model');
                 return $this->Clients_model->get($id);
-                break;
-            case 'opponents':
-                $this->load->model('Opponents_model');
-                return $this->Opponents_model->get($id);
                 break;
             case 'contracts':
                 $this->load->model('Contracts_model');
@@ -98,8 +86,27 @@ class Api_model extends App_Model
                 $this->load->model('Annex_model');
                 return $this->Annex_model->get($id);
                 break;
+            case 'contacts':
+                $this->load->model('Clients_model');
+                return $this->clients_model->get_contact($id);
+                break;
+            case 'all_contacts':
+                $this->load->model('Clients_model');
+                return $this->clients_model->get_contacts($id);
+                break;
+            case 'invoices':
+                $this->load->model('invoices_model');
+                return $this->invoices_model->get($id);
+                break;
+            case 'invoice_items':
+                $this->load->model('invoice_items_model');
+                return $this->invoice_items_model->get($id);
+                break;
             case 'milestones':
                 return $this->get_milestones_api($id);
+                break;
+            case 'imported_services':
+                return $this->get_imported_servcies_api($id);
                 break;
             default:
                 return '';
@@ -265,6 +272,111 @@ class Api_model extends App_Model
         return $result;
     }
 
+    public function _search_invoices($q, $limit = 0, $where = [], $api = false)
+    {
+        $result = [
+            'result'         => [],
+            'type'           => 'invoices',
+            'search_heading' => _l('invoices'),
+        ];
+        $has_permission_view_invoices     = has_permission('invoices', '', 'view');
+        $has_permission_view_invoices_own = has_permission('invoices', '', 'view_own');
+
+        if ($has_permission_view_invoices || $has_permission_view_invoices_own || get_option('allow_staff_view_invoices_assigned') == '1' || $api == true) {
+            if (is_numeric($q)) {
+                $q = trim($q);
+                $q = ltrim($q, '0');
+            } elseif (startsWith($q, get_option('invoice_prefix'))) {
+                $q = strafter($q, get_option('invoice_prefix'));
+                $q = trim($q);
+                $q = ltrim($q, '0');
+            }
+            $invoice_fields    = prefixed_table_fields_array(db_prefix() . 'invoices');
+            $clients_fields    = prefixed_table_fields_array(db_prefix() . 'clients');
+            // Invoices
+            $this->db->select(implode(',', $invoice_fields) . ',' . implode(',', $clients_fields) . ',' . db_prefix() . 'invoices.id as invoiceid,' . get_sql_select_client_company());
+            $this->db->from(db_prefix() . 'invoices');
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid', 'left');
+            $this->db->join(db_prefix() . 'currencies', db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency');
+            $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid AND is_primary = 1', 'left');
+
+            if (!startsWith($q, '#')) {
+                $this->db->where('(
+                ' . db_prefix() . 'invoices.number LIKE "' . $this->db->escape_like_str($q) . '"
+                OR
+                ' . db_prefix() . 'clients.company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.clientnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.vat LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.phonenumber LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.address LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.adminnote LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                CONCAT(firstname,\' \',lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'invoices.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.billing_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.billing_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.billing_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.billing_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_street LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_city LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_state LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                OR
+                ' . db_prefix() . 'clients.shipping_zip LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\'
+                )');
+            } else {
+                $this->db->where(db_prefix() . 'invoices.id IN
+                (SELECT rel_id FROM ' . db_prefix() . 'taggables WHERE tag_id IN
+                (SELECT id FROM ' . db_prefix() . 'tags WHERE name="' . $this->db->escape_str(strafter($q, '#')) . '")
+                AND ' . db_prefix() . 'taggables.rel_type=\'invoice\' GROUP BY rel_id HAVING COUNT(tag_id) = 1)
+                ');
+            }
+
+
+            $this->db->order_by('number,YEAR(date)', 'desc');
+            if ($limit != 0) {
+                $this->db->limit($limit);
+            }
+
+            $result['result'] = $this->db->get()->result_array();
+            // echo $this->db->last_query();
+        }
+
+        return $result;
+    }
+
     public function _search_projects($q, $limit = 0, $where = false, $rel_type = null, $api = false)
     {
         $result = [
@@ -387,11 +499,22 @@ class Api_model extends App_Model
 
      public function add_user($data)
     {
-        $payload = [
+        if(isset($data['password'])){
+                       $payload = [
             'user' => $data['user'],
             'name' => $data['name'],
-            'password' => $data['password']
+          'password'=> $data['password']
         ];
+            
+        }
+        else{
+                       $payload = [
+            'user' => $data['user'],
+            'name' => $data['name']
+        
+        ];
+        }
+     
         // Load Authorization Library or Load in autoload config file
         $this->load->library('Authorization_Token');
         // generate a token
@@ -399,7 +522,11 @@ class Api_model extends App_Model
         $today = date('Y-m-d H:i:s');
                 
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
+    if(isset($data['password'])){
         $data['password'] = app_hash_password($data['password']);
+    }
+        
+        
        $this->db->insert(db_prefix() . 'user_api', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -521,6 +648,18 @@ class Api_model extends App_Model
             $this->load->model('clients_model');
             $data = $this->clients_model->get('', $where_clients);
         } 
+         elseif ($type == "contacts") {
+            $where_clients = 'tblclients.active=1';
+            if ($q) {
+                $where_clients .= ' AND (company LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR CONCAT(firstname, " ", lastname) LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\' OR email LIKE "%' . $this->db->escape_like_str($q) . '%" ESCAPE \'!\') AND ' . db_prefix() . 'clients.active = 1';
+            }
+
+            $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'contacts.userid = ' . db_prefix() . 'clients.userid', 'left');
+
+            $this->load->model('clients_model');
+            $data = $this->clients_model->get_contacts('', $where_clients);
+            // echo $this->db->last_query();
+         }
          elseif ($type == 'ticket') {
                 $search = $this->_search_tickets($q, 0, true);
                 $data   = $search['result'];
@@ -529,6 +668,13 @@ class Api_model extends App_Model
                     'junk' => 0,
                     ], true);
                 $data = $search['result'];
+        } elseif ($type == 'invoice' || $type == 'invoices') {
+                $search = $this->_search_invoices($q, 0, [], true);
+                $data = $search['result'];
+        } elseif ($type == 'invoice_items') {
+                $this->load->model('invoice_items_model');
+                $data = $this->invoice_items_model->search($q);
+                
         } elseif ($type == 'project') {
             
                 $where_projects = '';
@@ -573,5 +719,33 @@ class Api_model extends App_Model
 
 
         return $milestones;
+    }
+
+    public function get_imported_servcies_api($id = '', $where = [])
+    {
+        if($id != ''){
+            $this->db->where(['id' => $id, 'deleted' => 0]);
+        }
+         if ((is_array($where) && count($where) > 0) || (is_string($where) && $where != '')) {
+            $this->db->where($where);
+        }
+        $this->db->order_by('id', 'ASC');
+        $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+
+        if(empty($imported_services)){
+            $this->db->where(['id' => $id, 'deleted' => 1, 'imported' => 1]);
+            $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+        }
+
+        return $imported_services;
+    }
+
+    public function get_token($office_name) {
+          $this->db->where('name', $office_name);
+        $name = $this->db->get(db_prefix() . 'user_api')->row();
+        if(isset($name)){
+            return $name->token;
+        }
+        return false;
     }
 }

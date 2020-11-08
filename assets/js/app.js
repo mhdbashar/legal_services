@@ -18,6 +18,22 @@ $(document).keyup(function(e) {
 
 $(function() {
 
+    setTimeout(function(){
+        // Remove the left and right resize indicators for gantt
+        $("#gantt .noDrag > g.handle-group").hide();
+
+        // Removes the gantt dragging by bar wrapper
+        var ganttBarWrappers = document.querySelectorAll('.bar-wrapper');
+
+        Array.prototype.forEach.call(ganttBarWrappers, function(el) {
+            el.addEventListener('mousedown', function(e, element) {
+                if($(e.target).closest('.bar-wrapper').hasClass('noDrag')){
+                    event.stopPropagation();
+                }
+            }, true)
+        });
+    }, 1000)
+
     // + button for adding more attachments
     var addMoreAttachmentsInputKey = 1;
     $("body").on('click', '.add_more_attachments', function() {
@@ -323,7 +339,6 @@ function _simple_editor_config() {
             'table advlist codesample autosave' + (!is_mobile() ? ' autoresize ' : ' ') + 'lists link image textcolor media contextmenu paste',
         ],
         toolbar: 'insert formatselect bold forecolor backcolor' + (is_mobile() ? ' | ' : ' ') + 'alignleft aligncenter alignright bullist numlist | restoredraft',
-        contextmenu: "link image imagetools table spellchecker inserttable | cell row column deletetable | paste pastetext",
         insert_button_items: 'image media link codesample',
         toolbar1: ''
     };

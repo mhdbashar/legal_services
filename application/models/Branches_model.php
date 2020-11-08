@@ -22,6 +22,21 @@ class Branches_model extends App_Model
         }
         return $this->db->get('tblbranches')->result_array();
     }
+
+    public function get_staffs_by_branch_id($client_id){
+        $this->db->where(['rel_type' => 'clients', 'rel_id' => $client_id]);
+        $branch = $this->db->get('tblbranches_services')->row();
+        if(is_object($branch)){
+            $branch_id = $this->db->get('tblbranches_services')->row()->branch_id;
+            $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'staff']);
+            $this->db->join('tblstaff', 'tblstaff.staffid = tblbranches_services.rel_id', 'inner');
+            $staffs = $this->db->get('tblbranches_services')->result_array();
+            return $staffs;
+        }
+        $this->db->order_by('firstname', 'desc');
+
+        return $this->db->get(db_prefix() . 'staff')->result_array();
+    }
     /**
      * Add new custom field
      * @param mixed $data All $_POST data

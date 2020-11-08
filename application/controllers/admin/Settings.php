@@ -2,18 +2,19 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Settings extends AdminController
-{
-    public function __construct()
-    {
+class Settings extends AdminController {
+
+    public $x = false;
+
+    public function __construct() {
         parent::__construct();
         $this->load->model('payment_modes_model');
         $this->load->model('settings_model');
     }
 
     /* View all settings */
-    public function index()
-    {
+
+    public function index() {
         if (!has_permission('settings', '', 'view')) {
             access_denied('settings');
         }
@@ -24,12 +25,12 @@ class Settings extends AdminController
             if (!has_permission('settings', '', 'edit')) {
                 access_denied('settings');
             }
-            $logo_uploaded     = (handle_company_logo_upload() ? true : false);
-            $favicon_uploaded  = (handle_favicon_upload() ? true : false);
+            $logo_uploaded = (handle_company_logo_upload() ? true : false);
+            $favicon_uploaded = (handle_favicon_upload() ? true : false);
             $signatureUploaded = (handle_company_signature_upload() ? true : false);
 
             $post_data = $this->input->post();
-            $tmpData   = $this->input->post(null, false);
+            $tmpData = $this->input->post(null, false);
 
             if (isset($post_data['settings']['email_header'])) {
                 $post_data['settings']['email_header'] = $tmpData['settings']['email_header'];
@@ -59,14 +60,14 @@ class Settings extends AdminController
 
             if ($tab == 'license') {
                 if (isset($post_data['settings']['license_key'])) {
-                
-                $licensekey=$post_data['settings']['license_key'];
 
-                $base = getcwd()."/license";
-                $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
-                $contents = $licensekey . "\n";
-                fwrite($textfile, $contents);
-                fclose($textfile);
+                    $licensekey = $post_data['settings']['license_key'];
+
+                    $base = getcwd() . "/license";
+                    $textfile = fopen($base . "/license.txt", "w") or die("Unable to open file!");
+                    $contents = $licensekey . "\n";
+                    fwrite($textfile, $contents);
+                    fclose($textfile);
                 }
             }
 
@@ -88,15 +89,15 @@ class Settings extends AdminController
         $this->load->model('tickets_model');
         $this->load->model('leads_model');
         $this->load->model('currencies_model');
-        $data['taxes']                                   = $this->taxes_model->get();
-        $data['ticket_priorities']                       = $this->tickets_model->get_priority();
+        $data['taxes'] = $this->taxes_model->get();
+        $data['ticket_priorities'] = $this->tickets_model->get_priority();
         $data['ticket_priorities']['callback_translate'] = 'ticket_priority_translate';
-        $data['roles']                                   = $this->roles_model->get();
-        $data['leads_sources']                           = $this->leads_model->get_source();
-        $data['leads_statuses']                          = $this->leads_model->get_status();
-        $data['title']                                   = _l('options');
+        $data['roles'] = $this->roles_model->get();
+        $data['leads_sources'] = $this->leads_model->get_source();
+        $data['leads_statuses'] = $this->leads_model->get_status();
+        $data['title'] = _l('options');
 
-        $data['admin_tabs'] = ['update', 'info','license'];
+        $data['admin_tabs'] = ['update', 'info', 'license'];
 
         if (!$tab || (in_array($tab, $data['admin_tabs']) && !is_admin())) {
             $tab = 'general';
@@ -118,18 +119,18 @@ class Settings extends AdminController
         if ($data['tab']['slug'] == 'update') {
             if (!extension_loaded('curl')) {
                 $data['update_errors'][] = 'CURL Extension not enabled';
-                $data['latest_version']  = 0;
-                $data['update_info']     = json_decode('');
+                $data['latest_version'] = 0;
+                $data['update_info'] = json_decode('');
             } else {
                 $data['update_info'] = $this->app->get_update_info();
                 if (strpos($data['update_info'], 'Curl Error -') !== false) {
                     $data['update_errors'][] = $data['update_info'];
-                    $data['latest_version']  = 0;
-                    $data['update_info']     = json_decode('');
+                    $data['latest_version'] = 0;
+                    $data['update_info'] = json_decode('');
                 } else {
-                    $data['update_info']    = json_decode($data['update_info']);
+                    $data['update_info'] = json_decode($data['update_info']);
                     $data['latest_version'] = $data['update_info']->latest_version;
-                    $data['update_errors']  = [];
+                    $data['update_errors'] = [];
                 }
             }
 
@@ -141,13 +142,12 @@ class Settings extends AdminController
         }
 
         $data['contacts_permissions'] = get_contact_permissions();
-        $data['payment_gateways']     = $this->payment_modes_model->get_payment_gateways(true);
+        $data['payment_gateways'] = $this->payment_modes_model->get_payment_gateways(true);
 
         $this->load->view('admin/settings/all', $data);
     }
 
-    public function delete_tag($id)
-    {
+    public function delete_tag($id) {
         if (!$id) {
             redirect(admin_url('settings?group=tags'));
         }
@@ -164,8 +164,7 @@ class Settings extends AdminController
         redirect(admin_url('settings?group=tags'));
     }
 
-    public function remove_signature_image()
-    {
+    public function remove_signature_image() {
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
         }
@@ -181,8 +180,8 @@ class Settings extends AdminController
     }
 
     /* Remove company logo from settings / ajax */
-    public function remove_company_logo($type = '')
-    {
+
+    public function remove_company_logo($type = '') {
         hooks()->do_action('before_remove_company_logo');
 
         if (!has_permission('settings', '', 'delete')) {
@@ -203,8 +202,7 @@ class Settings extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function remove_favicon()
-    {
+    public function remove_favicon() {
         hooks()->do_action('before_remove_favicon');
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
@@ -216,8 +214,7 @@ class Settings extends AdminController
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function delete_option($name)
-    {
+    public function delete_option($name) {
         if (!has_permission('settings', '', 'delete')) {
             access_denied('settings');
         }
@@ -226,4 +223,171 @@ class Settings extends AdminController
             'success' => delete_option($name),
         ]);
     }
+
+//    function get_office_name1() {
+//
+//
+//        $office_name = $this->input->post('office_name_in_center');
+//
+//        $op = get_option('office_name_in_center');
+//        $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . $op . "'")->row();
+//
+//        $keycode = $result->keycode;
+//
+//        if (isset($keycode) && !empty($keycode)) {
+//
+//
+//
+//            // $url = 'https://legaloffices.babillawnet.com/api/list/';
+//            $url = 'http://localhost/legal/api/list/';
+//
+//            $cURLConnection = curl_init();
+//            curl_setopt($cURLConnection, CURLOPT_HTTPHEADER, array("application/x-www-form-urlencoded", $keycode));
+//            curl_setopt($cURLConnection, CURLOPT_URL, $url);
+//            curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+//
+//            $List = curl_exec($cURLConnection);
+//
+//
+//
+//            curl_close($cURLConnection);
+//
+//            $jsonArrayResponse = json_decode($List);
+//
+//            foreach ($jsonArrayResponse as $item) { //foreach element in $arr
+//                $arr[] = $item->offic_name;
+//            }
+//            $r = array_search($office_name, $arr, true);
+//
+//
+//
+//            if (($office_name == $arr[$r]) && ($office_name == get_option('office_name_in_center'))) {
+//
+//                $data['status'] = TRUE;
+//            }
+//
+//            if (($office_name == $arr[$r]) && ($office_name !== get_option('office_name_in_center') )) {
+//
+//                $data['status'] = false;
+//            }
+//
+//            if (($office_name !== $arr[$r])) {
+//
+//                $data['status'] = true;
+//            }
+//
+//            echo json_encode($data);
+//
+//
+//
+//
+//            $option = get_option('office_name_in_center');
+//
+//
+//            //$url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
+//            $url_url = 'http://localhost/legal/api/update_office_name/';
+//
+//            $ch = curl_init();
+//
+//            curl_setopt($ch, CURLOPT_URL, $url_url);
+//            curl_setopt($ch, CURLOPT_POST, 1);
+//            curl_setopt($ch, CURLOPT_POSTFIELDS, "old_offic_name=$option&new_office_name=$office_name&");
+//
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//
+//            $server_output = curl_exec($ch);
+//
+//            curl_close($ch);
+//        }
+//    }
+
+
+
+    function get_office_name() {
+
+        $new_office_name = $this->input->post('office_name_in_center');
+        $old_office_name = get_option('office_name_in_center');
+        $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . $old_office_name . "'")->row();
+
+        $keycode = $result->keycode;
+
+
+
+         $url = 'https://legaloffices.babillawnet.com/api/list/';
+        //$url = 'http://localhost/legal/api/list/';
+
+        $cURLConnection = curl_init();
+        curl_setopt($cURLConnection, CURLOPT_URL, $url);
+
+        curl_setopt($cURLConnection, CURLOPT_POST, 1);
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "keycode=$keycode");
+
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+        $List = curl_exec($cURLConnection);
+
+
+
+        curl_close($cURLConnection);
+
+        $jsonArrayResponse = json_decode($List);
+
+
+
+        foreach ($jsonArrayResponse as $item) { //foreach element in $arr
+            $arr[] = $item->offic_name;
+        }
+        $r = array_search($new_office_name, $arr, true);
+
+
+
+        if (($new_office_name == $arr[$r]) && ($new_office_name == get_option('office_name_in_center'))) {
+
+            $data['status'] = TRUE;
+        }
+
+        if (($new_office_name == $arr[$r]) && ($new_office_name !== get_option('office_name_in_center') )) {
+
+            $data['status'] = false;
+        }
+
+        if (($new_office_name !== $arr[$r])) {
+
+            $data['status'] = true;
+            $this->x = true;
+        }
+
+        echo json_encode($data);
+
+        if ($this->x == true) {
+
+             $url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
+           // $url_url = 'http://localhost/legal/api/update_office_name/';
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "old_office_name=$old_office_name&new_office_name=$new_office_name&keycode=$keycode");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            $response_object = (json_decode($server_output));
+
+            $result1 = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
+
+            $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
+
+            if ($result->id) {
+                $data = array(
+                    'keycode' => $response_object->keycode,
+                    'office_name_in_center' => $response_object->offic_name
+                );
+
+                $this->db->where('id', $result->id)->update('tblkeycode', $data);
+
+                curl_close($ch);
+            }
+        }
+    }
+
 }

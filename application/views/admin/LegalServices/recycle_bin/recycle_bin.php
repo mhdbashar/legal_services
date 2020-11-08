@@ -20,6 +20,12 @@
                             <?php
                             if ($ServID != '') {
                                 $table_data = array();
+                                $optionArr = '';
+                            if (has_permission('legal_recycle_bin', '', 'restore') || has_permission('legal_recycle_bin', '', 'delete')) {
+                                $optionArr = array(
+                                    'name' => _l('options'),
+                                );
+                            }
                                 $_table_data = array(
                                     array(
                                         'name' => _l('the_number_sign'),
@@ -27,9 +33,7 @@
                                     array(
                                         'name' => _l('name'),
                                     ),
-                                    array(
-                                        'name' => _l('options'),
-                                    ),
+                                    $optionArr
                                 );
                                 foreach ($_table_data as $_t) {
                                     array_push($table_data, $_t);

@@ -12,6 +12,9 @@ class Case_status extends AdminController
 
     public function index()
     {
+        if (!has_permission('case_status', '', 'create')) {
+            access_denied('case_status');
+        }
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_case_status');
         }
@@ -22,8 +25,8 @@ class Case_status extends AdminController
 
     public function cstatuscu($id = '')
     {
-        if (!is_admin()) {
-            access_denied('CaseStatus_model');
+        if (!has_permission('case_status', '', 'create') && !has_permission('case_status', '', 'edit')) {
+            access_denied('case_status');
         }
         if ($this->input->post()) {
             $data            = $this->input->post();
@@ -54,11 +57,11 @@ class Case_status extends AdminController
 
     public function cstatusd($id)
     {
+        if (!has_permission('case_status', '', 'delete')) {
+            access_denied('case_status');
+        }
         if (!$id) {
             redirect(admin_url('Case_status/cstatuscu'));
-        }
-        if (!is_admin()) {
-            access_denied('case_status');
         }
         $response = $this->CaseStatus_model->delete($id);
         if ($response == true) {

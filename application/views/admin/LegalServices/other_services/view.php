@@ -9,6 +9,7 @@
                     <div class="panel-body _buttons">
                         <div class="row">
                             <div class="col-md-7 project-heading">
+
                                 <h3 class="hide project-name"><?php echo $project->name; ?></h3>
                                 <div id="project_view_name" class="pull-left">
                                     <select class="selectpicker" id="project_top" data-servid="<?php echo $ServID; ?>" data-width="fit"<?php if(count($other_projects) > 6){ ?> data-live-search="true" <?php } ?>>
@@ -22,6 +23,14 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <?php if(has_permission('invoices','','create') && !empty($linked_services)){ ?>
+                                    <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
+                                            <?php echo _l('linked_services'); ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <div class="col-md-5 text-right">
                                 <?php if(has_permission('tasks','','create')){ ?>
@@ -33,6 +42,7 @@
                                 <?php if(has_permission('invoices','','create')){ ?>
                                     <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $ServID; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                                 <?php } ?>
+                                
                                 <?php
                                 $project_pin_tooltip = _l('pin_project');
                                 if(total_rows(db_prefix().'pinned_oservices',array('staff_id'=>get_staff_user_id(),'oservice_id'=>$project->id)) > 0){
@@ -44,6 +54,11 @@
                                         <?php echo _l('more'); ?> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
+                                        <li>
+                                             <a href="#" onclick="link_service(); return false;">
+                                             <?php echo _l('link_service'); ?>
+                                             </a>
+                                        </li>
                                         <li>
                                             <a href="<?php echo admin_url('LegalServices/Other_services_controller/pin_action/'.$project->id); ?>">
                                                 <?php echo _l('service_bin'); ?>
@@ -153,6 +168,8 @@ echo form_hidden('project_percent',$percent);
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/LegalServices/other_services/milestone'); ?>
 <?php $this->load->view('admin/LegalServices/other_services/copy_settings'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/link_service'); ?>
+<?php $this->load->view('admin/LegalServices/other_services/linked_services'); ?>
 <?php $this->load->view('admin/LegalServices/other_services/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->
@@ -223,15 +240,18 @@ echo form_hidden('project_percent',$percent);
                       })
                   }
 
-                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+                var containerId = this.get_container_id(comment_index);
+                tinyMCE.remove('#'+containerId);
+
+                setTimeout(function(){
+                  init_editor('#'+ containerId, editorConfig)
+                },100)
             },
             get_container: function (textarea) {
                 if (!textarea.data('comment_index')) {
                     textarea.data('comment_index', ++this.opts.comment_index);
                 }
-                return $('<div/>', {
-                    'id': this.get_container_id(this.opts.comment_index)
-                });
+
             },
             get_contents: function(editor) {
                return editor.getContent();

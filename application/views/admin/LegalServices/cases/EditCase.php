@@ -137,9 +137,11 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <?php if (has_permission('customers', '', 'create')) { ?>
                                         <div class="col-md-1">
                                             <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                         </div>
+                                        <?php } ?>
                                         <div class="col-md-5">
                                             <div class="form-group select-placeholder">
                                                 <label for="opponent_id"
@@ -161,9 +163,11 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <?php if (has_permission('opponents', '', 'create')) { ?>
                                         <div class="col-md-1">
                                             <a href="#" data-toggle="modal" data-target="#add-opponent" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                         </div>
+                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -174,7 +178,7 @@
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('representative', '');
                                                     foreach ($data as $row): ?>
-                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo $row['representative']; ?></option>
+                                                        <option value="<?php echo $row['id']; ?>" <?php echo $case->representative == $row['id'] ? 'selected': '' ?>><?php echo maybe_translate(_l('nothing_was_specified'), $row['representative']); ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -204,12 +208,14 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <?php if (has_permission('courts', '', 'create')) { ?>
                                         <div class="col-md-1">
                                             <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                         </div>
+                                        <?php } ?>
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label class="control-label"><?php echo _l('Judicial'); ?></label>
+                                                <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                                 <select class="form-control custom_select_arrow" id="jud_num" name="jud_num" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('myjudicial',$case->court_id);
@@ -222,9 +228,11 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <?php if (has_permission('judicial_departments', '', 'create')) { ?>
                                         <div class="col-md-1">
                                             <a href="#" data-toggle="modal" data-target="#AddJudicialDeptModal" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                                         </div>
+                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-10">
@@ -239,7 +247,9 @@
                                             echo render_select('judges[]',$judges,array('id',array('name')),'judge',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','judge_select',false);
                                             ?>
                                         </div>
+                                        <?php if (has_permission('judges_manage', '', 'create')) { ?>
                                         <a href="#" data-toggle="modal" data-target="#add-judge" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -394,7 +404,9 @@
                                             echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                             ?>
                                         </div>
+                                        <?php if (has_permission('staff', '', 'create')) { ?>
                                         <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -422,7 +434,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
                             <div class="checkbox checkbox-primary">
@@ -450,13 +462,13 @@
                             <?php echo _l('project_settings'); ?>
                         </h4>
                         <hr class="hr-panel-heading" />
-                        <?php  foreach($settings as $setting){
-                            // $checked = ' checked';
-                            $checked = ' ';
-
+                        <?php foreach($settings as $setting){
+                            //$checked = ' checked';
+                            $checked = '';
                             if(isset($case)){
+                                //if($case->settings->{$setting} == 0){
                                 if($case->settings->{$setting} == 1){
-                                    $checked = 'checked';
+                                    $checked = ' checked';
                                 }
                             } else {
                                 foreach($last_case_settings as $last_setting) {
@@ -552,6 +564,7 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
+<?php if (has_permission('customers', '', 'create')) { ?>
 <div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -575,6 +588,8 @@
         </div>
     </div>
 </div>
+<?php } ?>
+<?php if (has_permission('opponents', '', 'create')) { ?>
 <div class="modal fade" id="add-opponent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -598,6 +613,8 @@
         </div>
     </div>
 </div>
+<?php } ?>
+<?php if (has_permission('courts', '', 'create')) { ?>
 <div class="modal fade" id="add-court" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -621,6 +638,8 @@
         </div>
     </div>
 </div>
+<?php } ?>
+<?php if (has_permission('judges_manage', '', 'create')) { ?>
 <div class="modal fade" id="add-judge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -644,6 +663,8 @@
         </div>
     </div>
 </div>
+<?php } ?>
+<?php if (has_permission('judicial_departments', '', 'create')) { ?>
 <div class="modal fade" id="AddJudicialDeptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -679,10 +700,12 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <?php init_tail(); ?>
 <script>
     init_ajax_search('opponents', '#opponent_id.ajax-search');
 
+    <?php if (has_permission('customers', '', 'create')) { ?>
     $("#AddClient").click(function () {
         company = $('#company_modal').val();
         if(company == ''){
@@ -705,7 +728,9 @@
             });
         }
     });
+    <?php } ?>
 
+    <?php if (has_permission('opponents', '', 'create')) { ?>
     $("#AddOpponent").click(function () {
         company = $('#opponent_company_modal').val();
         if(company == ''){
@@ -731,7 +756,9 @@
             });
         }
     });
+    <?php } ?>
 
+    <?php if (has_permission('courts', '', 'create')) { ?>
     $("#AddCourt").click(function () {
         court_name = $('#court_name_modal').val();
         if(court_name == ''){
@@ -754,8 +781,9 @@
             });
         }
     });
+    <?php } ?>
 
-
+    <?php if (has_permission('judges_manage', '', 'create')) { ?>
     $("#AddJudge").click(function () {
         var judge_name = $('#judge_name_modal').val();
         if(judge_name == ''){
@@ -781,7 +809,9 @@
             });
         }
     });
+    <?php } ?>
 
+    <?php if (has_permission('judicial_departments', '', 'create')) { ?>
     $("#AddJudicialDept").click(function () {
         var court_id_modal   = $('#court_id_modal').val();
         var Jud_number_modal = $('#Jud_number_modal').val();
@@ -808,6 +838,7 @@
             });
         }
     });
+    <?php } ?>
 
     <?php if(isset($case)){ ?>
     var original_project_status = '<?php echo $case->status; ?>';
@@ -901,18 +932,20 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            representative: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            court_id: 'required',
-            jud_num: 'required',
-            billing_type: 'required',
-            case_status:'required',
+            //opponent_id: 'required',
+            //representative: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //court_id: 'required',
+            //jud_num: 'required',
+            //billing_type: 'required',
+            //case_status:'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
-            case_result: 'required',
-            case_status: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            //case_result: 'required',
+            //case_status: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

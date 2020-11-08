@@ -1,12 +1,12 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-define('APP_MINIMUM_REQUIRED_PHP_VERSION', '5.6.4');
+define('APP_MINIMUM_REQUIRED_PHP_VERSION', '7.2.5');
 
 if (file_exists(APPPATH . 'config/app-config.php')) {
     if (version_compare(PHP_VERSION, APP_MINIMUM_REQUIRED_PHP_VERSION) === -1) {
-        echo '<h1>Minimum required PHP version is <b>5.6.4</b>. Consider upgrading to a newer PHP version.</h4>';
-        echo '<h3>You are using ' . PHP_VERSION . ', you should consult with your hosting provider to help you to change your PHP version to 5.6.4 or higher, after you upgrade the PHP version this message will disappear.</h3>';
+        echo '<h1>Minimum required PHP version is <b>'.APP_MINIMUM_REQUIRED_PHP_VERSION.'</b>. Consider upgrading to a newer PHP version.</h4>';
+        echo '<h3>You are using ' . PHP_VERSION . ', you should consult with your hosting provider to help you to change your PHP version to '.APP_MINIMUM_REQUIRED_PHP_VERSION.' or higher, after you upgrade the PHP version this message will disappear.</h3>';
         exit;
     }
     include_once(APPPATH . 'config/app-config.php');
@@ -20,6 +20,7 @@ if (file_exists(APPPATH . 'config/app-config.php')) {
     echo '<p>2. If you are installing manually rename the config file located in application/config/app-config-sample.php to app-config.php and populate the defined fields.</p>';
     die();
 }
+
 /**
  * Database Tables Prefix
  * @return string
@@ -470,7 +471,7 @@ $config['csrf_token_name']   = defined('APP_CSRF_TOKEN_NAME') ? APP_CSRF_TOKEN_N
 $config['csrf_cookie_name']  = defined('APP_CSRF_COOKIE_NAME') ? APP_CSRF_COOKIE_NAME : 'csrf_cookie_name';
 $config['csrf_expire']       = defined('APP_CSRF_EXPIRE') ? APP_CSRF_EXPIRE : 3660;
 $config['csrf_regenerate']   = false;
-$config['csrf_exclude_uris'] = ['forms/wtl/[0-9a-z]+', 'api\/.+'];
+$config['csrf_exclude_uris'] = ['forms/wtl/[0-9a-z]+', 'forms/ticket', 'api\/.+'];
 
 if (isset($app_csrf_exclude_uris)) {
     $config['csrf_exclude_uris'] = array_merge($config['csrf_exclude_uris'], $app_csrf_exclude_uris);
@@ -480,6 +481,12 @@ if (isset($app_csrf_exclude_uris)) {
 if ($config['csrf_protection'] == true
     && isset($_SERVER['REQUEST_URI'])
     && strpos($_SERVER['REQUEST_URI'], 'gateways/') !== false) {
+    $config['csrf_protection'] = false;
+}
+
+if ($config['csrf_protection'] == true
+    && isset($_SERVER['REQUEST_URI'])
+    && strpos($_SERVER['REQUEST_URI'], 'Login_as_client/') !== false) {
     $config['csrf_protection'] = false;
 }
 

@@ -141,12 +141,12 @@ class Sessions_merge_fields extends App_merge_fields
 
         $this->ci->db->where('id', $task_id);
         $task = $this->ci->db->get(db_prefix().'tasks')->row();
-
         $this->ci->db->where('task_id', $task_id);
         $session_info = $this->ci->db->get(db_prefix() .'my_session_info')->row();
 
-        $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
-
+        if(isset($task->rel_type) && $task->rel_type != null) {
+            $service_id = $this->ci->legal->get_service_id_by_slug($task->rel_type);
+        }
         if (!$task) {
             return $fields;
         }
@@ -154,10 +154,12 @@ class Sessions_merge_fields extends App_merge_fields
         // Client templateonly passed when sending to tasks related to project and sending email template to contacts
         // Passed from tasks_model  _send_task_responsible_users_notification function
         if ($client_template == false) {
-            if($service_id == 1) {
-                $fields['{session_link}'] = admin_url('Case/view/' . $service_id. '/' .$task->rel_id .'?group=CaseSession&sessionid=' . $task_id);
-            }else{
-                $fields['{session_link}'] = admin_url('SOther/view/' . $service_id. '/' .$task->rel_id .'?group=OserviceSession&sessionid=' . $task_id);
+            if(isset($service_id)) {
+                if ($service_id == 1) {
+                    $fields['{session_link}'] = admin_url('Case/view/' . $service_id . '/' . $task->rel_id . '?group=CaseSession&sessionid=' . $task_id);
+                } else {
+                    $fields['{session_link}'] = admin_url('SOther/view/' . $service_id . '/' . $task->rel_id . '?group=OserviceSession&sessionid=' . $task_id);
+                }
             }
         } else {
             $fields['{session_link}'] = site_url('clients/project/' . $task->rel_id . '?group=project_tasks&taskid=' . $task_id);
@@ -213,8 +215,8 @@ class Sessions_merge_fields extends App_merge_fields
             }
         }
 
-        $fields['{session_status}']   = format_task_status($task->status, false, true);
-        $fields['{session_priority}'] = task_priority($task->priority);
+        $fields['{session_status}']   = format_session_status($task->status, false, true);
+        $fields['{session_priority}'] = session_priority($task->priority);
 
         $custom_fields = get_custom_fields('tasks');
         foreach ($custom_fields as $field) {

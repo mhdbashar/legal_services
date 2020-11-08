@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Staff extends AdminController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+    }
+
     /* List all staff members */
     public function index()
     {
@@ -127,6 +133,10 @@ class Staff extends AdminController
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
+
+            //for sessions
+            $data['sessions_logged_time'] = $this->staff_model->get_logged_time_data_sessions($id, $ts_filter_data);
+            $data['sessions_timesheets']  = $data['sessions_logged_time']['timesheets'];
         }
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
@@ -217,6 +227,7 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
+        $data['legal_services'] = $this->legal->get_all_services(['is_module' => 0], true);
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
         $this->load->view('admin/staff/timesheets', $data);
@@ -403,6 +414,72 @@ class Staff extends AdminController
                 $i++;
             } //$notifications as $notification
             echo json_encode($notifications);
+            die;
+        }
+    }
+
+    public function update_two_factor()
+    {
+        $fail_reason = _l('set_two_factor_authentication_failed');
+        if ($this->input->post()) {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('two_factor_auth', _l('two_factor_auth'), 'required');
+
+            if ($this->input->post('two_factor_auth') == 'google') {
+                $this->form_validation->set_rules('google_auth_code', _l('google_authentication_code'), 'required');
+            }
+
+            if ($this->form_validation->run() !== false) {
+                $two_factor_auth_mode = $this->input->post('two_factor_auth');
+                $id = get_staff_user_id();
+                if ($two_factor_auth_mode == 'google') {
+                    $this->load->model('Authentication_model');
+                    $secret = $this->input->post('secret');
+                    $success = $this->authentication_model->set_google_two_factor($secret);
+                    $fail_reason = _l('set_google_two_factor_authentication_failed');
+                } elseif ($two_factor_auth_mode == 'email') {
+                    $this->db->where('staffid', $id);
+                    $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 1]);
+                } else {
+                    $this->db->where('staffid', $id);
+                    $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 0]);
+                }
+                if ($success) {
+                    set_alert('success', _l('set_two_factor_authentication_successful'));
+                    redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
+                }
+            }
+        }
+        set_alert('danger', $fail_reason);
+        redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
+    }
+
+    public function verify_google_two_factor()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+            die;
+        }
+
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->load->model('authentication_model');
+            $is_success = $this->authentication_model->is_google_two_factor_code_valid($data['code'],$data['secret']);
+            $result = [];
+
+            header('Content-Type: application/json');
+            if ($is_success) {
+                $result['status'] = 'success';
+                $result['message'] = _l('google_2fa_code_valid');;
+
+                echo json_encode($result);
+                die;
+            }
+
+            $result['status'] = 'failed';
+            $result['message'] = _l('google_2fa_code_invalid');;
+
+            echo json_encode($result);
             die;
         }
     }

@@ -9,12 +9,10 @@ function _maybe_init_admin_oservice_assets()
     if (strpos($_SERVER['REQUEST_URI'], get_admin_uri() . '/SOther/view') !== false
         || strpos($_SERVER['REQUEST_URI'], get_admin_uri() . '/LegalServices/Other_services_controller/gantt') !== false) {
         $CI = &get_instance();
-
         $CI->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js', 'admin', ['vendor-js']);
-        $CI->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js', 'admin', ['vendor-js']);
-
+        $CI->app_scripts->add('frappe-gantt-js','assets/plugins/frappe/frappe-gantt-es2015.js', 'admin', ['vendor-js']);
+        $CI->app_css->add('frappe-gantt-js', 'assets/plugins//frappe/frappe-gantt.css', 'admin', ['vendor-css']);
         $CI->app_css->add('jquery-comments-css', 'assets/plugins/jquery-comments/css/jquery-comments.css', 'admin', ['reset-css']);
-        $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
 }
 
@@ -28,6 +26,17 @@ function get_oservice_tabs_admin()
     return get_instance()->app_tabs->get_oservice_tabs();
 }
 
+function add_session_tab()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_oservice_tab('OserviceSession', [
+        'name'     => _l('SessionLog'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/LegalServices/services_sessions/services_sessions',
+        'position' => 60,
+    ]);
+}
+
 /**
  * Init the default project tabs
  * @return null
@@ -35,13 +44,6 @@ function get_oservice_tabs_admin()
 function app_init_oservice_tabs()
 {
     $CI = &get_instance();
-
-    $CI->db->select('service_session_link');
-    $data = $CI->db->get(db_prefix() . 'my_other_services')->result();
-    foreach ($data as $item):
-        $service_session_link = $item->service_session_link;
-    endforeach;
-
 
     $CI->app_tabs->add_oservice_tab('project_overview', [
         'name' => _l('project_overview'),
@@ -106,9 +108,18 @@ function app_init_oservice_tabs()
         'visible' => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     ]);
 
+    $CI->app_tabs->add_oservice_tab('project_contracts', [
+        'name'     => _l('contracts'),
+        'icon'     => 'fa fa-file',
+        'view'     => 'admin/LegalServices/other_services/project_contracts',
+        'position' => 45,
+        'visible'  => has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own'),
+    ]);
+
     $CI->app_tabs->add_oservice_tab('sales', [
         'name' => _l('sales_string'),
-        'position' => 45,
+        'icon'     => 'fa fa-balance-scale',
+        'position' => 50,
         'collapse' => true,
         'visible' => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
             || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
@@ -159,27 +170,16 @@ function app_init_oservice_tabs()
         'name' => _l('project_notes'),
         'icon' => 'fa fa-file-o',
         'view' => 'admin/LegalServices/other_services/project_notes',
-        'position' => 50,
+        'position' => 55,
     ]);
 
     $CI->app_tabs->add_oservice_tab('project_activity', [
         'name' => _l('project_activity'),
         'icon' => 'fa fa-exclamation',
         'view' => 'admin/LegalServices/other_services/project_activity',
-        'position' => 55,
+        'position' => 60,
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
-
-    if(isset($service_session_link)):
-        if($service_session_link == 1):
-            $CI->app_tabs->add_oservice_tab('OserviceSession', [
-                'name'     => _l('SessionLog'),
-                'icon'     => 'fa fa-gavel',
-                'view'     => 'admin/LegalServices/services_sessions/services_sessions',
-                'position' => 60,
-            ]);
-        endif;
-    endif;
 
     $CI->app_tabs->add_oservice_tab('Phase', [
         'name'                      => _l('phases'),
@@ -200,6 +200,13 @@ function app_init_oservice_tabs()
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
         'position'                  => 75,
+    ]);
+
+    $CI->app_tabs->add_oservice_tab('written_reports', [
+        'name'                      => _l('written_reports'),
+        'icon'                      => 'fa fa-pencil-square',
+        'view'                      => 'admin/written_reports/tab',
+        'position'                  => 80,
     ]);
 }
 
@@ -474,12 +481,13 @@ function get_oservice_discussions_language_array()
  */
 function oservice_has_recurring_tasks($id)
 {
-    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project"') > 0;
+    return total_rows(db_prefix() . 'tasks', 'recurring=1 AND rel_id="' . $id . '" AND rel_type="project" AND is_session=0') > 0;
 }
 
 function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
+        'is_session' => 0,
         'rel_type' => $slug,
         'rel_id' => $project_id,
         'milestone' => $milestone_id,
@@ -489,6 +497,7 @@ function total_oservice_tasks_by_milestone($milestone_id, $project_id, $slug='')
 function total_oservice_finished_tasks_by_milestone($milestone_id, $project_id, $slug='')
 {
     return total_rows(db_prefix() . 'tasks', [
+        'is_session' => 0,
         'rel_type' => $slug,
         'rel_id' => $project_id,
         'status' => 5,
@@ -882,4 +891,11 @@ function handle_oservice_discussion_comment_attachments($discussion_id, $post_da
     }
 
     return $insert_data;
+}
+
+function check_service_if_link_with_seesion($service_id)
+{
+    $CI = & get_instance();
+    $count = $CI->db->get_where(db_prefix() . 'my_other_services',['service_session_link' => 1, 'service_id' => $service_id])->num_rows();
+    return $count;
 }

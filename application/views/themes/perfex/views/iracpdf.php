@@ -31,7 +31,7 @@ $organization_info .= format_organization_info();
 $organization_info .= '</div>';
 
 
-$irac_info = '<br />' . _l('appointment_date_and_time') . ' ' . _d($irac->datecreated) . '<br />';
+$irac_info = '<br />' . _l('date_time') . ' ' . _d($irac->datecreated) . '<br />';
 
 $left_info  = $swap == '1' ? $irac_info : $organization_info;
 $right_info = $swap == '1' ? $organization_info : $irac_info;
@@ -58,7 +58,7 @@ $pdf->writeHTML($tbltotal, true, false, false, false, $align);
     $pdf->Ln(4);
     $tblhtml = '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="5" border="0" style="text-align: '.$text_align.'">
         <tr height="20"  style="color:#000;border:1px solid #000;">
-        <th width="20%;" style="' . $border . '">' . _l('appointment_date') . '</th>
+        <th width="20%;" style="' . $border . '">' . _l('view_date') . '</th>
         <th width="20%;" style="' . $border . '">' . _l('file_number_in_court') . '</th>
         <th width="20%;" style="' . $border . '">' . _l('Court') . '</th>
         <th width="20%;" style="' . $border . '">' . _l('client') . '</th>
@@ -74,7 +74,7 @@ endforeach;
             <tr>
             <td>' . _d($case_info->start_date) . '</td>
             <td>' . $case_info->file_number_court . '</td>
-            <td>' . $court . '</td>
+            <td>' . maybe_translate(_l('nothing_was_specified'), $court) . '</td>
             <td>' . get_company_name($case_info->clientid) . '</td>
             <td>' . $member_name . '</td>
             </tr>
@@ -89,7 +89,7 @@ if (!empty($irac->facts)) {
     $pdf->Cell(0, 0, _l('facts'), 0, 1, $align, 0, '', 0);
     $pdf->SetFont($font_name, '', $font_size);
     $pdf->Ln(2);
-    $pdf->writeHTMLCell('', '', '', '', $irac->facts, 0, 1, false, true, 'R', true);
+    $pdf->writeHTMLCell('', '', '', '', $irac->facts, 0, 1, false, true, $align, true);
 }
 
 if (!empty($irac->legal_authority)) {

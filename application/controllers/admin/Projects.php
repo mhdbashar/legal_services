@@ -123,8 +123,6 @@ class Projects extends AdminController
     {
         $data['title'] = _l('project_gant');
 
-
-
         $selected_statuses = [];
         $selectedMember    = null;
         $data['statuses']  = $this->projects_model->get_project_statuses();
@@ -151,6 +149,7 @@ class Projects extends AdminController
         if (count($selected_statuses) == 0) {
             $selected_statuses = $allStatusesIds;
         }
+
 
         $data['selected_statuses'] = $selected_statuses;
 
@@ -211,7 +210,7 @@ class Projects extends AdminController
                 'projects-js',
                 base_url($this->app_scripts->core_file('assets/js', 'projects.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
-                ['app-js', 'jquery-comments-js', 'jquery-gantt-js', 'circle-progress-js']
+                ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
             );
 
             if ($group == 'project_overview') {
@@ -301,6 +300,10 @@ class Projects extends AdminController
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_notes') {
                 $data['staff_notes'] = $this->projects_model->get_staff_notes($id);
+            } elseif ($group == 'project_contracts') {
+                $this->load->model('contracts_model');
+                $data['contract_types'] = $this->contracts_model->get_contract_types();
+                $data['years']          = $this->contracts_model->get_contracts_years();
             } elseif ($group == 'project_estimates') {
                 $this->load->model('estimates_model');
                 $data['estimates_years']       = $this->estimates_model->get_estimates_years();
@@ -393,10 +396,12 @@ class Projects extends AdminController
         $data['current_user_is_admin']             = is_admin();
 
         $data['file'] = $this->projects_model->get_file($id, $project_id);
+
         if (!$data['file']) {
             header('HTTP/1.0 404 Not Found');
             die;
         }
+
         $this->load->view('admin/projects/_file', $data);
     }
 
@@ -1104,6 +1109,4 @@ class Projects extends AdminController
             redirect(site_url('clients/project/' . $id));
         }
     }
-
-    //after v2.4.4 perfex delete add_task_to_select_timesheet funcion
 }

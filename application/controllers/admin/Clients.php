@@ -6,7 +6,7 @@ class Clients extends AdminController
 {
     public function __construct(){
         parent::__construct();
-        $this->load->model('Branches_model');
+        $this->load->model('branches/Branches_model', 'Branches_model');
     }
     /* List all clients */
     public function index()
@@ -247,6 +247,11 @@ class Clients extends AdminController
             }
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+            if($this->app_modules->is_active('branches')) {
+                $ci = &get_instance();
+                $ci->load->model('branches/Branches_model', 'branch');
+                $data['staff'] = $ci->branch->get_staffs_by_branch_id($id);
+            }
 
             $data['client'] = $client;
             $title          = $client->company;

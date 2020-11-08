@@ -12,10 +12,10 @@ function _maybe_init_admin_project_assets()
         $CI = &get_instance();
 
         $CI->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js', 'admin', ['vendor-js']);
-        $CI->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js', 'admin', ['vendor-js']);
+        $CI->app_scripts->add('frappe-gantt-js','assets/plugins/frappe/frappe-gantt-es2015.js', 'admin', ['vendor-js']);
 
+        $CI->app_css->add('frappe-gantt-js', 'assets/plugins//frappe/frappe-gantt.css', 'admin', ['vendor-css']);
         $CI->app_css->add('jquery-comments-css', 'assets/plugins/jquery-comments/css/jquery-comments.css', 'admin', ['reset-css']);
-        $CI->app_css->add('jquery-gantt-css', 'assets/plugins/gantt/css/style.css', 'admin', ['reset-css']);
     }
 }
 
@@ -100,9 +100,18 @@ function app_init_project_tabs()
         'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     ]);
 
+    $CI->app_tabs->add_project_tab('project_contracts', [
+        'name'     => _l('contracts'),
+        'icon'     => 'fa fa-file',
+        'view'     => 'admin/projects/project_contracts',
+        'position' => 45,
+        'visible'  => has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own'),
+    ]);
+
     $CI->app_tabs->add_project_tab('sales', [
         'name'     => _l('sales_string'),
-        'position' => 45,
+        'icon'     => 'fa fa-balance-scale',
+        'position' => 50,
         'collapse' => true,
         'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates()))
             || (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices()))
@@ -153,14 +162,14 @@ function app_init_project_tabs()
         'name'     => _l('project_notes'),
         'icon'     => 'fa fa-file-o',
         'view'     => 'admin/projects/project_notes',
-        'position' => 50,
+        'position' => 55,
     ]);
 
     $CI->app_tabs->add_project_tab('project_activity', [
         'name'                      => _l('project_activity'),
         'icon'                      => 'fa fa-exclamation',
         'view'                      => 'admin/projects/project_activity',
-        'position'                  => 55,
+        'position'                  => 60,
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
 }

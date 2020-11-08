@@ -59,9 +59,11 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php if (has_permission('customers', '', 'create')) { ?>
                             <div class="col-md-1">
                                 <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
+                            <?php } ?>
                         </div>
 
                         <?php $cats = get_relation_data('mycategory', $ServID);
@@ -93,22 +95,29 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <?php
-//                                $staff_language = get_staff_default_language(get_staff_user_id());
-                                $staff_language = get_option('active_language');
-
+                                $staff_language = get_staff_default_language(get_staff_user_id());
                                 if($staff_language == 'arabic'){
                                     $field = 'short_name_ar';
+                                    $field_city = 'Name_ar';
                                 }else{
                                     $field = 'short_name';
+                                    $field_city = 'Name_en';
                                 }
                                 ?>
-                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', array('data-none-selected-text' => _l('dropdown_non_selected_tex'))); ?>
+                                <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', get_option('company_country')); ?>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
+                                    <?php $data = get_relation_data('build_dropdown_cities',''); ?>
                                     <select id="city" name="city" class="form-control custom_select_arrow">
-                                        <option value=""></option>
+                                        <option selected disabled></option>
+                                        <?php
+                                        if(get_option('company_city') != ''){
+                                            foreach ($data as $row): ?>
+                                                <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : (get_option('company_city') == $row->Name_ar ? 'selected' : '') ?>><?php echo $row->$field_city; ?></option>
+                                            <?php endforeach;
+                                        } ?>
                                     </select>
                                 </div>
                             </div>
@@ -212,8 +221,9 @@
                                 echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                                 ?>
                             </div>
-
+                            <?php if (has_permission('staff', '', 'create')) { ?>
                                 <a href="<?php echo admin_url('staff')?>" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                            <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
                                 <select class="form-control custom_select_arrow" name="contract"
@@ -230,7 +240,7 @@
                             <input type="checkbox" name="service_session_link" id="service_session_link">
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
-                        <p class="bold"><?php echo _l('project_description'); ?></p>
+                        <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
                         <div class="checkbox checkbox-primary">
                             <input type="checkbox" name="send_created_email" id="send_created_email">
@@ -258,18 +268,14 @@
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
-
-            $checked = ' ';
+            //$checked = ' checked';
+            $checked = '';
            if(isset($OtherServ)){
+                //if($OtherServ->settings->{$setting} == 0){
                 if($OtherServ->settings->{$setting} == 1){
                     $checked = ' checked';
                 }
             } else {
-                // var_dump($last_project_settings);
-                // foreach($last_project_settings as $last_setting) {
-                // var_dump($last_setting);
-                // }
-                // exit();
                 foreach($last_project_settings as $last_setting) {
                     if($setting == $last_setting['name']){
                         // hide_tasks_on_main_tasks_table is not applied on most used settings to prevent confusions
@@ -278,11 +284,10 @@
                         }
                     }
                 }
-
                 if(count($last_project_settings) == 0 && $setting == 'hide_tasks_on_main_tasks_table') {
                     $checked = '';
                 }
-            } ?>
+            }?>
             <?php if($setting != 'available_features'){ ?>
                 <div class="checkbox">
                     <input type="checkbox" name="settings[<?php echo $setting; ?>]" <?php echo $checked; ?> id="<?php echo $setting; ?>">
@@ -364,6 +369,7 @@
         <div class="btn-bottom-pusher"></div>
     </div>
 </div>
+<?php if (has_permission('customers', '', 'create')) { ?>
 <div class="modal fade" id="add-client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -387,9 +393,11 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <?php init_tail(); ?>
 <script>
 
+    <?php if (has_permission('customers', '', 'create')) { ?>
     $("#AddClient").click(function () {
         company = $('#company_modal').val();
         if(company == ''){
@@ -412,6 +420,7 @@
             });
         }
     });
+    <?php } ?>
 
     function GetSubCat() {
         $('#subcat_id').html('');
@@ -473,12 +482,13 @@
             code: 'required',
             name: 'required',
             clientid: 'required',
-            cat_id: 'required',
-            subcat_id: 'required',
-            billing_type: 'required',
+            //cat_id: 'required',
+            //subcat_id: 'required',
+            //billing_type: 'required',
             //rate_per_hour: 'required',
-            members : 'required',
-            start_date: 'required',
+            //members : 'required',
+            //start_date: 'required',
+            description: 'required',
         });
 
         $('select[name="status"]').on('change',function(){

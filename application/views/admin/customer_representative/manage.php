@@ -6,10 +6,14 @@
 			<div class="col-md-12">
 				<div class="panel_s">
 					<div class="panel-body">
+                        <?php if (has_permission('customer_representative', '', 'create')) { ?>
 						<div class="_buttons">
 							<a href="<?php echo admin_url('customer_representative/cust_representativecu'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_customer_representative'); ?></a>
 							<div class="clearfix"></div>
 							<hr class="hr-panel-heading" />
+                        </div>
+                        <?php } ?>
+                        <div class="clearfix"></div>
 							<?php
                      $table_data = array();
                      $_table_data = array(
@@ -40,7 +44,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 </div>
 <?php init_tail(); ?>

@@ -8,31 +8,26 @@ class CaseStatus_model extends App_Model
         parent::__construct();
     }
 
-    
     // tblmy_CaseStatus, `id`, `name`, `note`
     public function get($id = '')
     {
         if (is_numeric($id)) {
-        $this->db->where('id', $id);
-
-        return $this->db->get('tblmy_casestatus')->row();
+            $this->db->where('id', $id);
+            $this->db->where('is_default', 0);
+            return $this->db->get(db_prefix() . 'my_casestatus')->row();
         }
-        
+        $this->db->where('is_default', 0);
         $this->db->order_by('id', 'desc');
-        return $this->db->get('tblmy_casestatus')->result_array();
+        return $this->db->get(db_prefix() . 'my_casestatus')->result_array();
     }
-
 
     public function add($data)
     {
-
-        
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
         }
-
-        $this->db->insert('tblmy_casestatus', $data);
+        $this->db->insert(db_prefix() . 'my_casestatus', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New Judge [ID: ' . $insert_id . ']');
@@ -43,13 +38,11 @@ class CaseStatus_model extends App_Model
 
             return $insert_id;
         }
-
         return false;
     }
 
     public function update($data, $id)
     {
-
         $affectedRows = 0;
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
@@ -58,43 +51,30 @@ class CaseStatus_model extends App_Model
             }
             unset($data['custom_fields']);
         }
-        
         $this->db->where('id', $id);
-        $this->db->update('tblmy_casestatus', $data);
+        $this->db->update(db_prefix() . 'my_casestatus', $data);
         if ($this->db->affected_rows() > 0) {
-
             $affectedRows++;
             log_activity('Case Status Updated [ID: ' . $id . ']');
-
             return true;
         }
-
         if ($affectedRows > 0) {
             return true;
         }
-
         return false;
     }
-
-
     
     public function delete($id, $simpleDelete = false)
     {
-
         $this->db->where('relid', $id);
         $this->db->where('fieldto', 'cstauts'); //cstauts is the name of belong to in custom fields table
         $this->db->delete(db_prefix() . 'customfieldsvalues');
-
         $this->db->where('id', $id);
-        $this->db->delete('tblmy_casestatus');
+        $this->db->delete(db_prefix() . 'my_casestatus');
         if ($this->db->affected_rows() > 0) {
             log_activity('Case Status Deleted [' . $id . ']');
-
             return true;
         }
-
         return false;
     }
-
 }
-

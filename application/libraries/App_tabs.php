@@ -60,6 +60,13 @@ class App_tabs
         return $this;
     }
 
+    public function add_iservice_tab($slug, $tab)
+    {
+        $this->add($slug, $tab, 'iservice');
+
+        return $this;
+    }
+
     public function add_project_tab_children_item($parent_slug, $tab)
     {
         $this->add_child($parent_slug, $tab, 'project');
@@ -81,6 +88,13 @@ class App_tabs
         return $this;
     }
 
+    public function add_iservice_tab_children_item($parent_slug, $tab)
+    {
+        $this->add_child($parent_slug, $tab, 'iservice');
+
+        return $this;
+    }
+
     public function get_project_tabs()
     {
         return $this->get('project');
@@ -94,6 +108,11 @@ class App_tabs
     public function get_oservice_tabs()
     {
         return $this->get3('oservice');
+    }
+
+    public function get_iservice_tabs()
+    {
+        return $this->get4('iservice');
     }
 
     public function add_settings_tab($slug, $tab)
@@ -159,7 +178,7 @@ class App_tabs
 
     public function get($group)
     {
-        hooks()->do_action('get_project_tabs', $group);
+        hooks()->do_action('before_get_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);
@@ -175,6 +194,21 @@ class App_tabs
     public function get2($group)
     {
         hooks()->do_action('get_case_tabs', $group);
+        $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
+        foreach ($tabs as $parent => $item) {
+            $tabs[$parent]['children'] = $this->get_child($parent, $group);
+        }
+
+        $tabs = hooks()->apply_filters("{$group}_tabs", $tabs);
+
+        $tabs = $this->filter_visible_tabs($tabs);
+
+        return app_sort_by_position($tabs);
+    }
+
+    public function get4($group)
+    {
+        hooks()->do_action('get_iservice_tabs', $group);
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
         foreach ($tabs as $parent => $item) {
             $tabs[$parent]['children'] = $this->get_child($parent, $group);

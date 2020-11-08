@@ -25,22 +25,35 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'my_customer_representative';
 
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
+    db_prefix() .'my_customer_representative.is_default'
+]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
+    if($aRow['is_default'] == 1)
+        continue;
     $row = [];
 
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
     $row[] = $aRow['id'];
 
-    $_data = ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . $aRow['representative'] . '</a>';
+    if (has_permission('customer_representative', '', 'create') && has_permission('customer_representative', '', 'edit')) {
+        $link = admin_url('customer_representative/cust_representativecu/' . $aRow['id']);
+    }else{
+        $link = '#';
+    }
+    $_data = ' <a href="' . $link . '">' . $aRow['representative'] . '</a>';
     $_data .= '<div class="row-options">';
-    $_data .= ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    $_data .= ' | <a href="' . admin_url('customer_representative/cust_representatived/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    if (has_permission('customer_representative', '', 'edit')) {
+        $_data .= ' <a href="' . admin_url('customer_representative/cust_representativecu/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
+    if (has_permission('customer_representative', '', 'delete')) {
+        $_data .= ' | <a href="' . admin_url('customer_representative/cust_representatived/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+    }
     $row[] = $_data;
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

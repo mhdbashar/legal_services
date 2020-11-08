@@ -51,6 +51,13 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_customers_based_on_admins'),
             ],
         ],
+        'opponents' => [
+            'name'         => _l('opponents'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'         => [
+                'view_own' => _l('permission_customers_based_on_admins'),
+            ],
+        ],
         'procurations' => [
             'name'         => _l('procurations'),
             'capabilities' => $withNotApplicableViewOwn,
@@ -60,6 +67,14 @@ function get_available_staff_permissions($data = [])
             'capabilities' => [
                 'view' => $viewGlobalName,
                 'edit' => _l('permission_edit'),
+            ],
+        ],
+        'imported_services' => [
+            'name'         => _l('imported_services'),
+            'capabilities' => [
+                'view' => $viewGlobalName,
+                'export' => _l('export'),
+                'delete' => _l('permission_delete')
             ],
         ],
         'estimates' => [
@@ -140,12 +155,91 @@ function get_available_staff_permissions($data = [])
                 'view_own' => _l('permission_tasks_based_on_assignee'),
             ],
         ],
+        'sessions' => [
+            'name'         => _l('sessions'),
+            'capabilities' => $withNotApplicableViewOwn,
+            'help'        => [
+                'view'     => _l('help_sessions_permissions'),
+                'view_own' => _l('permission_sessions_based_on_assignee'),
+            ],
+        ],
         'checklist_templates' => [
             'name'         => _l('checklist_templates'),
             'capabilities' => [
                 'create' => _l('permission_create'),
                 'delete' => _l('permission_delete'),
             ],
+        ],
+        'judges_manage' => [
+            'name'         => _l('judges_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'customer_representative' => [
+            'name'         => _l('customer_representative_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'case_status' => [
+            'name'         => _l('case_status_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'courts' => [
+            'name'         => _l('CourtsManagement'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'judicial_departments' => [
+            'name'         => _l('judicial_manage'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+            ]
+        ],
+        'legal_recycle_bin' => [
+            'name'         => _l('LService_recycle_bin'),
+            'capabilities' => [
+                'view'    => $viewGlobalName,
+                'delete'  => _l('permission_delete'),
+                'restore' => _l('restore'),
+            ]
+        ],
+        'legal_services' => [
+            'name'         => _l('LegalServiceManage'),
+            'capabilities' => [
+                'create'     => _l('permission_create'),
+                'edit'       => _l('permission_edit'),
+                'delete'     => _l('permission_delete'),
+                'active'     => _l('MakePrimary'),
+                'categories' => _l('categories_management'),
+            ]
+        ],
+        'legal_services_phases' => [
+            'name'         => _l('legal_services_phases'),
+            'capabilities' => [
+                'create' => _l('permission_create'),
+                'edit'   => _l('permission_edit'),
+                'delete' => _l('permission_delete'),
+                'active' => _l('active_phase'),
+            ]
+        ],
+        'legal_procedures' => [
+            'name'         => _l('legal_procedures_management'),
+            'capabilities' => $allPermissionsArray,
         ],
     ];
 

@@ -5,8 +5,8 @@ $lang['home_my_sessions'] = "الجلسات";
 $lang['project_linked_successfully'] = 'تم ربط الخدمة بنجاح';
 $lang['failed_to_link_project'] = 'خطأ في ربط الخدمة';
 $lang['linked_services'] = "الخدمات المرتبطة";
-$lang['father_linked_services'] = 'الخدمة المرتبطة الأب';
-$lang['child_linked_services'] = 'الخدمات المرتبطة الأبناء';
+$lang['father_linked_services'] = 'الخدمة المرتبطة الأساسية';
+$lang['child_linked_services'] = 'الخدمات المرتبطة الفرعية';
 $lang['link_service'] = 'ربط الخدمة';
 
 $lang['cases_summary'] = "ملخص القضايا";

@@ -2861,10 +2861,10 @@ class Cases_model extends App_Model
         //     $cases[$key]->l_service_id = "1"; 
         // }
 
-//        $father_linked_services = [
-//                ...$father_linked_services,
-//                ...$cases
-//        ];
+       $father_linked_services = [
+               ...$father_linked_services,
+               ...$cases
+       ];
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');

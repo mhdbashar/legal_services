@@ -586,7 +586,7 @@ if (!$CI->db->table_exists(db_prefix() . 'branches')) {
     'country_id' => '217', 
     'registraion_number' => '1'
   ];
-  $CI->db->insert('tblbranches', $data);
+  $CI->db->insert(db_prefix() . 'branches', $data);
   $insert_id = $CI->db->insert_id();
   if ($insert_id) {
       log_activity('New Branches Added [' . $data['title_en'] . ']');
@@ -611,7 +611,7 @@ if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
         'rel_type' => 'staff', 
         'rel_id' => $staff['staffid']
       ];
-      $CI->db->insert('tblbranches_services', $data);
+      $CI->db->insert(db_prefix() . 'branches_services', $data);
       $insert_id = $CI->db->insert_id();
 
       if ($insert_id) {
@@ -626,7 +626,7 @@ if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
         'rel_type' => 'departments', 
         'rel_id' => $department['departmentid']
       ];
-      $CI->db->insert('tblbranches_services', $data);
+      $CI->db->insert(db_prefix() . 'branches_services', $data);
       $insert_id = $CI->db->insert_id();
 
       if ($insert_id) {

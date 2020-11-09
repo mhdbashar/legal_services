@@ -25,14 +25,14 @@ class Sub_department_model extends App_Model{
 
     public function get_departments_by_branch_id($branch_id){
         $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
-        $branches = $this->db->get('tblbranches_services')->result_array();
+        $branches = $this->db->get(db_prefix() . 'branches_services')->result_array();
         $data = [];
         foreach ($branches as $branch) {
             $staff_array = [];
             $staff_array['key'] = $branch['rel_id'];
 
             $this->db->where('departmentid', $branch['rel_id']);
-            $department = $this->db->get('departments')->row();
+            $department = $this->db->get(db_prefix() . 'departments')->row();
             $staff_array['value'] = $department->name;
             $data[] = $staff_array;
         }
@@ -44,9 +44,9 @@ class Sub_department_model extends App_Model{
             $this->db->where('id' ,$id);
             $row = $this->db->get($this->table_name)->row();
             $this->db->where('departmentid' ,$row->department_id);
-            $row2 = $this->db->get('tbldepartments')->row();
+            $row2 = $this->db->get(db_prefix() . 'departments')->row();
             $this->db->where(['rel_id' => $id, 'rel_type' => 'sub_departments']);
-            $row3 = $this->db->get('tblbranches_services')->row();
+            $row3 = $this->db->get(db_prefix() . 'branches_services')->row();
             $row->department = $row2;
             $row->branch = $row3;
             return $row;
@@ -86,7 +86,7 @@ class Sub_department_model extends App_Model{
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'sub_departments']);
-                $this->db->delete('tblbranches_services');
+                $this->db->delete(db_prefix() . 'branches_services');
             }
             return true;
         } 

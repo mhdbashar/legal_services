@@ -13,7 +13,7 @@ if(isset($params['id'])) {
     $where=['where branch_id = '.$params['id']];
 }
 $sIndexColumn = 'departmentid';
-$sTable       = 'tbldepartments';
+$sTable       = db_prefix().'departments';
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where   , ['email', 'hidefromclient', 'host', 'encryption', 'password', 'delete_after_import', 'imap_username','branch_id']);
 $output  = $result['output'];
 $rResult = $result['rResult'];

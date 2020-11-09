@@ -19,7 +19,7 @@
                                 <?php
                                 $disable = '';
                                 if(isset($branch)){
-                                  if(total_rows('tblcustomfieldsvalues',array('fieldid'=>$branch->id)) > 0){
+                                  if(total_rows(db_prefix().'customfieldsvalues',array('fieldid'=>$branch->id)) > 0){
                                     $disable = 'disabled';
                                 }
                             }

@@ -81,4 +81,24 @@ class Written_reports extends AdminController
         $pdf->Output('Written_report_'.$report->id.'.pdf', $type);
     }
 
+    public function send_mail_to_client($report_id, $service_id)
+    {
+        $report = $this->reports->get($report_id);
+        $rel_id = $report->rel_id;
+        if($service_id == 1){
+            $client_id = get_client_id_by_case_id($rel_id);
+        }else{
+            $client_id = get_client_id_by_oservice_id($rel_id);
+        }
+        $this->db->where('userid', $client_id);
+        $contact = $this->db->get(db_prefix() . 'contacts')->row();
+        if(isset($contact)){
+            send_mail_template('send_written_report_to_customer', $contact, $report);
+            log_activity('Send Written Report To Customer [Report ID: ' . $report_id . ']');
+            return array(1, _l('Done').' '._l('Send_to_customer'));
+        }else{
+            return array(2, _l('no_primary_contact')); // This customer doesn't have primary contact
+        }
+    }
+
 }

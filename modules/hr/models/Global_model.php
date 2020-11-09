@@ -444,7 +444,7 @@ class Global_model extends App_Model{
 
         if($this->app_modules->is_active('branches')){
             $this->db->where(['rel_id' => $id, 'rel_type' => 'staff']);
-            $this->db->delete('tblbranches_services');
+            $this->db->delete(db_prefix() . 'branches_services');
         }
 
 

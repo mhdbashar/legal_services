@@ -50,7 +50,7 @@ class Resignations_model extends App_Model{
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'resignations']);
-                $this->db->delete('tblbranches_services');
+                $this->db->delete(db_prefix() . 'branches_services');
             }
             return true;
         } 

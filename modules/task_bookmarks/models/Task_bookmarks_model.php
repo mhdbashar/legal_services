@@ -10,7 +10,7 @@ class Task_bookmarks_model extends App_Model
 
     public function add_task_bookmarks($data){
         
-        $this->db->insert('tbltask_bookmarks', $data);
+        $this->db->insert(db_prefix().'task_bookmarks', $data);
         $task_bookmarks_id = $this->db->insert_id();
 
         if($task_bookmarks_id){
@@ -22,7 +22,7 @@ class Task_bookmarks_model extends App_Model
     public function update_task_bookmarks($data, $id){
         
         $this->db->where('id', $id);
-        $this->db->update('tbltask_bookmarks', $data);
+        $this->db->update(db_prefix().'task_bookmarks', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -32,12 +32,12 @@ class Task_bookmarks_model extends App_Model
     public function get_task_bookmarks($id = ''){
         if($id != ''){
             $this->db->where('id',$id);
-            $task_bookmarks = $this->db->get('tbltask_bookmarks')->result_array();
+            $task_bookmarks = $this->db->get(db_prefix().'task_bookmarks')->result_array();
             $task_bookmarks[0]['list_task'] = $this->get_task_bookmarks_list_task($id);
             return $task_bookmarks[0];
         }else{
             $this->db->where('creator',get_staff_user_id());
-            $task_bookmarks = $this->db->get('tbltask_bookmarks')->result_array();
+            $task_bookmarks = $this->db->get(db_prefix().'task_bookmarks')->result_array();
             return $task_bookmarks;
         }
         
@@ -46,7 +46,7 @@ class Task_bookmarks_model extends App_Model
     public function get_task_bookmarks_by_task_id($taskid){
 
         $this->db->where('task_id',$taskid);
-        $task_bookmarks = $this->db->get('tbltask_bookmarks_detail')->result_array();
+        $task_bookmarks = $this->db->get(db_prefix().'task_bookmarks_detail')->result_array();
         
         if(count($task_bookmarks) > 0){
             $value_return = [];
@@ -61,7 +61,7 @@ class Task_bookmarks_model extends App_Model
     public function get_task_bookmarks_list_task($id, $is_string = false){
         $data = [];
         $this->db->where('task_bookmarks_id',$id);
-        $list_task = $this->db->get('tbltask_bookmarks_detail')->result_array();
+        $list_task = $this->db->get(db_prefix().'task_bookmarks_detail')->result_array();
 
         foreach($list_task as $row){
             $data[] = $row['task_id'];
@@ -74,9 +74,9 @@ class Task_bookmarks_model extends App_Model
     
     public function delete_task_bookmarks($id){
         $this->db->where('task_bookmarks_id', $id);
-        $this->db->delete('tbltask_bookmarks_detail');
+        $this->db->delete(db_prefix().'task_bookmarks_detail');
         $this->db->where('id', $id);
-        $this->db->delete('tbltask_bookmarks');
+        $this->db->delete(db_prefix().'task_bookmarks');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -84,14 +84,14 @@ class Task_bookmarks_model extends App_Model
     }
 
     public function add_task_filter_widget($data){
-        $this->db->insert('tbllist_widget', $data);
+        $this->db->insert(db_prefix().'list_widget', $data);
         $filter_id = $this->db->insert_id();
         return $filter_id;
     }
 
     public function remove_task_filter_widget($id){
         $this->db->where('id', $id);
-        $this->db->delete('tbllist_widget');
+        $this->db->delete(db_prefix().'list_widget');
         if ($this->db->affected_rows() > 0) {
             return true;
         }

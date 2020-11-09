@@ -15,11 +15,11 @@ class Judges_model extends App_Model
         if (is_numeric($id)) {
         $this->db->where('id', $id);
 
-        return $this->db->get('tblmy_judges')->row();
+        return $this->db->get(db_prefix().'my_judges')->row();
         }
         
         $this->db->order_by('id', 'desc');
-        return $this->db->get('tblmy_judges')->result_array();
+        return $this->db->get(db_prefix().'my_judges')->result_array();
     }
 
 
@@ -32,7 +32,7 @@ class Judges_model extends App_Model
             unset($data['custom_fields']);
         }
 
-        $this->db->insert('tblmy_judges', $data);
+        $this->db->insert(db_prefix().'my_judges', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New Judge [ID: ' . $insert_id . ']');
@@ -60,7 +60,7 @@ class Judges_model extends App_Model
         }
         
         $this->db->where('id', $id);
-        $this->db->update('tblmy_judges', $data);
+        $this->db->update(db_prefix().'my_judges', $data);
         if ($this->db->affected_rows() > 0) {
 
             $affectedRows++;
@@ -86,7 +86,7 @@ class Judges_model extends App_Model
         $this->db->delete(db_prefix() . 'customfieldsvalues');
 
         $this->db->where('id', $id);
-        $this->db->delete('tblmy_judges');
+        $this->db->delete(db_prefix().'my_judges');
         if ($this->db->affected_rows() > 0) {
             log_activity('Judge Deleted [' . $id . ']');
 

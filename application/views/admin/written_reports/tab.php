@@ -20,7 +20,7 @@
         <div id="report-<?php echo $i; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_<?php echo $i; ?>">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-11">
+                    <div class="col-md-10">
                 <b>- <?php echo _l('added_from').' '._l('staff_member_lowercase'); ?></b>
                 <a href="<?php echo admin_url('profile/' . $report['addedfrom']); ?>" target="_blank"><?php echo get_staff_full_name($report['addedfrom']); ?></a>
                 <br>
@@ -40,14 +40,15 @@
                 <br>
                 <b>- <?php echo _l('date_updated'); ?></b>
                 <small>
-                <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($report['updated_at']); ?>">
+                <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _l($report['updated_at']); ?>">
                       <?php echo time_ago($report['updated_at']); ?>
                 </span>
                 </small>
                 <?php endif; ?>
                     </div>
-                    <div class="col-md-1">
-                        <div class="btn-group ">
+                    <div class="col-md-2">
+                        <button type="button" data-toggle="tooltip" data-title="<?php echo _l('Send_to_customer'); ?>" class="btn btn-info btn-icon pull-left" onclick="send_written_report(<?php echo $report['id'].','.$ServID.','; ?>'<?php echo _l('confirm_action_prompt'); ?>')"><i class="fa fa-envelope"></i></button>
+                        <div class="btn-group pull-right">
                             <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-file-pdf-o"></i>
                                 <?php echo _l('more'); ?>

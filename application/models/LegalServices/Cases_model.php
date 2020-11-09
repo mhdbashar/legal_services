@@ -2856,45 +2856,44 @@ class Cases_model extends App_Model
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'inner');
         $father_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0');
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 1', 'inner');
         $cases = $this->db->get(db_prefix() . 'my_link_services')->result();
-        // foreach ($cases as $key => $case) {
-        //     $cases[$key]->l_service_id = "1"; 
-        // }
+         foreach ($cases as $key => $case) {
+             $cases[$key]->l_service_id = "1";
+         }
 
-       $father_linked_services = [
-               ...$father_linked_services,
-               ...$cases
-       ];
+        // $father_linked_services = [
+        //         ...$father_linked_services,
+        //         ...$cases
+        // ];
+        $father_linked_services = array_merge($father_linked_services, $cases);
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0');
+        $this->db->join(db_prefix() . 'my_other_services', db_prefix() . 'my_other_services.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_other_services.service_id='.db_prefix() . 'my_link_services.to_service_id AND '.db_prefix() . 'my_other_services.deleted = 0', 'inner');
         $child_linked_services = $this->db->get(db_prefix() . 'my_link_services')->result();
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
         $this->db->where([db_prefix() . 'my_link_services.to_service_id' => $ServID, 'to_rel_id' => $id]);
-        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=1 AND '.db_prefix() . 'my_cases.deleted = 0');
-//        $child_linked_services = [
-//            ...$child_linked_services,
-//            ...$this->db->get(db_prefix() . 'my_link_services')->result()
-//        ];
-        // echo '<pre>'; print_r([
+        $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id' .' AND '.db_prefix() . 'my_link_services.to_service_id=1 AND '.db_prefix() . 'my_cases.deleted = 0', 'inner');
+        // $child_linked_services = [
+        //     ...$child_linked_services,
+        //     ...$this->db->get(db_prefix() . 'my_link_services')->result()
+        // ];
+        $child_linked_services = array_merge($child_linked_services, $this->db->get(db_prefix() . 'my_link_services')->result());
+        // return $linked_services = [
         //         ...$father_linked_services,
         //         ...$child_linked_services
-        // ]); exit;
-//        return $linked_services = [
-//                ...$father_linked_services,
-//                ...$child_linked_services
-//        ];
+        // ];
+        return $linked_services = array_merge($father_linked_services, $child_linked_services);
     }
 
     public function link($ServID,$project_id, $data, $ServID2)
@@ -2916,7 +2915,7 @@ class Cases_model extends App_Model
             $settings_table = db_prefix() . 'case_settings';
             $setting_id = 'case_id';
             $upload_folder = 'cases';
-            $files_table = 'tblcase_files';
+            $files_table = db_prefix() . 'case_files';
             $files_id = 'project_id';
         } else {
             $service_table = db_prefix() . 'my_other_services';
@@ -2924,7 +2923,7 @@ class Cases_model extends App_Model
             $setting_id = 'oservice_id';
             $_new_data['service_id'] = $ServID2;
             $upload_folder = 'oservices';
-            $files_table = 'tbloservice_files';
+            $files_table = db_prefix() . 'oservice_files';
             $files_id = 'oservice_id';
             unset($_new_data['opponent_id']);
             unset($_new_data['representative']);
@@ -2934,6 +2933,7 @@ class Cases_model extends App_Model
             unset($_new_data['case_result']);
             unset($_new_data['file_number_case']);
             unset($_new_data['file_number_court']);
+            unset($_new_data['previous_case_id']);
         }
 
         unset($_new_data['id']);

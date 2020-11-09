@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <?php 
                           $this->db->where('show_on_sidebar', 1);
-                          $services = $this->db->get('tblmy_basic_services')->result_array();
+                          $services = $this->db->get(db_prefix() . 'my_basic_services')->result_array();
                           // var_dump($services);
                         ?>
                         <div class="">

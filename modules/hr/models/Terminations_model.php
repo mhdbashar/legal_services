@@ -130,7 +130,7 @@ class Terminations_model extends App_Model{
             $this->deleteDirectory("uploads/hr/terminations/$id");
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'terminations']);
-                $this->db->delete('tblbranches_services');
+                $this->db->delete(db_prefix() . 'branches_services');
             }
             return true;
         } 

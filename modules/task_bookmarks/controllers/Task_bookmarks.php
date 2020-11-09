@@ -504,7 +504,7 @@ class Task_bookmarks extends AdminController
     {
         if (has_permission('tasks', '', 'edit')) {
             $this->db->where('task_id', $id);
-            $this->db->update('tbltask_bookmarks_detail', ['task_bookmarks_id' => $task_bookmarks_id]);
+            $this->db->update(db_prefix().'task_bookmarks_detail', ['task_bookmarks_id' => $task_bookmarks_id]);
 
             $success = $this->db->affected_rows() > 0 ? true : false;
             // Don't do this query if the action is not performed via task single
@@ -524,7 +524,7 @@ class Task_bookmarks extends AdminController
     public function add_task_bookmarks($task_bookmarks_id, $id)
     {
         if (has_permission('tasks', '', 'edit')) {
-            $this->db->insert('tbltask_bookmarks_detail', ['task_bookmarks_id' => $task_bookmarks_id, 'task_id' => $id]);
+            $this->db->insert(db_prefix().'task_bookmarks_detail', ['task_bookmarks_id' => $task_bookmarks_id, 'task_id' => $id]);
 
             $success = $this->db->affected_rows() > 0 ? true : false;
             // Don't do this query if the action is not performed via task single
@@ -587,7 +587,7 @@ class Task_bookmarks extends AdminController
         if (has_permission('tasks', '', 'edit')) {
             $this->db->where('task_bookmarks_id', $task_bookmarks_id);
             $this->db->where('task_id',$id);
-            $this->db->delete('tbltask_bookmarks_detail');
+            $this->db->delete(db_prefix().'task_bookmarks_detail');
 
             $success = $this->db->affected_rows() > 0 ? true : false;
             // Don't do this query if the action is not performed via task single

@@ -129,6 +129,11 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        $data['written_report'] = $this->emails_model->get([
+            'type'     => 'written_report',
+            'language' => $lang,
+        ]);
+
         $data['title'] = _l('email_templates');
 
         $data['hasPermissionEdit'] = has_permission('email_templates', '', 'edit');

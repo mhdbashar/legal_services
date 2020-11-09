@@ -55,6 +55,7 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/event_merge_fields';
     $fields[] = 'merge_fields/other_merge_fields';
     $fields[] = 'merge_fields/sessions_merge_fields';
-    
+    $fields[] = 'merge_fields/wreports_merge_fields';
+
     return $fields;
 }

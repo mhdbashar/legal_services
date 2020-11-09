@@ -25,7 +25,7 @@ class Designation_model extends App_Model{
 
     public function to_designation($staff, $designation){
         $this->db->where('staff_id', $staff);
-        $this->db->update('tblhr_extra_info', ['designation' => $designation]);
+        $this->db->update(db_prefix() . 'hr_extra_info', ['designation' => $designation]);
         if($this->db->affected_rows() > 0){
             log_activity('tblhr_extra_info' . ' updated [ designation: '. $designation . ']');
             return true;
@@ -49,9 +49,9 @@ class Designation_model extends App_Model{
 
     public function get_staffs_by_branch_id($branch_id){
         $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'staff']);
-        $this->db->join('tblhr_extra_info', 'tblhr_extra_info.staff_id = tblbranches_services.rel_id', 'inner');
-        $this->db->join('tblstaff', 'tblstaff.staffid = tblhr_extra_info.staff_id', 'inner');
-        $staffs = $this->db->get('tblbranches_services')->result_array();
+        $this->db->join(db_prefix() . 'hr_extra_info', db_prefix() . 'hr_extra_info.staff_id = '.db_prefix().'branches_services.rel_id', 'inner');
+        $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = '.db_prefix() .'hr_extra_info.staff_id', 'inner');
+        $staffs = $this->db->get(db_prefix() . 'branches_services')->result_array();
         //echo '<pre>';print_r($staffs); exit;
         $data = [];
         foreach ($staffs as $staff) {
@@ -68,10 +68,10 @@ class Designation_model extends App_Model{
             $this->db->where('id' ,$id);
             $row = $this->db->get($this->table_name)->row();
             $this->db->where('departmentid' ,$row->department_id);
-            $row2 = $this->db->get('tbldepartments')->row();
+            $row2 = $this->db->get(db_prefix() . 'departments')->row();
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
-                $row3 = $this->db->get('tblbranches_services')->row();
+                $row3 = $this->db->get(db_prefix() . 'branches_services')->row();
                 $row->branch = $row3;
             }
             
@@ -125,7 +125,7 @@ class Designation_model extends App_Model{
         if ($this->db->affected_rows() > 0) {
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'designations']);
-                $this->db->delete('tblbranches_services');
+                $this->db->delete(db_prefix() . 'branches_services');
             }
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
  

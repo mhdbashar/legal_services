@@ -1375,7 +1375,7 @@ class Migration_Version_271 extends CI_Migration
           }
             
             //office migration
-      add_option('office_name_in_center', '1');
+      // add_option('office_name_in_center', '1');
 
 
         if (!$this->db->table_exists(db_prefix() . 'iservice_settings')) { 

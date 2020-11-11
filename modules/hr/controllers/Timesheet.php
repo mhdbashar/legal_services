@@ -243,7 +243,7 @@ class Timesheet extends AdminController{
             $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
-            $this->db->update('tblhr_office_shift', ['default'=>0]);
+            $this->db->update(db_prefix() . 'hr_office_shift', ['default'=>0]);
         }
         unset($data['branch_id']);
         foreach ($data as $key => $value) {
@@ -271,7 +271,7 @@ class Timesheet extends AdminController{
             $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
-            $this->db->update('tblhr_office_shift', ['default'=>0]);
+            $this->db->update(db_prefix() . 'hr_office_shift', ['default'=>0]);
         }
         unset($data['branch_id']);
         foreach ($data as $key => $value) {

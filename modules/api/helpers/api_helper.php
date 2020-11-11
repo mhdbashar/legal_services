@@ -20,7 +20,7 @@ function get_relation_data_api($type, $search = '')
     }
     $data = [];
     if ($type == 'customer' || $type == 'customers') {
-        $where_clients = 'tblclients.active=1';
+        $where_clients = db_prefix() . 'clients.active=1';
         
 
         if ($q) {
@@ -40,7 +40,7 @@ function get_relation_data_api($type, $search = '')
         
             $where_projects = '';
             if ($CI->input->post('customer_id')) {
-                $where_projects .= '(clientid=' . $CI->input->post('customer_id').' or clientid in (select id from tblleads where client_id='.$CI->input->post('customer_id').') )';
+                $where_projects .= '(clientid=' . $CI->input->post('customer_id').' or clientid in (select id from '.db_prefix().'leads where client_id='.$CI->input->post('customer_id').') )';
             }
             if ($CI->input->post('rel_type')) {
                 $where_projects .= ' and rel_type="' . $CI->input->post('rel_type').'" ' ;

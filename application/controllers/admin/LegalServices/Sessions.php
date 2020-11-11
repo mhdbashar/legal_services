@@ -307,7 +307,7 @@ class Sessions extends AdminController
         $data['overview'] = $overview['detailed'];
         $data['years']    = $this->sessions_model->get_distinct_tasks_years(($this->input->post('month_from') ? $this->input->post('month_from') : 'startdate'));
         $data['staff_id'] = $overview['staff_id'];
-        $data['title']    = _l('detailed_overview');
+        $data['title']    = _l('session_detailed_overview');
         $this->load->view('admin/sessions/detailed_overview', $data);
     }
 
@@ -450,8 +450,14 @@ class Sessions extends AdminController
                 endif;
             endif;
         endforeach;
-        $data['title'] = $title;
-        $this->load->view('admin/sessions/task', $data);
+        $data['legal_services'] = $this->legal->get_all_services();
+        $data['judges']         = $this->service_sessions->get_judges();
+        $data['courts']         = $this->service_sessions->get_court();
+
+        $data['service_id']     = $ServID;
+        $data['title']          = $title;
+        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
+        //$this->load->view('admin/sessions/task', $data);
     }
 
     public function services_sessions($id = '')

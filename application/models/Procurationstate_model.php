@@ -15,11 +15,11 @@ class Procurationstate_model extends App_Model
         if (is_numeric($id)) {
         $this->db->where('id', $id);
 
-        return $this->db->get('tblmy_procurationstate')->row();
+        return $this->db->get(db_prefix() . 'my_procurationstate')->row();
         }
         
         $this->db->order_by('id', 'desc');
-        return $this->db->get('tblmy_procurationstate')->result_array();
+        return $this->db->get(db_prefix() . 'my_procurationstate')->result_array();
     }
 
 
@@ -33,7 +33,7 @@ class Procurationstate_model extends App_Model
         }
 
         // $data['procurationstate'] = nl2br($data['procurationstate']);
-        $this->db->insert('tblmy_procurationstate', $data);
+        $this->db->insert(db_prefix() . 'my_procurationstate', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New Procuration State [ID: ' . $insert_id . ']');
@@ -62,7 +62,7 @@ class Procurationstate_model extends App_Model
         
         // $data['procurationstate'] = nl2br($data['procurationstate']);
         $this->db->where('id', $id);
-        $this->db->update('tblmy_procurationstate', $data);
+        $this->db->update(db_prefix() . 'my_procurationstate', $data);
         if ($this->db->affected_rows() > 0) {
 
             $affectedRows++;
@@ -88,7 +88,7 @@ class Procurationstate_model extends App_Model
         $this->db->delete(db_prefix() . 'customfieldsvalues');
 
         $this->db->where('id', $id);
-        $this->db->delete('tblmy_procurationstate');
+        $this->db->delete(db_prefix() . 'my_procurationstate');
         if ($this->db->affected_rows() > 0) {
             log_activity('Procuration State Deleted [' . $id . ']');
 

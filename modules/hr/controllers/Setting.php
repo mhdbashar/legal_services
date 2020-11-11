@@ -16,7 +16,7 @@ class Setting extends AdminController{
             $data = $this->input->post();
             foreach($data as $name => $active){
                 $this->db->where('name', $name);
-                $this->db->update('tblhr_setting', ['active'=>$active]);
+                $this->db->update(db_prefix() . 'hr_setting', ['active'=>$active]);
                 if($this->db->affected_rows() > 0){
                     log_activity('tblhr_setting' . ' updated [ Name: '. $name . ']');
                     //return true;

@@ -136,11 +136,9 @@ class Performance extends AdminController{
     public function get_designations_by_branch_id($branch_id){
     	$this->db->select('*');
     	$this->db->where(['branch_id' => $branch_id, 'rel_type' => 'departments']);
-    	$this->db->from('tblbranches_services');
-    	$this->db->join('tblhr_designations', 'tblhr_designations.department_id = tblbranches_services.rel_id', 'inner');
+    	$this->db->from(db_prefix() . 'branches_services');
+    	$this->db->join(db_prefix() . 'hr_designations', db_prefix() . 'hr_designations.department_id = '.db_prefix().'branches_services.rel_id', 'inner');
     	$branches = $this->db->get()->result();
-    	//echo "<pre>"; print_r($branches);exit;
-
         $data = [];
         foreach ($branches as $branch) {
 	            // if($this->Extra_info_model->get($staff_id)->designation == $row['id']){
@@ -148,8 +146,6 @@ class Performance extends AdminController{
 	            // }
 	            $data[] = ['key' => $branch->id, 'value' => $branch->designation_name];
         }
-        
-        
         echo json_encode(['success'=>true,'data'=>$data]);
     }
 }

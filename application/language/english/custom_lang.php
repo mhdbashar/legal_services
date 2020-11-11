@@ -1,6 +1,6 @@
 <?php
 
-$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please active api module from here";
+$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
 
 $lang['approved'] = 'Approved';
 $lang['rejected'] = 'Rejected';

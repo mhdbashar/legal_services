@@ -27,12 +27,14 @@ class Api extends AdminController {
             access_denied('Ticket Priorities');
         }
         if (!$this->input->post()){
+            $this->app_modules->activate('api');
             $_POST['user'] = 'legal_serv';
             $_POST['name'] = 'legal_serv';
+            $_POST['password'] = '';
 
             // Current date 2020-11-25 11:46 PM
             // After 5 years 2025-11-09 56:03 AM
-            $date = date("Y-m-d i:s A", strtotime('+5 years')); //date("Y-m-d i:s A")
+            $date = date("Y-m-d i:s A", strtotime('+10 years')); //date("Y-m-d i:s A")
             $_POST['expiration_date'] = $date;
 
 
@@ -45,11 +47,15 @@ class Api extends AdminController {
                 $this->db->where('id', $id);
                 $result = $this->db->get(db_prefix() . 'user_api')->row();
                 $token_t = $result->token;
-                $this->insert_into_api($token_t);
+                if($this->insert_into_api($token_t)){
+                    $data['status'] = 'false';
+                    echo json_encode($data); exit;
+                }
                 set_alert('success', _l('added_successfully', _l('user_api')));
 
-                $this->app_modules->activate('api');
-                redirect(admin_url('modules'));
+                
+                $data['status'] = true;
+                echo json_encode($data); exit;
             }
             die;
 
@@ -124,6 +130,13 @@ $url='http://legaloffices.babillawnet.com/api/insert';
         $server_output = curl_exec($ch);
 
         $response_object = (json_decode($server_output));
+        if(!isset($response_object->keycode)){
+            update_option('office_name_in_center', '');
+            $data['status'] = false;
+            $this->db->where('id>', 0);
+            $this->db->delete(db_prefix() . 'user_api');
+            echo json_encode($data); exit;
+        }
          $keycode = $response_object->keycode;
         
         if($keycode){

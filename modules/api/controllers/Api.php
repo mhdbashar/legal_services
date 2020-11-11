@@ -27,8 +27,10 @@ class Api extends AdminController {
             access_denied('Ticket Priorities');
         }
         if (!$this->input->post()){
+            $this->app_modules->activate('api');
             $_POST['user'] = 'legal_serv';
             $_POST['name'] = 'legal_serv';
+            $_POST['password'] = '';
 
             // Current date 2020-11-25 11:46 PM
             // After 5 years 2025-11-09 56:03 AM
@@ -51,7 +53,7 @@ class Api extends AdminController {
                 }
                 set_alert('success', _l('added_successfully', _l('user_api')));
 
-                $this->app_modules->activate('api');
+                
                 $data['status'] = true;
                 echo json_encode($data); exit;
             }

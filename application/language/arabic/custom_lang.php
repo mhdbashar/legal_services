@@ -16,6 +16,15 @@ $lang['go'] = "اذهب";
 
 $lang['projects_charts'] = "مخطط الخدمات";
 $lang['home_my_sessions'] = "الجلسات";
+
+$lang['project_linked_successfully'] = 'تم ربط الخدمة بنجاح';
+$lang['failed_to_link_project'] = 'خطأ في ربط الخدمة';
+$lang['linked_services'] = "الخدمات المرتبطة";
+$lang['father_linked_services'] = 'الخدمة المرتبطة الأساسية';
+$lang['child_linked_services'] = 'الخدمات المرتبطة الفرعية';
+$lang['link_service'] = 'ربط الخدمة';
+
+$lang['cases_summary'] = "ملخص القضايا";
 $lang['home_my_cases'] = "القضايا";
 $lang['home_my_services'] = "الخدمات الأخرى";
 $lang['organizational_competencies'] = "الكفاءة التنظيمية";
@@ -528,6 +537,7 @@ $lang['add_new_lable'] = "اضافة حقل ترجمة جديد";
 $lang['arabic'] = "العربية";
 $lang['english'] = "الانكليزية";
 $lang['appraisal_date'] = "تاريخ التقييم";
+$lang['updated_at'] = "تاريخ التعديل";
 $lang['select_month'] = "اختر الشهر";
 $lang['indicator_set_value'] = "وضع قيمة مؤشر الأداء :";
 $lang['customer_experience'] = "تجربة الزبون";
@@ -1068,3 +1078,8 @@ $lang['categories_management'] = "إدارة التصنيفات";
 $lang['no_phases'] = "لا توجد مراحل لهذه الخدمة بعد! إنشاء";
 $lang['date_time'] = "التاريخ / الوقت";
 $lang['billing_shipping'] = "الفواتير";
+
+$lang['written_reports'] = "التقارير المكتوبة";
+$lang['report'] = "التقرير";
+$lang['date_updated'] = "تم تحريره بتاريخ";
+$lang['updated_by_staff'] = "تم تحريره من قبل الموظف";

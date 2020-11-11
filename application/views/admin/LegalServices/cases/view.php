@@ -22,6 +22,14 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <?php if(has_permission('invoices','','create') && !empty($linked_services)){ ?>
+                                    <div class="label btn btn-danger pull-left mleft15 mtop8 p8 " href="#" onclick="linked_services(); return false;">
+                                            <?php echo _l('linked_services'); ?>
+                                    </div>
+                                <?php } ?>
                                 <?php if(isset($project->previous_case_id) && $project->previous_case_id != 0): ?>
                                 <h4 class="mtop15">&nbsp;&nbsp;<?php echo _l('linked_case'); ?>
                                     <a href="<?php echo admin_url('Case/view/' .$ServID.'/'. $project->previous_case_id); ?>" target="_blank"><?php echo get_case_name_by_id($project->previous_case_id); ?></a>
@@ -50,6 +58,11 @@
                                         <?php echo _l('more'); ?> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width200 project-actions">
+                                        <li>
+                                             <a href="#" onclick="link_service(); return false;">
+                                             <?php echo _l('link_service'); ?>
+                                             </a>
+                                        </li>
                                         <li>
                                             <a href="<?php echo admin_url('LegalServices/Cases_controller/pin_action/'.$project->id); ?>">
                                                 <?php echo $project_pin_tooltip; ?>
@@ -159,6 +172,8 @@ echo form_hidden('project_percent',$percent);
 <div id="pre_invoice_project"></div>
 <?php $this->load->view('admin/LegalServices/cases/milestone'); ?>
 <?php $this->load->view('admin/LegalServices/cases/copy_settings'); ?>
+<?php $this->load->view('admin/LegalServices/cases/link_service'); ?>
+<?php $this->load->view('admin/LegalServices/cases/linked_services'); ?>
 <?php $this->load->view('admin/LegalServices/cases/_mark_tasks_finished', array('slug' => $service->slug)); ?>
 <?php init_tail(); ?>
 <!-- For invoices table -->
@@ -357,7 +372,7 @@ echo form_hidden('project_percent',$percent);
         initDataTable('.table-waiting_sessions_log', admin_url + 'tasks/waiting_sessions_log/<?php echo $project->id; ?>/<?php echo $service->slug; ?>', undefined, undefined, 'undefined', [0, 'asc']);
 
         // Init single task data
-        if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_task_modal_session(sessionid); }
+        if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }
     });
 
 

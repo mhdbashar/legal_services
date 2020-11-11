@@ -199,7 +199,7 @@
    </table>
 </div>
 <?php } else {
-   get_template_part('projects/project_task');
+   get_template_part('legal_services/project_task');
    }
 }
 ?>

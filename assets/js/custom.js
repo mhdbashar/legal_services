@@ -605,29 +605,29 @@ function reload_sessions_tables() {
 }
 
 // Init session modal and get data from server
-function init_session_modal(task_id, comment_id) {
-    var queryStr = '';
-    var $leadModal = $('#lead-modal');
-    var $taskAddEditModal = $('#_task_modal');
-    if ($leadModal.is(':visible')) {
-        queryStr += '?opened_from_lead_id=' + $leadModal.find('input[name="leadid"]').val();
-        $leadModal.modal('hide');
-    } else if ($taskAddEditModal.attr('data-lead-id') != undefined) {
-        queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
-    }
-
-    requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
-        _task_append_html(response);
-        if (typeof(comment_id) != 'undefined') {
-            setTimeout(function() {
-                $('[data-task-comment-href-id="' + comment_id + '"]').click();
-            }, 1000);
-        }
-    }).fail(function(data) {
-        $('#task-modal').modal('hide');
-        alert_float('danger', data.responseText);
-    });
-}
+// function init_session_modal(task_id, comment_id) {
+//     var queryStr = '';
+//     var $leadModal = $('#lead-modal');
+//     var $taskAddEditModal = $('#_task_modal');
+//     if ($leadModal.is(':visible')) {
+//         queryStr += '?opened_from_lead_id=' + $leadModal.find('input[name="leadid"]').val();
+//         $leadModal.modal('hide');
+//     } else if ($taskAddEditModal.attr('data-lead-id') != undefined) {
+//         queryStr += '?opened_from_lead_id=' + $taskAddEditModal.attr('data-lead-id');
+//     }
+//
+//     requestGet('LegalServices/Sessions/get_task_data/' + task_id + queryStr).done(function(response) {
+//         _task_append_html(response);
+//         if (typeof(comment_id) != 'undefined') {
+//             setTimeout(function() {
+//                 $('[data-task-comment-href-id="' + comment_id + '"]').click();
+//             }, 1000);
+//         }
+//     }).fail(function(data) {
+//         $('#task-modal').modal('hide');
+//         alert_float('danger', data.responseText);
+//     });
+// }
 
 // New session function, various actions performed
 function new_session(url) {
@@ -1234,5 +1234,30 @@ function sessionExternalFileUpload(files, externalType, taskId) {
         external: externalType
     }).done(function () {
         init_session_modal(taskId);
+    });
+}
+
+function send_written_report (report_id, service_id, msg) {
+    var res = confirm(""+msg+"");
+    if(res){
+        $.ajax({
+            url: admin_url + 'Written_reports/send_mail_to_client/' + report_id + '/' + service_id,
+            success: function (data) {
+                if(data[0] == 1){
+                    alert_float('success', data[1]);
+                }else if (data[0] == 2){
+                    alert_float('danger', data[1]);
+                }else {
+                    alert_float('danger', 'Operation failed!');
+                }
+            }
+        });
+    }
+}
+
+function load_time_picker(id) {
+    $('#next_session_time'+id).datetimepicker({
+        datepicker:false,
+        format:'H:i'
     });
 }

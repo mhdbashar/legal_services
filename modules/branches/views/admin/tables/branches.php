@@ -8,7 +8,7 @@ $aColumns = [
     'phone'
 ];
 $sIndexColumn = 'id';
-$sTable       = 'tblbranches';
+$sTable       = db_prefix().'branches';
 $join=[
     'join tblcountries on tblcountries.country_id=tblbranches.country_id'
     ];

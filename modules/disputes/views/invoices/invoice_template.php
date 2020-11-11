@@ -828,13 +828,20 @@ function validate_disputes_invoice_form(selector) {
 
   function show_installments(){
     var cycl = $("#cycles").val();
+    var cycl_0;
     if(cycl==0) cycl=1;
     $( ".installments" ).each(function( index ) {
       if(cycl>index){
-        
+
         if(cycl>1){
+          if(index == 0){
+            cycl_0 = $( this ).find('input[type=number]').val();
+          }
+          console.log(cycl_0);
           $( this ).find('div.col-md-6').removeClass('hide');
+          $( this ).find('input[type=number]').val(cycl_0);
         }else{
+          
           $('.installmenttotal').removeClass('hide');
         }
         if($('input[name=merge_current_invoice]').val()>0){

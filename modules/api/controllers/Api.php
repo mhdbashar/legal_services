@@ -26,7 +26,38 @@ class Api extends AdminController {
         if (!is_admin()) {
             access_denied('Ticket Priorities');
         }
+        if (!$this->input->post()){
+            $_POST['user'] = 'legal_serv';
+            $_POST['name'] = 'legal_serv';
+
+            // Current date 2020-11-25 11:46 PM
+            // After 5 years 2025-11-09 56:03 AM
+            $date = date("Y-m-d i:s A", strtotime('+5 years')); //date("Y-m-d i:s A")
+            $_POST['expiration_date'] = $date;
+
+
+            // echo '<pre>'; print_r($date); exit;
+
+            // var_dump($this->input->post()); exit;
+            $id = $this->api_model->add_user($this->input->post());
+
+            if ($id) {
+                $this->db->where('id', $id);
+                $result = $this->db->get(db_prefix() . 'user_api')->row();
+                $token_t = $result->token;
+                $this->insert_into_api($token_t);
+                set_alert('success', _l('added_successfully', _l('user_api')));
+
+                $this->app_modules->activate('api');
+                redirect(admin_url('modules'));
+            }
+            die;
+
+        }
+
+        
         if ($this->input->post()) {
+
             if (!$this->input->post('id')) {
                 $id = $this->api_model->add_user($this->input->post());
 

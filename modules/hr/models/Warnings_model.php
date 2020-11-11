@@ -129,7 +129,7 @@ class Warnings_model extends App_Model{
             log_activity($this->table_name . ' Deleted [' . $id . ']'); 
             if($this->app_modules->is_active('branches')){
                 $this->db->where(['rel_id' => $id, 'rel_type' => 'warnings']);
-                $this->db->delete('tblbranches_services');
+                $this->db->delete(db_prefix() . 'branches_services');
             }
             $this->deleteDirectory("uploads/hr/warnings/$id");
             return true;

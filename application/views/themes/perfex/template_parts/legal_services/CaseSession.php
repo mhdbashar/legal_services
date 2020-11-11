@@ -26,7 +26,7 @@
          if($task['startdate'] < date('Y-m-d'))
             continue;   
          $outputName = '';
-          $outputName .= '<a href="' . site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=CaseSession&session_id='.$task['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $task['id'] . '); return false;">' . $task['task_name'] . '</a>';
+          $outputName .= '<a href="' . site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=CaseSession&session_id='.$task['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $task['id'] . '); return false;">' . $task['task_name'] . '</a>';
           if ($task['recurring'] == 1) {
               $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
           }

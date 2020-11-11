@@ -84,7 +84,7 @@ foreach ($rResult as $aRow) {
     if ($aRow['not_finished_timer_by_current_staff']) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
-    $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+    $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }

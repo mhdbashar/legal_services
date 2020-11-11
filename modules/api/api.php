@@ -4,10 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: API
-Description: Rest API module for Perfex CRM
+Description: Rest API
 Version: 1.0.0
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
 */
 
 define('API_MODULE_NAME', 'api');
@@ -58,11 +56,11 @@ function api_init_menu_items()
             'position' => 5,
         ]);
         
-        $CI->app_menu->add_sidebar_children_item('api-options', [
-            'slug'     => 'api-guide-options',
-            'name'     => _l('api_guide'),
-            'href'     => 'https://perfexcrm.themesic.com/apiguide/',
-            'position' => 10,
-        ]);
+        // $CI->app_menu->add_sidebar_children_item('api-options', [
+        //     'slug'     => 'api-guide-options',
+        //     'name'     => _l('api_guide'),
+        //     'href'     => 'https://perfexcrm.themesic.com/apiguide/',
+        //     'position' => 10,
+        // ]);
     }
 }

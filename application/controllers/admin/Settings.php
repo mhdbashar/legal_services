@@ -309,8 +309,22 @@ class Settings extends AdminController {
         $old_office_name = get_option('office_name_in_center');
         $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . $old_office_name . "'")->row();
 
+        if($new_office_name == ''){
+            $data['status'] = false;
+            $this->x = true;
+            echo json_encode($data); exit;
+        }
+        if($old_office_name == ''){
+            update_option('office_name_in_center', $new_office_name);
+            redirect(admin_url('api/user'));
+            if(get_option('office_name_in_center') == '')
+                $data['status'] = false;
+            else{
+                $data['status'] = true;
+            }
+            echo json_encode($data); exit;
+        }
         $keycode = $result->keycode;
-
 
 
          $url = 'https://legaloffices.babillawnet.com/api/list/';

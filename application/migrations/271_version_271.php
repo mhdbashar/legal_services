@@ -4,29 +4,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Migration_Version_271 extends CI_Migration
 {
-      public function __construct()
-      {
-            parent::__construct();
-      }
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-      public function up()
-      {
-          // Options
-          add_option('automatically_resend_disputes_invoice_overdue_reminder_after', '-3');
-          add_option('automatically_send_disputes_invoice_overdue_reminder_after', '1');
-          add_option('next_disputes_invoice_number', '6');
-          add_option('automatically_send_lawyer_daily_agenda', '7');
-          add_option('hr_document_reminder_notification_before', '1');
-          add_option('isHijri', 'off');
-          add_option('hijri_format', 'Y-m-d|%Y-%m-%d|hijri');
-          add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
-          add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
-          add_option('automatically_empty_recycle_bin_after_days', '1');
+    public function up()
+    {
+        // Options
+        add_option('automatically_resend_disputes_invoice_overdue_reminder_after', '-3');
+        add_option('automatically_send_disputes_invoice_overdue_reminder_after', '1');
+        add_option('next_disputes_invoice_number', '6');
+        add_option('automatically_send_lawyer_daily_agenda', '7');
+        add_option('hr_document_reminder_notification_before', '1');
+        add_option('isHijri', 'off');
+        add_option('hijri_format', 'Y-m-d|%Y-%m-%d|hijri');
+        add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
+        add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
+        add_option('automatically_empty_recycle_bin_after_days', '1');
 
-          //Tables
+        //Tables
 
-            if (!$this->db->table_exists(db_prefix() . 'my_link_services')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_link_services` (
+        if (!$this->db->table_exists(db_prefix() . 'my_link_services')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_link_services` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `rel_id` int(11) NOT NULL,
               `service_id` int(11) NOT NULL,
@@ -34,19 +34,19 @@ class Migration_Version_271 extends CI_Migration
               `to_service_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'procuration_cases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'procuration_cases` (
+        if (!$this->db->table_exists(db_prefix() . 'procuration_cases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'procuration_cases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `procuration` int(11) NOT NULL,
               `_case` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'procurations')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'procurations` (
+        if (!$this->db->table_exists(db_prefix() . 'procurations')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'procurations` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `NO` varchar(255) NOT NULL,
               `start_date` date NOT NULL,
@@ -64,28 +64,28 @@ class Migration_Version_271 extends CI_Migration
               `deadline_notified` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_procurationtype')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_procurationtype` (
+        if (!$this->db->table_exists(db_prefix() . 'my_procurationtype')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_procurationtype` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `procurationtype` varchar(100) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_procurationstate')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_procurationstate` (
+        if (!$this->db->table_exists(db_prefix() . 'my_procurationstate')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_procurationstate` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `procurationstate` varchar(100) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            // Add new table tblmy_courts
+        // Add new table tblmy_courts
 
-            if (!$this->db->table_exists(db_prefix() . 'my_courts')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_courts` (
+        if (!$this->db->table_exists(db_prefix() . 'my_courts')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_courts` (
               `c_id` int(11)  NOT NULL AUTO_INCREMENT,
               `court_name` varchar(250) NOT NULL,
               `is_default` int(1) NOT NULL DEFAULT "0",
@@ -93,21 +93,21 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`c_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  // insert default value table tblmy_courts
-                $this->db->query("INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `is_default`, `datecreated`) VALUES
+            // insert default value table tblmy_courts
+            $this->db->query("INSERT INTO `".db_prefix()."my_courts` (`c_id`, `court_name`, `is_default`, `datecreated`) VALUES
             (1, 'nothing_was_specified', 1, NOW())");
-            }
+        }
 
-            if (!$this->db->field_exists('is_default',  db_prefix() . 'my_courts')) {
-                  $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
-                  $this->db->query("INSERT INTO `tblmy_courts` ( `court_name`, `is_default`, `datecreated`) VALUES
+        if (!$this->db->field_exists('is_default',  db_prefix() . 'my_courts')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_courts` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
+            $this->db->query("INSERT INTO `".db_prefix()."my_courts` ( `court_name`, `is_default`, `datecreated`) VALUES
             ('nothing_was_specified', 1, NOW())");
-            }
+        }
 
-            // Add new table tblmy_judicialdept
+        // Add new table tblmy_judicialdept
 
-            if (!$this->db->table_exists(db_prefix() . 'my_judicialdept')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_judicialdept` (
+        if (!$this->db->table_exists(db_prefix() . 'my_judicialdept')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_judicialdept` (
               `j_id` int(11)  NOT NULL AUTO_INCREMENT,
               `Jud_number` varchar(255) NOT NULL,
               `c_id` int(255) NOT NULL,
@@ -116,25 +116,24 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`j_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_judicialdept`
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept`
               ADD KEY `CourtJudKey` (`c_id`);");
-                  $this->db->query("ALTER TABLE `tblmy_judicialdept`
-                ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `tblmy_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `".db_prefix()."my_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;
               ");
 
-                  // insert default value table tblmy_judicialdept
-                  $this->db->query("INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `is_default`, `datecreated`) VALUES
+            // insert default value table tblmy_judicialdept
+            $this->db->query("INSERT INTO `".db_prefix()."my_judicialdept` (`j_id`, `Jud_number`, `c_id`, `is_default`, `datecreated`) VALUES
               (1, 'nothing_was_specified', 1, 1, NOW());");
-            }
+        }
 
-            if (!$this->db->field_exists('is_default',  db_prefix() . 'my_judicialdept')) {
-                  $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
-                  $this->db->query("INSERT INTO `tblmy_judicialdept` (`Jud_number`, `c_id`, `is_default`, `datecreated`) VALUES
+        if (!$this->db->field_exists('is_default',  db_prefix() . 'my_judicialdept')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_judicialdept` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
+            $this->db->query("INSERT INTO `".db_prefix()."my_judicialdept` (`Jud_number`, `c_id`, `is_default`, `datecreated`) VALUES
                   ('nothing_was_specified', 1, 1, NOW());");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'casediscussioncomments')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'casediscussioncomments` (
+        if (!$this->db->table_exists(db_prefix() . 'casediscussioncomments')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'casediscussioncomments` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `discussion_id` int(11) NOT NULL,
               `discussion_type` varchar(10) NOT NULL,
@@ -149,10 +148,10 @@ class Migration_Version_271 extends CI_Migration
               `file_mime_type` varchar(70) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'casediscussions')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'casediscussions` (
+        if (!$this->db->table_exists(db_prefix() . 'casediscussions')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'casediscussions` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `project_id` int(11) NOT NULL,
               `subject` varchar(191) NOT NULL,
@@ -164,10 +163,10 @@ class Migration_Version_271 extends CI_Migration
               `contact_id` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'case_activity')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'case_activity` (
+        if (!$this->db->table_exists(db_prefix() . 'case_activity')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'case_activity` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `project_id` int(11) NOT NULL,
               `staff_id` int(11) NOT NULL DEFAULT "0",
@@ -179,10 +178,10 @@ class Migration_Version_271 extends CI_Migration
               `dateadded` datetime NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'case_files')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'case_files` (
+        if (!$this->db->table_exists(db_prefix() . 'case_files')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'case_files` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `file_name` varchar(191) NOT NULL,
               `subject` varchar(191) DEFAULT NULL,
@@ -199,10 +198,10 @@ class Migration_Version_271 extends CI_Migration
               `thumbnail_link` text,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'case_movement')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'case_movement` (
+        if (!$this->db->table_exists(db_prefix() . 'case_movement')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'case_movement` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `numbering` int(11) DEFAULT NULL,
               `code` varchar(255) NOT NULL,
@@ -240,11 +239,11 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-            $this->db->query("ALTER TABLE `tblcase_movement` ADD KEY `case_id` (`case_id`);");
-            }
+            $this->db->query("ALTER TABLE `".db_prefix()."case_movement` ADD KEY `case_id` (`case_id`);");
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'case_notes')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'case_notes` (
+        if (!$this->db->table_exists(db_prefix() . 'case_notes')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'case_notes` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `project_id` int(11) NOT NULL,
               `content` text NOT NULL,
@@ -252,33 +251,32 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'case_settings')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'case_settings` (
+        if (!$this->db->table_exists(db_prefix() . 'case_settings')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'case_settings` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `case_id` int(11) NOT NULL,
               `name` varchar(100) NOT NULL,
               `value` text,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tblcase_settings`
-  ADD KEY `project_id` (`case_id`);");
-            }
+            $this->db->query("ALTER TABLE `".db_prefix()."case_settings` ADD KEY `project_id` (`case_id`);");
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'category_types')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'category_types` (
+        if (!$this->db->table_exists(db_prefix() . 'category_types')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'category_types` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `type` varchar(255) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("INSERT INTO `tblcategory_types` (`id`, `type`) VALUES
+            $this->db->query("INSERT INTO `".db_prefix()."category_types` (`id`, `type`) VALUES
                   (1, 'خدمة قانونية'),
                   (2, 'اجراء قانوني');");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'cities')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'cities` (
+        if (!$this->db->table_exists(db_prefix() . 'cities')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'cities` (
               `Id` int(11)  NOT NULL AUTO_INCREMENT,
               `Name_en` char(100) NOT NULL,
               `Name_ar` char(100) NOT NULL,
@@ -287,7 +285,7 @@ class Migration_Version_271 extends CI_Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
 
-                  $this->db->query("INSERT INTO `tblcities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
+            $this->db->query("INSERT INTO `".db_prefix()."cities` (`Id`, `Name_en`, `Name_ar`, `Country_id`) VALUES
 (1, 'macadisho', 'مقديشو', 204),
 (2, 'Riyadh', 'الرياض', 194),
 (3, 'Dammam', 'الدمام', 194),
@@ -497,10 +495,10 @@ class Migration_Version_271 extends CI_Migration
 (455, 'Isa-Town', 'مدينة عيسى', 18),
 (456, 'Madinat-zayed', 'مدينة زايد', 18),
 (457, 'Zallaq', 'الزلاق', 18);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'countries')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'countries` (
+        if (!$this->db->table_exists(db_prefix() . 'countries')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'countries` (
               `country_id` int(11)  NOT NULL AUTO_INCREMENT,
               `iso2` char(2) DEFAULT NULL,
               `short_name` varchar(80) NOT NULL DEFAULT "",
@@ -514,15 +512,15 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`country_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  //Alter table tblcountries
-                  if (!$this->db->field_exists('short_name_ar', db_prefix() . 'countries')) {
-                        $this->db->query("ALTER TABLE `" . db_prefix() . "countries` ADD `short_name_ar` varchar(80) NOT NULL;");
-                  }
+            //Alter table tblcountries
+            if (!$this->db->field_exists('short_name_ar', db_prefix() . 'countries')) {
+                $this->db->query("ALTER TABLE `" . db_prefix() . "countries` ADD `short_name_ar` varchar(80) NOT NULL;");
+            }
 
-                  $this->db->query("TRUNCATE ". db_prefix() . "countries");
+            $this->db->query("TRUNCATE ". db_prefix() . "countries");
 
-                  // insert default value table tblcountries
-                  $this->db->query("INSERT INTO ". db_prefix() . " `countries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
+            // insert default value table tblcountries
+            $this->db->query("INSERT INTO ". db_prefix() . " `countries` (`country_id`, `iso2`, `short_name`, `short_name_ar`, `long_name`, `iso3`, `numcode`, `un_member`, `calling_code`, `cctld`) VALUES
 ('1', 'AF', 'Afghanistan', '', 'Islamic Republic of Afghanistan', 'AFG', '004', 'yes', '93', '.af'),
 (2, 'AX', 'Aland Islands', '', '&Aring;land Islands', 'ALA', '248', 'no', '358', '.ax'),
 (3, 'AL', 'Albania', '', 'Republic of Albania', 'ALB', '008', 'yes', '355', '.al'),
@@ -773,11 +771,11 @@ class Migration_Version_271 extends CI_Migration
 (248, 'YE', 'Yemen', '', 'Republic of Yemen', 'YEM', '887', 'yes', '967', '.ye'),
 (249, 'ZM', 'Zambia', '', 'Republic of Zambia', 'ZMB', '894', 'yes', '260', '.zm'),
 (250, 'ZW', 'Zimbabwe', '', 'Republic of Zimbabwe', 'ZWE', '716', 'yes', '263', '.zw');");
-            }
+        }
 
 
-            if (!$this->db->table_exists(db_prefix() . 'irac_method')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'irac_method` (
+        if (!$this->db->table_exists(db_prefix() . 'irac_method')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'irac_method` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `rel_id` int(11) NOT NULL,
               `rel_type` varchar(20) NOT NULL,
@@ -788,10 +786,10 @@ class Migration_Version_271 extends CI_Migration
               `datecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'legal_procedures_lists')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'legal_procedures_lists` (
+        if (!$this->db->table_exists(db_prefix() . 'legal_procedures_lists')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'legal_procedures_lists` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `cat_id` int(11) NOT NULL,
               `rel_id` int(11) NOT NULL,
@@ -799,10 +797,10 @@ class Migration_Version_271 extends CI_Migration
               `datecreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'legal_procedures')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'legal_procedures` (
+        if (!$this->db->table_exists(db_prefix() . 'legal_procedures')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'legal_procedures` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `list_id` int(11) NOT NULL,
               `subcat_id` int(11) NOT NULL,
@@ -811,11 +809,11 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tbllegal_procedures` ADD KEY `list_key` (`list_id`);");
-            }
+            $this->db->query("ALTER TABLE `".db_prefix()."legal_procedures` ADD KEY `list_key` (`list_id`);");
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_basic_services')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_basic_services` (
+        if (!$this->db->table_exists(db_prefix() . 'my_basic_services')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_basic_services` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `name` varchar(255) NOT NULL,
               `slug` varchar(255) NOT NULL,
@@ -828,15 +826,15 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) VALUES
+                  $this->db->query("INSERT INTO `".db_prefix()."my_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) VALUES
 (1, 'قضايا', 'kd-y', 'CASE', 1, 1, 1, 0, NOW()),
 (2, 'عقود', 'aakod', 'Akd', 1, 1, 1, 0, NOW()),
 (3, 'استشارات', 'stsh-r-t', 'Istsh', 1, 1, 1, 0, NOW()),
 (9, 'نزاعات مالية', 'nz_aa_t_m_ly', 'Dispute', NULL, 1, 0, 1, NOW());");
             }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_cases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases` (
+        if (!$this->db->table_exists(db_prefix() . 'my_cases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `numbering` int(11) DEFAULT NULL,
               `code` varchar(255) NOT NULL,
@@ -873,54 +871,52 @@ class Migration_Version_271 extends CI_Migration
               `deleted` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_casestatus')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_casestatus` (
+        if (!$this->db->table_exists(db_prefix() . 'my_casestatus')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_casestatus` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `name` varchar(255) NOT NULL,
               `is_default` int(1) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("INSERT INTO `tblmy_casestatus` (`id`, `name`, `is_default`) VALUES
+            $this->db->query("INSERT INTO `".db_prefix()."my_casestatus` (`id`, `name`, `is_default`) VALUES
 (1, 'nothing_was_specified', 1);");
-            }
+        }
 
-            if (!$this->db->field_exists('is_default',  db_prefix() . 'my_casestatus')) {
-                  $this->db->query('ALTER TABLE `' . db_prefix() . 'my_casestatus` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
-                  $this->db->query("INSERT INTO `tblmy_casestatus` ( `name`, `is_default`) VALUES
+        if (!$this->db->field_exists('is_default',  db_prefix() . 'my_casestatus')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_casestatus` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
+            $this->db->query("INSERT INTO `".db_prefix()."my_casestatus` ( `name`, `is_default`) VALUES
 ('nothing_was_specified', 1);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_cases_judges')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases_judges` (
+        if (!$this->db->table_exists(db_prefix() . 'my_cases_judges')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases_judges` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `judge_id` int(11) NOT NULL,
               `case_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_cases_judges`
-  ADD KEY `judge_id` (`judge_id`),
-  ADD KEY `case_id` (`case_id`);");
-            }
+            $this->db->query("ALTER TABLE `".db_prefix()."my_cases_judges` ADD KEY `judge_id` (`judge_id`),  ADD KEY `case_id` (`case_id`);");
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_cases_movement_judges')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases_movement_judges` (
+        if (!$this->db->table_exists(db_prefix() . 'my_cases_movement_judges')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_cases_movement_judges` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `judge_id` int(11) NOT NULL,
               `case_mov_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_cases_movement_judges`
+            $this->db->query("ALTER TABLE `".db_prefix()."my_cases_movement_judges`
   ADD KEY `judge_id` (`judge_id`),
   ADD KEY `case_id` (`case_mov_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_categories')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_categories` (
+        if (!$this->db->table_exists(db_prefix() . 'my_categories')) {
+            $this->db->query('CREATE TABLE `'.db_prefix().'my_categories` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `name` varchar(255) NOT NULL,
               `service_id` int(255) DEFAULT NULL,
@@ -930,37 +926,37 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_categories`
+            $this->db->query("ALTER TABLE `tblmy_categories`
   ADD KEY `CateServKey` (`service_id`),
   ADD KEY `categoty_type_key` (`type_id`);");
 
 
-                  $this->db->query("ALTER TABLE `tblmy_categories`
+            $this->db->query("ALTER TABLE `tblmy_categories`
   ADD CONSTRAINT `CateServKey` FOREIGN KEY (`service_id`) REFERENCES `tblmy_basic_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `categoty_type_key` FOREIGN KEY (`type_id`) REFERENCES `tblcategory_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_customer_representative')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_customer_representative` (
+        if (!$this->db->table_exists(db_prefix() . 'my_customer_representative')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_customer_representative` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `representative` varchar(200) NOT NULL,
               `is_default` int(1) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("INSERT INTO `tblmy_customer_representative` (`id`, `representative`, `is_default`) VALUES
+            $this->db->query("INSERT INTO `tblmy_customer_representative` (`id`, `representative`, `is_default`) VALUES
 (1, 'nothing_was_specified', 1);");
-            }
+        }
 
-            if (!$this->db->field_exists('is_default',  db_prefix() . 'my_customer_representative')) {
-                  $this->db->query('ALTER TABLE `' . db_prefix() . 'my_customer_representative` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
-                  $this->db->query("INSERT INTO `tblmy_customer_representative` ( `representative`, `is_default`) VALUES
+        if (!$this->db->field_exists('is_default',  db_prefix() . 'my_customer_representative')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_customer_representative` ADD `is_default` int(1) NOT NULL DEFAULT "0";');
+            $this->db->query("INSERT INTO `tblmy_customer_representative` ( `representative`, `is_default`) VALUES
                   ('nothing_was_specified', 1);");
-            }
+        }
 
 
-            if (!$this->db->table_exists(db_prefix() . 'my_dialog_boxes')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_dialog_boxes` (
+        if (!$this->db->table_exists(db_prefix() . 'my_dialog_boxes')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_dialog_boxes` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `title` varchar(255) NOT NULL,
               `desc_ar` text,
@@ -969,57 +965,57 @@ class Migration_Version_271 extends CI_Migration
               `active` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_judges')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_judges` (
+        if (!$this->db->table_exists(db_prefix() . 'my_judges')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_judges` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `name` varchar(250) NOT NULL,
               `note` text NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_members_cases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_cases` (
+        if (!$this->db->table_exists(db_prefix() . 'my_members_cases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_cases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `staff_id` int(11) NOT NULL,
               `project_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_members_cases`
+            $this->db->query("ALTER TABLE `tblmy_members_cases`
   ADD KEY `staff_id` (`staff_id`),
   ADD KEY `project_id` (`project_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_members_movement_cases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_movement_cases` (
+        if (!$this->db->table_exists(db_prefix() . 'my_members_movement_cases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_movement_cases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `staff_id` int(11) NOT NULL,
               `case_mov_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_members_movement_cases`
+            $this->db->query("ALTER TABLE `tblmy_members_movement_cases`
   ADD KEY `staff_id` (`staff_id`),
   ADD KEY `project_id` (`case_mov_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_members_services')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_services` (
+        if (!$this->db->table_exists(db_prefix() . 'my_members_services')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_members_services` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `staff_id` int(11) NOT NULL,
               `oservice_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("ALTER TABLE `tblmy_members_services`
+            $this->db->query("ALTER TABLE `tblmy_members_services`
   ADD KEY `staff_id` (`staff_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_other_services')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_other_services` (
+        if (!$this->db->table_exists(db_prefix() . 'my_other_services')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_other_services` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `service_id` int(11) NOT NULL,
               `code` varchar(255) NOT NULL,
@@ -1049,10 +1045,10 @@ class Migration_Version_271 extends CI_Migration
               `deleted` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_phase_data')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_phase_data` (
+        if (!$this->db->table_exists(db_prefix() . 'my_phase_data')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_phase_data` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `phase_id` int(11) NOT NULL,
               `rel_id` int(11) DEFAULT NULL,
@@ -1061,20 +1057,20 @@ class Migration_Version_271 extends CI_Migration
               `is_complete` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_services_tags')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_services_tags` (
+        if (!$this->db->table_exists(db_prefix() . 'my_services_tags')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_services_tags` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `rel_type` varchar(100) NOT NULL,
               `rel_id` int(11) NOT NULL,
               `tag` text NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_service_phases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_service_phases` (
+        if (!$this->db->table_exists(db_prefix() . 'my_service_phases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_service_phases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `name` varchar(40) NOT NULL,
               `slug` varchar(30) DEFAULT NULL,
@@ -1083,10 +1079,10 @@ class Migration_Version_271 extends CI_Migration
               `deleted` int(1) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_sessiondiscussioncomments')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_sessiondiscussioncomments` (
+        if (!$this->db->table_exists(db_prefix() . 'my_sessiondiscussioncomments')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_sessiondiscussioncomments` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `discussion_id` int(11) NOT NULL,
               `discussion_type` varchar(10) NOT NULL,
@@ -1101,10 +1097,10 @@ class Migration_Version_271 extends CI_Migration
               `file_mime_type` varchar(70) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_sessiondiscussions')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_sessiondiscussions` (
+        if (!$this->db->table_exists(db_prefix() . 'my_sessiondiscussions')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_sessiondiscussions` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `session_id` int(11) NOT NULL,
               `subject` varchar(191) NOT NULL,
@@ -1116,10 +1112,10 @@ class Migration_Version_271 extends CI_Migration
               `contact_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'my_session_info')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'my_session_info` (
+        if (!$this->db->table_exists(db_prefix() . 'my_session_info')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_session_info` (
               `s_id` int(11)  NOT NULL AUTO_INCREMENT,
               `task_id` int(11) NOT NULL,
               `session_number` int(11) DEFAULT NULL,
@@ -1138,12 +1134,12 @@ class Migration_Version_271 extends CI_Migration
               `next_session_time` time DEFAULT NULL,
               PRIMARY KEY (`s_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tblmy_session_info`
+            $this->db->query("ALTER TABLE `tblmy_session_info`
   ADD KEY `task_id` (`task_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'tbloservicediscussioncomments')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'tbloservicediscussioncomments` (
+        if (!$this->db->table_exists(db_prefix() . 'oservicediscussioncomments')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservicediscussioncomments` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `discussion_id` int(11) NOT NULL,
               `discussion_type` varchar(10) NOT NULL,
@@ -1158,10 +1154,10 @@ class Migration_Version_271 extends CI_Migration
               `file_mime_type` varchar(70) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'oservicediscussions')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'oservicediscussions` (
+        if (!$this->db->table_exists(db_prefix() . 'oservicediscussions')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservicediscussions` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `oservice_id` int(11) NOT NULL,
               `subject` varchar(191) NOT NULL,
@@ -1173,10 +1169,10 @@ class Migration_Version_271 extends CI_Migration
               `contact_id` int(11) NOT NULL DEFAULT "0",
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'oservice_activity')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_activity` (
+        if (!$this->db->table_exists(db_prefix() . 'oservice_activity')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_activity` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `oservice_id` int(11) NOT NULL,
               `staff_id` int(11) NOT NULL DEFAULT "0",
@@ -1188,10 +1184,10 @@ class Migration_Version_271 extends CI_Migration
               `dateadded` datetime NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'oservice_files')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_files` (
+        if (!$this->db->table_exists(db_prefix() . 'oservice_files')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_files` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `file_name` varchar(191) NOT NULL,
               `subject` varchar(191) DEFAULT NULL,
@@ -1208,43 +1204,43 @@ class Migration_Version_271 extends CI_Migration
               `thumbnail_link` text,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'oservice_notes')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_notes` (
+        if (!$this->db->table_exists(db_prefix() . 'oservice_notes')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_notes` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `oservice_id` int(11) NOT NULL,
               `content` text NOT NULL,
               `staff_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'oservice_settings')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_settings` (
+        if (!$this->db->table_exists(db_prefix() . 'oservice_settings')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'oservice_settings` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `oservice_id` int(11) NOT NULL,
               `name` varchar(100) NOT NULL,
               `value` text,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tbloservice_settings`
+            $this->db->query("ALTER TABLE `tbloservice_settings`
   ADD KEY `oservice_id` (`oservice_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'pinned_cases')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'pinned_cases` (
+        if (!$this->db->table_exists(db_prefix() . 'pinned_cases')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'pinned_cases` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `project_id` int(11) NOT NULL,
               `staff_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tblpinned_cases`
+            $this->db->query("ALTER TABLE `tblpinned_cases`
   ADD KEY `project_id` (`project_id`);");
-            }
+        }
 
-            if (!$this->db->table_exists(db_prefix() . 'pinned_oservices')) {
-                  $this->db->query('CREATE TABLE `' . db_prefix() .  'pinned_oservices` (
+        if (!$this->db->table_exists(db_prefix() . 'pinned_oservices')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'pinned_oservices` (
               `id` int(11)  NOT NULL AUTO_INCREMENT,
               `oservice_id` int(11) NOT NULL,
               `staff_id` int(11) NOT NULL,
@@ -1255,111 +1251,131 @@ class Migration_Version_271 extends CI_Migration
             }
 
 
-            //Alter table tblcontracts
-            if (!$this->db->field_exists('type_id', 'tblcontracts')) {
-                  $this->db->query("ALTER TABLE `tblcontracts` ADD `type_id` int(11) NOT NULL DEFAULT '0';");
-                  $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
-            }
+            if (!$this->db->table_exists(db_prefix() . 'written_reports')) {
+              $this->db->query('CREATE TABLE `' . db_prefix() .  'written_reports` (
+                    `id` int(11) NOT NULL,
+                    `report` text NOT NULL,
+                    `addedfrom` int(11) NOT NULL,
+                    `updatedfrom` int(11) DEFAULT NULL,
+                    `created_at` datetime NOT NULL,
+                    `updated_at` datetime DEFAULT NULL,
+                    `rel_id` int(11) DEFAULT NULL,
+                    `rel_type` varchar(30) DEFAULT NULL,
+                    `editable` int(11) NOT NULL DEFAULT "1"
+                  ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
+  
+              $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");
+              $this->db->query("ALTER TABLE ".db_prefix()."written_reports MODIFY `id` int(11) NOT NULL AUTO_INCREMENT");
+          }
 
-            //Alter table tbldepartments
-            if (!$this->db->field_exists('branch_id', 'tbldepartments')) {
-                  $this->db->query("ALTER TABLE `tbldepartments` ADD `branch_id` int(11) NOT NULL DEFAULT '0';");
-            }
 
-            //Alter table tblestimates
-            if (!$this->db->field_exists('rel_sid', 'tblestimates')) {
-                  $this->db->query("ALTER TABLE `tblestimates` ADD `rel_sid` int(11) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_sid` (`rel_sid`)");
-            }
-            if (!$this->db->field_exists('rel_stype', 'tblestimates')) {
-                  $this->db->query("ALTER TABLE `tblestimates` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_stype` (`rel_stype`)");
-            }
+        $written_report_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'written_report']);
+        if($written_report_rows == 0){
+            $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
+                 ('written_report', 'send_written_report_to_customer', 'english', 'Send written report to customer', '', '', '', '', 0, 1, 0),
+                 ('written_report', 'send_written_report_to_customer', 'arabic', 'إرسال تقرير مكتوب للعميل', 'تقرير مكتوب للعميل', '', '', '', 0, 1, 0)");
+        }
 
-            //Alter table tblexpenses
-            if (!$this->db->field_exists('rel_sid', 'tblexpenses')) {
-                  $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_sid` int(11) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_sid` (`rel_sid`)");
-            }
-            if (!$this->db->field_exists('rel_stype', 'tblexpenses')) {
-                  $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_stype` (`rel_stype`)");
-            }
-
-            //Alter table tblinvoices
-            if (!$this->db->field_exists('rel_sid', 'tblinvoices')) {
-                  $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_sid` int(11) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_sid` (`rel_sid`)");
-            }
-            if (!$this->db->field_exists('rel_stype', 'tblinvoices')) {
-                  $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_stype` (`rel_stype`)");
-            }
-
-            //Alter table tblmilestones
-            if (!$this->db->field_exists('rel_sid', 'tblmilestones')) {
-                  $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_sid` int(11) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_sid` (`rel_sid`)");
-            }
-            if (!$this->db->field_exists('rel_stype', 'tblmilestones')) {
-                  $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_stype` (`rel_stype`)");
-            }
-
-            //Alter table tbltickets
-            if (!$this->db->field_exists('rel_sid', 'tbltickets')) {
-                  $this->db->query("ALTER TABLE `tbltickets` ADD `rel_sid` int(11) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_sid` (`rel_sid`)");
-            }
-            if (!$this->db->field_exists('rel_stype', 'tbltickets')) {
-                  $this->db->query("ALTER TABLE `tbltickets` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-                  $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_stype` (`rel_stype`)");
-            }
-
-            //Alter table tbltasks
-            if (!$this->db->field_exists('is_session', 'tbltasks')) {
-                  $this->db->query("ALTER TABLE `tbltasks` ADD `is_session` int(11) DEFAULT '0';");
-            }
-
-            //Alter table tblstaff
-            if (!$this->db->field_exists('firstname', 'tblstaff')) {
-                  $this->db->query("ALTER TABLE `tbltasks` ADD `firstname` varchar(50) NOT NULL;");
-                  $this->db->query("ALTER TABLE `tbltasks` ADD KEY `firstname` (`firstname`)");
-            }
-            if (!$this->db->field_exists('lastname', 'tblstaff')) {
-                  $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
-                  $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
-            }
-
+  
+          //Alter table tblcontracts
+          if (!$this->db->field_exists('type_id', db_prefix().'contracts')) {
+              $this->db->query("ALTER TABLE `tblcontracts` ADD `type_id` int(11) NOT NULL DEFAULT '0';");
+              $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
+          }
+  
+          //Alter table tbldepartments
+          if (!$this->db->field_exists('branch_id', db_prefix().'departments')) {
+              $this->db->query("ALTER TABLE `tbldepartments` ADD `branch_id` int(11) NOT NULL DEFAULT '0';");
+          }
+  
+          //Alter table tblestimates
+          if (!$this->db->field_exists('rel_sid', db_prefix().'estimates')) {
+              $this->db->query("ALTER TABLE `tblestimates` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix().'estimates')) {
+              $this->db->query("ALTER TABLE `tblestimates` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblexpenses
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'expenses')) {
+              $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'expenses')) {
+              $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblinvoices
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'invoices')) {
+              $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'invoices')) {
+              $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblmilestones
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'milestones')) {
+              $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'milestones')) {
+              $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tbltickets
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'tickets')) {
+              $this->db->query("ALTER TABLE `tbltickets` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'tickets')) {
+              $this->db->query("ALTER TABLE `tbltickets` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tbltasks
+          if (!$this->db->field_exists('is_session', db_prefix() . 'tasks')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `is_session` int(11) DEFAULT '0';");
+          }
+  
+          //Alter table tblstaff
+          if (!$this->db->field_exists('firstname', db_prefix() . 'staff')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `firstname` varchar(50) NOT NULL;");
+              $this->db->query("ALTER TABLE `tbltasks` ADD KEY `firstname` (`firstname`)");
+          }
+          if (!$this->db->field_exists('lastname', db_prefix() . 'staff')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
+              $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
+          }
+  
           $sessions_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'sessions']);
-            if($sessions_rows == 0){
-                $this->db->query("
-                INSERT INTO `tblemailtemplates` (type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
-('sessions', 'session-added-as-follower', 'arabic', 'تمت إضافة موظف لمتابعة جلسة (مرسلة إلى فريق العمل)', 'تمت إضافة موظف كمتابع في الجلسة', '{companyname} ', '', 0, 1, 0),
-('sessions', 'session-assigned', 'english', 'New Session Assigned (Sent to Staff)', '', '{companyname}', '', 0, 1, 0),
-('sessions', 'session-assigned', 'arabic', 'تخصيص جلسة جديدة (مرسلة إلى فريق العمل)', 'تكليف بحضور جلسة', '{companyname}', '', 0, 1, 0),
-('sessions', 'session-deadline-notification', 'english', 'Session Deadline Reminder - Sent to Assigned Members', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-deadline-notification', 'arabic', 'تذكير بالموعد النهائي للجلسة - مرسلة إلى الموظفين المعينين', 'تذكير نهائي بموعد الجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-added-attachment-to-contacts', 'arabic', 'مرفقات جديدة في الجلسة (مرسلة إلى جهات اتصال العملاء)', 'تم إضافة مرفقات للجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-added-attachment', 'arabic', 'مرفقات جديدة للجلسة (مرسلة لفريق العمل)', 'تم إضافة مرفقات للجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-commented-to-contacts', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى جهات اتصال العملاء)', 'تعليق جديد على الجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-commented', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى فريق العمل)', 'تعليق جديد على الجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-status-change-to-contacts', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى جهات اتصال العملاء)', 'تم تغيير حالة الجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '{companyname} | CRM', NULL, 0, 1, 0),
-('sessions', 'session-status-change-to-staff', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى فريق العمل)', 'تم تغيير حالة الجلسة', '', '{companyname}', NULL, 0, 1, 0),
-('sessions', 'send_report_session', 'arabic', 'تقرير الجلسة (مرسل إلى فريق العمل)', 'تقرير الجلسة', 'عربية, '{companyname}', '', 0, 1, 0),
-('sessions', 'send_report_session', 'english', 'Session Send Report (Sent to Staff)', 'send_report_session', '{companyname}', '', 0, 1, 0),
-('sessions', 'next_session_action', 'english', 'Reminder For Next Session Action', '', '{companyname}', '', 0, 1, 0),
-('sessions', 'next_session_action', 'arabic', 'تذكير بإجراءات الجلسة القادمة', 'إجراءات مطلوبة للجلسة القادمة', '{companyname}', '', 0, 1, 0)");
-            }
-
+          if($sessions_rows == 0){
+              $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
+              ('sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment-to-contacts', 'arabic', 'مرفقات جديدة في الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment', 'arabic', 'مرفقات جديدة للجلسة (مرسلة لفريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented-to-contacts', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-contacts', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-staff', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'send_report_session', 'arabic', 'تقرير الجلسة (مرسل إلى فريق العمل)', '', '', '', '', 0, 1, 0),
+              ('sessions', 'send_report_session', 'english', 'Session Send Report (Sent to Staff)', '', '', '', '', 0, 1, 0),
+              ('sessions', 'next_session_action', 'english', 'Reminder For Next Session Action', '', '', '', '', 0, 1, 0),
+              ('sessions', 'next_session_action', 'arabic', 'تذكير بإجراءات الجلسة القادمة', '', '', '', '', 0, 1, 0)");
+          }
+            
             //office migration
-      add_option('office_name_in_center', '1');
+      // add_option('office_name_in_center', '1');
 
 
         if (!$this->db->table_exists(db_prefix() . 'iservice_settings')) { 
@@ -1440,6 +1456,6 @@ class Migration_Version_271 extends CI_Migration
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1;');
         }
 
-      }
+    }
 
 }

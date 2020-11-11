@@ -30,7 +30,7 @@ class Migration_Version_104 extends CI_Migration
         $this->db->query("ALTER TABLE `tblinvoiceitemslist` ADD `long_description` TEXT NULL AFTER `description`;");
 
         // Add custom fields show on pdf for customers/invoice/estimate etc..
-        $this->db->query("ALTER TABLE  `tblcustomfields` ADD  `show_on_pdf` INT NULL DEFAULT  '0' AFTER  `active` ;");
+        $this->db->query("ALTER TABLE `tblcustomfields` ADD  `show_on_pdf` INT NULL DEFAULT  '0' AFTER  `active` ;");
 
         $this->db->query("ALTER TABLE `tblcontracts` CHANGE `dateadded` `dateadded` DATETIME NOT NULL;");
         $this->db->query("ALTER TABLE `tblcontracts` ADD `contract_value` DECIMAL(11,2) NULL AFTER `isexpirynotified`;");
@@ -38,7 +38,7 @@ class Migration_Version_104 extends CI_Migration
         // Add date converted to leads
         $this->db->query("ALTER TABLE `tblleads` ADD `date_converted` DATETIME NULL AFTER `notes`;");
 
-        $this->db->query("CREATE TABLE IF NOT EXISTS `tblcontractrenewals` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `".db_prefix()."contractrenewals` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
                           `contractid` int(11) NOT NULL,
                           `old_start_date` date NOT NULL,
@@ -52,13 +52,13 @@ class Migration_Version_104 extends CI_Migration
                           PRIMARY KEY (`id`)
                           ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-        $this->db->query("ALTER TABLE `tblinvoices` ADD `sale_agent` INT NOT NULL DEFAULT '0' AFTER `terms`;");
-        $this->db->query("ALTER TABLE `tblestimates` ADD `sale_agent` INT NOT NULL DEFAULT '0' AFTER `reference_no`;");
+        $this->db->query("ALTER TABLE `".db_prefix()."invoices` ADD `sale_agent` INT NOT NULL DEFAULT '0' AFTER `terms`;");
+        $this->db->query("ALTER TABLE `".db_prefix()."estimates` ADD `sale_agent` INT NOT NULL DEFAULT '0' AFTER `reference_no`;");
 
         // Add permission goals
-        $this->db->query("INSERT INTO `tblpermissions` (`permissionid`, `name`, `shortname`) VALUES (NULL, 'Manage Goals', 'manageGoals');");
+        $this->db->query("INSERT INTO `".db_prefix()."permissions` (`permissionid`, `name`, `shortname`) VALUES (NULL, 'Manage Goals', 'manageGoals');");
 
-        $this->db->query("INSERT INTO `tblpermissions` (`permissionid`, `name`, `shortname`) VALUES (NULL, 'Manage Expenses', 'manageExpenses');");
+        $this->db->query("INSERT INTO `".db_prefix()."permissions` (`permissionid`, `name`, `shortname`) VALUES (NULL, 'Manage Expenses', 'manageExpenses');");
 
         if(!is_dir(INVOICE_ATTACHMENTS_FOLDER)){
             mkdir(INVOICE_ATTACHMENTS_FOLDER, 0755);
@@ -94,11 +94,11 @@ class Migration_Version_104 extends CI_Migration
         }
 
         // Add expense category id column to invoiec items
-        $this->db->query("ALTER TABLE `tblinvoiceitems` ADD `expenseid` INT NOT NULL DEFAULT '0' AFTER `itemid`;");
+        $this->db->query("ALTER TABLE `".db_prefix()."invoiceitems` ADD `expenseid` INT NOT NULL DEFAULT '0' AFTER `itemid`;");
         // Add taxes decimal
-        $this->db->query("ALTER TABLE `tbltaxes` CHANGE `taxrate` `taxrate` DECIMAL(11,2) NOT NULL;");
+        $this->db->query("ALTER TABLE `".db_prefix()."taxes` CHANGE `taxrate` `taxrate` DECIMAL(11,2) NOT NULL;");
         // Add notifications link
-        $this->db->query("ALTER TABLE `tblnotifications` ADD `link` MEDIUMTEXT NULL AFTER `fromcompany`;");
+        $this->db->query("ALTER TABLE `".db_prefix()."notifications` ADD `link` MEDIUMTEXT NULL AFTER `fromcompany`;");
 
         // Remove the translator
         if(is_dir(APPPATH . 'views/admin/translator')){
@@ -119,7 +119,7 @@ class Migration_Version_104 extends CI_Migration
         }
 
         // Add invoice attachments table
-        $this->db->query("CREATE TABLE IF NOT EXISTS `tblinvoiceattachments` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `".db_prefix()."invoiceattachments` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `invoiceid` int(11) NOT NULL,
             `file_name` varchar(50) NOT NULL,
@@ -129,7 +129,7 @@ class Migration_Version_104 extends CI_Migration
             PRIMARY KEY (`id`)
           ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
         // Add expenses main table
-        $this->db->query("CREATE TABLE IF NOT EXISTS `tblexpenses` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `".db_prefix()."expenses` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `category` int(11) NOT NULL,
             `amount` decimal(11,2) NOT NULL,
@@ -157,7 +157,7 @@ class Migration_Version_104 extends CI_Migration
           ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
         // Add expenses categories table
-        $this->db->query("CREATE TABLE IF NOT EXISTS `tblexpensescategories` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `".db_prefix()."expensescategories` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `name` varchar(300) NOT NULL,
             `description` text,

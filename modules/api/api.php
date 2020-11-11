@@ -4,10 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: API
-Description: Rest API module for Perfex CRM
+Description: Rest API
 Version: 1.0.0
-Author: Themesic Interactive
-Author URI: https://codecanyon.net/user/themesic/portfolio
 */
 
 define('API_MODULE_NAME', 'api');

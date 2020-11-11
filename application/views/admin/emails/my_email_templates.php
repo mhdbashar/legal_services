@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script accessemail_template allowed'); ?>
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content email-templates">
@@ -541,7 +541,42 @@
                                     </table>
                                 </div>
                             </div>
-                            <?php hooks()->do_action('after_email_templates'); ?>
+                            <?php //hooks()->do_action('after_sessions_email_templates'); ?>
+                            <?php hooks()->do_action('before_written_report_email_templates'); ?>
+                            <div class="col-md-12">
+                                <h4 class="bold well email-template-heading">
+                                    <?php echo _l('written_reports'); ?>
+                                    <?php if($hasPermissionEdit){ ?>
+                                        <a href="<?php echo admin_url('emails/disable_by_type/written_report'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+                                        <a href="<?php echo admin_url('emails/enable_by_type/written_report'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+                                    <?php } ?>
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th><?php echo _l('email_templates_table_heading_name'); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach($written_report as $report_template){ ?>
+                                            <tr>
+                                                <td class="<?php if($report_template['active'] == 0){echo 'text-throught';} ?>">
+                                                    <a href="<?php echo admin_url('emails/email_template/'.$report_template['emailtemplateid']); ?>"><?php echo $report_template['name']; ?></a>
+                                                    <?php if(ENVIRONMENT !== 'production'){ ?>
+                                                        <br/><small><?php echo $report_template['slug']; ?></small>
+                                                    <?php } ?>
+                                                    <?php if($hasPermissionEdit){ ?>
+                                                        <a href="<?php echo admin_url('emails/'.($report_template['active'] == '1' ? 'disable/' : 'enable/').$report_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($report_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <?php //hooks()->do_action('after_written_report_email_templates'); ?>
                             <div class="clearfix"></div>
                         </div>
                     </div>

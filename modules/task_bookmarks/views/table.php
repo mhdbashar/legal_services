@@ -3,8 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
-    'tbltask_bookmarks.id',
-    'tbltask_bookmarks.name',
+    db_prefix().'task_bookmarks.id',
+    db_prefix().'task_bookmarks.name',
     'creator',
     ];
 $sIndexColumn = 'id';

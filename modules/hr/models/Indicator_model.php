@@ -17,8 +17,8 @@ class Indicator_model extends App_Model{
         if(is_numeric($id)){
             $this->db->select('*, '.$this->table_name.'.id');
             $this->db->where($this->table_name.'.id' ,$id);
-            $this->db->join('tblhr_designations', 'tblhr_designations.id = '.$this->table_name.'.designation_id', 'inner');
-            $this->db->join('tblbranches_services', 'tblbranches_services.rel_id = tblhr_designations.department_id AND tblbranches_services.rel_type="departments"', 'inner');
+            $this->db->join(db_prefix() . 'hr_designations', db_prefix() . 'hr_designations.id = '.$this->table_name.'.designation_id', 'inner');
+            $this->db->join(db_prefix() . 'branches_services', db_prefix() . 'branches_services.rel_id = '.db_prefix() .'hr_designations.department_id AND '.db_prefix() . 'branches_services.rel_type="departments"', 'inner');
             return $this->db->get($this->table_name)->row();
         }
 

@@ -2,53 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/libraries/mails/send_written_report_to_customer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/libraries/merge_fields/Wreports_merge_fields.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Emails.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Emails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/core_hooks_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/core_hooks_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/migrations/104_version_104.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/104_version_104.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/migrations/271_version_271.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/271_version_271.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Judges_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Judges_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Procurationstate_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Procurationstate_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Staff_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Staff_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/link_service.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/link_service.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/link_service.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/link_service.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/emails/my_email_templates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/emails/my_email_templates.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/EditCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/other_services/view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/CaseSession.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/CaseSession.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/api/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/api/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/api/helpers/api_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/api/helpers/api_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/api/models/Api_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/api/models/Api_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/models/Branches_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/models/Branches_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/models/Properties_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/models/Properties_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/admin/branches/branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/admin/branches/branch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/admin/tables/branch_departments.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/admin/tables/branch_departments.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/admin/tables/branches.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/admin/tables/branches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/branches/branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/branches/branch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/tables/branch_departments.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/tables/branch_departments.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/views/tables/branches.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/views/tables/branches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/controllers/Performance.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/controllers/Performance.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/controllers/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/controllers/Setting.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/helpers/hr_general_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/helpers/hr_general_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/install.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/install.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Designation_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Designation_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Global_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Global_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Indicator_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Indicator_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Leave_type_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Leave_type_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Resignations_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Resignations_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Sub_department_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Sub_department_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Terminations_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Terminations_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/models/Warnings_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/models/Warnings_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/task_bookmarks/controllers/Task_bookmarks.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/task_bookmarks/controllers/Task_bookmarks.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/task_bookmarks/models/Task_bookmarks_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/task_bookmarks/models/Task_bookmarks_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/task_bookmarks/views/table.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/task_bookmarks/views/table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -411,6 +374,10 @@
       <workItem from="1604703092980" duration="4898000" />
       <workItem from="1604833064248" duration="634000" />
       <workItem from="1604860848399" duration="16311000" />
+      <workItem from="1604908008558" duration="1643000" />
+      <workItem from="1605034765522" duration="2000" />
+      <workItem from="1605042286956" duration="601000" />
+      <workItem from="1605043023289" duration="7993000" />
     </task>
     <servers />
   </component>
@@ -439,10 +406,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="414" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1604874373825" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1604833801697">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1605047668642">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604833801697" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605047668642" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1597420811709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -463,10 +430,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1604877741383" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1604833767516">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1605043014901">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1604833767516" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1605043014901" />
     <state x="374" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603319333910">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -475,17 +442,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1604876272413">
+    <state x="295" y="98" width="1088" height="623" key="find.popup" timestamp="1605050869505">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604876272413" />
+    <state x="295" y="98" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1605050869505" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1604705456227">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1604705456227" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1604865523331">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605047048903">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604865523331" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1605047048903" />
   </component>
 </project>

@@ -149,8 +149,8 @@ class Service_model extends App_Model
 
     public function add($ServID,$data)
     {
-        $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
-        $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
+        $slug = "imported";
+        $ServiceName = "imported_name";
         if (isset($data['notify_project_members_status_change'])) {
             unset($data['notify_project_members_status_change']);
         }

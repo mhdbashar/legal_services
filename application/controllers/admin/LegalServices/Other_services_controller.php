@@ -298,6 +298,12 @@ class Other_services_controller extends AdminController {
         redirect($exported_service->url);
     }
 
+    public function follow_service_from_notification()
+    {
+        $url = $this->input->get('url');
+        redirect($url);
+    }
+
 
     public function add($ServID) {
         if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {

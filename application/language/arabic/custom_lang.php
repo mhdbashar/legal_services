@@ -63,12 +63,12 @@ $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
 $lang['projects_charts'] = "مخطط الخدمات";
 $lang['home_my_sessions'] = "الجلسات";
 
-$lang['project_linked_successfully'] = 'تم ربط الخدمة بنجاح';
+$lang['project_linked_successfully'] = 'تم نقل الخدمة بنجاح';
 $lang['failed_to_link_project'] = 'خطأ في ربط الخدمة';
 $lang['linked_services'] = "الخدمات المرتبطة";
 $lang['father_linked_services'] = 'الخدمة المرتبطة الأساسية';
 $lang['child_linked_services'] = 'الخدمات المرتبطة الفرعية';
-$lang['link_service'] = 'ربط الخدمة';
+$lang['link_service'] = 'نقل الخدمة';
 
 $lang['cases_summary'] = "ملخص القضايا";
 $lang['home_my_cases'] = "القضايا";

@@ -114,13 +114,15 @@ function my_module_menu_item_collapsible()
     //     'href'     => admin_url('clients'),
     //     'position' => 5,
     // ]);
-
-    // $CI->app_menu->add_sidebar_children_item('clients', [
-    //     'name'     => _l('opponents'), // The name if the item
-    //     'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-    //     'href'     => admin_url('opponents'), // URL of the item
-    //     'position' => 5, // The menu position
-    // ]);
+    if (has_permission('opponents', '', 'create')) {
+        $CI->app_menu->add_sidebar_menu_item('opponents', [
+            'name' => _l('opponents'), // The name if the item
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'href' => admin_url('opponents'), // URL of the item
+            'position' => 5, // The menu position
+            'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
+        ]);
+    }
 
     $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
@@ -311,15 +313,6 @@ function my_custom_setup_menu_items()
             'name' => _l("procuration_type"), // The name if the item
             'href' => admin_url('procuration/type'), // URL of the item
             'position' => 3, // The menu position
-        ]);
-    }
-
-    if (has_permission('opponents', '', 'create')) {
-        $CI->app_menu->add_setup_menu_item('opponents', [
-            'name' => _l('opponents'), // The name if the item
-            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-            'href' => admin_url('opponents'), // URL of the item
-            'position' => 6, // The menu position
         ]);
     }
 

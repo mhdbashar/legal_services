@@ -55,7 +55,7 @@ class Timesheet extends AdminController{
             $office_shift = $this->Office_shift_model->get_office_shift_for_staff($staff_id);
 
             $staff_leaves = $this->Leave_model->get_leaves_for_staff($staff_id, $start, $end);
-            //echo '<pre>'; print_r($staff_leaves); exit;
+
             $leaves = [];
             foreach ($staff_leaves as $leave) {
                 $days_diffs = $this->dateDiffInDays($leave['start_date'], $leave['end_date']) + 1;
@@ -80,7 +80,6 @@ class Timesheet extends AdminController{
             if(!empty($office_shift->friday_in))
                 $fri = true;
 
-            //echo '<pre>';print_r($leaves);exit;
             $office_shift_days = [];
             for($i = 1; $i <= $number_of_days; $i++){
                 if($i < 10)

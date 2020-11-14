@@ -31,7 +31,6 @@ function hr_menu_items($item)
         $branch = '<li><a href="'.admin_url('branches').'">'._l('branches').'</a>
                                     </li>';
     }
-        // print_r($item);
     if (has_permission('hr', '', 'view')){
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';

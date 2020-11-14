@@ -3024,6 +3024,29 @@ class Other_services_model extends App_Model
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
         $slug2      = $this->legal->get_service_by_id($ServID2)->row()->slug;
+
+        $mark_as_data = [
+            'status_id' => 4,
+            'project_id' => $project_id,
+            'send_project_marked_as_finished_email_to_contacts' => 0,
+            'mark_all_tasks_as_completed' => 1,
+            'cancel_recurring_tasks' => false,
+            'notify_project_members_status_change' => 0
+        ];
+
+            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+                $status = get_oservice_status_by_id($mark_as_data['status_id']);
+
+                $message = _l('project_marked_as_failed', $status['name']);
+                $success = $this->mark_as($ServID, $mark_as_data, $slug);
+
+                if ($success) {
+                    $message = _l('project_marked_as_success', $status['name']);
+                }
+            }
+
+
+            
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $project = $this->get($ServID, $project_id);
         $settings = $this->get_project_settings($project_id);

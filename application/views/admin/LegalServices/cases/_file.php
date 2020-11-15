@@ -9,8 +9,7 @@
          <div class="modal-body">
             <div class="row">
                <div class="col-md-8 border-right project_file_area">
-                  <?php
-                     if($file->staffid == get_staff_user_id() || has_permission('projects','','create')){ ?>
+                  <?php if($file->staffid == get_staff_user_id() || has_permission('projects','','create')){ ?>
                   <?php echo render_input('file_subject','project_discussion_subject',$file->subject,'text',array('onblur'=>'update_file_data('.$file->id.')')); ?>
                   <?php echo render_textarea('file_description','project_discussion_description',$file->description,array('onblur'=>'update_file_data('.$file->id.')')); ?>
                   <hr />

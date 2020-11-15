@@ -27,9 +27,9 @@ class Clients extends ClientsController
         $data['is_home'] = true;
         $this->load->model('reports_model');
         $data['payments_years'] = $this->reports_model->get_distinct_customer_invoices_years();
-
         $data['project_statuses'] = $this->projects_model->get_project_statuses();
         $data['title']            = get_company_name(get_client_user_id());
+        $data['legal_services']   = $this->legal->get_all_services(['is_module' => 0]);
         $this->data($data);
         $this->view('home');
         $this->layout();
@@ -749,6 +749,7 @@ class Clients extends ClientsController
                         header('HTTP/1.0 404 Not Found');
                         die;
                     }
+                    $file_data['ServID'] = $ServID;
                     echo get_template_part('legal_services/file', $file_data, true);
                     die;
 
@@ -926,6 +927,13 @@ class Clients extends ClientsController
                 }else{
                     $data['project_tasks']  = $this->other->get_tasks($ServID, $id);
                 }
+            } elseif ($group == 'project_contracts') {
+                $data['contracts'] = [];
+                if (has_contact_permission('contracts')) {
+                    $data['contracts'] = $this->contracts_model->get('', [
+                        'client'     => get_client_user_id(),
+                        'project_id' => $id,
+                    ]);}
             } elseif ($group == 'project_activity') {
                 if($ServID == 1){
                     $data['activity'] = $this->case->get_activity($id);

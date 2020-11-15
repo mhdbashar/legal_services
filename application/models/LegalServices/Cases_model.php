@@ -1450,7 +1450,6 @@ class Cases_model extends App_Model
             $this->db->where('visible_to_customer', 1);
         }
         $this->db->where('project_id', $project_id);
-
         return $this->db->get(db_prefix() . 'case_files')->result_array();
     }
 

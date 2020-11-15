@@ -21,7 +21,7 @@
         $email = '';
         $date = '';
     }else{
-//        var_dump($title);exit();
+
         $id = $incoming->id;
         $description = $incoming->description;
         $type = $incoming->type;

@@ -50,7 +50,11 @@
       ?>
       <tr>
        <td data-order="<?php echo $file['file_name']; ?>">
-        <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file['oservice_id']; ?>,<?php echo $ServID; ?>); return false;">
+       <?php if($ServID == 1): ?>
+            <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file['project_id']; ?>,<?php echo $ServID; ?>); return false;">
+       <?php else : ?>
+            <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file['oservice_id']; ?>,<?php echo $ServID; ?>); return false;">
+       <?php endif; ?>
          <?php if(is_image($attach_path .$project->id.'/'.$file['file_name']) || (!empty($file['external']) && !empty($file['thumbnail_link']))){
           echo '<div class="text-left"><i class="fa fa-spinner fa-spin mtop30"></i></div>';
           echo '<img class="project-file-image img-table-loading" src="#" data-orig="'.$helper_file($file,true).'" width="100">';

@@ -2644,7 +2644,6 @@ class Other_services_model extends App_Model
         //         ...$cases
         // ];
         $father_linked_services = array_merge($father_linked_services, $cases);
-        // echo '<pre>'; print_r($cases); exit;
 
         $this->db->select('*');
         $this->db->select(db_prefix() . 'my_link_services.service_id as l_service_id');
@@ -2742,7 +2741,6 @@ class Other_services_model extends App_Model
             $files_table = 'tbloservice_files';
             $files_id = 'oservice_id';
         }
-        // echo '<pre>'; print_r($_new_data); exit;
 
         unset($_new_data['id']);
         $_new_data['clientid'] = $data['clientid_copy_project'];

@@ -1277,7 +1277,6 @@ class Disputes extends AdminController
                 $data['duedate'] = $installment_date[$cycl] ? $installment_date[$cycl] : $data['duedate'];
                 $data['subtotal'] = $data['total'] = $installment_total[$cycl];
 
-                //print_r($data); die();
                 $invoice_id = $this->invoices_model->add($data);
 
                 if ($invoice_id) {

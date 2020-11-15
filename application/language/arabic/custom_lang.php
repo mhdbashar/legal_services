@@ -523,6 +523,7 @@ $lang['arabic'] = "العربية";
 $lang['english'] = "الانكليزية";
 $lang['appraisal_date'] = "تاريخ التقييم";
 $lang['updated_at'] = "تاريخ التعديل";
+$lang['summary'] = "ملخص";
 $lang['select_month'] = "اختر الشهر";
 $lang['indicator_set_value'] = "وضع قيمة مؤشر الأداء :";
 $lang['customer_experience'] = "تجربة الزبون";

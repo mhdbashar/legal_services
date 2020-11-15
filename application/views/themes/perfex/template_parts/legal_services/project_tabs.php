@@ -64,7 +64,7 @@
 
     <?php if(has_contact_permission('contracts') && $project->settings->available_features['project_contracts'] == 1){ ?>
     <li role="presentation" class="project_tab_contracts">
-        <a data-group="project_contracts" href="<?php echo site_url('clients/project/'.$project->id.'?group=project_contracts'); ?>" role="tab"><i class="fa fa-life-ring" aria-hidden="true"></i> <?php echo _l('contracts'); ?></a>
+        <a data-group="project_contracts" href="<?php echo site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=project_contracts'); ?>" role="tab"><i class="fa fa-life-ring" aria-hidden="true"></i> <?php echo _l('contracts'); ?></a>
     </li>
     <?php } ?>
 

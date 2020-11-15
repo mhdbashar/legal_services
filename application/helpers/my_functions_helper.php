@@ -177,8 +177,8 @@ function my_module_clients_area_menu_items()
     ]);*/
     // Show menu item only if client is logged in
     $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
-    $position = 50;
+    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $position = 0;
     if (has_contact_permission('projects')) {
         if (is_client_logged_in()) {
             foreach ($services as $service):

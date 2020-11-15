@@ -8,8 +8,6 @@ class Transactions extends AdminController
     {
         parent::__construct();
         $this->load->model('transactions_model');
-//        var_dump($this->load->model('Transactions_model'));exit();
-
     }
 
     public function index()
@@ -24,12 +22,10 @@ class Transactions extends AdminController
     }
 
     public function incoming($id = ''){
-//        var_dump($this->input->post());exit();
 //        $this->load->model('Transactions_model');
         if (!is_admin()) {
             access_denied('incoming');
         }
-//        var_dump($this->input->post());exit;
         $redirect = admin_url('transactions/incoming_list');
         $last_id = $this->index();
         if ($this->input->post()) {
@@ -137,8 +133,6 @@ class Transactions extends AdminController
 
             $this->app->get_table_data('my_incoming_transactions');
         }
-//        var_dump('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgjk');exit();
-//        var_dump(_l('procuration'));exit();
         $data['title'] = _l('incoming');
 //        $this->load->view('admin/procuration/manage', $data);
 
@@ -152,8 +146,6 @@ class Transactions extends AdminController
 
             $this->app->get_table_data('my_outgoing_transactions');
         }
-//        var_dump('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgjk');exit();
-//        var_dump(_l('procuration'));exit();
         $data['title'] = _l('outgoing');
 //        $this->load->view('admin/procuration/manage', $data);
 
@@ -167,7 +159,6 @@ class Transactions extends AdminController
     }
 
     public function incoming_side($id = ''){
-//var_dump(is_array('ghjghj'));exit();
         $enArray=array();
 
         if ($this->input->is_ajax_request()) {
@@ -176,7 +167,7 @@ class Transactions extends AdminController
             }else{
                 $enArray=array();
             }
-//        var_dump($this->input->post('nameEn'));exit();
+
             if ($this->input->get()) {
                 $nameEn['key'] = $this->input->get('nameEn');
                 $nameEn['value'] = $this->input->get('nameEn');
@@ -189,7 +180,7 @@ class Transactions extends AdminController
             }else{
                 $en = add_option('incoming_side_En',json_encode($enArray));
             }
-//        var_dump($enArray,$nameEn);exit();
+
 
 
 

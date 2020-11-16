@@ -1253,8 +1253,6 @@ function send_written_report (report_id, service_id, msg) {
         });
     }
 }
-<<<<<<< HEAD
-=======
 
 function load_time_picker(id) {
     $('#next_session_time'+id).datetimepicker({
@@ -1262,4 +1260,3 @@ function load_time_picker(id) {
         format:'H:i'
     });
 }
->>>>>>> dev

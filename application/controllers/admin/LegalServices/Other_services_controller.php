@@ -299,7 +299,7 @@ class Other_services_controller extends AdminController
 
             //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
-                'projects-js',
+                'oservices-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']

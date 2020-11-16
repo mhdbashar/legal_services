@@ -10,7 +10,20 @@
 <hr />
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <?php $i=1; foreach ($reports as $report): ?>
-    <div class="panel panel-default">
+        <?php
+        $setting_hour = get_option('auto_close_edit_written_reports_after');
+        $created_at = $report['created_at'];
+        $today = date('Y-m-d H:i:s');
+        $timestamp1 = strtotime($created_at);
+        $timestamp2 = strtotime($today);
+        $hour = abs($timestamp2 - $timestamp1)/(60*60);
+        if($hour < $setting_hour){
+            $editable = true;
+        }else{
+            $editable = false;
+        }
+        ?>
+        <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="head_<?php echo $i; ?>">
             <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#report-<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne">
                 <?php echo _l('report'); ?> - <?php echo $i; ?>
@@ -72,8 +85,13 @@
                     </div>
                 </div>
                 <?php echo render_input('rel_id','',$id,'hidden'); ?>
-                <?php echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>
+                <?php
+                if($editable):
+                echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>
                 <button type="submit" class="btn btn-info"><?php echo _l('edit'); ?></button>
+                <?php else:
+                echo '<textarea class="form-control" rows="8" readonly data-toggle="tooltip" data-title="'._l('written_reports_cant_edit').'">'.$report["report"].'</textarea>';
+                endif; ?>
             </div>
         </div>
         <?php echo form_close(); ?>

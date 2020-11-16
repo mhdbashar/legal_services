@@ -5,8 +5,8 @@ $lang['home_my_sessions'] = "Sessions";
 $lang['project_linked_successfully'] = 'Service linked successfully';
 $lang['failed_to_link_project'] = 'Failed to link service';
 $lang['linked_services'] = "Linked services";
-$lang['father_linked_services'] = 'Father linked service';
-$lang['child_linked_services'] = 'Child linked services';
+$lang['father_linked_services'] = 'Main linked service';
+$lang['child_linked_services'] = 'Branch linked services';
 $lang['link_service'] = 'Link service';
 
 $lang['updated_at'] = "Updated at";

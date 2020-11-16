@@ -65,15 +65,11 @@ function theme_assets()
             base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'clients.js')) . '?v=' . $CI->app_css->core_version(),
              ['common-js']
         );
-        $CI->app_scripts->theme(
-            'oservices-js',
-            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'oservices.js')) . '?v=' . $CI->app_css->core_version(),
-             ['common-js']
-        );
 
+        //By Baraa For custom clients area
         $CI->app_scripts->theme(
-            'cases-js',
-            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'cases.js')) . '?v=' . $CI->app_css->core_version(),
+            'custom-clients-js',
+            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'custom_clients.js')) . '?v=' . $CI->app_css->core_version(),
             ['common-js']
         );
     }
@@ -114,5 +110,10 @@ function theme_assets()
     $CI->app_css->theme(
         'theme-css',
         base_url($CI->app_scripts->core_file(theme_assets_path() . '/css', 'style.css')) . '?v=' . $CI->app_css->core_version()
+    );
+
+    $CI->app_css->theme(
+        'custom-css',
+        base_url($CI->app_scripts->core_file(theme_assets_path() . '/css', 'custom.css')) . '?v=' . $CI->app_css->core_version()
     );
 }

@@ -294,7 +294,7 @@ class Cases_controller extends AdminController
             $data['bodyclass'] = '';
             //$this->app_scripts->add('cases-js', 'assets/js/cases.js');
             $this->app_scripts->add(
-                'projects-js',
+                'case-js',
                 base_url($this->app_scripts->core_file('assets/js', 'cases.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']

@@ -1083,6 +1083,16 @@ class Disputes extends AdminController
             $data['project']      = $project;
             $items                = [];
 
+            // Extract meta values of this project
+
+            $data['currency'] = $this->projects_model->get_currency($project_id);
+
+            $meta = $this->Disputes_model->get_project_meta($project_id);
+            $data['meta'] = array();
+            foreach ($meta as $array) {
+                $data['meta'][$array['meta_key']] = $array['meta_value'];
+            }
+
             $project    = $this->projects_model->get($project_id);
             $item['id'] = 0;
 

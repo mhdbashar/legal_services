@@ -327,6 +327,7 @@ class Invoices extends AdminController
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {
+        
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
 

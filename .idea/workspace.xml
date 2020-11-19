@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/migrations/271_version_271.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/271_version_271.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Written_reports_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Written_reports_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/settings/includes/my_misc.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/settings/includes/my_misc.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
-    </list>
+    <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -383,7 +372,7 @@
       <workItem from="1605392510144" duration="194000" />
       <workItem from="1605472249630" duration="7458000" />
       <workItem from="1605556870093" duration="11284000" />
-      <workItem from="1605738063109" duration="5438000" />
+      <workItem from="1605738063109" duration="5715000" />
     </task>
     <servers />
   </component>

@@ -1258,6 +1258,7 @@ class Migration_Version_271 extends CI_Migration
                   `updatedfrom` int(11) DEFAULT NULL,
                   `created_at` datetime NOT NULL,
                   `updated_at` datetime DEFAULT NULL,
+                  `available_until` datetime NOT NULL,
                   `rel_id` int(11) DEFAULT NULL,
                   `rel_type` varchar(30) DEFAULT NULL,                  
                 ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');

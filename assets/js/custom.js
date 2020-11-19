@@ -1261,3 +1261,8 @@ function load_time_picker(id) {
         format:'H:i'
     });
 }
+
+appValidateForm($('#written-reports-form'), {
+    available_until: 'required',
+    report: 'required',
+});

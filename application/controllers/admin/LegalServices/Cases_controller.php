@@ -10,10 +10,10 @@ class Cases_controller extends AdminController
     $this->load->model('LegalServices/LegalServicesModel', 'legal');
     $this->load->model('LegalServices/Cases_model', 'case');
     $this->load->model('Customer_representative_model', 'representative');
+    $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     $this->load->model('currencies_model');
     $this->load->model('LegalServices/Case_movement_model', 'movement');
     $this->load->model('Branches_model');
-    $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     $this->load->model('tasks_model');
     $this->load->model('LegalServices/Phase_model','phase');
     $this->load->model('LegalServices/irac_model', 'irac');

@@ -17,11 +17,11 @@
             <i class="fa fa-plus"></i> <?php echo _l('inline_create'); ?>
           </a>
         </li>
-      <li role="presentation">
-          <a href="#written_reports" aria-controls="written_reports" role="tab" data-toggle="tab">
-              <i class="fa fa-pencil-square"></i> <?php echo _l('written_reports'); ?>
-          </a>
-      </li>
+<!--      <li role="presentation">-->
+<!--          <a href="#written_reports" aria-controls="written_reports" role="tab" data-toggle="tab">-->
+<!--              <i class="fa fa-pencil-square"></i> --><?php //echo _l('written_reports'); ?>
+<!--          </a>-->
+<!--      </li>-->
       </ul>
     </div>
     <div class="tab-content mtop30">
@@ -129,7 +129,7 @@
       '<b>'._l('expense').'</b>'
     ))); ?>
   </div>
-        <div role="tabpanel" class="tab-pane" id="written_reports">
-            <?php echo render_input('settings[auto_close_edit_written_reports_after]','auto_close_edit_written_reports_after',get_option('auto_close_edit_written_reports_after'),'number'); ?>
-        </div>
+<!--        <div role="tabpanel" class="tab-pane" id="written_reports">-->
+<!--            --><?php //echo render_input('settings[auto_close_edit_written_reports_after]','auto_close_edit_written_reports_after',get_option('auto_close_edit_written_reports_after'),'number'); ?>
+<!--        </div>-->
 </div>

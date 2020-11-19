@@ -22,7 +22,7 @@ class Migration_Version_271 extends CI_Migration
         add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
         add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
         add_option('automatically_empty_recycle_bin_after_days', '1');
-        add_option('auto_close_edit_written_reports_after', '5');
+        //add_option('auto_close_edit_written_reports_after', '5');
 
         //Tables
 

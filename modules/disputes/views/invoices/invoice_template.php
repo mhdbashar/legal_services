@@ -35,7 +35,7 @@
          <div class="col-md-6">
             <div class="f_client_id">
               <div class="form-group select-placeholder">
-                <label for="clientid" class="control-label"><?php echo _l('invoice_select_customer'); ?></label>
+                <!-- <label for="clientid" class="control-label"><?php echo _l('invoice_select_customer'); ?></label>
                 <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search<?php if(isset($invoice) && empty($invoice->clientid)){echo ' customer-removed';} ?>" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                <?php $selected = (isset($invoice) ? $invoice->clientid : '');
                  if($selected == ''){
@@ -46,7 +46,22 @@
                     $rel_val = get_relation_values($rel_data,'customer');
                     echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
                  } ?>
-                </select>
+                </select> -->
+
+                <?php
+                $opponents_array = [];
+                foreach ($opponents as $opponent){
+                  $opponents_array[] = (array) $opponent;
+                }
+                //echo '<pre>'; print_r($opponents_array); exit;
+                    $selected = array();
+                    if(!empty($selected_opponents)){
+                        foreach($selected_opponents as $row){
+                            array_push($selected,$row['opponent_id']);
+                        }
+                    }
+                    echo render_select('opponents[]',$opponents_array,array('userid',array('company')),'opponents',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                ?>
               </div>
             </div>
             <?php

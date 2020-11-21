@@ -1225,6 +1225,15 @@ class Disputes extends AdminController
                 }
             }
             $data['customer_id']          = $project->clientid;
+
+
+            $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+            $data['opponents'] = array();
+            foreach ($opponents as $opponent) {
+                if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+            }
+
+                
             $data['invoice_from_project'] = true;
             $data['add_items']            = $items;
             $this->load->view('disputes/invoices/invoice_project', $data);
@@ -1268,6 +1277,16 @@ class Disputes extends AdminController
         if (has_permission('invoices', '', 'create')) {
             //$this->load->model('invoices_model');
             $data               = $this->input->post();
+            //var_dump($data); exit;
+            $opponents = $data['opponents'];
+            unset($data['opponents']);
+            //var_dump($opponents); exit;
+            foreach ($opponents as $opponent) {
+                $this->db->insert(db_prefix() . 'my_disputes_opponents', [
+                    'opponent_id' => $opponent,
+                    'dispute_id' => $project_id
+                ]);
+            }
             $data['project_id'] = $project_id;
             $data['prefix']     = 'DIS-';
             $this->load->model('invoices_model');

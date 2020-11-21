@@ -9,7 +9,7 @@ $aColumns = [
     'total_tax',
     'YEAR(date) as year',
     'date',
-    get_sql_select_client_company(),
+    '(SELECT GROUP_CONCAT(company SEPARATOR ",") FROM ' . db_prefix() . 'my_disputes_opponents JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'my_disputes_opponents.opponent_id = ' . db_prefix() . 'clients.userid WHERE dispute_id = ' . db_prefix() . 'my_project_invoices.project_id ORDER by opponent_id ASC) as opponents',
     db_prefix() . 'projects.name as project_name',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'my_project_invoices.id and rel_type="invoice" ORDER by tag_order ASC) as tags',
     'duedate',
@@ -170,11 +170,13 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['date']);
 
-    if (empty($aRow['deleted_customer_name'])) {
-        $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
-    } else {
-        $row[] = $aRow['deleted_customer_name'];
-    }
+    // if (empty($aRow['deleted_customer_name'])) {
+    //     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
+    // } else {
+    //     $row[] = $aRow['deleted_customer_name'];
+    // }
+
+    $row[] = $aRow['opponents'];
 
     $row[] = '<a href="' . admin_url('disputes/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
     ;

@@ -1,6 +1,6 @@
 <?php
 
-$lang['total_should_be_equal_to_disputes_total'] = 'اجمالي الفاتورة يجب أن يساوي مجموع النزاعات';
+$lang['total_should_be_equal_to_disputes_total'] = 'اجمالي الفاتورة يجب أن يساوي  مجموع المطالبات';
 
 $lang['projects_charts'] = "مخطط الخدمات";
 $lang['home_my_sessions'] = "الجلسات";

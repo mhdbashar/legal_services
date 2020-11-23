@@ -129,6 +129,11 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        $data['dispute'] = $this->emails_model->get([
+            'type'     => 'dispute',
+            'language' => $lang,
+        ]);
+
         $data['title'] = _l('email_templates');
 
         $data['hasPermissionEdit'] = has_permission('email_templates', '', 'edit');
@@ -183,6 +188,7 @@ class Emails extends AdminController
         }
 
         $data['available_merge_fields'] = $this->app_merge_fields->all();
+        //var_dump($data['available_merge_fields'] ); exit;
 
         $data['template'] = $this->emails_model->get_email_template_by_id($id);
         $title            = $data['template']->name;

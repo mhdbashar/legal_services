@@ -24,6 +24,7 @@ class Written_reports_model extends App_Model
     {
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = get_staff_user_id();
+        $data['available_until'] = to_sql_date($data['available_until'], true);
         $this->db->insert(db_prefix() . 'written_reports', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {

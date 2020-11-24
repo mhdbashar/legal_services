@@ -1,16 +1,37 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <p><?php echo _l('written_reports'); ?></p>
 <hr />
-<?php echo form_open(admin_url('Written_reports/add/'.$ServID)); ?>
-<?php echo render_input('rel_id','',$id,'hidden'); ?>
-<?php echo render_input('rel_type','',$slug,'hidden'); ?>
-<?php echo render_textarea('report','','',array(),array(),'','tinymce'); ?>
-<button type="submit" class="btn btn-info"><?php echo _l('save'); ?></button>
+<?php echo form_open(admin_url('Written_reports/add/'.$ServID), array('id' => 'written-reports-form')); ?>
+<div class="row">
+    <div class="col-md-4">
+        <?php echo render_datetime_input('available_until','auto_close_edit_written_reports_after'); ?>
+    </div>
+    <div class="col-md-12">
+        <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
+        <?php echo render_input('rel_type','',$slug,'hidden'); ?>
+        <?php echo render_textarea('report','','',array(),array(),'','tinymce'); ?>
+        <button type="submit" class="btn btn-info"><?php echo _l('save'); ?></button>
+    </div>
+</div>
 <?php echo form_close(); ?>
+<?php if(isset($reports)): ?>
 <hr />
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <?php $i=1; foreach ($reports as $report): ?>
-    <div class="panel panel-default">
+        <?php
+        $available_until = $report['available_until'];
+        $today = date('Y-m-d H:i:s');
+        $timestamp1 = strtotime($available_until);
+        $timestamp2 = strtotime($today);
+        if($timestamp1 > $timestamp2){
+            $editable = true;
+            $style = "text-success";
+        }else{
+            $editable = false;
+            $style = "text-danger";
+        }
+        ?>
+        <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="head_<?php echo $i; ?>">
             <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#report-<?php echo $i; ?>" aria-expanded="false" aria-controls="collapseOne">
                 <?php echo _l('report'); ?> - <?php echo $i; ?>
@@ -30,7 +51,15 @@
                 <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($report['created_at']); ?>">
                       <?php echo time_ago($report['created_at']); ?>
                 </span>
+                    <br>
+                    <br>
                 </small>
+                        <b>- <?php echo _l('editable_until'); ?></b>
+                        <b class="<?php echo $style; ?>">
+
+                      <?php echo _dt($report['available_until']); ?>
+
+                        </b>
                 <?php if(isset($report['updatedfrom'])): ?>
                 <br>
                 <br>
@@ -71,13 +100,18 @@
                         </div>
                     </div>
                 </div>
-                <?php echo render_input('rel_id','',$id,'hidden'); ?>
-                <?php echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>
+                <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
+                <?php
+                if($editable):
+                echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>
                 <button type="submit" class="btn btn-info"><?php echo _l('edit'); ?></button>
+                <?php else:
+                echo '<textarea class="form-control" rows="8" readonly data-toggle="tooltip" data-title="'._l('written_reports_cant_edit').'">'.strip_tags($report["report"]).'</textarea>';
+                endif; ?>
             </div>
         </div>
         <?php echo form_close(); ?>
     </div>
     <?php $i++; endforeach; ?>
 </div>
-
+<?php endif; ?>

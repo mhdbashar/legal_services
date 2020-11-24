@@ -38,6 +38,7 @@ class Migration_Version_271 extends CI_Migration
         add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
         add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
         add_option('automatically_empty_recycle_bin_after_days', '1');
+        //add_option('auto_close_edit_written_reports_after', '5');
 
         //Tables
 
@@ -1273,9 +1274,9 @@ class Migration_Version_271 extends CI_Migration
                   `updatedfrom` int(11) DEFAULT NULL,
                   `created_at` datetime NOT NULL,
                   `updated_at` datetime DEFAULT NULL,
+                  `available_until` datetime NOT NULL,
                   `rel_id` int(11) DEFAULT NULL,
-                  `rel_type` varchar(30) DEFAULT NULL,
-                  `editable` int(11) NOT NULL DEFAULT "1"
+                  `rel_type` varchar(30) DEFAULT NULL,                  
                 ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
 
             $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");

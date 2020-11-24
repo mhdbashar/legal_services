@@ -793,7 +793,7 @@ class Clients extends ClientsController
                     $comment_data            = $this->input->post();
                     $comment_data['content'] = nl2br($comment_data['content']);
                     $comment_id              = $this->tasks_model->add_task_comment($comment_data);
-                    $url                     = site_url('clients/legal_services/' . $id . '?group=project_tasks&taskid=' . $comment_data['taskid']);
+                    $url                     = site_url('clients/legal_services/' . $id .'/'. $ServID . '?group=project_tasks&taskid=' . $comment_data['taskid']);
 
                     if ($comment_id) {
                         set_alert('success', _l('task_comment_added'));
@@ -1226,7 +1226,6 @@ class Clients extends ClientsController
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }
-
         if ($this->input->post()) {
             $this->form_validation->set_rules('subject', _l('customer_ticket_subject'), 'required');
             $this->form_validation->set_rules('department', _l('clients_ticket_open_departments'), 'required');

@@ -35,7 +35,7 @@
          <div class="col-md-6">
             <div class="f_client_id">
               <div class="form-group select-placeholder">
-                <label for="clientid" class="control-label"><?php echo _l('invoice_select_customer'); ?></label>
+                <!-- <label for="clientid" class="control-label"><?php echo _l('invoice_select_customer'); ?></label>
                 <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search<?php if(isset($invoice) && empty($invoice->clientid)){echo ' customer-removed';} ?>" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                <?php $selected = (isset($invoice) ? $invoice->clientid : '');
                  if($selected == ''){
@@ -46,7 +46,22 @@
                     $rel_val = get_relation_values($rel_data,'customer');
                     echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
                  } ?>
-                </select>
+                </select> -->
+
+                <?php
+                $opponents_array = [];
+                foreach ($opponents as $opponent){
+                  $opponents_array[] = (array) $opponent;
+                }
+                //echo '<pre>'; print_r($opponents_array); exit;
+                    $selected = array();
+                    if(!empty($selected_opponents)){
+                        foreach($selected_opponents as $row){
+                            array_push($selected,$row['opponent_id']);
+                        }
+                    }
+                    echo render_select('opponents[]',$opponents_array,array('userid',array('company')),'opponents',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                ?>
               </div>
             </div>
             <?php
@@ -379,7 +394,7 @@
                             ?>
                           </label>
                           <div class="input-group">
-                            <input type="number" class="form-control" name="cycles" id="cycles" value="<?php echo $value; ?>" <?php if(isset($invoice) && $invoice->total_cycles > 0){echo 'min="'.($invoice->total_cycles).'"';} ?> max="50" onchange="show_installments()">
+                            <input type="number" class="form-control" name="cycles" id="cycles" value="<?php echo $value; ?>" <?php if(isset($invoice) && $invoice->total_cycles > 0){echo 'min="'.($invoice->total_cycles).'"';} ?> max="50" onchange="show_installments(); disputes_calculate_total();">
                             <div class="input-group-addon">
                               <div class="checkbox hide">
                                 <input type="checkbox"<?php if($value == 0){echo ' checked';} ?> id="unlimited_cycles">
@@ -418,9 +433,19 @@
                   </div>
 
 
+                  <?php if(isset($meta['disputes_total'])){ ?>
+                  <div>
+                    <div class="col-md-12 text-center text-danger clearfix" id="alert_total">
+                      <?php echo _l('total_should_be_equal_to_disputes_total'); ?>
+                    </div>
+                    <div class="col-md-12 text-center clearfix" id="disputes_total">
+                      <?php echo _l('disputes_total') . ': ' . $meta['disputes_total']; ?>
+                    </div>
+                  </div>
 
-
+                  <?php } ?>
                   <div class="installments-div clearfix">
+                    
 <?php for($ins=0; $ins<50; $ins++){ ?>
                      <div class="installments clearfix">
                       <div class="col-md-6 <?php echo($ins==0?'installmenttotal':'hide'); ?>">
@@ -829,17 +854,22 @@ function validate_disputes_invoice_form(selector) {
   function show_installments(){
     var cycl = $("#cycles").val();
     var cycl_0;
+    var total_disputes = <?php echo $meta['disputes_total']; ?>;
+    var cycl_amount = Math.floor(total_disputes/cycl);
+    var cycl_latest = Math.floor((total_disputes/cycl) + cycl * ((total_disputes/cycl) - Math.floor(total_disputes/cycl)));
     if(cycl==0) cycl=1;
     $( ".installments" ).each(function( index ) {
       if(cycl>index){
 
-        if(cycl>1){
+        if(cycl>0){
           if(index == 0){
             cycl_0 = $( this ).find('input[type=number]').val();
           }
-          console.log(cycl_0);
+          //console.log(cycl_latest);
           $( this ).find('div.col-md-6').removeClass('hide');
-          $( this ).find('input[type=number]').val(cycl_0);
+          $( this ).find('input[type=number]').val(cycl_amount);
+          if(cycl == index + 1)
+            $( this ).find('input[type=number]').val(cycl_latest);
         }else{
           
           $('.installmenttotal').removeClass('hide');
@@ -1002,6 +1032,19 @@ function disputes_calculate_total() {
     $('.total').html(format_money(total) + hidden_input('total', accounting.toFixed(total, app.options.decimal_places)));
 
     $(document).trigger('sales-total-calculated');
+
+
+    var total_disputes = <?php echo $meta['disputes_total']; ?>;
+    var total = $("input[name='total']").val();
+    if(total == total_disputes){
+      $('.submit_total').prop('disabled', false);
+      $('#alert_total').addClass('hide');
+    }else{
+      $('.submit_total').prop('disabled', true);
+      $('#alert_total').removeClass('hide');
+    }
+
+
 }
 
 </script>

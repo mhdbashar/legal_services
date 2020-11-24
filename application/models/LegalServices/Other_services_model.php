@@ -2683,7 +2683,7 @@ class Other_services_model extends App_Model
         ];
 
             if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
-                $status = get_oservice_status_by_id($mark_as_data['status_id']);
+                $status = get_oservice_status_by_id ($mark_as_data['status_id']);
 
                 $message = _l('project_marked_as_failed', $status['name']);
                 $success = $this->mark_as($ServID, $mark_as_data, $slug);
@@ -2694,7 +2694,7 @@ class Other_services_model extends App_Model
             }
 
 
-            
+
         $ServiceName = $this->legal->get_service_by_id($ServID)->row()->name;
         $project = $this->get($ServID, $project_id);
         $settings = $this->get_project_settings($project_id);

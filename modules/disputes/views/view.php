@@ -32,8 +32,11 @@
                         <?php } ?>
                         <?php
                            $invoice_func = 'pre_invoice_disputes';
+                           $this->db->where('project_id', $project->id);
+                           $this->db->from('tblmy_project_invoices');
+                           $num_old_invoice = $this->db->count_all_results();
                            ?>
-                        <?php if(has_permission('invoices','','create')){ ?>
+                        <?php if(has_permission('invoices','','create') && $num_old_invoice == 0 ){ ?>
                         <a href="#" onclick="<?php echo $invoice_func; ?>(<?php echo $project->id; ?>); return false;" class="invoice-project btn btn-info<?php if($project->client_data->active == 0){echo ' disabled';} ?>"><?php echo _l('invoice_project'); ?></a>
                         <?php } ?>
                         <?php

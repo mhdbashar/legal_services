@@ -12,11 +12,12 @@ class Other_services_controller extends AdminController {
         $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
-        $this->load->model('LegalServices/Phase_model', 'phase');
-        $this->load->helper('date');
+        $this->load->model('LegalServices/Phase_model','phase');
         $this->load->model('Staff_model');
-        $this->load->model('LegalServices/Legal_procedures_model', 'procedures');
+        $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
+        $this->load->model('Written_reports_model','reports');
         $this->load->model('emails_model');
+        $this->load->helper('date');
     }
 
     public function get_token_by_office_name($office_name){
@@ -513,6 +514,7 @@ class Other_services_controller extends AdminController {
     public function view($ServID, $id) {
         if (has_permission('projects', '', 'view') || $this->other->is_member($id)) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['slug'] = $slug;
             close_setup_menu();
             $project = $this->other->get($ServID, $id);
 
@@ -572,7 +574,7 @@ class Other_services_controller extends AdminController {
 
             //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
-                'projects-js',
+                'oservices-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
@@ -709,6 +711,8 @@ class Other_services_controller extends AdminController {
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
+            }elseif ($group == 'written_reports'){
+                $data['reports'] = $this->reports->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions

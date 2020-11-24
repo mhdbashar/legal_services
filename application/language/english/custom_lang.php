@@ -1,4 +1,8 @@
 <?php
+
+
+$lang['total_should_be_equal_to_disputes_total'] = 'Total should be equal to disputes total';
+
 $lang['projects_charts'] = "Projects Charts";
 $lang['home_my_sessions'] = "Sessions";
 

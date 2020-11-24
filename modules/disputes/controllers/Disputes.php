@@ -1079,6 +1079,16 @@ class Disputes extends AdminController
             $data['project']      = $project;
             $items                = [];
 
+            // Extract meta values of this project
+
+            $data['currency'] = $this->projects_model->get_currency($project_id);
+
+            $meta = $this->Disputes_model->get_project_meta($project_id);
+            $data['meta'] = array();
+            foreach ($meta as $array) {
+                $data['meta'][$array['meta_key']] = $array['meta_value'];
+            }
+
             $project    = $this->projects_model->get($project_id);
             $item['id'] = 0;
 
@@ -1211,6 +1221,15 @@ class Disputes extends AdminController
                 }
             }
             $data['customer_id']          = $project->clientid;
+
+
+            $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+            $data['opponents'] = array();
+            foreach ($opponents as $opponent) {
+                if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+            }
+
+                
             $data['invoice_from_project'] = true;
             $data['add_items']            = $items;
             $this->load->view('disputes/invoices/invoice_project', $data);
@@ -1254,6 +1273,16 @@ class Disputes extends AdminController
         if (has_permission('invoices', '', 'create')) {
             //$this->load->model('invoices_model');
             $data               = $this->input->post();
+            //var_dump($data); exit;
+            $opponents = $data['opponents'];
+            unset($data['opponents']);
+            //var_dump($opponents); exit;
+            foreach ($opponents as $opponent) {
+                $this->db->insert(db_prefix() . 'my_disputes_opponents', [
+                    'opponent_id' => $opponent,
+                    'dispute_id' => $project_id
+                ]);
+            }
             $data['project_id'] = $project_id;
             $data['prefix']     = 'DIS-';
             $this->load->model('invoices_model');

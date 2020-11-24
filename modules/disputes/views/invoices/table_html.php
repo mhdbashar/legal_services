@@ -10,7 +10,7 @@ $table_data = array(
   ),
   _l('invoice_dt_table_heading_date'),
   array(
-    'name'=>_l('invoice_dt_table_heading_client'),
+    'name'=>_l('opponent'),
     'th_attrs'=>array('class'=>(isset($client) ? 'not_visible' : ''))
   ),
   _l('project'),

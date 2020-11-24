@@ -1,4 +1,7 @@
 <?php
+
+$lang['total_should_be_equal_to_disputes_total'] = 'اجمالي الفاتورة يجب أن يساوي  مجموع المطالبات';
+
 $lang['projects_charts'] = "مخطط الخدمات";
 $lang['home_my_sessions'] = "الجلسات";
 
@@ -192,6 +195,7 @@ $lang['branches_desc'] = "إدارة الفروع";
 $lang['smsemail_name'] = "إشعارات البريد الإلكتروني والرسائل القصيرة";
 $lang['smsemail_desc'] = "الإضافة الافتراضية لإرسال الرسائل القصيرة أو البريد الإلكتروني للعملاء";
 $lang['disputes_name'] = "النزاعات المالية";
+$lang['dispute'] = "النزاعات المالية";
 $lang['disputes_desc'] = "الإضافة الافتراضية لإدارة المنازعات المالية";
 $lang['goals_name'] = "الأهداف";
 $lang['goals_desc'] = "الإضافة الافتراضية لتحديد الأهداف";

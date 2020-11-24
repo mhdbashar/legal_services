@@ -22,6 +22,7 @@ class Migration_Version_271 extends CI_Migration
         add_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
         add_option('automatically_reminders_before_empty_recycle_bin_days', '1');
         add_option('automatically_empty_recycle_bin_after_days', '1');
+        //add_option('auto_close_edit_written_reports_after', '5');
 
         //Tables
 
@@ -1246,9 +1247,31 @@ class Migration_Version_271 extends CI_Migration
               `staff_id` int(11) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
-                  $this->db->query("ALTER TABLE `tblpinned_oservices`
-  ADD KEY `oservice_id` (`oservice_id`);");
-            }
+            $this->db->query("ALTER TABLE `tblpinned_oservices` ADD KEY `oservice_id` (`oservice_id`);");
+        }
+
+        if (!$this->db->table_exists(db_prefix() . 'written_reports')) {
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'written_reports` (
+                  `id` int(11) NOT NULL,
+                  `report` text NOT NULL,
+                  `addedfrom` int(11) NOT NULL,
+                  `updatedfrom` int(11) DEFAULT NULL,
+                  `created_at` datetime NOT NULL,
+                  `updated_at` datetime DEFAULT NULL,
+                  `available_until` datetime NOT NULL,
+                  `rel_id` int(11) DEFAULT NULL,
+                  `rel_type` varchar(30) DEFAULT NULL,                  
+                ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
+
+            $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");
+            $this->db->query("ALTER TABLE ".db_prefix()."written_reports MODIFY `id` int(11) NOT NULL AUTO_INCREMENT");
+        }
+
+        //Alter table tblcontracts
+        if (!$this->db->field_exists('type_id', db_prefix().'contracts')) {
+            $this->db->query("ALTER TABLE `tblcontracts` ADD `type_id` int(11) NOT NULL DEFAULT '0';");
+            $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
+        }
 
 
             if (!$this->db->table_exists(db_prefix() . 'written_reports')) {

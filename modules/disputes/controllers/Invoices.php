@@ -327,8 +327,15 @@ class Invoices extends AdminController
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {
+        
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
+
+            $opponents = $invoice_data['opponents'];
+            unset($invoice_data['opponents']);
+            
+
+
 
             if ($id == '') {
                 if (!has_permission('invoices', '', 'create')) {
@@ -382,6 +389,14 @@ class Invoices extends AdminController
             $installment_date = $invoice_data['installment_date'];
             $installment_total = $invoice_data['installment_total'];
             unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
+
+            foreach ($opponents as $opponent) {
+                $this->db->insert(db_prefix() . 'my_disputes_opponents', [
+                    'opponent_id' => $opponent,
+                    'dispute_id' => $invoice_data['project_id']
+                ]);
+            }
+            $invoice_data['project_id'] = $invoice_data['project_id'];
             $redUrl = array();
 
             for($cycl=0; $cycl<$cycls; $cycl++) {
@@ -454,6 +469,20 @@ class Invoices extends AdminController
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
+        // Extract meta values of this project
+        $this->load->model('Disputes_model');
+        $meta = $this->Disputes_model->get_project_meta($invoice->project_id?$invoice->project_id:0);
+        $data['meta'] = array();
+        foreach ($meta as $array) {
+            $data['meta'][$array['meta_key']] = $array['meta_value'];
+        }
+        $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+        $data['opponents'] = array();
+        foreach ($opponents as $opponent) {
+            if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+        }
+        $this->db->where('dispute_id', $invoice->project_id);
+        $data['selected_opponents'] = $this->db->get('tblmy_disputes_opponents')->result_array();
         $this->load->view('disputes/invoices/invoice', $data);
     }
 

@@ -13,6 +13,9 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+
+$lang['total_should_be_equal_to_disputes_total'] = 'Total should be equal to disputes total';
+
 $lang['projects_charts'] = "Projects Charts";
 $lang['home_my_sessions'] = "Sessions";
 
@@ -4256,3 +4259,6 @@ $lang['written_reports'] = "Written reports";
 $lang['report'] = "Report";
 $lang['date_updated'] = "Edited on";
 $lang['updated_by_staff'] = "Edited by employee";
+$lang['auto_close_edit_written_reports_after'] = "Close editing on the next report automatically by date";
+$lang['written_reports_cant_edit'] = "You can no longer edit this report!";
+$lang['editable_until'] = "Editable Until";

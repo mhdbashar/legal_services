@@ -24,6 +24,20 @@ if (!$CI->db->table_exists(db_prefix() . 'my_projects_meta')) {
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'my_disputes_opponents')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_disputes_opponents` (
+  `id` int(11) NOT NULL,
+  `dispute_id` int(11) NOT NULL,
+  `opponent_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
+
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'my_disputes_opponents`
+  ADD PRIMARY KEY (`id`)');
+
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'my_disputes_opponents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1');
+}
+
 
 if (!$CI->db->table_exists(db_prefix() . 'my_projects_contacts')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . 'my_projects_contacts` (

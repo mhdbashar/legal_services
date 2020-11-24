@@ -16,7 +16,7 @@ $lang['project_billing_type_10'] = 'معدل ثابت + النسبة المئو�
 $lang['project_billing_type_11'] = 'نسبه مئويه ٪';
 $lang['project_rate_percent'] = 'النسبة المئوية٪';
 $lang['disputes_invoices'] = 'فواتير المنازعات';
-$lang['disputes_total'] = 'مجموع النزاعات';
+$lang['disputes_total'] = 'مجموع المطالبات';
 $lang['opponent_lawyer'] = 'المحامي الخصم';
 $lang['disputes_reminder'] = 'تذكير المنازعات';
 $lang['automatically_send_disputes_invoice_overdue_reminder_after'] = 'تلقائيا إرسال المنازعات فاتورة تذكير المتأخرة قبل / بعد أيام';

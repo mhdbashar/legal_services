@@ -174,10 +174,10 @@ if (!$CI->db->table_exists(db_prefix() . 'my_project_invoices')) {
 
 }
 
-$dispute_services = $CI->db->query("SELECT * FROM ".db_prefix()."my_basic_services WHERE name = 'نزاعات مالية'");
+$dispute_services = $CI->db->query("SELECT * FROM ".db_prefix()."my_basic_services WHERE name = 'قضايا مالية'");
 if($dispute_services->num_rows() == 0) {
     $date = date('Y-m-d H:i:s');
-    $name = 'نزاعات مالية';
+    $name = 'قضايا مالية';
     $slug = slug_it($name, ['separator' => '_']);
     $CI->db->query("INSERT INTO " . db_prefix() . "my_basic_services (name, slug, prefix, show_on_sidebar, is_module, datecreated) VALUES ('$name', '$slug', 'Dispute', 0, 1, '$date')");
 }

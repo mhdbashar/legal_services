@@ -177,14 +177,14 @@ function my_module_clients_area_menu_items()
     ]);*/
     // Show menu item only if client is logged in
     $CI = &get_instance();
-    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
+    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
     $position = 0;
     if (has_contact_permission('projects')) {
         if (is_client_logged_in()) {
             foreach ($services as $service):
             add_theme_menu_item('LegalServices'.$service->id, [
                 'name'     => $service->name,
-                'href'     => site_url('clients/legals/'.$service->id),
+                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
                 'position' => $position+5,
             ]);
             endforeach;
@@ -781,6 +781,7 @@ function get_default_value_id_by_table_name($table, $id)
     }
     return false;
 }
+
 /**
  * Function that add tags based on passed arguments
  * @param  string $tags

@@ -1010,6 +1010,7 @@ $lang['enable_two_factor_sms_authentication'] = "تفعيل التحقق الث�
 $lang['service_name'] = "الموضوع";
 $lang['clients_my_legal'] = "الخدمات القانونية";
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
+$lang['single_legal_summary'] = "ملخص الخدمة القانونية";
 $lang['dialog_box_manage'] = "إدارة مربعات الحوار";
 $lang['dialog_boxes'] = "مربعات الحوار";
 $lang['add_dialog_box'] = "إضافة مربع حوار";

@@ -423,12 +423,13 @@ class Sessions extends AdminController
         if ($id == '') {
             $title = _l('add_new', _l('session_lowercase'));
         } else {
-            $data['task'] = $this->sessions_model->get($id);
+            $data['task'] = $this->sessions_model->get_with_session_info($id);
             if ($data['task']->rel_type == 'project') {
                 $data['milestones'] = $this->projects_model->get_milestones($data['task']->rel_id);
             }
             $title = _l('edit', _l('session_lowercase')) . ' ' . $data['task']->name;
         }
+
         $data['project_end_date_attrs'] = [];
         if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id') || ($id !== '' && $data['task']->rel_type == 'project')) {
             $project = $this->projects_model->get($id === '' ? $this->input->get('rel_id') : $data['task']->rel_id);
@@ -453,7 +454,6 @@ class Sessions extends AdminController
         $data['legal_services'] = $this->legal->get_all_services();
         $data['judges']         = $this->service_sessions->get_judges();
         $data['courts']         = $this->service_sessions->get_court();
-
         $data['service_id']     = $ServID;
         $data['title']          = $title;
         $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);

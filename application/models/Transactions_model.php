@@ -39,15 +39,12 @@ class Transactions_model extends App_Model
 
     public function add($data)
     {
-//        var_dump($data);exit();
         $this->db->insert(db_prefix().'my_transactions', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New transaction [ID: ' . $insert_id . ']');
-
             return $insert_id;
         }
-
         return false;
     }
 

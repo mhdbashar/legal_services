@@ -68,7 +68,8 @@
                                 <option value="proc_type" <?php if(isset($custom_field) && $custom_field->fieldto == 'proc_type'){echo 'selected';} ?>><?php echo _l('procuration_type'); ?></option>
                                 <option value="cust_repres" <?php if(isset($custom_field) && $custom_field->fieldto == 'cust_repres'){echo 'selected';} ?>><?php echo _l('customer_representative'); ?></option>
                                 <option value="procurations" <?php if(isset($custom_field) && $custom_field->fieldto == 'procurations'){echo 'selected';} ?>><?php echo _l('procurations'); ?></option>
-                                <optgroup label="الخدمات القانونية">
+                                <option value="sessions" <?php if(isset($custom_field) && $custom_field->fieldto == 'sessions'){echo 'selected';} ?>><?php echo _l('sessions'); ?></option>
+                                <optgroup label="<?php echo _l('LegalServices'); ?>">
                                 <?php foreach ($legal_services as $service): ?>
                                     <option value="<?php echo $service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $service->slug){echo 'selected';} ?>><?php echo $service->name; ?></option>
                                 <?php endforeach; ?>
@@ -80,7 +81,7 @@
                                     <?php endforeach; ?>
                                 <?php endforeach; ?>
                                 </optgroup> */ ?>
-                                <optgroup label="مراحل الخدمات القانونية">
+                                <optgroup label="<?php echo _l('legal_services_phases'); ?>">
                                     <?php foreach ($legal_services_phases as $phase): ?>
                                         <option data-action="hide" value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
                                     <?php endforeach; ?>

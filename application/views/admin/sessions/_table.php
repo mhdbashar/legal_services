@@ -21,7 +21,7 @@ array_unshift($table_data, [
     'th_attrs' => ['class' => (isset($bulk_actions) ? '' : 'not_visible')],
 ]);
 
-$custom_fields = get_custom_fields('tasks', [
+$custom_fields = get_custom_fields('sessions', [
     'show_on_table' => 1,
 ]);
 

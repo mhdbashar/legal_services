@@ -2,25 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/views/themes/perfex/template_parts/legal_services/procuration.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/my_profile.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Opponents.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Opponents.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/cases_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/cases_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Departments.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Departments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Transactions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Procurations_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Procurations_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_procuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/cases/case_procuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/modals/contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/modals/contact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tasks/my_task.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/views/legals.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/legals.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/views/my_home.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/my_home.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/themes/perfex/views/projects.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/projects.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/disputes/install.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/disputes/install.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/disputes/views/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/disputes/views/manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Custom_fields_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Custom_fields_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Transactions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Transactions_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/modal_session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/services_sessions/services_sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/task.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transactions/incoming.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/branches/models/Branches_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/models/Branches_model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,6 +395,7 @@
       <workItem from="1606068261151" duration="34000" />
       <workItem from="1606168173553" duration="3715000" />
       <workItem from="1606238330728" duration="16000000" />
+      <workItem from="1606341627612" duration="6335000" />
     </task>
     <servers />
   </component>
@@ -437,10 +436,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1604877741383" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1606239584055">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1606341660997">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606239584055" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606341660997" />
     <state x="374" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603319333910">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -449,10 +448,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1606262331242">
+    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1606347970835">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606262331242" />
+    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606347970835" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1605476396244">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

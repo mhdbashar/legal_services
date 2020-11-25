@@ -8,7 +8,12 @@
 				<div class="panel-body">
 					<h3 class="text-success projects-summary-heading no-mtop mbot15"><?php echo _l('summary').' '.$service->name; ?></h3>
 					<div class="row">
-						<?php get_template_part('legal_services/project_summary', ['ServID' => $service->id]); ?>
+						<?php
+                        if ($service->is_module == 0):
+                            get_template_part('legal_services/project_summary', ['ServID' => $service->id]);
+                        else:
+                            get_template_part('projects/project_summary');
+                        endif; ?>
 					</div>
 				</div>
 			</div>

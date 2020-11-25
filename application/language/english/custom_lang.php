@@ -4172,6 +4172,7 @@ $lang['linked_case'] = "This case is related to the case:";
 $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
+$lang['single_legal_summary'] = "Legal Service Summary";
 
 $lang['services_locks'] = "Please enter the password to continue!";
 $lang['open_lock'] = "Open lock";

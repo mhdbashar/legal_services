@@ -253,7 +253,18 @@
                                 <?php echo _l('legal_procedures'); ?>
                             </option>
                             <?php foreach ($legal_services as $service): ?>
-                                <option value="<?php echo $service->slug; ?>" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == $service->slug){echo 'selected';}} ?>><?php echo $service->name; ?></option>
+                                <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
+                                    <?php if(isset($task) || $this->input->get('rel_type')){
+                                        if($service->is_module == 0){
+                                            if($rel_type == $service->slug){
+                                                echo 'selected';
+                                            }
+                                        }else{
+                                            if($rel_type == 'project'){
+                                                echo 'selected';
+                                            }
+                                        }
+                                    } ?>><?php echo $service->name; ?></option>
                             <?php endforeach; ?>
                         </select>
                      </div>

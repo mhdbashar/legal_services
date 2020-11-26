@@ -12,6 +12,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_link}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -22,6 +23,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_number}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -32,6 +34,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_duedate}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -39,6 +42,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_date}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -50,6 +54,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_status}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -60,6 +65,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_sale_agent}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -67,6 +73,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_total}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -77,6 +84,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_subtotal}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -87,6 +95,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{invoice_amount_due}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -118,6 +127,7 @@ class Dispute_merge_fields extends App_merge_fields
                     'key'       => '{project_name}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
             ];
@@ -133,7 +143,7 @@ class Dispute_merge_fields extends App_merge_fields
     {
         $fields = [];
         $this->ci->db->where('id', $invoice_id);
-        $invoice = $this->ci->db->get(db_prefix().'invoices')->row();
+        $invoice = $this->ci->db->get(db_prefix().'my_project_invoices')->row();
 
         if (!$invoice) {
             return $fields;
@@ -158,7 +168,7 @@ class Dispute_merge_fields extends App_merge_fields
         $fields['{invoice_subtotal}']   = app_format_money($invoice->subtotal, $currency);
 
         $fields['{invoice_link}']    = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
-        $fields['{invoice_number}']  = format_invoice_number($invoice_id);
+        $fields['{invoice_number}']  = format_dispute_invoice_number($invoice_id);
         $fields['{invoice_duedate}'] = _d($invoice->duedate);
         $fields['{invoice_date}']    = _d($invoice->date);
         $fields['{invoice_status}']  = format_invoice_status($invoice->status, '', false);

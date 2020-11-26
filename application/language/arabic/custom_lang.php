@@ -1,5 +1,15 @@
 <?php
 
+$lang['dispute_link'] = "رابط الفاتورة";
+$lang['dispute_number'] = "رقم الفاتورة";
+$lang['dispute_duedate'] = "تاريخ إستحقاق الفاتورة";
+$lang['dispute_date'] = "تاريخ الفاتورة";
+$lang['dispute_status'] = "حالة الفاتورة";
+$lang['dispute_sale_agent'] = "مسؤول مبيعات الفاتورة";
+$lang['dispute_total'] = "إجمالي الفاتورة";
+$lang['dispute_subtotal'] = "المجموع الفرعي للفاتورة";
+$lang['dispute_amount_due'] = "المبلغ المستحق";
+
 $lang['total_should_be_equal_to_disputes_total'] = 'اجمالي الفاتورة يجب أن يساوي  مجموع المطالبات';
 
 $lang['projects_charts'] = "مخطط الخدمات";

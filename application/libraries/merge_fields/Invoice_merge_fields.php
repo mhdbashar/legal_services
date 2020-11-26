@@ -12,6 +12,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_link}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -22,6 +23,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_number}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -32,6 +34,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_duedate}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -39,6 +42,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_date}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -50,6 +54,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_status}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -60,6 +65,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_sale_agent}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -67,6 +73,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_total}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -77,6 +84,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_subtotal}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -87,6 +95,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{invoice_amount_due}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
                 [
@@ -118,6 +127,7 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{project_name}',
                     'available' => [
                         'invoice',
+                        'dispute'
                     ],
                 ],
             ];

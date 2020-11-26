@@ -252,6 +252,9 @@ echo form_hidden('project_percent',$percent);
                     textarea.data('comment_index', ++this.opts.comment_index);
                 }
 
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
             },
             get_contents: function(editor) {
                return editor.getContent();

@@ -8,7 +8,7 @@
    <div class="panel-body">
       <div class="row mbot15">
          <div class="col-md-12">
-            <h3 class="text-success projects-summary-heading no-mtop mbot15"><?php echo _l('legal_summary'); ?></h3>
+            <h3 class="text-success projects-summary-heading no-mtop mbot15"><?php echo _l('single_legal_summary'); ?></h3>
          </div>
          <?php get_template_part('legal_services/project_summary',['ServID' => $ServID]); ?>
       </div>

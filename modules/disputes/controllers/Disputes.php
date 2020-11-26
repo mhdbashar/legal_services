@@ -342,10 +342,6 @@ class Disputes extends AdminController
             );
 
 
-
-
-
-
             // Extract meta values of this project
             $meta = $this->Disputes_model->get_project_meta($id?$id:0);
             $data['meta'] = array();
@@ -502,10 +498,10 @@ class Disputes extends AdminController
 
             $data['percent'] = $percent;
 
-            $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
-            $this->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js');
+//            $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
+//            $this->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js');
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('projects-js', 'assets/js/projects.min.js');
+            //$this->app_scripts->add('projects-js', 'assets/js/projects.min.js');
 
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;
@@ -1083,6 +1079,16 @@ class Disputes extends AdminController
             $data['project']      = $project;
             $items                = [];
 
+            // Extract meta values of this project
+
+            $data['currency'] = $this->projects_model->get_currency($project_id);
+
+            $meta = $this->Disputes_model->get_project_meta($project_id);
+            $data['meta'] = array();
+            foreach ($meta as $array) {
+                $data['meta'][$array['meta_key']] = $array['meta_value'];
+            }
+
             $project    = $this->projects_model->get($project_id);
             $item['id'] = 0;
 
@@ -1215,6 +1221,15 @@ class Disputes extends AdminController
                 }
             }
             $data['customer_id']          = $project->clientid;
+
+
+            $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+            $data['opponents'] = array();
+            foreach ($opponents as $opponent) {
+                if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+            }
+
+                
             $data['invoice_from_project'] = true;
             $data['add_items']            = $items;
             $this->load->view('disputes/invoices/invoice_project', $data);
@@ -1258,6 +1273,16 @@ class Disputes extends AdminController
         if (has_permission('invoices', '', 'create')) {
             //$this->load->model('invoices_model');
             $data               = $this->input->post();
+            //var_dump($data); exit;
+            $opponents = $data['opponents'];
+            unset($data['opponents']);
+            //var_dump($opponents); exit;
+            foreach ($opponents as $opponent) {
+                $this->db->insert(db_prefix() . 'my_disputes_opponents', [
+                    'opponent_id' => $opponent,
+                    'dispute_id' => $project_id
+                ]);
+            }
             $data['project_id'] = $project_id;
             $data['prefix']     = 'DIS-';
             $this->load->model('invoices_model');
@@ -1277,7 +1302,8 @@ class Disputes extends AdminController
                 $data['duedate'] = $installment_date[$cycl] ? $installment_date[$cycl] : $data['duedate'];
                 $data['subtotal'] = $data['total'] = $installment_total[$cycl];
 
-                $invoice_id = $this->invoices_model->add($data);
+                //print_r($data); die();
+                $invoice_id = $this->invoices_model->add($data, false, $opponents);
 
                 if ($invoice_id) {
                     $this->projects_model->log_activity($project_id, 'project_activity_invoiced_project', disputes_format_invoice_number($invoice_id));

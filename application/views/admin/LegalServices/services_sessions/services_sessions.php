@@ -40,6 +40,13 @@
             _l('session_time'),
         ];
         $table_attributes['data-new-rel-slug'] = $service->slug;
+        $custom_fields = get_custom_fields('sessions', [
+            'show_on_table' => 1,
+        ]);
+
+        foreach ($custom_fields as $field) {
+            array_push($table_data, $field['name']);
+        }
         render_datatable($table_data, 'waiting_sessions_log', [], $table_attributes);
         ?>
     </div>
@@ -63,6 +70,13 @@
             _l('Customer_report'),
         ];
         $table_attributes['data-new-rel-slug'] = $service->slug;
+        $custom_fields = get_custom_fields('sessions', [
+            'show_on_table' => 1,
+        ]);
+
+        foreach ($custom_fields as $field) {
+            array_push($table_data, $field['name']);
+        }
         render_datatable($table_data, 'previous_sessions_log', [], $table_attributes);
         ?>
     </div>

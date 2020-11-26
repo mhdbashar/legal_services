@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $hasPermissionEdit   = has_permission('sessions', '', 'edit');
 $hasPermissionDelete = has_permission('sessions', '', 'delete');
-$sessionsPriorities     = get_sessions_priorities();
+$sessionsPriorities  = get_sessions_priorities();
 
 $aColumns = [
     '1', // bulk actions
@@ -30,7 +30,7 @@ array_push($where, 'AND CASE WHEN rel_type="project" AND rel_id IN (SELECT proje
 array_push($where, 'AND deleted = 0');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
-$custom_fields = get_table_custom_fields('tasks');
+$custom_fields = get_table_custom_fields('sessions');
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
@@ -104,7 +104,7 @@ foreach ($rResult as $aRow) {
     if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Sessions_model::STATUS_COMPLETE) {
         $class = 'text-dark disabled';
         $style = 'style="opacity:0.6;cursor: not-allowed;"';
-        if ($aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+        if ($aRow['status'] == Sessions_model::STATUS_COMPLETE) {
             $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
         } elseif ($aRow['billed'] == 1) {
             $tooltip = ' data-toggle="tooltip" data-title="' . _l('session_billed_cant_start_timer') . '"';

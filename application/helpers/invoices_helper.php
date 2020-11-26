@@ -370,6 +370,41 @@ function format_invoice_number($id)
 }
 
 /**
+ * Format dispute invoice number based on description
+ * @param  mixed $id
+ * @return string
+ */
+function format_dispute_invoice_number($id)
+{
+    $CI = & get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'my_project_invoices')
+        ->where('id', $id);
+
+    $invoice = $CI->db->get()->row();
+
+    if (!$invoice) {
+        return '';
+    }
+
+   if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
+
+    return hooks()->apply_filters('format_invoice_number', $number, [
+        'id'      => $id,
+        'invoice' => $invoice,
+    ]);
+}
+
+/**
  * Function that return invoice item taxes based on passed item id
  * @param  mixed $itemid
  * @return array
@@ -443,6 +478,7 @@ function found_invoice_mode($modes, $invoiceid, $offline = true, $show_on_pdf = 
     $CI = & get_instance();
     $CI->db->select('' . db_prefix() . 'currencies.name as currency_name,allowed_payment_modes')->from(db_prefix() . 'invoices')->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency', 'left')->where(db_prefix() . 'invoices.id', $invoiceid);
     $invoice = $CI->db->get()->row();
+    if($invoice)
     if (!is_null($invoice->allowed_payment_modes)) {
         $invoice->allowed_payment_modes = unserialize($invoice->allowed_payment_modes);
         if (count($invoice->allowed_payment_modes) == 0) {

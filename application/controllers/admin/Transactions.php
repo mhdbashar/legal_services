@@ -197,8 +197,8 @@ class Transactions extends AdminController
     }
 
 
-    public function delete_transaction(){
-//        var_dump();exit();
+    public function delete_transaction()
+    {
         $id = $_GET["del_id"];
         $success = $this->transactions_model->changeStatus($id);
         if ($success) {
@@ -221,7 +221,6 @@ class Transactions extends AdminController
     public function delete_transaction_attachment($id, $type = '')
     {
         $direction = $type == 1 ? 'outgoing': 'incoming' ;
-//        var_dump();exit();
         $this->db->where('rel_id', $id);
         $this->db->where('rel_type', 'transaction');
         $file = $this->db->get(db_prefix().'files')->row();

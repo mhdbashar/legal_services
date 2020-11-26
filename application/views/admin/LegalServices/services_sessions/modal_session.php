@@ -325,6 +325,9 @@
                             <?php } ?>
                         </select>
                     </div>
+                    <?php $rel_id_custom_field = (isset($task) ? $task->id : false); ?>
+                    <?php echo render_custom_fields('sessions',$rel_id_custom_field); ?>
+                    <hr />
                     <p class="bold"><?php echo _l('session_info'); ?></p>
                     <?php
                     //onclick and onfocus used for convert ticket to task too

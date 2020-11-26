@@ -205,7 +205,6 @@ echo form_hidden('project_percent',$percent);
     function discussion_comments_case(selector,discussion_id,discussion_type){
         var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_case_discussions_language_array()); ?>);
         var options = {
-            
       // https://github.com/Viima/jquery-comments/pull/169
       wysiwyg_editor: {
             opts: {
@@ -257,6 +256,9 @@ echo form_hidden('project_percent',$percent);
                     textarea.data('comment_index', ++this.opts.comment_index);
                 }
 
+                return $('<div/>', {
+                    'id': this.get_container_id(this.opts.comment_index)
+                });
             },
             get_contents: function(editor) {
                return editor.getContent();
@@ -361,6 +363,7 @@ echo form_hidden('project_percent',$percent);
                 });
             }
         }
+
         var settings = $.extend({}, defaults, options);
         $(selector).comments(settings);
     }
@@ -374,7 +377,6 @@ echo form_hidden('project_percent',$percent);
         // Init single task data
         if (typeof(sessionid) !== 'undefined' && sessionid !== '') { init_session_modal(sessionid); }
     });
-
 
     slug_previous_sessions = $(".table-previous_sessions_log").attr('data-new-rel-slug');
     init_previous_sessions_log_table(project_id, slug_previous_sessions);
@@ -524,7 +526,6 @@ echo form_hidden('project_percent',$percent);
         new_task(admin_url + 'tasks/task?rel_type=<?php echo $service->slug; ?>&rel_id=' + project_id + '&milestone_id=' + milestone_id);
         $('body [data-toggle="popover"]').popover('hide');
     });
-
 
 </script>
 </body>

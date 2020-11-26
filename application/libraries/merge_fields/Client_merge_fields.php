@@ -14,6 +14,8 @@ class Client_merge_fields extends App_merge_fields
                         'client',
                         'ticket',
                         'invoice',
+                        'dispute',
+                        'dispute',
                         'estimate',
                         'project',
                         'credit_note',
@@ -59,6 +61,7 @@ class Client_merge_fields extends App_merge_fields
                         'client',
                         'ticket',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'project',
                         'credit_note',
@@ -78,6 +81,7 @@ class Client_merge_fields extends App_merge_fields
                         'client',
                         'ticket',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'project',
                         'credit_note',
@@ -95,6 +99,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'project',
@@ -141,6 +146,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'project',
@@ -161,6 +167,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -178,6 +185,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -195,6 +203,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -212,6 +221,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -226,6 +236,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -240,6 +251,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -254,6 +266,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -268,6 +281,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',
@@ -282,6 +296,7 @@ class Client_merge_fields extends App_merge_fields
                     'available' => [
                         'client',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'ticket',
                         'contract',

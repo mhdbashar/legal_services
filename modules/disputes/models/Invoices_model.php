@@ -263,7 +263,7 @@ class Invoices_model extends App_Model
 
 
 
-    public function add($data, $expense = false)
+    public function add($data, $expense = false, $opponents)
     {
         //$data['prefix'] = get_option('invoice_prefix');
 
@@ -336,6 +336,7 @@ class Invoices_model extends App_Model
 
         $data  = $hook['data'];
         $items = $hook['items'];
+        unset($data['opponents']);
 
         $this->db->insert(db_prefix() . 'my_project_invoices', $data);
         $insert_id = $this->db->insert_id();
@@ -481,7 +482,10 @@ class Invoices_model extends App_Model
             $this->log_invoice_activity($insert_id, $lang_key);
 
             if ($save_and_send === true) {
-                $this->send_invoice_to_client($insert_id, '', true, '', true);
+                foreach($opponents as $opponent){
+                    $this->send_dispute_to_client($insert_id, '', true, '', true, [], $opponent);
+                }
+
             }
             hooks()->do_action('after_invoice_added', $insert_id);
 
@@ -1121,7 +1125,7 @@ class Invoices_model extends App_Model
             $tags = get_tags_in($_invoice->id, 'invoice');
             handle_tags_save($tags, $id, 'invoice');
 
-            log_activity('Copied Invoice ' . disputes_format_invoice_number($_invoice->id));
+            log_activity('Copied Invoice ' . disputes_format_invoice_number($_invfoice->id));
 
             hooks()->do_action('invoice_copied', ['copy_from' => $_invoice->id, 'copy_id' => $id]);
 
@@ -1137,7 +1141,7 @@ class Invoices_model extends App_Model
      * @param  mixed $id   invoiceid
      * @return boolean
      */
-    public function update($data, $id)
+    public function update($data, $id, $opponents)
     {
         $original_invoice = $this->get($id);
         $affectedRows     = 0;
@@ -1474,7 +1478,11 @@ class Invoices_model extends App_Model
         }
 
         if ($save_and_send === true) {
-            $this->send_invoice_to_client($id, '', true, '', true);
+            //$this->db->where('')
+            foreach($opponents as $opponent){
+                $this->send_dispute_to_client($id, '', true, '', true, [], $opponent);
+            }
+            
         }
 
         if ($affectedRows > 0) {
@@ -1569,6 +1577,9 @@ class Invoices_model extends App_Model
                 $this->db->update(db_prefix() . 'expenses', [
                     'invoiceid' => null,
                 ]);
+
+                $this->db->where('dispute_id', $id);
+                $this->db->delete(db_prefix() . 'my_disputes_opponents');
 
                 $this->db->where('invoice_id', $id);
                 $this->db->update(db_prefix() . 'proposals', [
@@ -1848,19 +1859,20 @@ foreach ($client_ids as $clientid) {
      * @param  boolean $attachpdf attach invoice pdf or not
      * @return boolean
      */
-    public function send_invoice_to_client($id, $template_name = '', $attachpdf = true, $cc = '', $manually = false, $attachStatement = [])
+    public function send_dispute_to_client($id, $template_name = '', $attachpdf = true, $cc = '', $manually = false, $attachStatement = [], $opponent)
     {
+        // var_dump($opponent); exit;
         $invoice = $this->get($id);
 
-        $invoice = hooks()->apply_filters('invoice_object_before_send_to_client', $invoice);
+        $invoice = hooks()->apply_filters('dispute_object_before_send_to_client', $invoice);
 
         if ($template_name == '') {
             if ($invoice->sent == 0) {
-                $template_name = 'invoice_send_to_customer';
+                $template_name = 'dispute_send_to_customer';
             } else {
-                $template_name = 'invoice_send_to_customer_already_sent';
+                $template_name = 'dispute_send_to_customer';
             }
-            $template_name = hooks()->apply_filters('after_invoice_sent_template_statement', $template_name);
+            $template_name = hooks()->apply_filters('after_dispute_sent_template_statement', $template_name);
         }
         $invoice_number = disputes_format_invoice_number($invoice->id);
 
@@ -1871,7 +1883,8 @@ foreach ($client_ids as $clientid) {
         if (!DEFINED('CRON') && $manually === false) {
             $sent_to = $this->input->post('sent_to');
         } else {
-            $contacts = $this->clients_model->get_contacts($invoice->clientid, ['active' => 1, 'invoice_emails' => 1]);
+            $invoice->clientid = $opponent;
+            $contacts = $this->clients_model->get_contacts($invoice->clientid, ['active' => 1]);
 
             foreach ($contacts as $contact) {
                 array_push($sent_to, $contact['id']);
@@ -1941,7 +1954,6 @@ foreach ($client_ids as $clientid) {
         if ($sent) {
             $this->set_invoice_sent($id, false, $emails_sent, true);
             hooks()->do_action('invoice_sent', $id);
-
             return true;
         }
         // In case the invoice not sended and the status was draft and the invoice status is updated before send return back to draft status

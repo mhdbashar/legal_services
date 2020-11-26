@@ -11,6 +11,7 @@ class Other_merge_fields extends App_merge_fields
                         'client',
                         'staff',
                         'invoice',
+                        'dispute',
                         'estimate',
                         'contract',
                         'tasks',

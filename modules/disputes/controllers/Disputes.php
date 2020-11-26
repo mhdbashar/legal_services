@@ -1307,7 +1307,7 @@ class Disputes extends AdminController
                 $data['subtotal'] = $data['total'] = $installment_total[$cycl];
 
                 //print_r($data); die();
-                $invoice_id = $this->invoices_model->add($data);
+                $invoice_id = $this->invoices_model->add($data, false, $opponents);
 
                 if ($invoice_id) {
                     $this->projects_model->log_activity($project_id, 'project_activity_invoiced_project', disputes_format_invoice_number($invoice_id));

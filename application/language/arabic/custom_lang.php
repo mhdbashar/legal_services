@@ -60,6 +60,16 @@ $lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العق�
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
 
 $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['dispute_link'] = "رابط الفاتورة";
+$lang['dispute_number'] = "رقم الفاتورة";
+$lang['dispute_duedate'] = "تاريخ إستحقاق الفاتورة";
+$lang['dispute_date'] = "تاريخ الفاتورة";
+$lang['dispute_status'] = "حالة الفاتورة";
+$lang['dispute_sale_agent'] = "مسؤول مبيعات الفاتورة";
+$lang['dispute_total'] = "إجمالي الفاتورة";
+$lang['dispute_subtotal'] = "المجموع الفرعي للفاتورة";
+$lang['dispute_amount_due'] = "المبلغ المستحق";
+
 $lang['total_should_be_equal_to_disputes_total'] = 'اجمالي الفاتورة يجب أن يساوي  مجموع المطالبات';
 
 $lang['projects_charts'] = "مخطط الخدمات";
@@ -1070,6 +1080,7 @@ $lang['enable_two_factor_sms_authentication'] = "تفعيل التحقق الث�
 $lang['service_name'] = "الموضوع";
 $lang['clients_my_legal'] = "الخدمات القانونية";
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
+$lang['single_legal_summary'] = "ملخص الخدمة القانونية";
 $lang['dialog_box_manage'] = "إدارة مربعات الحوار";
 $lang['dialog_boxes'] = "مربعات الحوار";
 $lang['add_dialog_box'] = "إضافة مربع حوار";

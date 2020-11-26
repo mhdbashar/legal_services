@@ -38,7 +38,8 @@
                                     $field = 'short_name';
                                     $field_city = 'Name_en';
                                 }
-                                $selected = (isset($meta['country']) ? $meta['country'] : '');
+                                $selected = (isset($meta['country']) ? $meta['country'] : get_option('company_country'));
+
                                 ?>
                                 <?php echo render_select( 'country', get_cases_countries($field),array( 'country_id',array($field)), 'lead_country',$selected); ?>
                             </div>
@@ -46,7 +47,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
                                      <?php $data = get_relation_data('build_dropdown_cities',''); ?>
-                                     <?php $selected = (isset($meta['city']) ? $meta['city'] : ''); ?>
+                                     <?php $selected = (isset($meta['city']) ? $meta['city'] : get_option('company_city') ); ?>
                                     <select id="city" name="city" class="form-control">
                                         <option selected disabled></option>
                                        <?php foreach ($data as $row): ?>
@@ -377,7 +378,7 @@
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
 
-            $checked = ' checked';
+            $checked = ' ';
             if(isset($project)){
                 if($project->settings->{$setting} == 0){
                     $checked = '';

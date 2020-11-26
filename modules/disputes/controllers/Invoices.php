@@ -389,6 +389,8 @@ class Invoices extends AdminController
             $installment_date = $invoice_data['installment_date'];
             $installment_total = $invoice_data['installment_total'];
             unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
+            $this->db->where('dispute_id', $invoice_data['project_id']);
+            $this->db->delete(db_prefix() . 'my_disputes_opponents');
 
             foreach ($opponents as $opponent) {
                 $this->db->insert(db_prefix() . 'my_disputes_opponents', [
@@ -407,7 +409,7 @@ class Invoices extends AdminController
                 $invoice_data['duedate'] = $installment_date[$cycl];
                 $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
 
-                $success = $this->invoices_model->update($invoice_data, $id);
+                $success = $this->invoices_model->update($invoice_data, $id, $opponents);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('invoice')));
                 }

@@ -61,6 +61,13 @@ $join = [
     'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
 
+$custom_fields = get_table_custom_fields('sessions');
+
+foreach ($custom_fields as $key => $field) {
+    $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
+    array_push($customFieldsColumns, $selectAs);
+    array_push($aColumns, '(SELECT value FROM ' . db_prefix() . 'customfieldsvalues WHERE ' . db_prefix() . 'customfieldsvalues.relid=' . db_prefix() . 'tasks.id AND ' . db_prefix() . 'customfieldsvalues.fieldid=' . $field['id'] . ' AND ' . db_prefix() . 'customfieldsvalues.fieldto="' . $field['fieldto'] . '" LIMIT 1) as ' . $selectAs);
+}
 
 $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
@@ -214,6 +221,12 @@ foreach ($rResult as $aRow) {
         $stc .= '</a>';
     endif;
     $row[] = $stc;
+
+    // Custom fields add values
+    foreach ($customFieldsColumns as $customFieldColumn) {
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+    }
+
     $output['aaData'][] = $row;
     $i++;
 }

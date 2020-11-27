@@ -498,19 +498,3 @@ li.fancyTab.active a {
 .form-control{
     padding: 3px 12px;
 }
-
-#case-file-discussion > .commenting-field > .textarea-wrapper > .textarea{
-    display: block !important;
-}
-
-#oservice-file-discussion > .commenting-field > .textarea-wrapper > .textarea{
-    display: block !important;
-}
-
-#case-file-discussion > .data-container > .main > .comment > .child-comments > .commenting-field > .textarea-wrapper > .textarea {
-    display: block !important;
-}
-
-#oservice-file-discussion > .data-container > .main > .comment > .child-comments > .commenting-field > .textarea-wrapper > .textarea {
-    display: block !important;
-}

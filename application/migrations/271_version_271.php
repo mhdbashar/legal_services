@@ -1260,7 +1260,7 @@ class Migration_Version_271 extends CI_Migration
                   `updated_at` datetime DEFAULT NULL,
                   `available_until` datetime NOT NULL,
                   `rel_id` int(11) DEFAULT NULL,
-                  `rel_type` varchar(30) DEFAULT NULL,                  
+                  `rel_type` varchar(30) DEFAULT NULL                  
                 ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
 
             $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");

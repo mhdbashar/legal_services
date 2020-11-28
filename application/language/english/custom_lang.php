@@ -1,6 +1,9 @@
 <?php
+$lang['principalId'] = "identification number for one of the attorney principals";
+$lang['agentId'] = "identification number for one of the attorney agents";
+$lang['loading'] = 'Loading';
 
-
+$lang['settings_general_wathq_api_key'] = 'Wathq api key';
 $lang['total_should_be_equal_to_disputes_total'] = 'Total should be equal to disputes total';
 
 $lang['projects_charts'] = "Projects Charts";

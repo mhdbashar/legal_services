@@ -15,6 +15,9 @@
     }
     $type = '';
     $case = '';
+    $principalId = '';
+    $agentId = '';
+    $description = '';
   }else{
     $selected_cases = $procuration->cases;
     $start_date = $procuration->start_date;
@@ -25,8 +28,11 @@
     $status = $procuration->status;
     $type = $procuration->type;
     $case = $procuration->case_id;
+    $description = $procuration->description;
+    $principalId = $procuration->principalId;
+    $agentId = $procuration->agentId;
   }
-
+// add_option('wathq_api_key', 'eaQFFTW5oOLH5a908nkCcK78Z1PQ1FAx');
 ?>
 
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
@@ -44,22 +50,43 @@
             <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'expense-form','class'=>'dropzone dropzone-manual')) ;?>
 
             <!-- enable language edit -->
-            <div class="row">
-              <div class="col-md-6">
-                <?php echo render_date_input('start_date', _l('start_date'), _d($start_date), ['required' => 'required']); ?>
+              <div class="NO">
+                  <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
+                  <?php echo render_input('principalId', _l('principalId'), $principalId, 'text', ['required' => 'required']); ?>
+                  <?php echo render_input('agentId', _l('agentId'), $agentId, 'text'); ?>
+
+
               </div>
-              <div class="col-md-6">
-                <?php echo render_date_input('end_date', _l('end_date'), _d($end_date), ['required' => 'required']); ?>
+            <div id="loading" class="hide">
+              <p class="text-center">
+                <?php echo _l('loading') ?> ...
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-md-6" id="start-date">
+                <?php echo render_input('start_date', _l('start_date'), _d($start_date), 'text', [
+                  'required' => 'required',
+                  'readonly' => 'true'
+                ]); ?>
+              </div>
+              <div class="col-md-6" id="end-date">
+                <?php echo render_input('end_date', _l('end_date'), _d($end_date), 'text', [
+                  'required' => 'required',
+                  'readonly' => 'true'
+                ]); ?>
               </div>
             </div>
-            <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
+            <?php echo render_textarea('description', 'gdpr_description', $description, [
+              'required' => 'required',
+              'readonly' => 'true'
+            ]) ?>
             <?php echo render_input('come_from', _l('come_from'), $come_from, 'text', ['required' => 'required']); ?>
-            
+
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
                             <?php
                             if(is_numeric($request)) {
-                              $disabled =  'disabled'; 
+                              $disabled =  'disabled';
                               echo form_hidden('client', $request);
                             }
                             else {
@@ -89,10 +116,10 @@
                                   <?php foreach ($states as $key => $value){ ?>
 
                                     <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
-                                    
+
                                   <?php } ?>
                                 </select>
-                                
+
                                 </div>
                               </div>
                           </div>
@@ -106,10 +133,10 @@
                                   <?php foreach ($types as $key => $value){ ?>
 
                                     <option <?php if($type == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationtype'] ?></option>
-                                    
+
                                   <?php } ?>
                                 </select>
-                                
+
                                 </div>
                             </div>
                           </div>
@@ -147,18 +174,18 @@
                   <div class="dropzone-previews"></div>
                   <?php } ?>
                   </div>
-                            
-                         
+
+
                   <hr class="hr-panel-heading" />
-                         
+
 
                         <!-- for testing -->
-                        
+
             <!-- <p class="bold"><?php echo _l('procuration_message'); ?></p> -->
             <!-- <?php $contents = ''; if(isset($procuration)){$contents = $procuration->message;} ?> -->
             <!-- <?php echo render_textarea('message','',$contents,array(),array(),'','tinymce'); ?> -->
 
-          
+
             <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
             <?php echo form_close(); ?>
           </div>
@@ -173,6 +200,52 @@
     _validate_form($('form'),{procuration:'required'});
   });
 
+</script>
+<script>
+  $(function() {
+    $('body').on('change','.NO', async function(){
+      var procuration_number = $('input[name=NO]').val();
+      var principalId = $('input[name=principalId]').val();
+      var agentId = $('input[name=agentId]').val();
+      console.log(principalId + " " + agentId)
+      if(procuration_number != '' && principalId != '')
+      {
+          $('#loading').removeClass('hide');
+          let url = `https://api.wathq.sa/v1/attorney/info/${procuration_number}?principalId=${principalId}&agentId=${agentId}`;
+          await fetch(url, {
+              method: 'GET', // or 'PUT'
+              headers: {
+                  'Accept': 'application/json',
+                  'apiKey': "<?php echo get_option("wathq_api_key") ?>"
+              }
+          })
+              .then(response => response.json())
+              .then(data => {
+                  if(data.text)
+                  {
+                      $('input[name=start_date]').val(data.issueHijriDate);//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('input[name=end_date]').val(data.expiryHijriDate);//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('textarea[name=description]').val(data.text);
+                  }else{
+                      $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('textarea[name=description]').val('');
+                  }
+
+
+              })
+              .catch(function(error) {
+                  console.log(error);
+                  $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                  $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                  $('textarea[name=description]').val('');
+              });
+
+          $('#loading').addClass('hide');
+      }
+
+    });
+  })
 </script>
 <script>
    var customer_currency = '';
@@ -220,7 +293,7 @@
       client: 'required',
     },expenseSubmitHandler);
 
-     
+
      function expenseSubmitHandler(form){
 
 
@@ -252,7 +325,7 @@
       return false;
     }
   })
-    
+
 </script>
 </body>
 </html>

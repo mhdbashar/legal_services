@@ -126,6 +126,7 @@
     </table>
 </div>
 <script type="text/javascript">
+   <?php /*
     // Create new session directly from relation, related options selected after modal is shown
     // function new_session_modal(table, rel_type, rel_id) {
     //     if (typeof(rel_type) == 'undefined' && typeof(rel_id) == 'undefined') {
@@ -195,7 +196,7 @@
     //         $('#task-modal').modal('hide');
     //         alert_float('danger', data.responseText);
     //     });
-    // }
+    // } */?>
 
     // Task single edit description with inline editor, used from task single modal
     function edit_session_inline_court_decision(e, id) {
@@ -338,6 +339,7 @@
         });
     }
 
+    <?php /*
      // Handles task add/edit form modal.
      // function session_form_handler(form) {
      //     tinymce.triggerSave();
@@ -388,5 +390,5 @@
      //     });
      //
      //     return false;
-     // }
+     // } */?>
 </script>

@@ -101,11 +101,11 @@
          <?php } ?>
          <?php } ?>
          <?php
-            $custom_fields = get_custom_fields('tasks',array('show_on_client_portal'=>1));
+            $custom_fields = get_custom_fields('sessions',array('show_on_client_portal'=>1));
             if(count($custom_fields) > 0){ ?>
          <div class="row">
             <?php foreach($custom_fields as $field){ ?>
-            <?php $value = get_custom_field_value($view_task->id,$field['id'],'tasks');
+            <?php $value = get_custom_field_value($view_task->id,$field['id'],'sessions');
                if($value == ''){continue;} $custom_fields_found = true;?>
             <div class="col-md-9">
                <span class="bold"><?php echo ucfirst($field['name']); ?></span>

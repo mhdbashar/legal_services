@@ -60,7 +60,30 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                         <?php } else { ?>
                             <?php $this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
                             <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-sessions"><?php echo _l('bulk_actions'); ?></a>
-                            <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
+                            <div class="horizontal-scrollable-tabs preview-tabs-top">
+                                <div class="horizontal-tabs">
+                                    <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
+                                        <li role="presentation" class="active" >
+                                            <a href="#Waiting_sessions" aria-controls="Waiting_sessions" role="tab" data-toggle="tab">
+                                                <?php echo _l('Waiting_sessions'); ?>
+                                            </a>
+                                        </li>
+                                        <li role="presentation" class="tab-separator">
+                                            <a href="#Previous_Sessions" aria-controls="Previous_Sessions" role="tab" data-toggle="tab">
+                                                <?php echo _l('Previous_Sessions') ?>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="Waiting_sessions">
+                                    <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
+                                </div>
+                                <div role="tabpanel" class="tab-pane " id="Previous_Sessions">
+                                    <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
+                                </div>
+                            </div>
                             <?php $this->load->view('admin/sessions/_bulk_actions'); ?>
                         <?php } ?>
                     </div>

@@ -722,9 +722,9 @@
             </h5>
          </div>
          <?php } ?>
-         <?php $custom_fields = get_custom_fields('tasks');
+         <?php $custom_fields = get_custom_fields('sessions');
             foreach($custom_fields as $field){ ?>
-         <?php $value = get_custom_field_value($task->id,$field['id'],'tasks');
+         <?php $value = get_custom_field_value($task->id,$field['id'],'sessions');
             if($value == ''){continue;}?>
          <div class="task-info">
             <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">

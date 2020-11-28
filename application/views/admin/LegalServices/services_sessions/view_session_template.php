@@ -52,25 +52,25 @@
                     echo '<div class="mtop5 mbot20 font-normal">' . _l('task_milestone') . ': ';
                     $milestones = get_project_milestones($task->rel_id);
                     if(has_permission('sessions','','edit') && count($milestones) > 1){ ?>
-                        <span class="task-single-menu task-menu-milestones">
-            <span class="trigger pointer manual-popover text-has-action">
-            <?php echo $task->milestone_name; ?>
-            </span>
-            <span class="content-menu hide">
-               <ul>
-                  <?php
-                  foreach($milestones as $milestone){ ?>
-                      <?php if($task->milestone != $milestone['id']){ ?>
-                          <li>
-                     <a href="#" onclick="task_change_milestone(<?php echo $milestone['id']; ?>,<?php echo $task->id; ?>); return false;">
-                     <?php echo $milestone['name']; ?>
-                     </a>
-                  </li>
-                      <?php } ?>
-                  <?php } ?>
-               </ul>
-            </span>
-         </span>
+                    <span class="task-single-menu task-menu-milestones">
+                        <span class="trigger pointer manual-popover text-has-action">
+                        <?php echo $task->milestone_name; ?>
+                        </span>
+                        <span class="content-menu hide">
+                           <ul>
+                              <?php
+                              foreach($milestones as $milestone){ ?>
+                                  <?php if($task->milestone != $milestone['id']){ ?>
+                                      <li>
+                                 <a href="#" onclick="task_change_milestone(<?php echo $milestone['id']; ?>,<?php echo $task->id; ?>); return false;">
+                                 <?php echo $milestone['name']; ?>
+                                 </a>
+                              </li>
+                                  <?php } ?>
+                              <?php } ?>
+                           </ul>
+                        </span>
+                     </span>
                     <?php } else {
                         echo $task->milestone_name;
                     }
@@ -715,9 +715,9 @@
                     </h5>
                 </div>
             <?php } ?>
-            <?php $custom_fields = get_custom_fields('tasks');
+            <?php $custom_fields = get_custom_fields('sessions');
             foreach($custom_fields as $field){ ?>
-                <?php $value = get_custom_field_value($task->id,$field['id'],'tasks');
+                <?php $value = get_custom_field_value($task->id,$field['id'],'sessions');
                 if($value == ''){continue;}?>
                 <div class="task-info">
                     <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">

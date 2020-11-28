@@ -434,6 +434,32 @@
                                 </div>
                             </div>
                         </div>
+                        <?php if(isset($case) && project_has_recurring_tasks($case->id)) { ?>
+                            <div class="alert alert-warning recurring-tasks-notice hide"></div>
+                        <?php } ?>
+                        <?php if(is_email_template_active('project-finished-to-customer')){ ?>
+                            <div class="form-group project_marked_as_finished hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="project_marked_as_finished_email_to_contacts" id="project_marked_as_finished_email_to_contacts">
+                                    <label for="project_marked_as_finished_email_to_contacts"><?php echo _l('project_marked_as_finished_to_contacts'); ?></label>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <?php if(isset($case)){ ?>
+                            <div class="form-group mark_all_tasks_as_completed hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="mark_all_tasks_as_completed" id="mark_all_tasks_as_completed">
+                                    <label for="mark_all_tasks_as_completed"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
+                                </div>
+                            </div>
+                            <div class="notify_project_members_status_change hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="notify_project_members_status_change" id="notify_project_members_status_change">
+                                    <label for="notify_project_members_status_change"><?php echo _l('notify_project_members_status_change'); ?></label>
+                                </div>
+                                <hr />
+                            </div>
+                        <?php } ?>
                         <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
                         <?php echo render_textarea('description','',$case->description,array(),array(),'','tinymce'); ?>
                         <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>

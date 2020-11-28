@@ -402,7 +402,7 @@ class Sessions_model extends App_Model
 
     public function copy_task_custom_fields($from_task, $to_task)
     {
-        $custom_fields = get_custom_fields('tasks');
+        $custom_fields = get_custom_fields('sessions');
         foreach ($custom_fields as $field) {
             $value = get_custom_field_value($from_task, $field['id'], 'tasks', false);
             if ($value != '') {

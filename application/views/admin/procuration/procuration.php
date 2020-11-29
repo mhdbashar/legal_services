@@ -52,7 +52,7 @@
             <!-- enable language edit -->
               <div class="NO">
                   <?php echo render_input('NO', _l('procuration_number'), $NO, 'text', ['required' => 'required']); ?>
-                  <?php echo render_input('principalId', _l('principalId'), $principalId, 'text', ['required' => 'required']); ?>
+                  <?php echo render_input('principalId', _l('principalId'), $principalId, 'text'); ?>
                   <?php echo render_input('agentId', _l('agentId'), $agentId, 'text'); ?>
 
 
@@ -150,30 +150,30 @@
                                 }
                                 echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                             ?>
-                  <div>
-                    <div class="clearfix"></div>
-                    <label class="col-form-label">
-                      <?php echo _l('procuration_file') ?>
-                    </label>
-                  <?php if(isset($procuration) && $procuration->attachment !== ''){ ?>
-                    <div class="row">
-                     <div class="col-md-10">
-                        <i class="<?php echo get_mime_class($procuration->filetype); ?>"></i> <a href="<?php echo site_url('uploads/procurations/'.$procuration->id.'/'.$procuration->attachment); ?>"><?php echo $procuration->attachment; ?></a>
-                     </div>
-                     <?php if($procuration->attachment_added_from == get_staff_user_id() || is_admin()){ ?>
-                     <div class="col-md-2 text-right">
-                        <a href="<?php echo admin_url('procuration/delete_procuration_attachment/'.$procuration->id); ?>" class="text-danger _delete"><i class="fa fa fa-times"></i></a>
-                     </div>
-                     <?php } ?>
-                  </div>
-                  <?php } ?>
-                  <?php if(!isset($procuration) || (isset($procuration) && $procuration->attachment == '')){ ?>
-                  <div id="dropzoneDragArea" class="dz-default dz-message">
-                     <span><?php echo _l('expense_add_edit_attach_receipt'); ?></span>
-                  </div>
-                  <div class="dropzone-previews"></div>
-                  <?php } ?>
-                  </div>
+<!--                  <div>-->
+<!--                    <div class="clearfix"></div>-->
+<!--                    <label class="col-form-label">-->
+<!--                      --><?php //echo _l('procuration_file') ?>
+<!--                    </label>-->
+<!--                  --><?php //if(isset($procuration) && $procuration->attachment !== ''){ ?>
+<!--                    <div class="row">-->
+<!--                     <div class="col-md-10">-->
+<!--                        <i class="--><?php //echo get_mime_class($procuration->filetype); ?><!--"></i> <a href="--><?php //echo site_url('uploads/procurations/'.$procuration->id.'/'.$procuration->attachment); ?><!--">--><?php //echo $procuration->attachment; ?><!--</a>-->
+<!--                     </div>-->
+<!--                     --><?php //if($procuration->attachment_added_from == get_staff_user_id() || is_admin()){ ?>
+<!--                     <div class="col-md-2 text-right">-->
+<!--                        <a href="--><?php //echo admin_url('procuration/delete_procuration_attachment/'.$procuration->id); ?><!--" class="text-danger _delete"><i class="fa fa fa-times"></i></a>-->
+<!--                     </div>-->
+<!--                     --><?php //} ?>
+<!--                  </div>-->
+<!--                  --><?php //} ?>
+<!--                  --><?php //if(!isset($procuration) || (isset($procuration) && $procuration->attachment == '')){ ?>
+<!--                  <div id="dropzoneDragArea" class="dz-default dz-message">-->
+<!--                     <span>--><?php //echo _l('expense_add_edit_attach_receipt'); ?><!--</span>-->
+<!--                  </div>-->
+<!--                  <div class="dropzone-previews"></div>-->
+<!--                  --><?php //} ?>
+<!--                  </div>-->
 
 
                   <hr class="hr-panel-heading" />
@@ -207,8 +207,7 @@
       var procuration_number = $('input[name=NO]').val();
       var principalId = $('input[name=principalId]').val();
       var agentId = $('input[name=agentId]').val();
-      console.log(principalId + " " + agentId)
-      if(procuration_number != '' && principalId != '')
+      if(procuration_number != '' && (principalId != '' || agentId != ''))
       {
           $('#loading').removeClass('hide');
           let url = `https://api.wathq.sa/v1/attorney/info/${procuration_number}?principalId=${principalId}&agentId=${agentId}`;

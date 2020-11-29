@@ -92,6 +92,7 @@ foreach ($rResult as $aRow) {
     
     if (has_permission('procurations', '', 'delete') || is_admin())
     $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $options .= icon_btn('procuration/pdf/' . $aRow['id'] . '?output_type=I', 'download', 'btn-default');
     
     $row[]   = $options;
 

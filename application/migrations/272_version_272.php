@@ -18,11 +18,11 @@ class Migration_Version_272 extends CI_Migration
         }
 
         if (!$this->db->field_exists('principalId', 'procurations')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `principalId` TEXT NULL;');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `principalId` int(11) NULL;');
         }
 
         if (!$this->db->field_exists('agentId', 'procurations')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `agentId` TEXT NULL;');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `agentId` int(11) NULL;');
         }
 
     }

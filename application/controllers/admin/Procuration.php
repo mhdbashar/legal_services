@@ -97,8 +97,8 @@ class Procuration extends AdminController
             $type = 'I';
         }
 
-        $pdf_name = slug_it(_l('customer_statement') . '_' . get_option('companyname'));
-        $pdf->Output($pdf_name . '.pdf', $type);
+        $pdf_name = $procuration->name;
+        $pdf->Output(mb_strtoupper(slug_it($pdf_name)) . '.pdf', $type);
 
     }
 

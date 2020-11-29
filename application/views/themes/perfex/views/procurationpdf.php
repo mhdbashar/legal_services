@@ -13,7 +13,11 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
-$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('procuration') . '</span><br />';
+$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("procuration_number").' :     ' . $NO .'</p>';
+$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("date").' :     ' . $start_date .'</p>';
+$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("end_date").' :     ' . $end_date .'</p>';
+
+$info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . $name . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $NO . '</b>';
 
 // Add logo
@@ -22,7 +26,6 @@ $info_left_column .= pdf_logo_url();
 // Write top left logo and right column info/text
 pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
-$pdf->ln(10);
 
 $organization_info = '<div style="color:#424242;">';
 
@@ -39,45 +42,44 @@ $organization_info .= '</div>';
 // pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
 // The Table
-$pdf->Ln(hooks()->apply_filters('pdf_info_and_table_separator', 6));
-
-$pdf->Ln(8);
+// $pdf->Ln(hooks()->apply_filters('pdf_info_and_table_separator', 6));
 
 
-$principal = '';
-$principal .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("principalId").':<br />' . $principalId .'</p>';
 
-$pdf->writeHTML($principal, true, false, false, false, $align);
+// $principal = '';
+// $principal .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("principalId").':<br />' . $principalId .'</p>';
 
-$pdf->Ln(8);
+// $pdf->writeHTML($principal, true, false, false, false, $align);
 
-
-$agent = '';
-$agent .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("agentId").':<br />' . $agentId .'</p>';
-
-$pdf->writeHTML($agent, true, false, false, false, $align);
-
-$pdf->Ln(8);
+// $pdf->Ln(3);
 
 
-$_start_date = '';
-$_start_date .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("start_date").':<br />' . $start_date .'</p>';
+// $agent = '';
+// $agent .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("agentId").':<br />' . $agentId .'</p>';
 
-$pdf->writeHTML($_start_date, true, false, false, false, $align);
+// $pdf->writeHTML($agent, true, false, false, false, $align);
 
-$pdf->Ln(8);
+// $pdf->Ln(8);
 
 
-$_end_date = '';
-$_end_date .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("end_date").':<br />' . $end_date .'</p>';
+// $_start_date = '';
+// $_start_date .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("start_date").':<br />' . $start_date .'</p>';
 
-$pdf->writeHTML($_end_date, true, false, false, false, $align);
+// $pdf->writeHTML($_start_date, true, false, false, false, $align);
 
-$pdf->Ln(8);
+// $pdf->Ln(8);
+
+
+// $_end_date = '';
+// $_end_date .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("end_date").':<br />' . $end_date .'</p>';
+
+// $pdf->writeHTML($_end_date, true, false, false, false, $align);
+
+$pdf->Ln(3);
 
 
 $desc = '';
-$desc .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px; text-align: center"> '._l("gdpr_description").':<br /><br /><br />' . $description .'</p>';
+$desc .= '<div cellpadding="6" style=""><span style="font-size:' . ($font_size + 10) . 'px; text-align: center">'._l("procuration").'</span><br /><br /><div style="font-size:' . ($font_size + 7) . 'px;">' . $description .'</div></div>';
 
 $pdf->writeHTML($desc, true, false, false, false, $align);
 

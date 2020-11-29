@@ -18,6 +18,7 @@
     $principalId = '';
     $agentId = '';
     $description = '';
+    $name = '';
   }else{
     $selected_cases = $procuration->cases;
     $start_date = $procuration->start_date;
@@ -31,6 +32,7 @@
     $description = $procuration->description;
     $principalId = $procuration->principalId;
     $agentId = $procuration->agentId;
+    $name = $procuration->name;
   }
 // add_option('wathq_api_key', 'eaQFFTW5oOLH5a908nkCcK78Z1PQ1FAx');
 ?>
@@ -76,6 +78,32 @@
                 ]); ?>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-md-6" id="name">
+                <?php echo render_input('name', _l('name'), ($name), 'text', [
+                  'required' => 'required',
+                  'readonly' => 'true'
+                ]); ?>
+              </div>
+              <div class="col-md-6">
+
+
+                <?php
+
+                $status_name = '';
+                 foreach ($states as $key => $value){ 
+                  if($status == $value['id'])
+                    $status_name = $value['procurationstate'];
+                } ?>
+
+                <?php echo render_input('status_name', _l('status'), ($status_name), 'text', [
+                  'required' => 'required',
+                  'disabled' => 'true'
+                ]); ?>
+              </div>
+              <?php echo form_hidden('status', $status); ?>
+            </div>
             <?php echo render_textarea('description', 'gdpr_description', $description, [
               'required' => 'required',
               'readonly' => 'true'
@@ -108,7 +136,7 @@
                       </div>
 
                          <div class="row">
-                          <div class="col-md-6">
+                          <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="status" class="col-form-label"><?php echo _l('status') ?>:</label>
                                 <div class="row-fluid">
@@ -122,9 +150,9 @@
 
                                 </div>
                               </div>
-                          </div>
+                          </div> -->
 
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group">
                                 <label for="type" class="col-form-label"><?php echo _l('procurationtype') ?>:</label>
                                 <div class="row-fluid">
@@ -225,9 +253,17 @@
                       $('input[name=start_date]').val(data.issueHijriDate);//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=end_date]').val(data.expiryHijriDate);//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('textarea[name=description]').val(data.text);
+                      $('input[name=name]').val(data.location.name);
+
+                      let status = '';
+                      if(data.status == 'active')
+                        status = 1;
+                      $('input[name=status_name]').val(data.status);
+                      $('input[name=status]').val(status);
                   }else{
                       $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('input[name=name]').val('');
                       $('textarea[name=description]').val('');
                   }
 
@@ -238,6 +274,7 @@
                   $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                   $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                   $('textarea[name=description]').val('');
+                  $('input[name=name]').val('');
               });
 
           $('#loading').addClass('hide');

@@ -30,6 +30,7 @@ class Procuration_pdf extends App_pdf
             'NO'           => $this->procuration->NO,
             'procuration'             => $this->procuration,
             'start_date'    => $this->procuration->start_date,
+            'name'    => $this->procuration->name,
             'end_date'      => $this->procuration->end_date
         ]);
 

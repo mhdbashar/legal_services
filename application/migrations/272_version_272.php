@@ -25,5 +25,9 @@ class Migration_Version_272 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `agentId` int(11) NULL;');
         }
 
+        if (!$this->db->field_exists('name', 'procurations')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `name` VARCHAR(11) NULL;');
+        }
+
     }
 }

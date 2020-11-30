@@ -82,7 +82,6 @@
     </div>
 </div>
 
-
 <div id="session_report_data" class="hide">
     <h3 align="center"><u><?php echo _l('session_report'); ?></u></h3>
     <table class="table scroll-responsive" style="border: 1px solid #ebf5ff">

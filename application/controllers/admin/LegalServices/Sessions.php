@@ -73,9 +73,18 @@ class Sessions extends AdminController
         echo $this->load->view('admin/sessions/my_kan_ban', ['rel_type' => $rel_type], true);
     }
 
-    public function table()
+    public function table($session_status)
     {
-        $this->app->get_table_data('sessions');
+        die($session_status);
+        if($session_status == 'previous_sessions_log'):
+            $this->app->get_table_data('previous_sessions_log', [
+                'all' => true,
+            ]);
+        else:
+            $this->app->get_table_data('waiting_sessions_log', [
+                'all' => true,
+            ]);
+        endif;
     }
 
     public function kanban()

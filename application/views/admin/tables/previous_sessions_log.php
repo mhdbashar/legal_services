@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $hasPermissionEdit   = has_permission('sessions', '', 'edit');
-$hasPermissionDelete = has_permission('sessionst', '', 'delete');
+$hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
 $aColumns = [

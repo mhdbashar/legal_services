@@ -38,12 +38,11 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                         <?php echo render_input('search','','','search',array('data-name'=>'search','onkeyup'=>'sessions_kanban();','placeholder'=>_l('search_sessions')),array(),'no-margin') ?>
                                     </div>
                                 <?php } else { ?>
-                                    <?php $this->load->view('admin/sessions/tasks_filter_by',array('view_table_name'=>'.table-sessions')); ?>
+                                    <?php //$this->load->view('admin/sessions/tasks_filter_by',array('view_table_name'=>'.table-sessions')); ?>
                                     <a href="<?php echo admin_url('LegalServices/sessions/detailed_overview'); ?>" class="btn btn-success pull-right mright5"><?php echo _l('session_detailed_overview'); ?></a>
                                 <?php } ?>
                             </div>
                         </div>
-                        <hr class="hr-panel-heading hr-10" />
                         <div class="clearfix"></div>
                         <?php
                         if($this->session->has_userdata('tasks_kanban_view') && $this->session->userdata('tasks_kanban_view') == 'true') { ?>
@@ -58,8 +57,10 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                 </div>
                             </div>
                         <?php } else { ?>
-                            <?php $this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
+                            <?php //$this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
                             <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-sessions"><?php echo _l('bulk_actions'); ?></a>
+                            <br>
+                            <br>
                             <div class="horizontal-scrollable-tabs preview-tabs-top">
                                 <div class="horizontal-tabs">
                                     <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
@@ -78,10 +79,10 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                             </div>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="Waiting_sessions">
-                                    <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
+                                    <?php $this->load->view('admin/sessions/watting_sessions_table',array('bulk_actions'=>true)); ?>
                                 </div>
                                 <div role="tabpanel" class="tab-pane " id="Previous_Sessions">
-                                    <?php $this->load->view('admin/sessions/_table',array('bulk_actions'=>true)); ?>
+                                    <?php $this->load->view('admin/sessions/previous_sessions_table',array('bulk_actions'=>true)); ?>
                                 </div>
                             </div>
                             <?php $this->load->view('admin/sessions/_bulk_actions'); ?>

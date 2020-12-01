@@ -11,7 +11,6 @@ class Sessions extends AdminController
         $this->load->model('projects_model');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -73,16 +72,13 @@ class Sessions extends AdminController
         echo $this->load->view('admin/sessions/my_kan_ban', ['rel_type' => $rel_type], true);
     }
 
-    public function table($session_status)
+    public function table($session_status='')
     {
-        die($session_status);
-        if($session_status == 'previous_sessions_log'):
-            $this->app->get_table_data('previous_sessions_log', [
-                'all' => true,
-            ]);
+        if($session_status == ''):
+            $this->app->get_table_data('sessions');
         else:
-            $this->app->get_table_data('waiting_sessions_log', [
-                'all' => true,
+            $this->app->get_table_data($session_status, [
+                'all_data' => true,
             ]);
         endif;
     }
@@ -336,6 +332,7 @@ class Sessions extends AdminController
             $this->app->get_table_data('previous_sessions_log', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
+                'all_data' => false,
             ]);
         }
     }
@@ -346,6 +343,7 @@ class Sessions extends AdminController
             $this->app->get_table_data('waiting_sessions_log', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
+                'all_data' => false,
             ]);
         }
     }
@@ -461,9 +459,9 @@ class Sessions extends AdminController
             endif;
         endforeach;
         $data['legal_services'] = $this->legal->get_all_services();
-        $data['judges']         = $this->service_sessions->get_judges();
-        $data['courts']         = $this->service_sessions->get_court();
-        $data['service_id']     = $ServID;
+        $data['judges']         = $this->sessions_model->get_judges();
+        $data['courts']         = $this->sessions_model->get_court();
+        //$data['service_id']     = $ServID;
         $data['title']          = $title;
         $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
         //$this->load->view('admin/sessions/task', $data);
@@ -568,8 +566,8 @@ class Sessions extends AdminController
         }
         $data['id']             = $id;
         $data['legal_services'] = $this->legal->get_all_services();
-        $data['judges']         = $this->service_sessions->get_judges();
-        $data['courts']         = $this->service_sessions->get_court();
+        $data['judges']         = $this->sessions_model->get_judges();
+        $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
         $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
     }
@@ -1654,5 +1652,62 @@ class Sessions extends AdminController
                 set_alert('success', _l('total_tasks_deleted', $total_deleted));
             }
         }
+    }
+
+    //New functions added for sessions
+    public function edit_customer_report($id)
+    {
+        if(!$id){
+            set_alert('danger', _l('WrongEntry'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            echo $this->sessions_model->update_customer_report($id, $data);
+        }
+    }
+
+    public function update_session_court_decision($id)
+    {
+        if (has_permission('tasks', '', 'edit')) {
+            $this->db->where('task_id', $id);
+            $this->db->update(db_prefix() . 'my_session_info', [
+                'court_decision' => $this->input->post('court_decision', false),
+            ]);
+        }
+    }
+
+    public function update_session_information($id)
+    {
+        if (has_permission('tasks', '', 'edit')) {
+            $this->db->where('task_id', $id);
+            $this->db->update(db_prefix() . 'my_session_info', [
+                'session_information' => $this->input->post('session_information', false),
+            ]);
+        }
+    }
+
+    public function send_report_to_customer($task_id)
+    {
+        echo $this->sessions_model->update_send_to_customer($task_id);
+    }
+
+    public function print_report($task_id)
+    {
+        $response = array();
+        $response = $this->sessions_model->get_session_data($task_id);
+        $client_id = get_client_id_by_case_id($response->tbl1);
+        $opponent_id = get_opponent_id_by_case_id($response->tbl1);
+        $client_name = get_company_name($client_id);
+        $opponent_name = get_company_name($opponent_id);
+        $response->tbl2 = $client_name;
+        $response->tbl3 = $opponent_name;
+        echo json_encode($response);
+    }
+
+    public function checklist_items_description($task_id)
+    {
+        $response = $this->sessions_model->get_checklist_items_description($task_id);
+        echo json_encode($response);
     }
 }

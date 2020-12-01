@@ -43,6 +43,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                 <?php } ?>
                             </div>
                         </div>
+                        <hr class="hr-panel-heading hr-10" />
                         <div class="clearfix"></div>
                         <?php
                         if($this->session->has_userdata('tasks_kanban_view') && $this->session->userdata('tasks_kanban_view') == 'true') { ?>
@@ -57,7 +58,7 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
                                 </div>
                             </div>
                         <?php } else { ?>
-                            <?php //$this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
+                            <?php $this->load->view('admin/sessions/_summary',array('table'=>'.table-sessions')); ?>
                             <a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-sessions"><?php echo _l('bulk_actions'); ?></a>
                             <br>
                             <br>
@@ -93,12 +94,153 @@ $rel_type = isset($rel_type) ? $rel_type : 'project';
         </div>
     </div>
 </div>
+<div id="session_report_data" class="hide">
+    <h3 align="center"><u><?php echo _l('session_report'); ?></u></h3>
+    <table class="table scroll-responsive" style="border: 1px solid #ebf5ff">
+        <thead>
+        <tr>
+            <th style="width: 30%"><?php echo _l('case_number'); ?></th>
+            <td id="tbl1"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%"><?php echo _l('Parties_case'); ?></th>
+            <td>
+                <p> <?php echo _l('claimant'); ?> <b id="tbl2"></b></p>
+                <p> <?php echo _l('accused'); ?> <b id="tbl3"></b></p>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('court_competent_follow'); ?></th>
+            <td id="tbl4"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('Current_session_date'); ?></th>
+            <td id="tbl5"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('Next_session_date'); ?></th>
+            <td id="tbl6"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('Proceedings_of_session'); ?></th>
+            <td id="tbl7"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('Court_decision'); ?></th>
+            <td id="tbl8"></td>
+        </tr>
+        <tr>
+            <th style="width: 30%;"><?php echo _l('upcoming_actions'); ?></th>
+            <td id="tbl9"></td>
+        </tr>
+        </thead>
+    </table>
+</div>
 <?php init_tail(); ?>
 <script>
     taskid = '<?php echo $taskid; ?>';
     $(function(){
         sessions_kanban();
+
+        initDataTable('.table-previous_sessions_log', admin_url + 'LegalServices/Sessions/table/previous_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
+        initDataTable('.table-waiting_sessions_log', admin_url + 'LegalServices/Sessions/table/waiting_sessions_log', undefined, undefined, 'undefined', [0, 'asc']);
     });
+
+    function print_session_report(task_id) {
+        disabled_print_btn(task_id);
+        $("#tbl9").html('');
+        tag = '#';
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/print_report/"); ?>' + task_id,
+            success: function (data) {
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    if (value == '') {
+                        value = '<?php echo _l('smtp_encryption_none') ?>';
+                    }
+                    $(tag + key).html(value);
+                });
+            }
+        });
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/checklist_items_description/"); ?>' + task_id,
+            success: function (data) {
+                arr = JSON.parse(data);
+                if (arr.length == 0) {
+                    $("#tbl9").html(
+                        '<?php echo _l('session_no_checklist_items_found') ?>'
+                    );
+                }else {
+                    $.each(arr, function (row, item) {
+                        $("#tbl9").append(
+                            '<p>- ' + item.description + '</p>'
+                        );
+                    });
+                }
+            }
+        });
+        setTimeout(function(){
+            var printContents = document.getElementById("session_report_data").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        },2000);
+    }
+
+    function send_report(task_id) {
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/send_report_to_customer/"); ?>' + task_id,
+            success: function (data) {
+                if(data == 1){
+                    alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
+                    reload_tasks_tables();
+                }else if (data == 2){
+                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                }else {
+                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                }
+            }
+        });
+    }
+
+    function edit_customer_report(task_id) {
+        next_session_date = $('#next_session_date'+task_id).val();
+        next_session_time = $('#next_session_time'+task_id).val();
+        court_decision    = $('#edit_court_decision'+task_id).val();
+        send_mail_to_opponent    = $('#send_mail_to_opponent'+task_id).prop("checked");
+        if(next_session_date == '' || next_session_time == '' || court_decision == ''){
+            alert_float('danger', '<?php echo _l('form_validation_required'); ?>');
+        }else {
+            $.ajax({
+                url: '<?php echo admin_url('LegalServices/Sessions/edit_customer_report'); ?>' + '/' + task_id,
+                data: {
+                    next_session_date : next_session_date,
+                    next_session_time : next_session_time,
+                    court_decision : court_decision,
+                    send_mail_to_opponent : send_mail_to_opponent,
+                },
+                type: "POST",
+                success: function (data) {
+                    if(data == 1){
+                        alert_float('success', '<?php echo _l('added_successfully'); ?>');
+                        $('#customer_report'+task_id).modal('hide');
+                        $('#next_session_date'+task_id).val('');
+                        $('#next_session_time'+task_id).val('');
+                        $('#edit_court_decision'+task_id).val('');
+                        $("#send_mail_to_opponent"+task_id).prop('checked', false);
+                        reload_tasks_tables();
+                    }else if (data == 'error_client'){
+                        alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                    }else if (data == 'error_opponent'){
+                        alert_float('danger', '<?php echo _l('no_primary_opponent'); ?>');
+                    }else {
+                        alert_float('danger', '<?php echo _l('faild'); ?>');
+                    }
+                }
+            });
+        }
+    }
 </script>
 </body>
 </html>

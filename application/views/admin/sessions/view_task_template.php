@@ -272,7 +272,31 @@
             </div>
             <hr />
          </div>
+          <div class="clearfix"></div>
+          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('Court_decision'); ?></h4>
+          <?php if(has_permission('sessions','','edit')){ ?>
+              <a href="#" onclick="edit_session_inline_court_decision(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
+          <?php } ?>
+          <div class="clearfix"></div>
+          <?php if(!empty($task->court_decision)){
+              echo '<div class="tc-content"><div id="court_decision">' .check_for_links($task->court_decision) .'</div></div>';
+          } else {
+              echo '<div class="no-margin tc-content task-no-description" id="court_decision"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
+          } ?>
+          <div class="clearfix"></div>
+          <hr />
+          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('session_info'); ?></h4>
+          <?php if(has_permission('sessions','','edit')){ ?>
+              <a href="#" onclick="edit_session_inline_session_information(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
+          <?php } ?>
+          <div class="clearfix"></div>
+          <?php if(!empty($task->session_information)){
+              echo '<div class="tc-content"><div id="session_information">' .check_for_links($task->session_information) .'</div></div>';
+          } else {
+              echo '<div class="no-margin tc-content task-no-description" id="session_information"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
+          } ?>
          <div class="clearfix"></div>
+          <hr />
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
          <?php if(has_permission('sessions','','edit')){ ?><a href="#" onclick="edit_session_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>

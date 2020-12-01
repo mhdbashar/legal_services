@@ -22,7 +22,9 @@ $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
-    array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    if(!$all_data):
+        array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    endif;
     array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters

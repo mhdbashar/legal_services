@@ -60,6 +60,14 @@ $lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العق�
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
 
 $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['active'] = 'مفعلة';
+$lang['inactive'] = 'غير مفعلة';
+
+$lang['principalId'] = "رقم هوية احد الموكلين";
+$lang['agentId'] = "رقم هوية احد الوكلاء";
+
+$lang['loading'] = 'جاري التحميل';
+$lang['settings_general_wathq_api_key'] = 'رمز واثق';
 $lang['dispute_link'] = "رابط الفاتورة";
 $lang['dispute_number'] = "رقم الفاتورة";
 $lang['dispute_duedate'] = "تاريخ إستحقاق الفاتورة";

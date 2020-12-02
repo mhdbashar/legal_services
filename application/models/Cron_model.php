@@ -945,7 +945,7 @@ class Cron_model extends App_Model
                                 'touserid'        => $member['staffid'],
                                 'fromcompany'     => 1,
                                 'fromuserid'      => null,
-                                'link'            => 'procuration/procurationcu/' . $procuration['id'],
+                                'link'            => 'procuration/procurationcu/null/' . $procuration['id'],
                                 
                             ]);
 

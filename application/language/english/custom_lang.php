@@ -1,4 +1,8 @@
 <?php
+
+$lang['active'] = 'Active';
+$lang['inactive'] = 'in-active';
+
 $lang['principalId'] = "identification number for one of the attorney principals";
 $lang['agentId'] = "identification number for one of the attorney agents";
 $lang['loading'] = 'Loading';

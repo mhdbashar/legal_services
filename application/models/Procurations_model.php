@@ -100,7 +100,8 @@ class Procurations_model extends App_Model
             unset($data['cases']);
         }
 
-        
+        $data['start_date'] = force_to_AD_date(($data['start_date']));
+        $data['end_date'] = force_to_AD_date($data['end_date']);
             
         $data['addedfrom'] = get_staff_user_id();
         $this->db->insert('tblprocurations', $data);
@@ -150,6 +151,9 @@ class Procurations_model extends App_Model
             $pcases=$data['cases'];
             unset($data['cases']);
         }
+
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
 
         $case_procurations_in = $this->get_procuration_cases($id);
         if (sizeof($case_procurations_in) > 0) {

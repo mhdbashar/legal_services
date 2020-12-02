@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $custom_fields         = get_table_custom_fields('procurations');
 
 $aColumns = [
+    'name',
     'NO',
     'type',
     'status',
@@ -36,6 +37,7 @@ $ci->load->model('procurations_model');
 $ci->load->model('LegalServices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
+    $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
     $row[] = _d($aRow['start_date']);
     $row[] = _d($aRow['end_date']);
@@ -77,12 +79,17 @@ foreach ($rResult as $aRow) {
         $ci->db->update(db_prefix() . 'procurations', ['status' => 1]);
     }
 
-    if(isset($ci->procurationstate_model->get($aRow['status'])->procurationstate)) {
-        $procuration_state = $ci->procurationstate_model->get($aRow['status'])->procurationstate;
-    }else{
-        $procuration_state = 'Not Selected';
-    }
-    $row[] = $procuration_state;
+    // if(isset($ci->procurationstate_model->get($aRow['status'])->procurationstate)) {
+    //     $procuration_state = $ci->procurationstate_model->get($aRow['status'])->procurationstate;
+    // }else{
+    //     $procuration_state = 'Not Selected';
+    // }
+
+    if($aRow['status'] == 1)
+        $status_name = _l('active');
+    else
+        $status_name = _l('inactive');
+    $row[] = $status_name;
 
     $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
     $options = '';

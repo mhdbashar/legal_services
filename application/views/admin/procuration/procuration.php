@@ -49,7 +49,7 @@
           <?php echo $title; ?>
           </h4>
           <hr class="hr-panel-heading" />
-            <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'expense-form','class'=>'dropzone dropzone-manual')) ;?>
+            <?php echo form_open_multipart($this->uri->uri_string(),array('id'=>'','class'=>'')) ;?>
 
             <!-- enable language edit -->
               <div class="NO">
@@ -91,11 +91,16 @@
 
                 <?php
 
-                $status_name = '';
-                 foreach ($states as $key => $value){ 
-                  if($status == $value['id'])
-                    $status_name = $value['procurationstate'];
-                } ?>
+                  $status_name = '';
+                  if($status == 1){
+                    $status_name = _l('active');
+                  }
+                  elseif($status === ''){
+                    $status_name = '';
+                  }else{
+                    $status_name = _l('inactive');
+                  }
+                ?>
 
                 <?php echo render_input('status_name', _l('status'), ($status_name), 'text', [
                   'required' => 'required',
@@ -235,9 +240,12 @@
       var procuration_number = $('input[name=NO]').val();
       var principalId = $('input[name=principalId]').val();
       var agentId = $('input[name=agentId]').val();
+      var active = '<?php echo _l('active') ?>';
+      var inactive = '<?php echo _l('inactive') ?>';
       if(procuration_number != '' && (principalId != '' || agentId != ''))
       {
           $('#loading').removeClass('hide');
+          $('#loading').removeClass('text-danger');
           let url = `https://api.wathq.sa/v1/attorney/info/${procuration_number}?principalId=${principalId}&agentId=${agentId}`;
           await fetch(url, {
               method: 'GET', // or 'PUT'
@@ -256,15 +264,24 @@
                       $('input[name=name]').val(data.location.name);
 
                       let status = '';
-                      if(data.status == 'active')
+                      let status_name = '';
+                      if(data.status == 'active'){
                         status = 1;
-                      $('input[name=status_name]').val(data.status);
+                        status_name = active;
+                      }else{
+                        status = 0;
+                        status_name = inactive;
+                      }
+                      $('input[name=status_name]').val(status_name);
                       $('input[name=status]').val(status);
+                      $('#loading').addClass('hide');
                   }else{
                       $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=name]').val('');
                       $('textarea[name=description]').val('');
+                      $('#loading').addClass('text-danger');
+                      $('#loading').html('wrong');
                   }
 
 
@@ -275,93 +292,13 @@
                   $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                   $('textarea[name=description]').val('');
                   $('input[name=name]').val('');
+                  $('#loading').addClass('text-danger');
+                  $('#loading').html('wrong');
               });
 
-          $('#loading').addClass('hide');
+          
       }
 
     });
   })
 </script>
-<script>
-   var customer_currency = '';
-   Dropzone.options.expenseForm = false;
-   var expenseDropzone;
-   init_ajax_project_search_by_customer_id();
-   var selectCurrency = $('select[name="currency"]');
-   <?php if(isset($customer_currency)){ ?>
-     var customer_currency = '<?php echo $customer_currency; ?>';
-   <?php } ?>
-     $(function(){
-        $('body').on('change','#project_id', function(){
-          var project_id = $(this).val();
-          if(project_id != '') {
-           if (customer_currency != 0) {
-             selectCurrency.val(customer_currency);
-             selectCurrency.selectpicker('refresh');
-           } else {
-             set_base_currency();
-           }
-         } else {
-          do_billable_checkbox();
-        }
-      });
-
-     if($('#dropzoneDragArea').length > 0){
-        expenseDropzone = new Dropzone("#expense-form", appCreateDropzoneOptions({
-          autoProcessQueue: false,
-          clickable: '#dropzoneDragArea',
-          previewsContainer: '.dropzone-previews',
-          addRemoveLinks: true,
-          maxFiles: 1,
-          success:function(file,response){
-           response = JSON.parse(response);
-           if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-             window.location.assign(response.url);
-           }
-         },
-       }));
-     }
-
-     appValidateForm($('#expense-form'),{
-      end_date:'required',
-      start_date:'required',
-      client: 'required',
-    },expenseSubmitHandler);
-
-
-     function expenseSubmitHandler(form){
-
-
-        $.post(form.action, $(form).serialize()).done(function(response) {
-          <?php
-          $redirect = admin_url('procuration/all');
-          if(is_numeric($request)){
-              // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations
-              $redirect = admin_url('clients/client/' . $request) . '?group=procurations';
-          }
-          if(is_numeric($case_r)){
-              // URL Example : http://localhost/legal/admin/Case/view/1/4?group=procuration
-              $redirect = admin_url('Case/view/1/' . $case_r) . '?group=procuration';
-          }
-          ?>
-          var response = '<?php echo $redirect ?>'
-          if(typeof(expenseDropzone) !== 'undefined'){
-            <?php if(empty($id)) $id = $last_id ?>;
-            if (expenseDropzone.getQueuedFiles().length > 0) {
-              expenseDropzone.options.url = admin_url + 'procuration/add_procuration_attachment/' + <?php echo $id ?>;
-              expenseDropzone.processQueue();
-            }else {
-              window.location.assign(response);
-            }
-          } else {
-            window.location.assign(response);
-          }
-      });
-      return false;
-    }
-  })
-
-</script>
-</body>
-</html>

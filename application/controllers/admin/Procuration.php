@@ -111,8 +111,8 @@ class Procuration extends AdminController
 
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['start_date'] = to_sql_date($data['start_date']);
-            $data['end_date'] = to_sql_date($data['end_date']);
+            // $data['start_date'] = to_sql_date($data['start_date']);
+            // $data['end_date'] = to_sql_date($data['end_date']);
             // $data['message'] = $this->input->post('message', false);
             $redirect = admin_url('procuration/all');
             if(is_numeric($request)){

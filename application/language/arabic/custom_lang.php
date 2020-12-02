@@ -1,5 +1,8 @@
 <?php
 
+$lang['active'] = 'مفعلة';
+$lang['inactive'] = 'غير مفعلة';
+
 $lang['principalId'] = "رقم هوية احد الموكلين";
 $lang['agentId'] = "رقم هوية احد الوكلاء";
 

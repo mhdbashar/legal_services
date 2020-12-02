@@ -26,8 +26,10 @@ class Migration_Version_272 extends CI_Migration
         }
 
         if (!$this->db->field_exists('name', 'procurations')) {
-            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `name` VARCHAR(11) NULL;');
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'procurations` ADD `name` VARCHAR(255) NULL;');
         }
+
+        $this->db->query("ALTER TABLE `" . db_prefix() . "procurations` CHANGE `status` `status` VARCHAR(255) NOT NULL;");
 
     }
 }

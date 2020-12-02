@@ -333,7 +333,7 @@ function init_relation_sessions_table($table_attributes = [])
         'th_attrs' => ['class' => ($table_attributes['data-new-rel-type'] !== 'project' ? 'not_visible' : '')],
     ]);
 
-    $custom_fields = get_custom_fields('tasks', [
+    $custom_fields = get_custom_fields('sessions', [
         'show_on_table' => 1,
     ]);
 

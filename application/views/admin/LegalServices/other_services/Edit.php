@@ -152,8 +152,33 @@
                                     </select>
                                 </div>
                             </div>
-
                         </div>
+                        <?php if(isset($OtherServ) && project_has_recurring_tasks($OtherServ->id)) { ?>
+                            <div class="alert alert-warning recurring-tasks-notice hide"></div>
+                        <?php } ?>
+                        <?php if(is_email_template_active('project-finished-to-customer')){ ?>
+                            <div class="form-group project_marked_as_finished hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="project_marked_as_finished_email_to_contacts" id="project_marked_as_finished_email_to_contacts">
+                                    <label for="project_marked_as_finished_email_to_contacts"><?php echo _l('project_marked_as_finished_to_contacts'); ?></label>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <?php if(isset($OtherServ)){ ?>
+                            <div class="form-group mark_all_tasks_as_completed hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="mark_all_tasks_as_completed" id="mark_all_tasks_as_completed">
+                                    <label for="mark_all_tasks_as_completed"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
+                                </div>
+                            </div>
+                            <div class="notify_project_members_status_change hide">
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="notify_project_members_status_change" id="notify_project_members_status_change">
+                                    <label for="notify_project_members_status_change"><?php echo _l('notify_project_members_status_change'); ?></label>
+                                </div>
+                                <hr />
+                            </div>
+                        <?php } ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <?php echo render_input('estimated_hours','estimated_hours',isset($OtherServ) ? $OtherServ->estimated_hours : '','number'); ?>

@@ -8,7 +8,6 @@ class Other_services_controller extends AdminController
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('Customer_representative_model', 'representative');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
         $this->load->model('LegalServices/Phase_model','phase');
@@ -422,9 +421,9 @@ class Other_services_controller extends AdminController
             } elseif ($group == 'OserviceSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-                //$data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                $data['judges']      = $this->service_sessions->get_judges();
-                $data['courts']      = $this->service_sessions->get_court();
+                //$data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+                $data['courts']      = $this->sessions_model->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             } elseif ($group == 'Procedures'){

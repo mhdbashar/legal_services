@@ -10,7 +10,7 @@
         <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
         <?php echo render_input('rel_type','',$slug,'hidden'); ?>
         <?php echo render_textarea('report','','',array(),array(),'','tinymce'); ?>
-        <button type="submit" class="btn btn-info"><?php echo _l('save'); ?></button>
+        <button type="submit" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('save'); ?></button>
     </div>
 </div>
 <?php echo form_close(); ?>

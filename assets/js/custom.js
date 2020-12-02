@@ -1409,12 +1409,6 @@ function edit_session_inline_session_information(e, id) {
     });
 }
 
-$(function(){
-appValidateForm($('#written-reports-form'), {
-    available_until: 'required',
-    report: 'required',});
-});
-
 function disabled_print_btn(task_id) {
     $("#print_btn"+task_id).attr("disabled", true).removeAttr("onclick");
 }

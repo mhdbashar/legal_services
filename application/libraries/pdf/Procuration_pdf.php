@@ -24,7 +24,7 @@ class Procuration_pdf extends App_pdf
     public function prepare()
     {
         $this->set_view_vars([
-            'description'            => $this->procuration->description,
+            'description'            => nl2br($this->procuration->description),
             'principalId'  => $this->procuration->principalId,
             'agentId'         => $this->procuration->agentId,
             'NO'           => $this->procuration->NO,

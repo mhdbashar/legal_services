@@ -516,18 +516,18 @@ function force_to_AD_date($date)
 
 
     /** to check if this page are included in database hijri option **/
-    $hijri_pages = json_decode(get_option('hijri_pages'));
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
+    // $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    // $admin_url = admin_url();
+    // $this_page = str_replace(admin_url(),'',$current_url);
 
-    if(search_url($hijri_pages, $this_page) > 0){
-        $hijri_convert = true;
-    }else{
-        $hijri_convert = false;
-    }
+    // if(search_url($hijri_pages, $this_page) > 0){
+    //     $hijri_convert = true;
+    // }else{
+    //     $hijri_convert = false;
+    // }
 
-    if (  $hijri_convert or $hijriStatus =="on") {
+    if (true) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
 //                var_dump($hijri_settings['adj_data'].'fghf');exit();
 

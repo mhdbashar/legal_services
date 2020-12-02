@@ -31,5 +31,9 @@ class Migration_Version_272 extends CI_Migration
 
         $this->db->query("ALTER TABLE `" . db_prefix() . "procurations` CHANGE `status` `status` VARCHAR(255) NOT NULL;");
 
+
+        update_option('hijri_pages', '["Case\/add","group=CaseSession","procuration"]');
+        update_option('isHijri', 'on');
+
     }
 }

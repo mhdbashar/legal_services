@@ -215,6 +215,16 @@ function statement_pdf($statement)
 }
 
 /**
+ * Prepare procuration pdf
+ * @param  object $procuration statement
+ * @return mixed
+ */
+function procuration_pdf($procuration)
+{
+    return app_pdf('procuration', LIBSPATH . 'pdf/Procuration_pdf', $procuration);
+}
+
+/**
  * General function for PDF documents logic
  * @param  string $type   document type e.q. payment, statement, invoice
  * @param  string $class  full class path

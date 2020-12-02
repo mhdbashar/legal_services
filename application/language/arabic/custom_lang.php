@@ -1,5 +1,13 @@
 <?php
 
+$lang['active'] = 'مفعلة';
+$lang['inactive'] = 'غير مفعلة';
+
+$lang['principalId'] = "رقم هوية احد الموكلين";
+$lang['agentId'] = "رقم هوية احد الوكلاء";
+
+$lang['loading'] = 'جاري التحميل';
+$lang['settings_general_wathq_api_key'] = 'رمز واثق';
 $lang['dispute_link'] = "رابط الفاتورة";
 $lang['dispute_number'] = "رقم الفاتورة";
 $lang['dispute_duedate'] = "تاريخ إستحقاق الفاتورة";

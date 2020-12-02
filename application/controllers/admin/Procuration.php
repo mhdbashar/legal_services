@@ -61,6 +61,48 @@ class Procuration extends AdminController
         $this->load->view('admin/procuration/managetype', $data);
     }
 
+    public function pdf($id)
+    {
+        if (!$id) {
+            redirect(admin_url('procuration/all'));
+        }
+
+        if (!has_permission('procurations', '', 'view') && !is_admin()) {
+            access_denied('Procurations');
+        }
+
+        $procuration = $this->procurations_model->get($id);
+        // echo '<pre>'; print_r($procuration); exit;
+        $procuration        = hooks()->apply_filters('before_admin_view_procuration_pdf', $procuration);
+
+        // $invoice_number = format_invoice_number($invoice->id);
+
+        try {
+            $pdf = procuration_pdf($procuration);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            echo $message;
+            if (strpos($message, 'Unable to get the size of the image') !== false) {
+                show_pdf_unable_to_get_image_size_error();
+            }
+            die;
+        }
+
+        $type = 'D';
+
+        if ($this->input->get('output_type')) {
+            $type = $this->input->get('output_type');
+        }
+
+        if ($this->input->get('print')) {
+            $type = 'I';
+        }
+
+        $pdf_name = $procuration->name;
+        $pdf->Output(mb_strtoupper(slug_it($pdf_name)) . '.pdf', $type);
+
+    }
+
     /* Edit Procuration or add new if passed id */
     public function procurationcu($request = '', $id = '', $case = '')
     {
@@ -70,9 +112,11 @@ class Procuration extends AdminController
 
         if ($this->input->post()) {
             $data            = $this->input->post();
-            $data['start_date'] = to_sql_date($data['start_date']);
-            $data['end_date'] = to_sql_date($data['end_date']);
+            // $data['start_date'] = to_sql_date($data['start_date']);
+            // $data['end_date'] = to_sql_date($data['end_date']);
             // $data['message'] = $this->input->post('message', false);
+
+            $data['description'] = $this->input->post('description', false);
             $redirect = admin_url('procuration/all');
             if(is_numeric($request)){
                 // URL Example : http://localhost/legal/admin/clients/client/3?group=procurations

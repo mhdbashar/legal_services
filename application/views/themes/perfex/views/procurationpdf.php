@@ -75,11 +75,9 @@ $organization_info .= '</div>';
 
 // $pdf->writeHTML($_end_date, true, false, false, false, $align);
 
-$pdf->Ln(3);
-
 
 $desc = '';
-$desc .= '<div cellpadding="6" style=""><span style="font-size:' . ($font_size + 10) . 'px; text-align: center">'._l("procuration").'</span><br /><br /></div><div style="font-size:' . ($font_size + 7) . 'px;">' . $description .'</div>';
+$desc .= '<div><span style="font-size:' . ($font_size + 10) . 'px; text-align: center">'._l("procuration").'</span></div><div style="font-size:' . ($font_size + 7) . 'px;">' . $description .'</div>';
 
 $pdf->writeHTML($desc, true, false, false, false, $align);
 

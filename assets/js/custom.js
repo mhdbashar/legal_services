@@ -1261,8 +1261,155 @@ function load_time_picker(id) {
         format:'H:i'
     });
 }
+$(function(){
+    appValidateForm($('#written-reports-form'), {
+        available_until: 'required',
+        report: 'required'
+    });
 
-appValidateForm($('#written-reports-form'), {
-    available_until: 'required',
-    report: 'required',
+    //Form Phases
+    appValidateForm($('#form_phases'), {});
 });
+
+// Initing relation tasks tables
+function init_previous_sessions_log_table(rel_id, rel_type, selector) {
+    if (typeof(selector) == 'undefined') { selector = '.table-previous_sessions_log'; }
+    var $selector = $("body").find(selector);
+    if ($selector.length === 0) { return; }
+
+    var TasksServerParamsCase = {},
+        tasksRelationTableNotSortableCase = [0], // bulk actions
+        TasksFiltersCase;
+
+    TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFiltersCase, function() {
+        TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'LegalServices/Sessions/init_previous_sessions_log/' + rel_id + '/' + rel_type;
+
+    if ($selector.attr('data-new-rel-type') == rel_type) {
+        url += '?bulk_actions=true';
+    }
+
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+}
+
+// Initing waiting_sessions_log tables
+function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
+    if (typeof(selector) == 'undefined') { selector = '.table-waiting_sessions_log'; }
+    var $selector = $("body").find(selector);
+    if ($selector.length === 0) { return; }
+
+    var TasksServerParamsCase = {},
+        tasksRelationTableNotSortableCase = [0], // bulk actions
+        TasksFiltersCase;
+
+    TasksFiltersCase = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFiltersCase, function() {
+        TasksServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'LegalServices/Sessions/init_waiting_sessions_log/' + rel_id + '/' + rel_type;
+
+    if ($selector.attr('data-new-rel-type') == rel_type) {
+        url += '?bulk_actions=true';
+    }
+
+    initDataTable($selector, url, tasksRelationTableNotSortableCase, tasksRelationTableNotSortableCase, TasksServerParamsCase, [0, 'asc']);
+}
+
+// Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
+function reload_tasks_tables() {
+    var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];
+    $.each(av_tasks_tables, function(i, selector) {
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().ajax.reload(null, false);
+        }
+    });
+}
+
+// Task single edit description with inline editor, used from task single modal
+function edit_session_inline_court_decision(e, id) {
+
+    tinyMCE.remove('#court_decision');
+
+    if ($(e).hasClass('editor-initiated')) {
+        $(e).removeClass('editor-initiated');
+        return;
+    }
+
+    $(e).addClass('editor-initiated');
+    $.Shortcuts.stop();
+    tinymce.init({
+        selector: '#court_decision',
+        theme: 'inlite',
+        skin: 'perfex',
+        auto_focus: "task_view_description",
+        plugins: 'table link paste contextmenu textpattern',
+        insert_toolbar: 'quicktable',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        inline: true,
+        table_default_styles: {
+            width: '100%'
+        },
+        setup: function(editor) {
+            editor.on('blur', function(e) {
+                if (editor.isDirty()) {
+                    $.post(admin_url + 'LegalServices/Sessions/update_session_court_decision/' + id, {
+                        court_decision: editor.getContent()
+                    });
+                }
+                setTimeout(function() {
+                    editor.remove();
+                    $.Shortcuts.start();
+                }, 500);
+            });
+        }
+    });
+}
+
+function edit_session_inline_session_information(e, id) {
+
+    tinyMCE.remove('#session_information');
+
+    if ($(e).hasClass('editor-initiated')) {
+        $(e).removeClass('editor-initiated');
+        return;
+    }
+
+    $(e).addClass('editor-initiated');
+    $.Shortcuts.stop();
+    tinymce.init({
+        selector: '#session_information',
+        theme: 'inlite',
+        skin: 'perfex',
+        auto_focus: "task_view_description",
+        plugins: 'table link paste contextmenu textpattern',
+        insert_toolbar: 'quicktable',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        inline: true,
+        table_default_styles: {
+            width: '100%'
+        },
+        setup: function(editor) {
+            editor.on('blur', function(e) {
+                if (editor.isDirty()) {
+                    $.post(admin_url + 'LegalServices/Sessions/update_session_information/' + id, {
+                        session_information: editor.getContent()
+                    });
+                }
+                setTimeout(function() {
+                    editor.remove();
+                    $.Shortcuts.start();
+                }, 500);
+            });
+        }
+    });
+}
+
+function disabled_print_btn(task_id) {
+    $("#print_btn"+task_id).attr("disabled", true).removeAttr("onclick");
+}

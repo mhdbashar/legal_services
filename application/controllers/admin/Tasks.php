@@ -11,7 +11,6 @@ class Tasks extends AdminController
         $this->load->model('projects_model');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Cases_model', 'case');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     }
 
     /* Open also all taks if user access this /tasks url */
@@ -177,7 +176,6 @@ class Tasks extends AdminController
         }
     }
 
-
     public function detailed_overview()
     {
         $overview = [];
@@ -317,26 +315,6 @@ class Tasks extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('tasks_relations', [
-                'rel_id'   => $rel_id,
-                'rel_type' => $rel_type,
-            ]);
-        }
-    }
-
-    public function init_previous_sessions_log($rel_id, $rel_type)
-    {
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('previous_sessions_log', [
-                'rel_id'   => $rel_id,
-                'rel_type' => $rel_type,
-            ]);
-        }
-    }
-
-    public function init_waiting_sessions_log($rel_id, $rel_type)
-    {
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('waiting_sessions_log', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
             ]);
@@ -546,8 +524,8 @@ class Tasks extends AdminController
         }
         $data['id']             = $id;
         $data['legal_services'] = $this->legal->get_all_services();
-        $data['judges']         = $this->service_sessions->get_judges();
-        $data['courts']         = $this->service_sessions->get_court();
+        $data['judges']         = $this->sessions_model->get_judges();
+        $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
         $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
     }

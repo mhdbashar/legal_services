@@ -52,25 +52,25 @@
                     echo '<div class="mtop5 mbot20 font-normal">' . _l('task_milestone') . ': ';
                     $milestones = get_project_milestones($task->rel_id);
                     if(has_permission('sessions','','edit') && count($milestones) > 1){ ?>
-                        <span class="task-single-menu task-menu-milestones">
-            <span class="trigger pointer manual-popover text-has-action">
-            <?php echo $task->milestone_name; ?>
-            </span>
-            <span class="content-menu hide">
-               <ul>
-                  <?php
-                  foreach($milestones as $milestone){ ?>
-                      <?php if($task->milestone != $milestone['id']){ ?>
-                          <li>
-                     <a href="#" onclick="task_change_milestone(<?php echo $milestone['id']; ?>,<?php echo $task->id; ?>); return false;">
-                     <?php echo $milestone['name']; ?>
-                     </a>
-                  </li>
-                      <?php } ?>
-                  <?php } ?>
-               </ul>
-            </span>
-         </span>
+                    <span class="task-single-menu task-menu-milestones">
+                        <span class="trigger pointer manual-popover text-has-action">
+                        <?php echo $task->milestone_name; ?>
+                        </span>
+                        <span class="content-menu hide">
+                           <ul>
+                              <?php
+                              foreach($milestones as $milestone){ ?>
+                                  <?php if($task->milestone != $milestone['id']){ ?>
+                                      <li>
+                                 <a href="#" onclick="task_change_milestone(<?php echo $milestone['id']; ?>,<?php echo $task->id; ?>); return false;">
+                                 <?php echo $milestone['name']; ?>
+                                 </a>
+                              </li>
+                                  <?php } ?>
+                              <?php } ?>
+                           </ul>
+                        </span>
+                     </span>
                     <?php } else {
                         echo $task->milestone_name;
                     }
@@ -80,20 +80,20 @@
                 echo '</div>';
             } ?>
             <div class="clearfix"></div>
-            <?php if($task->status != Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('tasks','','edit') || $task->current_user_is_creator)){ ?>
+            <?php if($task->status != Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('sessions','','edit') || $task->current_user_is_creator)){ ?>
                 <p class="no-margin pull-left" style="<?php echo 'margin-'.(is_rtl() ? 'left' : 'right').':5px !important'; ?>">
                     <a href="#" class="btn btn-info" id="task-single-mark-complete-btn" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" onclick="mark_complete(<?php echo $task->id; ?>); return false;" data-toggle="tooltip" title="<?php echo _l('task_single_mark_as_complete'); ?>">
                         <i class="fa fa-check"></i>
                     </a>
                 </p>
-            <?php } else if($task->status == Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('tasks','','edit') || $task->current_user_is_creator)){ ?>
+            <?php } else if($task->status == Sessions_model::STATUS_COMPLETE && ($task->current_user_is_assigned || has_permission('sessions','','edit') || $task->current_user_is_creator)){ ?>
                 <p class="no-margin pull-left" style="<?php echo 'margin-'.(is_rtl() ? 'left' : 'right').':5px !important'; ?>">
                     <a href="#" class="btn btn-default" id="task-single-unmark-complete-btn" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" onclick="unmark_complete(<?php echo $task->id; ?>); return false;" data-toggle="tooltip" title="<?php echo _l('task_unmark_as_complete'); ?>">
                         <i class="fa fa-check"></i>
                     </a>
                 </p>
             <?php } ?>
-            <?php if(has_permission('tasks','','create') && count($task->timesheets) > 0){ ?>
+            <?php if(has_permission('sessions','','create') && count($task->timesheets) > 0){ ?>
                 <p class="no-margin pull-left mright5">
                     <a href="#" class="btn btn-default mright5" data-toggle="tooltip" data-title="<?php echo _l('task_statistics'); ?>" onclick="task_tracking_stats(<?php echo $task->id; ?>); return false;">
                         <i class="fa fa-bar-chart"></i>
@@ -138,7 +138,7 @@
                         <?php
                         $timers_found = false;
                         foreach($task->timesheets as $timesheet){ ?>
-                            <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create') || has_permission('tasks','','delete') || $timesheet['staff_id'] == get_staff_user_id()){
+                            <?php if(has_permission('sessions','','edit') || has_permission('sessions','','create') || has_permission('sessions','','delete') || $timesheet['staff_id'] == get_staff_user_id()){
                                 $timers_found = true; ?>
                                 <tr>
                                     <td>
@@ -178,7 +178,7 @@
                                     <td>
                                         <?php
                                         if(!$task->billed){
-                                            if(has_permission('tasks','','delete') || (has_permission('projects','','delete') && $task->rel_type == 'project') || $timesheet['staff_id'] == get_staff_user_id()){
+                                            if(has_permission('sessions','','delete') || (has_permission('projects','','delete') && $task->rel_type == 'project') || $timesheet['staff_id'] == get_staff_user_id()){
                                                 echo '<a href="'.admin_url('tasks/delete_timesheet/'.$timesheet['id']).'" class="task-single-delete-timesheet pull-right text-danger mtop5" data-task-id="'.$task->id.'"><i class="fa fa-remove"></i></a>';
                                             }
                                         }
@@ -240,7 +240,7 @@
                                             <br />
                                             <select name="single_timesheet_staff_id" class="selectpicker" data-width="100%">
                                                 <?php foreach($task->assignees as $assignee){
-                                                    if((!has_permission('tasks','','create') && !has_permission('tasks','','edit') && $assignee['assigneeid'] != get_staff_user_id()) || ($task->rel_type == 'project' && !has_permission('projects','','edit') && $assignee['assigneeid'] != get_staff_user_id())){continue;}
+                                                    if((!has_permission('sessions','','create') && !has_permission('sessions','','edit') && $assignee['assigneeid'] != get_staff_user_id()) || ($task->rel_type == 'project' && !has_permission('projects','','edit') && $assignee['assigneeid'] != get_staff_user_id())){continue;}
                                                     $selected = '';
                                                     if($assignee['assigneeid'] == get_staff_user_id()){
                                                         $selected = ' selected';
@@ -274,7 +274,7 @@
             </div>
             <div class="clearfix"></div>
             <h4 class="th font-medium mbot15 pull-left"><?php echo _l('Court_decision'); ?></h4>
-            <?php if(has_permission('tasks','','edit')){ ?>
+            <?php if(has_permission('sessions','','edit')){ ?>
                 <a href="#" onclick="edit_session_inline_court_decision(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
             <?php } ?>
             <div class="clearfix"></div>
@@ -285,7 +285,7 @@
             } ?>
             <div class="clearfix"></div>
             <h4 class="th font-medium mbot15 pull-left"><?php echo _l('session_info'); ?></h4>
-            <?php if(has_permission('tasks','','edit')){ ?>
+            <?php if(has_permission('sessions','','edit')){ ?>
                 <a href="#" onclick="edit_session_inline_session_information(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
             <?php } ?>
             <div class="clearfix"></div>
@@ -517,14 +517,14 @@
             <div class="pull-right mbot10 task-single-menu task-menu-options">
                 <div class="content-menu hide">
                     <ul>
-                        <?php if(has_permission('tasks','','edit')) { ?>
+                        <?php if(has_permission('sessions','','edit')) { ?>
                             <li>
                                 <a href="#" onclick="edit_session(<?php echo $task->id; ?>); return false;">
                                     <?php echo _l('task_single_edit'); ?>
                                 </a>
                             </li>
                         <?php } ?>
-                        <?php if(has_permission('tasks','','create')){ ?>
+                        <?php if(has_permission('sessions','','create')){ ?>
                             <?php
                             $copy_template = "";
                             if(count($task->assignees) > 0){
@@ -552,7 +552,7 @@
                             ?>
                             <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a></li>
                         <?php } ?>
-                        <?php if(has_permission('tasks','','delete')){ ?>
+                        <?php if(has_permission('sessions','','delete')){ ?>
                             <li>
                                 <a href="<?php echo admin_url('tasks/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                     <?php echo _l('task_single_delete'); ?>
@@ -561,7 +561,7 @@
                         <?php } ?>
                     </ul>
                 </div>
-                <?php if(has_permission('tasks','','delete') || has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+                <?php if(has_permission('sessions','','delete') || has_permission('sessions','','edit') || has_permission('sessions','','create')){ ?>
                     <a href="#" onclick="return false;" class="trigger manual-popover mright5">
                         <i class="fa fa-circle-thin" aria-hidden="true"></i>
                         <i class="fa fa-circle-thin" aria-hidden="true"></i>
@@ -589,7 +589,7 @@
             <div class="task-info task-status task-info-status">
                 <h5>
                     <i class="fa fa-<?php if($task->status == Sessions_model::STATUS_COMPLETE){echo 'star';} else if($task->status == 1){echo 'star-o';} else {echo 'star-half-o';} ?> pull-left task-info-icon fa-fw fa-lg"></i><?php echo _l('task_status'); ?>:
-                    <?php if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('tasks','','edit')) { ?>
+                    <?php if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('sessions','','edit')) { ?>
                         <span class="task-single-menu task-menu-status">
                   <span class="trigger pointer manual-popover text-has-action">
                   <?php echo format_session_status($task->status,true);  ?>
@@ -625,7 +625,7 @@
             <div class="task-info task-single-inline-wrap task-info-start-date">
                 <h5><i class="fa task-info-icon fa-fw fa-lg fa-calendar-plus-o pull-left fa-margin"></i>
                     <?php echo _l('session_date'); ?>:
-                    <?php if(has_permission('tasks','','edit') && $task->status !=5) { ?>
+                    <?php if(has_permission('sessions','','edit') && $task->status !=5) { ?>
                         <input name="startdate" tabindex="-1" value="<?php echo _d($task->startdate); ?>" id="task-single-startdate" class="task-info-inline-input-edit datepicker pointer task-single-inline-field datepicker_modal">
                     <?php } else { ?>
                         <?php echo _d($task->startdate); ?>
@@ -637,7 +637,7 @@
                 <h5>
                     <i class="fa task-info-icon fa-fw fa-lg pull-left fa-bolt"></i>
                     <?php echo _l('task_single_priority'); ?>:
-                    <?php if(has_permission('tasks','','edit') && $task->status != Sessions_model::STATUS_COMPLETE) { ?>
+                    <?php if(has_permission('sessions','','edit') && $task->status != Sessions_model::STATUS_COMPLETE) { ?>
                         <span class="task-single-menu task-menu-priority">
                   <span class="trigger pointer manual-popover text-has-action" style="color:<?php echo session_priority_color($task->priority); ?>;">
                   <?php echo session_priority($task->priority); ?>
@@ -664,7 +664,7 @@
                     <?php } ?>
                 </h5>
             </div>
-            <?php if((has_permission('tasks','','create') || has_permission('tasks','','edit'))){ ?>
+            <?php if((has_permission('sessions','','create') || has_permission('sessions','','edit'))){ ?>
                 <div class="task-info task-info-hourly-rate">
                     <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-clock-o"></i>
                         <?php echo _l('task_hourly_rate'); ?>: <?php if($task->rel_type == 'project' && $task->project_data->billing_type == 2){
@@ -705,7 +705,7 @@
                     </h5>
                 </div>
             <?php } ?>
-            <?php if(has_permission('tasks','','create')){ ?>
+            <?php if(has_permission('sessions','','create')){ ?>
                 <div class="task-info task-info-total-logged-time">
                     <h5>
                         <i class="fa task-info-icon fa-fw fa-lg fa-clock-o"></i><?php echo _l('task_total_logged_time'); ?>
@@ -715,9 +715,9 @@
                     </h5>
                 </div>
             <?php } ?>
-            <?php $custom_fields = get_custom_fields('tasks');
+            <?php $custom_fields = get_custom_fields('sessions');
             foreach($custom_fields as $field){ ?>
-                <?php $value = get_custom_field_value($task->id,$field['id'],'tasks');
+                <?php $value = get_custom_field_value($task->id,$field['id'],'sessions');
                 if($value == ''){continue;}?>
                 <div class="task-info">
                     <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">
@@ -726,7 +726,7 @@
                     </h5>
                 </div>
             <?php } ?>
-            <?php if(has_permission('tasks','','create') || has_permission('tasks','','edit')){ ?>
+            <?php if(has_permission('sessions','','create') || has_permission('sessions','','edit')){ ?>
                 <div class="mtop5 clearfix"></div>
                 <div id="inputTagsWrapper" class="taskSingleTasks task-info-tags-edit">
                     <input type="text" class="tagsinput" id="taskTags" data-taskid="<?php echo $task->id; ?>" value="<?php echo prep_tags_input(get_tags_in($task->id,'task')); ?>" data-role="tagsinput">
@@ -812,7 +812,7 @@
             <hr class="task-info-separator" />
             <div class="clearfix"></div>
             <h4 class="task-info-heading font-normal font-medium-xs"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo _l('task_single_assignees'); ?></h4>
-            <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+            <?php if(has_permission('sessions','','edit') || has_permission('sessions','','create')){ ?>
                 <div class="simple-bootstrap-select">
                     <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-assignees_session" onchange="assign_staff_to_session()" data-live-search="true" title='<?php echo _l('session_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                         <?php
@@ -836,7 +836,7 @@
                 $_assignees = '';
                 foreach ($task->assignees as $assignee) {
                     $_remove_assigne = '';
-                    if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                    if(has_permission('sessions','','edit') || has_permission('sessions','','create')){
                         $_remove_assigne = ' <a href="#" class="remove-task-user text-danger" onclick="remove_assignee(' . $assignee['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                     }
                     $_assignees .= '
@@ -858,7 +858,7 @@
                 <i class="fa fa-user-o" aria-hidden="true"></i>
                 <?php echo _l('task_single_followers'); ?>
             </h4>
-            <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+            <?php if(has_permission('sessions','','edit') || has_permission('sessions','','create')){ ?>
                 <div class="simple-bootstrap-select">
                     <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-followers_session" onchange="add_follower_to_session()" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                         <?php
@@ -878,7 +878,7 @@
                 $_followers        = '';
                 foreach ($task->followers as $follower) {
                     $_remove_follower = '';
-                    if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                    if(has_permission('sessions','','edit') || has_permission('sessions','','create')){
                         $_remove_follower = ' <a href="#" class="remove-task-user text-danger" onclick="remove_follower(' . $follower['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                     }
                     $_followers .= '

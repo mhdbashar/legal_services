@@ -246,9 +246,12 @@
       {
           $('#loading').removeClass('hide');
           $('#loading').removeClass('text-danger');
+          $('#loading').addClass('text-center');
+          $('#loading').html("<?php echo _l('loading') ?> ...")
           let url = `https://api.wathq.sa/v1/attorney/info/${procuration_number}?principalId=${principalId}&agentId=${agentId}`;
           await fetch(url, {
               method: 'GET', // or 'PUT'
+
               headers: {
                   'Accept': 'application/json',
                   'apiKey': "<?php echo get_option("wathq_api_key") ?>"
@@ -258,8 +261,8 @@
               .then(data => {
                   if(data.text)
                   {
-                      $('input[name=start_date]').val(data.issueHijriDate);//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
-                      $('input[name=end_date]').val(data.expiryHijriDate);//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                      $('input[name=start_date]').val(data.issueHijriDate);
+                      $('input[name=end_date]').val(data.expiryHijriDate);
                       $('textarea[name=description]').val(data.text);
                       $('input[name=name]').val(data.location.name);
 
@@ -276,24 +279,25 @@
                       $('input[name=status]').val(status);
                       $('#loading').addClass('hide');
                   }else{
+                      console.log(data)
                       $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
                       $('input[name=name]').val('');
                       $('textarea[name=description]').val('');
-                      $('#loading').addClass('text-danger');
-                      $('#loading').html('wrong');
+                      $('#loading').addClass('text-danger text-center');
+                      $('#loading').html(data.message);
                   }
 
 
               })
               .catch(function(error) {
                   console.log(error);
-                  $('input[name=start_date]').val('');//.val(moment(data.issueHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
-                  $('input[name=end_date]').val('');//.val(moment(data.expiryHijriDate, 'iYYYY/iM/iD').endOf('Month').format('YYYY-MM-DD'));
+                  $('input[name=start_date]').val('');
+                  $('input[name=end_date]').val('');
                   $('textarea[name=description]').val('');
                   $('input[name=name]').val('');
-                  $('#loading').addClass('text-danger');
-                  $('#loading').html('wrong');
+                  $('#loading').addClass('text-danger text-center');
+                  $('#loading').html('something went wrong!');
               });
 
           

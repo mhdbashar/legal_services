@@ -463,8 +463,8 @@ class Sessions extends AdminController
         $data['courts']         = $this->sessions_model->get_court();
         //$data['service_id']     = $ServID;
         $data['title']          = $title;
-        $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
-        //$this->load->view('admin/sessions/task', $data);
+        //$this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
+        $this->load->view('admin/sessions/task', $data);
     }
 
     public function services_sessions($id = '')

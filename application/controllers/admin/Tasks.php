@@ -425,7 +425,7 @@ class Tasks extends AdminController
         $this->load->view('admin/tasks/task', $data);
     }
 
-    public function services_sessions($id = '')
+    /*public function services_sessions($id = '')
     {
         if (!has_permission('tasks', '', 'edit') && !has_permission('tasks', '', 'create')) {
             ajax_access_denied();
@@ -528,7 +528,7 @@ class Tasks extends AdminController
         $data['courts']         = $this->sessions_model->get_court();
         $data['title']          = $title;
         $this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
-    }
+    }*/
 
     public function copy()
     {

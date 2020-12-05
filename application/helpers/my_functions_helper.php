@@ -86,6 +86,24 @@ hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
+
+function my_app_init_customer_profile_tabs()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_customer_profile_tab('cases', [
+         'name'     => _l('Cases'),
+         'icon'     => 'fa fa-gavel',
+         'view'     => 'admin/clients/groups/cases',
+         'position' => 65,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('legal_services', [
+        'name'     => _l('LegalServices'),
+        'icon'     => 'fa fa-gavel',
+        'view'     => 'admin/clients/groups/legal_services',
+        'position' => 65,
+    ]);
+}
 
 function my_module_menu_item_collapsible()
 {

@@ -89,7 +89,7 @@ class Procurations_model extends App_Model
     }
     public function add($data)
     {
-
+        $affectedRows = 0;
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
@@ -107,6 +107,7 @@ class Procurations_model extends App_Model
         $this->db->insert('tblprocurations', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $affectedRows++;
             log_activity('New procuration [ID: ' . $insert_id . '] for client [ID: '.$data["client"].'');
 
             if (isset($custom_fields)) {
@@ -128,10 +129,8 @@ class Procurations_model extends App_Model
                 }
 
             }
-
             return $insert_id;
         }
-
         return false;
     }
 
@@ -224,7 +223,7 @@ class Procurations_model extends App_Model
 
             $affectedRows++;
 
-            log_activity(' procuration Updated [ID: ' . $insert_id . '] for client [ID: '.$data["client"].'');
+            log_activity(' procuration Updated [ID: ' . $id . '] for client [ID: '.$data["client"].'');
 
             return true;
         }

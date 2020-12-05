@@ -33,7 +33,8 @@ class Procuration extends AdminController
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data('my_procurations', [
                 'client_id' => '', 
-                'request' => 'no_request'
+                'request' => 'no_request',
+                'all' => 1
             ]);
         }
         $data['title'] = _l('procuration');

@@ -91,8 +91,12 @@ foreach ($rResult as $aRow) {
         $status_name = _l('inactive');
     $row[] = $status_name;
 
-    $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
+    if(isset($all) && $all = 1)
+        $request = 'null';
+    else
+        $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
     $options = '';
+
     if (has_permission('procurations', '', 'edit') || is_admin())
     $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'pencil-square-o', 'btn-default');
     // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');

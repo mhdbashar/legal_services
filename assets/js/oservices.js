@@ -582,11 +582,11 @@ if (table_invoices_oservice.length > 0 || table_estimates_oservice.length > 0) {
         Invoices_Estimates_ServerParamsOservice[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    servid_invoices_oservice = $(".table-invoices_oservice").attr('data-servid');
-    slug_invoices_oservice = $(".table-invoices_oservice").attr('data-slug');
-    clientid = 0;
     if (table_invoices_oservice.length) {
         // Invoices tables
+        servid_invoices_oservice = $(".table-invoices_oservice").attr('data-servid');
+        slug_invoices_oservice = $(".table-invoices_oservice").attr('data-slug');
+        clientid = 0;
         initDataTable(table_invoices_oservice, (admin_url + 'invoices/table_oservice/'+ clientid + '/' + servid_invoices_oservice +'/' + slug_invoices_oservice + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, !$('body').hasClass('recurring') ? [
             [3, 'desc'],
             [0, 'desc']
@@ -597,6 +597,7 @@ if (table_invoices_oservice.length > 0 || table_estimates_oservice.length > 0) {
         // Estimates table
         servid_estimates_oservice = $(".table-estimates_oservice").attr('data-servid');
         slug_estimates_oservice = $(".table-estimates_oservice").attr('data-slug');
+        clientid = 0;
         initDataTable(table_estimates_oservice, admin_url + 'estimates/table_oservice/' + clientid + '/' + servid_estimates_oservice +'/' + slug_estimates_oservice , 'undefined', 'undefined', Invoices_Estimates_ServerParamsOservice, [
             [3, 'desc'],
             [0, 'desc']

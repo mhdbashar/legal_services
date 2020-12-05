@@ -907,8 +907,9 @@ class Clients extends ClientsController
                 $data['contracts'] = [];
                 if (has_contact_permission('contracts')) {
                     $data['contracts'] = $this->contracts_model->get('', [
-                        'client'     => get_client_user_id(),
-                        'project_id' => $id,
+                        'client'  => get_client_user_id(),
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug,
                     ]);}
             } elseif ($group == 'project_activity') {
                 if($ServID == 1){

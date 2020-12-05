@@ -6,8 +6,6 @@ $hasPermissionEdit   = has_permission('projects', '', 'edit');
 $hasPermissionDelete = has_permission('projects', '', 'delete');
 $hasPermissionCreate = has_permission('projects', '', 'create');
 
-$custom_fields = get_table_custom_fields($service->slug);
-
 $aColumns = [
     'file_number_court',
     db_prefix() .'my_cases.id as id',
@@ -32,12 +30,18 @@ if($ci->app_modules->is_active('branches')){
 
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
 }
+
+if(isset($service)):
+$custom_fields = get_table_custom_fields($service->slug);
+
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
     array_push($customFieldsColumns, $selectAs);
     array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
     array_push($join, 'LEFT JOIN ' . db_prefix() . 'customfieldsvalues as ctable_' . $key . ' ON ' . db_prefix() . 'my_cases.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
+endif;
+
 $where  = [];
 $filter = [];
 $statusIds = [];

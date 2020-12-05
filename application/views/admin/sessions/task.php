@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('LegalServices/Sessions/task/'.$id),array('id'=>'task-form')); ?>
+<?php echo form_open_multipart(admin_url('LegalServices/Sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
 <div class="modal fade<?php if(isset($task)){echo ' edit';} ?>" id="_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"<?php if($this->input->get('opened_from_lead_id')){echo 'data-lead-id='.$this->input->get('opened_from_lead_id'); } ?>>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -23,6 +23,7 @@
                             echo '<div class="alert alert-success text-center no-margin">'._l('task_is_billed','<a href="'.admin_url('invoices/list_invoices/'.$task->invoice_id).'" target="_blank">'.format_invoice_number($task->invoice_id)). '</a></div><br />';
                         }
                         ?>
+                        <input type="hidden" id="is_session" name="is_session" value="1">
                         <?php if(isset($task)){ ?>
                             <div class="pull-right mbot10 task-single-menu task-menu-options">
                                 <div class="content-menu hide">
@@ -50,7 +51,7 @@
                                             }
 
                                             $copy_template .= "<div class='text-center'>";
-                                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_session_action'>"._l('copy_task_confirm')."</button>";
+                                            $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_session_action' onclick='copy_session_action()'>"._l('copy_task_confirm')."</button>";
                                             $copy_template .= "</div>";
                                             ?>
                                             <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a>
@@ -58,7 +59,7 @@
                                         <?php } ?>
                                         <?php if(has_permission('sessions','','delete')){ ?>
                                             <li>
-                                                <a href="<?php echo admin_url('LegalServices/sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                                <a href="<?php echo admin_url('LegalServices/Sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                                     <?php echo _l('task_single_delete'); ?>
                                                 </a>
                                             </li>
@@ -76,7 +77,7 @@
                         <?php } ?>
                         <div class="checkbox checkbox-primary no-mtop checkbox-inline task-add-edit-public">
                             <input type="checkbox" id="task_is_public" name="is_public" <?php if(isset($task)){if($task->is_public == 1){echo 'checked';}}; ?>>
-                            <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('session_public_help'); ?>"><?php echo _l('task_public'); ?></label>
+                            <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('task_public_help'); ?>"><?php echo _l('task_public'); ?></label>
                         </div>
                         <div class="checkbox checkbox-primary checkbox-inline task-add-edit-billable">
                             <input type="checkbox" id="task_is_billable" name="billable"
@@ -101,8 +102,8 @@
                                                 <div class="input-group">
                                                     <input type="file" extension="<?php echo str_replace('.','',get_option('allowed_files')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="attachments[0]">
                                                     <span class="input-group-btn">
-                                 <button class="btn btn-success add_more_attachments p8" type="button"><i class="fa fa-plus"></i></button>
-                                 </span>
+                                                    <button class="btn btn-success add_more_attachments p8" type="button"><i class="fa fa-plus"></i></button>
+                                                </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,12 +116,18 @@
                             }
                         } ?>
                         <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?php $value = isset($task->session_number) ? $task->session_number : ''; ?>
+                                <?php echo render_input('session_number','session_number',$value,'number'); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php $value = (isset($task) ? $task->judicial_office_number : ''); ?>
+                                <?php echo render_input('judicial_office_number','judicial_office_number',$value,'number'); ?>
+                            </div>
+                        </div>
                         <?php $value = (isset($task) ? $task->name : ''); ?>
                         <?php echo render_input('name','task_add_edit_subject',$value); ?>
-                        <div class="task-hours<?php if(isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'projects',array('id'=>$task->rel_id,'billing_type'=>3)) == 0){echo ' hide';} ?>">
-                            <?php $value = (isset($task) ? $task->hourly_rate : 0); ?>
-                            <?php echo render_input('hourly_rate','task_hourly_rate',$value); ?>
-                        </div>
                         <div class="project-details<?php if($rel_type != 'project'){echo ' hide';} ?>">
                             <div class="form-group">
                                 <label for="milestone"><?php echo _l('task_milestone'); ?></label>
@@ -134,23 +141,133 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="task-hours<?php if(isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'projects',array('id'=>$task->rel_id,'billing_type'=>3)) == 0){echo ' hide';} ?>">
+                                    <?php $value = (isset($task) ? $task->hourly_rate : 0); ?>
+                                    <?php echo render_input('hourly_rate','task_hourly_rate',$value); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="time" class="col-form-label"><?php echo _l('session_time'); ?></label>
+                                    <?php $value = (isset($task) ? $task->time : ''); ?>
+                                    <input type="text" class="form-control" value="<?php echo $value; ?>" id="time" name="time" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
+                                    <select name="court_id" onchange="GetCourtJad()" class="selectpicker" id="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option value=""></option>
+                                        <?php $value = (isset($task) ? $task->court_id : ''); ?>
+                                        <?php foreach($courts as $court) { ?>
+                                            <option value="<?php echo $court['c_id'] ?>" <?php echo $value == $court['c_id'] ? 'selected' : ''; ?>><?php echo $court['court_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
+                                    <select class="form-control custom_select_arrow" id="dept" name="dept" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option selected disabled></option>
+                                        <?php $data = get_relation_data('myjudicial',$task->court_id);
+                                        foreach ($data as $row) {
+                                            if($task->dept == $row->j_id) { ?>
+                                                <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
+                                            <?php } } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="judge_id" class="control-label"><?php echo _l('judge'); ?></label>
+                                    <select name="judge_id" class="selectpicker" id="judge_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option value=""></option>
+                                        <?php $value = (isset($task) ? $task->judge_id : ''); ?>
+                                        <?php foreach($judges as $judge) { ?>
+                                            <option value="<?php echo $judge['id'] ?>" <?php echo $value == $judge['id'] ? 'selected' : ''; ?>><?php echo $judge['name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="session_type" class="control-label"><?php echo _l('session_type'); ?></label>
+                                    <select name="session_type" class="selectpicker" id="session_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option value=""></option>
+                                        <?php $value = (isset($task) ? $task->session_type : ''); ?>
+                                        <option value="جلسة قضائية" <?php echo $value == 'جلسة قضائية' ? 'selected' : ''; ?>>جلسة قضائية</option>
+                                        <option value="جلسة خبراء" <?php echo $value == 'جلسة خبراء' ? 'selected' : ''; ?>>جلسة خبراء</option>
+                                        <option value="جلسة الحكم" <?php echo $value == 'جلسة الحكم' ? 'selected' : ''; ?>>جلسة الحكم</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option value=""></option>
+                                        <?php foreach ($legal_services as $service): ?>
+                                            <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
+                                                <?php if(isset($task) || $this->input->get('rel_type')){
+                                                    if($service->is_module == 0){
+                                                        if($rel_type == $service->slug){
+                                                            echo 'selected';
+                                                        }
+                                                    }else{
+                                                        if($rel_type == 'project'){
+                                                            echo 'selected';
+                                                        }
+                                                    }
+                                                } ?>><?php echo $service->name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                                    <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                    <div id="rel_id_select">
+                                        <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                            <?php if($rel_id != '' && $rel_type != ''){
+                                                $rel_data = get_relation_data($rel_type,$rel_id);
+                                                $rel_val = get_relation_values($rel_data,$rel_type);
+                                                if(!$rel_data){
+                                                    echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
+                                                }else{
+                                                    echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                                }
+                                            } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <?php if(isset($task)){
-                                    $value = _d($task->startdate);
+                                    $value_startdate = _d($task->startdate);
                                 } else if(isset($start_date)){
-                                    $value = $start_date;
+                                    $value_startdate = _d($start_date);
                                 } else {
-                                    $value = _d(date('Y-m-d'));
+                                    $value_startdate = _d(date('Y-m-d'));
                                 }
                                 $date_attrs = array();
                                 if(isset($task) && $task->recurring > 0 && $task->last_recurring_date != null) {
                                     $date_attrs['disabled'] = true;
                                 }
                                 ?>
-                                <?php echo render_date_input('startdate','task_add_edit_start_date',$value, $date_attrs); ?>
-                            </div>
-                            <div class="col-md-6">
-                                <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                                <?php echo render_date_input('duedate','task_add_edit_due_date',$value,$project_end_date_attrs); ?>
+                                <?php echo render_date_input('startdate','session_date',$value_startdate, $date_attrs); ?>
+                                <div class="col-md-6 hide">
+                                    <?php $value_due_date = (isset($task) ? _d($task->duedate) : ''); ?>
+                                    <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,''); ?>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -163,7 +280,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 hide">
                                 <div class="form-group">
                                     <label for="repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label>
                                     <select name="repeat_every" id="repeat_every" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -177,6 +294,14 @@
                                         <option value="1-year" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'year'){echo 'selected';} ?>>1 <?php echo _l('year'); ?></option>
                                         <option value="custom" <?php if(isset($task) && $task->custom_recurring == 1){echo 'selected';} ?>><?php echo _l('recurring_custom'); ?></option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div id="inputTagsWrapper">
+                                        <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
+                                        <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($task) ? prep_tags_input(get_tags_in($task->id,'task')) : ''); ?>" data-role="tagsinput">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -216,39 +341,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
-                                    <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option value=""></option>
-                                            <?php echo _l('legal_procedures'); ?>
-                                        </option>
-                                        <?php foreach ($legal_services as $service): ?>
-                                            <option value="<?php echo $service->slug; ?>" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == $service->slug){echo 'selected';}} ?>><?php echo $service->name; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
-                                    <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
-                                    <div id="rel_id_select">
-                                        <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                            <?php if($rel_id != '' && $rel_type != ''){
-                                                $rel_data = get_relation_data($rel_type,$rel_id);
-                                                $rel_val = get_relation_values($rel_data,$rel_type);
-                                                if(!$rel_data){
-                                                    echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
-                                                }else{
-                                                    echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                                                }
-                                            } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <?php
                         if(isset($task)
                             && $task->status == Sessions_model::STATUS_COMPLETE
@@ -267,19 +359,13 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <div id="inputTagsWrapper">
-                                <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
-                                <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($task) ? prep_tags_input(get_tags_in($task->id,'task')) : ''); ?>" data-role="tagsinput">
-                            </div>
-                        </div>
                         <?php $rel_id_custom_field = (isset($task) ? $task->id : false); ?>
                         <?php echo render_custom_fields('sessions',$rel_id_custom_field); ?>
                         <hr />
-                        <p class="bold"><?php echo _l('session_add_edit_description'); ?></p>
+                        <p class="bold"><?php echo _l('session_info'); ?></p>
                         <?php
-                        // onclick and onfocus used for convert ticket to task too
-                        echo render_textarea('description','',(isset($task) ? $task->description : ''),array('rows'=>6,'placeholder'=>_l('task_add_description'),'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($task) || isset($task) && $task->description == '' ? 'init_editor(\'.tinymce-task\', {height:200, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?>
+                        //onclick and onfocus used for convert ticket to task too
+                        echo render_textarea('session_information','',(isset($task) ? $task->session_information : ''),array('rows'=>3,'placeholder'=>_l('session_info'),'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($task) || isset($task) && $task->session_information == '' ? 'init_editor(\'.tinymce-task\', {height:10, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?>
                     </div>
                 </div>
             </div>
@@ -321,13 +407,15 @@
             appValidateForm($('#task-form'), {
                 name: 'required',
                 startdate: 'required',
+                judge_id: 'required',
+                court_id: 'required',
+                time: 'required',
                 repeat_every_custom: { min: 1},
             },session_form_handler);
 
             $('.rel_id_label').html(_rel_type.find('option:selected').text());
 
             _rel_type.on('change', function() {
-
                 var clonedSelect = _rel_id.html('').clone();
                 _rel_id.selectpicker('destroy').remove();
                 _rel_id = clonedSelect;
@@ -393,6 +481,10 @@
             _rel_id.change();
             <?php } ?>
 
+            $('#time').datetimepicker({
+                datepicker:false,
+                format:'H:i'
+            });
         });
 
         <?php if(isset($_milestone_selected_data)){ ?>
@@ -441,6 +533,50 @@
             init_datepicker($duedate);
         }
 
+        // Copy task href/button event.
+        // $("body").on('click', '.copy_session_action', function() {
+        //
+        // });
+
+        function copy_session_action(){
+            var data = {};
+            $(this).prop('disabled', true);
+            data.copy_from = $('.copy_session_action').data('task-copy-from');
+            data.copy_task_assignees = $("body").find('#copy_task_assignees').prop('checked');
+            data.copy_task_followers = $("body").find('#copy_task_followers').prop('checked');
+            data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
+            data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
+            data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
+            $.post(admin_url + 'LegalServices/Sessions/copy_session', data).done(function(response) {
+                response = JSON.parse(response);
+                if (response.success === true || response.success == 'true') {
+                    var $taskModal = $('#_task_modal');
+                    if ($taskModal.is(':visible')) {
+                        $taskModal.modal('hide');
+                    }
+                    init_task_modal(response.new_task_id);
+                    reload_tasks_tables();
+
+                }
+                alert_float(response.alert_type, response.message);
+            });
+            return false;
+        }
+
+        function GetCourtJad() {
+            $('#dept').html('');
+            id = $('#court_id').val();
+            $.ajax({
+                url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
+                success: function (data) {
+                    response = JSON.parse(data);
+                    $.each(response, function (key, value) {
+                        $('#dept').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
+                    });
+                }
+            });
+        }
+
         //hide task-hours when change state task_billable by baraa
         $(function(){
             $('#task_is_billable').change(function() {
@@ -451,4 +587,5 @@
                 }
             });
         });
+
     </script>

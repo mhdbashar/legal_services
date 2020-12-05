@@ -561,7 +561,6 @@ var table_invoices_case,
 table_invoices_case = $('table.table-invoices_case');
 table_estimates_case = $('table.table-estimates_case');
 
-
 if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
 
     // Invoices additional server params
@@ -572,11 +571,11 @@ if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
         Invoices_Estimates_ServerParamsCase[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
     });
 
-    servid_invoices_case = $(".table-invoices_case").attr('data-servid');
-    slug_invoices_case = $(".table-invoices_case").attr('data-slug');
-    clientid = 0;
     if (table_invoices_case.length) {
         // Invoices tables
+        servid_invoices_case = $(".table-invoices_case").attr('data-servid');
+        slug_invoices_case = $(".table-invoices_case").attr('data-slug');
+        clientid = 0;
         initDataTable(table_invoices_case, (admin_url + 'invoices/table_case/'+ clientid + '/' + servid_invoices_case +'/' + slug_invoices_case + ($('body').hasClass('recurring') ? '?recurring=1' : '')), 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, !$('body').hasClass('recurring') ? [
             [3, 'desc'],
             [0, 'desc']
@@ -587,6 +586,7 @@ if (table_invoices_case.length > 0 || table_estimates_case.length > 0) {
         // Estimates table
         servid_estimates_case = $(".table-estimates_case").attr('data-servid');
         slug_estimates_case = $(".table-estimates_case").attr('data-slug');
+        clientid = 0;
         initDataTable(table_estimates_case, admin_url + 'estimates/table_case/' + clientid + '/' + servid_estimates_case +'/' + slug_estimates_case , 'undefined', 'undefined', Invoices_Estimates_ServerParamsCase, [
             [3, 'desc'],
             [0, 'desc']

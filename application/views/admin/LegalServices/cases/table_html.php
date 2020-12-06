@@ -20,8 +20,10 @@ foreach ($custom_fields as $field) {
 }
 
 $table_data = hooks()->apply_filters('projects_table_columns', $table_data);
-
+$CI = &get_instance();
+$service = $CI->db->get_where('my_basic_services', array('id' => 1))->row();
 render_datatable($table_data, isset($class) ?  $class : 'cases', [], [
   'data-last-order-identifier' => 'cases',
   'data-default-order'  => get_table_last_order('cases'),
+  'data-slug'  => $service->slug,
 ]);

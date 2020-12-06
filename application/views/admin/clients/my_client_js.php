@@ -205,7 +205,8 @@ $(function() {
     /* Custome profile projects table */
     initDataTable('.table-projects-single-client', admin_url + 'projects/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
     /* Custome profile cases table */
-    initDataTable('.table-cases-single-client', admin_url + 'LegalServices/Cases_controller/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+    slug_case = $(".table-cases-single-client").attr('data-slug');
+    initDataTable('.table-cases-single-client', admin_url + 'LegalServices/Cases_controller/table/' + customer_id +'/' +slug_case, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
     /* Custome profile legalservices table */
     initDataTable('.table-legalservices-single-client', admin_url + 'LegalServices/Other_services_controller/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
 

@@ -1,7 +1,6 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-
 $hasPermissionEdit   = has_permission('projects', '', 'edit');
 $hasPermissionDelete = has_permission('projects', '', 'delete');
 $hasPermissionCreate = has_permission('projects', '', 'create');

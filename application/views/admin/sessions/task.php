@@ -408,7 +408,7 @@
                 name: 'required',
                 startdate: 'required',
                 judge_id: 'required',
-                court_id: 'required',
+                //court_id: 'required',
                 time: 'required',
                 repeat_every_custom: { min: 1},
             },session_form_handler);

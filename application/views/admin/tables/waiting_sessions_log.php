@@ -135,7 +135,7 @@ foreach ($rResult as $aRow) {
     $outputName .= '</div>';
     $row[] = $outputName;
     $row[] = $aRow['judge'];
-    $row[] = $aRow['court_name'];
+    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
     //$row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';

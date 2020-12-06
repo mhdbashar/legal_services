@@ -277,7 +277,6 @@ class Timesheet extends AdminController{
             if($value == '')
                 $data[$key] = null;
         }
-        //var_dump($data);exit;
 
         $success = $this->Office_shift_model->add($data);
         if($success)

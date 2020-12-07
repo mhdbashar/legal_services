@@ -89,6 +89,27 @@ class Imported_services_model extends App_Model
         $this->db->order_by('my_imported_services.id', 'desc');
         return $this->db->get(db_prefix() . 'my_imported_services')->result_array();
     }
+
+    public function add($client_id, $data){
+        $slug = 'imported';
+        $ServiceName = 'imported_services';
+        $new_data = [
+            'clientid' => $client_id,
+            'name' => $data['name'],
+            'cat_id' => 0,
+            'subcat_id' => 0,
+            'service_session_link' => 1,
+            'billing_type' => 0,
+            'status' => 1,
+            'project_rate_per_hour' => 0,
+            'description' => $data['description']
+        ];
+        $this->db->insert(db_prefix() . 'my_imported_services', $new_data);
+        $id = $this->db->insert_id();
+        if($id)
+            return $id;
+        return false;
+    }
     public function copy($ServID,$project_id, $data)
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
@@ -154,7 +175,7 @@ class Imported_services_model extends App_Model
             if ($id) {
                 $files = $this->other->get_imported_files($project_id);
                 if(!file_exists('uploads/cases/'.$id)){
-                        mkdir(FCPATH.'uploads/cases/'.$id, 0777);
+                        mkdir(FCPATH.'uploads/cases/'.$id, 0755);
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
@@ -246,7 +267,7 @@ class Imported_services_model extends App_Model
             if ($id) {
                 $files = $this->other->get_imported_files($project_id);
                 if(!file_exists('uploads/oservices/'.$id)){
-                        mkdir(FCPATH.'uploads/oservices/'.$id, 0777);
+                        mkdir(FCPATH.'uploads/oservices/'.$id, 0755);
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];

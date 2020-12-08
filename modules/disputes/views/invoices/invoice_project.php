@@ -20,10 +20,10 @@
                 <!--<button class="btn btn-default invoice-form-submit save-as-draft transaction-submit">
                     <?php echo _l('save_as_draft'); ?>
                 </button>-->
-                <button class="btn btn-info invoice-form-submit save-and-send transaction-submit">
+                <button disabled="true" class="submit_total btn btn-info invoice-form-submit save-and-send transaction-submit">
                       <?php echo _l('save_and_send'); ?>
                 </button>
-                <button class="btn btn-info invoice-form-submit transaction-submit">
+                <button disabled="true" class="submit_total btn btn-info invoice-form-submit transaction-submit">
                     <?php echo _l('submit'); ?>
                 </button>
             </div>
@@ -47,5 +47,6 @@
     $('#invoice-project-modal #clientid').change();
     $('input[name="show_quantity_as"]:checked').change();
     disputes_calculate_total();
+
 
 </script>

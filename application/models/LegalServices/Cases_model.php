@@ -1447,7 +1447,6 @@ class Cases_model extends App_Model
             $this->db->where('visible_to_customer', 1);
         }
         $this->db->where('project_id', $project_id);
-
         return $this->db->get(db_prefix() . 'case_files')->result_array();
     }
 
@@ -2900,6 +2899,26 @@ class Cases_model extends App_Model
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
         $slug2      = $this->legal->get_service_by_id($ServID2)->row()->slug;
+        $mark_as_data = [
+            'status_id' => 4,
+            'project_id' => $project_id,
+            'send_project_marked_as_finished_email_to_contacts' => 0,
+            'mark_all_tasks_as_completed' => 1,
+            'cancel_recurring_tasks' => false,
+            'notify_project_members_status_change' => 0
+        ];
+
+            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+                $status = get_case_status_by_id($mark_as_data['status_id']);
+
+                $message = _l('project_marked_as_failed', $status['name']);
+                $success = $this->mark_as($ServID, $mark_as_data, $slug);
+
+                if ($success) {
+                    $message = _l('project_marked_as_success', $status['name']);
+                }
+            }
+
         $project   = $this->get($project_id);
         $settings  = $this->get_case_settings($project_id);
         $_new_data = [];

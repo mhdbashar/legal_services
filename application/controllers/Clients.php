@@ -18,7 +18,7 @@ class Clients extends ClientsController
         $this->load->model('LegalServices/Cases_model', 'case');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+        $this->load->model('procurations_model', 'procurations');
         hooks()->do_action('after_clients_area_init', $this);
     }
 
@@ -523,9 +523,9 @@ class Clients extends ClientsController
         $data['is_home'] = true;
         $this->load->model('reports_model');
         $data['payments_years'] = $this->reports_model->get_distinct_customer_invoices_years();
-
         $data['project_statuses'] = $this->projects_model->get_project_statuses();
         $data['title']            = get_company_name(get_client_user_id());
+        $data['legal_services']   = $this->legal->get_all_services();
         $this->data($data);
         $this->view('home');
         $this->layout();
@@ -1017,32 +1017,6 @@ class Clients extends ClientsController
         $this->layout();
     }
 
-    
-    public function download_all_project_files($id)
-    {
-        if (!has_contact_permission('projects')) {
-            set_alert('warning', _l('access_denied'));
-            redirect(site_url());
-        }
-
-        $files = $this->projects_model->get_files($id);
-
-        if (count($files) == 0) {
-            set_alert('warning', _l('no_files_found'));
-            redirect(site_url('clients/project/' . $id . '?group=project_files'));
-        }
-
-        $path = get_upload_path_by_type('project') . $id;
-        $this->load->library('zip');
-
-        foreach ($files as $file) {
-            $this->zip->read_file($path . '/' . $file['file_name']);
-        }
-
-        $this->zip->download(slug_it(get_project_name_by_id($id)) . '-files.zip');
-        $this->zip->clear_data();
-    }
-
     public function legal_services($id, $ServID)
     {
         if (!has_contact_permission('projects')) {
@@ -1247,6 +1221,7 @@ class Clients extends ClientsController
                         header('HTTP/1.0 404 Not Found');
                         die;
                     }
+                    $file_data['ServID'] = $ServID;
                     echo get_template_part('legal_services/file', $file_data, true);
                     die;
 
@@ -1290,7 +1265,7 @@ class Clients extends ClientsController
                     $comment_data            = $this->input->post();
                     $comment_data['content'] = nl2br($comment_data['content']);
                     $comment_id              = $this->tasks_model->add_task_comment($comment_data);
-                    $url                     = site_url('clients/legal_services/' . $id . '?group=project_tasks&taskid=' . $comment_data['taskid']);
+                    $url                     = site_url('clients/legal_services/' . $id .'/'. $ServID . '?group=project_tasks&taskid=' . $comment_data['taskid']);
 
                     if ($comment_id) {
                         set_alert('success', _l('task_comment_added'));
@@ -1390,9 +1365,9 @@ class Clients extends ClientsController
                     $data['service_id']  = $ServID;
                     $data['rel_id']      = $id;
                     $data['project_tasks']  = $this->case->get_CaseSession($id);
-                   // $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                    $data['judges']      = $this->service_sessions->get_judges();
-                    $data['courts']      = $this->service_sessions->get_court();
+                   // $data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                    $data['judges']      = $this->sessions_model->get_judges();
+                    $data['courts']      = $this->sessions_model->get_court();
                 }else{
                     $data['gantt_data'] = $this->other->get_gantt_data($slug, $id);
                 }
@@ -1424,6 +1399,14 @@ class Clients extends ClientsController
                 }else{
                     $data['project_tasks']  = $this->other->get_tasks($ServID, $id);
                 }
+            } elseif ($group == 'project_contracts') {
+                $data['contracts'] = [];
+                if (has_contact_permission('contracts')) {
+                    $data['contracts'] = $this->contracts_model->get('', [
+                        'client'  => get_client_user_id(),
+                        'rel_sid' => $id,
+                        'rel_stype' => $slug,
+                    ]);}
             } elseif ($group == 'project_activity') {
                 if($ServID == 1){
                     $data['activity'] = $this->case->get_activity($id);
@@ -1481,7 +1464,10 @@ class Clients extends ClientsController
                 }else{
                     $data['timesheets'] = $this->other->get_timesheets($ServID, $id);
                 }
+            } elseif ($group == 'procuration') {
+                $data['procuration'] = $this->procurations->get_procurations(get_client_user_id());
             }
+
 
             if ($this->input->get('taskid')) {
                 $data['view_task'] = $this->tasks_model->get($this->input->get('taskid'), [
@@ -1496,7 +1482,7 @@ class Clients extends ClientsController
                     'rel_id'   => $project->id,
                     'rel_type' => $slug,
                 ], 1);
-                $data['session_data'] = $this->service_sessions->get_session_data($this->input->get('session_id'));
+                $data['session_data'] = $this->sessions_model->get_session_data($this->input->get('session_id'));
                 $data['court_decision'] = $data['session_data']->tbl8;
 
                 $data['title'] = $data['view_task']->name;
@@ -1530,6 +1516,31 @@ class Clients extends ClientsController
         $this->data($data);
         $this->view('legal_services');
         $this->layout();
+    }
+
+    public function download_all_project_files($id)
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+
+        $files = $this->projects_model->get_files($id);
+
+        if (count($files) == 0) {
+            set_alert('warning', _l('no_files_found'));
+            redirect(site_url('clients/project/' . $id . '?group=project_files'));
+        }
+
+        $path = get_upload_path_by_type('project') . $id;
+        $this->load->library('zip');
+
+        foreach ($files as $file) {
+            $this->zip->read_file($path . '/' . $file['file_name']);
+        }
+
+        $this->zip->download(slug_it(get_project_name_by_id($id)) . '-files.zip');
+        $this->zip->clear_data();
     }
 
     public function files()
@@ -1716,7 +1727,6 @@ class Clients extends ClientsController
             set_alert('warning', _l('access_denied'));
             redirect(site_url());
         }
-
         if ($this->input->post()) {
             $this->form_validation->set_rules('subject', _l('customer_ticket_subject'), 'required');
             $this->form_validation->set_rules('department', _l('clients_ticket_open_departments'), 'required');
@@ -2090,7 +2100,7 @@ class Clients extends ClientsController
     {
         if ($this->input->post('profile')) {
             $this->form_validation->set_rules('firstname', _l('client_firstname'), 'required');
-            $this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
+            //$this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
 
             $this->form_validation->set_message('contact_email_profile_unique', _l('form_validation_is_unique'));
             $this->form_validation->set_rules('email', _l('clients_email'), 'required|valid_email|callback_contact_email_profile_unique');
@@ -2150,7 +2160,7 @@ class Clients extends ClientsController
 
                 $success = $this->clients_model->update_contact([
                     'firstname'          => $this->input->post('firstname'),
-                    'lastname'           => $this->input->post('lastname'),
+                    //'lastname'           => $this->input->post('lastname'),
                     'title'              => $this->input->post('title'),
                     'email'              => $this->input->post('email'),
                     'phonenumber'        => $this->input->post('phonenumber'),

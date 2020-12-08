@@ -28,6 +28,8 @@ $table_data = hooks()->apply_filters('contracts_table_columns', $table_data);
 render_datatable($table_data, (isset($class) ? $class : 'contracts'),[],[
   'data-last-order-identifier' => 'contracts',
   'data-default-order'         => get_table_last_order('contracts'),
+  'data-rel_sid'               => isset($ServID) ? $ServID == 1 ? (isset($id) ? $id : '') : (isset($project_id) ? $project_id : '') : '',
+  'data-rel_stype'             => isset($service->slug) ? $service->slug : ''
 ]);
 
 ?>

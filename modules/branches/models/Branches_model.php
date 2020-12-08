@@ -94,7 +94,6 @@ class Branches_model extends App_Model
         $data = [];
         $this->db->where(['rel_id' => $rel_id, 'rel_type' => $rel_type]);
         $branch_id = $this->db->get(db_prefix().'branches_services')->row_array()['branch_id'];
-        
         return $branch_id;
     }
 

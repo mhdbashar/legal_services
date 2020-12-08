@@ -327,8 +327,15 @@ class Invoices extends AdminController
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {
+        
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
+
+            $opponents = $invoice_data['opponents'];
+            unset($invoice_data['opponents']);
+            
+
+
 
             if ($id == '') {
                 if (!has_permission('invoices', '', 'create')) {
@@ -382,6 +389,16 @@ class Invoices extends AdminController
             $installment_date = $invoice_data['installment_date'];
             $installment_total = $invoice_data['installment_total'];
             unset($invoice_data['recurring'],$invoice_data['cycles'],$invoice_data['installment_date'],$invoice_data['installment_total']);
+            $this->db->where('dispute_id', $invoice_data['project_id']);
+            $this->db->delete(db_prefix() . 'my_disputes_opponents');
+
+            foreach ($opponents as $opponent) {
+                $this->db->insert(db_prefix() . 'my_disputes_opponents', [
+                    'opponent_id' => $opponent,
+                    'dispute_id' => $invoice_data['project_id']
+                ]);
+            }
+            $invoice_data['project_id'] = $invoice_data['project_id'];
             $redUrl = array();
 
             for($cycl=0; $cycl<$cycls; $cycl++) {
@@ -392,7 +409,7 @@ class Invoices extends AdminController
                 $invoice_data['duedate'] = $installment_date[$cycl];
                 $invoice_data['subtotal'] = $invoice_data['total'] = $installment_total[$cycl];
 
-                $success = $this->invoices_model->update($invoice_data, $id);
+                $success = $this->invoices_model->update($invoice_data, $id, $opponents);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('invoice')));
                 }
@@ -454,6 +471,20 @@ class Invoices extends AdminController
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
+        // Extract meta values of this project
+        $this->load->model('Disputes_model');
+        $meta = $this->Disputes_model->get_project_meta($invoice->project_id?$invoice->project_id:0);
+        $data['meta'] = array();
+        foreach ($meta as $array) {
+            $data['meta'][$array['meta_key']] = $array['meta_value'];
+        }
+        $opponents = explode(',', isset($data['meta']['opponent_id'])?$data['meta']['opponent_id']:'');
+        $data['opponents'] = array();
+        foreach ($opponents as $opponent) {
+            if($opponent) $data['opponents'][] = $this->clients_model->get($opponent);
+        }
+        $this->db->where('dispute_id', $invoice->project_id);
+        $data['selected_opponents'] = $this->db->get('tblmy_disputes_opponents')->result_array();
         $this->load->view('disputes/invoices/invoice', $data);
     }
 
@@ -621,8 +652,7 @@ class Invoices extends AdminController
                 }
 
             }
-            
-            //print_r($invoice_data);die();
+
             //stdClass Object ( [id] => 14 [sent] => 0 [datesend] => [clientid] => 2 [deleted_customer_name] => [number] => 3 [prefix] => DIS- [number_format] => 1 [datecreated] => 2019-09-20 21:32:20 [date] => 2019-09-20 [duedate] => 2019-10-20 [currency] => 1 [subtotal] => 380.00 [total_tax] => 0.00 [total] => 380.00 [adjustment] => 0.00 [addedfrom] => 1 [hash] => b65173b8582a5131f8833a6b8434772e [status] => 1 [clientnote] => [adminnote] => [last_overdue_reminder] => [cancel_overdue_reminders] => 0 [allowed_payment_modes] => a:1:{i:0;s:1:"1";} [token] => [discount_percent] => 0.00 [discount_total] => 0.00 [discount_type] => [recurring] => 0 [recurring_type] => [custom_recurring] => 0 [cycles] => 0 [total_cycles] => 0 [is_recurring_from] => [last_recurring_date] => [terms] => [sale_agent] => 0 [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [billing_country] => [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [shipping_country] => [include_shipping] => 0 [show_shipping_on_invoice] => 1 [show_quantity_as] => 1 [project_id] => 6 [rel_sid] => [rel_stype] => [subscription_id] => 0 [symbol] => $ [name] => USD [decimal_separator] => . [thousand_separator] => , [placement] => before [isdefault] => 1 [currencyid] => 1 [currency_name] => USD [total_left_to_pay] => 380.00 [items] => Array ( [0] => Array ( [id] => 12 [rel_id] => 14 [rel_type] => invoice [description] => [long_description] => [qty] => 1.00 [rate] => 55.00 [unit] => [item_order] => 1 ) ) [attachments] => Array ( ) [project_data] => stdClass Object ( [id] => 6 [name] => Yasser Alkhayat [description] => [status] => 2 [clientid] => 2 [billing_type] => 1 [start_date] => 2019-08-17 [deadline] => [project_created] => 2019-08-17 [date_finished] => [progress] => 0 [progress_from_tasks] => 0 [project_cost] => 0.00 [project_rate_per_hour] => 0.00 [estimated_hours] => 0.00 [addedfrom] => 1 [project_type] => 1 [shared_vault_entries] => Array ( ) [settings] => stdClass Object ( [available_features] => a:15:{s:16:"project_overview";i:1;s:13:"project_tasks";i:1;s:18:"project_timesheets";i:1;s:18:"project_milestones";i:1;s:13:"project_files";i:1;s:19:"project_discussions";i:1;s:13:"project_gantt";i:1;s:15:"project_tickets";i:1;s:16:"project_invoices";i:1;s:17:"project_estimates";i:1;s:16:"project_expenses";i:1;s:20:"project_credit_notes";i:1;s:21:"project_subscriptions";i:1;s:13:"project_notes";i:1;s:16:"project_activity";i:1;} [view_tasks] => 1 [create_tasks] => 1 [edit_tasks] => 1 [comment_on_tasks] => 1 [view_task_comments] => 1 [view_task_attachments] => 1 [view_task_checklist_items] => 1 [upload_on_tasks] => 1 [view_task_total_logged_time] => 1 [view_finance_overview] => 1 [upload_files] => 1 [open_discussions] => 1 [view_milestones] => 1 [view_gantt] => 1 [view_timesheets] => 1 [view_activity_log] => 1 [view_team_members] => 1 [hide_tasks_on_main_tasks_table] => 0 ) [client_data] => stdClass Object ( [userid] => 2 [company] => Client company [vat] => [phonenumber] => [country] => 194 [city] => al-baha [zip] => [state] => [address] => [website] => [datecreated] => 2019-07-25 13:58:22 [active] => 1 [leadid] => [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [billing_country] => 0 [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [shipping_country] => 0 [longitude] => [latitude] => [default_language] => [default_currency] => 0 [show_primary_contact] => 0 [stripe_id] => [registration_confirmed] => 1 [addedfrom] => 1 [individual] => 0 ) ) [visible_attachments_to_customer_found] => [client] => stdClass Object ( [userid] => 2 [company] => Client company [vat] => [phonenumber] => [country] => 194 [city] => al-baha [zip] => [state] => [address] => [website] => [datecreated] => 2019-07-25 13:58:22 [active] => 1 [leadid] => [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [billing_country] => 0 [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [shipping_country] => 0 [longitude] => [latitude] => [default_language] => [default_currency] => 0 [show_primary_contact] => 0 [stripe_id] => [registration_confirmed] => 1 [addedfrom] => 1 [individual] => 0 ) [payments] => Array ( ) )
 
             //Array ( [clientid] => 2 [billing_street] => [billing_city] => [billing_state] => [billing_zip] => [show_shipping_on_invoice] => on [shipping_street] => [shipping_city] => [shipping_state] => [shipping_zip] => [number] => 3 [date] => 1441-1-21 [duedate] => 1441-1-21 [tags] => [allowed_payment_modes] => Array ( [0] => 1 ) [currency] => 1 [sale_agent] => [discount_type] => [repeat_every_custom] => 1 [repeat_type_custom] => day [adminnote] => [subtotal] => 330.00 [discount_percent] => 0 [discount_total] => 0 [adjustment] => 0 [total] => 330.00 [task_id] => [expense_id] => [clientnote] => [terms] => [save_and_send] => true [project_id] => 6 [prefix] => DIS- )

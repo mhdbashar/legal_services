@@ -244,6 +244,14 @@ class Clients extends AdminController
                         ],
                         ]);
                 }
+            } elseif ($group == 'cases') {
+                $this->load->model('LegalServices/Cases_model', 'case');
+                $data['model'] = $this->case;
+                $data['project_statuses'] = $this->case->get_project_statuses();
+            } elseif ($group == 'legal_services') {
+                $this->load->model('LegalServices/Other_services_model', 'other');
+                $data['model']    = $this->other;
+                $data['project_statuses'] = $this->other->get_project_statuses();
             }
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
@@ -838,7 +846,6 @@ class Clients extends AdminController
             if($value == 'firstname')
                 $dbFields[$key] = 'full_name';
         }
-        //var_dump($dbFields);exit;
 
         $this->load->library('import/import_customers', [], 'import');
 

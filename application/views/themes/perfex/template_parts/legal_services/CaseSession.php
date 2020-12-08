@@ -12,7 +12,7 @@
             <th><?php echo _l('session_date'); ?></th>
             <th><?php echo _l('session_time'); ?></th>
             <?php
-               $custom_fields = get_custom_fields('tasks',array('show_on_client_portal'=>1));
+               $custom_fields = get_custom_fields('sessions',array('show_on_client_portal'=>1));
                foreach($custom_fields as $field){ ?>
             <th><?php echo $field['name']; ?></th>
             <?php } ?>

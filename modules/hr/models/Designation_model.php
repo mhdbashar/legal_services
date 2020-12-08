@@ -52,7 +52,6 @@ class Designation_model extends App_Model{
         $this->db->join(db_prefix() . 'hr_extra_info', db_prefix() . 'hr_extra_info.staff_id = '.db_prefix().'branches_services.rel_id', 'inner');
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = '.db_prefix() .'hr_extra_info.staff_id', 'inner');
         $staffs = $this->db->get(db_prefix() . 'branches_services')->result_array();
-        //echo '<pre>';print_r($staffs); exit;
         $data = [];
         foreach ($staffs as $staff) {
             $staff_array = [];

@@ -234,7 +234,7 @@
                         <span class="text-info"><?php echo _l('customers_summary_active'); ?></span>
                      </div>
 
-                     <div class="col-md-2 col-xs-6 border-right">
+                     <div class="col-md-2 col-xs-6">
                         <?php
                                $this->db->where([db_prefix().'clients.active'=>0, 'client_type'=>1]);
 
@@ -245,7 +245,7 @@
                         <h3 class="bold"><?php echo $customers_summary_inactive; ?></h3>
                         <span class="text-danger"><?php echo _l('customers_summary_inactive'); ?></span>
                      </div>
-                     <div class="col-md-2 col-xs-6">
+                    <?php /* <div class="col-md-2 col-xs-6">
                         <h3 class="bold"><?php echo total_rows(db_prefix().'contacts','last_login LIKE "'.date('Y-m-d').'%"'.$where_summary); ?></h3>
                         <span class="text-muted">
                         <?php
@@ -262,7 +262,7 @@
                         <?php } ?>
                         <span<?php if($contactsTemplate != ''){ ?> class="pointer text-has-action" data-toggle="popover" data-title="<?php echo _l('customers_summary_logged_in_today'); ?>" data-html="true" data-content="<?php echo $contactsTemplate; ?>" data-placement="bottom" <?php } ?>><?php echo _l('customers_summary_logged_in_today'); ?></span>
                         </span>
-                     </div>
+                     </div>  */ ?>
                   </div>
                   <?php } ?>
                   <hr class="hr-panel-heading" />

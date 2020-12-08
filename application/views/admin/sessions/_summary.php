@@ -13,4 +13,4 @@
     </div>
     <?php } ?>
   </div>
-  <hr class="hr-panel-heading" />
+<!--  <hr class="hr-panel-heading" />-->

@@ -13,7 +13,6 @@ class Cases_controller extends AdminController
     $this->load->model('currencies_model');
     $this->load->model('LegalServices/Case_movement_model', 'movement');
     $this->load->model('Branches_model');
-    $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     $this->load->model('tasks_model');
     $this->load->model('LegalServices/Phase_model','phase');
     $this->load->model('LegalServices/irac_model', 'irac');
@@ -294,7 +293,7 @@ class Cases_controller extends AdminController
             $data['bodyclass'] = '';
             //$this->app_scripts->add('cases-js', 'assets/js/cases.js');
             $this->app_scripts->add(
-                'projects-js',
+                'case-js',
                 base_url($this->app_scripts->core_file('assets/js', 'cases.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
@@ -417,9 +416,9 @@ class Cases_controller extends AdminController
             } elseif ($group == 'CaseSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-               // $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                $data['judges']      = $this->service_sessions->get_judges();
-                $data['courts']      = $this->service_sessions->get_court();
+               // $data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+                $data['courts']      = $this->sessions_model->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             } elseif ($group == 'IRAC'){

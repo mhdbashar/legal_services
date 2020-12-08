@@ -381,7 +381,7 @@ function init_relation_sessions_table($table_attributes = [])
     } elseif ($table_attributes['data-new-rel-type'] == 'customer') {
         echo '<div class="clearfix"></div>';
         echo '<div id="tasks_related_filter">';
-        echo '<p class="bold">' . _l('session_related_to') . ': </p>';
+        echo '<p class="bold">' . _l('task_related_to') . ': </p>';
 
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">

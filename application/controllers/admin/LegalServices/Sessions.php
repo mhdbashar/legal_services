@@ -319,7 +319,7 @@ class Sessions extends AdminController
     public function init_relation_tasks($rel_id, $rel_type)
     {
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('tasks_relations', [
+            $this->app->get_table_data('sessions_relations', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
             ]);

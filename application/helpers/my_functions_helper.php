@@ -103,6 +103,12 @@ function my_app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/legal_services',
         'position' => 65,
     ]);
+    $CI->app_tabs->add_customer_profile_tab('sessions', [
+        'name'     => _l('sessions'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/clients/groups/sessions',
+        'position' => 65,
+    ]);
 }
 
 function my_module_menu_item_collapsible()
@@ -512,6 +518,59 @@ function to_AD_date($date)
     return $date;
 }
 
+function force_to_AD_date($date)
+{
+    if(strpos($date, ' ') !== false){    //is datetime
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+    }
+    $sys_format = get_option('dateformat');
+    $formats = explode('|', $sys_format);
+    $formatMode =$formats[0];  //for general dateformat
+
+    /** to check if this hijri status is on from database **/
+    $hijriStatus= get_option('isHijri');
+    /*******************************************************************/
+
+
+    /** to check if this page are included in database hijri option **/
+    // $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    // $admin_url = admin_url();
+    // $this_page = str_replace(admin_url(),'',$current_url);
+
+    // if(search_url($hijri_pages, $this_page) > 0){
+    //     $hijri_convert = true;
+    // }else{
+    //     $hijri_convert = false;
+    // }
+
+    if (true) {
+        $hijri_settings['adj_data'] = get_option('adjust_data');
+//                var_dump($hijri_settings['adj_data'].'fghf');exit();
+
+        $current_date = date_parse($date);
+        $hijriCalendar = new Calendar($hijri_settings);
+
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
+
+
+        $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
+        $date = date($formatMode, strtotime($date));
+    }else{ // AD date
+
+        $date = date($formatMode, strtotime($date));
+
+    }
+    if(isset($time)){
+        $date = $date.' '.$time;
+    }
+
+    return $date;
+}
+
 function search_url($pages, $url)
 {
     $i = 0;
@@ -562,6 +621,64 @@ function to_hijri_date($date)
 /*******************************************************************/
 
     if($hijri_convert && $hijriStatus =="on"){
+
+        $datetime = explode(' ', $date);
+        $date = new DateTime($datetime[0]);
+        $hijriCalendar = new Calendar();
+        $adj = new CalendarAdjustment();
+        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
+
+        $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
+
+         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
+
+
+        // First condition for date and datetime
+        // Second condition for 12 or 24 (Time Format)
+        if (isset($datetime[1])){
+        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+        }
+    }
+    if(isset($time)){
+        $date = $date.' '.$time;
+    }
+        return $date;
+}
+
+function force_to_hijri_date($date)
+{
+    if(strpos($date, ' ') !== false){
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+
+    }
+
+    /** to check if this hijri status is on from database **/
+    $hijriStatus= get_option('isHijri');
+    /*******************************************************************/
+
+
+    /** to check if this page are included in database hijri option **/
+    // $hijri_pages = json_decode(get_option('hijri_pages'));
+    // // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+
+    // $admin_url = admin_url();
+    // $this_page = str_replace(admin_url(),'',$current_url);
+
+
+    // if(search_url($hijri_pages, $this_page) > 0){
+    //     $hijri_convert = true;
+    // }else{
+    //     $hijri_convert = false;
+    // }
+
+
+/*******************************************************************/
+
+    if(true){
 
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);

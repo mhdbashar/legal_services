@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $custom_fields         = get_table_custom_fields('procurations');
 
 $aColumns = [
+    'name',
     'NO',
     'type',
     'status',
@@ -36,6 +37,7 @@ $ci->load->model('procurations_model');
 $ci->load->model('LegalServices/Cases_model', 'case');
 foreach ($rResult as $aRow) {
     $row = [];
+    $row[] = $aRow['name'];
     $row[] = $aRow['NO'];
     $row[] = _d($aRow['start_date']);
     $row[] = _d($aRow['end_date']);
@@ -77,21 +79,31 @@ foreach ($rResult as $aRow) {
         $ci->db->update(db_prefix() . 'procurations', ['status' => 1]);
     }
 
-    if(isset($ci->procurationstate_model->get($aRow['status'])->procurationstate)) {
-        $procuration_state = $ci->procurationstate_model->get($aRow['status'])->procurationstate;
-    }else{
-        $procuration_state = 'Not Selected';
-    }
-    $row[] = $procuration_state;
+    // if(isset($ci->procurationstate_model->get($aRow['status'])->procurationstate)) {
+    //     $procuration_state = $ci->procurationstate_model->get($aRow['status'])->procurationstate;
+    // }else{
+    //     $procuration_state = 'Not Selected';
+    // }
 
-    $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
+    if($aRow['status'] == 1)
+        $status_name = _l('active');
+    else
+        $status_name = _l('inactive');
+    $row[] = $status_name;
+
+    if(isset($all) && $all = 1)
+        $request = 'null';
+    else
+        $request = (is_numeric($client_id)) ? $client_id : $aRow['client'] ;
     $options = '';
+
     if (has_permission('procurations', '', 'edit') || is_admin())
     $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'pencil-square-o', 'btn-default');
     // $options .= icon_btn('procuration/procurationcu/' . $request . '/' . $aRow['id'] . '/' . $addition , 'home', 'btn-default');
     
     if (has_permission('procurations', '', 'delete') || is_admin())
     $options .= icon_btn('procuration/delete/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $options .= icon_btn('procuration/pdf/' . $aRow['id'] . '?output_type=I', 'download', 'btn-default');
     
     $row[]   = $options;
 

@@ -2,7 +2,7 @@
 <h4 class="customer-profile-group-heading"><?php echo _l('LegalServices'); ?></h4>
 <?php if(isset($client)){
     $CI = &get_instance();
-    $services = $CI->db->get_where('my_basic_services', array('id !=' => 1))->result();
+    $services = $CI->db->get_where('my_basic_services', array('id !=' => 1, 'is_module' => 0))->result();
     ?>
 <?php
     $count_of_services=0;

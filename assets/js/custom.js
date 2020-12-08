@@ -1332,7 +1332,7 @@ function init_waiting_sessions_log_table(rel_id, rel_type, selector) {
 
 // Reload all tasks possible table where the table data needs to be refreshed after an action is performed on task.
 function reload_tasks_tables() {
-    var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];
+    var av_tasks_tables = ['.table-tasks','.table-tasks_case', '.table-rel-tasks','.table-rel-sessions', '.table-rel-tasks_case' , '.table-rel-tasks-leads', '.table-timesheets', '.table-timesheets_case' , '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];
     $.each(av_tasks_tables, function(i, selector) {
         if ($.fn.DataTable.isDataTable(selector)) {
             $(selector).DataTable().ajax.reload(null, false);
@@ -1435,4 +1435,33 @@ if (table_contract.length > 0) {
         clientid = 0;
         initDataTable(table_contract, admin_url + 'contracts/table_services/' + clientid + '/' + rel_sid_contracts +'/' + rel_stype_contracts , 'undefined', 'undefined', '', []);
     }
+}
+
+// Initing relation tasks tables
+function init_rel_sessions_table(rel_id, rel_type, selector) {
+    if (typeof (selector) == 'undefined') {
+        selector = '.table-rel-sessions';
+    }
+    var $selector = $("body").find(selector);
+    if ($selector.length === 0) {
+        return;
+    }
+
+    var TasksServerParams = {},
+        tasksRelationTableNotSortable = [0], // bulk actions
+        TasksFilters;
+
+    TasksFilters = $('body').find('._hidden_inputs._filters._tasks_filters input');
+
+    $.each(TasksFilters, function () {
+        TasksServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+    });
+
+    var url = admin_url + 'LegalServices/Sessions/init_relation_tasks/' + rel_id + '/' + rel_type;
+
+    if ($selector.attr('data-new-rel-type') == 'project') {
+        url += '?bulk_actions=true';
+    }
+
+    initDataTable($selector, url, tasksRelationTableNotSortable, tasksRelationTableNotSortable, TasksServerParams, [$selector.find('th.duedate').index(), 'asc']);
 }

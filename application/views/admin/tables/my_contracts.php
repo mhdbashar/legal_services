@@ -45,9 +45,13 @@ if ($projectId) {
 array_push($where, 'AND ' . db_prefix() . 'contracts.type_id=0');
 if(isset($rel_sid) && $rel_sid != ''):
     array_push($where, 'AND ' .db_prefix() . 'contracts.rel_sid=' . $rel_sid);
+else:
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_sid is null');
 endif;
 if(isset($rel_stype) && $rel_stype != ''):
     array_push($where, 'AND ' .db_prefix() . 'contracts.rel_stype=' ."'". $rel_stype. "'");
+else:
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_stype is null');
 endif;
 
 if ($this->ci->input->post('exclude_trashed_contracts')) {

@@ -70,6 +70,7 @@ $(function() {
         });
         $('input[name="tasks_related_to"]').val(tasks_related_values.join());
         $('.table-rel-tasks').DataTable().ajax.reload();
+        $('.table-rel-sessions').DataTable().ajax.reload();
     });
 
     var contact_id = get_url_param('contactid');

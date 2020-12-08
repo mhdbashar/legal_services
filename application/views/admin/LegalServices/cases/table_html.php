@@ -13,15 +13,15 @@ $table_data = [
    _l('project_members'),
    _l('project_status'),
 ];
-
-$custom_fields = get_custom_fields('projects', ['show_on_table' => 1]);
+$CI = &get_instance();
+$service = $CI->db->get_where('my_basic_services', array('id' => 1))->row();
+$custom_fields = get_custom_fields($service->slug, ['show_on_table' => 1]);
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
 
 $table_data = hooks()->apply_filters('projects_table_columns', $table_data);
-$CI = &get_instance();
-$service = $CI->db->get_where('my_basic_services', array('id' => 1))->row();
+
 render_datatable($table_data, isset($class) ?  $class : 'cases', [], [
   'data-last-order-identifier' => 'cases',
   'data-default-order'  => get_table_last_order('cases'),

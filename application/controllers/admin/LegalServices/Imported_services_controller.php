@@ -9,7 +9,7 @@ class Imported_services_controller extends AdminController
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('LegalServices/Imported_services_model', 'imported');
         $this->load->model('Customer_representative_model', 'representative');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
+        //$this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
         $this->load->model('LegalServices/Phase_model','phase');

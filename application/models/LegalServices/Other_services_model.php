@@ -1540,9 +1540,9 @@ class Other_services_model extends App_Model
 
     public function get_imported_files($project_id)
     {
-        if (is_client_logged_in()) {
-            $this->db->where('visible_to_customer', 1);
-        }
+//        if (is_client_logged_in()) {
+//            $this->db->where('visible_to_customer', 1);
+//        }
         $this->db->where('iservice_id', $project_id);
 
         return $this->db->get(db_prefix() . 'iservice_files')->result_array();

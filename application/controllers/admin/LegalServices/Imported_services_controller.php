@@ -139,24 +139,26 @@ class Imported_services_controller extends AdminController
         }
 
         $imported_service = $this->imported->get($id);
-        $url = $imported_service->company_url . '/forms/notification_from_office/no';
+        if($imported_service->company_url != '') {
+            $url = $imported_service->company_url . '/forms/notification_from_office/no';
 
-        $data = [
-            'company_staff_id' => $imported_service->company_staff_id,
-            'office_id' => $imported_service->id,
-            'office_url' => base_url(),
-            'name' => $imported_service->name
-        ];
-        $post_data = http_build_query($data);
+            $data = [
+                'company_staff_id' => $imported_service->company_staff_id,
+                'office_id' => $imported_service->id,
+                'office_url' => base_url(),
+                'name' => $imported_service->name
+            ];
+            $post_data = http_build_query($data);
 
-        $cURLConnection = curl_init();
-        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
+            $cURLConnection = curl_init();
+            curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
 
-        $List = curl_exec($cURLConnection);
-        // var_dump($List); exit;
-        curl_close($cURLConnection);
+            $List = curl_exec($cURLConnection);
+            // var_dump($List); exit;
+            curl_close($cURLConnection);
+        }
 
         $response = $this->other->move_imported_to_recycle_bin($id);
         if ($response == true) {
@@ -918,24 +920,26 @@ class Imported_services_controller extends AdminController
 
                 
                 //var_dump($imported_services);
-                $url = $imported_service->company_url . '/forms/notification_from_office/';
+                if($imported_service->company_url != '') {
+                    $url = $imported_service->company_url . '/forms/notification_from_office/';
 
-                $data = [
-                    'company_staff_id' => $imported_service->company_staff_id,
-                    'office_id' => $imported_service->id,
-                    'office_url' => base_url(),
-                    'name' => $imported_service->name
-                ];
-                $post_data = http_build_query($data);
+                    $data = [
+                        'company_staff_id' => $imported_service->company_staff_id,
+                        'office_id' => $imported_service->id,
+                        'office_url' => base_url(),
+                        'name' => $imported_service->name
+                    ];
+                    $post_data = http_build_query($data);
 
-                $cURLConnection = curl_init();
-                curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
+                    $cURLConnection = curl_init();
+                    curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($cURLConnection, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt($cURLConnection, CURLOPT_URL, $url . '?' . $post_data);
 
-                $List = curl_exec($cURLConnection);
-                // var_dump($List); exit;
-                curl_close($cURLConnection);
+                    $List = curl_exec($cURLConnection);
+                    // var_dump($List); exit;
+                    curl_close($cURLConnection);
+                }
 
                 set_alert('success', _l('service_exported_successfully'));
                 redirect(admin_url($name.'/view/' .$service_id. '/' . $id));

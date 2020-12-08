@@ -67,7 +67,7 @@ class Clients extends ClientsController
                         $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$success;
                         $config['allowed_types'] = 'jpg|jpeg|png|gif';
                         $config['max_size'] = '5000'; // max_size in kb
-                        $config['file_name'] = $files['attachments']['name'][$i];
+                        $config['file_name'] = $_FILES['attachments']['name'][$i];
 
                         //Load upload library
                         $this->load->library('upload',$config);
@@ -76,16 +76,32 @@ class Clients extends ClientsController
                         $this->upload->initialize($this->set_upload_options($success));
                         if($this->upload->do_upload('attachments'.$i)){
                             $data = array('upload_data' => $this->upload->data());
-                            //echo '<pre>'; print_r($data); exit;
                             // Get data about the file
                             $uploadData = $this->upload->data();
                             $filename = $uploadData['file_name'];
+
+                            $file_data = [
+                                'file_name' => $config['file_name'],
+                                'subject' => $config['file_name'],
+                                'description' => '',
+                                'filetype' => $uploadData['file_type'],
+                                'dateadded' => date('Y-m-d H:i:s'),
+                                'last_activity' => '',
+                                'iservice_id' => $success,
+                                'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                                'staffid' => 0,    //$value['staffid'],
+                                'contact_id' => 0,   //$value['contact_id'],
+                                'external' => '',
+                                'external_link' => '',
+                            ];
+
+
+                            $this->db->insert('tbliservice_files', $file_data);
 
                             // Initialize array
                             $data['filenames'][] = $filename;
                         }else {
                             $error = array('error' => $this->upload->display_errors());
-                            //echo '<pre>'; print_r($error); exit;
                         }
                     }
 
@@ -296,13 +312,13 @@ class Clients extends ClientsController
                 case 'get_file':
                     $file_data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
                     $file_data['current_user_is_admin']             = false;
-                    $file_data['file']                              = $this->projects_model->get_file($this->input->post('id'), $this->input->post('project_id'));
+                    $file_data['file']                              = $this->other->get_imported_file($this->input->post('id'), $this->input->post('project_id'));
 
                     if (!$file_data['file']) {
                         header('HTTP/1.0 404 Not Found');
                         die;
                     }
-                    echo get_template_part('projects/file', $file_data, true);
+                    echo get_template_part('imported_services/file', $file_data, true);
                     die;
 
                     break;
@@ -425,7 +441,7 @@ class Clients extends ClientsController
                 }
                 $data['discussions'] = $this->projects_model->get_discussions($id);
             } elseif ($group == 'project_files') {
-                $data['files'] = $this->projects_model->get_files($id);
+                $data['files'] = $this->other->get_imported_files($id);
             } elseif ($group == 'project_tasks') {
                 $data['tasks_statuses'] = $this->tasks_model->get_statuses();
                 $data['project_tasks']  = $this->projects_model->get_tasks($id);

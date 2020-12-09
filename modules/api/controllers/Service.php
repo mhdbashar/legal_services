@@ -289,8 +289,8 @@ class Service extends REST_Controller {
                         $service_slug = 'oservices';
                     }
                     //$this->response($files, REST_Controller::HTTP_NOT_FOUND);
-                $this->load->model('Service_model', 'other');             
-                $output = $this->other->add($this->input->post('service_id'), $insert_data);                
+                $this->load->model('Service_model', 'service');
+                $output = $this->service->add($this->input->post('service_id'), $insert_data);
                 if($output > 0 && !empty($output)){
                     handle_project_file_uploads($output);
                     if(!file_exists('uploads/imported_services/'.$output)){
@@ -299,8 +299,8 @@ class Service extends REST_Controller {
                     if(!empty($files)){
                         foreach ($files as $key => $value) {
                             $file_url = $company_url.'uploads/'.$service_slug.'/'.$rel_id.'/'.$value['file_name'];
-                            if(@file_get_contents(str_replace(' ', '%20', $file_url))){
-                                $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                            if(@curl_get_contents(str_replace(' ', '%20', $file_url))){
+                                $file_content = curl_get_contents(str_replace(' ', '%20', $file_url));
                                 $myFile = fopen(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], 'w', true);
 
                                 file_put_contents(FCPATH.'uploads/imported_services/'.$output.'/'.$value['file_name'], $file_content);
@@ -321,7 +321,7 @@ class Service extends REST_Controller {
                                 ];
                                 $this->db->insert('tbliservice_files', $file_data);
                             }
-                            
+
 
                         }
 

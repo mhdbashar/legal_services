@@ -30,6 +30,7 @@ class Clients extends ClientsController
         $config['allowed_types'] = 'gif|jpg|png';
         $config['max_size']      = '0';
         $config['overwrite']     = FALSE;
+        $config['remove_spaces'] = FALSE;
 
         return $config;
     }
@@ -67,7 +68,9 @@ class Clients extends ClientsController
                         $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$success;
                         $config['allowed_types'] = 'jpg|jpeg|png|gif';
                         $config['max_size'] = '5000'; // max_size in kb
+                        $config['remove_spaces'] = FALSE;
                         $config['file_name'] = $_FILES['attachments']['name'][$i];
+                        // var_dump($config['file_name']); exit;
 
                         //Load upload library
                         $this->load->library('upload',$config);

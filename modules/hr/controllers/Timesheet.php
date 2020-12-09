@@ -586,7 +586,7 @@ class Timesheet extends AdminController{
         }
         $response = $this->Leave_model->delete($id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

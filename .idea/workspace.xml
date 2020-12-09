@@ -2,46 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/libraries/pdf/Procuration_pdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/sessions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/clients/my_client.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/contracts/my_table_html.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/settings/includes/my_general.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/admin/tables/sessions_relations.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/views/themes/perfex/views/procurationpdf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/migration.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/migration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Contracts.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Contracts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Dialog_boxes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Dialog_boxes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Legal_procedures.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Legal_procedures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Procuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Procuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/pdf_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/pdf_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/sessions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/sessions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/staff_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/staff_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/migrations/272_version_272.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/272_version_272.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Cron_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Procurations_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Procurations_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,15b069a97ad0edb6229c07a55846048860c4ef91,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,24b0b25a666f2a2fc102476a5b5854462e50f9fa,2019080701.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,45e84957341038e001123fd612335f32f6bd4411,2019080701.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,53584c13ee181c33137182b635a5ec0d561921a9,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,64d9580b01c83f63b3695a9bd09d2f94190e0856,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,dd2e53d1959719887eaf572cc5900c57f9f311c1,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.12.0,ec7c37a7a657b74468633fbceaf1dcc8242918a7,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.13.0,412a9d47bd7834fc4f4ad0ac37feb538261ec913,270.ser" beforeDir="false" afterPath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.13.0,412a9d47bd7834fc4f4ad0ac37feb538261ec913,272.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/4.13.0,412a9d47bd7834fc4f4ad0ac37feb538261ec913,271.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/groups/legal_services.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/legal_services.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/groups/my_procurations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/my_procurations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/my_client_js.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/my_client_js.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/procuration/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/procuration/manage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/procuration/procuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/procuration/procuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_contracts.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_contracts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_procurations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_procurations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/tasks_relations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/tasks_relations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/procurations/5/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Written_reports_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Written_reports_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/task.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -424,6 +400,7 @@
       <workItem from="1606601972162" duration="4130000" />
       <workItem from="1606684103600" duration="7769000" />
       <workItem from="1606768847185" duration="12408000" />
+      <workItem from="1607546354447" duration="7531000" />
     </task>
     <servers />
   </component>
@@ -464,10 +441,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1606779058900" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1606768876440">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1607546474881">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1606768876440" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1607546474881" />
     <state x="374" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603319333910">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -476,17 +453,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1607390149080">
+    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1607555017334">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607390149080" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1605476396244">
+    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607555017334" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1607552565622">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1605476396244" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1606251833738">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1607552565622" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1607555260191">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1606251833738" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1607555260191" />
   </component>
 </project>

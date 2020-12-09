@@ -121,7 +121,7 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->delete($ServID, $id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
@@ -136,7 +136,7 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

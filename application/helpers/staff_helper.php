@@ -233,6 +233,15 @@ function get_available_staff_permissions($data = [])
             'name'         => _l('legal_procedures_management'),
             'capabilities' => $allPermissionsArray,
         ],
+        'written_reports' => [
+            'name'         => _l('written_reports'),
+            'capabilities' => [
+                'create'           => _l('permission_create'),
+                'edit'             => _l('permission_edit'),
+                'delete'           => _l('permission_delete'),
+                'send_to_customer' => _l('Send_to_customer'),
+            ]
+        ],
     ];
 
     $addLeadsPermission = true;

@@ -121,7 +121,7 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->delete($ServID, $id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
@@ -136,18 +136,29 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
         redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        $this->app->get_table_data('cases', [
-            'clientid' => $clientid,
-        ]);
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->other;
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+            ]);
+        endif;
     }
 
     public function staff_services()

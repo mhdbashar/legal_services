@@ -2,8 +2,8 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$hasPermissionEdit   = has_permission('tasks', '', 'edit');
-$hasPermissionDelete = has_permission('tasks', '', 'delete');
+$hasPermissionEdit   = has_permission('sessions', '', 'edit');
+$hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_tasks_priorities();
 
 $aColumns = [
@@ -24,7 +24,7 @@ $sTable       = db_prefix() . 'tasks';
 $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
-array_push($where, 'AND is_session = 0');
+array_push($where, 'AND is_session = 1');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
@@ -65,7 +65,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
 
 $join = [];
 
-$custom_fields = get_table_custom_fields('tasks');
+$custom_fields = get_table_custom_fields('sessions');
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
@@ -98,7 +98,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
-    $row[] = '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['id'] . '</a>';
+    $row[] = '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['id'] . '</a>';
 
     $outputName = '';
 
@@ -106,7 +106,7 @@ foreach ($rResult as $aRow) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
 
-    $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+    $outputName .= '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
 
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
@@ -118,10 +118,10 @@ foreach ($rResult as $aRow) {
     $style = '';
 
     $tooltip = '';
-    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+    if ($aRow['billed'] == 1 || !$aRow['is_assigned'] || $aRow['status'] == Sessions_model::STATUS_COMPLETE) {
         $class = 'text-dark disabled';
         $style = 'style="opacity:0.6;cursor: not-allowed;"';
-        if ($aRow['status'] == Tasks_model::STATUS_COMPLETE) {
+        if ($aRow['status'] == Sessions_model::STATUS_COMPLETE) {
             $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
         } elseif ($aRow['billed'] == 1) {
             $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
@@ -131,7 +131,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($aRow['not_finished_timer_by_current_staff']) {
-        $outputName .= '<a href="#" class="text-danger tasks-table-stop-timer" onclick="timer_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
+        $outputName .= '<a href="#" class="text-danger sessions-table-stop-timer" onclick="timer_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false;">' . _l('task_stop_timer') . '</a>';
     } else {
         $outputName .= '<span' . $tooltip . ' ' . $style . '>
         <a href="#" class="' . $class . ' tasks-table-start-timer" onclick="timer_action(this,' . $aRow['id'] . '); return false;">' . _l('task_start_timer') . '</a>
@@ -143,12 +143,12 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('tasks/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';
 
     $row[]           = $outputName;
-    $canChangeStatus = ($aRow['current_user_is_creator'] != '0' || $aRow['current_user_is_assigned'] || has_permission('tasks', '', 'edit'));
+    $canChangeStatus = ($aRow['current_user_is_creator'] != '0' || $aRow['current_user_is_assigned'] || has_permission('sessions', '', 'edit'));
     $status          = get_task_status_by_id($aRow['status']);
     $outputStatus    = '';
 
@@ -156,7 +156,7 @@ foreach ($rResult as $aRow) {
 
     $outputStatus .= $status['name'];
 
-    /*  if ($aRow['status'] == Tasks_model::STATUS_COMPLETE && $canChangeStatus) {
+    /*  if ($aRow['status'] == Sessions_model::STATUS_COMPLETE && $canChangeStatus) {
        $outputStatus .= '<a href="#" onclick="unmark_complete(' . $aRow['id'] . '); return false;"><i class="fa fa-check task-icon task-finished-icon" data-toggle="tooltip" title="' . _l('task_unmark_as_complete') . '"></i></a>';
     } else {
        if ($canChangeStatus) {
@@ -198,7 +198,7 @@ foreach ($rResult as $aRow) {
 
     $outputPriority = '<span style="color:' . task_priority_color($aRow['priority']) . ';" class="inline-block">' . task_priority($aRow['priority']);
 
-    if (has_permission('tasks', '', 'edit') && $aRow['status'] != Tasks_model::STATUS_COMPLETE) {
+    if (has_permission('sessions', '', 'edit') && $aRow['status'] != Sessions_model::STATUS_COMPLETE) {
         $outputPriority .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
         $outputPriority .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="tableTaskPriority-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
         $outputPriority .= '<span data-toggle="tooltip" title="' . _l('task_single_priority') . '"><i class="fa fa-caret-down" aria-hidden="true"></i></span>';
@@ -229,11 +229,11 @@ foreach ($rResult as $aRow) {
 
     $row['DT_RowClass'] = 'has-row-options';
 
-    if ((!empty($aRow['duedate']) && $aRow['duedate'] < date('Y-m-d')) && $aRow['status'] != Tasks_model::STATUS_COMPLETE) {
+    if ((!empty($aRow['duedate']) && $aRow['duedate'] < date('Y-m-d')) && $aRow['status'] != Sessions_model::STATUS_COMPLETE) {
         $row['DT_RowClass'] .= ' text-danger';
     }
 
-    $row = hooks()->apply_filters('tasks_related_table_row_data', $row, $aRow);
+    $row = hooks()->apply_filters('sessions_related_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
 }

@@ -14,7 +14,7 @@ $table_data = [
    _l('project_status'),
 ];
 
-$custom_fields = get_custom_fields('projects', ['show_on_table' => 1]);
+$custom_fields = get_custom_fields($slug, ['show_on_table' => 1]);
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
@@ -24,4 +24,7 @@ $table_data = hooks()->apply_filters('projects_table_columns', $table_data);
 render_datatable($table_data, isset($class) ?  $class : 'my_other_services', [], [
   'data-last-order-identifier' => 'my_other_services',
   'data-default-order'  => get_table_last_order('my_other_services'),
+  'data-slug'  => $slug,
 ]);
+?>
+<hr>

@@ -10,20 +10,11 @@ class Written_reports extends AdminController
         $this->load->model('Written_reports_model','reports');
     }
 
-    public function index()
-    {
-        if (!has_permission('case_status', '', 'create')) {
-            access_denied('case_status');
-        }
-        if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('my_case_status');
-        }
-        $data['title'] = _l('case_status');
-        $this->load->view('admin/case_status/manage', $data);
-    }
-
     public function add($ServID)
     {
+        if (!has_permission('written_reports', '', 'create')) {
+            access_denied('written_reports');
+        }
         $route = $ServID == 1 ? 'Case' : 'SOther';
         if ($this->input->post()) {
             $data['report'] = $this->input->post('report', false);
@@ -38,6 +29,9 @@ class Written_reports extends AdminController
 
     public function edit($ServID, $id)
     {
+        if (!has_permission('written_reports', '', 'edit')) {
+            access_denied('written_reports');
+        }
         $route = $ServID == 1 ? 'Case' : 'SOther';
         if ($this->input->post()) {
             $data['report'] = $this->input->post('report', false);
@@ -48,6 +42,25 @@ class Written_reports extends AdminController
                 redirect(admin_url($route.'/view/'.$ServID.'/'.$data["rel_id"].'?group=written_reports'));
             }
         }
+    }
+
+    public function delete($ServID, $rel_id, $report_id)
+    {
+        if (!has_permission('written_reports', '', 'delete')) {
+            access_denied('written_reports');
+        }
+        $route = $ServID == 1 ? 'Case' : 'SOther';
+        if(!$report_id){
+            set_alert('danger', _l('WrongEntry'));
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->reports->delete($report_id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', _l('problem_deleting'));
+        }
+        redirect(admin_url($route.'/view/'.$ServID.'/'.$rel_id.'?group=written_reports'));
     }
 
     /* Generates invoice PDF and senting to email of $send_to_email = true is passed */
@@ -83,6 +96,9 @@ class Written_reports extends AdminController
 
     public function send_mail_to_client($report_id, $service_id)
     {
+        if (!has_permission('written_reports', '', 'send_to_customer')) {
+            access_denied('written_reports');
+        }
         $report = $this->reports->get($report_id);
         $rel_id = $report->rel_id;
         if($service_id == 1){

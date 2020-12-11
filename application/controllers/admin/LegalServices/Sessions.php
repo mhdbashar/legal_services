@@ -319,7 +319,7 @@ class Sessions extends AdminController
     public function init_relation_tasks($rel_id, $rel_type)
     {
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('tasks_relations', [
+            $this->app->get_table_data('sessions_relations', [
                 'rel_id'   => $rel_id,
                 'rel_type' => $rel_type,
             ]);
@@ -458,12 +458,9 @@ class Sessions extends AdminController
                 endif;
             endif;
         endforeach;
-        $data['legal_services'] = $this->legal->get_all_services();
         $data['judges']         = $this->sessions_model->get_judges();
         $data['courts']         = $this->sessions_model->get_court();
-        //$data['service_id']     = $ServID;
         $data['title']          = $title;
-        //$this->load->view('admin/LegalServices/services_sessions/modal_session', $data);
         $this->load->view('admin/sessions/task', $data);
     }
 

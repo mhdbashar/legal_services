@@ -648,6 +648,8 @@ class Sessions_model extends App_Model
         if (isset($data['dept'])) {
             $session['dept'] = $data['dept'];
             unset($data['dept']);
+        }else{
+            $session['dept'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
         if (isset($data['session_type'])) {
             $session['session_type'] = $data['session_type'];
@@ -657,10 +659,12 @@ class Sessions_model extends App_Model
             $session['time'] = $data['time'];
             unset($data['time']);
         }
-        if (isset($data['court_id'])) {
+        if (isset($data['court_id']) && $data['court_id'] != '') {
             $session['court_id'] = $data['court_id'];
-            $session_info = true;
             unset($data['court_id']);
+        }else{
+            unset($data['court_id']);
+            $session['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
         }
         if (isset($data['judge_id'])) {
             $session['judge_id'] = $data['judge_id'];
@@ -670,8 +674,8 @@ class Sessions_model extends App_Model
             $session['session_information'] = $data['session_information'];
             unset($data['session_information']);
         }
+        $session_info = true;
         //End Block For Legal Services Session
-
         $this->db->insert(db_prefix() . 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -2452,6 +2456,7 @@ class Sessions_model extends App_Model
     //New functions added for sessions
     public function get_court($id = '')
     {
+        $this->db->where('is_default', 0);
         if (is_numeric($id)) {
             $this->db->where('c_id', $id);
             return $this->db->get('tblmy_courts')->row();

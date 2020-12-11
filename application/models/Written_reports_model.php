@@ -47,4 +47,15 @@ class Written_reports_model extends App_Model
         return false;
     }
 
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'written_reports');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Written report Deleted [ID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
 }

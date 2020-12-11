@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <h4 class="customer-profile-group-heading"><?php echo _l('cases'); ?></h4>
 <?php if(isset($client)){ ?>
-    <?php /*if(has_permission('projects','','create')){ ?>
-        <a href="<?php echo admin_url('projects/project?customer_id='.$client->userid); ?>" class="btn btn-info mbot25<?php if($client->active == 0){echo ' disabled';} ?>"><?php echo _l('add').' '._l('cases'); ?></a>
-    <?php }*/ ?>
+    <?php if(has_permission('projects','','create')){ ?>
+        <a href="<?php echo admin_url('Case/add/1?customer_id='.$client->userid); ?>" class="btn btn-info mbot25<?php if($client->active == 0){echo ' disabled';} ?>"><?php echo _l('add').' '._l('cases'); ?></a>
+    <?php }?>
     <div class="row">
         <?php
         $_where = '';

@@ -250,7 +250,7 @@ class Clients extends AdminController
                 $data['project_statuses'] = $this->case->get_project_statuses();
             } elseif ($group == 'legal_services') {
                 $this->load->model('LegalServices/Other_services_model', 'other');
-                $data['model']    = $this->other;
+                $data['model'] = $this->other;
                 $data['project_statuses'] = $this->other->get_project_statuses();
             }
 

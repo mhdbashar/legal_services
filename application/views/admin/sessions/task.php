@@ -213,6 +213,10 @@
                                     <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
                                     <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                         <option value=""></option>
+                                        <option value="customer"
+                                            <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
+                                            <?php echo _l('client'); ?>
+                                        </option>
                                         <?php foreach ($legal_services as $service): ?>
                                             <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
                                                 <?php if(isset($task) || $this->input->get('rel_type')){
@@ -408,7 +412,7 @@
                 name: 'required',
                 startdate: 'required',
                 judge_id: 'required',
-                court_id: 'required',
+                //court_id: 'required',
                 time: 'required',
                 repeat_every_custom: { min: 1},
             },session_form_handler);

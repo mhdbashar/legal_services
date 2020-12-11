@@ -115,7 +115,7 @@ class Cases_controller extends AdminController
         }
         $response = $this->case->delete($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
@@ -137,11 +137,23 @@ class Cases_controller extends AdminController
         redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        $this->app->get_table_data('cases', [
-            'clientid' => $clientid,
-        ]);
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->case;
+            $this->app->get_table_data('cases', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('cases', [
+                'clientid' => $clientid,
+            ]);
+        endif;
+
     }
 
     public function procurations($case_id)

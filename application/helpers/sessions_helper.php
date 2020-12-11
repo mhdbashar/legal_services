@@ -381,46 +381,11 @@ function init_relation_sessions_table($table_attributes = [])
     } elseif ($table_attributes['data-new-rel-type'] == 'customer') {
         echo '<div class="clearfix"></div>';
         echo '<div id="tasks_related_filter">';
-        echo '<p class="bold">' . _l('session_related_to') . ': </p>';
+        echo '<p class="bold">' . _l('task_related_to') . ': </p>';
 
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
         <label for="ts_rel_to_customer">' . _l('client') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
-        <label for="ts_rel_to_project">' . _l('projects') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="invoice" id="ts_rel_to_invoice" name="tasks_related_to[]">
-        <label for="ts_rel_to_invoice">' . _l('invoices') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="estimate" id="ts_rel_to_estimate" name="tasks_related_to[]">
-        <label for="ts_rel_to_estimate">' . _l('estimates') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="contract" id="ts_rel_to_contract" name="tasks_related_to[]">
-        <label for="ts_rel_to_contract">' . _l('contracts') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="ticket" id="ts_rel_to_ticket" name="tasks_related_to[]">
-        <label for="ts_rel_to_ticket">' . _l('tickets') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="expense" id="ts_rel_to_expense" name="tasks_related_to[]">
-        <label for="ts_rel_to_expense">' . _l('expenses') . '</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="proposal" id="ts_rel_to_proposal" name="tasks_related_to[]">
-        <label for="ts_rel_to_proposal">' . _l('proposals') . '</label>
         </div>';
 
         echo '</div>';

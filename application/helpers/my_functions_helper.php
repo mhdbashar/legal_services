@@ -115,6 +115,12 @@ function my_app_init_customer_profile_tabs()
         'view'     => 'admin/clients/groups/legal_services',
         'position' => 65,
     ]);
+    $CI->app_tabs->add_customer_profile_tab('sessions', [
+        'name'     => _l('sessions'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/clients/groups/sessions',
+        'position' => 65,
+    ]);
 }
 
 function my_module_menu_item_collapsible()
@@ -157,7 +163,7 @@ function my_module_menu_item_collapsible()
             'position' => 5, // The menu position
             'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
         ]);
-    }
+}
 
     $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
@@ -784,10 +790,9 @@ function set_my_options($data){
 
 }
 
-function add_hijri_settings(){
-
+function add_hijri_settings()
+{
     $CI = &get_instance();
-//  var_dump(add_option('dateformat'));exit();
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',

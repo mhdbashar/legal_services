@@ -52,7 +52,7 @@ class Dialog_boxes extends AdminController
     {
         $response = $this->dialog->delete($id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

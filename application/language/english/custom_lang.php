@@ -4270,3 +4270,4 @@ $lang['updated_by_staff'] = "Edited by employee";
 $lang['auto_close_edit_written_reports_after'] = "Close editing on the next report automatically by date";
 $lang['written_reports_cant_edit'] = "You can no longer edit this report!";
 $lang['editable_until'] = "Editable Until";
+$lang['dont_have_edit_permission'] = "You do not have permission to edit!";

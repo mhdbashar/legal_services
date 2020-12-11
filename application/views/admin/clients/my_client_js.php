@@ -28,21 +28,21 @@ $('.onoffswitch-label').on('click', function() {
 Dropzone.options.clientAttachmentsUpload = false;
 var customer_id = $('input[name="userid"]').val();
 var individual = $('input[name="individual"]').val();
+var count_of_services = $('input[name="count_of_services"]').val();
 $(function() {
-
-    if(individual == 1){
+    if (individual == 1) {
         company_select.hide();
-    }else{
+    } else {
         individual_select.hide();
     }
 
     if ($('#client-attachments-upload').length > 0) {
         new Dropzone('#client-attachments-upload', appCreateDropzoneOptions({
             paramName: "file",
-            accept: function(file, done) {
+            accept: function (file, done) {
                 done();
             },
-            success: function(file, response) {
+            success: function (file, response) {
                 if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
                     window.location.reload();
                 }
@@ -55,21 +55,22 @@ $(function() {
         $('body').find('.nav-tabs [href="#' + tab_active + '"]').click();
     }
 
-    $('a[href="#customer_admins"]').on('click', function() {
+    $('a[href="#customer_admins"]').on('click', function () {
         $('.btn-bottom-toolbar').addClass('hide');
     });
 
-    $('.profile-tabs a').not('a[href="#customer_admins"]').on('click', function() {
+    $('.profile-tabs a').not('a[href="#customer_admins"]').on('click', function () {
         $('.btn-bottom-toolbar').removeClass('hide');
     });
 
-    $("input[name='tasks_related_to[]']").on('change', function() {
+    $("input[name='tasks_related_to[]']").on('change', function () {
         var tasks_related_values = []
-        $('#tasks_related_filter :checkbox:checked').each(function(i) {
+        $('#tasks_related_filter :checkbox:checked').each(function (i) {
             tasks_related_values[i] = $(this).val();
         });
         $('input[name="tasks_related_to"]').val(tasks_related_values.join());
         $('.table-rel-tasks').DataTable().ajax.reload();
+        $('.table-rel-sessions').DataTable().ajax.reload();
     });
 
     var contact_id = get_url_param('contactid');
@@ -79,7 +80,7 @@ $(function() {
 
     // consents=CONTACT_ID
     var consents = get_url_param('consents');
-    if(consents){
+    if (consents) {
         view_contact_consent(consents);
     }
 
@@ -88,11 +89,11 @@ $(function() {
         contact(customer_id);
     }
 
-    $('body').on('change', '.onoffswitch input.customer_file', function(event, state) {
+    $('body').on('change', '.onoffswitch input.customer_file', function (event, state) {
         var invoker = $(this);
         var checked_visibility = invoker.prop('checked');
         var share_file_modal = $('#customer_file_share_file_with');
-        setTimeout(function() {
+        setTimeout(function () {
             $('input[name="file_id"]').val(invoker.attr('data-id'));
             if (checked_visibility && share_file_modal.attr('data-total-contacts') > 1) {
                 share_file_modal.modal('show');
@@ -102,7 +103,7 @@ $(function() {
         }, 200);
     });
 
-    $('.customer-form-submiter').on('click', function() {
+    $('.customer-form-submiter').on('click', function () {
         var form = $('.client-form');
         if (form.valid()) {
             if ($(this).hasClass('save-and-add-contact')) {
@@ -114,9 +115,9 @@ $(function() {
         }
     });
 
-    if (typeof(Dropbox) != 'undefined' && $('#dropbox-chooser').length > 0) {
+    if (typeof (Dropbox) != 'undefined' && $('#dropbox-chooser').length > 0) {
         document.getElementById("dropbox-chooser").appendChild(Dropbox.createChooseButton({
-            success: function(files) {
+            success: function (files) {
                 saveCustomerProfileExternalFile(files, 'dropbox');
             },
             linkType: "preview",
@@ -130,19 +131,19 @@ $(function() {
     initDataTable('.table-tickets-single', admin_url + 'tickets/index/false/' + customer_id, undefined, undefined, 'undefined', [$('table thead .ticket_created_column').index(), 'desc']);
 
     /* Customer profile contracts table */
-    initDataTable('.table-contracts-single-client', admin_url + 'contracts/table/' + customer_id, undefined,undefined, 'undefined', [6, 'desc']);
+    initDataTable('.table-contracts-single-client', admin_url + 'contracts/table/' + customer_id, undefined, undefined, 'undefined', [6, 'desc']);
 
     /* Custome profile contacts table */
     var contactsNotSortable = [];
     <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
-        contactsNotSortable.push($('#th-consent').index());
+    contactsNotSortable.push($('#th-consent').index());
     <?php } ?>
     _table_api = initDataTable('.table-contacts', admin_url + 'clients/contacts/' + customer_id, contactsNotSortable, contactsNotSortable);
-    if(_table_api) {
-          <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
+    if (_table_api) {
+        <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
         _table_api.on('draw', function () {
             var tableData = $('.table-contacts').find('tbody tr');
-            $.each(tableData, function() {
+            $.each(tableData, function () {
                 $(this).find('td:eq(1)').addClass('bg-light-gray');
             });
         });
@@ -158,17 +159,16 @@ $(function() {
             [0, 'desc']
         ]);
 
-   initDataTable('.table-credit-notes', admin_url+'credit_notes/table/'+customer_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
-   /* Customer profile Procurations table */
+    initDataTable('.table-credit-notes', admin_url + 'credit_notes/table/' + customer_id, ['undefined'], ['undefined'], undefined, [0, 'desc']);
+    /* Customer profile Procurations table */
     initDataTable('.table-procurations-single-client',
         admin_url + 'clients/procurations/' + customer_id,
         ['undefined'],
         ['undefined'],
-        undefined, 
-            [0, 'desc']
-        );
+        undefined,
+        [0, 'desc']
+    );
 
-   
 
     /* Customer profile Estimates table */
     initDataTable('.table-estimates-single-client',
@@ -203,11 +203,16 @@ $(function() {
         'undefined', [6, 'desc']);
 
     /* Custome profile projects table */
-    initDataTable('.table-projects-single-client', admin_url + 'projects/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+    initDataTable('.table-projects-single-client', admin_url + 'projects/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
     /* Custome profile cases table */
-    initDataTable('.table-cases-single-client', admin_url + 'LegalServices/Cases_controller/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+    slug_case = $(".table-cases-single-client").attr('data-slug');
+    initDataTable('.table-cases-single-client', admin_url + 'LegalServices/Cases_controller/table/' + customer_id + '/' + slug_case, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
     /* Custome profile legalservices table */
-    initDataTable('.table-legalservices-single-client', admin_url + 'LegalServices/Other_services_controller/table/' + customer_id, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5,'asc'))); ?>);
+    var slug_legalservice = '';
+    for (var i = 0; i < count_of_services; i +=1){
+        slug_legalservice = $(".table-legal_services-single-client-"+i).attr('data-slug');
+        initDataTable('.table-legal_services-single-client-'+i, admin_url + 'LegalServices/Other_services_controller/table/' + customer_id + '/' + slug_legalservice, undefined, undefined, 'undefined', <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(5, 'asc'))); ?>);
+    }
 
     var vRules = {};
     if (app.options.company_is_required == 1) {

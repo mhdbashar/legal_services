@@ -1155,3 +1155,4 @@ $lang['updated_by_staff'] = "تم تحريره من قبل الموظف";
 $lang['auto_close_edit_written_reports_after'] = "إغلاق التحرير على التقرير التالي آلياً بتاريخ";
 $lang['written_reports_cant_edit'] = "لم يعد يمكنك التحرير على هذا التقرير!";
 $lang['editable_until'] = "التعديل متاح حتى";
+$lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";

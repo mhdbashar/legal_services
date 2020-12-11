@@ -29,7 +29,7 @@
     $url_text = 'imported_services';
 
     foreach($files as $file){
-        $file['file_name'] = str_replace(' ', '%20', $file['file_name']);
+        // $file['file_name'] = str_replace(' ', '%20', $file['file_name']);
         $path = get_upload_path_by_type('iservice') . $project->id . '/'. $file['file_name'];
         ?>
         <tr>
@@ -38,7 +38,7 @@
             </td>
             <td data-order="<?php echo $file['file_name']; ?>">
                 <a href="#" onclick="c_view_iservice_file(<?php echo $file['id']; ?>,<?php echo $file['iservice_id']; ?>); return false;">
-                    <?php if(true){
+                    <?php if(is_image(ISERVICE_ATTACHMENTS_FOLDER .$project->id.'/'.$file['file_name']) || (!empty($file['external']) && !empty($file['thumbnail_link']))){
                         //echo '<div class="text-left"><i class="fa fa-spinner fa-spin mtop30"></i></div>';
                         echo '<img class="project-file-image img-table-loading" src="'.base_url('uploads/' . $url_text . '/' . $file['iservice_id'] . '/' . $file['file_name']) .'" data-orig="'.iservice_file_url($file,true).'" width="100">';
                         echo '</div>';

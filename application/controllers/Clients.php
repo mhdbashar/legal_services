@@ -24,10 +24,12 @@ class Clients extends ClientsController
 
     private function set_upload_options($id)
     {
-        //upload an image options
+        //upload an image options'
+
+        $accept = "jpg|png|pdf|doc|zip|rar|image|jpeg|png|pdf|msword|docs";
         $config = array();
         $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$id;
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = $accept;
         $config['max_size']      = '0';
         $config['overwrite']     = FALSE;
         $config['remove_spaces'] = FALSE;
@@ -65,8 +67,9 @@ class Clients extends ClientsController
 
 
                         // Set preference
+                        $accept = "jpg|png|pdf|doc|zip|rar|image|jpeg|png|pdf|msword|docs";
                         $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$success;
-                        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                        $config['allowed_types'] = $accept;
                         $config['max_size'] = '5000'; // max_size in kb
                         $config['remove_spaces'] = FALSE;
                         $config['file_name'] = $_FILES['attachments']['name'][$i];

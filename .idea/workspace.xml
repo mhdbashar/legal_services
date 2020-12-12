@@ -4,20 +4,10 @@
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Dialog_boxes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Dialog_boxes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Legal_procedures.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Legal_procedures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Written_reports.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/sessions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/sessions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/staff_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/staff_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Written_reports_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Written_reports_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/task.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/written_reports/tab.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/hr/controllers/Timesheet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/_summary.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/_summary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/view_task_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/view_task_template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,7 +390,8 @@
       <workItem from="1606601972162" duration="4130000" />
       <workItem from="1606684103600" duration="7769000" />
       <workItem from="1606768847185" duration="12408000" />
-      <workItem from="1607546354447" duration="7531000" />
+      <workItem from="1607546354447" duration="8295000" />
+      <workItem from="1607707822599" duration="7394000" />
     </task>
     <servers />
   </component>
@@ -441,10 +432,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1606779058900" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1607546474881">
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1607707826069">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1607546474881" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1607707826069" />
     <state x="374" y="27" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603319333910">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -453,10 +444,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1603654264192" />
-    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1607555017334">
+    <state x="331" y="69" width="1088" height="623" key="find.popup" timestamp="1607731183825">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607555017334" />
+    <state x="331" y="69" width="1088" height="623" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607731183825" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1607552565622">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

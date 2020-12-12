@@ -44,6 +44,14 @@ class Clients extends ClientsController
             $data = $this->input->post();
             $success = $this->imported->add(get_client_user_id(), $data);
 
+            $available_features = $this->db->get("tbloservice_settings")->row_array()['value'];
+
+            $this->db->insert(db_prefix() . 'iservice_settings', [
+                'oservice_id' => $success,
+                'name' => 'available_features',
+                'value' => $available_features,
+            ]);
+
             if($success){
                 if(!file_exists('uploads/imported_services/'.$success)){
                     mkdir(FCPATH.'uploads/imported_services/'.$success, 0755);

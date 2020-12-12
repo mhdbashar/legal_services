@@ -264,7 +264,52 @@ class Other_services_controller extends AdminController
                 add_session_tab();
             }
 
+            $feature = [
+                "project_overview"=>
+                    '',
+                    "project_tasks"=>
+                  '',
+                  "project_timesheets"=>
+                  '',
+                  "project_milestones"=>
+                  '',
+                  "project_files"=>
+                  '',
+                  "project_discussions"=>
+                  '',
+                  "project_gantt"=>
+                  '',
+                  "project_tickets"=>
+                  '',
+                  "project_contracts"=>
+                  '',
+                  "project_invoices"=>
+                  '',
+                  "project_estimates"=>
+                  '',
+                  "project_expenses"=>
+                  '',
+                  "project_credit_notes"=>
+                  '',
+                  "project_notes"=>
+                  '',
+                  "project_activity"=>
+                  '',
+                  "Phase"=>
+                  '',
+                  "Procedures"=>
+                  '',
+                  "help_library"=>
+                  '',
+                  "written_reports"=>
+                  '',
+            ];
+            if(!property_exists($project->settings, 'avilable_feature')){
+                $project->settings->avilable_feature = $feature;
+            }
+
             $project->settings->available_features = unserialize($project->settings->available_features);
+
             $data['statuses'] = $this->other->get_project_statuses();
 
             $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');

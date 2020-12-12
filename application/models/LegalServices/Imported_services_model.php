@@ -179,7 +179,7 @@ class Imported_services_model extends App_Model
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $file_content = curl_get_contents(str_replace(' ', '%20', $file_url));
                     $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
 
                     file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
@@ -271,7 +271,7 @@ class Imported_services_model extends App_Model
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $file_content = curl_get_contents(str_replace(' ', '%20', $file_url));
                     $myFile = fopen(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], 'w', true);
 
                     file_put_contents(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], $file_content);

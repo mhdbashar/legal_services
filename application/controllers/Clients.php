@@ -347,7 +347,7 @@ class Clients extends ClientsController
 
                     break;
                 case 'upload_file':
-                    handle_project_file_uploads($id);
+                    handle_iservice_file_uploads($id);
                     die;
 
                     break;

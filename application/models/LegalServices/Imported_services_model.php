@@ -13,6 +13,74 @@ class Imported_services_model extends App_Model
         return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
     }
 
+    public function get_project_members($id)
+    {
+        $this->db->select('email,staffid');
+        $this->db->where('admin', 1);
+        return $this->db->get(db_prefix() . 'staff')->result_array();
+    }
+
+    public function get_file($id, $project_id = false)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+
+        if ($file && $project_id) {
+            if ($file->iservice_id != $project_id) {
+                return false;
+            }
+        }
+
+        return $file;
+    }
+
+    public function new_project_file_notification($file_id, $project_id)
+    {
+        $file = $this->get_file($file_id);
+
+        $additional_data = $file->file_name;
+        $this->log_activity($project_id, 'IService_activity_uploaded_file', $additional_data, $file->visible_to_customer);
+
+        $members = $this->get_project_members($project_id);
+        $notification_data = [
+            'description' => 'not_project_file_uploaded',
+            'link' => 'SImported/view/' . $project_id . '?group=project_files&file_id=' . $file_id,
+        ];
+
+        if (is_client_logged_in()) {
+            $notification_data['fromclientid'] = get_contact_user_id();
+        } else {
+            $notification_data['fromuserid'] = get_staff_user_id();
+        }
+
+        $notifiedUsers = [];
+        foreach ($members as $member) {
+            if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                continue;
+            }
+            $notification_data['touserid'] = $member['staffid'];
+            if (add_notification($notification_data)) {
+                array_push($notifiedUsers, $member['staffid']);
+            }
+        }
+        pusher_trigger_notification($notifiedUsers);
+
+        // $this->send_project_email_template(
+        //     1,
+        //     $project_id,
+        //     'project_file_to_staff',
+        //     'project_file_to_customer',
+        //     $file->visible_to_customer,
+        //     [
+        //         'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => 1],
+        //         'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => 1],
+        //     ]
+        // );
+    }
+
     public function remove_file($id, $logActivity = true)
     {
         hooks()->do_action('before_remove_project_file', $id);

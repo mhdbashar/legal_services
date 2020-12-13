@@ -31,13 +31,21 @@
                 foreach($custom_fields as $field){ ?>
                     <th><?php echo $field['name']; ?></th>
                 <?php } ?>
+                <th class="th-project-deadline"><?php echo _l('project_status'); ?></th>
 <!--                <th>--><?php //echo _l('project_status'); ?><!--</th>-->
             </tr>
             </thead>
             <tbody>
-            <?php foreach($projects as $project){ ?>
+            <?php foreach($projects as $project){ 
+
+                if($project['deleted'] == 1 && $project['imported'] == 0)
+                    continue;
+                $url = site_url('clients/legal_services/'.$project['exported_rel_id'].'/'.$project['exported_service_id']);
+                if($project['deleted'] == 0 && $project['imported'] == 0)
+                    $url = site_url('clients/imported_service/'.$project['id']);
+            ?>
                 <tr>
-                    <td><a href="<?php echo site_url('clients/imported_service/'.$project['id']); ?>"><?php echo $project['name']; ?></a></td>
+                    <td><a href="<?php echo $url; ?>"><?php echo $project['name']; ?></a></td>
                     <td data-order="<?php echo $project['start_date']; ?>"><?php echo _d($project['start_date']); ?></td>
                     <td data-order="<?php echo $project['deadline']; ?>"><?php echo _d($project['deadline']); ?></td>
 <!--                    <td>-->
@@ -55,12 +63,22 @@
                     <?php foreach($custom_fields as $field){ ?>
                         <td><?php echo get_custom_field_value($project['id'],$field['id'],$slug); ?></td>
                     <?php } ?>
-<!--                    <td>-->
-<!--                        --><?php
-//                        $status = get_iservice_status_by_id($project['status']);
-//                        echo '<span class="label inline-block" style="color:'.$status['color'].';border:1px solid '.$status['color'].'">'.$status['name'].'</span>';
-//                        ?>
-<!--                    </td>-->
+                    <td>
+                        <?php
+                        $color = ''; $status = '';
+                            if($project['deleted'] == 0 && $project['imported'] == 0){
+                                $status = _l('waiting');
+                                $color = 'blue';
+                                echo '<span class="label inline-block" style="color:'.$color.';border:1px solid '.$color.'">'.$status.'</span>';
+                            }
+                            elseif($project['deleted'] == 1 && $project['imported'] == 1){
+                                $status = _l('imported');
+                                $color = 'green';
+                                echo '<a href="'.site_url('clients/legal_services/'.$project['exported_rel_id'].'/'.$project['exported_service_id']).'"><span class="label inline-block" style="color:'.$color.';border:1px solid '.$color.'">'.$status.'</span></a>';
+                            }
+                            
+                        ?>
+                    </td>
                 </tr>
             <?php } ?>
             </tbody>

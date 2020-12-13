@@ -11,6 +11,28 @@ class Clients extends ClientsController
      */
     use ValidatesContact;
 
+    private $project_settings = [
+            'available_features',
+            'view_tasks',
+            'create_tasks',
+            'edit_tasks',
+            'comment_on_tasks',
+            'view_task_comments',
+            'view_task_attachments',
+            'view_task_checklist_items',
+            'upload_on_tasks',
+            'view_task_total_logged_time',
+            'view_finance_overview',
+            'upload_files',
+            'open_discussions',
+            'view_milestones',
+            'view_gantt',
+            'view_timesheets',
+            'view_activity_log',
+            'view_team_members',
+            'hide_tasks_on_main_tasks_table',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -51,6 +73,18 @@ class Clients extends ClientsController
                 'name' => 'available_features',
                 'value' => $available_features,
             ]);
+            $original_settings = $this->project_settings;
+            
+            foreach ($original_settings as $setting) {
+                if ($setting != 'available_features'){
+                    $value_setting = 0;
+                    $this->db->insert(db_prefix() . 'iservice_settings', [
+                        'oservice_id' => $success,
+                        'name' => $setting,
+                        'value' => $value_setting,
+                    ]);
+                }
+            }
 
             if($success){
                 if(!file_exists('uploads/imported_services/'.$success)){

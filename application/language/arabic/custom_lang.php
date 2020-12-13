@@ -1,7 +1,7 @@
 <?php
 
 $lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "لتفعيل وظائف الخدمات المستوردة يرجى ادخال اسم مكتب في المركز من هنا";
-
+$lang['waiting'] = 'قيد الانتظار';
 $lang['approved'] = 'مقبول';
 $lang['rejected'] = 'مرفوض';
 $lang['new_imported_service'] = 'خدمة مستوردة جديدة';

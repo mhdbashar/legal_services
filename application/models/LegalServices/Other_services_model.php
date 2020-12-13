@@ -121,11 +121,11 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_other_services')->result_array();
     }
 
-    public function get_imported($id = '', $where = [])
+    public function get_imported($id = '', $where = ['my_imported_services.deleted' => 0])
     {
         $this->db->where($where);
         if (is_numeric($id)) {
-            $this->db->where(array('my_imported_services.id' => $id, 'my_imported_services.deleted' => 0));
+            $this->db->where(array('my_imported_services.id' => $id));
             $this->db->select('my_imported_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_imported_services.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_imported_services.cat_id', 'left');
@@ -191,7 +191,6 @@ class Other_services_model extends App_Model
 
             return null;
         }
-        $this->db->where(array('my_imported_services.deleted' => 0));
         $this->db->select('*,' . get_sql_select_client_company());
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_imported_services.clientid');
         $this->db->order_by('my_imported_services.id', 'desc');

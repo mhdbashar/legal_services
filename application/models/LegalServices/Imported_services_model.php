@@ -7,6 +7,17 @@ class Imported_services_model extends App_Model
         parent::__construct();
     }
 
+
+    public function update($id, $data) {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'my_imported_services', $data);
+        if ($this->db->affected_rows() > 0) {
+            $this->log_activity($id, 'imported updated');
+            return true;
+        }
+        return false;
+    }
+
     public function get_imported_project_settings($project_id)
     {
         $this->db->where('oservice_id', $project_id);

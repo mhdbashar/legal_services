@@ -66,6 +66,19 @@ class Clients extends ClientsController
         redirect(site_url('clients/imported_service/'.$project_id. '?group=project_files'));
     }
 
+    public function imported_edit($id) {
+        if($this->input->post()){
+            $data = $this->input->post();
+            if($this->imported->update($id, $data))
+                redirect(site_url('clients/imported_service/'.$id));
+        }
+        $data['imported'] = $this->imported->get($id);
+        $data['title']  = _l('projects');
+        $this->data($data);
+        $this->view('imported_edit');
+        $this->layout();
+    }
+
     public function imported_add() {
 
         if($this->input->post()){

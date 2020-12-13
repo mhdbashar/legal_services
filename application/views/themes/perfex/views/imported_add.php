@@ -8,7 +8,7 @@
 <div class="panel_s">
     <div class="panel-body">
         <?php echo form_open_multipart($this->uri->uri_string(), array('id' => 'form')); ?>
-        <?php echo render_input('name', 'ServiceTitle'); ?>
+        <?php echo render_input('name', 'ServiceTitle', '', 'text', ['required' => true]); ?>
         <p for="description" class="bold"><?php echo _l('project_description'); ?></p>
         <?php echo render_textarea('description', '', '', array(), array(), '', 'tinymce'); ?>
 

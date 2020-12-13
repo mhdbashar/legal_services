@@ -2,6 +2,13 @@
 <div class="row mtop15">
 
     <div class="col-md-12">
+
+        <div class="panel-heading project-info-bg no-radius"><?php echo _l('project_name'); ?></div>
+        <div class="panel-body no-radius tc-content project-description">
+            <?php echo check_for_links($project->name); ?>
+        </div>
+        <div class="clearfix"></div>
+         <hr class="hr-panel-heading" />
         <div class="panel-heading project-info-bg no-radius"><?php echo _l('project_description'); ?></div>
         <div class="panel-body no-radius tc-content project-description">
             <?php if(empty($project->description)){

@@ -1,5 +1,8 @@
 <?php
 
+$lang['add_imported_service'] = 'Add imported service';
+$lang['edit_imported_service'] = 'Edit imported service';
+
 $lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
 $lang['waiting'] = 'Waiting';
 $lang['approved'] = 'Approved';

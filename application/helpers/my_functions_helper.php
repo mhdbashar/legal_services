@@ -6,7 +6,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 //        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
 //
 //    }
+function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
+{
+    $_url = '#';
+    if (_startsWith($url, 'http')) {
+        $_url = $url;
+    } elseif ($url !== '#') {
+        $_url = site_url($url);
+    }
 
+    return '<a href="' . $_url . '" class="btn ' . $class . ' btn-icon"' . _attributes_to_string($attributes) . '>
+    <i class="fa fa-' . $type . '"></i>
+    </a>';
+}
 function curl_get_contents($url)
 {
     $ch = curl_init();

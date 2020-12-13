@@ -41,6 +41,7 @@ class Clients extends ClientsController
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
+        $this->load->model('LegalServices/Imported_services_model', 'imported');
         hooks()->do_action('after_clients_area_init', $this);
     }
 
@@ -59,9 +60,14 @@ class Clients extends ClientsController
         return $config;
     }
 
+    public function remove_file($project_id, $id)
+    {
+        $this->imported->remove_file($id);
+        redirect(site_url('clients/imported_service/'.$project_id. '?group=project_files'));
+    }
+
     public function imported_add() {
 
-        $this->load->model('LegalServices/Imported_services_model', 'imported');
         if($this->input->post()){
             $data = $this->input->post();
             $success = $this->imported->add(get_client_user_id(), $data);
@@ -74,7 +80,7 @@ class Clients extends ClientsController
                 'value' => $available_features,
             ]);
             $original_settings = $this->project_settings;
-            
+
             foreach ($original_settings as $setting) {
                 if ($setting != 'available_features'){
                     $value_setting = 0;

@@ -13,6 +13,51 @@ class Imported_services_model extends App_Model
         return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
     }
 
+    public function remove_file($id, $logActivity = true)
+    {
+        hooks()->do_action('before_remove_project_file', $id);
+
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+        if ($file) {
+            if (empty($file->external)) {
+                $path     = get_upload_path_by_type('iservice') . $file->iservice_id . '/';
+                $fullPath = $path . $file->file_name;
+                if (file_exists($fullPath)) {
+                    unlink($fullPath);
+                    $fname     = pathinfo($fullPath, PATHINFO_FILENAME);
+                    $fext      = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    $thumbPath = $path . $fname . '_thumb.' . $fext;
+
+                    if (file_exists($thumbPath)) {
+                        unlink($thumbPath);
+                    }
+                }
+            }
+
+            $this->db->where('id', $id);
+            $this->db->delete(db_prefix() . 'iservice_files');
+            if ($logActivity) {
+                $this->log_activity($file->iservice_id, 'IService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+            }
+
+            // Delete discussion comments
+            //$this->_delete_discussion_comments($id, 'file');
+
+            if (is_dir(get_upload_path_by_type('iservice') . $file->project_id)) {
+                // Check if no attachments left, so we can delete the folder also
+                $other_attachments = list_files(get_upload_path_by_type('iservice') . $file->project_id);
+                if (count($other_attachments) == 0) {
+                    delete_dir(get_upload_path_by_type('iservice') . $file->project_id);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function get($id = '', $where = [])
     {
         $this->db->where($where);

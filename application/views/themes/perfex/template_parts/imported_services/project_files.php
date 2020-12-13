@@ -19,9 +19,11 @@
 <table class="table dt-table" data-order-col="4" data-order-type="desc">
     <thead>
     <tr>
+        <th>#</th>
         <th><?php echo _l('project_file_filename'); ?></th>
         <th><?php echo _l('project_file__filetype'); ?></th>
         <th><?php echo _l('project_file_dateadded'); ?></th>
+        <th><?php echo _l('control'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -48,6 +50,7 @@
             <td data-order="<?php echo $file['filetype']; ?>"><?php echo $file['filetype']; ?></td>
 
             <td data-order="<?php echo $file['dateadded']; ?>"><?php echo _dt($file['dateadded']); ?></td>
+            <td><?php echo client_icon_btn('clients/remove_file/' . $project->id . '/' . $file['id'], 'remove', 'btn-danger _delete') ?></td>
         </tr>
     <?php } ?>
     </tbody>

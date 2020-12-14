@@ -38,11 +38,14 @@
             <tbody>
             <?php foreach($projects as $project){ 
 
-                if($project['deleted'] == 1 && $project['imported'] == 0)
-                    continue;
                 $url = site_url('clients/legal_services/'.$project['exported_rel_id'].'/'.$project['exported_service_id']);
+                
                 if($project['deleted'] == 0 && $project['imported'] == 0)
-                    $url = site_url('clients/imported_service/'.$project['id']);
+                    $url = $project['deleted'] == 1 && $project['imported'] == 0 ? '#' : site_url('clients/imported_service/'.$project['id']);
+                elseif($project['deleted'] == 1 && $project['imported'] == 0)
+                    $url = '#';
+
+                
             ?>
                 <tr>
                     <td><a href="<?php echo $url; ?>"><?php echo $project['name']; ?></a></td>
@@ -75,6 +78,11 @@
                                 $status = _l('imported');
                                 $color = 'green';
                                 echo '<a href="'.site_url('clients/legal_services/'.$project['exported_rel_id'].'/'.$project['exported_service_id']).'"><span class="label inline-block" style="color:'.$color.';border:1px solid '.$color.'">'.$status.'</span></a>';
+                            }
+                            elseif($project['deleted'] == 1 && $project['imported'] == 0){
+                                $status = _l('rejected');
+                                $color = 'red';
+                                echo '<span class="label inline-block" style="color:'.$color.';border:1px solid '.$color.'">'.$status.'</span>';
                             }
                             
                         ?>

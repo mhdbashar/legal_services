@@ -1,5 +1,9 @@
 <?php
 
+$lang['imported_service_edited'] = 'تم تعديل معلومات الخدمة المستوردة';
+
+$lang['imported_service_file_deleted'] = 'تم حذف ملف من الخدمة المستوردة';
+$lang['new_imported_service_added'] = 'تمت اضافة خدمة مستوردة جديدة';
 $lang['add_imported_service'] = 'اضافة خدمة جديدة';
 $lang['edit_imported_service'] = 'تعديل الخدمة';
 

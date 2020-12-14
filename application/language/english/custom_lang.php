@@ -1,5 +1,8 @@
 <?php
 
+$lang['imported_service_edited'] = 'Imported service edited';
+$lang['imported_service_file_deleted'] = 'Imported service file deleted';
+$lang['new_imported_service_added'] = 'New imported service added';
 $lang['add_imported_service'] = 'Add imported service';
 $lang['edit_imported_service'] = 'Edit imported service';
 

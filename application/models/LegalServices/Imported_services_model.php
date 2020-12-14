@@ -13,6 +13,29 @@ class Imported_services_model extends App_Model
         $this->db->update(db_prefix() . 'my_imported_services', $data);
         if ($this->db->affected_rows() > 0) {
             $this->log_activity($id, 'imported updated');
+            $members = $this->get_project_members($id);
+            $notification_data = [
+                'description' => 'imported_service_edited',
+                'link' => 'SImported/view/' . $id,
+            ];
+
+            if (is_client_logged_in()) {
+                $notification_data['fromclientid'] = get_contact_user_id();
+            } else {
+                $notification_data['fromuserid'] = get_staff_user_id();
+            }
+
+            $notifiedUsers = [];
+            foreach ($members as $member) {
+                if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                    continue;
+                }
+                $notification_data['touserid'] = $member['staffid'];
+                if (add_notification($notification_data)) {
+                    array_push($notifiedUsers, $member['staffid']);
+                }
+            }
+            pusher_trigger_notification($notifiedUsers);
             return true;
         }
         return false;
@@ -92,7 +115,7 @@ class Imported_services_model extends App_Model
         // );
     }
 
-    public function remove_file($id, $logActivity = true)
+    public function remove_file($project_id, $id, $logActivity = true)
     {
         hooks()->do_action('before_remove_project_file', $id);
 
@@ -118,6 +141,29 @@ class Imported_services_model extends App_Model
             $this->db->delete(db_prefix() . 'iservice_files');
             if ($logActivity) {
                 $this->log_activity($file->iservice_id, 'IService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+                $members = $this->get_project_members($project_id);
+                $notification_data = [
+                    'description' => 'imported_service_file_deleted',
+                    'link' => 'SImported/view/' . $project_id,
+                ];
+
+                if (is_client_logged_in()) {
+                    $notification_data['fromclientid'] = get_contact_user_id();
+                } else {
+                    $notification_data['fromuserid'] = get_staff_user_id();
+                }
+
+                $notifiedUsers = [];
+                foreach ($members as $member) {
+                    if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                        continue;
+                    }
+                    $notification_data['touserid'] = $member['staffid'];
+                    if (add_notification($notification_data)) {
+                        array_push($notifiedUsers, $member['staffid']);
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
             }
 
             // Delete discussion comments
@@ -230,8 +276,32 @@ class Imported_services_model extends App_Model
         ];
         $this->db->insert(db_prefix() . 'my_imported_services', $new_data);
         $id = $this->db->insert_id();
-        if($id)
+        if($id){
+            $members = $this->get_project_members($id);
+            $notification_data = [
+                'description' => 'new_imported_service_added',
+                'link' => 'SImported/view/' . $id,
+            ];
+
+            if (is_client_logged_in()) {
+                $notification_data['fromclientid'] = get_contact_user_id();
+            } else {
+                $notification_data['fromuserid'] = get_staff_user_id();
+            }
+
+            $notifiedUsers = [];
+            foreach ($members as $member) {
+                if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                    continue;
+                }
+                $notification_data['touserid'] = $member['staffid'];
+                if (add_notification($notification_data)) {
+                    array_push($notifiedUsers, $member['staffid']);
+                }
+            }
+            pusher_trigger_notification($notifiedUsers);
             return $id;
+        }
         return false;
     }
     public function copy($ServID,$project_id, $data)

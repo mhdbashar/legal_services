@@ -62,7 +62,7 @@ class Clients extends ClientsController
 
     public function remove_file($project_id, $id)
     {
-        $this->imported->remove_file($id);
+        $this->imported->remove_file($project_id, $id);
         redirect(site_url('clients/imported_service/'.$project_id. '?group=project_files'));
     }
 

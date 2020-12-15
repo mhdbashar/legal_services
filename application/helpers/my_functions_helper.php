@@ -1083,3 +1083,38 @@ function get_books_by_api($tags)
 //        echo json_encode(array("message" => "Method Not Allowed"));
 //    }
 //}
+
+/**
+ * Format dispute invoice number based on description
+ * @param  mixed $id
+ * @return string
+ */
+function format_dispute_invoice_number($id)
+{
+    $CI = & get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'my_project_invoices')
+        ->where('id', $id);
+
+    $invoice = $CI->db->get()->row();
+
+    if (!$invoice) {
+        return '';
+    }
+
+   if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
+
+    return hooks()->apply_filters('format_invoice_number', $number, [
+        'id'      => $id,
+        'invoice' => $invoice,
+    ]);
+}

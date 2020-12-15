@@ -186,14 +186,14 @@ class Cron_model extends App_Model
 
                     if ($eventNotifications) {
                         $notified = add_notification([
-                                'description'     => 'not_event_public',
-                                'touserid'        => $member['staffid'],
-                                'fromcompany'     => true,
-                                'link'            => 'utilities/calendar?eventid=' . $event['eventid'],
-                                'additional_data' => serialize([
-                                    $event['title'],
-                                ]),
-                            ]);
+                            'description'     => 'not_event_public',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => true,
+                            'link'            => 'utilities/calendar?eventid=' . $event['eventid'],
+                            'additional_data' => serialize([
+                                $event['title'],
+                            ]),
+                        ]);
                         send_mail_template('staff_event_notification', array_to_object($event), array_to_object($member));
 
                         array_push($notificationNotifiedUsers, $member['staffid']);
@@ -600,7 +600,6 @@ class Cron_model extends App_Model
     {
         $invoice_hour_auto_operations = get_option('invoice_auto_operations_hour');
 
-        
         if (!$this->shouldRunAutomations($invoice_hour_auto_operations)) {
             return;
         }
@@ -831,17 +830,17 @@ class Cron_model extends App_Model
                         $email['cc']
                     );
 
-                break;
-                case 'estimate':
-                $this->estimates_model->send_estimate_to_client(
-                    $email['rel_id'],
-                    $email['template'],
-                    $email['attach_pdf'],
-                    $email['cc']
-                );
+                    break;
+                    case 'estimate':
+                    $this->estimates_model->send_estimate_to_client(
+                        $email['rel_id'],
+                        $email['template'],
+                        $email['attach_pdf'],
+                        $email['cc']
+                    );
 
-                break;
-        }
+                    break;
+            }
 
             $this->db->where('id', $email['id']);
             $this->db->delete('scheduled_emails');
@@ -905,8 +904,6 @@ class Cron_model extends App_Model
                             }
 
                             send_mail_template('task_deadline_reminder_to_staff', $row->email, $member['assigneeid'], $task['id']);
-
-
 
                             $this->db->where('id', $task['id']);
                             $this->db->update(db_prefix() . 'tasks', [
@@ -1146,6 +1143,7 @@ class Cron_model extends App_Model
     private function invoice_overdue()
     {
         $invoice_auto_operations_hour = get_option('invoice_auto_operations_hour');
+
         if (!$this->shouldRunAutomations($invoice_auto_operations_hour)) {
             return;
         }
@@ -1161,7 +1159,6 @@ class Cron_model extends App_Model
 
         $now = time();
         foreach ($invoices as $invoice) {
-
             if (empty($invoice['duedate'])) {
                 continue;
             }
@@ -1169,9 +1166,11 @@ class Cron_model extends App_Model
             $statusid = update_invoice_status($invoice['id']);
 
             if ($invoice['cancel_overdue_reminders'] == 0 && is_invoices_overdue_reminders_enabled()) {
-                if ($invoice['status'] == Invoices_model::STATUS_OVERDUE
+                if (
+                    $invoice['status'] == Invoices_model::STATUS_OVERDUE
                     || $statusid == Invoices_model::STATUS_OVERDUE
-                    || $invoice['status'] == Invoices_model::STATUS_PARTIALLY) {
+                    || $invoice['status'] == Invoices_model::STATUS_PARTIALLY
+                ) {
                     if ($invoice['status'] == Invoices_model::STATUS_PARTIALLY) {
                         // Invoice is with status partialy paid and its not due
                         if (date('Y-m-d') <= date('Y-m-d', strtotime($invoice['duedate']))) {
@@ -1220,9 +1219,11 @@ class Cron_model extends App_Model
         $now       = new DateTime(date('Y-m-d'));
 
         foreach ($proposals as $proposal) {
-            if ($proposal['open_till'] != null
+            if (
+                $proposal['open_till'] != null
                 && date('Y-m-d') < $proposal['open_till']
-                && is_proposals_expiry_reminders_enabled()) {
+                && is_proposals_expiry_reminders_enabled()
+            ) {
                 $reminder_before        = get_option('send_proposal_expiry_reminder_before');
                 $open_till              = new DateTime($proposal['open_till']);
                 $diff                   = $open_till->diff($now)->format('%a');
@@ -1380,6 +1381,7 @@ class Cron_model extends App_Model
                 }
 
                 $replyTo = $message->getReplyTo();
+
                 if (count($replyTo) === 1) {
                     $fromAddress = $replyTo[0]->getAddress();
                     $fromName    = $replyTo[0]->getName() ?? $fromName;
@@ -1398,6 +1400,15 @@ class Cron_model extends App_Model
                     continue;
                 }
 
+                $mailstatus = $this->spam_filters_model->check($fromAddress, $message->getSubject(), $body, 'leads');
+
+                if ($mailstatus) {
+                    $message->markAsSeen();
+                    log_activity('Lead Email Integration Blocked Email by Spam Filters [' . $mailstatus . ']');
+
+                    continue;
+                }
+
                 $body = hooks()->apply_filters(
                     'leads_email_integration_email_body_for_database',
                     $this->prepare_imap_email_body_html($body)
@@ -1412,6 +1423,7 @@ class Cron_model extends App_Model
 
                     // Set message to seen to in the next time we dont need to loop over this message
                     $message->markAsSeen();
+
                     if ($mail->create_task_if_customer == '1') {
                         load_admin_language($mail->responsible);
 
@@ -1587,7 +1599,6 @@ class Cron_model extends App_Model
         }
     }
 
-
     public function auto_import_imap_tickets()
     {
         $this->db->select('host,encryption,password,email,delete_after_import,imap_username,folder')
@@ -1637,7 +1648,7 @@ class Cron_model extends App_Model
             $this->load->model('tickets_model');
 
             foreach ($messages as $message) {
-                $body = $message->getBodyText() ?? $message->getBodyHtml();
+                $body = $message->getBodyHtml() ?? $message->getBodyText();
                 // Some mail clients for the text/plain part add only Not set
                 // this is bad practice instead of leaving the text/pain part empty
                 // In this case, if it's Not set, we will use the HTML of the message
@@ -1648,8 +1659,6 @@ class Cron_model extends App_Model
                 if (empty($body)) {
                     $body = 'No message found';
                 }
-
-                $body = handle_google_drive_links_in_text($body);
 
                 if (
                     class_exists('EmailReplyParser\EmailReplyParser')
@@ -1664,7 +1673,7 @@ class Cron_model extends App_Model
 
                     // For some emails this is causing an issue and not returning the email, instead is returning empty string
                     // In this case, only use parsed email reply if not empty
-                    if (!empty($parsedBody)) {
+                    if (! empty($parsedBody)) {
                         $body = $parsedBody;
                     }
                 }
@@ -1702,7 +1711,7 @@ class Cron_model extends App_Model
                     $fromName    = $message->getFrom()->getName();
                 }
 
-                if (hooks()->apply_filters('imap_fetch_from_email_by_reply_to_header', 'true') == 'true') {
+                if (hooks()->apply_filters('imap_fetch_from_email_by_reply_to_header', true)) {
                     $replyTo = $message->getReplyTo();
 
                     if (count($replyTo) === 1) {
@@ -1877,7 +1886,7 @@ class Cron_model extends App_Model
         }
 
         return ($this->lock_handle && flock($this->lock_handle, LOCK_EX | LOCK_NB))
-        || (defined('APP_DISABLE_CRON_LOCK') && APP_DISABLE_CRON_LOCK);
+            || (defined('APP_DISABLE_CRON_LOCK') && APP_DISABLE_CRON_LOCK);
     }
 
     private function prepare_imap_email_body_html($body)

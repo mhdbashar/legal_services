@@ -1225,17 +1225,17 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "2.41.5",
-        "version_normalized": "2.41.5.0",
+        "version": "2.42.0",
+        "version_normalized": "2.42.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "c4a9caf97cfc53adfc219043bcecf42bc663acee"
+            "reference": "d0463779663437392fe42ff339ebc0213bd55498"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/c4a9caf97cfc53adfc219043bcecf42bc663acee",
-            "reference": "c4a9caf97cfc53adfc219043bcecf42bc663acee",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/d0463779663437392fe42ff339ebc0213bd55498",
+            "reference": "d0463779663437392fe42ff339ebc0213bd55498",
             "shasum": ""
         },
         "require": {
@@ -1250,11 +1250,11 @@
             "kylekatarnls/multi-tester": "^2.0",
             "phpmd/phpmd": "^2.9",
             "phpstan/extension-installer": "^1.0",
-            "phpstan/phpstan": "^0.12.35",
+            "phpstan/phpstan": "^0.12.54",
             "phpunit/phpunit": "^7.5 || ^8.0",
             "squizlabs/php_codesniffer": "^3.4"
         },
-        "time": "2020-10-23T06:02:30+00:00",
+        "time": "2020-11-28T14:25:28+00:00",
         "bin": [
             "bin/carbon"
         ],
@@ -1679,17 +1679,17 @@
     },
     {
         "name": "paragonie/sodium_compat",
-        "version": "v1.13.0",
-        "version_normalized": "1.13.0.0",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paragonie/sodium_compat.git",
-            "reference": "bbade402cbe84c69b718120911506a3aa2bae653"
+            "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/bbade402cbe84c69b718120911506a3aa2bae653",
-            "reference": "bbade402cbe84c69b718120911506a3aa2bae653",
+            "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
+            "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
             "shasum": ""
         },
         "require": {
@@ -1697,13 +1697,13 @@
             "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
         },
         "require-dev": {
-            "phpunit/phpunit": "^3|^4|^5|^6|^7"
+            "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
         },
         "suggest": {
             "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
             "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
         },
-        "time": "2020-03-20T21:48:09+00:00",
+        "time": "2020-12-03T16:26:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1855,17 +1855,17 @@
     },
     {
         "name": "php-http/discovery",
-        "version": "1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "1.13.0",
+        "version_normalized": "1.13.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-http/discovery.git",
-            "reference": "4366bf1bc39b663aa87459bd725501d2f1988b6c"
+            "reference": "788f72d64c43dc361e7fcc7464c3d947c64984a7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-http/discovery/zipball/4366bf1bc39b663aa87459bd725501d2f1988b6c",
-            "reference": "4366bf1bc39b663aa87459bd725501d2f1988b6c",
+            "url": "https://api.github.com/repos/php-http/discovery/zipball/788f72d64c43dc361e7fcc7464c3d947c64984a7",
+            "reference": "788f72d64c43dc361e7fcc7464c3d947c64984a7",
             "shasum": ""
         },
         "require": {
@@ -1885,7 +1885,7 @@
             "php-http/message": "Allow to use Guzzle, Diactoros or Slim Framework factories",
             "puli/composer-plugin": "Sets up Puli which is recommended for Discovery to work. Check http://docs.php-http.org/en/latest/discovery.html for more details."
         },
-        "time": "2020-09-22T13:31:04+00:00",
+        "time": "2020-11-27T14:49:42+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2715,17 +2715,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v7.65.0",
-        "version_normalized": "7.65.0.0",
+        "version": "v7.67.0",
+        "version_normalized": "7.67.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "d4a22eeec7654efb8476fe8bea95b1e9928025a6"
+            "reference": "935d2c67912007f6d17b6c08a62050252c509129"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d4a22eeec7654efb8476fe8bea95b1e9928025a6",
-            "reference": "d4a22eeec7654efb8476fe8bea95b1e9928025a6",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/935d2c67912007f6d17b6c08a62050252c509129",
+            "reference": "935d2c67912007f6d17b6c08a62050252c509129",
             "shasum": ""
         },
         "require": {
@@ -2735,13 +2735,13 @@
             "php": ">=5.6.0"
         },
         "require-dev": {
-            "friendsofphp/php-cs-fixer": "2.16.5",
+            "friendsofphp/php-cs-fixer": "2.17.1",
             "php-coveralls/php-coveralls": "^2.1",
             "phpunit/phpunit": "^5.7",
             "squizlabs/php_codesniffer": "^3.3",
             "symfony/process": "~3.4"
         },
-        "time": "2020-11-19T19:37:25+00:00",
+        "time": "2020-12-09T19:00:34+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2886,17 +2886,17 @@
     },
     {
         "name": "symfony/http-foundation",
-        "version": "v5.1.8",
-        "version_normalized": "5.1.8.0",
+        "version": "v5.2.0",
+        "version_normalized": "5.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/http-foundation.git",
-            "reference": "a2860ec970404b0233ab1e59e0568d3277d32b6f"
+            "reference": "e4576271ee99123aa59a40564c7b5405f0ebd1e6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/a2860ec970404b0233ab1e59e0568d3277d32b6f",
-            "reference": "a2860ec970404b0233ab1e59e0568d3277d32b6f",
+            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e4576271ee99123aa59a40564c7b5405f0ebd1e6",
+            "reference": "e4576271ee99123aa59a40564c7b5405f0ebd1e6",
             "shasum": ""
         },
         "require": {
@@ -2914,7 +2914,7 @@
         "suggest": {
             "symfony/mime": "To use the file extension guesser"
         },
-        "time": "2020-10-24T12:01:57+00:00",
+        "time": "2020-11-27T06:13:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2941,6 +2941,71 @@
         ],
         "description": "Symfony HttpFoundation Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/polyfill-iconv",
+        "version": "v1.20.0",
+        "version_normalized": "1.20.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-iconv.git",
+            "reference": "c536646fdb4f29104dd26effc2fdcb9a5b085024"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/c536646fdb4f29104dd26effc2fdcb9a5b085024",
+            "reference": "c536646fdb4f29104dd26effc2fdcb9a5b085024",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.1"
+        },
+        "suggest": {
+            "ext-iconv": "For best performance"
+        },
+        "time": "2020-10-23T14:02:19+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-main": "1.20-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Iconv\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for the Iconv extension",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "iconv",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
     },
     {
         "name": "symfony/polyfill-intl-idn",
@@ -3279,24 +3344,24 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v5.1.8",
-        "version_normalized": "5.1.8.0",
+        "version": "v5.2.0",
+        "version_normalized": "5.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "27980838fd261e04379fa91e94e81e662fe5a1b6"
+            "reference": "52f486a707510884450df461b5a6429dd7a67379"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/27980838fd261e04379fa91e94e81e662fe5a1b6",
-            "reference": "27980838fd261e04379fa91e94e81e662fe5a1b6",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/52f486a707510884450df461b5a6429dd7a67379",
+            "reference": "52f486a707510884450df461b5a6429dd7a67379",
             "shasum": ""
         },
         "require": {
             "php": ">=7.2.5",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php80": "^1.15",
-            "symfony/translation-contracts": "^2"
+            "symfony/translation-contracts": "^2.3"
         },
         "conflict": {
             "symfony/config": "<4.4",
@@ -3324,10 +3389,13 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2020-10-24T12:01:57+00:00",
+        "time": "2020-11-28T11:24:18+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
+            "files": [
+                "Resources/functions.php"
+            ],
             "psr-4": {
                 "Symfony\\Component\\Translation\\": ""
             },
@@ -3636,29 +3704,37 @@
     },
     {
         "name": "zbateson/mail-mime-parser",
-        "version": "0.4.13",
-        "version_normalized": "0.4.13.0",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/zbateson/mail-mime-parser.git",
-            "reference": "fe6fc5a6337e91acc11a1d780e5d9d62ef78ce84"
+            "reference": "706964d904798b8c22d63f62f0ec5f5bc84e30d9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/fe6fc5a6337e91acc11a1d780e5d9d62ef78ce84",
-            "reference": "fe6fc5a6337e91acc11a1d780e5d9d62ef78ce84",
+            "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/706964d904798b8c22d63f62f0ec5f5bc84e30d9",
+            "reference": "706964d904798b8c22d63f62f0ec5f5bc84e30d9",
             "shasum": ""
         },
         "require": {
-            "ext-mbstring": "*",
-            "php": ">=5.4"
+            "guzzlehttp/psr7": "^1.0",
+            "php": ">=5.4",
+            "zbateson/mb-wrapper": "^1.0.1",
+            "zbateson/stream-decorators": "^1.0.4"
         },
         "require-dev": {
-            "phing/phing": "~2.15.0",
-            "phpdocumentor/phpdocumentor": "~2.8.0",
-            "phpunit/phpunit": "~4.5.0"
+            "jms/serializer": "^1.1",
+            "mikey179/vfsstream": "^1.6.0",
+            "phing/phing": "^2.15.0",
+            "phpdocumentor/phpdocumentor": "^2.9.0",
+            "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5"
         },
-        "time": "2018-12-24T19:30:49+00:00",
+        "suggest": {
+            "ext-iconv": "For best support/performance",
+            "ext-mbstring": "For best support/performance"
+        },
+        "time": "2020-12-02T21:55:45+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -3672,18 +3748,136 @@
         ],
         "authors": [
             {
-                "name": "Zaahid Bateson",
-                "email": "zbateson@users.noreply.github.com"
+                "name": "Zaahid Bateson"
+            },
+            {
+                "name": "Contributors",
+                "homepage": "https://github.com/zbateson/mail-mime-parser/graphs/contributors"
             }
         ],
         "description": "MIME email message parser",
-        "homepage": "https://github.com/zbateson/MailMimeParser",
+        "homepage": "https://mail-mime-parser.org",
         "keywords": [
+            "MimeMailParser",
             "email",
             "mail",
+            "mailparse",
             "mime",
+            "mimeparse",
             "parser",
             "php-imap"
+        ]
+    },
+    {
+        "name": "zbateson/mb-wrapper",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zbateson/mb-wrapper.git",
+            "reference": "721b3dfbf7ab75fee5ac60a542d7923ffe59ef6d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zbateson/mb-wrapper/zipball/721b3dfbf7ab75fee5ac60a542d7923ffe59ef6d",
+            "reference": "721b3dfbf7ab75fee5ac60a542d7923ffe59ef6d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4",
+            "symfony/polyfill-iconv": "^1.9",
+            "symfony/polyfill-mbstring": "^1.9"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5"
+        },
+        "suggest": {
+            "ext-iconv": "For best support/performance",
+            "ext-mbstring": "For best support/performance"
+        },
+        "time": "2020-10-21T22:14:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "ZBateson\\MbWrapper\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Zaahid Bateson"
+            }
+        ],
+        "description": "Wrapper for mbstring with fallback to iconv for encoding conversion and string manipulation",
+        "keywords": [
+            "charset",
+            "encoding",
+            "http",
+            "iconv",
+            "mail",
+            "mb",
+            "mb_convert_encoding",
+            "mbstring",
+            "mime",
+            "multibyte",
+            "string"
+        ]
+    },
+    {
+        "name": "zbateson/stream-decorators",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zbateson/stream-decorators.git",
+            "reference": "6f54738dfecc65e1d5bfb855035836748083a6dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zbateson/stream-decorators/zipball/6f54738dfecc65e1d5bfb855035836748083a6dd",
+            "reference": "6f54738dfecc65e1d5bfb855035836748083a6dd",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/psr7": "^1.0.0",
+            "php": ">=5.4",
+            "zbateson/mb-wrapper": "^1.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5"
+        },
+        "time": "2020-08-10T18:59:43+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "ZBateson\\StreamDecorators\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Zaahid Bateson"
+            }
+        ],
+        "description": "PHP psr7 stream decorators for mime message part streams",
+        "keywords": [
+            "base64",
+            "charset",
+            "decorators",
+            "mail",
+            "mime",
+            "psr7",
+            "quoted-printable",
+            "stream",
+            "uuencode"
         ]
     }
 ]

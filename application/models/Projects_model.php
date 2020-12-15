@@ -2331,6 +2331,10 @@ class Projects_model extends App_Model
             $this->log_activity($id, 'project_activity_created');
             log_activity('Project Copied [ID: ' . $project_id . ', NewID: ' . $id . ']');
 
+            hooks()->do_action('project_copied', [
+                'project_id'    =>$project_id,
+                'new_project_id'=>$id,
+            ]);
             return $id;
         }
 

@@ -33,7 +33,7 @@ class Migration_Version_501 extends CI_Migration
         );
 
         $CI->db->query(
-            'CREATE TABLE IF NOT EXISTS ' . db_prefix() . 'tbltwocheckout_log(
+            'CREATE TABLE IF NOT EXISTS ' . db_prefix() . 'twocheckout_log(
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
             `reference` VARCHAR(64) NOT NULL,
             `invoice_id` INT NOT NULL,

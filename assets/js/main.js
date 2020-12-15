@@ -7468,6 +7468,39 @@ function insert_template(wrapper, rel_type, id) {
     });
 }
 
+function retrieve_imap_folders(url, params) {
+    var dfd = $.Deferred();
+    $('#folders-loader').addClass('spinning').removeClass('hidden');
+
+    $.post(url, params).done(function(response){
+        response = JSON.parse(response);
+        if(response.hasOwnProperty('alert_type')) {
+            alert_float(response.alert_type,response.message);
+        } else {
+            var output = '';
+            var $folder = $('#folder');
+            var currentFolder = $folder.selectpicker('val');
+
+            response.forEach(function(folderName) {
+                output += '<option name="'+folderName+'"'+(folderName == currentFolder ? ' selected' : '')+'>'+folderName+'</option>';
+            })
+
+            $folder.html(output);
+            $folder.selectpicker('refresh');
+
+            if(!currentFolder) {
+                $folder.selectpicker('val', $folder.find('option:eq(0)')[0].value)
+            }
+        }
+        dfd.resolve(response)
+    }).fail(function() {
+        dfd.reject(error)
+    }).always(function(){
+        $('#folders-loader').removeClass('spinning').addClass('hidden');
+    });
+
+    return dfd.promise();
+}
 
 /**
  * @DEPRECATED FUNCTIONS

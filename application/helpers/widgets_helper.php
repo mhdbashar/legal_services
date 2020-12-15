@@ -88,21 +88,30 @@ function render_dashboard_widgets($container)
 
         foreach ($widgets as $key => $widget) {
             $html = str_get_html($CI->load->view($widget['path'], [], true));
+            if ($html) {
+                $widgetContainer = $html->firstChild();
+                if ($widgetContainer) {
+                    $htmlID = $widgetContainer->getAttribute('id');
 
-            $widgetContainer = $html->firstChild();
-            $htmlID          = $widgetContainer->getAttribute('id');
+                    $widgetsData[$htmlID] = [
+                    'widgetIndex'     => $key,
+                    'widgetPath'      => $widget['path'],
+                    'widgetContainer' => $widget['container'],
+                    'html'            => $widgetContainer,
+                ];
 
-            $widgetsData[$htmlID] = [
-                'widgetIndex'     => $key,
-                'widgetPath'      => $widget['path'],
-                'widgetContainer' => $widget['container'],
-                'html'            => $widgetContainer,
-            ];
-
-            $widget['widgetID']         = $htmlID;
-            $widget['html']             = $widgetContainer;
-            $widgets[$key]['settingID'] = strafter($htmlID, 'widget-');
-            $widgets[$key]['html']      = $widgetContainer;
+                    $widget['widgetID']         = $htmlID;
+                    $widget['html']             = $widgetContainer;
+                    $widgets[$key]['settingID'] = strafter($htmlID, 'widget-');
+                    $widgets[$key]['html']      = $widgetContainer;
+                } else {
+                    // Not compatible widget
+                    unset($widgets[$key]);
+                }
+            } else {
+                // Not compatible widget
+                unset($widgets[$key]);
+            }
         }
     }
 

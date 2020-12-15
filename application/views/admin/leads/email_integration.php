@@ -66,15 +66,15 @@
                            </div>
                         </div>
                         <div class="form-group">
-                          <label for="folder" class="control-label"><?php echo _l('leads_email_integration_folder'); ?></label>
-                          <select class="selectpicker form-control<?php if($configured && $mail->active && count($folders) === 0){ echo ' configuration-error'; } ?>" name="folder" id="folder">
-                            <?php foreach($folders as $folder) { ?>
-                              <option value="<?php echo $folder->getName(); ?>"<?php if($folder->getName() == $mail->folder){echo ' selected';} ?>><?php echo $folder->getName(); ?></option>
-                            <?php } ?>
-                          </select>
-                          <?php if($configured && $mail->active && count($folders) === 0) { ?>
-                            <p class="text-warning">The script was unable the retrieve the available folders in the configured account, make sure that your credentials are correct, try to re-configure the credentials and re-test the connection.</p>
-                          <?php } ?>
+                           <label for="folder" class="control-label">
+                           <?php echo _l('leads_email_integration_folder'); ?>
+                           <a href="#" onclick="retrieve_leads_email_integration_folders(); return false;">
+                              <i class="fa fa-refresh hidden" id="folders-loader"></i> <?php echo _l('retrieve_folders'); ?>
+                           </a>
+                           </label>
+                           <select name="folder" class="form-control selectpicker" id="folder">
+                              <option value="<?php echo $mail->folder; ?>"><?php echo $mail->folder; ?></option>
+                           </select>
                         </div>
                         <?php echo render_input('check_every','leads_email_integration_check_every',$mail->check_every,'number',array('min'=>hooks()->apply_filters('leads_email_integration_check_every', 10),'data-ays-ignore'=>true)); ?>
                         <div class="checkbox checkbox-primary">
@@ -176,87 +176,86 @@
 </div>
 <?php init_tail(); ?>
 <script>
-   $(function(){
+$(function() {
 
-     var $create_task_if_customer = $('#create_task_if_customer');
+    var $create_task_if_customer = $('#create_task_if_customer');
 
-     $('#leads-email-integration').on('dirty.areYouSure', function() {
-         // Enable save button only as the form is dirty.
-         $('.test-leads-email-integration').addClass('disabled');
-     });
+    $('#leads-email-integration').on('dirty.areYouSure', function() {
+        // Enable save button only as the form is dirty.
+        $('.test-leads-email-integration').addClass('disabled');
+    });
 
-     $('#leads-email-integration').on('clean.areYouSure', function() {
-         // Form is clean so nothing to save - disable the save button.
-         $('.test-leads-email-integration').removeClass('disabled');
-     });
+    $('#leads-email-integration').on('clean.areYouSure', function() {
+        // Form is clean so nothing to save - disable the save button.
+        $('.test-leads-email-integration').removeClass('disabled');
+    });
 
-     $('#notify_lead_imported,#notify_lead_contact_more_times').on('change',function(){
-         if($('#notify_lead_imported').prop('checked') == false && $('#notify_lead_contact_more_times').prop('checked') == false) {
-           $('.select-notification-settings').addClass('hide');
-       } else {
-           $('.select-notification-settings').removeClass('hide');
-       }
-   });
-
-     var validationObject = {
-       lead_source: 'required',
-       lead_status: 'required',
-       imap_server: 'required',
-       password: 'required',
-       port: 'required',
-       email: {
-           required: true
-       },
-       check_every: {
-           required: true,
-           number: true
-       },
-       folder: {
-        required: {
-          depends:function(element) {
-            var isRequired = !$('select#folder').hasClass('configuration-error');
-            if(isRequired) {
-               $('[for="folder"]').find('.req').removeClass('hide');
-           } else {
-               $(element).next('p.text-danger').remove();
-               $('[for="folder"]').find('.req').addClass('hide');
-           }
-           return isRequired;
-          }
+    $('#notify_lead_imported,#notify_lead_contact_more_times').on('change', function() {
+        if ($('#notify_lead_imported').prop('checked') == false && $('#notify_lead_contact_more_times').prop('checked') == false) {
+            $('.select-notification-settings').addClass('hide');
+        } else {
+            $('.select-notification-settings').removeClass('hide');
         }
-       },
-       responsible: {
-           required: {
-            depends:function(element){
-              var isRequiredByNotifyType = ($('input[name="notify_type"]:checked').val() == 'assigned') ? true : false;
-              var isRequiredByAssignTask = ($create_task_if_customer.is(':checked')) ? true : false;
-              var isRequired = isRequiredByNotifyType || isRequiredByAssignTask;
-              if(isRequired) {
-               $('[for="responsible"]').find('.req').removeClass('hide');
-           } else {
-               $(element).next('p.text-danger').remove();
-               $('[for="responsible"]').find('.req').addClass('hide');
-           }
-           return isRequired;
-       }
-   }
-   }
-   };
-     appValidateForm($('#leads-email-integration'), validationObject);
+    });
 
-     var $notifyTypeInput = $('input[name="notify_type"]');
+    var validationObject = {
+        lead_source: 'required',
+        lead_status: 'required',
+        imap_server: 'required',
+        password: 'required',
+        port: 'required',
+        email: {
+            required: true
+        },
+        check_every: {
+            required: true,
+            number: true
+        },
+        folder: {
+            required: true,
+        },
+        responsible: {
+            required: {
+                depends: function(element) {
+                    var isRequiredByNotifyType = ($('input[name="notify_type"]:checked').val() == 'assigned') ? true : false;
+                    var isRequiredByAssignTask = ($create_task_if_customer.is(':checked')) ? true : false;
+                    var isRequired = isRequiredByNotifyType || isRequiredByAssignTask;
+                    if (isRequired) {
+                        $('[for="responsible"]').find('.req').removeClass('hide');
+                    } else {
+                        $(element).next('p.text-danger').remove();
+                        $('[for="responsible"]').find('.req').addClass('hide');
+                    }
+                    return isRequired;
+                }
+            }
+        }
+    };
 
-   $notifyTypeInput.on('change',function(){
-       $('#leads-email-integration').validate().checkForm()
-   });
+    appValidateForm($('#leads-email-integration'), validationObject);
 
-     $create_task_if_customer.on('change',function(){
-       $('#leads-email-integration').validate().checkForm()
-   });
+    var $notifyTypeInput = $('input[name="notify_type"]');
 
-     $create_task_if_customer.trigger('change');
+    $notifyTypeInput.on('change', function() {
+        $('#leads-email-integration').validate().checkForm()
+    });
 
-   });
+    $create_task_if_customer.on('change', function() {
+        $('#leads-email-integration').validate().checkForm()
+    });
+
+    $create_task_if_customer.trigger('change');
+
+});
+
+function retrieve_leads_email_integration_folders() {
+    retrieve_imap_folders(admin_url + 'departments/folders', {
+        email: $('input[name="email"]').val(),
+        password: $('input[name="password"]').val(),
+        host: $('input[name="imap_server"]').val(),
+        encryption: $('input[name="encryption"]:checked').val()
+    })
+}
 </script>
 </body>
 </html>

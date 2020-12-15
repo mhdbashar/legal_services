@@ -1121,6 +1121,31 @@ class Leads extends AdminController
         echo json_encode(['leadView' => $this->_get_lead_data($rel_id), 'id' => $rel_id]);
     }
 
+    public function email_integration_folders()
+    {
+       if (!is_admin()) {
+            ajax_access_denied('Leads Test Email Integration');
+        }
+
+        app_check_imap_open_function();
+
+        $imap = new Imap(
+           $this->input->post('email'),
+           $this->input->post('password', false),
+           $this->input->post('imap_server'),
+           $this->input->post('encryption')
+        );
+
+        try {
+            echo json_encode($imap->getSelectableFolders());
+        } catch (ConnectionErrorException $e) {
+            echo json_encode([
+                'alert_type' => 'warning',
+                'message'    => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function test_email_integration()
     {
         if (!is_admin()) {
@@ -1194,31 +1219,7 @@ class Leads extends AdminController
 
         $data['title']      = _l('leads_email_integration');
         $data['mail']       = $this->leads_model->get_email_integration();
-        $data['folders']    = [];
-        $data['configured'] = false;
-
-        if (!empty($data['mail']->email) && !empty($data['mail']->password) && !empty($data['mail']->imap_server)) {
-            $data['configured'] = true;
-
-            $imap = new Imap(
-                $data['mail']->email,
-                $this->encryption->decrypt($data['mail']->password),
-                $data['mail']->imap_server,
-                $data['mail']->encryption
-            );
-
-            try {
-                $connection      = $imap->testConnection();
-                $data['folders'] = $connection->getMailboxes();
-
-                foreach ($data['folders'] as $key => $folder) {
-                    if ($folder->getAttributes() & \LATT_NOSELECT) {
-                        unset($data['folders'][$key]);
-                    }
-                }
-            } catch (ConnectionErrorException $e) {
-            }
-        }
+       
         $data['bodyclass'] = 'leads-email-integration';
         $this->load->view('admin/leads/email_integration', $data);
     }

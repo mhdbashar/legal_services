@@ -145,18 +145,7 @@ class Departments extends AdminController
         );
 
         try {
-            $connection = $imap->testConnection();
-            $folders    = $connection->getMailboxes();
-
-            foreach ($folders as $key => $folder) {
-                if ($folder->getAttributes() & \LATT_NOSELECT) {
-                    unset($folders[$key]);
-                }
-            }
-
-            echo json_encode(array_keys(array_map(function ($folder) {
-                return $folder->getName();
-            }, $folders)));
+            echo json_encode($imap->getSelectableFolders());
         } catch (ConnectionErrorException $e) {
             echo json_encode([
                 'alert_type' => 'warning',

@@ -103,7 +103,7 @@
                         <label for="folder" class="control-label">
                               <?php echo _l('imap_folder'); ?>
                               <a href="#" onclick="retrieve_imap_department_folders(); return false;">
-                                    <?php echo _l('retrieve_folders'); ?>
+                                    <i class="fa fa-refresh hidden" id="folders-loader"></i> <?php echo _l('retrieve_folders'); ?>
                                </a>
                           </label>
                           <select name="folder" class="form-control selectpicker" id="folder"></select>
@@ -207,34 +207,13 @@
         }
 
         function retrieve_imap_department_folders() {
-            $.post(admin_url+'departments/folders', {
+            retrieve_imap_folders(admin_url+'departments/folders', {
                 email:$('input[name="email"]').val(),
                 password:$('input[name="password"]').val(),
                 host:$('input[name="host"]').val(),
                 username:$('input[name="imap_username"]').val(),
                 encryption: $('input[name="encryption"]:checked').val()
             })
-            .done(function(response){
-                response = JSON.parse(response);
-                if(response.hasOwnProperty('alert_type')) {
-                    alert_float(response.alert_type,response.message);
-                } else {
-                    var output = '';
-                    var $folder = $('#folder');
-                    var currentFolder = $folder.selectpicker('val');
-
-                    response.forEach(function(folderName) {
-                        output += '<option name="'+folderName+'"'+(folderName == currentFolder ? ' selected' : '')+'>'+folderName+'</option>';
-                    })
-
-                    $folder.html(output);
-                    $folder.selectpicker('refresh');
-
-                    if(!currentFolder) {
-                        $folder.selectpicker('val', $folder.find('option:eq(0)')[0].value)
-                    }
-                }
-            });
         }
 
         function test_dep_imap_connection(){

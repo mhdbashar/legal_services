@@ -599,35 +599,36 @@
             <?php } ?>
          </h5>
          <hr class="task-info-separator" />
-         <div class="task-info task-status task-info-status">
-            <h5>
-               <i class="fa fa-<?php if($task->status == Sessions_model::STATUS_COMPLETE){echo 'star';} else if($task->status == 1){echo 'star-o';} else {echo 'star-half-o';} ?> pull-left task-info-icon fa-fw fa-lg"></i><?php echo _l('session_status'); ?>:
-               <?php if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('sessions','','edit')) { ?>
-               <span class="task-single-menu task-menu-status">
-                  <span class="trigger pointer manual-popover text-has-action">
-                  <?php echo format_session_status($task->status,true); ?>
-                  </span>
-                  <span class="content-menu hide">
-                     <ul>
-                        <?php
-                           $task_single_mark_as_statuses = hooks()->apply_filters('task_single_mark_as_statuses', $task_statuses);
-                           foreach($task_single_mark_as_statuses as $status){ ?>
-                        <?php if($task->status != $status['id']){ ?>
-                        <li>
-                           <a href="#" onclick="session_mark_as(<?php echo $status['id']; ?>,<?php echo $task->id; ?>); return false;">
-                           <?php echo _l('task_mark_as',$status['name']); ?>
-                           </a>
-                        </li>
-                        <?php } ?>
-                        <?php } ?>
-                     </ul>
-                  </span>
-               </span>
-               <?php } else { ?>
-               <?php echo format_session_status($task->status,true); ?>
-               <?php } ?>
-            </h5>
-         </div>
+          <?php /*
+<!--         <div class="task-info task-status task-info-status">-->
+<!--            <h5>-->
+<!--               <i class="fa fa---><?php //if($task->status == Sessions_model::STATUS_COMPLETE){echo 'star';} else if($task->status == 1){echo 'star-o';} else {echo 'star-half-o';} ?><!-- pull-left task-info-icon fa-fw fa-lg"></i>--><?php //echo _l('session_status'); ?><!--:-->
+<!--               --><?php //if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('sessions','','edit')) { ?>
+<!--               <span class="task-single-menu task-menu-status">-->
+<!--                  <span class="trigger pointer manual-popover text-has-action">-->
+<!--                  --><?php //echo format_session_status($task->status,true); ?>
+<!--                  </span>-->
+<!--                  <span class="content-menu hide">-->
+<!--                     <ul>-->
+<!--                        --><?php
+//                           $task_single_mark_as_statuses = hooks()->apply_filters('task_single_mark_as_statuses', $task_statuses);
+//                           foreach($task_single_mark_as_statuses as $status){ ?>
+<!--                        --><?php //if($task->status != $status['id']){ ?>
+<!--                        <li>-->
+<!--                           <a href="#" onclick="session_mark_as(--><?php //echo $status['id']; ?>//,<?php //echo $task->id; ?>//); return false;">
+//                           <?php //echo _l('task_mark_as',$status['name']); ?>
+<!--                           </a>-->
+<!--                        </li>-->
+<!--                        --><?php //} ?>
+<!--                        --><?php //} ?>
+<!--                     </ul>-->
+<!--                  </span>-->
+<!--               </span>-->
+<!--               --><?php //} else { ?>
+<!--               --><?php //echo format_session_status($task->status,true); ?>
+<!--               --><?php //} ?>
+<!--            </h5>-->
+<!--         </div>-->*/ ?>
          <?php if($task->status == Sessions_model::STATUS_COMPLETE){ ?>
          <div class="task-info task-info-finished">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-check"></i>

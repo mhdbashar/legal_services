@@ -125,6 +125,7 @@ class Contracts_model extends App_Model
         $data['hash'] = app_generate_hash();
 
         $data = hooks()->apply_filters('before_contract_added', $data);
+
         $this->db->insert(db_prefix() . 'contracts', $data);
         $insert_id = $this->db->insert_id();
 
@@ -656,9 +657,15 @@ class Contracts_model extends App_Model
             $this->db->where('id', $id);
             $original_renewal = $this->db->get(db_prefix() . 'contract_renewals')->row();
         }
+
+        $contract = $this->get($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'contract_renewals');
         if ($this->db->affected_rows() > 0) {
+            if (!is_null($contract->short_link)) {
+                app_archive_short_link($contract->short_link);
+            }
+
             if ($is_last == true) {
                 $this->db->where('id', $contractid);
                 $data = [

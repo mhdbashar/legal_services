@@ -22,21 +22,9 @@ class App_tabs
         return $this;
     }
 
-    public function add_opponent_profile_tab($slug, $tab)
-    {
-        $this->add($slug, $tab, 'opponent_profile');
-
-        return $this;
-    }
-
     public function get_customer_profile_tabs()
     {
         return $this->get('customer_profile');
-    }
-
-    public function get_opponent_profile_tabs()
-    {
-        return $this->get('opponent_profile');
     }
 
     public function add_project_tab($slug, $tab)
@@ -179,32 +167,8 @@ class App_tabs
     public function get($group)
     {
         hooks()->do_action('before_get_tabs', $group);
+
         $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
-        foreach ($tabs as $parent => $item) {
-            $tabs[$parent]['children'] = $this->get_child($parent, $group);
-        }
-
-        $tabs = hooks()->apply_filters("{$group}_tabs", $tabs);
-
-        $tabs = $this->filter_visible_tabs($tabs);
-
-        return app_sort_by_position($tabs);
-    }
-
-    public function get2($group)
-    {
-        hooks()->do_action('get_case_tabs', $group);
-        $tabs = isset($this->tabs[$group]) ? $this->tabs[$group] : [];
-        foreach ($tabs as $parent => $item) {
-            $tabs[$parent]['children'] = $this->get_child($parent, $group);
-        }
-
-        $tabs = hooks()->apply_filters("{$group}_tabs", $tabs);
-
-        $tabs = $this->filter_visible_tabs($tabs);
-
-        return app_sort_by_position($tabs);
-    }
 
     public function get4($group)
     {
@@ -298,5 +262,4 @@ class App_tabs
 
         return false;
     }
-
 }

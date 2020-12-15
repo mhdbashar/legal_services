@@ -391,14 +391,36 @@ function init_relation_sessions_table($table_attributes = [])
         echo '</div>';
     }
     echo "<div class='clearfix'></div>";
-
+    echo ' <div class="horizontal-scrollable-tabs preview-tabs-top">
+                <div class="horizontal-tabs">
+                    <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
+                        <li role="presentation" class="active" >
+                            <a href="#Waiting_sessions" aria-controls="Waiting_sessions" role="tab" data-toggle="tab">
+                               '. _l('Waiting_sessions').'
+                            </a>
+                        </li>
+                        <li role="presentation" class="tab-separator">
+                            <a href="#Previous_Sessions" aria-controls="Previous_Sessions" role="tab" data-toggle="tab">                                               
+                                '. _l('Previous_Sessions').'
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>';
     // If new column is added on sessions relations table this will not work fine
     // In this case we need to add new identifier eq session-relation
     $table_attributes['data-last-order-identifier'] = 'tasks';
     $table_attributes['data-default-order']         = get_table_last_order('tasks');
 
-    $table .= render_datatable($table_data, $name, [], $table_attributes);
-
+    echo '<div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="Waiting_sessions">';
+               $table .= render_datatable($table_data, $name, [], $table_attributes);
+            echo '</div>
+            <div role="tabpanel" class="tab-pane " id="Previous_Sessions">';
+               $table .= render_datatable($table_data, $name, [], $table_attributes);
+            echo '</div>
+        </div>';
+    //$table .= render_datatable($table_data, $name, [], $table_attributes);
     return $table;
 }
 
@@ -494,4 +516,16 @@ function get_sessions_where_string($table = true)
     }
 
     return $_sessions_where;
+}
+
+function get_count_of_watting_sessions()
+{
+    $CI = &get_instance();
+    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks WHERE is_session = 1 AND DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")')->row()->session_count;
+}
+
+function get_count_of_previous_sessions()
+{
+    $CI = &get_instance();
+    return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks WHERE is_session = 1 AND DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")')->row()->session_count;
 }

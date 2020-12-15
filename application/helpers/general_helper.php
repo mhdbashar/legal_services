@@ -1,7 +1,24 @@
 <?php
 
+use Carbon\Carbon;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Content-Type: text/html; charset=utf-8');
+
+/**
+ * Get total number of days overdue
+ * @since  Version 2.7.1
+ * @param  object $duedate  due date
+ * @return int days overdue
+ */
+function get_total_days_overdue($duedate)
+{
+    if (Carbon::parse($duedate)->isPast()) {
+       return Carbon::parse($duedate)->diffInDays();
+    }
+
+    return 0;
+}
 
 /**
  * Check if the document should be RTL or LTR
@@ -734,7 +751,7 @@ function csrf_jquery_token()
  */
 function app_happy_text($text)
 {
-    $regex = hooks()->apply_filters('app_happy_text_regex', 'congratulations!?|congrats!?|happy!?|feel happy!?|awesome!?|yay!?');
+    $regex = hooks()->apply_filters('app_happy_text_regex', '\b(congratulations!?|congrats!?|happy!?|feel happy!?|awesome!?|yay!?)\b');
     $re    = '/' . $regex . '/i';
 
     $app_happy_color = hooks()->apply_filters('app_happy_text_color', 'rgb(255, 59, 0)');
@@ -807,59 +824,7 @@ function app_hash_password($password)
     return app_hasher()->HashPassword($password);
 }
 
-// TODO
-function round_timesheet_time($datetime)
-{
-    $dt = new DateTime($datetime);
-    $r  = 15;
-    // echo roundUpToMinuteInterval($dt,$r)->format('Y-m-d H:i:s') . '<br />';
-    // echo roundDownToMinuteInterval($dt,$r)->format('Y-m-d H:i:s') . '<br />';
-    $datetime = roundUpToMinuteInterval($dt, $r)->format('Y-m-d H:i:s');
 
-    return $datetime;
-}
-
-/**
- * @param $dateTime
- * @param int $minuteInterval
- * @return \DateTime
- */
-function roundUpToMinuteInterval($dateTime, $minuteInterval = 10)
-{
-    return $dateTime->setTime(
-        $dateTime->format('H'),
-        ceil($dateTime->format('i') / $minuteInterval) * $minuteInterval,
-        0
-    );
-}
-
-/**
- * @param $dateTime
- * @param int $minuteInterval
- * @return \DateTime
- */
-function roundDownToMinuteInterval($dateTime, $minuteInterval = 10)
-{
-    return $dateTime->setTime(
-        $dateTime->format('H'),
-        floor($dateTime->format('i') / $minuteInterval) * $minuteInterval,
-        0
-    );
-}
-
-/**
- * @param $dateTime
- * @param int $minuteInterval
- * @return \DateTime
- */
-function roundToNearestMinuteInterval($dateTime, $minuteInterval = 10)
-{
-    return $dateTime->setTime(
-        $dateTime->format('H'),
-        round($dateTime->format('i') / $minuteInterval) * $minuteInterval,
-        0
-    );
-}
 
 /**
  * @since  2.3.2

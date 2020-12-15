@@ -99,6 +99,13 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
+                    'name'      => _l('invoice_days_overdue'),
+                    'key'       => '{total_days_overdue}',
+                    'available' => [
+                        'invoice',
+                    ],
+                ],
+                [
                     'name'      => _l('payment_recorded_total'),
                     'key'       => '{payment_total}',
                     'available' => [
@@ -170,6 +177,7 @@ class Invoice_merge_fields extends App_merge_fields
         $fields['{invoice_link}']    = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
         $fields['{invoice_number}']  = format_invoice_number($invoice_id);
         $fields['{invoice_duedate}'] = _d($invoice->duedate);
+        $fields['{total_days_overdue}']    = get_total_days_overdue($invoice->duedate);
         $fields['{invoice_date}']    = _d($invoice->date);
         $fields['{invoice_status}']  = format_invoice_status($invoice->status, '', false);
         $fields['{project_name}']    = get_project_name_by_id($invoice->project_id);

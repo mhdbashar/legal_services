@@ -173,6 +173,34 @@ function get_invoice_status_label($status)
 }
 
 /**
+ * Check whether the given invoice is overdue
+ *
+ * @since 2.7.1
+ *
+ * @param  Object|array  $invoice
+ *
+ * @return boolean
+ */
+function is_invoice_overdue($invoice)
+{
+    if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    $invoice = (object) $invoice;
+
+    if (!$invoice->duedate) {
+        return false;
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_OVERDUE) {
+        return true;
+    }
+
+    return $invoice->status == Invoices_model::STATUS_PARTIALLY && get_total_days_overdue($invoice->duedate) > 0;
+}
+
+/**
  * Function used in invoice PDF, this function will return RGBa color for PDF dcouments
  * @param  mixed $status_id current invoice status id
  * @return string
@@ -285,6 +313,13 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
             }
         }
     }
+
+    // update invoice number for invoice with draft - V2.7.1
+    $CI->load->model('invoices_model');
+    if ($original_status == Invoices_model::STATUS_DRAFT) {
+        $CI->invoices_model->change_invoice_number_when_status_draft($id);
+    }
+
 
     $CI->db->where('id', $id);
     $CI->db->update(db_prefix() . 'invoices', [

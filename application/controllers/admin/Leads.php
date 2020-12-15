@@ -1192,8 +1192,33 @@ class Leads extends AdminController
             'is_not_staff' => 0,
         ]);
 
-        $data['title']     = _l('leads_email_integration');
-        $data['mail']      = $this->leads_model->get_email_integration();
+        $data['title']      = _l('leads_email_integration');
+        $data['mail']       = $this->leads_model->get_email_integration();
+        $data['folders']    = [];
+        $data['configured'] = false;
+
+        if (!empty($data['mail']->email) && !empty($data['mail']->password) && !empty($data['mail']->imap_server)) {
+            $data['configured'] = true;
+
+            $imap = new Imap(
+                $data['mail']->email,
+                $this->encryption->decrypt($data['mail']->password),
+                $data['mail']->imap_server,
+                $data['mail']->encryption
+            );
+
+            try {
+                $connection      = $imap->testConnection();
+                $data['folders'] = $connection->getMailboxes();
+
+                foreach ($data['folders'] as $key => $folder) {
+                    if ($folder->getAttributes() & \LATT_NOSELECT) {
+                        unset($data['folders'][$key]);
+                    }
+                }
+            } catch (ConnectionErrorException $e) {
+            }
+        }
         $data['bodyclass'] = 'leads-email-integration';
         $this->load->view('admin/leads/email_integration', $data);
     }

@@ -17,6 +17,8 @@ $system_path = rtrim($system_path, '/') . '/';
 
 define('BASEPATH', str_replace('\\', '/', $system_path));
 define('APPPATH', $application_folder . '/');
+$view_folder = APPPATH.'views';
+define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 define('EXT', '.php');
 define('ENVIRONMENT', $environment ? $environment : 'development');
 define('FCPATH', dirname(__FILE__) . '/');

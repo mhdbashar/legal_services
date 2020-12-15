@@ -65,7 +65,17 @@
                               <label for="no_enc"><?php echo _l('leads_email_integration_folder_no_encryption'); ?></label>
                            </div>
                         </div>
-                        <?php echo render_input('folder','leads_email_integration_folder',$mail->folder); ?>
+                        <div class="form-group">
+                          <label for="folder" class="control-label"><?php echo _l('leads_email_integration_folder'); ?></label>
+                          <select class="selectpicker form-control<?php if($configured && $mail->active && count($folders) === 0){ echo ' configuration-error'; } ?>" name="folder" id="folder">
+                            <?php foreach($folders as $folder) { ?>
+                              <option value="<?php echo $folder->getName(); ?>"<?php if($folder->getName() == $mail->folder){echo ' selected';} ?>><?php echo $folder->getName(); ?></option>
+                            <?php } ?>
+                          </select>
+                          <?php if($configured && $mail->active && count($folders) === 0) { ?>
+                            <p class="text-warning">The script was unable the retrieve the available folders in the configured account, make sure that your credentials are correct, try to re-configure the credentials and re-test the connection.</p>
+                          <?php } ?>
+                        </div>
                         <?php echo render_input('check_every','leads_email_integration_check_every',$mail->check_every,'number',array('min'=>hooks()->apply_filters('leads_email_integration_check_every', 10),'data-ays-ignore'=>true)); ?>
                         <div class="checkbox checkbox-primary">
                            <input type="checkbox" name="only_loop_on_unseen_emails" class="ays-ignore" id="only_loop_on_unseen_emails" <?php if($mail->only_loop_on_unseen_emails == 1){echo 'checked';} ?>>
@@ -201,7 +211,20 @@
            required: true,
            number: true
        },
-       folder: 'required',
+       folder: {
+        required: {
+          depends:function(element) {
+            var isRequired = !$('select#folder').hasClass('configuration-error');
+            if(isRequired) {
+               $('[for="folder"]').find('.req').removeClass('hide');
+           } else {
+               $(element).next('p.text-danger').remove();
+               $('[for="folder"]').find('.req').addClass('hide');
+           }
+           return isRequired;
+          }
+        }
+       },
        responsible: {
            required: {
             depends:function(element){

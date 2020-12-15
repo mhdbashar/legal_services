@@ -688,7 +688,7 @@ function load_client_language($customer_id = '')
         $CI->load->helper('cookie');
     }
 
-    if (get_contact_language() != '' && !is_language_disabled()) {
+    if (defined('CLIENTS_AREA') && get_contact_language() != '' && !is_language_disabled()) {
         $language = get_contact_language();
     } else {
         $language = get_option('active_language');
@@ -702,7 +702,7 @@ function load_client_language($customer_id = '')
             }
         }
 
-        set_contact_language($language);
+        // set_contact_language($language);
     }
 
 

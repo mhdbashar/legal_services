@@ -1,5 +1,5 @@
 function view_oservice_file(id, project_id, ServID) {
-    $.post(site_url + 'clients/legal_services/' + id + '/' + ServID, {
+    $.post(site_url + 'clients/legal_services/' + project_id + '/' + ServID, {
         action: 'get_file',
         id: id,
         project_id: project_id

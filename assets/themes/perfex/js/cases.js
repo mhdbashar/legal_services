@@ -1,3 +1,21 @@
+function view_case_file(id, project_id, ServID) {
+    $.post(site_url + 'clients/legal_services/' + project_id + '/' + ServID, {
+        action: 'get_file',
+        id: id,
+        project_id: project_id
+    }).done(function(response) {
+        $('#project_file_data').html(response);
+    }).fail(function(error) {
+        alert_float('danger', error.statusText);
+    });
+}
+
+$(function() {
+    $('body').on('show.bs.modal', '._project_file', function() {
+       // discussion_comments_oservice('#oservice-file-discussion', discussion_id, 'file');
+    });
+})
+
 // Dropzone.options.projectFilesUpload = false;
 // Dropzone.options.projectExpenseForm = false;
 

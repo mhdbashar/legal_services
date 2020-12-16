@@ -8,7 +8,7 @@
          </div>
          <div class="modal-body">
             <div class="row">
-               <div class="col-md-8 border-right project_file_area">
+               <div class="col-md-12 border-right project_file_area">
                   <?php
                      if($file->contact_id == get_contact_user_id()){ ?>
                   <?php echo render_input('file_subject','project_discussion_subject',$file->subject,'text',array('onblur'=>'update_file_data('.$file->id.','.$file->oservice_id.')')); ?>
@@ -31,15 +31,17 @@
                      <br />
                   <?php } ?>
                   <?php
-                  // if ($ServID == 1){
-                  //     $path = CASE_ATTACHMENTS_FOLDER .$file->project_id.'/'.$file->file_name;
-                  //     $url_text = 'cases';
-                  // }else{
-                      $path = OSERVICE_ATTACHMENTS_FOLDER .$file->oservice_id.'/'.$file->file_name;
-                      $url_text = 'oservices';
-                  // }
+                  if ($ServID == 1){
+                     $file_id = $file->project_id;
+                     $path = CASE_ATTACHMENTS_FOLDER .$file->project_id.'/'.$file->file_name;
+                     $url_text = 'cases';
+                  }else{
+                     $file_id = $file->oservice_id;
+                     $path = OSERVICE_ATTACHMENTS_FOLDER .$file_id.'/'.$file->file_name;
+                     $url_text = 'oservices';
+                  }
                      if(is_image($path)){ ?>
-                  <img src="<?php echo base_url('uploads/'.$url_text.'/'.$file->oservice_id.'/'.$file->file_name); ?>" class="img img-responsive">
+                  <img src="<?php echo base_url('uploads/'.$url_text.'/'.$file_id.'/'.$file->file_name); ?>" class="img img-responsive">
                   <?php } else if(!empty($file->external) && !empty($file->thumbnail_link)){ ?>
                   <img src="<?php echo optimize_dropbox_thumbnail($file->thumbnail_link); ?>" class="img img-responsive">
                   <?php } else if(strpos($file->filetype,'pdf') !== false && empty($file->external)){ ?>
@@ -53,7 +55,7 @@
                   } else {
 
                      if(empty($file->external)) {
-                        echo '<a href="'.site_url('uploads/'.$url_text.'/'.$file->oservice_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
+                        echo '<a href="'.site_url('uploads/'.$url_text.'/'.$file_id.'/'.$file->file_name).'" download>'.$file->file_name.'</a>';
                      } else {
                         echo '<a href="'.$file->external_link.'" target="_blank">'.$file->file_name.'</a>';
                      }
@@ -61,9 +63,9 @@
                      echo '<p class="text-muted">'._l('no_preview_available_for_file').'</p>';
                      } ?>
                </div>
-               <div class="col-md-4 project_file_discusssions_area">
+               <!-- <div class="col-md-4 project_file_discusssions_area">
                   <div id="project-file-discussion" class="tc-content"></div>
-               </div>
+               </div> -->
             </div>
          </div>
          <div class="clearfix"></div>

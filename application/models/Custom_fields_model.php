@@ -6,9 +6,9 @@ class Custom_fields_model extends App_Model
 {
     private $pdf_fields = ['estimate', 'invoice', 'credit_note', 'items'];
 
-    private $client_portal_fields = ['customers', 'estimate', 'invoice', 'proposal', 'contracts', 'tasks', 'projects', 'contacts', 'tickets', 'company', 'credit_note'];
+    private $client_portal_fields = ['customers', 'estimate', 'invoice', 'proposal', 'contracts', 'tasks', 'projects', 'contacts', 'tickets', 'company', 'credit_note', 'sessions'];
 
-    private $client_editable_fields = ['customers', 'contacts', 'tasks'];
+    private $client_editable_fields = ['customers', 'contacts', 'tasks', 'sessions'];
 
     public function __construct()
     {

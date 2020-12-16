@@ -41,7 +41,7 @@ function app_init_case_tabs()
     ]);
 
     $CI->app_tabs->add_case_tab('procuration', [
-        'name'     => _l('procuration'),
+        'name'     => _l('procurations'),
         'icon'     => 'fa fa-th',
         'view'     => 'admin/LegalServices/cases/case_procuration',
         'position' => 10,

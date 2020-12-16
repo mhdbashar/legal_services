@@ -544,6 +544,8 @@ $lang['add_new_lable'] = "اضافة حقل ترجمة جديد";
 $lang['arabic'] = "العربية";
 $lang['english'] = "الانكليزية";
 $lang['appraisal_date'] = "تاريخ التقييم";
+$lang['updated_at'] = "تاريخ التعديل";
+$lang['summary'] = "ملخص";
 $lang['select_month'] = "اختر الشهر";
 $lang['indicator_set_value'] = "وضع قيمة مؤشر الأداء :";
 $lang['customer_experience'] = "تجربة الزبون";
@@ -1026,6 +1028,7 @@ $lang['enable_two_factor_sms_authentication'] = "تفعيل التحقق الث�
 $lang['service_name'] = "الموضوع";
 $lang['clients_my_legal'] = "الخدمات القانونية";
 $lang['legal_summary'] = "ملخص الخدمات القانونية";
+$lang['single_legal_summary'] = "ملخص الخدمة القانونية";
 $lang['dialog_box_manage'] = "إدارة مربعات الحوار";
 $lang['dialog_boxes'] = "مربعات الحوار";
 $lang['add_dialog_box'] = "إضافة مربع حوار";
@@ -1089,3 +1092,7 @@ $lang['written_reports'] = "التقارير المكتوبة";
 $lang['report'] = "التقرير";
 $lang['date_updated'] = "تم تحريره بتاريخ";
 $lang['updated_by_staff'] = "تم تحريره من قبل الموظف";
+$lang['auto_close_edit_written_reports_after'] = "إغلاق التحرير على التقرير التالي آلياً بتاريخ";
+$lang['written_reports_cant_edit'] = "لم يعد يمكنك التحرير على هذا التقرير!";
+$lang['editable_until'] = "التعديل متاح حتى";
+$lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";

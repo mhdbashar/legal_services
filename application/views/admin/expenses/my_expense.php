@@ -539,6 +539,7 @@
             }
         },'json');
     }
+
     function expenseSubmitHandler(form){
 
         selectCurrency.prop('disabled',false);

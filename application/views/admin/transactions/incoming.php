@@ -1,8 +1,4 @@
-
-
-
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-//var_dump($incoming);exit();
     if(empty($id)){
         $id = '';
         $description = '';
@@ -21,7 +17,7 @@
         $email = '';
         $date = '';
     }else{
-//        var_dump($title);exit();
+
         $id = $incoming->id;
         $description = $incoming->description;
         $type = $incoming->type;
@@ -38,8 +34,6 @@
         $source_reporter_phone = $incoming->source_reporter_phone;
         $email = $incoming->email;
         $date = $incoming->date;
-
-    //    var_dump($is_secret);exit();
     }
 ?>
 <?php init_head(); ?>

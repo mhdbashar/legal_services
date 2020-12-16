@@ -20,8 +20,9 @@ $lang['father_linked_services'] = 'Main linked service';
 $lang['child_linked_services'] = 'Branch linked services';
 $lang['link_service'] = 'Link service';
 
-
+$lang['updated_at'] = "Updated at";
 $lang['cases_summary'] = "Cases Summary";
+$lang['summary'] = "Summary";
 $lang['home_my_cases'] = "Cases";
 $lang['home_my_services'] = "Other Services";
 $lang['problem_deleting_rel_serv']="Please ensure that there are no services associated with this category before deletion";
@@ -4182,6 +4183,7 @@ $lang['linked_case'] = "This case is related to the case:";
 $lang['service_name'] = "Service name";
 $lang['clients_my_legal'] = 'Legal Services';
 $lang['legal_summary'] = "Legal Services Summary";
+$lang['single_legal_summary'] = "Legal Service Summary";
 
 $lang['services_locks'] = "Please enter the password to continue!";
 $lang['open_lock'] = "Open lock";
@@ -4253,3 +4255,7 @@ $lang['written_reports'] = "Written reports";
 $lang['report'] = "Report";
 $lang['date_updated'] = "Edited on";
 $lang['updated_by_staff'] = "Edited by employee";
+$lang['auto_close_edit_written_reports_after'] = "Close editing on the next report automatically by date";
+$lang['written_reports_cant_edit'] = "You can no longer edit this report!";
+$lang['editable_until'] = "Editable Until";
+$lang['dont_have_edit_permission'] = "You do not have permission to edit!";

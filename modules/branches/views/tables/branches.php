@@ -3,14 +3,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
-    'tblbranches.id',
-    'tblbranches.title_en as title',
+    db_prefix().'branches.id',
+    db_prefix().'branches.title_en as title',
     'countries.title_en as country',
     'cities.title_en as city',
     'phone'
     ];
 $sIndexColumn = 'id';
-$sTable       = 'tblbranches';
+$sTable       = db_prefix().'branches';
 $join=['join countries on countries.id=tblbranches.country_id','join cities on cities.id=tblbranches.city_id'];
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable,$join);
 $output  = $result['output'];
@@ -20,9 +20,9 @@ foreach ($rResult as $aRow) {
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
         $_data = $aRow[$aColumns[$i]];
-        if ($aColumns[$i] == 'tblbranches.title_en as title' || $aColumns[$i] == 'id') {
+        if ($aColumns[$i] == db_prefix().'branches.title_en as title' || $aColumns[$i] == 'id') {
             $_data = '<a href="' . admin_url('branches/field/' . $aRow['id']) . '">' . $aRow['title'] . '</a>';
-            if ($aColumns[$i] == 'tblbranches.title_en as title') {
+            if ($aColumns[$i] == db_prefix().'branches.title_en as title') {
                 $_data .= '<div class="row-options">';
                 $_data .= '<a href="' . admin_url('branches/field/' . $aRow['tblbranches.id']) . '">' . _l('edit') . '</a>';
                 $_data .= ' | <a href="' . admin_url('branches/delete/' . $aRow['tblbranches.id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';

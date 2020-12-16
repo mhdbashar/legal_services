@@ -55,7 +55,7 @@ class Timesheet extends AdminController{
             $office_shift = $this->Office_shift_model->get_office_shift_for_staff($staff_id);
 
             $staff_leaves = $this->Leave_model->get_leaves_for_staff($staff_id, $start, $end);
-            //echo '<pre>'; print_r($staff_leaves); exit;
+
             $leaves = [];
             foreach ($staff_leaves as $leave) {
                 $days_diffs = $this->dateDiffInDays($leave['start_date'], $leave['end_date']) + 1;
@@ -80,7 +80,6 @@ class Timesheet extends AdminController{
             if(!empty($office_shift->friday_in))
                 $fri = true;
 
-            //echo '<pre>';print_r($leaves);exit;
             $office_shift_days = [];
             for($i = 1; $i <= $number_of_days; $i++){
                 if($i < 10)
@@ -243,7 +242,7 @@ class Timesheet extends AdminController{
             $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
-            $this->db->update('tblhr_office_shift', ['default'=>0]);
+            $this->db->update(db_prefix() . 'hr_office_shift', ['default'=>0]);
         }
         unset($data['branch_id']);
         foreach ($data as $key => $value) {
@@ -271,14 +270,13 @@ class Timesheet extends AdminController{
             $branch_id = $this->No_branch_model->get_general_branch();
         if($data['default'] == 1){
             $this->db->where('default', 1);
-            $this->db->update('tblhr_office_shift', ['default'=>0]);
+            $this->db->update(db_prefix() . 'hr_office_shift', ['default'=>0]);
         }
         unset($data['branch_id']);
         foreach ($data as $key => $value) {
             if($value == '')
                 $data[$key] = null;
         }
-        //var_dump($data);exit;
 
         $success = $this->Office_shift_model->add($data);
         if($success)
@@ -588,7 +586,7 @@ class Timesheet extends AdminController{
         }
         $response = $this->Leave_model->delete($id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

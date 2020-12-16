@@ -25,10 +25,10 @@ class Properties_model extends CRM_Model
         if (is_numeric($id)) {
             $this->db->where('id', $id);
 
-            return $this->db->get('tblproperties')->row();
+            return $this->db->get(db_prefix().'properties')->row();
         }
 
-        return $this->db->get('tblproperties')->result_array();
+        return $this->db->get(db_prefix().'properties')->result_array();
     }
 
     /**
@@ -39,7 +39,7 @@ class Properties_model extends CRM_Model
     public function add($data)
     {
 
-        $this->db->insert('tblproperties', $data);
+        $this->db->insert(db_prefix().'properties', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             logActivity('New Properties Added [' . $data['title'] . ']');
@@ -60,7 +60,7 @@ class Properties_model extends CRM_Model
         $original_field = $this->get($id);
 
         $this->db->where('id', $id);
-        $this->db->update('tblproperties', $data);
+        $this->db->update(db_prefix().'properties', $data);
         if ($this->db->affected_rows() > 0) {
             logActivity('Properties Updated [' . $data['title'] . ']');
             return true;
@@ -78,11 +78,11 @@ class Properties_model extends CRM_Model
     public function delete($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete('tblproperties');
+        $this->db->delete(db_prefix().'properties');
         if ($this->db->affected_rows() > 0) {
             // Delete the values
             $this->db->where('property_id', $id);
-            $this->db->delete('tblclientproperties');
+            $this->db->delete(db_prefix().'clientproperties');
             logActivity('Property Deleted [' . $id . ']');
 
             return true;

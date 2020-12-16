@@ -8,14 +8,14 @@ class Other_services_controller extends AdminController
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('Customer_representative_model', 'representative');
-        $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
         $this->load->model('currencies_model');
         $this->load->model('tasks_model');
         $this->load->model('LegalServices/Phase_model','phase');
-        $this->load->helper('date');
         $this->load->model('Staff_model');
         $this->load->model('LegalServices/Legal_procedures_model' , 'procedures');
+        $this->load->model('Written_reports_model','reports');
         $this->load->model('emails_model');
+        $this->load->helper('date');
     }
 
     public function add($ServID)
@@ -121,7 +121,7 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->delete($ServID, $id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
@@ -136,18 +136,29 @@ class Other_services_controller extends AdminController
         }
         $response = $this->other->move_to_recycle_bin($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
         redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        $this->app->get_table_data('cases', [
-            'clientid' => $clientid,
-        ]);
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->other;
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('my_other_services', [
+                'clientid' => $clientid,
+            ]);
+        endif;
     }
 
     public function staff_services()
@@ -240,6 +251,7 @@ class Other_services_controller extends AdminController
     {
         if (has_permission('projects', '', 'view') || $this->other->is_member($id)) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+            $data['slug'] = $slug;
             close_setup_menu();
             $project = $this->other->get($ServID,$id);
 
@@ -299,7 +311,7 @@ class Other_services_controller extends AdminController
 
             //$this->app_scripts->add('oservices-js', 'assets/js/oservices.js');
             $this->app_scripts->add(
-                'projects-js',
+                'oservices-js',
                 base_url($this->app_scripts->core_file('assets/js', 'oservices.js')) . '?v=' . $this->app_scripts->core_version(),
                 'admin',
                 ['app-js', 'jquery-comments-js', 'frappe-gantt-js', 'circle-progress-js']
@@ -420,9 +432,9 @@ class Other_services_controller extends AdminController
             } elseif ($group == 'OserviceSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-                //$data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                $data['judges']      = $this->service_sessions->get_judges();
-                $data['courts']      = $this->service_sessions->get_court();
+                //$data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+                $data['courts']      = $this->sessions_model->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             } elseif ($group == 'Procedures'){
@@ -436,6 +448,8 @@ class Other_services_controller extends AdminController
                 }
                 $tags = implode(',', $tags);
                 $data['books'] = json_decode(get_books_by_api($tags));
+            }elseif ($group == 'written_reports'){
+                $data['reports'] = $this->reports->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }
 
             // Discussions
@@ -470,7 +484,7 @@ class Other_services_controller extends AdminController
             }
 
 
-            $data['project_id']=$id;
+            $data['project_id'] = $id;
             $data['other_projects'] = $this->other->get($ServID, '', $other_projects_where);
             $data['title'] = $data['project']->name;
             $data['bodyclass'] .= 'project invoices-total-manual estimates-total-manual';
@@ -1045,13 +1059,13 @@ class Other_services_controller extends AdminController
                     foreach ($tasks as $task_id) {
                         $task = $this->tasks_model->get($task_id);
                         $sec = $this->tasks_model->calc_task_total_time($task_id);
-                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format($sec) . ' ' . _l('hours') . "\r\n";
+                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours') . "\r\n";
                         $item['task_id'][] = $task_id;
                         if ($project->billing_type == 2) {
                             if ($sec < 60) {
                                 $sec = 0;
                             }
-                            $item['qty'] += sec2qty($sec);
+                            $item['qty'] += sec2qty(task_timer_round($sec));
                         }
                     }
                     if ($project->billing_type == 1) {
@@ -1067,8 +1081,8 @@ class Other_services_controller extends AdminController
                         $task = $this->tasks_model->get($task_id);
                         $sec = $this->tasks_model->calc_task_total_time($task_id);
                         $item['description'] = $project->name . ' - ' . $task->name;
-                        $item['qty'] = floatVal(sec2qty($sec));
-                        $item['long_description'] = seconds_to_time_format($sec) . ' ' . _l('hours');
+                        $item['qty']              = floatVal(sec2qty(task_timer_round($sec)));
+                        $item['long_description'] = seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours');
                         if ($project->billing_type == 2) {
                             $item['rate'] = $project->project_rate_per_hour;
                         } elseif ($project->billing_type == 3) {
@@ -1090,8 +1104,8 @@ class Other_services_controller extends AdminController
 
                             array_push($added_task_ids, $timesheet['task_id']);
 
-                            $item['qty'] = floatVal(sec2qty($timesheet['total_spent']));
-                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format($timesheet['total_spent'])) . ' ' . _l('hours');
+                            $item['qty']              = floatVal(sec2qty(task_timer_round($timesheet['total_spent'])));
+                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format(task_timer_round($timesheet['total_spent']))) . ' ' . _l('hours');
 
                             if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
                                 $item['long_description'] .= "\r\n\r\n" . _l('note') . ': ' . $timesheet['note'];
@@ -1233,5 +1247,23 @@ class Other_services_controller extends AdminController
     {
         $data = $this->input->post();
         echo  $this->tasks_model->new_task_to_select_timesheet($data);
+    }
+
+    public function get_staff_names_for_mentions($projectId)
+    {
+        if ($this->input->is_ajax_request()) {
+            $projectId = $this->db->escape_str($projectId);
+
+            $members = $this->projects_model->get_project_members($projectId);
+            $members = array_map(function ($member) {
+                $staff = $this->staff_model->get($member['staff_id']);
+
+                $_member['id'] = $member['staff_id'];
+                $_member['name'] = $staff->firstname . ' ' . $staff->lastname;
+                return $_member;
+            }, $members);
+
+            echo json_encode($members);
+        }
     }
 }

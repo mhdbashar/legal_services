@@ -34,9 +34,9 @@
                         <!-- // For email exist check -->
                         <?php echo form_hidden('contactid',$contactid); ?>
                         <?php $value=( isset($contact) ? $contact->firstname : ''); ?>
-<!--                        --><?php //echo render_input( 'firstname', 'client_firstname',$value); ?>
-<!--                        --><?php //$value=( isset($contact) ? $contact->lastname : ''); ?>
-<!--                        --><?php //echo render_input( 'lastname', 'client_lastname',$value); ?>
+                        <?php //echo render_input( 'firstname', 'client_firstname',$value); ?>
+                        <?php //$value=( isset($contact) ? $contact->lastname : ''); ?>
+                        <?php //echo render_input( 'lastname', 'client_lastname',$value); ?>
                         <?php $value=( isset($contact) ? $contact->full_name : ''); ?>
                         <?php echo render_input( 'full_name', 'clients_list_full_name',$value); ?>
                         <?php $value=( isset($contact) ? $contact->title : ''); ?>

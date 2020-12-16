@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+//    public function test()
+//    {
+//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+//
+//    }
 
 function my_check_license()
 {
@@ -81,6 +86,30 @@ hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
+
+function my_app_init_customer_profile_tabs()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_customer_profile_tab('cases', [
+         'name'     => _l('Cases'),
+         'icon'     => 'fa fa-gavel',
+         'view'     => 'admin/clients/groups/cases',
+         'position' => 65,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('legal_services', [
+        'name'     => _l('LegalServices'),
+        'icon'     => 'fa fa-gavel',
+        'view'     => 'admin/clients/groups/legal_services',
+        'position' => 65,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('sessions', [
+        'name'     => _l('sessions'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/clients/groups/sessions',
+        'position' => 65,
+    ]);
+}
 
 function my_module_menu_item_collapsible()
 {
@@ -114,13 +143,15 @@ function my_module_menu_item_collapsible()
     //     'href'     => admin_url('clients'),
     //     'position' => 5,
     // ]);
-
-    // $CI->app_menu->add_sidebar_children_item('clients', [
-    //     'name'     => _l('opponents'), // The name if the item
-    //     'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-    //     'href'     => admin_url('opponents'), // URL of the item
-    //     'position' => 5, // The menu position
-    // ]);
+    if (has_permission('opponents', '', 'create')) {
+        $CI->app_menu->add_sidebar_menu_item('opponents', [
+            'name' => _l('opponents'), // The name if the item
+            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'href' => admin_url('opponents'), // URL of the item
+            'position' => 5, // The menu position
+            'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
+        ]);
+}
 
     $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
@@ -175,14 +206,14 @@ function my_module_clients_area_menu_items()
     ]);*/
     // Show menu item only if client is logged in
     $CI = &get_instance();
-    $services = $CI->db->order_by('id', 'DESC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
-    $position = 50;
+    $services = $CI->db->get_where('my_basic_services', array('is_primary' => 1))->result();
+    $position = 0;
     if (has_contact_permission('projects')) {
         if (is_client_logged_in()) {
             foreach ($services as $service):
             add_theme_menu_item('LegalServices'.$service->id, [
                 'name'     => $service->name,
-                'href'     => site_url('clients/legals/'.$service->id),
+                'href'     => $service->is_module == 0 ? site_url('clients/legals/'.$service->id) : site_url('clients/projects/'.$service->id),
                 'position' => $position+5,
             ]);
             endforeach;
@@ -304,15 +335,6 @@ function my_custom_setup_menu_items()
             'name' => _l("procuration_type"), // The name if the item
             'href' => admin_url('procuration/type'), // URL of the item
             'position' => 3, // The menu position
-        ]);
-    }
-
-    if (has_permission('opponents', '', 'create')) {
-        $CI->app_menu->add_setup_menu_item('opponents', [
-            'name' => _l('opponents'), // The name if the item
-            'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
-            'href' => admin_url('opponents'), // URL of the item
-            'position' => 6, // The menu position
         ]);
     }
 
@@ -476,8 +498,6 @@ function to_AD_date($date)
 
     if (  $hijri_convert && $hijriStatus =="on") {
         $hijri_settings['adj_data'] = get_option('adjust_data');
-//                var_dump($hijri_settings['adj_data'].'fghf');exit();
-
         $current_date = date_parse($date);
         $hijriCalendar = new Calendar($hijri_settings);
 
@@ -746,10 +766,9 @@ function set_my_options($data){
 
 }
 
-function add_hijri_settings(){
-
+function add_hijri_settings()
+{
     $CI = &get_instance();
-//  var_dump(add_option('dateformat'));exit();
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
@@ -899,6 +918,7 @@ function get_default_value_id_by_table_name($table, $id)
     }
     return false;
 }
+
 /**
  * Function that add tags based on passed arguments
  * @param  string $tags
@@ -1063,3 +1083,38 @@ function get_books_by_api($tags)
 //        echo json_encode(array("message" => "Method Not Allowed"));
 //    }
 //}
+
+/**
+ * Format dispute invoice number based on description
+ * @param  mixed $id
+ * @return string
+ */
+function format_dispute_invoice_number($id)
+{
+    $CI = & get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'my_project_invoices')
+        ->where('id', $id);
+
+    $invoice = $CI->db->get()->row();
+
+    if (!$invoice) {
+        return '';
+    }
+
+   if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
+
+    return hooks()->apply_filters('format_invoice_number', $number, [
+        'id'      => $id,
+        'invoice' => $invoice,
+    ]);
+}

@@ -198,6 +198,7 @@
         </tbody>
     </table>
 </div>
+<?php hooks()->do_action('admin_area_after_project_progress') ?>
 </div>
 <?php $tags = get_tags_in($project->id,$service->slug); ?>
 <?php if(count($tags) > 0){ ?>

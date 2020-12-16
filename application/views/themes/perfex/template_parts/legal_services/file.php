@@ -11,8 +11,8 @@
                <div class="col-md-12 border-right project_file_area">
                   <?php
                      if($file->contact_id == get_contact_user_id()){ ?>
-                  <?php echo render_input('file_subject','project_discussion_subject',$file->subject,'text',array('onblur'=>'update_file_data('.$file->id.','.$file->oservice_id.')')); ?>
-                  <?php echo render_textarea('file_description','project_discussion_description',$file->description,array('onblur'=>'update_file_data('.$file->id.','.$file->oservice_id.')')); ?>
+                  <?php echo render_input('file_subject','project_discussion_subject',$file->subject,'text',array('onblur'=>'update_file_data('.$file->id.','.$file->$db_field.')')); ?>
+                  <?php echo render_textarea('file_description','project_discussion_description',$file->description,array('onblur'=>'update_file_data('.$file->id.','.$file->$db_field.')')); ?>
                   <hr />
                   <?php } else { ?>
                   <?php if(!empty($file->description)){ ?>
@@ -45,7 +45,7 @@
                   <?php } else if(!empty($file->external) && !empty($file->thumbnail_link)){ ?>
                   <img src="<?php echo optimize_dropbox_thumbnail($file->thumbnail_link); ?>" class="img img-responsive">
                   <?php } else if(strpos($file->filetype,'pdf') !== false && empty($file->external)){ ?>
-                  <iframe src="<?php echo base_url('uploads/'.$url_text.'/'.$file->oservice_id.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
+                  <iframe src="<?php echo base_url('uploads/'.$url_text.'/'.$file->$db_field.'/'.$file->file_name); ?>" height="100%" width="100%" frameborder="0"></iframe>
                   <?php } else if(is_html5_video($path)){ ?>
                   <video width="100%" height="100%" src="<?php echo site_url('download/preview_video?path='.protected_file_url_by_path($path).'&type='.$file->filetype); ?>" controls>
                      Your browser does not support the video tag.

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-$hasPermissionEdit   = has_permission('tasks', '', 'edit');
-$hasPermissionDelete = has_permission('tasks', '', 'delete');
+$hasPermissionEdit   = has_permission('sessions', '', 'edit');
+$hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
 $aColumns = [
@@ -22,7 +22,9 @@ $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
-    array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    if(!$all_data):
+        array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    endif;
     array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
@@ -61,6 +63,14 @@ $join = [
     'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
 
+$custom_fields = get_table_custom_fields('sessions');
+
+foreach ($custom_fields as $key => $field) {
+    $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
+    array_push($customFieldsColumns, $selectAs);
+    array_push($aColumns, '(SELECT value FROM ' . db_prefix() . 'customfieldsvalues WHERE ' . db_prefix() . 'customfieldsvalues.relid=' . db_prefix() . 'tasks.id AND ' . db_prefix() . 'customfieldsvalues.fieldid=' . $field['id'] . ' AND ' . db_prefix() . 'customfieldsvalues.fieldto="' . $field['fieldto'] . '" LIMIT 1) as ' . $selectAs);
+}
+
 $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
@@ -84,7 +94,7 @@ foreach ($rResult as $aRow) {
     if ($aRow['not_finished_timer_by_current_staff']) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
-    $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+    $outputName .= '<a href="' . admin_url('tasks/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_session') . '</span>';
     }
@@ -125,7 +135,7 @@ foreach ($rResult as $aRow) {
     $outputName .= '</div>';
     $row[] = $outputName;
     $row[] = $aRow['judge'];
-    $row[] = $aRow['court_name'];
+    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
     //$row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';
@@ -141,6 +151,12 @@ foreach ($rResult as $aRow) {
     $row[] = $send;
     $row[] = _d($aRow['startdate']);
     $row[] = $aRow['time'];
+
+    // Custom fields add values
+    foreach ($customFieldsColumns as $customFieldColumn) {
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+    }
+
     $output['aaData'][] = $row;
     $i++;
 }

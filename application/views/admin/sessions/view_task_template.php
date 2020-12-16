@@ -272,7 +272,31 @@
             </div>
             <hr />
          </div>
+          <div class="clearfix"></div>
+          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('Court_decision'); ?></h4>
+          <?php if(has_permission('sessions','','edit')){ ?>
+              <a href="#" onclick="edit_session_inline_court_decision(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
+          <?php } ?>
+          <div class="clearfix"></div>
+          <?php if(!empty($task->court_decision)){
+              echo '<div class="tc-content"><div id="court_decision">' .check_for_links($task->court_decision) .'</div></div>';
+          } else {
+              echo '<div class="no-margin tc-content task-no-description" id="court_decision"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
+          } ?>
+          <div class="clearfix"></div>
+          <hr />
+          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('session_info'); ?></h4>
+          <?php if(has_permission('sessions','','edit')){ ?>
+              <a href="#" onclick="edit_session_inline_session_information(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
+          <?php } ?>
+          <div class="clearfix"></div>
+          <?php if(!empty($task->session_information)){
+              echo '<div class="tc-content"><div id="session_information">' .check_for_links($task->session_information) .'</div></div>';
+          } else {
+              echo '<div class="no-margin tc-content task-no-description" id="session_information"><span class="text-muted">' . _l('smtp_encryption_none') . '</span></div>';
+          } ?>
          <div class="clearfix"></div>
+          <hr />
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
          <?php if(has_permission('sessions','','edit')){ ?><a href="#" onclick="edit_session_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>
@@ -575,35 +599,36 @@
             <?php } ?>
          </h5>
          <hr class="task-info-separator" />
-         <div class="task-info task-status task-info-status">
-            <h5>
-               <i class="fa fa-<?php if($task->status == Sessions_model::STATUS_COMPLETE){echo 'star';} else if($task->status == 1){echo 'star-o';} else {echo 'star-half-o';} ?> pull-left task-info-icon fa-fw fa-lg"></i><?php echo _l('session_status'); ?>:
-               <?php if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('sessions','','edit')) { ?>
-               <span class="task-single-menu task-menu-status">
-                  <span class="trigger pointer manual-popover text-has-action">
-                  <?php echo format_session_status($task->status,true); ?>
-                  </span>
-                  <span class="content-menu hide">
-                     <ul>
-                        <?php
-                           $task_single_mark_as_statuses = hooks()->apply_filters('task_single_mark_as_statuses', $task_statuses);
-                           foreach($task_single_mark_as_statuses as $status){ ?>
-                        <?php if($task->status != $status['id']){ ?>
-                        <li>
-                           <a href="#" onclick="session_mark_as(<?php echo $status['id']; ?>,<?php echo $task->id; ?>); return false;">
-                           <?php echo _l('task_mark_as',$status['name']); ?>
-                           </a>
-                        </li>
-                        <?php } ?>
-                        <?php } ?>
-                     </ul>
-                  </span>
-               </span>
-               <?php } else { ?>
-               <?php echo format_session_status($task->status,true); ?>
-               <?php } ?>
-            </h5>
-         </div>
+          <?php /*
+<!--         <div class="task-info task-status task-info-status">-->
+<!--            <h5>-->
+<!--               <i class="fa fa---><?php //if($task->status == Sessions_model::STATUS_COMPLETE){echo 'star';} else if($task->status == 1){echo 'star-o';} else {echo 'star-half-o';} ?><!-- pull-left task-info-icon fa-fw fa-lg"></i>--><?php //echo _l('session_status'); ?><!--:-->
+<!--               --><?php //if($task->current_user_is_assigned || $task->current_user_is_creator || has_permission('sessions','','edit')) { ?>
+<!--               <span class="task-single-menu task-menu-status">-->
+<!--                  <span class="trigger pointer manual-popover text-has-action">-->
+<!--                  --><?php //echo format_session_status($task->status,true); ?>
+<!--                  </span>-->
+<!--                  <span class="content-menu hide">-->
+<!--                     <ul>-->
+<!--                        --><?php
+//                           $task_single_mark_as_statuses = hooks()->apply_filters('task_single_mark_as_statuses', $task_statuses);
+//                           foreach($task_single_mark_as_statuses as $status){ ?>
+<!--                        --><?php //if($task->status != $status['id']){ ?>
+<!--                        <li>-->
+<!--                           <a href="#" onclick="session_mark_as(--><?php //echo $status['id']; ?>//,<?php //echo $task->id; ?>//); return false;">
+//                           <?php //echo _l('task_mark_as',$status['name']); ?>
+<!--                           </a>-->
+<!--                        </li>-->
+<!--                        --><?php //} ?>
+<!--                        --><?php //} ?>
+<!--                     </ul>-->
+<!--                  </span>-->
+<!--               </span>-->
+<!--               --><?php //} else { ?>
+<!--               --><?php //echo format_session_status($task->status,true); ?>
+<!--               --><?php //} ?>
+<!--            </h5>-->
+<!--         </div>-->*/ ?>
          <?php if($task->status == Sessions_model::STATUS_COMPLETE){ ?>
          <div class="task-info task-info-finished">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-check"></i>
@@ -722,9 +747,9 @@
             </h5>
          </div>
          <?php } ?>
-         <?php $custom_fields = get_custom_fields('tasks');
+         <?php $custom_fields = get_custom_fields('sessions');
             foreach($custom_fields as $field){ ?>
-         <?php $value = get_custom_field_value($task->id,$field['id'],'tasks');
+         <?php $value = get_custom_field_value($task->id,$field['id'],'sessions');
             if($value == ''){continue;}?>
          <div class="task-info">
             <h5 class="task-info-custom-field task-info-custom-field-<?php echo $field['id']; ?>">

@@ -18,20 +18,20 @@ class Branches_model extends App_Model
     {
         if (is_numeric($id)) {
             $this->db->where('id', $id);
-            return $this->db->get('tblbranches')->row();
+            return $this->db->get(db_prefix().'branches')->row();
         }
-        return $this->db->get('tblbranches')->result_array();
+        return $this->db->get(db_prefix().'branches')->result_array();
     }
 
 
     public function get_staffs_by_branch_id($client_id){
         $this->db->where(['rel_type' => 'clients', 'rel_id' => $client_id]);
-        $branch = $this->db->get('tblbranches_services')->row();
+        $branch = $this->db->get(db_prefix().'branches_services')->row();
         if(is_object($branch)){
-            $branch_id = $this->db->get('tblbranches_services')->row()->branch_id;
+            $branch_id = $this->db->get(db_prefix().'branches_services')->row()->branch_id;
             $this->db->where(['branch_id' => $branch_id, 'rel_type' => 'staff']);
-            $this->db->join('tblstaff', 'tblstaff.staffid = tblbranches_services.rel_id', 'inner');
-            $staffs = $this->db->get('tblbranches_services')->result_array();
+            $this->db->join(db_prefix().'staff', db_prefix().'staff.staffid = '.db_prefix().'branches_services.rel_id', 'inner');
+            $staffs = $this->db->get(db_prefix().'branches_services')->result_array();
             return $staffs;
         }
         $this->db->order_by('firstname', 'desc');
@@ -41,7 +41,7 @@ class Branches_model extends App_Model
 
     public function delete_branch($rel_type, $rel_id){
         $this->db->where(['rel_id'=> $rel_id, 'rel_type' => $rel_type]);
-        $this->db->delete('tblbranches_services');
+        $this->db->delete(db_prefix().'branches_services');
         if ($this->db->affected_rows() > 0) {
             // Delete the values
             log_activity('Branches Services Deleted [' . $rel_id . ']');
@@ -56,7 +56,7 @@ class Branches_model extends App_Model
      */
     public function add($data)
     {
-        $this->db->insert('tblbranches', $data);
+        $this->db->insert(db_prefix().'branches', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New Branches Added [' . $data['title_en'] . ']');
@@ -67,7 +67,7 @@ class Branches_model extends App_Model
     
     public function set_branch($data)
     {
-        $this->db->insert('tblbranches_services', $data);
+        $this->db->insert(db_prefix().'branches_services', $data);
         $insert_id = $this->db->insert_id();
 
         if ($insert_id) {
@@ -80,7 +80,7 @@ class Branches_model extends App_Model
     public function update_branch($rel_type, $rel_id, $branch_id)
     {
         $this->db->where(['rel_id'=> $rel_id, 'rel_type' => $rel_type]);
-        $this->db->update('tblbranches_services', ['branch_id' => $branch_id]);
+        $this->db->update(db_prefix().'branches_services', ['branch_id' => $branch_id]);
 
         if ($this->db->affected_rows() > 0) {
             log_activity('Update Branch In '.$rel_type.' [' . $rel_id . ']');
@@ -93,8 +93,7 @@ class Branches_model extends App_Model
     {
         $data = [];
         $this->db->where(['rel_id' => $rel_id, 'rel_type' => $rel_type]);
-        $branch_id = $this->db->get('tblbranches_services')->row_array()['branch_id'];
-        
+        $branch_id = $this->db->get(db_prefix().'branches_services')->row_array()['branch_id'];
         return $branch_id;
     }
 
@@ -102,7 +101,7 @@ class Branches_model extends App_Model
     {
         $branch_id = $this->get_branch($rel_type, $rel_id);
         $this->db->where(['id' => $branch_id]);
-        return $this->db->get('tblbranches')->row_array()['title_en'];
+        return $this->db->get(db_prefix().'branches')->row_array()['title_en'];
     }
     /**
      * Update custom field
@@ -113,7 +112,7 @@ class Branches_model extends App_Model
     {
         $original_field = $this->get($id);
         $this->db->where('id', $id);
-        $this->db->update('tblbranches', $data);
+        $this->db->update(db_prefix().'branches', $data);
         if ($this->db->affected_rows() > 0) {
             log_activity('Branches Updated [' . $data['title_en'] . ']');
             return true;
@@ -129,9 +128,9 @@ class Branches_model extends App_Model
     public function delete($id, $transfer_data_to)
     {
         $this->db->where('branch_id', $id);
-        $this->db->update('tblbranches_services', ['branch_id' => $transfer_data_to]);
+        $this->db->update(db_prefix().'branches_services', ['branch_id' => $transfer_data_to]);
         $this->db->where('id', $id);
-        $this->db->delete('tblbranches');
+        $this->db->delete(db_prefix().'branches');
         if ($this->db->affected_rows() > 0) {
             // Delete the values
             log_activity('Branch Deleted [' . $id . ']');
@@ -166,7 +165,7 @@ class Branches_model extends App_Model
     public function getCountries()
     {
         $data = [];
-        $rows = $this->db->get('tblcountries')->result_array();
+        $rows = $this->db->get(db_prefix().'countries')->result_array();
         foreach ($rows as $row) {
             $data[] = ['key'=>$row['country_id'],'value'=>$row['short_name']];
         }
@@ -176,7 +175,7 @@ class Branches_model extends App_Model
     {
         $data = [];
         $this->db->where('country_id', $country_id);
-        $rows = $this->db->get('tblcities')->result_array();
+        $rows = $this->db->get(db_prefix().'cities')->result_array();
         foreach ($rows as $row) {
             $data[] = ['key' => $row['Id'], 'value' => $row['Name_en']];
         }

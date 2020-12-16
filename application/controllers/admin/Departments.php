@@ -45,7 +45,6 @@ class Departments extends AdminController
                }
                if($this->app_modules->is_active('branches')){
                    $branch_id = $this->input->post('branch_id');
-   
                    unset($data['branch_id']);
                }
    
@@ -53,12 +52,12 @@ class Departments extends AdminController
                    $id = $this->departments_model->add($data);
                    if($this->app_modules->is_active('branches')){
                        if(is_numeric($branch_id)){
-                       $data = [
-                           'branch_id' => $branch_id, 
-                           'rel_type' => 'departments', 
-                           'rel_id' => $id
-                       ];
-                       $this->Branches_model->set_branch($data);
+                           $data = [
+                               'branch_id' => $branch_id,
+                               'rel_type' => 'departments',
+                               'rel_id' => $id
+                           ];
+                           $this->Branches_model->set_branch($data);
                        }
                    }else{
                        $this->load->model('hr/No_branch_model');
@@ -134,6 +133,27 @@ class Departments extends AdminController
         }
     }
 
+    public function folders()
+    {
+        app_check_imap_open_function();
+
+        $imap = new Imap(
+           $this->input->post('username') ? $this->input->post('username') : $this->input->post('email'),
+           $this->input->post('password', false),
+           $this->input->post('host'),
+           $this->input->post('encryption')
+        );
+
+        try {
+            echo json_encode($imap->getSelectableFolders());
+        } catch (ConnectionErrorException $e) {
+            echo json_encode([
+                'alert_type' => 'warning',
+                'message'    => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function test_imap_connection()
     {
         app_check_imap_open_function();
@@ -149,8 +169,10 @@ class Departments extends AdminController
             $connection = $imap->testConnection();
 
             try {
-                $connection->getMailbox('INBOX');
-            } catch (MailboxDoesNotExistException $e) {
+                $folder = $this->input->post('folder');
+
+                $connection->getMailbox(empty($folder) ? 'INBOX' : $folder);
+             } catch (MailboxDoesNotExistException $e) {
                 echo json_encode([
                     'alert_type' => 'warning',
                     'message'    => $e->getMessage(),

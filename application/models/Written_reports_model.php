@@ -24,6 +24,7 @@ class Written_reports_model extends App_Model
     {
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = get_staff_user_id();
+        $data['available_until'] = to_sql_date($data['available_until'], true);
         $this->db->insert(db_prefix() . 'written_reports', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -41,6 +42,17 @@ class Written_reports_model extends App_Model
         $this->db->update(db_prefix() . 'written_reports', $data);
         if ($this->db->affected_rows() > 0) {
             log_activity('Written report Updated [ID: ' . $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'written_reports');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Written report Deleted [ID: ' . $id . ']');
             return true;
         }
         return false;

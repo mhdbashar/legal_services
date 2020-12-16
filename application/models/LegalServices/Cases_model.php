@@ -1440,7 +1440,6 @@ class Cases_model extends App_Model
             $this->db->where('visible_to_customer', 1);
         }
         $this->db->where('project_id', $project_id);
-
         return $this->db->get(db_prefix() . 'case_files')->result_array();
     }
 
@@ -2437,12 +2436,6 @@ class Cases_model extends App_Model
                 ];
             }
 
-            $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
-
-
-
-            $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
-
             $notification_data = [
                 'description' => 'not_commented_on_project_discussion',
                 'link'        => $not_link,
@@ -2453,6 +2446,28 @@ class Cases_model extends App_Model
             } else {
                 $notification_data['fromuserid'] = get_staff_user_id();
             }
+
+            $notifiedUsers = [];
+
+            $regex = "/data\-mention\-id\=\"(\d+)\"/";
+            if (preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
+                $members = array_unique($mentionedStaff[1], SORT_NUMERIC);
+                $this->send_project_email_mentioned_users($discussion->project_id, 'project_new_discussion_comment_to_staff',$members, $emailTemplateData);
+                
+                foreach ($members as $memberId) {
+                    if ($memberId == get_staff_user_id() && !is_client_logged_in()) {
+                        continue;
+                    }
+
+                    $notification_data['touserid'] = $memberId;
+                    if (add_notification($notification_data)) {
+                        array_push($notifiedUsers, $memberId);
+                    }
+                }
+                
+            } else {
+                $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
+     
 
             $members       = $this->get_project_members($discussion->project_id);
             $notifiedUsers = [];
@@ -2465,6 +2480,11 @@ class Cases_model extends App_Model
                     array_push($notifiedUsers, $member['staff_id']);
                 }
             }
+
+        }
+
+            $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
+            
             pusher_trigger_notification($notifiedUsers);
 
             $this->_update_discussion_last_activity($discussion_id, $type);
@@ -2857,9 +2877,9 @@ class Cases_model extends App_Model
         $this->db->where([db_prefix() . 'my_link_services.service_id' => $ServID, 'rel_id' => $id]);
         $this->db->join(db_prefix() . 'my_cases', db_prefix() . 'my_cases.id=' . db_prefix() . 'my_link_services.to_rel_id AND '.db_prefix() . 'my_cases.deleted = 0 AND '.db_prefix() . 'my_link_services.to_service_id = 1', 'inner');
         $cases = $this->db->get(db_prefix() . 'my_link_services')->result();
-        // foreach ($cases as $key => $case) {
-        //     $cases[$key]->l_service_id = "1"; 
-        // }
+         foreach ($cases as $key => $case) {
+             $cases[$key]->l_service_id = "1";
+         }
 
         // $father_linked_services = [
         //         ...$father_linked_services,
@@ -2928,7 +2948,7 @@ class Cases_model extends App_Model
             $settings_table = db_prefix() . 'case_settings';
             $setting_id = 'case_id';
             $upload_folder = 'cases';
-            $files_table = 'tblcase_files';
+            $files_table = db_prefix() . 'case_files';
             $files_id = 'project_id';
         } else {
             $service_table = db_prefix() . 'my_other_services';
@@ -2936,7 +2956,7 @@ class Cases_model extends App_Model
             $setting_id = 'oservice_id';
             $_new_data['service_id'] = $ServID2;
             $upload_folder = 'oservices';
-            $files_table = 'tbloservice_files';
+            $files_table = db_prefix() . 'oservice_files';
             $files_id = 'oservice_id';
             unset($_new_data['opponent_id']);
             unset($_new_data['representative']);
@@ -3525,4 +3545,28 @@ class Cases_model extends App_Model
             'last_activity' => date('Y-m-d H:i:s'),
         ]);
     }
+
+    public function send_project_email_mentioned_users($project_id, $staff_template, $staff, $additional_data = [])
+    {
+        $this->load->model('staff_model');
+
+        $project = $this->get($project_id);
+
+        foreach ($staff as $staffId) {
+            if (is_staff_logged_in() && $staffId == get_staff_user_id()) {
+                continue;
+            }
+            $member = (array) $this->staff_model->get($staffId);
+            $member['staff_id'] = $member['staffid'];
+
+            $mailTemplate = mail_template($staff_template, $project, $member, $additional_data['staff']);
+            if (isset($additional_data['attachments'])) {
+                foreach ($additional_data['attachments'] as $attachment) {
+                    $mailTemplate->add_attachment($attachment);
+                }
+            }
+            $mailTemplate->send();
+        }
+    }
+    
 }

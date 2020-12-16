@@ -129,6 +129,10 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        $data['written_report'] = $this->emails_model->get([
+            'type'     => 'written_report',
+        ]);
+
         $data['dispute'] = $this->emails_model->get([
             'type'     => 'dispute',
             'language' => $lang,

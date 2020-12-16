@@ -8,112 +8,112 @@ class Proposals_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('proposal_id'),
+                    'name'      => 'Proposal ID',
                     'key'       => '{proposal_id}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_number'),
+                    'name'      => 'Proposal Number',
                     'key'       => '{proposal_number}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('subject'),
+                    'name'      => 'Subject',
                     'key'       => '{proposal_subject}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_total'),
+                    'name'      => 'Proposal Total',
                     'key'       => '{proposal_total}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_subtotal'),
+                    'name'      => 'Proposal Subtotal',
                     'key'       => '{proposal_subtotal}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('open_till'),
+                    'name'      => 'Open Till',
                     'key'       => '{proposal_open_till}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_assigned'),
+                    'name'      => 'Proposal Assigned',
                     'key'       => '{proposal_assigned}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_to'),
+                    'name'      => 'Proposal To',
                     'key'       => '{proposal_proposal_to}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('address'),
+                    'name'      => 'Address',
                     'key'       => '{proposal_address}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('city'),
+                    'name'      => 'City',
                     'key'       => '{proposal_city}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('state'),
+                    'name'      => 'State',
                     'key'       => '{proposal_state}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('zip_code'),
+                    'name'      => 'Zip Code',
                     'key'       => '{proposal_zip}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('country'),
+                    'name'      => 'Country',
                     'key'       => '{proposal_country}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('email'),
+                    'name'      => 'Email',
                     'key'       => '{proposal_email}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('phone'),
+                    'name'      => 'Phone',
                     'key'       => '{proposal_phone}',
                     'available' => [
                         'proposals',
                     ],
                 ],
                 [
-                    'name'      => _l('proposal_link'),
+                    'name'      => 'Proposal Link',
                     'key'       => '{proposal_link}',
                     'available' => [
                         'proposals',
@@ -157,11 +157,12 @@ class Proposals_merge_fields extends App_merge_fields
         $fields['{proposal_email}']       = $proposal->email;
         $fields['{proposal_phone}']       = $proposal->phone;
 
-        $fields['{proposal_city}']     = $proposal->city;
-        $fields['{proposal_state}']    = $proposal->state;
-        $fields['{proposal_zip}']      = $proposal->zip;
-        $fields['{proposal_country}']  = $proposal->short_name;
-        $fields['{proposal_assigned}'] = get_staff_full_name($proposal->assigned);
+        $fields['{proposal_city}']        = $proposal->city;
+        $fields['{proposal_state}']       = $proposal->state;
+        $fields['{proposal_zip}']         = $proposal->zip;
+        $fields['{proposal_country}']     = $proposal->short_name;
+        $fields['{proposal_assigned}']    = get_staff_full_name($proposal->assigned);
+        $fields['{proposal_short_url}']   = get_proposal_shortlink($proposal);
 
         $custom_fields = get_custom_fields('proposal');
         foreach ($custom_fields as $field) {

@@ -12,7 +12,7 @@
             <th><?php echo _l('session_date'); ?></th>
             <th><?php echo _l('session_time'); ?></th>
             <?php
-               $custom_fields = get_custom_fields('tasks',array('show_on_client_portal'=>1));
+               $custom_fields = get_custom_fields('sessions',array('show_on_client_portal'=>1));
                foreach($custom_fields as $field){ ?>
             <th><?php echo $field['name']; ?></th>
             <?php } ?>
@@ -26,7 +26,7 @@
          if($task['startdate'] < date('Y-m-d'))
             continue;   
          $outputName = '';
-          $outputName .= '<a href="' . site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=CaseSession&session_id='.$task['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal_session(' . $task['id'] . '); return false;">' . $task['task_name'] . '</a>';
+          $outputName .= '<a href="' . site_url('clients/legal_services/'.$project->id.'/'.$ServID.'?group=CaseSession&session_id='.$task['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $task['id'] . '); return false;">' . $task['task_name'] . '</a>';
           if ($task['recurring'] == 1) {
               $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
           }

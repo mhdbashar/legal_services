@@ -15,7 +15,7 @@ class Leave_type_model extends App_Model{
 
     public function get_leave_types_by_staff_id($staff_id){
         $this->db->where(['staff_id' => $staff_id]);
-        $types = $this->db->get('tblhr_staffs_leaves')->result_array();
+        $types = $this->db->get(db_prefix() . 'hr_staffs_leaves')->result_array();
         $data = [];
         foreach ($types as $type) {
             $leave_array = [];
@@ -35,7 +35,7 @@ class Leave_type_model extends App_Model{
     }
 
     public function add_leave_to_staff($data){
-        $this->db->insert('tblhr_staff_leaves', $data);
+        $this->db->insert(db_prefix() . 'hr_staff_leaves', $data);
         $insert_id = $this->db->insert_id();
         if($insert_id){
             log_activity('New tblhr_staff_leaves added [ID: '.$insert_id.']');
@@ -46,14 +46,14 @@ class Leave_type_model extends App_Model{
 
     public function get_leave_type_days($id){
         $this->db->where('id', $id);
-        $leave_type = $this->db->get('tblhr_leave_type')->row();
+        $leave_type = $this->db->get(db_prefix() . 'hr_leave_type')->row();
         return $leave_type->days;
     }
 
     public function has_days($staff_id, $leave_id, $days_added, $leave_days, $year){
         $this->db->select_sum('days');
         $this->db->where(['staff_id' => $staff_id, 'leave_id' => $leave_id, 'created' => $year]);
-        $days = $this->db->get('tblhr_staff_leaves')->row()->days;
+        $days = $this->db->get(db_prefix() . 'hr_staff_leaves')->row()->days;
         if(($days + $days_added) <= $leave_days*2)
             return true;
         //echo "$days , $days_added, $leave_days";exit;

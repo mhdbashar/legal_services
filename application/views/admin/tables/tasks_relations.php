@@ -24,6 +24,8 @@ $sTable       = db_prefix() . 'tasks';
 $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
+array_push($where, 'AND is_session = 0');
+
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
 } else {

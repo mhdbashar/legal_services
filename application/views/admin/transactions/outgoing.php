@@ -3,7 +3,6 @@
 
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-//var_dump($outgoing);exit();
 if(empty($id)){
     $id = '';
     $description = '';
@@ -24,7 +23,7 @@ if(empty($id)){
     $classification = $outgoing->classification;
     $owner = $outgoing->owner;
     $owner_phone = $outgoing->owner_phone;
-//    var_dump($is_secret);exit();
+
 }
 ?>
 <?php init_head(); ?>

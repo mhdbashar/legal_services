@@ -124,7 +124,7 @@ class Api_model extends App_Model
     public function login($username, $password)
     {
         $this->db->where('email', $username);
-        $user = $this->db->get('tblstaff')->row();
+        $user = $this->db->get(db_prefix() . 'staff')->row();
         var_dump($user->password);
         var_dump(md5($password));
         if(count($user) > 0)
@@ -170,10 +170,10 @@ class Api_model extends App_Model
             }
 
             $this->db->select();
-            $this->db->from('tbltickets');
-            $this->db->join('tbldepartments', 'tbldepartments.departmentid = tbltickets.department');
-            $this->db->join('tblclients', 'tblclients.userid = tbltickets.userid', 'left');
-            $this->db->join('tblcontacts', 'tblcontacts.id = tbltickets.contactid', 'left');
+            $this->db->from(db_prefix() . 'tickets');
+            $this->db->join(db_prefix() . 'departments', db_prefix() . 'departments.departmentid = '.db_prefix().'tickets.department');
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = '.db_prefix() . 'tickets.userid', 'left');
+            $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = '.db_prefix() . 'tickets.contactid', 'left');
 
 
             if (!_startsWith($q, '#')) {
@@ -227,7 +227,7 @@ class Api_model extends App_Model
         if (is_staff_member() || $api == true) {
             // Leads
             $this->db->select();
-            $this->db->from('tblleads');
+            $this->db->from(db_prefix() . 'leads');
 
             if (!$has_permission_view && $api == false) {
                 $this->db->where('(assigned = ' . get_staff_user_id() . ' OR addedfrom = ' . get_staff_user_id() . ' OR is_public=1)');
@@ -275,17 +275,17 @@ class Api_model extends App_Model
 
         $projects = has_permission('projects', '', 'view');
         // Projects
-        $this->db->select('tblprojects.*');
-        $this->db->from('tblprojects');
+        $this->db->select(db_prefix() . 'projects.*');
+        $this->db->from(db_prefix() . 'projects');
         if(isset($rel_type) && $rel_type=="lead"){
-            $this->db->join('tblleads', 'tblleads.id = tblprojects.clientid');
+            $this->db->join(db_prefix() . 'leads', db_prefix() . 'leads.id = '.db_prefix() . 'projects.clientid');
         } else {
-            $this->db->join('tblclients', 'tblclients.userid = tblprojects.clientid','LEFT'); 
-            $this->db->join('tblleads', 'tblleads.id = tblprojects.clientid','LEFT');    
+            $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid = '.db_prefix() . 'projects.clientid','LEFT');
+            $this->db->join(db_prefix() . 'leads', db_prefix() . 'leads.id = '.db_prefix() . 'projects.clientid','LEFT');
         }
         
         if (!$projects && $api == false) {
-            $this->db->where('tblprojects.id IN (SELECT project_id FROM tblprojectmembers WHERE staff_id=' . get_staff_user_id() . ')');
+            $this->db->where(db_prefix() . 'projects.id IN (SELECT project_id FROM '.db_prefix().'projectmembers WHERE staff_id=' . get_staff_user_id() . ')');
         }
         if ($where != false) {
             $this->db->where($where);
@@ -458,7 +458,7 @@ class Api_model extends App_Model
                 $abbreviated_name = strtoupper($this->input->post('abbreviated_name'));
                 if ($lead_id != '') {
                     $this->db->where('id', $lead_id);
-                    $_current_email = $this->db->get('tblleads')->row();
+                    $_current_email = $this->db->get(db_prefix() . 'leads')->row();
                     if ($_current_email->abbreviated_name == $abbreviated_name) {
                         echo json_encode(true);
                         die();
@@ -474,7 +474,7 @@ class Api_model extends App_Model
                     $this->db->where_not_in('client_id', $arr_id);
                 }
 
-                $total_rows = $this->db->count_all_results('tblleads');
+                $total_rows = $this->db->count_all_results(db_prefix() . 'leads');
                 
                 if ($total_rows > 0) {
                     $result_lead = false;
@@ -487,7 +487,7 @@ class Api_model extends App_Model
                     $arr_id[] = $client_id;
                     $this->db->where_not_in('userid', $arr_id);
                 }
-                $total_rows = $this->db->count_all_results('tblclients');
+                $total_rows = $this->db->count_all_results(db_prefix() . 'clients');
                 if ($total_rows > 0) {
                     $result_client = false;
                 } else {
@@ -512,7 +512,7 @@ class Api_model extends App_Model
         }
         $data = [];
         if ($type == 'customer' || $type == 'customers') {
-            $where_clients = 'tblclients.active=1';
+            $where_clients = db_prefix() . 'clients.active=1';
             
 
             if ($q) {

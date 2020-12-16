@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $table_data = [
     _l('the_number_sign'),
@@ -21,7 +19,7 @@ array_unshift($table_data, [
     'th_attrs' => ['class' => (isset($bulk_actions) ? '' : 'not_visible')],
 ]);
 
-$custom_fields = get_custom_fields('tasks', [
+$custom_fields = get_custom_fields('sessions', [
     'show_on_table' => 1,
 ]);
 

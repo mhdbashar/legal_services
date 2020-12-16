@@ -11,7 +11,6 @@ class Other_merge_fields extends App_merge_fields
                         'client',
                         'staff',
                         'invoice',
-                        'dispute',
                         'estimate',
                         'contract',
                         'tasks',
@@ -27,63 +26,61 @@ class Other_merge_fields extends App_merge_fields
 
         return [
                 [
-                    'name'        => _l('logo_url'),
+                    'name'        => 'Logo URL',
                     'key'         => '{logo_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('logo_image_with_url'),
+                    'name'        => 'Logo image with URL',
                     'key'         => '{logo_image_with_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('dark_logo_image_with_url'),
+                    'name'        => 'Dark logo image with URL',
                     'key'         => '{dark_logo_image_with_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('crm_url'),
+                    'name'        => 'CRM URL',
                     'key'         => '{crm_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('admin_url'),
+                    'name'        => 'Admin URL',
                     'key'         => '{admin_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('main_domain'),
+                    'name'        => 'Main Domain',
                     'key'         => '{main_domain}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('companyname'),
+                    'name'        => 'Company Name',
                     'key'         => '{companyname}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    'name'        => _l('email_signature'),
+                    'name'        => 'Email Signature',
                     'key'         => '{email_signature}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    //(GDPR) Terms & Conditions URL
-                    'name'        => _l('terms_and_conditions_url'),
+                    'name'        => '(GDPR) Terms & Conditions URL',
                     'key'         => '{terms_and_conditions_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,
                 ],
                 [
-                    //(GDPR) Privacy Policy URL
-                    'name'        => _l('privacy_policy_url'),
+                    'name'        => '(GDPR) Privacy Policy URL',
                     'key'         => '{privacy_policy_url}',
                     'fromoptions' => true,
                     'available'   => $available_for,

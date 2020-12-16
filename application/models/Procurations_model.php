@@ -8,85 +8,69 @@ class Procurations_model extends App_Model
         parent::__construct();
     }
 
-
     // tblprocurations, `id`, `procurations`
     public function get($id = '')
     {
         if (is_numeric($id)) {
-
             $this->db->where('id', $id);
             $procuration = $this->db->get(db_prefix() . 'procurations')->row();
-
             if ($procuration) {
                 $procuration->attachment            = '';
                 $procuration->filetype              = '';
                 $procuration->attachment_added_from = 0;
                 $procuration->cases = $this->get_procurations_cases($id);
-
                 $this->db->where('rel_id', $id);
                 $this->db->where('rel_type', 'procuration');
                 $file = $this->db->get(db_prefix() . 'files')->row();
-
                 if ($file) {
                     $procuration->attachment            = $file->file_name;
                     $procuration->filetype              = $file->filetype;
                     $procuration->attachment_added_from = $file->staffid;
-
                 }
             }
             return $procuration;
         }
-
         $this->db->order_by('id', 'desc');
-        return $this->db->get('tblprocurations')->result_array();
+        return $this->db->get(db_prefix() . 'procurations')->result_array();
     }
+
     public function get_procurations($client_id = '')
     {
-
         if ($client_id != '') {
             $this->db->where('client', $client_id);
         }
         $this->db->order_by('id', 'DESC');
-
         return $this->db->get(db_prefix() . 'procurations')->result_array();
     }
+
     public function get_procurations_cases($id)
     {
-
-
         $this->db->select('my_cases.id, my_cases.code');
         $this->db->from('procuration_cases');
         $this->db->join('my_cases', 'my_cases.id = procuration_cases._case');
         $this->db->where('procuration_cases.procuration', $id);
-        //var_dump($this->CI->db->conn_id->error);
         return $this->db->get()->result_array();
-
         //return $this->db->get(db_prefix() . 'procuration_cases')->result_array();
     }
+
     public function get_procuration_cases($id)
     {
-
-
         $this->db->select('my_cases.id as id,my_cases.numbering as numbering, my_cases.code as code');
         $this->db->from('my_cases');
         $this->db->join('procuration_cases', 'my_cases.id = procuration_cases._case');
         $this->db->where('procuration_cases.procuration', $id);
-
         return $this->db->get()->result_array();
-
     }
+
     public function getProcurationCases($id)
     {
-
-
         $this->db->select('my_cases.id as id,my_cases.numbering as numbering, my_cases.code as code');
         $this->db->from('my_cases');
         $this->db->join('procuration_cases', 'my_cases.id = procuration_cases._case');
         $this->db->where('procuration_cases.procuration', $id);
-
         return $this->db->get()->result();
-
     }
+
     public function add($data)
     {
         $affectedRows = 0;
@@ -127,7 +111,6 @@ class Procurations_model extends App_Model
                         $affectedRows++;
                     }
                 }
-
             }
             return $insert_id;
         }
@@ -136,7 +119,6 @@ class Procurations_model extends App_Model
 
     public function update($data, $id)
     {
-
         $affectedRows = 0;
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
@@ -162,7 +144,6 @@ class Procurations_model extends App_Model
                         $this->db->where('procuration', $id);
                         $this->db->where('_case', $case_member['id']);
                         $this->db->delete('tblprocuration_cases');
-
                     }
                 }else
                 {
@@ -187,17 +168,9 @@ class Procurations_model extends App_Model
                             'procuration' => $id,
                             '_case'   => $pid,
                         ]);
-
                     }
-
                 }
-
-
             }
-
-
-
-
         }else {
             if (isset($pcases)) {
                 foreach ($pcases as $pid) {
@@ -216,48 +189,39 @@ class Procurations_model extends App_Model
 
             }
         }
-        //var_dump($data);
         $this->db->where('id', $id);
         $this->db->update('tblprocurations', $data);
         if ($this->db->affected_rows() > 0) {
-
             $affectedRows++;
 
             log_activity(' procuration Updated [ID: ' . $id . '] for client [ID: '.$data["client"].'');
 
             return true;
         }
-
         if ($affectedRows > 0) {
             return true;
         }
-
         return false;
     }
-
-
 
     public function delete($id, $simpleDelete = false)
     {
         $this->delete_procuration_attachment($id);
         $this->db->where('relid', $id);
-
         //table name in custom field table is procurations
         $this->db->where('fieldto', 'procurations');
         $this->db->delete(db_prefix() . 'customfieldsvalues');
-
         $this->db->where('id', $id);
         $this->db->delete('tblprocurations');
         if ($this->db->affected_rows() > 0) {
             $this->db->where('procuration', $id);
             $this->db->delete(db_prefix() . 'procuration_cases');
             log_activity(' procuration Deleted [ID: ' . $id . ']');
-
             return true;
         }
-
         return false;
     }
+
     public function delete_procuration_attachment($id)
     {
         if (is_dir(get_upload_path_by_type('procuration') . $id)) {
@@ -270,8 +234,6 @@ class Procurations_model extends App_Model
                 return true;
             }
         }
-
         return false;
     }
-
 }

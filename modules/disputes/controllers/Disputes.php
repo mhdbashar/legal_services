@@ -342,10 +342,6 @@ class Disputes extends AdminController
             );
 
 
-
-
-
-
             // Extract meta values of this project
             $meta = $this->Disputes_model->get_project_meta($id?$id:0);
             $data['meta'] = array();
@@ -502,10 +498,10 @@ class Disputes extends AdminController
 
             $data['percent'] = $percent;
 
-            $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
-            $this->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js');
+//            $this->app_scripts->add('jquery-comments-js', 'assets/plugins/jquery-comments/js/jquery-comments.min.js');
+//            $this->app_scripts->add('jquery-gantt-js', 'assets/plugins/gantt/js/jquery.fn.gantt.min.js');
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
-            $this->app_scripts->add('projects-js', 'assets/js/projects.min.js');
+            //$this->app_scripts->add('projects-js', 'assets/js/projects.min.js');
 
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;

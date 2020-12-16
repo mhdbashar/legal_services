@@ -1283,6 +1283,7 @@ class Clients extends ClientsController
                     }else{
                         $file_data['file']                          = $this->other->get_file($this->input->post('id'), $this->input->post('project_id'));
                     }
+                    $file_data['ServID'] = $ServID;
 
                     if (!$file_data['file']) {
                         header('HTTP/1.0 404 Not Found');

@@ -52,6 +52,9 @@ foreach ($model->get_project_statuses() as $status) {
 }
 
 array_push($where, 'AND ' . db_prefix() . 'my_cases.deleted = 0');
+if(isset($clientid)){
+    array_push($where, 'AND ' . db_prefix() . "my_cases.clientid = $clientid");
+}
 
 if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
     array_push($where, ' AND ' . db_prefix() . 'my_cases.id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');

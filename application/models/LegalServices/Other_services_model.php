@@ -121,11 +121,11 @@ class Other_services_model extends App_Model
         return $this->db->get(db_prefix() . 'my_other_services')->result_array();
     }
 
-    public function get_imported($id = '', $where = [])
+    public function get_imported($id = '', $where = ['my_imported_services.deleted' => 0])
     {
         $this->db->where($where);
         if (is_numeric($id)) {
-            $this->db->where(array('my_imported_services.id' => $id, 'my_imported_services.deleted' => 0));
+            $this->db->where(array('my_imported_services.id' => $id));
             $this->db->select('my_imported_services.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_imported_services.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_imported_services.cat_id', 'left');
@@ -191,7 +191,6 @@ class Other_services_model extends App_Model
 
             return null;
         }
-        $this->db->where(array('my_imported_services.deleted' => 0));
         $this->db->select('*,' . get_sql_select_client_company());
         $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_imported_services.clientid');
         $this->db->order_by('my_imported_services.id', 'desc');
@@ -1540,9 +1539,9 @@ class Other_services_model extends App_Model
 
     public function get_imported_files($project_id)
     {
-        if (is_client_logged_in()) {
-            $this->db->where('visible_to_customer', 1);
-        }
+//        if (is_client_logged_in()) {
+//            $this->db->where('visible_to_customer', 1);
+//        }
         $this->db->where('iservice_id', $project_id);
 
         return $this->db->get(db_prefix() . 'iservice_files')->result_array();
@@ -2580,7 +2579,7 @@ class Other_services_model extends App_Model
                 $discussion->show_to_customer = $discussion->visible_to_customer;
             }
 
-            $this->send_project_email_template($ServID, $discussion->oservice_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, [
+            $emailTemplateData = [
                 'staff' => [
                     'discussion_id' => $discussion_id,
                     'discussion_comment_id' => $insert_id,
@@ -2594,10 +2593,18 @@ class Other_services_model extends App_Model
                     'discussion_type' => $type,
                     'ServID'          => $ServID,
                 ],
-            ]);
+            ];
 
-
-            $this->log_activity($discussion->oservice_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
+            if (isset($_data['file_name'])) {
+                $emailTemplateData['attachments'] = [
+                    [
+                        'attachment' => OSERVICE_DISCUSSION_ATTACHMENT_FOLDER . $discussion_id . '/' . $_data['file_name'],
+                        'filename'   => $_data['file_name'],
+                        'type'       => $_data['file_mime_type'],
+                        'read'       => true,
+                    ],
+                ];
+            }
 
             $notification_data = [
                 'description' => 'not_commented_on_project_discussion',
@@ -2610,6 +2617,27 @@ class Other_services_model extends App_Model
                 $notification_data['fromuserid'] = get_staff_user_id();
             }
 
+            $notifiedUsers = [];
+
+            $regex = "/data\-mention\-id\=\"(\d+)\"/";
+            if (preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
+                $members = array_unique($mentionedStaff[1], SORT_NUMERIC);
+                $this->send_project_email_mentioned_users($discussion->project_id, 'project_new_discussion_comment_to_staff',$members, $emailTemplateData);
+                
+                foreach ($members as $memberId) {
+                    if ($memberId == get_staff_user_id() && !is_client_logged_in()) {
+                        continue;
+                    }
+
+                    $notification_data['touserid'] = $memberId;
+                    if (add_notification($notification_data)) {
+                        array_push($notifiedUsers, $memberId);
+                    }
+                }
+                
+            } else {
+                $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
+           
             $members = $this->get_project_members($discussion->oservice_id);
             $notifiedUsers = [];
             foreach ($members as $member) {
@@ -2621,6 +2649,10 @@ class Other_services_model extends App_Model
                     array_push($notifiedUsers, $member['staff_id']);
                 }
             }
+        }
+
+            $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
+
             pusher_trigger_notification($notifiedUsers);
 
             $this->_update_discussion_last_activity($discussion_id, $type);
@@ -3622,5 +3654,28 @@ class Other_services_model extends App_Model
         $this->db->update($table, [
             'last_activity' => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    public function send_project_email_mentioned_users($project_id, $staff_template, $staff, $additional_data = [])
+    {
+        $this->load->model('staff_model');
+
+        $project = $this->get($project_id);
+
+        foreach ($staff as $staffId) {
+            if (is_staff_logged_in() && $staffId == get_staff_user_id()) {
+                continue;
+            }
+            $member = (array) $this->staff_model->get($staffId);
+            $member['staff_id'] = $member['staffid'];
+
+            $mailTemplate = mail_template($staff_template, $project, $member, $additional_data['staff']);
+            if (isset($additional_data['attachments'])) {
+                foreach ($additional_data['attachments'] as $attachment) {
+                    $mailTemplate->add_attachment($attachment);
+                }
+            }
+            $mailTemplate->send();
+        }
     }
 }

@@ -7,10 +7,180 @@ class Imported_services_model extends App_Model
         parent::__construct();
     }
 
+
+    public function update($id, $data) {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'my_imported_services', $data);
+        if ($this->db->affected_rows() > 0) {
+            $this->log_activity($id, 'imported updated');
+            $members = $this->get_project_members($id);
+            $notification_data = [
+                'description' => 'imported_service_edited',
+                'link' => 'SImported/view/' . $id,
+            ];
+
+            if (is_client_logged_in()) {
+                $notification_data['fromclientid'] = get_contact_user_id();
+            } else {
+                $notification_data['fromuserid'] = get_staff_user_id();
+            }
+
+            $notifiedUsers = [];
+            foreach ($members as $member) {
+                if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                    continue;
+                }
+                $notification_data['touserid'] = $member['staffid'];
+                if (add_notification($notification_data)) {
+                    array_push($notifiedUsers, $member['staffid']);
+                }
+            }
+            pusher_trigger_notification($notifiedUsers);
+            return true;
+        }
+        return false;
+    }
+
     public function get_imported_project_settings($project_id)
     {
         $this->db->where('oservice_id', $project_id);
         return $this->db->get(db_prefix() . 'iservice_settings')->result_array();
+    }
+
+    public function get_project_members($id)
+    {
+        $this->db->select('email,staffid');
+        $this->db->where('admin', 1);
+        return $this->db->get(db_prefix() . 'staff')->result_array();
+    }
+
+    public function get_file($id, $project_id = false)
+    {
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+
+        if ($file && $project_id) {
+            if ($file->iservice_id != $project_id) {
+                return false;
+            }
+        }
+
+        return $file;
+    }
+
+    public function new_project_file_notification($file_id, $project_id)
+    {
+        $file = $this->get_file($file_id);
+
+        $additional_data = $file->file_name;
+        $this->log_activity($project_id, 'IService_activity_uploaded_file', $additional_data, $file->visible_to_customer);
+
+        $members = $this->get_project_members($project_id);
+        $notification_data = [
+            'description' => 'not_project_file_uploaded',
+            'link' => 'SImported/view/' . $project_id . '?group=project_files&file_id=' . $file_id,
+        ];
+
+        if (is_client_logged_in()) {
+            $notification_data['fromclientid'] = get_contact_user_id();
+        } else {
+            $notification_data['fromuserid'] = get_staff_user_id();
+        }
+
+        $notifiedUsers = [];
+        foreach ($members as $member) {
+            if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                continue;
+            }
+            $notification_data['touserid'] = $member['staffid'];
+            if (add_notification($notification_data)) {
+                array_push($notifiedUsers, $member['staffid']);
+            }
+        }
+        pusher_trigger_notification($notifiedUsers);
+
+        // $this->send_project_email_template(
+        //     1,
+        //     $project_id,
+        //     'project_file_to_staff',
+        //     'project_file_to_customer',
+        //     $file->visible_to_customer,
+        //     [
+        //         'staff' => ['discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => 1],
+        //         'customers' => ['customer_template' => true, 'discussion_id' => $file_id, 'discussion_type' => 'file', 'ServID' => 1],
+        //     ]
+        // );
+    }
+
+    public function remove_file($project_id, $id, $logActivity = true)
+    {
+        hooks()->do_action('before_remove_project_file', $id);
+
+        $this->db->where('id', $id);
+        $file = $this->db->get(db_prefix() . 'iservice_files')->row();
+        if ($file) {
+            if (empty($file->external)) {
+                $path     = get_upload_path_by_type('iservice') . $file->iservice_id . '/';
+                $fullPath = $path . $file->file_name;
+                if (file_exists($fullPath)) {
+                    unlink($fullPath);
+                    $fname     = pathinfo($fullPath, PATHINFO_FILENAME);
+                    $fext      = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    $thumbPath = $path . $fname . '_thumb.' . $fext;
+
+                    if (file_exists($thumbPath)) {
+                        unlink($thumbPath);
+                    }
+                }
+            }
+
+            $this->db->where('id', $id);
+            $this->db->delete(db_prefix() . 'iservice_files');
+            if ($logActivity) {
+                $this->log_activity($file->iservice_id, 'IService_activity_project_file_removed', $file->file_name, $file->visible_to_customer);
+                $members = $this->get_project_members($project_id);
+                $notification_data = [
+                    'description' => 'imported_service_file_deleted',
+                    'link' => 'SImported/view/' . $project_id,
+                ];
+
+                if (is_client_logged_in()) {
+                    $notification_data['fromclientid'] = get_contact_user_id();
+                } else {
+                    $notification_data['fromuserid'] = get_staff_user_id();
+                }
+
+                $notifiedUsers = [];
+                foreach ($members as $member) {
+                    if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                        continue;
+                    }
+                    $notification_data['touserid'] = $member['staffid'];
+                    if (add_notification($notification_data)) {
+                        array_push($notifiedUsers, $member['staffid']);
+                    }
+                }
+                pusher_trigger_notification($notifiedUsers);
+            }
+
+            // Delete discussion comments
+            //$this->_delete_discussion_comments($id, 'file');
+
+            if (is_dir(get_upload_path_by_type('iservice') . $file->project_id)) {
+                // Check if no attachments left, so we can delete the folder also
+                $other_attachments = list_files(get_upload_path_by_type('iservice') . $file->project_id);
+                if (count($other_attachments) == 0) {
+                    delete_dir(get_upload_path_by_type('iservice') . $file->project_id);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public function get($id = '', $where = [])
@@ -89,6 +259,51 @@ class Imported_services_model extends App_Model
         $this->db->order_by('my_imported_services.id', 'desc');
         return $this->db->get(db_prefix() . 'my_imported_services')->result_array();
     }
+
+    public function add($client_id, $data){
+        $slug = 'imported';
+        $ServiceName = 'imported_services';
+        $new_data = [
+            'clientid' => $client_id,
+            'name' => $data['name'],
+            'cat_id' => 0,
+            'subcat_id' => 0,
+            'service_session_link' => 1,
+            'billing_type' => 0,
+            'status' => 1,
+            'project_rate_per_hour' => 0,
+            'description' => $data['description']
+        ];
+        $this->db->insert(db_prefix() . 'my_imported_services', $new_data);
+        $id = $this->db->insert_id();
+        if($id){
+            $members = $this->get_project_members($id);
+            $notification_data = [
+                'description' => 'new_imported_service_added',
+                'link' => 'SImported/view/' . $id,
+            ];
+
+            if (is_client_logged_in()) {
+                $notification_data['fromclientid'] = get_contact_user_id();
+            } else {
+                $notification_data['fromuserid'] = get_staff_user_id();
+            }
+
+            $notifiedUsers = [];
+            foreach ($members as $member) {
+                if ($member['staffid'] == get_staff_user_id() && !is_client_logged_in()) {
+                    continue;
+                }
+                $notification_data['touserid'] = $member['staffid'];
+                if (add_notification($notification_data)) {
+                    array_push($notifiedUsers, $member['staffid']);
+                }
+            }
+            pusher_trigger_notification($notifiedUsers);
+            return $id;
+        }
+        return false;
+    }
     public function copy($ServID,$project_id, $data)
     {
         $slug      = $this->legal->get_service_by_id($ServID)->row()->slug;
@@ -154,11 +369,11 @@ class Imported_services_model extends App_Model
             if ($id) {
                 $files = $this->other->get_imported_files($project_id);
                 if(!file_exists('uploads/cases/'.$id)){
-                        mkdir(FCPATH.'uploads/cases/'.$id, 0777);
+                        mkdir(FCPATH.'uploads/cases/'.$id, 0755);
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $file_content = curl_get_contents(str_replace(' ', '%20', $file_url));
                     $myFile = fopen(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], 'w', true);
 
                     file_put_contents(FCPATH.'uploads/cases/'.$id.'/'.$value['file_name'], $file_content);
@@ -246,11 +461,11 @@ class Imported_services_model extends App_Model
             if ($id) {
                 $files = $this->other->get_imported_files($project_id);
                 if(!file_exists('uploads/oservices/'.$id)){
-                        mkdir(FCPATH.'uploads/oservices/'.$id, 0777);
+                        mkdir(FCPATH.'uploads/oservices/'.$id, 0755);
                 }
                 foreach ($files as $key => $value) {
                     $file_url = base_url().'uploads/imported_services/'.$project_id.'/'.$value['file_name'];
-                    $file_content = file_get_contents(str_replace(' ', '%20', $file_url));
+                    $file_content = curl_get_contents(str_replace(' ', '%20', $file_url));
                     $myFile = fopen(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], 'w', true);
 
                     file_put_contents(FCPATH.'uploads/oservices/'.$id.'/'.$value['file_name'], $file_content);

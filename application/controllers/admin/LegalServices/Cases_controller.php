@@ -10,7 +10,6 @@ class Cases_controller extends AdminController
     $this->load->model('LegalServices/LegalServicesModel', 'legal');
     $this->load->model('LegalServices/Cases_model', 'case');
     $this->load->model('Customer_representative_model', 'representative');
-    $this->load->model('LegalServices/ServicesSessions_model', 'service_sessions');
     $this->load->model('currencies_model');
     $this->load->model('LegalServices/Case_movement_model', 'movement');
     $this->load->model('Branches_model');
@@ -116,7 +115,7 @@ class Cases_controller extends AdminController
         }
         $response = $this->case->delete($ServID,$id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }
@@ -138,11 +137,23 @@ class Cases_controller extends AdminController
         redirect(admin_url("Service/$ServID"));
     }
 
-    public function table($clientid = '')
+    public function table($clientid = '', $slug='')
     {
-        $this->app->get_table_data('cases', [
-            'clientid' => $clientid,
-        ]);
+        if($slug != ''):
+            $service = $this->db->get_where('my_basic_services', array('slug' => $slug))->row();
+            $model = $this->case;
+            $this->app->get_table_data('cases', [
+                'clientid' => $clientid,
+                'service' => $service,
+                'model' => $model,
+                'ServID' => $service->id
+            ]);
+        else:
+            $this->app->get_table_data('cases', [
+                'clientid' => $clientid,
+            ]);
+        endif;
+
     }
 
     public function procurations($case_id)
@@ -417,9 +428,9 @@ class Cases_controller extends AdminController
             } elseif ($group == 'CaseSession'){
                 $data['service_id']  = $ServID;
                 $data['rel_id']      = $id;
-               // $data['num_session'] = $this->service_sessions->count_sessions($ServID, $id);
-                $data['judges']      = $this->service_sessions->get_judges();
-                $data['courts']      = $this->service_sessions->get_court();
+               // $data['num_session'] = $this->sessions_model->count_sessions($ServID, $id);
+                $data['judges']      = $this->sessions_model->get_judges();
+                $data['courts']      = $this->sessions_model->get_court();
             } elseif ($group == 'Phase'){
                 $data['phases'] = $this->phase->get_all(['service_id' => $ServID]);
             } elseif ($group == 'IRAC'){
@@ -1048,13 +1059,13 @@ class Cases_controller extends AdminController
                     foreach ($tasks as $task_id) {
                         $task = $this->tasks_model->get($task_id);
                         $sec  = $this->tasks_model->calc_task_total_time($task_id);
-                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format($sec) . ' ' . _l('hours') . "\r\n";
+                        $item['long_description'] .= $task->name . ' - ' . seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours') . "\r\n";
                         $item['task_id'][] = $task_id;
                         if ($project->billing_type == 2) {
                             if ($sec < 60) {
                                 $sec = 0;
                             }
-                            $item['qty'] += sec2qty($sec);
+                            $item['qty'] += sec2qty(task_timer_round($sec));
                         }
                     }
                     if ($project->billing_type == 1) {
@@ -1070,8 +1081,8 @@ class Cases_controller extends AdminController
                         $task                     = $this->tasks_model->get($task_id);
                         $sec                      = $this->tasks_model->calc_task_total_time($task_id);
                         $item['description']      = $project->name . ' - ' . $task->name;
-                        $item['qty']              = floatVal(sec2qty($sec));
-                        $item['long_description'] = seconds_to_time_format($sec) . ' ' . _l('hours');
+                        $item['qty']              = floatVal(sec2qty(task_timer_round($sec)));
+                        $item['long_description'] = seconds_to_time_format(task_timer_round($sec)) . ' ' . _l('hours');
                         if ($project->billing_type == 2) {
                             $item['rate'] = $project->project_rate_per_hour;
                         } elseif ($project->billing_type == 3) {
@@ -1093,8 +1104,8 @@ class Cases_controller extends AdminController
 
                             array_push($added_task_ids, $timesheet['task_id']);
 
-                            $item['qty']              = floatVal(sec2qty($timesheet['total_spent']));
-                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format($timesheet['total_spent'])) . ' ' . _l('hours');
+                            $item['qty']              = floatVal(sec2qty(task_timer_round($timesheet['total_spent'])));
+                            $item['long_description'] = _l('project_invoice_timesheet_start_time', _dt($timesheet['start_time'], true)) . "\r\n" . _l('project_invoice_timesheet_end_time', _dt($timesheet['end_time'], true)) . "\r\n" . _l('project_invoice_timesheet_total_logged_time', seconds_to_time_format(task_timer_round($timesheet['total_spent']))) . ' ' . _l('hours');
 
                             if ($this->input->post('timesheets_include_notes') && $timesheet['note']) {
                                 $item['long_description'] .= "\r\n\r\n" . _l('note') . ': ' . $timesheet['note'];
@@ -1244,6 +1255,24 @@ class Cases_controller extends AdminController
         if ($clientid != '') {
             $response = $this->case->get('', ['clientid' => $clientid]);
             echo json_encode($response);
+        }
+    }
+
+    public function get_staff_names_for_mentions($projectId)
+    {
+        if ($this->input->is_ajax_request()) {
+            $projectId = $this->db->escape_str($projectId);
+
+            $members = $this->case->get_project_members($projectId);
+            $members = array_map(function ($member) {
+                $staff = $this->staff_model->get($member['staff_id']);
+
+                $_member['id'] = $member['staff_id'];
+                $_member['name'] = $staff->firstname . ' ' . $staff->lastname;
+                return $_member;
+            }, $members);
+
+            echo json_encode($members);
         }
     }
 

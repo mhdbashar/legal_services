@@ -1,7 +1,13 @@
 <?php
 
-$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
+$lang['imported_service_edited'] = 'Imported service edited';
+$lang['imported_service_file_deleted'] = 'Imported service file deleted';
+$lang['new_imported_service_added'] = 'New imported service added';
+$lang['add_imported_service'] = 'Add imported service';
+$lang['edit_imported_service'] = 'Edit imported service';
 
+$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
+$lang['waiting'] = 'Waiting';
 $lang['approved'] = 'Approved';
 $lang['rejected'] = 'Rejected';
 $lang['new_imported_service'] = 'New imported service';
@@ -13,7 +19,14 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+$lang['active'] = 'Active';
+$lang['inactive'] = 'in-active';
 
+$lang['principalId'] = "identification number for one of the attorney principals";
+$lang['agentId'] = "identification number for one of the attorney agents";
+$lang['loading'] = 'Loading';
+
+$lang['settings_general_wathq_api_key'] = 'Wathq api key';
 $lang['total_should_be_equal_to_disputes_total'] = 'Total should be equal to disputes total';
 
 $lang['projects_charts'] = "Projects Charts";
@@ -4263,3 +4276,4 @@ $lang['updated_by_staff'] = "Edited by employee";
 $lang['auto_close_edit_written_reports_after'] = "Close editing on the next report automatically by date";
 $lang['written_reports_cant_edit'] = "You can no longer edit this report!";
 $lang['editable_until'] = "Editable Until";
+$lang['dont_have_edit_permission'] = "You do not have permission to edit!";

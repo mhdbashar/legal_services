@@ -1,6 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart(admin_url('tasks/services_sessions/'.$id),array('id'=>'task-form')); ?>
+<?php echo form_open_multipart(admin_url('LegalServices/Sessions/services_sessions/'.$id),array('id'=>'task-form')); ?>
 <div class="modal fade<?php if(isset($task)){echo ' edit';} ?>" id="_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"<?php if($this->input->get('opened_from_lead_id')){echo 'data-lead-id='.$this->input->get('opened_from_lead_id'); } ?>>
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -67,7 +66,7 @@
                                     <?php } ?>
                                     <?php if(has_permission('sessions','','delete')){ ?>
                                         <li>
-                                            <a href="<?php echo admin_url('tasks/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                            <a href="<?php echo admin_url('LegalServices/Sessions/delete_task/'.$task->id); ?>" class="_delete task-delete">
                                                 <?php echo _l('task_single_delete'); ?>
                                             </a>
                                         </li>
@@ -212,6 +211,48 @@
                                     <option value="جلسة خبراء" <?php echo $value == 'جلسة خبراء' ? 'selected' : ''; ?>>جلسة خبراء</option>
                                     <option value="جلسة الحكم" <?php echo $value == 'جلسة الحكم' ? 'selected' : ''; ?>>جلسة الحكم</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option value=""></option>
+                                    <?php foreach ($legal_services as $service): ?>
+                                        <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
+                                            <?php if(isset($task) || $this->input->get('rel_type')){
+                                                if($service->is_module == 0){
+                                                    if($rel_type == $service->slug){
+                                                        echo 'selected';
+                                                    }
+                                                }else{
+                                                    if($rel_type == 'project'){
+                                                        echo 'selected';
+                                                    }
+                                                }
+                                            } ?>><?php echo $service->name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                                <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                <div id="rel_id_select">
+                                    <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <?php if($rel_id != '' && $rel_type != ''){
+                                            $rel_data = get_relation_data($rel_type,$rel_id);
+                                            $rel_val = get_relation_values($rel_data,$rel_type);
+                                            if(!$rel_data){
+                                                echo '<option value="'.$rel_id.'" selected>'.$rel_id.'</option>';
+                                            }else{
+                                                echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                            }
+                                        } ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -374,7 +415,7 @@
             name: 'required',
             startdate: 'required',
             judge_id: 'required',
-            court_id: 'required',
+            //court_id: 'required',
             time: 'required',
             repeat_every_custom: { min: 1},
         },session_form_handler);
@@ -382,7 +423,7 @@
         $('.rel_id_label').html(_rel_type.find('option:selected').text());
 
         _rel_type.on('change', function() {
-
+           alert('here');
             var clonedSelect = _rel_id.html('').clone();
             _rel_id.selectpicker('destroy').remove();
             _rel_id = clonedSelect;
@@ -514,7 +555,7 @@
         data.copy_task_checklist_items = $("body").find('#copy_task_checklist_items').prop('checked');
         data.copy_task_attachments = $("body").find('#copy_task_attachments').prop('checked');
         data.copy_task_status = $("body").find('input[name="copy_task_status"]:checked').val();
-        $.post(admin_url + 'tasks/copy_session', data).done(function(response) {
+        $.post(admin_url + 'LegalServices/Sessions/copy_session', data).done(function(response) {
             response = JSON.parse(response);
             if (response.success === true || response.success == 'true') {
                 var $taskModal = $('#_task_modal');

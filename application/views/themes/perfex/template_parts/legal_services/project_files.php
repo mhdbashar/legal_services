@@ -37,12 +37,14 @@
       $java_func_file = 'view_case_file';
       $helper_file = 'case_file_url';
       $table = 'casediscussioncomments';
+      $file_id = 'project_id';
   }else{
       $attach_path = OSERVICE_ATTACHMENTS_FOLDER;
       $path_by_type = 'oservice';
       $java_func_file = 'view_oservice_file';
       $helper_file = 'oservice_file_url';
       $table = 'oservicediscussioncomments';
+      $file_id = 'oservice_id';
   }
   ?>
     <?php foreach($files as $file){
@@ -50,11 +52,7 @@
       ?>
       <tr>
        <td data-order="<?php echo $file['file_name']; ?>">
-       <?php if($ServID == 1): ?>
-            <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file['project_id']; ?>,<?php echo $ServID; ?>); return false;">
-       <?php else : ?>
-            <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file['oservice_id']; ?>,<?php echo $ServID; ?>); return false;">
-       <?php endif; ?>
+        <a href="#" onclick="<?php echo $java_func_file; ?>(<?php echo $file['id']; ?>,<?php echo $file[$file_id]; ?>,<?php echo $ServID; ?>); return false;">
          <?php if(is_image($attach_path .$project->id.'/'.$file['file_name']) || (!empty($file['external']) && !empty($file['thumbnail_link']))){
           echo '<div class="text-left"><i class="fa fa-spinner fa-spin mtop30"></i></div>';
           echo '<img class="project-file-image img-table-loading" src="#" data-orig="'.$helper_file($file,true).'" width="100">';

@@ -694,7 +694,7 @@ function AdminTicketsiserviceTableStructure($name = '', $bulk_action = false, $s
     return $table;
 }
 
-function handle_iservice_file_uploads($ServID, $project_id)
+function handle_iservice_file_uploads($project_id)
 {
     $filesIDS = [];
     $errors = [];
@@ -774,10 +774,10 @@ function handle_iservice_file_uploads($ServID, $project_id)
         }
     }
     if (count($filesIDS) > 0) {
-        $CI->load->model('LegalServices/Other_services_model', 'other');
+        $CI->load->model('LegalServices/Imported_services_model', 'imported');
         end($filesIDS);
         $lastFileID = key($filesIDS);
-        $CI->other->new_project_file_notification($ServID, $filesIDS[$lastFileID], $project_id);
+        $CI->imported->new_project_file_notification($filesIDS[$lastFileID], $project_id);
     }
 
     if (count($errors) > 0) {

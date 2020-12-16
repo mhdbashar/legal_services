@@ -277,7 +277,6 @@ class Timesheet extends AdminController{
             if($value == '')
                 $data[$key] = null;
         }
-        //var_dump($data);exit;
 
         $success = $this->Office_shift_model->add($data);
         if($success)
@@ -587,7 +586,7 @@ class Timesheet extends AdminController{
         }
         $response = $this->Leave_model->delete($id);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

@@ -19,7 +19,7 @@ class Contracts_model extends App_Model
      */
     public function get($id = '', $where = [], $for_editor = false)
     {
-        $where = ['type_id' => 0];
+        $where['type_id'] = 0;
         $this->db->select('*,' . db_prefix() . 'contracts_types.name as type_name,' . db_prefix() . 'contracts.id as id, ' . db_prefix() . 'contracts.addedfrom');
         $this->db->where($where);
         $this->db->join(db_prefix() . 'contracts_types', '' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type', 'left');
@@ -657,9 +657,15 @@ class Contracts_model extends App_Model
             $this->db->where('id', $id);
             $original_renewal = $this->db->get(db_prefix() . 'contract_renewals')->row();
         }
+
+        $contract = $this->get($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'contract_renewals');
         if ($this->db->affected_rows() > 0) {
+            if (!is_null($contract->short_link)) {
+                app_archive_short_link($contract->short_link);
+            }
+
             if ($is_last == true) {
                 $this->db->where('id', $contractid);
                 $data = [

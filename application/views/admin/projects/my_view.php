@@ -185,7 +185,7 @@
    function discussion_comments(selector,discussion_id,discussion_type){
      var defaults = _get_jquery_comments_default_config(<?php echo json_encode(get_project_discussions_language_array()); ?>);
      var options = {
-          // https://github.com/Viima/jquery-comments/pull/169
+      // https://github.com/Viima/jquery-comments/pull/169
       wysiwyg_editor: {
             opts: {
                 enable: true,
@@ -216,20 +216,69 @@
                       });
 
                       ed.on('Focus', function (e) {
-                        textarea.trigger('click');
+                        setTimeout(function(){
+                          textarea.trigger('click');
+                        }, 500)
                       });
 
                       ed.on('init', function() {
                         if (content) ed.setContent(content);
+
+                        if ($('#mention-autocomplete-css').length === 0) {
+                              $('<link>').appendTo('head').attr({
+                                 id: 'mention-autocomplete-css',
+                                 type: 'text/css',
+                                 rel: 'stylesheet',
+                                 href: site_url + 'assets/plugins/tinymce/plugins/mention/autocomplete.css'
+                              });
+                           }
+
+                           if ($('#mention-css').length === 0) {
+                              $('<link>').appendTo('head').attr({
+                                 type: 'text/css',
+                                 id: 'mention-css',
+                                 rel: 'stylesheet',
+                                 href: site_url + 'assets/plugins/tinymce/plugins/mention/rte-content.css'
+                              });
+                           }
                       })
                   }
 
-                var editor = init_editor('#'+ this.get_container_id(comment_index), editorConfig)
+                  editorConfig.plugins[0] += ' mention';
+                  editorConfig.content_style = 'span.mention {\
+                     background-color: #eeeeee;\
+                     padding: 3px;\
+                  }';
+                  var projectUserMentions = [];
+                  editorConfig.mentions = {
+                     source: function (query, process, delimiter) {
+                           if (projectUserMentions.length < 1) {
+                              $.getJSON(admin_url + 'projects/get_staff_names_for_mentions/' + project_id, function (data) {
+                                 projectUserMentions = data;
+                                 process(data)
+                              });
+                           } else {
+                              process(projectUserMentions)
+                           }
+                     },
+                     insert: function(item) {
+                           return '<span class="mention" contenteditable="false" data-mention-id="'+ item.id + '">@'
+                           + item.name + '</span>&nbsp;';
+                     }
+                  };
+
+                var containerId = this.get_container_id(comment_index);
+                tinyMCE.remove('#'+containerId);
+
+                setTimeout(function(){
+                  init_editor('#'+ containerId, editorConfig)
+                },100)
             },
             get_container: function (textarea) {
                 if (!textarea.data('comment_index')) {
                     textarea.data('comment_index', ++this.opts.comment_index);
                 }
+
                 return $('<div/>', {
                     'id': this.get_container_id(this.opts.comment_index)
                 });
@@ -246,7 +295,6 @@
               return container_id;
             }
         },
-    
       currentUserIsAdmin:current_user_is_admin,
       getComments: function(success, error) {
         $.get(admin_url + 'projects/get_discussion_comments/'+discussion_id+'/'+discussion_type,function(response){

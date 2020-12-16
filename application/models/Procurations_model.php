@@ -73,6 +73,7 @@ class Procurations_model extends App_Model
 
     public function add($data)
     {
+        $affectedRows = 0;
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
@@ -82,10 +83,15 @@ class Procurations_model extends App_Model
             $pcases=$data['cases'];
             unset($data['cases']);
         }
+
+        $data['start_date'] = force_to_AD_date(($data['start_date']));
+        $data['end_date'] = force_to_AD_date($data['end_date']);
+            
         $data['addedfrom'] = get_staff_user_id();
         $this->db->insert('tblprocurations', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
+            $affectedRows++;
             log_activity('New procuration [ID: ' . $insert_id . '] for client [ID: '.$data["client"].'');
 
             if (isset($custom_fields)) {
@@ -126,6 +132,10 @@ class Procurations_model extends App_Model
             $pcases=$data['cases'];
             unset($data['cases']);
         }
+
+        $data['start_date'] = to_sql_date($data['start_date']);
+        $data['end_date'] = to_sql_date($data['end_date']);
+
         $case_procurations_in = $this->get_procuration_cases($id);
         if (sizeof($case_procurations_in) > 0) {
             foreach ($case_procurations_in as $case_member) {
@@ -183,7 +193,9 @@ class Procurations_model extends App_Model
         $this->db->update('tblprocurations', $data);
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
-            log_activity(' procuration Updated [ID: ' . $insert_id . '] for client [ID: '.$data["client"].'');
+
+            log_activity(' procuration Updated [ID: ' . $id . '] for client [ID: '.$data["client"].'');
+
             return true;
         }
         if ($affectedRows > 0) {

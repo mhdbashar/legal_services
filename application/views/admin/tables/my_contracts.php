@@ -12,14 +12,16 @@ $aColumns = [
     'contract_value',
     'datestart',
     'dateend',
+    db_prefix() . 'projects.name as project_name',
     'signature',
-    ];
+];
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'contracts';
 
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'contracts.client',
+    'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'contracts.project_id',
     'LEFT JOIN ' . db_prefix() . 'contracts_types ON ' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type',
 ];
 
@@ -29,12 +31,28 @@ foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
     array_push($customFieldsColumns, $selectAs);
     array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
-
     array_push($join, 'LEFT JOIN ' . db_prefix() . 'customfieldsvalues as ctable_' . $key . ' ON ' . db_prefix() . 'contracts.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
 
 $where  = [];
 $filter = [];
+
+$projectId = $this->ci->input->get('project_id');
+if ($projectId) {
+    array_push($where, 'AND project_id=' . $this->ci->db->escape_str($projectId));
+}
+
+array_push($where, 'AND ' . db_prefix() . 'contracts.type_id=0');
+if(isset($rel_sid) && $rel_sid != ''):
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_sid=' . $rel_sid);
+else:
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_sid is null');
+endif;
+if(isset($rel_stype) && $rel_stype != ''):
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_stype=' ."'". $rel_stype. "'");
+else:
+    array_push($where, 'AND ' .db_prefix() . 'contracts.rel_stype is null');
+endif;
 
 if ($this->ci->input->post('exclude_trashed_contracts')) {
     array_push($filter, 'AND trash = 0');
@@ -98,8 +116,6 @@ if (!has_permission('contracts', '', 'view')) {
     array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom=' . get_staff_user_id());
 }
 
-array_push($where, 'AND ' . db_prefix() . 'contracts.type_id=0');
-
 $aColumns = hooks()->apply_filters('contracts_table_sql_columns', $aColumns);
 
 // Fix for big queries. Some hosting have max_join_limit
@@ -107,7 +123,9 @@ if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'contracts.id', 'trash', 'client', 'hash', 'marked_as_signed']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
+    db_prefix() . 'contracts.id', 'trash', 'client', 'hash', 'marked_as_signed', 'project_id', 'rel_sid', 'rel_stype',
+]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -117,7 +135,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['id'];
 
-    $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+    $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '"' . ($projectId ? ' target="_blank"' : '') . '>' . $aRow['subject'] . '</a>';
     if ($aRow['trash'] == 1) {
         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('contract_trash') . '</span>';
     }
@@ -146,6 +164,18 @@ foreach ($rResult as $aRow) {
     $row[] = _d($aRow['datestart']);
 
     $row[] = _d($aRow['dateend']);
+
+    if (($aRow['project_id'] == 0 || $aRow['project_id'] == '') && $aRow['rel_stype'] != ''){
+        $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+        $ServID = $this->ci->legal->get_service_id_by_slug($aRow['rel_stype']);
+        if($ServID == 1){
+            $row[] = '<a href="' . admin_url('Case/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_case_name_by_id($aRow['rel_sid']) . '</a>';
+        }else{
+            $row[] = '<a href="' . admin_url('SOther/view/' .$ServID.'/'. $aRow['rel_sid']) . '">' . get_oservice_name_by_id($aRow['rel_sid']) . '</a>';
+        }
+    }else{
+        $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    }
 
     if ($aRow['marked_as_signed'] == 1) {
         $row[] = '<span class="text-success">' . _l('marked_as_signed') . '</span>';

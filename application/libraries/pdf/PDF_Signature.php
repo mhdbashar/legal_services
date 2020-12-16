@@ -6,12 +6,6 @@ trait PDF_Signature
 {
     public function process_signature()
     {
-        if (is_rtl()) {
-            $align = 'R'; //Right align
-        }else{
-            $align = 'L'; //Left align
-        }
-
         $dimensions       = $this->getPageDimensions();
         $leftColumnExists = false;
 
@@ -77,7 +71,7 @@ trait PDF_Signature
             $hookData = ['pdf_instance' => $this, 'type' => $this->type(), 'signatureCellWidth' => $width];
 
             hooks()->do_action('before_customer_pdf_signature', $hookData);
-            $this->MultiCell($width, 0, $customerSignature, 0, $align, 0, 1, '', '', true, 0, true, false, 0);
+            $this->MultiCell($width, 0, $customerSignature, 0, 'R', 0, 1, '', '', true, 0, true, false, 0);
             hooks()->do_action('after_customer_pdf_signature', $hookData);
         }
     }

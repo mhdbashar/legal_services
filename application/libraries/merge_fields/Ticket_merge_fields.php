@@ -8,77 +8,77 @@ class Ticket_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('ticket_id'),
+                    'name'      => 'Ticket ID',
                     'key'       => '{ticket_id}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_customers_area_url'),
+                    'name'      => 'Ticket URL',
                     'key'       => '{ticket_url}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_public_url'),
+                    'name'      => 'Ticket Public URL',
                     'key'       => '{ticket_public_url}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('department'),
+                    'name'      => 'Department',
                     'key'       => '{ticket_department}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('department_email'),
+                    'name'      => 'Department Email',
                     'key'       => '{ticket_department_email}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('date_opened'),
+                    'name'      => 'Date Opened',
                     'key'       => '{ticket_date}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_subject'),
+                    'name'      => 'Ticket Subject',
                     'key'       => '{ticket_subject}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_message'),
+                    'name'      => 'Ticket Message',
                     'key'       => '{ticket_message}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_status'),
+                    'name'      => 'Ticket Status',
                     'key'       => '{ticket_status}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_priority'),
+                    'name'      => 'Ticket Priority',
                     'key'       => '{ticket_priority}',
                     'available' => [
                         'ticket',
                     ],
                 ],
                 [
-                    'name'      => _l('ticket_service'),
+                    'name'      => 'Ticket Service',
                     'key'       => '{ticket_service}',
                     'available' => [
                         'ticket',
@@ -152,10 +152,8 @@ class Ticket_merge_fields extends App_merge_fields
             }
         }
 
-        $fields['{ticket_status}'] = ticket_status_translate($ticket->status);
-
+        $fields['{ticket_status}']   = ticket_status_translate($ticket->status);
         $fields['{ticket_priority}'] = ticket_priority_translate($ticket->priority);
-
 
         $custom_fields = get_custom_fields('tickets');
         foreach ($custom_fields as $field) {
@@ -170,6 +168,7 @@ class Ticket_merge_fields extends App_merge_fields
 
         $this->ci->db->where('serviceid', $ticket->service);
         $service = $this->ci->db->get(db_prefix() . 'services')->row();
+
         if ($service) {
             $fields['{ticket_service}'] = $service->name;
         }
@@ -204,6 +203,7 @@ class Ticket_merge_fields extends App_merge_fields
         $fields['{ticket_subject}']    = $ticket->subject;
         $fields['{ticket_public_url}'] = get_ticket_public_url($ticket);
         $fields['{project_name}']      = get_project_name_by_id($ticket->project_id);
+
 
         return hooks()->apply_filters('ticket_merge_fields', $fields, [
         'id'       => $ticket_id,

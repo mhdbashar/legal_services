@@ -82,7 +82,6 @@
     </div>
 </div>
 
-
 <div id="session_report_data" class="hide">
     <h3 align="center"><u><?php echo _l('session_report'); ?></u></h3>
     <table class="table scroll-responsive" style="border: 1px solid #ebf5ff">
@@ -126,6 +125,66 @@
     </table>
 </div>
 <script type="text/javascript">
+
+    function print_session_report(task_id) {
+        disabled_print_btn(task_id);
+        $("#tbl9").html('');
+        tag = '#';
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/print_report/"); ?>' + task_id,
+            success: function (data) {
+                response = JSON.parse(data);
+                $.each(response, function (key, value) {
+                    if (value == '') {
+                        value = '<?php echo _l('smtp_encryption_none') ?>';
+                    }
+                    $(tag + key).html(value);
+                });
+            }
+        });
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/checklist_items_description/"); ?>' + task_id,
+            success: function (data) {
+                arr = JSON.parse(data);
+                if (arr.length == 0) {
+                    $("#tbl9").html(
+                        '<?php echo _l('session_no_checklist_items_found') ?>'
+                    );
+                }else {
+                    $.each(arr, function (row, item) {
+                        $("#tbl9").append(
+                            '<p>- ' + item.description + '</p>'
+                        );
+                    });
+                }
+            }
+        });
+        setTimeout(function(){
+            var printContents = document.getElementById("session_report_data").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        },2000);
+    }
+
+    function send_report(task_id) {
+        $.ajax({
+            url: '<?php echo admin_url("LegalServices/Sessions/send_report_to_customer/"); ?>' + task_id,
+            success: function (data) {
+                if(data == 1){
+                    alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
+                    reload_tasks_tables();
+                }else if (data == 2){
+                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
+                }else {
+                    alert_float('danger', '<?php echo _l('faild'); ?>');
+                }
+            }
+        });
+    }
+
+    <?php /*
     // Create new session directly from relation, related options selected after modal is shown
     // function new_session_modal(table, rel_type, rel_id) {
     //     if (typeof(rel_type) == 'undefined' && typeof(rel_id) == 'undefined') {
@@ -195,149 +254,9 @@
     //         $('#task-modal').modal('hide');
     //         alert_float('danger', data.responseText);
     //     });
-    // }
+    // } */?>
 
-    // Task single edit description with inline editor, used from task single modal
-    function edit_session_inline_court_decision(e, id) {
-
-        tinyMCE.remove('#court_decision');
-
-        if ($(e).hasClass('editor-initiated')) {
-            $(e).removeClass('editor-initiated');
-            return;
-        }
-
-        $(e).addClass('editor-initiated');
-        $.Shortcuts.stop();
-        tinymce.init({
-            selector: '#court_decision',
-            theme: 'inlite',
-            skin: 'perfex',
-            auto_focus: "task_view_description",
-            plugins: 'table link paste contextmenu textpattern',
-            insert_toolbar: 'quicktable',
-            selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
-            inline: true,
-            table_default_styles: {
-                width: '100%'
-            },
-            setup: function(editor) {
-                editor.on('blur', function(e) {
-                    if (editor.isDirty()) {
-                        $.post(admin_url + 'LegalServices/ServicesSessions/update_session_court_decision/' + id, {
-                            court_decision: editor.getContent()
-                        });
-                    }
-                    setTimeout(function() {
-                        editor.remove();
-                        $.Shortcuts.start();
-                    }, 500);
-                });
-            }
-        });
-    }
-
-    function edit_session_inline_session_information(e, id) {
-
-        tinyMCE.remove('#session_information');
-
-        if ($(e).hasClass('editor-initiated')) {
-            $(e).removeClass('editor-initiated');
-            return;
-        }
-
-        $(e).addClass('editor-initiated');
-        $.Shortcuts.stop();
-        tinymce.init({
-            selector: '#session_information',
-            theme: 'inlite',
-            skin: 'perfex',
-            auto_focus: "task_view_description",
-            plugins: 'table link paste contextmenu textpattern',
-            insert_toolbar: 'quicktable',
-            selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
-            inline: true,
-            table_default_styles: {
-                width: '100%'
-            },
-            setup: function(editor) {
-                editor.on('blur', function(e) {
-                    if (editor.isDirty()) {
-                        $.post(admin_url + 'LegalServices/ServicesSessions/update_session_information/' + id, {
-                            session_information: editor.getContent()
-                        });
-                    }
-                    setTimeout(function() {
-                        editor.remove();
-                        $.Shortcuts.start();
-                    }, 500);
-                });
-            }
-        });
-    }
-
-    function print_session_report(task_id) {
-        disabled_print_btn(task_id);
-        $("#tbl9").html('');
-        tag = '#';
-        $.ajax({
-            url: '<?php echo admin_url("LegalServices/ServicesSessions/print_report/"); ?>' + task_id,
-            success: function (data) {
-                response = JSON.parse(data);
-                $.each(response, function (key, value) {
-                    if (value == '') {
-                        value = '<?php echo _l('smtp_encryption_none') ?>';
-                    }
-                    $(tag + key).html(value);
-                });
-            }
-        });
-        $.ajax({
-            url: '<?php echo admin_url("LegalServices/ServicesSessions/checklist_items/"); ?>' + task_id,
-            success: function (data) {
-                arr = JSON.parse(data);
-                if (arr.length == 0) {
-                    $("#tbl9").html(
-                        '<?php echo _l('session_no_checklist_items_found') ?>'
-                    );
-                }else {
-                    $.each(arr, function (row, item) {
-                        $("#tbl9").append(
-                            '<p>- ' + item.description + '</p>'
-                        );
-                    });
-                }
-            }
-        });
-        setTimeout(function(){
-            var printContents = document.getElementById("session_report_data").innerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-        },2000);
-    }
-    
-    function disabled_print_btn(task_id) {
-        $("#print_btn"+task_id).attr("disabled", true).removeAttr("onclick");
-    }
-
-    function send_report(task_id) {
-        $.ajax({
-            url: '<?php echo admin_url("LegalServices/ServicesSessions/send_report_to_customer/"); ?>' + task_id,
-            success: function (data) {
-                if(data == 1){
-                    alert_float('success', '<?php echo _l('Done').' '._l('Send_to_customer'); ?>');
-                    reload_tasks_tables();
-                }else if (data == 2){
-                    alert_float('danger', '<?php echo _l('no_primary_contact'); ?>');
-                }else {
-                    alert_float('danger', '<?php echo _l('faild'); ?>');
-                }
-            }
-        });
-    }
-
+    <?php /*
      // Handles task add/edit form modal.
      // function session_form_handler(form) {
      //     tinymce.triggerSave();
@@ -388,5 +307,5 @@
      //     });
      //
      //     return false;
-     // }
+     // } */?>
 </script>

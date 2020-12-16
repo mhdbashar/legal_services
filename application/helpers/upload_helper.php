@@ -1159,6 +1159,10 @@ function get_upload_path_by_type($type)
             $path = OSERVICE_ATTACHMENTS_FOLDER;
 
         break;
+        case 'iservice';
+            $path = ISERVICE_ATTACHMENTS_FOLDER;
+
+        break;
     }
 
     return hooks()->apply_filters('get_upload_path_by_type', $path, $type);

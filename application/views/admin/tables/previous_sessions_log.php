@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $hasPermissionEdit   = has_permission('sessions', '', 'edit');
-$hasPermissionDelete = has_permission('sessionst', '', 'delete');
+$hasPermissionDelete = has_permission('sessions', '', 'delete');
 $tasksPriorities     = get_sessions_priorities();
 
 $aColumns = [
@@ -23,7 +23,9 @@ $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
-    array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    if(!$all_data):
+        array_push($where, 'AND rel_id="' . $rel_id . '" AND rel_type="' . $rel_type . '"');
+    endif;
     array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
@@ -52,7 +54,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, $rel_to_query);
 }
 //array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s") > STR_TO_DATE(CONCAT('.db_prefix() .'tasks.startdate, " ", '.db_prefix() .'my_session_info.time), "%Y-%m-%d %H:%i:%s")');
-array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d %H:%i:%s")');
+array_push($where, 'AND DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [
@@ -87,7 +89,6 @@ $i = 1;
 foreach ($rResult as $aRow) {
     $row = [];
     $row[] = $i;
-
     $outputName = '';
 
     if ($aRow['not_finished_timer_by_current_staff']) {

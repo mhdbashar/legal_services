@@ -80,7 +80,7 @@ class Legal_procedures extends AdminController
         }
         $response = $this->legal->delete_category($CatID);
         if ($response == true) {
-            set_alert('success', _l('deleted'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

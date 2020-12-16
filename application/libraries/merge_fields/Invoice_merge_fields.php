@@ -8,41 +8,37 @@ class Invoice_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('invoice_link'),
+                    'name'      => 'Invoice Link',
                     'key'       => '{invoice_link}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_number'),
+                    'name'      => 'Invoice Number',
                     'key'       => '{invoice_number}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_duedate'),
+                    'name'      => 'Invoice Duedate',
                     'key'       => '{invoice_duedate}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_date'),
+                    'name'      => 'Invoice Date',
                     'key'       => '{invoice_date}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
@@ -50,56 +46,58 @@ class Invoice_merge_fields extends App_merge_fields
 
                 ],
                 [
-                    'name'      => _l('invoice_status'),
+                    'name'      => 'Invoice Status',
                     'key'       => '{invoice_status}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_sale_agent'),
+                    'name'      => 'Invoice Sale Agent',
                     'key'       => '{invoice_sale_agent}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_total'),
+                    'name'      => 'Invoice Total',
                     'key'       => '{invoice_total}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_subtotal'),
+                    'name'      => 'Invoice Subtotal',
                     'key'       => '{invoice_subtotal}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                     'templates' => [
                         'subscription-payment-succeeded',
                     ],
                 ],
                 [
-                    'name'      => _l('invoice_amount_due'),
+                    'name'      => 'Invoice Amount Due',
                     'key'       => '{invoice_amount_due}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                 ],
                 [
-                    'name'      => _l('payment_recorded_total'),
+                    'name'      => 'Invoice Days Overdue',
+                    'key'       => '{total_days_overdue}',
+                    'available' => [
+                        'invoice',
+                    ],
+                ],
+                [
+                    'name'      => 'Payment Recorded Total',
                     'key'       => '{payment_total}',
                     'available' => [
 
@@ -111,7 +109,7 @@ class Invoice_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('payment_recorded_date'),
+                    'name'      => 'Payment Recorded Date',
                     'key'       => '{payment_date}',
                     'available' => [
 
@@ -127,7 +125,6 @@ class Invoice_merge_fields extends App_merge_fields
                     'key'       => '{project_name}',
                     'available' => [
                         'invoice',
-                        'dispute'
                     ],
                 ],
             ];
@@ -170,10 +167,12 @@ class Invoice_merge_fields extends App_merge_fields
         $fields['{invoice_link}']    = site_url('invoice/' . $invoice_id . '/' . $invoice->hash);
         $fields['{invoice_number}']  = format_invoice_number($invoice_id);
         $fields['{invoice_duedate}'] = _d($invoice->duedate);
+        $fields['{total_days_overdue}']    = get_total_days_overdue($invoice->duedate);
         $fields['{invoice_date}']    = _d($invoice->date);
         $fields['{invoice_status}']  = format_invoice_status($invoice->status, '', false);
         $fields['{project_name}']    = get_project_name_by_id($invoice->project_id);
-        
+        $fields['{invoice_short_url}']    = get_invoice_shortlink($invoice);
+
         $custom_fields = get_custom_fields('invoice');
         foreach ($custom_fields as $field) {
             $fields['{' . $field['slug'] . '}'] = get_custom_field_value($invoice_id, $field['id'], 'invoice');

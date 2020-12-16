@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <p><?php echo _l('written_reports'); ?></p>
+<?php if (has_permission('written_reports', '', 'create')) { ?>
 <hr />
 <?php echo form_open(admin_url('Written_reports/add/'.$ServID), array('id' => 'written-reports-form')); ?>
 <div class="row">
@@ -10,10 +11,11 @@
         <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
         <?php echo render_input('rel_type','',$slug,'hidden'); ?>
         <?php echo render_textarea('report','','',array(),array(),'','tinymce'); ?>
-        <button type="submit" class="btn btn-info"><?php echo _l('save'); ?></button>
+        <button type="submit" data-form="#written-reports-form" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>" class="btn btn-info"><?php echo _l('save'); ?></button>
     </div>
 </div>
 <?php echo form_close(); ?>
+<?php } ?>
 <?php if(isset($reports)): ?>
 <hr />
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -76,7 +78,13 @@
                 <?php endif; ?>
                     </div>
                     <div class="col-md-2">
+                        <?php if (has_permission('written_reports', '', 'delete')) { ?>
+                            <?php $rel_id = $ServID == 1 ? $id : $project_id; ?>
+                            <a href="<?php echo admin_url("Written_reports/delete/".$ServID.'/'.$rel_id.'/'.$report['id']); ?>" class="btn btn-danger btn-icon _delete" data-toggle="tooltip" data-title="<?php echo _l('delete'); ?>"><i class="fa fa-trash"></i></a>
+                        <?php } ?>
+                        <?php if (has_permission('written_reports', '', 'send_to_customer')) { ?>
                         <button type="button" data-toggle="tooltip" data-title="<?php echo _l('Send_to_customer'); ?>" class="btn btn-info btn-icon pull-left" onclick="send_written_report(<?php echo $report['id'].','.$ServID.','; ?>'<?php echo _l('confirm_action_prompt'); ?>')"><i class="fa fa-envelope"></i></button>
+                        <?php } ?>
                         <div class="btn-group pull-right">
                             <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-file-pdf-o"></i>
@@ -101,13 +109,16 @@
                     </div>
                 </div>
                 <?php echo render_input('rel_id','',$ServID == 1 ? $id : $project_id,'hidden'); ?>
-                <?php
-                if($editable):
+                <?php if (has_permission('written_reports', '', 'edit')) { ?>
+                <?php if($editable):
                 echo render_textarea('report','',$report['report'],array(),array(),'','tinymce'); ?>
                 <button type="submit" class="btn btn-info"><?php echo _l('edit'); ?></button>
                 <?php else:
                 echo '<textarea class="form-control" rows="8" readonly data-toggle="tooltip" data-title="'._l('written_reports_cant_edit').'">'.strip_tags($report["report"]).'</textarea>';
                 endif; ?>
+                <?php }else{
+                    echo '<textarea class="form-control" rows="8" readonly data-toggle="tooltip" data-title="'._l('dont_have_edit_permission').'">'.strip_tags($report["report"]).'</textarea>';
+                } ?>
             </div>
         </div>
         <?php echo form_close(); ?>

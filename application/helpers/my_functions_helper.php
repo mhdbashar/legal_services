@@ -1,6 +1,35 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+//    public function test()
+//    {
+//        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
+//
+//    }
+function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
+{
+    $_url = '#';
+    if (_startsWith($url, 'http')) {
+        $_url = $url;
+    } elseif ($url !== '#') {
+        $_url = site_url($url);
+    }
+
+    return '<a href="' . $_url . '" class="btn ' . $class . ' btn-icon"' . _attributes_to_string($attributes) . '>
+    <i class="fa fa-' . $type . '"></i>
+    </a>';
+}
+function curl_get_contents($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+    $html = curl_exec($ch);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
 
 function my_check_license()
 {
@@ -81,6 +110,30 @@ hooks()->add_action('admin_init', 'my_custom_setup_menu_items');
 hooks()->add_action('admin_init', 'app_init_opponent_profile_tabs');
 hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
+hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
+
+function my_app_init_customer_profile_tabs()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_customer_profile_tab('cases', [
+         'name'     => _l('Cases'),
+         'icon'     => 'fa fa-gavel',
+         'view'     => 'admin/clients/groups/cases',
+         'position' => 65,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('legal_services', [
+        'name'     => _l('LegalServices'),
+        'icon'     => 'fa fa-gavel',
+        'view'     => 'admin/clients/groups/legal_services',
+        'position' => 65,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('sessions', [
+        'name'     => _l('sessions'),
+        'icon'     => 'fa fa-font-awesome',
+        'view'     => 'admin/clients/groups/sessions',
+        'position' => 65,
+    ]);
+}
 
 function my_module_menu_item_collapsible()
 {
@@ -122,7 +175,7 @@ function my_module_menu_item_collapsible()
             'position' => 5, // The menu position
             'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
         ]);
-    }
+}
 
     $services = $CI->db->order_by('id', 'ASC')->get_where('my_basic_services', array('is_primary' => 1 , 'show_on_sidebar' => 1, 'is_module' => 0))->result();
     $CI->app_menu->add_sidebar_menu_item('custom-menu-unique-id', [
@@ -195,6 +248,11 @@ function my_module_clients_area_menu_items()
                 'position' => $position+5,
             ]);
             endforeach;
+            add_theme_menu_item('LegalServices'.$service->id, [
+                'name'     => _l('services'),
+                'href'     => site_url('clients/imported/'),
+                'position' => 40,
+            ]);
         }
     }
 }
@@ -496,6 +554,59 @@ function to_AD_date($date)
     return $date;
 }
 
+function force_to_AD_date($date)
+{
+    if(strpos($date, ' ') !== false){    //is datetime
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+    }
+    $sys_format = get_option('dateformat');
+    $formats = explode('|', $sys_format);
+    $formatMode =$formats[0];  //for general dateformat
+
+    /** to check if this hijri status is on from database **/
+    $hijriStatus= get_option('isHijri');
+    /*******************************************************************/
+
+
+    /** to check if this page are included in database hijri option **/
+    // $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+    // $admin_url = admin_url();
+    // $this_page = str_replace(admin_url(),'',$current_url);
+
+    // if(search_url($hijri_pages, $this_page) > 0){
+    //     $hijri_convert = true;
+    // }else{
+    //     $hijri_convert = false;
+    // }
+
+    if (true) {
+        $hijri_settings['adj_data'] = get_option('adjust_data');
+//                var_dump($hijri_settings['adj_data'].'fghf');exit();
+
+        $current_date = date_parse($date);
+        $hijriCalendar = new Calendar($hijri_settings);
+
+        $AD_date = $hijriCalendar->HijriToGregorian($current_date['year'], $current_date['month'], $current_date['day'] );
+
+
+        $date = $AD_date['y'] . '-' . $AD_date['m'] . '-' . $AD_date['d'];
+        $date = date($formatMode, strtotime($date));
+    }else{ // AD date
+
+        $date = date($formatMode, strtotime($date));
+
+    }
+    if(isset($time)){
+        $date = $date.' '.$time;
+    }
+
+    return $date;
+}
+
 function search_url($pages, $url)
 {
     $i = 0;
@@ -546,6 +657,64 @@ function to_hijri_date($date)
 /*******************************************************************/
 
     if($hijri_convert && $hijriStatus =="on"){
+
+        $datetime = explode(' ', $date);
+        $date = new DateTime($datetime[0]);
+        $hijriCalendar = new Calendar();
+        $adj = new CalendarAdjustment();
+        $hijri_settings['adj_data'] = $adj->get_adjdata(TRUE);
+
+        $hijri_date = $hijriCalendar->GregorianToHijri($date->format('Y'), $date->format('m'), $date->format('d'));
+
+         $date = $hijri_date['y'] . '-' . $hijri_date['m'] . '-' . $hijri_date['d'];
+
+
+        // First condition for date and datetime
+        // Second condition for 12 or 24 (Time Format)
+        if (isset($datetime[1])){
+        $date = isset($datetime[2]) ? $date.' '.$datetime[1].' '.$datetime[2] : $date.' '.$datetime[1];
+        }
+    }
+    if(isset($time)){
+        $date = $date.' '.$time;
+    }
+        return $date;
+}
+
+function force_to_hijri_date($date)
+{
+    if(strpos($date, ' ') !== false){
+        $datetime = true;
+        $dateArray = explode(' ', $date);
+        $date = $dateArray[0];
+        $time = $dateArray[1];
+
+    }
+
+    /** to check if this hijri status is on from database **/
+    $hijriStatus= get_option('isHijri');
+    /*******************************************************************/
+
+
+    /** to check if this page are included in database hijri option **/
+    // $hijri_pages = json_decode(get_option('hijri_pages'));
+    // // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    // $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+
+    // $admin_url = admin_url();
+    // $this_page = str_replace(admin_url(),'',$current_url);
+
+
+    // if(search_url($hijri_pages, $this_page) > 0){
+    //     $hijri_convert = true;
+    // }else{
+    //     $hijri_convert = false;
+    // }
+
+
+/*******************************************************************/
+
+    if(true){
 
         $datetime = explode(' ', $date);
         $date = new DateTime($datetime[0]);
@@ -633,10 +802,9 @@ function set_my_options($data){
 
 }
 
-function add_hijri_settings(){
-
+function add_hijri_settings()
+{
     $CI = &get_instance();
-//  var_dump(add_option('dateformat'));exit();
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
@@ -951,3 +1119,38 @@ function get_books_by_api($tags)
 //        echo json_encode(array("message" => "Method Not Allowed"));
 //    }
 //}
+
+/**
+ * Format dispute invoice number based on description
+ * @param  mixed $id
+ * @return string
+ */
+function format_dispute_invoice_number($id)
+{
+    $CI = & get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'my_project_invoices')
+        ->where('id', $id);
+
+    $invoice = $CI->db->get()->row();
+
+    if (!$invoice) {
+        return '';
+    }
+
+   if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
+
+    return hooks()->apply_filters('format_invoice_number', $number, [
+        'id'      => $id,
+        'invoice' => $invoice,
+    ]);
+}

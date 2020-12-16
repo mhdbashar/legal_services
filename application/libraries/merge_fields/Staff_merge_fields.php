@@ -8,8 +8,8 @@ class Staff_merge_fields extends App_merge_fields
     {
         return [
         [
-                    'name'      => _l('staff_fullname'),
-                    'key'       => '{staff_fullname}',
+                    'name'      => 'Staff Firstname',
+                    'key'       => '{staff_firstname}',
                     'available' => [
                         'staff',
                         'gdpr',
@@ -30,31 +30,31 @@ class Staff_merge_fields extends App_merge_fields
                         'contract-comment-to-admin',
                     ],
                 ],
-                // [
-                //     'name'      => 'Staff Lastname',
-                //     'key'       => '{staff_lastname}',
-                //     'available' => [
-                //         'staff',
-                //         'gdpr',
-                //     ],
-                //     'templates' => [
-                //         'task-status-change-to-staff',
-                //         'task-commented',
-                //         'task-deadline-notification',
-                //         'task-added-attachment',
-                //         'task-added-as-follower',
-                //         'task-assigned',
-                //         'new-project-discussion-created-to-staff',
-                //         'new-project-file-uploaded-to-staff',
-                //         'new-project-discussion-comment-to-staff',
-                //         'staff-added-as-project-member',
-                //         'contract-expiration-to-staff',
-                //         'contract-signed-to-staff',
-                //         'contract-comment-to-admin',
-                //     ],
-                // ],
                 [
-                    'name'      => _l('staff_email'),
+                    'name'      => 'Staff Lastname',
+                    'key'       => '{staff_lastname}',
+                    'available' => [
+                        'staff',
+                        'gdpr',
+                    ],
+                    'templates' => [
+                        'task-status-change-to-staff',
+                        'task-commented',
+                        'task-deadline-notification',
+                        'task-added-attachment',
+                        'task-added-as-follower',
+                        'task-assigned',
+                        'new-project-discussion-created-to-staff',
+                        'new-project-file-uploaded-to-staff',
+                        'new-project-discussion-comment-to-staff',
+                        'staff-added-as-project-member',
+                        'contract-expiration-to-staff',
+                        'contract-signed-to-staff',
+                        'contract-comment-to-admin',
+                    ],
+                ],
+                [
+                    'name'      => 'Staff Email',
                     'key'       => '{staff_email}',
                     'available' => [
                         'staff',
@@ -67,14 +67,14 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('staff_datecreated'),
+                    'name'      => 'Staff Date Created',
                     'key'       => '{staff_datecreated}',
                     'available' => [
                         'staff',
                     ],
                 ],
                 [
-                    'name'      => _l('reset_password_url'),
+                    'name'      => 'Reset Password Url',
                     'key'       => '{reset_password_url}',
                     'available' => [
                     ],
@@ -83,7 +83,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('staff_reminder_description'),
+                    'name'      => 'Reminder Text',
                     'key'       => '{staff_reminder_description}',
                     'available' => [
 
@@ -93,7 +93,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('staff_reminder_date'),
+                    'name'      => 'Reminder Date',
                     'key'       => '{staff_reminder_date}',
                     'available' => [
 
@@ -103,7 +103,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('staff_reminder_relation_name'),
+                    'name'      => 'Reminder Relation Name',
                     'key'       => '{staff_reminder_relation_name}',
                     'available' => [
 
@@ -113,7 +113,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('staff_reminder_relation_link'),
+                    'name'      => 'Reminder Relation Link',
                     'key'       => '{staff_reminder_relation_link}',
                     'available' => [
 
@@ -123,7 +123,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('two_factor_auth_code'),
+                    'name'      => 'Two Factor Authentication Code',
                     'key'       => '{two_factor_auth_code}',
                     'available' => [
                     ],
@@ -132,7 +132,7 @@ class Staff_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('password'),
+                    'name'      => 'Password',
                     'key'       => '{password}',
                     'available' => [
                     ],
@@ -157,8 +157,8 @@ class Staff_merge_fields extends App_merge_fields
         $staff = $this->ci->db->get(db_prefix().'staff')->row();
 
         $fields['{password}']          = '';
-        $fields['{staff_fullname}']   = '';
-        // $fields['{staff_lastname}']    = '';
+        $fields['{staff_firstname}']   = '';
+        $fields['{staff_lastname}']    = '';
         $fields['{staff_email}']       = '';
         $fields['{staff_datecreated}'] = '';
 
@@ -174,8 +174,8 @@ class Staff_merge_fields extends App_merge_fields
             $fields['{two_factor_auth_code}'] = $staff->two_factor_auth_code;
         }
 
-        $fields['{staff_fullname}']   = $staff->firstname;
-        // $fields['{staff_lastname}']    = $staff->lastname;
+        $fields['{staff_firstname}']   = $staff->firstname;
+        $fields['{staff_lastname}']    = $staff->lastname;
         $fields['{staff_email}']       = $staff->email;
         $fields['{staff_datecreated}'] = $staff->datecreated;
 

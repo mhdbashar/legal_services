@@ -547,3 +547,79 @@ function get_tasks_where_string($table = true)
 
     return $_tasks_where;
 }
+
+/**
+ * @since 2.7.1
+ *
+ * Task timer round off options
+ *
+ * @return array
+ */
+function get_task_timer_round_off_options()
+{
+    $options = [
+        [
+            'name' => _l('task_timer_dont_round_off'),
+            'id'   => 0,
+        ],
+        [
+            'name' => _l('task_timer_round_up'),
+            'id'   => 1,
+        ],
+        [
+            'name' => _l('task_timer_round_down'),
+            'id'   => 2,
+        ],
+        [
+            'name' => _l('task_timer_round_nearest'),
+            'id'   => 3,
+        ],
+    ];
+
+    return hooks()->apply_filters('before_get_task_timer_round_off_options', $options);
+}
+
+/**
+ * @since  2.7.1
+ *
+ * Get the task timer round of available times
+ *
+ * @return array
+ */
+function get_task_timer_round_off_times()
+{
+    return hooks()->apply_filters('before_get_task_timer_round_off_times', [5, 10, 15, 20, 25, 30, 35, 40, 45]);
+}
+
+/**
+ * Round the given logged seconds of a task
+ *
+ * @since 2.7.1
+ *
+ * @param  int $seconds
+ *
+ * @return int
+ */
+function task_timer_round($seconds)
+{
+    $roundMinutes = get_option('round_off_task_timer_time');
+    $roundSeconds = $roundMinutes * 60;
+    switch (get_option('round_off_task_timer_option')) {
+        case 1: // up
+        return ceil($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        case 2: // down
+        return floor($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        case 3: // nearest
+        return round($seconds / $roundSeconds) * $roundSeconds;
+
+        break;
+        default:
+        return $seconds;
+
+        break;
+    }
+}

@@ -418,7 +418,7 @@ class General extends AdminController{
         if(empty($data['is_primary'])){
             $data['is_primary'] = 0;
         }
-        //var_dump($data);exit;
+
         $success = $this->Emergency_contact_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));

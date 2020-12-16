@@ -1,7 +1,14 @@
 <?php
 
-$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "لتفعيل وظائف الخدمات المستوردة يرجى ادخال اسم مكتب في المركز من هنا";
+$lang['imported_service_edited'] = 'تم تعديل معلومات الخدمة المستوردة';
 
+$lang['imported_service_file_deleted'] = 'تم حذف ملف من الخدمة المستوردة';
+$lang['new_imported_service_added'] = 'تمت اضافة خدمة مستوردة جديدة';
+$lang['add_imported_service'] = 'اضافة خدمة جديدة';
+$lang['edit_imported_service'] = 'تعديل الخدمة';
+
+$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "لتفعيل وظائف الخدمات المستوردة يرجى ادخال اسم مكتب في المركز من هنا";
+$lang['waiting'] = 'قيد الانتظار';
 $lang['approved'] = 'مقبول';
 $lang['rejected'] = 'مرفوض';
 $lang['new_imported_service'] = 'خدمة مستوردة جديدة';
@@ -60,6 +67,14 @@ $lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العق�
 $lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
 
 $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['active'] = 'مفعلة';
+$lang['inactive'] = 'غير مفعلة';
+
+$lang['principalId'] = "رقم هوية احد الموكلين";
+$lang['agentId'] = "رقم هوية احد الوكلاء";
+
+$lang['loading'] = 'جاري التحميل';
+$lang['settings_general_wathq_api_key'] = 'رمز واثق';
 $lang['dispute_link'] = "رابط الفاتورة";
 $lang['dispute_number'] = "رقم الفاتورة";
 $lang['dispute_duedate'] = "تاريخ إستحقاق الفاتورة";
@@ -1147,3 +1162,4 @@ $lang['updated_by_staff'] = "تم تحريره من قبل الموظف";
 $lang['auto_close_edit_written_reports_after'] = "إغلاق التحرير على التقرير التالي آلياً بتاريخ";
 $lang['written_reports_cant_edit'] = "لم يعد يمكنك التحرير على هذا التقرير!";
 $lang['editable_until'] = "التعديل متاح حتى";
+$lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";

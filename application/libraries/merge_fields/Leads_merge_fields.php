@@ -8,7 +8,7 @@ class Leads_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => _l('lead_name'),
+                    'name'      => 'Lead Name',
                     'key'       => '{lead_name}',
                     'available' => [
                         'leads',
@@ -18,7 +18,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_email'),
+                    'name'      => 'Lead Email',
                     'key'       => '{lead_email}',
                     'available' => [
                         'leads',
@@ -28,7 +28,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_position'),
+                    'name'      => 'Lead Position',
                     'key'       => '{lead_position}',
                     'available' => [
                         'leads',
@@ -38,7 +38,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_website'),
+                    'name'      => 'Lead Website',
                     'key'       => '{lead_website}',
                     'available' => [
                         'leads',
@@ -48,14 +48,14 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_description'),
+                    'name'      => 'Lead Description',
                     'key'       => '{lead_description}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_phone_number'),
+                    'name'      => 'Lead Phone Number',
                     'key'       => '{lead_phonenumber}',
                     'available' => [
                         'leads',
@@ -65,7 +65,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_company'),
+                    'name'      => 'Lead Company',
                     'key'       => '{lead_company}',
                     'available' => [
                         'leads',
@@ -75,7 +75,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_country'),
+                    'name'      => 'Lead Country',
                     'key'       => '{lead_country}',
                     'available' => [
                         'leads',
@@ -85,28 +85,28 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_zip'),
+                    'name'      => 'Lead Zip',
                     'key'       => '{lead_zip}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_city'),
+                    'name'      => 'Lead City',
                     'key'       => '{lead_city}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_state'),
+                    'name'      => 'Lead State',
                     'key'       => '{lead_state}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_address'),
+                    'name'      => 'Lead Address',
                     'key'       => '{lead_address}',
                     'available' => [
                         'leads',
@@ -116,28 +116,28 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => _l('lead_assigned'),
+                    'name'      => 'Lead Assigned',
                     'key'       => '{lead_assigned}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_status'),
+                    'name'      => 'Lead Status',
                     'key'       => '{lead_status}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_souce'),
+                    'name'      => 'Lead Souce',
                     'key'       => '{lead_source}',
                     'available' => [
                         'leads',
                     ],
                 ],
                 [
-                    'name'      => _l('lead_link'),
+                    'name'      => 'Lead Link',
                     'key'       => '{lead_link}',
                     'available' => [
                         'leads',
@@ -147,7 +147,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => is_gdpr() && get_option('gdpr_enable_lead_public_form') == '1' ? _l('lead_public_form_url') : '',
+                    'name'      => is_gdpr() && get_option('gdpr_enable_lead_public_form') == '1' ? 'Lead Public Form URL' : '',
                     'key'       => is_gdpr() && get_option('gdpr_enable_lead_public_form') == '1' ? '{lead_public_form_url}' : '',
                     'available' => [
 
@@ -157,7 +157,7 @@ class Leads_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => is_gdpr() && get_option('gdpr_enable_consent_for_leads') == '1' ? _l('lead_public_consent_url') : '',
+                    'name'      => is_gdpr() && get_option('gdpr_enable_consent_for_leads') == '1' ? 'Lead Consent Link' : '',
                     'key'       => is_gdpr() && get_option('gdpr_enable_consent_for_leads') == '1' ? '{lead_public_consent_url}' : '',
                     'available' => [
 

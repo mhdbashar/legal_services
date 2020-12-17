@@ -22,7 +22,7 @@ function _maybe_init_admin_case_assets()
 
 function get_case_tabs_admin()
 {
-    return get_instance()->app_tabs->get_case_tabs();
+    return get_instance()->app_custom_tabs->get_case_tabs();
 }
 
 /**
@@ -33,14 +33,14 @@ function app_init_case_tabs()
 {
     $CI = &get_instance();
 
-    $CI->app_tabs->add_case_tab('project_overview', [
+    $CI->app_custom_tabs->add_case_tab('project_overview', [
         'name'     => _l('project_overview'),
         'icon'     => 'fa fa-th',
         'view'     => 'admin/LegalServices/cases/project_overview',
         'position' => 5,
     ]);
 
-    $CI->app_tabs->add_case_tab('procuration', [
+    $CI->app_custom_tabs->add_case_tab('procuration', [
         'name'     => _l('procurations'),
         'icon'     => 'fa fa-th',
         'view'     => 'admin/LegalServices/cases/case_procuration',
@@ -48,7 +48,7 @@ function app_init_case_tabs()
         'visible'  => (has_permission('procurations', '', 'view') || is_admin()),
     ]);
 
-    $CI->app_tabs->add_case_tab('project_tasks', [
+    $CI->app_custom_tabs->add_case_tab('project_tasks', [
         'name'                      => _l('tasks'),
         'icon'                      => 'fa fa-check-circle',
         'view'                      => 'admin/LegalServices/cases/project_tasks',
@@ -56,7 +56,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['view_tasks'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_timesheets', [
+    $CI->app_custom_tabs->add_case_tab('project_timesheets', [
         'name'                      => _l('project_timesheets'),
         'icon'                      => 'fa fa-clock-o',
         'view'                      => 'admin/LegalServices/cases/project_timesheets',
@@ -64,7 +64,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['view_timesheets'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_milestones', [
+    $CI->app_custom_tabs->add_case_tab('project_milestones', [
         'name'                      => _l('project_milestones'),
         'icon'                      => 'fa fa-rocket',
         'view'                      => 'admin/LegalServices/cases/project_milestones',
@@ -72,7 +72,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['view_milestones'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_files', [
+    $CI->app_custom_tabs->add_case_tab('project_files', [
         'name'                      => _l('project_files'),
         'icon'                      => 'fa fa-files-o',
         'view'                      => 'admin/LegalServices/cases/project_files',
@@ -80,7 +80,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['upload_files'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_discussions', [
+    $CI->app_custom_tabs->add_case_tab('project_discussions', [
         'name'                      => _l('project_discussions'),
         'icon'                      => 'fa fa-commenting',
         'view'                      => 'admin/LegalServices/cases/project_discussions',
@@ -88,7 +88,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['open_discussions'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_gantt', [
+    $CI->app_custom_tabs->add_case_tab('project_gantt', [
         'name'                      => _l('project_gant'),
         'icon'                      => 'fa fa-align-left',
         'view'                      => 'admin/LegalServices/cases/project_gantt',
@@ -96,7 +96,7 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['view_gantt'],
     ]);
 
-    $CI->app_tabs->add_case_tab('project_tickets', [
+    $CI->app_custom_tabs->add_case_tab('project_tickets', [
         'name'     => _l('project_tickets'),
         'icon'     => 'fa fa-life-ring',
         'view'     => 'admin/LegalServices/cases/project_tickets',
@@ -104,7 +104,7 @@ function app_init_case_tabs()
         'visible'  => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     ]);
 
-    $CI->app_tabs->add_case_tab('project_contracts', [
+    $CI->app_custom_tabs->add_case_tab('project_contracts', [
         'name'     => _l('contracts'),
         'icon'     => 'fa fa-file',
         'view'     => 'admin/LegalServices/cases/project_contracts',
@@ -112,7 +112,7 @@ function app_init_case_tabs()
         'visible'  => has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_case_tab('sales', [
+    $CI->app_custom_tabs->add_case_tab('sales', [
         'name'     => _l('sales_string'),
         'icon'     => 'fa fa-balance-scale',
         'position' => 55,
@@ -122,7 +122,7 @@ function app_init_case_tabs()
             || (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')),
     ]);
 
-    $CI->app_tabs->add_case_tab_children_item('sales', [
+    $CI->app_custom_tabs->add_case_tab_children_item('sales', [
         'slug'     => 'project_invoices',
         'name'     => _l('project_invoices'),
         'view'     => 'admin/LegalServices/cases/project_invoices',
@@ -130,7 +130,7 @@ function app_init_case_tabs()
         'visible'  => (has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own') || (get_option('allow_staff_view_invoices_assigned') == 1 && staff_has_assigned_invoices())),
     ]);
 
-    $CI->app_tabs->add_case_tab_children_item('sales', [
+    $CI->app_custom_tabs->add_case_tab_children_item('sales', [
         'slug'     => 'project_estimates',
         'name'     => _l('estimates'),
         'view'     => 'admin/LegalServices/cases/project_estimates',
@@ -138,7 +138,7 @@ function app_init_case_tabs()
         'visible'  => (has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own') || (get_option('allow_staff_view_estimates_assigned') == 1 && staff_has_assigned_estimates())),
     ]);
 
-    $CI->app_tabs->add_case_tab_children_item('sales', [
+    $CI->app_custom_tabs->add_case_tab_children_item('sales', [
         'slug'     => 'project_expenses',
         'name'     => _l('project_expenses'),
         'view'     => 'admin/LegalServices/cases/project_expenses',
@@ -146,7 +146,7 @@ function app_init_case_tabs()
         'visible'   => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
     ]);
 
-    $CI->app_tabs->add_case_tab_children_item('sales', [
+    $CI->app_custom_tabs->add_case_tab_children_item('sales', [
         'slug'     => 'project_credit_notes',
         'name'     => _l('credit_notes'),
         'view'     => 'admin/LegalServices/cases/project_credit_notes',
@@ -154,7 +154,7 @@ function app_init_case_tabs()
         'visible'  => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
     ]);
 
-    // $CI->app_tabs->add_case_tab_children_item('sales', [
+    // $CI->app_custom_tabs->add_case_tab_children_item('sales', [
     //     'slug'     => 'project_subscriptions',
     //     'name'     => _l('subscriptions'),
     //     'view'     => 'admin/LegalServices/cases/project_subscriptions',
@@ -162,14 +162,14 @@ function app_init_case_tabs()
     //     'visible'  => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
     // ]);
 
-    $CI->app_tabs->add_case_tab('project_notes', [
+    $CI->app_custom_tabs->add_case_tab('project_notes', [
         'name'     => _l('project_notes'),
         'icon'     => 'fa fa-file-o',
         'view'     => 'admin/LegalServices/cases/project_notes',
         'position' => 60,
     ]);
 
-    $CI->app_tabs->add_case_tab('project_activity', [
+    $CI->app_custom_tabs->add_case_tab('project_activity', [
         'name'                      => _l('project_activity'),
         'icon'                      => 'fa fa-exclamation',
         'view'                      => 'admin/LegalServices/cases/project_activity',
@@ -177,49 +177,49 @@ function app_init_case_tabs()
         'linked_to_customer_option' => ['view_activity_log'],
     ]);
 
-    $CI->app_tabs->add_case_tab('CaseMovement', [
+    $CI->app_custom_tabs->add_case_tab('CaseMovement', [
         'name'                      => _l('CaseMovement'),
         'icon'                      => 'fa fa-exchange',
         'view'                      => 'admin/LegalServices/cases/case_movement_view',
         'position'                  => 70,
     ]);
 
-    $CI->app_tabs->add_case_tab('CaseSession', [
+    $CI->app_custom_tabs->add_case_tab('CaseSession', [
         'name'                      => _l('SessionLog'),
         'icon'                      => 'fa fa-font-awesome',
         'view'                      => 'admin/LegalServices/services_sessions/services_sessions',
         'position'                  => 75,
     ]);
 
-    $CI->app_tabs->add_case_tab('Phase', [
+    $CI->app_custom_tabs->add_case_tab('Phase', [
         'name'                      => _l('phases'),
         'icon'                      => 'fa fa-list-ol',
         'view'                      => 'admin/LegalServices/phases/tab',
         'position'                  => 80,
     ]);
 
-    $CI->app_tabs->add_case_tab('IRAC', [
+    $CI->app_custom_tabs->add_case_tab('IRAC', [
         'name'                      => _l('IRAC_method'),
         'icon'                      => 'fa fa-sitemap',
         'view'                      => 'admin/LegalServices/irac/tab',
         'position'                  => 85,
     ]);
 
-    $CI->app_tabs->add_case_tab('Procedures', [
+    $CI->app_custom_tabs->add_case_tab('Procedures', [
         'name'                      => _l('legal_procedures'),
         'icon'                      => 'fa fa-braille',
         'view'                      => 'admin/LegalServices/legal_procedures/tab',
         'position'                  => 90,
     ]);
 
-    $CI->app_tabs->add_case_tab('help_library', [
+    $CI->app_custom_tabs->add_case_tab('help_library', [
         'name'                      => _l('help_library'),
         'icon'                      => 'fa fa-book',
         'view'                      => 'admin/help_library/tab',
         'position'                  => 95,
     ]);
 
-    $CI->app_tabs->add_case_tab('written_reports', [
+    $CI->app_custom_tabs->add_case_tab('written_reports', [
         'name'                      => _l('written_reports'),
         'icon'                      => 'fa fa-pencil-square',
         'view'                      => 'admin/written_reports/tab',

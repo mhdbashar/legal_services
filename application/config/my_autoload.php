@@ -67,6 +67,7 @@ $autoload['libraries'] = [
     'app',
     'gateways/app_gateway',
     'email', // As last because it's using get_option via $this->app library
+    'app_custom_tabs'
 ];
 
 $CI = &get_instance();

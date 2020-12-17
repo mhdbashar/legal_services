@@ -91,19 +91,19 @@ hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
 function my_app_init_customer_profile_tabs()
 {
     $CI = &get_instance();
-    $CI->app_tabs->add_customer_profile_tab('cases', [
+    $CI->app_custom_tabs->add_customer_profile_tab('cases', [
          'name'     => _l('Cases'),
          'icon'     => 'fa fa-gavel',
          'view'     => 'admin/clients/groups/cases',
          'position' => 65,
     ]);
-    $CI->app_tabs->add_customer_profile_tab('legal_services', [
+    $CI->app_custom_tabs->add_customer_profile_tab('legal_services', [
         'name'     => _l('LegalServices'),
         'icon'     => 'fa fa-gavel',
         'view'     => 'admin/clients/groups/legal_services',
         'position' => 65,
     ]);
-    $CI->app_tabs->add_customer_profile_tab('sessions', [
+    $CI->app_custom_tabs->add_customer_profile_tab('sessions', [
         'name'     => _l('sessions'),
         'icon'     => 'fa fa-font-awesome',
         'view'     => 'admin/clients/groups/sessions',
@@ -350,35 +350,35 @@ function app_init_opponent_profile_tabs()
 
     $CI = &get_instance();
 
-    $CI->app_tabs->add_opponent_profile_tab('profile', [
+    $CI->app_custom_tabs->add_opponent_profile_tab('profile', [
         'name'     => _l('client_add_edit_profile'),
         'icon'     => 'fa fa-user-circle',
         'view'     => 'admin/opponent/groups/profile',
         'position' => 5,
     ]);
 
-    $CI->app_tabs->add_opponent_profile_tab('contacts', [
+    $CI->app_custom_tabs->add_opponent_profile_tab('contacts', [
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/opponent/groups/contacts',
         'position' => 10,
     ]);
 
-    $CI->app_tabs->add_opponent_profile_tab('notes', [
+    $CI->app_custom_tabs->add_opponent_profile_tab('notes', [
         'name'     => _l('contracts_notes_tab'),
         'icon'     => 'fa fa-sticky-note-o',
         'view'     => 'admin/opponent/groups/notes',
         'position' => 15,
     ]);
 
-    $CI->app_tabs->add_opponent_profile_tab('attachments', [
+    $CI->app_custom_tabs->add_opponent_profile_tab('attachments', [
         'name'     => _l('customer_attachments'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/opponent/groups/attachments',
         'position' => 20,
     ]);
 
-    $CI->app_tabs->add_opponent_profile_tab('map', [
+    $CI->app_custom_tabs->add_opponent_profile_tab('map', [
         'name'     => _l('customer_map'),
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/opponent/groups/map',
@@ -769,7 +769,7 @@ function set_my_options($data){
 function add_hijri_settings()
 {
     $CI = &get_instance();
-    $CI->app_tabs->add_settings_tab('Hijri', [
+    $CI->app_custom_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
         'position' => 20,

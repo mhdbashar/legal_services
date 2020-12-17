@@ -185,8 +185,12 @@
 
 
     $('#submit_office_name').on('click', function (e) {
+          if($("input[name='settings[office_name_in_center]']").length){
             var office_name_in_center = $("input[name='settings[office_name_in_center]']").val();
             e.preventDefault();
+          }else{
+            console.log("not exist");
+          }
 
             $.ajax({
                 url: '<?php echo site_url($this->uri->uri_string()); ?>/get_office_name',

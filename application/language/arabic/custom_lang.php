@@ -1,6 +1,8 @@
 <?php
 
 $lang['active'] = 'مفعلة';
+$lang['previous'] = 'سابقة';
+$lang['waiting'] = 'في الانتظار';
 $lang['inactive'] = 'غير مفعلة';
 
 $lang['principalId'] = "رقم هوية احد الموكلين";

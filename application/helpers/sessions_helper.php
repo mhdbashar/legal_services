@@ -34,6 +34,42 @@ function format_session_status($status, $text = false, $clean = false)
     return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
 }
 
+function format_session_status_by_date($datetime, $text = false, $clean = false)
+{
+    $current_date = strtotime(date('Y-m-d H:i:s'));
+    $datetime = strtotime($datetime);
+    if ($datetime > $current_date) {
+        $style = 'border: 1px solid green;color:green;';
+        $class = 'label';
+        $status_name = _l('waiting');
+        return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
+    }else{
+        $style = 'border: 1px solid red;color:red;';
+        $class = 'label';
+        $status_name = _l('previous');
+        return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
+    }
+
+    $status_name = $status['name'];
+
+    $status_name = hooks()->apply_filters('session_status_name', $status_name, $status);
+
+    if ($clean == true) {
+        return $status_name;
+    }
+
+    $style = '';
+    $class = '';
+    if ($text == false) {
+        $style = 'border: 1px solid ' . $status['color'] . ';color:' . $status['color'] . ';';
+        $class = 'label';
+    } else {
+        $style = 'color:' . $status['color'] . ';';
+    }
+
+    return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
+}
+
 /**
  * Return predefined sessions priorities
  * @return array

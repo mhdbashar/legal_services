@@ -1,5 +1,7 @@
 <?php
 
+$lang['previous'] = 'Previous';
+$lang['waiting'] = 'Waiting';
 $lang['active'] = 'Active';
 $lang['inactive'] = 'in-active';
 

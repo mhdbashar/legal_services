@@ -1263,7 +1263,7 @@ class Cases_controller extends AdminController
         if ($this->input->is_ajax_request()) {
             $projectId = $this->db->escape_str($projectId);
 
-            $members = $this->projects_model->get_project_members($projectId);
+            $members = $this->case->get_project_members($projectId);
             $members = array_map(function ($member) {
                 $staff = $this->staff_model->get($member['staff_id']);
 

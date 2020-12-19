@@ -269,7 +269,7 @@ echo form_hidden('project_percent',$percent);
                   editorConfig.mentions = {
                      source: function (query, process, delimiter) {
                            if (projectUserMentions.length < 1) {
-                              $.getJSON(admin_url + 'projects/get_staff_names_for_mentions/' + project_id, function (data) {
+                              $.getJSON(admin_url + 'LegalServices/Other_services_controller/get_staff_names_for_mentions/' + project_id, function (data) {
                                  projectUserMentions = data;
                                  process(data)
                               });

@@ -1,17 +1,18 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 section-client-dashboard">
 		<h3 id="greeting" class="no-mtop"></h3>
 		<?php if(has_contact_permission('projects')) { ?>
 			<div class="panel_s">
 				<div class="panel-body">
-					<h3 class="text-success projects-summary-heading no-mtop mbot15"><?php echo _l('cases_summary'); ?></h3>
+					<h3 class="text-success projects-summary-heading no-mtop mbot15"><?php echo _l('projects_summary'); ?></h3>
 					<div class="row">
-						<?php get_template_part('legal_services/project_summary'); ?>
+						<?php get_template_part('projects/project_summary'); ?>
 					</div>
 				</div>
 			</div>
 		<?php } ?>
+		<?php hooks()->do_action('client_area_after_project_overview'); ?>
 		<div class="panel_s">
 			<?php
 			if(has_contact_permission('invoices')){ ?>

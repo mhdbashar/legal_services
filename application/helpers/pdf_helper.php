@@ -23,10 +23,8 @@ function load_pdf_language($clientid)
             $language = $clientLanguage;
         }
     } else {
-        if (get_option('output_client_pdfs_from_admin_area_in_client_language') == 1) {
-            if (!empty($clientLanguage)) {
-                $language = $clientLanguage;
-            }
+        if (!empty($clientLanguage) && get_option('output_client_pdfs_from_admin_area_in_client_language') == 1) {
+            $language = $clientLanguage;
         }
     }
 
@@ -50,6 +48,7 @@ function pdf_logo_url()
 {
     $custom_pdf_logo_image_url = get_option('custom_pdf_logo_image_url');
     $width                     = get_option('pdf_logo_width');
+    $companyUploadPath         = get_upload_path_by_type('company');
     $logoUrl                   = '';
 
     if ($width == '') {
@@ -58,10 +57,10 @@ function pdf_logo_url()
     if ($custom_pdf_logo_image_url != '') {
         $logoUrl = $custom_pdf_logo_image_url;
     } else {
-        if (get_option('company_logo_dark') != '' && file_exists(get_upload_path_by_type('company') . get_option('company_logo_dark'))) {
-            $logoUrl = get_upload_path_by_type('company') . get_option('company_logo_dark');
-        } elseif (get_option('company_logo') != '' && file_exists(get_upload_path_by_type('company') . get_option('company_logo'))) {
-            $logoUrl = get_upload_path_by_type('company') . get_option('company_logo');
+        if (get_option('company_logo_dark') != '' && file_exists($companyUploadPath . get_option('company_logo_dark'))) {
+            $logoUrl = $companyUploadPath . get_option('company_logo_dark');
+        } elseif (get_option('company_logo') != '' && file_exists($companyUploadPath . get_option('company_logo'))) {
+            $logoUrl = $companyUploadPath . get_option('company_logo');
         }
     }
 
@@ -137,7 +136,7 @@ function get_pdf_format($option_name)
         $data['format']      = 'LETTER';
     }
 
-    return hooks()->apply_filters('pdf_format_array', $data);
+    return hooks()->apply_filters('pdf_format_array', $data, $option_name);
 }
 
 /**

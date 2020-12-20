@@ -40,6 +40,11 @@ $where  = [];
 $filter = [];
 $statusIds = [];
 
+if(isset($clientid)){
+    array_push($where, 'AND ' . db_prefix() . "my_other_services.clientid = $clientid");
+}
+
+
 foreach ($model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);

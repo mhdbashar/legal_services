@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $where = array('clientid'=>get_client_user_id());
+if(!isset($ServID))
+	$ServID = 1;
 foreach($project_statuses as $status){ ?>
 	<div class="col-md-2 list-status projects-status">
 		<a href="<?php echo site_url('clients/legals/'.$ServID.'/'.$status['id']); ?>" class="<?php if(isset($list_statuses) && in_array($status['id'], $list_statuses)){echo 'active';} ?>">

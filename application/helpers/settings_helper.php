@@ -180,6 +180,13 @@ function app_init_settings_tabs()
         'position' => 45,
     ]);
 
+
+    $CI->app_tabs->add_settings_tab('sessions', [
+        'name'     => _l('sessions'),
+        'view'     => 'admin/settings/includes/sessions',
+        'position' => 45,
+    ]);
+
     $CI->app_tabs->add_settings_tab('tickets', [
         'name'     => _l('support'),
         'view'     => 'admin/settings/includes/tickets',

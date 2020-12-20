@@ -2756,6 +2756,7 @@ $lang['accept_identity_confirmation'] = "تتطلب تأكيد الهوية عن
 $lang['accepted_identity_info'] = "تم قبول %s بواسطة %s في %s من عنوان IP %s";
 $lang['clear_this_information'] = "إمسح هذه المعلومات";
 $lang['new_task_auto_follower_current_member'] = "إضافة منشئ المهام تلقائيًا كمتابع للمهام عند إنشاء مهمة جديدة";
+$lang['new_session_auto_follower_current_member'] = "إضافة منشئ المهام تلقائيًا كمتابع للمهام عند إنشاء جلسة جديدة";
 $lang['expenses_report_net'] = "صافي المبلغ (المجموع الفرعي)";
 $lang['expense_field_billable_help'] = "إذا كانت قابلة للفوترة ، يمكن إضافة %s إلى الوصف الطويل للفاتورة.";
 $lang['task_biillable_checked_on_creation'] = "يتم تحديد الخيار قابل للفوترة بشكل افتراضي عند إنشاء مهمة جديدة؟ (فقط من المنطقة الإدارية)";

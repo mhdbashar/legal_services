@@ -487,6 +487,9 @@ class Sessions extends AdminController
         }
         if ($this->input->post()) {
             $data                = $this->input->post();
+            if (strpos($data['rel_type'], 'session') !== false) {
+                $data['rel_type'] = substr($data['rel_type'],8);
+            }
             $data['description'] = $this->input->post('description', false);
             if ($id == '') {
                 if (!has_permission('sessions', '', 'create')) {

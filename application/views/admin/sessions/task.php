@@ -217,8 +217,15 @@
                                             <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
                                             <?php echo _l('client'); ?>
                                         </option>
-                                        <?php foreach ($legal_services as $service): ?>
-                                            <option value="<?php echo $service->is_module == 0 ? $service->slug : 'project'; ?>"
+                                        <?php
+                                        foreach ($legal_services as $service):
+                                            if($service->id == 1):
+                                                $val = $service->is_module == 0 ? $service->slug : 'project';
+                                            else:
+                                                $val = $service->is_module == 0 ? "session_".$service->slug : 'project';
+                                            endif
+                                            ?>
+                                            <option value="<?php echo $val; ?>"
                                                 <?php if(isset($task) || $this->input->get('rel_type')){
                                                     if($service->is_module == 0){
                                                         if($rel_type == $service->slug){

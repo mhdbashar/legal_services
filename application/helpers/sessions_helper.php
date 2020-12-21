@@ -8,6 +8,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @param  boolean $clean
  * @return string
  */
+
+function get_session_timer_round_off_options()
+{
+    $options = [
+        [
+            'name' => _l('task_timer_dont_round_off'),
+            'id'   => 0,
+        ],
+        [
+            'name' => _l('task_timer_round_up'),
+            'id'   => 1,
+        ],
+        [
+            'name' => _l('task_timer_round_down'),
+            'id'   => 2,
+        ],
+        [
+            'name' => _l('task_timer_round_nearest'),
+            'id'   => 3,
+        ],
+    ];
+
+    return hooks()->apply_filters('before_get_task_timer_round_off_options', $options);
+}
+
+function get_session_timer_round_off_times()
+{
+    return hooks()->apply_filters('before_get_task_timer_round_off_times', [5, 10, 15, 20, 25, 30, 35, 40, 45]);
+}
+
 function format_session_status($status, $text = false, $clean = false)
 {
     if (!is_array($status)) {

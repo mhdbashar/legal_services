@@ -22,7 +22,7 @@
       <div class="panel_s">
          <div class="panel-body">
             <h3 class="text-muted _total">
-               <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']. ' AND clientid='.$client->userid; ?>
+               <?php $where = ($_where == '' ? '' : $_where.' AND ').'status = '.$status['id']. ' AND clientid='.$client->userid. ' AND service_id='.$service->id; ?>
                <?php echo total_rows(db_prefix().'my_other_services',$where); ?>
             </h3>
             <span style="color:<?php echo $status['color']; ?>"><?php echo $status['name']; ?></span>

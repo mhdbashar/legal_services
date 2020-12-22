@@ -25,7 +25,7 @@ function _maybe_init_admin_iservice_assets()
 
 function get_iservice_tabs_admin()
 {
-    return get_instance()->app_tabs->get_iservice_tabs();
+    return get_instance()->app_custom_tabs->get_iservice_tabs();
 }
 
 /**
@@ -43,14 +43,14 @@ function app_init_iservice_tabs()
     endforeach;
 
 
-    $CI->app_tabs->add_iservice_tab('project_overview', [
+    $CI->app_custom_tabs->add_iservice_tab('project_overview', [
         'name' => _l('project_overview'),
         'icon' => 'fa fa-th',
         'view' => 'admin/LegalServices/imported_services/project_overview',
         'position' => 5,
     ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_tasks', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_tasks', [
     //     'name' => _l('tasks'),
     //     'icon' => 'fa fa-check-circle',
     //     'view' => 'admin/LegalServices/other_services/project_tasks',
@@ -58,7 +58,7 @@ function app_init_iservice_tabs()
     //     'linked_to_customer_option' => ['view_tasks'],
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_timesheets', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_timesheets', [
     //     'name' => _l('project_timesheets'),
     //     'icon' => 'fa fa-clock-o',
     //     'view' => 'admin/LegalServices/other_services/project_timesheets',
@@ -66,7 +66,7 @@ function app_init_iservice_tabs()
     //     'linked_to_customer_option' => ['view_timesheets'],
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_milestones', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_milestones', [
     //     'name' => _l('project_milestones'),
     //     'icon' => 'fa fa-rocket',
     //     'view' => 'admin/LegalServices/other_services/project_milestones',
@@ -74,7 +74,7 @@ function app_init_iservice_tabs()
     //     'linked_to_customer_option' => ['view_milestones'],
     // ]);
 
-    $CI->app_tabs->add_iservice_tab('project_files', [
+    $CI->app_custom_tabs->add_iservice_tab('project_files', [
         'name' => _l('project_files'),
         'icon' => 'fa fa-files-o',
         'view' => 'admin/LegalServices/imported_services/project_files',
@@ -82,7 +82,7 @@ function app_init_iservice_tabs()
         'linked_to_customer_option' => ['upload_files'],
     ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_discussions', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_discussions', [
     //     'name' => _l('project_discussions'),
     //     'icon' => 'fa fa-commenting',
     //     'view' => 'admin/LegalServices/other_services/project_discussions',
@@ -90,7 +90,7 @@ function app_init_iservice_tabs()
     //     'linked_to_customer_option' => ['open_discussions'],
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_gantt', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_gantt', [
     //     'name' => _l('project_gant'),
     //     'icon' => 'fa fa-align-left',
     //     'view' => 'admin/LegalServices/other_services/project_gantt',
@@ -98,7 +98,7 @@ function app_init_iservice_tabs()
     //     'linked_to_customer_option' => ['view_gantt'],
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_tickets', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_tickets', [
     //     'name' => _l('project_tickets'),
     //     'icon' => 'fa fa-life-ring',
     //     'view' => 'admin/LegalServices/other_services/project_tickets',
@@ -106,7 +106,7 @@ function app_init_iservice_tabs()
     //     'visible' => (get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member(),
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab_children_item('sales', [
+    // $CI->app_custom_tabs->add_iservice_tab_children_item('sales', [
     //     'slug' => 'project_expenses',
     //     'name' => _l('project_expenses'),
     //     'view' => 'admin/LegalServices/other_services/project_expenses',
@@ -114,7 +114,7 @@ function app_init_iservice_tabs()
     //     'visible' => has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own'),
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab_children_item('sales', [
+    // $CI->app_custom_tabs->add_iservice_tab_children_item('sales', [
     //     'slug' => 'project_credit_notes',
     //     'name' => _l('credit_notes'),
     //     'view' => 'admin/LegalServices/other_services/project_credit_notes',
@@ -122,7 +122,7 @@ function app_init_iservice_tabs()
     //     'visible' => has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own'),
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab_children_item('sales', [
+    // $CI->app_custom_tabs->add_iservice_tab_children_item('sales', [
     //     'slug' => 'project_subscriptions',
     //     'name' => _l('subscriptions'),
     //     'view' => 'admin/LegalServices/other_services/project_subscriptions',
@@ -130,14 +130,14 @@ function app_init_iservice_tabs()
     //     'visible' => has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own'),
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_notes', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_notes', [
     //     'name' => _l('project_notes'),
     //     'icon' => 'fa fa-file-o',
     //     'view' => 'admin/LegalServices/other_services/project_notes',
     //     'position' => 50,
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('project_activity', [
+    // $CI->app_custom_tabs->add_iservice_tab('project_activity', [
     //     'name' => _l('project_activity'),
     //     'icon' => 'fa fa-exclamation',
     //     'view' => 'admin/LegalServices/other_services/project_activity',
@@ -147,7 +147,7 @@ function app_init_iservice_tabs()
 
     // if(isset($service_session_link)):
     //     if($service_session_link == 1):
-    //         $CI->app_tabs->add_iservice_tab('iserviceSession', [
+    //         $CI->app_custom_tabs->add_iservice_tab('iserviceSession', [
     //             'name'     => _l('SessionLog'),
     //             'icon'     => 'fa fa-gavel',
     //             'view'     => 'admin/LegalServices/services_sessions/services_sessions',
@@ -156,14 +156,14 @@ function app_init_iservice_tabs()
     //     endif;
     // endif;
 
-    // $CI->app_tabs->add_iservice_tab('Phase', [
+    // $CI->app_custom_tabs->add_iservice_tab('Phase', [
     //     'name'                      => _l('phases'),
     //     'icon'                      => 'fa fa-list-ol',
     //     'view'                      => 'admin/LegalServices/phases/tab',
     //     'position'                  => 65,
     // ]);
 
-    // $CI->app_tabs->add_iservice_tab('help_library', [
+    // $CI->app_custom_tabs->add_iservice_tab('help_library', [
     //     'name'                      => _l('help_library'),
     //     'icon'                      => 'fa fa-book',
     //     'view'                      => 'admin/help_library/tab',

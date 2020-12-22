@@ -118,7 +118,7 @@
                            </td>
                            <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
-                           <td><?php echo format_session_status_by_date($task['startdate'] . ' ' . $task['time']); ?></td>
+                           <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">
                               <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_added_attachments'); ?>">
                               <i class="fa fa-paperclip"></i>

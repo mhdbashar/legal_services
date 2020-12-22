@@ -11,11 +11,11 @@
 <hr />
 <?php render_yes_no_option('auto_stop_sessions_timers_on_new_timer','auto_stop_sessions_timers_on_new_timer'); ?>
 <hr />
-<?php render_yes_no_option('timer_started_change_status_in_progress','timer_started_change_status_in_progress_session'); ?>
+<?php render_yes_no_option('timer_started_change_status_in_progress_session','timer_started_change_status_in_progress_session'); ?>
 <hr />
 <?php render_yes_no_option('session_biillable_checked_on_creation','session_biillable_checked_on_creation'); ?>
 <hr />
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-6">
       <label for="round_off_session_timer_option" class="control-label"><?php echo _l('round_off_session_timer_option'); ?></label>
       <select name="settings[round_off_session_timer_option]" class="selectpicker" id="round_off_session_timer_option" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -52,8 +52,8 @@
   <div class="col-md-12 mtop5">
       Applied to the Timesheets overview report and when invoicing a task/project.
   </div>
-</div>
-<hr />
+</div> -->
+<!-- <hr />
 <div class="form-group">
   <label for="default_session_status" class="control-label"><?php echo _l('default_session_status'); ?></label>
   <select name="settings[default_session_status]" class="selectpicker" id="default_session_status" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -64,7 +64,7 @@
       </option>
     <?php } ?>
   </select>
-</div>
+</div> -->
 <hr />
 <div class="form-group">
   <label for="default_task_priority" class="control-label"><?php echo _l('default_task_priority'); ?></label>

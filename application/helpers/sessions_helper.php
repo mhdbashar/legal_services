@@ -66,9 +66,9 @@ function format_session_status($status, $text = false, $clean = false)
 
 function format_session_status_by_date($datetime, $text = false, $clean = false)
 {
-    $current_date = strtotime(date('Y-m-d H:i:s'));
+    $current_date = strtotime(date('Y-m-d'));
     $datetime = strtotime($datetime);
-    if ($datetime > $current_date) {
+    if ($datetime >= $current_date) {
         $style = 'border: 1px solid green;color:green;';
         $class = 'label';
         $status_name = _l('waiting');

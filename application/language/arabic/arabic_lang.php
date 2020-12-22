@@ -1,4 +1,5 @@
 <?php
+$lang['new_session_auto_follower_current_member'] = "إضافة منشئ المهام تلقائيًا كمتابع للجلسات عند إنشاء جلسة جديدة";
 $lang['web_to_lead'] = "نماذج إتصال خارجية";
 $lang['swap_pdf_info'] = "مبادلة معلومات الشركة / العميل (تفاصيل الشركة إلى الجانب الأيمن ، تفاصيل العميل إلى الجانب الأيسر)";
 $lang['ticket_form'] = "نموذج التذاكر";
@@ -194,7 +195,7 @@ $lang['email_templates_lowercase'] = "قوالب البريد";
 $lang['email_template_ticket_fields_heading'] = "التذاكر";
 $lang['email_template_invoices_fields_heading'] = "الفواتير";
 $lang['email_template_clients_fields_heading'] = "العملاء";
-$lang['template_name'] = "اسم القالب";
+$lang['template_name'] = "Template Title";
 $lang['template_subject'] = "الموضوع";
 $lang['template_fromname'] = "أسم المرسل";
 $lang['template_fromemail'] = "بريد المرسل";

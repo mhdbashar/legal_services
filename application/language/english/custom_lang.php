@@ -19,6 +19,8 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+$lang['previous'] = 'Previous';
+$lang['waiting'] = 'Waiting';
 $lang['active'] = 'Active';
 $lang['inactive'] = 'in-active';
 

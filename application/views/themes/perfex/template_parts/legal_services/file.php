@@ -32,6 +32,7 @@
                   <?php } ?>
                   <?php
                   if ($ServID == 1){
+                     $db_field = 'project_id';
                      $file_id = $file->project_id;
                      $path = CASE_ATTACHMENTS_FOLDER .$file->project_id.'/'.$file->file_name;
                      $url_text = 'cases';
@@ -39,6 +40,7 @@
                      $file_id = $file->oservice_id;
                      $path = OSERVICE_ATTACHMENTS_FOLDER .$file_id.'/'.$file->file_name;
                      $url_text = 'oservices';
+                     $db_field = 'oservice_id';
                   }
                      if(is_image($path)){ ?>
                   <img src="<?php echo base_url('uploads/'.$url_text.'/'.$file_id.'/'.$file->file_name); ?>" class="img img-responsive">

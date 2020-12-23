@@ -223,10 +223,10 @@ class Sessions_model extends App_Model
         if ($count == false) {
             if ($page > 1) {
                 $page--;
-                $position = ($page * get_option('tasks_kanban_limit'));
-                $this->db->limit(get_option('tasks_kanban_limit'), $position);
+                $position = ($page * get_option('sessions_kanban_limit'));
+                $this->db->limit(get_option('sessions_kanban_limit'), $position);
             } else {
-                $this->db->limit(get_option('tasks_kanban_limit'));
+                $this->db->limit(get_option('sessions_kanban_limit'));
             }
         }
 
@@ -717,7 +717,7 @@ class Sessions_model extends App_Model
             }
 
             if ($clientRequest == false) {
-                $new_task_auto_assign_creator = (get_option('new_task_auto_assign_current_member') == '1' ? true : false);
+                $new_task_auto_assign_creator = (get_option('new_session_auto_assign_current_member') == '1' ? true : false);
 
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
                     $new_task_auto_assign_creator = false;
@@ -729,7 +729,7 @@ class Sessions_model extends App_Model
                         'assigned_from' => get_staff_user_id(),
                     ]);
                 }
-                if (get_option('new_task_auto_follower_current_member') == '1') {
+                if (get_option('new_session_auto_follower_current_member') == '1') {
                     $this->db->insert(db_prefix() . 'task_followers', [
                         'taskid'  => $insert_id,
                         'staffid' => get_staff_user_id(),
@@ -1546,7 +1546,7 @@ class Sessions_model extends App_Model
         if ($comment->staffid == get_staff_user_id() || has_permission('sessions', '', 'edit') || $comment->contact_id == get_contact_user_id()) {
             $comment_added = strtotime($comment->dateadded);
             $minus_1_hour  = strtotime('-1 hours');
-            if (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour) || is_admin()) {
+            if (get_option('client_staff_add_edit_delete_session_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_session_comments_first_hour') == 1 && $comment_added >= $minus_1_hour) || is_admin()) {
                 if (total_rows(db_prefix() . 'files', ['task_comment_id' => $comment->id]) > 0) {
                     $data['content'] .= '[task_attachment]';
                 }
@@ -1590,7 +1590,7 @@ class Sessions_model extends App_Model
         if ($comment->staffid == get_staff_user_id() || has_permission('sessions', '', 'delete') || $comment->contact_id == get_contact_user_id() || $force === true) {
             $comment_added = strtotime($comment->dateadded);
             $minus_1_hour  = strtotime('-1 hours');
-            if (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour)
+            if (get_option('client_staff_add_edit_delete_session_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_session_comments_first_hour') == 1 && $comment_added >= $minus_1_hour)
                 || (is_admin() || $force === true)) {
                 $this->db->where('id', $id);
                 $this->db->delete(db_prefix() . 'task_comments');
@@ -2074,7 +2074,7 @@ class Sessions_model extends App_Model
 
             $_new_timer_id = $this->db->insert_id();
 
-            if (get_option('auto_stop_tasks_timers_on_new_timer') == 1) {
+            if (get_option('auto_stop_sessions_timers_on_new_timer') == 1) {
                 $this->db->where('id !=', $_new_timer_id);
                 $this->db->where('end_time IS NULL');
                 $this->db->where('task_id !=', '0');
@@ -2086,7 +2086,7 @@ class Sessions_model extends App_Model
             }
 
             if ($task_id != '0'
-                && get_option('timer_started_change_status_in_progress') == '1'
+                && get_option('timer_started_change_status_in_progress_session') == '1'
                 && total_rows(db_prefix() . 'tasks', ['id' => $task_id, 'status' => 1]) > 0) {
                 $this->mark_as(4, $task_id);
             }

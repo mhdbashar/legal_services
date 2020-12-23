@@ -603,9 +603,6 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'my_members_cases');
 
-            /*$this->db->where(array('rel_id' => $id, 'rel_type' => $slug, 'service_id' => $ServID));
-            $this->db->delete(db_prefix() . 'my_service_session');*/
-
             $this->db->where('case_id', $id);
             $this->db->delete(db_prefix() . 'case_movement');
 
@@ -621,9 +618,17 @@ class Cases_model extends App_Model
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'case_notes');
 
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', $slug);
+            $this->db->delete(db_prefix() . 'written_reports');
+
             $this->db->where('rel_sid', $id);
             $this->db->where('rel_stype', $slug);
             $this->db->delete(db_prefix() . 'milestones');
+
+            $this->db->where('rel_sid', $id);
+            $this->db->where('rel_stype', $slug);
+            $this->db->delete(db_prefix() . 'contracts');
 
             // Delete the custom field values
             $this->db->where('relid', $id);
@@ -646,6 +651,19 @@ class Cases_model extends App_Model
             }
             $this->db->where('project_id', $id);
             $this->db->delete(db_prefix() . 'casediscussions');
+
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', $slug);
+            $phases = $this->db->get(db_prefix() . 'my_phase_data')->result_array();
+            foreach ($phases as $phase) {
+                // Delete the phases customfieldsvalues
+                $this->db->where('relid', $phase['id']);
+                $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                $this->db->delete('customfieldsvalues');
+            }
+            $this->db->where('rel_id', $id);
+            $this->db->where('rel_type', $slug);
+            $this->db->delete(db_prefix() . 'my_phase_data');
 
             $files = $this->get_files($id);
             foreach ($files as $file) {
@@ -670,11 +688,6 @@ class Cases_model extends App_Model
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'invoices');
-
-            $this->db->where('project_id', $id);
-            $this->db->update(db_prefix() . 'contracts', [
-                'project_id' => null,
-            ]);
 
             $this->db->where(array('rel_sid' => $id, 'rel_stype' => $slug, 'deleted' => 1));
             $this->db->delete(db_prefix() . 'creditnotes');

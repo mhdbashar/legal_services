@@ -1966,40 +1966,56 @@ class Cron_model extends App_Model
 
                     if ($this->db->affected_rows() > 0) {
 
+                        // Delete the my_members_cases
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_members_cases');
 
-                        //$this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => 1));
-                        //$this->db->delete(db_prefix() . 'my_service_session');
-
+                        // Delete the case_movement
                         $this->db->where('case_id', $row->id);
                         $this->db->delete(db_prefix() . 'case_movement');
 
+                        // Delete the my_cases_movement_judges
                         $this->db->where('case_mov_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_cases_movement_judges');
 
+                        // Delete the my_members_movement_cases
                         $this->db->where('case_mov_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_members_movement_cases');
 
+                        // Delete the my_cases_judges
                         $this->db->where('case_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_cases_judges');
 
+                        // Delete the case_notes
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'case_notes');
 
+                        // Delete the written_reports
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'written_reports');
+
+                        // Delete the milestones
                         $this->db->where('rel_sid', $row->id);
                         $this->db->where('rel_stype', $slug);
                         $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the contracts
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'contracts');
 
                         // Delete the custom field values
                         $this->db->where('relid', $row->id);
                         $this->db->where('fieldto', $slug);
                         $this->db->delete('customfieldsvalues');
 
+                        // Delete the taggables
                         $this->db->where('rel_id', $row->id);
                         $this->db->where('rel_type', $slug);
                         $this->db->delete(db_prefix() . 'taggables');
 
+                        // Delete the case discussions
                         $this->db->where('project_id', $row->id);
                         $discussions = $this->db->get(db_prefix() . 'casediscussions')->result_array();
                         foreach ($discussions as $discussion) {
@@ -2007,17 +2023,34 @@ class Cron_model extends App_Model
                             foreach ($discussion_comments as $comment) {
                                 $this->case->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
                             }
+                            // Delete the case discussion comments
                             $this->db->where('discussion_id', $discussion['id']);
                             $this->db->delete(db_prefix() . 'casediscussioncomments');
                         }
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'casediscussions');
 
+                        // Delete the phases
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $phases = $this->db->get(db_prefix() . 'my_phase_data')->result_array();
+                        foreach ($phases as $phase) {
+                            // Delete the phases customfieldsvalues
+                            $this->db->where('relid', $phase['id']);
+                            $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                            $this->db->delete('customfieldsvalues');
+                        }
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'my_phase_data');
+
+                        // Delete the files
                         $files = $this->case->get_files($row->id);
                         foreach ($files as $file) {
                             $this->case->remove_file($file['id']);
                         }
 
+                        // Delete the tasks & sessions
                         $tasks = $this->case->get_tasks($row->id);
                         foreach ($tasks as $task) {
                             $this->tasks_model->delete_task($task['id'], false);
@@ -2025,33 +2058,43 @@ class Cron_model extends App_Model
                         $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'tasks');
 
+                        // Delete the case_settings
                         $this->db->where('case_id', $row->id);
                         $this->db->delete(db_prefix() . 'case_settings');
 
+                        // Delete the case_activity
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'case_activity');
 
+                        // Delete the expenses
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'expenses');
 
+                        // Delete the invoices
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'invoices');
 
+                        // Delete the creditnotes
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'creditnotes');
 
+                        // Delete the estimates
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'estimates');
 
+                        // Delete the tickets
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'tickets');
 
+                        // Delete the pinned_cases
                         $this->db->where('project_id', $row->id);
                         $this->db->delete(db_prefix() . 'pinned_cases');
 
+                        // Delete the irac_method
                         $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
                         $this->db->delete(db_prefix() . 'irac_method');
 
+                        // Delete the legal procedures lists
                         $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
                         $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
                         foreach ($lists as $list):
@@ -2084,28 +2127,40 @@ class Cron_model extends App_Model
 
                     if ($this->db->affected_rows() > 0) {
 
+                        // Delete the my_members_services
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'my_members_services');
 
-                        //$this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'service_id' => $row->service_id));
-                        //$this->db->delete(db_prefix() . 'my_service_session');
-
+                        // Delete the oservice_notes
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'oservice_notes');
 
+                        // Delete the written_reports
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'written_reports');
+
+                        // Delete the milestones
                         $this->db->where('rel_sid', $row->id);
                         $this->db->where('rel_stype', $slug);
                         $this->db->delete(db_prefix() . 'milestones');
+
+                        // Delete the contracts
+                        $this->db->where('rel_sid', $row->id);
+                        $this->db->where('rel_stype', $slug);
+                        $this->db->delete(db_prefix() . 'contracts');
 
                         // Delete the custom field values
                         $this->db->where('relid', $row->id);
                         $this->db->where('fieldto', $slug);
                         $this->db->delete('customfieldsvalues');
 
+                        // Delete the taggables
                         $this->db->where('rel_id', $row->id);
                         $this->db->where('rel_type', $slug);
                         $this->db->delete(db_prefix() . 'taggables');
 
+                        // Delete the oservice discussions
                         $this->db->where('oservice_id', $row->id);
                         $discussions = $this->db->get(db_prefix() . 'oservicediscussions')->result_array();
                         foreach ($discussions as $discussion) {
@@ -2113,46 +2168,74 @@ class Cron_model extends App_Model
                             foreach ($discussion_comments as $comment) {
                                 $this->other->delete_discussion_comment_attachment($comment['file_name'], $discussion['id']);
                             }
+                            // Delete the oservice discussion comments
                             $this->db->where('discussion_id', $discussion['id']);
                             $this->db->delete(db_prefix() . 'oservicediscussioncomments');
                         }
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'oservicediscussions');
 
+                        // Delete the phases
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $phases = $this->db->get(db_prefix() . 'my_phase_data')->result_array();
+                        foreach ($phases as $phase) {
+                            // Delete the phases customfieldsvalues
+                            $this->db->where('relid', $phase['id']);
+                            $this->db->where('fieldto', 'legal_phase_'.$phase['id'].'_'.$phase['rel_type']);
+                            $this->db->delete('customfieldsvalues');
+                        }
+                        $this->db->where('rel_id', $row->id);
+                        $this->db->where('rel_type', $slug);
+                        $this->db->delete(db_prefix() . 'my_phase_data');
+
+                        // Delete the files
                         $files = $this->other->get_files($row->id);
                         foreach ($files as $file) {
                             $this->other->remove_file($file['id']);
                         }
 
+                        // Delete the tasks & sessions
                         $tasks = $this->other->get_tasks($row->service_id, $row->id);
                         foreach ($tasks as $task) {
                             $this->tasks_model->delete_task($task['id'], false);
                         }
+                        $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug, 'deleted' => 1));
+                        $this->db->delete(db_prefix() . 'tasks');
 
+                        // Delete the oservice_settings
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'oservice_settings');
 
+                        // Delete the oservice_activity
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'oservice_activity');
 
+                        // Delete the expenses
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'expenses');
 
+                        // Delete the invoices
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'invoices');
 
+                        // Delete the creditnotes
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'creditnotes');
 
+                        // Delete the estimates
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'estimates');
 
+                        // Delete the tickets
                         $this->db->where(array('rel_sid' => $row->id, 'rel_stype' => $slug, 'deleted' => 1));
                         $this->db->delete(db_prefix() . 'tickets');
 
+                        // Delete the pinned_oservices
                         $this->db->where('oservice_id', $row->id);
                         $this->db->delete(db_prefix() . 'pinned_oservices');
 
+                        // Delete the legal_procedures_lists
                         $this->db->where(array('rel_id' => $row->id, 'rel_type' => $slug));
                         $lists = $this->db->get(db_prefix() .'legal_procedures_lists')->result_array();
                         foreach ($lists as $list):

@@ -182,13 +182,20 @@ function get_relation_data($type, $rel_id = '')
         $data = $CI->Cases_model->get();
     }else{
         $CI->load->model('LegalServices/LegalServicesModel' , 'legal');
-        $service_id = $CI->legal->get_service_id_by_slug($type);
+        if (strpos($type, 'session') !== false) {
+            $pure_slug = substr($type,8);
+            $where = ['service_session_link' => 1];
+        }else{
+            $pure_slug = $type;
+            $where = [];
+        }
+        $service_id = $CI->legal->get_service_id_by_slug($pure_slug);
         if($service_id == 1){
             $CI->load->model('LegalServices/Cases_model', 'case_serv');
             $data = $CI->case_serv->get($rel_id);
         }else{
             $CI->load->model('LegalServices/Other_services_model', 'other_serv');
-            $data = $CI->other_serv->get($service_id,$rel_id);
+            $data = $CI->other_serv->get($service_id, $rel_id, $where);
         }
     }
 

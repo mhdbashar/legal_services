@@ -8,10 +8,76 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @param  boolean $clean
  * @return string
  */
+
+function get_session_timer_round_off_options()
+{
+    $options = [
+        [
+            'name' => _l('task_timer_dont_round_off'),
+            'id'   => 0,
+        ],
+        [
+            'name' => _l('task_timer_round_up'),
+            'id'   => 1,
+        ],
+        [
+            'name' => _l('task_timer_round_down'),
+            'id'   => 2,
+        ],
+        [
+            'name' => _l('task_timer_round_nearest'),
+            'id'   => 3,
+        ],
+    ];
+
+    return hooks()->apply_filters('before_get_task_timer_round_off_options', $options);
+}
+
+function get_session_timer_round_off_times()
+{
+    return hooks()->apply_filters('before_get_task_timer_round_off_times', [5, 10, 15, 20, 25, 30, 35, 40, 45]);
+}
+
 function format_session_status($status, $text = false, $clean = false)
 {
     if (!is_array($status)) {
         $status = get_session_status_by_id($status);
+    }
+
+    $status_name = $status['name'];
+
+    $status_name = hooks()->apply_filters('session_status_name', $status_name, $status);
+
+    if ($clean == true) {
+        return $status_name;
+    }
+
+    $style = '';
+    $class = '';
+    if ($text == false) {
+        $style = 'border: 1px solid ' . $status['color'] . ';color:' . $status['color'] . ';';
+        $class = 'label';
+    } else {
+        $style = 'color:' . $status['color'] . ';';
+    }
+
+    return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
+}
+
+function format_session_status_by_date($datetime, $text = false, $clean = false)
+{
+    $current_date = strtotime(date('Y-m-d'));
+    $datetime = strtotime($datetime);
+    if ($datetime >= $current_date) {
+        $style = 'border: 1px solid green;color:green;';
+        $class = 'label';
+        $status_name = _l('waiting');
+        return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
+    }else{
+        $style = 'border: 1px solid red;color:red;';
+        $class = 'label';
+        $status_name = _l('previous');
+        return '<span class="' . $class . '" style="' . $style . '">' . $status_name . '</span>';
     }
 
     $status_name = $status['name'];
@@ -387,6 +453,21 @@ function init_relation_sessions_table($table_attributes = [])
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
         <label for="ts_rel_to_customer">' . _l('client') . '</label>
         </div>';
+
+        $services = $CI->db->get('my_basic_services')->result();
+        foreach ($services as $service):
+            if($service->is_module == 0):
+                echo '<div class="checkbox checkbox-inline mbot25">
+                      <input type="checkbox" value="'.$service->slug.'" id="ts_rel_to_'.$service->slug.'" name="tasks_related_to[]">
+                      <label for="ts_rel_to_'.$service->slug.'">' . $service->name . '</label>
+                      </div>';
+            else:
+                echo '<div class="checkbox checkbox-inline mbot25">
+                    <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
+                    <label for="ts_rel_to_project">' . $service->name . '</label>
+                    </div>';
+            endif;
+        endforeach;
 
         echo '</div>';
     }

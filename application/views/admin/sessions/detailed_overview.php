@@ -93,14 +93,15 @@
                      <thead>
                         <tr>
                            <th><?php echo _l('tasks_dt_name'); ?></th>
-                           <th><?php echo _l('tasks_dt_datestart'); ?></th>
-                           <th><?php echo _l('task_duedate'); ?></th>
+                           <th><?php echo _l('session_date'); ?></th>
+                           <th><?php echo _l('session_time'); ?></th>
+                           <!-- <th><?php echo _l('task_duedate'); ?></th> -->
                            <th><?php echo _l('session_status'); ?></th>
                            <th><?php echo _l('tasks_total_added_attachments'); ?></th>
                            <th><?php echo _l('tasks_total_comments'); ?></th>
-                           <th><?php echo _l('task_checklist_items'); ?></th>
+                           <!-- <th><?php echo _l('task_checklist_items'); ?></th>
                            <th><?php echo _l('staff_stats_total_logged_time'); ?></th>
-                           <th><?php echo _l('task_finished_on_time'); ?></th>
+ -->                           <!-- <th><?php echo _l('task_finished_on_time'); ?></th> -->
                            <th><?php echo _l('task_assigned'); ?></th>
                         </tr>
                      </thead>
@@ -116,8 +117,8 @@
                                  ?>
                            </td>
                            <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
-                           <td data-order="<?php echo $task['duedate']; ?>"><?php echo _d($task['duedate']); ?></td>
-                           <td><?php echo format_session_status($task['status']); ?></td>
+                           <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
+                           <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">
                               <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_added_attachments'); ?>">
                               <i class="fa fa-paperclip"></i>
@@ -142,7 +143,7 @@
                               ?>
                               </span>
                            </td>
-                           <td>
+                           <!-- <td>
                               <span class="label <?php if($task['total_checklist_items'] == '0'){ echo 'label-default-light'; } else if(($task['total_finished_checklist_items'] != $task['total_checklist_items'])){ echo 'label-danger';
                                  } else if($task['total_checklist_items'] == $task['total_finished_checklist_items']){echo 'label-success';} ?> pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_checklists_finished'); ?>">
                               <i class="fa fa-th-list"></i>
@@ -153,8 +154,8 @@
                               <span class="label label-default-light pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('staff_stats_total_logged_time'); ?>">
                               <i class="fa fa-clock-o"></i> <?php echo seconds_to_time_format($task['total_logged_time']); ?>
                               </span>
-                           </td>
-                           <?php
+                           </td> -->
+                           <!-- <?php
                               $finished_on_time_class = '';
                               $finishedOrder = 0;
                               if(date('Y-m-d',strtotime($task['datefinished'])) > $task['duedate'] && $task['status'] == Sessions_model::STATUS_COMPLETE && is_date($task['duedate'])){
@@ -172,7 +173,7 @@
                               <span class="<?php echo $finished_on_time_class; ?>">
                               <?php echo $finished_showcase; ?>
                               </span>
-                           </td>
+                           </td> -->
                            <td>
                               <?php
                                  echo format_members_by_ids_and_names_session($task['assignees_ids'],$task['assignees'], false);

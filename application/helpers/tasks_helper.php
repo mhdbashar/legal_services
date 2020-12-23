@@ -147,6 +147,7 @@ function task_priority_color($id)
     // Not exists?
     return '#333';
 }
+
 /**
  * Format html task assignees
  * This function is used to save up on query
@@ -234,6 +235,7 @@ function task_rel_link($rel_id, $rel_type)
 
     return $link;
 }
+
 /**
  * Prepares task array gantt data to be used in the gantt chart
  * @param  array $task task array
@@ -281,6 +283,7 @@ function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
 
     return $data;
 }
+
 /**
  * Common function used to select task relation name
  * @return string
@@ -301,7 +304,6 @@ function tasks_rel_name_select_query()
         ELSE NULL
         END)';
 }
-
 
 /**
  * Tasks html table used all over the application for relation tasks
@@ -401,14 +403,24 @@ function init_relation_tasks_table($table_attributes = [])
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
         <label for="ts_rel_to_customer">' . _l('client') . '</label>
-        </div>
+        </div>';
 
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
-        <label for="ts_rel_to_project">' . _l('projects') . '</label>
-        </div>
+        $services = $CI->db->get('my_basic_services')->result();
+        foreach ($services as $service):
+            if($service->is_module == 0):
+                echo '<div class="checkbox checkbox-inline mbot25">
+                      <input type="checkbox" value="'.$service->slug.'" id="ts_rel_to_'.$service->slug.'" name="tasks_related_to[]">
+                      <label for="ts_rel_to_'.$service->slug.'">' . $service->name . '</label>
+                      </div>';
+            else:
+                echo '<div class="checkbox checkbox-inline mbot25">
+                    <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
+                    <label for="ts_rel_to_project">' . $service->name . '</label>
+                    </div>';
+            endif;
+        endforeach;
 
-        <div class="checkbox checkbox-inline mbot25">
+        echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" value="invoice" id="ts_rel_to_invoice" name="tasks_related_to[]">
         <label for="ts_rel_to_invoice">' . _l('invoices') . '</label>
         </div>
@@ -464,7 +476,8 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
     $statuses      = $CI->tasks_model->get_statuses();
     foreach ($statuses as $status) {
         $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
-        $tasks_where .= ' AND is_session= 0';
+        $tasks_where .= ' AND is_session = 0';
+        $tasks_where .= ' AND deleted = 0';
         if (!has_permission('tasks', '', 'view')) {
             $tasks_where .= ' ' . get_tasks_where_string();
         }
@@ -473,7 +486,8 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
             $tasks_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
             $tasks_my_where .= ' AND rel_id=' . $CI->db->escape_str($rel_id) . ' AND rel_type="' . $CI->db->escape_str($rel_type) . '"';
         } else {
-            $sqlProjectTasksWhere = ' AND is_session= 0';
+            $sqlProjectTasksWhere = ' AND is_session = 0';
+            $sqlProjectTasksWhere = ' AND deleted = 0';
             $sqlProjectTasksWhere .= ' AND CASE
             WHEN rel_type="project" AND rel_id IN (SELECT project_id FROM ' . db_prefix() . 'project_settings WHERE project_id=rel_id AND name="hide_tasks_on_main_tasks_table" AND value=1)
             THEN rel_type != "project"
@@ -494,7 +508,6 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
 
     return $tasks_summary;
 }
-
 
 function get_sql_calc_task_logged_time($task_id)
 {

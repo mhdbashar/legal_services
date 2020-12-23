@@ -388,6 +388,21 @@ function init_relation_sessions_table($table_attributes = [])
         <label for="ts_rel_to_customer">' . _l('client') . '</label>
         </div>';
 
+        $services = $CI->db->get('my_basic_services')->result();
+        foreach ($services as $service):
+            if($service->is_module == 0):
+                echo '<div class="checkbox checkbox-inline mbot25">
+                      <input type="checkbox" value="'.$service->slug.'" id="ts_rel_to_'.$service->slug.'" name="tasks_related_to[]">
+                      <label for="ts_rel_to_'.$service->slug.'">' . $service->name . '</label>
+                      </div>';
+            else:
+                echo '<div class="checkbox checkbox-inline mbot25">
+                    <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
+                    <label for="ts_rel_to_project">' . $service->name . '</label>
+                    </div>';
+            endif;
+        endforeach;
+
         echo '</div>';
     }
     echo "<div class='clearfix'></div>";

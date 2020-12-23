@@ -3,9 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/relation_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/relation_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/task.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/task.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/sessions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/sessions_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/tasks_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/tasks_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Cron_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_tasks_relations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_tasks_relations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/sessions_relations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/sessions_relations.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/10/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/12/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/7/index.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,7 +404,8 @@
       <workItem from="1607943600849" duration="1629000" />
       <workItem from="1607946566093" duration="48000" />
       <workItem from="1607964338555" duration="81000" />
-      <workItem from="1608583947615" duration="5436000" />
+      <workItem from="1608583947615" duration="5767000" />
+      <workItem from="1608669805169" duration="11000000" />
     </task>
     <servers />
   </component>

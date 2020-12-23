@@ -315,7 +315,7 @@ class Session_discussions_model extends App_Model
     public function get_tasks($id, $where = [], $apply_restrictions = false, $count = false)
     {
         $has_permission                    = has_permission('sessions', '', 'view');
-        $show_all_tasks_for_project_member = get_option('show_all_tasks_for_project_member');
+        $show_all_tasks_for_project_member = get_option('show_all_sessions_for_project_member');
 
         if (is_client_logged_in()) {
             $this->db->where('visible_to_client', 1);
@@ -392,10 +392,10 @@ class Session_discussions_model extends App_Model
         if ($count == false) {
             if ($page > 1) {
                 $page--;
-                $position = ($page * get_option('tasks_kanban_limit'));
-                $this->db->limit(get_option('tasks_kanban_limit'), $position);
+                $position = ($page * get_option('sessions_kanban_limit'));
+                $this->db->limit(get_option('sessions_kanban_limit'), $position);
             } else {
-                $this->db->limit(get_option('tasks_kanban_limit'));
+                $this->db->limit(get_option('sessions_kanban_limit'));
             }
         }
 

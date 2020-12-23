@@ -24,10 +24,9 @@ $sTable       = db_prefix() . 'tasks';
 $where = [];
 include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
-array_push($where, 'AND is_session = 1');
-
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
+    array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
     $tasks_related_to = explode(',', $this->ci->input->post('tasks_related_to'));
@@ -51,6 +50,18 @@ if (!$this->ci->input->post('tasks_related_to')) {
             $rel_to_query .= '(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $this->ci->db->escape_str($rel_id) . ')';
         } elseif ($rel_to == 'project') {
             $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $this->ci->db->escape_str($rel_id) . ')';
+        } else{
+
+            $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
+            $ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
+
+            if($ServID == 1){
+                $table_rel = 'my_cases';
+            }else{
+                $table_rel = 'my_other_services';
+            }
+
+            $rel_to_query .= '(rel_id IN (SELECT id FROM ' . db_prefix(). $table_rel. ' WHERE clientid=' . $rel_id . ')';
         }
 
         $rel_to_query .= ' AND rel_type="' . $this->ci->db->escape_str($rel_to) . '")';
@@ -62,6 +73,8 @@ if (!$this->ci->input->post('tasks_related_to')) {
     $rel_to_query .= ')';
     array_push($where, $rel_to_query);
 }
+
+array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 
 $join = [];
 
@@ -98,7 +111,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';
 
-    $row[] = '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['id'] . '</a>';
+    $row[] = '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['id'] . '</a>';
 
     $outputName = '';
 
@@ -106,7 +119,7 @@ foreach ($rResult as $aRow) {
         $outputName .= '<span class="pull-left text-danger"><i class="fa fa-clock-o fa-fw"></i></span>';
     }
 
-    $outputName .= '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
+    $outputName .= '<a href="' . admin_url('sessions/view/' . $aRow['id']) . '" class="display-block main-tasks-table-href-name" onclick="init_session_modal(' . $aRow['id'] . '); return false;">' . $aRow['task_name'] . '</a>';
 
     if ($aRow['recurring'] == 1) {
         $outputName .= '<span class="label label-primary inline-block mtop4"> ' . _l('recurring_task') . '</span>';
@@ -139,7 +152,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionEdit) {
-        $outputName .= '<span class="text-dark"> | </span><a href="#" onclick="edit_task(' . $aRow['id'] . '); return false">' . _l('edit') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="#" onclick="edit_session(' . $aRow['id'] . '); return false">' . _l('edit') . '</a>';
     }
 
     if ($hasPermissionDelete) {
@@ -175,7 +188,7 @@ foreach ($rResult as $aRow) {
         foreach ($task_statuses as $taskChangeStatus) {
             if ($aRow['status'] != $taskChangeStatus['id']) {
                 $outputStatus .= '<li>
-                  <a href="#" onclick="task_mark_as(' . $taskChangeStatus['id'] . ',' . $aRow['id'] . '); return false;">
+                  <a href="#" onclick="session_mark_as(' . $taskChangeStatus['id'] . ',' . $aRow['id'] . '); return false;">
                      ' . _l('task_mark_as', $taskChangeStatus['name']) . '
                   </a>
                </li>';
@@ -208,7 +221,7 @@ foreach ($rResult as $aRow) {
         foreach ($tasksPriorities as $priority) {
             if ($aRow['priority'] != $priority['id']) {
                 $outputPriority .= '<li>
-                  <a href="#" onclick="task_change_priority(' . $priority['id'] . ',' . $aRow['id'] . '); return false;">
+                  <a href="#" onclick="session_change_priority(' . $priority['id'] . ',' . $aRow['id'] . '); return false;">
                      ' . $priority['name'] . '
                   </a>
                </li>';

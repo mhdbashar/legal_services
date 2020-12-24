@@ -12,10 +12,10 @@ $aColumns = [
     db_prefix() . 'tasks.name as task_name',
     'status',
     'startdate',
-    'duedate',
+   // 'duedate',
      get_sql_select_task_asignees_full_names() . ' as assignees',
-    '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'tasks.id and rel_type="task" ORDER by tag_order ASC) as tags',
-    'priority',
+    //'(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'tasks.id and rel_type="task" ORDER by tag_order ASC) as tags',
+    //'priority',
 ];
 
 $sIndexColumn = 'id';
@@ -26,7 +26,6 @@ include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
-    array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
     $tasks_related_to = explode(',', $this->ci->input->post('tasks_related_to'));
@@ -53,7 +52,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
         } else{
 
             $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-            $ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
+            $ServID = $this->ci->legal->get_service_id_by_slug($rel_to);
 
             if($ServID == 1){
                 $table_rel = 'my_cases';
@@ -74,7 +73,9 @@ if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, $rel_to_query);
 }
 
+array_push($where, 'AND status IN (1, 4, 3, 2, 5)');
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
+array_push($where, 'AND deleted = 0');
 
 $join = [];
 
@@ -85,6 +86,8 @@ foreach ($custom_fields as $key => $field) {
     array_push($customFieldsColumns, $selectAs);
     array_push($aColumns, '(SELECT value FROM ' . db_prefix() . 'customfieldsvalues WHERE ' . db_prefix() . 'customfieldsvalues.relid=' . db_prefix() . 'tasks.id AND ' . db_prefix() . 'customfieldsvalues.fieldid=' . $field['id'] . ' AND ' . db_prefix() . 'customfieldsvalues.fieldto="' . $field['fieldto'] . '" LIMIT 1) as ' . $selectAs);
 }
+
+array_push($join, 'LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = '.db_prefix() . 'tasks.id');
 
 $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
@@ -101,6 +104,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
      '(SELECT MAX(id) FROM ' . db_prefix() . 'taskstimers WHERE task_id=' . db_prefix() . 'tasks.id and staff_id=' . get_staff_user_id() . ' and end_time IS NULL) as not_finished_timer_by_current_staff',
        '(SELECT staffid FROM ' . db_prefix() . 'task_assigned WHERE taskid=' . db_prefix() . 'tasks.id AND staffid=' . get_staff_user_id() . ') as current_user_is_assigned',
         '(SELECT CASE WHEN addedfrom=' . get_staff_user_id() . ' AND is_added_from_contact=0 THEN 1 ELSE 0 END) as current_user_is_creator',
+    db_prefix() . 'my_session_info.time'
 ]);
 
 $output  = $result['output'];
@@ -161,13 +165,18 @@ foreach ($rResult as $aRow) {
     $outputName .= '</div>';
 
     $row[]           = $outputName;
-    $canChangeStatus = ($aRow['current_user_is_creator'] != '0' || $aRow['current_user_is_assigned'] || has_permission('sessions', '', 'edit'));
+
+    $row[] = _d($aRow['startdate']);
+
+    $row[] = $aRow['time'];
+
+    /*$canChangeStatus = ($aRow['current_user_is_creator'] != '0' || $aRow['current_user_is_assigned'] || has_permission('sessions', '', 'edit'));
     $status          = get_task_status_by_id($aRow['status']);
     $outputStatus    = '';
 
     $outputStatus .= '<span class="inline-block label" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '" task-status-table="' . $aRow['status'] . '">';
 
-    $outputStatus .= $status['name'];
+    $outputStatus .= $status['name'];*/
 
     /*  if ($aRow['status'] == Sessions_model::STATUS_COMPLETE && $canChangeStatus) {
        $outputStatus .= '<a href="#" onclick="unmark_complete(' . $aRow['id'] . '); return false;"><i class="fa fa-check task-icon task-finished-icon" data-toggle="tooltip" title="' . _l('task_unmark_as_complete') . '"></i></a>';
@@ -178,7 +187,7 @@ foreach ($rResult as $aRow) {
     }
 */
 
-    if ($canChangeStatus) {
+    /*if ($canChangeStatus) {
         $outputStatus .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
         $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="tableTaskStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
         $outputStatus .= '<span data-toggle="tooltip" title="' . _l('ticket_single_change_status') . '"><i class="fa fa-caret-down" aria-hidden="true"></i></span>';
@@ -200,16 +209,16 @@ foreach ($rResult as $aRow) {
 
     $outputStatus .= '</span>';
 
-    $row[] = $outputStatus;
-    $row[] = _d($aRow['startdate']);
+    $row[] = $outputStatus;*/
+    $row[] = format_session_status_by_date($aRow['startdate']);
 
-    $row[] = _d($aRow['duedate']);
+    //$row[] = _d($aRow['duedate']);
 
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
 
-    $row[] = render_tags($aRow['tags']);
+    //$row[] = render_tags($aRow['tags']);
 
-    $outputPriority = '<span style="color:' . task_priority_color($aRow['priority']) . ';" class="inline-block">' . task_priority($aRow['priority']);
+    /*$outputPriority = '<span style="color:' . task_priority_color($aRow['priority']) . ';" class="inline-block">' . task_priority($aRow['priority']);
 
     if (has_permission('sessions', '', 'edit') && $aRow['status'] != Sessions_model::STATUS_COMPLETE) {
         $outputPriority .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
@@ -232,7 +241,7 @@ foreach ($rResult as $aRow) {
     }
 
     $outputPriority .= '</span>';
-    $row[] = $outputPriority;
+    $row[] = $outputPriority;*/
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
@@ -242,9 +251,9 @@ foreach ($rResult as $aRow) {
 
     $row['DT_RowClass'] = 'has-row-options';
 
-    if ((!empty($aRow['duedate']) && $aRow['duedate'] < date('Y-m-d')) && $aRow['status'] != Sessions_model::STATUS_COMPLETE) {
-        $row['DT_RowClass'] .= ' text-danger';
-    }
+//    if ((!empty($aRow['duedate']) && $aRow['duedate'] < date('Y-m-d')) && $aRow['status'] != Sessions_model::STATUS_COMPLETE) {
+//        $row['DT_RowClass'] .= ' text-danger';
+//    }
 
     $row = hooks()->apply_filters('sessions_related_table_row_data', $row, $aRow);
 

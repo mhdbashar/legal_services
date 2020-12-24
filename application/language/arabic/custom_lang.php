@@ -1065,3 +1065,5 @@ $lang['auto_close_edit_written_reports_after'] = "إغلاق التحرير عل
 $lang['written_reports_cant_edit'] = "لم يعد يمكنك التحرير على هذا التقرير!";
 $lang['editable_until'] = "التعديل متاح حتى";
 $lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";
+
+$lang['session_no_assignees'] = "ليس هناك شخص مسؤول عن هذه الجلسة";

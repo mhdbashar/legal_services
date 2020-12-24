@@ -26,7 +26,6 @@ include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     array_push($where, 'AND rel_id="' . $this->ci->db->escape_str($rel_id) . '" AND rel_type="' . $this->ci->db->escape_str($rel_type) . '"');
-    array_push($where, 'AND deleted = 0');
 } else {
     // Used in the customer profile filters
     $tasks_related_to = explode(',', $this->ci->input->post('tasks_related_to'));
@@ -53,7 +52,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
         } else{
 
             $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
-            $ServID = $this->ci->legal->get_service_id_by_slug($rel_type);
+            $ServID = $this->ci->legal->get_service_id_by_slug($rel_to);
 
             if($ServID == 1){
                 $table_rel = 'my_cases';
@@ -75,6 +74,7 @@ if (!$this->ci->input->post('tasks_related_to')) {
 }
 
 array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 0');
+array_push($where, 'AND deleted = 0');
 
 $join = [];
 

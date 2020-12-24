@@ -879,7 +879,7 @@
                </div>';
                }
                if ($_assignees == '') {
-               $_assignees = '<div class="text-danger display-block">'._l('task_no_assignees').'</div>';
+               $_assignees = '<div class="text-danger display-block">'._l('session_no_assignees').'</div>';
                }
                echo $_assignees;
                ?>

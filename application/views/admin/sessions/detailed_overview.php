@@ -95,13 +95,13 @@
                            <th><?php echo _l('tasks_dt_name'); ?></th>
                            <th><?php echo _l('session_date'); ?></th>
                            <th><?php echo _l('session_time'); ?></th>
-                           <!-- <th><?php echo _l('task_duedate'); ?></th> -->
+                           <!-- <th><?php //echo _l('task_duedate'); ?></th> -->
                            <th><?php echo _l('session_status'); ?></th>
                            <th><?php echo _l('tasks_total_added_attachments'); ?></th>
                            <th><?php echo _l('tasks_total_comments'); ?></th>
-                           <!-- <th><?php echo _l('task_checklist_items'); ?></th>
+                           <!-- <th><?php //echo _l('task_checklist_items'); ?></th>
                            <th><?php echo _l('staff_stats_total_logged_time'); ?></th>
- -->                           <!-- <th><?php echo _l('task_finished_on_time'); ?></th> -->
+ -->                           <!-- <th><?php //echo _l('task_finished_on_time'); ?></th> -->
                            <th><?php echo _l('task_assigned'); ?></th>
                         </tr>
                      </thead>
@@ -144,15 +144,15 @@
                               </span>
                            </td>
                            <!-- <td>
-                              <span class="label <?php if($task['total_checklist_items'] == '0'){ echo 'label-default-light'; } else if(($task['total_finished_checklist_items'] != $task['total_checklist_items'])){ echo 'label-danger';
-                                 } else if($task['total_checklist_items'] == $task['total_finished_checklist_items']){echo 'label-success';} ?> pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_checklists_finished'); ?>">
+                              <span class="label <?php //if($task['total_checklist_items'] == '0'){ echo 'label-default-light'; } else if(($task['total_finished_checklist_items'] != $task['total_checklist_items'])){ echo 'label-danger';
+                                 //} else if($task['total_checklist_items'] == $task['total_finished_checklist_items']){echo 'label-success';} ?> pull-left mright5" data-toggle="tooltip" data-title="<?php //echo _l('tasks_total_checklists_finished'); ?>">
                               <i class="fa fa-th-list"></i>
-                              <?php echo $task['total_finished_checklist_items']; ?>/<?php echo $task['total_checklist_items']; ?>
+                              <?php //echo $task['total_finished_checklist_items']; ?>/<?php //echo $task['total_checklist_items']; ?>
                               </span>
                            </td>
-                           <td data-order="<?php echo $task['total_logged_time']; ?>">
-                              <span class="label label-default-light pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('staff_stats_total_logged_time'); ?>">
-                              <i class="fa fa-clock-o"></i> <?php echo seconds_to_time_format($task['total_logged_time']); ?>
+                           <td data-order="<?php //echo $task['total_logged_time']; ?>">
+                              <span class="label label-default-light pull-left mright5" data-toggle="tooltip" data-title="<?php //echo _l('staff_stats_total_logged_time'); ?>">
+                              <i class="fa fa-clock-o"></i> <?php //echo seconds_to_time_format($task['total_logged_time']); ?>
                               </span>
                            </td> -->
                            <!-- <?php
@@ -169,9 +169,9 @@
                                $finished_showcase = '';
                               }
                               ?>
-                           <td data-order="<?php echo $finishedOrder; ?>">
-                              <span class="<?php echo $finished_on_time_class; ?>">
-                              <?php echo $finished_showcase; ?>
+                           <td data-order="<?php //echo $finishedOrder; ?>">
+                              <span class="<?php //echo $finished_on_time_class; ?>">
+                              <?php //echo $finished_showcase; ?>
                               </span>
                            </td> -->
                            <td>

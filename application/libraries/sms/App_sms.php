@@ -130,6 +130,27 @@ class App_sms
         return false;
     }
 
+    public function g_send($phone, $message)
+    {
+        if ($phone == '') {
+            return false;
+        }
+
+        $gateway = $this->get_active_gateway();
+
+        if ($gateway !== false) {
+            $className = 'sms_' . $gateway['id'];
+            
+                $message = clear_textarea_breaks($message);
+
+                $retval = $this->ci->{$className}->send($phone, $message);
+
+                return $retval;
+        }
+
+        return false;        
+    }
+
     /**
      * Parse sms gateway merge fields
      * We will use the email templates merge fields function because they are the same

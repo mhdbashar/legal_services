@@ -33,7 +33,7 @@
     ?>
 </div>
 
-<div class="btn-group pull-right mleft4 mbot25 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
+<div class="btn-group pull-right mleft4 mbot25 btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>" style="display: none">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
        <i class="fa fa-filter" aria-hidden="true"></i>
    </button>
@@ -45,12 +45,13 @@
     </li>
     <li class="divider"></li>
     <?php foreach($task_statuses as $status){ ?>
-    <li class="clear-all-prevent<?php if($status['filter_default'] == true){echo ' active';} ?>">
+    <li class="clear-all-prevent active">
         <a href="#" data-cview="task_status_<?php echo $status['id']; ?>" onclick="dt_custom_view('task_status_<?php echo $status['id']; ?>','<?php echo $view_table_name; ?>','task_status_<?php echo $status['id']; ?>'); return false;">
             <?php echo $status['name']; ?>
         </a>
     </li>
     <?php } ?>
+  <?php /* ?>
     <li class="divider"></li>
     <li class="filter-group" data-filter-group="group-date">
         <a href="#" data-cview="today_tasks" onclick="dt_custom_view('today_tasks','<?php echo $view_table_name; ?>','today_tasks'); return false;">
@@ -122,11 +123,12 @@
             <a href="#" data-cview="task_assigned_<?php echo $as['assigneeid']; ?>" onclick="dt_custom_view(<?php echo $as['assigneeid']; ?>,'<?php echo $view_table_name; ?>','task_assigned_<?php echo $as['assigneeid']; ?>'); return false;"><?php echo $as['full_name']; ?></a>
         </li>
         <?php } ?>
+
     </ul>
 </li>
 <?php } ?>
 
 <?php } ?>
-
+      <?php */  ?>
 </ul>
 </div>

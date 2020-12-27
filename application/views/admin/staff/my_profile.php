@@ -16,7 +16,7 @@
 					   
 					   
 					   <!-- Shababsy.com Changed this div -->
-					   <div class="radio radio-primary">
+					   <!-- <div class="radio radio-primary">
                         <input type="radio" value="0" name="two_factor_auth_enabled" id="two_factor_no_auth_enabled"<?php if(isset($member) && $member->two_factor_auth_enabled == 0){echo ' checked';} ?>>
 						<label for="two_factor_no_auth_enabled"><?php echo _l('disable_two_factor_authentication'); ?></label>
 						<br>
@@ -29,7 +29,7 @@
                         <?php echo _l('enable_two_factor_sms_authentication'); ?></label>
                      </div>
                      <hr />
-                     <?php } ?>
+ -->                     <?php } ?>
 					 
 					   <!--
                        <div class="checkbox checkbox-primary">
@@ -190,6 +190,12 @@
             </label>
         </div>
         <?php } ?>
+        <div class="radio radio-primary">
+          <input type="radio" value="3" name="two_factor_auth" class="custom-control-input" id="two_factor_sms_auth_enabled"
+          <?php echo ($current_user->two_factor_auth_enabled == 3) ? 'checked' : '' ?>>
+                        <label for="two_factor_auth_enabled"><i class="fa fa-question-circle" data-placement="right" data-toggle="tooltip" data-title="<?php echo _l('two_factor_sms_authentication_info'); ?>"></i>
+                        <?php echo _l('enable_two_factor_sms_authentication'); ?></label>
+        </div>
         <div class="radio radio-primary">
             <input type="radio" id="google_two_factor_auth_enabled" name="two_factor_auth" value="google" class="custom-control-input"<?php echo ($current_user->two_factor_auth_enabled == 2) ? 'checked' : '' ?>>
             <label class="custom-control-label" for="google_two_factor_auth_enabled"><?php echo _l('enable_google_two_factor_authentication'); ?></label>

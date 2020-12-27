@@ -8,49 +8,49 @@ class Credit_note_merge_fields extends App_merge_fields
     {
         return  [
                 [
-                    'name'      => 'Credit Note Number',
+                    'name'      => _l('credit_note_number'),
                     'key'       => '{credit_note_number}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Date',
+                    'name'      => _l('date'),
                     'key'       => '{credit_note_date}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Status',
+                    'name'      => _l('status'),
                     'key'       => '{credit_note_status}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Total',
+                    'name'      => _l('total'),
                     'key'       => '{credit_note_total}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Subtotal',
+                    'name'      => _l('subtotal'),
                     'key'       => '{credit_note_subtotal}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Credits Used',
+                    'name'      => _l('credits_used'),
                     'key'       => '{credit_note_credits_used}',
                     'available' => [
                         'credit_note',
                     ],
                 ],
                 [
-                    'name'      => 'Credits Remaining',
+                    'name'      => _l('credits_remaining'),
                     'key'       => '{credit_note_credits_remaining}',
                     'available' => [
                         'credit_note',

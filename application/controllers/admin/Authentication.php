@@ -50,7 +50,22 @@ class Authentication extends App_Controller
                 if (is_array($data) && isset($data['memberinactive'])) {
                     set_alert('danger', _l('admin_auth_inactive_account'));
                     redirect(admin_url('authentication'));
-                } elseif (is_array($data) && isset($data['two_factor_auth'])) {
+                } elseif (is_array($data) && isset($data['two_factor_auth']) && $data['two_factor_auth']>0) {
+                    if( $data['two_factor_auth'] == 3) {
+                        if(!$data['user']->phonenumber){
+                            set_alert('danger', _l('two_factor_auth_phonenumber_code_not_found'));
+                            redirect(admin_url('authentication'));
+                        }else{
+                            $sent = $this->Authentication_model->send_verification_sms($data['user']);
+                            
+                            if($sent!='1'){
+                                set_alert('danger', _l('two_factor_auth_phonenumber_code_not_sent', $sent));
+                                redirect(admin_url('authentication'));
+                            }else {
+                                set_alert('success', _l('two_factor_auth_phonenumber_code_sent_successfully', $email));
+                            }
+                        }
+                    }
                     if ($data['user']->two_factor_auth_enabled == 1) {
                         $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid);
                         $sent = send_mail_template('staff_two_factor_auth_key', $data['user']);

@@ -8,7 +8,7 @@ class Event_merge_fields extends App_merge_fields
     {
         return [
                 [
-                    'name'      => 'Event Title',
+                    'name'      => _l('event_title'),
                     'key'       => '{event_title}',
                     'available' => [
                     ],
@@ -17,7 +17,7 @@ class Event_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Event Description',
+                    'name'      => _l('event_description'),
                     'key'       => '{event_description}',
                     'available' => [
                     ],
@@ -26,7 +26,7 @@ class Event_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Start Date',
+                    'name'      => _l('start_date'),
                     'key'       => '{event_start_date}',
                     'available' => [
                     ],
@@ -35,7 +35,7 @@ class Event_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'End Date',
+                    'name'      => _l('end_date'),
                     'key'       => '{event_end_date}',
                     'available' => [
                     ],
@@ -44,7 +44,7 @@ class Event_merge_fields extends App_merge_fields
                     ],
                 ],
                 [
-                    'name'      => 'Event Link',
+                    'name'      => _l('event_link'),
                     'key'       => '{event_link}',
                     'available' => [
                     ],

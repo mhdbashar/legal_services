@@ -440,6 +440,9 @@ class Staff extends AdminController
                 } elseif ($two_factor_auth_mode == 'email') {
                     $this->db->where('staffid', $id);
                     $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 1]);
+                } elseif ($two_factor_auth_mode == 3) {
+                    $this->db->where('staffid', $id);
+                    $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 3]);
                 } else {
                     $this->db->where('staffid', $id);
                     $success = $this->db->update(db_prefix() . 'staff', ['two_factor_auth_enabled' => 0]);

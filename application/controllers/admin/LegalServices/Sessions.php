@@ -201,6 +201,11 @@ class Sessions extends AdminController
             $month = '';
         }
 
+        $day = ($this->input->post('day') ? $this->input->post('day') : date('d'));
+        if ($this->input->post() && $this->input->post('day') == '') {
+            $day = '';
+        }
+
         $status = $this->input->post('status');
 
         $fetch_month_from = 'startdate';
@@ -259,6 +264,9 @@ class Sessions extends AdminController
 
             $this->db->select($sqlTasksSelect);
 
+            if($day != ''){
+                $this->db->where('DAY(' . $fetch_month_from . ')', $day);
+            }
             $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
             $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
 
@@ -291,7 +299,12 @@ class Sessions extends AdminController
             }
 
             if ($status) {
-                $this->db->where('status', $status);
+                //$this->db->where('status', $status);
+                if($status === 'previous'):
+                    $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+                else:
+                    $this->db->where('DATE_FORMAT(now(),"%Y-%m-%d") <= STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")');
+                endif;
             }
 
             $this->db->where('is_session', 1);
@@ -300,11 +313,9 @@ class Sessions extends AdminController
             array_push($overview, $m);
 
             $overview[$m] = $this->db->get(db_prefix() . 'tasks')->result_array();
+
         }
-
         unset($overview[0]);
-
-        // echo '<pre>'; print_r($overview); exit;
 
         $overview = [
             'staff_id' => $staff_id,
@@ -638,7 +649,6 @@ class Sessions extends AdminController
         }
 
         $task = $this->sessions_model->get($taskid, $tasks_where);
-
         if (!$task) {
             header('HTTP/1.0 404 Not Found');
             echo 'Session not found';
@@ -1672,7 +1682,7 @@ class Sessions extends AdminController
 
     public function update_session_court_decision($id)
     {
-        if (has_permission('tasks', '', 'edit')) {
+        if (has_permission('sessions', '', 'edit')) {
             $this->db->where('task_id', $id);
             $this->db->update(db_prefix() . 'my_session_info', [
                 'court_decision' => $this->input->post('court_decision', false),
@@ -1682,7 +1692,7 @@ class Sessions extends AdminController
 
     public function update_session_information($id)
     {
-        if (has_permission('tasks', '', 'edit')) {
+        if (has_permission('sessions', '', 'edit')) {
             $this->db->where('task_id', $id);
             $this->db->update(db_prefix() . 'my_session_info', [
                 'session_information' => $this->input->post('session_information', false),

@@ -89,6 +89,8 @@ class Sessions_model extends App_Model
     {
         $is_admin = is_admin();
         $this->db->where( array('id' => $id, 'deleted' => 0, 'is_session' => $is_session));
+        $this->db->join(db_prefix() . 'my_session_info', 'my_session_info.task_id = '.db_prefix() . 'tasks.id', 'left');
+        $this->db->where(db_prefix() . 'tasks.id', $id);
         $this->db->where($where);
         $task = $this->db->get(db_prefix() . 'tasks')->row();
         if ($task) {

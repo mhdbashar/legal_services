@@ -1067,3 +1067,5 @@ $lang['editable_until'] = "التعديل متاح حتى";
 $lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";
 
 $lang['session_no_assignees'] = "ليس هناك شخص مسؤول عن هذه الجلسة";
+
+$lang['task_filter_detailed_all_days'] = "كل الايام";

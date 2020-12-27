@@ -47,13 +47,30 @@
                            echo render_select('month',$months,array('month',array('name')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_months')),array(),'no-margin');
                            ?>
                      </div>
+                      <div class="col-md-2 border-right">
+                          <?php
+                          $months = array();
+                          for ($d = 1; $d <= 31; $d++) {
+                              $data = array();
+                              $data['day'] = $d;
+                              $days[] = $data;
+                          }
+                          $selected = ($this->input->post('day') ? $this->input->post('day') : date('d'));
+                          if($this->input->post() && $this->input->post('day') == ''){
+                              $selected = '';
+                          }
+                          echo render_select('day',$days,array('day',array('day')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_days')),array(),'no-margin');
+                          ?>
+                      </div>
                      <div class="col-md-2 text-center border-right">
                         <div class="form-group no-margin select-placeholder">
                            <select name="status" id="status" class="selectpicker no-margin" data-width="100%" data-title="<?php echo _l('task_status'); ?>">
                               <option value="" selected><?php echo _l('task_list_all'); ?></option>
-                              <?php foreach($task_statuses as $status){ ?>
+                              <option value="previous" <?php if($this->input->post('status') == 'previous'){echo 'selected'; } ?>><?php echo _l('Previous_Sessions'); ?></option>
+                              <option value="waiting" <?php if($this->input->post('status') == 'waiting'){echo 'selected'; } ?>><?php echo _l('Waiting_sessions'); ?></option>
+                              <?php /*foreach($task_statuses as $status){ ?>
                               <option value="<?php echo $status['id']; ?>" <?php if($this->input->post('status') == $status['id']){echo 'selected'; } ?>><?php echo $status['name']; ?></option>
-                              <?php } ?>
+                              <?php }*/ ?>
                            </select>
                         </div>
                      </div>
@@ -73,7 +90,7 @@
             </div>
             <div class="panel_s">
                <div class="panel-body">
-                  <?php foreach($overview as $month =>$data){ if(count($data) == 0){continue;} ?>
+                  <?php  foreach($overview as $month =>$data){ if(count($data) == 0){continue;} ?>
                   <h4 class="bold text-success"><?php echo  _l(date('F', mktime(0, 0, 0, $month, 1))); ?>
                       <?php
                       if($this->input->get('rel_type')) {

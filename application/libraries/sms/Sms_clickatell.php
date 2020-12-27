@@ -15,12 +15,12 @@ class Sms_clickatell extends App_sms
         $this->api_key = $this->get_option('clickatell', 'api_key');
 
         $this->add_gateway('clickatell', [
-            'info'    => "<p>Clickatell SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
+            'info'    => _l("sms_clickatell_sms_integration_is_one_way_messaging"),
             'name'    => 'Clickatell',
             'options' => [
                 [
                     'name'  => 'api_key',
-                    'label' => 'API Key',
+                    'label' => _l('sms_api_key_trans'),
                 ],
             ],
         ]);

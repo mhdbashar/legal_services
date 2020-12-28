@@ -3,12 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Cases_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/my_functions_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Sessions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Sessions_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/help_library/tab.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/help_library/tab.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +134,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/idealz-theme" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -408,6 +409,8 @@
       <workItem from="1608906417792" duration="3459000" />
       <workItem from="1608925625388" duration="5540000" />
       <workItem from="1608991774031" duration="117000" />
+      <workItem from="1609099687863" duration="796000" />
+      <workItem from="1609189584629" duration="5204000" />
     </task>
     <servers />
   </component>

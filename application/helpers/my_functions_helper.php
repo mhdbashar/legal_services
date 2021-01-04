@@ -805,7 +805,7 @@ function set_my_options($data){
 function add_hijri_settings()
 {
     $CI = &get_instance();
-    $CI->app_custom_tabs->add_settings_tab('Hijri', [
+    $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
         'position' => 20,

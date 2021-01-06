@@ -18,6 +18,92 @@ $.ajax({
 
 });
 
+
+
+let timeout = 60000
+let type = 'warning';
+message = "Your session will expire in 60 seconds.."
+let aId, el;
+
+aId = $("body").find('float-alert').length;
+aId++;
+
+aId = 'alert_float_' + aId;
+
+el = $("<div></div>", {
+    "id": aId,
+    "class": "float-alert animated fadeInRight col-xs-10 col-sm-3 alert alert-" + type,
+});
+$("body").append(el);
+$('#' + aId).hide();
+
+el.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+el.append('<span class="fa fa-bell-o" data-notify="icon"></span>');
+el.append("<span class=\"alert-title\">" + message + "</span>");
+
+let timer;
+let timer2;
+let sess_time_to_update;
+let sess_expiration;
+let searchTimeout;
+$.ajax({
+    type: 'Get',
+    url: admin_url + 'My_custom_controller/session',
+    async: false,
+    success: function(data) {
+
+        sess_time_to_update = JSON.parse(data).sess_time_to_update;
+        sess_expiration = JSON.parse(data).sess_expiration * 1000;
+        console.log(sess_expiration);
+
+
+        timer = setTimeout(function(){ 
+
+            
+            $('#' + aId).show();
+            timeout = timeout ? timeout : 3500
+            timer2 = setTimeout(function() {
+                $('#' + aId).hide();
+                window.location.replace(admin_url + 'authentication/logout');
+            }, timeout);
+
+        }, sess_expiration - 60000);
+
+        document.onmousemove = function(){
+
+            clearTimeout(timer);
+            clearTimeout(timer2);
+            $('#' + aId).hide();
+
+            timer = setTimeout(function(){ 
+                $('#' + aId).show();
+                timer2 = setTimeout(function() {
+                    $('#' + aId).hide();
+                    window.location.replace(admin_url + 'authentication/logout');
+                }, timeout);
+            }, sess_expiration - 60000);
+        }
+
+       
+        window.onkeydown= function(gfg){
+            clearTimeout(timer);
+            clearTimeout(timer2);
+            $('#' + aId).hide();
+
+            timer = setTimeout(function(){ 
+                $('#' + aId).show();
+                timer2 = setTimeout(function() {
+                    $('#' + aId).hide();
+                    window.location.replace(admin_url + 'authentication/logout');
+                }, timeout);
+            }, sess_expiration - 60000);
+        }
+
+        
+    },
+
+});
+
 var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');

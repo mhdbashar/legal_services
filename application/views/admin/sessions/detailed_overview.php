@@ -47,13 +47,30 @@
                            echo render_select('month',$months,array('month',array('name')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_months')),array(),'no-margin');
                            ?>
                      </div>
+                      <div class="col-md-2 border-right">
+                          <?php
+                          $months = array();
+                          for ($d = 1; $d <= 31; $d++) {
+                              $data = array();
+                              $data['day'] = $d;
+                              $days[] = $data;
+                          }
+                          $selected = ($this->input->post('day') ? $this->input->post('day') : date('d'));
+                          if($this->input->post() && $this->input->post('day') == ''){
+                              $selected = '';
+                          }
+                          echo render_select('day',$days,array('day',array('day')),'',$selected,array('data-none-selected-text'=>_l('task_filter_detailed_all_days')),array(),'no-margin');
+                          ?>
+                      </div>
                      <div class="col-md-2 text-center border-right">
                         <div class="form-group no-margin select-placeholder">
                            <select name="status" id="status" class="selectpicker no-margin" data-width="100%" data-title="<?php echo _l('task_status'); ?>">
                               <option value="" selected><?php echo _l('task_list_all'); ?></option>
-                              <?php foreach($task_statuses as $status){ ?>
+                              <option value="previous" <?php if($this->input->post('status') == 'previous'){echo 'selected'; } ?>><?php echo _l('Previous_Sessions'); ?></option>
+                              <option value="waiting" <?php if($this->input->post('status') == 'waiting'){echo 'selected'; } ?>><?php echo _l('Waiting_sessions'); ?></option>
+                              <?php /*foreach($task_statuses as $status){ ?>
                               <option value="<?php echo $status['id']; ?>" <?php if($this->input->post('status') == $status['id']){echo 'selected'; } ?>><?php echo $status['name']; ?></option>
-                              <?php } ?>
+                              <?php }*/ ?>
                            </select>
                         </div>
                      </div>
@@ -73,7 +90,7 @@
             </div>
             <div class="panel_s">
                <div class="panel-body">
-                  <?php foreach($overview as $month =>$data){ if(count($data) == 0){continue;} ?>
+                  <?php  foreach($overview as $month =>$data){ if(count($data) == 0){continue;} ?>
                   <h4 class="bold text-success"><?php echo  _l(date('F', mktime(0, 0, 0, $month, 1))); ?>
                       <?php
                       if($this->input->get('rel_type')) {
@@ -95,13 +112,13 @@
                            <th><?php echo _l('tasks_dt_name'); ?></th>
                            <th><?php echo _l('session_date'); ?></th>
                            <th><?php echo _l('session_time'); ?></th>
-                           <!-- <th><?php echo _l('task_duedate'); ?></th> -->
+                           <!-- <th><?php //echo _l('task_duedate'); ?></th> -->
                            <th><?php echo _l('session_status'); ?></th>
                            <th><?php echo _l('tasks_total_added_attachments'); ?></th>
                            <th><?php echo _l('tasks_total_comments'); ?></th>
-                           <!-- <th><?php echo _l('task_checklist_items'); ?></th>
+                           <!-- <th><?php //echo _l('task_checklist_items'); ?></th>
                            <th><?php echo _l('staff_stats_total_logged_time'); ?></th>
- -->                           <!-- <th><?php echo _l('task_finished_on_time'); ?></th> -->
+ -->                           <!-- <th><?php //echo _l('task_finished_on_time'); ?></th> -->
                            <th><?php echo _l('task_assigned'); ?></th>
                         </tr>
                      </thead>
@@ -144,15 +161,15 @@
                               </span>
                            </td>
                            <!-- <td>
-                              <span class="label <?php if($task['total_checklist_items'] == '0'){ echo 'label-default-light'; } else if(($task['total_finished_checklist_items'] != $task['total_checklist_items'])){ echo 'label-danger';
-                                 } else if($task['total_checklist_items'] == $task['total_finished_checklist_items']){echo 'label-success';} ?> pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_checklists_finished'); ?>">
+                              <span class="label <?php //if($task['total_checklist_items'] == '0'){ echo 'label-default-light'; } else if(($task['total_finished_checklist_items'] != $task['total_checklist_items'])){ echo 'label-danger';
+                                 //} else if($task['total_checklist_items'] == $task['total_finished_checklist_items']){echo 'label-success';} ?> pull-left mright5" data-toggle="tooltip" data-title="<?php //echo _l('tasks_total_checklists_finished'); ?>">
                               <i class="fa fa-th-list"></i>
-                              <?php echo $task['total_finished_checklist_items']; ?>/<?php echo $task['total_checklist_items']; ?>
+                              <?php //echo $task['total_finished_checklist_items']; ?>/<?php //echo $task['total_checklist_items']; ?>
                               </span>
                            </td>
-                           <td data-order="<?php echo $task['total_logged_time']; ?>">
-                              <span class="label label-default-light pull-left mright5" data-toggle="tooltip" data-title="<?php echo _l('staff_stats_total_logged_time'); ?>">
-                              <i class="fa fa-clock-o"></i> <?php echo seconds_to_time_format($task['total_logged_time']); ?>
+                           <td data-order="<?php //echo $task['total_logged_time']; ?>">
+                              <span class="label label-default-light pull-left mright5" data-toggle="tooltip" data-title="<?php //echo _l('staff_stats_total_logged_time'); ?>">
+                              <i class="fa fa-clock-o"></i> <?php //echo seconds_to_time_format($task['total_logged_time']); ?>
                               </span>
                            </td> -->
                            <!-- <?php
@@ -169,9 +186,9 @@
                                $finished_showcase = '';
                               }
                               ?>
-                           <td data-order="<?php echo $finishedOrder; ?>">
-                              <span class="<?php echo $finished_on_time_class; ?>">
-                              <?php echo $finished_showcase; ?>
+                           <td data-order="<?php //echo $finishedOrder; ?>">
+                              <span class="<?php //echo $finished_on_time_class; ?>">
+                              <?php //echo $finished_showcase; ?>
                               </span>
                            </td> -->
                            <td>

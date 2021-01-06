@@ -700,7 +700,7 @@ function init_table_staff_services(manual) {
 
 // Reload all session possible table where the table data needs to be refreshed after an action is performed on session.
 function reload_sessions_tables() {
-    var av_sessions_tables = ['.table-sessions', '.table-rel-sessions', '.table-rel-sessions-leads', '.table-timesheets', '.table-timesheets-report'];
+    var av_sessions_tables = ['.table-sessions', '.table-rel-sessions', '.table-rel-sessions-leads', '.table-timesheets', '.table-timesheets-report', '.table-previous_sessions_log','.table-waiting_sessions_log'];
     $.each(av_sessions_tables, function(i, selector) {
         if ($.fn.DataTable.isDataTable(selector)) {
             $(selector).DataTable().ajax.reload(null, false);

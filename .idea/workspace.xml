@@ -3,17 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/sessions_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/sessions_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/tasks_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/tasks_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Cron_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Cron_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Cases_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/LegalServices/Other_services_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_tasks_relations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_tasks_relations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/sessions_relations.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/sessions_relations.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/oservices/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/tasks/10/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/tasks/12/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/tasks/7/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Sessions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Sessions_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +133,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/idealz-theme" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -405,7 +401,13 @@
       <workItem from="1607946566093" duration="48000" />
       <workItem from="1607964338555" duration="81000" />
       <workItem from="1608583947615" duration="5767000" />
-      <workItem from="1608669805169" duration="11000000" />
+      <workItem from="1608669805169" duration="11001000" />
+      <workItem from="1608757638863" duration="643000" />
+      <workItem from="1608763087598" duration="7349000" />
+      <workItem from="1608835720854" duration="1542000" />
+      <workItem from="1608906417792" duration="3459000" />
+      <workItem from="1608925625388" duration="5540000" />
+      <workItem from="1608991774031" duration="117000" />
     </task>
     <servers />
   </component>

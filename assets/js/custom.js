@@ -39,7 +39,20 @@ $('#' + aId).hide();
 
 el.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 el.append('<span class="fa fa-bell-o" data-notify="icon"></span>');
-el.append("<span class=\"alert-title\">" + message + "</span>");
+el.append("<span class=\"alert-title\" id=\"seconds-counter\">" + message + "</span>");
+
+var seconds = 60;
+var secondEl = document.getElementById('seconds-counter');
+
+function incrementSeconds() {
+    seconds -= 1;
+
+    message = `...سسنتهي صلاحية  الجلسة خلال ${seconds} ثانية `
+
+    secondEl.innerText = message;
+}
+var cancel = setInterval(incrementSeconds, 1000);
+
 
 let timer;
 let timer2;
@@ -59,7 +72,7 @@ $.ajax({
 
         timer = setTimeout(function(){ 
 
-            
+            seconds = 60;
             $('#' + aId).show();
             timeout = timeout ? timeout : 3500
             timer2 = setTimeout(function() {
@@ -76,6 +89,7 @@ $.ajax({
             $('#' + aId).hide();
 
             timer = setTimeout(function(){ 
+                seconds = 60;
                 $('#' + aId).show();
                 timer2 = setTimeout(function() {
                     $('#' + aId).hide();
@@ -91,6 +105,7 @@ $.ajax({
             $('#' + aId).hide();
 
             timer = setTimeout(function(){ 
+                seconds = 60;
                 $('#' + aId).show();
                 timer2 = setTimeout(function() {
                     $('#' + aId).hide();

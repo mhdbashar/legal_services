@@ -22,7 +22,7 @@ let timeout = 60000, aId = "alert_modal";
 let type = 'warning';
 let message = "Your session will expire in 60 seconds.."
 
-let alert_modal = '<div class="modal fade" id="alert_modal" tabindex="-1" role="dialog" style="display: block;"><div class="modal-dialog">           <div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">صلاحية الجلسة</h4></div><div id="seconds-counter" class="modal-body"><h4>Your message</h4></div></div><!-- /.modal-content --></div><!-- /.modal-dialog --></div>';
+let alert_modal = '<div style="display: none;" class="modal fade" id="alert_modal" tabindex="-1" role="dialog" style="display: block;"><div class="modal-dialog">           <div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">صلاحية الجلسة</h4></div><div id="seconds-counter" class="modal-body"><h4>Your message</h4></div></div><!-- /.modal-content --></div><!-- /.modal-dialog --></div>';
 
 el_alert_modal = $(alert_modal, {});
 $("body").append(el_alert_modal);

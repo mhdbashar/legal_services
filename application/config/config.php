@@ -398,6 +398,7 @@ $config['encryption_key'] = APP_ENC_KEY;
 $config['sess_driver']             = SESS_DRIVER;
 $config['sess_cookie_name']        = (defined('APP_SESSION_COOKIE_NAME') ? APP_SESSION_COOKIE_NAME : 'sp_session');
 $config['sess_expiration']         = (defined('APP_SESSION_EXPIRATION') ? APP_SESSION_EXPIRATION : 28800);
+$config['custom_sess_expiration']  = (defined('APP_CUST_SESSION_EXPIRATION') ? APP_CUST_SESSION_EXPIRATION : 28800);
 $config['sess_save_path']          = SESS_SAVE_PATH;
 $config['sess_match_ip']           = (defined('APP_SESSION_MATCH_IP') ? APP_SESSION_MATCH_IP : false);
 $config['sess_time_to_update']     = (defined('APP_SESSION_TIME_TO_UPDATE') ? APP_SESSION_TIME_TO_UPDATE : 300);
@@ -481,12 +482,6 @@ if (isset($app_csrf_exclude_uris)) {
 if ($config['csrf_protection'] == true
     && isset($_SERVER['REQUEST_URI'])
     && strpos($_SERVER['REQUEST_URI'], 'gateways/') !== false) {
-    $config['csrf_protection'] = false;
-}
-
-if ($config['csrf_protection'] == true
-    && isset($_SERVER['REQUEST_URI'])
-    && strpos($_SERVER['REQUEST_URI'], 'Login_as_client/') !== false) {
     $config['csrf_protection'] = false;
 }
 

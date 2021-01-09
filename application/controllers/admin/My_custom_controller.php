@@ -12,6 +12,13 @@ class My_custom_controller extends AdminController
 
     }
 
+    public function session(){
+        echo json_encode(array_to_object([
+            'sess_time_to_update' => $this->config->item('sess_time_to_update'), 
+            'sess_expiration' => $this->config->item('custom_sess_expiration')
+        ]));   
+    }  
+
 
     function get_date_options(){
         $json['lang'] = $this->app->get_option('active_language');

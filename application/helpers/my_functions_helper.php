@@ -808,7 +808,7 @@ function add_hijri_settings()
     $CI->app_tabs->add_settings_tab('Hijri', [
         'name'     => _l('Hijri_managment'),
         'view'     => 'admin/settings/includes/hijri',
-        'position' => 20,
+        'position' => 20, 
     ]);
 }
 

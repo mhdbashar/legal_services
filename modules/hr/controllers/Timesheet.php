@@ -13,6 +13,13 @@ class Timesheet extends AdminController{
         $this->load->model('Office_shift_model');
         $this->load->model('No_branch_model');
         $this->load->model('Extra_info_model');
+
+
+
+        redirect(admin_url()); // Turn off
+
+
+
 	}
 
     private function dateDiffInDays($date1, $date2)  

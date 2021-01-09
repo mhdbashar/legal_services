@@ -18,28 +18,17 @@ $.ajax({
 
 });
 
-
-
-let timeout = 60000
+let timeout = 60000, aId = "alert_modal";
 let type = 'warning';
-message = "Your session will expire in 60 seconds.."
-let aId, el;
+let message = "Your session will expire in 60 seconds.."
 
-aId = $("body").find('float-alert').length;
-aId++;
+let alert_modal = '<div class="modal fade" id="alert_modal" tabindex="-1" role="dialog" style="display: block;"><div class="modal-dialog">           <div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">صلاحية الجلسة</h4></div><div id="seconds-counter" class="modal-body"><h4>Your message</h4></div></div><!-- /.modal-content --></div><!-- /.modal-dialog --></div>';
 
-aId = 'alert_float_' + aId;
+el_alert_modal = $(alert_modal, {});
+$("body").append(el_alert_modal);
 
-el = $("<div></div>", {
-    "id": aId,
-    "class": "float-alert animated fadeInRight col-xs-10 col-sm-3 alert alert-" + type,
-});
-$("body").append(el);
-$('#' + aId).hide();
 
-el.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-el.append('<span class="fa fa-bell-o" data-notify="icon"></span>');
-el.append("<span class=\"alert-title\" id=\"seconds-counter\">" + message + "</span>");
+
 
 var seconds = 60;
 var secondEl = document.getElementById('seconds-counter');
@@ -73,10 +62,10 @@ $.ajax({
         timer = setTimeout(function(){ 
 
             seconds = 60;
-            $('#' + aId).show();
+            $('#' + aId).modal('show');
             timeout = timeout ? timeout : 3500
             timer2 = setTimeout(function() {
-                $('#' + aId).hide();
+                $('#' + aId).modal('hide');
                 window.location.replace(admin_url + 'authentication/logout');
             }, timeout);
 
@@ -86,13 +75,13 @@ $.ajax({
 
             clearTimeout(timer);
             clearTimeout(timer2);
-            $('#' + aId).hide();
+            $('#' + aId).modal('hide');
 
             timer = setTimeout(function(){ 
                 seconds = 60;
-                $('#' + aId).show();
+                $('#' + aId).modal('show');
                 timer2 = setTimeout(function() {
-                    $('#' + aId).hide();
+                    $('#' + aId).modal('hide');
                     window.location.replace(admin_url + 'authentication/logout');
                 }, timeout);
             }, sess_expiration - 60000);
@@ -102,13 +91,13 @@ $.ajax({
         window.onkeydown= function(gfg){
             clearTimeout(timer);
             clearTimeout(timer2);
-            $('#' + aId).hide();
+            $('#' + aId).modal('hide');
 
             timer = setTimeout(function(){ 
                 seconds = 60;
-                $('#' + aId).show();
+                $('#' + aId).modal('show');
                 timer2 = setTimeout(function() {
-                    $('#' + aId).hide();
+                    $('#' + aId).modal('hide');
                     window.location.replace(admin_url + 'authentication/logout');
                 }, timeout);
             }, sess_expiration - 60000);

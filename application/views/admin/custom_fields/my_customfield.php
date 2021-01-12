@@ -69,18 +69,12 @@
                                 <option value="cust_repres" <?php if(isset($custom_field) && $custom_field->fieldto == 'cust_repres'){echo 'selected';} ?>><?php echo _l('customer_representative'); ?></option>
                                 <option value="procurations" <?php if(isset($custom_field) && $custom_field->fieldto == 'procurations'){echo 'selected';} ?>><?php echo _l('procurations'); ?></option>
                                 <option value="sessions" <?php if(isset($custom_field) && $custom_field->fieldto == 'sessions'){echo 'selected';} ?>><?php echo _l('sessions'); ?></option>
+                                <option value="legal_procedures" <?php if(isset($custom_field) && $custom_field->fieldto == 'legal_procedures'){echo 'selected';} ?>><?php echo _l('legal_procedures'); ?></option>
                                 <optgroup label="<?php echo _l('LegalServices'); ?>">
                                 <?php foreach ($legal_services as $service): ?>
                                     <option value="<?php echo $service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $service->slug){echo 'selected';} ?>><?php echo $service->name; ?></option>
                                 <?php endforeach; ?>
                                 </optgroup>
-                                <?php /*<optgroup label="مراحل الخدمات القانونية">
-                                <?php foreach ($legal_services as $service): ?>
-                                    <?php foreach ($legal_services_phases as $phase): ?>
-                                        <option value="<?php echo $phase->slug.'_'.$service->slug; ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.$service->slug){echo 'selected';} ?>><?php echo $phase->name.' / '.$service->name; ?></option>
-                                    <?php endforeach; ?>
-                                <?php endforeach; ?>
-                                </optgroup> */ ?>
                                 <optgroup label="<?php echo _l('legal_services_phases'); ?>">
                                     <?php foreach ($legal_services_phases as $phase): ?>
                                         <option data-action="hide" value="<?php echo $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id); ?>" <?php if(isset($custom_field) && $custom_field->fieldto == $phase->slug.'_'.get_legal_service_slug_by_id($phase->service_id)){echo 'selected';} ?>><?php echo $phase->name; ?></option>
@@ -177,7 +171,13 @@ var pdf_fields = <?php echo json_encode($pdf_fields); ?>;
 var client_portal_fields = <?php echo json_encode($client_portal_fields); ?>;
 var client_editable_fields = <?php echo json_encode($client_editable_fields); ?>;
 $(function () {
-    $('#without_phases').css("visibility", "hidden");
+    var element = $('#fieldto').find('option:selected');
+    var myTag = element.attr("data-action");
+    if(myTag == 'hide'){
+        $('#without_phases').css("visibility", "hidden");
+    }else{
+        $('#without_phases').css("visibility", "visible");
+    }
 
     appValidateForm($('form'), {
         fieldto: 'required',

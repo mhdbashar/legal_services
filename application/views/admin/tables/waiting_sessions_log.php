@@ -6,7 +6,8 @@ $tasksPriorities     = get_sessions_priorities();
 $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
-    db_prefix() . 'my_judges.name as judge',
+    //db_prefix() . 'my_judges.name as judge',
+    get_sql_select_session_asignees_full_names() . ' as assignees',
     'court_name',
     //'session_information',
     'customer_report',
@@ -60,7 +61,7 @@ array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 $join = [
     'LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
     'LEFT JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
-    'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
+    //'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
 
 $custom_fields = get_table_custom_fields('sessions');
@@ -134,8 +135,9 @@ foreach ($rResult as $aRow) {
     }
     $outputName .= '</div>';
     $row[] = $outputName;
-    $row[] = $aRow['judge'];
-    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? $aRow['court_name'] : _l('nothing_was_specified');
+    //$row[] = $aRow['judge'];
+    $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
+    $row[] = isset($aRow['court_name']) && $aRow['court_name'] != '' ? maybe_translate(_l('nothing_was_specified'), $aRow['court_name']) : _l('nothing_was_specified');
     //$row[] = $aRow['session_information'] != '' ? substr($aRow['session_information'],0,30).'...' : '';
     if($aRow['customer_report'] == 0):
         $report = '<span class="label label inline-block project-status-1" style="color:#989898;border:1px solid #989898">لايوجد</span>';

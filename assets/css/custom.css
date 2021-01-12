@@ -303,7 +303,6 @@ ul.tagit li.tagit-choice .tagit-label:not(a) {
 }
 
 .fancyTab a {
-    font-family: 'Source Sans Pro';
     font-size:1.65em;
     font-weight:300;
     transition:.2s;
@@ -371,7 +370,7 @@ li.fancyTab.active a {
 .nav.nav-tabs .fancyTab a[data-toggle="tab"] {
     background-color:transparent;
     border-bottom:0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .nav-tabs > li.fancyTab:hover a {
@@ -497,4 +496,23 @@ li.fancyTab.active a {
 
 .form-control{
     padding: 3px 12px;
+}
+
+@media (max-width: 425px) {
+    .book-style{
+        display: none !important;
+    }
+}
+.book-style{
+    font-size: 6rem;
+    text-align: left;
+    color: #626f80;
+}
+
+.book-body{
+    padding: 15px !important;
+}
+
+.book-btn{
+    background: #626f80;
 }

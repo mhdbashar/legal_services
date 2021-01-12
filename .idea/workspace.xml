@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Other_services_controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/contracts/my_contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/contracts/my_contract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/tasks/8/index.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -404,12 +409,25 @@
       <workItem from="1608991774031" duration="117000" />
       <workItem from="1609099687863" duration="796000" />
       <workItem from="1609189584629" duration="5648000" />
-      <workItem from="1609275373426" duration="568000" />
+      <workItem from="1609275373426" duration="613000" />
+      <workItem from="1609276004781" duration="597000" />
+      <workItem from="1609316238496" duration="42000" />
+      <workItem from="1610406177028" duration="3413000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

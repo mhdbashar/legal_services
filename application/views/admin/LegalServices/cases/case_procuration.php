@@ -6,7 +6,8 @@
 <?php
 // Example : http://localhost/crm2/admin/procuration/procurationcu/case/no_id/4
  render_datatable(array(
-    _l('the_number_sign'),
+							_l('name'),
+							_l('NO'),
     _l('start_date'),
     _l('end_date'),
     _l('case_id'),

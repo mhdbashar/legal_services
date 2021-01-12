@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application/migrations/504_version_504.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/LegalServices/legal_procedures/procedure_text.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/contracts/my_contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/contracts/my_contract.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/custom_fields/my_customfield.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/previous_sessions_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/waiting_sessions_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/tasks/8/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Contracts_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Contracts_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Utilities_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Utilities_model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,18 +130,18 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/migrations" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\migrations" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\contracts" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\clients" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\clients\groups" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\sessions" />
     </key>
   </component>
   <component name="RunManager">
@@ -413,6 +411,7 @@
       <workItem from="1609276004781" duration="597000" />
       <workItem from="1609316238496" duration="42000" />
       <workItem from="1610406177028" duration="3413000" />
+      <workItem from="1610490093640" duration="4810000" />
     </task>
     <servers />
   </component>

@@ -4283,3 +4283,4 @@ $lang['dont_have_edit_permission'] = "You do not have permission to edit!";
 $lang['session_no_assignees'] = 'No assignees for this session';
 
 $lang['task_filter_detailed_all_days'] = "All Days";
+$lang['view_book'] = "View Book";

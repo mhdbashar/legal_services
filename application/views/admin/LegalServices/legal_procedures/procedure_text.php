@@ -18,7 +18,6 @@
                        <a href="<?php echo admin_url().$redirect_url; ?>" class="btn btn-default pull-right"><i class="fa fa-reply"></i> <?php echo _l('go_back'); ?></a>
                    </div>
                   <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
-
                    <?php /* <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
                      <?php echo _l('view_procedure'); ?>
                   </a> */ ?>
@@ -200,6 +199,7 @@
                          <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
                          <?php $value = (isset($contract) ? $contract->subject : ''); ?>
                          <?php echo render_input('subject','procedure_subject',$value); ?>
+                         <?php echo render_custom_fields('legal_procedures',$contract->id); ?>
                          <div class="text-right">
                              <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                          </div>
@@ -495,12 +495,10 @@
        }));
     }
 
-    // appValidateForm($('#contract-form'), {
-    //    client: 'required',
-    //    datestart: 'required',
-    //    subject: 'required'
-    // });
-    //
+    appValidateForm($('#contract-form'), {
+       subject: 'required'
+    });
+
     // appValidateForm($('#renew-contract-form'), {
     //    new_start_date: 'required'
     // });

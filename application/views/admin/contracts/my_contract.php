@@ -38,23 +38,22 @@
                         }
                         ?>
                         <?php /*
-               <div class="form-group select-placeholder projects-wrapper<?php if((!isset($contract)) || (isset($contract) && !customer_has_projects($contract->client))){ echo ' hide';} ?>">
+                     <div class="form-group select-placeholder projects-wrapper<?php if((!isset($contract)) || (isset($contract) && !customer_has_projects($contract->client))){ echo ' hide';} ?>">
                   <label for="project_id"><?php echo _l('project'); ?></label>
                   <div id="project_ajax_search_wrapper">
-                    <select name="project_id" id="project_id" class="projects ajax-search ays-ignore" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                       <?php
-                       if(isset($contract) && $contract->project_id != 0){
-                        echo '<option value="'.$contract->project_id.'" selected>'.get_project_name_by_id($contract->project_id).'</option>';
-                     }
-                     ?>
-                  </select>
+                     <select name="project_id" id="project_id" class="projects ajax-search ays-ignore" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                     <?php
+                        if(isset($contract) && $contract->project_id != 0){
+                         echo '<option value="'.$contract->project_id.'" selected>'.get_project_name_by_id($contract->project_id).'</option>';
+                        }
+                        ?>
+                     </select>
+                  </div>
                </div>
-            </div>
-            */?>
+               */?>
                         <?php
                         $selected = (isset($contract) ? $contract->rel_stype : '');
                         echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],['id' => 'div_rel_stype'], $hide_project_selector,'',true); ?>
-
                         <div class="form-group <?php echo $hide_project_selector; ?>" id="div_rel_sid">
                             <label for="rel_sid" class="control-label"><?php echo _l('ServiceTitle'); ?></label>
                             <select class="form-control custom_select_arrow" id="rel_sid" name="rel_sid" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -174,13 +173,13 @@
                            <?php if($totalNotes > 0){ ?>
                                <span class="badge"><?php echo $totalNotes; ?></span>
                            <?php } ?>
-                        </span>
+                           </span>
                                             </a>
                                         </li>
                                         <li role="presentation" class="tab-separator">
                                             <a href="#tab_templates" onclick="get_templates('contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
-                                                    <?php echo _l('templates'); ?>
-                                             </a>
+                                                <?php echo _l('templates'); ?>
+                                            </a>
                                         </li>
                                         <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
                                             <a href="#tab_emails_tracking" aria-controls="tab_emails_tracking" role="tab" data-toggle="tab">
@@ -367,7 +366,6 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <!-- <img src="https://drive.google.com/uc?id=14mZI6xBjf-KjZzVuQe8-rjtv_wXEbDTw" /> -->
-
                                     <div id="contract_attachments" class="mtop30">
                                         <?php
                                         $data = '<div class="row">';
@@ -425,8 +423,8 @@
                                                     <small class="text-muted"><?php echo _dt($renewal['date_renewed']); ?></small>
                                                     <hr class="hr-10" />
                                                     <span class="text-success bold" data-toggle="tooltip" title="<?php echo _l('contract_renewal_old_start_date',_d($renewal['old_start_date'])); ?>">
-               <?php echo _l('contract_renewal_new_start_date',_d($renewal['new_start_date'])); ?>
-            </span>
+                              <?php echo _l('contract_renewal_new_start_date',_d($renewal['new_start_date'])); ?>
+                              </span>
                                                     <br />
                                                     <?php if(is_date($renewal['new_end_date'])){
                                                         $tooltip = '';
@@ -435,8 +433,8 @@
                                                         }
                                                         ?>
                                                         <span class="text-success bold" data-toggle="tooltip" title="<?php echo $tooltip; ?>">
-               <?php echo _l('contract_renewal_new_end_date',_d($renewal['new_end_date'])); ?>
-            </span>
+                              <?php echo _l('contract_renewal_new_end_date',_d($renewal['new_end_date'])); ?>
+                              </span>
                                                         <br/>
                                                     <?php } ?>
                                                     <?php if($renewal['new_value'] > 0){
@@ -445,8 +443,8 @@
                                                             $contract_renewal_value_tooltip = ' data-toggle="tooltip" data-title="'._l('contract_renewal_old_value', app_format_money($renewal['old_value'], $base_currency)).'"';
                                                         } ?>
                                                         <span class="text-success bold"<?php echo $contract_renewal_value_tooltip; ?>>
-            <?php echo _l('contract_renewal_new_value', app_format_money($renewal['new_value'], $base_currency)); ?>
-         </span>
+                              <?php echo _l('contract_renewal_new_value', app_format_money($renewal['new_value'], $base_currency)); ?>
+                              </span>
                                                         <br />
                                                     <?php } ?>
                                                 </div>
@@ -466,20 +464,20 @@
                                 <div role="tabpanel" class="tab-pane" id="tab_tasks">
                                     <?php init_relation_tasks_table(array('data-new-rel-id'=>$contract->id,'data-new-rel-type'=>'contract')); ?>
                                 </div>
-                                div role="tabpanel" class="tab-pane" id="tab_templates">
-                                <div class="row contract-templates">
-                                    <div class="col-md-12">
-                                        <button type="button" class="btn btn-info" onclick="add_template('contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
-                                        <hr>
+                                <div role="tabpanel" class="tab-pane" id="tab_templates">
+                                    <div class="row contract-templates">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-info" onclick="add_template('contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div id="contract-templates" class="contract-templates-wrapper"></div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div id="contract-templates" class="contract-templates-wrapper"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
                 </div>
             <?php } ?>
         </div>

@@ -243,3 +243,7 @@ define('CASE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/cases' . '/');
 define('OSERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/oservices' . '/');
 
 define('ISERVICE_ATTACHMENTS_FOLDER', FCPATH . 'uploads/imported_services' . '/');
+/**
+ * LIBRARY URL
+ */
+define('APP_LIBRARY_URL', 'http://localhost/library/');

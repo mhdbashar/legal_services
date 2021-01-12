@@ -1029,8 +1029,7 @@ function get_books_by_api($tags)
         'tags' => $tags
     );
     $postdata    = http_build_query($info);
-    //$webservices = 'http://localhost/babillawlib/';
-    $webservices = 'http://lib.babillawnet.com/';
+    $webservices = APP_LIBRARY_URL;
     $url         = $webservices."Book/search_book_api";
     $curl 	     = curl_init();
     curl_setopt_array($curl, array(
@@ -1047,7 +1046,7 @@ function get_books_by_api($tags)
     $err 	  = curl_error($curl);
     curl_close($curl);
     if(!empty($err)):
-        return array($response, $err);
+        return array('data' => $response, 'error' => $err);
     else:
         return $response;
     endif;

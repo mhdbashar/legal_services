@@ -28,6 +28,13 @@
             <a id="tab3" href="#tabBody3" role="tab" aria-controls="tabBody3" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-book"></span>الكتب القانونية والأبحاث</a>
             <div class="whiteBlock"></div>
         </li>
+        <li class="tab fancyTab">
+            <div class="arrow-down">
+                <div class="arrow-down-inner"></div>
+            </div>
+            <a id="tab4" href="#tabBody4" role="tab" aria-controls="tabBody4" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-bullhorn"></span>الأنظمة والتشريعات والقوانين</a>
+            <div class="whiteBlock"></div>
+        </li>
     </ul>
     <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
         <div class="tab-pane fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
@@ -39,8 +46,9 @@
                         foreach ($book as $row):
                             if($row->main_section == 31): ?>
                                 <div class="col-sm-3 col-md-3">
-                                    <div class="thumbnail" style="height: 155px;">
-                                        <div class="caption">
+                                    <div class="thumbnail book-body">
+                                        <div class="row">
+                                        <div class="col-md-8 caption">
                                             <h4><?php echo $row->book_title; ?></h4>
                                             <?php foreach ($row->sections as $sec): ?>
                                                 <?php if($sec->parent_id != 0) : ?>
@@ -49,8 +57,12 @@
                                             <?php endforeach; ?>
                                             <br>
                                             <br>
-                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary" role="button" target="_blank">عرض</a></p>
+                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary book-btn" role="button" target="_blank"><?php echo _l('view_book'); ?></a></p>
                                         </div>
+                                        <div class="col-md-4">
+                                            <i class="fa fa-book book-style"></i>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
@@ -68,8 +80,9 @@
                         foreach ($book as $row):
                             if($row->main_section == 32): ?>
                                 <div class="col-sm-3 col-md-3">
-                                    <div class="thumbnail" style="height: 155px;">
-                                        <div class="caption">
+                                    <div class="thumbnail book-body">
+                                    <div class="row">
+                                        <div class="col-md-8 caption">
                                             <h4><?php echo $row->book_title; ?></h4>
                                             <?php foreach ($row->sections as $sec): ?>
                                                 <?php if($sec->parent_id != 0) : ?>
@@ -78,8 +91,12 @@
                                             <?php endforeach; ?>
                                             <br>
                                             <br>
-                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary" role="button" target="_blank">عرض</a></p>
+                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary book-btn" role="button" target="_blank"><?php echo _l('view_book'); ?></a></p>
                                         </div>
+                                        <div class="col-md-4">
+                                            <i class="fa fa-book book-style"></i>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
@@ -97,8 +114,9 @@
                         foreach ($book as $row):
                             if($row->main_section == 33): ?>
                                 <div class="col-sm-3 col-md-3">
-                                    <div class="thumbnail" style="height: 155px;">
-                                        <div class="caption">
+                                    <div class="thumbnail book-body">
+                                        <div class="row">
+                                        <div class="col-md-8 caption">
                                             <h4><?php echo $row->book_title; ?></h4>
                                             <?php foreach ($row->sections as $sec): ?>
                                                 <?php if($sec->parent_id != 0) : ?>
@@ -107,8 +125,12 @@
                                             <?php endforeach; ?>
                                             <br>
                                             <br>
-                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary" role="button" target="_blank">عرض</a></p>
+                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary book-btn" role="button" target="_blank"><?php echo _l('view_book'); ?></a></p>
                                         </div>
+                                        <div class="col-md-4">
+                                            <i class="fa fa-book book-style"></i>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
@@ -126,8 +148,9 @@
                         foreach ($book as $row):
                             if($row->main_section == 34): ?>
                                 <div class="col-sm-3 col-md-3">
-                                    <div class="thumbnail" style="height: 155px;">
-                                        <div class="caption">
+                                    <div class="thumbnail book-body">
+                                        <div class="row">
+                                        <div class="col-md-8 caption">
                                             <h4><?php echo $row->book_title; ?></h4>
                                             <?php foreach ($row->sections as $sec): ?>
                                                 <?php if($sec->parent_id != 0) : ?>
@@ -136,13 +159,51 @@
                                             <?php endforeach; ?>
                                             <br>
                                             <br>
-                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary" role="button" target="_blank">عرض</a></p>
+                                            <p><a href="<?php echo $row->url; ?>" class="btn btn-primary book-btn" role="button" target="_blank"><?php echo _l('view_book'); ?></a></p>
                                         </div>
+                                        <div class="col-md-4">
+                                            <i class="fa fa-book book-style"></i>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             <?php endif; endforeach; endif; endforeach; ?>
                 <?php else: ?>
                 <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tabBody4" role="tabpanel" aria-labelledby="tab4" aria-hidden="true" tabindex="0">
+            <div class="row">
+                <?php if(!empty($books)): ?>
+                    <?php
+                    foreach ($books as $book):
+                        if($book != 'success'):
+                            foreach ($book as $row):
+                                if($row->main_section == 35): ?>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="thumbnail book-body">
+                                            <div class="row">
+                                            <div class="col-md-8 caption">
+                                                <h4><?php echo $row->book_title; ?></h4>
+                                                <?php foreach ($row->sections as $sec): ?>
+                                                    <?php if($sec->parent_id != 0) : ?>
+                                                        <b>&nbsp;<i class="fa fa-angle-double-left text-primary"></i>&nbsp;<?php echo $sec->section_name; ?></b>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                                <br>
+                                                <br>
+                                                <p><a href="<?php echo $row->url; ?>" class="btn btn-primary book-btn" role="button" target="_blank"><?php echo _l('view_book'); ?></a></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <i class="fa fa-book book-style"></i>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <?php endif; endforeach; endif; endforeach; ?>
+                <?php else: ?>
+                    <h4 class="text-center"><?php echo _l('smtp_encryption_none'); ?>...</h4>
                 <?php endif; ?>
             </div>
         </div>

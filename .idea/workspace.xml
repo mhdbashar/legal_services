@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/migrations/504_version_504.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Contracts_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Contracts_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/Utilities_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Utilities_model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -412,6 +408,7 @@
       <workItem from="1609316238496" duration="42000" />
       <workItem from="1610406177028" duration="3413000" />
       <workItem from="1610490093640" duration="4810000" />
+      <workItem from="1610576816333" duration="239000" />
     </task>
     <servers />
   </component>

@@ -130,7 +130,7 @@ class Utilities_model extends App_Model
             $has_contact_permission_proposals = has_contact_permission('proposals', $contact_id);
             $has_contact_permission_contracts = has_contact_permission('contracts', $contact_id);
             $has_contact_permission_projects  = has_contact_permission('projects', $contact_id);
-            $has_contact_permission_services  = has_contact_permission('legal_services', $contact_id);
+            $has_contact_permission_services  = has_contact_permission('projects', $contact_id);
         }
 
         $hook = [
@@ -546,7 +546,7 @@ class Utilities_model extends App_Model
             }
 
             //other services
-            $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
+            $this->db->select('service_id, name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
             $this->db->from(db_prefix() . 'my_other_services');
 
             // Exclude cancelled and finished

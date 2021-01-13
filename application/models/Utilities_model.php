@@ -512,7 +512,7 @@ class Utilities_model extends App_Model
 
             $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_cases.clientid');
 
-            if (!$client_data && !$has_contact_permission_services) {
+            if (!$client_data && !$has_permission_services_view) {
                 $this->db->where('id IN (SELECT project_id FROM ' . db_prefix() . 'my_members_cases WHERE staff_id=' . get_staff_user_id() . ')');
             } elseif ($client_data) {
                 $this->db->where('clientid', $client_id);
@@ -556,7 +556,7 @@ class Utilities_model extends App_Model
 
             $this->db->join(db_prefix() . 'clients', db_prefix() . 'clients.userid=' . db_prefix() . 'my_other_services.clientid');
 
-            if (!$client_data && !$has_contact_permission_services) {
+            if (!$client_data && !$has_permission_services_view) {
                 $this->db->where('id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')');
             } elseif ($client_data) {
                 $this->db->where('clientid', $client_id);

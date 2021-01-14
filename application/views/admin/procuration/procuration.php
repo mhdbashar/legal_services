@@ -113,7 +113,7 @@
               'required' => 'required',
               'readonly' => 'true'
             ]) ?>
-            <?php echo render_input('come_from', _l('come_from'), $come_from, 'text', ['required' => 'required']); ?>
+            <?php echo render_input('come_from', _l('come_from'), $come_from, 'text'); ?>
 
             <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
@@ -181,8 +181,17 @@
                                         array_push($selected,$row['id']);
                                     }
                                 }
-                                echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                $cases = [];
+                                // echo render_select('cases[]',$cases,array('id',array('name')),'cases',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                               
                             ?>
+                            <div class="form-group">
+                                <label class="control-label" for="cases[]"><?php echo _l('cases'); ?></label>
+                                <?php $data = get_relation_data('client_cases',$client); ?>
+                                <select data-live-search="true" multiple="true" id="city" name="cases[]" class="form-control custom_select_arrow">
+                                  
+                                </select>
+                            </div>
 <!--                  <div>-->
 <!--                    <div class="clearfix"></div>-->
 <!--                    <label class="col-form-label">-->
@@ -235,7 +244,76 @@
 
 </script>
 <script>
+  var clientid = '<?php echo $client ?>';
+  var selected_cases = [];
+  <?php foreach ($selected_cases as $case) { ?>
+    selected_cases.push('<?php echo $case["id"] ?>');
+  <?php } ?>
+  console.log(selected_cases)
+$(document).on('change','#clientid',function () {
+    $.get(admin_url +'procuration/build_dropdown_cases/' + $(this).val(), function(response) {
+        if (response.success == true) {
+          console.log(response)
+            $('#city').empty();
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                $('#city').append($('<option>', {
+                    value: key,
+                    text: value
+                }));
+                $('#city').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+});
   $(function() {
+    $.get(admin_url +'procuration/build_dropdown_cases/' + clientid, function(response) {
+        if (response.success == true) {
+          console.log(response)
+            $('#city').empty();
+            for(let i = 0; i < response.data.length; i++) {
+                let key = response.data[i].key;
+                let value = response.data[i].value;
+                let selected = false;
+                if(selected_cases.includes(key))
+                  selected = true;
+                $('#city').append($('<option>', {
+                    value: key,
+                    text: value,
+                    selected
+                }));
+                $('#city').selectpicker('refresh');
+            }
+        } else {
+            alert_float('danger', response.message);
+        }
+    }, 'json');
+    // $("#clientid").change(function () {
+    //     $.ajax({
+    //         url: "<?php echo admin_url('procuration/build_dropdown_cases'); ?>",
+    //         data: {select: $(this).val()},
+    //         type: "POST",
+    //         success: function (response) {
+    //          // console.log(response.length );
+    //             for(let i = 0; i < response.length; i++) {
+    //                 let key = response[i].key;
+    //                 let value = response[i].value;
+    //                 let select = false;
+    //                 // if(response.clientid == key)
+    //                 //     select = true;
+    //                 $('#city').append($('<option>', {
+    //                     value: key,
+    //                     text: value,
+    //                     selected: select
+    //                 }));
+    //                 $('#city').selectpicker('refresh');
+    //             }
+    //         }
+    //     });
+    // });
     $('body').on('change','.NO', async function(){
       var procuration_number = $('input[name=NO]').val();
       var principalId = $('input[name=principalId]').val();

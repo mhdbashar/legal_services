@@ -26,6 +26,38 @@ class Procuration extends AdminController
         }
     }
 
+    public function build_dropdown_cases($select) {
+
+        // $select=$this->input->post('select');
+        // $this->db->where('clientid', $select);
+        // $cases = $this->db->get(db_prefix() . 'my_cases')->result();
+        // $output = '<option value=""></option>';
+        // foreach ($cases as $row)
+        // {
+        //     if($row->clientid==$select)$selected="selected";else $selected="";
+        //     $staff_language = get_staff_default_language(get_staff_user_id());
+            
+        //         $output .= '<option value="'.$row->id.'" '.$selected.' >'.$row->name.'</option>';
+            
+        // }
+        // echo $output;
+
+        // $select=$this->input->post('select');
+        $this->db->where('clientid', $select);
+        $cases = $this->db->get(db_prefix() . 'my_cases')->result_array();
+        $data = [];
+        foreach ($cases as $case) {
+            $_array = [];
+            $_array['key'] = $case['id'];
+            $_array['value'] = $case['name'];
+            $data[] = $_array;
+        }
+        // return $data;
+
+        echo json_encode(['success'=>true,'data'=>$data]);
+        die();
+    }
+
     public function all(){
         if (!has_permission('procurations', '', 'view') && !is_admin()) {
             access_denied('Procurations');

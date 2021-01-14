@@ -633,7 +633,6 @@ class Clients extends ClientsController
             get_user_id_by_contact_id(get_contact_user_id()),
             get_contact_user_id()
         );
-
         echo json_encode($data);
     }
 

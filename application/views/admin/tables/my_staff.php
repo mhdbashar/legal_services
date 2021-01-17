@@ -17,17 +17,7 @@ $aColumns = [
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    if(get_staff_default_language() == 'arabic'){
-        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-    }else{
-        $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    }
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'staff.staffid AND '.db_prefix().'branches_services.rel_type="staff"';
 
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
 $i            = 0;
 foreach ($custom_fields as $field) {
     $select_as = 'cvalue_' . $i;
@@ -85,7 +75,8 @@ foreach ($rResult as $aRow) {
             $_data = '<a href="' . admin_url('staff/profile/' . $aRow['staffid']) . '">' . staff_profile_image($aRow['staffid'], [
                 'staff-profile-image-small',
                 ]) . '</a>';
-            
+
+            $ci = &get_instance();
             if($ci->app_modules->is_active('hr')){
                 $_data .= ' <a href="' . admin_url('hr/general/general/' . $aRow['staffid']) . '?group=basic_information">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
 
@@ -115,10 +106,10 @@ foreach ($rResult as $aRow) {
         }
         $row[] = $_data;
     }
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
 
     $row['DT_RowClass'] = 'has-row-options';
+
+    $row = hooks()->apply_filters('staffs_table_row_data', $row, $aRow);
+
     $output['aaData'][] = $row;
 }

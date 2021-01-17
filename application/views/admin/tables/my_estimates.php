@@ -23,17 +23,6 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'estimates.project_id',
 ];
 
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    if(get_staff_default_language() == 'arabic'){
-        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-    }else{
-        $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    }
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'estimates.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'estimates';
@@ -199,10 +188,6 @@ foreach ($rResult as $aRow) {
     }
 
     $row['DT_RowClass'] = 'has-row-options';
-
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
 
     $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 

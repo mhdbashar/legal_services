@@ -18,8 +18,102 @@ register_activation_hook(BRANCHES_MODULE_NAME, 'branch_setup_activation_hook');
 hooks()->add_action('admin_init', 'branches_init_BranchApp');
 
 hooks()->add_action('admin_init', 'branch_setup_init_menu_items');
+// Services table
+hooks()->add_filter('services_table_columns', 'services_add_table_column', 10, 2);
+hooks()->add_filter('services_table_row_data', 'services_add_table_row', 10, 3);
+// Customers table
+hooks()->add_filter('customers_table_row_data', 'customers_add_table_row', 10, 3);
+hooks()->add_filter('customers_table_columns', 'customers_add_table_column', 10, 2);
+//estimates table
+hooks()->add_filter('estimates_table_row_data', 'estimates_add_table_row', 10, 3);
+hooks()->add_filter('estimates_table_columns', 'estimates_add_table_column', 10, 2);
+//Invoices table
+hooks()->add_filter('invoices_table_row_data', 'invoices_add_table_row', 10, 3);
+hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2);
+//Staffs table
+hooks()->add_filter('staffs_table_row_data', 'staffs_add_table_row', 10, 3);
+hooks()->add_filter('staffs_table_columns', 'staffs_add_table_column', 10, 2);
+
+function staffs_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
 
 
+function staffs_add_table_row($row ,$aRow) {
+    $CI = &get_instance();
+    $icon = '';
+    $CI->db->where(['rel_id' => $aRow['staffid'], 'rel_type' => 'staff']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    return $row;
+}
+
+function services_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
+
+
+function services_add_table_row($row ,$aRow) {
+    $CI = &get_instance();
+    $icon = '';
+    $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    return $row;
+}
+
+function invoices_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
+
+
+function invoices_add_table_row($row ,$aRow) {
+    $CI = &get_instance();
+    $icon = '';
+    $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    return $row;
+}
+
+
+function estimates_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
+
+
+function estimates_add_table_row($row ,$aRow) {
+    $CI = &get_instance();
+    $icon = '';
+    $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    return $row;
+}
+
+function customers_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
+
+function customers_add_table_row($row ,$aRow) {
+    $CI = &get_instance();
+    $icon = '';
+    $CI->db->where(['rel_id' => $aRow['userid'], 'rel_type' => 'clients']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    $row[] = !empty($branch) ? $branch['title_en'] : 'fasdfasdf';
+    //echo '<pre>'; print_r($row); exit;
+    return $row;
+}
 
 function branch_setup_init_menu_items()
 {

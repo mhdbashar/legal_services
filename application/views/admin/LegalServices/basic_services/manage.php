@@ -122,12 +122,6 @@
                                     'name' => _l('project_status'),
                                 )
                             );
-                            if($this->app_modules->is_active('branches')){
-                                $_table_data[] = array(
-                                   'name' => _l('branch_name'),
-                                   'th_attrs' => array('class'=>'toggleable', 'id'=>'th-individual')
-                                );
-                            }
                             foreach($_table_data as $_t){
                                 array_push($table_data,$_t);
                             }
@@ -135,6 +129,8 @@
                             foreach($custom_fields as $field){
                                 array_push($table_data,$field['name']);
                             }
+
+                            $table_data = hooks()->apply_filters('services_table_columns', $table_data);
                             render_datatable($table_data,$render_class);
                             ?>
                         </div>

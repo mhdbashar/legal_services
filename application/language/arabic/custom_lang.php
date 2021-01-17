@@ -70,6 +70,8 @@ $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
 $lang['active'] = 'مفعلة';
 $lang['inactive'] = 'غير مفعلة';
 
+$lang['Spreadsheet_name'] = "ملفات الجداول";
+$lang['Spreadsheet_desc'] = "محرر جداول بيانات قوي يتيح لك القيام بكل ما يمكنك فعله باستخدام برامج جداول البيانات المعاصرة مثل Excel.";
 $lang['default_session_status'] = "الحالة الافتراضية عند إنشاء جلسة جديدة";
 $lang['round_off_session_timer_option'] = "Round off session timer";
 $lang['session_biillable_checked_on_creation'] = "يتم تحديد الخيار قابل للفوترة بشكل افتراضي عند إنشاء جلسة جديدة؟ (فقط من المنطقة الإدارية)";

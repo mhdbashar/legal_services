@@ -1,7 +1,7 @@
 <?php
 
 $lang['SPREADSHEET_ONLINE']                                                         = 'ملفات الجداول';
-$lang['spreadsheet_online']                                                         = 'Spreadsheet online';
+$lang['spreadsheet_online']                                                         = 'ملفات الجداول';
 $lang['my_folder']                                                         			= 'المجلد';
 $lang['my_share_folder']                                                         	= 'مشاركة المجلد';
 $lang['add_file']                                                         			= 'إضافة ملف';

@@ -1,4 +1,6 @@
 <?php
+$lang['Spreadsheet_name'] = "Spreadsheet Files";
+$lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
 
 $lang['imported_service_edited'] = 'Imported service edited';
 $lang['imported_service_file_deleted'] = 'Imported service file deleted';

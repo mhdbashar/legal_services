@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/LegalServices/Sessions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/arabic/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/language/english/custom_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/custom_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Sessions_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Sessions_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/sessions/detailed_overview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/includes/tasks_filter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/branches/branches.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/branches.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +33,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
@@ -133,7 +135,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/idealz-theme" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -408,6 +410,11 @@
       <workItem from="1608906417792" duration="3459000" />
       <workItem from="1608925625388" duration="5540000" />
       <workItem from="1608991774031" duration="117000" />
+      <workItem from="1610583202151" duration="1085000" />
+      <workItem from="1610641699017" duration="4188000" />
+      <workItem from="1610720846913" duration="617000" />
+      <workItem from="1610729882593" duration="16350000" />
+      <workItem from="1610838659204" duration="13594000" />
     </task>
     <servers />
   </component>

@@ -95,7 +95,14 @@ function estimates_add_table_row($row ,$aRow) {
     $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
-    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    $branch_name = !empty($branch) ? $branch['title_en'] : '';
+    $branch_id = !empty($branch) ? $branch['branch_id'] : '';
+    $row[] =
+        '<select>'.
+            '<option value="0">no thing selected</option>'.
+            '<option '.$branch_id.'>'.$branch_name.'</option>'.
+        '</select>';
+
     return $row;
 }
 
@@ -110,8 +117,35 @@ function customers_add_table_row($row ,$aRow) {
     $CI->db->where(['rel_id' => $aRow['userid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
-    $row[] = !empty($branch) ? $branch['title_en'] : 'fasdfasdf';
-    //echo '<pre>'; print_r($row); exit;
+    if(empty($branch)){
+        $data = [
+            'branch_id' => 1,
+            'rel_type' => 'client',
+            'rel_id' => $aRow['userid']
+        ];
+        $CI->db->insert('tblbranches_services', $data);
+        if($CI->db->insert_id()){
+            $CI->db->where(['rel_id' => $aRow['userid'], 'rel_type' => 'clients']);
+            $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+            $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+        }
+    }
+    $branch_name = !empty($branch) ? $branch['title_en'] : '';
+    $branch_id = !empty($branch) ? $branch['branch_id'] : '';
+
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $select = "<select onchange='window.location = \" ".admin_url('branches/switchfadfsdaf')."\" + this.value '>";
+    foreach($branches as $b){
+        $selected = $b['key'] == $branch_id ? "selected" : "";
+        $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
+    }
+//    $select .=        '<option value="0">no thing selected</option>';
+//    $select .=        '<option selected=" selected" '.$branch_id.'>'.$branch_name.'</option>';
+    $select .=    '</select>';
+
+    $row[] = $select;
+
     return $row;
 }
 

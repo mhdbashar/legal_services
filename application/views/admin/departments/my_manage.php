@@ -19,13 +19,17 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
+                    <?php
+                    $table_data =array(
                         _l('id'),
                         _l('department_list_name'),
                         _l('department_email'),
-                        _l('department_calendar_id'),
-                        _l('options')
-                        ),'departments'); ?>
+                        _l('department_calendar_id')
+                        );
+                    $table_data = hooks()->apply_filters('departments_table_columns', $table_data);
+                    $table_data[] = _l('options');
+                    render_datatable($table_data, 'departments');
+                    ?>
                     </div>
                 </div>
             </div>
@@ -67,23 +71,7 @@
                         <?php echo render_input('imap_username','department_username'); ?>
                         <?php echo render_input('host','dept_imap_host'); ?>
                         <?php echo render_input('password','dept_email_password','','password'); ?>
-                        <?php
-                            if($this->app_modules->is_active('branches')) {
-                                $ci = &get_instance();
-                                $ci->load->model('branches/Branches_model');
-                                $branches= $ci->Branches_model->getBranches();
-                            
-                        ?>
 
-                            <div class="form-group">
-                                <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                                <select class="form-control branch_selected" id="branch_id" name="branch_id" placeholder="<?php echo _l('document_type') ?>" aria-invalid="false">
-                                <?php foreach ($branches as $value) { ?>
-                                    <option class="branch_" id="branch_<?php echo  $value['key'] ?>" value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                                <?php } ?>
-                                </select>     
-                            </div>
-                        <?php } ?>
                         <div class="form-group">
                             <label for="encryption"><?php echo _l('dept_encryption'); ?></label><br />
                             <div class="radio radio-primary radio-inline">

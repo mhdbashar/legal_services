@@ -52,39 +52,6 @@ if (!$CI->db->table_exists(db_prefix() . 'branches_services')) {
      `rel_type` varchar(25) NOT NULL,
      `rel_id` int(11) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
-
-
-    $staffs = $CI->db->get(db_prefix() . 'staff')->result_array();
-    foreach ($staffs as $staff){
-      $data = [
-        'branch_id' => 1, 
-        'rel_type' => 'staff', 
-        'rel_id' => $staff['staffid']
-      ];
-      $CI->db->insert('tblbranches_services', $data);
-      $insert_id = $CI->db->insert_id();
-
-      if ($insert_id) {
-          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
-      }
-    }
-
-    $departments = $CI->db->get(db_prefix() . 'departments')->result_array();
-    foreach ($departments as $department){
-      $data = [
-        'branch_id' => 1, 
-        'rel_type' => 'departments', 
-        'rel_id' => $department['departmentid']
-      ];
-      $CI->db->insert('tblbranches_services', $data);
-      $insert_id = $CI->db->insert_id();
-
-      if ($insert_id) {
-          log_activity('Add Branch ['. $data['branch_id'] .'] To '.$data['rel_type'].' [' . $data['rel_id'] . ']');
-      }
-    }
-
-    
 }
 /*
 // Add branch_id column to department table

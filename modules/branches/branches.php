@@ -33,6 +33,9 @@ hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2
 //Staffs table
 hooks()->add_filter('staffs_table_row_data', 'staffs_add_table_row', 10, 3);
 hooks()->add_filter('staffs_table_columns', 'staffs_add_table_column', 10, 2);
+//Departments table
+hooks()->add_filter('departments_table_row_data', 'departments_add_table_row', 10, 3);
+hooks()->add_filter('departments_table_columns', 'departments_add_table_column', 10, 2);
 
 function staffs_add_table_column($table_data) {
     array_push($table_data, _l('branch_id'));
@@ -41,12 +44,82 @@ function staffs_add_table_column($table_data) {
 
 
 function staffs_add_table_row($row ,$aRow) {
+
     $CI = &get_instance();
-    $icon = '';
     $CI->db->where(['rel_id' => $aRow['staffid'], 'rel_type' => 'staff']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
-    $row[] = !empty($branch) ? $branch['title_en'] : '';
+    if(empty($branch)){
+        $data = [
+            'branch_id' => 1,
+            'rel_type' => 'staff',
+            'rel_id' => $aRow['staffid']
+        ];
+        $CI->db->insert('tblbranches_services', $data);
+        if($CI->db->insert_id()){
+            $CI->db->where(['rel_id' => $aRow['staffid'], 'rel_type' => 'staff']);
+            $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+            $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+        }
+    }
+    $branch_id = !empty($branch) ? $branch['branch_id'] : '';
+
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $select = "<select onchange='window.location = \" ".admin_url('branches/switch/staff/'.$aRow['staffid'].'/')."\" + this.value '>";
+
+    $select .= '<option disabled selected="true">  ....  </option>';
+    foreach($branches as $b){
+        $selected = $b['key'] == $branch_id ? "selected" : "";
+        $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
+    }
+    $select .=    '</select>';
+
+    $row[] = $select;
+
+    return $row;
+}
+
+function departments_add_table_column($table_data) {
+    array_push($table_data, _l('branch_id'));
+    return $table_data;
+}
+
+
+function departments_add_table_row($row ,$aRow) {
+
+    $CI = &get_instance();
+    $CI->db->where(['rel_id' => $aRow['departmentid'], 'rel_type' => 'departments']);
+    $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+    $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+    if(empty($branch)){
+        $data = [
+            'branch_id' => 1,
+            'rel_type' => 'departments',
+            'rel_id' => $aRow['departmentid']
+        ];
+        $CI->db->insert('tblbranches_services', $data);
+        if($CI->db->insert_id()){
+            $CI->db->where(['rel_id' => $aRow['departmentid'], 'rel_type' => 'departments']);
+            $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
+            $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
+        }
+    }
+    $branch_id = !empty($branch) ? $branch['branch_id'] : '';
+
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $select = "<select onchange='window.location = \" ".admin_url('branches/switch/departments/'.$aRow['departmentid'].'/')."\" + this.value '>";
+
+    $select .= '<option disabled selected="true">  ....  </option>';
+    foreach($branches as $b){
+        $selected = $b['key'] == $branch_id ? "selected" : "";
+        $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
+    }
+    $select .=    '</select>';
+
+    $row[] = $select;
+
     return $row;
 }
 
@@ -58,7 +131,6 @@ function services_add_table_column($table_data) {
 
 function services_add_table_row($row ,$aRow) {
     $CI = &get_instance();
-    $icon = '';
     $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
@@ -74,7 +146,6 @@ function invoices_add_table_column($table_data) {
 
 function invoices_add_table_row($row ,$aRow) {
     $CI = &get_instance();
-    $icon = '';
     $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
@@ -91,7 +162,6 @@ function estimates_add_table_column($table_data) {
 
 function estimates_add_table_row($row ,$aRow) {
     $CI = &get_instance();
-    $icon = '';
     $CI->db->where(['rel_id' => $aRow['clientid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
@@ -113,14 +183,13 @@ function customers_add_table_column($table_data) {
 
 function customers_add_table_row($row ,$aRow) {
     $CI = &get_instance();
-    $icon = '';
     $CI->db->where(['rel_id' => $aRow['userid'], 'rel_type' => 'clients']);
     $CI->db->join(db_prefix().'branches', db_prefix().'branches.id='.db_prefix().'branches_services.branch_id');
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
     if(empty($branch)){
         $data = [
             'branch_id' => 1,
-            'rel_type' => 'client',
+            'rel_type' => 'clients',
             'rel_id' => $aRow['userid']
         ];
         $CI->db->insert('tblbranches_services', $data);
@@ -130,18 +199,17 @@ function customers_add_table_row($row ,$aRow) {
             $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
         }
     }
-    $branch_name = !empty($branch) ? $branch['title_en'] : '';
     $branch_id = !empty($branch) ? $branch['branch_id'] : '';
 
     $CI->load->model('branches/Branches_model', 'branch');
     $branches = $CI->branch->getBranches();
-    $select = "<select onchange='window.location = \" ".admin_url('branches/switchfadfsdaf')."\" + this.value '>";
+    $select = "<select onchange='window.location = \" ".admin_url('branches/switch/clients/'.$aRow['userid'].'/')."\" + this.value '>";
+
+    $select .= '<option disabled selected="true">  ....  </option>';
     foreach($branches as $b){
         $selected = $b['key'] == $branch_id ? "selected" : "";
         $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
     }
-//    $select .=        '<option value="0">no thing selected</option>';
-//    $select .=        '<option selected=" selected" '.$branch_id.'>'.$branch_name.'</option>';
     $select .=    '</select>';
 
     $row[] = $select;

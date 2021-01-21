@@ -18,9 +18,13 @@ $aColumns = [
     'deadline',
     'status',
 ];
+
+$aColumns = hooks()->apply_filters('services_table_aColumns', $aColumns);
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_other_services.clientid',
 ];
+
+$join = hooks()->apply_filters('services_table_sql_join', $join);
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);

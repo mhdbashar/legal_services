@@ -21,18 +21,31 @@ hooks()->add_action('admin_init', 'branch_setup_init_menu_items');
 // Services table
 hooks()->add_filter('services_table_columns', 'services_add_table_column', 10, 2);
 hooks()->add_filter('services_table_row_data', 'services_add_table_row', 10, 3);
+hooks()->add_filter('services_table_aColumns', 'services_add_table_aColumns', 10, 4);
+hooks()->add_filter('services_table_sql_join', 'services_add_table_sql_join', 10, 5);
+hooks()->add_filter('cases_table_aColumns', 'cases_add_table_aColumns', 10, 6);
+hooks()->add_filter('cases_table_sql_join', 'cases_add_table_sql_join', 10, 7);
 // Customers table
 hooks()->add_filter('customers_table_row_data', 'customers_add_table_row', 10, 3);
 hooks()->add_filter('customers_table_columns', 'customers_add_table_column', 10, 2);
+hooks()->add_filter('customers_table_aColumns', 'services_add_table_aColumns', 10, 6);
+hooks()->add_filter('customers_table_sql_join', 'customers_add_table_sql_join', 10, 7);
+
 //estimates table
 hooks()->add_filter('estimates_table_row_data', 'estimates_add_table_row', 10, 3);
 hooks()->add_filter('estimates_table_columns', 'estimates_add_table_column', 10, 2);
+hooks()->add_filter('estimates_table_aColumns', 'services_add_table_aColumns', 10, 6);
+hooks()->add_filter('estimates_table_sql_join', 'estimates_add_table_sql_join', 10, 7);
 //Invoices table
 hooks()->add_filter('invoices_table_row_data', 'invoices_add_table_row', 10, 3);
 hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2);
+hooks()->add_filter('invoices_table_aColumns', 'services_add_table_aColumns', 10, 6);
+hooks()->add_filter('invoices_table_sql_join', 'invoices_add_table_sql_join', 10, 7);
 //Staffs table
 hooks()->add_filter('staffs_table_row_data', 'staffs_add_table_row', 10, 3);
 hooks()->add_filter('staffs_table_columns', 'staffs_add_table_column', 10, 2);
+hooks()->add_filter('staffs_table_aColumns', 'services_add_table_aColumns', 10, 6);
+hooks()->add_filter('staffs_table_sql_join', 'staffs_add_table_sql_join', 10, 7);
 //Departments table
 hooks()->add_filter('departments_table_row_data', 'departments_add_table_row', 10, 3);
 hooks()->add_filter('departments_table_columns', 'departments_add_table_column', 10, 2);
@@ -138,6 +151,53 @@ function services_add_table_row($row ,$aRow) {
     return $row;
 }
 
+
+function services_add_table_aColumns($aColumns) {
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    return $aColumns;
+}
+function services_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'my_other_services.clientid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+function customers_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+function estimates_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'estimates.clientid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+function invoices_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+
+function staffs_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="staff" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'staff.staffid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+
+function cases_add_table_aColumns($aColumns) {
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    return $aColumns;
+}
+function cases_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'my_cases.clientid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+
 function invoices_add_table_column($table_data) {
     array_push($table_data, _l('branch_id'));
     return $table_data;
@@ -167,11 +227,7 @@ function estimates_add_table_row($row ,$aRow) {
     $branch = $CI->db->get(db_prefix().'branches_services')->row_array();
     $branch_name = !empty($branch) ? $branch['title_en'] : '';
     $branch_id = !empty($branch) ? $branch['branch_id'] : '';
-    $row[] =
-        '<select>'.
-            '<option value="0">no thing selected</option>'.
-            '<option '.$branch_id.'>'.$branch_name.'</option>'.
-        '</select>';
+    $row[] = $branch_name;
 
     return $row;
 }

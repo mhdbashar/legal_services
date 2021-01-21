@@ -14,6 +14,7 @@ $aColumns = [
     'duedate',
     db_prefix() . 'invoices.status',
     ];
+$aColumns = hooks()->apply_filters('invoices_table_aColumns', $aColumns);
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'invoices';
@@ -24,6 +25,8 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'invoices.project_id',
     'LEFT JOIN ' . db_prefix() . 'my_basic_services ON ' . db_prefix() . 'my_basic_services.slug = ' . db_prefix() . 'invoices.rel_stype',
 ];
+
+$join = hooks()->apply_filters('invoices_table_sql_join', $join);
 
 $custom_fields = get_table_custom_fields('invoice');
 

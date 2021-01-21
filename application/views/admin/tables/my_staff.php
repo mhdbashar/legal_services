@@ -14,9 +14,13 @@ $aColumns = [
     'last_login',
     'active',
     ];
+
+$aColumns = hooks()->apply_filters('staffs_table_aColumns', $aColumns);
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
+$join = hooks()->apply_filters('staffs_table_sql_join', $join);
+
 
 $i            = 0;
 foreach ($custom_fields as $field) {

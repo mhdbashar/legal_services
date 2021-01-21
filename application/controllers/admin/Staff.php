@@ -33,7 +33,7 @@ class Staff extends AdminController
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
-Z        $this->load->model('departments_model');
+        $this->load->model('departments_model');
 
         if ($this->input->post()) {
             $data = $this->input->post();

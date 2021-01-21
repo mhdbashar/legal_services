@@ -3,16 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Clients.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Departments.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Departments.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/admin/Staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Staff.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/groups/my_profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/my_profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/departments/my_manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/departments/my_manage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/staff/my_member.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/staff/my_member.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_departments.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_departments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/groups/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/opponent/my_manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/opponent/my_manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/cases.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/cases.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_clients.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_estimates.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_estimates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_invoices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_opponents.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_opponents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_other_services.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_other_services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/my_staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/my_staff.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/branches/branches.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/branches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/controllers/Branches.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/controllers/Branches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/branches/install.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/branches/install.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -424,7 +425,8 @@
       <workItem from="1610720846913" duration="617000" />
       <workItem from="1610729882593" duration="16350000" />
       <workItem from="1610838659204" duration="13594000" />
-      <workItem from="1611012909046" duration="4131000" />
+      <workItem from="1611012909046" duration="15911000" />
+      <workItem from="1611197318744" duration="4243000" />
     </task>
     <servers />
   </component>

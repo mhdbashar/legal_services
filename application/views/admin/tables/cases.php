@@ -15,9 +15,13 @@ $aColumns = [
     'deadline',
     'status',
 ];
+$aColumns = hooks()->apply_filters('cases_table_aColumns', $aColumns);
+
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_cases.clientid',
 ];
+
+$join = hooks()->apply_filters('cases_table_sql_join', $join);
 
 if(isset($service)):
 $custom_fields = get_table_custom_fields($service->slug);

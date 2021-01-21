@@ -17,12 +17,14 @@ $aColumns = [
     db_prefix() . 'estimates.status',
     ];
 
+$aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
+
 $join = [
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
     'LEFT JOIN ' . db_prefix() . 'currencies ON ' . db_prefix() . 'currencies.id = ' . db_prefix() . 'estimates.currency',
     'LEFT JOIN ' . db_prefix() . 'projects ON ' . db_prefix() . 'projects.id = ' . db_prefix() . 'estimates.project_id',
 ];
-
+$join = hooks()->apply_filters('estimates_table_sql_join', $join);
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'estimates';

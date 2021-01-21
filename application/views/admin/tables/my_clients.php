@@ -37,6 +37,8 @@ $aColumns = [
     db_prefix().'clients.individual as individual',
 ];
 
+$aColumns = hooks()->apply_filters('customers_table_aColumns', $aColumns);
+
 $sIndexColumn = 'userid';
 $sTable       = db_prefix().'clients';
 $where        = [];

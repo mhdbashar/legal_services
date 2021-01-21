@@ -16,6 +16,7 @@ $aColumns = [
     ];
 
 $aColumns = hooks()->apply_filters('staffs_table_aColumns', $aColumns);
+
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
@@ -50,7 +51,7 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
-    for ($i = 0; $i < count($aColumns); $i++) {
+    for ($i = 0; $i < 5; $i++) {
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
             $_data = $aRow[strafter($aColumns[$i], 'as ')];
         } else {
@@ -110,7 +111,7 @@ foreach ($rResult as $aRow) {
         }
         $row[] = $_data;
     }
-
+    // $row[] = '';
     $row['DT_RowClass'] = 'has-row-options';
 
     $row = hooks()->apply_filters('staffs_table_row_data', $row, $aRow);

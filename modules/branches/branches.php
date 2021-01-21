@@ -48,6 +48,11 @@ hooks()->add_filter('staffs_table_sql_join', 'staffs_add_table_sql_join', 10, 7)
 //Departments table
 hooks()->add_filter('departments_table_row_data', 'departments_add_table_row', 10, 3);
 hooks()->add_filter('departments_table_columns', 'departments_add_table_column', 10, 2);
+hooks()->add_filter('departments_table_aColumns', 'departments_add_table_aColumns', 10, 6);
+hooks()->add_filter('departments_table_sql_join', 'departments_add_table_sql_join', 10, 7);
+
+
+
 
 function staffs_add_table_column($table_data) {
     array_push($table_data, _l('branch_id'));
@@ -198,6 +203,10 @@ function staffs_add_table_aColumns($aColumns) {
     $aColumns[] = db_prefix().'branches.title_en as branch_id';
     return $aColumns;
 }
+function departments_add_table_aColumns($aColumns) {
+    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+    return $aColumns;
+}
 function services_add_table_sql_join($join) {
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'my_other_services.clientid';
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
@@ -224,6 +233,12 @@ function invoices_add_table_sql_join($join) {
 
 function staffs_add_table_sql_join($join) {
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="staff" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'staff.staffid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
+
+function departments_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="departments" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'departments.departmentid';
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
     return $join;
 }

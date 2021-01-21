@@ -8,11 +8,17 @@ $aColumns = [
     'email',
     'calendar_id',
     ];
+
+$count_columns = count($aColumns);
+$aColumns = hooks()->apply_filters('departments_table_aColumns', $aColumns);
+
 $sIndexColumn = 'departmentid';
 $sTable       = db_prefix() . 'departments';
-
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, [], [], ['email', 'hidefromclient', 'host', 'encryption', 'password', 'delete_after_import', 'imap_username', 'folder']);
 $join = [];
+$join = hooks()->apply_filters('departments_table_sql_join', $join);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, [], ['email', 'hidefromclient', 'host', 'encryption', 'password', 'delete_after_import', 'imap_username', 'folder']);
+
+
 $ci = &get_instance();
 
 $output  = $result['output'];
@@ -20,7 +26,7 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
-    for ($i = 0; $i < count($aColumns); $i++) {
+    for ($i = 0; $i < $count_columns; $i++) {
         $_data = $aRow[$aColumns[$i]];
         $ps    = '';
         if (!empty($aRow['password'])) {

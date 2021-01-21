@@ -117,8 +117,9 @@
     </div><!-- /.modal -->
     <?php init_tail(); ?>
     <script>
+        var number_of_columns = $('thead tr th').length - 1;
         $(function(){
-           initDataTable('.table-departments', window.location.href, [4], [4], undefined, [1, 'asc']);
+           initDataTable('.table-departments', window.location.href, [number_of_columns], [number_of_columns], undefined, [1, 'asc']);
            appValidateForm($('form'),{name:'required',email:{
             email: true,
             remote: {

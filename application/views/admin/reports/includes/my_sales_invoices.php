@@ -46,7 +46,7 @@
          <th><?php echo _l('report_invoice_status'); ?></th>
          <?php if($this->app_modules->is_active('branches')){ ?>
             <th><?php echo _l('branch_name'); ?></th>
-         <? } ?>
+         <?php } ?>
       </tr>
    </thead>
    <tbody></tbody>

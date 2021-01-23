@@ -55,6 +55,10 @@ if (count($statusIds) > 0) {
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
+
+$where = hooks()->apply_filters('services_table_filter', $where, $filter);
+
+
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.service_id='.$ServID);
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.deleted=0');
 

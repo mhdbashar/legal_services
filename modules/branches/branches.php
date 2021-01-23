@@ -25,6 +25,9 @@ hooks()->add_filter('services_table_aColumns', 'services_add_table_aColumns', 10
 hooks()->add_filter('services_table_sql_join', 'services_add_table_sql_join', 10, 5);
 hooks()->add_filter('cases_table_aColumns', 'cases_add_table_aColumns', 10, 6);
 hooks()->add_filter('cases_table_sql_join', 'cases_add_table_sql_join', 10, 7);
+hooks()->add_filter('services_filter', 'services_add_filter', 10, 8);
+hooks()->add_filter('services_table_filter', 'services_table_add_filter', 10, 9);
+hooks()->add_filter('services_hidden_filter', 'services_add_hidden_filter', 10, 9);
 // Customers table
 hooks()->add_filter('customers_table_row_data', 'customers_add_table_row', 10, 3);
 hooks()->add_filter('customers_table_columns', 'customers_add_table_column', 10, 2);
@@ -52,7 +55,44 @@ hooks()->add_filter('departments_table_aColumns', 'departments_add_table_aColumn
 hooks()->add_filter('departments_table_sql_join', 'departments_add_table_sql_join', 10, 7);
 
 
+function services_table_add_filter($where, $filter){
 
+
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $branchIds = [];
+    //$filter = [];
+    foreach ($branches as $branch) {
+        if ($CI->input->post('project_branch_' . $branch['key'])) {
+            array_push($branchIds, $branch['key']);
+        }
+    }
+    if (count($branchIds) > 0) {
+        array_push($filter, 'AND '.db_prefix().'clients.userid IN (SELECT rel_id FROM '.db_prefix().'branches_services WHERE rel_type="clients" AND branch_id IN (' . implode(', ', $branchIds) . '))');
+    }
+    if (count($filter) > 0) {
+        array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
+    }
+    return $where;
+}
+
+function services_add_filter($class){
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $data['branches'] = $branches;
+    $data['class'] = $class;
+    // $CI->load->view('branches_filter', $data);
+    require "modules/branches/views/branches_filter.php";
+}
+
+function services_add_hidden_filter($data) {
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    require "modules/branches/views/branches_hidden_filter.php";
+}
 
 function staffs_add_table_column($table_data) {
     array_push($table_data, _l('branch_id'));

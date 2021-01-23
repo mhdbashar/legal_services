@@ -37,7 +37,7 @@ endif;
 $where  = [];
 $filter = [];
 $statusIds = [];
-
+//echo '<pre>'; print_r($this->ci->input->post()); exit;
 foreach ($model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);
@@ -57,9 +57,11 @@ if (count($statusIds) > 0) {
     array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
 }
 
+
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
+$where = hooks()->apply_filters('services_table_filter', $where, $filter);
 
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_cases';

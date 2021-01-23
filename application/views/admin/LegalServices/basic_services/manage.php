@@ -50,6 +50,7 @@
                                             </a>
                                         </li>
                                     <?php } ?>
+                                    <?php hooks()->apply_filters('services_filter', $class); ?>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
@@ -89,6 +90,12 @@
                                         </a>
                                     </div>
                                 <?php } ?>
+                                <?php hooks()->apply_filters('services_hidden_filter', [
+                                        '_where' => $_where,
+                                        'ServID' => $ServID,
+                                        'TableService' => $TableService,
+                                        'class' => $class
+                                ]); ?>
                             </div>
                         </div>
                         <div class="clearfix"></div>

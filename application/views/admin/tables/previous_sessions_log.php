@@ -7,14 +7,18 @@ $aColumns = [
     db_prefix() . 'tasks.id as id',
     db_prefix() . 'tasks.name as task_name',
     db_prefix() . 'tasks.status as status',
-    db_prefix() . 'my_judges.name as judge',
+    //db_prefix() . 'my_judges.name as judge',
+    get_sql_select_session_asignees_full_names() . ' as assignees',
     'startdate',
     'time',
     'court_name',
-//    'court_decision',
     'customer_report',
     'send_to_customer',
 ];
+
+//$additionalSelect = [
+//    get_sql_select_session_asignees_full_names() . ' as assignees'
+//];
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'tasks';
@@ -60,7 +64,7 @@ array_push($where, 'AND ' . db_prefix() . 'tasks.is_session = 1');
 $join = [
     'LEFT JOIN ' . db_prefix() . 'my_session_info ON ' . db_prefix() . 'my_session_info.task_id = ' . db_prefix() . 'tasks.id',
     'LEFT JOIN '.db_prefix().'my_courts ON '.db_prefix().'my_courts.c_id = '.db_prefix().'my_session_info.court_id',
-    'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
+  //  'LEFT JOIN '.db_prefix().'my_judges ON '.db_prefix().'my_judges.id = '.db_prefix().'my_session_info.judge_id',
 ];
 
 $custom_fields = get_table_custom_fields('sessions');
@@ -136,7 +140,8 @@ foreach ($rResult as $aRow) {
     }
     $outputName .= '</div>';
     $row[] = $outputName;
-    $row[] = $aRow['judge'];
+   // $row[] = $aRow['judge'];
+    $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
     $row[] = $aRow['court_name'];
 //    $row[] = $aRow['court_decision'] != '' ? substr($aRow['court_decision'],0,40).'...' : '';
     if($aRow['customer_report'] == 0):

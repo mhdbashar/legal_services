@@ -3,12 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Spreadsheet Online
-Description: A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.
+Module Name: Spreadsheet_name
+Description: Spreadsheet_desc
 Version: 1.0.3
 Requires at least: 2.3.*
-Author: GreenTech Solutions
-Author URI: https://codecanyon.net/user/greentech_solutions
+Author: Babil Team
+Author URI: #
 */
 
 define('SPREAD_ONLINE_MODULE_NAME', 'spreadsheet_online');

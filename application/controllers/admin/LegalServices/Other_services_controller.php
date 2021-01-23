@@ -447,7 +447,12 @@ class Other_services_controller extends AdminController
                     $tags[] = $tag['tag'];
                 }
                 $tags = implode(',', $tags);
-                $data['books'] = json_decode(get_books_by_api($tags));
+                $response = get_books_by_api($tags);
+                if(isset($response['error'])):
+                    $data['books'] = array();
+                else:
+                    $data['books'] = json_decode($response);
+                endif;
             }elseif ($group == 'written_reports'){
                 $data['reports'] = $this->reports->get('', ['rel_id' => $id, 'rel_type' => $slug]);
             }

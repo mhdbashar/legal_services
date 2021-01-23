@@ -642,7 +642,7 @@ $(document).ready(function() {
         $("li.fancyTab").width('16.666666666666667%');
     }
     if (numItems == 5){
-        $("li.fancyTab").width('20%');
+        //$("li.fancyTab").width('20%');
     }
     if (numItems == 4){
         $("li.fancyTab").width('25%');

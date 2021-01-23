@@ -1,4 +1,6 @@
 <?php
+$lang['Spreadsheet_name'] = "Spreadsheet Files";
+$lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
 
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
@@ -4265,3 +4267,4 @@ $lang['dont_have_edit_permission'] = "You do not have permission to edit!";
 $lang['session_no_assignees'] = 'No assignees for this session';
 
 $lang['task_filter_detailed_all_days'] = "All Days";
+$lang['view_book'] = "View Book";

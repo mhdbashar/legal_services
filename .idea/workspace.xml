@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5fc5fd9f-adaf-41be-800a-636f2163e2bb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Utilities_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Utilities_model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,18 +135,22 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../xerochat" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/migrations" />
+>>>>>>> 0c2386ee5b2c0585b71b7957010b9673374a7cbc
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\legal_services\application\migrations" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\contracts" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\clients" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\tables" />
       <recent name="C:\xampp\htdocs\legal_services\application\views\admin\clients\groups" />
-      <recent name="C:\xampp\htdocs\legal_services\application\views\admin\sessions" />
     </key>
   </component>
   <component name="RunManager">
@@ -409,6 +414,7 @@
       <workItem from="1608906417792" duration="3459000" />
       <workItem from="1608925625388" duration="5540000" />
       <workItem from="1608991774031" duration="117000" />
+<<<<<<< HEAD
       <workItem from="1610583202151" duration="1085000" />
       <workItem from="1610641699017" duration="4188000" />
       <workItem from="1610720846913" duration="617000" />
@@ -417,11 +423,31 @@
       <workItem from="1611012909046" duration="15911000" />
       <workItem from="1611197318744" duration="13433000" />
       <workItem from="1611284832796" duration="12345000" />
+=======
+      <workItem from="1609099687863" duration="796000" />
+      <workItem from="1609189584629" duration="5648000" />
+      <workItem from="1609275373426" duration="613000" />
+      <workItem from="1609276004781" duration="597000" />
+      <workItem from="1609316238496" duration="42000" />
+      <workItem from="1610406177028" duration="3413000" />
+      <workItem from="1610490093640" duration="4810000" />
+      <workItem from="1610576816333" duration="1790000" />
+>>>>>>> 0c2386ee5b2c0585b71b7957010b9673374a7cbc
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

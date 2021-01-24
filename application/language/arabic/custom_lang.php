@@ -1,4 +1,7 @@
 <?php
+
+$lang['branch_report_all'] = "الكل";
+$lang['report_branch'] = "الفرع";
 $lang['Spreadsheet_name'] = "ملفات الجداول";
 $lang['Spreadsheet_desc'] = "محرر جداول بيانات قوي يتيح لك القيام بكل ما يمكنك فعله باستخدام برامج جداول البيانات المعاصرة مثل Excel.";
 $lang['default_session_status'] = "الحالة الافتراضية عند إنشاء جلسة جديدة";

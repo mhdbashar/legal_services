@@ -38,6 +38,8 @@ hooks()->add_filter('estimates_table_row_data', 'estimates_add_table_row', 10, 3
 hooks()->add_filter('estimates_table_columns', 'estimates_add_table_column', 10, 2);
 hooks()->add_filter('estimates_table_aColumns', 'services_add_table_aColumns', 10, 6);
 hooks()->add_filter('estimates_table_sql_join', 'estimates_add_table_sql_join', 10, 7);
+//credit notes
+hooks()->add_filter('creditnotes_table_sql_join', 'creditnotes_add_table_sql_join', 10, 7);
 //Invoices table
 hooks()->add_filter('invoices_table_row_data', 'invoices_add_table_row', 10, 3);
 hooks()->add_filter('invoices_table_columns', 'invoices_add_table_column', 10, 2);
@@ -53,8 +55,42 @@ hooks()->add_filter('departments_table_row_data', 'departments_add_table_row', 1
 hooks()->add_filter('departments_table_columns', 'departments_add_table_column', 10, 2);
 hooks()->add_filter('departments_table_aColumns', 'departments_add_table_aColumns', 10, 6);
 hooks()->add_filter('departments_table_sql_join', 'departments_add_table_sql_join', 10, 7);
+// Report
+hooks()->add_filter('report_table_columns', 'report_add_table_column', 10 ,3);
+hooks()->add_filter('report_filter', 'report_add_filter', 10 ,4);
+hooks()->add_filter('report_select_branch', 'report_add_select_branch', 10 ,4);
 
 
+function report_add_select_branch($where) {
+    $CI = &get_instance();
+    if ($CI->input->post('branch')) {
+        $branches  = $CI->input->post('branch');
+        $_branches = [];
+        if (is_array($branches)) {
+            foreach ($branches as $branch) {
+                if ($branch != '') {
+                    array_push($_branches, $branch);
+                }
+            }
+        }
+        // var_dump($_branches); exit;
+        if (count($_branches) > 0) {
+            array_push($where, 'AND tblbranches_services.branch_id in (' . implode(', ', $_branches) . ')');
+        }
+    }
+    return $where;
+}
+function report_add_filter(){
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $data['branches'] = $branches;
+    require "modules/branches/views/filters/report_filter.php";
+}
+
+function report_add_table_column() {
+    echo '<th>' . _l('branch_name') . '</th>';
+}
 function services_table_add_filter($where, $filter){
 
 
@@ -264,6 +300,11 @@ function estimates_add_table_sql_join($join) {
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
     return $join;
 }
+function creditnotes_add_table_sql_join($join) {
+    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'creditnotes.clientid';
+    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
+    return $join;
+}
 function invoices_add_table_sql_join($join) {
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="clients" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid';
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
@@ -328,6 +369,7 @@ function estimates_add_table_row($row ,$aRow) {
 
     return $row;
 }
+//creditnotes
 
 function customers_add_table_column($table_data) {
     array_push($table_data, _l('branch_id'));

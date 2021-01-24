@@ -22,6 +22,7 @@
    "report_to": '[name="report-to"]',
    "report_currency": '[name="currency"]',
    "invoice_status": '[name="invoice_status"]',
+     "branch": '[name="branch"]',
    "estimate_status": '[name="estimate_status"]',
    "sale_agent_invoices": '[name="sale_agent_invoices"]',
    "sale_agent_items": '[name="sale_agent_items"]',
@@ -31,7 +32,7 @@
    "credit_note_status": '[name="credit_note_status"]',
  }
  $(function() {
-   $('select[name="currency"],select[name="invoice_status"],select[name="estimate_status"],select[name="sale_agent_invoices"],select[name="sale_agent_items"],select[name="sale_agent_estimates"],select[name="payments_years"],select[name="proposals_sale_agents"],select[name="proposal_status"],select[name="credit_note_status"]').on('change', function() {
+   $('select[name="currency"],select[name="invoice_status"],select[name="branch"],select[name="estimate_status"],select[name="sale_agent_invoices"],select[name="sale_agent_items"],select[name="sale_agent_estimates"],select[name="payments_years"],select[name="proposals_sale_agents"],select[name="proposal_status"],select[name="credit_note_status"]').on('change', function() {
      gen_reports();
    });
 

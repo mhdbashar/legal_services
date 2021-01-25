@@ -522,7 +522,7 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
-            $where = hooks()->apply_filters('report_select_branch', $where);
+            $where = hooks()->apply_filters('report_select_branch_estimates', $where);
 
             $aColumns     = $select;
             $sIndexColumn = 'id';
@@ -825,7 +825,7 @@ class Reports extends AdminController
                 }
             }
 
-            $where = hooks()->apply_filters('report_select_branch', $where);
+            $where = hooks()->apply_filters('report_select_branch_credit_notes', $where);
 
             $aColumns     = $select;
             $sIndexColumn = 'id';

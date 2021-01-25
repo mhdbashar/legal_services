@@ -24,7 +24,7 @@
             </div>
         <?php } ?>
     </div>
-    <?php hooks()->apply_filters('report_filter', ''); ?>
+    <?php hooks()->apply_filters('report_filter_estimates', ''); ?>
     <div class="clearfix"></div>
     <table class="table table-estimates-report scroll-responsive">
         <thead>

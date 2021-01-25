@@ -11,7 +11,7 @@
     </select>
   </div>
 </div>
-     <?php hooks()->apply_filters('report_filter', ''); ?>
+     <?php hooks()->apply_filters('report_filter_credit_notes', ''); ?>
 </div>
 <table class="table table-credit-notes-report scroll-responsive">
   <thead>

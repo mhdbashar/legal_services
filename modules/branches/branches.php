@@ -58,7 +58,11 @@ hooks()->add_filter('departments_table_sql_join', 'departments_add_table_sql_joi
 // Report
 hooks()->add_filter('report_table_columns', 'report_add_table_column', 10 ,3);
 hooks()->add_filter('report_filter', 'report_add_filter', 10 ,4);
+hooks()->add_filter('report_filter_estimates', 'report_add_filter_estimates', 10 ,4);
+hooks()->add_filter('report_filter_credit_notes', 'report_add_filter_credit_notes', 10 ,4);
 hooks()->add_filter('report_select_branch', 'report_add_select_branch', 10 ,4);
+hooks()->add_filter('report_select_branch_estimates', 'report_add_select_branch_estimates', 10 ,4);
+hooks()->add_filter('report_select_branch_credit_notes', 'report_add_select_branch_credit_notes', 10 ,4);
 
 
 function report_add_select_branch($where) {
@@ -73,7 +77,42 @@ function report_add_select_branch($where) {
                 }
             }
         }
-        // var_dump($_branches); exit;
+        if (count($_branches) > 0) {
+            array_push($where, 'AND tblbranches_services.branch_id in (' . implode(', ', $_branches) . ')');
+        }
+    }
+    return $where;
+}
+function report_add_select_branch_estimates($where) {
+    $CI = &get_instance();
+    if ($CI->input->post('branch_estimates')) {
+        $branches  = $CI->input->post('branch_estimates');
+        $_branches = [];
+        if (is_array($branches)) {
+            foreach ($branches as $branch) {
+                if ($branch != '') {
+                    array_push($_branches, $branch);
+                }
+            }
+        }
+        if (count($_branches) > 0) {
+            array_push($where, 'AND tblbranches_services.branch_id in (' . implode(', ', $_branches) . ')');
+        }
+    }
+    return $where;
+}
+function report_add_select_branch_credit_notes($where) {
+    $CI = &get_instance();
+    if ($CI->input->post('branch_credit_notes')) {
+        $branches  = $CI->input->post('branch_credit_notes');
+        $_branches = [];
+        if (is_array($branches)) {
+            foreach ($branches as $branch) {
+                if ($branch != '') {
+                    array_push($_branches, $branch);
+                }
+            }
+        }
         if (count($_branches) > 0) {
             array_push($where, 'AND tblbranches_services.branch_id in (' . implode(', ', $_branches) . ')');
         }
@@ -86,6 +125,20 @@ function report_add_filter(){
     $branches = $CI->branch->getBranches();
     $data['branches'] = $branches;
     require "modules/branches/views/filters/report_filter.php";
+}
+function report_add_filter_estimates(){
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $data['branches'] = $branches;
+    require "modules/branches/views/filters/report_filter_estimates.php";
+}
+function report_add_filter_credit_notes(){
+    $CI = &get_instance();
+    $CI->load->model('branches/Branches_model', 'branch');
+    $branches = $CI->branch->getBranches();
+    $data['branches'] = $branches;
+    require "modules/branches/views/filters/report_filter_credit_notes.php";
 }
 
 function report_add_table_column() {

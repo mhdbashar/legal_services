@@ -93,7 +93,8 @@ class Branches_model extends App_Model
     {
         $data = [];
         $this->db->where(['rel_id' => $rel_id, 'rel_type' => $rel_type]);
-        $branch_id = $this->db->get(db_prefix().'branches_services')->row_array()['branch_id'];
+        $branch = $this->db->get(db_prefix().'branches_services')->row_array();
+        $branch_id = !empty($branch) ? $branch['branch_id'] : '';
         return $branch_id;
     }
 
@@ -101,7 +102,9 @@ class Branches_model extends App_Model
     {
         $branch_id = $this->get_branch($rel_type, $rel_id);
         $this->db->where(['id' => $branch_id]);
-        return $this->db->get(db_prefix().'branches')->row_array()['title_en'];
+        $branch = $this->db->get(db_prefix().'branches')->row_array();
+        $branch_name = !empty($branch) ? $branch['title_en'] : '';
+        return $branch_name;
     }
     /**
      * Update custom field

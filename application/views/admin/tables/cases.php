@@ -15,20 +15,13 @@ $aColumns = [
     'deadline',
     'status',
 ];
+$aColumns = hooks()->apply_filters('cases_table_aColumns', $aColumns);
+
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_cases.clientid',
 ];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    if(get_staff_default_language() == 'arabic'){
-        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-    }else{
-        $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    }
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
 
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
+$join = hooks()->apply_filters('cases_table_sql_join', $join);
 
 if(isset($service)):
 $custom_fields = get_table_custom_fields($service->slug);
@@ -44,7 +37,7 @@ endif;
 $where  = [];
 $filter = [];
 $statusIds = [];
-
+//echo '<pre>'; print_r($this->ci->input->post()); exit;
 foreach ($model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);
@@ -64,9 +57,11 @@ if (count($statusIds) > 0) {
     array_push($filter, 'OR status IN (' . implode(', ', $statusIds) . ')');
 }
 
+
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
+$where = hooks()->apply_filters('services_table_filter', $where, $filter);
 
 $sIndexColumn = 'id';
 $sTable  = db_prefix() . 'my_cases';
@@ -109,14 +104,12 @@ foreach ($rResult as $aRow) {
     $row[] = $membersOutput;
     $status = get_case_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
-    // Custom fields add values
+
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
     $row['DT_RowClass'] = 'has-row-options';
+    $row = hooks()->apply_filters('services_table_row_data', $row, $aRow);
     
     $output['aaData'][] = $row;
     $i++;

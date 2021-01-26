@@ -58,6 +58,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
@@ -151,7 +159,11 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../xerochat" />
+=======
     <property name="last_opened_file_path" value="$PROJECT_DIR$/application/migrations" />
+>>>>>>> 0c2386ee5b2c0585b71b7957010b9673374a7cbc
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -428,6 +440,16 @@
       <workItem from="1608906417792" duration="3459000" />
       <workItem from="1608925625388" duration="5540000" />
       <workItem from="1608991774031" duration="117000" />
+<<<<<<< HEAD
+      <workItem from="1610583202151" duration="1085000" />
+      <workItem from="1610641699017" duration="4188000" />
+      <workItem from="1610720846913" duration="617000" />
+      <workItem from="1610729882593" duration="16350000" />
+      <workItem from="1610838659204" duration="13594000" />
+      <workItem from="1611012909046" duration="15911000" />
+      <workItem from="1611197318744" duration="13433000" />
+      <workItem from="1611284832796" duration="12345000" />
+=======
       <workItem from="1609099687863" duration="796000" />
       <workItem from="1609189584629" duration="5648000" />
       <workItem from="1609275373426" duration="613000" />
@@ -439,6 +461,10 @@
 =======
       <workItem from="1610490093640" duration="4810000" />
       <workItem from="1610576816333" duration="1790000" />
+<<<<<<< HEAD
+>>>>>>> dev
+=======
+>>>>>>> 0c2386ee5b2c0585b71b7957010b9673374a7cbc
 >>>>>>> dev
     </task>
     <servers />

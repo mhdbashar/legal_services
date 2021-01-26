@@ -21,6 +21,9 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+$lang['branch_report_all'] = "All";
+$lang['report_branch'] = "Branch";
+
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
 $lang['active'] = 'Active';

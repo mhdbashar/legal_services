@@ -11,6 +11,7 @@
     </select>
   </div>
 </div>
+     <?php hooks()->apply_filters('report_filter_credit_notes', ''); ?>
 </div>
 <table class="table table-credit-notes-report scroll-responsive">
   <thead>
@@ -29,9 +30,7 @@
     <th><?php echo _l('invoice_adjustment'); ?></th>
     <th><?php echo _l('credit_note_remaining_credits'); ?></th>
     <th><?php echo _l('credit_note_status'); ?></th>
-    <?php if($this->app_modules->is_active('branches')){ ?>
-            <th><?php echo _l('branch_name'); ?></th>
-    <? } ?>
+       <?php hooks()->apply_filters('report_table_columns', ''); ?>
   </tr>
 </thead>
 <tbody></tbody>

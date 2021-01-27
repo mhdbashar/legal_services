@@ -50,6 +50,7 @@
                                             </a>
                                         </li>
                                     <?php } ?>
+                                    <?php hooks()->apply_filters('services_filter', $class); ?>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
@@ -89,6 +90,12 @@
                                         </a>
                                     </div>
                                 <?php } ?>
+                                <?php hooks()->apply_filters('services_hidden_filter', [
+                                        '_where' => $_where,
+                                        'ServID' => $ServID,
+                                        'TableService' => $TableService,
+                                        'class' => $class
+                                ]); ?>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -122,12 +129,6 @@
                                     'name' => _l('project_status'),
                                 )
                             );
-                            if($this->app_modules->is_active('branches')){
-                                $_table_data[] = array(
-                                   'name' => _l('branch_name'),
-                                   'th_attrs' => array('class'=>'toggleable', 'id'=>'th-individual')
-                                );
-                            }
                             foreach($_table_data as $_t){
                                 array_push($table_data,$_t);
                             }
@@ -135,6 +136,8 @@
                             foreach($custom_fields as $field){
                                 array_push($table_data,$field['name']);
                             }
+
+                            $table_data = hooks()->apply_filters('services_table_columns', $table_data);
                             render_datatable($table_data,$render_class);
                             ?>
                         </div>

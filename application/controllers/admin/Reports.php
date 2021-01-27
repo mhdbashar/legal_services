@@ -522,24 +522,17 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
+            $where = hooks()->apply_filters('report_select_branch_estimates', $where);
+
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'estimates';
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
             ];
+            $join = hooks()->apply_filters('estimates_table_sql_join', $join);
 
-            $ci = &get_instance();
-            if($ci->app_modules->is_active('branches')){
-                if(get_staff_default_language() == 'arabic'){
-                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-                }else{
-                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-                }
-                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'estimates.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-            }
+            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
@@ -616,9 +609,7 @@ class Reports extends AdminController
 
                 $row[] = format_estimate_status($aRow['status']);
 
-                if($ci->app_modules->is_active('branches')){
-                    $row[] = $aRow['branch_id'];
-                }
+                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 
                 $output['aaData'][] = $row;
             }
@@ -834,6 +825,8 @@ class Reports extends AdminController
                 }
             }
 
+            $where = hooks()->apply_filters('report_select_branch_credit_notes', $where);
+
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'creditnotes';
@@ -841,17 +834,8 @@ class Reports extends AdminController
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'creditnotes.clientid',
             ];
 
-            $ci = &get_instance();
-            if($ci->app_modules->is_active('branches')){
-                if(get_staff_default_language() == 'arabic'){
-                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-                }else{
-                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-                }
-                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'creditnotes.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-            }
+            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
+            $join = hooks()->apply_filters('creditnotes_table_sql_join', $join);
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
@@ -920,9 +904,7 @@ class Reports extends AdminController
 
                 $row[] = format_credit_note_status($aRow['status']);
 
-                if($ci->app_modules->is_active('branches')){
-                    $row[] = $aRow['branch_id'];
-                }
+                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 
                 $output['aaData'][] = $row;
             }
@@ -1030,23 +1012,16 @@ class Reports extends AdminController
                 }
             }
 
+            $where = hooks()->apply_filters('report_select_branch', $where);
+
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'invoices';
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
             ];
-            $ci = &get_instance();
-            if($ci->app_modules->is_active('branches')){
-                if(get_staff_default_language() == 'arabic'){
-                    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-                }else{
-                    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-                }
-                $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-                $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-            }
+            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
+            $join = hooks()->apply_filters('invoices_table_sql_join', $join);
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
                 'clientid',
@@ -1122,9 +1097,7 @@ class Reports extends AdminController
 
                 $row[] = format_invoice_status($aRow['status']);
 
-                if($ci->app_modules->is_active('branches')){
-                    $row[] = $aRow['branch_id'];
-                }
+                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 
                 $output['aaData'][] = $row;
             }

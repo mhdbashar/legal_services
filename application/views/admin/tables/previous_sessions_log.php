@@ -24,7 +24,7 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'tasks';
 
 $where = [];
-include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
+include_once(APPPATH . 'views/admin/tables/includes/sessions_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     if(!$all_data):
@@ -75,7 +75,7 @@ foreach ($custom_fields as $key => $field) {
     array_push($aColumns, '(SELECT value FROM ' . db_prefix() . 'customfieldsvalues WHERE ' . db_prefix() . 'customfieldsvalues.relid=' . db_prefix() . 'tasks.id AND ' . db_prefix() . 'customfieldsvalues.fieldid=' . $field['id'] . ' AND ' . db_prefix() . 'customfieldsvalues.fieldto="' . $field['fieldto'] . '" LIMIT 1) as ' . $selectAs);
 }
 
-$aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
+// $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'billed',
@@ -136,7 +136,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('tasks/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('Legalservices/Sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';
     $row[] = $outputName;
@@ -156,7 +156,27 @@ foreach ($rResult as $aRow) {
         $send = '<span class="label label inline-block project-status-4" style=color:#84c529;border: 1px solid #84c529">مرسل</span>';
     endif;
     $row[] = $send;
-    $row[] = _d($aRow['startdate']);
+
+
+    // startdate
+    $hijriStatus= get_option('isHijri');
+    /** to check if this page are included in database hijri option **/
+    $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+
+    $admin_url = admin_url();
+    $this_page = str_replace(admin_url(),'',$current_url);
+    if(search_url($hijri_pages, $this_page) > 0){
+        $hijri_convert = true;
+    }else{
+        $hijri_convert = false;
+    }
+    if($hijri_convert && $hijriStatus =="on"){
+        $row[] = _d($aRow['startdate']) . '<br>' . force_to_AD_date($aRow['startdate']);
+    }else
+        $row[] = _d($aRow['startdate']);
+    // ~startdate
     $row[] = $aRow['time'];
     if($aRow['customer_report'] == 0 && $aRow['send_to_customer'] == 0):
         $stc = '<a href="#" data-toggle="modal" data-target="#customer_report'.$aRow['id'].'" class="btn btn-info pull-left display-block">';

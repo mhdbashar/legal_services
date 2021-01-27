@@ -547,7 +547,7 @@ function force_to_AD_date($date)
     //     $hijri_convert = false;
     // }
 
-    if (true) {
+    if (false) {
         $hijri_settings['adj_data'] = get_option('adjust_data');
 //                var_dump($hijri_settings['adj_data'].'fghf');exit();
 

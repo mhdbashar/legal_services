@@ -24,7 +24,7 @@ $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'tasks';
 
 $where = [];
-include_once(APPPATH . 'views/admin/tables/includes/tasks_filter.php');
+include_once(APPPATH . 'views/admin/tables/includes/sessions_filter.php');
 
 if (!$this->ci->input->post('tasks_related_to')) {
     if(!$all_data):
@@ -75,7 +75,7 @@ foreach ($custom_fields as $key => $field) {
     array_push($aColumns, '(SELECT value FROM ' . db_prefix() . 'customfieldsvalues WHERE ' . db_prefix() . 'customfieldsvalues.relid=' . db_prefix() . 'tasks.id AND ' . db_prefix() . 'customfieldsvalues.fieldid=' . $field['id'] . ' AND ' . db_prefix() . 'customfieldsvalues.fieldto="' . $field['fieldto'] . '" LIMIT 1) as ' . $selectAs);
 }
 
-$aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
+// $aColumns = hooks()->apply_filters('tasks_related_table_sql_columns', $aColumns);
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'billed',
@@ -136,7 +136,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionDelete) {
-        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('tasks/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
+        $outputName .= '<span class="text-dark"> | </span><a href="' . admin_url('Legalservices/Sessions/delete_task/' . $aRow['id']) . '" class="text-danger _delete task-delete">' . _l('delete') . '</a>';
     }
     $outputName .= '</div>';
     $row[] = $outputName;

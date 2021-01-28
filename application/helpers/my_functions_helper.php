@@ -1117,3 +1117,22 @@ function format_dispute_invoice_number($id)
         'invoice' => $invoice,
     ]);
 }
+function _dha($date) {
+    $hijriStatus= get_option('isHijri');
+    /** to check if this page are included in database hijri option **/
+    $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+
+    $admin_url = admin_url();
+    $this_page = str_replace(admin_url(),'',$current_url);
+    if(search_url($hijri_pages, $this_page) > 0){
+        $hijri_convert = true;
+    }else{
+        $hijri_convert = false;
+    }
+    if($hijri_convert && $hijriStatus =="on"){
+        return _d($date) . '<br>' . force_to_AD_date($date);
+    }else
+        return _d($date);
+}

@@ -562,7 +562,7 @@
                 if ($taskModal.is(':visible')) {
                     $taskModal.modal('hide');
                 }
-                init_task_modal(response.new_task_id);
+                init_session_modal(response.new_task_id);
                 reload_tasks_tables();
 
             }

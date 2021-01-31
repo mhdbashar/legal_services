@@ -166,7 +166,7 @@ foreach ($rResult as $aRow) {
 
     $row[]           = $outputName;
 
-    $row[] = _d($aRow['startdate']);
+    $row[] = _dha($aRow['startdate']);
 
     $row[] = $aRow['time'];
 

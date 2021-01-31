@@ -159,7 +159,7 @@ foreach ($rResult as $aRow) {
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {
-        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _dha($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
 
     $output['aaData'][] = $row;

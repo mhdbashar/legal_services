@@ -1131,7 +1131,7 @@ function _dha($date) {
     }else{
         $hijri_convert = false;
     }
-    if($hijri_convert && $hijriStatus =="on"){
+    if(true){
         return _d($date) . '<br>' . force_to_AD_date($date);
     }else
         return _d($date);

@@ -290,7 +290,7 @@ foreach ($rResult as $aRow) {
 
     // $row[] = $groupsRow;
 
-    $row[] = _dt($aRow['datecreated']);
+    $row[] = _dha($aRow['datecreated']);
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));

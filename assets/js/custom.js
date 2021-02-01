@@ -1217,7 +1217,7 @@ function session_form_handler(form) {
             if (excludeCompletedTasks) {
                 params['exclude_completed'] = excludeCompletedTasks;
             }
-            params['taskid'] = response.id;
+            params['sessionid'] = response.id;
             window.location.href = buildUrl(location[0], params);
         }
     }).fail(function (error) {

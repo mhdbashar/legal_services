@@ -201,9 +201,9 @@ foreach ($rResult as $aRow) {
     $outputStatus .= '</span>';
 
     $row[] = $outputStatus;
-    $row[] = _d($aRow['startdate']);
+    $row[] = _dha($aRow['startdate']);
 
-    $row[] = _d($aRow['duedate']);
+    $row[] = _dha($aRow['duedate']);
 
     $row[] = format_members_by_ids_and_names($aRow['assignees_ids'], $aRow['assignees']);
 

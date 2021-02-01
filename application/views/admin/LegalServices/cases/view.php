@@ -179,7 +179,7 @@ echo form_hidden('project_percent',$percent);
 <!-- For invoices table -->
 <script>
     taskid = '<?php echo $this->input->get('taskid'); ?>';
-    sessionid = '<?php echo $this->input->get('taskid'); ?>';
+    sessionid = '<?php echo $this->input->get('sessionid'); ?>';
 </script>
 <script>
     var gantt_data = {};

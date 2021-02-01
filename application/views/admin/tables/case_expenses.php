@@ -98,7 +98,7 @@ foreach ($rResult as $aRow) {
                 $_data = '<a href="' . site_url('download/file/expense/' . $aRow[db_prefix() . 'expenses.id']) . '">' . $_data . '</a>';
             }
         } elseif ($aColumns[$i] == 'date') {
-            $_data = _d($_data);
+            $_data = _dha($_data);
         } elseif ($aColumns[$i] == 'invoiceid') {
             if ($_data) {
                 $_data = '<a href="' . admin_url('invoices/list_invoices/' . $_data) . '">' . format_invoice_number($_data) . '</a>';

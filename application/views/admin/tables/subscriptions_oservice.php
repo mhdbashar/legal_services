@@ -103,7 +103,7 @@ foreach ($rResult as $aRow) {
     }
 
     if ($aRow['next_billing_cycle']) {
-        $row[] = _d(date('Y-m-d', $aRow['next_billing_cycle']));
+        $row[] = _dha(date('Y-m-d', $aRow['next_billing_cycle']));
     } else {
         $row[] = '-';
     }

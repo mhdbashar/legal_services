@@ -137,9 +137,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _d($aRow['start_date']);
+    $row[] = _dha($aRow['start_date']);
 
-    $row[] = _d($aRow['deadline']);
+    $row[] = _dha($aRow['deadline']);
 
     $membersOutput = '';
 

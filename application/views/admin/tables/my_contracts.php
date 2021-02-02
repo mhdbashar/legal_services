@@ -161,9 +161,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['contract_value'], $base_currency);
 
-    $row[] = _d($aRow['datestart']);
+    $row[] = _dha($aRow['datestart']);
 
-    $row[] = _d($aRow['dateend']);
+    $row[] = _dha($aRow['dateend']);
 
     if (($aRow['project_id'] == 0 || $aRow['project_id'] == '') && $aRow['rel_stype'] != ''){
         $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');

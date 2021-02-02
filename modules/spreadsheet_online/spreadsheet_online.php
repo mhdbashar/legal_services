@@ -3,12 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Spreadsheet_name
-Description: Spreadsheet_desc
+Module Name: Spreadsheet Online
+Description: A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.
 Version: 1.0.3
 Requires at least: 2.3.*
-Author: Babil Team
-Author URI: #
+Author: GreenTech Solutions
+Author URI: https://codecanyon.net/user/greentech_solutions
 */
 
 define('SPREAD_ONLINE_MODULE_NAME', 'spreadsheet_online');
@@ -23,7 +23,8 @@ hooks()->add_action('client_pt_footer_js','spreadsheet_online_client_foot_js');
 // Project
 hooks()->add_action('after_project_member_list', 'init_project_item_relate_so');
 
-// services
+
+// Service
 hooks()->add_action('after_service_member_list', 'init_service_item_relate_so');
 
 //contract
@@ -102,7 +103,7 @@ function spreadsheet_online_add_head_component(){
     $CI = &get_instance();
     $viewuri = $_SERVER['REQUEST_URI'];
 
-    if(!(strpos($viewuri,'admin/spreadsheet_online/manage') === false) || !(strpos($viewuri,'admin/projects/view') === false)  || !(strpos($viewuri,'admin/SOther/view') === false) || !(strpos($viewuri,'admin/Case/view') === false)  ){
+    if(!(strpos($viewuri,'admin/spreadsheet_online/manage') === false) || !(strpos($viewuri,'admin/projects/view') === false) || !(strpos($viewuri,'admin/SOther/view') === false) || !(strpos($viewuri,'admin/Case/view/') === false) && $CI->input->get('group') !== 'CaseSession'  ){
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
@@ -135,6 +136,11 @@ function spreadsheet_online_add_head_component(){
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/spectrum.min.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/css/chartmix.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
     }
+
+    if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
+      echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/style.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+      echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/css/manage.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
+  }
 }
 
 /**
@@ -161,8 +167,10 @@ function spreadsheet_online_load_js(){
         echo '<script type="module" src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+        echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/export_word.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
     }
-    if (!(strpos($viewuri,'admin/projects/view') === false)  || !(strpos($viewuri,'admin/SOther/view') === false)  || !(strpos($viewuri,'admin/Case/view') === false)  || !(strpos($viewuri,'admin/estimates') === false) || !(strpos($viewuri,'admin/proposals') === false) || !(strpos($viewuri,'admin/invoices') === false) || !(strpos($viewuri,'admin/expenses') === false) || !(strpos($viewuri,'admin/leads') === false)) {
+    if (!(strpos($viewuri,'admin/projects/view') === false)  || !(strpos($viewuri,'admin/estimates') === false) || !(strpos($viewuri,'admin/proposals') === false) || !(strpos($viewuri,'admin/invoices') === false) || !(strpos($viewuri,'admin/expenses') === false) || !(strpos($viewuri,'admin/leads') === false)) {
 
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/manage.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/jquery-ui.min.js').'?v=' . VERSION_SREADSHEET.'"></script>';
@@ -193,6 +201,16 @@ function spreadsheet_online_load_js(){
         echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/upload_file.js').'?v=' . VERSION_SREADSHEET.'"></script>';
         echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/luckysheet/js/luckyexcel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+    }
+
+    if (!(strpos($viewuri,'admin/spreadsheet_online/new_word_file_view') === false) || !(strpos($viewuri,'admin/spreadsheet_online/file_word_view_share') === false)) {
+
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/manage.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+      echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  
     }
 
 }
@@ -320,6 +338,13 @@ function spreadsheet_online_client_foot_js(){
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/excel.js').'?v=' . VERSION_SREADSHEET.'"></script>';
     echo '<script  src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/js/exports.js').'?v=' . VERSION_SREADSHEET.'"></script>';
 }
+if(!(strpos($viewuri,'spreadsheet_online/spreadsheet_online_client/file_word_view_share') === false)){
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/FileSaver.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+  echo '<script src="'.module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/TinymceHelper/helper.js').'?v=' . VERSION_SREADSHEET.'"></script>';
+
+}
 }
 
 
@@ -364,12 +389,12 @@ function init_contracthtml_js(){
  * @param        $project  The project
  */
 function init_project_item_relate_so($project){
-  $CI = &get_instance();
-  if( is_admin() || is_staff_logged_in()){
-    $CI->load->model('spreadsheet_online/spreadsheet_online_model');
-    $folder_my_tree = $CI->spreadsheet_online_model->tree_my_folder_related('project',$project->id);
-    require "modules/spreadsheet_online/views/view_related_general.php";
-}
+    $CI = &get_instance();
+    if( is_admin() || is_staff_logged_in()){
+        $CI->load->model('spreadsheet_online/spreadsheet_online_model');
+        $folder_my_tree = $CI->spreadsheet_online_model->tree_my_folder_related('project',$project->id);
+        require "modules/spreadsheet_online/views/view_related_general.php";
+    }
 }
 
 
@@ -377,15 +402,14 @@ function init_project_item_relate_so($project){
  * Initializes the service item relate.
  *
  * @param        $project  The project
- * @param        $service_id  The service_id
  */
 function init_service_item_relate_so($project){
-  $CI = &get_instance();
-  if( is_admin() || is_staff_logged_in()){
-    $CI->load->model('spreadsheet_online/spreadsheet_online_model');
-    $folder_my_tree = $CI->spreadsheet_online_model->tree_my_folder_related($project->slug,$project->id);
-    require "modules/spreadsheet_online/views/view_related_general.php";
-}
+    $CI = &get_instance();
+    if( is_admin() || is_staff_logged_in()){
+        $CI->load->model('spreadsheet_online/spreadsheet_online_model');
+        $folder_my_tree = $CI->spreadsheet_online_model->tree_my_folder_related($project->rel_type,$project->id);
+        require "modules/spreadsheet_online/views/view_related_general.php";
+    }
 }
 
 /**

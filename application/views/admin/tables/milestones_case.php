@@ -32,7 +32,7 @@ foreach ($rResult as $aRow) {
                 $_data .= '</div>';
             }
         } elseif ($aColumns[$i] == 'due_date') {
-            $_data = _d($_data);
+            $_data = _dha($_data);
             if (date('Y-m-d') > $aRow['due_date'] && total_rows(db_prefix().'tasks', [
                     'milestone' => $aRow['id'],
                     'status !=' => 5,

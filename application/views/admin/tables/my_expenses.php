@@ -143,7 +143,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $outputReceipt;
 
-    $row[] = _d($aRow['date']);
+    $row[] = _dha($aRow['date']);
 
     if ($aRow['project_id'] == 0){
         $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');

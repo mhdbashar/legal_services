@@ -32,7 +32,7 @@ foreach ($rResult as $aRow) {
         $_data = $aRow[ $aColumns[$i] ];
 
         if ($aColumns[$i] == 'start_date' || $aColumns[$i] == 'deadline') {
-            $_data = _d($_data);
+            $_data = _dha($_data);
         } elseif ($aColumns[$i] == 'name') {
             $_data = '<a href="' . admin_url('Case/view/1/' . $aRow['id']) . '">' . $_data . '</a>';
         } elseif ($aColumns[$i] == 'status') {

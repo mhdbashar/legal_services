@@ -176,9 +176,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _d($aRow['date']);
+    $row[] = _dha($aRow['date']);
 
-    $row[] = _d($aRow['expirydate']);
+    $row[] = _dha($aRow['expirydate']);
 
     $row[] = $aRow['reference_no'];
 

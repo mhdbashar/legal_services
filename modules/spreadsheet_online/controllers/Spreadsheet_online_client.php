@@ -70,6 +70,10 @@ class Spreadsheet_online_client extends ClientsController
       }
 
       $data_form = $this->input->post();
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        $data_form['doc_type'] = "excel";
+      }
       $data['title'] = _l('new_file');
       $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
       if($data_form || isset($data_form['id'])){
@@ -119,6 +123,85 @@ class Spreadsheet_online_client extends ClientsController
       if(!isset($success)){
         $this->data($data);
         $this->view('share_file_view_client');
+        $this->layout();
+      }
+    }
+
+    public function file_word_view_share($hash = ""){
+      log_message("error","client_file_word_view_share");
+      $data_form = $this->input->post();
+
+      $data['tree_save'] = json_encode($this->spreadsheet_online_model->get_folder_tree());
+      
+      if($hash != ""){
+        log_message("error",$hash);
+        $share_child = $this->spreadsheet_online_model->get_share_form_hash($hash);
+        $id = $share_child->id_share;
+        log_message("error","id share");
+        log_message("error",$id);
+        $file_excel = $this->spreadsheet_online_model->get_file_sheet($id);
+        $data['parent_id'] = $file_excel->parent_id;
+        $data['role'] = $share_child->role;
+        if (($share_child->rel_id != get_client_user_id())) {
+              access_denied('spreadsheet_online');
+        }
+      }else{
+        $id = "";
+        $data['parent_id'] = "";
+        $data['role'] = 1;
+      }
+
+      $data_form = $this->input->post();
+      if ($this->input->server('REQUEST_METHOD') === 'POST')
+      {
+        log_message("error","Post request");
+        $data_form['doc_type'] = "word";
+        $data_form['data_form'] = $this->input->post('data_form',false);
+
+      }
+      $data['title'] = _l('new_file');
+      $data['folder'] = $this->spreadsheet_online_model->get_my_folder_all();
+      if($data_form || isset($data_form['id'])){
+        if($data_form['id'] == ""){
+          $success = $this->spreadsheet_online_model->add_file_sheet($data_form);
+          if(is_numeric($success)){
+            $message = _l('added_successfully');
+            $file_excel = $this->spreadsheet_online_model->get_file_sheet($success);
+            echo json_encode(['success' => true, 'message' => $message, 'name_excel' => $file_excel->name ]);
+          }
+          else{
+            $message = _l('added_fail');
+            echo json_encode(['success' => false, 'message' => $message]);
+          }
+        }
+      }
+      if($id != "" || isset($data_form['id'])){
+        if(isset($data_form['id'])){
+          if($data_form['id'] != ""){
+            $data['id'] = $data_form['id'];
+          }
+        }else{
+          $data['id'] = $id;
+          $data['file_excel'] = $this->spreadsheet_online_model->get_file_sheet($data['id']);
+          $data['data_form'] = $data['file_excel']->data_form; 
+          
+        }
+
+        if($data_form && $data_form['id'] != ""){
+          $success = $this->spreadsheet_online_model->edit_file_sheet($data_form);
+          if($success == true){
+            $message = _l('updated_successfully');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+          else{
+            $message = _l('updated_fail');
+            echo json_encode(['success' => $success, 'message' => $message]);
+          }
+        }
+      }
+      if(!isset($success)){
+        $this->data($data);
+        $this->view('share_word_file_view_client');
         $this->layout();
       }
     }

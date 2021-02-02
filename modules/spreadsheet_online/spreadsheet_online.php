@@ -103,7 +103,7 @@ function spreadsheet_online_add_head_component(){
     $CI = &get_instance();
     $viewuri = $_SERVER['REQUEST_URI'];
 
-    if(!(strpos($viewuri,'admin/spreadsheet_online/manage') === false) || !(strpos($viewuri,'admin/projects/view') === false) || !(strpos($viewuri,'admin/SOther/view') === false) || !(strpos($viewuri,'admin/Case/view/') === false)  ){
+    if(!(strpos($viewuri,'admin/spreadsheet_online/manage') === false) || !(strpos($viewuri,'admin/projects/view') === false) || !(strpos($viewuri,'admin/SOther/view') === false) || !(strpos($viewuri,'admin/Case/view/') === false) && $CI->input->get('group') !== 'CaseSession'  ){
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/jquery.treetable.theme.default.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';
         echo '<link href="' . module_dir_url(SPREAD_ONLINE_MODULE_NAME, 'assets/plugins/ludo-jquery-treetable/css/screen.css') . '?v=' . VERSION_SREADSHEET. '"  rel="stylesheet" type="text/css" />';

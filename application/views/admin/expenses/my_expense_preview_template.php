@@ -45,6 +45,7 @@
                         ?>
                      </a>
                   </li>
+                   <?php hooks()->do_action('after_li_expense_view'); ?>
                   <li role="presentation" class="tab-separator toggle_view">
                      <a href="#" onclick="small_table_full_view(); return false;" data-placement="left" data-toggle="tooltip" data-title="<?php echo _l('toggle_full_view'); ?>">
                      <i class="fa fa-expand"></i></a>
@@ -285,6 +286,7 @@
          <div role="tabpanel" class="tab-pane" id="tab_tasks">
             <?php init_relation_tasks_table(array('data-new-rel-id'=>$expense->expenseid,'data-new-rel-type'=>'expense')); ?>
          </div>
+          <?php hooks()->do_action('after_tab_expense_content',$expense); ?>
          <div role="tabpanel" class="tab-pane" id="tab_reminders">
             <a href="#" data-toggle="modal" class="btn btn-info" data-target=".reminder-modal-expense-<?php echo $expense->id; ?>"><i class="fa fa-bell-o"></i> <?php echo _l('expense_set_reminder_title'); ?></a>
             <hr />

@@ -99,6 +99,7 @@
                      </span>
                      </a>
                   </li>
+                   <?php hooks()->do_action('after_li_invoice_view'); ?>
                   <li role="presentation" data-toggle="tooltip" title="<?php echo _l('emails_tracking'); ?>" class="tab-separator">
                      <a href="#tab_emails_tracking" aria-controls="tab_emails_tracking" role="tab" data-toggle="tab">
                      <?php if(!is_mobile()){ ?>
@@ -337,6 +338,7 @@
                <hr />
                <div class="panel_s mtop20 no-shadow" id="sales_notes_area"></div>
             </div>
+             <?php hooks()->do_action('after_tab_invoice_content',$invoice); ?>
             <div role="tabpanel" class="tab-pane ptop10" id="tab_activity">
                <div class="row">
                   <div class="col-md-12">

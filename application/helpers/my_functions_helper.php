@@ -1132,7 +1132,7 @@ function _dha($date) {
         $hijri_convert = false;
     }
     if($hijriStatus =="on"){
-        return _d($date) . '<br>' . force_to_AD_date($date);
+        return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
     }else
         return _d($date);
 }

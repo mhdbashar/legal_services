@@ -86,22 +86,7 @@
                      <div class="col-md-2 border-right select-placeholder">
                         <select name="year" id="year" class="selectpicker no-margin" data-width="100%">
                            <?php foreach($years as $data){ ?>
-                           <option value="<?php 
-                            if($hijriStatus == 'on'){
-                              echo date('Y', strtotime(force_to_hijri_date($data['year'] . '-00-00')));
-                            }else
-                              echo $data['year'];
-
-                             ?>" <?php if($this->input->post('year') == $data['year'] || date('Y') == $data['year']){echo 'selected'; } ?>>
-                            <?php 
-                            if($hijriStatus == 'on'){
-                              echo date('Y', strtotime(force_to_hijri_date($data['year'] . '-00-00')));
-                            }else
-                              echo $data['year'];
-
-                             ?>
-                              
-                            </option>
+                               <option value="<?php echo $data['year']; ?>" <?php if($this->input->post('year') == $data['year'] || date('Y') == $data['year']){echo 'selected'; } ?>><?php echo $data['year']; ?></option>
                            <?php } ?>
                         </select>
                      </div>

@@ -216,8 +216,9 @@ class Sessions extends AdminController
 
 
         if ($hijriStatus == 'on') {
-            $start_year_ad = date('Y', strtotime(force_to_AD_date($year . '-01-01')));
-            $end_year_ad = date('Y', strtotime(force_to_AD_date($year . '-12-29')));
+            $start_year_ad = force_to_AD_date($year . '-01-01');
+            $end_year_ad = force_to_AD_date($year . '-12-29');
+            // echo $start_year_ad . '   ' . $end_year_ad; exit;
             $end_day = 29;
             if($month != ''){
                 switch ($month){
@@ -247,7 +248,14 @@ class Sessions extends AdminController
                 $end_month_ad_day = (int)date('d', strtotime(force_to_AD_date($year . '-' . $month . '-' . $end_day)));
                 $start_month_ad_day = "$start_month_ad_day";
                 $end_month_ad_day = "$end_month_ad_day";
+
+
                 // echo $start_month_ad_day . '>' . $end_month_ad_day; exit;
+            }
+            if($day != ''){
+                $ad_day = (int)date('d', strtotime(force_to_AD_date(($year . '-' . $month . '-' . $day))));
+                $ad_day = "$ad_day";
+                // echo $ad_day; exit;
             }
         }
 
@@ -305,34 +313,32 @@ class Sessions extends AdminController
             $this->db->select($sqlTasksSelect);
 
             if($day != ''){
-                $this->db->where('DAY(' . $fetch_month_from . ')', $day);
+                $this->db->where('DAY(' . $fetch_month_from . ')', $ad_day);
             }
             if($hijriStatus == 'on' && $month != ''){
-                //var_dump($start_year_ad); exit;
                 // $this->db->where('MONTH(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad . ' and ' . $end_month_ad);
                 // $this->db->where('DAY(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad_day . ' and ' . $end_month_ad_day);
 
-//                $this->db->where([
-//                    'MONTH(' . $fetch_month_from . ')' . '>=' => $start_month_ad,
-//                    'MONTH(' . $fetch_month_from . ')' . '<=' => $end_month_ad,
-//                ]);
-//                $this->db->where([
-//                    'DAY(' . $fetch_month_from . ')' . '>=' => $start_month_ad_day,
-//                ]);
-//                $this->db->or_where('MONTH(' . $fetch_month_from . ') >', $start_month_ad);
-//                $this->db->where([
-//                    'DAY(' . $fetch_month_from . ')' . '<=' => $end_month_ad > $start_month_ad ? $end_month_ad_day + $end_day: $end_month_ad_day,
-//                ]);
-                $this->db->where($fetch_month_from . ' BETWEEN "' . $start_year_ad . '-'.$start_month_ad . '-' . $start_month_ad_day . '" and "' . $end_year_ad . '-' . $end_month_ad . '-' . $end_month_ad_day . '"');
-                 echo $fetch_month_from . ' BETWEEN "' . $start_year_ad . '-'.$start_month_ad . '-' . $start_month_ad_day . '" and "' . $end_year_ad . '-' . $end_month_ad . '-' . $end_month_ad_day . '"'; exit;
+                $this->db->where([
+                    'MONTH(' . $fetch_month_from . ')' . '>=' => $start_month_ad,
+                    'MONTH(' . $fetch_month_from . ')' . '<=' => $end_month_ad,
+                ])->group_start();
+                $this->db->where([
+                    'DAY(' . $fetch_month_from . ')' . '>=' => $start_month_ad_day,
+                ]);
+                $this->db->or_where('MONTH(' . $fetch_month_from . ') >', $start_month_ad)->group_end();
+                $this->db->where([
+                    'DAY(' . $fetch_month_from . ')' . '<=' => $end_month_ad > $start_month_ad ? $end_month_ad_day + $end_day: $end_month_ad_day,
+                ]);
+                //echo 'DAY(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad_day . ' and ' . $end_month_ad_day;
             }else
             $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
 
             if ($hijriStatus == 'on') {
-//                $this->db->where([
-//                    $fetch_month_from . '>' => $start_year_ad,
-//                    $fetch_month_from . '<' => $end_year_ad
-//                ]);
+                $this->db->where([
+                    $fetch_month_from . '>' => $start_year_ad,
+                    $fetch_month_from . '<' => $end_year_ad
+                ]);
             }else
                 $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
 

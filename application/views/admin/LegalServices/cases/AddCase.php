@@ -407,9 +407,14 @@
                                     <label for="status"><?php echo _l('project_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <?php foreach($statuses as $status){ ?>
-                                            <option value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
-                                        <?php } ?>
+<!--                                        --><?php //foreach($statuses as $status){ ?>
+<!--                                            <option value="--><?php //echo $status['id']; ?><!--">--><?php //echo $status['name']; ?><!--</option>-->
+<!--                                        --><?php //} ?>
+                                        <option value="4"><?php echo _l('project_status_4') ?></option>
+                                        <option value="5"><?php echo _l('project_status_5') ?></option>
+                                        <option value="2"><?php echo _l('project_status_2') ?></option>
+                                        <option value="3"><?php echo _l('project_status_3') ?></option>
+                                        <option value="1"><?php echo _l('project_status_1') ?></option>
                                     </select>
                                 </div>
                             </div>

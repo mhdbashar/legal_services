@@ -196,6 +196,8 @@ class Sessions extends AdminController
             $staff_id = '';
         }
 
+        $hijriStatus= get_option('isHijri');
+
         $month = ($this->input->post('month') ? $this->input->post('month') : date('m'));
         if ($this->input->post() && $this->input->post('month') == '') {
             $month = '';
@@ -211,6 +213,52 @@ class Sessions extends AdminController
         $fetch_month_from = 'startdate';
 
         $year       = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
+
+
+        if ($hijriStatus == 'on') {
+            $start_year_ad = force_to_AD_date($year . '-01-01');
+            $end_year_ad = force_to_AD_date($year . '-12-29');
+            // echo $start_year_ad . '   ' . $end_year_ad; exit;
+            $end_day = 29;
+            if($month != ''){
+                switch ($month){
+                    case 3:
+                    case 1:
+                    case 5:
+                    case 7:
+                    case 10:
+                    case 12:
+                        $end_day = 29;
+                        break;
+                    case 4:
+                    case 2:
+                    case 6:
+                    case 8:
+                    case 9:
+                    case 11:
+                        $end_day = 30;
+                        break;
+                }
+                $start_month_ad = date('m', strtotime(force_to_AD_date($year . '-' . $month . '-' . '01')));
+                $end_month_ad = date('m', strtotime(force_to_AD_date($year . '-' . $month . '-' . $end_day)));
+                $start_month_ad = "$start_month_ad";
+                $end_month_ad = "$end_month_ad";
+
+                $start_month_ad_day = (int)date('d', strtotime(force_to_AD_date($year . '-' . $month . '-' . '01')));
+                $end_month_ad_day = (int)date('d', strtotime(force_to_AD_date($year . '-' . $month . '-' . $end_day)));
+                $start_month_ad_day = "$start_month_ad_day";
+                $end_month_ad_day = "$end_month_ad_day";
+
+
+                // echo $start_month_ad_day . '>' . $end_month_ad_day; exit;
+            }
+            if($day != ''){
+                $ad_day = (int)date('d', strtotime(force_to_AD_date(($year . '-' . $month . '-' . $day))));
+                $ad_day = "$ad_day";
+                // echo $ad_day; exit;
+            }
+        }
+
         $project_id = $this->input->get('project_id');
         $rel_type = $this->input->get('rel_type');
         if(isset($rel_type)){
@@ -265,10 +313,34 @@ class Sessions extends AdminController
             $this->db->select($sqlTasksSelect);
 
             if($day != ''){
-                $this->db->where('DAY(' . $fetch_month_from . ')', $day);
+                $this->db->where('DAY(' . $fetch_month_from . ')', $ad_day);
             }
+            if($hijriStatus == 'on' && $month != ''){
+                // $this->db->where('MONTH(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad . ' and ' . $end_month_ad);
+                // $this->db->where('DAY(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad_day . ' and ' . $end_month_ad_day);
+
+                $this->db->where([
+                    'MONTH(' . $fetch_month_from . ')' . '>=' => $start_month_ad,
+                    'MONTH(' . $fetch_month_from . ')' . '<=' => $end_month_ad,
+                ])->group_start();
+                $this->db->where([
+                    'DAY(' . $fetch_month_from . ')' . '>=' => $start_month_ad_day,
+                ]);
+                $this->db->or_where('MONTH(' . $fetch_month_from . ') >', $start_month_ad)->group_end();
+                $this->db->where([
+                    'DAY(' . $fetch_month_from . ')' . '<=' => $end_month_ad > $start_month_ad ? $end_month_ad_day + $end_day: $end_month_ad_day,
+                ]);
+                //echo 'DAY(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad_day . ' and ' . $end_month_ad_day;
+            }else
             $this->db->where('MONTH(' . $fetch_month_from . ')', $m);
-            $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
+
+            if ($hijriStatus == 'on') {
+                $this->db->where([
+                    $fetch_month_from . '>' => $start_year_ad,
+                    $fetch_month_from . '<' => $end_year_ad
+                ]);
+            }else
+                $this->db->where('YEAR(' . $fetch_month_from . ')', $year);
 
             if($rel_type && $rel_type != ''){
                 $this->db->where('rel_id', $project_id);

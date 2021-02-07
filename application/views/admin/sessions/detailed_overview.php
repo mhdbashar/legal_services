@@ -30,6 +30,15 @@
                            echo render_select('member',$members,array('staffid',array('firstname','lastname')),'',$staff_id,array('data-none-selected-text'=>_l('all_staff_members')),array(),'no-margin'); ?>
                      </div>
                      <?php } ?>
+                     <?php  
+                      $hijriStatus= get_option('isHijri');
+                      
+                      $hijriMonths = array(
+                        "Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani",
+                        "Rajab", "Sha'aban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
+                      );
+
+                     ?>
                      <div class="col-md-2 border-right">
                         <?php
                            $months = array();
@@ -37,7 +46,7 @@
                            for ($m = 1; $m <= 12; $m++) {
                              $data = array();
                              $data['month'] = $m;
-                             $data['name'] = _l(date('F', mktime(0, 0, 0, $m, 1)));
+                             $data['name'] = $hijriStatus == 'on' ? $hijriMonths[$m - 1] : _l(date('F', mktime(0, 0, 0, $m, 1)));
                              $months[] = $data;
                            }
                            $selected = ($this->input->post('month') ? $this->input->post('month') : date('m'));
@@ -77,7 +86,7 @@
                      <div class="col-md-2 border-right select-placeholder">
                         <select name="year" id="year" class="selectpicker no-margin" data-width="100%">
                            <?php foreach($years as $data){ ?>
-                           <option value="<?php echo $data['year']; ?>" <?php if($this->input->post('year') == $data['year'] || date('Y') == $data['year']){echo 'selected'; } ?>><?php echo $data['year']; ?></option>
+                               <option value="<?php echo $data['year']; ?>" <?php if($this->input->post('year') == $data['year'] || date('Y') == $data['year']){echo 'selected'; } ?>><?php echo $data['year']; ?></option>
                            <?php } ?>
                         </select>
                      </div>
@@ -133,7 +142,7 @@
                                  }
                                  ?>
                            </td>
-                           <td data-order="<?php echo $task['startdate']; ?>"><?php echo _d($task['startdate']); ?></td>
+                           <td data-order="<?php if($hijriStatus == 'on') echo force_to_hijri_date($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo force_to_hijri_date($task['startdate']); else echo _d($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
                            <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">

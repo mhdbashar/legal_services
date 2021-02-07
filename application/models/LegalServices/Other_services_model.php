@@ -560,7 +560,7 @@ class Other_services_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
             if (isset($mark_all_tasks_as_completed)) {
-                $this->_mark_all_project_tasks_as_completed($id);
+                $this->_mark_all_project_tasks_as_completed($id, $slug);
             }
             $affectedRows++;
         }

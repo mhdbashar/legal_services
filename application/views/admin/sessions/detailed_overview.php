@@ -34,8 +34,8 @@
                       $hijriStatus= get_option('isHijri');
                       
                       $hijriMonths = array(
-                        "Muharram", "Safar", "Rabi' al-awwal", "Rabi' al-thani", "Jumada al-awwal", "Jumada al-thani",
-                        "Rajab", "Sha'aban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
+                        "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأول", "جمادى الثاني",
+                        "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
                       );
 
                      ?>
@@ -142,7 +142,7 @@
                                  }
                                  ?>
                            </td>
-                           <td data-order="<?php if($hijriStatus == 'on') echo force_to_hijri_date($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo force_to_hijri_date($task['startdate']); else echo _d($task['startdate']); ?></td>
+                           <td data-order="<?php if($hijriStatus == 'on') echo _dha($task['startdate']); else echo $task['startdate']; ?>"><?php if($hijriStatus == 'on') echo _dha($task['startdate']); else echo _d($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['time']; ?>"><?php echo ($task['time']); ?></td>
                            <td><?php echo format_session_status_by_date($task['startdate']); ?></td>
                            <td data-order="<?php echo $task['total_files']; ?>">

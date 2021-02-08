@@ -216,8 +216,8 @@ class Sessions extends AdminController
 
 
         if ($hijriStatus == 'on') {
-            $start_year_ad = force_to_AD_date($year . '-01-01');
-            $end_year_ad = force_to_AD_date($year . '-12-29');
+            $start_year_ad = force_to_AD_date_for_filter($year . '-01-01');
+            $end_year_ad = force_to_AD_date_for_filter($year . '-12-29');
             // echo $start_year_ad . '   ' . $end_year_ad; exit;
             $end_day = 29;
             if($month != ''){
@@ -239,13 +239,13 @@ class Sessions extends AdminController
                         $end_day = 30;
                         break;
                 }
-                $start_month_ad = date('m', strtotime(force_to_AD_date($year . '-' . $month . '-' . '01')));
-                $end_month_ad = date('m', strtotime(force_to_AD_date($year . '-' . $month . '-' . $end_day)));
+                $start_month_ad = date('m', strtotime(force_to_AD_date_for_filter($year . '-' . $month . '-' . '01')));
+                $end_month_ad = date('m', strtotime(force_to_AD_date_for_filter($year . '-' . $month . '-' . $end_day)));
                 $start_month_ad = "$start_month_ad";
                 $end_month_ad = "$end_month_ad";
 
-                $start_month_ad_day = (int)date('d', strtotime(force_to_AD_date($year . '-' . $month . '-' . '01')));
-                $end_month_ad_day = (int)date('d', strtotime(force_to_AD_date($year . '-' . $month . '-' . $end_day)));
+                $start_month_ad_day = (int)date('d', strtotime(force_to_AD_date_for_filter($year . '-' . $month . '-' . '01')));
+                $end_month_ad_day = (int)date('d', strtotime(force_to_AD_date_for_filter($year . '-' . $month . '-' . $end_day)));
                 $start_month_ad_day = "$start_month_ad_day";
                 $end_month_ad_day = "$end_month_ad_day";
 
@@ -253,7 +253,7 @@ class Sessions extends AdminController
                 // echo $start_month_ad_day . '>' . $end_month_ad_day; exit;
             }
             if($day != ''){
-                $ad_day = (int)date('d', strtotime(force_to_AD_date(($year . '-' . $month . '-' . $day))));
+                $ad_day = (int)date('d', strtotime(force_to_AD_date_for_filter(($year . '-' . $month . '-' . $day))));
                 $ad_day = "$ad_day";
                 // echo $ad_day; exit;
             }
@@ -313,7 +313,10 @@ class Sessions extends AdminController
             $this->db->select($sqlTasksSelect);
 
             if($day != ''){
-                $this->db->where('DAY(' . $fetch_month_from . ')', $ad_day);
+                if($hijriStatus == 'on')
+                    $this->db->where('DAY(' . $fetch_month_from . ')', $ad_day);
+                else
+                    $this->db->where('DAY(' . $fetch_month_from . ')', $day);
             }
             if($hijriStatus == 'on' && $month != ''){
                 // $this->db->where('MONTH(' . $fetch_month_from . ') BETWEEN ' . $start_month_ad . ' and ' . $end_month_ad);

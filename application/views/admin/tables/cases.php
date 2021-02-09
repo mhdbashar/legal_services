@@ -89,7 +89,7 @@ foreach ($rResult as $aRow) {
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
     $row[] = _dha($aRow['start_date']);
-    $row[] = _dha($aRow['deadline']);
+    $row[] = $aRow['deadline'] != '' ? _dha($aRow['deadline']) : '';
     $members = $model->GetMembersCases($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):

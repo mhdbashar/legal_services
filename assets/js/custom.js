@@ -56,7 +56,6 @@ $.ajax({
 
         sess_time_to_update = JSON.parse(data).sess_time_to_update;
         sess_expiration = JSON.parse(data).sess_expiration * 1000;
-        console.log(sess_expiration);
 
 
         timer = setTimeout(function(){ 

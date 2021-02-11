@@ -139,8 +139,8 @@ $lang['appointments_already_applied_for_cancelling'] = 'You have already applied
 $lang['appointments_thank_you_cancel_request'] = 'Thank you for contacting us, we will get back to you as as soon as we review your appointment cancellation request.';
 $lang['appointments_google_calendar'] = 'Google Calendar';
 $lang['appointments_added_to_google_calendar'] = 'Appointment is added to your Google Calendar';
-$lang['appointments_sign_in_google'] = 'Sign In';
-$lang['appointments_sign_out_google'] = 'Sign Out';
+$lang['appointments_sign_in_google'] = 'Sign In With Google';
+$lang['appointments_sign_out_google'] = 'Sign Out From Google';
 $lang['appointments_google_revoke'] = 'Revoke current Google Calendar session and remove all permissions given to your google account.';
 $lang['appointments_default_hours_label'] = 'Manage your default appointment hours';
 $lang['appointments_google_calendar_client_id'] = 'Google Calendar API Client Id <strong>(fetched from Settings->Google->API CLIENT ID)</strong>';
@@ -184,7 +184,7 @@ $lang['callback_no_assignees'] = 'No assignees for this callback';
 $lang['callbacks_select_assignees'] = 'Select assignees';
 $lang['callbacks_new_callback_request'] = 'You have a new callback request via form.';
 $lang['callbacks_responsible_person'] = 'Responsible person for new callbacks requests via form.';
-$lang['appointly_busy_times_enabled_label'] = 'Enable busy times indicator for Appointment module';
+$lang['appointly_busy_times_enabled_label'] = 'Enable busy times indicator for Appointly module';
 $lang['callbacks_enable_on_external_form'] = 'Enable callbacks in external form area';
 $lang['callbacks_resp_person_not_set'] = 'Callbacks Responsible person is not set, please set this option in %s';
 $lang['callbacks_request_a_callback'] = 'Request a Callback';
@@ -224,7 +224,7 @@ $lang['callbacks_new_note'] = 'added a new note on calback';
 $lang['callbacks_assignee_removed'] = 'Callback assigneed successfully removed';
 
 # Version 1.1.4
-$lang['appointly_module_name'] = 'Appointment';
+$lang['appointly_module_name'] = 'Appointly';
 $lang['appointments_contact_name_task'] = 'Appointment: Contact name';
 $lang['appointments_convert_to_lead'] = 'Convert Appointment to Lead';
 $lang['appointments_convert_to_lead_label'] = 'Convert to lead';
@@ -259,8 +259,8 @@ $lang['appointment_source_leads_label'] = 'Leads (Internal)';
 
 #Version 1.1.5
 $lang['appointment_add_to_outlook'] = 'Add to Outlook';
-$lang['appointment_login_to_outlook'] = 'Login to Outlook';
-$lang['appointment_logout_from_outlook'] = 'Sign Out <i class=\'fa fa-envelope\'></i>';
+$lang['appointment_login_to_outlook'] = 'Sign In With Outlook';
+$lang['appointment_logout_from_outlook'] = 'Sign Out from Outlook';
 $lang['appointment_open_outlook_calendar'] = 'Open in Outlook Calendar';
 $lang['appointment_added_to_outlook'] = 'Added to Outlook';
 $lang['appointments_outlook_revoke'] = 'Revoke current Outlook Calendar session and remove all permissions given to your outlook account.';
@@ -278,8 +278,21 @@ $lang['appointment_want_to_go_back'] = 'Back to Dashboard';
 $lang['appointly_current_version'] = 'Current module version: ';
 $lang['appointment_outlook_not_added_yet'] = 'Seems like this appointment is not added to any staff members Outlook Calendar. Would you like to add this appointment to your Outlook Calendar?';
 $lang['appointment_added_to_outlook'] = 'Appointment was succesfully added to your Outlook Calendar';
-$lang['appointment_edit_history_notes'] = 'Edit Appointment Notes';
+$lang['appointment_edit_history_notes'] = 'Edit Notes';
 $lang['appointment_history_label'] = 'Past Meetings';
 $lang['appointment_notes_updated'] = 'Appointment notes successfully updated';
 $lang['appointment_viewing_notes'] = 'Viewing notes for appointment';
 $lang['appointment_google_meet_modal_custom_label'] = 'Invite staff and clients to Google Meet via Email';
+
+# Version 1.1.6
+$lang['appointly_integrations'] = 'Integrations';
+$lang['appointments_table_calendar'] = 'Added to Calendars';
+$lang['appointment_not_added_to_calendars_yet'] = 'Not added to any calendar yet.';
+$lang['appointment_lead_related'] = 'Lead';
+$lang['appointment_internal'] = 'Internal';
+$lang['appointment_external'] = 'External';
+$lang['appointment_mark_as_approved'] = 'Approved';
+$lang['appointment_mark_as_ongoing'] = 'Ongoing';
+$lang['appointment_mark_as_cancelled'] = 'Cancelled';
+$lang['appointment_mark_as_finished'] = 'Finished';
+$lang['appointment_marked_as_approved'] = 'Appointment was marked as approved';

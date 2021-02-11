@@ -205,8 +205,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="button" class="btn btn-xs btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button type="submit" class="btn btn-xs btn-info"><?php echo _l('submit'); ?></button>
                 <?php
                 if (appointlyGoogleAuth()) {
                     if (
@@ -215,7 +215,7 @@
                         && $history['google_added_by_id'] === null
                         && $history['approved']
                     ) { ?>
-                        <button type="button" data-toggle="tooltip" title="<?= _l('appointment_google_not_added_yet'); ?>" onclick="addEventToGoogleCalendar(this)" class="btn btn-primary"><?= _l('appointment_add_to_calendar'); ?>&nbsp;<i class="fa fa-google" aria-hidden="true"></i></button>
+                        <button type="button" data-toggle="tooltip" title="<?= _l('appointment_google_not_added_yet'); ?>" onclick="addEventToGoogleCalendar(this)" class="btn btn-xs btn-primary"><?= _l('appointment_add_to_calendar'); ?>&nbsp;<i class="fa fa-google" aria-hidden="true"></i></button>
                     <?php } ?>
                 <?php } ?>
                 <?php
@@ -225,7 +225,7 @@
                     && $history['outlook_added_by_id'] === NULL
                     && $history['approved']
                 ) { ?>
-                    <button type="button" data-toggle="tooltip" id="addToOutlookBtn" title="<?= _l('appointment_outlook_not_added_yet'); ?>" onclick="addEventToOutlookCalendar(this, '<?= $history['appointment_id']; ?>')" class="btn btn-primary"><?= _l('appointment_add_to_outlook'); ?>&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i></button>
+                    <button type="button" data-toggle="tooltip" id="addToOutlookBtn" title="<?= _l('appointment_outlook_not_added_yet'); ?>" onclick="addEventToOutlookCalendar(this, '<?= $history['appointment_id']; ?>')" class="btn btn-xs btn-primary"><?= _l('appointment_add_to_outlook'); ?>&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i></button>
                 <?php } ?>
 
             </div>

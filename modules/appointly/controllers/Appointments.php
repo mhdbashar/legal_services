@@ -87,7 +87,7 @@ class Appointments extends AdminController
      */
     public function fetch_contact_data()
     {
-        if (!$this->input->is_ajax_request()) {
+        if (!$this->input->is_ajax_request() || !is_staff_logged_in()) {
             show_404();
         }
 
@@ -215,6 +215,11 @@ class Appointments extends AdminController
     {
         if (!is_admin() && !staff_appointments_responsible()) {
             access_denied();
+        }
+
+        if ($this->input->is_ajax_request()) {
+            echo json_encode(['result' => $this->apm->approve_appointment($this->input->post('appointment_id'))]);
+            die;
         }
 
         if ($this->apm->approve_appointment($this->input->get('appointment_id'))) {

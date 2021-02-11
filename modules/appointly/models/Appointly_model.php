@@ -113,9 +113,11 @@ class Appointly_model extends App_Model
                 $googleEvent = insertAppointmentToGoogleCalendar($data, $attendees);
                 $data['google_event_id'] = $googleEvent['google_event_id'];
                 $data['google_calendar_link'] = $googleEvent['htmlLink'];
+
                 if (isset($googleEvent['hangoutLink'])) {
                     $data['google_meet_link'] = $googleEvent['hangoutLink'];
                 }
+
                 $data['google_added_by_id'] = get_staff_user_id();
 
                 unset($data['google'], $data['external_contact_id']);
@@ -133,6 +135,7 @@ class Appointly_model extends App_Model
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
         }
+
         $this->db->insert(db_prefix() . 'appointly_appointments', $data);
 
         $appointment_id = $this->db->insert_id();
@@ -231,8 +234,10 @@ class Appointly_model extends App_Model
         $data = array_merge($data, $this->convertDateForDatabase($data['date']));
 
         $responsiblePerson = get_option('appointly_responsible_person');
+        $isAppointmentApprovedByDefault = get_option('appointly_client_meeting_approved_default');
 
-        if (get_option('appointly_client_meeting_approved_default')) {
+
+        if ($isAppointmentApprovedByDefault) {
             $data['approved'] = 1;
         }
 
@@ -248,8 +253,17 @@ class Appointly_model extends App_Model
             handle_custom_fields_post($appointment_id, $custom_fields);
         }
 
-        if (get_option('appointly_client_meeting_approved_default')) {
-            // If responsible person is set add as main attendee else first admin craeted with id 1
+        if ($isAppointmentApprovedByDefault) {
+            /** 
+             * If is set appointment to be automatically approved send email to contact who requested the appointmenet
+             */
+            $data['id'] = $appointment_id;
+            $this->atm->send_notifications_to_appointment_contact($data);
+
+
+            /**
+             * If responsible person is set add as main attendee else first admin craeted with id 1
+             */
             $this->atm->create($appointment_id, [($responsiblePerson) ? $responsiblePerson : '1']);
         }
 
@@ -376,7 +390,7 @@ class Appointly_model extends App_Model
                     $new__updated_appointment = $this->get_appointment_data($appointment_id);
 
                     $data['id'] = $appointment_id;
-                    $this->atm->send_notifications_to_new_contact($new__updated_appointment);
+                    $this->atm->send_notifications_to_appointment_contact($new__updated_appointment);
                 }
             }
         }

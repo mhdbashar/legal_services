@@ -17,12 +17,18 @@
                     <div class="col-md-12">
                         <div class="checkbox pull-right mrtopmin5" id="showOutlookCheckbox">
                             <input type="checkbox" id="outlook-checkbox">
-                            <label data-toggle="tooltip" title="<?= _l('appointment_add_to_outlook'); ?>" for="outlook"> <i class="fa fa-envelope" aria-hidden="true"></i></label>
+                            <label data-toggle="tooltip" for="outlook-checkbox" title="<?= _l('appointment_add_to_outlook'); ?>" for="outlook">
+                                <?= _l('appointment_add_to_outlook'); ?>
+                                <!-- <i class="fa fa-envelope" aria-hidden="true"></i> -->
+                            </label>
                         </div>
                         <?php if (appointlyGoogleAuth() && get_option('appointly_google_client_secret')) : ?>
                             <div class="checkbox pull-right mright15 mtop1">
                                 <input type="checkbox" name="google" id="google" checked>
-                                <label data-toggle="tooltip" title="<?= _l('appointment_add_to_google_calendar'); ?>" for="google"> <i class="fa fa-google" aria-hidden="true"></i></label>
+                                <label data-toggle="tooltip" title="<?= _l('appointment_add_to_google_calendar'); ?>" for="google">
+                                    <?= _l('appointment_add_to_google_calendar'); ?>
+                                    <!-- <i class="fa fa-google" aria-hidden="true"></i> -->
+                                </label>
                             </div>
                         <?php endif; ?>
                         <?php echo render_input('subject', 'appointment_subject'); ?>
@@ -160,8 +166,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
-                <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                <button type="button" class="btn btn-xs btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button type="submit" class="btn btn-xs btn-info"><?php echo _l('submit'); ?></button>
             </div>
             <?php echo form_close(); ?>
         </div><!-- /.modal-content -->

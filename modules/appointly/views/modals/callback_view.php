@@ -54,7 +54,7 @@
                                     <input type="radio" name="callback_contacted_indicator" id="callback_contacted_indicator_no" value="no" checked>
                                     <label for="callback_contacted_indicator_no"><?= _l('callbacks_have_not_contacted'); ?></label>
                                 </div>
-                                <button type="submit" class="btn btn-info pull-right"><?php echo _l('lead_add_edit_add_note'); ?></button>
+                                <button type="submit" class="btn btn-xs btn-info pull-right"><?php echo _l('lead_add_edit_add_note'); ?></button>
                                 <?php echo form_close(); ?>
                                 <div class="clearfix"></div>
                                 <hr />
@@ -91,8 +91,8 @@
                                                 <div data-note-edit-textarea="<?php echo $note['id']; ?>" class="hide mtop15">
                                                     <?php echo render_textarea('note', '', $note['description']); ?>
                                                     <div class="text-right">
-                                                        <button type="button" class="btn btn-default" onclick="toggle_edit_note(<?php echo $note['id']; ?>);return false;"><?php echo _l('cancel'); ?></button>
-                                                        <button type="button" class="btn btn-info" onclick="edit_note(<?php echo $note['id']; ?>);"><?php echo _l('update_note'); ?></button>
+                                                        <button type="button" class="btn btn-xs btn-default" onclick="toggle_edit_note(<?php echo $note['id']; ?>);return false;"><?php echo _l('cancel'); ?></button>
+                                                        <button type="button" class="btn btn-xs btn-info" onclick="edit_note(<?php echo $note['id']; ?>);"><?php echo _l('update_note'); ?></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -204,7 +204,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button type="button" class="btn btn-xs btn-default close_btn" data-dismiss="modal"><?php echo _l('close'); ?></button>
             </div>
         </div>
     </div>

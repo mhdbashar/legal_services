@@ -35,6 +35,7 @@
 						foreach($custom_fields as $field){
 							array_push($table_data,$field['name']);
 						}
+                        $table_data = hooks()->apply_filters('staffs_table_columns', $table_data);
 						render_datatable($table_data,'staff');
 						?>
 					</div>

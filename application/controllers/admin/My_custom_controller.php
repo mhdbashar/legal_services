@@ -252,4 +252,128 @@ class My_custom_controller extends AdminController
         }
     }
 
+    public function fix_tasks(){
+        $this->db->select('id, startdate, dateadded');
+        $tasks = $this->db->get('tbltasks')->result_array();
+        // echo '<pre>'; print_r($tasks); exit;
+        foreach ($tasks as $task){
+            $startdate = $task['startdate'];
+            $dateadded = $task['dateadded'];
+            $startdate_year = date('Y', strtotime($startdate));
+            $dateadded_year = date('Y', strtotime($dateadded));
+
+            if($startdate_year < 1900){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tbltasks', [
+                    'startdate' => force_to_AD_date_for_filter($startdate),
+                ]);
+                // echo force_to_AD_date_for_filter($startdate) . '<br>';
+            }
+            if($dateadded_year < 1900){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tbltasks', [
+                    'dateadded' => force_to_AD_date_for_filter($dateadded),
+                ]);
+            }
+
+            if($startdate_year > 2100){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tbltasks', [
+                    'startdate' => force_to_hijri_date($startdate),
+                ]);
+                // echo force_to_AD_date_for_filter($startdate) . '<br>';
+            }
+            if($dateadded_year > 2100){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tbltasks', [
+                    'dateadded' => force_to_hijri_date($dateadded),
+                ]);
+            }
+        }
+        echo '<h1>Done</h1>';
+    }
+
+    public function fix_cases(){
+        $this->db->select('id, start_date, deadline');
+        $tasks = $this->db->get('tblmy_cases')->result_array();
+        // echo '<pre>'; print_r($tasks); exit;
+        foreach ($tasks as $task){
+            $startdate = $task['start_date'];
+            $startdate_year = date('Y', strtotime($startdate));
+
+            $dateline = $task['deadline'];
+            $dateline_year = date('Y', strtotime($dateline));
+
+            if($startdate_year < 1900){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_cases', [
+                    'start_date' => force_to_AD_date_for_filter($startdate),
+                ]);
+            }
+            if($startdate_year > 2100){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_cases', [
+                    'start_date' => force_to_hijri_date($startdate),
+                ]);
+            }
+
+            if($dateline_year < 1900 && $dateline != null){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_cases', [
+                    'deadline' => force_to_AD_date_for_filter($dateline),
+                ]);
+            }
+            if($dateline_year > 2100 && $dateline != null){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_cases', [
+                    'deadline' => force_to_hijri_date($dateline),
+                ]);
+            }
+        }
+        echo '<h1>Done</h1>';
+    }
+
+    public function fix_other_services(){
+        $this->db->select('id, start_date, deadline');
+        $tasks = $this->db->get('tblmy_other_services')->result_array();
+        // echo '<pre>'; print_r($tasks); exit;
+        foreach ($tasks as $task){
+            $startdate = $task['start_date'];
+            $startdate_year = date('Y', strtotime($startdate));
+
+            $dateline = $task['deadline'];
+            $dateline_year = date('Y', strtotime($dateline));
+
+            if($startdate_year < 1900){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_other_services', [
+                    'start_date' => force_to_AD_date_for_filter($startdate),
+                ]);
+            }
+            if($startdate_year > 2100){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_other_services', [
+                    'start_date' => force_to_hijri_date($startdate),
+                ]);
+            }
+
+            if($dateline_year < 1900 && $dateline != null){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_other_services', [
+                    'deadline' => force_to_AD_date_for_filter($dateline),
+                ]);
+            }
+            if($dateline_year > 2100 && $dateline != null){
+                $this->db->where('id', $task['id']);
+                $this->db->update('tblmy_other_services', [
+                    'deadline' => force_to_hijri_date($dateline),
+                ]);
+            }
+        }
+        echo '<h1>Done</h1>';
+    }
+
+
+
+
 }

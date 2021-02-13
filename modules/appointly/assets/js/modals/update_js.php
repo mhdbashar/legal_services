@@ -60,18 +60,14 @@
 
           $.post(url, data).done(function(response) {
                if (response.result) {
-                    if (isOutlookLoggedIn()) {
-                         if (isOutlookChecked !== null && isOutlookChecked.checked) {
-                              outlookAddOrUpdateEvent(formSerializedData);
-                         }
-                    }
-                    if (response.result && (isOutlookChecked == null || !isOutlookChecked.checked)) {
-                         alert_float('success', '<?= _l("appointment_updated"); ?>');
+                    if (isOutlookLoggedIn() && isOutlookChecked != null) {
+                         outlookAddOrUpdateEvent(formSerializedData);
+                    } else {
+                         alert_float('success', "<?= _l("appointment_updated"); ?>");
                          setTimeout(() => {
                               window.location.reload();
                          }, 500);
                     }
-
                }
           });
           return false;

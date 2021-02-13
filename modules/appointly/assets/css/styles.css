@@ -20,6 +20,14 @@ body .google_meet_spinner {
     font-size: 22px;
 }
 
+body.appointly.appointments_history a.calendar_list,
+body.appointly.appointments a.calendar_list {
+    background: #c7c6c6;
+    padding: 5px 10px 5px 10px;
+    border-radius: 4px;
+    color: #4a4a4a;
+}
+
 body.appointly.appointments .content .panel-body,
 body.appointly.appointments .content .panel_s {
     box-shadow: none !important;
@@ -417,10 +425,10 @@ body.perfex_office_theme_initiated.appointments .label-warning {
 }
 
 body .google_meet_send {
-    width: 30px;
-    height: 28px;
+    width: 21px;
+    height: 23px;
     margin-bottom: -7px;
-    margin-top: -2px
+    margin-top: -2px;
 }
 
 @media (max-width:735px) {
@@ -746,6 +754,10 @@ body.callbacks .callbacks-select-staff {
     border-radius: 4px;
     padding: 0 6px;
     margin-bottom: 5px;
+}
+
+.table-appointments::before {
+    content: "";
 }
 
 body.callbacks #callbackView hr {

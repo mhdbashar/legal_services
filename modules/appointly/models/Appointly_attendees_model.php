@@ -131,7 +131,7 @@ class Appointly_attendees_model extends App_Model
      * @param [array] $appointment
      * @return void
      */
-    public function send_notifications_to_new_contact($appointment)
+    public function send_notifications_to_appointment_contact($appointment)
     {
         $template = mail_template('appointly_appointment_approved_to_contact', 'appointly', array_to_object($appointment));
         $merge_fields =  $template->get_merge_fields();

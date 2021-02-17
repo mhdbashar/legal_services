@@ -20,9 +20,9 @@
                         _l('appraisal_date'),
                         _l('control'),
                     ); 
-                    if($this->app_modules->is_active('branches'))
-                        //$data[0] = _l('branch');
-                        $data = array_merge([_l('branch')], $data);
+//                    if($this->app_modules->is_active('branches'))
+//                        //$data[0] = _l('branch');
+//                        $data = array_merge([_l('branch')], $data);
                     render_datatable($data,'appraisal'); ?>
                     </div>
                 </div>

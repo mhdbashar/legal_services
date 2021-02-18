@@ -32,8 +32,8 @@ $sTable       = db_prefix().'hr_travels';
 
 $join = [
 	'LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid='.db_prefix().'hr_travels.staff_id',
-	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_travels.id AND '.db_prefix().'branches_services.rel_type="travels"',
-	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
+//	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_travels.id AND '.db_prefix().'branches_services.rel_type="travels"',
+//	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
 ];
 
 $where = [];

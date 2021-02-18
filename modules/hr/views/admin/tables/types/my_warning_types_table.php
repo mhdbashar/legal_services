@@ -18,7 +18,9 @@ $values = '';
 foreach ($rResult as $aRow) {
     $values = $aRow['value'];
 }
-
+if(json_decode($values) == null){
+    $output['aaData'] = [];
+}else
 foreach (json_decode($values) as $value) {
 
 	$a = $value->key;
@@ -28,9 +30,9 @@ foreach (json_decode($values) as $value) {
 
 	    $row[] = $a;
 
-	    $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
-	    $row[]   = $options .= icon_btn('hr/setting/delete_type/' . $a .'/warning_type', 'remove', 'btn-danger _delete');
-	    
+        $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
+        if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/setting/delete_type/' . $a .'/warning_type', 'remove', 'btn-danger _delete');
+        $row[]   = $options;
 
 	    $output['aaData'][] = $row;
 	}

@@ -27,10 +27,10 @@ function hr_menu_items($item)
 {
     $branch = '';
     $CI = & get_instance();
-    if($CI->app_modules->is_active('branches')){
-        $branch = '<li><a href="'.admin_url('branches').'">'._l('branches').'</a>
-                                    </li>';
-    }
+//    if($CI->app_modules->is_active('branches')){
+//        $branch = '<li><a href="'.admin_url('branches').'">'._l('branches').'</a>
+//                                    </li>';
+//    }
     if (has_permission('hr', '', 'view')){
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';

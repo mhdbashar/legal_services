@@ -48,10 +48,10 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['complaint_title'];
 
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_complaint', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_complaint', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['attachment'], 'download', 'btn-default','download');
-    $row[]   = $options .= icon_btn('hr/core_hr/delete_complaint/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    
+    if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_complaint/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

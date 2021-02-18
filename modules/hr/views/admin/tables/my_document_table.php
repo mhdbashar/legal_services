@@ -24,10 +24,10 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['date_expiry'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_document', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_document', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['document_file'], 'download', 'btn-default','download');
-    $row[]   = $options .= icon_btn('hr/general/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    
+    if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/general/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

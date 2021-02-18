@@ -22,9 +22,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['end_date'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#edit_holiday', 'data-id' => $aRow['id'], 'onclick' => 'edit_holiday_json(' . $aRow['id'] . ')']);
-    $row[]   = $options .= icon_btn('hr/timesheet/delete_holiday/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    
+    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#edit_holiday', 'data-id' => $aRow['id'], 'onclick' => 'edit_holiday_json(' . $aRow['id'] . ')']);
+    if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/timesheet/delete_holiday/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

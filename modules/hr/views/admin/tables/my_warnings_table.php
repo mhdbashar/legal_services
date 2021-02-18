@@ -9,12 +9,12 @@ $aColumns = [
 ];
 
 $ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-if(get_staff_default_language() == 'arabic'){
-    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-}else{
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-}
+//if($ci->app_modules->is_active('branches'))
+//if(get_staff_default_language() == 'arabic'){
+//    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+//}else{
+//    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+//}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_warnings';
@@ -22,8 +22,8 @@ $sTable       = db_prefix().'hr_warnings';
 $join = [
     'LEFT JOIN '.db_prefix().'staff as tostaff ON tostaff.staffid='.db_prefix().'hr_warnings.warning_to',
     'LEFT JOIN '.db_prefix().'staff as bystaff ON bystaff.staffid='.db_prefix().'hr_warnings.warning_by',
-	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_warnings.id AND '.db_prefix().'branches_services.rel_type="warnings"',
-	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
+//	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_warnings.id AND '.db_prefix().'branches_services.rel_type="warnings"',
+//	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
 ];
 
 $where = [];
@@ -37,9 +37,9 @@ foreach ($rResult as $aRow) {
     $row = [];
     
     $row[] = $aRow['warning_to'];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-    $row[] = $aRow['branch_id'];
+//$ci = &get_instance();
+//if($ci->app_modules->is_active('branches'))
+//    $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['warning_date'];
 
@@ -47,10 +47,10 @@ if($ci->app_modules->is_active('branches'))
 
     $row[] = $aRow['warning_by'];
 
-    $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_warning', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_warning', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['attachment'], 'download', 'btn-default','download');
-    $row[]   = $options .= icon_btn('hr/core_hr/delete_warning/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    
+    if (has_permission('hr', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_warning/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

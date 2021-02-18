@@ -13,31 +13,30 @@
             <?php echo form_hidden('added_by'); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
-                                <option></option>
-                            <?php foreach ($branches as $value) { ?>
-                                <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                            <?php } ?>
-                            </select>     
-                        </div>
-                    </div>
-                <?php } ?>
+<!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
+<!--                    <div class="col-md-12">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="branch_id" class="control-label">--><?php //echo _l('branch') ?><!--</label>-->
+<!--                            <select required="required" class="form-control" id="branch_id" placeholder="--><?php //echo _l('branch') ?><!--" aria-invalid="false">-->
+<!--                                <option></option>-->
+<!--                            --><?php //foreach ($branches as $value) { ?>
+<!--                                <option value="--><?php //echo $value['key'] ?><!--">--><?php //echo $value['value'] ?><!--</option>-->
+<!--                            --><?php //} ?>
+<!--                            </select>     -->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control staff" id="e_designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
                                  foreach ($designations as $value) { ?>
                                     <option value="<?php echo $value['id'] ?>">
                                         <?php echo $value['designation_name'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -152,31 +151,31 @@
             <?php echo form_open_multipart(admin_url('hr/performance/add_indicator'),array('id'=>'form_transout')); ?>
             <div class="modal-body">
                 <div class="row">
-                <?php  if($this->app_modules->is_active('branches')){  ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="a_branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
-                                <option></option>
-                            <?php foreach ($branches as $value) { ?>
-                                <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                            <?php } ?>
-                            </select>     
-                        </div>
-                    </div>
-                <?php } ?>
+<!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
+<!--                    <div class="col-md-12">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="branch_id" class="control-label">--><?php //echo _l('branch') ?><!--</label>-->
+<!--                            <select required="required" class="form-control" id="a_branch_id" placeholder="--><?php //echo _l('branch') ?><!--" aria-invalid="false">-->
+<!--                                <option></option>-->
+<!--                            --><?php //foreach ($branches as $value) { ?>
+<!--                                <option value="--><?php //echo $value['key'] ?><!--">--><?php //echo $value['value'] ?><!--</option>-->
+<!--                            --><?php //} ?>
+<!--                            </select>     -->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control staff" id="designation_id" name="designation_id" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
+                                // if(!$this->app_modules->is_active('branches')){
                                  foreach ($designations as $value) { ?>
                                     <option value="<?php echo $value['id'] ?>">
                                         <?php echo $value['designation_name'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -314,37 +313,9 @@
                 $('[name="created"]').val(data.created);
 
                 $('[id="branch_id"]').val(data.branch_id);
-<?php  if($this->app_modules->is_active('branches')){  ?>
-                $.get(admin_url + 'hr/performance/get_designations_by_branch_id/' + data.branch_id, function(response) {
-                    if (response.success == true) {
-                        $('#e_designation_id').empty();
-                        $('#e_designation_id').append($('<option>', {
-                            value: '',
-                            text: ''
-                        }));
-                        for(let i = 0; i < response.data.length; i++) {
-                            let key = response.data[i].key;
-                            let value = response.data[i].value;
-                            let select = false;
-                            if(data.designation_id == key)
-                                select = true;
-                            $('#e_designation_id').append($('<option>', {
-                                value: key,
-                                text: value,
-                                selected: select
-                            }));
-                            $('#e_designation_id').selectpicker('refresh');
-                        }
-                    } else {
-                        alert_float('danger', response.message);
-                    }
-                }, 'json');
-<?php }else{ ?>
+
                 $('[id="e_designation_id"]').val(data.designation_id);
-<?php } ?>
                 //$('[name="staff_id"]').val(data.staff_id);
-
-
 
                 $('#update_indicator').modal('show'); // show bootstrap modal when complete loaded
 

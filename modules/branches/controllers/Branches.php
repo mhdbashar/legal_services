@@ -63,7 +63,7 @@ class Branches extends AdminController
     public function departments($id)
     {
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('branch_departments', ['id'=>$id]);
+            $this->branchapp->get_table_data('branch_departments', ['id'=>$id]);
         }
         $data['email_exist_as_staff'] = $this->email_exist_as_staff();
         $data['title']                = _l('departments');

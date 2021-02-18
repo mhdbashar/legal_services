@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2020 at 04:28 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Oct 01, 2020 at 06:56 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -43,7 +44,7 @@ CREATE TABLE `tblactivity_log` (
 CREATE TABLE `tblannouncements` (
   `announcementid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `message` text DEFAULT NULL,
+  `message` text,
   `showtousers` int(11) NOT NULL,
   `showtostaff` int(11) NOT NULL,
   `showname` int(11) NOT NULL,
@@ -66,7 +67,7 @@ CREATE TABLE `tblcasediscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT 0,
+  `contact_id` int(11) DEFAULT '0',
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -83,11 +84,11 @@ CREATE TABLE `tblcasediscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -99,12 +100,12 @@ CREATE TABLE `tblcasediscussions` (
 CREATE TABLE `tblcase_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text DEFAULT NULL,
+  `additional_data` text,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -118,17 +119,17 @@ CREATE TABLE `tblcase_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT 0,
+  `visible_to_customer` tinyint(1) DEFAULT '0',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text DEFAULT NULL,
-  `thumbnail_link` text DEFAULT NULL
+  `external_link` text,
+  `thumbnail_link` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -158,7 +159,7 @@ CREATE TABLE `tblcase_movement` (
   `project_cost` decimal(15,2) DEFAULT NULL,
   `start_date` date NOT NULL,
   `project_created` date NOT NULL,
-  `inserted_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `inserted_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deadline` date DEFAULT NULL,
   `date_finished` date DEFAULT NULL,
   `description` text NOT NULL,
@@ -167,8 +168,8 @@ CREATE TABLE `tblcase_movement` (
   `file_number_court` int(11) DEFAULT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT 0,
-  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `progress` int(11) DEFAULT '0',
+  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
   `addedfrom` int(11) NOT NULL,
   `case_id` int(11) NOT NULL,
   `previous_case_id` int(11) DEFAULT NULL
@@ -197,7 +198,7 @@ CREATE TABLE `tblcase_settings` (
   `id` int(11) NOT NULL,
   `case_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text DEFAULT NULL
+  `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -458,36 +459,36 @@ CREATE TABLE `tblclients` (
   `company` varchar(191) DEFAULT NULL,
   `vat` varchar(50) DEFAULT NULL,
   `phonenumber` varchar(30) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT 0,
+  `country` int(11) NOT NULL DEFAULT '0',
   `city` varchar(100) DEFAULT NULL,
   `zip` varchar(15) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
-  `active` int(11) NOT NULL DEFAULT 1,
+  `active` int(11) NOT NULL DEFAULT '1',
   `leadid` int(11) DEFAULT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
   `billing_zip` varchar(100) DEFAULT NULL,
-  `billing_country` int(11) DEFAULT 0,
+  `billing_country` int(11) DEFAULT '0',
   `shipping_street` varchar(200) DEFAULT NULL,
   `shipping_city` varchar(100) DEFAULT NULL,
   `shipping_state` varchar(100) DEFAULT NULL,
   `shipping_zip` varchar(100) DEFAULT NULL,
-  `shipping_country` int(11) DEFAULT 0,
+  `shipping_country` int(11) DEFAULT '0',
   `longitude` varchar(191) DEFAULT NULL,
   `latitude` varchar(191) DEFAULT NULL,
   `default_language` varchar(40) DEFAULT NULL,
-  `default_currency` int(11) NOT NULL DEFAULT 0,
-  `show_primary_contact` int(11) NOT NULL DEFAULT 0,
+  `default_currency` int(11) NOT NULL DEFAULT '0',
+  `show_primary_contact` int(11) NOT NULL DEFAULT '0',
   `stripe_id` varchar(40) DEFAULT NULL,
-  `registration_confirmed` int(11) NOT NULL DEFAULT 1,
-  `addedfrom` int(11) NOT NULL DEFAULT 0,
-  `individual` tinyint(4) NOT NULL DEFAULT 1,
-  `branch_id` int(11) NOT NULL DEFAULT 0,
-  `client_type` int(11) NOT NULL DEFAULT 0
+  `registration_confirmed` int(11) NOT NULL DEFAULT '1',
+  `addedfrom` int(11) NOT NULL DEFAULT '0',
+  `individual` tinyint(4) NOT NULL DEFAULT '1',
+  `branch_id` int(11) NOT NULL DEFAULT '0',
+  `client_type` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -501,10 +502,10 @@ CREATE TABLE `tblconsents` (
   `action` varchar(10) NOT NULL,
   `date` datetime NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
-  `lead_id` int(11) NOT NULL DEFAULT 0,
-  `description` text DEFAULT NULL,
-  `opt_in_purpose_description` text DEFAULT NULL,
+  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `lead_id` int(11) NOT NULL DEFAULT '0',
+  `description` text,
+  `opt_in_purpose_description` text,
   `purpose_id` int(11) NOT NULL,
   `staff_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -518,7 +519,7 @@ CREATE TABLE `tblconsents` (
 CREATE TABLE `tblconsent_purposes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `date_created` datetime NOT NULL,
   `last_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -532,7 +533,7 @@ CREATE TABLE `tblconsent_purposes` (
 CREATE TABLE `tblcontacts` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `is_primary` int(11) NOT NULL DEFAULT 1,
+  `is_primary` int(11) NOT NULL DEFAULT '1',
   `firstname` varchar(191) DEFAULT NULL,
   `lastname` varchar(191) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
@@ -548,16 +549,16 @@ CREATE TABLE `tblcontacts` (
   `last_ip` varchar(40) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `last_password_change` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   `profile_image` varchar(191) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
-  `invoice_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `estimate_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `credit_note_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `contract_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `task_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `project_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `ticket_emails` tinyint(1) NOT NULL DEFAULT 1
+  `invoice_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `estimate_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `credit_note_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `contract_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `task_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `project_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `ticket_emails` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -580,30 +581,29 @@ CREATE TABLE `tblcontact_permissions` (
 
 CREATE TABLE `tblcontracts` (
   `id` int(11) NOT NULL,
-  `content` longtext DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `content` longtext,
+  `description` text,
   `subject` varchar(191) DEFAULT NULL,
   `client` int(11) NOT NULL,
   `datestart` date DEFAULT NULL,
   `dateend` date DEFAULT NULL,
   `contract_type` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL,
-  `isexpirynotified` int(11) NOT NULL DEFAULT 0,
+  `isexpirynotified` int(11) NOT NULL DEFAULT '0',
   `contract_value` decimal(15,2) DEFAULT NULL,
-  `trash` tinyint(1) DEFAULT 0,
-  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `trash` tinyint(1) DEFAULT '0',
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
   `hash` varchar(32) DEFAULT NULL,
-  `signed` tinyint(1) NOT NULL DEFAULT 0,
+  `signed` tinyint(1) NOT NULL DEFAULT '0',
   `signature` varchar(40) DEFAULT NULL,
-  `marked_as_signed` tinyint(1) NOT NULL DEFAULT 0,
+  `marked_as_signed` tinyint(1) NOT NULL DEFAULT '0',
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
   `acceptance_date` datetime DEFAULT NULL,
   `acceptance_ip` varchar(40) DEFAULT NULL,
-  `type_id` int(11) NOT NULL DEFAULT 0
+  `type_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -625,7 +625,7 @@ CREATE TABLE `tblcontracts_types` (
 
 CREATE TABLE `tblcontract_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext DEFAULT NULL,
+  `content` mediumtext,
   `contract_id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -648,8 +648,8 @@ CREATE TABLE `tblcontract_renewals` (
   `new_value` decimal(15,2) DEFAULT NULL,
   `date_renewed` datetime NOT NULL,
   `renewed_by` varchar(100) NOT NULL,
-  `renewed_by_staff_id` int(11) NOT NULL DEFAULT 0,
-  `is_on_old_expiry_notified` int(11) DEFAULT 0
+  `renewed_by_staff_id` int(11) NOT NULL DEFAULT '0',
+  `is_on_old_expiry_notified` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -939,24 +939,24 @@ CREATE TABLE `tblcreditnotes` (
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT 1,
+  `number_format` int(11) NOT NULL DEFAULT '1',
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
-  `adminnote` text DEFAULT NULL,
-  `terms` text DEFAULT NULL,
-  `clientnote` text DEFAULT NULL,
+  `adminnote` text,
+  `terms` text,
+  `clientnote` text,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT 1,
-  `project_id` int(11) NOT NULL DEFAULT 0,
+  `status` int(11) DEFAULT '1',
+  `project_id` int(11) NOT NULL DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `discount_percent` decimal(15,2) DEFAULT 0.00,
-  `discount_total` decimal(15,2) DEFAULT 0.00,
+  `discount_percent` decimal(15,2) DEFAULT '0.00',
+  `discount_total` decimal(15,2) DEFAULT '0.00',
   `discount_type` varchar(30) NOT NULL,
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
@@ -969,10 +969,10 @@ CREATE TABLE `tblcreditnotes` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT 1,
-  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `show_shipping_on_credit_note` tinyint(1) NOT NULL DEFAULT '1',
+  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
   `reference_no` varchar(100) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -987,7 +987,7 @@ CREATE TABLE `tblcreditnote_refunds` (
   `staff_id` int(11) NOT NULL,
   `refunded_on` date NOT NULL,
   `payment_mode` varchar(40) NOT NULL,
-  `note` text DEFAULT NULL,
+  `note` text,
   `amount` decimal(15,2) NOT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1021,7 +1021,7 @@ CREATE TABLE `tblcurrencies` (
   `decimal_separator` varchar(5) DEFAULT NULL,
   `thousand_separator` varchar(5) DEFAULT NULL,
   `placement` varchar(10) DEFAULT NULL,
-  `isdefault` tinyint(1) NOT NULL DEFAULT 0
+  `isdefault` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1079,19 +1079,19 @@ CREATE TABLE `tblcustomfields` (
   `fieldto` varchar(50) NOT NULL,
   `name` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `required` tinyint(1) NOT NULL DEFAULT '0',
   `type` varchar(20) NOT NULL,
-  `options` mediumtext DEFAULT NULL,
-  `display_inline` tinyint(1) NOT NULL DEFAULT 0,
-  `field_order` int(11) DEFAULT 0,
-  `active` int(11) NOT NULL DEFAULT 1,
-  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
-  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT 0,
-  `only_admin` tinyint(1) NOT NULL DEFAULT 0,
-  `show_on_table` tinyint(1) NOT NULL DEFAULT 0,
-  `show_on_client_portal` int(11) NOT NULL DEFAULT 0,
-  `disalow_client_to_edit` int(11) NOT NULL DEFAULT 0,
-  `bs_column` int(11) NOT NULL DEFAULT 12
+  `options` mediumtext,
+  `display_inline` tinyint(1) NOT NULL DEFAULT '0',
+  `field_order` int(11) DEFAULT '0',
+  `active` int(11) NOT NULL DEFAULT '1',
+  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
+  `show_on_ticket_form` tinyint(1) NOT NULL DEFAULT '0',
+  `only_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `show_on_table` tinyint(1) NOT NULL DEFAULT '0',
+  `show_on_client_portal` int(11) NOT NULL DEFAULT '0',
+  `disalow_client_to_edit` int(11) NOT NULL DEFAULT '0',
+  `bs_column` int(11) NOT NULL DEFAULT '12'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1119,14 +1119,14 @@ CREATE TABLE `tbldepartments` (
   `name` varchar(100) NOT NULL,
   `imap_username` varchar(191) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `email_from_header` tinyint(1) NOT NULL DEFAULT 0,
+  `email_from_header` tinyint(1) NOT NULL DEFAULT '0',
   `host` varchar(150) DEFAULT NULL,
-  `password` mediumtext DEFAULT NULL,
+  `password` mediumtext,
   `encryption` varchar(3) DEFAULT NULL,
-  `delete_after_import` int(11) NOT NULL DEFAULT 0,
-  `calendar_id` mediumtext DEFAULT NULL,
-  `hidefromclient` tinyint(1) NOT NULL DEFAULT 0,
-  `branch_id` int(11) NOT NULL DEFAULT 0
+  `delete_after_import` int(11) NOT NULL DEFAULT '0',
+  `calendar_id` mediumtext,
+  `hidefromclient` tinyint(1) NOT NULL DEFAULT '0',
+  `branch_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1171,8 +1171,8 @@ CREATE TABLE `tblemailtemplates` (
   `message` text NOT NULL,
   `fromname` mediumtext NOT NULL,
   `fromemail` varchar(100) DEFAULT NULL,
-  `plaintext` int(11) NOT NULL DEFAULT 0,
-  `active` tinyint(4) NOT NULL DEFAULT 0,
+  `plaintext` int(11) NOT NULL DEFAULT '0',
+  `active` tinyint(4) NOT NULL DEFAULT '0',
   `order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1388,37 +1388,37 @@ INSERT INTO `tblemailtemplates` (`emailtemplateid`, `type`, `slug`, `language`, 
 
 CREATE TABLE `tblestimates` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT 0,
+  `sent` tinyint(1) NOT NULL DEFAULT '0',
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
-  `project_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(11) NOT NULL DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT 0,
+  `number_format` int(11) NOT NULL DEFAULT '0',
   `hash` varchar(32) DEFAULT NULL,
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `expirydate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
-  `clientnote` text DEFAULT NULL,
-  `adminnote` text DEFAULT NULL,
-  `discount_percent` decimal(15,2) DEFAULT 0.00,
-  `discount_total` decimal(15,2) DEFAULT 0.00,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `clientnote` text,
+  `adminnote` text,
+  `discount_percent` decimal(15,2) DEFAULT '0.00',
+  `discount_total` decimal(15,2) DEFAULT '0.00',
   `discount_type` varchar(30) DEFAULT NULL,
   `invoiceid` int(11) DEFAULT NULL,
   `invoiced_date` datetime DEFAULT NULL,
-  `terms` text DEFAULT NULL,
+  `terms` text,
   `reference_no` varchar(100) DEFAULT NULL,
-  `sale_agent` int(11) NOT NULL DEFAULT 0,
+  `sale_agent` int(11) NOT NULL DEFAULT '0',
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -1430,17 +1430,17 @@ CREATE TABLE `tblestimates` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT 1,
-  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
-  `pipeline_order` int(11) NOT NULL DEFAULT 0,
-  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
+  `show_shipping_on_estimate` tinyint(1) NOT NULL DEFAULT '1',
+  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
+  `pipeline_order` int(11) NOT NULL DEFAULT '0',
+  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
   `acceptance_date` datetime DEFAULT NULL,
   `acceptance_ip` varchar(40) DEFAULT NULL,
   `signature` varchar(40) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1452,14 +1452,14 @@ CREATE TABLE `tblestimates` (
 CREATE TABLE `tblevents` (
   `eventid` int(11) NOT NULL,
   `title` mediumtext NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `userid` int(11) NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime DEFAULT NULL,
-  `public` int(11) NOT NULL DEFAULT 0,
+  `public` int(11) NOT NULL DEFAULT '0',
   `color` varchar(10) DEFAULT NULL,
-  `isstartnotified` tinyint(1) NOT NULL DEFAULT 0,
-  `reminder_before` int(11) NOT NULL DEFAULT 0,
+  `isstartnotified` tinyint(1) NOT NULL DEFAULT '0',
+  `reminder_before` int(11) NOT NULL DEFAULT '0',
   `reminder_before_type` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1475,31 +1475,31 @@ CREATE TABLE `tblexpenses` (
   `currency` int(11) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
-  `tax2` int(11) NOT NULL DEFAULT 0,
+  `tax2` int(11) NOT NULL DEFAULT '0',
   `reference_no` varchar(100) DEFAULT NULL,
-  `note` text DEFAULT NULL,
+  `note` text,
   `expense_name` varchar(191) DEFAULT NULL,
   `clientid` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(11) NOT NULL DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `billable` int(11) DEFAULT 0,
+  `billable` int(11) DEFAULT '0',
   `invoiceid` int(11) DEFAULT NULL,
   `paymentmode` varchar(50) DEFAULT NULL,
   `date` date NOT NULL,
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT 0,
-  `cycles` int(11) NOT NULL DEFAULT 0,
-  `total_cycles` int(11) NOT NULL DEFAULT 0,
-  `custom_recurring` int(11) NOT NULL DEFAULT 0,
+  `recurring` int(11) NOT NULL DEFAULT '0',
+  `cycles` int(11) NOT NULL DEFAULT '0',
+  `total_cycles` int(11) NOT NULL DEFAULT '0',
+  `custom_recurring` int(11) NOT NULL DEFAULT '0',
   `last_recurring_date` date DEFAULT NULL,
   `create_invoice_billable` tinyint(1) DEFAULT NULL,
   `send_invoice_to_customer` tinyint(1) NOT NULL,
   `recurring_from` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `addedfrom` int(11) NOT NULL,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1511,7 +1511,7 @@ CREATE TABLE `tblexpenses` (
 CREATE TABLE `tblexpenses_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1526,14 +1526,14 @@ CREATE TABLE `tblfiles` (
   `rel_type` varchar(20) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `filetype` varchar(40) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
   `attachment_key` varchar(32) DEFAULT NULL,
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text DEFAULT NULL,
-  `thumbnail_link` text DEFAULT NULL COMMENT 'For external usage',
+  `external_link` text,
+  `thumbnail_link` text COMMENT 'For external usage',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT 0,
-  `task_comment_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) DEFAULT '0',
+  `task_comment_id` int(11) NOT NULL DEFAULT '0',
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1548,7 +1548,7 @@ CREATE TABLE `tblform_questions` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `question` mediumtext NOT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `required` tinyint(1) NOT NULL DEFAULT '0',
   `question_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1590,7 +1590,7 @@ CREATE TABLE `tblform_results` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) DEFAULT NULL,
   `questionid` int(11) NOT NULL,
-  `answer` text DEFAULT NULL,
+  `answer` text,
   `resultsetid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1602,14 +1602,14 @@ CREATE TABLE `tblform_results` (
 
 CREATE TABLE `tblgdpr_requests` (
   `id` int(11) NOT NULL,
-  `clientid` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
-  `lead_id` int(11) NOT NULL DEFAULT 0,
+  `clientid` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `lead_id` int(11) NOT NULL DEFAULT '0',
   `request_type` varchar(191) DEFAULT NULL,
   `status` varchar(40) DEFAULT NULL,
   `request_date` datetime NOT NULL,
   `request_from` varchar(150) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1625,12 +1625,12 @@ CREATE TABLE `tblgoals` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `goal_type` int(11) NOT NULL,
-  `contract_type` int(11) NOT NULL DEFAULT 0,
+  `contract_type` int(11) NOT NULL DEFAULT '0',
   `achievement` int(11) NOT NULL,
-  `notify_when_fail` tinyint(1) NOT NULL DEFAULT 1,
-  `notify_when_achieve` tinyint(1) NOT NULL DEFAULT 1,
-  `notified` int(11) NOT NULL DEFAULT 0,
-  `staff_id` int(11) NOT NULL DEFAULT 0
+  `notify_when_fail` tinyint(1) NOT NULL DEFAULT '1',
+  `notify_when_achieve` tinyint(1) NOT NULL DEFAULT '1',
+  `notified` int(11) NOT NULL DEFAULT '0',
+  `staff_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1664,7 +1664,7 @@ CREATE TABLE `tblinvoicepaymentrecords` (
   `date` date NOT NULL,
   `daterecorded` datetime NOT NULL,
   `note` text NOT NULL,
-  `transactionid` mediumtext DEFAULT NULL
+  `transactionid` mediumtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1675,42 +1675,42 @@ CREATE TABLE `tblinvoicepaymentrecords` (
 
 CREATE TABLE `tblinvoices` (
   `id` int(11) NOT NULL,
-  `sent` tinyint(1) NOT NULL DEFAULT 0,
+  `sent` tinyint(1) NOT NULL DEFAULT '0',
   `datesend` datetime DEFAULT NULL,
   `clientid` int(11) NOT NULL,
   `deleted_customer_name` varchar(100) DEFAULT NULL,
   `number` int(11) NOT NULL,
   `prefix` varchar(50) DEFAULT NULL,
-  `number_format` int(11) NOT NULL DEFAULT 0,
+  `number_format` int(11) NOT NULL DEFAULT '0',
   `datecreated` datetime NOT NULL,
   `date` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `currency` int(11) NOT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
   `total` decimal(15,2) NOT NULL,
   `adjustment` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
-  `status` int(11) DEFAULT 1,
-  `clientnote` text DEFAULT NULL,
-  `adminnote` text DEFAULT NULL,
+  `status` int(11) DEFAULT '1',
+  `clientnote` text,
+  `adminnote` text,
   `last_overdue_reminder` date DEFAULT NULL,
-  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT 0,
-  `allowed_payment_modes` mediumtext DEFAULT NULL,
-  `token` mediumtext DEFAULT NULL,
-  `discount_percent` decimal(15,2) DEFAULT 0.00,
-  `discount_total` decimal(15,2) DEFAULT 0.00,
+  `cancel_overdue_reminders` int(11) NOT NULL DEFAULT '0',
+  `allowed_payment_modes` mediumtext,
+  `token` mediumtext,
+  `discount_percent` decimal(15,2) DEFAULT '0.00',
+  `discount_total` decimal(15,2) DEFAULT '0.00',
   `discount_type` varchar(30) NOT NULL,
-  `recurring` int(11) NOT NULL DEFAULT 0,
+  `recurring` int(11) NOT NULL DEFAULT '0',
   `recurring_type` varchar(10) DEFAULT NULL,
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
-  `cycles` int(11) NOT NULL DEFAULT 0,
-  `total_cycles` int(11) NOT NULL DEFAULT 0,
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `cycles` int(11) NOT NULL DEFAULT '0',
+  `total_cycles` int(11) NOT NULL DEFAULT '0',
   `is_recurring_from` int(11) DEFAULT NULL,
   `last_recurring_date` date DEFAULT NULL,
-  `terms` text DEFAULT NULL,
-  `sale_agent` int(11) NOT NULL DEFAULT 0,
+  `terms` text,
+  `sale_agent` int(11) NOT NULL DEFAULT '0',
   `billing_street` varchar(200) DEFAULT NULL,
   `billing_city` varchar(100) DEFAULT NULL,
   `billing_state` varchar(100) DEFAULT NULL,
@@ -1722,13 +1722,13 @@ CREATE TABLE `tblinvoices` (
   `shipping_zip` varchar(100) DEFAULT NULL,
   `shipping_country` int(11) DEFAULT NULL,
   `include_shipping` tinyint(1) NOT NULL,
-  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT 1,
-  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
-  `project_id` int(11) DEFAULT 0,
+  `show_shipping_on_invoice` tinyint(1) NOT NULL DEFAULT '1',
+  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
+  `project_id` int(11) DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
-  `subscription_id` int(11) NOT NULL DEFAULT 0,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `subscription_id` int(11) NOT NULL DEFAULT '0',
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1745,7 +1745,7 @@ CREATE TABLE `tblirac_method` (
   `legal_authority` text NOT NULL,
   `analysis` text NOT NULL,
   `result` text NOT NULL,
-  `datecreated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `datecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1759,7 +1759,7 @@ CREATE TABLE `tblitemable` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(15) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` mediumtext DEFAULT NULL,
+  `long_description` mediumtext,
   `qty` decimal(15,2) NOT NULL,
   `rate` decimal(15,2) NOT NULL,
   `unit` varchar(40) DEFAULT NULL,
@@ -1775,12 +1775,12 @@ CREATE TABLE `tblitemable` (
 CREATE TABLE `tblitems` (
   `id` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `long_description` text DEFAULT NULL,
+  `long_description` text,
   `rate` decimal(15,2) NOT NULL,
   `tax` int(11) DEFAULT NULL,
   `tax2` int(11) DEFAULT NULL,
   `unit` varchar(40) DEFAULT NULL,
-  `group_id` int(11) NOT NULL DEFAULT 0
+  `group_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1837,9 +1837,17 @@ CREATE TABLE `tblknowledge_base` (
   `slug` mediumtext NOT NULL,
   `active` tinyint(4) NOT NULL,
   `datecreated` datetime NOT NULL,
-  `article_order` int(11) NOT NULL DEFAULT 0,
-  `staff_article` int(11) NOT NULL DEFAULT 0
+  `article_order` int(11) NOT NULL DEFAULT '0',
+  `staff_article` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblknowledge_base`
+--
+
+INSERT INTO `tblknowledge_base` (`articleid`, `articlegroup`, `subject`, `description`, `slug`, `active`, `datecreated`, `article_order`, `staff_article`) VALUES
+(1, 1, 'القضايا', 'نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص', 'lkd-y', 1, '2020-01-16 18:55:52', 0, 0),
+(2, 2, 'الاجازات', 'نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نصنص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص نص', 'l-g-z-t', 1, '2020-01-16 18:57:30', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1850,12 +1858,20 @@ CREATE TABLE `tblknowledge_base` (
 CREATE TABLE `tblknowledge_base_groups` (
   `groupid` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `group_slug` text DEFAULT NULL,
-  `description` mediumtext DEFAULT NULL,
+  `group_slug` text,
+  `description` mediumtext,
   `active` tinyint(4) NOT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `group_order` int(11) DEFAULT 0
+  `group_order` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tblknowledge_base_groups`
+--
+
+INSERT INTO `tblknowledge_base_groups` (`groupid`, `name`, `group_slug`, `description`, `active`, `color`, `group_order`) VALUES
+(1, 'الخدمات القانونية', 'lkhdm-t-lk-nony', '', 1, '', 1),
+(2, 'شؤون الموظفين', 'sh-on-lmothfyn', '', 1, '', 2);
 
 -- --------------------------------------------------------
 
@@ -1869,15 +1885,15 @@ CREATE TABLE `tblleads` (
   `name` varchar(191) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
   `company` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT 0,
+  `description` text,
+  `country` int(11) NOT NULL DEFAULT '0',
   `zip` varchar(15) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `assigned` int(11) NOT NULL DEFAULT 0,
+  `assigned` int(11) NOT NULL DEFAULT '0',
   `dateadded` datetime NOT NULL,
-  `from_form_id` int(11) NOT NULL DEFAULT 0,
+  `from_form_id` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `lastcontact` datetime DEFAULT NULL,
@@ -1886,18 +1902,17 @@ CREATE TABLE `tblleads` (
   `addedfrom` int(11) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(150) DEFAULT NULL,
-  `leadorder` int(11) DEFAULT 1,
+  `leadorder` int(11) DEFAULT '1',
   `phonenumber` varchar(50) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `lost` tinyint(1) NOT NULL DEFAULT 0,
-  `junk` int(11) NOT NULL DEFAULT 0,
-  `last_lead_status` int(11) NOT NULL DEFAULT 0,
-  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT 0,
+  `lost` tinyint(1) NOT NULL DEFAULT '0',
+  `junk` int(11) NOT NULL DEFAULT '0',
+  `last_lead_status` int(11) NOT NULL DEFAULT '0',
+  `is_imported_from_email_integration` tinyint(1) NOT NULL DEFAULT '0',
   `email_integration_uid` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT 0,
+  `is_public` tinyint(1) NOT NULL DEFAULT '0',
   `default_language` varchar(40) DEFAULT NULL,
-  `client_id` int(11) NOT NULL DEFAULT 0,
-  `lead_value` decimal(15,2) DEFAULT NULL
+  `client_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1912,24 +1927,22 @@ CREATE TABLE `tblleads_email_integration` (
   `email` varchar(100) NOT NULL,
   `imap_server` varchar(100) NOT NULL,
   `password` mediumtext NOT NULL,
-  `check_every` int(11) NOT NULL DEFAULT 5,
+  `check_every` int(11) NOT NULL DEFAULT '5',
   `responsible` int(11) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
   `encryption` varchar(3) DEFAULT NULL,
   `folder` varchar(100) NOT NULL,
   `last_run` varchar(50) DEFAULT NULL,
-  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT 1,
-  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_lead_imported` tinyint(1) NOT NULL DEFAULT '1',
+  `notify_lead_contact_more_times` tinyint(1) NOT NULL DEFAULT '1',
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext DEFAULT NULL,
-  `mark_public` int(11) NOT NULL DEFAULT 0,
-  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT 1,
-  `delete_after_import` int(11) NOT NULL DEFAULT 0,
-  `create_task_if_customer` int(11) NOT NULL DEFAULT 0
+  `notify_ids` mediumtext,
+  `mark_public` int(11) NOT NULL DEFAULT '0',
+  `only_loop_on_unseen_emails` tinyint(1) NOT NULL DEFAULT '1',
+  `delete_after_import` int(11) NOT NULL DEFAULT '0',
+  `create_task_if_customer` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `tblleads_sources`
@@ -1959,7 +1972,7 @@ CREATE TABLE `tblleads_status` (
   `name` varchar(50) NOT NULL,
   `statusorder` int(11) DEFAULT NULL,
   `color` varchar(10) DEFAULT '#28B8DA',
-  `isdefault` int(11) NOT NULL DEFAULT 0
+  `isdefault` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1979,11 +1992,11 @@ CREATE TABLE `tbllead_activity_log` (
   `id` int(11) NOT NULL,
   `leadid` int(11) NOT NULL,
   `description` mediumtext NOT NULL,
-  `additional_data` text DEFAULT NULL,
+  `additional_data` text,
   `date` datetime NOT NULL,
   `staffid` int(11) NOT NULL,
   `full_name` varchar(100) DEFAULT NULL,
-  `custom_activity` tinyint(1) NOT NULL DEFAULT 0
+  `custom_activity` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1994,8 +2007,8 @@ CREATE TABLE `tbllead_activity_log` (
 
 CREATE TABLE `tbllead_integration_emails` (
   `id` int(11) NOT NULL,
-  `subject` mediumtext DEFAULT NULL,
-  `body` mediumtext DEFAULT NULL,
+  `subject` mediumtext,
+  `body` mediumtext,
   `dateadded` datetime NOT NULL,
   `leadid` int(11) NOT NULL,
   `emailid` int(11) NOT NULL
@@ -2012,7 +2025,7 @@ CREATE TABLE `tbllegal_procedures` (
   `list_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
   `reference_id` int(11) NOT NULL,
-  `datecreated` datetime NOT NULL DEFAULT current_timestamp()
+  `datecreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2026,7 +2039,7 @@ CREATE TABLE `tbllegal_procedures_lists` (
   `cat_id` int(11) NOT NULL,
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
-  `datecreated` datetime NOT NULL DEFAULT current_timestamp()
+  `datecreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2091,21 +2104,21 @@ CREATE TABLE `tblmail_attachment` (
 
 CREATE TABLE `tblmail_inbox` (
   `id` int(11) UNSIGNED NOT NULL,
-  `from_staff_id` int(11) NOT NULL DEFAULT 0,
-  `to_staff_id` int(11) NOT NULL DEFAULT 0,
+  `from_staff_id` int(11) NOT NULL DEFAULT '0',
+  `to_staff_id` int(11) NOT NULL DEFAULT '0',
   `to` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `cc` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `bcc` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `sender_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `subject` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `body` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `has_attachment` tinyint(1) NOT NULL DEFAULT 0,
+  `subject` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `body` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `has_attachment` tinyint(1) NOT NULL DEFAULT '0',
   `date_received` datetime NOT NULL,
-  `read` tinyint(1) NOT NULL DEFAULT 0,
+  `read` tinyint(1) NOT NULL DEFAULT '0',
   `folder` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'inbox',
-  `stared` tinyint(1) NOT NULL DEFAULT 0,
-  `important` tinyint(1) NOT NULL DEFAULT 0,
-  `trash` tinyint(1) NOT NULL DEFAULT 0,
+  `stared` tinyint(1) NOT NULL DEFAULT '0',
+  `important` tinyint(1) NOT NULL DEFAULT '0',
+  `trash` tinyint(1) NOT NULL DEFAULT '0',
   `from_email` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2117,21 +2130,21 @@ CREATE TABLE `tblmail_inbox` (
 
 CREATE TABLE `tblmail_outbox` (
   `id` int(11) UNSIGNED NOT NULL,
-  `sender_staff_id` int(11) NOT NULL DEFAULT 0,
+  `sender_staff_id` int(11) NOT NULL DEFAULT '0',
   `to` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `cc` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `bcc` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `sender_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `subject` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `body` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `has_attachment` tinyint(1) NOT NULL DEFAULT 0,
+  `subject` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `body` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `has_attachment` tinyint(1) NOT NULL DEFAULT '0',
   `date_sent` datetime NOT NULL,
-  `stared` tinyint(1) NOT NULL DEFAULT 0,
-  `important` tinyint(1) NOT NULL DEFAULT 0,
-  `trash` tinyint(1) NOT NULL DEFAULT 0,
+  `stared` tinyint(1) NOT NULL DEFAULT '0',
+  `important` tinyint(1) NOT NULL DEFAULT '0',
+  `trash` tinyint(1) NOT NULL DEFAULT '0',
   `reply_from_id` int(11) DEFAULT NULL,
   `reply_type` varchar(45) NOT NULL DEFAULT 'inbox',
-  `draft` tinyint(1) NOT NULL DEFAULT 0
+  `draft` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2144,14 +2157,14 @@ CREATE TABLE `tblmail_queue` (
   `id` int(11) NOT NULL,
   `engine` varchar(40) DEFAULT NULL,
   `email` varchar(191) NOT NULL,
-  `cc` text DEFAULT NULL,
-  `bcc` text DEFAULT NULL,
+  `cc` text,
+  `bcc` text,
   `message` mediumtext NOT NULL,
-  `alt_message` mediumtext DEFAULT NULL,
+  `alt_message` mediumtext,
   `status` enum('pending','sending','sent','failed') DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `headers` text DEFAULT NULL,
-  `attachments` mediumtext DEFAULT NULL
+  `headers` text,
+  `attachments` mediumtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2169,7 +2182,7 @@ CREATE TABLE `tblmigrations` (
 --
 
 INSERT INTO `tblmigrations` (`version`) VALUES
-(270);
+(244);
 
 -- --------------------------------------------------------
 
@@ -2180,14 +2193,14 @@ INSERT INTO `tblmigrations` (`version`) VALUES
 CREATE TABLE `tblmilestones` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text DEFAULT NULL,
-  `description_visible_to_customer` tinyint(1) DEFAULT 0,
+  `description` text,
+  `description_visible_to_customer` tinyint(1) DEFAULT '0',
   `due_date` date NOT NULL,
   `project_id` int(11) NOT NULL,
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `color` varchar(10) DEFAULT NULL,
-  `milestone_order` int(11) NOT NULL DEFAULT 0,
+  `milestone_order` int(11) NOT NULL DEFAULT '0',
   `datecreated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2204,30 +2217,6 @@ CREATE TABLE `tblmodules` (
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblmodules`
---
-
-INSERT INTO `tblmodules` (`id`, `module_name`, `installed_version`, `active`) VALUES
-(1, 'menu_setup', '2.3.0', 0),
-(3, 'label_management', '1.0.0', 0),
-(4, 'location_module', '2.3.0', 0),
-(5, 'session', '2.3.0', 0),
-(6, 'disputes', '1.0.0', 0),
-(7, 'branches', '2.3.0', 0),
-(8, 'hr', '1.0.0', 0),
-(9, 'appointly', '1.1.5', 0),
-(11, 'mailbox', '1.0.0', 0),
-(12, 'theme_style', '2.3.0', 0),
-(13, 'goals', '2.3.0', 0),
-(14, 'surveys', '2.3.0', 0),
-(15, 'backup', '2.3.0', 0),
-(16, 'account_planning', '1.0.0', 0),
-(17, 'perfex_email_builder', '2.0.1', 0),
-(18, 'prchat', '1.4.3', 0),
-(19, 'assets', '1.0.0', 0),
-(20, 'zoom', '1.0.0', 0),
-(21, 'api', '1.0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -2241,9 +2230,9 @@ CREATE TABLE `tblmy_basic_services` (
   `slug` varchar(255) NOT NULL,
   `prefix` varchar(255) NOT NULL,
   `numbering` int(11) DEFAULT NULL,
-  `is_primary` int(2) NOT NULL DEFAULT 0,
-  `show_on_sidebar` tinyint(1) NOT NULL DEFAULT 1,
-  `is_module` tinyint(1) NOT NULL DEFAULT 0,
+  `is_primary` int(2) NOT NULL DEFAULT '0',
+  `show_on_sidebar` tinyint(1) NOT NULL DEFAULT '1',
+  `is_module` tinyint(1) NOT NULL DEFAULT '0',
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2292,12 +2281,12 @@ CREATE TABLE `tblmy_cases` (
   `file_number_court` int(11) DEFAULT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT 0,
-  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `progress` int(11) DEFAULT '0',
+  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
   `addedfrom` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT 0,
+  `branch_id` int(11) NOT NULL DEFAULT '0',
   `previous_case_id` int(11) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2308,16 +2297,8 @@ CREATE TABLE `tblmy_cases` (
 
 CREATE TABLE `tblmy_casestatus` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `is_default` int(1) NOT NULL DEFAULT 0
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmy_casestatus`
---
-
-INSERT INTO `tblmy_casestatus` (`id`, `name`, `is_default`) VALUES
-(1, 'nothing_was_specified', 1);
 
 -- --------------------------------------------------------
 
@@ -2358,7 +2339,6 @@ CREATE TABLE `tblmy_categories` (
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `tblmy_courts`
@@ -2367,18 +2347,9 @@ CREATE TABLE `tblmy_categories` (
 CREATE TABLE `tblmy_courts` (
   `c_id` int(11) NOT NULL,
   `court_name` varchar(250) NOT NULL,
-  `datecreated` date NOT NULL,
-  `is_default` int(11) NOT NULL DEFAULT 0
+  `datecreated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `tblmy_courts`
---
-
-INSERT INTO `tblmy_courts` (`c_id`, `court_name`, `datecreated`, `is_default`) VALUES
-(1, 'nothing_was_specified', '2020-10-10', 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `tblmy_customers_company_groups`
@@ -2409,16 +2380,8 @@ CREATE TABLE `tblmy_customer_company_groups` (
 
 CREATE TABLE `tblmy_customer_representative` (
   `id` int(11) NOT NULL,
-  `representative` varchar(200) NOT NULL,
-  `is_default` int(1) NOT NULL DEFAULT 0
+  `representative` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmy_customer_representative`
---
-
-INSERT INTO `tblmy_customer_representative` (`id`, `representative`, `is_default`) VALUES
-(1, 'nothing_was_specified', 1);
 
 -- --------------------------------------------------------
 
@@ -2429,10 +2392,10 @@ INSERT INTO `tblmy_customer_representative` (`id`, `representative`, `is_default
 CREATE TABLE `tblmy_dialog_boxes` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `desc_ar` text DEFAULT NULL,
-  `desc_en` text DEFAULT NULL,
+  `desc_ar` text,
+  `desc_en` text,
   `page_url` varchar(255) NOT NULL,
-  `active` int(11) NOT NULL DEFAULT 0
+  `active` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2470,7 +2433,7 @@ CREATE TABLE `tblmy_imported_services` (
   `clientid` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
-  `service_session_link` int(11) NOT NULL DEFAULT 0,
+  `service_session_link` int(11) NOT NULL DEFAULT '0',
   `billing_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `project_rate_per_hour` int(11) NOT NULL,
@@ -2484,11 +2447,11 @@ CREATE TABLE `tblmy_imported_services` (
   `city` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT 0,
-  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `progress` int(11) DEFAULT '0',
+  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
   `addedfrom` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT 0,
-  `deleted` int(11) NOT NULL DEFAULT 0,
+  `branch_id` int(11) NOT NULL DEFAULT '0',
+  `deleted` int(11) NOT NULL DEFAULT '0',
   `imported` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2512,18 +2475,10 @@ CREATE TABLE `tblmy_judges` (
 
 CREATE TABLE `tblmy_judicialdept` (
   `j_id` int(255) NOT NULL,
-  `Jud_number` varchar(255) NOT NULL,
+  `Jud_number` int(255) NOT NULL,
   `c_id` int(255) NOT NULL,
-  `is_default` int(1) NOT NULL DEFAULT 0,
   `datecreated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tblmy_judicialdept`
---
-
-INSERT INTO `tblmy_judicialdept` (`j_id`, `Jud_number`, `c_id`, `is_default`, `datecreated`) VALUES
-(1, 'nothing_was_specified', 1, 1, '2020-10-10 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2576,7 +2531,7 @@ CREATE TABLE `tblmy_other_services` (
   `clientid` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `subcat_id` int(11) NOT NULL,
-  `service_session_link` int(11) NOT NULL DEFAULT 0,
+  `service_session_link` int(11) NOT NULL DEFAULT '0',
   `billing_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `project_rate_per_hour` int(11) NOT NULL,
@@ -2590,11 +2545,11 @@ CREATE TABLE `tblmy_other_services` (
   `city` varchar(255) NOT NULL,
   `contract` int(11) NOT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
-  `progress` int(11) DEFAULT 0,
-  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `progress` int(11) DEFAULT '0',
+  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
   `addedfrom` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT 0,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `branch_id` int(11) NOT NULL DEFAULT '0',
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2608,8 +2563,8 @@ CREATE TABLE `tblmy_phase_data` (
   `phase_id` int(11) NOT NULL,
   `rel_id` int(11) DEFAULT NULL,
   `rel_type` varchar(30) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `is_complete` int(11) NOT NULL DEFAULT 0
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_complete` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2658,8 +2613,8 @@ CREATE TABLE `tblmy_service_phases` (
   `name` varchar(40) NOT NULL,
   `slug` varchar(30) DEFAULT NULL,
   `service_id` int(11) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT 0,
-  `deleted` int(1) NOT NULL DEFAULT 0
+  `is_active` int(1) NOT NULL DEFAULT '0',
+  `deleted` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2677,7 +2632,7 @@ CREATE TABLE `tblmy_sessiondiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT 0,
+  `contact_id` int(11) DEFAULT '0',
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -2791,7 +2746,7 @@ CREATE TABLE `tblnewsfeed_posts` (
 
 CREATE TABLE `tblnewsfeed_post_comments` (
   `id` int(11) NOT NULL,
-  `content` text DEFAULT NULL,
+  `content` text,
   `userid` int(11) NOT NULL,
   `postid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -2820,7 +2775,7 @@ CREATE TABLE `tblnotes` (
   `id` int(11) NOT NULL,
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `date_contacted` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -2834,17 +2789,17 @@ CREATE TABLE `tblnotes` (
 
 CREATE TABLE `tblnotifications` (
   `id` int(11) NOT NULL,
-  `isread` int(11) NOT NULL DEFAULT 0,
-  `isread_inline` tinyint(1) NOT NULL DEFAULT 0,
+  `isread` int(11) NOT NULL DEFAULT '0',
+  `isread_inline` tinyint(1) NOT NULL DEFAULT '0',
   `date` datetime NOT NULL,
   `description` text NOT NULL,
   `fromuserid` int(11) NOT NULL,
-  `fromclientid` int(11) NOT NULL DEFAULT 0,
+  `fromclientid` int(11) NOT NULL DEFAULT '0',
   `from_fullname` varchar(100) NOT NULL,
   `touserid` int(11) NOT NULL,
   `fromcompany` int(11) DEFAULT NULL,
-  `link` mediumtext DEFAULT NULL,
-  `additional_data` text DEFAULT NULL
+  `link` mediumtext,
+  `additional_data` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2857,7 +2812,7 @@ CREATE TABLE `tbloptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
   `value` longtext NOT NULL,
-  `autoload` tinyint(1) NOT NULL DEFAULT 1
+  `autoload` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3309,6 +3264,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (453, 'branch_type', '[{\"key\":\" Corporation\",\"value\":\" Corporation\"},{\"key\":\" Exempt Organization\",\"value\":\" Exempt Organization\"},{\"key\":\" Partnership\",\"value\":\" Partnership\"},{\"key\":\" Private Foundation\",\"value\":\" Private Foundation\"},{\"key\":\" Limited Liability Company\",\"value\":\" Limited Liability Company\"}]', 1),
 (454, 'relation_type', '[{\"key\":\"\\u0628\\u0646\\u0641\\u0633\\u0647\",\"value\":\"\\u0628\\u0646\\u0641\\u0633\\u0647\"},{\"key\":\"\\u0623\\u062e\\/\\u0640\\u062a\",\"value\":\"\\u0623\\u062e\\/\\u0640\\u062a\"},{\"key\":\"\\u0635\\u062f\\u064a\\u0642\",\"value\":\"\\u0635\\u062f\\u064a\\u0642\"},{\"key\":\"\\u0623\\u0628\\u0646\\/\\u0640\\u0629\",\"value\":\"\\u0623\\u0628\\u0646\\/\\u0640\\u0629\"},{\"key\":\"\\u0632\\u0648\\u062c\\/\\u0640\\u0629\",\"value\":\"\\u0632\\u0648\\u062c\\/\\u0640\\u0629\"},{\"key\":\"\\u0627\\u0644\\u0623\\u0628\\/\\u0627\\u0644\\u0623\\u0645\",\"value\":\"\\u0627\\u0644\\u0623\\u0628\\/\\u0627\\u0644\\u0623\\u0645\"},{\"key\":\"\\u0642\\u0631\\u064a\\u0628\",\"value\":\"\\u0642\\u0631\\u064a\\u0628\"}]', 1),
 (455, 'show_php_version_notice', '1', 0),
+(456, 'upgraded_from_version', '240', 1),
 (457, 'appointly_responsible_person', '', 1),
 (458, 'callbacks_responsible_person', '', 1),
 (459, 'appointly_show_clients_schedule_button', '0', 1),
@@ -3361,24 +3317,7 @@ INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES
 (506, 'training_type', '[{\"key\":\"\\u062f\\u0648\\u0631\\u0629 \\u062a\\u062f\\u0631\\u064a\\u0628\\u064a\\u0629 \\u0623\\u0648\\u0646 \\u0644\\u0627\\u064a\\u0646\",\"value\":\"\\u062f\\u0648\\u0631\\u0629 \\u062a\\u062f\\u0631\\u064a\\u0628\\u064a\\u0629 \\u0623\\u0648\\u0646 \\u0644\\u0627\\u064a\\u0646\"}]', 1),
 (507, 'award_type', '[{\"key\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\",\"value\":\"\\u0627\\u0644\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0645\\u064a\\u0632\"}]', 1),
 (508, 'termination_type', '[{\"key\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\",\"value\":\"\\u0625\\u0633\\u062a\\u0642\\u0627\\u0644\\u0629\"},{\"key\":\"\\u0641\\u0635\\u0644\",\"value\":\"\\u0641\\u0635\\u0644\"},{\"key\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\",\"value\":\"\\u0625\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0642\\u062f\"}]', 1),
-(509, 'warning_type', '[{\"key\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\",\"value\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\"},{\"key\":\"\\u063a\\u064a\\u0627\\u0628\",\"value\":\"\\u063a\\u064a\\u0627\\u0628\"}]', 1),
-(510, 'recaptcha_ignore_ips', '', 1),
-(511, 'show_task_reminders_on_calendar', '1', 1),
-(512, 'tasks_reminder_notification_hour', '21', 1),
-(513, 'allow_primary_contact_to_manage_other_contacts', '0', 1),
-(514, 'upgraded_from_version', '244', 1),
-(515, 'paymentmethod_authorize_acceptjs_active', '0', 1),
-(516, 'paymentmethod_authorize_acceptjs_label', 'Authorize.net Accept.js', 1),
-(517, 'paymentmethod_authorize_acceptjs_public_key', '', 0),
-(518, 'paymentmethod_authorize_acceptjs_api_login_id', '', 0),
-(519, 'paymentmethod_authorize_acceptjs_api_transaction_key', '', 0),
-(520, 'paymentmethod_authorize_acceptjs_description_dashboard', 'Payment for Invoice {invoice_number}', 0),
-(521, 'paymentmethod_authorize_acceptjs_currencies', 'USD', 0),
-(522, 'paymentmethod_authorize_acceptjs_test_mode_enabled', '0', 0),
-(523, 'paymentmethod_authorize_acceptjs_default_selected', '1', 1),
-(524, 'paymentmethod_authorize_acceptjs_initialized', '1', 1),
-(525, 'company_country', '194', 1),
-(526, 'company_city', 'الرياض', 1);
+(509, 'warning_type', '[{\"key\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\",\"value\":\"\\u062a\\u0623\\u062e\\u064a\\u0631 \\u0645\\u062a\\u0643\\u0631\\u0631 \\u0644\\u0623\\u0643\\u062b\\u0631 \\u0645\\u0646 15 \\u062f\\u0642\\u064a\\u0642\\u0629\"},{\"key\":\"\\u063a\\u064a\\u0627\\u0628\",\"value\":\"\\u063a\\u064a\\u0627\\u0628\"}]', 1);
 
 -- --------------------------------------------------------
 
@@ -3395,7 +3334,7 @@ CREATE TABLE `tbloservicediscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT 0,
+  `contact_id` int(11) DEFAULT '0',
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -3412,11 +3351,11 @@ CREATE TABLE `tbloservicediscussions` (
   `oservice_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3428,12 +3367,12 @@ CREATE TABLE `tbloservicediscussions` (
 CREATE TABLE `tbloservice_activity` (
   `id` int(11) NOT NULL,
   `oservice_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text DEFAULT NULL,
+  `additional_data` text,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3447,17 +3386,17 @@ CREATE TABLE `tbloservice_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `oservice_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT 0,
+  `visible_to_customer` tinyint(1) DEFAULT '0',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text DEFAULT NULL,
-  `thumbnail_link` text DEFAULT NULL
+  `external_link` text,
+  `thumbnail_link` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3483,7 +3422,7 @@ CREATE TABLE `tbloservice_settings` (
   `id` int(11) NOT NULL,
   `oservice_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text DEFAULT NULL
+  `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3495,12 +3434,12 @@ CREATE TABLE `tbloservice_settings` (
 CREATE TABLE `tblpayment_modes` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
-  `show_on_pdf` int(11) NOT NULL DEFAULT 0,
-  `invoices_only` int(11) NOT NULL DEFAULT 0,
-  `expenses_only` int(11) NOT NULL DEFAULT 0,
-  `selected_by_default` int(11) NOT NULL DEFAULT 1,
-  `active` tinyint(1) NOT NULL DEFAULT 1
+  `description` text,
+  `show_on_pdf` int(11) NOT NULL DEFAULT '0',
+  `invoices_only` int(11) NOT NULL DEFAULT '0',
+  `expenses_only` int(11) NOT NULL DEFAULT '0',
+  `selected_by_default` int(11) NOT NULL DEFAULT '1',
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3557,7 +3496,7 @@ CREATE TABLE `tblprocurations` (
   `type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `client` int(11) NOT NULL,
-  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
   `addedfrom` int(11) NOT NULL,
   `case_id` int(11) DEFAULT NULL,
   `deadline_notified` int(11) NOT NULL
@@ -3590,7 +3529,7 @@ CREATE TABLE `tblprojectdiscussioncomments` (
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,
   `staff_id` int(11) NOT NULL,
-  `contact_id` int(11) DEFAULT 0,
+  `contact_id` int(11) DEFAULT '0',
   `fullname` varchar(191) DEFAULT NULL,
   `file_name` varchar(191) DEFAULT NULL,
   `file_mime_type` varchar(70) DEFAULT NULL
@@ -3607,11 +3546,11 @@ CREATE TABLE `tblprojectdiscussions` (
   `project_id` int(11) NOT NULL,
   `subject` varchar(191) NOT NULL,
   `description` text NOT NULL,
-  `show_to_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `show_to_customer` tinyint(1) NOT NULL DEFAULT '0',
   `datecreated` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3623,22 +3562,22 @@ CREATE TABLE `tblprojectdiscussions` (
 CREATE TABLE `tblprojects` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0,
+  `description` text,
+  `status` int(11) NOT NULL DEFAULT '0',
   `clientid` int(11) NOT NULL,
   `billing_type` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `deadline` date DEFAULT NULL,
   `project_created` date NOT NULL,
   `date_finished` datetime DEFAULT NULL,
-  `progress` int(11) DEFAULT 0,
-  `progress_from_tasks` int(11) NOT NULL DEFAULT 1,
+  `progress` int(11) DEFAULT '0',
+  `progress_from_tasks` int(11) NOT NULL DEFAULT '1',
   `project_cost` decimal(15,2) DEFAULT NULL,
   `project_rate_per_hour` decimal(15,2) DEFAULT NULL,
   `estimated_hours` decimal(15,2) DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT 0,
-  `project_type` int(2) NOT NULL DEFAULT 0
+  `branch_id` int(11) NOT NULL DEFAULT '0',
+  `project_type` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3650,12 +3589,12 @@ CREATE TABLE `tblprojects` (
 CREATE TABLE `tblproject_activity` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL DEFAULT 0,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `staff_id` int(11) NOT NULL DEFAULT '0',
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `fullname` varchar(100) DEFAULT NULL,
-  `visible_to_customer` int(11) NOT NULL DEFAULT 0,
+  `visible_to_customer` int(11) NOT NULL DEFAULT '0',
   `description_key` varchar(191) NOT NULL COMMENT 'Language file key',
-  `additional_data` text DEFAULT NULL,
+  `additional_data` text,
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3669,17 +3608,17 @@ CREATE TABLE `tblproject_files` (
   `id` int(11) NOT NULL,
   `file_name` varchar(191) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `filetype` varchar(50) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `last_activity` datetime DEFAULT NULL,
   `project_id` int(11) NOT NULL,
-  `visible_to_customer` tinyint(1) DEFAULT 0,
+  `visible_to_customer` tinyint(1) DEFAULT '0',
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT '0',
   `external` varchar(40) DEFAULT NULL,
-  `external_link` text DEFAULT NULL,
-  `thumbnail_link` text DEFAULT NULL
+  `external_link` text,
+  `thumbnail_link` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3717,7 +3656,7 @@ CREATE TABLE `tblproject_settings` (
   `id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `value` text DEFAULT NULL
+  `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3729,17 +3668,17 @@ CREATE TABLE `tblproject_settings` (
 CREATE TABLE `tblproposals` (
   `id` int(11) NOT NULL,
   `subject` varchar(191) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
+  `content` longtext,
   `addedfrom` int(11) NOT NULL,
   `datecreated` datetime NOT NULL,
   `total` decimal(15,2) DEFAULT NULL,
   `subtotal` decimal(15,2) NOT NULL,
-  `total_tax` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `total_tax` decimal(15,2) NOT NULL DEFAULT '0.00',
   `adjustment` decimal(15,2) DEFAULT NULL,
   `discount_percent` decimal(15,2) NOT NULL,
   `discount_total` decimal(15,2) NOT NULL,
   `discount_type` varchar(30) DEFAULT NULL,
-  `show_quantity_as` int(11) NOT NULL DEFAULT 1,
+  `show_quantity_as` int(11) NOT NULL DEFAULT '1',
   `currency` int(11) NOT NULL,
   `open_till` date DEFAULT NULL,
   `date` date NOT NULL,
@@ -3748,20 +3687,20 @@ CREATE TABLE `tblproposals` (
   `assigned` int(11) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
   `proposal_to` varchar(191) DEFAULT NULL,
-  `country` int(11) NOT NULL DEFAULT 0,
+  `country` int(11) NOT NULL DEFAULT '0',
   `zip` varchar(50) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `allow_comments` tinyint(1) NOT NULL DEFAULT 1,
+  `allow_comments` tinyint(1) NOT NULL DEFAULT '1',
   `status` int(11) NOT NULL,
   `estimate_id` int(11) DEFAULT NULL,
   `invoice_id` int(11) DEFAULT NULL,
   `date_converted` datetime DEFAULT NULL,
-  `pipeline_order` int(11) NOT NULL DEFAULT 0,
-  `is_expiry_notified` int(11) NOT NULL DEFAULT 0,
+  `pipeline_order` int(11) NOT NULL DEFAULT '0',
+  `is_expiry_notified` int(11) NOT NULL DEFAULT '0',
   `acceptance_firstname` varchar(50) DEFAULT NULL,
   `acceptance_lastname` varchar(50) DEFAULT NULL,
   `acceptance_email` varchar(100) DEFAULT NULL,
@@ -3778,7 +3717,7 @@ CREATE TABLE `tblproposals` (
 
 CREATE TABLE `tblproposal_comments` (
   `id` int(11) NOT NULL,
-  `content` mediumtext DEFAULT NULL,
+  `content` mediumtext,
   `proposalid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `dateadded` datetime NOT NULL
@@ -3805,13 +3744,13 @@ CREATE TABLE `tblrelated_items` (
 
 CREATE TABLE `tblreminders` (
   `id` int(11) NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `date` datetime NOT NULL,
-  `isnotified` int(11) NOT NULL DEFAULT 0,
+  `isnotified` int(11) NOT NULL DEFAULT '0',
   `rel_id` int(11) NOT NULL,
   `staff` int(11) NOT NULL,
   `rel_type` varchar(40) NOT NULL,
-  `notify_by_email` int(11) NOT NULL DEFAULT 1,
+  `notify_by_email` int(11) NOT NULL DEFAULT '1',
   `creator` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3824,7 +3763,7 @@ CREATE TABLE `tblreminders` (
 CREATE TABLE `tblroles` (
   `roleid` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `permissions` longtext DEFAULT NULL
+  `permissions` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3838,7 +3777,7 @@ CREATE TABLE `tblsales_activity` (
   `rel_type` varchar(20) DEFAULT NULL,
   `rel_id` int(11) NOT NULL,
   `description` text NOT NULL,
-  `additional_data` text DEFAULT NULL,
+  `additional_data` text,
   `staffid` varchar(11) DEFAULT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `date` datetime NOT NULL
@@ -3856,8 +3795,8 @@ CREATE TABLE `tblscheduled_emails` (
   `rel_type` varchar(15) NOT NULL,
   `scheduled_at` datetime NOT NULL,
   `contacts` varchar(197) NOT NULL,
-  `cc` text DEFAULT NULL,
-  `attach_pdf` tinyint(1) NOT NULL DEFAULT 1,
+  `cc` text,
+  `attach_pdf` tinyint(1) NOT NULL DEFAULT '1',
   `template` varchar(197) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3881,7 +3820,7 @@ CREATE TABLE `tblservices` (
 CREATE TABLE `tblsessions` (
   `id` varchar(128) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3920,8 +3859,8 @@ CREATE TABLE `tblstaff` (
   `email` varchar(100) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `facebook` mediumtext DEFAULT NULL,
-  `linkedin` mediumtext DEFAULT NULL,
+  `facebook` mediumtext,
+  `linkedin` mediumtext,
   `phonenumber` varchar(30) DEFAULT NULL,
   `skype` varchar(50) DEFAULT NULL,
   `password` varchar(250) NOT NULL,
@@ -3933,30 +3872,29 @@ CREATE TABLE `tblstaff` (
   `last_password_change` datetime DEFAULT NULL,
   `new_pass_key` varchar(32) DEFAULT NULL,
   `new_pass_key_requested` datetime DEFAULT NULL,
-  `admin` int(11) NOT NULL DEFAULT 0,
+  `admin` int(11) NOT NULL DEFAULT '0',
   `role` int(11) DEFAULT NULL,
-  `active` int(11) NOT NULL DEFAULT 1,
+  `active` int(11) NOT NULL DEFAULT '1',
   `default_language` varchar(40) DEFAULT NULL,
   `direction` varchar(3) DEFAULT NULL,
   `media_path_slug` varchar(191) DEFAULT NULL,
-  `is_not_staff` int(11) NOT NULL DEFAULT 0,
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `two_factor_auth_enabled` tinyint(1) DEFAULT 0,
+  `is_not_staff` int(11) NOT NULL DEFAULT '0',
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `two_factor_auth_enabled` tinyint(1) DEFAULT '0',
   `two_factor_auth_code` varchar(100) DEFAULT NULL,
   `two_factor_auth_code_requested` datetime DEFAULT NULL,
-  `email_signature` text DEFAULT NULL,
+  `email_signature` text,
   `mail_password` varchar(250) DEFAULT NULL,
-  `last_email_check` varchar(50) DEFAULT NULL,
-  `google_auth_secret` text DEFAULT NULL
+  `last_email_check` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tblstaff`
 --
 
-INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`, `mail_password`, `last_email_check`, `google_auth_secret`) VALUES
-(1, 'admin@babillawnet.com', 'Mhdbashar', ' ', '', '', '966566664074', 'm.almuslat', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', 'IMG_0101.jpg', '::1', '2020-10-22 17:27:10', '2020-10-22 17:27:15', NULL, NULL, NULL, 1, 3, 1, 'arabic', '', NULL, 0, '0.00', 0, NULL, '2019-12-07 10:20:05', '', 'wp9h@fdw}BMx', '1590835502', NULL),
-(2, 'new@babil.com', 'موظف جديد', ' ', '', '', '', '', '$2a$08$h6b1mmjH6BtTKLTCVZURw.iGzUtmYkk0SUJUQvVoxexo55B/aTCDa', '2020-06-01 19:37:35', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 1, '', '', 'mothf-gdyd', 0, '2.00', 0, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO `tblstaff` (`staffid`, `email`, `firstname`, `lastname`, `facebook`, `linkedin`, `phonenumber`, `skype`, `password`, `datecreated`, `profile_image`, `last_ip`, `last_login`, `last_activity`, `last_password_change`, `new_pass_key`, `new_pass_key_requested`, `admin`, `role`, `active`, `default_language`, `direction`, `media_path_slug`, `is_not_staff`, `hourly_rate`, `two_factor_auth_enabled`, `two_factor_auth_code`, `two_factor_auth_code_requested`, `email_signature`, `mail_password`, `last_email_check`) VALUES
+(1, 'admin@babillawnet.com', 'Mhdbashar', ' ', '', '', '966566664074', 'm.almuslat', '$2a$08$JJ4pffim0G5twlrWkQPc6u0VVwlDdZPvyn4rbHz3l7uclgmHLHeyq', '2019-07-18 10:29:15', 'IMG_0101.jpg', '::1', '2020-07-08 13:28:16', '2020-07-08 13:28:58', NULL, NULL, NULL, 1, 3, 1, 'arabic', '', NULL, 0, '0.00', 0, NULL, '2019-12-07 10:20:05', '', 'wp9h@fdw}BMx', '1590835502'),
+
 
 -- --------------------------------------------------------
 
@@ -3991,23 +3929,21 @@ CREATE TABLE `tblstaff_permissions` (
 CREATE TABLE `tblsubscriptions` (
   `id` int(11) NOT NULL,
   `name` varchar(191) NOT NULL,
-  `description` text DEFAULT NULL,
-  `description_in_item` tinyint(1) NOT NULL DEFAULT 0,
+  `description` text,
+  `description_in_item` tinyint(1) NOT NULL DEFAULT '0',
   `clientid` int(11) NOT NULL,
   `date` date DEFAULT NULL,
-  `terms` text DEFAULT NULL,
+  `terms` text,
   `currency` int(11) NOT NULL,
-  `tax_id` int(11) NOT NULL DEFAULT 0,
+  `tax_id` int(11) NOT NULL DEFAULT '0',
   `stripe_tax_id` varchar(50) DEFAULT NULL,
-  `tax_id_2` int(11) NOT NULL DEFAULT 0,
-  `stripe_tax_id_2` varchar(50) DEFAULT NULL,
-  `stripe_plan_id` text DEFAULT NULL,
+  `stripe_plan_id` text,
   `stripe_subscription_id` text NOT NULL,
   `next_billing_cycle` bigint(20) DEFAULT NULL,
   `ends_at` bigint(20) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 1,
-  `project_id` int(11) NOT NULL DEFAULT 0,
+  `quantity` int(11) NOT NULL DEFAULT '1',
+  `project_id` int(11) NOT NULL DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(20) DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
@@ -4042,14 +3978,14 @@ CREATE TABLE `tblsurveys` (
   `subject` mediumtext NOT NULL,
   `slug` mediumtext NOT NULL,
   `description` text NOT NULL,
-  `viewdescription` text DEFAULT NULL,
+  `viewdescription` text,
   `datecreated` datetime NOT NULL,
   `redirect_url` varchar(100) DEFAULT NULL,
-  `send` tinyint(1) NOT NULL DEFAULT 0,
-  `onlyforloggedin` int(11) DEFAULT 0,
+  `send` tinyint(1) NOT NULL DEFAULT '0',
+  `onlyforloggedin` int(11) DEFAULT '0',
   `fromname` varchar(100) DEFAULT NULL,
   `iprestrict` tinyint(1) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   `hash` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4079,8 +4015,8 @@ CREATE TABLE `tblsurveysendlog` (
   `surveyid` int(11) NOT NULL,
   `total` int(11) NOT NULL,
   `date` datetime NOT NULL,
-  `iscronfinished` int(11) NOT NULL DEFAULT 0,
-  `send_to_mail_lists` text DEFAULT NULL
+  `iscronfinished` int(11) NOT NULL DEFAULT '0',
+  `send_to_mail_lists` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4093,7 +4029,7 @@ CREATE TABLE `tbltaggables` (
   `rel_id` int(11) NOT NULL,
   `rel_type` varchar(20) NOT NULL,
   `tag_id` int(11) NOT NULL,
-  `tag_order` int(11) NOT NULL DEFAULT 0
+  `tag_order` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4115,38 +4051,38 @@ CREATE TABLE `tbltags` (
 
 CREATE TABLE `tbltasks` (
   `id` int(11) NOT NULL,
-  `name` mediumtext DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `name` mediumtext,
+  `description` text,
   `priority` int(11) DEFAULT NULL,
   `dateadded` datetime NOT NULL,
   `startdate` date NOT NULL,
   `duedate` date DEFAULT NULL,
   `datefinished` datetime DEFAULT NULL,
   `addedfrom` int(11) NOT NULL,
-  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT 0,
-  `status` int(11) NOT NULL DEFAULT 0,
+  `is_added_from_contact` tinyint(1) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
   `recurring_type` varchar(10) DEFAULT NULL,
   `repeat_every` int(11) DEFAULT NULL,
-  `recurring` int(11) NOT NULL DEFAULT 0,
+  `recurring` int(11) NOT NULL DEFAULT '0',
   `is_recurring_from` int(11) DEFAULT NULL,
-  `cycles` int(11) NOT NULL DEFAULT 0,
-  `total_cycles` int(11) NOT NULL DEFAULT 0,
-  `custom_recurring` tinyint(1) NOT NULL DEFAULT 0,
+  `cycles` int(11) NOT NULL DEFAULT '0',
+  `total_cycles` int(11) NOT NULL DEFAULT '0',
+  `custom_recurring` tinyint(1) NOT NULL DEFAULT '0',
   `last_recurring_date` date DEFAULT NULL,
   `rel_id` int(11) DEFAULT NULL,
   `rel_type` varchar(30) DEFAULT NULL,
-  `is_public` tinyint(1) NOT NULL DEFAULT 0,
-  `billable` tinyint(1) NOT NULL DEFAULT 0,
-  `billed` tinyint(1) NOT NULL DEFAULT 0,
-  `invoice_id` int(11) NOT NULL DEFAULT 0,
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `milestone` int(11) DEFAULT 0,
-  `kanban_order` int(11) NOT NULL DEFAULT 0,
-  `milestone_order` int(11) NOT NULL DEFAULT 0,
-  `visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
-  `deadline_notified` int(11) NOT NULL DEFAULT 0,
-  `is_session` int(11) DEFAULT 0,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  `billable` tinyint(1) NOT NULL DEFAULT '0',
+  `billed` tinyint(1) NOT NULL DEFAULT '0',
+  `invoice_id` int(11) NOT NULL DEFAULT '0',
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `milestone` int(11) DEFAULT '0',
+  `kanban_order` int(11) NOT NULL DEFAULT '0',
+  `milestone_order` int(11) NOT NULL DEFAULT '0',
+  `visible_to_client` tinyint(1) NOT NULL DEFAULT '0',
+  `deadline_notified` int(11) NOT NULL DEFAULT '0',
+  `is_session` int(11) DEFAULT '0',
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4161,8 +4097,8 @@ CREATE TABLE `tbltaskstimers` (
   `start_time` varchar(64) NOT NULL,
   `end_time` varchar(64) DEFAULT NULL,
   `staff_id` int(11) NOT NULL,
-  `hourly_rate` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `note` text DEFAULT NULL
+  `hourly_rate` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `note` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4173,7 +4109,7 @@ CREATE TABLE `tbltaskstimers` (
 
 CREATE TABLE `tbltasks_checklist_templates` (
   `id` int(11) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4186,8 +4122,8 @@ CREATE TABLE `tbltask_assigned` (
   `id` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
-  `assigned_from` int(11) NOT NULL DEFAULT 0,
-  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT 0
+  `assigned_from` int(11) NOT NULL DEFAULT '0',
+  `is_assigned_from_contact` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4200,11 +4136,11 @@ CREATE TABLE `tbltask_checklist_items` (
   `id` int(11) NOT NULL,
   `taskid` int(11) NOT NULL,
   `description` text NOT NULL,
-  `finished` int(11) NOT NULL DEFAULT 0,
+  `finished` int(11) NOT NULL DEFAULT '0',
   `dateadded` datetime NOT NULL,
   `addedfrom` int(11) NOT NULL,
-  `finished_from` int(11) DEFAULT 0,
-  `list_order` int(11) NOT NULL DEFAULT 0
+  `finished_from` int(11) DEFAULT '0',
+  `list_order` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4218,8 +4154,8 @@ CREATE TABLE `tbltask_comments` (
   `content` text NOT NULL,
   `taskid` int(11) NOT NULL,
   `staffid` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL DEFAULT 0,
-  `file_id` int(11) NOT NULL DEFAULT 0,
+  `contact_id` int(11) NOT NULL DEFAULT '0',
+  `file_id` int(11) NOT NULL DEFAULT '0',
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4255,28 +4191,28 @@ CREATE TABLE `tbltaxes` (
 
 CREATE TABLE `tbltickets` (
   `ticketid` int(11) NOT NULL,
-  `adminreplying` int(11) NOT NULL DEFAULT 0,
+  `adminreplying` int(11) NOT NULL DEFAULT '0',
   `userid` int(11) NOT NULL,
-  `contactid` int(11) NOT NULL DEFAULT 0,
-  `email` text DEFAULT NULL,
-  `name` text DEFAULT NULL,
+  `contactid` int(11) NOT NULL DEFAULT '0',
+  `email` text,
+  `name` text,
   `department` int(11) NOT NULL,
   `priority` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `service` int(11) DEFAULT NULL,
   `ticketkey` varchar(32) NOT NULL,
   `subject` varchar(191) NOT NULL,
-  `message` text DEFAULT NULL,
+  `message` text,
   `admin` int(11) DEFAULT NULL,
   `date` datetime NOT NULL,
-  `project_id` int(11) NOT NULL DEFAULT 0,
+  `project_id` int(11) NOT NULL DEFAULT '0',
   `lastreply` datetime DEFAULT NULL,
-  `clientread` int(11) NOT NULL DEFAULT 0,
-  `adminread` int(11) NOT NULL DEFAULT 0,
-  `assigned` int(11) NOT NULL DEFAULT 0,
+  `clientread` int(11) NOT NULL DEFAULT '0',
+  `adminread` int(11) NOT NULL DEFAULT '0',
+  `assigned` int(11) NOT NULL DEFAULT '0',
   `rel_sid` int(11) DEFAULT NULL,
   `rel_stype` varchar(30) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT 0
+  `deleted` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4337,7 +4273,7 @@ INSERT INTO `tbltickets_priorities` (`priorityid`, `name`) VALUES
 CREATE TABLE `tbltickets_status` (
   `ticketstatusid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `isdefault` int(11) NOT NULL DEFAULT 0,
+  `isdefault` int(11) NOT NULL DEFAULT '0',
   `statuscolor` varchar(7) DEFAULT NULL,
   `statusorder` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4378,11 +4314,11 @@ CREATE TABLE `tblticket_replies` (
   `id` int(11) NOT NULL,
   `ticketid` int(11) NOT NULL,
   `userid` int(11) DEFAULT NULL,
-  `contactid` int(11) NOT NULL DEFAULT 0,
-  `name` text DEFAULT NULL,
-  `email` text DEFAULT NULL,
+  `contactid` int(11) NOT NULL DEFAULT '0',
+  `name` text,
+  `email` text,
   `date` datetime NOT NULL,
-  `message` text DEFAULT NULL,
+  `message` text,
   `attachment` int(11) DEFAULT NULL,
   `admin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4416,9 +4352,9 @@ CREATE TABLE `tbltracked_mails` (
   `rel_type` varchar(40) NOT NULL,
   `date` datetime NOT NULL,
   `email` varchar(100) NOT NULL,
-  `opened` tinyint(1) NOT NULL DEFAULT 0,
+  `opened` tinyint(1) NOT NULL DEFAULT '0',
   `date_opened` datetime DEFAULT NULL,
-  `subject` mediumtext DEFAULT NULL
+  `subject` mediumtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4432,7 +4368,7 @@ CREATE TABLE `tbluser_auto_login` (
   `user_id` int(11) NOT NULL,
   `user_agent` varchar(150) NOT NULL,
   `last_ip` varchar(40) NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `staff` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4444,12 +4380,23 @@ CREATE TABLE `tbluser_auto_login` (
 
 CREATE TABLE `tbluser_meta` (
   `umeta_id` bigint(20) UNSIGNED NOT NULL,
-  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `staff_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `client_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `contact_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(191) DEFAULT NULL,
-  `meta_value` longtext DEFAULT NULL
+  `meta_value` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbluser_meta`
+--
+
+INSERT INTO `tbluser_meta` (`umeta_id`, `staff_id`, `client_id`, `contact_id`, `meta_key`, `meta_value`) VALUES
+(1, 0, 0, 1, 'consent_key', 'c61919adc6eb16a433b0207e2851d6a9-2385069757c2976482648ad05f61c98c'),
+(2, 1, 0, 0, 'dashboard_widgets_visibility', NULL),
+(3, 1, 0, 0, 'dashboard_widgets_order', NULL),
+(4, 0, 0, 2, 'consent_key', '480660f2c1f3c82453b1db31d66def73-be6efad2a69b280396abf5c695e2a002'),
+(5, 1, 0, 0, 'recent_searches', '[\"ahmad\",\"#ahmad\",\"#ah\",\"#a\",\"#i\"]');
 
 -- --------------------------------------------------------
 
@@ -4464,11 +4411,11 @@ CREATE TABLE `tblvault` (
   `port` int(11) DEFAULT NULL,
   `username` varchar(191) NOT NULL,
   `password` text NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `creator` int(11) NOT NULL,
   `creator_name` varchar(100) DEFAULT NULL,
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `share_in_projects` tinyint(1) NOT NULL DEFAULT 0,
+  `visibility` tinyint(1) NOT NULL DEFAULT '1',
+  `share_in_projects` tinyint(1) NOT NULL DEFAULT '0',
   `last_updated` datetime DEFAULT NULL,
   `last_updated_from` varchar(100) DEFAULT NULL,
   `date_created` datetime NOT NULL
@@ -4499,21 +4446,21 @@ CREATE TABLE `tblweb_to_lead` (
   `form_key` varchar(32) NOT NULL,
   `lead_source` int(11) NOT NULL,
   `lead_status` int(11) NOT NULL,
-  `notify_lead_imported` int(11) NOT NULL DEFAULT 1,
+  `notify_lead_imported` int(11) NOT NULL DEFAULT '1',
   `notify_type` varchar(20) DEFAULT NULL,
-  `notify_ids` mediumtext DEFAULT NULL,
-  `responsible` int(11) NOT NULL DEFAULT 0,
+  `notify_ids` mediumtext,
+  `responsible` int(11) NOT NULL DEFAULT '0',
   `name` varchar(191) NOT NULL,
-  `form_data` mediumtext DEFAULT NULL,
-  `recaptcha` int(11) NOT NULL DEFAULT 0,
+  `form_data` mediumtext,
+  `recaptcha` int(11) NOT NULL DEFAULT '0',
   `submit_btn_name` varchar(40) DEFAULT NULL,
-  `success_submit_msg` text DEFAULT NULL,
+  `success_submit_msg` text,
   `language` varchar(40) DEFAULT NULL,
-  `allow_duplicate` int(11) NOT NULL DEFAULT 1,
-  `mark_public` int(11) NOT NULL DEFAULT 0,
+  `allow_duplicate` int(11) NOT NULL DEFAULT '1',
+  `mark_public` int(11) NOT NULL DEFAULT '0',
   `track_duplicate_field` varchar(20) DEFAULT NULL,
   `track_duplicate_field_and` varchar(20) DEFAULT NULL,
-  `create_task_on_duplicate` int(11) NOT NULL DEFAULT 0,
+  `create_task_on_duplicate` int(11) NOT NULL DEFAULT '0',
   `dateadded` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4528,8 +4475,8 @@ CREATE TABLE `tbl_perfex_email_builder` (
   `emailtemplateid` varchar(4) NOT NULL,
   `emailObject` text NOT NULL,
   `template` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -6015,13 +5962,13 @@ ALTER TABLE `tblknowedge_base_article_feedback`
 -- AUTO_INCREMENT for table `tblknowledge_base`
 --
 ALTER TABLE `tblknowledge_base`
-  MODIFY `articleid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `articleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblknowledge_base_groups`
 --
 ALTER TABLE `tblknowledge_base_groups`
-  MODIFY `groupid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `groupid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblleads`
@@ -6141,7 +6088,7 @@ ALTER TABLE `tblmy_cases`
 -- AUTO_INCREMENT for table `tblmy_casestatus`
 --
 ALTER TABLE `tblmy_casestatus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_cases_judges`
@@ -6165,7 +6112,7 @@ ALTER TABLE `tblmy_categories`
 -- AUTO_INCREMENT for table `tblmy_courts`
 --
 ALTER TABLE `tblmy_courts`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_customers_company_groups`
@@ -6183,7 +6130,7 @@ ALTER TABLE `tblmy_customer_company_groups`
 -- AUTO_INCREMENT for table `tblmy_customer_representative`
 --
 ALTER TABLE `tblmy_customer_representative`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_dialog_boxes`
@@ -6213,7 +6160,7 @@ ALTER TABLE `tblmy_judges`
 -- AUTO_INCREMENT for table `tblmy_judicialdept`
 --
 ALTER TABLE `tblmy_judicialdept`
-  MODIFY `j_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `j_id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmy_members_cases`
@@ -6333,7 +6280,7 @@ ALTER TABLE `tblnotifications`
 -- AUTO_INCREMENT for table `tbloptions`
 --
 ALTER TABLE `tbloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=527;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
 
 --
 -- AUTO_INCREMENT for table `tbloservicediscussioncomments`
@@ -6357,7 +6304,7 @@ ALTER TABLE `tbloservice_activity`
 -- AUTO_INCREMENT for table `tbloservice_files`
 --
 ALTER TABLE `tbloservice_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbloservice_notes`
@@ -6663,7 +6610,7 @@ ALTER TABLE `tbltracked_mails`
 -- AUTO_INCREMENT for table `tbluser_meta`
 --
 ALTER TABLE `tbluser_meta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblvault`

@@ -20,15 +20,15 @@
                         _l('complaint_title'),
                         _l('control'),
                     ); 
-                    if($this->app_modules->is_active('branches'))
-                        $data = array(
-                            _l('complaint_from'),
-                            _l('complaint_againts'),
-                            _l('branch_name'),
-                            _l('complaint_date'),
-                            _l('complaint_title'),
-                            _l('control'),
-                        ); 
+//                    if($this->app_modules->is_active('branches'))
+//                        $data = array(
+//                            _l('complaint_from'),
+//                            _l('complaint_againts'),
+//                            _l('branch_name'),
+//                            _l('complaint_date'),
+//                            _l('complaint_title'),
+//                            _l('control'),
+//                        );
                     render_datatable($data,'complaint');
                     ?>
                     </div>

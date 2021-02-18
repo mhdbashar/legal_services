@@ -196,18 +196,18 @@ class Organization extends AdminController{
     }
     public function update_sub_department(){
         $data = $this->input->post();
-        if($this->app_modules->is_active('branches')){
-            $branch_id = $this->input->post()['branch_id'];
-
-            unset($data['branch_id']);
-        }
-        else
-            $branch_id = $this->No_branch_model->get_general_branch();
+//        if($this->app_modules->is_active('branches')){
+//            $branch_id = $this->input->post()['branch_id'];
+//
+//            unset($data['branch_id']);
+//        }
+//        else
+//            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Sub_department_model->update($data, $id);
-        if(true){
-                $this->Branches_model->update_branch('sub_departments', $id, $branch_id);
-            }
+//        if(true){
+//                $this->Branches_model->update_branch('sub_departments', $id, $branch_id);
+//            }
         if($success){
             set_alert('success', _l('updated_successfully'));
         }

@@ -4,20 +4,20 @@ $aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'resi
 
 
 $ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-if(get_staff_default_language() == 'arabic'){
-    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-}else{
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-}
+//if($ci->app_modules->is_active('branches'))
+//if(get_staff_default_language() == 'arabic'){
+//    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+//}else{
+//    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+//}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_resignations';
 
 $join = [
     'LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid='.db_prefix().'hr_resignations.staff_id',
-    'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_resignations.id AND '.db_prefix().'branches_services.rel_type="resignations"',
-    'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
+//    'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_resignations.id AND '.db_prefix().'branches_services.rel_type="resignations"',
+//    'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
 ];
 
 $where = [];
@@ -31,9 +31,9 @@ foreach ($rResult as $aRow) {
     $row = [];
     
     $row[] = $aRow['fullname'];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-    $row[] = $aRow['branch_id'];
+//$ci = &get_instance();
+//if($ci->app_modules->is_active('branches'))
+//    $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['notice_date'];
 

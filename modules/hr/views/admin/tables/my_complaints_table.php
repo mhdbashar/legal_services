@@ -9,12 +9,12 @@ $aColumns = [
 ];
 
 $ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-if(get_staff_default_language() == 'arabic'){
-    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-}else{
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-}
+//if($ci->app_modules->is_active('branches'))
+//if(get_staff_default_language() == 'arabic'){
+//    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
+//}else{
+//    $aColumns[] = db_prefix().'branches.title_en as branch_id';
+//}
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix().'hr_complaints';
@@ -22,8 +22,8 @@ $sTable       = db_prefix().'hr_complaints';
 $join = [
     'LEFT JOIN '.db_prefix().'staff as tostaff ON tostaff.staffid='.db_prefix().'hr_complaints.complaint_againts',
     'LEFT JOIN '.db_prefix().'staff as bystaff ON bystaff.staffid='.db_prefix().'hr_complaints.complaint_from',
-	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_complaints.id AND '.db_prefix().'branches_services.rel_type="complaints"',
-	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
+//	'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'hr_complaints.id AND '.db_prefix().'branches_services.rel_type="complaints"',
+//	'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id'
 ];
 
 $where = [];
@@ -39,9 +39,9 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['complaint_from'];
     
     $row[] = $aRow['complaint_againts'];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
-    $row[] = $aRow['branch_id'];
+//$ci = &get_instance();
+//if($ci->app_modules->is_active('branches'))
+//    $row[] = $aRow['branch_id'];
 
     $row[] = $aRow['complaint_date'];
 

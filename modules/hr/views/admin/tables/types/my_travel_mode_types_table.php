@@ -25,7 +25,9 @@ $values = '';
 foreach ($rResult as $aRow) {
     $values = $aRow['value'];
 }
-
+if(json_decode($values) == null){
+    $output['aaData'] = [];
+}else
 foreach (json_decode($values) as $value) {
 
 	$a = $value->key;

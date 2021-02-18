@@ -20,15 +20,7 @@
                         _l('warning_by'),
                         _l('control'),
                     ); 
-                    if($this->app_modules->is_active('branches'))
-                        $data = array(
-                            _l('warning_to'),
-                            _l('branch_name'),
-                            _l('warning_date'),
-                            _l('subject'),
-                            _l('warning_by'),
-                            _l('control'),
-                        ); 
+
                     render_datatable($data,'warning');
                     ?>
                     </div>

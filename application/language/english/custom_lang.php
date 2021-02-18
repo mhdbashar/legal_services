@@ -1,4 +1,9 @@
 <?php
+$lang['Spreadsheet_name'] = "Spreadsheet Files";
+$lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
+
+$lang['branch_report_all'] = "All";
+$lang['report_branch'] = "Branch";
 
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';

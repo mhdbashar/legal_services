@@ -165,11 +165,11 @@ class Organization extends AdminController{
         if (!is_admin()) {
             access_denied();
         }
-        $response = $this->Sub_department_model->delete($id);
+        $response = $this->Designation_model->delete($id);
         if (is_array($response) && isset($response['referenced'])) {
             set_alert('warning', _l('is_referenced'));
         } elseif  ($response == true) {
-            et_alert('success', _l('deleted_successfully'));
+            set_alert('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

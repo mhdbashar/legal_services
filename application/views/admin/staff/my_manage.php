@@ -27,13 +27,11 @@
 							_l('staff_dt_last_Login'),
 							_l('staff_dt_active'),
 							);
-						if($this->app_modules->is_active('branches')){
-					        $table_data[] = _l('branch_name');
-					    }
 						$custom_fields = get_custom_fields('staff',array('show_on_table'=>1));
 						foreach($custom_fields as $field){
 							array_push($table_data,$field['name']);
 						}
+						$table_data = hooks()->apply_filters('staffs_table_columns', $table_data);
 						render_datatable($table_data,'staff');
 						?>
 					</div>

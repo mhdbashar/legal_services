@@ -32,7 +32,7 @@ class LegalServicesModel extends App_Model
         if($num_rows > 0){
             return $this->db->get_where('my_basic_services', array('slug' => $slug))->row()->id;
         }else{
-            return array();
+            return 0;
         }
     }
 

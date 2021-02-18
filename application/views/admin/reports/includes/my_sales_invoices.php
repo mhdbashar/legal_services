@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php  defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div id="invoices-report" class="hide">
    <div class="row">
       <div class="col-md-4">
@@ -23,6 +23,7 @@
          </div>
       </div>
    <?php } ?>
+       <?php hooks()->apply_filters('report_filter', ''); ?>
    <div class="clearfix"></div>
 </div>
 <table class="table table-invoices-report scroll-responsive">
@@ -44,9 +45,7 @@
          <th><?php echo _l('applied_credits'); ?></th>
          <th><?php echo _l('report_invoice_amount_open'); ?></th>
          <th><?php echo _l('report_invoice_status'); ?></th>
-         <?php if($this->app_modules->is_active('branches')){ ?>
-            <th><?php echo _l('branch_name'); ?></th>
-         <? } ?>
+          <?php hooks()->apply_filters('report_table_columns', ''); ?>
       </tr>
    </thead>
    <tbody></tbody>

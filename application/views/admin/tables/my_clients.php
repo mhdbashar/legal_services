@@ -37,6 +37,8 @@ $aColumns = [
     db_prefix().'clients.individual as individual',
 ];
 
+$aColumns = hooks()->apply_filters('customers_table_aColumns', $aColumns);
+
 $sIndexColumn = 'userid';
 $sTable       = db_prefix().'clients';
 $where        = [];
@@ -46,18 +48,6 @@ $filter = [];
 $join = [
     'LEFT JOIN '.db_prefix().'contacts ON '.db_prefix().'contacts.userid='.db_prefix().'clients.userid AND '.db_prefix().'contacts.is_primary=1',
 ];
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    if(get_staff_default_language() == 'arabic'){
-        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-    }else{
-        $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    }
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
-
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
     array_push($customFieldsColumns, $selectAs);
@@ -300,13 +290,10 @@ foreach ($rResult as $aRow) {
 
     // $row[] = $groupsRow;
 
-    $row[] = _dt($aRow['datecreated']);
+    $row[] = _dha($aRow['datecreated']);
 
     //Added for indvidual column
     $row[] = ($aRow['individual'] == '1' ? _l('individual') : _l('company'));
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
 
     // Custom fields add values
     foreach ($customFieldsColumns as $customFieldColumn) {

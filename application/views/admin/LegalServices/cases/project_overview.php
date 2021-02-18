@@ -253,7 +253,7 @@
    </div>
    <?php } ?>
 </div>
-</div>
+<?php $project->rel_type = $service->slug;  hooks()->do_action('after_service_member_list', $project)  ?>
 <div class="col-md-6 project-overview-right">
    <div class="row">
       <div class="col-md-<?php echo ($project->deadline ? 6 : 12); ?> project-progress-bars">

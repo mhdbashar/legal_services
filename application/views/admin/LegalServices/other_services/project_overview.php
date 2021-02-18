@@ -221,6 +221,7 @@
    </div>
    <?php } ?>
 </div>
+<?php $project->rel_type = $service->slug;  hooks()->do_action('after_service_member_list', $project)  ?>
 </div>
 <div class="col-md-6 project-overview-right">
    <div class="row">

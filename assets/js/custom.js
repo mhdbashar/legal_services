@@ -18,6 +18,95 @@ $.ajax({
 
 });
 
+let timeout = 60000, aId = "alert_modal";
+let type = 'warning';
+let message = "Your session will expire in 60 seconds.."
+
+let alert_modal = '<div style="display: none;" class="modal fade" id="alert_modal" tabindex="-1" role="dialog" style="display: block;"><div class="modal-dialog">           <div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">صلاحية الجلسة</h4></div><div id="seconds-counter" class="modal-body"><h4>Your message</h4></div></div><!-- /.modal-content --></div><!-- /.modal-dialog --></div>';
+
+el_alert_modal = $(alert_modal, {});
+$("body").append(el_alert_modal);
+
+
+
+
+var seconds = 60;
+var secondEl = document.getElementById('seconds-counter');
+
+function incrementSeconds() {
+    seconds -= 1;
+
+    message = `...سسنتهي صلاحية  الجلسة خلال ${seconds} ثانية `
+
+    secondEl.innerText = message;
+}
+var cancel = setInterval(incrementSeconds, 1000);
+
+
+let timer;
+let timer2;
+let sess_time_to_update;
+let sess_expiration;
+let searchTimeout;
+$.ajax({
+    type: 'Get',
+    url: admin_url + 'My_custom_controller/session',
+    async: false,
+    success: function(data) {
+
+        sess_time_to_update = JSON.parse(data).sess_time_to_update;
+        sess_expiration = JSON.parse(data).sess_expiration * 1000;
+
+
+        timer = setTimeout(function(){ 
+
+            seconds = 60;
+            $('#' + aId).modal('show');
+            timeout = timeout ? timeout : 3500
+            timer2 = setTimeout(function() {
+                $('#' + aId).modal('hide');
+                window.location.replace(admin_url + 'authentication/logout');
+            }, timeout);
+
+        }, sess_expiration - 60000);
+
+        document.onmousemove = function(){
+
+            clearTimeout(timer);
+            clearTimeout(timer2);
+            $('#' + aId).modal('hide');
+
+            timer = setTimeout(function(){ 
+                seconds = 60;
+                $('#' + aId).modal('show');
+                timer2 = setTimeout(function() {
+                    $('#' + aId).modal('hide');
+                    window.location.replace(admin_url + 'authentication/logout');
+                }, timeout);
+            }, sess_expiration - 60000);
+        }
+
+       
+        window.onkeydown= function(gfg){
+            clearTimeout(timer);
+            clearTimeout(timer2);
+            $('#' + aId).modal('hide');
+
+            timer = setTimeout(function(){ 
+                seconds = 60;
+                $('#' + aId).modal('show');
+                timer2 = setTimeout(function() {
+                    $('#' + aId).modal('hide');
+                    window.location.replace(admin_url + 'authentication/logout');
+                }, timeout);
+            }, sess_expiration - 60000);
+        }
+
+        
+    },
+
+});
+
 var current_url = window.location.href;
 var daminURL= admin_url;
 var this_page = current_url.replace(daminURL,'');
@@ -1127,7 +1216,7 @@ function session_form_handler(form) {
             if (excludeCompletedTasks) {
                 params['exclude_completed'] = excludeCompletedTasks;
             }
-            params['taskid'] = response.id;
+            params['sessionid'] = response.id;
             window.location.href = buildUrl(location[0], params);
         }
     }).fail(function (error) {

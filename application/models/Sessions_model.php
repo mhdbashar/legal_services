@@ -251,6 +251,22 @@ class Sessions_model extends App_Model
 
     public function get_distinct_tasks_years($get_from)
     {
+        $hijriStatus= get_option('isHijri');
+        if($hijriStatus == 'on'){
+            $hijri_years = [];
+            $ad_years = $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
+            foreach($ad_years as $ad_year){
+                $start_year_ad = date('Y', strtotime(force_to_hijri_date($ad_year['year'] . '-01-01')));
+                $end_year_ad = date('Y', strtotime(force_to_hijri_date($ad_year['year'] . '-12-31')));
+                if(!in_array(array('year' => $end_year_ad), $hijri_years)){
+                    $hijri_years[] = array('year' => $end_year_ad);
+                }
+                if(!in_array(array('year' => $start_year_ad), $hijri_years)){
+                    $hijri_years[] = array('year' => $start_year_ad);
+                }
+            }
+            return $hijri_years;
+        }
         return $this->db->query('SELECT DISTINCT(YEAR(' . $this->db->escape_str($get_from) . ')) as year FROM ' . db_prefix() . 'tasks WHERE ' . $this->db->escape_str($get_from) . ' IS NOT NULL ORDER BY year DESC')->result_array();
     }
 

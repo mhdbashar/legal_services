@@ -165,17 +165,17 @@
                      </div>
 
                      <div class="row">
-                     <!--
+
                      	<div class="col-md-4">
                      		<?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
                      	</div>
-                     -->
-                      <div class="col-md-4">
+                     <div class="col-md-4 hide">
                             <div class="form-group">
                                 <label for="office_shift" class="control-label"><?php echo _l('office_shift') ?></label>
-                                <select required="required" class="form-control" id="office_shift_id" name="office_sheft" placeholder="<?php echo _l('office_shift') ?>" aria-invalid="false">
-                                </select>     
-                            </div>  
+                                <select class="form-control" id="office_shift_id" name="office_sheft" placeholder="<?php echo _l('office_shift') ?>" aria-invalid="false">
+                                    <option value="1" selected></option>
+                                </select>
+                            </div>
                       </div>
                      	<div class="col-md-4">
                      		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
@@ -183,17 +183,17 @@
                      </div>
 
                         <?php
-                            $selected = array();
-                            if(isset($extra_info)){
-                              $selected_leaves = $extra_info->leaves;
-                              
-                              if($selected_leaves != ''){
-                                  foreach($selected_leaves as $row){
-                                    array_push($selected,$row['id']);
-                                  }
-                              }
-                            }
-                             echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+//                            $selected = array();
+//                            if(isset($extra_info)){
+//                              $selected_leaves = $extra_info->leaves;
+//
+//                              if($selected_leaves != ''){
+//                                  foreach($selected_leaves as $row){
+//                                    array_push($selected,$row['id']);
+//                                  }
+//                              }
+//                            }
+//                             echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                          ?>
 
                      <div class="row">

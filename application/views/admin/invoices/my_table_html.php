@@ -21,12 +21,6 @@ $custom_fields = get_custom_fields('invoice',array('show_on_table'=>1));
 foreach($custom_fields as $field){
   array_push($table_data,$field['name']);
 }
-if($this->app_modules->is_active('branches')){
-  $table_data[] = array(
-     'name'=>_l('branch_name'),
-     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-individual')
-  );
-}
 $table_data = hooks()->apply_filters('invoices_table_columns', $table_data);
 render_datatable($table_data, (isset($class) ? $class : 'invoices'));
 ?>

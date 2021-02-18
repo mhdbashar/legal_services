@@ -29,6 +29,21 @@ class Branches extends AdminController
         $this->client_editable_fields = $this->Branches_model->get_client_editable_fields();
     }
 
+    public function switch($rel_type, $rel_id, $branch_id){
+        $this->Branches_model->delete_branch($rel_type, $rel_id);
+        $data = [
+            'rel_type' => $rel_type,
+            'rel_id' => $rel_id,
+            'branch_id' => $branch_id
+        ];
+        $success = $this->Branches_model->set_branch($data);
+        if($success)
+            set_alert('success', _l('added_successfully', _l('branch')));
+        else
+            set_alert('warning', _l('access_denied'));
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
 
     /* List all properties */
     public function index()

@@ -49,7 +49,19 @@ function get_relation_data($type, $rel_id = '')
             $search = $CI->misc_model->_search_invoices($q);
             $data   = $search['result'];
         }
-    } elseif ($type == 'credit_note') {
+    }
+
+     elseif ($type == 'client_cases') {
+        if ($rel_id != '') {
+            $CI->load->model('LegalServices/Cases_model');
+            $data = $CI->Cases_model->get();
+        } else {
+            $CI->load->model('LegalServices/Cases_model');
+            $data = $CI->Cases_model->get(['clientid' => $rel_id]);
+        }
+    }
+
+     elseif ($type == 'credit_note') {
         if ($rel_id != '') {
             $CI->load->model('credit_notes_model');
             $data = $CI->credit_notes_model->get($rel_id);

@@ -18,17 +18,13 @@ $aColumns = [
     'deadline',
     'status',
 ];
+
+$aColumns = hooks()->apply_filters('services_table_aColumns', $aColumns);
 $join = [
     'LEFT JOIN '.db_prefix().'clients ON '.db_prefix().'clients.userid='.db_prefix().'my_other_services.clientid',
 ];
 
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'clients.userid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
+$join = hooks()->apply_filters('services_table_sql_join', $join);
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
@@ -59,6 +55,10 @@ if (count($statusIds) > 0) {
 if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
+
+$where = hooks()->apply_filters('services_table_filter', $where, $filter);
+
+
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.service_id='.$ServID);
 array_push($where, ' AND ' . db_prefix() . 'my_other_services.deleted=0');
 
@@ -89,8 +89,8 @@ foreach ($rResult as $aRow) {
     //$customers = $model->GetClientsServices($aRow['id']);
     $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
     $row[] = render_tags($aRow['tags']);
-    $row[] = _d($aRow['start_date']);
-    $row[] = _d($aRow['deadline']);
+    $row[] = _dha($aRow['start_date']);
+    $row[] = _dha($aRow['deadline']);
     $members = $model->GetMembersServices($aRow['id']);
     $membersOutput='';
     foreach ($members as $member):
@@ -111,9 +111,7 @@ foreach ($rResult as $aRow) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
     $row['DT_RowClass'] = 'has-row-options';
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
+    $row = hooks()->apply_filters('services_table_row_data', $row, $aRow);
     $output['aaData'][] = $row;
     $i++;
 }

@@ -14,6 +14,7 @@ $aColumns = [
     'duedate',
     db_prefix() . 'invoices.status',
     ];
+$aColumns = hooks()->apply_filters('invoices_table_aColumns', $aColumns);
 
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'invoices';
@@ -25,17 +26,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'my_basic_services ON ' . db_prefix() . 'my_basic_services.slug = ' . db_prefix() . 'invoices.rel_stype',
 ];
 
-$ci = &get_instance();
-if($ci->app_modules->is_active('branches')){
-    if(get_staff_default_language() == 'arabic'){
-        $aColumns[] = db_prefix().'branches.title_ar as branch_id';
-    }else{
-        $aColumns[] = db_prefix().'branches.title_en as branch_id';
-    }
-    $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_id='.db_prefix().'invoices.clientid AND '.db_prefix().'branches_services.rel_type="clients"';
-
-    $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
-}
+$join = hooks()->apply_filters('invoices_table_sql_join', $join);
 
 $custom_fields = get_table_custom_fields('invoice');
 
@@ -176,7 +167,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['year'];
 
-    $row[] = _d($aRow['date']);
+    $row[] = _dha($aRow['date']);
 
     if (empty($aRow['deleted_customer_name'])) {
         $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
@@ -204,7 +195,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = render_tags($aRow['tags']);
 
-    $row[] = _d($aRow['duedate']);
+    $row[] = _dha($aRow['duedate']);
 
     $row[] = format_invoice_status($aRow[db_prefix() . 'invoices.status']);
 
@@ -214,10 +205,6 @@ foreach ($rResult as $aRow) {
     }
 
     $row['DT_RowClass'] = 'has-row-options';
-
-    if($ci->app_modules->is_active('branches')){
-        $row[] = $aRow['branch_id'];
-    }
 
     $row = hooks()->apply_filters('invoices_table_row_data', $row, $aRow);
 

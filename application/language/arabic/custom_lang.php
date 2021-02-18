@@ -1,5 +1,7 @@
 <?php
 
+$lang['divorced'] = 'مطلق';
+$lang['widower'] = 'أرمل';
 $lang['branch_report_all'] = "الكل";
 $lang['report_branch'] = "الفرع";
 $lang['Spreadsheet_name'] = "ملفات الجداول";

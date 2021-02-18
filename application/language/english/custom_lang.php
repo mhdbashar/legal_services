@@ -5,6 +5,9 @@ $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pret
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
 
+$lang['divorced'] = 'Divorced';
+$lang['widower'] = 'Widower';
+
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
 $lang['active'] = 'Active';

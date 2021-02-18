@@ -2,6 +2,46 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
+        <?php if(isset($member)){ ?>
+            <div class="row" >
+                <div class="col-md-12">
+                    <div class="panel_s">
+                        <div class="panel-body no-padding-bottom">
+                            <?php $this->load->view('admin/staff/stats'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="member">
+                    <?php echo form_hidden('isedit'); ?>
+                    <?php echo form_hidden('memberid',$member->staffid); ?>
+                </div>
+                <?php if(isset($member)){ ?>
+
+                    <div class="col-md-12">
+                        <?php if(total_rows(db_prefix().'departments',array('email'=>$member->email)) > 0) { ?>
+                            <div class="alert alert-danger">
+                                The staff member email exists also as support department email, according to the docs, the support department email must be unique email in the system, you must change the staff email or the support department email in order all the features to work properly.
+                            </div>
+                        <?php } ?>
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <h4 class="no-margin"><?php echo $member->firstname . ' ' . $member->lastname; ?>
+                                    <?php if($member->last_activity && $member->staffid != get_staff_user_id()){ ?>
+                                        <small> - <?php echo _l('last_active'); ?>:
+                                            <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($member->last_activity); ?>">
+                              <?php echo time_ago($member->last_activity); ?>
+                        </span>
+                                        </small>
+                                    <?php } ?>
+<!--                                    <a href="#" onclick="small_table_full_view(); return false;" data-placement="left" data-toggle="tooltip" data-title="--><?php //echo _l('toggle_full_view'); ?><!--" class="toggle_view pull-right">-->
+<!--                                        <i class="fa fa-expand"></i></a>-->
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php } ?>
     	<?php $this->load->view('hr/details/hr_tabs') ?>
         <div class="row">
         	<div class="col-md-3">

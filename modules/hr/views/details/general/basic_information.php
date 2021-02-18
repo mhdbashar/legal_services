@@ -91,27 +91,32 @@
                      	</div>
                      -->
                      </div>
-                     <?php $branches = $this->Branches_model->getBranches(); ?>
-                        <?php if($this->app_modules->is_active('branches')){?>
-                           <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
-                        <?php } ?>
+<!--                     --><?php //$branches = $this->Branches_model->getBranches(); ?>
+<!--                        --><?php //if($this->app_modules->is_active('branches')){?>
+<!--                           --><?php //$value = (isset($branch) ? $branch : ''); ?>
+<!--                           --><?php //echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
+<!--                        --><?php //} ?>
                            <?php 
                            $departmentid = '';
                            $name = '';
 
-                           // if ($this->Extra_info_model->get($member->staffid)){
-                           //    $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
+                            if ($this->Extra_info_model->get($member->staffid)){
+                               $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
 
-                           //    $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
-                           // }
+                               $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
+                            }
+
                           // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
                         <div class="row">
                            <div class="col-md-12">
                               <div class="form-group">
                                   <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
                                   <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
-                                  </select>     
+                                      <option></option>
+                                      <?php foreach($departments as $department){ ?>
+                                          <option <?php echo $departmentid == $department['departmentid'] ? 'selected' : ''  ?> value="<?php echo $department['departmentid'] ?>"><?php echo $department['name']; ?></option>
+                                      <?php } ?>
+                                  </select>
                               </div>
                            </div>
                         </div>

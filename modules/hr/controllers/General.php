@@ -79,12 +79,12 @@ class General extends AdminController{
             } else {
                 $ts_filter_data['this_month'] = true;
             }
-                $ci = &get_instance();
-                $ci->load->model('branches/Branches_model');
-                $data['branches'] = $ci->Branches_model->getBranches();
-                $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
-                if(!$this->app_modules->is_active('branches'))
-                    $data['branch'] = $this->No_branch_model->get_branch('staff', $staff_id);
+//                $ci = &get_instance();
+//                $ci->load->model('branches/Branches_model');
+//                $data['branches'] = $ci->Branches_model->getBranches();
+//                $data['branch'] = $this->Branches_model->get_branch('staff', $staff_id);
+//                if(!$this->app_modules->is_active('branches'))
+//                    $data['branch'] = $this->No_branch_model->get_branch('staff', $staff_id);
             $data['logged_time'] = $this->staff_model->get_logged_time_data($staff_id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
             $data['base_currency'] = $this->Currencies_model->get_base_currency();

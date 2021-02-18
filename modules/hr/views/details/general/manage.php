@@ -59,51 +59,51 @@
 
 <script>
 
-  $(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#department_id').empty();
-            $('#department_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#department_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#department_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
-
-  $(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#office_shift_id').empty();
-            $('#office_shift_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#office_shift_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#office_shift_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
+//   $(document).on('change','#branch_id',function () {
+//     $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
+//         if (response.success == true) {
+//             $('#department_id').empty();
+//             $('#department_id').append($('<option>', {
+//                 value: '',
+//                 text: ''
+//             }));
+//             for(let i = 0; i < response.data.length; i++) {
+//                 let key = response.data[i].key;
+//                 let value = response.data[i].value;
+//                 $('#department_id').append($('<option>', {
+//                     value: key,
+//                     text: value
+//                 }));
+//                 $('#department_id').selectpicker('refresh');
+//             }
+//         } else {
+//             alert_float('danger', response.message);
+//         }
+//     }, 'json');
+// });
+//
+//   $(document).on('change','#branch_id',function () {
+//     $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
+//         if (response.success == true) {
+//             $('#office_shift_id').empty();
+//             $('#office_shift_id').append($('<option>', {
+//                 value: '',
+//                 text: ''
+//             }));
+//             for(let i = 0; i < response.data.length; i++) {
+//                 let key = response.data[i].key;
+//                 let value = response.data[i].value;
+//                 $('#office_shift_id').append($('<option>', {
+//                     value: key,
+//                     text: value
+//                 }));
+//                 $('#office_shift_id').selectpicker('refresh');
+//             }
+//         } else {
+//             alert_float('danger', response.message);
+//         }
+//     }, 'json');
+// });
 
 $(document).ready(function(){
   <?php if(empty($branch)) $branch = 1 ?>
@@ -129,31 +129,31 @@ $(document).ready(function(){
     var office_shift = '';
     var designation = '';
   <?php  }  ?>
-  console.log(<?php echo $extra_info->sub_department ?>);
-  $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
-      if (response.success == true) {
-          $('#department_id').empty();
-          $('#department_id').append($('<option>', {
-              value: '',
-              text: ''
-          }));
-          for(let i = 0; i < response.data.length; i++) {
-              let key = response.data[i].key;
-              let value = response.data[i].value;
-              let select = false;
-              if(key == department_id)
-                select = true;
-              $('#department_id').append($('<option>', {
-                  value: key,
-                  text: value,
-                  selected: select
-              }));
-              $('department_id').selectpicker('refresh');
-          }
-      } else {
-          alert_float('danger', response.message);
-      }
-  }, 'json');
+  //console.log(<?php //echo $extra_info->sub_department ?>//);
+  //$.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
+  //    if (response.success == true) {
+  //        $('#department_id').empty();
+  //        $('#department_id').append($('<option>', {
+  //            value: '',
+  //            text: ''
+  //        }));
+  //        for(let i = 0; i < response.data.length; i++) {
+  //            let key = response.data[i].key;
+  //            let value = response.data[i].value;
+  //            let select = false;
+  //            if(key == department_id)
+  //              select = true;
+  //            $('#department_id').append($('<option>', {
+  //                value: key,
+  //                text: value,
+  //                selected: select
+  //            }));
+  //            $('department_id').selectpicker('refresh');
+  //        }
+  //    } else {
+  //        alert_float('danger', response.message);
+  //    }
+  //}, 'json');
 
   $.get(admin_url + 'branches/get_office_shift/' + branch_id, function(response) {
         if (response.success == true) {

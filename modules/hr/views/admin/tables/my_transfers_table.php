@@ -17,7 +17,7 @@ $aColumns = [
 ];
 
 $ci = &get_instance();
-if($ci->app_modules->is_active('branches'))
+// if($ci->app_modules->is_active('branches'))
 //if(get_staff_default_language() == 'arabic'){
 //    $aColumns[] = db_prefix().'branches.title_ar as branch_id';
 //}else{

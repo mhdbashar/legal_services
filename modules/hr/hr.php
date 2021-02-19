@@ -16,12 +16,98 @@ Author URI: #
 
 */
 
+
 register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
+hooks()->add_action('app_admin_head', 'hr_add_head_components');
+hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
+$CI = & get_instance();
+$CI->load->helper(HR_MODULE_NAME . '/hr');
+hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items');
 
-hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items'); 
+/**
+ * Register language files, must be registered if the module is using languages
+ */
+register_language_files(HR_MODULE_NAME, [HR_MODULE_NAME]);
+
+function accepted_pages($pages = []){
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+        $url = "https://";
+    else
+        $url = "http://";
+    // Append the host(domain name, ip) to the URL.
+    $url.= $_SERVER['HTTP_HOST'];
+
+    // Append the requested resource location to the URL
+    $url.= $_SERVER['REQUEST_URI'];
+
+    $url = str_replace(base_url(),'',$url);
+
+    foreach ($pages as $page){
+        if(strpos($url, $page) !== false){
+            return true;
+        }
+    }
+    return false;
+}
+
+function hr_add_head_components(){
+    $CI = &get_instance();
+    $viewuri = $_SERVER['REQUEST_URI'];
+
+    echo '<link href="' . module_dir_url('hr','assets/css/style.css') .'"  rel="stylesheet" type="text/css" />';
+    echo '<link href="' . module_dir_url('hr','assets/plugins/ComboTree/style.css') .'"  rel="stylesheet" type="text/css" />';
+
+
+    if (accepted_pages(['hr'])) {
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/variable-pie.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/export-data.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/accessibility.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/exporting.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts-3d.js').'"></script>';
+    }
+
+
+}
+
+
+
+function hr_add_footer_components(){
+    $CI = &get_instance();
+    $viewuri = $_SERVER['REQUEST_URI'];
+
+    echo '<script src="'.module_dir_url('hr', 'assets/plugins/ComboTree/comboTreePlugin.js').'"></script>';
+    echo '<script src="'.module_dir_url('hr', 'assets/plugins/ComboTree/icontains.js').'"></script>';
+
+    if (strpos($viewuri, 'contract_type') !== false || $viewuri == '/admin/hrm/setting') {
+        echo '<script src="'.module_dir_url('hr', 'assets/js/contracttype.js').'"></script>';
+    }
+
+
+    if (accepted_pages(['hr/contract'])) {
+        echo '<script src="'.module_dir_url('hr', 'assets/js/contract.js').'"></script>';
+    }
+
+}
+
+
+
+function hr_module_activation_hook()
+{
+    $CI = &get_instance();
+    require_once(__DIR__ . '/install.php');
+}
+function hr_init_hrmApp(){
+    $CI = & get_instance();
+    $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
+    $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
+}
+$CI = & get_instance();
+// $CI->app_modules->activate('branches');
+
 
 function hr_menu_items($item)
 {
@@ -38,11 +124,15 @@ function hr_menu_items($item)
         echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
 
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li><a href="'.admin_url('hr').'" aria-expanded="false">'._l('dashboard').'</span></a>
+                        </li>
                         <li><a href="#" aria-expanded="false">'._l('staff').'<span class="fa arrow-ar"></span></a>
                                 <ul class="nav nav-second-level collapse" aria-expanded="false">
                                     <li><a href="'.admin_url('hr/general/staff').'">'._l('staff').'</a>
                                     </li>
                                     <li><a href="'.admin_url('hr/general/expired_documents').'">'._l('expired_documents').'</a>
+                                    </li>
+                                    <li><a href="'.admin_url('hr/contracts').'">'._l('staff_contract').'</a>
                                     </li>
                                 </ul>
                         </li>
@@ -244,20 +334,3 @@ echo '
     }
 }
 */
-
-    
-
-
-
-function hr_module_activation_hook()
-{
-    $CI = &get_instance();
-    require_once(__DIR__ . '/install.php');
-}
-function hr_init_hrmApp(){
-    $CI = & get_instance();
-    $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
-    $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
-}
-$CI = & get_instance();
-// $CI->app_modules->activate('branches');

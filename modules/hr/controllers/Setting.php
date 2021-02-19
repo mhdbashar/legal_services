@@ -32,6 +32,8 @@ class Setting extends AdminController{
 
     public function index(){
 
+	    $this->load->model('hrm_model');
+
         $group = '';
 
         if(!$this->input->get('group')){
@@ -74,6 +76,17 @@ class Setting extends AdminController{
             }
         }
 
+        $data['month'] = $this->hrm_model->get_month();
+        $data['contract_type'] = $this->hrm_model->get_contracttype();
+        $data['contract']  = $this->hrm_model->get_contracttype();
+        $data['positions'] = $this->hrm_model->get_job_position();
+        $data['workplace'] = $this->hrm_model->get_workplace();
+        $data['allowance_type'] = $this->hrm_model->get_allowance_type();
+        $data['salary_form'] = $this->hrm_model->get_salary_form();
+        $data['insurance_type'] = $this->hrm_model->get_insurance_type();
+        $data['province'] = $this->hrm_model->get_province();
+        $this->load->model('currencies_model');
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
 
         $data['group'] = $group;
         $data['title'] = _l('manage_custom_tabs');

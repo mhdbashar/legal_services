@@ -85,8 +85,9 @@ function hr_add_footer_components(){
     if (strpos($viewuri, 'contract_type') !== false || $viewuri == '/admin/hrm/setting') {
         echo '<script src="'.module_dir_url('hr', 'assets/js/contracttype.js').'"></script>';
     }
-
-
+    if (accepted_pages(['allowance_type'])) {
+        echo '<script src="'.module_dir_url('hr', 'assets/js/allowancetype.js').'"></script>';
+    }
     if (accepted_pages(['hr/contract'])) {
         echo '<script src="'.module_dir_url('hr', 'assets/js/contract.js').'"></script>';
     }

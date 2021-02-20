@@ -1,5 +1,10 @@
 <?php
 
+$lang['filter_by_departments'] = 'الفلترة بحسب الأقسام';
+
+$lang['you_have_to_complete_staff_informations'] = 'يجب اكمال معلومات الموظفين';
+$lang['divorced'] = 'مطلق';
+$lang['widower'] = 'أرمل';
 $lang['branch_report_all'] = "الكل";
 $lang['report_branch'] = "الفرع";
 $lang['Spreadsheet_name'] = "ملفات الجداول";

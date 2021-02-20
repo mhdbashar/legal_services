@@ -16,6 +16,7 @@
          <?php } ?>
       </div>
       <?php } ?>
+       <?php if(!isset($staff_id)) $staff_id = ''; ?>
       <?php echo form_open_multipart(admin_url('hr/general/member/'.$staff_id),array('class'=>'staff-form','autocomplete'=>'off')); ?>
       <div class="col-md-12" id="small-table">
          <div class="panel_s">
@@ -85,7 +86,7 @@
                            <?php 
                            $departmentid = '';
                            $name = '';
-
+                           if(isset($member))
                             if ($this->Extra_info_model->get($member->staffid)){
                                 $dep = $this->Extra_info_model->get_staff_department($member->staffid);
                                 if($dep){
@@ -176,6 +177,14 @@
                                 [
                                     'value' => 'married',
                                     'name' => _l('married')
+                                ],
+                                [
+                                    'value' => 'divorced',
+                                    'name' => _l('divorced')
+                                ],
+                                [
+                                    'value' => 'widower',
+                                    'name' => _l('widower')
                                 ],
                             ];
                             echo render_select('marital_status', $material_statuses,['value','name'], 'marital_status', $extra_info->marital_status) ?>

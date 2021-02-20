@@ -9,7 +9,7 @@ $custom_fields = get_custom_fields('staff', [
     ]);
 $aColumns = [
     'firstname',
-    'email',
+    db_prefix().'staff.email',
     db_prefix().'roles.name',
     'last_login',
     'CASE
@@ -24,6 +24,8 @@ $aColumns = hooks()->apply_filters('staffs_table_aColumns', $aColumns);
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
+$join[]         = 'LEFT JOIN '.db_prefix().'staff_departments ON '.db_prefix().'staff_departments.staffid = '.db_prefix().'staff.staffid';
+$join[]         = 'LEFT JOIN '.db_prefix().'departments ON '.db_prefix().'departments.departmentid = '.db_prefix().'staff_departments.departmentid';
 $ci = &get_instance();
 $join = hooks()->apply_filters('staffs_table_sql_join', $join);
 $join[] = 'LEFT JOIN '.db_prefix().'hr_extra_info ON '.db_prefix().'hr_extra_info.staff_id='.db_prefix().'staff.staffid';
@@ -44,16 +46,49 @@ if (count($custom_fields) > 4) {
 
 $where = hooks()->apply_filters('staff_table_sql_where', []);
 
+$department_id = $this->ci->input->post('hrm_deparment');
+
+if($this->ci->input->post('hrm_deparment')){
+    $where_department = '';
+    $staff_department      = $this->ci->input->post('hrm_deparment');
+    foreach ($staff_department as $department_id) {
+        if($department_id != '')
+        {
+            if($where_department == ''){
+                $where_department .= '( '.db_prefix().'departments.departmentid = '.$department_id;
+            }else{
+                $where_department .= ' or '.db_prefix().'departments.departmentid = '.$department_id;
+            }
+        }
+    }
+
+    if($where_department != '')
+    {
+        $where_department .= ' )';
+        if($where_department != ''){
+            array_push($where, 'AND '. $where_department);
+        }else{
+            array_push($where, $where_department);
+        }
+
+    }
+
+}
+
+
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'profile_image',
     'lastname',
-    'staffid',
+    db_prefix().'staff.staffid',
     ]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
+$staffid = '';
 foreach ($rResult as $aRow) {
+    if($aRow['staffid'] == $staffid)
+        continue;
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
@@ -117,6 +152,6 @@ foreach ($rResult as $aRow) {
 
     $row = hooks()->apply_filters('staffs_table_row_data', $row, $aRow);
 
-
+    $staffid = $aRow['staffid'];
     $output['aaData'][] = $row;
 }

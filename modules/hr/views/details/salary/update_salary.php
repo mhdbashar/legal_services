@@ -19,6 +19,6 @@
 			<?php echo render_input('amount', 'amount', $staff->amount) ?>
 		</div>
 	</div>
-	<button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+	<button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
 </form>
 		<?php ?>

@@ -44,8 +44,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
-                <button group="submit" class="btn btn-info"><?php echo 'Submit'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+                <button group="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                 <?php echo form_close(); ?>
             </div>
         </div>

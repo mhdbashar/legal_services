@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo 'Close'; ?></button>
+                <button group="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
             </div>
         </div>
     </div>

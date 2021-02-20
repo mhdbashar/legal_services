@@ -135,6 +135,8 @@ function hr_menu_items($item)
                                     </li>
                                     <li><a href="'.admin_url('hr/contracts').'">'._l('staff_contract').'</a>
                                     </li>
+                                    <li><a href="'.admin_url('hr/insurances').'">'._l('insurrance').'</a>
+                                    </li>
                                 </ul>
                         </li>
 

@@ -124,6 +124,210 @@ class Hr extends AdminController{
         $this->app->get_table_data(module_views_path('hr', 'table_contract'));
     }
 
+    public function table_insurance()
+    {
+        $this->app->get_table_data(module_views_path('hr', 'table_insurance'));
+    }
+
+    public function insurance_conditions_setting(){
+        if($this->input->post()){
+            $data = $this->input->post();
+            $success = $this->hrm_model->update_insurance_conditions($data);
+            if($success > 0){
+                set_alert('success', _l('setting_update_successfully'));
+            }
+            redirect(admin_url('hrm/setting?group=insurrance'));
+        }
+    }
+
+    public function insurances(){
+
+        $this->load->model('departments_model');
+        $this->load->model('staff_model');
+        $this->load->model('hrm_model');
+
+        $data['month'] = $this->hrm_model->get_month();
+
+        $data['title'] = _l('insurrance');
+        $data['dep_tree'] = json_encode($this->hrm_model->get_department_tree());
+
+        $this->load->view('hr/insurance/manage_insurance', $data);
+    }
+
+    //function add,delete,update insurrance
+    public function insurance($id = ''){
+
+        if (!has_permission('hr', '', 'view')) {
+            access_denied('hr');
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            if ($this->input->post('insurance_id') == '') {
+                if (!has_permission('hr', '', 'create')) {
+                    access_denied('hr');
+                }
+                $id = $this->hrm_model->add_insurance($data);
+                if ($id) {
+                    set_alert('success', _l('added_successfully', _l('insurance_history')));
+                    redirect(admin_url('hr/insurances'));
+                }
+            } else {
+                if (!has_permission('hr', '', 'edit')) {
+                    access_denied('hr');
+                }
+
+                $response = $this->hrm_model->update_insurance($data, $this->input->post('insurance_id'));
+                if (is_array($response)) {
+                    if (isset($response['cant_remove_main_admin'])) {
+                        set_alert('warning', _l('staff_cant_remove_main_admin'));
+                    } elseif (isset($response['cant_remove_yourself_from_admin'])) {
+                        set_alert('warning', _l('staff_cant_remove_yourself_from_admin'));
+                    }
+                } elseif ($response == true) {
+
+                    set_alert('success', _l('updated_successfully', _l('insurance_history')));
+                }
+                redirect(admin_url('hr/insurances'));
+            }
+        }
+
+        if ($id == '') {
+            $title = _l('add_new', _l('insurrance'));
+            $data['title'] = $title;
+        } else {
+            $title = _l('edit', _l('insurrance'));
+            $insurance = $this->hrm_model->get_insurance($id);
+            $insurance_history = $this->hrm_model->get_insurance_history($id);
+
+
+            $data['insurances']            = $insurance;
+            $data['insurance_history']            = $insurance_history;
+
+
+
+        }
+        $data['month'] = $this->hrm_model->get_month();
+        $data['staff'] = $this->staff_model->get();
+        $this->load->view('hr/insurance/insurance', $data);
+    }
+
+    public function insurance_book_exists(){
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                // First we need to check if the email is the same
+                $insurance_id = $this->input->post('insurance_id');
+
+                if ($insurance_id != '') {
+                    $this->db->where('insurance_id', $insurance_id);
+                    $staff = $this->db->get('tblstaff_insurance')->row();
+                    if ($staff->insurance_book_num == $this->input->post('insurance_book_num')) {
+                        echo json_encode(true);
+                        die();
+                    }
+                }
+                $this->db->where('insurance_book_num', $this->input->post('insurance_book_num'));
+                $total_rows = $this->db->count_all_results('tblstaff_insurance');
+                if ($total_rows > 0) {
+                    echo json_encode(false);
+                } else {
+                    echo json_encode(true);
+                }
+                die();
+            }
+        }
+    }
+    public function health_insurance_exists(){
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+                // First we need to check if the email is the same
+                $insurance_id = $this->input->post('insurance_id');
+
+                if ($insurance_id != '') {
+                    $this->db->where('insurance_id', $insurance_id);
+                    $staff = $this->db->get('tblstaff_insurance')->row();
+                    if ($staff->health_insurance_num == $this->input->post('health_insurance_num')) {
+                        echo json_encode(true);
+                        die();
+                    }
+                }
+                $this->db->where('health_insurance_num', $this->input->post('health_insurance_num'));
+                $total_rows = $this->db->count_all_results('tblstaff_insurance');
+                if ($total_rows > 0) {
+                    echo json_encode(false);
+                } else {
+                    echo json_encode(true);
+                }
+                die();
+            }
+        }
+    }
+
+    public function delete_insurance_history(){
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post()) {
+
+                $insurance_history_id = $this->input->post('insurance_history_id');
+                if ($insurance_history_id != '') {
+                    $this->db->where('id', $insurance_history_id);
+                    $this->db->delete(db_prefix() . 'staff_insurance_history');
+                    if ($this->db->affected_rows() > 0 ){
+
+                        echo json_encode([
+                            'data' => true,
+                            'message' => _l('delete_insurance_history_success'),
+                        ]);
+                    }else{
+
+                        echo json_encode([
+                            'data' => false,
+                            'message' => _l('delete_insurance_history_false'),
+
+                        ]);
+
+                    }
+                }
+            }
+        }
+    }
+
+    public function insurance_type(){
+        if($this->input->post()){
+            $data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $add = $this->hrm_model->add_insurance_type($data);
+                if($add){
+                    $message = _l('added_successfully', _l('insurance_type'));
+                    set_alert('success',$message);
+                }
+                redirect(admin_url('hr/setting?group=insurrance'));
+            }else{
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->hrm_model->update_insurance_type($data,$id);
+                if($success == true){
+                    $message = _l('updated_successfully', _l('insurance_type'));
+                    set_alert('success', $message);
+                }
+                redirect(admin_url('hr/setting?group=insurrance'));
+            }
+
+        }
+    }
+    public function delete_insurance_type($id){
+        if (!$id) {
+            redirect(admin_url('hr/setting?group=insurrance'));
+        }
+        $response = $this->hrm_model->delete_insurance_type($id);
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced', _l('insurance_type')));
+        } elseif ($response == true) {
+            set_alert('success', _l('deleted', _l('insurance_type')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('insurance_type')));
+        }
+        redirect(admin_url('hr/setting?group=insurrance'));
+    }
+
     public function contract($id = '')
     {
         if (!has_permission('hr', '', 'view')) {
@@ -254,7 +458,7 @@ class Hr extends AdminController{
             $hrm_staff   = $this->hrm_model->get_hrm_attachments($staffid);
             $data ='';
             foreach($hrm_staff as $key => $attachment) {
-                $href_url = site_url('modules/hrm/uploads/'.$attachment['rel_id'].'/'.$attachment['file_name']).'" download';
+                $href_url = site_url('modules/hr/uploads/'.$attachment['rel_id'].'/'.$attachment['file_name']).'" download';
                 if(!empty($attachment['external'])){
                     $href_url = $attachment['external_link'];
                 }
@@ -333,6 +537,181 @@ class Hr extends AdminController{
 
             }
 
+        }
+    }
+
+
+    public function get_hrm_staff(){
+        if ($this->input->is_ajax_request()) {
+
+            $staffid = $this->input->get('staffid');
+
+            $total_rows = $this->db->query('select si.insurance_id from '.db_prefix().'staff_insurance as si where si.staff_id = '.$staffid)->result_array();
+            if (count($total_rows) > 0) {
+                $id = $total_rows[0]['insurance_id'];
+
+                $insurance = $this->hrm_model->get_insurance($id);
+                if(isset($insurance)){
+                    foreach ($insurance as $key => $insuran) {
+                        $insurance_book_num = $insuran['insurance_book_num'];
+                        $health_insurance_num = $insuran['health_insurance_num'];
+                        $city_code = $insuran['city_code'];
+                        $registration_medical = $insuran['registration_medical'];
+                    }
+                }
+                $insurance_history = $this->hrm_model->get_insurance_history($id);
+                $month = $this->hrm_model->get_month();
+                $staff = $this->staff_model->get();
+
+                $data_insert ='';
+                if(isset($insurance_history) && count($insurance_history) != 0){
+                    foreach ($insurance_history as $keydetails => $value) {
+                        $keydetails = $keydetails +1;
+
+                        $data_insert .= '<div class="row insurance-history ">';
+                        $data_insert .=     '<div class="col-md-2">';
+                        $from_month = (isset($value['from_month']) ? $value['from_month'] : '');
+                        $data_insert .=   '<label for="from_month['.$keydetails .']">'. _l('from_month').'</label>';
+
+                        $data_insert .=   '<select name="from_month['. $keydetails.']" class="selectpicker"';
+                        $data_insert .=    'id="from_month['.$keydetails.']" data-width="100%"';
+                        $data_insert .=    'data-none-selected-text="'. _l('dropdown_non_selected_tex').'">' ;
+
+                        $data_insert .=   '<option value=""></option>';
+                        if(isset($from_month)){
+                            $exploded = explode("-", $from_month);
+                            $exploded = array_reverse($exploded);
+                            $newFormat = implode("/", $exploded);
+                        }
+                        foreach($month as $m){
+                            $data_insert .=    '<option value="'. $m['id'].'"';
+                            if(isset($from_month) && $newFormat == $m['id'] ){
+
+                                $data_insert .=         'selected';
+                            }
+                            $data_insert .=        '>'. $m['name'].'</option>';
+                        }
+                        $data_insert .=         '</select>';
+
+                        $data_insert .=         '</div>';
+                        $data_insert .=        '<div class="col-md-3">';
+                        $formality = isset($value['formality']) ? $value['formality'] : '' ;
+                        $data_insert .=         '<label for="formality['. $keydetails .']" class="control-label">'._l(                      'formality').'</label>';
+
+                        $data_insert .=    '<select onchange="OnSelectReason (this)"';
+                        $data_insert .=      'name="formality['. $keydetails .']" class="selectpicker"';
+                        $data_insert .=     'id="formality['. $keydetails .']" data-width="100%" data-none-selected-text="'._l('fillter_by_status').'">';
+                        $data_insert .=     '  <option value=""></option>';
+                        $data_insert .=     '  <option value="increase"';
+                        if(isset($formality) && $formality == 'increase'){
+                            $data_insert .=         'selected';
+                        }
+                        $data_insert .=        '>'._l('increase').'</option><option value="decrease"';
+                        if(isset($formality) && $formality == 'decrease'){
+                            $data_insert .=       'selected';
+                        }
+                        $data_insert .=        '>'. _l('decrease').'</option></select></div>                      
+                                            <div class="col-md-3">';
+                        $reason = isset($value['reason']) ? $value['reason'] : '';
+                        $data_insert .=         '<label for="reason['.$keydetails .']" class="control-label">'. _l('reason_').'</label><select  name="reason['.$keydetails .']" class="selectpicker" id="reason['.$keydetails .']" data-width="100%" data-none-selected-text="'. _l('fillter_by_formality').'"><option value=""></option><option value="'.$reason.'"  selected><'._l(''.$reason.'') .'></option></select></div>';
+
+                        $data_insert .=           '<div class="col-md-3">';
+                        $premium_rates = isset($value['premium_rates']) ? $value['premium_rates'] : '' ;
+                        $attr = array();
+                        $attr = ['data-type' => 'currency'];
+
+                        $data_insert .= render_input('premium_rates['. $keydetails .']','premium_rates', app_format_money((int)$premium_rates,''),'text', $attr);
+                        $data_insert .=        '</div>';
+                        if($keydetails == 1){
+                            $data_insert .= '<div class="col-md-1 hrm-nowrap hrm-lineheight84" name="add_insurance_history">';
+                            $data_insert .= '<button name="add_new_insurance_history" class="btn new_insurance_history btn-success hrm-radius20" data-ticket="true" type="button"php title="'. _l('add') .'" ><i class="fa fa-plus" ></i>';
+                            $data_insert .=    form_hidden('id_history['.$keydetails.']',$value['id']);
+                            $data_insert .=     '</button>';
+                            $data_insert .=     '</div>';
+                        } else {
+                            $data_insert .=     '<div class="col-md-1 hrm-nowrap hrm-lineheight84" name="add_insurance_history">';
+                            $data_insert .=    '<button name="add_new_insurance_history" class="btn remove_insurance_history btn-danger hrm-radius20" data-ticket="true" type="button" title="'._l('delete').'" ><i class="fa fa-minus"></i>';
+                            $data_insert .=     form_hidden('id_history['.$keydetails.']',$value['id']);
+                            $data_insert .=     '</button>';
+                            $data_insert .=     '</div>';
+                        }
+                        $data_insert .=     '</div>';
+
+                    }
+                }
+
+
+                echo json_encode([
+                    'id' => $id,
+                    'data' => $data_insert,
+                    'insurance_book_num'   => $insurance_book_num,
+                    'health_insurance_num' => $health_insurance_num,
+                    'city_code'            => $city_code,
+                    'registration_medical'  => $registration_medical,
+
+                ]);
+                die();
+            }else{
+                $month = $this->hrm_model->get_month();
+                $staff = $this->staff_model->get();
+                $data_null ='';
+                $data_null  .=    '<div class="row insurance-history ">';
+                $data_null  .=    '<div class="col-md-2">';
+                $from_month = (isset($from_month) ? $from_month : '');
+                $data_null  .=        '<div class="form-group">';
+                $data_null  .=        '<label for="from_month[1]">'. _l('from_month').'</label>';
+                $data_null  .=      '<select name="from_month[1]" class="selectpicker" id="from_month[1]" data-width="100%"';
+
+                $data_null  .= 'data-none-selected-text="'. _l('dropdown_non_selected_tex').'">' ;
+                $data_null  .=        '<option value=""></option>' ;
+
+                foreach($month as $s){
+                    $data_null  .=         '<option value="'.$s['id'].'">'.$s['name'].'</option>';
+                }
+                $data_null  .=     '</select>';
+                $data_null  .=        '</div>';
+                $data_null  .=    '</div>';
+                $data_null  .=   '<div class="col-md-3">';
+                $formality = isset($formality) ? $formality : '' ;
+                $data_null  .=    '<label for="formality[1]" class="control-label">'. _l('formality').'</label>';
+                $data_null  .=    '<select onchange="OnSelectReason (this)" name="formality[1]" class="selectpicker" id="';
+                $data_null  .= 'formality[1]" data-width="100%" data-none-selected-text="'. _l('fillter_by_status').'">';
+                $data_null  .=        '<option value=""></option>';
+                $data_null  .=        '<option value="increase">'. _l('increase').'</option>';
+                $data_null  .=        '<option value="decrease">'._l('decrease').'</option>';
+                $data_null  .=    '</select>';
+                $data_null  .=    '</div>';
+
+                $data_null  .=    '<div class="col-md-3">';
+                $reason = isset($reason) ? $reason : '' ;
+                $data_null  .=    '<label for="reason[1]" class="control-label">'. _l('reason_').'</label>';
+                $data_null  .=    '<select  name="reason[1]" class="selectpicker" id="reason[1]" data-width="100%"';
+
+                $data_null  .= 'data-none-selected-text="'. _l('fillter_by_formality').'">' ;
+                $data_null  .=        '<option value=""></option>';
+                $data_null  .=    '</select>';
+                $data_null  .=    '</div>';
+
+                $data_null  .=    '<div class="col-md-3">';
+                $premium_rates = isset($premium_rates) ? $premium_rates : '' ;
+
+                $attr = array();
+                $attr = ['data-type' => 'currency'];
+                $data_null  .=    render_input('premium_rates[1]','premium_rates', $premium_rates,'text', $attr);
+                $data_null  .=    '</div>';
+
+                $data_null  .= '<div class="col-md-1 hrm-nowrap hrm-lineheight84" name="add_insurance_history">';
+                $data_null  .=    '<button name="add_new_insurance_history" class="btn new_insurance_history btn-success hrm-radius20"';
+                $data_null  .=  'data-ticket="true" type="button" title="'. _l('add') .'"><i class="fa fa-plus"></i></button>';
+                $data_null  .=    '</div>';
+
+                $data_null  .= '</div>';
+                echo json_encode([
+                    'id' => '',
+                    'data_null' => $data_null,
+                ]);
+                die();
+            }
         }
     }
 

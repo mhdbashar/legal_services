@@ -687,6 +687,34 @@ if (!$CI->db->table_exists(db_prefix() . 'salary_form')) {
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'staff_insurance')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_insurance` (
+      `insurance_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `staff_id` int(11) UNSIGNED NOT NULL,
+      `insurance_book_num` varchar(100) NULL,
+      `health_insurance_num` varchar(100) NULL,
+      `city_code` varchar(100) NULL,
+      `registration_medical` varchar(100) NULL,
+      PRIMARY KEY (`insurance_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_insurance_history')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_insurance_history` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `insurance_id` int(11) UNSIGNED NOT NULL,
+      `staff_id` int(11) UNSIGNED  NULL,
+      `from_month` date NULL,
+      `formality` varchar(50) NULL,
+      `reason` varchar(50) NULL,
+      `premium_rates` varchar(100) NULL,
+      `payment_company` varchar(100) NULL,
+      `payment_worker` varchar(100) NULL,
+      PRIMARY KEY (`id`,`insurance_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
 if (!$CI->db->table_exists(db_prefix() . 'insurance_type')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "insurance_type` (
       `id` int(11) NOT NULL AUTO_INCREMENT,

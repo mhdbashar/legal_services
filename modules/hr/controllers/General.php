@@ -56,7 +56,7 @@ class General extends AdminController{
 
 	public function general($staff_id){
 
-        $this->load->model('No_branch_model');
+        //$this->load->model('No_branch_model');
 
         $member = $this->staff_model->get($staff_id);
         if (!$member) {
@@ -186,7 +186,7 @@ class General extends AdminController{
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
         $this->load->model('departments_model');
-        $this->load->model('No_branch_model');
+        // $this->load->model('No_branch_model');
 
         $hr_data = [];
 
@@ -198,7 +198,7 @@ class General extends AdminController{
         if(is_active_sub_department())
             $hr_data['sub_department'] = $this->input->post('sub_department');
         else
-            $hr_data['sub_department'] = 1;
+            $hr_data['sub_department'] = '';
         $hr_data['office_sheft'] = $this->input->post('office_sheft');
         $hr_data['date_birth'] = to_sql_date($this->input->post('date_birth'));
         $hr_data['state_province'] = $this->input->post('state_province');
@@ -305,10 +305,10 @@ class General extends AdminController{
                 $ts_filter_data['this_month'] = true;
             }
 
-                $ci = &get_instance();
-                $ci->load->model('branches/Branches_model');
-                $data['branches'] = $ci->Branches_model->getBranches();
-                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
+//                $ci = &get_instance();
+//                $ci->load->model('branches/Branches_model');
+//                $data['branches'] = $ci->Branches_model->getBranches();
+//                $data['branch'] = $this->Branches_model->get_branch('staff', $id);
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];

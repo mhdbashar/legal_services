@@ -21,8 +21,13 @@ $lang['imported'] = 'Imported';
 $lang['export'] = 'Export';
 $lang['export_service'] = 'Export service';
 $lang['imported_services'] = 'Imported Services';
+$lang['you_have_to_complete_staff_informations'] = 'You have to complete staff information';
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
+$lang['filter_by_departments'] = 'Filter by departments';
+
+$lang['divorced'] = 'Divorced';
+$lang['widower'] = 'Widower';
 
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';

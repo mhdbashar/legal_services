@@ -16,7 +16,24 @@
 							<?php } ?>
 						</div>
 						<div class="clearfix"></div>
-						<hr class="hr-panel-heading" />
+                            <hr class="hr-panel-heading">
+                            <div class="row">
+                                <div class="col-md-3 pull-left">
+                                    <select name="hrm_deparment[]" class="selectpicker" multiple="true" id="hrm_deparment" data-width="100%" data-none-selected-text="<?php echo _l('filter_by_departments'); ?>">
+
+                                        <?php
+                                            foreach ($departments as $department) { ?>
+                                                <option value="<?php echo $department['departmentid'] ?>">
+                                                    <?php echo $department['name'] ?>
+                                                </option>
+                                            <?php }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br>
+
 						<?php } ?>
 						<div class="clearfix"></div>
 						<?php
@@ -71,9 +88,8 @@
 </div><!-- /.modal -->
 <?php init_tail(); ?>
 <script>
-	$(function(){
-		initDataTable('.table-staff', window.location.href);
-	});
+	// $(function(){
+	// });
 	function delete_staff_member(id){
 		$('#delete_staff').modal('show');
 		$('#transfer_data_to').find('option').prop('disabled',false);
@@ -81,6 +97,40 @@
 		$('#delete_staff .delete_id input').val(id);
 		$('#transfer_data_to').selectpicker('refresh');
 	}
+
+    $(function(){
+
+
+        var StaffServerParams = {
+            "hrm_deparment": "[name='hrm_deparment[]']",
+        };
+        table_staff = $('table.table-staff');
+
+        initDataTable('.table-staff', window.location.href, '', '', StaffServerParams);
+
+        $.each(StaffServerParams, function() {
+            $('#hrm_deparment').on('change', function() {
+                table_staff.DataTable().ajax.reload()
+                    .columns.adjust()
+                    .responsive.recalc();
+            });
+        });
+        //combotree department
+    //     $('#hrm_derpartment_tree').on('change', function() {
+    //         $('#hrm_deparment').val(tree_dep.getSelectedItemsId());
+    //         table_staff.DataTable().ajax.reload()
+    //             .columns.adjust()
+    //             .responsive.recalc();
+    // });
+        //staff role
+        // $.each(StaffServerParams, function() {
+        //     $('#hrm_deparment').on('change', function() {
+        //         table_staff.DataTable().ajax.reload()
+        //             .columns.adjust()
+        //             .responsive.recalc();
+        //     });
+        // });
+    })
 </script>
 </body>
 </html>

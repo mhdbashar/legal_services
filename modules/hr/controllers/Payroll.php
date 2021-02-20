@@ -25,9 +25,6 @@ class Payroll extends AdminController{
         }
 	}
 
-	public function test($staff_id, $year, $month){
-		
-	}
 
 	public function count_result($staff_id, $year, $month){
 		

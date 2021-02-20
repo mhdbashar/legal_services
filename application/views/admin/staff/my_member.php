@@ -77,7 +77,7 @@
                         <?php echo _l('enable_two_factor_sms_authentication'); ?></label>
                      </div>
                      <?php } ?>
-					 
+
 					 
                      <div class="is-not-staff<?php if(isset($member) && $member->admin == 1){ echo ' hide'; }?>">
                         <div class="checkbox checkbox-primary">
@@ -94,6 +94,8 @@
                         </div>
                         <hr />
                      </div>
+
+                      <?php  if(!$this->app_modules->is_active('hr')){ ?>
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
@@ -273,6 +275,7 @@
                      </span>
                      <?php } } ?>
                   <?php } ?>
+                      <?php } ?>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
                      <?php

@@ -339,16 +339,18 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Promotion_model->update($data, $id);
-        if($success)
+        if($success){
+            $staff = $data['staff_id'];
+            $designation = $data['designation'];
+            $this->Designation_model->to_designation($staff, $designation);
             set_alert('success', _l('updated_successfully'));
+        }
         else
             set_alert('warning', 'Problem Updating');
 
         // $this->Branches_model->update_branch('promotions', $id, $branch_id);
 
-        $staff = $data['staff_id'];
-        $designation = $data['designation'];
-        $this->Designation_model->to_designation($staff, $designation);
+
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -363,8 +365,13 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Promotion_model->add($data);
-        if($success)
+        if($success){
+            $designation = $data['designation'];
+            $staff = $data['staff_id'];
+            $this->Designation_model->to_designation($staff, $designation);
+
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 

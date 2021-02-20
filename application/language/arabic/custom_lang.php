@@ -1,5 +1,7 @@
 <?php
 
+$lang['filter_by_departments'] = 'الفلترة بحسب الأقسام';
+
 $lang['you_have_to_complete_staff_informations'] = 'يجب اكمال معلومات الموظفين';
 $lang['divorced'] = 'مطلق';
 $lang['widower'] = 'أرمل';

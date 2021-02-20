@@ -4,6 +4,7 @@ $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pret
 $lang['you_have_to_complete_staff_informations'] = 'You have to complete staff information';
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
+$lang['filter_by_departments'] = 'Filter by departments';
 
 $lang['divorced'] = 'Divorced';
 $lang['widower'] = 'Widower';

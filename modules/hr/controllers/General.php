@@ -36,7 +36,12 @@ class General extends AdminController{
         }
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         $data['title']         = _l('staff_members');
+        $data['departments']   = $this->Departments_model->get();
         $this->load->view('staff/manage', $data);
+    }
+
+    public function staff_table(){
+        $this->hrmapp->get_table_data('staff');
     }
 
     /* Get role permission for specific role id */

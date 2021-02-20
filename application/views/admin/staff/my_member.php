@@ -41,6 +41,7 @@
          </div>
       </div>
       <?php } ?>
+       <?php  if(!$this->app_modules->is_active('hr')){ ?>
       <?php echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off')); ?>
       <div class="col-md-<?php if(!isset($member)){echo '8 col-md-offset-2';} else {echo '5';} ?>" id="small-table">
          <div class="panel_s">
@@ -310,6 +311,7 @@
          <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
       </div>
       <?php echo form_close(); ?>
+       <?php } ?>
       <?php if(isset($member)){ ?>
       <div class="col-md-7 small-table-right-col">
          <div class="panel_s">

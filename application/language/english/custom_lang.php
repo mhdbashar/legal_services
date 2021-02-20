@@ -1,7 +1,7 @@
 <?php
 $lang['Spreadsheet_name'] = "Spreadsheet Files";
 $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
-
+$lang['you_have_to_complete_staff_informations'] = 'You have to complete staff information';
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
 

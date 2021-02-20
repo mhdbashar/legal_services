@@ -9,6 +9,13 @@ class Hr extends AdminController{
         $this->load->model('hrm_model');
         if (!has_permission('hr', '', 'view'))
             access_denied();
+
+        $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
+        $total_staffs = $this->db->count_all_results(db_prefix() . 'staff');
+        if($total_complete_staffs != $total_staffs) {
+            set_alert('warning', _l('you_have_to_complete_staff_informations'));
+            redirect(admin_url('hr/general/staff'));
+        }
     }
 
     public function index()
@@ -25,7 +32,6 @@ class Hr extends AdminController{
     public function contracts($id = '')
     {
         $this->load->model('departments_model');
-        $this->load->model('staff_model');
 
         $data['hrmcontractid'] = $id;
         $data['positions'] = $this->hrm_model->get_job_position();

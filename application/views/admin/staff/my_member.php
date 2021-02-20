@@ -41,7 +41,6 @@
          </div>
       </div>
       <?php } ?>
-       <?php  if(!$this->app_modules->is_active('hr')){ ?>
       <?php echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off')); ?>
       <div class="col-md-<?php if(!isset($member)){echo '8 col-md-offset-2';} else {echo '5';} ?>" id="small-table">
          <div class="panel_s">
@@ -78,7 +77,7 @@
                         <?php echo _l('enable_two_factor_sms_authentication'); ?></label>
                      </div>
                      <?php } ?>
-					 
+
 					 
                      <div class="is-not-staff<?php if(isset($member) && $member->admin == 1){ echo ' hide'; }?>">
                         <div class="checkbox checkbox-primary">
@@ -95,6 +94,8 @@
                         </div>
                         <hr />
                      </div>
+
+                      <?php  if(!$this->app_modules->is_active('hr')){ ?>
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
@@ -274,6 +275,7 @@
                      </span>
                      <?php } } ?>
                   <?php } ?>
+                      <?php } ?>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
                      <?php
@@ -311,7 +313,6 @@
          <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
       </div>
       <?php echo form_close(); ?>
-       <?php } ?>
       <?php if(isset($member)){ ?>
       <div class="col-md-7 small-table-right-col">
          <div class="panel_s">

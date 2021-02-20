@@ -85,7 +85,10 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
+$staffid = '';
 foreach ($rResult as $aRow) {
+    if($aRow['staffid'] == $staffid)
+        continue;
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
@@ -149,6 +152,6 @@ foreach ($rResult as $aRow) {
 
     $row = hooks()->apply_filters('staffs_table_row_data', $row, $aRow);
 
-
+    $staffid = $aRow['staffid'];
     $output['aaData'][] = $row;
 }

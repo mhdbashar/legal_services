@@ -35,28 +35,7 @@
                </ul>
                <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="tab_staff_profile">
-                     <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'two-factor-authentication','active'=>0)) == 0){ ?>
-                     <div class="checkbox checkbox-primary">
-                        <input type="checkbox" value="1" name="two_factor_auth_enabled" id="two_factor_auth_enabled"<?php if(isset($member) && $member->two_factor_auth_enabled == 1){echo ' checked';} ?>>
-                        <label for="two_factor_auth_enabled"><i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('two_factor_authentication_info'); ?>"></i>
-                        <?php echo _l('enable_two_factor_authentication'); ?></label>
-                     </div>
-                     <?php } ?>
-                     <div class="is-not-staff<?php if(isset($member) && $member->admin == 1){ echo ' hide'; }?>">
-                        <div class="checkbox checkbox-primary">
-                           <?php
-                              $checked = '';
-                              if(isset($member)) {
-                               if($member->is_not_staff == 1){
-                                $checked = ' checked';
-                              }
-                              }
-                              ?>
-                           <input type="checkbox" value="1" name="is_not_staff" id="is_not_staff" <?php echo $checked; ?>>
-                           <label for="is_not_staff"><?php echo _l('is_not_staff_member'); ?></label>
-                        </div>
-                        <hr />
-                     </div>
+
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>

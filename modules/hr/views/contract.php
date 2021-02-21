@@ -36,11 +36,11 @@
                    <span class="glyphicon glyphicon-file"></span>&nbsp;<?php echo _l('public_information'); ?>
                    </a>
                 </li>
-               <li role="presentation" >
-                   <a href="#tab_wages_allowances" aria-controls="tab_staff_profile" role="tab" data-toggle="tab">
-                   <span class="glyphicon glyphicon-usd"></span>&nbsp;<?php echo _l('wages_allowances'); ?>
-                   </a>
-                </li>
+<!--               <li role="presentation" >-->
+<!--                   <a href="#tab_wages_allowances" aria-controls="tab_staff_profile" role="tab" data-toggle="tab">-->
+<!--                   <span class="glyphicon glyphicon-usd"></span>&nbsp;--><?php //echo _l('wages_allowances'); ?>
+<!--                   </a>-->
+<!--                </li>-->
                 <li role="presentation">
                    <a href="#tab_signed_information" aria-controls="tab_staff_profile" role="tab" data-toggle="tab">
                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;<?php echo _l('signed_information'); ?>

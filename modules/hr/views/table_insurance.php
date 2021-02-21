@@ -7,13 +7,12 @@ $aColumns = [
     db_prefix().'staff_insurance.staff_id',
     'insurance_book_num',
     'health_insurance_num',
-    'city_code',
-    'registration_medical'
+//    'city_code',
+//    'registration_medical'
     ];
 $sIndexColumn = 'insurance_id';
 $sTable       = db_prefix().'staff_insurance';
 $join = ['LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'staff_insurance.staff_id',
-        'LEFT JOIN '.db_prefix().'job_position ON '.db_prefix().'job_position.position_id = '.db_prefix().'staff.job_position',
         'LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role',
         'LEFT JOIN '.db_prefix().'staff_insurance_history ON '.db_prefix().'staff_insurance_history.insurance_id = '.db_prefix().'staff_insurance.insurance_id'];
 $where = [];
@@ -53,7 +52,7 @@ if(isset($staff_id)){
             }else{
                 array_push($where, $where_staff);
             }
-            
+
         }
 }
 
@@ -81,12 +80,12 @@ if(isset($from_month)){
             }else{
                 array_push($where, $where_month);
             }
-            
+
         }
 }
 
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['staff_identifi','firstname','lastname','position_name','name','from_month','premium_rates']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'firstname','lastname','name','from_month','premium_rates']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -128,21 +127,20 @@ foreach ($rResult as $aRow) {
     $premium                = (float)($aRow['premium_rates']);
 
     $row = [];
-    $row[] = $aRow['staff_identifi']; 
+    //$row[] = $aRow['staff_identifi'];
     $row[] = '<a href="/admin/hr/insurance"> ' . staff_profile_image($aRow[db_prefix().'staff_insurance.staff_id'], [
                 'staff-profile-image-small',
-                ]) . '</a><a href='.admin_url('hr/insurance/'). $aRow['staff_identifi'] .'> ' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
+                ]) . '</a><a href='.admin_url('hr/insurance/'). $aRow['id'] .'> ' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>';
 
-    $row[] = $aRow['position_name'];
 
     $row[] = $aRow['insurance_book_num'];
     $row[] = $aRow['health_insurance_num'];
-    $row[] = date("d-m-Y", strtotime($aRow['from_month']));                                                                        
-    $row[] = app_format_money((int)($aRow['premium_rates']),'');
-
-    $row[] = app_format_money(get_payment_company($premium, $social_company,  $labor_accident_company, $health_company, $unemployment_company  ),'');
-    $row[] = app_format_money(get_payment_worker($premium, $social_staff,  $labor_accident_staff, $health_staff, $unemployment_staff  ),'');
-
+    $row[] = date("d-m-Y", strtotime($aRow['from_month']));
+//    $row[] = app_format_money((int)($aRow['premium_rates']),'');
+//
+//    $row[] = app_format_money(get_payment_company($premium, $social_company,  $labor_accident_company, $health_company, $unemployment_company  ),'');
+//    $row[] = app_format_money(get_payment_worker($premium, $social_staff,  $labor_accident_staff, $health_staff, $unemployment_staff  ),'');
+//
 
     $output['aaData'][] = $row;
 }

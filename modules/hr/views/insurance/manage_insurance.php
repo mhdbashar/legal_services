@@ -45,10 +45,10 @@
                                    
                                     <?php
                                     $table_data = array(
-                                        _l('staff_id'),
+                                        //_l('staff_id'),
                                         _l('clients_list_full_name'),
 
-                                        _l('job_position'),
+                                        //_l('job_position'),
                                         _l('insurance_book_number'),
                                         _l('health_insurance_number'),                                                           
                                         );

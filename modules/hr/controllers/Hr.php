@@ -35,7 +35,7 @@ class Hr extends AdminController{
 
         $data['hrmcontractid'] = $id;
         $data['positions'] = $this->hrm_model->get_job_position();
-        $data['workplace'] = $this->hrm_model->get_workplace();
+        // $data['workplace'] = $this->hrm_model->get_workplace();
         $data['contract_type'] = $this->hrm_model->get_contracttype();
         $data['staff'] = $this->staff_model->get();
         $data['allowance_type'] = $this->hrm_model->get_allowance_type();

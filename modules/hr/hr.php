@@ -122,7 +122,7 @@ function hr_menu_items($item)
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li class="menu-item-hr">';
-        echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
+        echo '<a href="#" aria-expanded="false"> '._l('hr').'<span class="fa arrow-ar"></span></a>';
 
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li><a href="'.admin_url('hr').'" aria-expanded="false">'._l('dashboard').'</span></a>

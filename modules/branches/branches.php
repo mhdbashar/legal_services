@@ -372,6 +372,14 @@ function staffs_add_table_sql_join($join) {
 }
 
 function departments_add_table_sql_join($join) {
+    if(isset($join['id'])){
+        $branch_id = $join['id'];
+        unset($join['id']);
+        $join[] = 'INNER JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="departments" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'departments.departmentid';
+        $join[] = 'INNER JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id AND ' . db_prefix(). 'branches.id='.$branch_id;
+        return $join;
+
+    }
     $join[] = 'LEFT JOIN '.db_prefix().'branches_services ON '.db_prefix().'branches_services.rel_type="departments" AND '.db_prefix().'branches_services.rel_id='.db_prefix().'departments.departmentid';
     $join[] = 'LEFT JOIN '.db_prefix().'branches ON '.db_prefix().'branches.id='.db_prefix().'branches_services.branch_id';
     return $join;

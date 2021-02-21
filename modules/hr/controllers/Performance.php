@@ -12,6 +12,13 @@ class Performance extends AdminController{
 
         if (!has_permission('hr', '', 'view'))
             access_denied();
+
+        $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
+        $total_staffs = $this->db->count_all_results(db_prefix() . 'staff');
+        if($total_complete_staffs != $total_staffs) {
+            set_alert('warning', _l('you_have_to_complete_staff_informations'));
+            redirect(admin_url('hr/general/staff'));
+        }
 	}
 
 	//indicators

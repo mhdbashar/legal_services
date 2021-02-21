@@ -94,11 +94,6 @@ class Organization extends AdminController{
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_sub_department_table');
         }
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-        }
         $data['departments']   = $this->Departments_model->get();
         $data['title'] = _l('sub_department');
         $this->load->view('organization/sub_department', $data);
@@ -134,19 +129,10 @@ class Organization extends AdminController{
 
     public function add_designation(){
         $data = $this->input->post();
-        if($this->app_modules->is_active('branches')){
-            $branch_id = $this->input->post()['branch_id'];
 
-            unset($data['branch_id']);
-        }
-        else
-            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Designation_model->add($data);
         if($success){
 
-            if(true){
-                $this->Branches_model->update_branch('designations', $success, $branch_id);
-            }
             set_alert('success', _l('added_successfully'));
         }else
             set_alert('warning', 'Problem Creating');
@@ -210,18 +196,18 @@ class Organization extends AdminController{
     }
     public function update_sub_department(){
         $data = $this->input->post();
-        if($this->app_modules->is_active('branches')){
-            $branch_id = $this->input->post()['branch_id'];
-
-            unset($data['branch_id']);
-        }
-        else
-            $branch_id = $this->No_branch_model->get_general_branch();
+//        if($this->app_modules->is_active('branches')){
+//            $branch_id = $this->input->post()['branch_id'];
+//
+//            unset($data['branch_id']);
+//        }
+//        else
+//            $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Sub_department_model->update($data, $id);
-        if(true){
-                $this->Branches_model->update_branch('sub_departments', $id, $branch_id);
-            }
+//        if(true){
+//                $this->Branches_model->update_branch('sub_departments', $id, $branch_id);
+//            }
         if($success){
             set_alert('success', _l('updated_successfully'));
         }
@@ -232,19 +218,19 @@ class Organization extends AdminController{
 
     public function add_sub_department(){
         $data = $this->input->post();
-        if($this->app_modules->is_active('branches')){
-            $branch_id = $this->input->post()['branch_id'];
-
-            unset($data['branch_id']);
-        }
-        else
-            $branch_id = $this->No_branch_model->get_general_branch();
+//        if($this->app_modules->is_active('branches')){
+//            $branch_id = $this->input->post()['branch_id'];
+//
+//            unset($data['branch_id']);
+//        }
+//        else
+//            $branch_id = $this->No_branch_model->get_general_branch();
         $success = $this->Sub_department_model->add($data);
         if($success){
 
-            if(true){
-                $this->Branches_model->update_branch('sub_departments', $success, $branch_id);
-            }
+//            if(true){
+//                $this->Branches_model->update_branch('sub_departments', $success, $branch_id);
+//            }
             set_alert('success', _l('added_successfully'));
         }else
             set_alert('warning', 'Problem Creating');
@@ -264,7 +250,7 @@ class Organization extends AdminController{
         if (is_array($response) && isset($response['referenced'])) {
             set_alert('warning', _l('is_referenced'));
         } elseif  ($response == true) {
-            et_alert('success', _l('deleted_successfully'));
+            is_array('success', _l('deleted_successfully'));
         } else {
             set_alert('warning', _l('problem_deleting'));
         }

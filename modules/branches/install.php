@@ -40,7 +40,7 @@ if (!$CI->db->table_exists(db_prefix() . 'branches')) {
   $insert_id = $CI->db->insert_id();
   if ($insert_id) {
       log_activity('New Branches Added [' . $data['title_en'] . ']');
-      return $insert_id;
+      // return $insert_id;
   }
 }
 

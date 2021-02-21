@@ -167,7 +167,9 @@ function required_file() {
 
                 $('[name="date_expiry"]').val(data.date_expiry);
 
-                $('[name="document_file"]').val(data.document_file);
+                $('[name="country"]').val(data.country);
+
+                // $('[name="document_file"]').val(data.document_file);
 
                 $('[name="eligible_review_date"]').val(data.eligible_review_date);
 
@@ -180,7 +182,7 @@ function required_file() {
                     $('#yes_notify').attr('selected','selected');
                 }
 
-                $('[name="document_file"]').val(data.document_file);
+                // $('[name="document_file"]').val(data.document_file);
 
 
                 $('#update_work_experience').modal('show'); // show bootstrap modal when complete loaded

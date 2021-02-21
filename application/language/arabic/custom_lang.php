@@ -70,6 +70,11 @@ $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
 $lang['active'] = 'مفعلة';
 $lang['inactive'] = 'غير مفعلة';
 
+$lang['filter_by_departments'] = 'الفلترة بحسب الأقسام';
+
+$lang['you_have_to_complete_staff_informations'] = 'يجب اكمال معلومات الموظفين';
+$lang['divorced'] = 'مطلق';
+$lang['widower'] = 'أرمل';
 $lang['branch_report_all'] = "الكل";
 $lang['report_branch'] = "الفرع";
 $lang['Spreadsheet_name'] = "ملفات الجداول";
@@ -268,8 +273,8 @@ $lang['dispute'] = "النزاعات المالية";
 $lang['disputes_desc'] = "الإضافة الافتراضية لإدارة المنازعات المالية";
 $lang['goals_name'] = "الأهداف";
 $lang['goals_desc'] = "الإضافة الافتراضية لتحديد الأهداف";
-$lang['hr_name'] = "نظام الموارد البشرية";
-$lang['hr_desc'] = "الإضافة الافتراضية لإدارة الموارد البشرية";
+$lang['hr_name'] = "H.R.M";
+$lang['hr_desc'] = "H.R.M";
 $lang['label_name'] = "إدارة اللغات";
 $lang['label_desc'] = "ترجمة التسمية (عربي- إنجليزي).";
 $lang['loc_name'] = "وحدة الموقع";

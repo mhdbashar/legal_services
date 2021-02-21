@@ -16,6 +16,7 @@
          <?php } ?>
       </div>
       <?php } ?>
+       <?php if(!isset($staff_id)) $staff_id = ''; ?>
       <?php echo form_open_multipart(admin_url('hr/general/member/'.$staff_id),array('class'=>'staff-form','autocomplete'=>'off')); ?>
       <div class="col-md-12" id="small-table">
          <div class="panel_s">
@@ -77,43 +78,42 @@
 
 
                      <?php } ?>
-                     <div class="row">
-                     	<div class="col-md-12">
-                     		 <?php $value = (isset($member) ? $member->firstname : ''); ?>
-		                     <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
-		                     <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
-                         <?php echo form_hidden('lastname', ' ') ?>
-                     	</div>
-                      <!--
-                     	<div class="col-md-6">
-                     		<?php $value = (isset($member) ? $member->lastname : ''); ?>
-                    		<?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
-                     	</div>
-                     -->
-                     </div>
-                     <?php $branches = $this->Branches_model->getBranches(); ?>
-                        <?php if($this->app_modules->is_active('branches')){?>
-                           <?php $value = (isset($branch) ? $branch : ''); ?>
-                           <?php echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
-                        <?php } ?>
+<!--                     --><?php //$branches = $this->Branches_model->getBranches(); ?>
+<!--                        --><?php //if($this->app_modules->is_active('branches')){?>
+<!--                           --><?php //$value = (isset($branch) ? $branch : ''); ?>
+<!--                           --><?php //echo render_select('branch_id',(isset($branches)?$branches:[]),['key','value'],'branch_name',$value, ['onchange'=> 'getval(this);', 'id' => 'branch_id']); ?>
+<!--                        --><?php //} ?>
                            <?php 
                            $departmentid = '';
                            $name = '';
+                           if(isset($member))
+                            if ($this->Extra_info_model->get($member->staffid)){
+                                $dep = $this->Extra_info_model->get_staff_department($member->staffid);
+                                if($dep){
+                                    $departmentid = $dep->departmentid;
+                                    $name = $dep->name;
+                                }
+                            }
 
-                           // if ($this->Extra_info_model->get($member->staffid)){
-                           //    $departmentid = $this->Extra_info_model->get_staff_department($member->staffid)->departmentid;
-
-                           //    $name = $this->Extra_info_model->get_staff_department($member->staffid)->name;
-                           // }
                           // echo render_select('departments[]',(isset($departments)?$departments:[]),['departmentid','name'], _l('staff_add_edit_departments'), $department); ?>
                         <div class="row">
-                           <div class="col-md-12">
+                           <div class="col-md-6">
                               <div class="form-group">
                                   <label for="staff_add_edit_departments" class="control-label"><?php echo _l('staff_add_edit_departments') ?></label>
                                   <select onchange="check(this)" required="required" class="form-control" id="department_id" name="departments[]" placeholder="<?php echo _l('staff_add_edit_departments') ?>" aria-invalid="false">
-                                  </select>     
+                                      <option></option>
+                                      <?php foreach($departments as $department){ ?>
+                                          <option <?php echo $departmentid == $department['departmentid'] ? 'selected' : ''  ?> value="<?php echo $department['departmentid'] ?>"><?php echo $department['name']; ?></option>
+                                      <?php } ?>
+                                  </select>
                               </div>
                            </div>
+                            <div class="col-md-6">
+                                <?php $value = (isset($member) ? $member->firstname : ''); ?>
+                                <?php $attrs = (isset($member) ? array() : array('autofocus'=>true)); ?>
+                                <?php echo render_input('firstname','staff_add_edit_fullname',$value,'text',$attrs); ?>
+                                <?php echo form_hidden('lastname', ' ') ?>
+                            </div>
                         </div>
                      <div class="row">
                      	<div class="col-md-6">
@@ -167,7 +167,27 @@
                      <div class="row">
 
                      	<div class="col-md-4">
-                     		<?php echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
+<!--                     		--><?php //echo render_input('marital_status','marital_status',$extra_info->marital_status ); ?>
+                            <?php
+                            $material_statuses = [
+                                [
+                                    'value' => 'single',
+                                    'name' => _l('single')
+                                ],
+                                [
+                                    'value' => 'married',
+                                    'name' => _l('married')
+                                ],
+                                [
+                                    'value' => 'divorced',
+                                    'name' => _l('divorced')
+                                ],
+                                [
+                                    'value' => 'widower',
+                                    'name' => _l('widower')
+                                ],
+                            ];
+                            echo render_select('marital_status', $material_statuses,['value','name'], 'marital_status', $extra_info->marital_status) ?>
                      	</div>
                      <div class="col-md-4 hide">
                             <div class="form-group">
@@ -207,21 +227,47 @@
                      		<?php echo render_input('zip_code','zip_code',$extra_info->zip_code ); ?>
                      	</div>
                      </div>
-                     
-                     <?php echo render_input('address','address',$extra_info->address ); ?>
-                     <div class="form-group">
-                        <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
-                        <div class="input-group">
-                           <input type="number" name="hourly_rate" value="<?php if(isset($member)){echo $member->hourly_rate;} else {echo 0;} ?>" id="hourly_rate" class="form-control">
-                           <span class="input-group-addon">
-                           <?php echo $base_currency->symbol; ?>
-                           </span>
-                        </div>
-                     </div>
-                     <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
-                     <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
-                     
+                      <div class="row">
+                          <div class="col-md-4">
+                              <?php echo render_input('address','address',$extra_info->address ); ?>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
+                                  <div class="input-group">
+                                      <input type="number" name="hourly_rate" value="<?php if(isset($member)){echo $member->hourly_rate;} else {echo 0;} ?>" id="hourly_rate" class="form-control">
+                                      <span class="input-group-addon">
+                                           <?php echo $base_currency->symbol; ?>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
+                              <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
+                          </div>
+                      </div>
 
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="facebook" class="control-label"><i class="fa fa-facebook"></i> <?php echo _l('staff_add_edit_facebook'); ?></label>
+                                  <input type="text" class="form-control" name="facebook" value="<?php if(isset($member)){echo $member->facebook;} ?>">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="linkedin" class="control-label"><i class="fa fa-linkedin"></i> <?php echo _l('staff_add_edit_linkedin'); ?></label>
+                                  <input type="text" class="form-control" name="linkedin" value="<?php if(isset($member)){echo $member->linkedin;} ?>">
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="skype" class="control-label"><i class="fa fa-skype"></i> <?php echo _l('staff_add_edit_skype'); ?></label>
+                                  <input type="text" class="form-control" name="skype" value="<?php if(isset($member)){echo $member->skype;} ?>">
+                              </div>
+                          </div>
+                      </div>
                      <?php if(get_option('disable_language') == 0){ ?>
                      <div class="form-group select-placeholder">
                         <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?></label>
@@ -278,6 +324,31 @@
                            <?php } ?>
                         </div>
                      </div>
+
+                      <?php if(!isset($member) || is_admin() || !is_admin() && $member->admin == 0) { ?>
+                          <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+                          <input  type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1"/>
+                          <input  type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
+                          <div class="clearfix form-group"></div>
+                          <label for="password" class="control-label"><?php echo _l('staff_add_edit_password'); ?></label>
+                          <div class="input-group">
+                              <input type="password" class="form-control password" name="password" autocomplete="off">
+                              <span class="input-group-addon">
+                        <a href="#password" class="show_password" onclick="showPassword('password'); return false;"><i class="fa fa-eye"></i></a>
+                        </span>
+                              <span class="input-group-addon">
+                        <a href="#" class="generate_password" onclick="generatePassword(this);return false;"><i class="fa fa-refresh"></i></a>
+                        </span>
+                          </div>
+                          <?php if(isset($member)){ ?>
+                              <p class="text-muted"><?php echo _l('staff_add_edit_password_note'); ?></p>
+                              <?php if($member->last_password_change != NULL){ ?>
+                                  <?php echo _l('staff_add_edit_password_last_changed'); ?>:
+                                  <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($member->last_password_change); ?>">
+                        <?php echo time_ago($member->last_password_change); ?>
+                     </span>
+                              <?php } } ?>
+                      <?php } ?>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
                      <?php

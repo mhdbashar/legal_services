@@ -2,6 +2,46 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
+        <?php if(isset($member)){ ?>
+            <div class="row" >
+                <div class="col-md-12">
+                    <div class="panel_s">
+                        <div class="panel-body no-padding-bottom">
+                            <?php $this->load->view('admin/staff/stats'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="member">
+                    <?php echo form_hidden('isedit'); ?>
+                    <?php echo form_hidden('memberid',$member->staffid); ?>
+                </div>
+                <?php if(isset($member)){ ?>
+
+                    <div class="col-md-12">
+                        <?php if(total_rows(db_prefix().'departments',array('email'=>$member->email)) > 0) { ?>
+                            <div class="alert alert-danger">
+                                The staff member email exists also as support department email, according to the docs, the support department email must be unique email in the system, you must change the staff email or the support department email in order all the features to work properly.
+                            </div>
+                        <?php } ?>
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <h4 class="no-margin"><?php echo $member->firstname . ' ' . $member->lastname; ?>
+                                    <?php if($member->last_activity && $member->staffid != get_staff_user_id()){ ?>
+                                        <small> - <?php echo _l('last_active'); ?>:
+                                            <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($member->last_activity); ?>">
+                              <?php echo time_ago($member->last_activity); ?>
+                        </span>
+                                        </small>
+                                    <?php } ?>
+<!--                                    <a href="#" onclick="small_table_full_view(); return false;" data-placement="left" data-toggle="tooltip" data-title="--><?php //echo _l('toggle_full_view'); ?><!--" class="toggle_view pull-right">-->
+<!--                                        <i class="fa fa-expand"></i></a>-->
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php } ?>
     	<?php $this->load->view('hr/details/hr_tabs') ?>
         <div class="row">
         	<div class="col-md-3">
@@ -59,51 +99,51 @@
 
 <script>
 
-  $(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#department_id').empty();
-            $('#department_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#department_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#department_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
-
-  $(document).on('change','#branch_id',function () {
-    $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
-        if (response.success == true) {
-            $('#office_shift_id').empty();
-            $('#office_shift_id').append($('<option>', {
-                value: '',
-                text: ''
-            }));
-            for(let i = 0; i < response.data.length; i++) {
-                let key = response.data[i].key;
-                let value = response.data[i].value;
-                $('#office_shift_id').append($('<option>', {
-                    value: key,
-                    text: value
-                }));
-                $('#office_shift_id').selectpicker('refresh');
-            }
-        } else {
-            alert_float('danger', response.message);
-        }
-    }, 'json');
-});
+//   $(document).on('change','#branch_id',function () {
+//     $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
+//         if (response.success == true) {
+//             $('#department_id').empty();
+//             $('#department_id').append($('<option>', {
+//                 value: '',
+//                 text: ''
+//             }));
+//             for(let i = 0; i < response.data.length; i++) {
+//                 let key = response.data[i].key;
+//                 let value = response.data[i].value;
+//                 $('#department_id').append($('<option>', {
+//                     value: key,
+//                     text: value
+//                 }));
+//                 $('#department_id').selectpicker('refresh');
+//             }
+//         } else {
+//             alert_float('danger', response.message);
+//         }
+//     }, 'json');
+// });
+//
+//   $(document).on('change','#branch_id',function () {
+//     $.get(admin_url + 'branches/get_office_shift/' + $(this).val(), function(response) {
+//         if (response.success == true) {
+//             $('#office_shift_id').empty();
+//             $('#office_shift_id').append($('<option>', {
+//                 value: '',
+//                 text: ''
+//             }));
+//             for(let i = 0; i < response.data.length; i++) {
+//                 let key = response.data[i].key;
+//                 let value = response.data[i].value;
+//                 $('#office_shift_id').append($('<option>', {
+//                     value: key,
+//                     text: value
+//                 }));
+//                 $('#office_shift_id').selectpicker('refresh');
+//             }
+//         } else {
+//             alert_float('danger', response.message);
+//         }
+//     }, 'json');
+// });
 
 $(document).ready(function(){
   <?php if(empty($branch)) $branch = 1 ?>
@@ -129,31 +169,31 @@ $(document).ready(function(){
     var office_shift = '';
     var designation = '';
   <?php  }  ?>
-  console.log(<?php echo $extra_info->sub_department ?>);
-  $.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
-      if (response.success == true) {
-          $('#department_id').empty();
-          $('#department_id').append($('<option>', {
-              value: '',
-              text: ''
-          }));
-          for(let i = 0; i < response.data.length; i++) {
-              let key = response.data[i].key;
-              let value = response.data[i].value;
-              let select = false;
-              if(key == department_id)
-                select = true;
-              $('#department_id').append($('<option>', {
-                  value: key,
-                  text: value,
-                  selected: select
-              }));
-              $('department_id').selectpicker('refresh');
-          }
-      } else {
-          alert_float('danger', response.message);
-      }
-  }, 'json');
+  //console.log(<?php //echo $extra_info->sub_department ?>//);
+  //$.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
+  //    if (response.success == true) {
+  //        $('#department_id').empty();
+  //        $('#department_id').append($('<option>', {
+  //            value: '',
+  //            text: ''
+  //        }));
+  //        for(let i = 0; i < response.data.length; i++) {
+  //            let key = response.data[i].key;
+  //            let value = response.data[i].value;
+  //            let select = false;
+  //            if(key == department_id)
+  //              select = true;
+  //            $('#department_id').append($('<option>', {
+  //                value: key,
+  //                text: value,
+  //                selected: select
+  //            }));
+  //            $('department_id').selectpicker('refresh');
+  //        }
+  //    } else {
+  //        alert_float('danger', response.message);
+  //    }
+  //}, 'json');
 
   $.get(admin_url + 'branches/get_office_shift/' + branch_id, function(response) {
         if (response.success == true) {

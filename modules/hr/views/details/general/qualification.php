@@ -1,6 +1,6 @@
  <?php $this->load->view('details/modals/qualification_modal') ?>
  <div class="_buttons">
-    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_qualification"><?php echo _l('new_qualification'); ?></a>
+   <?php if (has_permission('hr', '', 'create')){ ?> <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_qualification"><?php echo _l('new_qualification'); ?></a><?php } ?>
 </div>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />

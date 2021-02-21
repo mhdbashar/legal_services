@@ -4,8 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-//ShababSy.com Added this line
-
 /*
 Author: Babil Team
 Module Name: hr_name

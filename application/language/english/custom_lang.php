@@ -235,8 +235,8 @@ $lang['goals_name'] = "Goals";
 $lang['goals_desc'] = "Default module for defining goals";
 
 
-$lang['hr_name'] = "HR System";
-$lang['hr_desc'] = "Default module for Human Resources Management";
+$lang['hr_name'] = "H.R.M";
+$lang['hr_desc'] = "H.R.M";
 
 
 $lang['label_name'] = "Labels Management";

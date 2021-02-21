@@ -11,7 +11,7 @@ Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
 Version: 1.0.0
-Requires at least: 2.3.*
+Requires at least: 3.0.1
 Author URI: #
 
 */

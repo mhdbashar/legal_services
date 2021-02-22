@@ -46,26 +46,26 @@
 				                    <i class="fa fa-check-circle" aria-hidden="true"></i>
 				                    <?php echo _l('set_salary') ?>                                    </a>
 				                            </li>
-				                    <li class="project_tab_project_timesheets">
-				                <a data-group="leaves" role="tab" href="<?php echo admin_url('hr/details/leaves/'.$staff_id.'?group=leaves') ?>">
-				                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-				                    <?php echo _l('leaves') ?>                                    </a>
-				                            </li>
-				                    <li class="project_tab_project_milestones">
-				                <a data-group="projects" role="tab" href="<?php echo admin_url('hr/details/projects/'.$staff_id.'?group=projects') ?>">
-				                    <i class="fa fa-rocket" aria-hidden="true"></i>
-				                    <?php echo _l('projects') ?>                                     </a>
-				                            </li>
-				                    <li class="project_tab_project_files">
-				                <a data-group="project_files" role="tab" href="<?php echo admin_url('hr/details/tasks/'.$staff_id.'?group=tasks') ?>">
-				                    <i class="fa fa-files-o" aria-hidden="true"></i>
-				                    <?php echo _l('tasks') ?>                                     </a>
-				                            </li>
-				                    <li class="project_tab_project_discussions">
-				                <a data-group="project_discussions" role="tab" href="<?php echo admin_url('hr/details/payslips/'.$staff_id.'?group=payslips') ?>">
-				                    <i class="fa fa-commenting" aria-hidden="true"></i>
-				                    <?php echo _l('payslips') ?>                                     </a>
-				                            </li>
+<!--				                    <li class="project_tab_project_timesheets">-->
+<!--				                <a data-group="leaves" role="tab" href="--><?php //echo admin_url('hr/details/leaves/'.$staff_id.'?group=leaves') ?><!--">-->
+<!--				                    <i class="fa fa-clock-o" aria-hidden="true"></i>-->
+<!--				                    --><?php //echo _l('leaves') ?><!--                                    </a>-->
+<!--				                            </li>-->
+<!--				                    <li class="project_tab_project_milestones">-->
+<!--				                <a data-group="projects" role="tab" href="--><?php //echo admin_url('hr/details/projects/'.$staff_id.'?group=projects') ?><!--">-->
+<!--				                    <i class="fa fa-rocket" aria-hidden="true"></i>-->
+<!--				                    --><?php //echo _l('projects') ?><!--                                     </a>-->
+<!--				                            </li>-->
+<!--				                    <li class="project_tab_project_files">-->
+<!--				                <a data-group="project_files" role="tab" href="--><?php //echo admin_url('hr/details/tasks/'.$staff_id.'?group=tasks') ?><!--">-->
+<!--				                    <i class="fa fa-files-o" aria-hidden="true"></i>-->
+<!--				                    --><?php //echo _l('tasks') ?><!--                                     </a>-->
+<!--				                            </li>-->
+<!--				                    <li class="project_tab_project_discussions">-->
+<!--				                <a data-group="project_discussions" role="tab" href="--><?php //echo admin_url('hr/details/payslips/'.$staff_id.'?group=payslips') ?><!--">-->
+<!--				                    <i class="fa fa-commenting" aria-hidden="true"></i>-->
+<!--				                    --><?php //echo _l('payslips') ?><!--                                     </a>-->
+<!--				                            </li>-->
 					                
 					            </ul>
 						</div>

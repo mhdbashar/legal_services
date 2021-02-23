@@ -117,7 +117,7 @@ function hr_menu_items($item)
 //                                    </li>';
 //    }
     if (has_permission('hr', '', 'view')){
-        if($item['position']=='10'){
+        if(true){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li class="menu-item-hr">';
         echo '<a href="#" aria-expanded="false"> '._l('hr').'<span class="fa arrow-ar"></span></a>';

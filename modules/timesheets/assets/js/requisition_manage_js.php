@@ -18,9 +18,13 @@
       "department_filter": "[name='department_filter[]']",
     };
 
-    initDataTable(table_registration_leave,admin_url + 'timesheets/table_registration_leave', [0], [0],requisitionServerParams, [4, 'desc']); 
+    var table_contract = $('.table-table_contract');
+    initDataTable(table_registration_leave,admin_url + 'timesheets/table_registration_leave', [0], [0],requisitionServerParams, [1, 'desc']);
 
-    $.each(requisitionServerParams, function() {
+     //hide first column
+     var hidden_columns = [0];
+     $(table_registration_leave).DataTable().columns(hidden_columns).visible(false, false);
+     $.each(requisitionServerParams, function() {
       $('#status_filter').on('change', function() {
         table_registration_leave.DataTable().ajax.reload()
         .columns.adjust()
@@ -46,7 +50,7 @@
       });
     });
 
-    var addtimesheetServerParams = {
+     var addtimesheetServerParams = {
       "status_filter_ats": "[name='status_filter_ats[]']",
       "rel_type_filter_ats": "[name='rel_type_filter_ats[]']",
       "chose_ats": "[name='chose_ats']",
@@ -104,7 +108,7 @@
       $('#number_of_leaving_day').val(0);
       $('.btn-submit').removeAttr('disabled');    
       /*đi trễ về sơm , ra ngoài*/
-      if(value == 2 || value == 3)
+      if(value == 2 || value == 6 || value == 3)
       {
         appValidateForm($('#requisition-form'), {
           subject: 'required',
@@ -146,12 +150,16 @@
         $("div.end_time").removeClass('hide');
         $("div.start_time").removeClass('hide');
 
+        $('.date_input').removeClass('hide');
+        $('.datetime_input').addClass('hide');
       }else{
         $('div[id="number_days_off"]').addClass('hide');
         $('div[id="number_days_off_2"]').addClass('hide');
         $('div[id="type_of_leave"]').addClass('hide');
         $('div[id="type"]').removeClass('col-md-6');
         $('div[id="type"]').addClass('col-md-12');
+        $('.date_input').addClass('hide');
+        $('.datetime_input').removeClass('hide');
       }
 
       /*đi công tác*/
@@ -497,6 +505,7 @@
       $('#additional_timesheets_modal').append(response.html);
 
       $('#additional_timesheets_modal').modal('show');
+      $('select[name="approver_c"]').selectpicker('refresh');
     });
   }
 

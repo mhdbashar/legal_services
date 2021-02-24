@@ -25,9 +25,10 @@
                         <?php $related = [ 
                             3 => ['id' => 'additional_timesheets', 'name' => _l('additional_timesheets')],
                             4 => ['id' => 'Leave', 'name' => _l('Leave')],
-                            5 => ['id' => 'Late_early', 'name' => _l('Late_early')],
-                            6 => ['id' => 'Go_out', 'name' => _l('Go_out')],
-                            7 => ['id' => 'Go_on_bussiness', 'name' => _l('Go_on_bussiness')],
+                            5 => ['id' => 'late', 'name' => _l('late')],
+                            6 => ['id' => 'early', 'name' => _l('early')],
+                            7 => ['id' => 'Go_out', 'name' => _l('Go_out')],
+                            8 => ['id' => 'Go_on_bussiness', 'name' => _l('Go_on_bussiness')],
                           ]; 
                           $value = (isset($approval_setting)) ? $approval_setting->related : '';
                           ?>

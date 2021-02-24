@@ -68,7 +68,6 @@ function send_request_approve(id){
     data.rel_type = "<?php echo html_entity_decode($rel_type); ?>";
     data.addedfrom = <?php echo html_entity_decode($request_leave->staff_id); ?>;
 
-    console.log('data', "<?php echo html_entity_decode($rel_type); ?>");
 
   $("body").append('<div class="dt-loader"></div>');
     $.post(admin_url + 'timesheets/send_request_approve', data).done(function(response){

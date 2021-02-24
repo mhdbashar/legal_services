@@ -10,11 +10,16 @@ if (!defined('PHPEXCEL_ROOT')) {
 }
 
 if (!defined('CALCULATION_REGEXP_CELLREF')) {
+    //    Test for support of \P (multibyte options) in PCRE
     if (defined('PREG_BAD_UTF8_ERROR')) {
+        //    Cell reference (cell or range of cells, with or without a sheet reference)
         define('CALCULATION_REGEXP_CELLREF', '((([^\s,!&%^\/\*\+<>=-]*)|(\'[^\']*\')|(\"[^\"]*\"))!)?\$?([a-z]{1,3})\$?(\d{1,7})');
+        //    Named Range of cells
         define('CALCULATION_REGEXP_NAMEDRANGE', '((([^\s,!&%^\/\*\+<>=-]*)|(\'[^\']*\')|(\"[^\"]*\"))!)?([_A-Z][_A-Z0-9\.]*)');
     } else {
+        //    Cell reference (cell or range of cells, with or without a sheet reference)
         define('CALCULATION_REGEXP_CELLREF', '(((\w*)|(\'[^\']*\')|(\"[^\"]*\"))!)?\$?([a-z]{1,3})\$?(\d+)');
+        //    Named Range of cells
         define('CALCULATION_REGEXP_NAMEDRANGE', '(((\w*)|(\'.*\')|(\".*\"))!)?([_A-Z][_A-Z0-9\.]*)');
     }
 }
@@ -46,6 +51,9 @@ if (!defined('CALCULATION_REGEXP_CELLREF')) {
  */
 class PHPExcel_Calculation
 {
+    /** Constants                */
+    /** Regular Expressions        */
+    //    Numeric operand
     const CALCULATION_REGEXP_NUMBER        = '[-+]?\d*\.?\d+(e[-+]?\d+)?';
     //    String operand
     const CALCULATION_REGEXP_STRING        = '"(?:[^"]|"")*"';
@@ -261,6 +269,7 @@ class PHPExcel_Calculation
         'NULL'  => null
     );
 
+     //    PHPExcel functions
     private static $PHPExcelFunctions = array(
         'ABS' => array(
             'category' => PHPExcel_Calculation_Function::CATEGORY_MATH_AND_TRIG,
@@ -2050,6 +2059,7 @@ class PHPExcel_Calculation
         )
     );
 
+    //    Internal functions used for special control purposes
     private static $controlFunctions = array(
         'MKMATRIX' => array(
             'argumentCount' => '*',
@@ -4252,22 +4262,37 @@ class PHPExcel_Calculation
                 $pSheet = $this->workbook->getSheetByName($pSheetName);
             }
 
+            // Named range?
             $namedRange = PHPExcel_NamedRange::resolveRange($pRange, $pSheet);
             if ($namedRange !== null) {
                 $pSheet = $namedRange->getWorksheet();
+//                echo 'Named Range '.$pRange.' (';
                 $pRange = $namedRange->getRange();
                 $splitRange = PHPExcel_Cell::splitRange($pRange);
+                //    Convert row and column references
                 if (ctype_alpha($splitRange[0][0])) {
                     $pRange = $splitRange[0][0] . '1:' . $splitRange[0][1] . $namedRange->getWorksheet()->getHighestRow();
                 } elseif (ctype_digit($splitRange[0][0])) {
                     $pRange = 'A' . $splitRange[0][0] . ':' . $namedRange->getWorksheet()->getHighestColumn() . $splitRange[0][1];
                 }
+//                echo $pRange.') is in sheet '.$namedRange->getWorksheet()->getTitle().'<br />';
+
+//                if ($pSheet->getTitle() != $namedRange->getWorksheet()->getTitle()) {
+//                    if (!$namedRange->getLocalOnly()) {
+//                        $pSheet = $namedRange->getWorksheet();
+//                    } else {
+//                        return $returnValue;
+//                    }
+//                }
             } else {
                 return PHPExcel_Calculation_Functions::REF();
             }
 
+            // Extract range
             $aReferences = PHPExcel_Cell::extractAllCellReferencesInRange($pRange);
+//            var_dump($aReferences);
             if (!isset($aReferences[1])) {
+                //    Single cell (or single column or row) in range
                 list($currentCol, $currentRow) = PHPExcel_Cell::coordinateFromString($aReferences[0]);
                 $cellValue = null;
                 if ($pSheet->cellExists($aReferences[0])) {
@@ -4276,8 +4301,11 @@ class PHPExcel_Calculation
                     $returnValue[$currentRow][$currentCol] = null;
                 }
             } else {
+                // Extract cell data for all cells in the range
                 foreach ($aReferences as $reference) {
+                    // Extract range
                     list($currentCol, $currentRow) = PHPExcel_Cell::coordinateFromString($reference);
+//                    echo 'NAMED RANGE: $currentCol='.$currentCol.' $currentRow='.$currentRow.'<br />';
                     $cellValue = null;
                     if ($pSheet->cellExists($reference)) {
                         $returnValue[$currentRow][$currentCol] = $pSheet->getCell($reference)->getCalculatedValue($resetLog);
@@ -4286,6 +4314,8 @@ class PHPExcel_Calculation
                     }
                 }
             }
+//                print_r($returnValue);
+//            echo '<br />';
         }
 
         return $returnValue;

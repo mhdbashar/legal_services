@@ -65,7 +65,8 @@
            <div class="col-md-3">
             <select name="rel_type_filter[]" class="selectpicker" data-width="100%" id="rel_type_filter" multiple data-none-selected-text="<?php echo _l('filter_by_type'); ?>"> 
              <option value="1"><?php echo _l('Leave') ?></option>                  
-             <option value="2"><?php echo _l('Late_early') ?></option>                  
+             <option value="2"><?php echo _l('late') ?></option>                  
+             <option value="6"><?php echo _l('early') ?></option>                  
              <option value="3"><?php echo _l('Go_out') ?></option>                  
              <option value="4"><?php echo _l('Go_on_bussiness') ?></option>                  
            </select>
@@ -111,6 +112,7 @@
 
 <?php
 $table_data = array(
+ _l('id'),
  '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="table_registration_leave"><label></label></div>',
  _l('Subject'),
  _l('name'),
@@ -121,6 +123,7 @@ $table_data = array(
  _l('reason'),
  _l('Type'),
  _l('status'),
+ _l('date_created'),
  _l('options'),
 );
 render_datatable($table_data,'table_registration_leave',
@@ -215,7 +218,8 @@ render_datatable($table_data,'table_registration_leave',
                   <label for="rel_type" class="control-label"><?php echo _l('Type'); ?></label>
                   <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('none_type'); ?>"> 
                    <option value="1"><?php echo _l('Leave') ?></option>                  
-                   <option value="2"><?php echo _l('Late_early') ?></option>                  
+                   <option value="2"><?php echo _l('late') ?></option>                  
+                   <option value="6"><?php echo _l('early') ?></option>                  
                    <option value="3"><?php echo _l('Go_out') ?></option>                  
                    <option value="4"><?php echo _l('Go_on_bussiness') ?></option>                  
                  </select>
@@ -280,7 +284,7 @@ render_datatable($table_data,'table_registration_leave',
           <div class="row approx-fr mtop10">
            <div class="col-md-12">
             <?php  
-              $value_number_day = 0.5;                                   
+            $value_number_day = 0.5;                                   
             ?>
             <div class="form-group" app-field-wrapper="number_of_leaving_day">
               <label for="number_of_leaving_day" class="control-label"><?php echo _l('number_of_days'); ?></label>
@@ -292,17 +296,24 @@ render_datatable($table_data,'table_registration_leave',
             <label class="control-label <?php if($number_day_off == 0){echo 'text-danger';} ?>"><?php echo _l('number_of_leave_days_allowed').': '.$number_day_off; ?></label>
           </div>
         </div>
-        <div class="row mtop10">
+        <br>
+        <div class="row mtop10 date_input">
           <div class="col-md-6 start_time">
-            <label for="start_time" class="control-label"><?php echo _l('From_Date'); ?></label>
-            <?php echo render_date_input('start_time','',_d(date('Y-m-d'))) ?>
+            <?php echo render_date_input('start_time','From_Date',_d(date('Y-m-d'))) ?>
           </div>
           <div class="col-md-6 end_time">
-            <label for="end_time" class="control-label"><?php echo _l('To_Date'); ?></label>
-            <?php echo render_date_input('end_time','',_d(date('Y-m-d'))) ?>
+            <?php echo render_date_input('end_time','To_Date',_d(date('Y-m-d'))) ?>
           </div>
         </div>
 
+        <div class="row mtop10 datetime_input hide">
+          <div class="col-md-6 start_time">
+            <?php echo render_datetime_input('start_time_s','From_Date',_d(date('Y-m-d H:i:s'))) ?>
+          </div>
+          <div class="col-md-6 end_time">
+            <?php echo render_datetime_input('end_time_s','To_Date',_d(date('Y-m-d H:i:s'))) ?>
+          </div>
+        </div>
 
 
 

@@ -1,11 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div>
     <div class="_buttons">
-        <?php if(is_admin() || has_permission('hrm_setting','','create')) {?>
-            <a href="#" onclick="new_workplace_assign(); return false;" class="btn btn-info pull-left display-block">
-                <?php echo _l('add'); ?>
-            </a>
-        <?php } ?>
+        <a href="#" onclick="new_workplace_assign(); return false;" class="btn btn-info pull-left display-block">
+            <?php echo _l('add'); ?>
+        </a>
     </div>
     <div class="clearfix"></div>
     <br>
@@ -13,11 +11,11 @@
     <a href="#" onclick="staff_bulk_actions(); return false;"  data-table=".table-workplace_assign" data-target="#workplace_assign" class=" hide bulk-actions-btn table-btn"><?php echo _l('bulk_actions'); ?></a>                   
     <?php
     $table_data = array(
-       '<input type="checkbox" id="mass_select_all" data-to-table="workplace_assign">',
-       _l('staff'),
-       _l('workplace'),
-       _l('options')
-   );
+     '<input type="checkbox" id="mass_select_all" data-to-table="workplace_assign">',
+     _l('staff'),
+     _l('workplace'),
+     _l('options')
+    );
     render_datatable($table_data,'workplace_assign',
       array('customizable-table'),
       array(
@@ -70,23 +68,23 @@
         <?php echo form_open(admin_url('timesheets/delete_mass_workplace_assign'), array('id' => 'delete_mass_workplace_assign' )); ?>
         <div class="modal-content">
             <div class="modal-header">
-             <h4 class="modal-title"><?php echo _l('bulk_actions'); ?></h4>
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-         </div>
-         <div class="modal-body">
-          <div class="checkbox checkbox-danger">
-            <?php echo form_hidden('check_id'); ?>
-            <input type="checkbox" name="mass_delete" id="mass_delete">
-            <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
+               <h4 class="modal-title"><?php echo _l('bulk_actions'); ?></h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+              <div class="checkbox checkbox-danger">
+                <?php echo form_hidden('check_id'); ?>
+                <input type="checkbox" name="mass_delete" id="mass_delete">
+                <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
+            </div>
         </div>
-    </div>
-    <div class="modal-footer">
-     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-     <button type="submit" class="btn btn-primary"><?php echo _l('confirm'); ?></button>
- </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+           <button type="submit" class="btn btn-primary"><?php echo _l('confirm'); ?></button>
+       </div>
 
-</div>
-<?php echo form_close(); ?>
+   </div>
+   <?php echo form_close(); ?>
 </div>
 </div>
 

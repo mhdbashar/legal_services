@@ -57,6 +57,7 @@
   var hot = new Handsontable(hotElement, hotSettings);
 $('.shift_work_filter').click(function(){
     var data = {};
+    data.month = $('input[name="month_timesheets"]').val();
     data.staff = $('select[name="staff_timesheets_s[]"]').val();
     data.department = $('select[name="department_timesheets_s"]').val();
     data.role = $('select[name="role_timesheets_s"]').val();

@@ -42,9 +42,9 @@
                     <li class="customer_tab_contacts">
                       <a data-group='travel_mode' href="?group=travel_mode"><?php echo _l('travel_mode') ?></a>
                     </li>
-                    <li class="customer_tab_contacts">
-                      <a data-group='leave' href="?group=leave"><?php echo _l('leaves') ?></a>
-                    </li>
+<!--                    <li class="customer_tab_contacts">-->
+<!--                      <a data-group='leave' href="?group=leave">--><?php //echo _l('leaves') ?><!--</a>-->
+<!--                    </li>-->
                     <li class="customer_tab_contacts">
                       <a data-group='organizational_competencies' href="?group=organizational_competencies"><?php echo _l('organizational_competencies') ?></a>
                     </li>
@@ -56,9 +56,9 @@
                     <li class="customer_tab_contacts">
                         <a data-group='contract_type' href="?group=contract_type"><?php echo _l('contract_type') ?></a>
                     </li>
-                    <li class="customer_tab_contacts">
-                        <a data-group='allowance_type' href="?group=allowance_type"><?php echo _l('allowance_type') ?></a>
-                    </li>
+<!--                    <li class="customer_tab_contacts">-->
+<!--                        <a data-group='allowance_type' href="?group=allowance_type">--><?php //echo _l('allowance_type') ?><!--</a>-->
+<!--                    </li>-->
 <!--                    <li class="customer_tab_contacts">-->
 <!--                        <a data-group='payroll' href="?group=payroll">--><?php //echo _l('payroll') ?><!--</a>-->
 <!--                    </li>-->

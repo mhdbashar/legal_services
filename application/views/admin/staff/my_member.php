@@ -63,7 +63,6 @@
 					 
 					 <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'two-factor-authentication','active'=>0)) == 0){ ?>
                      
-					   <!-- Shababsy.com Changed this div -->
 					   <div class="radio radio-primary">
                         <input type="radio" value="0" name="two_factor_auth_enabled" id="two_factor_no_auth_enabled"<?php if(isset($member) && $member->two_factor_auth_enabled == 0){echo ' checked';} ?>>
 						<label for="two_factor_no_auth_enabled"><?php echo _l('disable_two_factor_authentication'); ?></label>

@@ -40,7 +40,7 @@
                </div>
             </div>
          </div>
-         <div class="quick-stats-invoices col-xs-12 col-md-2 col-sm-6">
+         <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
            <div class="top_stats_wrapper hrm-minheight85">
                <a class="text mbot15">
                <p class="text-uppercase mtop5 hrm-colorpurple hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-edit"></i> <?php echo _l('new_staff_for_month'); ?>
@@ -54,22 +54,9 @@
                </div>
             </div>
          </div>
-         <div class="quick-stats-invoices col-xs-12 col-md-2 col-sm-6">
-           <div class="top_stats_wrapper hrm-minheight85">
-               <a class="text-info mbot15">
-               <p class="text-uppercase mtop5 hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-envelope"></i> <?php echo _l('working'); ?>
-               </p>
-                  <span class="pull-right bold no-mtop hrm-fontsize24"><?php echo htmlspecialchars($data_dash['staff_working']); ?></span>
-               </a>
-               <div class="clearfix"></div>
-               <div class="progress no-margin progress-bar-mini">
-                  <div class="progress-bar progress-bar-info no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo htmlspecialchars($data_dash['staff_working']); ?>" aria-valuemin="0" aria-valuemax="<?php echo htmlspecialchars($data_dash['total_staff']); ?>" style="width: <?php echo htmlspecialchars($data_dash['staff_working']/$data_dash['total_staff']*100); ?>%" data-percent=" <?php echo htmlspecialchars($data_dash['staff_working']/$data_dash['total_staff']*100); ?>%">
-                  </div>
-               </div>
-            </div>
-         </div> 
+
         
-            <div class="quick-stats-invoices col-xs-12 col-md-2 col-sm-6">
+            <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
               <div class="top_stats_wrapper hrm-minheight85">
                   <a class="text-danger mbot15">
                   <p class="text-uppercase mtop5 hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-remove"></i> <?php echo _l('overdue_contract'); ?>

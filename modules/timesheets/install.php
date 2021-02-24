@@ -486,3 +486,26 @@ if (!$CI->db->field_exists('relate_type' ,db_prefix() . 'timesheets_timesheet'))
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_timesheet`
     ADD COLUMN `relate_type` varchar(25) NULL AFTER `relate_id`;');
 }
+if (!$CI->db->table_exists(db_prefix() . 'timesheets_go_bussiness_advance_payment')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_go_bussiness_advance_payment` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `requisition_leave` int(11) NOT NULL,
+      `used_to` varchar(200) NUll,
+      `amoun_of_money` varchar(200) NUll,
+      `request_date` DATE NULL,
+      `advance_payment_reason` TEXT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if ($CI->db->field_exists('days_off' ,db_prefix() . 'timesheets_day_off')) {
+  $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_day_off`
+    MODIFY `days_off` float NULL  DEFAULT 0'
+  );
+}
+if ($CI->db->field_exists('start_time' ,db_prefix() . 'timesheets_requisition_leave')) {
+  $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_requisition_leave`
+    MODIFY `start_time` datetime NULL,
+    MODIFY `end_time` datetime NULL'
+  );
+}

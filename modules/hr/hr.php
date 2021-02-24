@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-//ShababSy.com Added this line
 
 /*
 Author: Babil Team
@@ -25,7 +24,7 @@ hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 
 $CI = & get_instance();
 $CI->load->helper(HR_MODULE_NAME . '/hr');
-hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items');
+// hooks()->add_action('after_render_single_setup_menu', 'hr_menu_items');
 
 /**
  * Register language files, must be registered if the module is using languages
@@ -105,6 +104,7 @@ function hr_init_hrmApp(){
     $CI = & get_instance();
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
     $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
+
 }
 $CI = & get_instance();
 // $CI->app_modules->activate('branches');
@@ -122,7 +122,7 @@ function hr_menu_items($item)
         if($item['position']=='10'){
                 // echo '<ul><a href="#">HRM App</a></ul>';
         echo '<li class="menu-item-hr">';
-        echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
+        echo '<a href="#" aria-expanded="false"> '._l('hr').'<span class="fa arrow-ar"></span></a>';
 
         echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li><a href="'.admin_url('hr').'" aria-expanded="false">'._l('dashboard').'</span></a>
@@ -160,7 +160,7 @@ function hr_menu_items($item)
 ';
                         // <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
                         //         <ul class="nav nav-second-level collapse" aria-expanded="false">
-                                    
+
                         //             <li><a href="'.admin_url('hr/timesheet/attendance').'">'._l('attendance').'</a>
                         //             </li>
                         //             <li><a href="'.admin_url('hr/timesheet/calendar').'">'._l('calendar').'</a>

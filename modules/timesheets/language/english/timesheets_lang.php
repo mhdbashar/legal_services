@@ -745,6 +745,11 @@ $lang['reopen_attendance']       = 'Reopen attendance';
 $lang['notify_send_request_approve_project']  = 'Notify request approve project';
 $lang['cancel_successful']  = 'Cancel successful';
 $lang['cancel_failed']  = 'Cancel failed';
+$lang['late']  = 'Late for work';
+$lang['early']  = 'Go home early';
+$lang['CT_timekeeping']  = 'Business trip';
+$lang['P_timekeepings'] = 'Private work';
+$lang['CD_timekeeping'] = 'Sick leave';
 
 
 

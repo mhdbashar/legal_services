@@ -45,9 +45,6 @@
 							_l('completed_with_hr_system'),
 							_l('staff_dt_active'),
 							);
-						if($this->app_modules->is_active('branches')){
-					        $table_data[] = _l('branch_name');
-					  }
 						$custom_fields = get_custom_fields('staff',array('show_on_table'=>1));
 						foreach($custom_fields as $field){
 							array_push($table_data,$field['name']);
@@ -106,7 +103,7 @@
         };
         table_staff = $('table.table-staff');
 
-        initDataTable('.table-staff', window.location.href, '', '', StaffServerParams);
+        initDataTable('.table-staff', window.location.href, undefined, undefined, StaffServerParams);
 
         $.each(StaffServerParams, function() {
             $('#hrm_deparment').on('change', function() {

@@ -155,20 +155,25 @@ $(document).ready(function(){
   ?>
   var department_id = <?php echo $departmentid ?>;
   console.log(department_id);
-  <?php if(is_numeric($extra_info->sub_department)){ ?>
+    <?php if(is_numeric($extra_info->sub_department)){ ?>
     var sub_departmant = <?php echo $extra_info->sub_department ?>;
-    var designation = <?php echo $extra_info->designation ?>;
-    var office_shift = 
-    <?php 
-      if(($extra_info->office_sheft) != '') 
-        echo $extra_info->office_sheft; 
-      else echo 0 ;
-    ?>;
-  <?php }else{ ?>
+    var office_shift =
+        <?php
+        if(($extra_info->office_sheft) != '')
+            echo $extra_info->office_sheft;
+        else echo 0 ;
+        ?>;
+    <?php }else{ ?>
     var sub_departmant = '';
     var office_shift = '';
+    <?php  }  ?>
+
+    <?php if(is_numeric($extra_info->designation)){ ?>
+    var designation = <?php echo $extra_info->designation ?>;
+
+    <?php }else{ ?>
     var designation = '';
-  <?php  }  ?>
+    <?php  }  ?>
   //console.log(<?php //echo $extra_info->sub_department ?>//);
   //$.get(admin_url + 'branches/getDepartments/' + branch_id, function(response) {
   //    if (response.success == true) {

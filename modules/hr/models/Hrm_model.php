@@ -16,7 +16,7 @@ class hrm_model extends App_Model
      */
     public function add_staff($data)
     {
-        $data['birthday']             = to_sql_date($data['birthday']);
+        $data['date_birth']             = to_sql_date($data['date_birth']);
         $data['days_for_identity']    = to_sql_date($data['days_for_identity']);
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);
@@ -134,7 +134,7 @@ class hrm_model extends App_Model
             unset($data['DataTables_Table_0_length']);
         }
         $data['date_update']          = date('Y-m-d');
-        $data['birthday']             = to_sql_date($data['birthday']);
+        $data['date_birth']             = to_sql_date($data['date_birth']);
         $data['days_for_identity']    = to_sql_date($data['days_for_identity']);
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);
@@ -1655,7 +1655,7 @@ class hrm_model extends App_Model
 
         //get array staff form dp, role, position
 
-        $sql = "SELECT staffid, staff_identifi, email, firstname, phonenumber, sex, birthday, name_account, account_number, issue_bank FROM ".db_prefix().'staff WHERE 1 = 1';
+        $sql = "SELECT staffid, staff_identifi, email, firstname, phonenumber, sex, name_account, account_number, issue_bank FROM ".db_prefix().'staff WHERE 1 = 1';
 
         if($get_payroletype->department_id != 'null'){
             $searchVal = array('[', ']', '"');
@@ -1749,7 +1749,7 @@ class hrm_model extends App_Model
         $arr_select_tblstaff['firstname'] = 'tblstaff.firstname as firstname';
         $arr_select_tblstaff['sex'] = 'tblstaff.sex as sex';
         $arr_select_tblstaff['email'] = 'tblstaff.email as email';
-        $arr_select_tblstaff['birthday'] = 'tblstaff.birthday as birthday';
+        // $arr_select_tblstaff['birthday'] = 'tblstaff.birthday as birthday';
         $arr_select_tblstaff['phonenumber'] = 'tblstaff.phonenumber as phonenumber';
         $arr_select_tblstaff['issue_bank'] = 'tblstaff.issue_bank as issue_bank';
         $arr_select_tblstaff['name_account'] = 'tblstaff.name_account as name_account';
@@ -1775,8 +1775,8 @@ class hrm_model extends App_Model
         $arr_leftjoin_select['name'] = ' tbldepartments.name as name';
         $arr_leftjoin_on['name'] = ' LEFT JOIN tblstaff_departments on tblstaff_departments.staffid = tblstaff.staffid LEFT JOIN tbldepartments ON tbldepartments.departmentid = tblstaff_departments.departmentid ' ;
 
-        $arr_leftjoin_select['work_place'] = ' tblworkplace.workplace_name as work_place';
-        $arr_leftjoin_on['work_place'] = ' LEFT JOIN tblworkplace on tblstaff.workplace = tblworkplace.workplace_id';
+//        $arr_leftjoin_select['work_place'] = ' tblworkplace.workplace_name as work_place';
+//        $arr_leftjoin_on['work_place'] = ' LEFT JOIN tblworkplace on tblstaff.workplace = tblworkplace.workplace_id';
 
         $arr_leftjoin_select_tblstaff_contract['contract_code'] = ' tblstaff_contract.contract_code as contract_code';
 
@@ -2189,16 +2189,16 @@ public function evalmath($equation)
         $staff = $this->staff_model->get();
         $total_staff = count($staff);
         $new_staff_in_month = $this->db->query('SELECT * FROM tblstaff WHERE MONTH(datecreated) = '.date('m').' AND YEAR(datecreated) = '.date('Y'))->result_array();
-        $staff_working = $this->db->query('SELECT * FROM tblstaff WHERE status_work = "working"')->result_array();
-		$staff_birthday = $this->db->query('SELECT * FROM tblstaff WHERE DATEDIFF(NOW(),`birthday`)%365 BETWEEN 0 AND 7 ORDER BY birthday ASC')->result_array();
-        $staff_inactivity = $this->db->query('SELECT * FROM tblstaff WHERE status_work = "inactivity" AND MONTH(date_update) = '.date('m').' AND YEAR(date_update) = '.date('Y'))->result_array();
+        // $staff_working = $this->db->query('SELECT * FROM tblstaff WHERE status_work = "working"')->result_array();
+		$staff_birthday = $this->db->query('SELECT * FROM tblhr_extra_info WHERE DATEDIFF(NOW(),`date_birth`)%365 BETWEEN 0 AND 7 ORDER BY date_birth ASC')->result_array();
+        // $staff_inactivity = $this->db->query('SELECT * FROM tblstaff WHERE status_work = "inactivity" AND MONTH(date_update) = '.date('m').' AND YEAR(date_update) = '.date('Y'))->result_array();
         $overdue_contract = $this->db->query('SELECT * FROM tblstaff_contract WHERE end_valid < "'.date('Y-m-d').'"')->result_array();
         $expire_contract = $this->db->query('SELECT * FROM tblstaff_contract WHERE end_valid <= "'.date('Y-m-d',strtotime('+7 day',strtotime(date('Y-m-d')))).'" AND end_valid >= "'.date('Y-m-d').'"')->result_array();
         $data_hrm['staff_birthday'] = $staff_birthday;
         $data_hrm['total_staff'] = $total_staff;
         $data_hrm['new_staff_in_month'] = count($new_staff_in_month);
-        $data_hrm['staff_working'] = count($staff_working);
-        $data_hrm['staff_inactivity'] = count($staff_inactivity);
+        $data_hrm['staff_working'] = 0;
+        $data_hrm['staff_inactivity'] = 0;
         $data_hrm['overdue_contract'] = count($overdue_contract);
         $data_hrm['expire_contract'] = count($expire_contract);
         $data_hrm['overdue_contract_data'] = $overdue_contract;
@@ -2209,6 +2209,8 @@ public function evalmath($equation)
     public function staff_chart_by_age()
     {
         $staffs = $this->staff_model->get();
+        $this->load->model('Extra_info_model');
+        $staffs = $this->Extra_info_model->get_staffs();
 
         $chart = [];
         $status_1 = ['name' => _l('18-24'), 'color' => '#777', 'y' => 0, 'z' => 100];
@@ -2218,7 +2220,7 @@ public function evalmath($equation)
         
         foreach ($staffs as $staff) {
 
-        $diff = date_diff(date_create(), date_create($staff['birthday']));
+        $diff = date_diff(date_create(), date_create($staff['date_birth']));
         $age = $diff->format('%Y');
 		
           if($age >= 18 && $age <= 24)
@@ -2294,28 +2296,7 @@ public function evalmath($equation)
         return $_data;
     }
     public function get_department_tree(){
-        $department =  $this->db->query('select  departmentid as id, parent_id as pid, name
-            from    (select departmentid, parent_id, d.name as name
-        from '.db_prefix().'departments as d         
-        order by d.parent_id, d.departmentid) departments_sorted,
-        (select @pv := "0") initialisation
-        where   find_in_set(parent_id, @pv)
-                and     length(@pv := concat(@pv, ",", departmentid))')->result_array();
-        
-        $dep_tree = array();
-        foreach ($department as $dep) {
-            if($dep['pid']==0){
-                $node = array();
-                $node['id'] = $dep['id'];
-                $node['title'] = $dep['name'];
-                $node['subs'] = $this->get_child_node($dep['id'], $department);
-
-                $dep_tree[] = $node;
-            } else {
-                break;
-            }            
-        }                      
-        return $dep_tree;
+        return null;
     }
 
     /**

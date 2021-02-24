@@ -70,6 +70,10 @@ $lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
 $lang['active'] = 'مفعلة';
 $lang['inactive'] = 'غير مفعلة';
 
+$lang['Male'] = 'ذكر';
+$lang['Female'] = 'أنثى';
+$lang['loan_note'] = 'سيتم اقتطاع قيمة هذا القرض من راتب الموظف بشكل شهري خلال المدة المحدد للقرض';
+
 $lang['filter_by_departments'] = 'الفلترة بحسب الأقسام';
 
 $lang['you_have_to_complete_staff_informations'] = 'يجب اكمال معلومات الموظفين';
@@ -318,7 +322,7 @@ $lang['email_queue_enabled_exp'] = "لتسريع عملية البريد الإ�
 $lang['cronjob_req'] = "تتطلب هذه الميزة مهمة من نوع cron مضبوطة بشكل صحيح. قبل تنشيط هذه الميزة ، تأكد من تكوين اعدادت وظيفة cron ";
 $lang['settings_sales_bo_box'] = "صندوق البريد";
 $lang['global_hr_setting'] = "الاعدادات الرئيسية";
-$lang['hr'] = "الموارد البشرية";
+$lang['hr'] = "H.R.M";
 $lang['date_wise_attendance'] = "تقويم الحضور وفق تاريخ معين";
 $lang['attendance_date'] = "ضبط وقت الحضور";
 $lang['calendar_date'] = "ضبط وقت التقويم";
@@ -623,7 +627,7 @@ $lang['holiday'] = "العطل";
 $lang['fullname'] = "الاسم الكامل";
 $lang['official'] = "الرسمية";
 $lang['deleted_successfully'] = "تم الحذف بنجاح";
-$lang['arrangement'] = "الترتيب";
+$lang['arrangement'] = "نظام الانتداب";
 $lang['add_arrangement_type'] = "اضافة ترتيب جديد";
 $lang['staff'] = "الموظف";
 $lang['constants'] = "الثوابت";
@@ -638,7 +642,7 @@ $lang['net_salary'] = "الراتب الأساسي";
 $lang['payment_amount'] = "الاجمالي";
 $lang['make_payment'] = "قم بالدفع";
 $lang['procurationtype'] = "نوع الوكالة";
-$lang['arrangement_type'] = "نوع الترتيب";
+$lang['arrangement_type'] = "نظام الانتداب";
 $lang['travel_mode_type'] = "وضع السفر";
 $lang['expected_budget'] = "الميزانية المتوقعة";
 $lang['actual_budget'] = "الميزانية الفعلية";
@@ -663,7 +667,7 @@ $lang['complaints'] = "الشكاوي";
 $lang['core_hr'] = "الموارد البشرية الأساسية";
 $lang['to_department'] = "الى القسم";
 $lang['to_sub_department'] = "الى القسم الفرعي";
-$lang['new_warning'] = "تحذير جديدة";
+$lang['new_warning'] = "توجيه انذار";
 $lang['new_award'] = "جائزة جديدة";
 $lang['new_termination'] = "انهاء عمل جديدة";
 $lang['attachment'] = "الملف";
@@ -677,11 +681,11 @@ $lang['termination_type'] = "نوع انهاء العمل";
 $lang['gift'] = "الهدية";
 $lang['cash'] = "كاش";
 $lang['date_birth'] = "تاريخ الميلاد";
-$lang['gendre'] = "النوع الاجتماعي";
+$lang['gendre'] = "الجنس";
 $lang['emloyee_id'] = "رقم الموظف";
 $lang['office_sheft'] = "Office Sheft";
 $lang['branch_name'] = "اسم الفرع";
-$lang['professional_courses'] = "الكورسات الاحترافية";
+$lang['professional_courses'] = "الدورات";
 $lang['branches'] = "الفروع";
 $lang['add_new_procuration'] = "اضافة وكالة جديدة";
 $lang['edit_procuration'] = "تعديل الوكالة";
@@ -704,7 +708,8 @@ $lang['procuration_file'] = "ملف الوكالة";
 $lang['payroll'] = "إجرائية الدفع";
 $lang['holidays'] = "العطل";
 $lang['settings'] = "الاعدادات";
-$lang['official_documents'] = "مستندات رسمية";
+$lang['official_documents'] = "الوثائق الرسمية";
+$lang['staff_documents'] = "وثائق الموظف";
 $lang['new_document'] = "وثيقة جديدة";
 $lang['expired_documents'] = "المستندات منتهية الصلاحية";
 $lang['education'] = "التعليم";
@@ -723,7 +728,7 @@ $lang['ext'] = "Ext";
 $lang['address_2'] = "العنوان الثاني";
 $lang['address_1'] = "العنوان الأول";
 $lang['document_number'] = "رقم الوثيقة الرسمية";
-$lang['eligible_review_date'] = "تاريخ المراجعة المؤهل";
+$lang['eligible_review_date'] = "تاريخ التنبيه قبل انتهاء الصلاحية";
 $lang['issue_date'] = "تاريخ الاصدار";
 $lang['notification_email'] = "البريد الإلكتروني الإخطار";
 $lang['add_skill_type'] = "اضافة نوع من المهارات";

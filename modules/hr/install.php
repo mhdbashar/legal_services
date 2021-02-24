@@ -31,6 +31,15 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_setting')) {
     }
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'workplace')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "workplace` (
+      `workplace_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `workplace_name` varchar(200) NOT NULL,
+      PRIMARY KEY (`workplace_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_leaves')) {           
     $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leaves` (
       `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -663,11 +672,11 @@ if (row_options_exist('"sign_a_labor_contract"') == 0){
 ');
 }
 
-if (!$CI->db->field_exists('job_position' ,db_prefix() . 'staff')) {
-    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
-ADD COLUMN `job_position` int(11) NULL AFTER `orther_infor`,
-ADD COLUMN `workplace` int(11) NULL AFTER `job_position`');
-}
+//if (!$CI->db->field_exists('job_position' ,db_prefix() . 'staff')) {
+//    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+//ADD COLUMN `job_position` int(11) NULL AFTER `orther_infor`,
+//ADD COLUMN `workplace` int(11) NULL AFTER `job_position`');
+//}
 
 if (!$CI->db->table_exists(db_prefix() . 'job_position')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "job_position` (

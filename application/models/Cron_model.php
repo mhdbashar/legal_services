@@ -67,6 +67,8 @@ class Cron_model extends App_Model
             $this->procurations_reminders();
             if($this->app_modules->is_active('hr')){
                 $this->document_reminders();
+                $this->official_document_reminders();
+                $this->immigration_reminders();
             }
             $this->recurring_tasks();
             $this->proposals();
@@ -1016,7 +1018,7 @@ class Cron_model extends App_Model
                                 'fromcompany'     => 1,
                                 'fromuserid'      => null,
                                 'link'            => 'hr/general/general/' . $document['staff_id'] . '?group=document',
-                                
+
                             ]);
 
                             if ($notified) {
@@ -1038,15 +1040,86 @@ class Cron_model extends App_Model
 
         pusher_trigger_notification($notifiedUsers);
 
+    }
+
+    private function immigration_reminders()
+    {
+        $reminder_before = get_option('hr_document_reminder_notification_before');
+
+        // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+        $this->db->where('date_expiry IS NOT NULL');
+        $this->db->where('deadline_notified', 0);
+        // $this->db->where('is_notification', 1);
+
+        $documents = $this->db->get(db_prefix() . 'hr_immigration')->result_array();
+
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+        foreach ($documents as $document) {
+            if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
+                $end_date = new DateTime($document['date_expiry']);
+                $diff    = $end_date->diff($now)->format('%a');
+                // Check if difference between start date and date_expiry is the same like the reminder before
+                // In this case reminder wont be sent becuase the document it too short
+                $end_date                 = strtotime($document['date_expiry']);
+                $start_and_end_date_diff = $end_date;
+                $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+                if (date('Y-m-d', strtotime($document['eligible_review_date'])) == date('Y-m-d')){
+                    $this->db->where('admin', 1);
+                    $assignees = $this->staff_model->get();
+
+                    foreach ($assignees as $member) {
+                        $row = $this->db->get(db_prefix() . 'staff')->row();
+                        if ($row) {
+                            $notified = add_notification([
+                                'description'     => 'not_document_deadline_reminder',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => null,
+                                'link'            => 'hr/general/general/' . $document['staff_id'] . '?group=immigration',
+
+                            ]);
+
+                            if ($notified) {
+                                array_push($notifiedUsers, $member['staffid']);
+                            }
+
+                            send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+                            $this->db->where('id', $document['id']);
+                            $this->db->update(db_prefix() . 'hr_immigration', [
+                                'deadline_notified' => 1,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        pusher_trigger_notification($notifiedUsers);
+
+    }
+
+    private function official_document_reminders()
+    {
+        $reminder_before = get_option('hr_document_reminder_notification_before');
+
+        // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
 
         $this->db->where('date_expiry IS NOT NULL');
         $this->db->where('deadline_notified', 0);
         $this->db->where('is_notification', 1);
 
-        $official_documents = $this->db->get(db_prefix() . 'hr_official_documents')->result_array();
-        $notifiedUsers = [];
+        $documents = $this->db->get(db_prefix() . 'hr_official_documents')->result_array();
 
-        foreach ($official_documents as $document) {
+        $now   = new DateTime(date('Y-m-d'));
+
+        $notifiedUsers = [];
+        foreach ($documents as $document) {
             if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
                 $end_date = new DateTime($document['date_expiry']);
                 $diff    = $end_date->diff($now)->format('%a');
@@ -1064,12 +1137,12 @@ class Cron_model extends App_Model
                         $row = $this->db->get(db_prefix() . 'staff')->row();
                         if ($row) {
                             $notified = add_notification([
-                                'description'     => 'not__official_document_deadline_reminder',
+                                'description'     => 'not_document_deadline_reminder',
                                 'touserid'        => $member['staffid'],
                                 'fromcompany'     => 1,
                                 'fromuserid'      => null,
                                 'link'            => 'hr/organization/officail_documents',
-                                
+
                             ]);
 
                             if ($notified) {
@@ -1090,6 +1163,8 @@ class Cron_model extends App_Model
         }
 
         pusher_trigger_notification($notifiedUsers);
+
+
     }
 
     private function staff_reminders()
@@ -1291,6 +1366,8 @@ class Cron_model extends App_Model
         $this->load->model('leads_model');
         $mail = $this->leads_model->get_email_integration();
 
+        if(!is_object($mail))
+            return false;
         if ($mail->active == 0) {
             return false;
         }

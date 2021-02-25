@@ -20,6 +20,12 @@ register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('app_admin_head', 'hr_add_head_components');
 hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
+
+hooks()->add_action('after_cron_settings_last_tab', 'add_hr_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_hr_reminder_tab_content');
+hooks()->add_action('after_cron_run', 'document_reminders');
+hooks()->add_action('after_cron_run', 'immigration_reminders');
+hooks()->add_action('after_cron_run', 'official_document_reminders');
 // hooks()->add_action('admin_init', 'hr_module_init_menu_items');
 
 $CI = & get_instance();
@@ -30,6 +36,210 @@ $CI->load->helper(HR_MODULE_NAME . '/hr');
  * Register language files, must be registered if the module is using languages
  */
 register_language_files(HR_MODULE_NAME, [HR_MODULE_NAME]);
+
+function add_hr_reminder_tab(){
+    echo '
+    <li role="presentation">
+    <a href="#hr_document" aria-control="hr_document" role="tab" data-toggle="tab">'._l('hr_document').'</a>
+    </li>';
+}
+
+function add_hr_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="hr_document">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_document_reminder_notification_before_help').'"></i>
+   '.render_input('settings[hr_document_reminder_notification_before]','hr_document_reminder_notification_before',get_option('hr_document_reminder_notification_before'),'number').'
+ </div>  ';
+}
+
+function immigration_reminders()
+{
+    $CI = & get_instance();
+    $reminder_before = get_option('hr_document_reminder_notification_before');
+
+    // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+    $CI->db->where('date_expiry IS NOT NULL');
+    $CI->db->where('deadline_notified', 0);
+    // $CI->db->where('is_notification', 1);
+
+    $documents = $CI->db->get(db_prefix() . 'hr_immigration')->result_array();
+
+    $now   = new DateTime(date('Y-m-d'));
+
+    $notifiedUsers = [];
+    foreach ($documents as $document) {
+        if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
+            $end_date = new DateTime($document['date_expiry']);
+            $diff    = $end_date->diff($now)->format('%a');
+            // Check if difference between start date and date_expiry is the same like the reminder before
+            // In this case reminder wont be sent becuase the document it too short
+            $end_date                 = strtotime($document['date_expiry']);
+            $start_and_end_date_diff = $end_date;
+            $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+            if (date('Y-m-d', strtotime($document['eligible_review_date'])) == date('Y-m-d')){
+                $CI->db->where('admin', 1);
+                $assignees = $CI->staff_model->get();
+
+                foreach ($assignees as $member) {
+                    $row = $CI->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_document_deadline_reminder',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'hr/general/general/' . $document['staff_id'] . '?group=immigration',
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member['staffid']);
+                        }
+
+                        send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+                        $CI->db->where('id', $document['id']);
+                        $CI->db->update(db_prefix() . 'hr_immigration', [
+                            'deadline_notified' => 1,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    pusher_trigger_notification($notifiedUsers);
+
+}
+
+function official_document_reminders()
+{
+    $CI = & get_instance();
+    $reminder_before = get_option('hr_document_reminder_notification_before');
+
+    // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+    $CI->db->where('date_expiry IS NOT NULL');
+    $CI->db->where('deadline_notified', 0);
+    $CI->db->where('is_notification', 1);
+
+    $documents = $CI->db->get(db_prefix() . 'hr_official_documents')->result_array();
+
+    $now   = new DateTime(date('Y-m-d'));
+
+    $notifiedUsers = [];
+    foreach ($documents as $document) {
+        if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
+            $end_date = new DateTime($document['date_expiry']);
+            $diff    = $end_date->diff($now)->format('%a');
+            // Check if difference between start date and date_expiry is the same like the reminder before
+            // In this case reminder wont be sent becuase the document it too short
+            $end_date                 = strtotime($document['date_expiry']);
+            $start_and_end_date_diff = $end_date;
+            $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+            if ($diff <= $reminder_before) {
+                $CI->db->where('admin', 1);
+                $assignees = $CI->staff_model->get();
+
+                foreach ($assignees as $member) {
+                    $row = $CI->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_document_deadline_reminder',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'hr/organization/officail_documents',
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member['staffid']);
+                        }
+
+                        send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+                        $CI->db->where('id', $document['id']);
+                        $CI->db->update(db_prefix() . 'hr_official_documents', [
+                            'deadline_notified' => 1,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    pusher_trigger_notification($notifiedUsers);
+
+
+}
+
+function document_reminders()
+{
+    $CI = & get_instance();
+    $reminder_before = get_option('hr_document_reminder_notification_before');
+
+    // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+    $CI->db->where('date_expiry IS NOT NULL');
+    $CI->db->where('deadline_notified', 0);
+    $CI->db->where('is_notification', 1);
+
+    $documents = $CI->db->get(db_prefix() . 'hr_documents')->result_array();
+
+    $now   = new DateTime(date('Y-m-d'));
+
+    $notifiedUsers = [];
+    foreach ($documents as $document) {
+        if (date('Y-m-d', strtotime($document['date_expiry'])) >= date('Y-m-d')) {
+            $end_date = new DateTime($document['date_expiry']);
+            $diff    = $end_date->diff($now)->format('%a');
+            // Check if difference between start date and date_expiry is the same like the reminder before
+            // In this case reminder wont be sent becuase the document it too short
+            $end_date                 = strtotime($document['date_expiry']);
+            $start_and_end_date_diff = $end_date;
+            $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+            if ($diff <= $reminder_before) {
+                $CI->db->where('admin', 1);
+                $assignees = $CI->staff_model->get();
+
+                foreach ($assignees as $member) {
+                    $row = $CI->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_document_deadline_reminder',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'hr/general/general/' . $document['staff_id'] . '?group=document',
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member['staffid']);
+                        }
+
+                        send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $document['id']);
+
+
+                        $CI->db->where('id', $document['id']);
+                        $CI->db->update(db_prefix() . 'hr_documents', [
+                            'deadline_notified' => 1,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    pusher_trigger_notification($notifiedUsers);
+
+}
 
 function accepted_pages($pages = []){
     if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
@@ -77,6 +287,7 @@ function hr_add_head_components(){
 function hr_add_footer_components(){
     $CI = &get_instance();
     $viewuri = $_SERVER['REQUEST_URI'];
+    
 
     echo '<script src="'.module_dir_url('hr', 'assets/plugins/ComboTree/comboTreePlugin.js').'"></script>';
     echo '<script src="'.module_dir_url('hr', 'assets/plugins/ComboTree/icontains.js').'"></script>';
@@ -235,11 +446,11 @@ echo '
     //     echo '<a href="#" aria-expanded="false"> '._l('hr_system').'<span class="fa arrow-ar"></span></a>';
 
     //     echo '<ul class="nav nav-second-level collapse" aria-expanded="false">
-                       
+
 
     //                     <li><a href="#" aria-expanded="false">'._l('timesheet').'<span class="fa arrow-ar"></span></a>
     //                             <ul class="nav nav-second-level collapse" aria-expanded="false">
-                                    
+
     //                                 <li><a href="'.admin_url('hr/timesheet/leaves').'">'._l('leaves').'</a>
     //                                 </li>
     //                                 <li><a href="'.admin_url('hr/timesheet/overtime_requests').'">'._l('overtime_requests').'</a>
@@ -253,7 +464,7 @@ echo '
 }
 
     /*
-    
+
     $CI->app->add_quick_actions_link([
             'name'       => _l('staff'),
             'permission' => 'hr',
@@ -261,16 +472,16 @@ echo '
             'position'   => 70,
             ]);
 
-            
+
         $CI->app_menu->add_sidebar_menu_item('employee-system', [
             'collapse' => true,
             'name'     => _l("employees"),
             'position' => 7,
             'icon'     => 'fa fa-users',
         ]);
-        
+
     if (has_permission('employee', '', 'view')) {
-         
+
         $CI->app_menu->add_sidebar_children_item('employee-system', [
                 'slug'     => 'Staff',
                 'name'     => _l('staff'),
@@ -283,7 +494,7 @@ echo '
                 'href'     => admin_url('hr/general/expired_documents'),
                 'position' => 30,
         ]);
-                
+
     }
 
     $CI->app->add_quick_actions_link([
@@ -293,16 +504,16 @@ echo '
             'position'   => 70,
             ]);
 
-            
+
         $CI->app_menu->add_sidebar_menu_item('organization-system', [
             'collapse' => true,
             'name'     => _l('organization'),
             'position' => 7,
             'icon'     => 'fa fa-users',
         ]);
-        
+
     if (has_permission('organization', '', 'view')) {
-         
+
         $CI->app_menu->add_sidebar_children_item('organization-system', [
                 'slug'     => 'Branch',
                 'name'     => _l('branch'),
@@ -333,7 +544,7 @@ echo '
                 'href'     => admin_url('hr/organization/designation'),
                 'position' => 36,
         ]);
-                
+
     }
 }
 */

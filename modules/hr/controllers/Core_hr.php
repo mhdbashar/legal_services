@@ -748,6 +748,9 @@ class Core_hr extends AdminController{
 
     public function add_termination(){
         $data = $this->input->post();
+        $this->db->where('staffid', $data['staff_id']);
+        $staff = $this->db->get(db_prefix() . 'staff')->row();
+
 //        if($this->app_modules->is_active('branches')){
 //            $branch_id = $this->input->post()['branch_id'];
 //
@@ -757,8 +760,12 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Terminations_model->add($data);
-        if($success)
+        if($success){
+            $this->db->where('id', $success);
+            $termination = $this->db->get('hr_terminations')->row();
+            send_mail_template('termination_staff_to_staff', $termination, $staff);
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 

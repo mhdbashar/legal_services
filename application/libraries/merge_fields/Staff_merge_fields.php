@@ -12,6 +12,7 @@ class Staff_merge_fields extends App_merge_fields
                     'key'       => '{staff_fullname}',
                     'available' => [
                         'staff',
+                        'termination',
                         'gdpr',
                     ],
                     'templates' => [
@@ -58,6 +59,7 @@ class Staff_merge_fields extends App_merge_fields
                     'key'       => '{staff_email}',
                     'available' => [
                         'staff',
+                        'termination',
                     ],
                     'templates' => [
                         'new-project-discussion-created-to-staff',
@@ -71,6 +73,7 @@ class Staff_merge_fields extends App_merge_fields
                     'key'       => '{staff_datecreated}',
                     'available' => [
                         'staff',
+                        'termination',
                     ],
                 ],
                 [

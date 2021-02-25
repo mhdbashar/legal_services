@@ -316,6 +316,200 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
     $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
+    $CI->app_menu->add_setup_menu_item('hr', [
+        'name'     => _l("hr"), // The name if the item
+        'href'     => '#', // URL of the item
+        'position' => 10, // The menu position, see below for default positions.
+        // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
+    ]);
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'dashboard',
+            'name'     => _l('dashboard'),
+            'href'     => admin_url('hr'),
+            'position' => 5,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'staff',
+            'name'     => _l('staff'),
+            'href'     => admin_url('hr/general/staff'),
+            'position' => 5,
+        ]);
+    }
+
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'expired_documents',
+            'name'     => _l('expired_documents'),
+            'href'     => admin_url('hr/general/expired_documents'),
+            'position' => 10,
+        ]);
+    }
+
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'staff_contract',
+            'name'     => _l('staff_contract'),
+            'href'     => admin_url('hr/contracts'),
+            'position' => 15,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'insurrance',
+            'name'     => _l('insurrance'),
+            'href'     => admin_url('hr/insurances'),
+            'position' => 20,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'constants',
+            'name'     => _l('constants'),
+            'href'     => admin_url('hr/setting'),
+            'position' => 25,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'global_hr_setting',
+            'name'     => _l('global_hr_setting'),
+            'href'     => admin_url('hr/setting/global_hr_setting'),
+            'position' => 30,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'payroll',
+            'name'     => _l('payroll'),
+            'href'     => admin_url('hr/payroll'),
+            'position' => 35,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'payment_history',
+            'name'     => _l('payment_history'),
+            'href'     => admin_url('hr/payroll/payment_history'),
+            'position' => 40,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'indicators',
+            'name'     => _l('indicators'),
+            'href'     => admin_url('hr/performance/indicators'),
+            'position' => 45,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'appraisals',
+            'name'     => _l('appraisals'),
+            'href'     => admin_url('hr/performance/appraisals'),
+            'position' => 50,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'official_documents',
+            'name'     => _l('official_documents'),
+            'href'     => admin_url('hr/organization/officail_documents'),
+            'position' => 55,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'departments',
+            'name'     => _l('departments'),
+            'href'     => admin_url('departments'),
+            'position' => 60,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr') and is_active_sub_department()){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'sub_department',
+            'name'     => _l('sub_department'),
+            'href'     => admin_url('hr/organization/sub_department'),
+            'position' => 65,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'designation',
+            'name'     => _l('designation'),
+            'href'     => admin_url('hr/organization/designation'),
+            'position' => 70,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'awards',
+            'name'     => _l('awards'),
+            'href'     => admin_url('hr/core_hr/awards'),
+            'position' => 75,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'terminations',
+            'name'     => _l('terminations'),
+            'href'     => admin_url('hr/core_hr/terminations'),
+            'position' => 80,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'warnings',
+            'name'     => _l('warnings'),
+            'href'     => admin_url('hr/core_hr/warnings'),
+            'position' => 85,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr') and is_active_sub_department()){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'transfers',
+            'name'     => _l('transfers'),
+            'href'     => admin_url('hr/core_hr/transfers'),
+            'position' => 90,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'complaints',
+            'name'     => _l('complaints'),
+            'href'     => admin_url('hr/core_hr/complaints'),
+            'position' => 95,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'resignations',
+            'name'     => _l('resignations'),
+            'href'     => admin_url('hr/core_hr/resignations'),
+            'position' => 100,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'promotions',
+            'name'     => _l('promotions'),
+            'href'     => admin_url('hr/core_hr/promotions'),
+            'position' => 105,
+        ]);
+    }
+    if (has_permission('hr', '', 'hr')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'travels',
+            'name'     => _l('travels'),
+            'href'     => admin_url('hr/core_hr/travels'),
+            'position' => 110,
+        ]);
+    }
+
+
 }
 $CI = & get_instance();
 // $CI->app_modules->activate('branches');

@@ -13,13 +13,13 @@ class Work_experience_model extends App_Model{
         }
     }
 
-    public function get($staff_id=''){
-        if(is_numeric($staff_id)){
-            $this->db->where('staff_id' ,$staff_id);
+    public function get($id=''){
+        if(is_numeric($id)){
+            $this->db->where('id' ,$id);
             return $this->db->get($this->table_name)->row();
         }
 
-        $this->db->order_by('staff_id', 'desc');
+        $this->db->order_by('id', 'desc');
         return $this->db->get($this->table_name)->result_array();
     }
 
@@ -34,7 +34,7 @@ class Work_experience_model extends App_Model{
     }
 
     public function update($data, $id){
-        $this->db->where('staff_id', $id);
+        $this->db->where('id', $id);
         $this->db->update($this->table_name, $data);
         if($this->db->affected_rows() > 0){
             log_activity($this->table_name . ' updated [ ID: '. $id . ']');

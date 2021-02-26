@@ -1,6 +1,6 @@
  <?php $this->load->view('details/modals/document_modal') ?>
  <div class="_buttons">
-    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_document"><?php echo _l('new_document'); ?></a>
+   <?php if (has_permission('hr', '', 'create')){ ?> <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_document"><?php echo _l('new_document'); ?></a><?php } ?>
 </div>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />

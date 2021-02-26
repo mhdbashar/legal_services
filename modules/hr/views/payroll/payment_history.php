@@ -8,7 +8,7 @@
                     <div class="panel-body">
                     <?php render_datatable(array(
                         _l('full_name'),
-                        _l('branch_name'),
+//                        _l('branch_name'),
                         _l('salary'),
                         _l('payroll_month'),
                         _l('payroll_date'),

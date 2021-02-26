@@ -45,10 +45,7 @@ class Sub_department_model extends App_Model{
             $row = $this->db->get($this->table_name)->row();
             $this->db->where('departmentid' ,$row->department_id);
             $row2 = $this->db->get(db_prefix() . 'departments')->row();
-            $this->db->where(['rel_id' => $id, 'rel_type' => 'sub_departments']);
-            $row3 = $this->db->get(db_prefix() . 'branches_services')->row();
             $row->department = $row2;
-            $row->branch = $row3;
             return $row;
         }
         return false;

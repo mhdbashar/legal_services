@@ -613,7 +613,7 @@ class Staff_model extends App_Model
 
         if ($affectedRows > 0) {
             hooks()->do_action('staff_member_updated', $id);
-            log_activity('Staff Member Updated [ID: ' . $id . ', ' . $data['firstname'] . ' ' . $data['lastname'] . ']');
+            log_activity('Staff Member Updated [ID: ' . $id . ', '  . get_staff_full_name($id) . ']');
 
             return true;
         }

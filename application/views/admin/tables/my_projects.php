@@ -40,7 +40,6 @@ if ($clientid != '') {
     array_push($where, ' AND clientid=' . $this->ci->db->escape_str($clientid));
 }
 
-// ShababSy.com Added this 12 lines.
 $project_type_feild = $this->ci->db->query("SHOW COLUMNS FROM `" . db_prefix() . "projects` LIKE 'project_type' ");
 if($project_type_feild->num_rows()==1) {
     if (isset($project_type)) {
@@ -102,7 +101,6 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
-    // ShababSy.com Changed this
     $link = admin_url($link_folder . '/view/' . $aRow['id']);
 
     $row[] = '<a href="' . $link . '">' . $aRow['id'] . '</a>';
@@ -118,7 +116,6 @@ foreach ($rResult as $aRow) {
     }
 
     if ($hasPermissionEdit) {
-        // ShababSy.com Changed this
         $name .= ' | <a href="' . admin_url($link_folder . '/project/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
 

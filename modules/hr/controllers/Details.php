@@ -12,7 +12,7 @@ class Details extends AdminController{
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view') and !has_permission('hr', '', 'edit'))
             access_denied();
 	}
 

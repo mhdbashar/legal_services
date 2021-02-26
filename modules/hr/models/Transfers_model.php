@@ -32,11 +32,8 @@ class Transfers_model extends App_Model{
     }
 
     public function in_department($staff, $department){
-        $this->db->where(['staffid' => $staff, 'departmentid' => $department]);
-        $row = $this->db->get('tblstaff_departments')->row();
-        if(isset($row->staffid)){
-            return true;
-        }
+        $this->db->where(['staffid' => $staff]);
+        $row = $this->db->delete('tblstaff_departments');
         $this->db->insert('tblstaff_departments', ['staffid' => $staff, 'departmentid' => $department]);
     }
 

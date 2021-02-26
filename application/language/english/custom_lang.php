@@ -1,9 +1,13 @@
 <?php
 $lang['Spreadsheet_name'] = "Spreadsheet Files";
 $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
-
+$lang['you_have_to_complete_staff_informations'] = 'You have to complete staff information';
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
+$lang['filter_by_departments'] = 'Filter by departments';
+
+$lang['divorced'] = 'Divorced';
+$lang['widower'] = 'Widower';
 
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
@@ -231,8 +235,8 @@ $lang['goals_name'] = "Goals";
 $lang['goals_desc'] = "Default module for defining goals";
 
 
-$lang['hr_name'] = "HR System";
-$lang['hr_desc'] = "Default module for Human Resources Management";
+$lang['hr_name'] = "H.R.M";
+$lang['hr_desc'] = "H.R.M";
 
 
 $lang['label_name'] = "Labels Management";

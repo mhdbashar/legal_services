@@ -36,31 +36,31 @@
                             </select>     
                         </div>
                     </div>
-                <?php  if($this->app_modules->is_active('branches')){  ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
-                                <option></option>
-                            <?php foreach ($branches as $value) { ?>
-                                <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                            <?php } ?>
-                            </select>     
-                        </div>
-                    </div>
-                <?php } ?>
+<!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
+<!--                    <div class="col-md-12">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="branch_id" class="control-label">--><?php //echo _l('branch') ?><!--</label>-->
+<!--                            <select required="required" class="form-control" id="branch_id" name="branch_id" placeholder="--><?php //echo _l('branch') ?><!--" aria-invalid="false">-->
+<!--                                <option></option>-->
+<!--                            --><?php //foreach ($branches as $value) { ?>
+<!--                                <option value="--><?php //echo $value['key'] ?><!--">--><?php //echo $value['value'] ?><!--</option>-->
+<!--                            --><?php //} ?>
+<!--                            </select>     -->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_to" class="control-label"><?php echo _l('warning_to') ?></label>
                             <select required="required" class="form-control" id="e_warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
+                                // if(!$this->app_modules->is_active('branches')){
                                  foreach ($staffes as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -79,12 +79,12 @@
                             <select required="required" class="form-control" id="e_warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
+                                // if(!$this->app_modules->is_active('branches')){
                                  foreach ($staffes as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -140,31 +140,31 @@
                             </select>     
                         </div>
                     </div>
-                <?php  if($this->app_modules->is_active('branches')){  ?>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="branch_id" class="control-label"><?php echo _l('branch') ?></label>
-                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="<?php echo _l('branch') ?>" aria-invalid="false">
-                                <option></option>
-                            <?php foreach ($branches as $value) { ?>
-                                <option value="<?php echo $value['key'] ?>"><?php echo $value['value'] ?></option>
-                            <?php } ?>
-                            </select>     
-                        </div>
-                    </div>
-                <?php } ?>
+<!--                --><?php // if($this->app_modules->is_active('branches')){  ?>
+<!--                    <div class="col-md-12">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="branch_id" class="control-label">--><?php //echo _l('branch') ?><!--</label>-->
+<!--                            <select required="required" class="form-control" id="a_branch_id" name="branch_id" placeholder="--><?php //echo _l('branch') ?><!--" aria-invalid="false">-->
+<!--                                <option></option>-->
+<!--                            --><?php //foreach ($branches as $value) { ?>
+<!--                                <option value="--><?php //echo $value['key'] ?><!--">--><?php //echo $value['value'] ?><!--</option>-->
+<!--                            --><?php //} ?>
+<!--                            </select>     -->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //} ?>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="warning_to" class="control-label"><?php echo _l('warning_to') ?></label>
                             <select required="required" class="form-control" id="warning_to" name="warning_to" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
+                                // if(!$this->app_modules->is_active('branches')){
                                  foreach ($staffes as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -183,12 +183,12 @@
                             <select required="required" class="form-control" id="warning_by" name="warning_by" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
                                 <option></option>
                                 <?php
-                                if(!$this->app_modules->is_active('branches')){
+                                // if(!$this->app_modules->is_active('branches')){
                                  foreach ($staffes as $value) { ?>
                                     <option value="<?php echo $value['staffid'] ?>">
                                         <?php echo $value['firstname'] ?>
                                     </option>
-                                <?php }} ?>
+                                <?php } ?>
                             </select>     
                         </div>
                     </div>
@@ -233,7 +233,7 @@ function required_file() {
                 
                 $('[name="warning_type"]').val(data.warning_type);
 
-                $('[name="branch_id"]').val(data.branch_id);
+                // $('[name="branch_id"]').val(data.branch_id);
 
                 $('[name="warning_date"]').val(data.warning_date);
                 
@@ -243,55 +243,9 @@ function required_file() {
 
                 $('[name="subject"]').val(data.subject);
 
-                $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + data.branch_id, function(response) {
-                    if (response.success == true) {
-                        $('#e_warning_by').empty();
-                        $('#e_warning_by').append($('<option>', {
-                            value: '',
-                            text: ''
-                        }));
-                        for(let i = 0; i < response.data.length; i++) {
-                            let key = response.data[i].key;
-                            let value = response.data[i].value;
-                            let select = false;
-                            if(data.warning_by == key)
-                                select = true;
-                            $('#e_warning_by').append($('<option>', {
-                                value: key,
-                                text: value,
-                                selected: select
-                            }));
-                            $('#e_warning_by').selectpicker('refresh');
-                        }
-                    } else {
-                        alert_float('danger', response.message);
-                    }
-                }, 'json');
+                $('[id="e_warning_by"]').val(data.warning_by);
 
-                $.get(admin_url + 'hr/organization/get_staffs_by_branch_id/' + data.branch_id, function(response) {
-                    if (response.success == true) {
-                        $('#e_warning_to').empty();
-                        $('#e_warning_to').append($('<option>', {
-                            value: '',
-                            text: ''
-                        }));
-                        for(let i = 0; i < response.data.length; i++) {
-                            let key = response.data[i].key;
-                            let value = response.data[i].value;
-                            let select = false;
-                            if(data.warning_to == key)
-                                select = true;
-                            $('#e_warning_to').append($('<option>', {
-                                value: key,
-                                text: value,
-                                selected: select
-                            }));
-                            $('#e_warning_to').selectpicker('refresh');
-                        }
-                    } else {
-                        alert_float('danger', response.message);
-                    }
-                }, 'json');
+                $('[id="e_warning_to"]').val(data.warning_to);
 
 
 

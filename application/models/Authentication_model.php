@@ -122,7 +122,6 @@ class Authentication_model extends App_Model
 
                 $this->update_login_info($user->$_id, $staff);
             } else {
-                //ShababSy.com Changed this
 				return ['two_factor_auth' => $user->two_factor_auth_enabled, 'user' => $user];
                 //return ['two_factor_auth' => true, 'user' => $user];
             }
@@ -620,7 +619,6 @@ class Authentication_model extends App_Model
 	 
     public function set_two_factor_auth_code($id, $auth_type=1)
     {
-		// ShababSy.com Added this
         if($auth_type==1){
 			$code = generate_two_factor_auth_key();
 		}else{
@@ -640,7 +638,6 @@ class Authentication_model extends App_Model
 	
 	
 	
-	// ShababSy.com Added this func
 	public function send_verification_sms($userdata)
     {
         is_numeric($this->set_two_factor_auth_code($userdata->staffid,2)) ? $code= $this->set_two_factor_auth_code($userdata->staffid,2) : "Unavailable";

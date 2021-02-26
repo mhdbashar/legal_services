@@ -7,7 +7,9 @@
                 <div class="panel_s">
                     <div class="panel-body">
                      <div class="_buttons">
+                         <?php if (has_permission('hr', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_warning"><?php echo _l('new_warning'); ?></a>
+                         <?php } ?>
                     </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
@@ -20,15 +22,7 @@
                         _l('warning_by'),
                         _l('control'),
                     ); 
-                    if($this->app_modules->is_active('branches'))
-                        $data = array(
-                            _l('warning_to'),
-                            _l('branch_name'),
-                            _l('warning_date'),
-                            _l('subject'),
-                            _l('warning_by'),
-                            _l('control'),
-                        ); 
+
                     render_datatable($data,'warning');
                     ?>
                     </div>

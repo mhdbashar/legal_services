@@ -63,7 +63,6 @@
 					 
 					 <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'two-factor-authentication','active'=>0)) == 0){ ?>
                      
-					   <!-- Shababsy.com Changed this div -->
 					   <div class="radio radio-primary">
                         <input type="radio" value="0" name="two_factor_auth_enabled" id="two_factor_no_auth_enabled"<?php if(isset($member) && $member->two_factor_auth_enabled == 0){echo ' checked';} ?>>
 						<label for="two_factor_no_auth_enabled"><?php echo _l('disable_two_factor_authentication'); ?></label>
@@ -77,7 +76,7 @@
                         <?php echo _l('enable_two_factor_sms_authentication'); ?></label>
                      </div>
                      <?php } ?>
-					 
+
 					 
                      <div class="is-not-staff<?php if(isset($member) && $member->admin == 1){ echo ' hide'; }?>">
                         <div class="checkbox checkbox-primary">
@@ -94,6 +93,8 @@
                         </div>
                         <hr />
                      </div>
+
+                      <?php  if(!$this->app_modules->is_active('hr')){ ?>
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
@@ -273,6 +274,7 @@
                      </span>
                      <?php } } ?>
                   <?php } ?>
+                      <?php } ?>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
                      <?php

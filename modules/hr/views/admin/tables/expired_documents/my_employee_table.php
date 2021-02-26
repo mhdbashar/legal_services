@@ -29,9 +29,9 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['fullname'];
 
     $row[] = $aRow['date_expiry'];
-
+if (has_permission('hr', '', 'delete')){
     $row[]   = icon_btn('hr/general/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    
+} else $row[] = '';
 
     $output['aaData'][] = $row;
 }

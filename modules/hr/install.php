@@ -31,6 +31,15 @@ if (!$CI->db->table_exists(db_prefix() . 'hr_setting')) {
     }
 }
 
+if (!$CI->db->table_exists(db_prefix() . 'workplace')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "workplace` (
+      `workplace_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `workplace_name` varchar(200) NOT NULL,
+      PRIMARY KEY (`workplace_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
 if (!$CI->db->table_exists(db_prefix() . 'hr_leaves')) {           
     $CI->db->query('CREATE TABLE `' . db_prefix() .  'hr_leaves` (
       `id` int(11) PRIMARY KEY AUTO_INCREMENT,
@@ -558,4 +567,228 @@ if (!option_exists('education_type')) {
 if (!option_exists('hr_document_reminder_notification_before')) {
     $value = '1';
     add_option('hr_document_reminder_notification_before',$value);
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hrm_option')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hrm_option` (
+      `option_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `option_name` varchar(200) NOT NULL,
+      `option_val` longtext NULL,
+      `auto` tinyint(1) NULL,
+      PRIMARY KEY (`option_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (row_options_exist('"contract_paid_for_unemployment"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`,`option_val`, `auto`) VALUES ("contract_paid_for_unemployment", "1", "1");
+');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'allowance_type')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "allowance_type` (
+      `type_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `type_name` varchar(200) NOT NULL,
+      `allowance_val` decimal(15,2) NOT NULL,
+      `taxable` boolean NOT NULL,
+      PRIMARY KEY (`type_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_contracttype')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_contracttype` (
+      `id_contracttype` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `name_contracttype` varchar(200) NOT NULL,
+      `contracttype` varchar(200) NOT NULL,
+      `duration` int(11) NULL,
+      `unit` varchar(20) NULL,
+      `insurance` boolean NOT NULL,
+      PRIMARY KEY (`id_contracttype`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_contract')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_contract` (
+      `id_contract` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `contract_code` varchar(15) NOT NULL,
+      `name_contract` int(11) NOT NULL,
+      `staff` int(11) NOT NULL,
+      `contract_form` varchar(191) NULL,
+      `start_valid` date NULL,
+      `end_valid` date NULL,
+      `contract_status` varchar(100) NULL,
+      `salary_form` int(11) NULL,
+      `allowance_type` varchar(11) NULL,
+      `sign_day` date NULL,
+      PRIMARY KEY (`id_contract`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->field_exists('staff_delegate' ,db_prefix() . 'staff_contract')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff_contract`
+  ADD COLUMN `staff_delegate` int(11) NULL AFTER `sign_day`');
+}
+
+if (!$CI->db->field_exists('staff_role' ,db_prefix() . 'staff_contract')) {
+    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff_contract`
+  ADD COLUMN `staff_role` int(11) NULL AFTER `staff_delegate`');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_contract_detail')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_contract_detail` (
+      `contract_detail_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `staff_contract_id` int(11) UNSIGNED NOT NULL,
+      `since_date` date NULL,
+      `contract_note` varchar(100) NULL,
+      `contract_salary_expense` longtext NULL,
+      `contract_allowance_expense` longtext NULL,
+      PRIMARY KEY (`contract_detail_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (row_options_exist('"hrm_contract_form"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`, `option_val`, `auto`) VALUES ("hrm_contract_form", "[]", "1");
+');
+}
+
+if (row_options_exist('"hrm_leave_contract_type"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`, `option_val`, `auto`) VALUES ("hrm_leave_contract_type", "[]", "1");
+');
+}
+
+if (row_options_exist('"hrm_leave_contract_sign_day"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`, `auto`) VALUES ("hrm_leave_contract_sign_day", "1");
+');
+}
+
+if (row_options_exist('"contract_type_borrow"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`, `option_val`, `auto`) VALUES ("contract_type_borrow", "[]", "1");
+');
+}
+
+if (row_options_exist('"sign_a_labor_contract"') == 0){
+    $CI->db->query('INSERT INTO `tblhrm_option` (`option_name`,`option_val`, `auto`) VALUES ("sign_a_labor_contract", "1", "1");
+');
+}
+
+//if (!$CI->db->field_exists('job_position' ,db_prefix() . 'staff')) {
+//    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`
+//ADD COLUMN `job_position` int(11) NULL AFTER `orther_infor`,
+//ADD COLUMN `workplace` int(11) NULL AFTER `job_position`');
+//}
+
+if (!$CI->db->table_exists(db_prefix() . 'job_position')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "job_position` (
+      `position_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `position_name` varchar(200) NOT NULL,
+      PRIMARY KEY (`position_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'salary_form')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "salary_form` (
+      `form_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `form_name` varchar(200) NOT NULL,
+      `salary_val` decimal(15,2) NOT NULL,
+      `tax` boolean NOT NULL,
+      PRIMARY KEY (`form_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_insurance')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_insurance` (
+      `insurance_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `staff_id` int(11) UNSIGNED NOT NULL,
+      `insurance_book_num` varchar(100) NULL,
+      `health_insurance_num` varchar(100) NULL,
+      `city_code` varchar(100) NULL,
+      `registration_medical` varchar(100) NULL,
+      PRIMARY KEY (`insurance_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'staff_insurance_history')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "staff_insurance_history` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `insurance_id` int(11) UNSIGNED NOT NULL,
+      `staff_id` int(11) UNSIGNED  NULL,
+      `from_month` date NULL,
+      `formality` varchar(50) NULL,
+      `reason` varchar(50) NULL,
+      `premium_rates` varchar(100) NULL,
+      `payment_company` varchar(100) NULL,
+      `payment_worker` varchar(100) NULL,
+      PRIMARY KEY (`id`,`insurance_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'insurance_type')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "insurance_type` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `from_month` date NOT NULL,
+      `social_company` VARCHAR(15) NULL,
+      `social_staff` VARCHAR(15) NULL,
+      `labor_accident_company` VARCHAR(15) NULL,
+      `labor_accident_staff` VARCHAR(15) NULL,
+      `health_company` VARCHAR(15) NULL,
+      `health_staff` VARCHAR(15) NULL,
+      `unemployment_company` VARCHAR(15) NULL,
+      `unemployment_staff` VARCHAR(15) NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'province_city')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "province_city` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `province_code` varchar(45) NOT NULL,
+      `province_name` VARCHAR(200) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'day_off')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "day_off` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `off_reason` varchar(255) NOT NULL,
+      `off_type` varchar(100) NOT NULL,
+      `break_date` date NOT NULL,
+      `timekeeping` varchar(45) NULL,
+      `department` int(11) NULL DEFAULT '0',
+      `position` int(11) NULL DEFAULT '0',
+      `add_from` int(11) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'work_shift')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "work_shift` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `shift_code` varchar(45) NOT NULL,
+      `shift_name` varchar(200) NOT NULL,
+      `shift_type` varchar(200) NOT NULL,
+      `department` int(11) NULL DEFAULT '0',
+      `position` int(11) NULL DEFAULT '0',
+      `add_from` int(11) NOT NULL,
+      `date_create` date NULL,
+      `from_date` date NULL,
+      `to_date` date NULL,
+      `shifts_detail` TEXT NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hrm_timesheet')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hrm_timesheet` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `staff_id` int(11) NOT NULL,
+      `date_work` date NOT NULL,
+      `value` text NULL,
+      `type` varchar(45) NULL,
+      `add_from` int(11) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

@@ -6,8 +6,9 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <div class="_buttons">
+                     <div class="_buttons"><?php if (has_permission('hr', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_termination"><?php echo _l('new_termination'); ?></a>
+                         <?php } ?>
                     </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
@@ -18,15 +19,8 @@
                         _l('notice_date'),
                         _l('termination_date'),
                         _l('control'),
-                    ); 
-                    if($this->app_modules->is_active('branches'))
-                        $data = array(
-                            _l('staff_name'),
-                            _l('branch_name'),
-                            _l('notice_date'),
-                            _l('termination_date'),
-                            _l('control'),
-                        ); 
+                    );
+
                     render_datatable($data,'termination');
                     ?>
                     </div>

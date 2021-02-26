@@ -763,7 +763,8 @@ class Core_hr extends AdminController{
         if($success){
             $this->db->where('id', $success);
             $termination = $this->db->get('hr_terminations')->row();
-            send_mail_template('termination_staff_to_staff', $termination, $staff);
+            $template = mail_template('termination_staff_to_staff', 'hr', $termination, $staff);
+            $template->send();
             set_alert('success', _l('added_successfully'));
         }
         else

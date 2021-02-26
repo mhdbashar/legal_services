@@ -28,7 +28,6 @@ class Termination_staff_to_staff extends App_mail_template
     {
         $this->to($this->staff->email)
             ->set_rel_id($this->termination->id)
-            ->set_merge_fields('staff_merge_fields', $this->staff->staffid)
             ->set_merge_fields('termination_staff_merge_fields', $this->termination->id, $this->termination);
     }
 }

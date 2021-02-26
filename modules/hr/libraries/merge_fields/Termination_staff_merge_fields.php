@@ -24,8 +24,15 @@ class Termination_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('description'),
-                'key'       => '{description}',
+                'name'      => _l('staff_fullname'),
+                'key'       => '{staff_fullname}',
+                'available' => [
+                    'termination',
+                ],
+            ],
+            [
+                'name'      => _l('staff_email'),
+                'key'       => '{staff_email}',
                 'available' => [
                     'termination',
                 ],
@@ -33,12 +40,7 @@ class Termination_staff_merge_fields extends App_merge_fields
         ];
     }
 
-    /**
-     * Merge field for staff members
-     * @param  mixed $staff_id staff id
-     * @param  string $password password is used only when sending welcome email, 1 time
-     * @return array
-     */
+
     public function format($id)
     {
         $fields = [];
@@ -47,17 +49,23 @@ class Termination_staff_merge_fields extends App_merge_fields
         $termination = $this->ci->db->get(db_prefix().'hr_terminations')->row();
 
         $fields['{termination_date}']   = '';
-        // $fields['{staff_lastname}']    = '';
         $fields['{termination_type}']       = '';
         $fields['{description}'] = '';
+        $fields['{staff_fullname}']   = '';
+        $fields['{staff_email}']       = '';
 
         if (!$termination) {
             return $termination;
         }
 
+
         $fields['{termination_date}']   = $termination->termination_date;
         $fields['{termination_type}']       = $termination->termination_type;
         $fields['{description}'] = $termination->description;
+        $this->ci->db->where('staffid', $termination->staff_id);
+        $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
+        $fields['{staff_fullname}']   = $staff->firstname;
+        $fields['{staff_email}']       = $staff->email;
 
 
         return hooks()->apply_filters('termination_merge_fields', $fields, [

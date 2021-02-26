@@ -26,7 +26,8 @@ hooks()->add_action('after_cron_settings_last_tab_content', 'add_hr_reminder_tab
 hooks()->add_action('after_cron_run', 'document_reminders');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'official_document_reminders');
-// hooks()->add_action('admin_init', 'hr_module_init_menu_items');
+hooks()->add_action('after_email_templates', 'add_hr_email_templates');
+register_merge_fields('hr/merge_fields/termination_staff_merge_fields');
 
 $CI = & get_instance();
 $CI->load->helper(HR_MODULE_NAME . '/hr');
@@ -36,6 +37,11 @@ $CI->load->helper(HR_MODULE_NAME . '/hr');
  * Register language files, must be registered if the module is using languages
  */
 register_language_files(HR_MODULE_NAME, [HR_MODULE_NAME]);
+
+function add_hr_email_templates(){
+    $CI = &get_instance();
+    $CI->load->view('hr/email/termination_email_templates');
+}
 
 function add_hr_reminder_tab(){
     echo '

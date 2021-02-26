@@ -512,37 +512,39 @@
                             <div class="col-md-12">
                                 <h4 class="bold well email-template-heading">
                                     <?php echo _l('disputes_name'); ?>
-                                       <?php if($hasPermissionEdit){ ?>
-                                      <a href="<?php echo admin_url('emails/disable_by_type/dispute'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
-                                      <a href="<?php echo admin_url('emails/enable_by_type/dispute'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
-                                      <?php } ?>
+                                    <?php if($hasPermissionEdit){ ?>
+                                        <a href="<?php echo admin_url('emails/disable_by_type/dispute'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+                                        <a href="<?php echo admin_url('emails/enable_by_type/dispute'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+                                    <?php } ?>
 
-                                    </h4>
+                                </h4>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <tr>
-                                                <th><?php echo _l('email_templates_table_heading_name'); ?></th>
-                                            </tr>
+                                        <tr>
+                                            <th><?php echo _l('email_templates_table_heading_name'); ?></th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach($dispute as $dispute_template){ ?>
+                                        <?php foreach($dispute as $dispute_template){ ?>
                                             <tr>
                                                 <td class="<?php if($dispute_template['active'] == 0){echo 'text-throught';} ?>">
                                                     <a href="<?php echo admin_url('emails/email_template/'.$dispute_template['emailtemplateid']); ?>"><?php echo $dispute_template['name']; ?></a>
                                                     <?php if(ENVIRONMENT !== 'production'){ ?>
-                                                    <br/><small><?php echo $dispute_template['slug']; ?></small>
+                                                        <br/><small><?php echo $dispute_template['slug']; ?></small>
                                                     <?php } ?>
                                                     <?php if($hasPermissionEdit){ ?>
-                                                    <a href="<?php echo admin_url('emails/'.($dispute_template['active'] == '1' ? 'disable/' : 'enable/').$dispute_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($dispute_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+                                                        <a href="<?php echo admin_url('emails/'.($dispute_template['active'] == '1' ? 'disable/' : 'enable/').$dispute_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($dispute_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
                                                     <?php } ?>
                                                 </td>
                                             </tr>
-                                            <?php } ?>
+                                        <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
+
 
 
                             <?php hooks()->do_action('before_sessions_email_templates'); ?>
@@ -615,6 +617,7 @@
                                 </div>
                             </div>
                             <?php //hooks()->do_action('after_written_report_email_templates'); ?>
+                            <?php hooks()->do_action('after_email_templates'); ?>
                             <div class="clearfix"></div>
                         </div>
                     </div>

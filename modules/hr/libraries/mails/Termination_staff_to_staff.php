@@ -14,14 +14,13 @@ class Termination_staff_to_staff extends App_mail_template
 
     public $slug = 'termination-staff';
 
-    public $rel_type = 'termination';
+    public $rel_type = 'hr';
 
     public function __construct($termination, $staff)
     {
         parent::__construct();
         $this->termination = $termination;
         $this->staff = $staff;
-        //$this->additional_data = $additional_data;
     }
 
     public function build()

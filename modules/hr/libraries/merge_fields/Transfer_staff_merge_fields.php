@@ -13,35 +13,28 @@ class Termination_staff_merge_fields extends App_merge_fields
                 'name'      => _l('termination_date'),
                 'key'       => '{termination_date}',
                 'available' => [
-                    'hr',
+                    'termination',
                 ],
             ],
             [
                 'name'      => _l('termination_type'),
                 'key'       => '{termination_type}',
                 'available' => [
-                    'hr',
-                ],
-            ],
-            [
-                'name'      => _l('description'),
-                'key'       => '{description}',
-                'available' => [
-                    'hr',
+                    'termination',
                 ],
             ],
             [
                 'name'      => _l('staff_fullname'),
                 'key'       => '{staff_fullname}',
                 'available' => [
-                    'hr',
+                    'termination',
                 ],
             ],
             [
                 'name'      => _l('staff_email'),
                 'key'       => '{staff_email}',
                 'available' => [
-                    'hr',
+                    'termination',
                 ],
             ]
         ];

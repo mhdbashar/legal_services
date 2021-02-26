@@ -1,8 +1,8 @@
 <?php hooks()->do_action('before_termination_email_templates');
 $this->load->model('emails_model');
 $lang = get_staff_default_language();
-$terminations = $this->emails_model->get([
-    'type'     => 'termination',
+$hr_templates = $this->emails_model->get([
+    'type'     => 'hr',
     'language' => $lang,
 ]);
 $hasPermissionEdit = has_permission('email_templates', '', 'edit');
@@ -25,15 +25,15 @@ $hasPermissionEdit = has_permission('email_templates', '', 'edit');
             </tr>
             </thead>
             <tbody>
-            <?php foreach($terminations as $termination_template){ ?>
+            <?php foreach($hr_templates as $hr_template){ ?>
                 <tr>
-                    <td class="<?php if($termination_template['active'] == 0){echo 'text-throught';} ?>">
-                        <a href="<?php echo admin_url('emails/email_template/'.$termination_template['emailtemplateid']); ?>"><?php echo $termination_template['name']; ?></a>
+                    <td class="<?php if($hr_template['active'] == 0){echo 'text-throught';} ?>">
+                        <a href="<?php echo admin_url('emails/email_template/'.$hr_template['emailtemplateid']); ?>"><?php echo $hr_template['name']; ?></a>
                         <?php if(ENVIRONMENT !== 'production'){ ?>
-                            <br/><small><?php echo $termination_template['slug']; ?></small>
+                            <br/><small><?php echo $hr_template['slug']; ?></small>
                         <?php } ?>
                         <?php if($hasPermissionEdit){ ?>
-                            <a href="<?php echo admin_url('emails/'.($termination_template['active'] == '1' ? 'disable/' : 'enable/').$termination_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($termination_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+                            <a href="<?php echo admin_url('emails/'.($hr_template['active'] == '1' ? 'disable/' : 'enable/').$hr_template['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($hr_template['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
                         <?php } ?>
                     </td>
                 </tr>

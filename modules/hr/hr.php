@@ -28,6 +28,8 @@ hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'official_document_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 register_merge_fields('hr/merge_fields/termination_staff_merge_fields');
+register_merge_fields('hr/merge_fields/award_staff_merge_fields');
+register_merge_fields('hr/merge_fields/complaint_staff_merge_fields');
 
 $CI = & get_instance();
 $CI->load->helper(HR_MODULE_NAME . '/hr');
@@ -40,7 +42,7 @@ register_language_files(HR_MODULE_NAME, [HR_MODULE_NAME]);
 
 function add_hr_email_templates(){
     $CI = &get_instance();
-    $CI->load->view('hr/email/termination_email_templates');
+    $CI->load->view('hr/email/email_templates');
 }
 
 function add_hr_reminder_tab(){

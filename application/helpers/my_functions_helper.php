@@ -987,7 +987,7 @@ function convert_to_tags($string)
 
 function maybe_translate($label, $value)
 {
-    return _l($label, '', false) != $value ? _l($label, '', false) : $label;
+    return _l($label, '', false) != $value ? _l($value, '', false) : $label;
 }
 
 /**

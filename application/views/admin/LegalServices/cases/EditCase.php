@@ -885,13 +885,14 @@
     }
 
     function GetCourtJad() {
+        $('#jud_num').html('');
         id = $('#court_id').val();
         $.ajax({
             url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#jud_num').html('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
+                    $('#jud_num').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
                 });
             }
         });

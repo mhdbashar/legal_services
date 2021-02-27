@@ -199,8 +199,7 @@
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
-                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                         <option selected disabled></option>
                                                         <?php $data = get_relation_data('mycourts', '');
                                                         foreach ($data as $row): ?>

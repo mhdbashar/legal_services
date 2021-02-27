@@ -215,14 +215,16 @@
                                         <?php } ?>
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label class="control-label"><?php echo _l('Judicial'); ?></label>
+                                                <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                                 <select class="form-control custom_select_arrow" id="jud_num" name="jud_num" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                     <option selected disabled></option>
                                                     <?php $data = get_relation_data('myjudicial',$case->court_id);
                                                     foreach ($data as $row) {
-                                                        if($case->jud_num == $row->j_id) { ?>
-                                                            <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
-                                                        <?php } } ?>
+                                                    if($case->jud_num == $row->j_id) { ?>
+                                                    <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
+                                                    <?php }else { ?>
+                                                    <option value="<?php echo $row->j_id ?>"><?php echo $row->Jud_number ?></option>
+                                                    <?php } } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -754,13 +756,14 @@
     }
 
     function GetCourtJad() {
+        $('#jud_num').html('');
         id = $('#court_id').val();
         $.ajax({
             url: '<?php echo admin_url("judicialByCourt/"); ?>' + id,
             success: function (data) {
                 response = JSON.parse(data);
                 $.each(response, function (key, value) {
-                    $('#jud_num').html('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
+                    $('#jud_num').append('<option value="' + value['j_id'] + '">' + value['Jud_number'] + '</option>');
                 });
             }
         });

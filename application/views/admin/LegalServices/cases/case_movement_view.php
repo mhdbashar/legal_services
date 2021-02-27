@@ -49,7 +49,7 @@
                             </p>
                             <p class="mtop10 no-mbot">
                                 <?php echo _l('customer_description') . ' :'; ?>
-                                <?php echo isset($movement['Representative']) && $movement['Representative'] != '' ? $movement['Representative'] : _l('nothing_was_specified'); ?>
+                                <?php echo isset($movement['Representative']) && $movement['Representative'] != '' ? maybe_translate(_l('nothing_was_specified'), $movement['Representative']) : _l('nothing_was_specified'); ?>
                             </p>
                             <p class="mtop10 no-mbot"><?php echo _l('project_description'). ' :'; ?></p>
                             <p class="no-mbot text-muted mleft30 mtop5"><?php echo $movement['description']; ?></p>

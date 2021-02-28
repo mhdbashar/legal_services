@@ -38,8 +38,8 @@ class Complaint_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('description'),
-                'key'       => '{description}',
+                'name'      => _l('complaint_description'),
+                'key'       => '{complaint_description}',
                 'available' => [
                     'hr',
                 ],
@@ -73,7 +73,7 @@ class Complaint_staff_merge_fields extends App_merge_fields
         $fields['{complaints_title}']   = '';
         $fields['{complaint_againts}']       = '';
         $fields['{complaint_from}']       = '';
-        $fields['{description}'] = '';
+        $fields['{complaint_description}'] = '';
         $fields['{staff_fullname}']   = '';
         $fields['{staff_email}']       = '';
 
@@ -86,7 +86,7 @@ class Complaint_staff_merge_fields extends App_merge_fields
         $fields['{complaint_title}']       = $complaints->complaints_title;
         $fields['{complaint_againts}']   = $complaints->complaint_againts;
         $fields['{complaint_from}']       = $complaints->complaint_from;
-        $fields['{description}'] = $complaints->description;
+        $fields['{complaint_description}'] = $complaints->description;
         $this->ci->db->where('staffid', $complaints->complaint_from);
         $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
         $fields['{staff_fullname}']   = $staff->firstname;

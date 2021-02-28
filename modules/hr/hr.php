@@ -28,8 +28,13 @@ hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'official_document_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 register_merge_fields('hr/merge_fields/termination_staff_merge_fields');
+register_merge_fields('hr/merge_fields/resignation_staff_merge_fields');
 register_merge_fields('hr/merge_fields/award_staff_merge_fields');
 register_merge_fields('hr/merge_fields/complaint_staff_merge_fields');
+register_merge_fields('hr/merge_fields/warning_staff_merge_fields');
+register_merge_fields('hr/merge_fields/promotion_staff_merge_fields');
+register_merge_fields('hr/merge_fields/transfer_staff_merge_fields');
+register_merge_fields('hr/merge_fields/travel_staff_merge_fields');
 
 $CI = & get_instance();
 $CI->load->helper(HR_MODULE_NAME . '/hr');

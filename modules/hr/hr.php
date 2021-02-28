@@ -329,12 +329,14 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
     $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
-    $CI->app_menu->add_setup_menu_item('hr', [
-        'name'     => _l("hr"), // The name if the item
-        'href'     => '#', // URL of the item
-        'position' => 10, // The menu position, see below for default positions.
-        // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
-    ]);
+    if (has_permission('hr', '', 'hr')) {
+        $CI->app_menu->add_setup_menu_item('hr', [
+            'name' => _l("hr"), // The name if the item
+            'href' => '#', // URL of the item
+            'position' => 10, // The menu position, see below for default positions.
+            // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
+        ]);
+    }
     if (has_permission('hr', '', 'hr')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'dashboard',

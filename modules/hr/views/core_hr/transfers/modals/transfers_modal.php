@@ -50,6 +50,7 @@
                         <div class="form-group">
                             <label for="to_department" class="control-label"><?php echo _l('to_department') ?></label>
                             <select required="required" required="required" class="form-control" id="department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
+                                <option></option>
                                 <?php foreach($departments as $department){ ?>
                                     <option value="<?php echo $department['departmentid'] ?>"><?php echo $department['name']; ?></option>
                                 <?php } ?>
@@ -60,7 +61,7 @@
                         <div class="form-group">
                             <label for="to_sub_department" class="control-label"><?php echo _l('to_sub_department') ?></label>
                             <select required="required" class="form-control" id="sub_department_id" name="to_sub_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
-
+<option></option>
                             </select>
                         </div>
                     </div>
@@ -136,6 +137,7 @@
                         <div class="form-group">
                             <label for="to_department" class="control-label"><?php echo _l('to_department') ?></label>
                             <select required="required" class="form-control" id="a_department_id" name="to_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
+                                <option></option>
                                 <?php foreach($departments as $department){ ?>
                                     <option value="<?php echo $department['departmentid'] ?>"><?php echo $department['name']; ?></option>
                                 <?php } ?>
@@ -146,7 +148,7 @@
                         <div class="form-group">
                             <label for="to_sub_department" class="control-label"><?php echo _l('to_sub_department') ?></label>
                             <select required="required" class="form-control" id="a_sub_department_id" name="to_sub_department" placeholder="<?php echo _l('to_department') ?>" aria-invalid="false">
-                                
+                                <option></option>
                             </select>     
                         </div>
                     </div>

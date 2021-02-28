@@ -284,8 +284,15 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Travel_model->add($data);
-        if($success)
+        if($success){
+            $this->db->where('staffid', $data['staff_id']);
+            $staff = $this->db->get(db_prefix() . 'staff')->row();
+            $this->db->where('id', $success);
+            $travel = $this->db->get('hr_travels')->row();
+            $template = mail_template('travel_staff_to_staff', 'hr', $travel, $staff);
+            $template->send();
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 //
@@ -384,6 +391,14 @@ class Core_hr extends AdminController{
 
         $success = $this->Promotion_model->add($data);
         if($success){
+
+            $this->db->where('staffid', $data['staff_id']);
+            $staff = $this->db->get(db_prefix() . 'staff')->row();
+            $this->db->where('id', $success);
+            $promotion = $this->db->get('hr_promotions')->row();
+            $template = mail_template('promotion_staff_to_staff', 'hr', $promotion, $staff);
+            $template->send();
+
             $designation = $data['designation'];
             $staff = $data['staff_id'];
             $this->Designation_model->to_designation($staff, $designation);
@@ -478,8 +493,15 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Resignations_model->add($data);
-        if($success)
+        if($success){
+            $this->db->where('staffid', $data['staff_id']);
+            $staff = $this->db->get(db_prefix() . 'staff')->row();
+            $this->db->where('id', $success);
+            $resignation = $this->db->get('hr_resignations')->row();
+            $template = mail_template('resignation_staff_to_staff', 'hr', $resignation, $staff);
+            $template->send();
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 
@@ -591,8 +613,15 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Transfers_model->add($data);
-        if($success)
+        if($success){
+            $this->db->where('staffid', $data['staff_id']);
+            $staff = $this->db->get(db_prefix() . 'staff')->row();
+            $this->db->where('id', $success);
+            $transfer = $this->db->get('hr_transfers')->row();
+            $template = mail_template('transfer_staff_to_staff', 'hr', $transfer, $staff);
+            $template->send();
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 //        if(is_numeric($branch_id)){
@@ -682,8 +711,19 @@ class Core_hr extends AdminController{
 //            $branch_id = $this->No_branch_model->get_general_branch();
 
         $success = $this->Warnings_model->add($data);
-        if($success)
+        if($success){
+            $this->db->where('id', $success);
+            $warning = $this->db->get('hr_warnings')->row();
+
+            $this->db->where('admin', 1);
+            $assignees = $this->staff_model->get();
+
+            foreach ($assignees as $member) {
+                $template = mail_template('warning_staff_to_staff', 'hr', $warning, array_to_object($member));
+                $template->send();
+            }
             set_alert('success', _l('added_successfully'));
+        }
         else
             set_alert('warning', 'Problem Creating');
 

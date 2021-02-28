@@ -76,14 +76,14 @@ class Transfer_staff_merge_fields extends App_merge_fields
 
         $fields['{transfer_date}']   = $transfer->transfer_date;
 
-        $this->db->where('departmentid', $transfer->to_department);
-        $to_department = $this->db->get(db_prefix() . 'departments')->row();
+        $this->ci->db->where('departmentid', $transfer->to_department);
+        $to_department = $this->ci->db->get(db_prefix() . 'departments')->row();
         if(is_object($to_department))
             $fields['{{to_department}'] = $to_department->name;
 
-        $this->db->where('id', $transfer->to_sub_department);
-        $to_sub_department = $this->db->get(db_prefix() . 'hr_sub_departments')->row();
-        if(is_object($to_department))
+        $this->ci->db->where('id', $transfer->to_sub_department);
+        $to_sub_department = $this->ci->db->get(db_prefix() . 'hr_sub_departments')->row();
+        if(is_object($to_sub_department))
             $fields['{{to_sub_department}'] = $to_sub_department->sub_department_name;
 
         $fields['{transfer_description}'] = $transfer->transfer_description;

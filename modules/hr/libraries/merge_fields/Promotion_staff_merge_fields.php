@@ -77,8 +77,8 @@ class Promotion_staff_merge_fields extends App_merge_fields
         $fields['{promotion_date}']   = $promotion->promotion_date;
         $fields['{promotion_type}']       = $promotion->promotion_type;
         $fields['{promotion_description}'] = $promotion->description;
-        $this->db->where('id', $promotion->designation);
-        $designation = $this->db->get(db_prefix() . 'hr_designations')->row();
+        $this->ci->db->where('id', $promotion->designation);
+        $designation = $this->ci->db->get(db_prefix() . 'hr_designations')->row();
         if(is_object($designation))
             $fields['{{designation}'] = $designation->designation_name;
         $this->ci->db->where('staffid', $promotion->staff_id);

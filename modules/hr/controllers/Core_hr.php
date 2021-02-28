@@ -93,6 +93,16 @@ class Core_hr extends AdminController{
             $award = $this->db->get('hr_awards')->row();
             $template = mail_template('award_staff_to_staff', 'hr', $award, $staff);
             $template->send();
+            $description = _l('new_award');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/awards'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
             set_alert('success', _l('added_successfully'));
         }
         else
@@ -193,6 +203,16 @@ class Core_hr extends AdminController{
             foreach ($assignees as $member) {
                 $template = mail_template('complaint_staff_to_staff', 'hr', $complaint, array_to_object($member));
                 $template->send();
+                $description = _l('new_complaint');
+                $staff_id = $member['staffid'];
+                $notified = add_notification([
+                    'description'     => $description,
+                    'touserid'        => $staff_id,
+                    'link'            => ('hr/core_hr/complaints'),
+                ]);
+                if ($notified) {
+                    pusher_trigger_notification([$staff_id]);
+                }
             }
             set_alert('success', _l('added_successfully'));
         }
@@ -291,6 +311,16 @@ class Core_hr extends AdminController{
             $travel = $this->db->get('hr_travels')->row();
             $template = mail_template('travel_staff_to_staff', 'hr', $travel, $staff);
             $template->send();
+            $description = _l('new_travel');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/travels'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
             set_alert('success', _l('added_successfully'));
         }
         else
@@ -398,6 +428,16 @@ class Core_hr extends AdminController{
             $promotion = $this->db->get('hr_promotions')->row();
             $template = mail_template('promotion_staff_to_staff', 'hr', $promotion, $staff);
             $template->send();
+            $description = _l('new_promotion');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/promotions'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
 
             $designation = $data['designation'];
             $staff = $data['staff_id'];
@@ -500,6 +540,16 @@ class Core_hr extends AdminController{
             $resignation = $this->db->get('hr_resignations')->row();
             $template = mail_template('resignation_staff_to_staff', 'hr', $resignation, $staff);
             $template->send();
+            $description = _l('new_resignation');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/resignations'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
             set_alert('success', _l('added_successfully'));
         }
         else
@@ -620,6 +670,16 @@ class Core_hr extends AdminController{
             $transfer = $this->db->get('hr_transfers')->row();
             $template = mail_template('transfer_staff_to_staff', 'hr', $transfer, $staff);
             $template->send();
+            $description = _l('new_transfer');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/transfer'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
             set_alert('success', _l('added_successfully'));
         }
         else
@@ -721,6 +781,16 @@ class Core_hr extends AdminController{
             foreach ($assignees as $member) {
                 $template = mail_template('warning_staff_to_staff', 'hr', $warning, array_to_object($member));
                 $template->send();
+                    $description = _l('new_warning');
+                    $staff_id = $member['staffid'];
+                    $notified = add_notification([
+                        'description'     => $description,
+                        'touserid'        => $staff_id,
+                        'link'            => ('hr/core_hr/warnings'),
+                    ]);
+                    if ($notified) {
+                        pusher_trigger_notification([$staff_id]);
+                    }
             }
             set_alert('success', _l('added_successfully'));
         }
@@ -823,6 +893,16 @@ class Core_hr extends AdminController{
             $termination = $this->db->get('hr_terminations')->row();
             $template = mail_template('termination_staff_to_staff', 'hr', $termination, $staff);
             $template->send();
+            $description = _l('new_termination');
+            $staff_id = $staff->staffid;
+            $notified = add_notification([
+                'description'     => $description,
+                'touserid'        => $staff_id,
+                'link'            => ('hr/core_hr/terminations'),
+            ]);
+            if ($notified) {
+                pusher_trigger_notification([$staff_id]);
+            }
             set_alert('success', _l('added_successfully'));
         }
         else

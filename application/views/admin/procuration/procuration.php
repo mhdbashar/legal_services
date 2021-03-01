@@ -1,4 +1,5 @@
 <?php
+
   if(!is_numeric($id)){
     $id = null;
     $procuration = null;
@@ -34,6 +35,8 @@
     $agentId = $procuration->agentId;
     $name = $procuration->name;
   }
+
+
 // add_option('wathq_api_key', 'eaQFFTW5oOLH5a908nkCcK78Z1PQ1FAx');
 ?>
 
@@ -59,7 +62,7 @@
 
 
               </div>
-            <div id="loading" class="hide">
+            <div id="loading" class="hide" >
               <p class="text-center">
                 <?php echo _l('loading') ?> ...
               </p>
@@ -143,14 +146,14 @@
                          <div class="row">
                           <!-- <div class="col-md-6">
                             <div class="form-group">
-                                <label for="status" class="col-form-label"><?php echo _l('status') ?>:</label>
+                                <label for="status" class="col-form-label"><?php //echo _l('status') ?>:</label>
                                 <div class="row-fluid">
                                 <select name="status" data-width="100%" id="status" class="selectpicker" data-show-subtext="true" data-live-search="true">
-                                  <?php foreach ($states as $key => $value){ ?>
+                                  <?php //foreach ($states as $key => $value){ ?>
 
-                                    <option <?php if($status == $value['id']) echo "selected" ?> value="<?php echo $value['id'] ?>"><?php echo $value['procurationstate'] ?></option>
+                                    <option <?php //if($status == $value['id']) echo "selected" ?> value="<?php //echo $value['id'] ?>"><?php //echo $value['procurationstate'] ?></option>
 
-                                  <?php } ?>
+                                  <?php //} ?>
                                 </select>
 
                                 </div>
@@ -249,7 +252,6 @@
   <?php foreach ($selected_cases as $case) { ?>
     selected_cases.push('<?php echo $case["id"] ?>');
   <?php } ?>
-  console.log(selected_cases)
 $(document).on('change','#clientid',function () {
     $.get(admin_url +'procuration/build_dropdown_cases/' + $(this).val(), function(response) {
         if (response.success == true) {
@@ -272,7 +274,6 @@ $(document).on('change','#clientid',function () {
   $(function() {
     $.get(admin_url +'procuration/build_dropdown_cases/' + clientid, function(response) {
         if (response.success == true) {
-          console.log(response)
             $('#city').empty();
             for(let i = 0; i < response.data.length; i++) {
                 let key = response.data[i].key;
@@ -293,7 +294,7 @@ $(document).on('change','#clientid',function () {
     }, 'json');
     // $("#clientid").change(function () {
     //     $.ajax({
-    //         url: "<?php echo admin_url('procuration/build_dropdown_cases'); ?>",
+    //         url: "<?php //echo admin_url('procuration/build_dropdown_cases'); ?>",
     //         data: {select: $(this).val()},
     //         type: "POST",
     //         success: function (response) {

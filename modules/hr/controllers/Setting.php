@@ -14,11 +14,18 @@ class Setting extends AdminController{
     public function global_hr_setting(){
         if($this->input->post()){
             $data = $this->input->post();
+            if(isset($data['insurance_book_number'])){
+                $insurance_book_number = $data['insurance_book_number'];
+                update_option('insurance_book_number', $insurance_book_number);
+                unset($data['insurance_book_number']);
+                set_alert('success', _l('updated_successfully'));
+            }
             foreach($data as $name => $active){
                 $this->db->where('name', $name);
                 $this->db->update(db_prefix() . 'hr_setting', ['active'=>$active]);
                 if($this->db->affected_rows() > 0){
                     log_activity('tblhr_setting' . ' updated [ Name: '. $name . ']');
+                    set_alert('success', _l('updated_successfully'));
                     //return true;
                 }
             }

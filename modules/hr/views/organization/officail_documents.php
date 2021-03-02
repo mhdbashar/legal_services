@@ -16,6 +16,7 @@
                         _l('document_type'),
                         _l('document_title'),
                         _l('date_expiry'),
+                        _l('file'),
                         _l('control'),
                     ),'official_documents'); ?>
                     </div>

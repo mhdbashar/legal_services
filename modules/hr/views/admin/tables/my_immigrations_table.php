@@ -26,7 +26,28 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['eligible_review_date'];
 
-    $row[] = "<a href='".base_url().$aRow['document_file']."'>Download File</a>";
+    // file
+
+    $file = '';
+    if(basename($aRow["document_file"]) != '' and file_exists($aRow["document_file"])){
+        $file = '<a target="_blank" href="'.base_url(). $aRow['document_file'].'">';
+        $is_image = is_image($aRow['document_file']);
+
+        if($is_image){
+            $file .= '<div class="preview_image">';
+        }
+        if ($is_image) {
+            $file .=  '<img class="project-file-image img-table-loading" src="' . base_url().$aRow['document_file'] . '" width="100">';
+
+        }else{
+            $file .='<i class="'.get_mime_class(mime_content_type($aRow["document_file"])).' "></i> '. basename($aRow["document_file"]);
+        }
+        if($is_image){ $file .= '</div>'; }
+        $file .=  '</a>';
+    }
+    $row[] = $file;
+
+    // end file
 
     $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_immigration', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/general/delete_immigration/' . $aRow['id'], 'remove', 'btn-danger _delete');

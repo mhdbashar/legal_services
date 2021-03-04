@@ -169,6 +169,7 @@ class Hr extends AdminController{
         if ($this->input->post()) {
             $data = $this->input->post();
             if ($this->input->post('insurance_id') == '') {
+                $data['insurance_book_num'] = get_option('insurance_book_number');
                 if (!has_permission('hr', '', 'create')) {
                     access_denied('hr');
                 }

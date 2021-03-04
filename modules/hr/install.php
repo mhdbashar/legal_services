@@ -853,3 +853,6 @@ create_email_template_with_language('promotion for staff', 'message', 'hr', 'pro
 //travel
 create_email_template_with_language('انتداب الموظف', 'message', 'hr', 'انتداب الموظف', 'travel-staff', 'arabic');
 create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'english');
+
+
+add_option('insurance_book_number', '');

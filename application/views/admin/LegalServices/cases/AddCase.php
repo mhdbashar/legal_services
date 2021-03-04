@@ -199,8 +199,7 @@
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
-                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
                                                         <option selected disabled></option>
                                                         <?php $data = get_relation_data('mycourts', '');
                                                         foreach ($data as $row): ?>
@@ -407,14 +406,9 @@
                                     <label for="status"><?php echo _l('project_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-<!--                                        --><?php //foreach($statuses as $status){ ?>
-<!--                                            <option value="--><?php //echo $status['id']; ?><!--">--><?php //echo $status['name']; ?><!--</option>-->
-<!--                                        --><?php //} ?>
-                                        <option value="4"><?php echo _l('project_status_4') ?></option>
-                                        <option value="5"><?php echo _l('project_status_5') ?></option>
-                                        <option value="2"><?php echo _l('project_status_2') ?></option>
-                                        <option value="3"><?php echo _l('project_status_3') ?></option>
-                                        <option value="1"><?php echo _l('project_status_1') ?></option>
+                                        <?php foreach($statuses as $status){ ?>
+                                            <option value="<?php echo $status['id']; ?>" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php echo $status['name']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

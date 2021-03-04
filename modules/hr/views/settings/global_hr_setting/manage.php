@@ -33,6 +33,8 @@
 	            					
 	            					<br>
 	            			<?php	} ?>
+                            <?php echo render_input('insurance_book_number','settings_general_insurance_book_number',get_option('insurance_book_number')); ?>
+                            <hr />
 	            			<div class="btn-bottom-toolbar text-right">
 						          <button type="submit" class="btn btn-info">
 						            <?php echo _l('settings_save'); ?>

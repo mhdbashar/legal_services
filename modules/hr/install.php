@@ -827,29 +827,32 @@ create_email_template_with_language('تم انهاء عمل الموظف', 'mess
 create_email_template_with_language('تم انهاء عمل الموظف', 'message', 'hr', 'تم انهاء عمل الموظف', 'termination-staff', 'english');
 
 // award
-create_email_template_with_language('award for staff', 'message', 'hr', 'award for staff', 'award-staff', 'arabic');
+create_email_template_with_language('جائزة للموظف', 'message', 'hr', 'جائزة للموظف', 'award-staff', 'arabic');
 create_email_template_with_language('award for staff', 'message', 'hr', 'award for staff', 'award-staff', 'english');
 
 // warnings
-create_email_template_with_language('warning for staff', 'message', 'hr', 'warning for staff', 'warning-staff', 'arabic');
+create_email_template_with_language('تحذير للموظف', 'message', 'hr', 'تحذير للموظف', 'warning-staff', 'arabic');
 create_email_template_with_language('warning for staff', 'message', 'hr', 'warning for staff', 'warning-staff', 'english');
 
 //transfers
-create_email_template_with_language('transfer for staff', 'message', 'hr', 'transfer for staff', 'transfer-staff', 'arabic');
+create_email_template_with_language('نقل الموظف', 'message', 'hr', 'نقل الموظف', 'transfer-staff', 'arabic');
 create_email_template_with_language('transfer for staff', 'message', 'hr', 'transfer for staff', 'transfer-staff', 'english');
 
 //complaints
-create_email_template_with_language('complaint for staff', 'message', 'hr', 'complaint for staff', 'complaint-staff', 'arabic');
+create_email_template_with_language('شكوى للموظف', 'message', 'hr', 'شكوى للموظف', 'complaint-staff', 'arabic');
 create_email_template_with_language('complaint for staff', 'message', 'hr', 'complaint for staff', 'complaint-staff', 'english');
 
 //resignations
-create_email_template_with_language('resignation for staff', 'message', 'hr', 'resignation for staff', 'resignation-staff', 'arabic');
+create_email_template_with_language('استقالة الموظف', 'message', 'hr', 'استقالة الموظف', 'resignation-staff', 'arabic');
 create_email_template_with_language('resignation for staff', 'message', 'hr', 'resignation for staff', 'resignation-staff', 'english');
 
 //promotion
-create_email_template_with_language('promotion for staff', 'message', 'hr', 'promotion for staff', 'promotion-staff', 'arabic');
+create_email_template_with_language('ترقية الموظف', 'message', 'hr', 'ترقية الموظف', 'promotion-staff', 'arabic');
 create_email_template_with_language('promotion for staff', 'message', 'hr', 'promotion for staff', 'promotion-staff', 'english');
 
 //travel
-create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'arabic');
+create_email_template_with_language('انتداب الموظف', 'message', 'hr', 'انتداب الموظف', 'travel-staff', 'arabic');
 create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'english');
+
+
+add_option('insurance_book_number', '');

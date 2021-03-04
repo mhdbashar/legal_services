@@ -44,7 +44,8 @@
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control" id="e_designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                            </select>     
+                                <option></option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -112,7 +113,8 @@
                         <div class="form-group">
                             <label for="designation" class="control-label"><?php echo _l('designation') ?></label>
                             <select required="required" class="form-control staff" id="designation_id" name="designation" placeholder="<?php echo _l('designation') ?>" aria-invalid="false">
-                            </select>     
+                                <option></option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12">

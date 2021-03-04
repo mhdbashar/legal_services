@@ -173,7 +173,7 @@ function my_module_menu_item_collapsible()
             'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
             'href' => admin_url('opponents'), // URL of the item
             'position' => 5, // The menu position
-            'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
+            'icon' => 'fa fa-user-o', // Font awesome icon
         ]);
 }
 
@@ -987,7 +987,7 @@ function convert_to_tags($string)
 
 function maybe_translate($label, $value)
 {
-    return _l($label, '', false) != $value ? _l($label, '', false) : $label;
+    return _l($label, '', false) != $value ? _l($value, '', false) : $label;
 }
 
 /**

@@ -24,8 +24,8 @@ class Termination_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('description'),
-                'key'       => '{description}',
+                'name'      => _l('termination_description'),
+                'key'       => '{termination_description}',
                 'available' => [
                     'hr',
                 ],
@@ -57,7 +57,7 @@ class Termination_staff_merge_fields extends App_merge_fields
 
         $fields['{termination_date}']   = '';
         $fields['{termination_type}']       = '';
-        $fields['{description}'] = '';
+        $fields['{termination_description}'] = '';
         $fields['{staff_fullname}']   = '';
         $fields['{staff_email}']       = '';
 
@@ -68,7 +68,7 @@ class Termination_staff_merge_fields extends App_merge_fields
 
         $fields['{termination_date}']   = $termination->termination_date;
         $fields['{termination_type}']       = $termination->termination_type;
-        $fields['{description}'] = $termination->description;
+        $fields['{termination_description}'] = $termination->description;
         $this->ci->db->where('staffid', $termination->staff_id);
         $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
         $fields['{staff_fullname}']   = $staff->firstname;

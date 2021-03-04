@@ -137,8 +137,8 @@
                            <label for="gender"><?php echo _l('gendre'); ?></label>
                            <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="gender" id="gender">
                               <option value="" <?php if(isset($extra_info) && empty($extra_info->gender)){echo 'selected';} ?>></option>
-                              <option value="Male" <?php if(isset($extra_info) && $extra_info->gender == 'Male'){echo 'selected';} ?>>Male</option>
-                              <option value="Female" <?php if(isset($extra_info) && $extra_info->gender == 'Female'){echo 'selected';} ?>>Female</option>
+                              <option value="Male" <?php if(isset($extra_info) && $extra_info->gender == 'Male'){echo 'selected';} ?>><?php echo _l('Male') ?></option>
+                              <option value="Female" <?php if(isset($extra_info) && $extra_info->gender == 'Female'){echo 'selected';} ?>><?php echo _l('Female') ?></option>
                            </select>
                         </div>
                      </div>

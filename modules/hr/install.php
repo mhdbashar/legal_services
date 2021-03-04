@@ -792,3 +792,67 @@ if (!$CI->db->table_exists(db_prefix() . 'hrm_timesheet')) {
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
+
+/**
+ * Create new email template
+ * @param  string  $subject the predefined email template subject
+ * @param  string  $message the predefined email template message
+ * @param  string  $type    for what feature this email template is related e.q. invoice|ticket
+ * @param  string  $name    the email template name which user see in Setup->Email Template, this is used for easier email template recognition
+ * @param  string  $slug    unique email template slug
+ * @param  integer $active  whether by default this email template is active
+ * @return mixed
+ */
+function create_email_template_with_language($subject, $message, $type, $name, $slug, $language, $active = 1)
+{
+    if (total_rows('emailtemplates', ['slug' => $slug]) > 0) {
+        return false;
+    }
+
+    $data['subject']   = $subject;
+    $data['message']   = $message;
+    $data['type']      = $type;
+    $data['name']      = $name;
+    $data['slug']      = $slug;
+    $data['language']  = $language;
+    $data['active']    = $active;
+    $data['plaintext'] = 0;
+    $CI                = &get_instance();
+    $CI->load->model('emails_model');
+
+    return $CI->emails_model->add_template($data);
+}
+// termination
+create_email_template_with_language('تم انهاء عمل الموظف', 'message', 'hr', 'تم انهاء عمل الموظف', 'termination-staff', 'arabic');
+create_email_template_with_language('تم انهاء عمل الموظف', 'message', 'hr', 'تم انهاء عمل الموظف', 'termination-staff', 'english');
+
+// award
+create_email_template_with_language('جائزة للموظف', 'message', 'hr', 'جائزة للموظف', 'award-staff', 'arabic');
+create_email_template_with_language('award for staff', 'message', 'hr', 'award for staff', 'award-staff', 'english');
+
+// warnings
+create_email_template_with_language('تحذير للموظف', 'message', 'hr', 'تحذير للموظف', 'warning-staff', 'arabic');
+create_email_template_with_language('warning for staff', 'message', 'hr', 'warning for staff', 'warning-staff', 'english');
+
+//transfers
+create_email_template_with_language('نقل الموظف', 'message', 'hr', 'نقل الموظف', 'transfer-staff', 'arabic');
+create_email_template_with_language('transfer for staff', 'message', 'hr', 'transfer for staff', 'transfer-staff', 'english');
+
+//complaints
+create_email_template_with_language('شكوى للموظف', 'message', 'hr', 'شكوى للموظف', 'complaint-staff', 'arabic');
+create_email_template_with_language('complaint for staff', 'message', 'hr', 'complaint for staff', 'complaint-staff', 'english');
+
+//resignations
+create_email_template_with_language('استقالة الموظف', 'message', 'hr', 'استقالة الموظف', 'resignation-staff', 'arabic');
+create_email_template_with_language('resignation for staff', 'message', 'hr', 'resignation for staff', 'resignation-staff', 'english');
+
+//promotion
+create_email_template_with_language('ترقية الموظف', 'message', 'hr', 'ترقية الموظف', 'promotion-staff', 'arabic');
+create_email_template_with_language('promotion for staff', 'message', 'hr', 'promotion for staff', 'promotion-staff', 'english');
+
+//travel
+create_email_template_with_language('انتداب الموظف', 'message', 'hr', 'انتداب الموظف', 'travel-staff', 'arabic');
+create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'english');
+
+
+add_option('insurance_book_number', '');

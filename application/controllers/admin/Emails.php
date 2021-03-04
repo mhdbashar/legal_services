@@ -129,6 +129,10 @@ class Emails extends AdminController
             'language' => $lang,
         ]);
 
+        if($this->app_modules->is_active('hr')){
+
+        }
+
         $data['written_report'] = $this->emails_model->get([
             'type'     => 'written_report',
         ]);

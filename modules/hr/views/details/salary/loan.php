@@ -1,4 +1,7 @@
  <?php $this->load->view('details/modals/loan_modal') ?>
+ <h4 class="text-danger"><?php echo _l('loan_note'); ?></h4>
+ <div class="clearfix"></div>
+ <hr class="hr-panel-heading" />
  <div class="_buttons">
     <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_loan"><?php echo _l('new_loan'); ?></a>
 </div>

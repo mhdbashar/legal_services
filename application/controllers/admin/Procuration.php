@@ -26,7 +26,7 @@ class Procuration extends AdminController
         }
     }
 
-    public function build_dropdown_cases($select) {
+    public function build_dropdown_cases($select=0) {
 
         // $select=$this->input->post('select');
         // $this->db->where('clientid', $select);
@@ -43,7 +43,9 @@ class Procuration extends AdminController
         // echo $output;
 
         // $select=$this->input->post('select');
-        $this->db->where('clientid', $select);
+        if ($select != 0) {
+            $this->db->where('clientid', $select);
+        }
         $cases = $this->db->get(db_prefix() . 'my_cases')->result_array();
         $data = [];
         foreach ($cases as $case) {

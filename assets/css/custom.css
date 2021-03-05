@@ -516,3 +516,10 @@ li.fancyTab.active a {
 .book-btn{
     background: #626f80;
 }
+
+#loading{
+    margin: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    background: #ff00000d;
+}

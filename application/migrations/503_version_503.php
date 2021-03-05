@@ -11,24 +11,22 @@ class Migration_Version_503 extends CI_Migration
 
     public function up()
     {
-        $CI = &get_instance();
-
         add_option('bitly_access_token', '');
 
-        if (!$CI->db->field_exists('short_link', db_prefix() . 'invoices')) {
+        if (!$this->db->field_exists('short_link', db_prefix() . 'invoices')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'invoices` ADD `short_link` VARCHAR(100) DEFAULT NULL');
         }
-        if (!$CI->db->field_exists('short_link', db_prefix() . 'estimates')) {
+        if (!$this->db->field_exists('short_link', db_prefix() . 'estimates')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'estimates` ADD `short_link` VARCHAR(100) DEFAULT NULL');
         }
-        if (!$CI->db->field_exists('short_link', db_prefix() . 'proposals')) {
+        if (!$this->db->field_exists('short_link', db_prefix() . 'proposals')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'proposals` ADD `short_link` VARCHAR(100) DEFAULT NULL');
         }
-        if (!$CI->db->field_exists('short_link', db_prefix() . 'contracts')) {
+        if (!$this->db->field_exists('short_link', db_prefix() . 'contracts')) {
             $this->db->query('ALTER TABLE `' . db_prefix() . 'contracts` ADD `short_link` VARCHAR(100) DEFAULT NULL');
         }
 
-        $CI->db->query(
+        $this->db->query(
             'CREATE TABLE IF NOT EXISTS ' . db_prefix() . 'twocheckout_log(
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
             `reference` VARCHAR(64) NOT NULL,
@@ -40,8 +38,8 @@ class Migration_Version_503 extends CI_Migration
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;'
         );
 
-        if ($CI->db->table_exists(db_prefix() . 'tbltwocheckout_log')) {
-            $CI->db->query('DROP TABLE ' . db_prefix() . 'tbltwocheckout_log');
+        if ($this->db->table_exists(db_prefix() . 'tbltwocheckout_log')) {
+            $this->db->query('DROP TABLE ' . db_prefix() . 'tbltwocheckout_log');
         }
     }
 }

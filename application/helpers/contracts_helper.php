@@ -163,7 +163,7 @@ function count_recently_created_contracts($days = 7, $staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : ''));
+    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') .' AND type_id=0');
 }
 
 /**
@@ -182,7 +182,7 @@ function count_active_contracts($staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', '(DATE(dateend) >"' . date('Y-m-d') . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') . ') OR (DATE(dateend) IS NULL AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') . ')');
+    return total_rows(db_prefix() . 'contracts', '(DATE(dateend) >"' . date('Y-m-d') . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') . ') OR (DATE(dateend) IS NULL AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') . ') AND type_id=0');
 }
 
 /**
@@ -201,7 +201,7 @@ function count_expired_contracts($staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', array_merge(['DATE(dateend) <' => date('Y-m-d'), 'trash' => 0], $where_own));
+    return total_rows(db_prefix() . 'contracts', array_merge(['DATE(dateend) <' => date('Y-m-d'), 'trash' => 0, 'type_id' => 0], $where_own));
 }
 
 /**
@@ -220,5 +220,5 @@ function count_trash_contracts($staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', array_merge(['trash' => 1], $where_own));
+    return total_rows(db_prefix() . 'contracts', array_merge(['trash' => 1, 'type_id' => 0], $where_own));
 }

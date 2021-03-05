@@ -20,6 +20,9 @@ foreach ($custom_fields as $key => $field) {
 }
 
 $where  = [];
+
+array_push($where, 'AND ' .db_prefix() . 'my_casestatus.is_default = 0');
+
 $filter = [];
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'my_casestatus';

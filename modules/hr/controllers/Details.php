@@ -12,7 +12,7 @@ class Details extends AdminController{
 		$this->load->model('Allowances_model');
 		$this->load->model('Statutory_deduction_model');
 
-        if (!has_permission('hr', '', 'view') and !has_permission('hr', '', 'edit'))
+        if (!has_permission('hr', '', 'view') && !has_permission('hr', '', 'view_own')  and !has_permission('hr', '', 'edit'))
             access_denied();
 	}
 
@@ -99,6 +99,9 @@ class Details extends AdminController{
 
 
 	public function update_salary(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $staff_id = $this->input->post('staff_id');
         $success = $this->Salary_model->update($data, $staff_id);
@@ -116,6 +119,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_commission(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Commissions_model->update($data, $id);
@@ -127,6 +133,9 @@ class Details extends AdminController{
     }
 
 	public function add_commission(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Commissions_model->add($data);
         if($success)
@@ -138,11 +147,11 @@ class Details extends AdminController{
 
 	public function delete_commission($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Allowances_model->delete($id);
         if ($response == true) {
@@ -160,6 +169,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_statutory_deduction(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Statutory_deduction_model->update($data, $id);
@@ -171,6 +183,9 @@ class Details extends AdminController{
     }
 
 	public function add_statutory_deduction(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Statutory_deduction_model->add($data);
         if($success)
@@ -182,11 +197,11 @@ class Details extends AdminController{
 
 	public function delete_statutory_deduction($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Statutory_deduction_model->delete($id);
         if ($response == true) {
@@ -204,6 +219,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_allowance(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Allowances_model->update($data, $id);
@@ -215,6 +233,9 @@ class Details extends AdminController{
     }
 
 	public function add_allowance(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Allowances_model->add($data);
         if($success)
@@ -226,11 +247,11 @@ class Details extends AdminController{
 
 	public function delete_allowance($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Allowances_model->delete($id);
         if ($response == true) {
@@ -247,6 +268,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_other_payment(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Other_payment_model->update($data, $id);
@@ -258,6 +282,9 @@ class Details extends AdminController{
     }
 
 	public function add_other_payment(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Other_payment_model->add($data);
         if($success)
@@ -269,11 +296,11 @@ class Details extends AdminController{
 
 	public function delete_other_payment($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Other_payment_model->delete($id);
         if ($response == true) {
@@ -290,6 +317,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_loan(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['start_date'] = to_sql_date($data['start_date']);
         $data['end_date'] = to_sql_date($data['end_date']);
@@ -303,6 +333,9 @@ class Details extends AdminController{
     }
 
 	public function add_loan(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['start_date'] = to_sql_date($data['start_date']);
         $data['end_date'] = to_sql_date($data['end_date']);
@@ -316,11 +349,11 @@ class Details extends AdminController{
 
 	public function delete_loan($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Loan_model->delete($id);
         if ($response == true) {
@@ -338,6 +371,9 @@ class Details extends AdminController{
         echo json_encode($data);
     }
     public function update_overtime(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Overtime_model->update($data, $id);
@@ -349,6 +385,9 @@ class Details extends AdminController{
     }
 
 	public function add_overtime(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Overtime_model->add($data);
         if($success)
@@ -360,11 +399,11 @@ class Details extends AdminController{
 
 	public function delete_overtime($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Overtime_model->delete($id);
         if ($response == true) {

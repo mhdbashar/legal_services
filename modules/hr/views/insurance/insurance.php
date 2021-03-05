@@ -39,11 +39,11 @@
                             </div>
                             <div class="row">
                                 <br>
-                                <div class="col-md-6">
-                             <?php $insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?>     
-                                <?php 
-                            echo render_input('insurance_book_num','insurance_book_number', $insurance_book_num); ?>
-                                </div>
+<!--                                <div class="col-md-6">-->
+<!--                             --><?php //$insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?><!--     -->
+<!--                                --><?php //
+//                            echo render_input('insurance_book_num','insurance_book_number', $insurance_book_num); ?>
+<!--                                </div>-->
                                 <div class="col-md-6">
                                 <?php $health_insurance_num = isset($insurances) ? $insurances[0]['health_insurance_num'] : '' ?>
                                 <?php 
@@ -101,22 +101,22 @@ $(function(){
         staff_id: {
             required: true
         },
-        insurance_book_num: {
-            required: true,
-            remote: {
-                url: site_url + "admin/hr/insurance_book_exists",
-                type: 'post',
-                data: {
-                    insurance_id:function(){
-                        return $('input[name = "insurance_id"]').val();
-                    },
-                    insurance_book_num:function(){
-                        return $('input[name = "insurance_book_num"]').val();
-                    }
-
-                }
-            }
-        },
+        // insurance_book_num: {
+        //     required: true,
+        //     remote: {
+        //         url: site_url + "admin/hr/insurance_book_exists",
+        //         type: 'post',
+        //         data: {
+        //             insurance_id:function(){
+        //                 return $('input[name = "insurance_id"]').val();
+        //             },
+        //             insurance_book_num:function(){
+        //                 return $('input[name = "insurance_book_num"]').val();
+        //             }
+        //
+        //         }
+        //     }
+        // },
         health_insurance_num: {
             required: true,
             remote: {

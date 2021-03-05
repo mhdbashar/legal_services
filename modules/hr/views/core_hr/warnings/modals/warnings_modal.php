@@ -30,7 +30,8 @@
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('warning_type') ?></label>
                             <select required="required" class="form-control" id="warning_type" name="warning_type" placeholder="<?php echo _l('warning_type') ?>" aria-invalid="false">
-                            <?php foreach ($data as $value) { ?>
+                                <option></option>
+                                <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
                             </select>     

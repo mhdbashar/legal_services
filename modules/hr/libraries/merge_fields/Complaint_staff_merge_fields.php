@@ -17,8 +17,8 @@ class Complaint_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('complaints_title'),
-                'key'       => '{complaints_title}',
+                'name'      => _l('complaint_title'),
+                'key'       => '{complaint_title}',
                 'available' => [
                     'hr',
                 ],
@@ -38,8 +38,8 @@ class Complaint_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('description'),
-                'key'       => '{description}',
+                'name'      => _l('complaint_description'),
+                'key'       => '{complaint_description}',
                 'available' => [
                     'hr',
                 ],
@@ -70,10 +70,10 @@ class Complaint_staff_merge_fields extends App_merge_fields
         $complaints = $this->ci->db->get(db_prefix().'hr_complaints')->row();
 
         $fields['{complaint_date}']   = '';
-        $fields['{complaints_title}']   = '';
+        $fields['{complaint_title}']   = '';
         $fields['{complaint_againts}']       = '';
         $fields['{complaint_from}']       = '';
-        $fields['{description}'] = '';
+        $fields['{complaint_description}'] = '';
         $fields['{staff_fullname}']   = '';
         $fields['{staff_email}']       = '';
 
@@ -83,10 +83,22 @@ class Complaint_staff_merge_fields extends App_merge_fields
 
 
         $fields['{complaint_date}']   = $complaints->complaint_date;
-        $fields['{complaint_title}']       = $complaints->complaints_title;
-        $fields['{complaint_againts}']   = $complaints->complaint_againts;
-        $fields['{complaint_from}']       = $complaints->complaint_from;
-        $fields['{description}'] = $complaints->description;
+        $fields['{complaint_title}']       = $complaints->complaint_title;
+        //$fields['{complaint_againts}']   = $complaints->complaint_againts;
+        //$fields['{complaint_from}']       = $complaints->complaint_from;
+
+        $this->ci->db->where('staffid', $complaints->complaint_from);
+        $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
+        if(is_object($staff))
+            $fields['{{complaint_from}'] = $staff->firstname;
+
+        $this->ci->db->where('staffid', $complaints->complaint_againts);
+        $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
+        if(is_object($staff))
+            $fields['{{complaint_againts}'] = $staff->firstname;
+
+
+        $fields['{complaint_description}'] = $complaints->description;
         $this->ci->db->where('staffid', $complaints->complaint_from);
         $staff = $this->ci->db->get(db_prefix() . 'staff')->row();
         $fields['{staff_fullname}']   = $staff->firstname;

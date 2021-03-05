@@ -188,7 +188,8 @@
                         <div class="form-group">
                             <label for="cat_id" class="control-label"><?php echo _l('travel_mode') ?></label>
                             <select required="required" class="form-control" id="travel_mode_type" name="travel_mode_type" placeholder="<?php echo _l('travel_mode_type') ?>" aria-invalid="false">
-                            <?php foreach ($data as $value) { ?>
+
+                                <?php foreach ($data as $value) { ?>
                                 <option value="<?php echo $value['value'] ?>"><?php echo $value['value'] ?></option>
                             <?php } ?>
                             </select>     

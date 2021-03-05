@@ -28,8 +28,13 @@ hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'official_document_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
 register_merge_fields('hr/merge_fields/termination_staff_merge_fields');
+register_merge_fields('hr/merge_fields/resignation_staff_merge_fields');
 register_merge_fields('hr/merge_fields/award_staff_merge_fields');
 register_merge_fields('hr/merge_fields/complaint_staff_merge_fields');
+register_merge_fields('hr/merge_fields/warning_staff_merge_fields');
+register_merge_fields('hr/merge_fields/promotion_staff_merge_fields');
+register_merge_fields('hr/merge_fields/transfer_staff_merge_fields');
+register_merge_fields('hr/merge_fields/travel_staff_merge_fields');
 
 $CI = & get_instance();
 $CI->load->helper(HR_MODULE_NAME . '/hr');
@@ -324,12 +329,14 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
     $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
-    $CI->app_menu->add_setup_menu_item('hr', [
-        'name'     => _l("hr"), // The name if the item
-        'href'     => '#', // URL of the item
-        'position' => 10, // The menu position, see below for default positions.
-        // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
-    ]);
+    if (has_permission('hr', '', 'hr')) {
+        $CI->app_menu->add_setup_menu_item('hr', [
+            'name' => _l("hr"), // The name if the item
+            'href' => '#', // URL of the item
+            'position' => 10, // The menu position, see below for default positions.
+            // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
+        ]);
+    }
     if (has_permission('hr', '', 'hr')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'dashboard',

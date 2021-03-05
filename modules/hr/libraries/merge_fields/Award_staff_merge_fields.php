@@ -38,8 +38,8 @@ class Award_staff_merge_fields extends App_merge_fields
                 ],
             ],
             [
-                'name'      => _l('description'),
-                'key'       => '{description}',
+                'name'      => _l('award_description'),
+                'key'       => '{award_description}',
                 'available' => [
                     'hr',
                 ],
@@ -83,7 +83,7 @@ class Award_staff_merge_fields extends App_merge_fields
         $fields['{gift}']       = '';
         $fields['{cash}']       = '';
         $fields['{award_information}']       = '';
-        $fields['{description}'] = '';
+        $fields['{award_description}'] = '';
         $fields['{staff_fullname}']   = '';
         $fields['{staff_email}']       = '';
 
@@ -94,7 +94,7 @@ class Award_staff_merge_fields extends App_merge_fields
 
         $fields['{date}']   = $award->date;
         $fields['{award_type}']       = $award->award_type;
-        $fields['{description}'] = $award->description;
+        $fields['{award_description}'] = $award->description;
         $fields['{gift}'] = $award->gift;
         $fields['{award_information}'] = $award->award_information;
         $fields['{cash}'] = $award->cash;

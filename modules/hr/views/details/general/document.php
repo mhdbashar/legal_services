@@ -10,5 +10,6 @@
     _l('document_title'),
     _l('notification_email'),
     _l('date_expiry'),
+    _l('file'),
     _l('control'),
     ),'document'); ?>

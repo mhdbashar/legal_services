@@ -26,6 +26,9 @@ $join = [
 ];
 
 $where  = [];
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 $filter = [];
 if($this->ci->input->post('memberid')){
     $where_staff = '';

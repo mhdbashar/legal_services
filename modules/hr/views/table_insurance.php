@@ -17,6 +17,11 @@ $join = ['LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_
         'LEFT JOIN '.db_prefix().'staff_insurance_history ON '.db_prefix().'staff_insurance_history.insurance_id = '.db_prefix().'staff_insurance.insurance_id'];
 $where = [];
 
+
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
+
 $department_id = $this->ci->input->post('hrm_deparment');
 
 if(isset($department_id) && strlen($department_id) > 0){

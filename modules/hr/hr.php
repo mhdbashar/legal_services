@@ -329,7 +329,19 @@ function hr_init_hrmApp(){
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
     $CI->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
-    if (has_permission('hr', '', 'hr')) {
+    $viewGlobalName = _l('permission_view') . '(' . _l('permission_global') . ')';
+
+    $allPermissionsArray = [
+        'view_own' => _l('permission_view_own'),
+        'view'     => $viewGlobalName,
+        'create'   => _l('permission_create'),
+        'edit'     => _l('permission_edit'),
+        'delete'   => _l('permission_delete'),
+    ];
+
+    register_staff_capabilities('hr', ['capabilities' => $allPermissionsArray,], _l('hr'));
+
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('hr', [
             'name' => _l("hr"), // The name if the item
             'href' => '#', // URL of the item
@@ -337,7 +349,7 @@ function hr_init_hrmApp(){
             // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'dashboard',
             'name'     => _l('dashboard'),
@@ -345,7 +357,7 @@ function hr_init_hrmApp(){
             'position' => 5,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'staff',
             'name'     => _l('staff'),
@@ -354,7 +366,7 @@ function hr_init_hrmApp(){
         ]);
     }
 
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'expired_documents',
             'name'     => _l('expired_documents'),
@@ -363,7 +375,7 @@ function hr_init_hrmApp(){
         ]);
     }
 
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'staff_contract',
             'name'     => _l('staff_contract'),
@@ -371,7 +383,7 @@ function hr_init_hrmApp(){
             'position' => 15,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'insurrance',
             'name'     => _l('insurrance'),
@@ -379,7 +391,7 @@ function hr_init_hrmApp(){
             'position' => 20,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'constants',
             'name'     => _l('constants'),
@@ -387,7 +399,7 @@ function hr_init_hrmApp(){
             'position' => 25,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'global_hr_setting',
             'name'     => _l('global_hr_setting'),
@@ -395,7 +407,7 @@ function hr_init_hrmApp(){
             'position' => 30,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'payroll',
             'name'     => _l('payroll'),
@@ -403,7 +415,7 @@ function hr_init_hrmApp(){
             'position' => 35,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'payment_history',
             'name'     => _l('payment_history'),
@@ -411,7 +423,7 @@ function hr_init_hrmApp(){
             'position' => 40,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'indicators',
             'name'     => _l('indicators'),
@@ -419,7 +431,7 @@ function hr_init_hrmApp(){
             'position' => 45,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'appraisals',
             'name'     => _l('appraisals'),
@@ -427,7 +439,7 @@ function hr_init_hrmApp(){
             'position' => 50,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'official_documents',
             'name'     => _l('official_documents'),
@@ -435,7 +447,7 @@ function hr_init_hrmApp(){
             'position' => 55,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'departments',
             'name'     => _l('departments'),
@@ -443,7 +455,7 @@ function hr_init_hrmApp(){
             'position' => 60,
         ]);
     }
-    if (has_permission('hr', '', 'hr') and is_active_sub_department()){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') and is_active_sub_department()){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'sub_department',
             'name'     => _l('sub_department'),
@@ -451,7 +463,7 @@ function hr_init_hrmApp(){
             'position' => 65,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'designation',
             'name'     => _l('designation'),
@@ -459,7 +471,7 @@ function hr_init_hrmApp(){
             'position' => 70,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'awards',
             'name'     => _l('awards'),
@@ -467,7 +479,7 @@ function hr_init_hrmApp(){
             'position' => 75,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'terminations',
             'name'     => _l('terminations'),
@@ -475,7 +487,7 @@ function hr_init_hrmApp(){
             'position' => 80,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'warnings',
             'name'     => _l('warnings'),
@@ -483,7 +495,7 @@ function hr_init_hrmApp(){
             'position' => 85,
         ]);
     }
-    if (has_permission('hr', '', 'hr') and is_active_sub_department()){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') and is_active_sub_department()){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'transfers',
             'name'     => _l('transfers'),
@@ -491,7 +503,7 @@ function hr_init_hrmApp(){
             'position' => 90,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'complaints',
             'name'     => _l('complaints'),
@@ -499,7 +511,7 @@ function hr_init_hrmApp(){
             'position' => 95,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'resignations',
             'name'     => _l('resignations'),
@@ -507,7 +519,7 @@ function hr_init_hrmApp(){
             'position' => 100,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'promotions',
             'name'     => _l('promotions'),
@@ -515,7 +527,7 @@ function hr_init_hrmApp(){
             'position' => 105,
         ]);
     }
-    if (has_permission('hr', '', 'hr')){
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'travels',
             'name'     => _l('travels'),

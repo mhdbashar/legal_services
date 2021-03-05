@@ -13,7 +13,7 @@ class Organization extends AdminController{
         $this->load->model('No_branch_model');
 
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 	}
 

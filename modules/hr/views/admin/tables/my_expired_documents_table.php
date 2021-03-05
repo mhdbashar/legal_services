@@ -14,6 +14,10 @@ $join = [
 
 $where = ['AND date_expiry<=CURDATE() '];
 
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
+
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id']);
 $output  = $result['output'];

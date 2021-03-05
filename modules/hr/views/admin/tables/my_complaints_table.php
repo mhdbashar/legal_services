@@ -27,6 +27,9 @@ $join = [
 ];
 
 $where = [];
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND tostaff.staffid='.get_staff_user_id().' OR bystaff.staffid='.get_staff_user_id();
+}
 
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'hr_complaints.id', 'attachment']);

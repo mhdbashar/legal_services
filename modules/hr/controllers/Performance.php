@@ -10,7 +10,7 @@ class Performance extends AdminController{
         $this->load->model('Extra_info_model');
         $this->load->model('Designation_model');
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 
         $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');

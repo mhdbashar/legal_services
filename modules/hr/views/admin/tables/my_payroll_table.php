@@ -20,6 +20,9 @@ $join = [
 	'LEFT JOIN '.db_prefix().'hr_payments ON '.db_prefix().'hr_payments.staff_id='.db_prefix().'staff.staffid AND MONTH(payment_date)='.$month.' AND YEAR(payment_date)='.$year,
 ];
 
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['staffid', '(SELECT '.db_prefix().'hr_payments.id) AS payment_id']);
 $output  = $result['output'];

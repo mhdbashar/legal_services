@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php if(has_permission('hr','','create')){ ?>
+                        <?php if(has_permission('insurrance','','create')){ ?>
                         <div class="_buttons">
                             
                             <a href="<?php echo admin_url('hr/insurance'); ?>" class="btn btn-info mright5 pull-left display-block"><?php echo _l('add_insurrance'); ?></a>

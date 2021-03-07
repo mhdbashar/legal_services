@@ -24,7 +24,7 @@
                     ?>
                 </div>
                     <div class="panel-body">
-                        <?php if(has_permission('hr','','create')){ { ?>
+                        <?php if(has_permission('hr_contracts','','create')){ { ?>
                         <div class="_buttons">
                             <a href="<?php echo admin_url('hr/contract'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_contract'); ?></a>
                         </div>

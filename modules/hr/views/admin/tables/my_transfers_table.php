@@ -35,7 +35,7 @@ $join = [
 
 $where = [];
 
-if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+if(has_permission('transfers', '', 'view_own') && !has_permission('transfers', '', 'view')){
     $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
 }
 
@@ -55,8 +55,8 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['status'];
 
-    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_transfer', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    if (has_permission('hr', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_transfer/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    $options = ''; if (has_permission('transfers', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_transfer', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    if (has_permission('transfers', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_transfer/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $row[]   = $options;
 
     $output['aaData'][] = $row;

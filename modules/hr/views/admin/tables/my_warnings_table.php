@@ -28,7 +28,7 @@ $join = [
 
 $where = [];
 
-if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+if(has_permission('warnings', '', 'view_own') && !has_permission('warnings', '', 'view')){
     $where[] = 'AND tostaff.staffid='.get_staff_user_id().' OR bystaff.staffid='.get_staff_user_id();
 }
 
@@ -50,9 +50,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['warning_by'];
 
-    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_warning', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options = ''; if (has_permission('warnings', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_warning', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['attachment'], 'download', 'btn-default','download');
-    if (has_permission('hr', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_warning/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    if (has_permission('warnings', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_warning/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $row[]   = $options;
 
     $output['aaData'][] = $row;

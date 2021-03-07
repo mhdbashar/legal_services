@@ -26,7 +26,7 @@ $join = [
 ];
 
 $where  = [];
-if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+if(has_permission('hr_contracts', '', 'view_own') && !has_permission('hr_contracts', '', 'view')){
     $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
 }
 $filter = [];
@@ -172,11 +172,11 @@ foreach ($rResult as $aRow) {
 
     
 
-    if (has_permission('hr', '', 'edit')) {
+    if (has_permission('hr_contracts', '', 'edit')) {
     $subjectOutput .= ' <a href="' . admin_url('hr/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
 
-    if (has_permission('hr', '', 'delete')) {
+    if (has_permission('hr_contracts', '', 'delete')) {
         $subjectOutput .= ' | <a href="' . admin_url('hr/delete_contract/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 

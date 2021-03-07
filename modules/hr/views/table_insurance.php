@@ -18,7 +18,7 @@ $join = ['LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_
 $where = [];
 
 
-if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+if(has_permission('insurrance', '', 'view_own') && !has_permission('insurrance', '', 'view')){
     $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
 }
 

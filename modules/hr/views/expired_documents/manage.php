@@ -11,9 +11,11 @@
                 <li class="customer_tab_contacts">
                   <a data-group='immigration' href="?group=immigration"><?php echo _l('immigration') ?></a>
                 </li>
+                        <?php if(has_permission('expired_documents', '', 'view')){ ?>
                         <li class="customer_tab_contacts">
                             <a data-group='official' href="?group=official"><?php echo _l('official_documents') ?></a>
                         </li>
+                        <?php } ?>
                     </ul>
             </div>
             <div class="col-md-9">

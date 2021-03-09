@@ -25,7 +25,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['document_title'];
 
     $row[] = $aRow['date_expiry'];
-if (has_permission('hr', '', 'delete')){
+if (has_permission('expired_documents', '', 'delete')){
     $row[]   = icon_btn('hr/organization/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
     } else $row[] = '';
 

@@ -357,6 +357,7 @@ function hr_init_hrmApp(){
     register_staff_capabilities('hr_contracts', ['capabilities' => $allPermissionsArray,], _l('hr_contracts'));
     register_staff_capabilities('hr_settings', ['capabilities' => $withoutViewOwnPermissionsArray,], _l('hr_settings'));
     register_staff_capabilities('payroll', ['capabilities' => $allPermissionsArray,], _l('payroll'));
+    register_staff_capabilities('expired_documents', ['capabilities' => $allPermissionsArray,], _l('expired_documents'));
 
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('hr', [
@@ -383,7 +384,7 @@ function hr_init_hrmApp(){
         ]);
     }
 
-    if (has_permission('hr', '', 'view')){
+    if (has_permission('expired_documents', '', 'view_own') || has_permission('expired_documents', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'expired_documents',
             'name'     => _l('expired_documents'),

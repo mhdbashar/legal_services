@@ -23,7 +23,7 @@ $ci = &get_instance();
 
 $where = [];
 
-if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+if(has_permission('payroll', '', 'view_own') && !has_permission('payroll', '', 'view')){
     $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
 }
 

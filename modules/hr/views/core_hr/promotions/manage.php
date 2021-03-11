@@ -18,9 +18,9 @@
                         _l('staff_name'),
                         _l('promotion_title'),
                         _l('promotion_date'),
-                        _l('control'),
-                    ); 
-
+                    );
+                    if (has_permission('promotions', '', 'edit') || has_permission('promotions', '', 'delete') )
+                        $data[] = _l('control');
                     render_datatable($data,'promotion');
                     ?>
                     </div>

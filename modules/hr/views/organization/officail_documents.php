@@ -12,13 +12,17 @@
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
-                    <?php render_datatable(array(
+                    <?php
+                    $data = array(
                         _l('document_type'),
                         _l('document_title'),
                         _l('date_expiry'),
                         _l('file'),
-                        _l('control'),
-                    ),'official_documents'); ?>
+                    );
+                    if (has_permission('hr', '', 'edit') || has_permission('hr', '', 'delete') )
+                        $data[] = _l('control');
+                    render_datatable($data,'official_documents');
+                    ?>
                     </div>
                 </div>
             </div>

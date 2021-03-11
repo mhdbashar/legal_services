@@ -15,8 +15,9 @@
                     <?php
                     $data = array(
                                 _l('sub_department'),
-                                _l('control'),
                             );
+                    if (has_permission('hr', '', 'edit') || has_permission('hr', '', 'delete') )
+                        $data[] = _l('control');
                      render_datatable($data,'sub_department'); ?>
                     </div>
                 </div>

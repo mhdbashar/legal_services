@@ -15,9 +15,10 @@
                     <?php
                     $data = array(
                                 _l('designation'),
-                                _l('control'),
                             );
-                     render_datatable($data,'designation'); ?>
+                    if (has_permission('hr', '', 'edit') || has_permission('hr', '', 'delete') )
+                        $data[] = _l('control');
+                        render_datatable($data,'designation'); ?>
                     </div>
                 </div>
             </div>

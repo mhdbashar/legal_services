@@ -64,7 +64,9 @@ foreach ($rResult as $aRow) {
 
     $options = ''; if (has_permission('travels', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_travel', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     if (has_permission('travels', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_travel/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    $row[]   = $options;
+    if (has_permission('travels', '', 'edit') || has_permission('travels', '', 'delete') )
+
+        $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

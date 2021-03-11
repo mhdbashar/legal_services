@@ -32,9 +32,9 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['fullname'];
 
     $row[] = $aRow['date_expiry'];
-if (has_permission('hr', '', 'delete')){
+if (has_permission('expired_documents', '', 'delete')){
     $row[]   = icon_btn('hr/general/delete_immigration/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    } else $row[] = '';
+    }
 
     $output['aaData'][] = $row;
 }

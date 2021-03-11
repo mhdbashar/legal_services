@@ -18,8 +18,9 @@
                         _l('staff_name'),
                         _l('notice_date'),
                         _l('resignation_date'),
-                        _l('control'),
                     );
+                    if (has_permission('resignations', '', 'edit') || has_permission('resignations', '', 'delete') )
+                        $data[] = _l('control');
                     render_datatable($data,'resignation');
                     ?>
                     </div>

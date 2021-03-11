@@ -20,9 +20,9 @@
                         _l('start_date'),
                         _l('end_date'),
                         _l('status'),
-                        _l('control'),
-                    ); 
-
+                    );
+                    if (has_permission('travels', '', 'edit') || has_permission('travels', '', 'delete') )
+                        $data[] = _l('control');
                     render_datatable($data,'travel');
                     ?>
                     </div>

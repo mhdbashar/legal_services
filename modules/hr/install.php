@@ -724,18 +724,19 @@ if (!$CI->db->table_exists(db_prefix() . 'staff_insurance_history')) {
 }
 
 
-if (!$CI->db->table_exists(db_prefix() . 'insurance_type')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . "insurance_type` (
+if (!$CI->db->table_exists(db_prefix() . 'insurances_type')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "insurances_type` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
-      `from_month` date NOT NULL,
-      `social_company` VARCHAR(15) NULL,
-      `social_staff` VARCHAR(15) NULL,
-      `labor_accident_company` VARCHAR(15) NULL,
-      `labor_accident_staff` VARCHAR(15) NULL,
-      `health_company` VARCHAR(15) NULL,
-      `health_staff` VARCHAR(15) NULL,
-      `unemployment_company` VARCHAR(15) NULL,
-      `unemployment_staff` VARCHAR(15) NULL,
+      `insurance_book_id` int(11) UNSIGNED  NULL,
+      `name` VARCHAR(15) NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'insurance_book_nums')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "insurance_book_nums` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` VARCHAR(15) NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

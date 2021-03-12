@@ -1,5 +1,6 @@
 <?php
 
+$lang['add_insurance_book_num'] = 'Add insurance book number';
 $lang['loan_note'] = 'سيتم اقتطاع قيمة هذا القرض من راتب الموظف بشكل شهري خلال المدة المحدد للقرض';
 
 $lang['Spreadsheet_name'] = "Spreadsheet Files";

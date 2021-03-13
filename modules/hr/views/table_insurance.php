@@ -21,7 +21,7 @@ $join = [
         'LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role',
         'LEFT JOIN '.db_prefix().'staff_insurance_history ON '.db_prefix().'staff_insurance_history.insurance_id = '.db_prefix().'staff_insurance.insurance_id',
         'LEFT JOIN '.db_prefix().'insurance_book_nums ON '.db_prefix().'insurance_book_nums.id = '.db_prefix().'staff_insurance.insurance_book_num',
-        'LEFT JOIN '.db_prefix().'insurances_type ON '.db_prefix().'insurances_type.insurance_book_id = '.db_prefix().'insurance_book_nums.id',
+        'LEFT JOIN '.db_prefix().'insurances_type ON '.db_prefix().'insurances_type.insurance_book_id = '.db_prefix().'staff_insurance.insurance_type',
 ];
 $where = [];
 

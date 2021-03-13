@@ -26,6 +26,13 @@
                     <div class="col-md-12">
                         <?php echo render_input('name',_l('name'),'','text'); ?>
                     </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="for_staff" value="1" class="" type="checkbox" name="for_staff"> <?php echo _l('can_it_for_staff') ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -62,6 +69,13 @@
                     <div class="col-md-12">
                         <?php echo render_input('name',_l('name'),'','text'); ?>
                     </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="for_staff" value="1" class="" type="checkbox" name="for_staff"> <?php echo _l('can_it_for_staff') ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -93,6 +107,12 @@
                 $('[name="name"]').val(data.name);
 
                 $('[name="insurance_book_id"]').val(data.insurance_book_id);
+
+                if(data.for_staff == 1){
+                    $('[name="for_staff"]').prop("checked", true);
+                }else{
+                    $('[name="for_staff"]').prop("checked", false);
+                }
 
                 $('[name="id"]').val(data.id);
 

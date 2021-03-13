@@ -273,6 +273,8 @@ class Setting extends AdminController{
 
     public function update_insurance_type(){
         $data = $this->input->get();
+        if(!isset($data['for_staff']))
+            $data['for_staff'] = '';
         $id = $this->input->get('id');
         $success = $this->Insurance_type_model->update($data, $id);
         if($success)

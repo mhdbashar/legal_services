@@ -13,13 +13,14 @@ class Insurance_type_model extends App_Model{
         }
     }
 
-    public function get($id=''){
+    public function get($id='', $where = []){
         if(is_numeric($id)){
             $this->db->where('id' ,$id);
             return $this->db->get($this->table_name)->row();
         }
 
         $this->db->order_by('id', 'desc');
+        $this->db->where($where);
         return $this->db->get($this->table_name)->result_array();
     }
 

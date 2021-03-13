@@ -24,3 +24,10 @@ function does_url_exists($url) {
     curl_close($ch);
     return $status;
 }
+
+function get_insurance_types_relation_data($book_num) {
+    $CI = get_instance();
+    $CI->load->model('Insurance_type_model');
+    $data = $CI->Insurance_type_model->get('', ['insurance_book_id' => $book_num, 'for_staff' => 1]);
+    return $data;
+}

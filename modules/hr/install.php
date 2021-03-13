@@ -701,9 +701,13 @@ if (!$CI->db->table_exists(db_prefix() . 'staff_insurance')) {
       `insurance_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `staff_id` int(11) UNSIGNED NOT NULL,
       `insurance_book_num` varchar(100) NULL,
+      `insurance_type` varchar(100) NULL,
       `health_insurance_num` varchar(100) NULL,
       `city_code` varchar(100) NULL,
       `registration_medical` varchar(100) NULL,
+      `start_date` date NULL,
+      `end_date` date NULL,
+      `file` varchar(100) NULL,
       PRIMARY KEY (`insurance_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
@@ -728,6 +732,7 @@ if (!$CI->db->table_exists(db_prefix() . 'insurances_type')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "insurances_type` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `insurance_book_id` int(11) UNSIGNED  NULL,
+      `for_staff` int(11) UNSIGNED  NULL,
       `name` VARCHAR(15) NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');

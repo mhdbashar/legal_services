@@ -9,7 +9,8 @@ $aColumns = [
     db_prefix().'insurances_type.name as insurance_type',
     'health_insurance_num',
     'start_date',
-    'end_date'
+    'end_date',
+    'file'
 //    'city_code',
 //    'registration_medical'
     ];
@@ -150,7 +151,28 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['health_insurance_num'];
     $row[] = _d($aRow['start_date']);
     $row[] = _d($aRow['end_date']);
-    $row[] = date("d-m-Y", strtotime($aRow['from_month']));
+    // file
+
+    $file = '';
+    if(basename($aRow["file"]) != '' and file_exists($aRow["file"])){
+        $file = '<a target="_blank" href="'.base_url(). $aRow['file'].'">';
+        $is_image = is_image($aRow['file']);
+
+        if($is_image){
+            $file .= '<div class="preview_image">';
+        }
+        if ($is_image) {
+            $file .=  '<img class="project-file-image img-table-loading" src="' . base_url().$aRow['file'] . '" width="100">';
+
+        }else{
+            $file .='<i class="'.get_mime_class(mime_content_type($aRow["file"])).' "></i> '. basename($aRow["file"]);
+        }
+        if($is_image){ $file .= '</div>'; }
+        $file .=  '</a>';
+    }
+
+    $row[] = $file;
+    // $row[] = date("d-m-Y", strtotime($aRow['from_month']));
 //    $row[] = app_format_money((int)($aRow['premium_rates']),'');
 //
 //    $row[] = app_format_money(get_payment_company($premium, $social_company,  $labor_accident_company, $health_company, $unemployment_company  ),'');

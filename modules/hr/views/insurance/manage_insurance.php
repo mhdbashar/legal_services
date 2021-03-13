@@ -54,6 +54,7 @@
                                         _l('health_insurance_number'),
                                         _l('start_date'),
                                         _l('end_date'),
+                                        _l('file'),
                                     );
                                     render_datatable($table_data,'table_insurance');
                                     ?>

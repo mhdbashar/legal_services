@@ -41,7 +41,7 @@
                                  <br>
                                  <div class="col-md-6">
                                      <?php  $insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?>
-                                     <?php echo render_select('insurance_book_num',$insurance_book_nums,array('id','name'),'insurance_book_number',$insurance_book_num,array(),array(),'','',false); ?>
+                                     <?php echo render_select('insurance_book_num',$insurance_book_nums,array('id','name'),'insurance_book_number',$insurance_book_num); ?>
                                  </div>
                                  <div class="col-md-6">
                                      <?php  $insurance_type = isset($insurances) ? $insurances[0]['insurance_type'] : '' ?>
@@ -72,6 +72,13 @@
                                      <?php $health_insurance_num = isset($insurances) ? $insurances[0]['health_insurance_num'] : '' ?>
                                      <?php
                                      echo render_input('health_insurance_num','health_insurance_number', $health_insurance_num); ?>
+                                 </div>
+
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label for="cat_id" class="control-label"><?php echo _l('file') ?></label>
+                                         <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                                     </div>
                                  </div>
                              </div>
                              <div class="row">

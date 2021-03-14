@@ -1,8 +1,10 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
+    $this->setRTL(true);
     $align = 'R'; //Right align
 }else{
+    $this->setRTL(false);
     $align = 'L'; //Left align
 }
 

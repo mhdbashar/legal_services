@@ -2164,7 +2164,7 @@ class Tasks_model extends App_Model
 
             $this->db->where('id', $timer_id);
             $this->db->update(db_prefix() . 'taskstimers', [
-                    'end_time' => $end_time(),
+                    'end_time' => $end_time,
                     'task_id'  => $task_id,
                     'note'     => ($note != '' ? $note : null),
                 ]);

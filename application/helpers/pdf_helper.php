@@ -287,6 +287,7 @@ function _bulk_pdf_export_maybe_tag($tag, &$pdf)
  */
 function pdf_multi_row($left, $right, $pdf, $left_width = 40)
 {
+
     // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 
     $page_start = $pdf->getPage();

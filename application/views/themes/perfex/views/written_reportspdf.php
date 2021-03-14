@@ -1,8 +1,10 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 if (is_rtl()) {
+    $pdf->setRTL(true);
     $align = 'R';
     $text_align = 'right';
 }else{
+    $pdf->setRTL(false);
     $align = 'L';
     $text_align = 'left';
 }

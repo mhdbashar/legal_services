@@ -7,5 +7,9 @@
 <div class="clearfix"></div>
 <?php render_datatable(array(
     _l('insurance_book_number'),
+    _l('company_name'),
+    _l('start_date'),
+    _l('end_date'),
+    _l('file'),
     _l('control'),
 ),'insurance_book_number'); ?>

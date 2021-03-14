@@ -6,7 +6,7 @@ class Core_hr extends AdminController{
 		parent::__construct();
 		$this->load->model('Awards_model');
         $this->load->model('Terminations_model');
-		$this->load->model('Branches_model');
+
 		$this->load->model('Staff_model');
         $this->load->model('Warnings_model');
         $this->load->model('Transfers_model');

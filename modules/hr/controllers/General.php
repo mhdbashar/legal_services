@@ -16,7 +16,7 @@ class General extends AdminController{
         $this->load->model('Immigration_model');
         $this->load->model('Extra_info_model');
         $this->load->model('Emergency_contact_model');
-        $this->load->model('Branches_model');
+
         $this->load->model('Sub_department_model');
         $this->load->model('Designation_model');
         $this->load->model('Leave_type_model');

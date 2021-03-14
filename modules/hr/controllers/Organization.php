@@ -5,7 +5,7 @@ class Organization extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Designation_model');
-		$this->load->model('Branches_model');
+
 		$this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');

@@ -4,7 +4,7 @@ class Timesheet extends AdminController{
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Branches_model');
+
 		$this->load->model('Staff_model');
 		$this->load->model('Holidays_model');
 		$this->load->model('Leave_model');

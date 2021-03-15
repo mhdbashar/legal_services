@@ -742,6 +742,10 @@ if (!$CI->db->table_exists(db_prefix() . 'insurance_book_nums')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "insurance_book_nums` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `name` VARCHAR(15) NULL,
+      `company_name` VARCHAR(15) NULL,
+      `start_date` date NULL,
+      `end_date` date NULL,
+      `file` varchar(100) NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

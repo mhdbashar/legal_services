@@ -221,7 +221,7 @@ class Setting extends AdminController{
     // insurance_book_num
 
     public function add_insurance_book_num(){
-        $data = $this->input->get();
+        $data = $this->input->post();
         $success = $this->Insurance_book_num_model->add($data);
         if($success)
             set_alert('success', _l('added_successfully'));
@@ -231,8 +231,8 @@ class Setting extends AdminController{
     }
 
     public function update_insurance_book_num(){
-        $data = $this->input->get();
-        $id = $this->input->get('id');
+        $data = $this->input->post();
+        $id = $this->input->post('id');
         $success = $this->Insurance_book_num_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));

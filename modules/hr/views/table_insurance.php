@@ -8,9 +8,9 @@ $aColumns = [
     db_prefix().'insurance_book_nums.name as insurance_book_num',
     db_prefix().'insurances_type.name as insurance_type',
     'health_insurance_num',
-    'start_date',
-    'end_date',
-    'file'
+    db_prefix().'staff_insurance.start_date as start_date',
+    db_prefix().'staff_insurance.end_date as end_date',
+    db_prefix().'staff_insurance.file as file'
 //    'city_code',
 //    'registration_medical'
     ];

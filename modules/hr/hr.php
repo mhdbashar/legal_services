@@ -23,7 +23,13 @@ hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 
 hooks()->add_action('after_cron_settings_last_tab', 'add_hr_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_hr_reminder_tab_content');
+hooks()->add_action('after_cron_settings_last_tab', 'add_insurance_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_insurance_reminder_tab_content');
+hooks()->add_action('after_cron_settings_last_tab', 'add_insurance_book_number_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_insurance_book_number_reminder_tab_content');
 hooks()->add_action('after_cron_run', 'document_reminders');
+hooks()->add_action('after_cron_run', 'insurance_reminders');
+hooks()->add_action('after_cron_run', 'insurance_book_number_reminders');
 hooks()->add_action('after_cron_run', 'immigration_reminders');
 hooks()->add_action('after_cron_run', 'official_document_reminders');
 hooks()->add_action('after_email_templates', 'add_hr_email_templates');
@@ -62,6 +68,165 @@ function add_hr_reminder_tab_content(){
    <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_document_reminder_notification_before_help').'"></i>
    '.render_input('settings[hr_document_reminder_notification_before]','hr_document_reminder_notification_before',get_option('hr_document_reminder_notification_before'),'number').'
  </div>  ';
+}
+
+function add_insurance_reminder_tab(){
+    echo '
+    <li role="presentation">
+    <a href="#insurance" aria-control="insurance" role="tab" data-toggle="tab">'._l('insurance_history').'</a>
+    </li>';
+}
+
+function add_insurance_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="insurance">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_insurance_reminder_notification_before_help').'"></i>
+   '.render_input('settings[hr_insurance_reminder_notification_before]','hr_insurance_reminder_notification_before',get_option('hr_insurance_reminder_notification_before'),'number').'
+ </div>  ';
+}
+
+function add_insurance_book_number_reminder_tab(){
+    echo '
+    <li role="presentation">
+    <a href="#insurance_book_number" aria-control="insurance_book_number" role="tab" data-toggle="tab">'._l('insurance_book_number').'</a>
+    </li>';
+}
+
+
+function add_insurance_book_number_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="insurance_book_number">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_insurance_book_number_reminder_notification_before_help').'"></i>
+   '.render_input('settings[hr_insurance_book_number_reminder_notification_before]','hr_insurance_book_number_reminder_notification_before',get_option('hr_insurance_book_number_reminder_notification_before'),'number').'
+ </div>  ';
+}
+
+function insurance_reminders()
+{
+    $CI = & get_instance();
+    $reminder_before = get_option('hr_insurance_reminder_notification_before');
+
+
+    // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+    $CI->db->where('end_date IS NOT NULL');
+    $CI->db->where('deadline_notified', 0);
+    // $CI->db->where('is_notification', 1);
+
+    $entries = $CI->db->get(db_prefix() . 'staff_insurance')->result_array();
+
+    $now   = new DateTime(date('Y-m-d'));
+
+    $notifiedUsers = [];
+    foreach ($entries as $entrie) {
+        if (date('Y-m-d', strtotime($entrie['end_date'])) <= date('Y-m-d')) {
+            $end_date = new DateTime($entrie['end_date']);
+            $diff    = $end_date->diff($now)->format('%a');
+            // Check if difference between start date and end_date is the same like the reminder before
+            // In this case reminder wont be sent becuase the document it too short
+            $end_date                 = strtotime($entrie['end_date']);
+            $start_and_end_date_diff = $end_date;
+            $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+
+            if ($diff <= $reminder_before) {
+                $CI->db->where('admin', 1);
+                $assignees = $CI->staff_model->get();
+
+                foreach ($assignees as $member) {
+                    $row = $CI->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_insurance_deadline_reminder',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'hr/insurance/'.$entrie['insurance_id'],
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member['staffid']);
+                        }
+
+                        // send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $entrie['insurance_id']);
+
+
+                        $CI->db->where('insurance_id', $entrie['insurance_id']);
+                        $CI->db->update(db_prefix() . 'staff_insurance', [
+                            'deadline_notified' => 1,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    pusher_trigger_notification($notifiedUsers);
+
+}
+
+function insurance_book_number_reminders()
+{
+    $CI = & get_instance();
+    $reminder_before = get_option('hr_insurance_book_number_reminder_notification_before');
+
+
+    // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
+
+    $CI->db->where('end_date IS NOT NULL');
+    $CI->db->where('deadline_notified', 0);
+    // $CI->db->where('is_notification', 1);
+
+    $entries = $CI->db->get(db_prefix() . 'insurance_book_nums')->result_array();
+
+    $now   = new DateTime(date('Y-m-d'));
+
+    $notifiedUsers = [];
+    foreach ($entries as $entrie) {
+        if (date('Y-m-d', strtotime($entrie['end_date'])) <= date('Y-m-d')) {
+            $end_date = new DateTime($entrie['end_date']);
+            $diff    = $end_date->diff($now)->format('%a');
+            // Check if difference between start date and end_date is the same like the reminder before
+            // In this case reminder wont be sent becuase the document it too short
+            $end_date                 = strtotime($entrie['end_date']);
+            $start_and_end_date_diff = $end_date;
+            $start_and_end_date_diff = floor($end_date / (60 * 60 * 24));
+
+
+            if ($diff <= $reminder_before) {
+                $CI->db->where('admin', 1);
+                $assignees = $CI->staff_model->get();
+
+                foreach ($assignees as $member) {
+                    $row = $CI->db->get(db_prefix() . 'staff')->row();
+                    if ($row) {
+                        $notified = add_notification([
+                            'description'     => 'not_insurance_book_number_deadline_reminder',
+                            'touserid'        => $member['staffid'],
+                            'fromcompany'     => 1,
+                            'fromuserid'      => null,
+                            'link'            => 'hr/setting?group=insurance_book_number',
+
+                        ]);
+
+                        if ($notified) {
+                            array_push($notifiedUsers, $member['staffid']);
+                        }
+
+                        // send_mail_template('document_deadline_reminder_to_staff', $row->email, $member['staffid'], $entrie['insurance_id']);
+
+
+                        $CI->db->where('id', $entrie['id']);
+                        $CI->db->update(db_prefix() . 'insurance_book_nums', [
+                            'deadline_notified' => 1,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    pusher_trigger_notification($notifiedUsers);
+
 }
 
 function immigration_reminders()

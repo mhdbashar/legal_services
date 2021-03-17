@@ -708,6 +708,9 @@ if (!$CI->db->table_exists(db_prefix() . 'staff_insurance')) {
       `start_date` date NULL,
       `end_date` date NULL,
       `file` varchar(100) NULL,
+        `is_notification` int(11) NOT NULL,
+        `recurring_from` int(11) NOT NULL,
+        `deadline_notified` int(11) NOT NULL, 
       PRIMARY KEY (`insurance_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
@@ -746,6 +749,9 @@ if (!$CI->db->table_exists(db_prefix() . 'insurance_book_nums')) {
       `start_date` date NULL,
       `end_date` date NULL,
       `file` varchar(100) NULL,
+    `is_notification` int(11) NOT NULL,
+    `recurring_from` int(11) NOT NULL,
+    `deadline_notified` int(11) NOT NULL, 
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

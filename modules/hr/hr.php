@@ -21,8 +21,16 @@ hooks()->add_action('admin_init', 'hr_init_hrmApp');
 hooks()->add_action('app_admin_head', 'hr_add_head_components');
 hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 
-hooks()->add_action('after_cron_settings_last_tab', 'add_hr_reminder_tab');
-hooks()->add_action('after_cron_settings_last_tab_content', 'add_hr_reminder_tab_content');
+hooks()->add_action('after_cron_settings_last_tab', 'add_staff_hr_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_staff_hr_reminder_tab_content');
+
+hooks()->add_action('after_cron_settings_last_tab', 'add_immigration_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_immigration_reminder_tab_content');
+
+hooks()->add_action('after_cron_settings_last_tab', 'add_official_document_reminder_tab');
+hooks()->add_action('after_cron_settings_last_tab_content', 'add_official_document_reminder_tab_content');
+
+
 hooks()->add_action('after_cron_settings_last_tab', 'add_insurance_reminder_tab');
 hooks()->add_action('after_cron_settings_last_tab_content', 'add_insurance_reminder_tab_content');
 hooks()->add_action('after_cron_settings_last_tab', 'add_insurance_book_number_reminder_tab');
@@ -56,17 +64,45 @@ function add_hr_email_templates(){
     $CI->load->view('hr/email/email_templates');
 }
 
-function add_hr_reminder_tab(){
+function add_staff_hr_reminder_tab(){
     echo '
     <li role="presentation">
     <a href="#hr_document" aria-control="hr_document" role="tab" data-toggle="tab">'._l('hr_document').'</a>
     </li>';
 }
 
-function add_hr_reminder_tab_content(){
+function add_staff_hr_reminder_tab_content(){
     echo '<div role="tabpanel" class="tab-pane" id="hr_document">
    <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_document_reminder_notification_before_help').'"></i>
    '.render_input('settings[hr_document_reminder_notification_before]','hr_document_reminder_notification_before',get_option('hr_document_reminder_notification_before'),'number').'
+ </div>  ';
+}
+
+function add_immigration_reminder_tab(){
+    echo '
+    <li role="presentation">
+    <a href="#immigration" aria-control="immigration" role="tab" data-toggle="tab">'._l('immigration').'</a>
+    </li>';
+}
+
+function add_immigration_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="immigration">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_immigration_reminder_notification_before_help').'"></i>
+   '.render_input('settings[hr_immigration_reminder_notification_before]','hr_immigration_reminder_notification_before',get_option('hr_immigration_reminder_notification_before'),'number').'
+ </div>  ';
+}
+
+function add_official_document_reminder_tab(){
+    echo '
+    <li role="presentation">
+    <a href="#official_document" aria-control="official_document" role="tab" data-toggle="tab">'._l('official_documents').'</a>
+    </li>';
+}
+
+function add_official_document_reminder_tab_content(){
+    echo '<div role="tabpanel" class="tab-pane" id="official_document">
+   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="'. _l('hr_official_document_reminder_notification_before').'"></i>
+   '.render_input('settings[hr_official_document_reminder_notification_before]','hr_official_document_reminder_notification_before',get_option('hr_official_document_reminder_notification_before'),'number').'
  </div>  ';
 }
 
@@ -232,7 +268,7 @@ function insurance_book_number_reminders()
 function immigration_reminders()
 {
     $CI = & get_instance();
-    $reminder_before = get_option('hr_document_reminder_notification_before');
+    $reminder_before = get_option('hr_immigration_reminder_notification_before');
 
     // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
 
@@ -295,7 +331,7 @@ function immigration_reminders()
 function official_document_reminders()
 {
     $CI = & get_instance();
-    $reminder_before = get_option('hr_document_reminder_notification_before');
+    $reminder_before = get_option('hr_official_document_reminder_notification_before');
 
     // INSERT INTO `tbloptions` (`id`, `name`, `value`, `autoload`) VALUES (NULL, 'hr_document_reminder_notification_before', '3', '1');
 

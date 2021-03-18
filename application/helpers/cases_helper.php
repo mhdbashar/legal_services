@@ -390,6 +390,21 @@ function get_case_milestones($project_id)
 }
 
 /**
+ * Return project milestones
+ * @param  mixed $project_id project id
+ * @return array
+ */
+function get_case_contracts($project_id = '', $slug)
+{
+    $CI = &get_instance();
+    if($project_id != ''){
+        $CI->db->where('rel_sid', $project_id);
+    }
+    $CI->db->where('rel_stype', $slug);
+    return $CI->db->get(db_prefix() . 'contracts')->result_array();
+}
+
+/**
  * Get project client id by passed project id
  * @param  mixed $id project id
  * @return mixed

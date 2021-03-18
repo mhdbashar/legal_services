@@ -49,13 +49,13 @@ class Tasks_model extends App_Model
                 'order'          => 2,
                 'filter_default' => true,
                 ],
-             [
+             /*[
                 'id'             => self::STATUS_TESTING,
                 'color'          => '#2d2d2d',
                 'name'           => _l('task_status_3'),
                 'order'          => 3,
                 'filter_default' => true,
-                ],
+                ],*/
               [
                 'id'             => self::STATUS_AWAITING_FEEDBACK,
                 'color'          => '#adca65',

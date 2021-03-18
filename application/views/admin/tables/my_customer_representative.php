@@ -24,6 +24,7 @@ $filter = [];
 $sIndexColumn = 'id';
 $sTable       = db_prefix() . 'my_customer_representative';
 
+array_push($where, 'AND ' . db_prefix() . 'my_customer_representative.is_default = 0');
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
 

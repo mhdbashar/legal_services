@@ -1,33 +1,38 @@
-<?php
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-defined('BASEPATH') or exit('No direct script access allowed');
 if (is_rtl()) {
-    $pdf->setRTL(true);
-    $align = 'R';
+    $align = 'R'; //Right align
+    $attr_align = 'right';
     $text_align = 'right';
 }else{
-    $pdf->setRTL(false);
-    $align = 'L';
+    $align = 'L'; //Left align
+    $attr_align = 'right';
     $text_align = 'left';
 }
+
+
 $dimensions = $pdf->getPageDimensions();
 
 $info_right_column = '';
 $info_left_column  = '';
 
-$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("procuration_number").' :     ' . $NO .'</p>';
-$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("date").' :     ' . $start_date .'</p>';
-$info_left_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("end_date").' :     ' . $end_date .'</p>';
-
+$info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . $name . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $NO . '</b>';
+$info_right_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("procuration_number").' :     ' . $NO .'</p>';
+$info_right_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("date").' :     ' . $start_date .'</p>';
+$info_right_column .= '<p cellpadding="6" style="font-size:' . ($font_size + 10) . 'px;"> '._l("end_date").' :     ' . $end_date .'</p>';
+$info_right_column .= '</div>';
 
 // Add logo
 $info_left_column .= pdf_logo_url();
 
 // Write top left logo and right column info/text
-pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
-
+if (is_rtl()) {
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}else{
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}
 
 $organization_info = '<div style="color:#424242;">';
 

@@ -3,11 +3,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
-    $this->setRTL(true);
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
-    $this->setRTL(false);
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -28,9 +30,11 @@ $pdf->writeHTMLCell(($swap == '0' ? (($dimensions['wk'] / 2) - $dimensions['rm']
 $rowcount = max([$pdf->getNumLines($proposal_info, 80)]);
 
 // Proposal to
-$client_details = '<b>' . _l('proposal_to') . '</b>';
+$client_details = '<div align="'.$attr_align.'">';
+$client_details .= '<b>' . _l('proposal_to') . '</b>';
 $client_details .= '<div style="color:#424242;">';
-    $client_details .= format_proposal_info($proposal, 'pdf');
+$client_details .= format_proposal_info($proposal, 'pdf');
+$client_details .= '</div>';
 $client_details .= '</div>';
 
 $pdf->writeHTMLCell(($dimensions['wk'] / 2) - $dimensions['lm'], $rowcount * 7, '', ($swap == '1' ? $y : ''), $client_details, 0, 1, false, true, ($swap == '1' ? 'J' : $align), true);
@@ -53,6 +57,10 @@ if ($proposal->show_quantity_as == 2) {
 }
 
 // The items table
+if (is_rtl()) {
+    $this->setRTL(true);
+}
+
 $items = get_items_table_data($proposal, 'proposal', 'pdf')
         ->set_headings('estimate');
 
@@ -64,40 +72,40 @@ $items_html .= '<table cellpadding="6" style="font-size:' . ($font_size + 4) . '
 
 $items_html .= '
 <tr>
-    <td align="right" width="85%"><strong>' . _l('estimate_subtotal') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($proposal->subtotal, $proposal->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_subtotal') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($proposal->subtotal, $proposal->currency_name) . '</td>
 </tr>';
 
 if (is_sale_discount_applied($proposal)) {
     $items_html .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('estimate_discount');
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_discount');
     if (is_sale_discount($proposal, 'percent')) {
         $items_html .= '(' . app_format_number($proposal->discount_percent, true) . '%)';
     }
     $items_html .= '</strong>';
     $items_html .= '</td>';
-    $items_html .= '<td align="right" width="15%">-' . app_format_money($proposal->discount_total, $proposal->currency_name) . '</td>
+    $items_html .= '<td align="'.$table_td.'" width="15%">-' . app_format_money($proposal->discount_total, $proposal->currency_name) . '</td>
     </tr>';
 }
 
 foreach ($items->taxes() as $tax) {
     $items_html .= '<tr>
-    <td align="right" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($tax['total_tax'], $proposal->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($tax['total_tax'], $proposal->currency_name) . '</td>
 </tr>';
 }
 
 if ((int)$proposal->adjustment != 0) {
     $items_html .= '<tr>
-    <td align="right" width="85%"><strong>' . _l('estimate_adjustment') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($proposal->adjustment, $proposal->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_adjustment') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($proposal->adjustment, $proposal->currency_name) . '</td>
 </tr>';
 }
 $items_html .= '
 <tr style="background-color:#f0f0f0;">
-    <td align="right" width="85%"><strong>' . _l('estimate_total') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($proposal->total, $proposal->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_total') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($proposal->total, $proposal->currency_name) . '</td>
 </tr>';
 $items_html .= '</table>';
 

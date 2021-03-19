@@ -1,11 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
-    $this->setRTL(true);
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
-    $this->setRTL(false);
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -13,16 +15,24 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
+$info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('credit_note_pdf_heading') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $credit_note_number . '</b>';
 
 if (get_option('show_status_on_pdf_ei') == 1) {
     $info_right_column .= '<br /><span style="color:rgb(' . credit_note_status_color_pdf($credit_note->status) . ');text-transform:uppercase;">' . format_credit_note_status($credit_note->status, '', false) . '</span>';
 }
+$info_right_column .= '</div>';
+
 // Add logo
 $info_left_column .= pdf_logo_url();
+
 // Write top left logo and right column info/text
-pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+if (is_rtl()) {
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}else{
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}
 
 $pdf->ln(10);
 
@@ -33,7 +43,8 @@ $organization_info .= format_organization_info();
 $organization_info .= '</div>';
 
 // Bill to
-$credit_note_info = '<b>' . _l('credit_note_bill_to') . '</b>';
+$credit_note_info = '<div align="'.$attr_align.'">';
+$credit_note_info .= '<b>' . _l('credit_note_bill_to') . '</b>';
 $credit_note_info .= '<div style="color:#424242;">';
 $credit_note_info .= format_customer_info($credit_note, 'credit_note', 'billing');
 $credit_note_info .= '</div>';
@@ -64,12 +75,26 @@ foreach ($pdf_custom_fields as $field) {
     $credit_note_info .= $field['name'] . ': ' . $value . '<br />';
 }
 
-$left_info  = $swap == '1' ? $credit_note_info : $organization_info;
-$right_info = $swap == '1' ? $organization_info : $credit_note_info;
+$credit_note_info .= '</div>';
+
+//$left_info  = $swap == '1' ? $credit_note_info : $organization_info;
+//$right_info = $swap == '1' ? $organization_info : $credit_note_info;
+
+if (is_rtl()) {
+    $left_info = $credit_note_info;
+    $right_info = $organization_info;
+}else{
+    $left_info = $organization_info;
+    $right_info = $credit_note_info;
+}
 
 pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
 // The Table
+if (is_rtl()) {
+    $this->setRTL(true);
+}
+
 $pdf->Ln(hooks()->apply_filters('pdf_info_and_table_separator', 6));
 
 // The items table
@@ -85,63 +110,63 @@ $tbltotal = '';
 $tbltotal .= '<table cellpadding="6" style="font-size:' . ($font_size + 4) . 'px">';
 $tbltotal .= '
 <tr>
-    <td align="right" width="85%"><strong>' . _l('credit_note_subtotal') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($credit_note->subtotal, $credit_note->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('credit_note_subtotal') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($credit_note->subtotal, $credit_note->currency_name) . '</td>
 </tr>';
 
 if (is_sale_discount_applied($credit_note)) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('credit_note_discount');
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('credit_note_discount');
     if (is_sale_discount($credit_note, 'percent')) {
         $tbltotal .= '(' . app_format_number($credit_note->discount_percent, true) . '%)';
     }
     $tbltotal .= '</strong>';
     $tbltotal .= '</td>';
-    $tbltotal .= '<td align="right" width="15%">-' . app_format_money($credit_note->discount_total, $credit_note->currency_name) . '</td>
+    $tbltotal .= '<td align="'.$table_td.'" width="15%">-' . app_format_money($credit_note->discount_total, $credit_note->currency_name) . '</td>
     </tr>';
 }
 
 foreach ($items->taxes() as $tax) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($tax['total_tax'], $credit_note->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($tax['total_tax'], $credit_note->currency_name) . '</td>
 </tr>';
 }
 
 if ((int) $credit_note->adjustment != 0) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . _l('credit_note_adjustment') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($credit_note->adjustment, $credit_note->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('credit_note_adjustment') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($credit_note->adjustment, $credit_note->currency_name) . '</td>
 </tr>';
 }
 
 $tbltotal .= '
 <tr style="background-color:#f0f0f0;">
-    <td align="right" width="85%"><strong>' . _l('credit_note_total') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($credit_note->total, $credit_note->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('credit_note_total') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($credit_note->total, $credit_note->currency_name) . '</td>
 </tr>';
 
 if ($credit_note->credits_used) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('credits_used') . '</strong></td>
-        <td align="right" width="15%">' . '-' . app_format_money($credit_note->credits_used, $credit_note->currency_name) . '</td>
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('credits_used') . '</strong></td>
+        <td align="'.$table_td.'" width="15%">' . '-' . app_format_money($credit_note->credits_used, $credit_note->currency_name) . '</td>
     </tr>';
 }
 
 if ($credit_note->total_refunds) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('refund') . '</strong></td>
-        <td align="right" width="15%">' . '-' . app_format_money($credit_note->total_refunds, $credit_note->currency_name) . '</td>
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('refund') . '</strong></td>
+        <td align="'.$table_td.'" width="15%">' . '-' . app_format_money($credit_note->total_refunds, $credit_note->currency_name) . '</td>
     </tr>';
 }
 
 $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('credits_remaining') . '</strong></td>
-        <td align="right" width="15%">' . app_format_money($credit_note->remaining_credits, $credit_note->currency_name) . '</td>
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('credits_remaining') . '</strong></td>
+        <td align="'.$table_td.'" width="15%">' . app_format_money($credit_note->remaining_credits, $credit_note->currency_name) . '</td>
    </tr>';
 
 $tbltotal .= '</table>';

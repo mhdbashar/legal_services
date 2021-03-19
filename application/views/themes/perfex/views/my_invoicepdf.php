@@ -54,7 +54,7 @@ $organization_info .= '</div>';
 $invoice_info = '<div align="'.$attr_align.'">';
 $invoice_info .= '<b>' . _l('invoice_bill_to') . '</b>';
 $invoice_info .= '<div style="color:#424242;">';
-    $invoice_info .= format_customer_info($invoice, 'invoice', 'billing');
+$invoice_info .= format_customer_info($invoice, 'invoice', 'billing');
 $invoice_info .= '</div>';
 
 // ship to to

@@ -4,17 +4,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if (is_rtl()) {
     $align = 'R';
     $text_align = 'right';
+    $attr_align = 'right';
 } else {
     $align = 'L';
     $text_align = 'left';
+    $attr_align = 'right';
 }
+
 $dimensions = $pdf->getPageDimensions();
 
 $info_right_column = '';
 $info_left_column = '';
 
+$info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('IRAC_method') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $name . '</b>';
+$info_right_column .= '</div>';
 
 // Add logo
 $info_left_column .= pdf_logo_url();
@@ -35,7 +40,9 @@ $organization_info .= format_organization_info();
 $organization_info .= '</div>';
 
 
-$irac_info = '<br />' . _l('date_time') . ' ' . _d($irac->datecreated) . '<br />';
+$irac_info = '<div align="'.$attr_align.'">';
+$irac_info .= '<br />' . _l('date_time') . ' ' . _d($irac->datecreated) . '<br />';
+$irac_info .= '</div>';
 
 //$left_info = $swap == '1' ? $irac_info : $organization_info;
 //$right_info = $swap == '1' ? $organization_info : $irac_info;

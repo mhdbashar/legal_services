@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php if(has_permission('hr','','create')){ ?>
+                        <?php if(has_permission('insurrance','','create')){ ?>
                         <div class="_buttons">
                             
                             <a href="<?php echo admin_url('hr/insurance'); ?>" class="btn btn-info mright5 pull-left display-block"><?php echo _l('add_insurrance'); ?></a>
@@ -50,8 +50,12 @@
 
                                         //_l('job_position'),
                                         _l('insurance_book_number'),
-                                        _l('health_insurance_number'),                                                           
-                                        );
+                                        _l('insurance_type'),
+                                        _l('health_insurance_number'),
+                                        _l('start_date'),
+                                        _l('end_date'),
+                                        _l('file'),
+                                    );
                                     render_datatable($table_data,'table_insurance');
                                     ?>
 

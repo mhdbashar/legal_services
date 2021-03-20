@@ -31,6 +31,9 @@ $join = [
 ];
 
 $where = [];
+if(has_permission('awards', '', 'view_own') && !has_permission('awards', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'hr_awards.id', 'award_photo']);
@@ -48,9 +51,9 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['gift'];
 
-    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_document', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    $options = ''; if (has_permission('awards', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_document', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['award_photo'], 'download', 'btn-default','download');
-    if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    if (has_permission('awards', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_document/' . $aRow['id'], 'remove', 'btn-danger _delete');
     $row[]   = $options;
 
     $output['aaData'][] = $row;

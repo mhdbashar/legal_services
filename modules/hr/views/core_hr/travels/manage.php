@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <div class="_buttons"><?php if (has_permission('hr', '', 'create')){ ?>
+                     <div class="_buttons"><?php if (has_permission('travels', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_travel"><?php echo _l('new_travel'); ?></a>
                          <?php } ?>
                     </div>
@@ -20,9 +20,9 @@
                         _l('start_date'),
                         _l('end_date'),
                         _l('status'),
-                        _l('control'),
-                    ); 
-
+                    );
+                    if (has_permission('travels', '', 'edit') || has_permission('travels', '', 'delete') )
+                        $data[] = _l('control');
                     render_datatable($data,'travel');
                     ?>
                     </div>

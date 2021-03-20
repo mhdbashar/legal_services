@@ -6,8 +6,10 @@ class Setting extends AdminController{
 	public function __construct(){
 		parent::__construct();
         $this->load->model('Leave_type_model');
+        $this->load->model('Insurance_book_num_model');
+        $this->load->model('Insurance_type_model');
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 	}
 
@@ -76,11 +78,18 @@ class Setting extends AdminController{
                 $this->hrmapp->get_table_data('types/my_travel_mode_types_table');
             }elseif($group == 'leave'){
                 $this->hrmapp->get_table_data('types/my_leave_types_table');
+            }elseif($group == 'insurance_book_number'){
+                $this->hrmapp->get_table_data('types/my_insurance_book_number_table');
+            }elseif($group == 'insurance_type'){
+                $this->hrmapp->get_table_data('types/my_insurance_type_table');
             }elseif($group == 'technical_competencies'){
                 $this->hrmapp->get_table_data('types/my_technical_competencies_types_table');
             }elseif($group == 'organizational_competencies'){
                 $this->hrmapp->get_table_data('types/my_organizational_competencies_types_table');
             }
+        }
+        if($group == 'insurance_type'){
+            $data['insurance_book_numbers'] = $this->Insurance_book_num_model->get();
         }
 
         $data['month'] = $this->hrm_model->get_month();
@@ -208,10 +217,95 @@ class Setting extends AdminController{
             set_alert('warning', 'Problem Creating');
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    // insurance_book_num
+
+    public function add_insurance_book_num(){
+        $data = $this->input->post();
+        $success = $this->Insurance_book_num_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function update_insurance_book_num(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $success = $this->Insurance_book_num_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_insurance_book_num($id){
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->Insurance_book_num_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function insurance_book_num_json($id){
+        $data = $this->Insurance_book_num_model->get($id);
+        echo json_encode($data);
+    }
+
+    // insurance_book_num
+
+    public function add_insurance_type(){
+        $data = $this->input->get();
+        $success = $this->Insurance_type_model->add($data);
+        if($success)
+            set_alert('success', _l('added_successfully'));
+        else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function update_insurance_type(){
+        $data = $this->input->get();
+        if(!isset($data['for_staff']))
+            $data['for_staff'] = '';
+        $id = $this->input->get('id');
+        $success = $this->Insurance_type_model->update($data, $id);
+        if($success)
+            set_alert('success', _l('updated_successfully'));
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_insurance_type($id){
+        if (!$id) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->Insurance_type_model->delete($id);
+        if ($response == true) {
+            set_alert('success', _l('deleted_successfully'));
+        } else {
+            set_alert('warning', 'Problem deleting');
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function insurance_type_json($id){
+        $data = $this->Insurance_type_model->get($id);
+        echo json_encode($data);
+    }
+
     public function update_leave_type(){
         $data = $this->input->get();
         $id = $this->input->get('id');
-        $success = $this->Leave_type_model->update($data, $id);
+        $success = $this->Insurance_book_num_model->update($data, $id);
         if($success)
             set_alert('success', _l('updated_successfully'));
         else

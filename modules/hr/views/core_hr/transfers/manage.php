@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                      <div class="_buttons">
-                         <?php if (has_permission('hr', '', 'create')){ ?>
+                         <?php if (has_permission('transfers', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_transfer"><?php echo _l('new_transfer'); ?></a>
                          <?php } ?>
                     </div>
@@ -19,9 +19,10 @@
                         _l('staff_name'),
                         _l('transfer_date'),
                         _l('status'),
-                        _l('control'),
-                    ); 
+                    );
+                    if (has_permission('transfers', '', 'edit') || has_permission('transfers', '', 'delete') )
 
+                    $data[] = _l('control');
                     render_datatable($data,'transfer');
                     ?>
                     </div>

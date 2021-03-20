@@ -23,6 +23,9 @@ $ci = &get_instance();
 
 $where = [];
 
+if(has_permission('payroll', '', 'view_own') && !has_permission('payroll', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['lastname']);
 $output  = $result['output'];

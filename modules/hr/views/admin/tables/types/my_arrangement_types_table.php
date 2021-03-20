@@ -34,11 +34,11 @@ foreach (json_decode($values) as $value) {
 
 	foreach ($rResult as $aRow) {
 	    $row = [];
-
+        
 	    $row[] = $a;
 
-        $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
-        if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/setting/delete_type/' . $a .'/arrangement_type', 'remove', 'btn-danger _delete');
+        $options = ''; if (has_permission('hr_settings', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default old', ['data-toggle' => 'modal', 'data-target' => '#update_type', 'data-id' => $a, 'data-old' => $a, 'onclick' => "edit('" . $a . "')"]);
+        if (has_permission('hr_settings', '', 'delete')) $options .= icon_btn('hr/setting/delete_type/' . $a .'/arrangement_type', 'remove', 'btn-danger _delete');
         $row[]   = $options;
 
 	    $output['aaData'][] = $row;

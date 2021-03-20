@@ -16,21 +16,21 @@ class General extends AdminController{
         $this->load->model('Immigration_model');
         $this->load->model('Extra_info_model');
         $this->load->model('Emergency_contact_model');
-        $this->load->model('Branches_model');
+
         $this->load->model('Sub_department_model');
         $this->load->model('Designation_model');
         $this->load->model('Leave_type_model');
         $this->load->helper(HR_MODULE_NAME . '/' . 'hr_general');
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 	}
 
     public function staff()
     {
-        if (!has_permission('staff', '', 'view')) {
-            access_denied('staff');
-        }
+//        if (!has_permission('staff', '', 'view')) {
+//            access_denied('staff');
+//        }
         if ($this->input->is_ajax_request()) {
             $this->hrmapp->get_table_data('staff');
         }
@@ -328,6 +328,9 @@ class General extends AdminController{
 
 
     public function change_password(){
+        if (!has_permission('staff', '', 'edit')) {
+            access_denied('staff');
+        }
         $password = $this->input->post()['password'];
         $staff_id = $this->input->post('staffid');
 
@@ -368,6 +371,9 @@ class General extends AdminController{
         echo json_encode($data);
     }
     public function update_qualification(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['from_date'] = to_sql_date($data['from_date']);
         $data['to_date'] = to_sql_date($data['to_date']);
@@ -381,6 +387,9 @@ class General extends AdminController{
     }
 
     public function add_qualification(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['from_date'] = to_sql_date($data['from_date']);
         $data['to_date'] = to_sql_date($data['to_date']);
@@ -394,11 +403,11 @@ class General extends AdminController{
 
     public function delete_qualification($id)
     {
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Qualification_model->delete($id);
         if ($response == true) {
@@ -417,6 +426,9 @@ class General extends AdminController{
         echo json_encode($data);
     }
     public function update_emergency_contact(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         if(empty($data['is_dependent'])){
@@ -435,6 +447,9 @@ class General extends AdminController{
     }
 
     public function add_emergency_contact(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Emergency_contact_model->add($data);
         if($success)
@@ -446,11 +461,11 @@ class General extends AdminController{
 
     public function delete_emergency_contact($id)
     {
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Emergency_contact_model->delete($id);
         if ($response == true) {
@@ -468,6 +483,9 @@ class General extends AdminController{
         echo json_encode($data);
     }
     public function update_work_experience(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['from_date'] = to_sql_date($data['from_date']);
         $data['to_date'] = to_sql_date($data['to_date']);
@@ -481,6 +499,9 @@ class General extends AdminController{
     }
 
 	public function add_work_experience(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['from_date'] = to_sql_date($data['from_date']);
         $data['to_date'] = to_sql_date($data['to_date']);
@@ -494,11 +515,11 @@ class General extends AdminController{
 
 	public function delete_work_experience($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Work_experience_model->delete($id);
         if ($response == true) {
@@ -516,6 +537,9 @@ class General extends AdminController{
         echo json_encode($data);
     }
     public function update_bank_account(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $id = $this->input->post('id');
         $success = $this->Bank_account_model->update($data, $id);
@@ -527,6 +551,9 @@ class General extends AdminController{
     }
 
 	public function add_bank_account(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $success = $this->Bank_account_model->add($data);
         if($success)
@@ -538,11 +565,11 @@ class General extends AdminController{
 
 	public function delete_bank_account($id)
 	{
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Bank_account_model->delete($id);
         if ($response == true) {
@@ -572,6 +599,9 @@ class General extends AdminController{
     }
 
     public function add_document(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['date_expiry'] = to_sql_date($data['date_expiry']);
         $success = $this->Document_model->add($data);
@@ -584,11 +614,11 @@ class General extends AdminController{
 
     public function delete_document($id)
     {
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Document_model->delete($id);
         if ($response == true) {
@@ -606,6 +636,9 @@ class General extends AdminController{
         echo json_encode($data);
     }
     public function update_immigration(){
+        if (!has_permission('hr', '', 'edit')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['issue_date'] = to_sql_date($data['issue_date']);
         $data['date_expiry'] = to_sql_date($data['date_expiry']);
@@ -620,6 +653,9 @@ class General extends AdminController{
     }
 
     public function add_immigration(){
+        if (!has_permission('hr', '', 'create')) {
+            access_denied('hr');
+        }
         $data = $this->input->post();
         $data['issue_date'] = to_sql_date($data['issue_date']);
         $data['date_expiry'] = to_sql_date($data['date_expiry']);
@@ -634,11 +670,11 @@ class General extends AdminController{
 
     public function delete_immigration($id)
     {
+        if (!has_permission('hr', '', 'delete')) {
+            access_denied('hr');
+        }
         if (!$id) {
             redirect($_SERVER['HTTP_REFERER']);
-        }
-        if (!is_admin()) {
-            access_denied();
         }
         $response = $this->Immigration_model->delete($id);
         if ($response == true) {

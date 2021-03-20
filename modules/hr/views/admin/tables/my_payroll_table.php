@@ -20,6 +20,9 @@ $join = [
 	'LEFT JOIN '.db_prefix().'hr_payments ON '.db_prefix().'hr_payments.staff_id='.db_prefix().'staff.staffid AND MONTH(payment_date)='.$month.' AND YEAR(payment_date)='.$year,
 ];
 
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['staffid', '(SELECT '.db_prefix().'hr_payments.id) AS payment_id']);
 $output  = $result['output'];
@@ -46,10 +49,10 @@ foreach ($rResult as $aRow) {
     	$row[] = '<div class="text-danger">un paid</div>';
     }
 
-
+    $options = '';
     if($paid){
     	$options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#show_payment', 'data-id' => $aRow['payment_id'], 'onclick' => 'payment(' . $aRow['payment_id'] . ')']);
-    }else{
+    }elseif(has_permission('hr', '', 'edit')){
     	$options = icon_btn('#', 'fa fas fa-money', 'btn-success', ['data-toggle' => 'modal', 'data-target' => '#make_payment', 'data-id' => $aRow['staff_id'], 'onclick' => 'make_payment(' . $aRow['staff_id'] . ',' . $month . ',' . $year . ')']);
     }
     

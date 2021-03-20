@@ -37,33 +37,77 @@
                                 </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <br>
-<!--                                <div class="col-md-6">-->
-<!--                             --><?php //$insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?><!--     -->
-<!--                                --><?php //
-//                            echo render_input('insurance_book_num','insurance_book_number', $insurance_book_num); ?>
-<!--                                </div>-->
-                                <div class="col-md-6">
-                                <?php $health_insurance_num = isset($insurances) ? $insurances[0]['health_insurance_num'] : '' ?>
-                                <?php 
-                                echo render_input('health_insurance_num','health_insurance_number', $health_insurance_num); ?>
-                                </div>
-                            </div>
-                            <div class="row hide">
-                                <div class="col-md-6">
-                                <?php $city_code = isset($insurances) ? $insurances[0]['city_code'] : '' ?>
-                                <?php 
-                                echo render_input('city_code','province_city_id', $city_code); ?>
+                             <div class="row">
+                                 <br>
+                                 <div class="col-md-6">
+                                     <?php  $insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?>
+                                     <?php echo render_select('insurance_book_num',$insurance_book_nums,array('id','name'),'insurance_book_number',$insurance_book_num); ?>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <?php  $insurance_type = isset($insurances) ? $insurances[0]['insurance_type'] : '' ?>
+                                     <div class="form-group">
+                                         <label class="control-label" for="insurance_type"><?php echo _l('insurance_type'); ?></label>
+                                         <?php $data = get_insurance_types_relation_data($insurance_book_num); ?>
+                                         <select id="insurance_type" name="insurance_type" class="form-control custom_select_arrow">
+                                             <option selected disabled></option>
+                                             <?php
+                                                foreach($data as $row){
+                                                    $selected = $row['id'] == $insurance_type ? 'selected' : '';
+                                                    echo '<option '.$selected.' value="'.$row['id'].'">'.$row['name'].'</option>';
+                                                }
+                                             ?>
+                                         </select>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <br>
+                                 <!--                                <div class="col-md-6">-->
+                                 <!--                             --><?php //$insurance_book_num = isset($insurances) ? $insurances[0]['insurance_book_num'] : '' ?><!--     -->
+                                 <!--                                --><?php //
+                                 //                            echo render_input('insurance_book_num','insurance_book_number', $insurance_book_num); ?>
+                                 <!--                                </div>-->
 
-                                </div>
-                                <div class="col-md-6">
-                                <?php $registration_medical = isset($insurances) ? $insurances[0]['registration_medical'] : '' ?>
-                                <?php 
-                                echo render_input('registration_medical','registration_medical_care', $registration_medical); ?>
-                                    
-                                </div>
-                            </div>
+                                 <div class="col-md-6">
+                                     <?php $health_insurance_num = isset($insurances) ? $insurances[0]['health_insurance_num'] : '' ?>
+                                     <?php
+                                     echo render_input('health_insurance_num','health_insurance_number', $health_insurance_num); ?>
+                                 </div>
+
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                         <label for="cat_id" class="control-label"><?php echo _l('file') ?></label>
+                                         <input id="myFile" type="file" extension="<?php echo str_replace('.','',get_option('ticket_attachments_file_extensions')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="file" accept="<?php echo get_ticket_form_accepted_mimes(); ?>">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <br>
+                                 <div class="col-md-6">
+                                    <?php $start_date = isset($insurances) ? $insurances[0]['start_date'] : '' ?>
+                                    <?php
+                                        echo render_date_input('start_date','start_date', $start_date); ?>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <?php $end_date = isset($insurances) ? $insurances[0]['end_date'] : '' ?>
+                                     <?php
+                                     echo render_date_input('end_date','end_date', $end_date); ?>
+                                 </div>
+                             </div>
+                             <div class="row hide">
+                                 <div class="col-md-6">
+                                     <?php $city_code = isset($insurances) ? $insurances[0]['city_code'] : '' ?>
+                                     <?php
+                                     echo render_input('city_code','province_city_id', $city_code); ?>
+
+                                 </div>
+                                 <div class="col-md-6">
+                                     <?php $registration_medical = isset($insurances) ? $insurances[0]['registration_medical'] : '' ?>
+                                     <?php
+                                     echo render_input('registration_medical','registration_medical_care', $registration_medical); ?>
+
+                                 </div>
+                             </div>
 
 
 
@@ -191,6 +235,17 @@ $(function(){
         
 
     });
+$("#insurance_book_num").change(function () {
+    $.ajax({
+        url: "<?php echo admin_url('hr/build_insurance_types_relations'); ?>",
+        data: {insurance_book_num: $(this).val()},
+        type: "POST",
+        success: function (data) {
+            console.log(data)
+            $("#insurance_type").html(data);
+        }
+    });
+});
 
     $("body").on('click', '.remove_insurance_history', function() {
         if (confirm_delete()) {
@@ -321,6 +376,8 @@ $(function(){
 
 
             $('#insurance_book_num').val(response.insurance_book_num);
+            $('#start_date').val(response.start_date);
+            $('#end_date').val(response.end_date);
             $('#health_insurance_num').val(response.health_insurance_num);
             $('#city_code').val(response.city_code);
             $('#registration_medical').val(response.registration_medical);

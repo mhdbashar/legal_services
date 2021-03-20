@@ -5,16 +5,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     db_prefix().'staff_insurance.staff_id',
-    'insurance_book_num',
+    db_prefix().'insurance_book_nums.name as insurance_book_num',
+    db_prefix().'insurances_type.name as insurance_type',
     'health_insurance_num',
+    db_prefix().'staff_insurance.start_date as start_date',
+    db_prefix().'staff_insurance.end_date as end_date',
+    db_prefix().'staff_insurance.file as file'
 //    'city_code',
 //    'registration_medical'
     ];
 $sIndexColumn = 'insurance_id';
 $sTable       = db_prefix().'staff_insurance';
-$join = ['LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'staff_insurance.staff_id',
+$join = [
+        'LEFT JOIN '.db_prefix().'staff ON '.db_prefix().'staff.staffid = '.db_prefix().'staff_insurance.staff_id',
         'LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role',
-        'LEFT JOIN '.db_prefix().'staff_insurance_history ON '.db_prefix().'staff_insurance_history.insurance_id = '.db_prefix().'staff_insurance.insurance_id'];
+        'LEFT JOIN '.db_prefix().'staff_insurance_history ON '.db_prefix().'staff_insurance_history.insurance_id = '.db_prefix().'staff_insurance.insurance_id',
+        'LEFT JOIN '.db_prefix().'insurance_book_nums ON '.db_prefix().'insurance_book_nums.id = '.db_prefix().'staff_insurance.insurance_book_num',
+        'LEFT JOIN '.db_prefix().'insurances_type ON '.db_prefix().'insurances_type.id = '.db_prefix().'staff_insurance.insurance_type',
+];
 $where = [];
 
 
@@ -90,7 +98,7 @@ if(isset($from_month)){
 }
 
 
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id', 'firstname','lastname','name','from_month','premium_rates']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'staff_insurance.insurance_id as id', 'firstname','lastname',db_prefix().'roles.name',db_prefix().'staff_insurance_history.from_month','premium_rates']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -139,8 +147,32 @@ foreach ($rResult as $aRow) {
 
 
     $row[] = $aRow['insurance_book_num'];
+    $row[] = $aRow['insurance_type'];
     $row[] = $aRow['health_insurance_num'];
-    $row[] = date("d-m-Y", strtotime($aRow['from_month']));
+    $row[] = _d($aRow['start_date']);
+    $row[] = _d($aRow['end_date']);
+    // file
+
+    $file = '';
+    if(basename($aRow["file"]) != '' and file_exists($aRow["file"])){
+        $file = '<a target="_blank" href="'.base_url(). $aRow['file'].'">';
+        $is_image = is_image($aRow['file']);
+
+        if($is_image){
+            $file .= '<div class="preview_image">';
+        }
+        if ($is_image) {
+            $file .=  '<img class="project-file-image img-table-loading" src="' . base_url().$aRow['file'] . '" width="100">';
+
+        }else{
+            $file .='<i class="'.get_mime_class(mime_content_type($aRow["file"])).' "></i> '. basename($aRow["file"]);
+        }
+        if($is_image){ $file .= '</div>'; }
+        $file .=  '</a>';
+    }
+
+    $row[] = $file;
+    // $row[] = date("d-m-Y", strtotime($aRow['from_month']));
 //    $row[] = app_format_money((int)($aRow['premium_rates']),'');
 //
 //    $row[] = app_format_money(get_payment_company($premium, $social_company,  $labor_accident_company, $health_company, $unemployment_company  ),'');

@@ -57,7 +57,8 @@ foreach ($rResult as $aRow) {
 
     $options = ''; if (has_permission('transfers', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_transfer', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     if (has_permission('transfers', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_transfer/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    $row[]   = $options;
+    if (has_permission('transfers', '', 'edit') || has_permission('transfers', '', 'delete') )
+        $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

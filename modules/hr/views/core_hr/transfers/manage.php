@@ -19,9 +19,10 @@
                         _l('staff_name'),
                         _l('transfer_date'),
                         _l('status'),
-                        _l('control'),
-                    ); 
+                    );
+                    if (has_permission('transfers', '', 'edit') || has_permission('transfers', '', 'delete') )
 
+                    $data[] = _l('control');
                     render_datatable($data,'transfer');
                     ?>
                     </div>

@@ -1,5 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+if (is_rtl()) {
+    $this->setRTL(true);
+}else{
+    $this->setRTL(false);
+}
+
 $dimensions = $pdf->getPageDimensions();
 
 // Get Y position for the separation

@@ -79,19 +79,21 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <a href="#" data-toggle="modal" data-target="#add-client" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#add-client"
+                                   class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
-                                    <select id="representative" name="representative" class="form-control selectpicker"
-                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option selected disabled></option>
+                                    <select id="representative" name="representative" class="selectpicker selectpicker"
+                                            data-width="100%"
+                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <option selected></option>
                                         <?php $data = get_relation_data('representative', '');
 
                                         $selected = (isset($meta['representative']) ? $meta['representative'] : '');
                                         foreach ($data as $row): ?>
-                                            <option value="<?php echo $row['id']; ?>" <?php echo $selected == $row['id'] ? 'selected': '' ?>><?php echo $row['representative']; ?></option>
+                                            <option value="<?php echo $row['id']; ?>" <?php echo $selected == $row['id'] ? 'selected' : '' ?>><?php echo $row['representative']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -198,7 +200,7 @@
                         <!-- <div class="row mtop15 mbot10">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label"><?php echo _l('project_contacts'); ?></label>
+                                    <label class="control-label"><?php //echo _l('project_contacts'); ?></label>
                                 </div>
                             </div>
                             <div class="col-md-2">

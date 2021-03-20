@@ -7,8 +7,10 @@ trait PDF_Signature
     public function process_signature()
     {
         if (is_rtl()) {
+            $this->setRTL(true);
             $align = 'R'; //Right align
         }else{
+            $this->setRTL(false);
             $align = 'L'; //Left align
         }
 

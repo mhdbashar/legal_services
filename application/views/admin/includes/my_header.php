@@ -45,6 +45,7 @@ ob_end_clean();
                             <?php $this->load->view('admin/tasks/started_timers',array('startedTimers'=>$startedTimers)); ?>
                         </ul>
                     </li>
+                    <?php hooks()->do_action('after_render_top_search'); ?>
                 <?php } ?>
             </ul>
             <div class="mobile-navbar collapse" id="mobile-collapse" aria-expanded="false" style="height: 0px;" role="navigation">

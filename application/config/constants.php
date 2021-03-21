@@ -162,6 +162,10 @@ define('NEWSFEED_FOLDER', FCPATH . 'uploads/newsfeed' . '/');
  */
 define('CONTRACTS_UPLOADS_FOLDER', FCPATH . 'uploads/contracts' . '/');
 /**
+ * HR Contracts attachments
+ */
+define('HR_CONTRACTS_UPLOADS_FOLDER', FCPATH . 'uploads/hr_contracts' . '/');
+/**
  * Tasks attachments
  */
 define('TASKS_ATTACHMENTS_FOLDER', FCPATH . 'uploads/tasks' . '/');

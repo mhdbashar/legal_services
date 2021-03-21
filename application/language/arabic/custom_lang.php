@@ -238,6 +238,21 @@ $lang['new_status'] = "حالة جديدة";
 $lang['hr_document'] = "وثائق الموارد البشرية";
 $lang['hr_document_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
+
+$lang['hr_official_document_reminder_notification_before_help'] = "للتعطيل 0";
+$lang['hr_official_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
+
+$lang['hr_immigration_reminder_notification_before_help'] = "للتعطيل 0";
+$lang['hr_immigration_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
+
+$lang['hr_insurance_reminder_notification_before_help'] = "للتعطيل 0";
+$lang['hr_insurance_reminder_notification_before'] = 'تذكير قبل انتهاء صلاحية التأمين قبل (الأيام)';
+$lang['not_insurance_deadline_reminder'] = "تذكير قبل انتهاء صلاحية التأمين";
+
+$lang['hr_insurance_book_number_reminder_notification_before_help'] = "للتعطيل 0";
+$lang['hr_insurance_book_number_reminder_notification_before'] = 'تذكير قبل انتهاء صلاحية رقم بوليصة التأمين قبل (الأيام)';
+$lang['not_insurance_book_number_deadline_reminder'] = "تذكير قبل انتهاء صلاحية رقم بوليصة التأمين";
+
 $lang['procurations_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['procurations_reminder_notification_before'] = "تذكير الموعد النهائي للوكالة قبل (الأيام)";
 $lang['tick_cssnote'] = "تغيير عمود حاوية النموذج (Bootstrap)";

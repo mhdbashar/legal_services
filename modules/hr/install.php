@@ -871,4 +871,63 @@ create_email_template_with_language('انتداب الموظف', 'message', 'hr'
 create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'english');
 
 
-add_option('insurance_book_number', '');
+if (!$CI->db->table_exists(db_prefix() . 'hr_contracts')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_contracts` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` longtext DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `subject` varchar(191) DEFAULT NULL,
+  `client` int(11) NOT NULL,
+  `datestart` date DEFAULT NULL,
+  `dateend` date DEFAULT NULL,
+  `contract_type` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `addedfrom` int(11) NOT NULL,
+  `dateadded` datetime NOT NULL,
+  `isexpirynotified` int(11) NOT NULL DEFAULT 0,
+  `contract_value` decimal(15,2) DEFAULT NULL,
+  `trash` tinyint(1) DEFAULT 0,
+  `not_visible_to_client` tinyint(1) NOT NULL DEFAULT 0,
+  `hash` varchar(32) DEFAULT NULL,
+  `signed` tinyint(1) NOT NULL DEFAULT 0,
+  `signature` varchar(40) DEFAULT NULL,
+  `marked_as_signed` tinyint(1) NOT NULL DEFAULT 0,
+  `acceptance_firstname` varchar(50) DEFAULT NULL,
+  `acceptance_lastname` varchar(50) DEFAULT NULL,
+  `acceptance_email` varchar(100) DEFAULT NULL,
+  `acceptance_date` datetime DEFAULT NULL,
+  `acceptance_ip` varchar(40) DEFAULT NULL,
+  `type_id` int(11) NOT NULL DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_contract_comments')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_contract_comments` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` mediumtext DEFAULT NULL,
+  `contract_id` int(11) NOT NULL,
+  `staffid` int(11) NOT NULL,
+  `dateadded` datetime NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}
+
+if (!$CI->db->table_exists(db_prefix() . 'hr_contract_renewals')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_contract_renewals` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contractid` int(11) NOT NULL,
+  `old_start_date` date NOT NULL,
+  `new_start_date` date NOT NULL,
+  `old_end_date` date DEFAULT NULL,
+  `new_end_date` date DEFAULT NULL,
+  `old_value` decimal(15,2) DEFAULT NULL,
+  `new_value` decimal(15,2) DEFAULT NULL,
+  `date_renewed` datetime NOT NULL,
+  `renewed_by` varchar(100) NOT NULL,
+  `renewed_by_staff_id` int(11) NOT NULL DEFAULT 0,
+  `is_on_old_expiry_notified` int(11) DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+}

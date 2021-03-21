@@ -3,6 +3,8 @@
      * Main Settings for clients chat
      * Used in chat_clients_view.php
      */
+    var cancelButton = document.getElementById("cancelRecording");
+
     var customerSettings = {
         'clientPusherAuth': '<?php echo site_url('prchat/Prchat_ClientsController/pusherCustomersAuth'); ?>',
         'getMutualMessages': '<?php echo site_url('prchat/Prchat_ClientsController/getMutualMessages'); ?>',
@@ -55,6 +57,29 @@
     // Shows the full screen wrapper with buttons to start recording
     function showRecordingWrapper() {
         ifRecordingCancelledAndClose();
+    }
+
+    function ifRecordingCancelledAndClose() {
+        var audioWrapper = $('#audio-wrapper');
+        if (audioWrapper.is(':hidden')) {
+            audioWrapper.css('display', 'flex');
+        } else {
+            audioWrapper.css('display', 'none');
+        }
+
+        cancelButton.disabled = false;
+        //  button is disabled on send due bugs prevention must enable when wrapper is shown again
+        if (recorder !== undefined) {
+            recorder.onEncodingCanceled;
+            clearInterval(timer);
+            gumStream.getAudioTracks()[0].stop();
+
+            //disable the stop button
+            stopButton.disabled = true;
+            recordButton.disabled = false;
+            clearMinutesAndSeconds();
+            recorder = '';
+        }
     }
 
     /*-------* Live internet connection tracker *-------*/

@@ -84,6 +84,14 @@ class Procurations_model extends App_Model
             unset($data['cases']);
         }
 
+        //start Baraa alahalabi
+        if(isset($data['status_name']))
+        {
+            $data['status'] = $data['status_name'];
+            unset($data['status_name']);
+        }
+        //end Baraa alahalabi
+
         $data['start_date'] = force_to_AD_date(($data['start_date']));
         $data['end_date'] = force_to_AD_date($data['end_date']);
             

@@ -26,6 +26,16 @@ function get_oservice_tabs_admin()
     return get_instance()->app_custom_tabs->get_oservice_tabs();
 }
 
+function get_oservice_contracts($project_id = '', $slug)
+{
+    $CI = &get_instance();
+    if($project_id != ''){
+        $CI->db->where('rel_sid', $project_id);
+    }
+    $CI->db->where('rel_stype', $slug);
+    return $CI->db->get(db_prefix() . 'contracts')->result_array();
+}
+
 function add_session_tab()
 {
     $CI = &get_instance();

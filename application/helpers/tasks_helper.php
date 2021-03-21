@@ -223,6 +223,8 @@ function task_rel_link($rel_id, $rel_type)
         $link = admin_url('estimates/list_estimates/' . $rel_id);
     } elseif ($rel_type == 'contract') {
         $link = admin_url('contracts/contract/' . $rel_id);
+    } elseif ($rel_type == 'hr_contract') {
+        $link = admin_url('hr/contracts/contract/' . $rel_id);
     } elseif ($rel_type == 'ticket') {
         $link = admin_url('tickets/ticket/' . $rel_id);
     } elseif ($rel_type == 'expense') {
@@ -292,6 +294,7 @@ function tasks_rel_name_select_query()
 {
     return '(CASE rel_type
         WHEN "contract" THEN (SELECT subject FROM ' . db_prefix() . 'contracts WHERE ' . db_prefix() . 'contracts.id = ' . db_prefix() . 'tasks.rel_id)
+        WHEN "hr_contract" THEN (SELECT subject FROM ' . db_prefix() . 'hr_contract WHERE ' . db_prefix() . 'hr_contract.id = ' . db_prefix() . 'tasks.rel_id)
         WHEN "estimate" THEN (SELECT id FROM ' . db_prefix() . 'estimates WHERE ' . db_prefix() . 'estimates.id = ' . db_prefix() . 'tasks.rel_id)
         WHEN "proposal" THEN (SELECT id FROM ' . db_prefix() . 'proposals WHERE ' . db_prefix() . 'proposals.id = ' . db_prefix() . 'tasks.rel_id)
         WHEN "invoice" THEN (SELECT id FROM ' . db_prefix() . 'invoices WHERE ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'tasks.rel_id)

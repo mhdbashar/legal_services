@@ -31,9 +31,12 @@ $lang['you_have_to_complete_staff_informations'] = 'You have to complete staff i
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
 $lang['filter_by_departments'] = 'Filter by departments';
-
+$lang['lead_convert_to_client_fullname'] = "Fullname";
 $lang['divorced'] = 'Divorced';
+$lang['timer_started_change_status_in_progress_session'] = 'Change session status to In Progress on timer started (valid only if session status is Not Started)';
+$lang['new_session_auto_follower_current_member'] = 'Auto add session creator as session follower when new session is created';
 $lang['widower'] = 'Widower';
+$lang['settings_general_company_logo_tooltip'] = "Recommended dimensions: 300 x 68px";
 
 $lang['previous'] = 'Previous';
 $lang['waiting'] = 'Waiting';
@@ -484,7 +487,7 @@ $lang['related_to'] = "Related to";
 $lang['next_session_date'] = "Next Session Date";
 $lang['next_session_time'] = "Next Session Time";
 $lang['session_type'] = "Session Type";
-$lang['session_information'] = "Session Information";
+$lang['session_information'] = "Proceedings of Session";
 $lang['court_decision'] = "Court Decision";
 
 $lang['subscription_id'] = "Subscription ID";

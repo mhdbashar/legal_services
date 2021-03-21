@@ -352,7 +352,12 @@ abstract class App_items_table_template
      */
     public function pdf_table_open()
     {
-        return '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="8">';
+        if (is_rtl()) {
+            $style = 'style="direction: rtl"'; //Right align
+        }else{
+            $style = ''; //Left align
+        }
+        return '<table width="100%" bgcolor="#fff" cellspacing="0" cellpadding="8" '.$style.'>';
     }
 
     /**

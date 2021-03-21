@@ -2,8 +2,12 @@
 
 if (is_rtl()) {
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -16,13 +20,26 @@ $company_info .= format_organization_info();
 $company_info .= '</div>';
 
 // Bill to
-$client_details = format_customer_info($payment->invoice_data, 'payment', 'billing');
+$client_details = '<div align="'.$attr_align.'">';
+$client_details .= format_customer_info($payment->invoice_data, 'payment', 'billing');
+$client_details .= '</div>';
 
-$left_info  = $swap == '1' ? $client_details : $company_info;
-$right_info = $swap == '1' ? $company_info : $client_details;
+//$left_info  = $swap == '1' ? $client_details : $company_info;
+//$right_info = $swap == '1' ? $company_info : $client_details;
+
+if (is_rtl()) {
+    $left_info = $company_info;
+    $right_info = $client_details;
+}else{
+    $left_info = $client_details;
+    $right_info = $company_info;
+}
 
 pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
+if (is_rtl()) {
+    $this->setRTL(true);
+}
 $pdf->SetFontSize(15);
 
 $receit_heading = '<div style="text-align:center">' . mb_strtoupper(_l('payment_receipt'), 'UTF-8') . '</div>';

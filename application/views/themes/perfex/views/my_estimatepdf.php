@@ -4,8 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -13,17 +17,24 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
+$info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('estimate_pdf_heading') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $estimate_number . '</b>';
 
 if (get_option('show_status_on_pdf_ei') == 1) {
     $info_right_column .= '<br /><span style="color:rgb(' . estimate_status_color_pdf($status) . ');text-transform:uppercase;">' . format_estimate_status($status, '', false) . '</span>';
 }
+$info_right_column .= '</div>';
 
 // Add logo
 $info_left_column .= pdf_logo_url();
+
 // Write top left logo and right column info/text
-pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+if (is_rtl()) {
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}else{
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}
 
 $pdf->ln(10);
 
@@ -32,7 +43,8 @@ $organization_info = '<div style="color:#424242;">';
 $organization_info .= '</div>';
 
 // Estimate to
-$estimate_info = '<b>' . _l('estimate_to') . '</b>';
+$estimate_info = '<div align="'.$attr_align.'">';
+$estimate_info .= '<b>' . _l('estimate_to') . '</b>';
 $estimate_info .= '<div style="color:#424242;">';
 $estimate_info .= format_customer_info($estimate, 'estimate', 'billing');
 $estimate_info .= '</div>';
@@ -70,13 +82,25 @@ foreach ($pdf_custom_fields as $field) {
     }
     $estimate_info .= $field['name'] . ': ' . $value . '<br />';
 }
+$estimate_info .= '</div>';
 
-$left_info  = $swap == '1' ? $estimate_info : $organization_info;
-$right_info = $swap == '1' ? $organization_info : $estimate_info;
+//$left_info  = $swap == '1' ? $estimate_info : $organization_info;
+//$right_info = $swap == '1' ? $organization_info : $estimate_info;
 
+if (is_rtl()) {
+    $left_info = $estimate_info;
+    $right_info = $organization_info;
+}else{
+    $left_info = $organization_info;
+    $right_info = $estimate_info;
+}
 pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
 // The Table
+if (is_rtl()) {
+    $this->setRTL(true);
+}
+
 $pdf->Ln(hooks()->apply_filters('pdf_info_and_table_separator', 6));
 
 // The items table
@@ -91,41 +115,41 @@ $tbltotal = '';
 $tbltotal .= '<table cellpadding="6" style="font-size:' . ($font_size + 4) . 'px">';
 $tbltotal .= '
 <tr>
-    <td align="right" width="85%"><strong>' . _l('estimate_subtotal') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($estimate->subtotal, $estimate->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_subtotal') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($estimate->subtotal, $estimate->currency_name) . '</td>
 </tr>';
 
 if (is_sale_discount_applied($estimate)) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('estimate_discount');
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_discount');
     if (is_sale_discount($estimate, 'percent')) {
         $tbltotal .= '(' . app_format_number($estimate->discount_percent, true) . '%)';
     }
     $tbltotal .= '</strong>';
     $tbltotal .= '</td>';
-    $tbltotal .= '<td align="right" width="15%">-' . app_format_money($estimate->discount_total, $estimate->currency_name) . '</td>
+    $tbltotal .= '<td align="'.$table_td.'" width="15%">-' . app_format_money($estimate->discount_total, $estimate->currency_name) . '</td>
     </tr>';
 }
 
 foreach ($items->taxes() as $tax) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($tax['total_tax'], $estimate->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($tax['total_tax'], $estimate->currency_name) . '</td>
 </tr>';
 }
 
 if ((int)$estimate->adjustment != 0) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . _l('estimate_adjustment') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($estimate->adjustment, $estimate->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_adjustment') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($estimate->adjustment, $estimate->currency_name) . '</td>
 </tr>';
 }
 
 $tbltotal .= '
 <tr style="background-color:#f0f0f0;">
-    <td align="right" width="85%"><strong>' . _l('estimate_total') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($estimate->total, $estimate->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('estimate_total') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($estimate->total, $estimate->currency_name) . '</td>
 </tr>';
 
 $tbltotal .= '</table>';

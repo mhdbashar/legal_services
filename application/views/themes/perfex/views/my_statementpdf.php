@@ -4,8 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -13,14 +17,21 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
-$info_right_column = '<div style="color:#424242;">';
+$info_right_column .= '<div align="'.$attr_align.'">';
+$info_right_column .= '<div style="color:#424242;">';
 $info_right_column .= format_organization_info();
+$info_right_column .= '</div>';
 $info_right_column .= '</div>';
 
 // Add logo
 $info_left_column .= pdf_logo_url();
+
 // Write top left logo and right column info/text
-pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+if (is_rtl()) {
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}else{
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}
 
 $pdf->ln(10);
 
@@ -68,7 +79,9 @@ $summary .= '
 
 $pdf->writeHTMLCell(($dimensions['wk'] / 2) - $dimensions['rm'] - 15, '', '', '', $summary, 0, 1, false, true, $align, true);
 
-
+if (is_rtl()) {
+    $this->setRTL(true);
+}
 $summary_info = '
 <div style="text-align: center;">
     ' . _l('customer_statement_info', [

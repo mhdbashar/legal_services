@@ -252,10 +252,12 @@
                             <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control custom_select_arrow" name="contract"
-                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option selected disabled></option>
-                                    <?php $data = get_relation_data('contracts', '');
+                                <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected></option>
+                                    <?php
+                                    //$data = get_relation_data('contracts', '');
+                                    $data = get_oservice_contracts('', $service->slug);
                                     foreach ($data as $row): ?>
                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
                                     <?php endforeach; ?>
@@ -275,7 +277,7 @@
                         <!-- custom_fields -->
                         <?php if ($custom_fields) { ?>
                             <div role="tabpanel" id="custom_fields">
-                                <?php $rel_id = (isset($case) ? $case->id : false); ?>
+                                <?php $rel_id = (isset($OtherServ) ? $OtherServ->id : false); ?>
                                 <?php echo render_custom_fields($service->slug, $rel_id); ?>
                             </div>
                         <?php } ?>

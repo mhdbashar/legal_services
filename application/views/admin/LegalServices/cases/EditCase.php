@@ -189,42 +189,51 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="head_court_info">
-                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse" href="#court_info" aria-expanded="false" aria-controls="collapseOne">
+                                <h4 class="panel-title collapsed" role="button" data-toggle="collapse"
+                                    href="#court_info" aria-expanded="false" aria-controls="collapseOne">
                                     <?php echo _l('court_info'); ?>
                                 </h4>
                             </div>
-                            <div id="court_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_court_info">
+                            <div id="court_info" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="head_court_info">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="control-label"><?php echo _l('Court'); ?></label>
-                                                <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                    <option selected disabled></option>
-                                                    <?php $data = get_relation_data('mycourts','');
+                                                <select class="selectpicker custom_select_arrow" id="court_id"
+                                                        onchange="GetCourtJad()" name="court_id" data-width="100%"
+                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected></option>
+                                                    <?php $data = get_relation_data('mycourts', '');
                                                     foreach ($data as $row): ?>
-                                                        <option value="<?php echo $row->c_id; ?>" <?php echo $case->court_id == $row->c_id ? 'selected': '' ?>><?php echo $row->court_name; ?></option>
+                                                        <option value="<?php echo $row->c_id; ?>" <?php echo $case->court_id == $row->c_id ? 'selected' : '' ?>><?php echo $row->court_name; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <?php if (has_permission('courts', '', 'create')) { ?>
-                                        <div class="col-md-1">
-                                            <a href="#" data-toggle="modal" data-target="#add-court" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
-                                        </div>
+                                            <div class="col-md-1">
+                                                <a href="#" data-toggle="modal" data-target="#add-court"
+                                                   class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                            </div>
                                         <?php } ?>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
-                                                <select class="form-control custom_select_arrow" id="jud_num" name="jud_num" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                    <option selected disabled></option>
-                                                    <?php $data = get_relation_data('myjudicial',$case->court_id);
+                                                <select class="form-control custom_select_arrow" id="jud_num"
+                                                        name="jud_num" data-width="100%"
+                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected></option>
+                                                    <?php $data = get_relation_data('myjudicial', $case->court_id);
                                                     foreach ($data as $row) {
-                                                        if($case->jud_num == $row->j_id) { ?>
-                                                            <option value="<?php echo $row->j_id ?>" selected><?php echo $row->Jud_number ?></option>
-                                                        <?php }else { ?>
+                                                        if ($case->jud_num == $row->j_id) { ?>
+                                                            <option value="<?php echo $row->j_id ?>"
+                                                                    selected><?php echo $row->Jud_number ?></option>
+                                                        <?php } else { ?>
                                                             <option value="<?php echo $row->j_id ?>"><?php echo $row->Jud_number ?></option>
-                                                              <?php } } ?>
+                                                        <?php }
+                                                    } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -337,7 +346,7 @@
                                                 <label for="case_status"><?php echo _l('case_status'); ?></label>
                                                 <div class="clearfix"></div>
                                                 <select name="case_status" id="case_status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                    <option selected disabled></option>
+                                                    <option selected></option>
                                                     <?php $data = get_relation_data('Case_status', '');
                                                     foreach ($data as $row): ?>
                                                         <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $case->case_status ? 'selected': '' ?>><?php echo $row['name']; ?></option>
@@ -350,10 +359,10 @@
                                                 <label for="case_result"><?php echo _l('ResultCase'); ?></label>
                                                 <div class="clearfix"></div>
                                                 <select name="case_result" id="case_result" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                    <option selected disabled></option>
-                                                    <option value="رابحة" <?php echo $case->case_result == "رابحة" ? 'selected': '' ?>><?php echo _l('Winning'); ?></option>
-                                                    <option value="خاسرة" <?php echo $case->case_result == "خاسرة" ? 'selected': '' ?>><?php echo _l('Losing'); ?></option>
-                                                    <option value="متداولة" <?php echo $case->case_result == "متداولة" ? 'selected': '' ?>><?php echo _l('Circulated'); ?></option>
+                                                    <option selected></option>
+                                                    <option value="رابحة" <?php echo $case->case_result == "رابحة" ? 'selected' : '' ?>><?php echo _l('Winning'); ?></option>
+                                                    <option value="خاسرة" <?php echo $case->case_result == "خاسرة" ? 'selected' : '' ?>><?php echo _l('Losing'); ?></option>
+                                                    <option value="متداولة" <?php echo $case->case_result == "متداولة" ? 'selected' : '' ?>><?php echo _l('Circulated'); ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -361,24 +370,29 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label class="control-label"><?php echo _l('contracts'); ?></label>
-                                            <select class="form-control custom_select_arrow" name="contract"
-                                                    placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                <option selected disabled></option>
-                                                <?php $data = get_relation_data('contracts', '');
+                                            <select class="selectpicker custom_select_arrow" name="contract"
+                                                    data-width="100%"
+                                                    data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                <option selected></option>
+                                                <?php
+                                                $data = get_case_contracts($case->id, $service->slug);
                                                 foreach ($data as $row): ?>
-                                                    <option value="<?php echo $row['id']; ?>" <?php echo  $row['id'] == $case->contract ? 'selected': '' ?>><?php echo $row['subject']; ?></option>
+                                                    <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $case->contract ? 'selected' : '' ?>><?php echo $row['subject']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="select-placeholder form-group">
                                                 <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
-                                                <select class="selectpicker" id="previous_case_id" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
-                                                    <option selected disabled></option>
+                                                <select class="selectpicker" id="previous_case_id"
+                                                        name="previous_case_id" data-width="100%"
+                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"
+                                                        data-live-search="true">
+                                                    <option selected></option>
                                                     <?php $data = get_relation_data('cases');
                                                     foreach ($data as $row):
                                                         if ($row['id'] != $case->id): ?>
-                                                            <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $case->previous_case_id ? 'selected': '' ?>> <?php echo $row['name']; ?></option>
+                                                            <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $case->previous_case_id ? 'selected' : '' ?>> <?php echo $row['name']; ?></option>
                                                         <?php endif; endforeach; ?>
                                                 </select>
                                             </div>

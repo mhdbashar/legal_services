@@ -1,8 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+
 if (is_rtl()) {
+    $pdf->setRTL(true);
     $align = 'R'; //Right align
     $style = 'style="direction: rtl;text-align: right"';
 }else{
+    $pdf->setRTL(false);
     $align = 'L'; //Left align
     $style = '';
 }
@@ -29,6 +32,7 @@ if (!empty($project->description)) {
 
 $pdf->writeHTML($html, true, false, false, false, $align);
 $pdf->Ln(10);
+
 $html = '';
 // Project overview
 // Billing type
@@ -156,7 +160,7 @@ if (!empty($project->client_data->vat)) {
 }
 
 // Case Result
-$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('ResultCase')) . '</b><br /><br /><b>' . $project->case_result . '</b><br />';
+$html .= '<br /><br /><b style="background-color:#f0f0f0;">' . ucwords(_l('ResultCase')) . '</b><br /><br /><b>' . $project->case_result . '</b><br />';
 $html .= '<br />';
 // Case Result
 $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('case_status')) . '</b><br /><br /><b>' . maybe_translate(_l('nothing_was_specified'), $project->StatusCase) . '</b><br />';
@@ -343,6 +347,5 @@ $pdf->writeHTML($html, true, false, false, false, $align);
 if (ob_get_length() > 0 && ENVIRONMENT == 'production') {
     ob_end_clean();
 }
-
 // Output PDF to user
 $pdf->output('#' . $project->id . '_' . $project->name . '_' . _d(date('Y-m-d')) . '.pdf', 'I');

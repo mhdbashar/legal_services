@@ -148,7 +148,7 @@
                      </a>
                   </li>
                   <li role="presentation" class="tab-separator">
-                  <a href="#tab_templates" onclick="get_templates('contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
+                  <a href="#tab_templates" onclick="get_templates('hr_contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
                         <?php echo _l('templates'); ?>
                      </a>
                   </li>
@@ -439,7 +439,7 @@
 <div role="tabpanel" class="tab-pane" id="tab_templates">
    <div class="row contract-templates">
       <div class="col-md-12">
-         <button type="button" class="btn btn-info" onclick="add_template('contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
+         <button type="button" class="btn btn-info" onclick="add_template('hr_contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
          <hr>
       </div>
       <div class="col-md-12">
@@ -517,7 +517,7 @@
   var _templates = [];
   $.each(contractsTemplates, function (i, template) {
      _templates.push({
-        url: admin_url + 'contracts/get_template?name=' + template,
+        url: admin_url + 'hr/contracts/get_template?name=' + template,
         title: template
      });
   });

@@ -20,18 +20,12 @@
                 $staffs = $CI->staff_model->get();
                 ?>
                 <?php if(is_admin()){ ?>
-                  <?php echo render_select('staff_id', $staffs, array('staffid', array('firstname', 'lastname')),'staff', get_staff_user_id(), array('onchange' => 'changestaff_id(this)')); ?>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <?php echo render_select('staff_id', $staffs, array('staffid', array('firstname', 'lastname')),'staff', get_staff_user_id(), array('onchange' => 'changestaff_id(this)')); ?>
+                    </div>
+                  </div>
                 <?php } ?>
-                <div class="route_point_combobox hide">
-                  <br>
-                  <label for="route_point" class="control-label">Route point</label>
-                  <select id="route_point" name="route_point" class="selectpicker" data-width="100%" data-none-selected-text="Non selected" tabindex="-98">
-                  </select>
-                  <br>
-                  <br>
-                  <div class="clearfix"></div>
-                </div>
-
                 <div id="clock" class="clock">
                   <div id="hourHand" class="hourHand"></div>
                   <div id="minuteHand" class="minuteHand"></div>
@@ -111,25 +105,23 @@
                   <div class="bottom_co_btn_item">
                     <?php
                     if($type_check_in_out == '' || $type_check_in_out == 2 || $allows_updating_check_in_time == 1 || is_admin()){
-                     echo form_open(admin_url('timesheets/check_in_ts'),array('id'=>'timesheets-form-check-in', 'onsubmit'=>'get_data()')); ?>
+                     echo form_open(admin_url('timesheets/check_in_ts'),array('id'=>'timesheets-form-check-in')); ?>
                      <input type="hidden" name="staff_id" value="<?php echo get_staff_user_id(); ?>">
                      <input type="hidden" name="type_check" value="1">
                      <input type="hidden" name="edit_date" value="">
-                     <input type="hidden" name="point_id" value="">
                      <input type="hidden" name="location_user" value="">
-                     <button class="btn btn-primary check_in"><?php echo _l('check_in'); ?></button>
+                     <button class="btn btn-primary"><?php echo _l('check_in'); ?></button>
                      <?php echo form_close(); } ?>
                    </div>
                    <div class="bottom_co_btn_item">              
                      <?php if($type_check_in_out == 1 || $allows_updating_check_in_time == 1 || is_admin()){
-                      echo form_open(admin_url('timesheets/check_in_ts'),array('id'=>'timesheets-form-check-out', 'onsubmit'=>'get_data()')); 
+                      echo form_open(admin_url('timesheets/check_in_ts'),array('id'=>'timesheets-form-check-out')); 
                       ?>  
                       <input type="hidden" name="staff_id" value="<?php echo get_staff_user_id(); ?>">
                       <input type="hidden" name="type_check" value="2">
                       <input type="hidden" name="edit_date" value="">
-                      <input type="hidden" name="point_id" value="">
                       <input type="hidden" name="location_user" value="">
-                      <button class="btn btn-warning check_out"><?php echo _l('check_out'); ?></button>
+                      <button class="btn btn-warning"><?php echo _l('check_out'); ?></button>
                       <?php echo form_close(); } ?>       
                     </div>
                   </div>

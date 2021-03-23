@@ -22,9 +22,11 @@
     rowHeaders: true,
     cells: function(row, col, prop) {
         var cellProperties = {};
+        
         if (col > 1) {
           cellProperties.renderer = firstRowRenderer; 
         }
+        
         return cellProperties;
       },
     colHeaders: <?php echo html_entity_decode($day_by_month); ?>,
@@ -55,7 +57,6 @@
   var hot = new Handsontable(hotElement, hotSettings);
 $('.shift_work_filter').click(function(){
     var data = {};
-    data.month = $('input[name="month_timesheets"]').val();
     data.staff = $('select[name="staff_timesheets_s[]"]').val();
     data.department = $('select[name="department_timesheets_s"]').val();
     data.role = $('select[name="role_timesheets_s"]').val();

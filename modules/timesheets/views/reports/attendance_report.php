@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div id="attendance_report" class="hide reports_fr">
+<div id="attendance_report" class="hide reports">
 
    <table class="table table-attendance_report scroll-responsive">
       <thead>

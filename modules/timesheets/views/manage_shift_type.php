@@ -10,11 +10,9 @@
                         <hr>
                         <div class="clearfix"></div>
                         <div class="_buttons">
-                            <?php if (has_permission('table_shiftwork_management', '', 'view') || is_admin()) { ?>
-                                <a href="#" onclick="new_shift_type(); return false;" class="btn btn-info pull-left display-block">
-                                    <?php echo _l('add'); ?>
-                                </a>
-                            <?php } ?>
+                            <a href="#" onclick="new_shift_type(); return false;" class="btn btn-info pull-left display-block">
+                                <?php echo _l('add'); ?>
+                            </a>
                             <div class="clearfix"></div>
                             <br>
                         </div>
@@ -26,20 +24,20 @@
                             <th><?php echo _l('shift_type_name'); ?></th>
                             <th><?php echo _l('description'); ?></th>
                             <th><?php echo _l('options'); ?></th>
-                        </thead>
-                        <tbody></tbody>
-                        <tfoot>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                       </tfoot>
-                   </table>
-               </div>
-           </div>
-       </div>
-   </div>
-</div>
+                          </thead>
+                          <tbody></tbody>
+                          <tfoot>
+                             <td></td>
+                             <td></td>
+                             <td></td>
+                             <td></td>
+                          </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="shift" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog w-25">

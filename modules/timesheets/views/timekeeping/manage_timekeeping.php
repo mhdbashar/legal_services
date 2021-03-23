@@ -48,15 +48,12 @@
         <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('TS_x_timekeeping'); ?>" class="btn" >M</button>
         <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('H_x_timekeeping'); ?>" class="btn" >ME</button>
         <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('NS_x_timekeeping'); ?>" class="btn" >NS</button>
-       <!--  <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php //echo _l('EB_x_timekeeping'); ?>" class="btn" >EB</button>
-        <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php //echo _l('UB_x_timekeeping'); ?>" class="btn" >UB</button> -->
+        <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('EB_x_timekeeping'); ?>" class="btn" >EB</button>
+        <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('UB_x_timekeeping'); ?>" class="btn" >UB</button>
         <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo _l('P_timekeeping'); ?>" class="btn" >P</button>
         <div class="clearfix"></div>
       </div>
       <div class="col-md-4">
-        <a href="javascript:void(0)" class="btn btn-default pull-right mtop5 mleft10 export_excel">
-          <i class="fa fa-file-excel"></i> <?php echo _l('export_to_excel'); ?>
-        </a>
         <?php if($data_timekeeping_form == 'timekeeping_manually'){ ?>
           <button type="button" onclick="open_check_in_out();" class="btn btn-info pull-right display-block mtop5 check_in_out_timesheet" data-toggle="tooltip" title="" data-original-title="<?php echo _l('check_in').' / '._l('check_out'); ?>"><?php echo _l('check_in'); ?> / <?php echo _l('check_out'); ?></button>
         <?php }elseif($data_timekeeping_form == 'csv_clsx'){ ?>

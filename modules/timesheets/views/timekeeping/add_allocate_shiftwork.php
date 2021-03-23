@@ -120,15 +120,11 @@ if(isset($word_shift)){
      <?php echo form_hidden('shifts_detail'); ?>
 
    </div>
+   <br>
+   <button class="btn btn-info pull-right save_detail_shift"><?php echo _l('submit'); ?></button>
  </div>
- <hr>
- <div class="row">
-  <div class="col-md-12">
-   <button class="btn btn-info pull-right save_detail_shift"><?php echo _l('submit'); ?></button>       
- </div>
-</div>
-<input type="hidden" name="id" value="<?php echo html_entity_decode($id); ?>" >
-<?php echo form_close(); ?>
+ <input type="hidden" name="id" value="<?php echo html_entity_decode($id); ?>" >
+ <?php echo form_close(); ?>
 </div>
 
 </div>

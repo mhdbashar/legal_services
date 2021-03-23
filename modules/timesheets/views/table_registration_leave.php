@@ -7,7 +7,6 @@ $user_id = get_staff_user_id();
 $aColumns = [
     '1',
     db_prefix().'timesheets_requisition_leave.id',
-    db_prefix().'timesheets_requisition_leave.id',
     db_prefix().'timesheets_requisition_leave.staff_id',
     db_prefix().'timesheets_requisition_leave.followers_id',
     db_prefix().'timesheets_requisition_leave.subject',
@@ -16,7 +15,6 @@ $aColumns = [
     db_prefix().'timesheets_requisition_leave.end_time',
     '(SELECT GROUP_CONCAT(staffid SEPARATOR ",") FROM '.db_prefix().'timesheets_approval_details WHERE rel_id = '.db_prefix().'timesheets_requisition_leave.id and '.db_prefix().'timesheets_approval_details.rel_type = IF('.db_prefix().'timesheets_requisition_leave.rel_type = 1,"Leave", IF('.db_prefix().'timesheets_requisition_leave.rel_type = 2,"Late_early", IF('.db_prefix().'timesheets_requisition_leave.rel_type = 3,"Go_out", IF('.db_prefix().'timesheets_requisition_leave.rel_type = 4,"Go_on_bussiness", IF('.db_prefix().'timesheets_requisition_leave.rel_type = 5,"quit_job", "")))))) as approver',
     db_prefix().'timesheets_requisition_leave.status',
-    db_prefix().'timesheets_requisition_leave.datecreated',
     db_prefix().'timesheets_requisition_leave.id',
 ];
 $sIndexColumn = 'id';
@@ -97,9 +95,9 @@ if($this->ci->input->post('chose')){
     $sql_where = '';
     if($chose != 'all'){
         if($sql_where != ''){
-            $sql_where .= ' AND ('.get_staff_user_id().' IN (SELECT staffid FROM '.db_prefix().'timesheets_approval_details where '.db_prefix().'timesheets_approval_details.rel_type IN ("Leave","late","early","Go_out","Go_on_bussiness") AND '.db_prefix().'timesheets_approval_details.rel_id = '.db_prefix().'timesheets_requisition_leave.id ))';
+            $sql_where .= ' AND ("'.get_staff_user_id().'" IN (SELECT staffid FROM '.db_prefix().'timesheets_approval_details where '.db_prefix().'timesheets_approval_details.rel_type IN ("Leave","Late_early","Go_out","Go_on_bussiness") AND '.db_prefix().'timesheets_approval_details.rel_id = '.db_prefix().'timesheets_requisition_leave.id ))';
         }else{
-            $sql_where .= '('.get_staff_user_id().' IN (SELECT staffid FROM '.db_prefix().'timesheets_approval_details where '.db_prefix().'timesheets_approval_details.rel_type IN ("Leave","late","early","Go_out","Go_on_bussiness") AND '.db_prefix().'timesheets_approval_details.rel_id = '.db_prefix().'timesheets_requisition_leave.id ))';
+            $sql_where .= '("'.get_staff_user_id().'" IN (SELECT staffid FROM '.db_prefix().'timesheets_approval_details where '.db_prefix().'timesheets_approval_details.rel_type IN ("Leave","Late_early","Go_out","Go_on_bussiness") AND '.db_prefix().'timesheets_approval_details.rel_id = '.db_prefix().'timesheets_requisition_leave.id ))';
         }
     }else{
         $sql_where = '';
@@ -109,15 +107,12 @@ if($this->ci->input->post('chose')){
         array_push($where, 'AND '. $sql_where);
     }
 }
-
-$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'timesheets_requisition_leave.rel_type',db_prefix().'timesheets_requisition_leave.subject', 'b.firstname','reason', db_prefix().'timesheets_requisition_leave.followers_id', db_prefix().'timesheets_requisition_leave.status as status', db_prefix().'timesheets_requisition_leave.datecreated']);
+$result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'timesheets_requisition_leave.rel_type',db_prefix().'timesheets_requisition_leave.subject', 'b.firstname','reason', db_prefix().'timesheets_requisition_leave.followers_id', db_prefix().'timesheets_requisition_leave.status as status']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];   
-    $row[] = $aRow[db_prefix().'timesheets_requisition_leave.id'];  
-
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow[db_prefix().'timesheets_requisition_leave.id'] . '"><label></label></div>';
 
     $row[] = '<div class="row">'
@@ -158,7 +153,7 @@ foreach ($rResult as $aRow) {
                     'data-title'  => $member_name,
                 ]) . '</span>';
             }
-            // For exporting
+                        // For exporting
             $exportMembers .= $member_name . ', ';
             $list_member_approve[] = $member_id;
         }
@@ -205,20 +200,15 @@ if($aRow['rel_type'] == 1){
     $rel_type = 'Leave';
     $row[] = '<p>'. _l('Leave') .'</p>';
 }else if($aRow['rel_type'] == 2 ){
-   $rel_type = 'late';
-   $row[] = '<p>'. _l('late') .'</p>';
+   $rel_type = 'Late_early';
+   $row[] = '<p>'. _l('Late_early') .'</p>';
 }else if($aRow['rel_type'] == 3 ){
    $rel_type = 'Go_out';
    $row[] = '<p>'. _l('Go_out') .'</p>';
 }else if($aRow['rel_type'] == 4 ){
    $rel_type = 'Go_on_bussiness';
    $row[] = '<p>'. _l('Go_on_bussiness') .'</p>';
-}
-else if($aRow['rel_type'] == 6){
-   $rel_type = 'early';
-   $row[] = '<p>'. _l('early') .'</p>';
-}
-else{
+}else{
    $rel_type = 'quit_job'; 
    $row[] = '<p>'. _l('quit_job') .'</p>';
 }            
@@ -230,7 +220,6 @@ if($aRow['status'] == 0){
     $row[] = '<span class="label label-danger  mr-1 mb-1 mt-1">'. _l('Reject') .'</span>';
 }
 
-$row[] = _d(date('Y-m-d', strtotime($aRow[db_prefix().'timesheets_requisition_leave.datecreated'])));  
 
 $action_option = '<div class="row">';
 if(in_array($user_id, $list_member_approve)){
@@ -244,7 +233,7 @@ if(in_array($user_id, $list_member_approve)){
        }
    }
 }   
-
+            
 if(is_admin() || $aRow['status'] == 0){                     
     $action_option .='<a id="delete-insurance" data-placement="top" data-toggle="tooltip" data-title="'._l('delete').'" href="'.admin_url('timesheets/delete_requisition'. '/' . ($aRow[db_prefix().'timesheets_requisition_leave.id']) ).'" class="btn btn-danger btn-icon _delete">' . '<i class="fa fa-remove"></i>' . '</a>';
 }

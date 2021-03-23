@@ -152,8 +152,8 @@
                            </span>
                                             </a>
                                         </li>
-                                        <li role="presentation" class="hide tab-separator">
-                                            <a href="#tab_templates" onclick="get_templates('hr_contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
+                                        <li role="presentation" class="tab-separator">
+                                            <a href="#tab_templates" onclick="get_hr_templates('hr_contracts', <?php echo $contract->id ?>); return false" aria-controls="tab_templates" role="tab" data-toggle="tab">
                                                 <?php echo _l('templates'); ?>
                                             </a>
                                         </li>
@@ -471,6 +471,15 @@
 <?php } ?>
 <?php $this->load->view('admin/contracts/contract_type'); ?>
 <script>
+
+    function get_hr_templates(rel_type, rel_id) {
+        if (rel_type === 'hr_contracts') {
+            $('#contract-templates').load(admin_url + 'templates', {
+                rel_type: rel_type,
+                rel_id: rel_id
+            });
+        }
+    }
     Dropzone.autoDiscover = false;
     $(function () {
         // add invoice/estimate note

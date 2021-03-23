@@ -6,7 +6,7 @@
             <div class="col-md-5 left-column">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
+                        <?php echo form_open($this->uri->uri_string(),array('id'=>'hr-contract-form')); ?>
                         <div class="form-group">
                             <label for="clientid" class="control-label"><?php echo _l('staff') ?></label>
                             <select required="required" class="form-control" id="clientid" name="client" placeholder="<?php echo _l('staff') ?>" aria-invalid="false">
@@ -46,8 +46,8 @@
                </div>
                */?>
                         <?php
-//                        $selected = (isset($contract) ? $contract->rel_stype : '');
-//                        echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],['id' => 'div_rel_stype'], $hide_project_selector,'',true); ?>
+                        //                        $selected = (isset($contract) ? $contract->rel_stype : '');
+                        //                        echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],['id' => 'div_rel_stype'], $hide_project_selector,'',true); ?>
 
                         <?php $value = (isset($contract) ? $contract->subject : ''); ?>
                         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>

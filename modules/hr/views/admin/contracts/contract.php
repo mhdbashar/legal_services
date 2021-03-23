@@ -513,10 +513,10 @@
         }
 
         // In case user expect the submit btn to save the contract content
-        $('#contract-form').on('submit', function () {
-            $('#inline-editor-save-btn').click();
-            return true;
-        });
+        // $('#contract-form').on('submit', function () {
+        //     $('#inline-editor-save-btn').click();
+        //     return true;
+        // });
 
         if (typeof (Dropbox) != 'undefined' && $('#dropbox-chooser').length > 0) {
             document.getElementById("dropbox-chooser").appendChild(Dropbox.createChooseButton({

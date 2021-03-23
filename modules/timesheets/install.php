@@ -458,25 +458,25 @@ if (row_timesheets_options_exist('"allow_attendance_by_coordinates"') == 0){
     ');
 }
 if (!$CI->db->table_exists(db_prefix() . 'timesheets_workplace')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_workplace` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` varchar(200) NOT NULL,
-    `workplace_address` varchar(400) NULL,
-    `latitude` varchar(30),
-    `longitude` varchar(30),
-    `distance` double,
-    `default` bit NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_workplace` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `name` varchar(200) NOT NULL,
+      `workplace_address` varchar(400) NULL,
+      `latitude` varchar(30),
+      `longitude` varchar(30),
+      `distance` double,
+      `default` bit NOT NULL DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 if (!$CI->db->table_exists(db_prefix() . 'timesheets_workplace_assign')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_workplace_assign` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `staffid` int(11) NOT NULL,
-    `workplace_id` int(11) NOT NULL,
-    `datecreator` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+    $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_workplace_assign` (
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `staffid` int(11) NOT NULL,
+      `workplace_id` int(11) NOT NULL,
+      `datecreator` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 if (!$CI->db->field_exists('relate_id' ,db_prefix() . 'timesheets_timesheet')) {
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_timesheet`
@@ -485,96 +485,4 @@ if (!$CI->db->field_exists('relate_id' ,db_prefix() . 'timesheets_timesheet')) {
 if (!$CI->db->field_exists('relate_type' ,db_prefix() . 'timesheets_timesheet')) {
   $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_timesheet`
     ADD COLUMN `relate_type` varchar(25) NULL AFTER `relate_id`;');
-}
-$CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("googlemap_api_key", "", "1");');
-if (!$CI->db->table_exists(db_prefix() . 'timesheets_route_point')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_route_point` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` varchar(200) NOT NULL,
-    `route_point_address` varchar(400) NULL,
-    `latitude` varchar(30),
-    `longitude` varchar(30),
-    `distance` double,
-    `related_to` int(11) NOT NULL,
-    `related_id` int(11) NOT NULL,
-    `default` bit NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
-}
-if (!$CI->db->table_exists(db_prefix() . 'timesheets_route')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_route` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `staffid` int(11) NOT NULL,
-    `route_point_id` int(11) NOT NULL,
-    `date_work` date NOT NULL,    
-    `order` int(11) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
-}
-if (!$CI->db->field_exists('route_point_id', db_prefix() . 'check_in_out')) {
-  $CI->db->query('ALTER TABLE `'.db_prefix() . "check_in_out`
-    ADD COLUMN `route_point_id` int(11);");            
-}
-if (!$CI->db->table_exists(db_prefix() . 'timesheets_go_bussiness_advance_payment')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_go_bussiness_advance_payment` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `requisition_leave` int(11) NOT NULL,
-    `used_to` varchar(200) NUll,
-    `amoun_of_money` varchar(200) NUll,
-    `request_date` DATE NULL,
-    `advance_payment_reason` TEXT NULL,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
-}
-if ($CI->db->field_exists('days_off' ,db_prefix() . 'timesheets_day_off')) {
-  $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_day_off`
-    MODIFY `days_off` float NULL  DEFAULT 0'
-  );
-}
-if ($CI->db->field_exists('start_time' ,db_prefix() . 'timesheets_requisition_leave')) {
-  $CI->db->query('ALTER TABLE `' . db_prefix() . 'timesheets_requisition_leave`
-    MODIFY `start_time` datetime NULL,
-    MODIFY `end_time` datetime NULL'
-  );
-}
-if (row_timesheets_options_exist('"allow_attendance_by_route"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("allow_attendance_by_route", "0", "1");
-    ');
-}
-
-if (row_timesheets_options_exist('"auto_checkout"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("auto_checkout", "0", "1");
-    ');
-}
-if (row_timesheets_options_exist('"auto_checkout_type"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("auto_checkout_type", "1", "1");
-    ');
-}
-if (row_timesheets_options_exist('"auto_checkout_value"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("auto_checkout_value", "1", "1");
-    ');
-}
-if (!$CI->db->field_exists('workplace_id', db_prefix() . 'check_in_out')) {
-  $CI->db->query('ALTER TABLE `'.db_prefix() . "check_in_out`
-    ADD COLUMN `workplace_id` int(11) NOT NULL default 0");            
-}
-if (row_timesheets_options_exist('"send_notification_if_check_in_forgotten"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("send_notification_if_check_in_forgotten", "0", "1");
-    ');
-}
-if (row_timesheets_options_exist('"send_notification_if_check_in_forgotten_value"') == 0){
-  $CI->db->query('INSERT INTO `' . db_prefix() . 'timesheets_option` (`option_name`, `option_val`, `auto`) VALUES ("send_notification_if_check_in_forgotten_value", "30", "1");
-    ');
-}
-create_email_template('Timesheets - Remind user check in', 'Remind you to check in today to record the start time of the shift {date_time}', 'timesheets_attendance_mgt', 'Remind user check in', 'remind_user_check_in');
-
-if (!$CI->db->table_exists(db_prefix() . 'timesheets_log_send_notify')) {
-  $CI->db->query('CREATE TABLE `' . db_prefix() . "timesheets_log_send_notify` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `sent` int(11) NOT NULL DEFAULT 0,
-    `staffid` int(11) NOT NULL DEFAULT 0,
-    `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `type` varchar(200) NUll,
-    PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }

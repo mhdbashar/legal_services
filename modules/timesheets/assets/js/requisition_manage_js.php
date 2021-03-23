@@ -18,13 +18,9 @@
       "department_filter": "[name='department_filter[]']",
     };
 
-    var table_contract = $('.table-table_contract');
-    initDataTable(table_registration_leave,admin_url + 'timesheets/table_registration_leave', [0], [0],requisitionServerParams, [1, 'desc']);
+    initDataTable(table_registration_leave,admin_url + 'timesheets/table_registration_leave', [0], [0],requisitionServerParams, [4, 'desc']); 
 
-     //hide first column
-     var hidden_columns = [0];
-     $(table_registration_leave).DataTable().columns(hidden_columns).visible(false, false);
-     $.each(requisitionServerParams, function() {
+    $.each(requisitionServerParams, function() {
       $('#status_filter').on('change', function() {
         table_registration_leave.DataTable().ajax.reload()
         .columns.adjust()
@@ -50,7 +46,7 @@
       });
     });
 
-     var addtimesheetServerParams = {
+    var addtimesheetServerParams = {
       "status_filter_ats": "[name='status_filter_ats[]']",
       "rel_type_filter_ats": "[name='rel_type_filter_ats[]']",
       "chose_ats": "[name='chose_ats']",
@@ -108,7 +104,7 @@
       $('#number_of_leaving_day').val(0);
       $('.btn-submit').removeAttr('disabled');    
       /*đi trễ về sơm , ra ngoài*/
-      if(value == 2 || value == 6 || value == 3)
+      if(value == 2 || value == 3)
       {
         appValidateForm($('#requisition-form'), {
           subject: 'required',
@@ -150,16 +146,12 @@
         $("div.end_time").removeClass('hide');
         $("div.start_time").removeClass('hide');
 
-        $('.date_input').removeClass('hide');
-        $('.datetime_input').addClass('hide');
       }else{
         $('div[id="number_days_off"]').addClass('hide');
         $('div[id="number_days_off_2"]').addClass('hide');
         $('div[id="type_of_leave"]').addClass('hide');
         $('div[id="type"]').removeClass('col-md-6');
         $('div[id="type"]').addClass('col-md-12');
-        $('.date_input').addClass('hide');
-        $('.datetime_input').removeClass('hide');
       }
 
       /*đi công tác*/
@@ -505,7 +497,6 @@
       $('#additional_timesheets_modal').append(response.html);
 
       $('#additional_timesheets_modal').modal('show');
-      $('select[name="approver_c"]').selectpicker('refresh');
     });
   }
 
@@ -717,66 +708,4 @@
   appValidateForm($('#edit_timesheets-form'), {
     additional_day: 'required'
   });
-
-  $('input[name="start_time_s"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time  = $(this).val(); 
-    var fit_end_time    = $('input[name="end_time_s"]').val(); 
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'From Date must be less than or equal to To Date');
-      $(this).val(fit_end_time);
-    }
-  });
-  $('input[name="end_time_s"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time    = $('input[name="start_time_s"]').val(); 
-    var fit_end_time  = $(this).val();
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'To Date must be greater than or equal to From Date');
-      $(this).val(fit_start_time);
-    }
-  });
-
-$('input[name="start_time"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time  = $(this).val(); 
-    var fit_end_time    = $('input[name="end_time"]').val(); 
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'From Date must be less than or equal to To Date');
-      $(this).val(fit_end_time);
-    }
-  });
-  $('input[name="end_time"]').change(function(){
-    var rel_type = $('select[name="rel_type"]').val();
-    if(rel_type == 3 || rel_type == 2 || rel_type == 6){
-      return false;
-    }
-    var fit_start_time    = $('input[name="start_time"]').val(); 
-    var fit_end_time  = $(this).val();
-    if(new Date(datetimeToDate(fit_start_time)).getTime() > new Date(datetimeToDate(fit_end_time)).getTime())
-    {
-      alert_float('warning', 'To Date must be greater than or equal to From Date');
-      $(this).val(fit_start_time);
-    }
-  });
-
-  function datetimeToDate(datetime){
-    var currentTime = new Date(datetime);
-    var month = currentTime.getMonth() + 1;
-    var date = currentTime.getDate();
-    var year = currentTime.getFullYear();
-    return year + '-' + month + '-' + date;
-  }
 </script>

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div>
     <div class="_buttons">
-        <?php if (has_permission('table_workplace_management', '', 'view') || is_admin()) { ?>
+        <?php if(is_admin() || has_permission('hrm_setting','','create')) {?>
             <a href="#" onclick="new_workplace(); return false;" class="btn btn-info pull-left display-block">
                 <?php echo _l('add'); ?>
             </a>
@@ -10,37 +10,31 @@
     <div class="clearfix"></div>
     <br>
     <table class="table dt-table">
-       <thead>
+     <thead>
         <th><?php echo _l('workplace'); ?></th>
         <th><?php echo _l('workplace_address'); ?></th>
-        <th><?php echo _l('latitude'); ?></th>
+        <th><?php echo _l('longitude'); ?></th>
         <th><?php echo _l('longitude'); ?></th>
         <th><?php echo _l('distance'); ?></th>
         <th><?php echo _l('set_default'); ?></th>
-        <?php  
-        if (has_permission('table_workplace_management', '', 'view') || is_admin()) { ?>
-            <th><?php echo _l('options'); ?></th>
-        <?php } ?>
+        <th><?php echo _l('options'); ?></th>
     </thead>
     <tbody>
         <?php foreach($workplace as $w){ ?>
             <tr>
-             <td><?php echo html_entity_decode($w['name']); ?></td>
-             <td><?php echo html_entity_decode($w['workplace_address']); ?></td>
-             <td><?php echo html_entity_decode($w['latitude']); ?></td>
-             <td><?php echo html_entity_decode($w['longitude']); ?></td>
-             <td><?php echo html_entity_decode($w['distance']); ?></td>
-             <td><?php echo ($w['default'] == 1) ? '<span class="btn text-success"><i class="fa fa-check-square"></i></span>' : '' ; ?></td>
-             <?php  
-             if (has_permission('table_workplace_management', '', 'view') || is_admin()) { ?>
-                <td>
-                   <a href="#" onclick="edit_workplace(this,<?php echo html_entity_decode($w['id']); ?>); return false" data-name="<?php echo html_entity_decode($w['name']); ?>" data-id="<?php echo html_entity_decode($w['id']); ?>" data-workplace_address="<?php echo html_entity_decode($w['workplace_address']); ?>" data-latitude="<?php echo html_entity_decode($w['latitude']); ?>" data-longitude="<?php echo html_entity_decode($w['longitude']); ?>" data-distance="<?php echo html_entity_decode($w['distance']); ?>" data-default="<?php echo html_entity_decode($w['default']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                   <a href="<?php echo admin_url('timesheets/delete_workplace/'.$w['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
-               </td>
-           <?php } ?>
-       </tr>
-   <?php } ?>
-</tbody>
+               <td><?php echo html_entity_decode($w['name']); ?></td>
+               <td><?php echo html_entity_decode($w['workplace_address']); ?></td>
+               <td><?php echo html_entity_decode($w['latitude']); ?></td>
+               <td><?php echo html_entity_decode($w['longitude']); ?></td>
+               <td><?php echo html_entity_decode($w['distance']); ?></td>
+               <td><?php echo ($w['default'] == 1) ? '<span class="btn text-success"><i class="fa fa-check-square"></i></span>' : '' ; ?></td>
+               <td>
+                 <a href="#" onclick="edit_workplace(this,<?php echo html_entity_decode($w['id']); ?>); return false" data-name="<?php echo html_entity_decode($w['name']); ?>" data-id="<?php echo html_entity_decode($w['id']); ?>" data-workplace_address="<?php echo html_entity_decode($w['workplace_address']); ?>" data-latitude="<?php echo html_entity_decode($w['latitude']); ?>" data-longitude="<?php echo html_entity_decode($w['longitude']); ?>" data-distance="<?php echo html_entity_decode($w['distance']); ?>" data-default="<?php echo html_entity_decode($w['default']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+                  <a href="<?php echo admin_url('timesheets/delete_workplace/'.$w['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+              </td>
+          </tr>
+      <?php } ?>
+  </tbody>
 </table>       
 <div class="modal" id="workplace" tabindex="-1" role="dialog">
     <div class="modal-dialog">

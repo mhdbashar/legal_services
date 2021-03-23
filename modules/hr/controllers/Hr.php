@@ -31,24 +31,24 @@ class Hr extends AdminController{
         $this->load->view('hrm_dashboard', $data);
     }
 
-    public function contracts($id = '')
-    {
-        $this->load->model('departments_model');
-
-        $data['hrmcontractid'] = $id;
-        $data['positions'] = $this->hrm_model->get_job_position();
-        // $data['workplace'] = $this->hrm_model->get_workplace();
-        $data['contract_type'] = $this->hrm_model->get_contracttype();
-        $data['staff'] = $this->staff_model->get();
-        $data['allowance_type'] = $this->hrm_model->get_allowance_type();
-        $data['salary_form'] = $this->hrm_model->get_salary_form();
-        $data['duration'] = $this->hrm_model->get_duration();
-
-        $data['dep_tree'] = json_encode($this->hrm_model->get_department_tree());
-
-        $data['title']                 = _l('staff_contract');
-        $this->load->view('manage_contract', $data);
-    }
+//    public function contracts($id = '')
+//    {
+//        $this->load->model('departments_model');
+//
+//        $data['hrmcontractid'] = $id;
+//        $data['positions'] = $this->hrm_model->get_job_position();
+//        // $data['workplace'] = $this->hrm_model->get_workplace();
+//        $data['contract_type'] = $this->hrm_model->get_contracttype();
+//        $data['staff'] = $this->staff_model->get();
+//        $data['allowance_type'] = $this->hrm_model->get_allowance_type();
+//        $data['salary_form'] = $this->hrm_model->get_salary_form();
+//        $data['duration'] = $this->hrm_model->get_duration();
+//
+//        $data['dep_tree'] = json_encode($this->hrm_model->get_department_tree());
+//
+//        $data['title']                 = _l('staff_contract');
+//        $this->load->view('manage_contract', $data);
+//    }
 
     public function contract_code_exists()
     {

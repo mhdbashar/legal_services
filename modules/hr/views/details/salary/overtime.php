@@ -1,6 +1,6 @@
  <?php $this->load->view('details/modals/overtime_modal') ?>
  <div class="_buttons">
-    <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_overtime"><?php echo _l('new_overtime'); ?></a>
+    <?php if (has_permission('hr', '', 'create')){ ?><a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_overtime"><?php echo _l('new_overtime'); ?></a><?php } ?>
 </div>
 <div class="clearfix"></div>
 <hr class="hr-panel-heading" />

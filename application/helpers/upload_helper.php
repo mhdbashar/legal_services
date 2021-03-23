@@ -1127,6 +1127,9 @@ function get_upload_path_by_type($type)
             $path = CONTRACTS_UPLOADS_FOLDER;
 
         break;
+        case 'hr_contract':
+            $path = HR_CONTRACTS_UPLOADS_FOLDER;
+            break;
         case 'customer':
             $path = CLIENT_ATTACHMENTS_FOLDER;
 

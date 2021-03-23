@@ -223,6 +223,8 @@ function task_rel_link($rel_id, $rel_type)
         $link = admin_url('estimates/list_estimates/' . $rel_id);
     } elseif ($rel_type == 'contract') {
         $link = admin_url('contracts/contract/' . $rel_id);
+    } elseif ($rel_type == 'hr_contract') {
+        $link = admin_url('hr/contracts/contract/' . $rel_id);
     } elseif ($rel_type == 'ticket') {
         $link = admin_url('tickets/ticket/' . $rel_id);
     } elseif ($rel_type == 'expense') {

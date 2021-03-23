@@ -280,7 +280,7 @@
                                     <?php echo render_date_input('duedate','task_add_edit_due_date',$value_due_date,''); ?>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                           <?php /* <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="priority" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
                                     <select name="priority" class="selectpicker" id="priority" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -290,7 +290,7 @@
                                         <?php hooks()->do_action('task_priorities_select', (isset($task) ? $task : 0)); ?>
                                     </select>
                                 </div>
-                            </div>
+                            </div> */ ?>
                             <div class="col-md-6 hide">
                                 <div class="form-group">
                                     <label for="repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label>

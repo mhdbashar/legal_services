@@ -247,28 +247,32 @@
                                         array_push($selected,$member['staff_id']);
                                     }
                                 } else {
-                                    array_push($selected,get_staff_user_id());
+                                    array_push($selected, get_staff_user_id());
                                 }
-                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                                echo render_select('project_members[]', $staff, array('staffid', array('firstname', 'lastname')), 'project_members', $selected, array('multiple' => true, 'data-actions-box' => true), array(), '', '', false);
                                 ?>
                             </div>
                             <?php if (has_permission('staff', '', 'create')) { ?>
-                                <a href="<?php echo admin_url('staff')?>" target="_blank" class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
+                                <a href="<?php echo admin_url('staff') ?>" target="_blank"
+                                   class="btn btn-info mtop25 btn_plus"><i class="fa fa-plus"></i></a>
                             <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control custom_select_arrow" name="contract"
-                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option selected disabled></option>
-                                    <?php $data = get_relation_data('contracts', '');
+                                <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected></option>
+                                    <?php
+                                    //$data = get_relation_data('contracts', '');
+                                    $data = get_oservice_contracts($OtherServ->id, $service->slug);
                                     foreach ($data as $row): ?>
-                                        <option value="<?php echo $row['id']; ?>" <?php echo  $row['id'] == $OtherServ->contract ? 'selected': '' ?>><?php echo $row['subject']; ?></option>
+                                        <option value="<?php echo $row['id']; ?>" <?php echo $row['id'] == $OtherServ->contract ? 'selected' : '' ?>><?php echo $row['subject']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
                         <div class="checkbox checkbox-primary">
-                            <input type="checkbox" name="service_session_link" id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
+                            <input type="checkbox" name="service_session_link"
+                                   id="service_session_link" <?php echo $OtherServ->service_session_link == 1 ? 'checked' : ''; ?>>
                             <label for="service_session_link"><?php echo _l('link_with_service_session'); ?></label>
                         </div>
                         <p for="description" class="bold"><?php echo _l('project_description'); ?></p>

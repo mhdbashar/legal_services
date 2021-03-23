@@ -142,6 +142,27 @@ class Download extends App_Controller
             }
 
             $path = get_upload_path_by_type('contract') . $attachment->rel_id . '/' . $attachment->file_name;
+        } elseif ($folder_indicator == 'hr_contract') {
+            if (!$attachmentid) {
+                show_404();
+            }
+
+            $this->db->where('attachment_key', $attachmentid);
+            $attachment = $this->db->get(db_prefix() . 'files')->row();
+            if (!$attachment) {
+                show_404();
+            }
+
+            if (!is_staff_logged_in()) {
+                $this->db->select('not_visible_to_client');
+                $this->db->where('id', $attachment->rel_id);
+                $contract = $this->db->get(db_prefix() . 'hr_contracts')->row();
+                if ($contract->not_visible_to_client == 1) {
+                    show_404();
+                }
+            }
+
+            $path = get_upload_path_by_type('hr_contract') . $attachment->rel_id . '/' . $attachment->file_name;
         } elseif ($folder_indicator == 'taskattachment') {
             if (!is_logged_in()) {
                 show_404();

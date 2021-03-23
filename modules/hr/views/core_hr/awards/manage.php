@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <div class="_buttons"><?php if (has_permission('hr', '', 'create')){ ?>
+                     <div class="_buttons"><?php if (has_permission('awards', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_document"><?php echo _l('new_award'); ?></a>
                          <?php } ?>
                     </div>

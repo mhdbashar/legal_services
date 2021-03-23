@@ -7,7 +7,9 @@ class Hr extends AdminController{
     public function __construct(){
         parent::__construct();
         $this->load->model('hrm_model');
-        if (!has_permission('hr', '', 'view'))
+        $this->load->model('Insurance_type_model');
+        $this->load->model('Insurance_book_num_model');
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 
         $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
@@ -29,24 +31,24 @@ class Hr extends AdminController{
         $this->load->view('hrm_dashboard', $data);
     }
 
-    public function contracts($id = '')
-    {
-        $this->load->model('departments_model');
-
-        $data['hrmcontractid'] = $id;
-        $data['positions'] = $this->hrm_model->get_job_position();
-        // $data['workplace'] = $this->hrm_model->get_workplace();
-        $data['contract_type'] = $this->hrm_model->get_contracttype();
-        $data['staff'] = $this->staff_model->get();
-        $data['allowance_type'] = $this->hrm_model->get_allowance_type();
-        $data['salary_form'] = $this->hrm_model->get_salary_form();
-        $data['duration'] = $this->hrm_model->get_duration();
-
-        $data['dep_tree'] = json_encode($this->hrm_model->get_department_tree());
-
-        $data['title']                 = _l('staff_contract');
-        $this->load->view('manage_contract', $data);
-    }
+//    public function contracts($id = '')
+//    {
+//        $this->load->model('departments_model');
+//
+//        $data['hrmcontractid'] = $id;
+//        $data['positions'] = $this->hrm_model->get_job_position();
+//        // $data['workplace'] = $this->hrm_model->get_workplace();
+//        $data['contract_type'] = $this->hrm_model->get_contracttype();
+//        $data['staff'] = $this->staff_model->get();
+//        $data['allowance_type'] = $this->hrm_model->get_allowance_type();
+//        $data['salary_form'] = $this->hrm_model->get_salary_form();
+//        $data['duration'] = $this->hrm_model->get_duration();
+//
+//        $data['dep_tree'] = json_encode($this->hrm_model->get_department_tree());
+//
+//        $data['title']                 = _l('staff_contract');
+//        $this->load->view('manage_contract', $data);
+//    }
 
     public function contract_code_exists()
     {
@@ -168,9 +170,9 @@ class Hr extends AdminController{
         }
         if ($this->input->post()) {
             $data = $this->input->post();
-            $data['insurance_book_num'] = get_option('insurance_book_number');
             if ($this->input->post('insurance_id') == '') {
-                $data['insurance_book_num'] = get_option('insurance_book_number');
+
+                // $data['insurance_book_num'] = get_option('insurance_book_number');
                 if (!has_permission('hr', '', 'create')) {
                     access_denied('hr');
                 }
@@ -214,9 +216,25 @@ class Hr extends AdminController{
 
 
         }
+        $data['insurance_types'] = $this->Insurance_type_model->get('', ['for_staff' => 1]);
+        $data['insurance_book_nums'] = $this->Insurance_book_num_model->get();
+        // var_dump($data['insurance_book_nums']); exit;
         $data['month'] = $this->hrm_model->get_month();
-        $data['staff'] = $this->staff_model->get();
+        $data['staff'] = $this->staff_model->get('');
         $this->load->view('hr/insurance/insurance', $data);
+    }
+
+    public function build_insurance_types_relations() {
+
+        $types = $this->Insurance_type_model->get('', ['insurance_book_id' => $this->input->post('insurance_book_num'), 'for_staff' => 1]);
+        $output = '<option value=""></option>';
+        $select=$this->input->post('selected');
+        foreach ($types as $row)
+        {
+            if($row['id']==$select)$selected="selected";else $selected="";
+            $output .= '<option value="'.$row['id'].'" '.$selected.' >'.$row['name'].'</option>';
+        }
+        echo $output;
     }
 
     public function insurance_book_exists(){
@@ -565,6 +583,9 @@ class Hr extends AdminController{
                         $health_insurance_num = $insuran['health_insurance_num'];
                         $city_code = $insuran['city_code'];
                         $registration_medical = $insuran['registration_medical'];
+                        $start_date = $insuran['start_date'];
+                        $end_date = $insuran['end_date'];
+                        $file = $insuran['file'];
                     }
                 }
                 $insurance_history = $this->hrm_model->get_insurance_history($id);
@@ -656,6 +677,9 @@ class Hr extends AdminController{
                     'health_insurance_num' => $health_insurance_num,
                     'city_code'            => $city_code,
                     'registration_medical'  => $registration_medical,
+                    'start_date'  => $start_date,
+                    'end_date'  => $end_date,
+                    'file'  => $file,
 
                 ]);
                 die();

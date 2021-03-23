@@ -45,7 +45,9 @@ if (count($custom_fields) > 4) {
 }
 
 $where = hooks()->apply_filters('staff_table_sql_where', []);
-
+if(has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 $department_id = $this->ci->input->post('hrm_deparment');
 
 if($this->ci->input->post('hrm_deparment')){

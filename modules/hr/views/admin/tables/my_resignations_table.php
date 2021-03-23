@@ -21,6 +21,9 @@ $join = [
 ];
 
 $where = [];
+if(has_permission('resignations', '', 'view_own') && !has_permission('resignations', '', 'view')){
+    $where[] = 'AND '. db_prefix() . 'staff.staffid='.get_staff_user_id();
+}
 
 
 $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'hr_resignations.id']);
@@ -39,9 +42,10 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['resignation_date'];
 
-    $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_resignation', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
-    if (has_permission('hr', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_resignation/' . $aRow['id'], 'remove', 'btn-danger _delete');
-    $row[]   = $options;
+    $options = ''; if (has_permission('resignations', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_resignation', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
+    if (has_permission('resignations', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_resignation/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    if (has_permission('resignations', '', 'edit') || has_permission('resignations', '', 'delete') )
+        $row[]   = $options;
 
     $output['aaData'][] = $row;
 }

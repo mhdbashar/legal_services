@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <div class="_buttons"><?php if (has_permission('hr', '', 'create')){ ?>
+                     <div class="_buttons"><?php if (has_permission('resignations', '', 'create')){ ?>
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#add_resignation"><?php echo _l('new_resignation'); ?></a>
                          <?php } ?>
                     </div>
@@ -18,8 +18,9 @@
                         _l('staff_name'),
                         _l('notice_date'),
                         _l('resignation_date'),
-                        _l('control'),
                     );
+                    if (has_permission('resignations', '', 'edit') || has_permission('resignations', '', 'delete') )
+                        $data[] = _l('control');
                     render_datatable($data,'resignation');
                     ?>
                     </div>

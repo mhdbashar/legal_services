@@ -234,9 +234,12 @@
                            <option value="estimate" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'estimate'){echo 'selected';}} ?>>
                               <?php echo _l('estimate'); ?>
                            </option>
-                           <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
-                              <?php echo _l('contract'); ?>
-                           </option>
+                            <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
+                                <?php echo _l('contract'); ?>
+                            </option>
+                            <option value="hr_contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'hr_contract'){echo 'selected';}} ?>>
+                                <?php echo _l('hr_contract'); ?>
+                            </option>
                            <option value="ticket" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'ticket'){echo 'selected';}} ?>>
                               <?php echo _l('ticket'); ?>
                            </option>

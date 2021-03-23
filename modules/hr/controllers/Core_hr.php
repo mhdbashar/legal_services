@@ -6,7 +6,7 @@ class Core_hr extends AdminController{
 		parent::__construct();
 		$this->load->model('Awards_model');
         $this->load->model('Terminations_model');
-		$this->load->model('Branches_model');
+
 		$this->load->model('Staff_model');
         $this->load->model('Warnings_model');
         $this->load->model('Transfers_model');
@@ -19,7 +19,7 @@ class Core_hr extends AdminController{
         $this->load->model('Travel_model');
         // $this->load->model('No_branch_model');
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 
         $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');

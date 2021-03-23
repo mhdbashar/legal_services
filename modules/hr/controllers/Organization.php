@@ -5,7 +5,7 @@ class Organization extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Designation_model');
-		$this->load->model('Branches_model');
+
 		$this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
@@ -13,7 +13,7 @@ class Organization extends AdminController{
         $this->load->model('No_branch_model');
 
 
-        if (!has_permission('hr', '', 'view'))
+        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
 	}
 

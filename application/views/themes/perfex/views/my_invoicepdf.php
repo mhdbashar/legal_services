@@ -4,8 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 if (is_rtl()) {
     $align = 'R'; //Right align
+    $attr_align = 'right';
+    $table_td = "left";
 }else{
     $align = 'L'; //Left align
+    $attr_align = 'right';
+    $table_td = "right";
 }
 
 $dimensions = $pdf->getPageDimensions();
@@ -13,6 +17,7 @@ $dimensions = $pdf->getPageDimensions();
 $info_right_column = '';
 $info_left_column  = '';
 
+$info_right_column .= '<div align="'.$attr_align.'">';
 $info_right_column .= '<span style="font-weight:bold;font-size:27px;">' . _l('invoice_pdf_heading') . '</span><br />';
 $info_right_column .= '<b style="color:#4e4e4e;"># ' . $invoice_number . '</b>';
 
@@ -24,12 +29,18 @@ if ($status != Invoices_model::STATUS_PAID && $status != Invoices_model::STATUS_
     && found_invoice_mode($payment_modes, $invoice->id, false)) {
     $info_right_column .= ' - <a style="color:#84c529;text-decoration:none;text-transform:uppercase;" href="' . site_url('invoice/' . $invoice->id . '/' . $invoice->hash) . '"><1b>' . _l('view_invoice_pdf_link_pay') . '</1b></a>';
 }
+$info_right_column .= '</div>';
 
 // Add logo
 $info_left_column .= pdf_logo_url();
 
+
 // Write top left logo and right column info/text
-pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+if (is_rtl()) {
+    pdf_multi_row($info_right_column, $info_left_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}else{
+    pdf_multi_row($info_left_column, $info_right_column, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
+}
 
 $pdf->ln(10);
 
@@ -40,9 +51,10 @@ $organization_info .= format_organization_info();
 $organization_info .= '</div>';
 
 // Bill to
-$invoice_info = '<b>' . _l('invoice_bill_to') . '</b>';
+$invoice_info = '<div align="'.$attr_align.'">';
+$invoice_info .= '<b>' . _l('invoice_bill_to') . '</b>';
 $invoice_info .= '<div style="color:#424242;">';
-    $invoice_info .= format_customer_info($invoice, 'invoice', 'billing');
+$invoice_info .= format_customer_info($invoice, 'invoice', 'billing');
 $invoice_info .= '</div>';
 
 // ship to to
@@ -74,13 +86,26 @@ foreach ($pdf_custom_fields as $field) {
     }
     $invoice_info .= $field['name'] . ': ' . $value . '<br />';
 }
+$invoice_info .= '</div>';
 
-$left_info  = $swap == '1' ? $invoice_info : $organization_info;
-$right_info = $swap == '1' ? $organization_info : $invoice_info;
+//$left_info  = $swap == '1' ? $invoice_info : $organization_info;
+//$right_info = $swap == '1' ? $organization_info : $invoice_info;
+
+if (is_rtl()) {
+    $left_info = $invoice_info;
+    $right_info = $organization_info;
+}else{
+    $left_info = $organization_info;
+    $right_info = $invoice_info;
+}
 
 pdf_multi_row($left_info, $right_info, $pdf, ($dimensions['wk'] / 2) - $dimensions['lm']);
 
 // The Table
+if (is_rtl()) {
+    $this->setRTL(true);
+}
+
 $pdf->Ln(hooks()->apply_filters('pdf_info_and_table_separator', 6));
 
 // The items table
@@ -96,48 +121,48 @@ $tbltotal = '';
 $tbltotal .= '<table cellpadding="6" style="font-size:' . ($font_size + 4) . 'px">';
 $tbltotal .= '
 <tr>
-    <td align="right" width="85%"><strong>' . _l('invoice_subtotal') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($invoice->subtotal, $invoice->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_subtotal') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($invoice->subtotal, $invoice->currency_name) . '</td>
 </tr>';
 
 if (is_sale_discount_applied($invoice)) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('invoice_discount');
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_discount');
     if (is_sale_discount($invoice, 'percent')) {
         $tbltotal .= '(' . app_format_number($invoice->discount_percent, true) . '%)';
     }
     $tbltotal .= '</strong>';
     $tbltotal .= '</td>';
-    $tbltotal .= '<td align="right" width="15%">-' . app_format_money($invoice->discount_total, $invoice->currency_name) . '</td>
+    $tbltotal .= '<td align="'.$table_td.'" width="15%">-' . app_format_money($invoice->discount_total, $invoice->currency_name) . '</td>
     </tr>';
 }
 
 foreach ($items->taxes() as $tax) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($tax['total_tax'], $invoice->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . $tax['taxname'] . ' (' . app_format_number($tax['taxrate']) . '%)' . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($tax['total_tax'], $invoice->currency_name) . '</td>
 </tr>';
 }
 
 if ((int) $invoice->adjustment != 0) {
     $tbltotal .= '<tr>
-    <td align="right" width="85%"><strong>' . _l('invoice_adjustment') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($invoice->adjustment, $invoice->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_adjustment') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($invoice->adjustment, $invoice->currency_name) . '</td>
 </tr>';
 }
 
 $tbltotal .= '
 <tr style="background-color:#f0f0f0;">
-    <td align="right" width="85%"><strong>' . _l('invoice_total') . '</strong></td>
-    <td align="right" width="15%">' . app_format_money($invoice->total, $invoice->currency_name) . '</td>
+    <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_total') . '</strong></td>
+    <td align="'.$table_td.'" width="15%">' . app_format_money($invoice->total, $invoice->currency_name) . '</td>
 </tr>';
 
 if (count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') == 1) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('invoice_total_paid') . '</strong></td>
-        <td align="right" width="15%">-' . app_format_money(sum_from_table(db_prefix().'invoicepaymentrecords', [
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_total_paid') . '</strong></td>
+        <td align="'.$table_td.'" width="15%">-' . app_format_money(sum_from_table(db_prefix().'invoicepaymentrecords', [
         'field' => 'amount',
         'where' => [
             'invoiceid' => $invoice->id,
@@ -149,15 +174,15 @@ if (count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') ==
 if (get_option('show_credits_applied_on_invoice') == 1 && $credits_applied = total_credits_applied_to_invoice($invoice->id)) {
     $tbltotal .= '
     <tr>
-        <td align="right" width="85%"><strong>' . _l('applied_credits') . '</strong></td>
-        <td align="right" width="15%">-' . app_format_money($credits_applied, $invoice->currency_name) . '</td>
+        <td align="'.$table_td.'" width="85%"><strong>' . _l('applied_credits') . '</strong></td>
+        <td align="'.$table_td.'" width="15%">-' . app_format_money($credits_applied, $invoice->currency_name) . '</td>
     </tr>';
 }
 
 if (get_option('show_amount_due_on_invoice') == 1 && $invoice->status != Invoices_model::STATUS_CANCELLED) {
     $tbltotal .= '<tr style="background-color:#f0f0f0;">
-       <td align="right" width="85%"><strong>' . _l('invoice_amount_due') . '</strong></td>
-       <td align="right" width="15%">' . app_format_money($invoice->total_left_to_pay, $invoice->currency_name) . '</td>
+       <td align="'.$table_td.'" width="85%"><strong>' . _l('invoice_amount_due') . '</strong></td>
+       <td align="'.$table_td.'" width="15%">' . app_format_money($invoice->total_left_to_pay, $invoice->currency_name) . '</td>
    </tr>';
 }
 

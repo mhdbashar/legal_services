@@ -53,7 +53,7 @@
                         <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
                         <?php echo render_input('subject','contract_subject',$value); ?>
                         <div class="form-group">
-                            <label for="contract_value"><?php echo _l('contract_value'); ?></label>
+                            <label for="contract_value"><?php echo _l('salary'); ?></label>
                             <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
                                 <input type="number" class="form-control" name="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>">
                                 <div class="input-group-addon">
@@ -95,9 +95,9 @@
                     <div class="panel_s">
                         <div class="panel-body">
                             <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
-                            <a href="<?php echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
-                                <?php echo _l('view_contract'); ?>
-                            </a>
+                            <!--                            <a href="--><?php //echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?><!--" target="_blank">-->
+                            <!--                                --><?php //echo _l('view_contract'); ?>
+                            <!--                            </a>-->
                             <hr class="hr-panel-heading" />
                             <?php if($contract->trash > 0){
                                 echo '<div class="ribbon default"><span>'._l('contract_trash').'</span></div>';

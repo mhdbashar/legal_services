@@ -2017,19 +2017,11 @@ public function get_data_additional_timesheets($id){
 		if ($this->input->is_ajax_request()) {
 			if($this->input->post()){
 				$months_report = $this->input->post('months_filter');
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/dev
 				$role_filter = $this->input->post('role_filter');
 				$department_filter = $this->input->post('department_filter');
 				$staff_filter = $this->input->post('staff_filter');
 
 				$year_filter = $this->input->post('year_requisition');
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/dev
 				$year = date('Y');
 				if($months_report == 'last_year'){
 					$year = (int)$year-1;
@@ -2101,10 +2093,6 @@ public function get_data_additional_timesheets($id){
 				foreach ($rResult as $aRow) {
 
 					$requisition_number_of_day_off = $this->timesheets_model->get_requisition_number_of_day_off($aRow['staffid'], $year_leave);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/dev
 					$timesheets_max_leave_in_year = $requisition_number_of_day_off['total_day_off_in_year'];
 					$timesheets_total_day_off = 0;
 

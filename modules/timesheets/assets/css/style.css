@@ -307,7 +307,7 @@
     position: relative;
 }
 #clock_attendance_modal .curr_date i{
-   line-height: 30px;
+ line-height: 30px;
 }
 
 #clock_attendance_modal .curr_date .btn-edit-datetime, #clock_attendance_modal .curr_date .btn-close-edit-datetime {
@@ -331,6 +331,12 @@
     padding: 0 !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
+}
+.min-width-200{
+    min-width: 200px;
+}
+.min-width-100{
+    min-width: 70px;
 }
 
 #example{

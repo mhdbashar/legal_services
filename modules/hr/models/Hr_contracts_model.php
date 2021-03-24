@@ -30,13 +30,13 @@ class Hr_contracts_model extends App_Model
             if ($contract) {
                 $contract->attachments = $this->get_contract_attachments('', $contract->id);
                 if ($for_editor == false) {
-                    $this->load->library('merge_fields/client_merge_fields');
+                    $this->load->library('merge_fields/staff_merge_fields');
                     $this->load->library('merge_fields/contract_merge_fields');
                     $this->load->library('merge_fields/other_merge_fields');
 
                     $merge_fields = [];
-                    $merge_fields = array_merge($merge_fields, $this->contract_merge_fields->format($id));
-                    $merge_fields = array_merge($merge_fields, $this->client_merge_fields->format($contract->client));
+                    $merge_fields = array_merge($merge_fields, $this->hr_contract_format($id));
+                    $merge_fields = array_merge($merge_fields, $this->staff_merge_fields->format($contract->client));
                     $merge_fields = array_merge($merge_fields, $this->other_merge_fields->format());
                     foreach ($merge_fields as $key => $val) {
                         if (stripos($contract->content, $key) !== false) {
@@ -58,6 +58,40 @@ class Hr_contracts_model extends App_Model
         }
 
         return $contracts;
+    }
+
+    public function hr_contract_format($contract_id)
+    {
+        $fields = [];
+        $this->db->where('id', $contract_id);
+        $contract = $this->db->get(db_prefix().'hr_contracts')->row();
+
+        if (!$contract) {
+            return $fields;
+        }
+
+        $currency = get_base_currency();
+
+        $fields['{contract_id}']             = $contract->id;
+        $fields['{contract_subject}']        = $contract->subject;
+        $fields['{contract_description}']    = nl2br($contract->description);
+        $fields['{contract_datestart}']      = _d($contract->datestart);
+        $fields['{contract_dateend}']        = _d($contract->dateend);
+        $fields['{contract_contract_value}'] = app_format_money($contract->contract_value, $currency);
+
+        $fields['{contract_link}'] = site_url('contract/' . $contract->id . '/' . $contract->hash);
+        $fields['{project_name}']    = get_project_name_by_id($contract->project_id);
+        $fields['{contract_short_url}'] = get_contract_shortlink($contract);
+
+        $custom_fields = get_custom_fields('contracts');
+        foreach ($custom_fields as $field) {
+            $fields['{' . $field['slug'] . '}'] = get_custom_field_value($contract_id, $field['id'], 'contracts');
+        }
+
+        return hooks()->apply_filters('contract_merge_fields', $fields, [
+            'id'       => $contract_id,
+            'contract' => $contract,
+        ]);
     }
 
     /**

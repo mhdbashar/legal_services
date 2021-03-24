@@ -28,7 +28,7 @@ $check = $this->input->get('check'); ?>
                 <tbody>
                   <tr>
                     <td><?php echo _l('subject'); ?></td>
-                    <td><?php echo html_entity_decode($request_leave->subject); ?></td>
+                    <td id="subject_name"><?php echo html_entity_decode($request_leave->subject); ?></td>
                   </tr>
                   <tr>
                     <td><?php echo _l('category_for_leave'); ?></td>
@@ -106,89 +106,129 @@ $check = $this->input->get('check'); ?>
                       </tr>
                       <tr>
                         <td><?php echo _l('time'); ?></td>
+                        <?php if($request_leave->rel_type == 1){ ?>
+                          <td>
+                            <?php
+                            if(strtotime($request_leave->start_time) == strtotime($request_leave->end_time)){
+                              echo _d(date('Y-m-d', strtotime($request_leave->start_time)));                              
+                            }
+                            else{
+                              echo _d(date('Y-m-d', strtotime($request_leave->start_time))).' - '._d(date('Y-m-d', strtotime($request_leave->end_time)));                               
+                            }
+                            ?>
+                          </td>
+                        <?php }
+                        else if($request_leave->rel_type == 4){ ?>
+                          <td>
+                            <?php
+                            if(strtotime($request_leave->start_time) == strtotime($request_leave->end_time)){
+                              echo _dt(date('Y-m-d H:i:s', strtotime($request_leave->start_time)));                              
+                            }
+                            else{
+                              echo _dt(date('Y-m-d H:i:s', strtotime($request_leave->start_time))).' - '._dt(date('Y-m-d H:i:s', strtotime($request_leave->end_time)));                               
+                            }
+                            ?>
+                          </td>
+                        <?php }
+                        else
+                          { ?>
+                            <td><?php echo _dt($request_leave->start_time) ?></td>
+                          <?php  } ?>
+                        </tr>
                         <?php if($request_leave->rel_type == 1 || $request_leave->rel_type == 4){ ?>
-                          <td><?php echo _d(date('Y-m-d', strtotime($request_leave->start_time))).' - '._d(date('Y-m-d', strtotime($request_leave->end_time))); ?></td>
-                        <?php }else{ ?>
-                          <td><?php echo _dt($request_leave->start_time) ?></td>
-                        <?php  } ?>
-                      </tr>
-                      <?php if($request_leave->rel_type == 1){ ?>
-                       <tr>
-                        <td><?php echo _l('Number_of_leaving_day'); ?></td>
-                        <td><?php echo html_entity_decode($request_leave->number_of_leaving_day); ?></td>
-                      </tr>
+                         <tr>
+                          <td><?php echo _l('Number_of_leaving_day'); ?></td>
+                          <td><?php echo html_entity_decode($request_leave->number_of_leaving_day); ?></td>
+                        </tr>
+                        <tr>
+                          <td><?php echo _l('number_of_leave_days_allowed'); ?></td>
+                          <td><?php echo html_entity_decode($number_day_off); ?></td>
+                        </tr>
+                      <?php } ?>
                       <tr>
-                        <td><?php echo _l('number_of_leave_days_allowed'); ?></td>
-                        <td><?php echo html_entity_decode($number_day_off); ?></td>
-                      </tr>
-                    <?php } ?>
-                    <tr>
-                      <td><?php echo _l('reason'); ?></td>
-                      <td><?php echo html_entity_decode($request_leave->reason); ?></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-
-              <div class="col-md-12">
-                <h4><?php echo _l('other_information') ?></h4>
-                <hr/>
-              </div>
-
-
-              <div class="col-md-6">
-                <table class="table table-striped">  
-                  <tbody>
-                    <tr>
-                      <td><?php echo _l('requester'); ?></td>
-                      <td>
-                        <?php 
-                        $_data = '<a href="' . admin_url('staff/profile/' . $request_leave->staff_id) . '">' . staff_profile_image($request_leave->staff_id, [
-                          'staff-profile-image-small',
-                        ]) . '</a>';
-                        $_data .= ' <a href="' . admin_url('staff/profile/' . $request_leave->staff_id) . '">' . get_staff_full_name($request_leave->staff_id) . '</a>';
-                        echo html_entity_decode($_data);
-                        ?></td>
-                      </tr>
-
-                      <tr>
-                        <td><?php echo _l('email'); ?></td>
-                        <td><?php echo html_entity_decode($request_leave->email); ?></td>
-                      </tr>
-                      <tr>
-                        <td><?php echo _l('department'); ?></td>
-                        <td><?php echo html_entity_decode($request_leave->name); ?></td>
+                        <td><?php echo _l('reason'); ?></td>
+                        <td><?php echo html_entity_decode($request_leave->reason); ?></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
 
-                <?php 
-                if($request_leave->rel_type == 4 && count($advance_payment) > 0){ ?>
-                  <div class="col-md-6">
-                    <p class="bold text-success"><?php echo _l('advance_payment_money').': '; ?></p>
-                    <table class="table table-striped">  
 
-                      <tbody>
-                        <tr>
-                          <td><?php echo _l('used_to'); ?></td>
-                          <td><?php echo _l('amount_of_money'); ?></td>
+                <div class="col-md-12">
+                  <h4><?php echo _l('other_information') ?></h4>
+                  <hr/>
+                </div>
 
+
+                <div class="col-md-6">
+                  <table class="table table-striped">  
+                    <tbody>
+                      <tr>
+                        <td><?php echo _l('requester'); ?></td>
+                        <td>
+                          <?php 
+                          $_data = '<a href="' . admin_url('staff/profile/' . $request_leave->staff_id) . '">' . staff_profile_image($request_leave->staff_id, [
+                            'staff-profile-image-small',
+                          ]) . '</a>';
+                          $_data .= ' <a href="' . admin_url('staff/profile/' . $request_leave->staff_id) . '">' . get_staff_full_name($request_leave->staff_id) . '</a>';
+                          echo html_entity_decode($_data);
+                          ?></td>
                         </tr>
-                        <?php 
-                        $sum_mn = 0;
-                        foreach($advance_payment as $ad){ ?>
+
+                        <tr>
+                          <td><?php echo _l('email'); ?></td>
+                          <td><?php echo html_entity_decode($request_leave->email); ?></td>
+                        </tr>
+                        <tr>
+                          <td><?php echo _l('department'); ?></td>
+                          <td><?php echo html_entity_decode($request_leave->name); ?></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+            </div>
+            <h4><?php echo _l('general_information'); ?></h4>
+            <hr/>
+            <div class="col-md-6">
+              <table class="table border table-striped ">
+                <tbody>
+                  <tr>
+                    <td><?php echo _l('subject'); ?></td>
+                    <td><?php echo html_entity_decode($request_leave->subject); ?></td>
+                  </tr>
+                  <tr>
+                    <td><?php echo _l('category_for_leave'); ?></td>
+                    <td><?php                
+                    echo _l($rel_type); ?></td>
+                  </tr>
+                  <?php 
+                  if($request_leave->rel_type == 4 && count($advance_payment) > 0){ ?>
+                    <div class="col-md-6">
+                      <p class="bold text-success"><?php echo _l('advance_payment_money').': '; ?></p>
+                      <table class="table table-striped">  
+
+                        <tbody>
                           <tr>
-                            <td><?php echo html_entity_decode($ad['used_to']); ?></td>
-                            <td><?php echo app_format_money($ad['amoun_of_money'],''); ?></td>
+                            <td><?php echo _l('used_to'); ?></td>
+                            <td><?php echo _l('amount_of_money'); ?></td>
                           </tr>
                           <?php 
+                          $sum_mn = 0;
+                          foreach($advance_payment as $ad){
+                            if($ad['amoun_of_money'] != ''){
+                             ?>
+                             <tr>
+                              <td class="row_expense_name"><?php echo html_entity_decode($ad['used_to']); ?></td>
+                              <td><?php echo app_format_money($ad['amoun_of_money'],''); ?></td>
+                            </tr>
+                            <?php 
+                          }
                           $sum_mn += $ad['amoun_of_money'];
                         } ?>
                         <tr>
                           <td><?php echo _l('total'); ?></td>
-                          <td><?php echo app_format_money($sum_mn,''); ?></td>
+                          <td id="total_advance_payment"><?php echo app_format_money($sum_mn,''); ?></td>
                         </tr>
                         <tr>
                           <td><?php echo _l('advance_payment_reason'); ?></td>
@@ -196,27 +236,31 @@ $check = $this->input->get('check'); ?>
                         </tr>
                         <tr>
                           <td><?php echo _l('request_date'); ?></td>
-                          <td><?php echo _d($advance_payment[0]['request_date']); ?></td>
+                          <td id="request_date"><?php echo _d($advance_payment[0]['request_date']); ?></td>
                         </tr>
                       </tbody>
 
                     </table>
-                    <div class="row">
-                      <div class="col-md-5">
-                        <?php $amount_received = (isset($request_leave) ? app_format_money($request_leave->amount_received,'') : '');
-                        ?>
 
-                        <label for="amount_received" class="control-label"><?php echo _l('amount_received') ?></label>
-                        <input type="text" id="amount_received" name="amount_received" class="form-control"  value="<?php echo html_entity_decode($amount_received); ?>" aria-invalid="false" data-type="currency" required>
+                    <?php if($request_leave->status == 1){  ?>
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <?php $amount_received = (isset($request_leave) ? app_format_money($request_leave->amount_received,'') : '');
+                          ?>
+
+                          <label for="amount_received" class="control-label"><?php echo _l('amount_received') ?></label>
+                          <input type="text" id="amount_received" name="amount_received" class="form-control"  value="<?php echo html_entity_decode($amount_received); ?>" aria-invalid="false" data-type="currency" required>
+                        </div>
+                        <div class="col-lg-4">
+                          <?php $received_date = (isset($request_leave) ? _d($request_leave->received_date): '');
+                          echo render_date_input('received_date','received_date',$received_date); ?>
+                        </div>
+                        <div class="col-lg-4 update-btn">          
+                          <a href="javascript:void(0)" onclick="convert_to_expenses(<?php echo html_entity_decode($request_leave->id); ?>); return false;" class="btn btn-info pull-right"><?php echo _l('convert_to_expenses'); ?></a>
+                        </div>
                       </div>
-                      <div class="col-md-5">
-                        <?php $received_date = (isset($request_leave) ? _d($request_leave->received_date): '');
-                        echo render_date_input('received_date','received_date',$received_date); ?>
-                      </div>
-                      <div class="col-md-2 update-btn">          
-                        <a href="#" onclick="advance_payment_update(<?php echo html_entity_decode($request_leave->id); ?>); return false;" class="btn btn-info pull-right"><?php echo _l('update'); ?></a>
-                      </div>
-                    </div>
+                    <?php } ?>
+
                   </div>
                 <?php } ?>     
                 <div class="row col-md-12">
@@ -331,8 +375,11 @@ $check = $this->input->get('check'); ?>
                 echo html_entity_decode($html);
               }
               ?>
+<<<<<<< HEAD
+=======
 
-              
+>>>>>>> origin/dev
+
             </div>
           <?php } 
           if(isset($check_approve_status['staffid'])){
@@ -377,6 +424,180 @@ $check = $this->input->get('check'); ?>
 </div>
 </div>
 </div>
+<div class="modal fade" id="convert_expense" tabindex="-1" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <?php echo form_open(admin_url('timesheets/advance_payment_update'),array('id'=>'advance_payment_update-form','class'=>'dropzone dropzone-manual')); ?>
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title"><?php echo _l('add_new', _l('expense_lowercase')); ?></h4>
+  </div>
+  <div class="modal-body">
+    <div id="dropzoneDragArea" class="dz-default dz-message">
+     <span><?php echo _l('expense_add_edit_attach_receipt'); ?></span>
+   </div>
+   <div class="dropzone-previews"></div>
+   <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('expense_name_help'); ?>"></i>
+   <?php echo render_input('expense_name','expense_name'); ?>
+   <?php echo render_textarea('note','expense_add_edit_note','',array('rows'=>4),array()); ?>
+   <?php
+   $this->load->model('clients_model');
+   $customers = $this->clients_model->get();
+   echo render_select('clientid',$customers,array('userid','company'),'customer'); ?>
+   <?php
+   $this->load->model('expenses_model');
+   $categories = $this->expenses_model->get_category();
+
+   if(is_admin() || get_option('staff_members_create_inline_expense_categories') == '1'){
+    echo render_select_with_input_group('category',$categories,array('id','name'),'expense_category', '','<a href="#" onclick="new_category();return false;"><i class="fa fa-plus"></i></a>');
+  } else {
+    echo render_select('category',$categories,array('id','name'),'expense_category', '');
+  }
+  ?>
+  <?php echo render_date_input('date','expense_add_edit_date',_d(date('Y-m-d'))); ?>
+  <?php echo render_input('amount','expense_add_edit_amount','','number');
+  $this->load->model('taxes_model');
+  $taxes = $this->taxes_model->get();
+  ?>
+  <div class="row mbot15">
+   <div class="col-md-6">
+    <div class="form-group">
+     <label class="control-label" for="tax"><?php echo _l('tax_1'); ?></label>
+     <select class="selectpicker display-block" data-width="100%" name="tax" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+      <option value=""><?php echo _l('no_tax'); ?></option>
+      <?php foreach($taxes as $tax){ ?>
+        <option value="<?php echo html_entity_decode($tax['id']); ?>" data-subtext="<?php echo html_entity_decode($tax['name']); ?>"><?php echo html_entity_decode($tax['taxrate']); ?>%</option>
+      <?php } ?>
+    </select>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="form-group">
+   <label class="control-label" for="tax2"><?php echo _l('tax_2'); ?></label>
+   <select class="selectpicker display-block" data-width="100%" name="tax2" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" disabled>
+    <option value=""><?php echo _l('no_tax'); ?></option>
+    <?php foreach($taxes as $tax){ ?>
+      <option value="<?php echo html_entity_decode($tax['id']); ?>" data-subtext="<?php echo html_entity_decode($tax['name']); ?>"><?php echo html_entity_decode($tax['taxrate']); ?>%</option>
+    <?php } ?>
+  </select>
+</div>
+</div>
+</div>
+<?php
+$this->load->model('currencies_model');
+$currencies = $this->currencies_model->get();
+$currency_attr = array('disabled'=>true,'data-show-subtext'=>true);
+
+$currency_attr = apply_filters_deprecated('expense_currency_disabled', [$currency_attr], '2.3.0', 'expense_currency_attributes');
+
+foreach($currencies as $currency){
+  if($currency['isdefault'] == 1){
+    $currency_attr['data-base'] = $currency['id'];
+  }
+  if(isset($expense)){
+    if($currency['id'] == $expense->currency){
+      $selected = $currency['id'];
+    }
+    if($expense->billable == 0){
+      if($expense->clientid != 0){
+        $c = $this->clients_model->get_customer_default_currency($expense->clientid);
+        if($c != 0){
+          $customer_currency = $c;
+        }
+      }
+    }
+  } else {
+    if(isset($customer_id)){
+      $c = $this->clients_model->get_customer_default_currency($customer_id);
+      if($c != 0){
+        $customer_currency = $c;
+      }
+    }
+    if($currency['isdefault'] == 1){
+      $selected = $currency['id'];
+    }
+  }
+}
+$currency_attr = hooks()->apply_filters('expense_currency_attributes', $currency_attr);
+?>
+<input type="hidden" name="currency" value="<?php echo html_entity_decode($selected); ?>">
+<div id="expense_currency">
+ <?php echo render_select('currency', $currencies, array('id','name','symbol'), 'expense_currency', $selected, $currency_attr); ?>
+</div>
+<div class="checkbox checkbox-primary">
+ <input type="checkbox" id="billable" name="billable" checked>
+ <label for="billable"><?php echo _l('expense_add_edit_billable'); ?></label>
+</div>
+<?php echo render_input('reference_no','expense_add_edit_reference_no'); ?>
+<?php
+// Fix becuase payment modes are used for invoice filtering and there needs to be shown all
+// in case there is payment made with payment mode that was active and now is inactive
+$this->load->model('payment_modes_model');
+$payment_modes = $this->payment_modes_model->get('', [
+  'invoices_only !=' => 1,
+]);
+$expenses_modes = array();
+foreach($payment_modes as $m){
+ if(isset($m['invoices_only']) && $m['invoices_only'] == 1) {continue;}
+   if($m['active'] == 1){
+     $expenses_modes[] = $m;
+   }
+}
+?>
+<?php
+
+echo render_select('paymentmode',$expenses_modes,array('id','name'),'payment_mode'); ?>
+<div class="clearfix mbot15"></div>
+<?php echo render_custom_fields('expenses'); ?>
+<div id="pur_order_additional"></div>
+<div class="clearfix"></div>
+</div>
+
+
+<input type="hidden" name="amount_received" value="">
+<input type="hidden" name="received_date" value="">
+<input type="hidden" name="id" value="">
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+  <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+</div>
+<?php echo form_close(); ?>
+</div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="expense-category-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <?php echo form_open(admin_url('timesheets/add_expense_category'),array('id'=>'expense-category-form')); ?>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <span class="edit-title"><?php echo _l('edit_expense_category'); ?></span>
+          <span class="add-title"><?php echo _l('new_expense_category'); ?></span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <input type="hidden" name="leave_id" value="<?php echo html_entity_decode($request_leave->id); ?>">
+            <?php echo render_input('name','expense_add_edit_name'); ?>
+            <?php echo render_textarea('description','expense_add_edit_description'); ?>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+        <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+      </div>
+    </div><!-- /.modal-content -->
+    <?php echo form_close(); ?>
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <?php } ?>
 <?php init_tail(); ?>
 <?php require 'modules/timesheets/assets/js/requisition_detail_js.php';?>

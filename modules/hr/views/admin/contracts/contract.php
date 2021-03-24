@@ -107,12 +107,12 @@
                                 <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
                                 <div class="horizontal-tabs">
                                     <ul class="nav nav-tabs tabs-in-body-no-margin contract-tab nav-tabs-horizontal mbot15" role="tablist">
-                                        <li role="presentation" class="hide">
+                                        <li role="presentation" class="<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo 'active';} ?>">
                                             <a href="#tab_content" aria-controls="tab_content" role="tab" data-toggle="tab">
                                                 <?php echo _l('contract_content'); ?>
                                             </a>
                                         </li>
-                                        <li role="presentation" class="<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'attachments'){echo 'active';} ?>">
+                                        <li role="presentation" class="<?php if($this->input->get('tab') == 'attachments'){echo 'active';} ?>">
                                             <a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">
                                                 <?php echo _l('contract_attachments'); ?>
                                                 <?php if($totalAttachments = count($contract->attachments)) { ?>
@@ -174,7 +174,7 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane" id="tab_content">
+                                <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo ' active';} ?>" id="tab_content">
                                     <div class="row">
                                         <?php if($contract->signed == 1){ ?>
                                             <div class="col-md-12">
@@ -282,11 +282,11 @@
                                             <?php echo _l('contract_content_permission_edit_warning'); ?>
                                         </div>
                                     <?php } ?>
-                                    <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>"
+                                    <div class="tc-content<?php if(staff_can('edit','hr_contracts')){echo ' editable';} ?>"
                                          style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                                         <?php
-                                        if(empty($contract->content) && staff_can('edit','contracts')){
-                                            echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
+                                        if(empty($contract->content) && staff_can('edit','hr_contracts')){
+                                            echo hooks()->apply_filters('new_hr_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
                                         } else {
                                             echo $contract->content;
                                         }
@@ -330,7 +330,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'attachments'){echo ' active';} ?>" id="attachments">
+                                <div role="tabpanel" class="tab-pane" id="attachments">
                                     <?php echo form_open(admin_url('hr/contracts/add_contract_attachment/'.$contract->id),array('id'=>'contract-attachments-form','class'=>'dropzone')); ?>
                                     <?php echo form_close(); ?>
                                     <div class="text-right mtop15">

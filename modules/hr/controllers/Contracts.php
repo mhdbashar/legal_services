@@ -93,7 +93,7 @@ class Contracts extends AdminController
                 blank_page(_l('contract_not_found'));
             }
 
-            $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'client'], '{email_signature}');
+            $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'staff'], '{email_signature}');
 
             $title = $data['contract']->subject;
 
@@ -229,7 +229,7 @@ class Contracts extends AdminController
         $message = '';
 
         $this->db->where('id', $this->input->post('contract_id'));
-        $this->db->update(db_prefix() . 'contracts', [
+        $this->db->update(db_prefix() . 'hr_contracts', [
                 'content' => html_purify($this->input->post('content', false)),
         ]);
 

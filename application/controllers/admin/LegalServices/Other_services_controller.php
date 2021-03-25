@@ -265,6 +265,7 @@ class Other_services_controller extends AdminController
             }
 
             $project->settings->available_features = unserialize($project->settings->available_features);
+
             $data['statuses'] = $this->other->get_project_statuses();
 
             $group = !$this->input->get('group') ? 'project_overview' : $this->input->get('group');

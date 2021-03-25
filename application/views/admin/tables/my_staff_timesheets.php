@@ -92,6 +92,7 @@ if ($staff_id != false) {
 
 
 /*$project_ids = $this->ci->input->post('project_id');
+>>>>>>> 3e9a2a78f62c54fc32766c056e56cb487c89d330
 if ($project_ids && is_array($project_ids)) {
     $project_ids = array_filter($project_ids, function ($value) {
         return $value !== '';
@@ -103,10 +104,15 @@ if ($project_ids && is_array($project_ids)) {
         }, $project_ids));
         array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "project" AND rel_id  IN (' . $project_ids . '))');
     }
+}
+
+if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id')) {
+=======
 }*/
 
 
 /*if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id')) {
+>>>>>>> 3e9a2a78f62c54fc32766c056e56cb487c89d330
     $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
     array_push($where, 'AND (
                 (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
@@ -125,8 +131,6 @@ if ($project_ids && is_array($project_ids)) {
                 OR
                 (rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $customer_id . ') AND rel_type="project")
                 )');
-}*/
-
 $legal_services = $this->ci->input->post('legal_services');
 if ($legal_services && $legal_services != '') {
     /*$legal_services = array_filter($legal_services, function ($value) {

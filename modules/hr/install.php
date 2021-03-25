@@ -870,7 +870,6 @@ create_email_template_with_language('promotion for staff', 'message', 'hr', 'pro
 create_email_template_with_language('انتداب الموظف', 'message', 'hr', 'انتداب الموظف', 'travel-staff', 'arabic');
 create_email_template_with_language('travel for staff', 'message', 'hr', 'travel for staff', 'travel-staff', 'english');
 
-
 if (!$CI->db->table_exists(db_prefix() . 'hr_contracts')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "hr_contracts` (
       `id` int(11) NOT NULL AUTO_INCREMENT,

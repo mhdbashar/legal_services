@@ -5,10 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
     'id',
     'subject',
-    'description',
+    'CAST(CONCAT(date, \' \', start_hour) AS DATETIME) as date',
     'firstname as creator_firstname',
-    'lastname as creator_lastname',
-    'CONCAT(date, \' \', start_hour) as date',
+    'description',
     'finished',
     'source'
 ];
@@ -24,36 +23,40 @@ if (!is_admin() && !staff_appointments_responsible()) {
     OR ' . db_prefix() . 'appointly_appointments.id 
     IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
 }
+$filters = [];
+if ($this->ci->input->post('approved')) {
+    $filters[] = 'AND (approved = "1" AND cancelled = "0")';
+}
+if ($this->ci->input->post('cancelled')) {
+    $filters[] = 'AND cancelled = "1"';
+}
+if ($this->ci->input->post('finished')) {
+    $filters[] = 'AND (cancelled= "0" AND finished = "1" AND approved = "1")';
+}
+if ($this->ci->input->post('internal')) {
+    $filters[] = 'AND (source= "internal")';
+}
+if ($this->ci->input->post('external')) {
+    $filters[] = 'AND (source= "external")';
+}
+if ($this->ci->input->post('lead_related')) {
+    $filters[] = 'AND (source= "lead_related")';
+}
+if ($this->ci->input->post('finished')) {
+    $filters[] = 'AND finished = "1"';
+}
+if ($this->ci->input->post('not_approved')) {
+    $filters[] = 'AND approved != "1"';
+}
+if ($this->ci->input->post('upcoming')) {
+    $filters[] = 'AND (finished = "0" AND cancelled = "0" AND approved = "1" AND date > CURDATE())';
+}
+if ($this->ci->input->post('missed')) {
+    $filters[] = 'AND date < CURDATE()';
+}
 
-if ($this->ci->input->post('custom_view')) {
-
-    if ($this->ci->input->post('custom_view') == 'approved') {
-        $where[] = 'AND approved = "1" AND cancelled = "0"';
-    }
-
-    /** Cancelled filter */
-    if ($this->ci->input->post('custom_view') == 'cancelled') {
-        $where[] = 'AND cancelled= "1"';
-    }
-
-    /** Finished filter */
-    if ($this->ci->input->post('custom_view') == 'finished') {
-        $where[] = 'AND cancelled= "0" AND finished = "1" AND approved = "1"';
-    }
-
-    /** Not approved filter */
-    if ($this->ci->input->post('custom_view') == 'not_approved') {
-        $where[] = 'AND approved != "1"';
-    }
-    /** Upcoming filter */
-    if ($this->ci->input->post('custom_view') == 'upcoming') {
-        $where[] = 'AND finished = "0" AND cancelled = "0" AND approved = "1" AND date > CURDATE()';
-    }
-
-    /** Missed filter */
-    if ($this->ci->input->post('custom_view') == 'missed') {
-        $where[] = 'AND date < CURDATE()';
-    }
+if (count($filters) > 0) {
+    array_push($where, 'AND (' . prepare_dt_filter($filters) . ')');
 }
 
 $join = [
@@ -63,6 +66,7 @@ $join = [
 $additionalSelect = [
     'approved',
     'created_by',
+    'lastname as creator_lastname',
     'name',
     db_prefix() . 'appointly_appointments.email as contact_email',
     db_prefix() . 'appointly_appointments.phone',
@@ -83,11 +87,10 @@ $rResult = $result['rResult'];
 
 
 foreach ($rResult as $aRow) {
-
     $label_class = 'primary';
     $tooltip = '';
 
-    // Check with Babil Law default timezone configured in Setup->Settings->Localization
+    // Check with Perfex CRM default timezone configured in Setup->Settings->Localization
     if (date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i')) {
         $label_class = 'danger';
         $tooltip = 'data-toggle="tooltip" title="' . _l('appointment_missed') . '"';
@@ -95,8 +98,56 @@ foreach ($rResult as $aRow) {
 
     $row = [];
 
+    $hrefAttr = 'data-toggle="tooltip" title="' . _l('appointment_view_meeting') . '" href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '"';
     $row[] = $aRow['id'];
-    $row[] = '<a href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+
+    $nameRow = '<a href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+
+    if ($aRow['approved'] && $aRow['cancelled'] == 0) {
+        $nameRow .= '<p class="text-success no-mbot">' . _l('appointment_approved') . '</p>';
+    }
+
+    $nameRow .= '<div class="row-options no-mtop">';
+    $nameRow .= '<a ' . $hrefAttr . '>' . _l('view') . '</a>';
+    if (
+        $aRow['approved'] == 0
+        && is_admin() && $aRow['cancelled'] == 0
+        || $aRow['approved'] == 0
+        && staff_can('view', 'appointments')
+        && $aRow['cancelled'] == 0
+    ) {
+        $nameRow .= ' | <a class="approve_appointment" href="' . admin_url('appointly/appointments/approve?appointment_id=' . $aRow['id']) . '">' . _l('appointment_approve') . '</a>';
+    }
+    if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
+        $nameRow .= ' | <a href="" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this); return false;">' . _l('edit') . '</a>';
+    }
+    // If contact id is not 0 then it means that contact is internal as for that dont show convert to lead
+    $isContact = ($aRow['contact_id']) ? 0 : 1;
+
+    $nameRow .= (staff_can('create', 'tasks') && $aRow['approved'] == 1) ?
+        ' | <a data-toggle="tooltip" title="' . _l('appointments_create_task_tooltip') . '" href="#" data-customer-id="' . appointly_get_contact_customer_id($aRow['contact_id']) . '" data-source="' . $aRow['source'] . '" data-contact-id="' . $aRow['contact_id'] . '" data-name="' . $aRow['name'] . '" onclick="new_task_from_relation_appointment(this); return false;">' . _l('new_task') . '</a>'
+        : '';
+
+    $nameRow .= ($isContact && $aRow['approved'] == 1) ?
+        ' | <a data-toggle="tooltip" title="' . _l('appointments_convert_to_lead_tooltip') . '" href="#" data-name="' . $aRow['name'] . '" data-email="' . $aRow['contact_email'] . '" data-phone="' . $aRow['phone'] . '" onclick="init_appointment_lead(this);return false;">' . _l("appointments_convert_to_lead_label") . '</a>'
+        : '';
+
+    // If there is no feedback from client and if appintment is marked as finished
+    if ($aRow['feedback'] !== NULL && $aRow['finished'] !== 1) {
+        $nameRow .= ' | <a data-toggle="tooltip" title="' . _l('appointment_view_feedback') . '" href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '#feedback_wrapper">' . _l('appointment_view_feedback') . '</a></li>';
+    } else if ($aRow['finished'] == 1) {
+        $nameRow .= ' | <a onclick="request_appointment_feedback(\'' . $aRow['id'] . '\'); return false" data-toggle="tooltip" title="' . _l('appointments_request_feedback_from_client') . '" href="">' . _l('appointments_request_feedback') . '</a>';
+    }
+
+    if (staff_can('delete', 'appointments') && $aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+        $nameRow .= ' | <a id="confirmDelete" data-toggle="tooltip" class="text-danger" title="' . _l('appointment_dismiss_meeting') . '" href="" onclick="deleteAppointment(' . $aRow['id'] . ',this); return false;">' . _l('delete') . '</a>';
+    }
+
+    $nameRow .= '</div>';
+
+
+    $row[] = $nameRow;
+
     $row[] = '<span  ' . $tooltip . ' class="label label-' . $label_class . '">' . _dt($aRow['date']) . '</span>';
 
     if ($aRow['creator_firstname']) {
@@ -109,21 +160,57 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['description'];
 
-    if ($aRow['cancelled'] && $aRow['finished'] == 0) {
 
-        $row[] = '<span class="label label-danger">' . strtoupper(_l('appointment_cancelled')) . '</span>';
-    } else if (!$aRow['finished'] && !$aRow['cancelled'] && date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i')) {
+    if (staff_can('edit', 'appointments') || staff_can('create', 'appointments') || staff_appointments_responsible()) {
 
-        $row[] = '<span class="label label-danger">' . strtoupper(_l('appointment_missed_label')) . '</span>';
-    } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 1) {
+        $currentStatus = checkAppointlyStatus($aRow);
 
-        $row[] = '<span class="label label-info">' . strtoupper(_l('appointment_upcoming')) . '</span>';
-    } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 0) {
+        $outputStatus = '<div class="dropdown inline-block mleft5">';
+        $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="appointmentStatusesDropdown' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 
-        $row[] = '<span class="label label-warning">' . strtoupper(_l('appointment_pending_approval')) . '</span>';
+        $outputStatus .= checkAppointlyStatus($aRow);
+
+        $outputStatus .= '</a>';
+
+        if ($aRow['finished'] != 1) {
+            $outputStatus .= '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appointmentStatusesDropdown' . $aRow['id'] . '">';
+        }
+        $needs_approval = $aRow['approved'] == 0 && $aRow['cancelled'] == 0 && is_admin() || $aRow['approved'] == 0 && $aRow['cancelled'] == 0 && staff_can('view', 'appointments');
+
+        if ($needs_approval) {
+            $outputStatus .= '<li><a href="" onclick="markAppointmentAsApproved(' . $aRow['id'] . '); return false" href="">' . _l('task_mark_as', 'Approved') . '</a></li>';
+        }
+
+        if ($aRow['cancelled'] == 0 && $aRow['finished'] == 0) {
+            if ($aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+                $outputStatus .= '<li><a href="" onclick="markAppointmentAsCancelled(' . $aRow['id'] . '); return false" id-"cancelAppointment">' . _l('task_mark_as', 'Cancelled') . '</a></li>';
+            }
+        }
+
+        if ($aRow['finished'] == 0 && $aRow['cancelled'] == 0 && $aRow['approved'] != 0) {
+            if ($aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+                $outputStatus .= '<li><a href="" onclick="markAppointmentAsFinished(' . $aRow['id'] . '); return false" id="markAsFinished">' . _l('task_mark_as', 'Finished') . '</a></li>';
+            }
+        }
+
+        if ($aRow['cancelled'] == 1 && $aRow['finished'] == 0) {
+            if ($aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
+                $outputStatus .= '<li><a href="" onclick="markAppointmentAsOngoing(' . $aRow['id'] . '); return false" id-"markAppointmentAsOngoing">' . _l('task_mark_as', 'Ongoing') . '</a></li>';
+            }
+        }
+        $outputStatus .= '</ul>';
+        $outputStatus .= '</div>';
+        $outputStatus .= '</span>';
     } else {
-        $row[] = '<span class="label label-success">' . strtoupper(_l('appointment_finished')) . '</span>';
+        $outputStatus = '<div>';
+        $outputStatus .= '<a data-toggle="tooltip" title="' .  $currentStatus . '" href="#" style="font-size:14px;vertical-align:middle;cursor:context-menu;" class="text-dark">';
+        $outputStatus .= '<span class="label label-callback-status-' . $currentStatus . '">' . $currentStatus . '</span>';
+        $outputStatus .= '</a>';
+        $outputStatus .= '</div>';
     }
+
+
+    $row[] = $outputStatus;
 
 
     if ($aRow['source'] == 'external') {
@@ -137,80 +224,32 @@ foreach ($rResult as $aRow) {
     }
 
     $options = '';
+    $_google_calendar_link =  $aRow['google_calendar_link'] !== null && $aRow['google_added_by_id'] == get_staff_user_id();
+    $_outlook_calendar_link =  $aRow['outlook_calendar_link'] !== null && $aRow['outlook_added_by_id'] == get_staff_user_id();
 
-    // If contact id is not 0 then it means that contact is internal as for that dont show convert to lead
-    $isContact = ($aRow['contact_id']) ? 0 : 1;
-    $options .= '
-                <div class="btn-group" data-toggle="tooltip" title="' . _l('appointments_select_option') . '">
-                <button class="btn btn-primary-options btn-xs dropdown-toggle appointly_dropdown_options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="fa fa-tasks"></i>
-                </button>
-                <ul class="dropdown-menu">
-                <li><a data-toggle="tooltip" title="' . _l('appointment_view_meeting') . '" href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '">' . _l('view') . '</a></li>';
+    $options .= '<div class="text-center">';
 
-    $options .= (staff_can('create', 'tasks')) ?
-        '<li><a data-toggle="tooltip" title="' . _l('appointments_create_task_tooltip') . '" href="#" data-customer-id="' . appointly_get_contact_customer_id($aRow['contact_id']) . '" data-source="' . $aRow['source'] . '" data-contact-id="' . $aRow['contact_id'] . '" data-name="' . $aRow['name'] . '" onclick="new_task_from_relation_appointment(this); return false;">' . _l('new_task') . '</a></li>'
-        : '';
-
-    $options .= ($isContact) ?
-        '<li><a data-toggle="tooltip" title="' . _l('appointments_convert_to_lead_tooltip') . '" href="#" data-name="' . $aRow['name'] . '" data-email="' . $aRow['contact_email'] . '" data-phone="' . $aRow['phone'] . '" onclick="init_appointment_lead(this);return false;">' . _l("appointments_convert_to_lead_label") . '</a></li>'
-        : '';
-
-    // If there is no feedback from client and if appintment is marked as finished
-    if ($aRow['feedback'] !== NULL && $aRow['finished'] !== 1) {
-        $options .= '  <li><a data-toggle="tooltip" title="' . _l('appointment_view_feedback') . '" href="' . admin_url('appointly/appointments/view?appointment_id=' . $aRow['id']) . '#feedback_wrapper">' . _l('appointment_view_feedback') . '</a></li>';
-    } else if ($aRow['finished'] == 1) {
-        $options .= '<li><a onclick="request_appointment_feedback(\'' . $aRow['id'] . '\')" data-toggle="tooltip" title="' . _l('appointments_request_feedback_from_client') . '" href="#">' . _l('appointments_request_feedback') . '</a></li>';
+    if ($_google_calendar_link) {
+        $options .= '<a data-toggle="tooltip" title="' . _l('appointment_open_google_calendar') . '" href="' . $aRow['google_calendar_link'] . '" target="_blank" class="mleft10 calendar_list"><i class="fa fa-google" aria-hidden="true"></i></a>';
     }
 
-    if (staff_can('delete', 'appointments') && $aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
-        $options .= '<li><a id="confirmDelete" data-toggle="tooltip" title="' . _l('appointment_dismiss_meeting') . '" href="" onclick="deleteAppointment(' . $aRow['id'] . ',this); return false;"><i class="fa fa-trash text-danger"></i> ' . _l('delete') . '</a></li>';
+    if ($_outlook_calendar_link) {
+        $options .= '<a data-outlook-id="' . $aRow['outlook_event_id'] . '" id="outlookLink_' . $aRow['id'] . '" data-toggle="tooltip" title="' . _l('appointment_open_outlook_calendar') . '" href="' . $aRow['outlook_calendar_link'] . '" target="_blank" class="mleft5 calendar_list float-right"><i class="fa fa-envelope" aria-hidden="true"></i></a>';
+    }
+    if (!$_google_calendar_link && !$_outlook_calendar_link) {
+        $options .= '<p class="text-muted">Not added to any calendar yet.</p>'; #lang
     }
 
-    $options .= '</ul>';
     $options .= '</div>';
 
-    if (staff_can('edit', 'appointments') || staff_appointments_responsible()) {
-        $options .= '<button class="btn btn-primary btn-xs mleft5" data-toggle="tooltip" title="' . _l('appointment_edit_meeting') . '" data-id="' . $aRow['id'] . '" onclick="appointmentUpdateModal(this)"><i class="fa fa-edit"></i></button>';
-    }
 
-    if (
-        $aRow['approved'] == 0
-        && is_admin() && $aRow['cancelled'] == 0
-        || $aRow['approved'] == 0
-        && staff_can('view', 'appointments')
-        && $aRow['cancelled'] == 0
-    ) {
-        $options .= '<a class="btn btn-info btn-xs mleft5 approve_appointment" href="' . admin_url('appointly/appointments/approve?appointment_id=' . $aRow['id']) . '">' . _l('appointment_approve') . '</a>';
-    }
+    $row['DT_RowId'] = 'appointment_id' . $aRow['id'];
 
-    if ($aRow['approved'] && $aRow['cancelled'] == 0) {
-        $options .= '<p class="btn btn-success btn-xs mleft5 meeting_approved">' . _l('appointment_approved') . '</p>';
+    if (isset($row['DT_RowClass'])) {
+        $row['DT_RowClass'] .= ' has-row-options';
+    } else {
+        $row['DT_RowClass'] = 'has-row-options';
     }
-    if (
-        $aRow['approved']
-        && $aRow['cancelled'] == 1
-        || !$aRow['approved']
-        && $aRow['cancelled'] == 1
-        && $aRow['finished'] != 1
-    ) {
-        $options .= '<p class="btn btn-danger btn-xs mleft5 meeting_approved">' . _l('appointment_cancelled') . '</p>';
-    }
-
-    if (
-        $aRow['google_calendar_link'] !== null
-        && $aRow['google_added_by_id'] == get_staff_user_id()
-    ) {
-        $options .= '<a data-toggle="tooltip" title="' . _l('appointment_open_google_calendar') . '" href="' . $aRow['google_calendar_link'] . '" target="_blank" class="btn btn-primary-google btn-xs mleft5"><i class="fa fa-google" aria-hidden="true"></i></a>';
-    }
-
-    if (
-        $aRow['outlook_calendar_link'] !== null
-        && $aRow['outlook_added_by_id'] == get_staff_user_id()
-    ) {
-        $options .= '<a data-outlook-id="' . $aRow['outlook_event_id'] . '" id="outlookLink" data-toggle="tooltip" title="' . _l('appointment_open_outlook_calendar') . '" href="' . $aRow['outlook_calendar_link'] . '" target="_blank" class="btn btn-primary-outlook btn-xs mleft5 float-right"><i class="fa fa-envelope" aria-hidden="true"></i></a>';
-    }
-
 
     $row[] = $options;
 

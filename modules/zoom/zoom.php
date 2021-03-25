@@ -1,100 +1,90 @@
-<?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
-
-/*
-  Module Name: zoom_name
-  Description: zoom_desc
-  Author: Babil Team
-  Version: 1.0.0
-  Author URI: #
- */
-
-
-define('ZOOM_MODULE_NAME', 'zoom');
-
-/**
- * Load the module helper
- */
-$CI = & get_instance();
-$CI->load->helper(ZOOM_MODULE_NAME . '/zoom');
-
-hooks()->add_action('app_admin_head', 'zoom_add_head_components');
-hooks()->add_action('app_admin_footer', 'zoom_add_footer_components');
-
-hooks()->add_action('admin_init', 'zoom_add_settings_tab');
-
-/**
- * Functions of the module
- */
-function zoom_add_head_components() {
-
-
-    // echo '<link href="' . base_url('modules/zoom/assets/css/bootstrap.css') . '"  rel="stylesheet" type="text/css" />';
-
-
-    // echo '<link href="' . base_url('modules/zoom/assets/css/react-select.css') . '"  rel="stylesheet" type="text/css" />';
-}
-
-function zoom_add_footer_components() {
-
-    // echo '<script src="' . base_url('modules/zoom/assets/js/tool.js') . '"></script>';
-    // echo '<script src="' . base_url('modules/zoom/assets/js/index.js') . '"></script>';
-}
-
-
-hooks()->add_action('clients_init', 'zoom_clients_area_menu_items');
-
-function zoom_clients_area_menu_items() {
-
-
-
-    if (is_client_logged_in()) {
-
-        add_theme_menu_item('unique-logged-in-item-id', [
-            'name' => _l('enter_meeting'),
-            'href' => site_url('zoom/Zoom_client'),
-            'position' => 2,
-             'icon' => 'fa fa-icon-group', // Font a
-                ]
-        );
-    }
-}
-
-hooks()->add_action('admin_init', 'zoom_init_menu_items');
-
-
-function zoom_init_menu_items() {
-    $CI = &get_instance();
-    $CI->app_menu->add_sidebar_menu_item('custom-menu-un
-ique-id', [
-        'name' => _l('enter_meeting'),
-        'href' => admin_url('zoom'), // URL of the item
-        'position' => 10, // The menu position, see belo
-        'icon' => 'fa fa-object-ungroup', // Font a
-
-    ]);
-}
-
-function zoom_add_settings_tab()
-{
-    $CI = & get_instance();
-    $CI->app_tabs->add_settings_tab('zoom-settings', [
-       'name'     => _l('zoom_setting'),
-       'view'     => 'zoom/zoom_settings',
-       'position' => 36,
-   ]);
-}
-
-/**
-* Register language files, must be registered if the module is using languages
-*/
-register_language_files(ZOOM_MODULE_NAME, [ZOOM_MODULE_NAME]);
-
-register_activation_hook(ZOOM_MODULE_NAME, 'zoom_module_activation_hook');
-
-function zoom_module_activation_hook()
-{
-    $CI = &get_instance();
-    require_once(__DIR__ . '/install.php');
-}
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+/*
+Module Name: ZOOM إجتماعات
+يمكنك ضبط حسابك على zoom والبدء بعقد اجتماعاتك ضمن منصة بابل 
+Version: 2.1
+Requires at least: 2.3.*
+*/
+
+define('ZOOM_MODULE_NAME', 'zoom');
+$CI = &get_instance();
+
+/** * Load the module helper file */$CI->load->helper(ZOOM_MODULE_NAME . '/zoom');
+
+/**
+* Register activation module hook
+*/
+register_activation_hook(ZOOM_MODULE_NAME, 'zoom_module_activation_hook');
+
+function zoom_module_activation_hook()
+{
+    $CI = &get_instance();
+    require_once(__DIR__ . '/install.php');
+}
+
+hooks()->add_action('admin_init', 'zoom_module_init_menu_items');hooks()->add_action('admin_init', 'zoom_register_user_permissions');
+/** * Hook for assigning staff permissions for * * @return void */function zoom_register_user_permissions(){	$capabilities = [];	$capabilities['capabilities'] = [		'view'   => _l('zoom_permission_view'),			];	register_staff_capabilities('zoom', $capabilities, _l('zoom'));}
+
+
+/**
+* Register language files, must be registered if the module is using languages
+*/
+register_language_files(ZOOM_MODULE_NAME, [ZOOM_MODULE_NAME]);
+
+
+function zoom_module_init_menu_items()
+{
+	
+		$CI = &get_instance();
+
+		$CI->app_menu->add_sidebar_menu_item('zoom', [
+			'name'     => _l('zoom'), // The name if the item
+			'collapse' => true, // Indicates that this item will have submitems
+			'position' => 10, // The menu position
+			'icon'     => 'fa fa-comment-o', // Font awesome icon
+		]);
+		        if (staff_can('view')) {
+			$CI->app_menu->add_sidebar_children_item('zoom', [
+				'slug'     => 'send-zoom', // Required ID/slug UNIQUE for the child menu
+				'name'     => _l('zoom_meeting_list'), // The name if the item
+				'href'     => admin_url('zoom'),
+				'position' => 5,
+			   
+			   
+			]);		}
+            if (is_admin()) {
+		// The first paremeter is the parent menu ID/Slug
+		$CI->app_menu->add_sidebar_children_item('zoom', [
+			'slug'     => 'create-meeting', // Required ID/slug UNIQUE for the child menu
+			'name'     => _l('zoom_create_meeting'), // The name if the item
+			'href'     =>admin_url('zoom/create_meeting'),
+			'position' => 5, // The menu position
+		   
+		]);
+	  }
+
+	if (is_admin()) {
+		$CI->app_menu->add_sidebar_children_item('zoom', [
+			'slug'     => 'meeting-registrant', // Required ID/slug UNIQUE for the child menu
+			'name'     => _l('zoom_add_registrant'), // The name if the item
+			'href'     =>admin_url('zoom/add_registrant'),
+			'position' => 5, // The menu position
+		   
+		]);	}
+     if (is_admin()) {
+		$CI->app_menu->add_sidebar_children_item('zoom', [
+			'slug'     => 'api-meeting', // Required ID/slug UNIQUE for the child menu
+			'name'     => _l('zoom_api_settings'), // The name if the item
+			'href'     =>admin_url('zoom/api_meeting'),
+			'position' => 5, // The menu position
+		   
+		]);
+	 }
+		
+	
+    
+}hooks()->add_action('clients_init', 'zoom_client_module_init_menu_items');
+function zoom_client_module_init_menu_items(){    $count = '';	$CI = &get_instance();		      if(is_client_logged_in()) { 		add_theme_menu_item('zoom-meeting', [				'name'     => 'Zoom Meeting',				'href'     => site_url('zoom/client/meeting_list'),				'position' => 4,			]);     }	 	 }	

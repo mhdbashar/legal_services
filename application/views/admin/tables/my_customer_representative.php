@@ -26,12 +26,16 @@ $sTable       = db_prefix() . 'my_customer_representative';
 
 array_push($where, 'AND ' . db_prefix() . 'my_customer_representative.is_default = 0');
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
+    db_prefix() .'my_customer_representative.is_default'
+]);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
+    if($aRow['is_default'] == 1)
+        continue;
     $row = [];
 
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>';

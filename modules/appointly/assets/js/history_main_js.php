@@ -5,12 +5,8 @@
      var lang_view_notes = "<?= _l('appointment_viewing_notes'); ?>";
 
      $(function() {
-          var apointmentsServerParams = {
-               'custom_view': '[name="custom_view"]'
-          }
-
-          initDataTable('.table-appointments-history', '<?php echo admin_url('appointly/appointments_history/table'); ?>', [7], [7], apointmentsServerParams);
-
+          $('.sub-menu-item-appointly-user-history a').toggleClass('active');
+          initDataTable('.table-appointments-history', '<?php echo admin_url('appointly/appointments_history/table'); ?>', [6], [6]);
      });
 
      $('.modal').on('hidden.bs.modal', function(e) {
@@ -24,24 +20,24 @@
           var content12 = $('.content .col-md-12');
           var content_row = $('.content .row.main_row');
           var skeleton_loader = `
-          <div class="ph-item">
-               <div class="ph-col-12">
-                    <div class="ph-picture"></div>
-                         <div class="ph-row">
-                              <div class="ph-col-6 big"></div>
-                              <div class="ph-col-4 empty big"></div>
-                              <div class="ph-col-2 big"></div>
-                              <div class="ph-col-4"></div>
-                              <div class="ph-col-8 empty"></div>
-                              <div class="ph-col-6"></div>
-                              <div class="ph-col-6 empty"></div>
-                              <div class="ph-col-12"></div>
-                         </div>
-                    </div>
-          </div>`;
+                              <div class="ph-item">
+                                   <div class="ph-col-12">
+                                        <div class="ph-picture"></div>
+                                             <div class="ph-row">
+                                                  <div class="ph-col-6 big"></div>
+                                                  <div class="ph-col-4 empty big"></div>
+                                                  <div class="ph-col-2 big"></div>
+                                                  <div class="ph-col-4"></div>
+                                                  <div class="ph-col-8 empty"></div>
+                                                  <div class="ph-col-6"></div>
+                                                  <div class="ph-col-6 empty"></div>
+                                                  <div class="ph-col-12"></div>
+                                             </div>
+                                        </div>
+                              </div>`;
 
           $('.content .col-md-12').removeClass('col-md-12').addClass('col-md-6');
-          $('td > a, td > button').css('margin', '1px');
+          $('td div.text-center a:first').css('margin', '-9px');
           $('#toggleTableBtn').removeClass('hidden');
 
           if (!content_row.find('.edit_appointment_history').length) {
@@ -65,19 +61,19 @@
                     setTimeout(() => {
                          content_row.find('.edit_appointment_history').remove();
                          content_row.append(`
-                         <div class="col-md-6 edit_appointment_history">
-                              <div class="panel_s">
-                                   <div class="panel-body">
-                                        <div class="panel-heading"> 
-                                        <span class="font-medium">${lang_view_notes}: <strong>${data.subject}</strong></span>
+                                        <div class="col-md-6 edit_appointment_history">
+                                             <div class="panel_s">
+                                                  <div class="panel-body">
+                                                       <div class="panel-heading"> 
+                                                       <span class="font-medium">${lang_view_notes}: <strong>${data.subject}</strong></span>
+                                                       </div>
+                                                  <textarea name="notes" class="ays-ignore">${data.notes}</textarea>
+                                                  <div class="from-group">
+                                                       <button class="btn btn-primary mtop10 pull-right" onclick="updateAppointmentFormData()">${lang_save}</button>
+                                                  </div>
+                                             </div>
                                         </div>
-                                   <textarea name="notes" class="ays-ignore">${data.notes}</textarea>
-                                   <div class="from-group">
-                                        <button class="btn btn-primary mtop10 pull-right" onclick="updateAppointmentFormData()">${lang_save}</button>
-                                   </div>
-                              </div>
-                           </div>
-                         <div>`);
+                                        <div>`);
                          init_editor('textarea[name="notes"]');
                     }, 1000);
                });
@@ -121,11 +117,6 @@
 
      function deleteAppointment(id, el) {
           if (confirm("<?= _l('appointment_are_you_sure'); ?>")) {
-               var outlookId = $(el).parents('td').find('a#outlookLink').data('outlook-id');
-
-               if (outlookId != undefined) {
-                    deleteOutlookEvent(outlookId);
-               }
 
                $.post(site_url + 'appointly/appointments/delete/' + id).done(function(res) {
                     res = JSON.parse(res);
@@ -140,6 +131,8 @@
      function toggle_appointment_table_view() {
           $('#toggleTableBtn').addClass('hidden');
           var col6 = $('.content .row.main_row .col-md-6').removeClass('col-md-6').addClass('col-md-12');
+          $('td div.text-center a:first').css('margin', 'auto');
+
           $('.edit_appointment_history').remove();
           setTimeout(() => {
                $('.edit_appointment_history').remove();

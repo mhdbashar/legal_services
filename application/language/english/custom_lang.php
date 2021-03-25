@@ -7,6 +7,26 @@ $lang['loan_note'] = 'سيتم اقتطاع قيمة هذا القرض من را
 
 $lang['Spreadsheet_name'] = "Spreadsheet Files";
 $lang['Spreadsheet_desc'] = "A powerful spreadsheet editor that lets you do pretty much everything you can do with contemporary spreadsheet software like Excel.";
+
+$lang['imported_service_edited'] = 'Imported service edited';
+$lang['imported_service_file_deleted'] = 'Imported service file deleted';
+$lang['new_imported_service_added'] = 'New imported service added';
+$lang['add_imported_service'] = 'Add imported service';
+$lang['edit_imported_service'] = 'Edit imported service';
+
+$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "To make imported services work properly please add office name in center from here";
+$lang['waiting'] = 'Waiting';
+$lang['approved'] = 'Approved';
+$lang['rejected'] = 'Rejected';
+$lang['new_imported_service'] = 'New imported service';
+$lang['imported_service_name'] = 'Imported service name';
+
+$lang['failed_to_export_service'] = 'Failed to export service';
+$lang['service_exported_successfully'] = 'Service exported succcesfully';
+$lang['imported'] = 'Imported';
+$lang['export'] = 'Export';
+$lang['export_service'] = 'Export service';
+$lang['imported_services'] = 'Imported Services';
 $lang['you_have_to_complete_staff_informations'] = 'You have to complete staff information';
 $lang['branch_report_all'] = "All";
 $lang['report_branch'] = "Branch";
@@ -4253,7 +4273,6 @@ $lang['clients_import_inst1'] = "Your CSV data should be in the format below. Th
 $lang['clients_import_inst2'] = "If the column <b>you are trying to import is date make sure that is formatted in format Y-m-d (" . date('Y-m-d') . ").</b>";
 $lang['clients_import_inst3'] = "Make sure you configure the default contact permission in <a href=\"" . admin_url('settings?group=clients') . "\" target=_blank\">Setup->Settings->Customers</a> to get the best results like auto assigning contact permissions and email notification settings based on the permission.";
 $lang['clients_import_inst4'] = "Duplicate email rows won't be imported.";
-
 
 $lang['procedure_subject'] = "Procedure Subject";
 $lang['view_procedure']    = 'View Procedure';

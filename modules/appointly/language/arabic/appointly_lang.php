@@ -283,3 +283,16 @@ $lang['appointment_history_label'] = 'الاجتماعات السابقة';
 $lang['appointment_notes_updated'] = 'تم تحديث ملاحظات الموعد بنجاح';
 $lang['appointment_viewing_notes'] = 'شاهد الملاحظات على الموعد';
 $lang['appointment_google_meet_modal_custom_label'] = 'دعوة الموظفين والعملاء إلى Google Meet عبر البريد الإلكتروني';
+
+# Version 1.1.6
+$lang['appointly_integrations'] = 'التكامل';
+$lang['appointments_table_calendar'] = ' تم الإضافة إلى التقويمات';
+$lang['appointment_not_added_to_calendars_yet'] = 'لم يتم الإضافة إلى التقويمات';
+$lang['appointment_lead_related'] = 'عميل محتمل';
+$lang['appointment_internal'] = 'داخلي';
+$lang['appointment_external'] = 'خارجي';
+$lang['appointment_mark_as_approved'] = 'موافق عليه';
+$lang['appointment_mark_as_ongoing'] = 'جارية';
+$lang['appointment_mark_as_cancelled'] = 'ملغية';
+$lang['appointment_mark_as_finished'] = 'منتهية';
+$lang['appointment_marked_as_approved'] = 'تم تحديد الموعد على أنه تمت الموافقة عليه';

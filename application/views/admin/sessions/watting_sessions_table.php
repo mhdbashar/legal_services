@@ -24,5 +24,5 @@ $custom_fields = get_custom_fields('sessions', [
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
-// $table_data = hooks()->apply_filters('tasks_table_columns', $table_data);
+$table_data = hooks()->apply_filters('sessions_table_columns', $table_data);
 render_datatable($table_data, 'waiting_sessions_log', [], array('all' => true));

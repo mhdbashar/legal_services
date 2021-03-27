@@ -110,7 +110,6 @@
                      <div class="col-md-12">
                         <div class="row available_merge_fields_container">
                            <?php
-                           //echo '<pre>'; print_r($editors); exit;
                               $mergeLooped = array();
                               foreach($available_merge_fields as $field){
                                foreach($field as $key => $val){

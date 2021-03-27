@@ -53,19 +53,19 @@ class Case_movement_model extends App_Model
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
-        if (!isset($data['court_id'])) {
+        if (isset($data['court_id']) && $data['court_id'] == '') {
             $data['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
         }
 
-        if (!isset($data['jud_num'])) {
+        if (isset($data['jud_num']) && $data['jud_num'] == '') {
             $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
 
-        if (!isset($data['representative'])) {
+        if (isset($data['representative']) && $data['representative'] == '') {
             $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
         }
 
-        if (!isset($data['case_status'])) {
+        if (isset($data['case_status']) && $data['case_status'] == '') {
             $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
         }
 

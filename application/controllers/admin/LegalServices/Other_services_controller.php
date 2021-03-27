@@ -289,7 +289,7 @@ class Other_services_controller extends AdminController
             $data['currency'] = $this->other->get_currency($id);
 
             $linked_services = $this->other->get_linked_services($ServID, $id);
-           //var_dump($linked_services); exit;
+
             $father_linked_services = [];
             $child_linked_services = [];
             foreach ($linked_services as $linked_service) {

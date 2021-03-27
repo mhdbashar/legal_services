@@ -175,7 +175,7 @@
                                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
                                                     <select id="representative" name="representative" class="form-control custom_select_arrow"
                                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <option selected disabled></option>
+                                                        <option selected></option>
                                                         <?php $data = get_relation_data('representative', '');
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row['id']; ?>"><?php echo $row['representative']; ?></option>

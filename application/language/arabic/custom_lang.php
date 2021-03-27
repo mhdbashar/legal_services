@@ -357,6 +357,7 @@ $lang['emergency_contacts'] = "جهات اتصال في حال الطواريء"
 $lang['crm_url'] = "رابط بوابة العملاء";
 $lang['dark_logo_image_with_url'] = "رابط صورة الشعار القاتم";
 $lang['email_signature'] = "توقيع البريد الإلكتروني";
+$lang['document_staff_signature_text'] = "التوقيع (الموظف)";
 $lang['logo_image_with_url'] = "رابط صورة الشعار";
 $lang['branches_lowercase'] = "الفروع";
 $lang['client_zip'] = "الرمز البريدي";

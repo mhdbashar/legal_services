@@ -95,9 +95,9 @@
                     <div class="panel_s">
                         <div class="panel-body">
                             <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
-                            <!--                            <a href="--><?php //echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?><!--" target="_blank">-->
-                            <!--                                --><?php //echo _l('view_contract'); ?>
-                            <!--                            </a>-->
+                                <a href="<?php echo site_url('hr/contract/index/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
+                                    <?php echo _l('view_contract'); ?>
+                                </a>
                             <hr class="hr-panel-heading" />
                             <?php if($contract->trash > 0){
                                 echo '<div class="ribbon default"><span>'._l('contract_trash').'</span></div>';
@@ -295,7 +295,7 @@
                                     <?php if(!empty($contract->signature)) { ?>
                                         <div class="row mtop25">
                                             <div class="col-md-6 col-md-offset-6 text-right">
-                                                <p class="bold"><?php echo _l('document_customer_signature_text'); ?>
+                                                <p class="bold"><?php echo _l('document_staff_signature_text'); ?>
                                                     <?php if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
                                                         <a href="<?php echo admin_url('hr/contracts/clear_signature/'.$contract->id); ?>" data-toggle="tooltip" title="<?php echo _l('clear_signature'); ?>" class="_delete text-danger">
                                                             <i class="fa fa-remove"></i>
@@ -303,7 +303,7 @@
                                                     <?php } ?>
                                                 </p>
                                                 <div class="pull-right">
-                                                    <img src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path(get_upload_path_by_type('contract').$contract->id.'/'.$contract->signature)); ?>" class="img-responsive" alt="">
+                                                    <img src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path(get_upload_path_by_type('hr_contract').$contract->id.'/'.$contract->signature)); ?>" class="img-responsive" alt="">
                                                 </div>
                                             </div>
                                         </div>

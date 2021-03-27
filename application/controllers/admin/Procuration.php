@@ -107,7 +107,6 @@ class Procuration extends AdminController
         }
 
         $procuration = $this->procurations_model->get($id);
-        // echo '<pre>'; print_r($procuration); exit;
         $procuration        = hooks()->apply_filters('before_admin_view_procuration_pdf', $procuration);
 
         // $invoice_number = format_invoice_number($invoice->id);

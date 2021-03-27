@@ -12,6 +12,6 @@ class Migration_Version_506 extends CI_Migration
     public function up()
     {
         update_option('task_biillable_checked_on_creation',0);
-        update_option('calendar_first_day', 6);
+        update_option('calendar_first_day', 0);
     }
 }

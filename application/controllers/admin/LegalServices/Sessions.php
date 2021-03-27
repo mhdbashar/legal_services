@@ -218,7 +218,7 @@ class Sessions extends AdminController
         if ($hijriStatus == 'on') {
             $start_year_ad = force_to_AD_date_for_filter($year . '-01-01');
             $end_year_ad = force_to_AD_date_for_filter($year . '-12-29');
-            // echo $start_year_ad . '   ' . $end_year_ad; exit;
+
             $end_day = 29;
             if($month != ''){
                 switch ($month){
@@ -249,8 +249,6 @@ class Sessions extends AdminController
                 $start_month_ad_day = "$start_month_ad_day";
                 $end_month_ad_day = "$end_month_ad_day";
 
-
-                // echo $start_month_ad_day . '>' . $end_month_ad_day; exit;
             }
             if($day != ''){
                 $ad_day = (int)date('d', strtotime(force_to_AD_date_for_filter(($year . '-' . $month . '-' . $day))));

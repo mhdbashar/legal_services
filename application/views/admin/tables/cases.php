@@ -37,7 +37,6 @@ endif;
 $where  = [];
 $filter = [];
 $statusIds = [];
-//echo '<pre>'; print_r($this->ci->input->post()); exit;
 foreach ($model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);

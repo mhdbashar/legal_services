@@ -283,7 +283,6 @@ class Cases_controller extends AdminController
             $data['currency'] = $this->case->get_currency($id);
 
             $linked_services = $this->case->get_linked_services($ServID, $id);
-           //var_dump($linked_services); exit;
             $father_linked_services = [];
             $child_linked_services = [];
             foreach ($linked_services as $linked_service) {

@@ -46,6 +46,7 @@ class Cases_model extends App_Model
         if (is_numeric($id)) {
             $this->db->where(array('my_cases.id' => $id, 'my_cases.deleted' => 0));
             $this->db->select('my_cases.*,countries.short_name_ar as country_name, cat.name as cat, subcat.name as subcat,my_courts.court_name,my_judicialdept.Jud_number,my_customer_representative.representative as Representative,my_casestatus.name as StatusCase');
+            //$this->db->select('*');
             $this->db->join(db_prefix() . 'countries', db_prefix() . 'countries.country_id=' . db_prefix() . 'my_cases.country', 'left');
             $this->db->join(db_prefix() . 'my_categories as cat',  'cat.id=' . db_prefix() . 'my_cases.cat_id', 'left');
             $this->db->join(db_prefix() . 'my_categories as subcat',  'subcat.id=' . db_prefix() . 'my_cases.subcat_id', 'left');
@@ -161,19 +162,19 @@ class Cases_model extends App_Model
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
 
-        if (!isset($data['court_id'])) {
+        if (isset($data['court_id']) && $data['court_id'] == '') {
             $data['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
         }
 
-        if (!isset($data['jud_num'])) {
+        if (isset($data['jud_num']) && $data['jud_num'] == '') {
             $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
         }
 
-        if (!isset($data['representative'])) {
+        if (isset($data['representative']) && $data['representative'] == '') {
             $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
         }
 
-        if (!isset($data['case_status'])) {
+        if (isset($data['case_status']) && $data['case_status'] == '') {
             $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
         }
 
@@ -357,7 +358,21 @@ class Cases_model extends App_Model
     public function update($ServID,$id,$data)
     {
         $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
+        if (isset($data['court_id']) && $data['court_id'] == '') {
+            $data['court_id'] = get_default_value_id_by_table_name('my_courts', 'c_id');
+        }
 
+        if (isset($data['jud_num']) && $data['jud_num'] == '') {
+            $data['jud_num'] = get_default_value_id_by_table_name('my_judicialdept', 'j_id');
+        }
+
+        if (isset($data['representative']) && $data['representative'] == '') {
+            $data['representative'] = get_default_value_id_by_table_name('my_customer_representative', 'id');
+        }
+
+        if (isset($data['case_status']) && $data['case_status'] == '') {
+            $data['case_status'] = get_default_value_id_by_table_name('my_casestatus', 'id');
+        }
         //Make tags from name and description
         $name_array        = convert_to_tags($data['name']);
         $description_array = convert_to_tags($data['description']);
@@ -734,12 +749,11 @@ class Cases_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
 
-            $this->db->where(array('exported_rel_id' => $id, 'exported_service_id' => $ServID));
+            $this->db->where(array('id' => $id, 'service_id' => $ServID));
             $this->db->update(db_prefix() . 'my_imported_services', [
                 'deleted' => 1,
                 'imported' => 0
             ]);
-
 
             $this->db->where(array('rel_id' => $id, 'rel_type' => $slug));
             $this->db->update(db_prefix() . 'tasks', [

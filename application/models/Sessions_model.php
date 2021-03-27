@@ -663,7 +663,7 @@ class Sessions_model extends App_Model
             $session['judicial_office_number'] = $data['judicial_office_number'];
             unset($data['judicial_office_number']);
         }
-        if (isset($data['dept'])) {
+        if (isset($data['dept']) && $data['dept'] != '') {
             $session['dept'] = $data['dept'];
             unset($data['dept']);
         }else{

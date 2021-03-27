@@ -117,8 +117,6 @@ class Clients extends ClientsController
                     $_FILES = $files;
 
                     if(!empty($_FILES['attachments']['name'][$i])){
-                         // echo '<pre>' ; print_r($_FILES['attachments']['name'][$i]); exit;
-
                         // Define new $_FILES array - $_FILES['file']
                         $_FILES['attachments'.$i]['name'] = $files['attachments']['name'][$i];
                         $_FILES['attachments'.$i]['type'] = $files['attachments']['type'][$i];
@@ -134,7 +132,6 @@ class Clients extends ClientsController
                         $config['max_size'] = '5000'; // max_size in kb
                         $config['remove_spaces'] = FALSE;
                         $config['file_name'] = $_FILES['attachments']['name'][$i];
-                        // var_dump($config['file_name']); exit;
 
                         //Load upload library
                         $this->load->library('upload',$config);

@@ -52,7 +52,7 @@ class Contract extends ClientsController
      */
     private function hr_contract_pdf($contract)
     {
-        return app_pdf('hr_contract', LIBSPATH . 'pdf/Hr_contract_pdf', $contract);
+        return app_pdf('hr_contract', LIBSPATH . 'pdf/contract_pdf', $contract);
     }
 
     private function send_hr_contract_signed_notification_to_staff($contract_id)

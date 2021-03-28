@@ -35,7 +35,7 @@ class Hr_contracts_model extends App_Model
                     $this->load->library('merge_fields/other_merge_fields');
 
                     $merge_fields = [];
-                    $merge_fields = array_merge($merge_fields, $this->hr_contract_format($id));
+                    $merge_fields = array_merge($merge_fields, $this->hr_contract_format($id, $contract->client));
                     $merge_fields = array_merge($merge_fields, $this->staff_merge_fields->format($contract->client));
                     $merge_fields = array_merge($merge_fields, $this->other_merge_fields->format());
                     foreach ($merge_fields as $key => $val) {
@@ -60,7 +60,21 @@ class Hr_contracts_model extends App_Model
         return $contracts;
     }
 
-    public function hr_contract_format($contract_id)
+    public function count_allowance_result($staff_id){
+
+        $this->load->model('Allowances_model');
+        $data['staff_id'] = $staff_id;
+        $allowances = $this->Allowances_model->count_results($staff_id);
+        $data['total_allowances'] = 0;
+        foreach ($allowances as $allowance) {
+            $data['total_allowances'] += $allowance['amount'];
+        }
+
+
+        return $data['total_allowances'];
+    }
+
+    public function hr_contract_format($contract_id, $staff_id)
     {
         $fields = [];
         $this->db->where('id', $contract_id);
@@ -71,6 +85,14 @@ class Hr_contracts_model extends App_Model
         }
 
         $currency = get_base_currency();
+        $this->load->model('Salary_model');
+        $salary = $this->Salary_model->count_results($staff_id);
+        if(is_object($salary) and isset($salary->amount))
+            $salary = $salary->amount;
+        else
+            $salary = 0;
+        $fields['{salary}'] = $salary;
+        $fields['{allowances}'] = $this->count_allowance_result($staff_id);
 
         $fields['{contract_id}']             = $contract->id;
         $fields['{contract_subject}']        = $contract->subject;

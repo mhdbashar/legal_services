@@ -93,7 +93,25 @@ class Contracts extends AdminController
                 blank_page(_l('contract_not_found'));
             }
 
-            $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'staff'], '{email_signature}');
+            $contract_merge_fields = $this->app_merge_fields->get_flat('contract', ['other', 'staff'], '{email_signature}');
+
+            $salary_merge_fileds = [
+                'name' => _l('salary'),
+                'key' => '{salary}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
+            $allowance_merge_fileds = [
+                'name' => _l('allowances'),
+                'key' => '{allowances}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
+            $contract_merge_fields[0][] = $salary_merge_fileds;
+            $contract_merge_fields[0][] = $allowance_merge_fileds;
+            $data['contract_merge_fields'] = $contract_merge_fields;
 
             $title = $data['contract']->subject;
 

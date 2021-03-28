@@ -109,7 +109,15 @@ class Contracts extends AdminController
                 'avilable' => [],
                 'format' => []
             ];
+            $total_salary_merge_fileds = [
+                'name' => _l('total_salary'),
+                'key' => '{total_salary}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
             $contract_merge_fields[0][] = $salary_merge_fileds;
+            $contract_merge_fields[0][] = $total_salary_merge_fileds;
             $contract_merge_fields[0][] = $allowance_merge_fileds;
             $data['contract_merge_fields'] = $contract_merge_fields;
 

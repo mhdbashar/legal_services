@@ -74,6 +74,75 @@ class Hr_contracts_model extends App_Model
         return $data['total_allowances'];
     }
 
+    public function count_total_salary($staff_id, $year, $month){
+        $this->load->model('Other_payment_model');
+        $this->load->model('Loan_model');
+        $this->load->model('Statutory_deduction_model');
+        $this->load->model('Overtime_model');
+        $this->load->model('Commissions_model');
+        $this->load->model('Salary_model');
+        $this->load->model('Allowances_model');
+        $other_payments = $this->Other_payment_model->count_results($staff_id);
+        $data['total_other_payments'] = 0;
+        foreach ($other_payments as $other_payment) {
+            $data['total_other_payments'] += $other_payment['amount'];
+        }
+
+        $loans = $this->Loan_model->count_results($staff_id);
+        $data['total_loans'] = 0;
+        foreach ($loans as $loan) {
+            $start_date=strtotime($loan['start_date']);
+            $smonth=date("m",$start_date);
+            $syear=date("Y",$start_date);
+
+            $end_date=strtotime($loan['end_date']);
+            $emonth=date("m",$end_date);
+            $eyear=date("Y",$end_date);
+            // $data[] = ['smonth' => $syear, 'emonth' => $eyear];
+            if($syear <= $year and $eyear >= $year){
+                if($smonth <= $month and $emonth >= $month){
+                    $data['total_loans'] += $loan['amount'];
+                }
+            }
+        }
+
+        $deductions = $this->Statutory_deduction_model->count_results($staff_id);
+        $data['total_deductions'] = 0;
+        foreach ($deductions as $deduction) {
+            $data['total_deductions'] += $deduction['amount'];
+        }
+
+        $overtimes = $this->Overtime_model->count_results($staff_id);
+        $data['total_overtime'] = 0;
+        foreach ($overtimes as $overtime) {
+            $data['total_overtime'] += $overtime['rate'] * $overtime['num_days'] * $overtime['num_hours'];
+        }
+
+        $commissions = $this->Commissions_model->count_results($staff_id);
+        $data['total_commissions'] = 0;
+        foreach ($commissions as $commission) {
+            $data['total_commissions'] += $commission['amount'];
+        }
+
+        $salary = $this->Salary_model->count_results($staff_id);
+        if(isset($salary->amount)){
+            $data['salary'] = $salary->amount;
+            $data['type'] = $salary->type;
+        }else{
+            $data['salary'] = 0;
+        }
+
+        $data['staff_id'] = $staff_id;
+        $allowances = $this->Allowances_model->count_results($staff_id);
+        $data['total_allowances'] = 0;
+        foreach ($allowances as $allowance) {
+            $data['total_allowances'] += $allowance['amount'];
+        }
+
+        $data['payment_amount'] = $data['salary'] + $data['total_commissions'] + $data['total_allowances'] + $data['total_overtime'] + $data['total_other_payments'] - $data['total_deductions'] - $data['total_loans'];
+        return $data['payment_amount'];
+    }
+
     public function hr_contract_format($contract_id, $staff_id)
     {
         $fields = [];
@@ -91,6 +160,7 @@ class Hr_contracts_model extends App_Model
             $salary = $salary->amount;
         else
             $salary = 0;
+        $fields['{total_salary}'] = $this->count_total_salary($staff_id, date('Y'), date('m'));
         $fields['{salary}'] = $salary;
         $fields['{allowances}'] = $this->count_allowance_result($staff_id);
 

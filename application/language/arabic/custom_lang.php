@@ -1,6 +1,6 @@
 <?php
 
-
+$lang['total_salary'] = 'الراتب الكامل';
 $lang['add_insurance_type'] = 'اضافة نوع تأمين';
 $lang['can_it_for_staff'] = 'هل يمكن التطبيق على الموظف؟';
 $lang['add_insurance_book_num'] = 'اضافة رقم بوليصة تأمين جديد';

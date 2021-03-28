@@ -1,5 +1,7 @@
 <?php
 
+$lang['total_salary'] = 'Total salary';
+
 $lang['add_insurance_type'] = 'Add insurance type';
 $lang['can_it_for_staff'] = 'Can it be for staff?';
 $lang['add_insurance_book_num'] = 'Add insurance book number';

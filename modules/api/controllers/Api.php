@@ -26,6 +26,10 @@ class Api extends AdminController {
         if (!is_admin()) {
             access_denied('Ticket Priorities');
         }
+        if(($this->input->get('activate'))){
+            $this->app_modules->activate('api');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
         if (!$this->input->post()){
             $this->app_modules->activate('api');
             $_POST['user'] = 'legal_serv';

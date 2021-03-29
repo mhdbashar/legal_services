@@ -14,3 +14,12 @@ if (!$CI->db->table_exists(db_prefix() . 'user_api')) {
   PRIMARY KEY (`id`));
 ');
 }
+
+
+if (!$CI->db->table_exists(db_prefix() . 'keycode')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() .  'keycode` (
+      `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+      `keycode` varchar(255) NOT NULL,
+      `office_name_in_center` varchar(255) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=' . $CI->db->char_set . ';');
+}

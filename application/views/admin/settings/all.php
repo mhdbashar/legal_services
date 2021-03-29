@@ -1,66 +1,70 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
 <div id="wrapper">
- <div class="content">
-  <?php echo form_open_multipart(
-    (!isset($tab['update_url'])
-    ? $this->uri->uri_string() . '?group=' . $tab['slug'] . ($this->input->get('tab') ? '&active_tab=' . $this->input->get('tab') : '')
-    : $tab['update_url']),
-    ['id' => 'settings-form', 'class' => isset($tab['update_url']) ? 'custom-update-url' : '']
-);
-    ?>
-    <div class="row">
-     <?php if ($this->session->flashdata('debug')) {
+    <div class="content">
+        <?php echo form_open_multipart(
+            (!isset($tab['update_url'])
+                ? $this->uri->uri_string() . '?group=' . $tab['slug'] . ($this->input->get('tab') ? '&active_tab=' . $this->input->get('tab') : '')
+                : $tab['update_url']),
+            ['id' => 'settings-form', 'class' => isset($tab['update_url']) ? 'custom-update-url' : '']
+        );
         ?>
-       <div class="col-lg-12">
-        <div class="alert alert-warning">
-         <?php echo $this->session->flashdata('debug'); ?>
-       </div>
-     </div>
-   <?php
-    } ?>
-   <div class="col-md-3">
-    <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked">
-      <?php
-      $i = 0;
-      foreach ($tabs as $group) {
-          ?>
-        <li<?php if ($i == 0) {
-              echo " class='active'";
-          } ?>>
-        <a href="<?php echo admin_url('settings?group=' . $group['slug']); ?>" data-group="<?php echo $group['slug']; ?>">
-          <?php echo $group['name']; ?></a>
-        </li>
-        <?php $i++;
-      } ?>
-      </ul>
-      <div class="panel_s">
-       <div class="panel-body">
-        <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
-          echo 'bold';
-      } ?>">
-          <?php echo _l('settings_update'); ?>
-        </a>
-        <?php if (is_admin()) {
-          ?>
-          <hr class="hr-10" />
-          <a href="<?php echo admin_url('settings?group=info'); ?>" class="<?php if ($this->input->get('group') == 'info') {
-              echo 'bold';
-          } ?>">
-            System/Server Info
-          </a>
-        <?php
-      } ?>
-        <div class="btn-bottom-toolbar text-right">
-          <button type="submit" class="btn btn-info">
-            <?php echo _l('settings_save'); ?>
-          </button>
+        <div class="row">
+            <?php if ($this->session->flashdata('debug')) {
+                ?>
+                <div class="col-lg-12">
+                    <div class="alert alert-warning">
+                        <?php echo $this->session->flashdata('debug'); ?>
+                    </div>
+                </div>
+                <?php
+            } ?>
+            <div class="col-md-3">
+                <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked">
+                    <?php
+                    $i = 0;
+                    foreach ($tabs as $group) {
+                        ?>
+                        <li<?php if ($i == 0) {
+                            echo " class='active'";
+                        } ?>>
+                            <a href="<?php echo admin_url('settings?group=' . $group['slug']); ?>" data-group="<?php echo $group['slug']; ?>">
+                                <?php echo $group['name']; ?></a>
+                        </li>
+                        <?php $i++;
+                    } ?>
+                </ul>
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
+                            echo 'bold';
+                        } ?>">
+                            <?php echo _l('settings_update'); ?>
+                        </a>
+                        <?php if (is_admin()) {
+                            ?>
+                            <hr class="hr-10" />
+                            <a href="<?php echo admin_url('settings?group=info'); ?>" class="<?php if ($this->input->get('group') == 'info') {
+                                echo 'bold';
+                            } ?>">
+                                System/Server Info
+                            </a>
+                            <?php
+                        } ?>
+                        <div class="btn-bottom-toolbar text-right">
+                            <button type="submit" class="btn btn-info">
+                                <?php echo _l('settings_save'); ?>
+                            </button>
+                        </div>
+                        <?php echo form_close(); ?>
+                        <div class="btn-bottom-pusher"></div>
+                    </div>
+                </div>
+                <div id="new_version"></div>
+            </div>
         </div>
-        <?php echo form_close(); ?>
-        <div class="btn-bottom-pusher"></div>
     </div>
 </div>
-<div id="new_version"></div>
 <?php init_tail(); ?>
 <script>
     $(function () {
@@ -88,27 +92,27 @@
                 $('body .sms_gateway_active').not($(this).parents('.sms_gateway_active')[0]).find('input[value="0"]').prop('checked', true);
             }
         });
-<?php if ($tab['slug'] == 'pusher') {
-    ?>
-    <?php if (get_option('desktop_notifications') == '1') {
+        <?php if ($tab['slug'] == 'pusher') {
         ?>
-                // Let's check if the browser supports notifications
-                if (!("Notification" in window)) {
-                    $('#pusherHelper').html('<div class="alert alert-danger">Your browser does not support desktop notifications, please disable this option or use more modern browser.</div>');
-                } else {
-                    if (Notification.permission == "denied") {
-                        $('#pusherHelper').html('<div class="alert alert-danger">Desktop notifications not allowed in browser settings, search on Google "How to allow desktop notifications for <?php echo $this->agent->browser(); ?>"</div>');
-                    }
-                }
-    <?php }
-    ?>
-    <?php if (get_option('pusher_realtime_notifications') == '0') {
+        <?php if (get_option('desktop_notifications') == '1') {
         ?>
-                $('input[name="settings[desktop_notifications]"]').prop('disabled', true);
-    <?php }
-    ?>
-<?php }
-?>
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            $('#pusherHelper').html('<div class="alert alert-danger">Your browser does not support desktop notifications, please disable this option or use more modern browser.</div>');
+        } else {
+            if (Notification.permission == "denied") {
+                $('#pusherHelper').html('<div class="alert alert-danger">Desktop notifications not allowed in browser settings, search on Google "How to allow desktop notifications for <?php echo $this->agent->browser(); ?>"</div>');
+            }
+        }
+        <?php }
+        ?>
+        <?php if (get_option('pusher_realtime_notifications') == '0') {
+        ?>
+        $('input[name="settings[desktop_notifications]"]').prop('disabled', true);
+        <?php }
+        ?>
+        <?php }
+        ?>
         $('input[name="settings[pusher_realtime_notifications]"]').on('change', function () {
             if ($(this).val() == '1') {
                 $('input[name="settings[desktop_notifications]"]').prop('disabled', false);
@@ -159,14 +163,7 @@
                 $('input[name="settings[purchase_key]"]').parents('.form-group').addClass('has-error');
             }
         });
-
-
-        // var x = "<php echo get_option('companyname'); ?>"; 
-
-
-
-
-
+        // var x = "<php echo get_option('companyname'); ?>";
         $('#submit_office_name').on('click', function (e) {
             var office_name_in_center = $("input[name='settings[office_name_in_center]']").val();
             e.preventDefault();
@@ -180,34 +177,20 @@
                     alert('لا يوجد توكن مرتبطة بهذا الاسم');
                 },
                 success: function (data) {
-
-
-
                     if (data.status == true) {
                         //alert(data.status);
-                           $(window).off('beforeunload');
+                        $(window).off('beforeunload');
                         $("#settings-form").unbind('submit').submit();
 
 
                     } else if (data.status == false) {
 
-                       // alert(data.status);
-                       $("input[name='settings[office_name_in_center]']").css('border', '2px solid red');
-
-
-
+                        // alert(data.status);
+                        $("input[name='settings[office_name_in_center]']").css('border', '2px solid red');
                     }
-
                 }
             });
-
         });
-        
-            
-
-
-
-
     });
 </script>
 <?php hooks()->do_action('settings_tab_footer', $tab); ?>

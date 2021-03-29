@@ -301,14 +301,11 @@ class Settings extends AdminController {
 //        }
 //    }
 
-
-
-    function get_office_name() {
-
+    function get_office_name()
+    {
         $new_office_name = $this->input->post('office_name_in_center');
         $old_office_name = get_option('office_name_in_center');
         $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . $old_office_name . "'")->row();
-
         if($new_office_name == ''){
             $data['status'] = false;
             $this->x = true;
@@ -325,83 +322,51 @@ class Settings extends AdminController {
             echo json_encode($data); exit;
         }
         $keycode = $result->keycode;
-
-
-         $url = 'https://legaloffices.babillawnet.com/api/list/';
+        $url = 'https://legaloffices.babillawnet.com/api/list/';
         //$url = 'http://localhost/legal/api/list/';
-
         $cURLConnection = curl_init();
         curl_setopt($cURLConnection, CURLOPT_URL, $url);
-
         curl_setopt($cURLConnection, CURLOPT_POST, 1);
         curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, "keycode=$keycode");
-
         curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
         $List = curl_exec($cURLConnection);
-
-
-
         curl_close($cURLConnection);
-
         $jsonArrayResponse = json_decode($List);
-
-
-
         foreach ($jsonArrayResponse as $item) { //foreach element in $arr
             $arr[] = $item->offic_name;
         }
         $r = array_search($new_office_name, $arr, true);
-
-
-
         if (($new_office_name == $arr[$r]) && ($new_office_name == get_option('office_name_in_center'))) {
-
             $data['status'] = TRUE;
         }
-
         if (($new_office_name == $arr[$r]) && ($new_office_name !== get_option('office_name_in_center') )) {
-
             $data['status'] = false;
         }
-
         if (($new_office_name !== $arr[$r])) {
-
             $data['status'] = true;
             $this->x = true;
         }
-
         echo json_encode($data);
-
         if ($this->x == true) {
-
-             $url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
+            $url_url = 'https://legaloffices.babillawnet.com/api/update_office_name/';
            // $url_url = 'http://localhost/legal/api/update_office_name/';
-
             $ch = curl_init();
-
             curl_setopt($ch, CURLOPT_URL, $url_url);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, "old_office_name=$old_office_name&new_office_name=$new_office_name&keycode=$keycode");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec($ch);
             $response_object = (json_decode($server_output));
-
             $result1 = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
-
             $result = $this->db->query("select * from tblkeycode where office_name_in_center= '" . get_option('office_name_in_center') . "'")->row();
-
             if ($result->id) {
                 $data = array(
                     'keycode' => $response_object->keycode,
                     'office_name_in_center' => $response_object->offic_name
                 );
-
                 $this->db->where('id', $result->id)->update('tblkeycode', $data);
-
                 curl_close($ch);
             }
         }
     }
-
 }

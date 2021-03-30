@@ -205,14 +205,14 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+$i = 1;
 foreach ($rResult as $aRow) {
     $row = [];
 
     // Bulk actions
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
     // User id
-    $row[] = $aRow['userid'];
+    $row[] = $i;//$aRow['userid'];
 
     // Company
     $company  = $aRow['company'];
@@ -311,4 +311,6 @@ foreach ($rResult as $aRow) {
     $row = hooks()->apply_filters('customers_table_row_data', $row, $aRow);
     
     $output['aaData'][] = $row;
+
+    $i++;
 }

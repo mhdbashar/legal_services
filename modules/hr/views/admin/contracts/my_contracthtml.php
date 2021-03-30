@@ -31,7 +31,7 @@
                         <i class="fa fa-file-pdf-o"></i> <?php echo _l('clients_invoice_html_btn_download'); ?></button>
                     <?php echo form_hidden('action','contract_pdf'); ?>
                     <?php echo form_close(); ?>
-                    <?php if(is_client_logged_in() && has_contact_permission('contracts')){ ?>
+                    <?php if(is_client_logged_in() && has_contact_permission('hr_contracts')){ ?>
                         <a href="<?php echo site_url('clients/contracts/'); ?>" class="btn btn-default mright5 pull-right action-button go-to-portal">
                             <?php echo _l('client_go_to_dashboard'); ?>
                         </a>

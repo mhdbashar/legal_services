@@ -89,7 +89,7 @@ class Contracts extends AdminController
             $data['contract']                 = $this->hr_contracts_model->get($id, [], true);
             $data['contract_renewal_history'] = $this->hr_contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'hr_contract']);
-            if (!$data['contract'] || (!has_permission('hr_contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
+            if (!$data['contract'] || (!has_permission('hr_contracts', '', 'view') && $data['contract']->client != get_staff_user_id() && $data['contract']->addedfrom != get_staff_user_id())) {
                 blank_page(_l('contract_not_found'));
             }
 
@@ -149,7 +149,7 @@ class Contracts extends AdminController
 
     public function mark_as_signed($id)
     {
-        if (!staff_can('edit', 'contracts')) {
+        if (!staff_can('edit', 'hr_contracts')) {
             access_denied('mark contract as signed');
         }
 
@@ -160,7 +160,7 @@ class Contracts extends AdminController
 
     public function unmark_as_signed($id)
     {
-        if (!staff_can('edit', 'contracts')) {
+        if (!staff_can('edit', 'hr_contracts')) {
             access_denied('mark contract as signed');
         }
 

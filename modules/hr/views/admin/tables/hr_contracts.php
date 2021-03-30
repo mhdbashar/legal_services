@@ -100,8 +100,8 @@ if ($clientid != '') {
     array_push($where, 'AND staffid=' . $this->ci->db->escape_str($clientid));
 }
 
-if (!has_permission('contracts', '', 'view')) {
-    array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom=' . get_staff_user_id());
+if (!has_permission('hr_contracts', '', 'view')) {
+    array_push($where, 'AND ' . db_prefix() . 'hr_contracts.client=' . get_staff_user_id());
 }
 
 $aColumns = hooks()->apply_filters('contracts_table_sql_columns', $aColumns);
@@ -130,11 +130,11 @@ foreach ($rResult as $aRow) {
 
     $subjectOutput .= '<a href="' . site_url('hr/contract/index/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
 
-    if (has_permission('contracts', '', 'edit')) {
+    if (has_permission('hr_contracts', '', 'edit')) {
         $subjectOutput .= ' | <a href="' . admin_url('hr/contracts/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
 
-    if (has_permission('contracts', '', 'delete')) {
+    if (has_permission('hr_contracts', '', 'delete')) {
         $subjectOutput .= ' | <a href="' . admin_url('hr/contracts/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 

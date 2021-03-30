@@ -95,9 +95,9 @@
                     <div class="panel_s">
                         <div class="panel-body">
                             <h4 class="no-margin"><?php echo $contract->subject; ?></h4>
-                            <!--                            <a href="--><?php //echo site_url('contract/'.$contract->id.'/'.$contract->hash); ?><!--" target="_blank">-->
-                            <!--                                --><?php //echo _l('view_contract'); ?>
-                            <!--                            </a>-->
+                                <a href="<?php echo site_url('hr/contract/index/'.$contract->id.'/'.$contract->hash); ?>" target="_blank">
+                                    <?php echo _l('view_contract'); ?>
+                                </a>
                             <hr class="hr-panel-heading" />
                             <?php if($contract->trash > 0){
                                 echo '<div class="ribbon default"><span>'._l('contract_trash').'</span></div>';
@@ -221,13 +221,13 @@
                                                         </a>
                                                     </li>
                                                     <?php
-                                                    if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'contracts')) { ?>
+                                                    if($contract->signed == 0 && $contract->marked_as_signed == 0 && staff_can('edit', 'hr_contracts')) { ?>
                                                         <li>
                                                             <a href="<?php echo admin_url('hr/contracts/mark_as_signed/'.$contract->id); ?>">
                                                                 <?php echo _l('mark_as_signed'); ?>
                                                             </a>
                                                         </li>
-                                                    <?php } else if($contract->signed == 0 && $contract->marked_as_signed == 1 && staff_can('edit', 'contracts')) { ?>
+                                                    <?php } else if($contract->signed == 0 && $contract->marked_as_signed == 1 && staff_can('edit', 'hr_contracts')) { ?>
                                                         <li>
                                                             <a href="<?php echo admin_url('hr/contracts/unmark_as_signed/'.$contract->id); ?>">
                                                                 <?php echo _l('unmark_as_signed'); ?>
@@ -235,21 +235,21 @@
                                                         </li>
                                                     <?php } ?>
                                                     <?php hooks()->do_action('after_contract_view_as_client_link', $contract); ?>
-                                                    <?php if(has_permission('contracts','','create')){ ?>
+                                                    <?php if(has_permission('hr_contracts','','create')){ ?>
                                                         <li>
                                                             <a href="<?php echo admin_url('hr/contracts/copy/'.$contract->id); ?>">
                                                                 <?php echo _l('contract_copy'); ?>
                                                             </a>
                                                         </li>
                                                     <?php } ?>
-                                                    <?php if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
+                                                    <?php if($contract->signed == 1 && has_permission('hr_contracts','','delete')){ ?>
                                                         <li>
                                                             <a href="<?php echo admin_url('hr/contracts/clear_signature/'.$contract->id); ?>" class="_delete">
                                                                 <?php echo _l('clear_signature'); ?>
                                                             </a>
                                                         </li>
                                                     <?php } ?>
-                                                    <?php if(has_permission('contracts','','delete')){ ?>
+                                                    <?php if(has_permission('hr_contracts','','delete')){ ?>
                                                         <li>
                                                             <a href="<?php echo admin_url('hr/contracts/delete/'.$contract->id); ?>" class="_delete">
                                                                 <?php echo _l('delete'); ?></a>
@@ -277,7 +277,7 @@
                                         </div>
                                     </div>
                                     <hr class="hr-panel-heading" />
-                                    <?php if(!staff_can('edit','contracts')) { ?>
+                                    <?php if(!staff_can('edit','hr_contracts')) { ?>
                                         <div class="alert alert-warning contract-edit-permissions">
                                             <?php echo _l('contract_content_permission_edit_warning'); ?>
                                         </div>
@@ -295,15 +295,15 @@
                                     <?php if(!empty($contract->signature)) { ?>
                                         <div class="row mtop25">
                                             <div class="col-md-6 col-md-offset-6 text-right">
-                                                <p class="bold"><?php echo _l('document_customer_signature_text'); ?>
-                                                    <?php if($contract->signed == 1 && has_permission('contracts','','delete')){ ?>
+                                                <p class="bold"><?php echo _l('document_staff_signature_text'); ?>
+                                                    <?php if($contract->signed == 1 && has_permission('hr_contracts','','delete')){ ?>
                                                         <a href="<?php echo admin_url('hr/contracts/clear_signature/'.$contract->id); ?>" data-toggle="tooltip" title="<?php echo _l('clear_signature'); ?>" class="_delete text-danger">
                                                             <i class="fa fa-remove"></i>
                                                         </a>
                                                     <?php } ?>
                                                 </p>
                                                 <div class="pull-right">
-                                                    <img src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path(get_upload_path_by_type('contract').$contract->id.'/'.$contract->signature)); ?>" class="img-responsive" alt="">
+                                                    <img src="<?php echo site_url('download/preview_image?path='.protected_file_url_by_path(get_upload_path_by_type('hr_contract').$contract->id.'/'.$contract->signature)); ?>" class="img-responsive" alt="">
                                                 </div>
                                             </div>
                                         </div>

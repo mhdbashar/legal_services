@@ -1,7 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8egRN3BZnJZ2_gGWRqvCmnfZqKO-I7kQ&callback=initMap&libraries=&v=weekly" defer></script>
 <div id="wrapper">
 	<div class="content">
 		<div class="row">

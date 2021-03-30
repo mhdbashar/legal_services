@@ -1,75 +1,6 @@
 <?php
 
-$lang['imported_service_edited'] = 'تم تعديل معلومات الخدمة المستوردة';
-
-$lang['imported_service_file_deleted'] = 'تم حذف ملف من الخدمة المستوردة';
-$lang['new_imported_service_added'] = 'تمت اضافة خدمة مستوردة جديدة';
-$lang['add_imported_service'] = 'اضافة خدمة جديدة';
-$lang['edit_imported_service'] = 'تعديل الخدمة';
-
-$lang['to_make_imported_services_work_properly_please_active_api_module_from_here'] = "لتفعيل وظائف الخدمات المستوردة يرجى ادخال اسم مكتب في المركز من هنا";
-$lang['waiting'] = 'قيد الانتظار';
-$lang['approved'] = 'مقبول';
-$lang['rejected'] = 'مرفوض';
-$lang['new_imported_service'] = 'خدمة مستوردة جديدة';
-$lang['imported_service_name'] = 'اسم الخدمة المستوردة';
-
-$lang['failed_to_export_service'] = 'فشل تصدير الخدمة';
-$lang['service_exported_successfully'] = 'تم تصدير الخدمة بنجاح';
-$lang['imported'] = 'مستوردة';
-$lang['export'] = 'تصدير';
-$lang['export_service'] = 'تصدير الخدمة';
-$lang['imported_services'] = 'الخدمات المستوردة';
-
-$lang['problem_deleting_rel_serv']= "الرجاء التأكد من عدم وجود خدمات متعلقة بهذا التصنيف قبل الحذف";
-$lang['zoom_name'] = ' اجتماعات Zoom';
-$lang['zoom_desc'] = 'يمكنك ضبط حسابك على zoom والبدء بعقد اجتماعاتك ضمن منصة بابل';
-
-$lang['license_info'] = 'معلومات الترخيص';
-
-$lang['license_key'] = 'مفتاح الترخيص';
-
-$lang['appointly'] = 'المواعيد';
-
-$lang['tbookmarks_name'] = 'الاشارات المرجعية المتعلقة بالمهمة';
-$lang['tbookmarks_desc'] = 'تمكنك من تجميع المهام وفق إشارة مرجعية معينة';
-
-$lang['account_name'] = 'تخطيط الحساب';
-$lang['account_desc'] = 'التخطيط الاستراتيجي للحسابات من خلال نهج يركز على العملاء لتحديد الحسابات ذات الأولوية ، والتقاط المعلومات المهمة وتحليلها ، ووضع استراتيجية لتوسيع علاقات العملاء الحالية وتنميتها.';
-
-$lang['save_last_order_for_tables_infor']="\"الجداول المدعومة حاليًا: العملاء ، العملاء المحتملون ، التذاكر ، المهام ، الخدمات ، المدفوعات ، النفقات ، العطاءات ، قاعدة المعرفة ، العقود <br /> <br /> ملاحظة: سيؤدي تغيير هذا الخيار إلى حذف جميع طلبات الجدول المحفوظة!\"";
-
-$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
-$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
-
-$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
-$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
-
-$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
-
-$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
-
-$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
-$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
-
-$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
-$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
-
-$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
-$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
-
-$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
-$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
-
-$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
-
-$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
-$lang['active'] = 'مفعلة';
-$lang['inactive'] = 'غير مفعلة';
-
+$lang['total_salary'] = 'الراتب الكامل';
 $lang['add_insurance_type'] = 'اضافة نوع تأمين';
 $lang['can_it_for_staff'] = 'هل يمكن التطبيق على الموظف؟';
 $lang['add_insurance_book_num'] = 'اضافة رقم بوليصة تأمين جديد';
@@ -428,6 +359,7 @@ $lang['emergency_contacts'] = "جهات اتصال في حال الطواريء"
 $lang['crm_url'] = "رابط بوابة العملاء";
 $lang['dark_logo_image_with_url'] = "رابط صورة الشعار القاتم";
 $lang['email_signature'] = "توقيع البريد الإلكتروني";
+$lang['document_staff_signature_text'] = "التوقيع (الموظف)";
 $lang['logo_image_with_url'] = "رابط صورة الشعار";
 $lang['branches_lowercase'] = "الفروع";
 $lang['client_zip'] = "الرمز البريدي";

@@ -1,5 +1,7 @@
 <?php
 
+$lang['total_salary'] = 'Total salary';
+
 $lang['add_insurance_type'] = 'Add insurance type';
 $lang['can_it_for_staff'] = 'Can it be for staff?';
 $lang['add_insurance_book_num'] = 'Add insurance book number';
@@ -3802,6 +3804,7 @@ $lang['not_viewed_yet'] = "This %s is not viewed yet by the customer";
 $lang['undo'] = "Undo";
 $lang['sign_document_validation'] = "Please sign the document.";
 $lang['document_customer_signature_text'] = "Signature (Customer)";
+$lang['document_staff_signature_text'] = "Signature (Staff)";
 $lang['accept_identity_confirmation_and_signature_sign'] = "Require digital signature and identity confirmation on accept";
 $lang['legal_bound_text'] = "Legal Bound Text";
 $lang['e_signature_sign'] = "Sign";

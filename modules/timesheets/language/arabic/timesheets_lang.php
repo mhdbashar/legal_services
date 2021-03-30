@@ -797,6 +797,7 @@ $lang['expense'] = 'مصروف لـ';
 $lang['include'] = 'يتضمن';
 $lang['please_complete_cost_information'] = 'الرجاء اكمال المعلومات';
 $lang['no_data_changes'] = 'لا يوجد بيانات تم تغييرها';
-
+$lang['Le_timekeeping'] = 'العطل';
+$lang['export_to_excel'] = 'التصدير إلى excel';
 
 

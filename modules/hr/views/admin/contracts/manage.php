@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body _buttons">
-                        <?php if(has_permission('contracts','','create')){ ?>
+                        <?php if(has_permission('hr_contracts','','create')){ ?>
                             <a href="<?php echo admin_url('hr/contracts/contract'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_contract'); ?></a>
                         <?php } ?>
                     </div>

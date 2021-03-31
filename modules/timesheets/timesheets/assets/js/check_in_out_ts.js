@@ -106,6 +106,12 @@
       response = JSON.parse(response);
       $('#attendance_history').html('');
       $('#attendance_history').html(response.html_list);
+         console.log(response.compare_with_now_date)
+      if(parseInt(response.compare_with_now_date) < 10){
+          $('.check_in').addClass('disabled').prop("disabled", true);
+      }else{
+          $('.check_in').removeClass('disabled').prop("disabled", false);
+      }
     });
    }
  }

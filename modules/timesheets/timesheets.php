@@ -337,6 +337,16 @@ function timesheets_load_js(){
 	if (!(strpos($viewuri, '/admin/timesheets/requisition_detail') === false)) {
 		echo '<script src="' . module_dir_url(TIMESHEETS_MODULE_NAME, 'assets/js/requisition_detail.js') . '?v=' . TIMESHEETS_REVISION.'"></script>';
 	}
+	if (!(strpos($viewuri, '/admin/timesheets/route_management?tab=map') === false)) {
+		$googlemap_api_key = '';
+		$api_key = get_timesheets_option('googlemap_api_key');
+		if($api_key){
+			$googlemap_api_key = $api_key;
+		}	
+		echo '<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>';
+		echo '<script src="https://maps.googleapis.com/maps/api/js?key='.$googlemap_api_key.'&callback=initMap&libraries=&v=weekly" defer></script>';
+		echo '<script src="' . module_dir_url(TIMESHEETS_MODULE_NAME, 'assets/js/route_point.js') . '?v=' . TIMESHEETS_REVISION.'"></script>';
+	}
 }
 
 function timesheets_add_head_components(){
@@ -470,7 +480,7 @@ function auto_checkout_cron(){
 	if($auto_checkout == 1){
 		$current_date = date('Y-m-d H:i:s');
 		$auto_checkout_type = get_timesheets_option('auto_checkout_type');
-		$result_list = $CI->timesheets_model->get_hour_auto_checkout_type($auto_checkout_type);		
+		$result_list = $CI->timesheets_model->get_hour_auto_checkout_type($auto_checkout_type);				
 		foreach ($result_list as $k_list => $item) {
 			if(strtotime($current_date) >= strtotime($item['effective_time'])){
 				$data['staff_id'] = $item['staffid'];

@@ -2244,13 +2244,13 @@ public function delete_shift($id){
 		if($month != ''){
 			$this->db->where('month_latch', $month);
 			$this->db->delete(db_prefix().'timesheets_latch_timesheet');
-
 			if ($this->db->affected_rows() > 0) {
 				$m = date('m', strtotime('01-'.$month));
-				$y = date('y', strtotime('01-'.$month));
+				$y = date('Y', strtotime('01-'.$month));
+				$this->db->where('month(date_work) = '.$m.' and year(date_work) = '.$y.' and type="NS"');
+				$this->db->delete(db_prefix().'timesheets_timesheet');
 				$this->db->where('month(date_work) = '.$m.' and year(date_work) = '.$y);
 				$this->db->update(db_prefix().'timesheets_timesheet', ['latch' => 0]);
-
 				return true;
 			}
 			return false;
@@ -4766,22 +4766,52 @@ public function get_timesheet($staffid='', $from_date, $to_date){
 						continue;
 					}
 
+					if($time_out > $start_lunch_break && $time_out < $end_lunch_break){
+						$time_out_ = $start_lunch_break;
+					}
+
+					if($time_in > $start_lunch_break && $time_in < $end_lunch_break){
+						$time_in_ = $end_lunch_break;
+					}
+
+					if($time_in_ < $start_lunch_break && $time_out_ > $end_lunch_break){
+						$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+					}
+					if($time_in_ == $start_lunch_break && $time_out_ == $end_lunch_break){
+						continue;
+					}
+					if($time_in_ == $start_lunch_break && $time_out_ > $end_lunch_break){
+						$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+					}
+					if($time_in_ < $start_lunch_break && $time_out_ == $end_lunch_break){
+						$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+					}
+
 					if($time_in < $start_work && $time_out > $start_work){
 						$time_in_ = $start_work;
 					}elseif($time_in > $start_work && $time_out > $start_work){
-						$late += round(abs($time_in - $start_work)/(60*60),2);
+						if($time_in >= $start_lunch_break && $time_in <= $end_lunch_break){
+							$time_in = $start_lunch_break;
+						}
+						$lunch_time_s = 0;
+						if($time_in > $end_lunch_break){
+							$lunch_time_s = $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+						}
+						$late += round(abs($time_in - $start_work)/(60*60),2) - $lunch_time_s;
 					}
 
 					if($time_out > $end_work && $time_in < $end_work){
 						$time_out_ = $end_work;
 					}elseif($time_out < $end_work && $time_in < $end_work){
-						$early += round(abs($time_out - $end_work)/(60*60),2);
+						if($time_out >= $start_lunch_break && $time_out <= $end_lunch_break){
+							$time_out = $end_lunch_break;
+						}
+						$lunch_time_s = 0;
+						if($time_out < $end_lunch_break){
+							$lunch_time_s = $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+						}
+						$early += round(abs($time_out - $end_work)/(60*60),2) - $lunch_time_s;
 					}
-
-					if($time_out_ >= $end_lunch_break){
-						$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
-					}
-
 					$hour += round(abs($time_out_ - $time_in_)/(60*60),2);
 				}  
 			}
@@ -5520,7 +5550,6 @@ public function default_settings($data){
 	}
 	public function add_check_in_out_value_to_timesheet($staff_id, $date){
 		$data_check_in_out = $this->get_list_check_in_out($date, $staff_id);
-		$hour_shift_total =  $this->get_hour_shift_staff($staff_id, $date);
 		$check_in_date = '';
 		$check_out_date = '';
 		$total_work_hours = 0;
@@ -5528,23 +5557,21 @@ public function default_settings($data){
 		foreach ($data_check_in_out as $key => $value) 
 		{
 			if($value['type_check'] == 2){  
-				$check_in_date = $value['date'];
+				$check_out_date = $value['date'];
 				if($next_key == $key){
 					if($check_out_date != '' && $check_in_date != ''){
-						$total_work_hours += $this->get_hour($check_in_date, $check_out_date); 
+						$data_hour = $this->calculate_attendance_timesheets($staff_id, $check_in_date, $check_out_date);
+						$total_work_hours += $data_hour->working_hour; 
 					}
 				}
 			}
 			if($value['type_check'] == 1){  
-				$check_out_date = $value['date'];
+				$check_in_date = $value['date'];
 				$next_key = $key+1;
 			}
 		}
+		$data_ts = $this->get_ts_staff($staff_id, $date, 'W');
 		if($total_work_hours > 0){
-			if($total_work_hours > $hour_shift_total){
-				$total_work_hours = $hour_shift_total;
-			}
-			$data_ts = $this->get_ts_staff($staff_id, $date, 'W');
 			if($data_ts){
 				$this->db->where('id', $data_ts->id);
 				$this->db->update(db_prefix() . 'timesheets_timesheet', [
@@ -5564,6 +5591,15 @@ public function default_settings($data){
 				$this->db->insert(db_prefix() . 'timesheets_timesheet', $data_insert);   
 				$insert_id = $this->db->insert_id();
 				if($insert_id){
+					return true;
+				}
+			}
+		}
+		else{
+			if($data_ts){
+				$this->db->where('id', $data_ts->id);
+				$this->db->delete(db_prefix() . 'timesheets_timesheet');
+				if ($this->db->affected_rows() > 0) {
 					return true;
 				}
 			}
@@ -7249,5 +7285,111 @@ public function get_data_attendance_export($month_filter, $department_filter, $r
 	}
 	return $staff_row_tk;
 }
+
+/**
+ * automatic insert timesheets
+ *
+ * @param      int   $staffid   the staffid
+ * @param      datetime  $time_in   the time in
+ * @param      datetime  $time_out  the time out
+ *
+ * @return     boolean
+ */
+public function calculate_attendance_timesheets($staffid, $time_in, $time_out){ 
+	$obj = new stdclass();
+	$obj->working_hour = 0;
+	$obj->late_hour = 0;
+	$obj->early_hour = 0;
+	$date_work = date('Y-m-d', strtotime($time_in));
+	$work_time = $this->get_hour_shift_staff($staffid , $date_work);  
+	$affectedrows = 0;
+	if($work_time > 0 && $work_time != ''){
+		$list_shift = $this->get_shift_work_staff_by_date($staffid, $date_work);
+
+		$d1 = strtotime($this->format_date_time($time_in));
+		$d2 = strtotime($this->format_date_time($time_out)); 
+		if($d1 > $d2){
+			$temp = $time_in;
+			$time_in = $time_out;
+			$time_out = $temp;
+		}
+		$hour1 = explode(' ', $time_in);
+		$hour2 = explode(' ', $time_out);
+		$time_in = strtotime($hour1[1]);
+		$time_out = strtotime($hour2[1]);
+
+		$hour = 0;
+		$late = 0;
+		$early = 0;
+		$lunch_time = 0;
+		foreach ($list_shift as $shift) {
+			$data_shift_type = $this->timesheets_model->get_shift_type($shift);
+
+			$time_in_ = $time_in;
+			$time_out_ = $time_out;
+
+			if($data_shift_type){
+				$start_work = strtotime($data_shift_type->time_start_work);
+				$end_work = strtotime($data_shift_type->time_end_work);
+				$start_lunch_break = strtotime($data_shift_type->start_lunch_break_time);
+				$end_lunch_break = strtotime($data_shift_type->end_lunch_break_time); 
+				if($time_out < $start_work){
+					continue;
+				}
+				if($time_out > $start_lunch_break && $time_out < $end_lunch_break){
+					$time_out_ = $start_lunch_break;
+				}
+				if($time_in > $start_lunch_break && $time_in < $end_lunch_break){
+					$time_in_ = $end_lunch_break;
+				}
+				if($time_in_ < $start_lunch_break && $time_out_ > $end_lunch_break){
+					$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+				}
+				if($time_in_ == $start_lunch_break && $time_out_ == $end_lunch_break){
+					continue;
+				}
+				if($time_in_ == $start_lunch_break && $time_out_ > $end_lunch_break){
+					$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+				}
+				if($time_in_ < $start_lunch_break && $time_out_ == $end_lunch_break){
+					$lunch_time += $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+				}
+
+				if($time_in < $start_work && $time_out > $start_work){
+					$time_in_ = $start_work;
+				}elseif($time_in > $start_work && $time_out > $start_work){
+					if($time_in >= $start_lunch_break && $time_in <= $end_lunch_break){
+						$time_in = $start_lunch_break;
+					}
+					$lunch_time_s = 0;
+					if($time_in > $end_lunch_break){
+						$lunch_time_s = $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+					}
+					$late += round(abs($time_in - $start_work)/(60*60),2) - $lunch_time_s;
+				}
+
+				if($time_out > $end_work && $time_in < $end_work){
+					$time_out_ = $end_work;
+				}elseif($time_out < $end_work && $time_in < $end_work){
+					if($time_out >= $start_lunch_break && $time_out <= $end_lunch_break){
+						$time_out = $end_lunch_break;
+					}
+					$lunch_time_s = 0;
+					if($time_out < $end_lunch_break){
+						$lunch_time_s = $this->get_hour($data_shift_type->start_lunch_break_time, $data_shift_type->end_lunch_break_time);
+					}
+					$early += round(abs($time_out - $end_work)/(60*60),2) - $lunch_time_s;
+				}
+				$hour += round(abs($time_out_ - $time_in_)/(60*60),2);
+			}  
+		}
+		$value = abs($hour - $lunch_time);
+		$obj->working_hour = $value;
+		$obj->late_hour = $late;
+		$obj->early_hour = $early;
+		return $obj;
+	}
+}
+
 
 }

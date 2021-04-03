@@ -237,3 +237,43 @@ function hr_init_relation_tasks_table($table_attributes = [])
 
     return $table;
 }
+
+/**
+ * Check the contract view restrictions
+ *
+ * @param  int $id
+ * @param  string $hash
+ *
+ * @return void
+ */
+function check_hr_contract_restrictions($id, $hash)
+{
+    $CI = &get_instance();
+    $CI->load->model('hr_contracts_model');
+
+    if (!$hash || !$id) {
+        show_404();
+    }
+
+    if (!is_client_logged_in() && !is_staff_logged_in()) {
+        if (get_option('view_contract_only_logged_in') == 1) {
+            redirect_after_login_to_current_url();
+            redirect(site_url('authentication/login'));
+        }
+    }
+
+    $contract = $CI->hr_contracts_model->get($id);
+
+    if (!$contract || ($contract->hash != $hash)) {
+        show_404();
+    }
+
+    // Do one more check
+    if (!is_staff_logged_in()) {
+        if (get_option('view_contract_only_logged_in') == 1) {
+            if ($contract->client != get_staff_user_id()) {
+                show_404();
+            }
+        }
+    }
+}

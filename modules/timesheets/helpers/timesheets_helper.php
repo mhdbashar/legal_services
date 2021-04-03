@@ -294,7 +294,11 @@ function address2geo($address){
     }
     return '';
 }
-
+/**
+ * get workplace name
+ * @param  $workplace_id 
+ * @return string $name             
+ */
 function get_workplace_name($workplace_id){
     $CI = &get_instance();
     $data = $CI->timesheets_model->get_workplace($workplace_id);

@@ -89,11 +89,37 @@ class Contracts extends AdminController
             $data['contract']                 = $this->hr_contracts_model->get($id, [], true);
             $data['contract_renewal_history'] = $this->hr_contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'hr_contract']);
-            if (!$data['contract'] || (!has_permission('hr_contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
+            if (!$data['contract'] || (!has_permission('hr_contracts', '', 'view') && $data['contract']->client != get_staff_user_id() && $data['contract']->addedfrom != get_staff_user_id())) {
                 blank_page(_l('contract_not_found'));
             }
 
-            $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'staff'], '{email_signature}');
+            $contract_merge_fields = $this->app_merge_fields->get_flat('contract', ['other', 'staff'], '{email_signature}');
+
+            $salary_merge_fileds = [
+                'name' => _l('salary'),
+                'key' => '{salary}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
+            $allowance_merge_fileds = [
+                'name' => _l('allowances'),
+                'key' => '{allowances}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
+            $total_salary_merge_fileds = [
+                'name' => _l('total_salary'),
+                'key' => '{total_salary}',
+                'fromoption' => 1,
+                'avilable' => [],
+                'format' => []
+            ];
+            $contract_merge_fields[0][] = $salary_merge_fileds;
+            $contract_merge_fields[0][] = $total_salary_merge_fileds;
+            $contract_merge_fields[0][] = $allowance_merge_fileds;
+            $data['contract_merge_fields'] = $contract_merge_fields;
 
             $title = $data['contract']->subject;
 
@@ -123,7 +149,7 @@ class Contracts extends AdminController
 
     public function mark_as_signed($id)
     {
-        if (!staff_can('edit', 'contracts')) {
+        if (!staff_can('edit', 'hr_contracts')) {
             access_denied('mark contract as signed');
         }
 
@@ -134,7 +160,7 @@ class Contracts extends AdminController
 
     public function unmark_as_signed($id)
     {
-        if (!staff_can('edit', 'contracts')) {
+        if (!staff_can('edit', 'hr_contracts')) {
             access_denied('mark contract as signed');
         }
 

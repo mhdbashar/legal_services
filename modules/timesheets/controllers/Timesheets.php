@@ -191,6 +191,8 @@ class timesheets extends AdminController
 	 * @return view
 	 */
 	public function timekeeping(){
+
+
 		if (!(has_permission('attendance_management', '', 'view_own') || has_permission('attendance_management', '', 'view') || is_admin())) {          
 			access_denied('timekeeping');
 		}
@@ -367,7 +369,6 @@ public function day_off(){
 		if($this->input->post()){
 			$data = $this->input->post();
 			if(isset($data)){
-
 				if($data['latch'] == 1){
 					if(isset($data['month']) && $data['month'] != ""){
 						$data_month = explode("-", $data['month']);
@@ -1224,37 +1225,37 @@ public function add_requisition_ajax(){
 			}
 		}
 
-		
-		$ws_day ='';
-		$color = '';
-		$list_shift = $this->timesheets_model->get_shift_work_staff_by_date($data['staffid'], $time);
+		if(!($value[0] == 'HO' || $value[0] == 'EB' || $value[0] == 'UB')){
+			$ws_day ='';
+			$color = '';
+			$list_shift = $this->timesheets_model->get_shift_work_staff_by_date($data['staffid'], $time);
+			foreach ($list_shift as $ss) {
+				$data_shift_type = $this->timesheets_model->get_shift_type($ss);
+				if($data_shift_type){
+					$ws_day .= '<li class="list-group-item justify-content-between">'._l('work_times').': '.$data_shift_type->time_start_work.' - '.$data_shift_type->time_end_work.'</li><li class="list-group-item justify-content-between">'._l('lunch_break').': '.$data_shift_type->start_lunch_break_time.' - '.$data_shift_type->end_lunch_break_time.'</li>';
+				}  
+			}
 
-		foreach ($list_shift as $ss) {
-			$data_shift_type = $this->timesheets_model->get_shift_type($ss);
-			if($data_shift_type){
-				$ws_day .= '<li class="list-group-item justify-content-between">'._l('work_times').': '.$data_shift_type->time_start_work.' - '.$data_shift_type->time_end_work.'</li><li class="list-group-item justify-content-between">'._l('lunch_break').': '.$data_shift_type->start_lunch_break_time.' - '.$data_shift_type->end_lunch_break_time.'</li>';
-			}  
-		}
-
-		if($ws_day != ''){
-			$html .= $ws_day;
-		}
-		$access_history_string = '';
-		$access_history = $this->timesheets_model->get_list_check_in_out( $time,$data['staffid']);
-		if($access_history){
-			foreach ($access_history as $key => $value) {
-				if($value['type_check'] == '1'){
-					$access_history_string .= '<li class="list-group-item"><i class="fa fa-sign-in text-success" aria-hidden="true"></i> '._dt($value['date']).'</li>';
-				}else{
-					$access_history_string .= '<li class="list-group-item"><i class="fa fa-sign-out text-danger" aria-hidden="true"></i> '._dt($value['date']).'</li>';
+			if($ws_day != ''){
+				$html .= $ws_day;
+			}
+			$access_history_string = '';
+			$access_history = $this->timesheets_model->get_list_check_in_out( $time,$data['staffid']);
+			if($access_history){
+				foreach ($access_history as $key => $value) {
+					if($value['type_check'] == '1'){
+						$access_history_string .= '<li class="list-group-item"><i class="fa fa-sign-in text-success" aria-hidden="true"></i> '._dt($value['date']).'</li>';
+					}else{
+						$access_history_string .= '<li class="list-group-item"><i class="fa fa-sign-out text-danger" aria-hidden="true"></i> '._dt($value['date']).'</li>';
+					}
 				}
 			}
-		}
-		if($access_history_string != ''){
-			$html .= '<li class="list-group-item justify-content-between"><ul class="list-group">
-			<li class="list-group-item active">'._l('access_history').'</li>
-			'.$access_history_string.'
-			</ul></li>';
+			if($access_history_string != ''){
+				$html .= '<li class="list-group-item justify-content-between"><ul class="list-group">
+				<li class="list-group-item active">'._l('access_history').'</li>
+				'.$access_history_string.'
+				</ul></li>';
+			}
 		}
 		echo json_encode([
 			'title' => $title,
@@ -3577,7 +3578,7 @@ public function get_data_additional_timesheets($id){
 			}
 		}
 		else{
-			$day_list = ["Mon","Tue","Web","Thu","Fri","Sat","Sun"];
+			$day_list = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 			if($stafflist){                        
 				array_push($data_day_by_month, 'staffid');
 				array_push($data_day_by_month, _l('staff'));
@@ -4495,6 +4496,7 @@ function get_custom_type_shiftwork(){
 				$data_check_in_out = $this->timesheets_model->get_list_check_in_out($split_date[0], $data['staff_id']);
 				$html_list = '';
 				$type_check_in_out = '';
+				$compare_with_now_date = '';
 				foreach ($data_check_in_out as $key => $value) {
 					$type_check_in_out = $value['type_check'];
 					$alert_type = 'alert-success';
@@ -4504,11 +4506,13 @@ function get_custom_type_shiftwork(){
 						$alert_type = 'alert-warning';
 					}
 					$html_list .= '<div class="row"><div class="col-md-12"><div class="alert '.$alert_type.'">'.$type_check.': '._dt($value['date']).'</div></div></div>';
+                    $compare_with_now_date = date('i', strtotime(date('Y-m-d H:i:s')) - strtotime(($value['date'])));
 				} 
 				echo json_encode([
 					'html_list' => $html_list,
 					'allows_updating_check_in_time' => $allows_updating_check_in_time,
-					'type_check_in_out' => $type_check_in_out
+					'type_check_in_out' => $type_check_in_out,
+                    'compare_with_now_date' => $compare_with_now_date
 				]);
 				die;
 			}

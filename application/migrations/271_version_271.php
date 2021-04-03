@@ -117,8 +117,8 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`j_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept`
-              ADD KEY `CourtJudKey` (`c_id`);");
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` CHANGE `Jud_number` `Jud_number` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` ADD KEY `CourtJudKey` (`c_id`);");
             $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `".db_prefix()."my_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;
               ");
 
@@ -1274,22 +1274,22 @@ class Migration_Version_271 extends CI_Migration
         }
 
 
-            if (!$this->db->table_exists(db_prefix() . 'written_reports')) {
-              $this->db->query('CREATE TABLE `' . db_prefix() .  'written_reports` (
-                    `id` int(11) NOT NULL,
-                    `report` text NOT NULL,
-                    `addedfrom` int(11) NOT NULL,
-                    `updatedfrom` int(11) DEFAULT NULL,
-                    `created_at` datetime NOT NULL,
-                    `updated_at` datetime DEFAULT NULL,
-                    `rel_id` int(11) DEFAULT NULL,
-                    `rel_type` varchar(30) DEFAULT NULL,
-                    `editable` int(11) NOT NULL DEFAULT "1"
-                  ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
-  
-              $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");
-              $this->db->query("ALTER TABLE ".db_prefix()."written_reports MODIFY `id` int(11) NOT NULL AUTO_INCREMENT");
-          }
+//            if (!$this->db->table_exists(db_prefix() . 'written_reports')) {
+//              $this->db->query('CREATE TABLE `' . db_prefix() .  'written_reports` (
+//                    `id` int(11) NOT NULL,
+//                    `report` text NOT NULL,
+//                    `addedfrom` int(11) NOT NULL,
+//                    `updatedfrom` int(11) DEFAULT NULL,
+//                    `created_at` datetime NOT NULL,
+//                    `updated_at` datetime DEFAULT NULL,
+//                    `rel_id` int(11) DEFAULT NULL,
+//                    `rel_type` varchar(30) DEFAULT NULL,
+//                    `editable` int(11) NOT NULL DEFAULT "1"
+//                  ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
+//
+//              $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");
+//              $this->db->query("ALTER TABLE ".db_prefix()."written_reports MODIFY `id` int(11) NOT NULL AUTO_INCREMENT");
+//          }
 
 
         $written_report_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'written_report']);

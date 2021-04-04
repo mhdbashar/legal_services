@@ -1,9 +1,16 @@
 
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<?php
-
-?>
+<style>
+    .h5-color {
+        color: #d8341b;
+    }
+    .hr-color {
+        margin-top: 10px;
+        border-bottom: 0.5px solid;
+        color: #d8341b;
+    }
+</style>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -31,14 +38,14 @@
 									    	</div>
 
 	            			<?php	} ?>
-                            <hr />
+                            <h5 class="h5-color"><?php echo _l('hr_contract_prefix'); ?></h5>
+                            <hr class="hr-color">
                             <?php echo render_input('hr_contract_prefix','hr_contract_prefix',get_option('hr_contract_prefix')); ?>
-                            <hr />
                             <?php echo render_input('next_hr_contract_number','next_hr_contract_number',get_option('next_hr_contract_number')); ?>
 
-                            <hr />
+                            <h5 class="h5-color"><?php echo _l('hr_staff_prefix'); ?></h5>
+                            <hr class="hr-color">
                             <?php echo render_input('hr_staff_prefix','hr_staff_prefix',get_option('hr_staff_prefix')); ?>
-                            <hr />
                             <?php echo render_input('next_hr_staff_number','next_hr_staff_number',get_option('next_hr_staff_number')); ?>
 
                             <div class="btn-bottom-toolbar text-right">

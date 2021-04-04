@@ -30,11 +30,18 @@
 									        </div>
 									    	</div>
 
-	            					
-	            					<br>
 	            			<?php	} ?>
                             <hr />
-	            			<div class="btn-bottom-toolbar text-right">
+                            <?php echo render_input('hr_contract_prefix','hr_contract_prefix',get_option('hr_contract_prefix')); ?>
+                            <hr />
+                            <?php echo render_input('next_hr_contract_number','next_hr_contract_number',get_option('next_hr_contract_number')); ?>
+
+                            <hr />
+                            <?php echo render_input('hr_staff_prefix','hr_staff_prefix',get_option('hr_staff_prefix')); ?>
+                            <hr />
+                            <?php echo render_input('next_hr_staff_number','next_hr_staff_number',get_option('next_hr_staff_number')); ?>
+
+                            <div class="btn-bottom-toolbar text-right">
 						          <button type="submit" class="btn btn-info">
 						            <?php echo _l('settings_save'); ?>
 						          </button>

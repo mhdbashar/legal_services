@@ -1,5 +1,11 @@
 <?php
 
+
+$lang['hr_contract_prefix'] = 'لاحقة العقد';
+$lang['next_hr_contract_number'] = 'رقم لاحقة العقد';
+$lang['hr_staff_prefix'] = 'لاحقة الموظف';
+$lang['next_hr_staff_number'] = 'رقم لاحقة الموظف';
+
 $lang['total_salary'] = 'الراتب الكامل';
 $lang['add_insurance_type'] = 'اضافة نوع تأمين';
 $lang['can_it_for_staff'] = 'هل يمكن التطبيق على الموظف؟';

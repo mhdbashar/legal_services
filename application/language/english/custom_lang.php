@@ -1,5 +1,10 @@
 <?php
 
+$lang['hr_contract_prefix'] = 'Hr contract prefix';
+$lang['next_hr_contract_number'] = 'Next hr contract number';
+$lang['hr_staff_prefix'] = 'Staff prefix';
+$lang['next_hr_staff_number'] = 'Next staff number';
+
 $lang['total_salary'] = 'Total salary';
 
 $lang['add_insurance_type'] = 'Add insurance type';

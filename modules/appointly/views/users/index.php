@@ -38,7 +38,7 @@
                                 echo '<hr>';
                                 ?>
                                 <?php if (staff_can('create', 'appointments') || staff_appointments_responsible()) { ?>
-                                    <button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#typesModal"><?= _l('appointments_type_add'); ?></button>
+                                    <button type="button" class="btn btn-xs btn-info btn-xs pull-right" data-toggle="modal" data-target="#typesModal"><?= _l('appointments_type_add'); ?></button>
                                     <label for="appointly_default_table_filter" class="control-label font-medium"><?= _l('appointments_type_heading'); ?></label>
                                     <hr>
                                     <div class="clearfix"></div>
@@ -46,7 +46,7 @@
                                         <?php foreach (get_appointment_types() as $type) { ?>
                                             <div class="mright20" id="aptype_<?= $type['id']; ?>">
                                                 <?php if (staff_can('delete', 'appointments') || staff_appointments_responsible()) : ?>
-                                                    <a href="#" class="btn btn-danger pull-right delete_apppointment_type" onclick="delete_appointment_type(<?= $type['id']; ?>); return false;"><i class="fa fa-times"></i></a>
+                                                    <a href="#" class="btn btn-xs btn-danger pull-right delete_apppointment_type" onclick="delete_appointment_type(<?= $type['id']; ?>); return false;"><i class="fa fa-times"></i></a>
                                                 <?php endif; ?>
                                                 <?php echo render_color_picker('type_id_' . $type['id'], $type['type'], $type['color']); ?>
                                             </div>
@@ -55,7 +55,7 @@
                                 <?php } ?>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-info btn-xs"><?= _l('submit'); ?></button>
+                            <button type="submit" class="btn btn-xs btn-info btn-xs"><?= _l('submit'); ?></button>
                         </div>
                         </form>
                     </div>
@@ -80,8 +80,8 @@
                     <?php echo render_color_picker('color',  _l('appointments_type_add_calendar_label')); ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= _l('close') ?></button>
-                    <button type="submit" class="btn btn-primary"><?= _l('save'); ?></button>
+                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal"><?= _l('close') ?></button>
+                    <button type="submit" class="btn btn-xs btn-primary"><?= _l('save'); ?></button>
                 </div>
             </div>
         </div>

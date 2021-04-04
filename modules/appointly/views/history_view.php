@@ -25,25 +25,35 @@ init_head();
                     <div class="panel_s">
                          <div class="panel-body">
                               <div class="_buttons">
-                                   <a href="#" class="btn btn-default btn-with-tooltip toggle-small-view hidden-xs pull-right hidden" id="toggleTableBtn" onclick="toggle_appointment_table_view(); return false;" data-toggle="tooltip" title="" data-original-title="Toggle Table"><i class="fa fa-angle-double-right"></i></a>
-                                   <a href="<?= admin_url('appointly/appointments'); ?>" class="btn btn-info pull-left display-block mleft10">
+                                   <a href="#" class="btn btn-xs btn-default btn-with-tooltip toggle-small-view hidden-xs pull-right hidden" id="toggleTableBtn" onclick="toggle_appointment_table_view(); return false;" data-toggle="tooltip" title="" data-original-title="Toggle Table">
+                                        <i class="fa fa-angle-double-right"></i>
+                                   </a>
+                                   <a href="<?= admin_url('appointly/appointments'); ?>" class="btn btn-xs btn-info pull-left display-block mleft10">
                                         <?= _l('appointments'); ?>
                                    </a>
-                                   <a href="<?= admin_url('appointly/callbacks'); ?>" id="backToAppointments" class="btn btn-info pull-left display-block mleft10">
+                                   <a href="<?= admin_url('appointly/callbacks'); ?>" id="backToAppointments" class="btn btn-xs btn-info pull-left display-block mleft10">
                                         <?= _l('appointly_callbacks'); ?>
                                    </a>
                               </div>
                               <div class="clearfix"></div>
                               <hr class="hr-panel-heading" />
                               <?php render_datatable([
-                                   _l('id'),
-                                   _l('appointment_subject'),
+                                   [
+                                        'th_attrs' => ['width' => '10px'],
+                                        'name' => _l('id')
+                                   ],
+                                   [
+                                        'th_attrs' => ['width' => '350px'],
+                                        'name' => _l('appointment_subject')
+                                   ],
                                    _l('appointment_meeting_date'),
                                    _l('appointment_initiated_by'),
                                    _l('appointment_description'),
-                                   _l('appointment_status'),
                                    _l('appointment_source'),
-                                   _l('options'),
+                                   [
+                                        'th_attrs' => ['width' => '120px'],
+                                        'name' =>  _l('appointments_table_calendar')
+                                   ]
                               ], 'appointments-history'); ?>
                          </div>
                     </div>

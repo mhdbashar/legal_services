@@ -11,6 +11,28 @@ class Clients extends ClientsController
      */
     use ValidatesContact;
 
+    private $project_settings = [
+            'available_features',
+            'view_tasks',
+            'create_tasks',
+            'edit_tasks',
+            'comment_on_tasks',
+            'view_task_comments',
+            'view_task_attachments',
+            'view_task_checklist_items',
+            'upload_on_tasks',
+            'view_task_total_logged_time',
+            'view_finance_overview',
+            'upload_files',
+            'open_discussions',
+            'view_milestones',
+            'view_gantt',
+            'view_timesheets',
+            'view_activity_log',
+            'view_team_members',
+            'hide_tasks_on_main_tasks_table',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -19,7 +41,545 @@ class Clients extends ClientsController
         $this->load->model('LegalServices/Other_services_model', 'other');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
         $this->load->model('procurations_model', 'procurations');
+        $this->load->model('LegalServices/Imported_services_model', 'imported');
         hooks()->do_action('after_clients_area_init', $this);
+    }
+
+    private function set_upload_options($id)
+    {
+        //upload an image options'
+
+        $accept = "jpg|png|pdf|doc|zip|rar|image|jpeg|png|pdf|msword|docs";
+        $config = array();
+        $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$id;
+        $config['allowed_types'] = $accept;
+        $config['max_size']      = '0';
+        $config['overwrite']     = FALSE;
+        $config['remove_spaces'] = FALSE;
+
+        return $config;
+    }
+
+    public function remove_file($project_id, $id)
+    {
+        $this->imported->remove_file($project_id, $id);
+        redirect(site_url('clients/imported_service/'.$project_id. '?group=project_files'));
+    }
+
+    public function imported_edit($id) {
+        if($this->input->post()){
+            $data = $this->input->post();
+            if($this->imported->update($id, $data))
+                redirect(site_url('clients/imported_service/'.$id));
+        }
+        $data['imported'] = $this->imported->get($id);
+        $data['title']  = _l('projects');
+        $this->data($data);
+        $this->view('imported_edit');
+        $this->layout();
+    }
+
+    public function imported_add() {
+
+        if($this->input->post()){
+            $data = $this->input->post();
+            $success = $this->imported->add(get_client_user_id(), $data);
+
+            $available_features = $this->db->get("tbloservice_settings")->row_array()['value'];
+
+            $this->db->insert(db_prefix() . 'iservice_settings', [
+                'oservice_id' => $success,
+                'name' => 'available_features',
+                'value' => $available_features,
+            ]);
+            $original_settings = $this->project_settings;
+
+            foreach ($original_settings as $setting) {
+                if ($setting != 'available_features'){
+                    $value_setting = 0;
+                    $this->db->insert(db_prefix() . 'iservice_settings', [
+                        'oservice_id' => $success,
+                        'name' => $setting,
+                        'value' => $value_setting,
+                    ]);
+                }
+            }
+
+            if($success){
+                if(!file_exists('uploads/imported_services/'.$success)){
+                    mkdir(FCPATH.'uploads/imported_services/'.$success, 0755);
+                }
+                $countfiles = count($_FILES['attachments']['name']);
+                $files = $_FILES;
+
+                for($i=0;$i<$countfiles;$i++){
+
+                    $_FILES = $files;
+
+                    if(!empty($_FILES['attachments']['name'][$i])){
+                        // Define new $_FILES array - $_FILES['file']
+                        $_FILES['attachments'.$i]['name'] = $files['attachments']['name'][$i];
+                        $_FILES['attachments'.$i]['type'] = $files['attachments']['type'][$i];
+                        $_FILES['attachments'.$i]['tmp_name'] = $files['attachments']['tmp_name'][$i];
+                        $_FILES['attachments'.$i]['error'] = $files['attachments']['error'][$i];
+                        $_FILES['attachments'.$i]['size'] = $files['attachments']['size'][$i];
+
+
+                        // Set preference
+                        $accept = "jpg|png|pdf|doc|zip|rar|image|jpeg|png|pdf|msword|docs";
+                        $config['upload_path'] = FCPATH . 'uploads/imported_services/'.$success;
+                        $config['allowed_types'] = $accept;
+                        $config['max_size'] = '5000'; // max_size in kb
+                        $config['remove_spaces'] = FALSE;
+                        $config['file_name'] = $_FILES['attachments']['name'][$i];
+
+                        //Load upload library
+                        $this->load->library('upload',$config);
+
+                        // File upload
+                        $this->upload->initialize($this->set_upload_options($success));
+                        if($this->upload->do_upload('attachments'.$i)){
+                            $data = array('upload_data' => $this->upload->data());
+                            // Get data about the file
+                            $uploadData = $this->upload->data();
+                            $filename = $uploadData['file_name'];
+
+                            $file_data = [
+                                'file_name' => $config['file_name'],
+                                'subject' => $config['file_name'],
+                                'description' => '',
+                                'filetype' => $uploadData['file_type'],
+                                'dateadded' => date('Y-m-d H:i:s'),
+                                'last_activity' => '',
+                                'iservice_id' => $success,
+                                'visible_to_customer' => 0,   //$value['visible_to_customer'],
+                                'staffid' => 0,    //$value['staffid'],
+                                'contact_id' => 0,   //$value['contact_id'],
+                                'external' => '',
+                                'external_link' => '',
+                            ];
+
+
+                            $this->db->insert('tbliservice_files', $file_data);
+
+                            // Initialize array
+                            $data['filenames'][] = $filename;
+                        }else {
+                            $error = array('error' => $this->upload->display_errors());
+                        }
+                    }
+
+                }
+                // alert('success', _l('added_successfully'));
+                redirect(site_url('clients/imported_service/'.$success));
+            }else{
+                // alert('warning', _l('problem'));
+                redirect(site_url('clients/clients/imported/'));
+            }
+        }
+        $data['title']  = _l('projects');
+        $this->data($data);
+        $this->view('imported_add');
+        $this->layout();
+    }
+
+    public function imported($status = '')
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+        $data['project_statuses'] = $this->other->get_project_statuses();
+        $where = 'clientid=' . get_client_user_id();
+
+        if (is_numeric($status)) {
+            $where .= ' AND status=' . $status;
+        } else {
+            $listStatusesIds = [];
+            $where .= ' AND status IN (';
+            foreach ($data['project_statuses'] as $projectStatus) {
+                if (isset($projectStatus['filter_default']) && $projectStatus['filter_default'] == true) {
+                    $listStatusesIds[] = $projectStatus['id'];
+                    $where .= $projectStatus['id'] . ',';
+                }
+            }
+            $where = rtrim($where, ',');
+            $where .= ')';
+        }
+
+        $data['list_statuses'] = is_numeric($status) ? [$status] : $listStatusesIds;
+        $slug = 'imported_services';
+        $data['projects'] = $this->other->get_imported('', ['clientid' => get_client_user_id()]);
+        $data['ServID'] = 0;
+        $data['slug'] = $slug;
+        $data['title']  = _l('clients_my_legal');
+        $this->data($data);
+        $this->view('imported_services');
+        $this->layout();
+    }
+
+    public function imported_service($id)
+    {
+        if (!has_contact_permission('projects')) {
+            set_alert('warning', _l('access_denied'));
+            redirect(site_url());
+        }
+
+        $project = $this->other->get_imported($id, [
+            'clientid' => get_client_user_id(),
+        ]);
+
+        if (!$project) {
+            show_404();
+        }
+
+        $data['project']                               = $project;
+        $data['project']->settings->available_features = '';
+
+        $data['title'] = $data['project']->name;
+        $slug = 'imported_services';
+        if ($this->input->post('action')) {
+            $action = $this->input->post('action');
+
+            switch ($action) {
+                case 'new_task':
+                case 'edit_task':
+
+                    $data    = $this->input->post();
+                    $task_id = false;
+                    if (isset($data['task_id'])) {
+                        $task_id = $data['task_id'];
+                        unset($data['task_id']);
+                    }
+
+                    $data['rel_type']    = 'project';
+                    $data['rel_id']      = $project->id;
+                    $data['description'] = nl2br($data['description']);
+
+                    $assignees = isset($data['assignees']) ? $data['assignees'] : [];
+                    if (isset($data['assignees'])) {
+                        unset($data['assignees']);
+                    }
+                    unset($data['action']);
+
+                    if (!$task_id) {
+                        $task_id = $this->tasks_model->add($data, true);
+                        if ($task_id) {
+                            foreach ($assignees as $assignee) {
+                                $this->tasks_model->add_task_assignees(['taskid' => $task_id, 'assignee' => $assignee], false, true);
+                            }
+                            $uploadedFiles = handle_task_attachments_array($task_id);
+                            if ($uploadedFiles && is_array($uploadedFiles)) {
+                                foreach ($uploadedFiles as $file) {
+                                    $file['contact_id'] = get_contact_user_id();
+                                    $this->misc_model->add_attachment_to_database($task_id, 'task', [$file]);
+                                }
+                            }
+                            set_alert('success', _l('added_successfully', _l('task')));
+                            redirect(site_url('clients/project/' . $project->id . '?group=project_tasks&taskid=' . $task_id));
+                        }
+                    } else {
+                        if ($project->settings->edit_tasks == 1
+                            && total_rows(db_prefix() . 'tasks', ['is_added_from_contact' => 1, 'addedfrom' => get_contact_user_id()]) > 0) {
+                            $affectedRows = 0;
+                            $updated      = $this->tasks_model->update($data, $task_id, true);
+                            if ($updated) {
+                                $affectedRows++;
+                            }
+
+                            $currentAssignees    = $this->tasks_model->get_task_assignees($task_id);
+                            $currentAssigneesIds = [];
+                            foreach ($currentAssignees as $assigned) {
+                                array_push($currentAssigneesIds, $assigned['assigneeid']);
+                            }
+
+                            $totalAssignees = count($assignees);
+
+                            /**
+                             * In case when contact created the task and then was able to view team members
+                             * Now in this case he still can view team members and can edit them
+                             */
+                            if ($totalAssignees == 0 && $project->settings->view_team_members == 1) {
+                                $this->db->where('taskid', $task_id);
+                                $this->db->delete(db_prefix() . 'task_assigned');
+                            } elseif ($totalAssignees > 0 && $project->settings->view_team_members == 1) {
+                                foreach ($currentAssignees as $assigned) {
+                                    if (!in_array($assigned['assigneeid'], $assignees)) {
+                                        if ($this->tasks_model->remove_assignee($assigned['id'], $task_id)) {
+                                            $affectedRows++;
+                                        }
+                                    }
+                                }
+                                foreach ($assignees as $assignee) {
+                                    if (!$this->tasks_model->is_task_assignee($assignee, $task_id)) {
+                                        if ($this->tasks_model->add_task_assignees(['taskid' => $task_id, 'assignee' => $assignee], false, true)) {
+                                            $affectedRows++;
+                                        }
+                                    }
+                                }
+                            }
+                            if ($affectedRows > 0) {
+                                set_alert('success', _l('updated_successfully', _l('task')));
+                            }
+                            redirect(site_url('clients/project/' . $project->id . '?group=project_tasks&taskid=' . $task_id));
+                        }
+                    }
+
+                    redirect(site_url('clients/project/' . $project->id . '?group=project_tasks'));
+
+                    break;
+                case 'discussion_comments':
+                    echo json_encode($this->projects_model->get_discussion_comments($this->input->post('discussion_id'), $this->input->post('discussion_type')));
+                    die;
+                case 'new_discussion_comment':
+                    echo json_encode($this->projects_model->add_discussion_comment($this->input->post(), $this->input->post('discussion_id'), $this->input->post('discussion_type')));
+                    die;
+
+                    break;
+                case 'update_discussion_comment':
+                    echo json_encode($this->projects_model->update_discussion_comment($this->input->post(), $this->input->post('discussion_id')));
+                    die;
+
+                    break;
+                case 'delete_discussion_comment':
+                    echo json_encode($this->projects_model->delete_discussion_comment($this->input->post('id')));
+                    die;
+
+                    break;
+                case 'new_discussion':
+                    $discussion_data = $this->input->post();
+                    unset($discussion_data['action']);
+                    $success = $this->projects_model->add_discussion($discussion_data);
+                    if ($success) {
+                        set_alert('success', _l('added_successfully', _l('project_discussion')));
+                    }
+                    redirect(site_url('clients/project/' . $id . '?group=project_discussions'));
+
+                    break;
+                case 'upload_file':
+                    handle_iservice_file_uploads($id);
+                    die;
+
+                    break;
+                case 'project_file_dropbox': // deprecated
+                case 'project_external_file':
+                    $data                        = [];
+                    $data['project_id']          = $id;
+                    $data['files']               = $this->input->post('files');
+                    $data['external']            = $this->input->post('external');
+                    $data['visible_to_customer'] = 1;
+                    $data['contact_id']          = get_contact_user_id();
+                    $this->projects_model->add_external_file($data);
+                    die;
+
+                    break;
+                case 'get_file':
+                    $file_data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
+                    $file_data['current_user_is_admin']             = false;
+                    $file_data['file']                              = $this->other->get_imported_file($this->input->post('id'), $this->input->post('project_id'));
+
+                    if (!$file_data['file']) {
+                        header('HTTP/1.0 404 Not Found');
+                        die;
+                    }
+                    echo get_template_part('imported_services/file', $file_data, true);
+                    die;
+
+                    break;
+                case 'update_file_data':
+                    $file_data = $this->input->post();
+                    unset($file_data['action']);
+                    $this->projects_model->update_file_data($file_data);
+
+                    break;
+                case 'upload_task_file':
+                    $taskid = $this->input->post('task_id');
+                    $files  = handle_task_attachments_array($taskid, 'file');
+                    if ($files) {
+                        $i   = 0;
+                        $len = count($files);
+                        foreach ($files as $file) {
+                            $file['contact_id'] = get_contact_user_id();
+                            $file['staffid']    = 0;
+                            $this->tasks_model->add_attachment_to_database($taskid, [$file], false, ($i == $len - 1 ? true : false));
+                            $i++;
+                        }
+                    }
+                    die;
+
+                    break;
+                case 'add_task_external_file':
+                    $taskid                = $this->input->post('task_id');
+                    $file                  = $this->input->post('files');
+                    $file[0]['contact_id'] = get_contact_user_id();
+                    $file[0]['staffid']    = 0;
+                    $this->tasks_model->add_attachment_to_database($this->input->post('task_id'), $file, $this->input->post('external'));
+                    die;
+
+                    break;
+                case 'new_task_comment':
+                    $comment_data            = $this->input->post();
+                    $comment_data['content'] = nl2br($comment_data['content']);
+                    $comment_id              = $this->tasks_model->add_task_comment($comment_data);
+                    $url                     = site_url('clients/project/' . $id . '?group=project_tasks&taskid=' . $comment_data['taskid']);
+
+                    if ($comment_id) {
+                        set_alert('success', _l('task_comment_added'));
+                        $url .= '#comment_' . $comment_id;
+                    }
+
+                    redirect($url);
+
+                    break;
+                default:
+                    redirect(site_url('clients/project/' . $id));
+
+                    break;
+            }
+        }
+        if (!$this->input->get('group')) {
+            $group = 'project_overview';
+        } else {
+            $group = $this->input->get('group');
+        }
+        $data['project_status'] = get_project_status_by_id($data['project']->status);
+        if ($group != 'edit_task') {
+            if ($group == 'project_overview') {
+                $percent = $this->other->calc_imported_progress($slug, $id);
+                @$data['percent'] = $percent / 100;
+                $this->load->helper('date');
+                $data['project_total_days']        = round((human_to_unix($data['project']->deadline . ' 00:00') - human_to_unix($data['project']->start_date . ' 00:00')) / 3600 / 24);
+                $data['project_days_left']         = $data['project_total_days'];
+                $data['project_time_left_percent'] = 100;
+                if ($data['project']->deadline) {
+                    if (human_to_unix($data['project']->start_date . ' 00:00') < time() && human_to_unix($data['project']->deadline . ' 00:00') > time()) {
+                        $data['project_days_left'] = round((human_to_unix($data['project']->deadline . ' 00:00') - time()) / 3600 / 24);
+
+                        $data['project_time_left_percent'] = $data['project_days_left'] / $data['project_total_days'] * 100;
+                        $data['project_time_left_percent'] = round($data['project_time_left_percent'], 2);
+                    }
+                    if (human_to_unix($data['project']->deadline . ' 00:00') < time()) {
+                        $data['project_days_left']         = 0;
+                        $data['project_time_left_percent'] = 0;
+                    }
+                }
+                $total_tasks = total_rows(db_prefix() . 'tasks', [
+                    'rel_id'            => $id,
+                    'rel_type'          => 'project',
+                    'visible_to_client' => 1,
+                ]);
+                $total_tasks = hooks()->apply_filters('client_project_total_tasks', $total_tasks, $id);
+
+                $data['tasks_not_completed'] = total_rows(db_prefix() . 'tasks', [
+                    'status !='         => 5,
+                    'rel_id'            => $id,
+                    'rel_type'          => 'project',
+                    'visible_to_client' => 1,
+                ]);
+
+                $data['tasks_not_completed'] = hooks()->apply_filters('client_project_tasks_not_completed', $data['tasks_not_completed'], $id);
+
+                $data['tasks_completed'] = total_rows(db_prefix() . 'tasks', [
+                    'status'            => 5,
+                    'rel_id'            => $id,
+                    'rel_type'          => 'project',
+                    'visible_to_client' => 1,
+                ]);
+                $data['tasks_completed'] = hooks()->apply_filters('client_project_tasks_completed', $data['tasks_completed'], $id);
+
+                $data['total_tasks']                  = $total_tasks;
+                $data['tasks_not_completed_progress'] = ($total_tasks > 0 ? number_format(($data['tasks_completed'] * 100) / $total_tasks, 2) : 0);
+                $data['tasks_not_completed_progress'] = round($data['tasks_not_completed_progress'], 2);
+            } elseif ($group == 'new_task') {
+                if ($project->settings->create_tasks == 0) {
+                    redirect(site_url('clients/project/' . $project->id));
+                }
+                $data['milestones'] = $this->projects_model->get_milestones($id);
+            } elseif ($group == 'project_gantt') {
+                $data['gantt_data'] = $this->projects_model->get_gantt_data($id);
+            } elseif ($group == 'project_discussions') {
+                if ($this->input->get('discussion_id')) {
+                    $data['discussion_user_profile_image_url'] = contact_profile_image_url(get_contact_user_id());
+                    $data['discussion']                        = $this->projects_model->get_discussion($this->input->get('discussion_id'), $id);
+                    $data['current_user_is_admin']             = false;
+                }
+                $data['discussions'] = $this->projects_model->get_discussions($id);
+            } elseif ($group == 'project_files') {
+                $data['files'] = $this->other->get_imported_files($id);
+            } elseif ($group == 'project_tasks') {
+                $data['tasks_statuses'] = $this->tasks_model->get_statuses();
+                $data['project_tasks']  = $this->projects_model->get_tasks($id);
+            } elseif ($group == 'project_activity') {
+                $data['activity'] = $this->projects_model->get_activity($id);
+            } elseif ($group == 'project_milestones') {
+                $data['milestones'] = $this->projects_model->get_milestones($id);
+            } elseif ($group == 'project_invoices') {
+                $data['invoices'] = [];
+                if (has_contact_permission('invoices')) {
+                    $whereInvoices = [
+                        'clientid'   => get_client_user_id(),
+                        'rel_sid' => $id,
+                        'rel_stype' => 'imported'
+                    ];
+                    if (get_option('exclude_invoice_from_client_area_with_draft_status') == 1) {
+                        $whereInvoices['status !='] = 6;
+                    }
+                    $data['invoices'] = $this->invoices_model->get('', $whereInvoices);
+                }
+            } elseif ($group == 'project_tickets') {
+                $data['tickets'] = [];
+                if (has_contact_permission('support')) {
+                    $where_tickets = [
+                        db_prefix() . 'tickets.userid' => get_client_user_id(),
+                        'project_id'                   => $id,
+                    ];
+
+                    if (!!can_logged_in_contact_view_all_tickets()) {
+                        $where_tickets[db_prefix() . 'tickets.contactid'] = get_contact_user_id();
+                    }
+
+                    $data['tickets']                 = $this->tickets_model->get('', $where_tickets);
+                    $data['show_submitter_on_table'] = show_ticket_submitter_on_clients_area_table();
+                }
+            } elseif ($group == 'project_estimates') {
+                $data['estimates'] = [];
+                if (has_contact_permission('estimates')) {
+                    $data['estimates'] = $this->estimates_model->get('', [
+                        'clientid'   => get_client_user_id(),
+                        'project_id' => $id,
+                    ]);
+                }
+            } elseif ($group == 'project_timesheets') {
+                $data['timesheets'] = $this->projects_model->get_timesheets($id);
+            }
+
+            if ($this->input->get('taskid')) {
+                $data['view_task'] = $this->tasks_model->get($this->input->get('taskid'), [
+                    'rel_id'   => $project->id,
+                    'rel_type' => 'project',
+                ]);
+
+                $data['title'] = $data['view_task']->name;
+            }
+        } elseif ($group == 'edit_task') {
+            $data['milestones'] = $this->projects_model->get_milestones($id);
+            $data['task']       = $this->tasks_model->get($this->input->get('taskid'), [
+                'rel_id'                => $project->id,
+                'rel_type'              => 'project',
+                'addedfrom'             => get_contact_user_id(),
+                'is_added_from_contact' => 1,
+            ]);
+        }
+
+        $data['group']    = $group;
+        $data['currency'] = $this->projects_model->get_currency($id);
+        $data['members']  = $this->projects_model->get_project_members($id);
+        $data['ServID'] = 0;
+        $data['slug'] = 'imported_services';
+
+        $this->data($data);
+        $this->view('imported_service');
+        $this->layout();
     }
 
     public function index()
@@ -149,6 +709,7 @@ class Clients extends ClientsController
         $this->layout();
     }
 
+    
     public function project($id)
     {
         if (!has_contact_permission('projects')) {

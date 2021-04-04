@@ -138,7 +138,7 @@ class My_custom_controller extends AdminController
             $case_id = $case['id'];
             $this->db->where('case_id', $case_id);
             $case_settings = $this->db->get(db_prefix() . 'case_settings')->result_array();
-            //var_dump($case_settings);exit;
+
             if(!empty($case_settings)){
                 continue;
             }else{

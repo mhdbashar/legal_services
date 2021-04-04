@@ -67,7 +67,11 @@
 		<?php echo render_input('settings[companyname]','settings_general_company_name',get_option('companyname'),'text',$attrs); ?>
 		<hr />
 		<?php echo render_input('settings[main_domain]','settings_general_company_main_domain',get_option('main_domain')); ?>
-		<hr />
+
+        <hr />
+        <?php echo render_input('settings[office_name_in_center]', 'office_name_in_center', get_option('office_name_in_center')); ?>
+
+        <hr />
 		<?php echo render_input('settings[wathq_api_key]','settings_general_wathq_api_key',get_option('wathq_api_key')); ?>
 		<hr />
 		<?php render_yes_no_option('rtl_support_admin','settings_rtl_support_admin'); ?>

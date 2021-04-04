@@ -516,3 +516,43 @@ li.fancyTab.active a {
 .book-btn{
     background: #626f80;
 }
+
+#loading{
+    margin: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    background: #ff00000d;
+}
+
+/*for big header*/
+#logo img {
+    height: 68px !important;
+}
+
+#header{
+    height: 100px;
+}
+
+body.rtl .navbar-right {
+    margin-top: 20px;
+}
+
+.hide-menu{
+    line-height: 64px;
+}
+
+.logo-text {
+    margin-top: 25px;
+}
+
+#menu {
+    top: 100px;
+}
+
+#setup-menu-wrapper {
+    top: 100px;
+}
+
+.navbar-nav>li>a {
+    font-size: 15px;
+}

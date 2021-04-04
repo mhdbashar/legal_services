@@ -72,6 +72,11 @@ function theme_assets()
             base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'custom_clients.js')) . '?v=' . $CI->app_css->core_version(),
             ['common-js']
         );
+        $CI->app_scripts->theme(
+            'iservices-js',
+            base_url($CI->app_scripts->core_file(theme_assets_path() . '/js', 'iservices.js')) . '?v=' . $CI->app_css->core_version(),
+            ['common-js']
+        );
     }
 
     // CSS

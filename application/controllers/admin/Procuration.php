@@ -26,7 +26,7 @@ class Procuration extends AdminController
         }
     }
 
-    public function build_dropdown_cases($select) {
+    public function build_dropdown_cases($select=0) {
 
         // $select=$this->input->post('select');
         // $this->db->where('clientid', $select);
@@ -43,7 +43,9 @@ class Procuration extends AdminController
         // echo $output;
 
         // $select=$this->input->post('select');
-        $this->db->where('clientid', $select);
+        if ($select != 0) {
+            $this->db->where('clientid', $select);
+        }
         $cases = $this->db->get(db_prefix() . 'my_cases')->result_array();
         $data = [];
         foreach ($cases as $case) {
@@ -105,7 +107,6 @@ class Procuration extends AdminController
         }
 
         $procuration = $this->procurations_model->get($id);
-        // echo '<pre>'; print_r($procuration); exit;
         $procuration        = hooks()->apply_filters('before_admin_view_procuration_pdf', $procuration);
 
         // $invoice_number = format_invoice_number($invoice->id);

@@ -117,8 +117,8 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`j_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept`
-              ADD KEY `CourtJudKey` (`c_id`);");
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` CHANGE `Jud_number` `Jud_number` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+            $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` ADD KEY `CourtJudKey` (`c_id`);");
             $this->db->query("ALTER TABLE `".db_prefix()."my_judicialdept` ADD CONSTRAINT `CourtJudKey` FOREIGN KEY (`c_id`) REFERENCES `".db_prefix()."my_courts` (`c_id`) ON DELETE CASCADE ON UPDATE CASCADE;
               ");
 
@@ -827,7 +827,7 @@ class Migration_Version_271 extends CI_Migration
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
 
-                  $this->db->query("INSERT INTO `tblmy_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) VALUES
+                  $this->db->query("INSERT INTO `".db_prefix()."my_basic_services` (`id`, `name`, `slug`, `prefix`, `numbering`, `is_primary`, `show_on_sidebar`, `is_module`, `datecreated`) VALUES
 (1, 'قضايا', 'kd-y', 'CASE', 1, 1, 1, 0, NOW()),
 (2, 'عقود', 'aakod', 'Akd', 1, 1, 1, 0, NOW()),
 (3, 'استشارات', 'stsh-r-t', 'Istsh', 1, 1, 1, 0, NOW()),
@@ -1273,96 +1273,24 @@ class Migration_Version_271 extends CI_Migration
             $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
         }
 
-        //Alter table tbldepartments
-        if (!$this->db->field_exists('branch_id', db_prefix().'departments')) {
-            $this->db->query("ALTER TABLE `tbldepartments` ADD `branch_id` int(11) NOT NULL DEFAULT '0';");
-        }
 
-        //Alter table tblestimates
-        if (!$this->db->field_exists('rel_sid', db_prefix().'estimates')) {
-            $this->db->query("ALTER TABLE `tblestimates` ADD `rel_sid` int(11) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_sid` (`rel_sid`)");
-        }
-        if (!$this->db->field_exists('rel_stype', db_prefix().'estimates')) {
-            $this->db->query("ALTER TABLE `tblestimates` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_stype` (`rel_stype`)");
-        }
+//            if (!$this->db->table_exists(db_prefix() . 'written_reports')) {
+//              $this->db->query('CREATE TABLE `' . db_prefix() .  'written_reports` (
+//                    `id` int(11) NOT NULL,
+//                    `report` text NOT NULL,
+//                    `addedfrom` int(11) NOT NULL,
+//                    `updatedfrom` int(11) DEFAULT NULL,
+//                    `created_at` datetime NOT NULL,
+//                    `updated_at` datetime DEFAULT NULL,
+//                    `rel_id` int(11) DEFAULT NULL,
+//                    `rel_type` varchar(30) DEFAULT NULL,
+//                    `editable` int(11) NOT NULL DEFAULT "1"
+//                  ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ';');
+//
+//              $this->db->query("ALTER TABLE ".db_prefix()."written_reports ADD PRIMARY KEY (`id`);");
+//              $this->db->query("ALTER TABLE ".db_prefix()."written_reports MODIFY `id` int(11) NOT NULL AUTO_INCREMENT");
+//          }
 
-        //Alter table tblexpenses
-        if (!$this->db->field_exists('rel_sid', db_prefix() . 'expenses')) {
-            $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_sid` int(11) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_sid` (`rel_sid`)");
-        }
-        if (!$this->db->field_exists('rel_stype', db_prefix() . 'expenses')) {
-            $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_stype` (`rel_stype`)");
-        }
-
-        //Alter table tblinvoices
-        if (!$this->db->field_exists('rel_sid', db_prefix() . 'invoices')) {
-            $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_sid` int(11) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_sid` (`rel_sid`)");
-        }
-        if (!$this->db->field_exists('rel_stype', db_prefix() . 'invoices')) {
-            $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_stype` (`rel_stype`)");
-        }
-
-        //Alter table tblmilestones
-        if (!$this->db->field_exists('rel_sid', db_prefix() . 'milestones')) {
-            $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_sid` int(11) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_sid` (`rel_sid`)");
-        }
-        if (!$this->db->field_exists('rel_stype', db_prefix() . 'milestones')) {
-            $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_stype` (`rel_stype`)");
-        }
-
-        //Alter table tbltickets
-        if (!$this->db->field_exists('rel_sid', db_prefix() . 'tickets')) {
-            $this->db->query("ALTER TABLE `tbltickets` ADD `rel_sid` int(11) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_sid` (`rel_sid`)");
-        }
-        if (!$this->db->field_exists('rel_stype', db_prefix() . 'tickets')) {
-            $this->db->query("ALTER TABLE `tbltickets` ADD `rel_stype` varchar(20) DEFAULT NULL;");
-            $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_stype` (`rel_stype`)");
-        }
-
-        //Alter table tbltasks
-        if (!$this->db->field_exists('is_session', db_prefix() . 'tasks')) {
-            $this->db->query("ALTER TABLE `tbltasks` ADD `is_session` int(11) DEFAULT '0';");
-        }
-
-        //Alter table tblstaff
-        if (!$this->db->field_exists('firstname', db_prefix() . 'staff')) {
-            $this->db->query("ALTER TABLE `tbltasks` ADD `firstname` varchar(50) NOT NULL;");
-            $this->db->query("ALTER TABLE `tbltasks` ADD KEY `firstname` (`firstname`)");
-        }
-        if (!$this->db->field_exists('lastname', db_prefix() . 'staff')) {
-            $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
-            $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
-        }
-
-        $sessions_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'sessions']);
-        if($sessions_rows == 0){
-            $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
-            ('sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-added-attachment-to-contacts', 'arabic', 'مرفقات جديدة في الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-added-attachment', 'arabic', 'مرفقات جديدة للجلسة (مرسلة لفريق العمل)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-commented-to-contacts', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-commented', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-status-change-to-contacts', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'session-status-change-to-staff', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
-            ('sessions', 'send_report_session', 'arabic', 'تقرير الجلسة (مرسل إلى فريق العمل)', '', '', '', '', 0, 1, 0),
-            ('sessions', 'send_report_session', 'english', 'Session Send Report (Sent to Staff)', '', '', '', '', 0, 1, 0),
-            ('sessions', 'next_session_action', 'english', 'Reminder For Next Session Action', '', '', '', '', 0, 1, 0),
-            ('sessions', 'next_session_action', 'arabic', 'تذكير بإجراءات الجلسة القادمة', '', '', '', '', 0, 1, 0)");
-        }
 
         $written_report_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'written_report']);
         if($written_report_rows == 0){
@@ -1370,6 +1298,187 @@ class Migration_Version_271 extends CI_Migration
                  ('written_report', 'send_written_report_to_customer', 'english', 'Send written report to customer', '', '', '', '', 0, 1, 0),
                  ('written_report', 'send_written_report_to_customer', 'arabic', 'إرسال تقرير مكتوب للعميل', 'تقرير مكتوب للعميل', '', '', '', 0, 1, 0)");
         }
+
+  
+          //Alter table tblcontracts
+          if (!$this->db->field_exists('type_id', db_prefix().'contracts')) {
+              $this->db->query("ALTER TABLE `tblcontracts` ADD `type_id` int(11) NOT NULL DEFAULT '0';");
+              $this->db->query("ALTER TABLE `tblcontracts` ADD KEY `type_id` (`type_id`)");
+          }
+  
+          //Alter table tbldepartments
+          if (!$this->db->field_exists('branch_id', db_prefix().'departments')) {
+              $this->db->query("ALTER TABLE `tbldepartments` ADD `branch_id` int(11) NOT NULL DEFAULT '0';");
+          }
+  
+          //Alter table tblestimates
+          if (!$this->db->field_exists('rel_sid', db_prefix().'estimates')) {
+              $this->db->query("ALTER TABLE `tblestimates` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix().'estimates')) {
+              $this->db->query("ALTER TABLE `tblestimates` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblestimates` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblexpenses
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'expenses')) {
+              $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'expenses')) {
+              $this->db->query("ALTER TABLE `tblexpenses` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblexpenses` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblinvoices
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'invoices')) {
+              $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'invoices')) {
+              $this->db->query("ALTER TABLE `tblinvoices` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblinvoices` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tblmilestones
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'milestones')) {
+              $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'milestones')) {
+              $this->db->query("ALTER TABLE `tblmilestones` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tblmilestones` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tbltickets
+          if (!$this->db->field_exists('rel_sid', db_prefix() . 'tickets')) {
+              $this->db->query("ALTER TABLE `tbltickets` ADD `rel_sid` int(11) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_sid` (`rel_sid`)");
+          }
+          if (!$this->db->field_exists('rel_stype', db_prefix() . 'tickets')) {
+              $this->db->query("ALTER TABLE `tbltickets` ADD `rel_stype` varchar(20) DEFAULT NULL;");
+              $this->db->query("ALTER TABLE `tbltickets` ADD KEY `rel_stype` (`rel_stype`)");
+          }
+  
+          //Alter table tbltasks
+          if (!$this->db->field_exists('is_session', db_prefix() . 'tasks')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `is_session` int(11) DEFAULT '0';");
+          }
+  
+          //Alter table tblstaff
+          if (!$this->db->field_exists('firstname', db_prefix() . 'staff')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `firstname` varchar(50) NOT NULL;");
+              $this->db->query("ALTER TABLE `tbltasks` ADD KEY `firstname` (`firstname`)");
+          }
+          if (!$this->db->field_exists('lastname', db_prefix() . 'staff')) {
+              $this->db->query("ALTER TABLE `tbltasks` ADD `lastname` varchar(50) NOT NULL;");
+              $this->db->query("ALTER TABLE `tbltasks` ADD KEY `lastname` (`lastname`)");
+          }
+  
+          $sessions_rows = total_rows(db_prefix() .'emailtemplates', ['type' => 'sessions']);
+          if($sessions_rows == 0){
+              $this->db->query("INSERT INTO `tblemailtemplates` (`type`, `slug`, `language`, `name`, `subject`, `message`, `fromname`, `fromemail`, `plaintext`, `active`, `order`) VALUES
+              ('sessions', 'session-added-attachment-to-contacts', 'english', 'New Attachment(s) on Session (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment-to-contacts', 'arabic', 'مرفقات جديدة في الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment', 'english', 'New Attachment(s) on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-added-attachment', 'arabic', 'مرفقات جديدة للجلسة (مرسلة لفريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented-to-contacts', 'english', 'New Comment on Task (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented-to-contacts', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented', 'english', 'New Comment on Session (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-commented', 'arabic', 'تعليق جديد على الجلسة (مرسل إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-contacts', 'english', 'Session Status Changed (Sent to Customer Contacts)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-contacts', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى جهات اتصال العملاء)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-staff', 'english', 'Session Status Changed (Sent to Staff)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'session-status-change-to-staff', 'arabic', 'تغيير حالة الجلسة (مرسلة إلى فريق العمل)', '', '', '', NULL, 0, 1, 0),
+              ('sessions', 'send_report_session', 'arabic', 'تقرير الجلسة (مرسل إلى فريق العمل)', '', '', '', '', 0, 1, 0),
+              ('sessions', 'send_report_session', 'english', 'Session Send Report (Sent to Staff)', '', '', '', '', 0, 1, 0),
+              ('sessions', 'next_session_action', 'english', 'Reminder For Next Session Action', '', '', '', '', 0, 1, 0),
+              ('sessions', 'next_session_action', 'arabic', 'تذكير بإجراءات الجلسة القادمة', '', '', '', '', 0, 1, 0)");
+          }
+            
+            //office migration
+      // add_option('office_name_in_center', '1');
+
+
+        if (!$this->db->table_exists(db_prefix() . 'iservice_settings')) { 
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'iservice_settings` (
+              `id` int(11)  NOT NULL AUTO_INCREMENT,
+              `oservice_id` int(11) NOT NULL,
+              `name` varchar(100) NOT NULL,
+              `value` text DEFAULT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
+        }
+
+        if (!$this->db->table_exists(db_prefix() . 'keycode')) { 
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'keycode` (
+              `id` int(11)  NOT NULL AUTO_INCREMENT,
+              `keycode` varchar(1500) NOT NULL,
+              `office_name_in_center` varchar(500) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
+        }
+
+        if (!$this->db->table_exists(db_prefix() . 'iservice_files')) { 
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'iservice_files` (
+              `id` int(11)  NOT NULL AUTO_INCREMENT,
+              `file_name` varchar(191) NOT NULL,
+              `subject` varchar(191) DEFAULT NULL,
+              `description` text,
+              `filetype` varchar(50) DEFAULT NULL,
+              `dateadded` datetime NOT NULL,
+              `last_activity` datetime DEFAULT NULL,
+              `iservice_id` int(11) NOT NULL,
+              `visible_to_customer` tinyint(1) DEFAULT "0",
+              `staffid` int(11) NOT NULL,
+              `contact_id` int(11) NOT NULL DEFAULT "0",
+              `external` varchar(40) DEFAULT NULL,
+              `external_link` text,
+              `thumbnail_link` text,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1 ;');
+        }
+
+
+        if (!$this->db->table_exists(db_prefix() . 'my_imported_services')) {           
+            $this->db->query('CREATE TABLE `' . db_prefix() .  'my_imported_services` (
+              `id` int(11)  NOT NULL AUTO_INCREMENT,
+              `service_id` int(11) NOT NULL,
+              `code` varchar(255) NOT NULL,
+              `numbering` int(11) DEFAULT NULL,
+              `name` varchar(191) NOT NULL,
+              `clientid` int(11) NOT NULL,
+              `cat_id` int(11) NOT NULL,
+              `subcat_id` int(11) NOT NULL,
+              `service_session_link` int(11) NOT NULL DEFAULT "0",
+              `billing_type` int(11) NOT NULL,
+              `status` int(11) NOT NULL,
+              `project_rate_per_hour` int(11) NOT NULL,
+              `project_cost` decimal(15,2) DEFAULT NULL,
+              `start_date` date NOT NULL,
+              `project_created` date NOT NULL,
+              `deadline` date DEFAULT NULL,
+              `date_finished` date DEFAULT NULL,
+              `description` text NOT NULL,
+              `country` varchar(255) NOT NULL,
+              `city` varchar(255) NOT NULL,
+              `contract` int(11) NOT NULL,
+              `estimated_hours` decimal(15,2) DEFAULT NULL,
+              `progress` int(11) DEFAULT "0",
+              `progress_from_tasks` int(11) NOT NULL DEFAULT "1",
+              `addedfrom` int(11) NOT NULL,
+              `branch_id` int(11) NOT NULL DEFAULT "0",
+              `deleted` int(11) NOT NULL DEFAULT "0",
+              `imported` int(11) NOT NULL,
+              `company_staff_id` int(11) NOT NULL,
+              `company_url` varchar(255) NOT NULL,
+              `exported_service_id` int(11) NOT NULL,
+              `exported_rel_id` int(11) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=' . $this->db->char_set . ' AUTO_INCREMENT=1;');
+        }
+
     }
 
 }

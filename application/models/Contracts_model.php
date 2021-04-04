@@ -707,6 +707,7 @@ class Contracts_model extends App_Model
 
         $this->db->where('dateend IS NOT NULL');
         $this->db->where('trash', 0);
+        $this->db->where('type_id', 0);
         $this->db->where('dateend >=', $diff1);
         $this->db->where('dateend <=', $diff2);
 

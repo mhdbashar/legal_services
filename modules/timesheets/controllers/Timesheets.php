@@ -2018,7 +2018,6 @@ public function get_data_additional_timesheets($id){
 		if ($this->input->is_ajax_request()) {
 			if($this->input->post()){
 				$months_report = $this->input->post('months_filter');
-
 				$role_filter = $this->input->post('role_filter');
 				$department_filter = $this->input->post('department_filter');
 				$staff_filter = $this->input->post('staff_filter');
@@ -2095,7 +2094,6 @@ public function get_data_additional_timesheets($id){
 				foreach ($rResult as $aRow) {
 
 					$requisition_number_of_day_off = $this->timesheets_model->get_requisition_number_of_day_off($aRow['staffid'], $year_leave);
-
 					$timesheets_max_leave_in_year = $requisition_number_of_day_off['total_day_off_in_year'];
 					$timesheets_total_day_off = 0;
 
@@ -3118,7 +3116,6 @@ public function get_data_additional_timesheets($id){
 
 		$data['staff_row_sc'] = [];
 		$data['days_in_month'] = $days_in_month;
-
 		if($newquerystring != ''){
 			$staffs = $this->timesheets_model->getStaff('', $newquerystring);
 			$shift_staff = [];
@@ -5082,6 +5079,10 @@ public function get_layout_timesheets($from_date, $to_date){
 	}
 	return $data;
 }
+/**
+ * delete mass workplace assign
+ * @return [type] 
+ */
 function delete_mass_workplace_assign(){
 	if($this->input->post()){
 		$data = $this->input->post();

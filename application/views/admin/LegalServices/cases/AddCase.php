@@ -175,7 +175,7 @@
                                                     <label for="representative"><?php echo _l('customer_description'); ?></label>
                                                     <select id="representative" name="representative" class="form-control custom_select_arrow"
                                                             placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <option selected disabled></option>
+                                                        <option selected></option>
                                                         <?php $data = get_relation_data('representative', '');
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row['id']; ?>"><?php echo $row['representative']; ?></option>
@@ -199,9 +199,8 @@
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label for="court_id" class="control-label"><?php echo _l('Court'); ?></label>
-                                                    <select class="form-control custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id"
-                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <option selected disabled></option>
+                                                    <select class="selectpicker custom_select_arrow" id="court_id" onchange="GetCourtJad()" name="court_id" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected></option>
                                                         <?php $data = get_relation_data('mycourts', '');
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row->c_id; ?>"><?php echo $row->court_name; ?></option>
@@ -218,8 +217,8 @@
                                                 <div class="form-group">
                                                     <label for="jud_num" class="control-label"><?php echo _l('NumJudicialDept'); ?></label>
                                                     <select class="form-control custom_select_arrow" id="jud_num" name="jud_num"
-                                                            placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <option selected disabled></option>
+                                                            data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                        <option selected></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -328,7 +327,7 @@
                                                     <div class="clearfix"></div>
                                                     <select name="case_status" id="case_status" class="selectpicker" data-width="100%"
                                                             data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                        <option selected disabled></option>
+                                                        <option selected></option>
                                                         <?php $data = get_relation_data('Case_status', '');
                                                         foreach ($data as $row): ?>
                                                             <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
@@ -351,22 +350,22 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label class="control-label"><?php echo _l('contracts'); ?></label>
-                                                <select class="form-control custom_select_arrow" name="contract"
-                                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                                    <option selected disabled></option>
-                                                    <?php $data = get_relation_data('contracts', '');      
+                                                <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
+                                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                                    <option selected></option>
+                                                    <?php
+                                                    $data = get_case_contracts('', $service->slug);
+                                                    //$data = get_relation_data('contracts', '');
                                                     foreach ($data as $row): ?>
                                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="select-placeholder form-group">
-                                                    <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
-                                                    <select class="selectpicker" id="previous_case_id" name="previous_case_id" placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
-                                                        <option selected disabled></option>
-                                                    </select>
-                                                </div>
+                                                <label class="control-label"><?php echo _l('linked_to_previous_case'); ?></label>
+                                                <select class="selectpicker" id="previous_case_id" data-width="100%" name="previous_case_id" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" data-live-search="true">
+                                                    <option selected></option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -407,14 +406,9 @@
                                     <label for="status"><?php echo _l('project_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-<!--                                        --><?php //foreach($statuses as $status){ ?>
-<!--                                            <option value="--><?php //echo $status['id']; ?><!--">--><?php //echo $status['name']; ?><!--</option>-->
-<!--                                        --><?php //} ?>
-                                        <option value="4"><?php echo _l('project_status_4') ?></option>
-                                        <option value="5"><?php echo _l('project_status_5') ?></option>
-                                        <option value="2"><?php echo _l('project_status_2') ?></option>
-                                        <option value="3"><?php echo _l('project_status_3') ?></option>
-                                        <option value="1"><?php echo _l('project_status_1') ?></option>
+                                        <?php foreach($statuses as $status){ ?>
+                                            <option value="<?php echo $status['id']; ?>" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php echo $status['name']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

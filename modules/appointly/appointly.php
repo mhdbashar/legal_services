@@ -1,25 +1,26 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /*
-Module Name: appointly_name
-Description: appointly_desc
-Version: 1.1.5
-Requires at least: 2.4.1
+Module Name: المواعيد
+Description: نظام إدارة المواعيد والإجتماعات
+Version: 1.1.7
 Author: Babil Team
-Author URI: #
+Author URI: https://babil.net.sa
+Requires at least: 2.4.1
 */
+
+$CI = &get_instance();
 
 define('APPOINTLY_MODULE_NAME', 'appointly');
 define('APPOINTLY_SMS_APPOINTMENT_APPROVED_TO_CLIENT', 'appointly_appointment_approved_send_to_client');
 define('APPOINTLY_SMS_APPOINTMENT_CANCELLED_TO_CLIENT', 'appointly_appointment_cancelled_to_client');
 define('APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT', 'appointly_appointment_reminder_to_client');
 
-$CI = &get_instance();
-
 hooks()->add_action('admin_init', 'appointly_register_permissions');
 hooks()->add_action('admin_init', 'appointly_register_menu_items');
 hooks()->add_action('after_cron_run', 'appointly_send_email_templates');
 
 register_merge_fields('appointly/merge_fields/appointly_merge_fields');
+
 hooks()->add_filter('other_merge_fields_available_for', 'appointly_register_other_merge_fields');
 hooks()->add_filter('available_merge_fields', 'appointly_allow_staff_merge_fields_for_appointment_templates');
 
@@ -95,7 +96,6 @@ function appointly_allow_staff_merge_fields_for_appointment_templates($fields)
             }
         }
     }
-
     return $fields;
 }
 
@@ -145,39 +145,39 @@ function appointly_register_menu_items()
         $CI->app_menu->add_sidebar_menu_item(APPOINTLY_MODULE_NAME, [
             'name'     => 'appointly_module_name',
             'href'     => admin_url('appointly/appointments'),
+            'position' => 10,
             'icon'     => 'fa fa-calendar-check-o',
-            'position' => 3,
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly_sidemenu appointly-user-dashboard',
-            'name'     => _l('appointment_appointments'),
+            'slug'     => 'appointly-user-dashboard',
+            'name'     => 'appointment_appointments',
             'href'     => admin_url('appointly/appointments'),
-            'position' => 1,
+            'position' => 5,
             'icon'     => 'fa fa-th-list',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly_sidemenu appointly-user-history',
-            'name'     => _l('appointment_history_label'),
+            'slug'     => 'appointly-user-history',
+            'name'     => 'appointment_history_label',
             'href'     => admin_url('appointly/appointments_history'),
-            'position' => 2,
+            'position' => 10,
             'icon'     => 'fa fa-history',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly_sidemenu appointly-callbacks',
-            'name'     => _l('appointly_callbacks'),
+            'slug'     => 'appointly-callbacks',
+            'name'     => 'appointly_callbacks',
             'href'     => admin_url('appointly/callbacks'),
-            'position' => 3,
+            'position' => 15,
             'icon'     => 'fa fa-phone',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly_sidemenu appointly-user-settings',
-            'name'     => _l('appointments_your_settings'),
+            'slug'     => 'appointly-user-settings',
+            'name'     => 'appointments_your_settings',
             'href'     => admin_url('appointly/appointments/user_settings_view/settings'),
-            'position' => 4,
+            'position' => 20,
             'icon'     => 'fa fa-cog',
         ]);
     }
@@ -291,8 +291,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('sms_appointment_approved_Sent_to_contact'),
-        'info'         => _l('sms_trigger_when_appointment_is_approved'),
+        'label'        => 'Appointment approved (Sent to Contact)',
+        'info'         => 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_CANCELLED_TO_CLIENT] = [
@@ -301,8 +301,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('appointment_cancelled_sent_to_contact'),
-        'info'         => _l('sms_trigger_when_appointment_is_cancelled'),
+        'label'        => 'Appointment cancelled (Sent to Contact)',
+        'info'         => 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT] = [
@@ -311,8 +311,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => _l('sms_appointment_reminder_Sent_to_contact'),
-        'info'         => _l('sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'),
+        'label'        => 'Appointment reminder (Sent to Contact)',
+        'info'         => 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.',
     ];
 
     return $triggers;

@@ -256,8 +256,6 @@ function staffs_add_table_row($row ,$aRow) {
         $select .= '<option '.$selected.' value="'. $b['key'] .'" >'.$b["value"].'</option>';
     }
     $select .=    '</select>';
-    // unset($row[5]);
-    // var_dump($row); exit;
 
     $row[] = $select;
 

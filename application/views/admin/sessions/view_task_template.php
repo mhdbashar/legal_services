@@ -664,7 +664,7 @@
                <?php } ?>
             </h5>
          </div>
-         <div class="task-info task-info-priority">
+        <?php /* <div class="task-info task-info-priority">
             <h5>
                <i class="fa task-info-icon fa-fw fa-lg pull-left fa-bolt"></i>
                <?php echo _l('task_single_priority'); ?>:
@@ -694,7 +694,7 @@
                </span>
                <?php } ?>
             </h5>
-         </div>
+         </div> */?>
          <?php if($task->current_user_is_creator || has_permission('sessions','','edit')){ ?>
          <div class="task-info task-info-hourly-rate">
             <h5><i class="fa task-info-icon fa-fw fa-lg pull-left fa-clock-o"></i>

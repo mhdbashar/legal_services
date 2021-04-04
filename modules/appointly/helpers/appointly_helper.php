@@ -40,11 +40,7 @@ if (!function_exists('add_appointly_email_templates')) {
     {
         $CI = &get_instance();
 
-        $lang = get_staff_default_language();
-
-        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => $lang]);
-
-        //$data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
+        $data['appointly_templates'] = $CI->emails_model->get(['type' => 'appointly', 'language' => 'english']);
 
         $CI->load->view('appointly/email_templates', $data);
     }
@@ -869,6 +865,10 @@ function staff_appointments_responsible()
     return get_option('appointly_responsible_person') == get_staff_user_id();
 }
 
+/** 
+ * Returns all callback statuses
+ *  @return array
+ */
 function getCallbacksTableStatuses()
 {
     return [
@@ -877,6 +877,56 @@ function getCallbacksTableStatuses()
         '3' => _l('callback_status_cancelled'),
         '4' => _l('callback_status_complete'),
     ];
+}
+
+/**
+ * Returns all Appointments Table statuses
+ *
+ * @return array
+ */
+function getAppointlyTableStatuses()
+{
+    return [
+        'approved' => _l('appointment_mark_as_approved'),
+        'ongoing' => _l('appointment_mark_as_ongoing'),
+        'cancelled' => _l('appointment_mark_as_cancelled'),
+        'finished' => _l('appointment_mark_as_finished'),
+    ];
+}
+
+
+/**
+ * Check and render appointment status with HTML
+ *
+ * @param array $aRow
+ * @return string
+ */
+function checkAppointlyStatus($aRow)
+{
+    $outputStatus = '';
+    $icon = '';
+    /** We dont want caret down if status is finished */
+    if ($aRow['finished'] != 1) {
+        $icon = ' <i class="fa fa-caret-down" aria-hidden="true"></i>';
+    }
+
+    if ($aRow['cancelled'] && $aRow['finished'] == 0) {
+
+        $outputStatus .= '<span class="label label-danger">' . strtoupper(_l('appointment_cancelled')) . ' ' . $icon . ' </span>';
+    } else if (!$aRow['finished'] && !$aRow['cancelled'] && date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i') && $aRow['approved'] == 1) {
+
+        $outputStatus .= '<span class="label label-danger">' . strtoupper(_l('appointment_missed_label')) . ' ' . $icon . ' </span>';
+    } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 1) {
+
+        $outputStatus .= '<span class="label label-info">' . strtoupper(_l('appointment_upcoming')) . ' ' . $icon . ' </span>';
+    } else if (!$aRow['finished'] && !$aRow['cancelled'] && $aRow['approved'] == 0) {
+
+        $outputStatus .= '<span class="label label-warning">' . strtoupper(_l('appointment_pending_approval')) . ' ' . $icon . ' </span>';
+    } else {
+
+        $outputStatus .= '<span class="label label-success">' . strtoupper(_l('appointment_finished')) . ' ' . $icon . ' </span>';
+    }
+    return $outputStatus;
 }
 
 /**

@@ -187,6 +187,21 @@ $check = $this->input->get('check'); ?>
                     </table>
                   </div>
 
+            </div>
+            <h4><?php echo _l('general_information'); ?></h4>
+            <hr/>
+            <div class="col-md-6">
+              <table class="table border table-striped ">
+                <tbody>
+                  <tr>
+                    <td><?php echo _l('subject'); ?></td>
+                    <td><?php echo html_entity_decode($request_leave->subject); ?></td>
+                  </tr>
+                  <tr>
+                    <td><?php echo _l('category_for_leave'); ?></td>
+                    <td><?php                
+                    echo _l($rel_type); ?></td>
+                  </tr>
                   <?php 
                   if($request_leave->rel_type == 4 && count($advance_payment) > 0){ ?>
                     <div class="col-md-6">
@@ -360,7 +375,10 @@ $check = $this->input->get('check'); ?>
                 echo html_entity_decode($html);
               }
               ?>
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/dev
 
             </div>
           <?php } 

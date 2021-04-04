@@ -6,6 +6,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 //        create_email_template($subject ='next_session_action', $message='', $type='sessions', $name='Reminder For Next Session Action', $slug='next_session_action');
 //
 //    }
+function client_icon_btn($url = '', $type = '', $class = 'btn-default', $attributes = [])
+{
+    $_url = '#';
+    if (_startsWith($url, 'http')) {
+        $_url = $url;
+    } elseif ($url !== '#') {
+        $_url = site_url($url);
+    }
+
+    return '<a href="' . $_url . '" class="btn ' . $class . ' btn-icon"' . _attributes_to_string($attributes) . '>
+    <i class="fa fa-' . $type . '"></i>
+    </a>';
+}
+function curl_get_contents($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+    $html = curl_exec($ch);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
 
 function my_check_license()
 {
@@ -149,7 +173,7 @@ function my_module_menu_item_collapsible()
             'slug' => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
             'href' => admin_url('opponents'), // URL of the item
             'position' => 5, // The menu position
-            'icon' => 'fa fa-user-o menu-icon-ar', // Font awesome icon
+            'icon' => 'fa fa-user-o', // Font awesome icon
         ]);
 }
 
@@ -168,6 +192,13 @@ function my_module_menu_item_collapsible()
             'href'     => admin_url("Service/$service->id"), // URL of the item
         ]);
     endforeach;
+    if (has_permission('imported_services', '', 'view')) {
+        $CI->app_menu->add_sidebar_children_item('custom-menu-unique-id', [
+            'slug'     => 'child-to-custom-menu-item', // Required ID/slug UNIQUE for the child menu
+            'name'     => _l("imported_services"), // The name if the item
+            'href'     => admin_url("imported_services"), // URL of the item
+        ]);
+    }
 
     $CI->app_menu->add_sidebar_menu_item('sessions', [
         'name'     => _l("sessions"), // The name if the item
@@ -217,6 +248,11 @@ function my_module_clients_area_menu_items()
                 'position' => $position+5,
             ]);
             endforeach;
+            add_theme_menu_item('LegalServices'.$service->id, [
+                'name'     => _l('services'),
+                'href'     => site_url('clients/imported/'),
+                'position' => 40,
+            ]);
         }
     }
 }
@@ -951,7 +987,7 @@ function convert_to_tags($string)
 
 function maybe_translate($label, $value)
 {
-    return _l($label, '', false) != $value ? _l($label, '', false) : $label;
+    return _l($label, '', false) != $value ? _l($value, '', false) : $label;
 }
 
 /**

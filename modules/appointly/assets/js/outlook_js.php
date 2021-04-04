@@ -1,25 +1,25 @@
-<script type="text/javascript" src="https://alcdn.msauth.net/lib/1.3.1/js/msal.min.js"></script>
+<script type="text/javascript" src="https://alcdn.msauth.net/lib/1.3.4/js/msal.js"></script>
 <script>
      var outlookConf = {
           msalConfig: {
                auth: {
                     clientId: "<?= $appointly_outlook_client_id; ?>",
-                    authority: "https://login.microsoftonline.com/common/",
+                    authority: "https://login.microsoftonline.com/common",
                     redirectUri: admin_url + 'appointly/appointments',
                },
                cache: {
                     cacheLocation: "localStorage",
                     storeAuthStateInCookie: true
+               },
+               system: {
+                    loadFrameTimeout: 50000
                }
           },
           graphConfig: {
                graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
           },
           requestObj: {
-               scopes: [
-                    "user.read",
-                    "calendars.readwrite",
-               ]
+               scopes: ["openid", "User.ReadWrite", "Calendars.ReadWrite"]
           }
      }
      var myMSALObj = new Msal.UserAgentApplication(outlookConf.msalConfig);
@@ -27,8 +27,6 @@
      myMSALObj.handleRedirectCallback(authRedirectCallBack);
 
      function signInToOutlook() {
-
-
           myMSALObj.loginPopup(outlookConf.requestObj).then(function(loginResponse) {
                if (loginResponse.fromCache === false) {
                     window.location.reload();
@@ -36,7 +34,7 @@
                //Successful login
                checkOutlookAuthentication();
                //Call MS Graph using the token in the response
-               acquireTokenPopupAndCallMSGraph();
+               // acquireTokenPopupAndCallMSGraph();
           }).catch(function(error) {
                renderErrorToConsole(error);
           });
@@ -55,9 +53,6 @@
      }
 
      function acquireTokenPopupAndCallMSGraph() {
-          if (!isOutlookLoggedIn()) {
-               return false;
-          }
           //Always start with acquireTokenSilent to obtain a token in the signed in user from cache
           myMSALObj.acquireTokenSilent(outlookConf.requestObj).then(function(tokenResponse) {
                callMSGraph(outlookConf.graphConfig.graphMeEndpoint, tokenResponse.accessToken);
@@ -88,7 +83,7 @@
            * True for asynchronous
            */
           xmlHttp.open("GET", url, true);
-          xmlHttp.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+          xmlHttp.setRequestHeader('Authorization', 'bearer ' + accessToken);
           xmlHttp.send();
      }
 
@@ -172,8 +167,7 @@
 
           var attendees_data = await attendeeDataPromisse;
 
-          normal_date = new Date(paramData.date);
-          paramData.date = moment(normal_date, 'DD/MM/YYYY', true).format();
+          paramData.date = moment(paramData.date, ['DD/MM/YYYY HH:mm:ss', 'DD.MM.YYYY HH:mm:ss', 'MM-DD-YYYY HH:mm:ss', 'MM.DD.YYYY HH:mm:ss', 'MM/DD/YYYY HH:mm:ss', 'YYYY-MM-DD HH:mm:ss']).format();
 
           event = {
                subject: paramData.subject,
@@ -286,8 +280,7 @@
                     attendees.push(clientContactLead);
                }
 
-               var normal_date = new Date(paramData.date);
-               paramData.date = moment(normal_date, 'DD/MM/YYYY', true).format();
+               paramData.date = moment(paramData.date, ['DD/MM/YYYY HH:mm:ss', 'DD.MM.YYYY HH:mm:ss', 'MM-DD-YYYY HH:mm:ss', 'MM.DD.YYYY HH:mm:ss', 'MM/DD/YYYY HH:mm:ss', 'YYYY-MM-DD HH:mm:ss']).format();
 
                var event = {
                     subject: paramData.subject,
@@ -417,7 +410,7 @@
      if (loginType === 'POPUP') {
           if (myMSALObj.getAccount()) { // avoid duplicate code execution on page load in case of iframe and popup window.
                checkOutlookAuthentication();
-               acquireTokenPopupAndCallMSGraph();
+               // acquireTokenPopupAndCallMSGraph();
           }
      } else if (loginType === 'REDIRECT') {
           document.getElementById("sign_in_outlook").onclick = function() {

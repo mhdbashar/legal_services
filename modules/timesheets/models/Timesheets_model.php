@@ -1834,7 +1834,6 @@ public function delete_shift($id){
 					$staffid = $requisition_leave->staff_id;
 			// Get current hour in shift
 					$shift_info = $this->get_info_hour_shift_staff($staffid, date('Y-m-d', strtotime($start_time)));
-
 					if($shift_info->start_working != ''){
 					// Caculate hour 
 						$value_ts = $this->get_hour($shift_info->start_working, date('H:i:s', strtotime($start_time)));                   
@@ -3749,7 +3748,6 @@ public function format_date_time($date){
 			$staff_handover_recipients =  'false';
 
 		}
-
 		if(is_numeric($staff_handover_recipients)){
 
 			$mail_template = 'send-request-approve';
@@ -4406,7 +4404,6 @@ public function get_timesheet($staffid='', $from_date, $to_date){
 			unset($data['approver']);
 			unset($data['staff']);
 		}
-
 		if(!isset($data['choose_when_approving'])){
 			$data['choose_when_approving'] = 0;
 		}

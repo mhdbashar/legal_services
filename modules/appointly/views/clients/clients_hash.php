@@ -83,11 +83,14 @@
                                     </span><br>
                                     <span class="spmodified">
                                         <boldit><?= _l('appointment_phone'); ?></boldit>
-                                        <?php $phoneToCall = isset($appointment['details']['phone'])
-                                            ? ($appointment['details']['phone'])
-                                            : ($appointment['phone'])
-                                            ? $appointment['phone']
-                                            : '';
+                                        <?php
+                                        if (isset($appointment['details']['phone'])) {
+                                            $phoneToCall =  $appointment['details']['phone'];
+                                        } else if ($appointment['phone']) {
+                                            $phoneToCall = $appointment['phone'];
+                                        } else {
+                                            $phoneToCall = '';
+                                        }
                                         ?>
                                         <?php if ($phoneToCall !== '') : ?>
                                             <div class="client_numbers">
@@ -128,9 +131,11 @@
                                                     </span>
                                                 </span>
                                                 <br>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    <?php } ?>
+                                    <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -171,7 +176,7 @@
                                         <div class="flexitem">
                                             <?php if ($appointment['finished'] == 0) : ?>
                                                 <?php if ($appointment['cancelled'] == 0) : ?>
-                                                    <button <?= ($appointment['cancel_notes']) ? 'disabled' : ''; ?> class="btn btn-<?= ($appointment['cancel_notes']) ? 'mywarning' : 'mydanger'; ?>" data-toggle="modal" data-target="<?= ($appointment['cancel_notes']) ? 'return false' : '#cancellationModal'; ?>">
+                                                    <button <?= ($appointment['cancel_notes']) ? 'disabled' : ''; ?> class="btn btn-xs btn-<?= ($appointment['cancel_notes']) ? 'mywarning' : 'mydanger'; ?>" data-toggle="modal" data-target="<?= ($appointment['cancel_notes']) ? 'return false' : '#cancellationModal'; ?>">
                                                         <?= ($appointment['cancel_notes']) ? _l('appointment_pending_cancellation') : _l('appointment_cancel'); ?>
                                                     </button>
                                                 <?php endif; ?>
@@ -208,7 +213,7 @@
                         <div class="alert text-center" id="review-alert"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="reviewModalSubmitBtn" class="btn btn-primary"><?= _l('appointment_submit'); ?></button>
+                        <button type="submit" id="reviewModalSubmitBtn" class="btn btn-xs btn-primary"><?= _l('appointment_submit'); ?></button>
                     </div>
                 </div>
             </div>
@@ -235,7 +240,7 @@
                         <div class="alert text-center" id="alert"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="cancelAppointmentForm" class="btn btn-primary"><?= _l('appointment_request_to_cancel'); ?></button>
+                        <button type="submit" id="cancelAppointmentForm" class="btn btn-xs btn-primary"><?= _l('appointment_request_to_cancel'); ?></button>
                     </div>
                 </div>
             </div>

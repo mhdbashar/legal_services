@@ -217,7 +217,7 @@ class Googlecalendar extends App_Model
     {
         $event = $this->fillGoogleCalendarEvent($data);
 
-        return $this->calendar->events->insert($calendarId, $event);
+        return $this->calendar->events->insert($calendarId, $event, ['conferenceDataVersion' => 1]);
     }
 
 
@@ -255,9 +255,16 @@ class Googlecalendar extends App_Model
                     'timeZone' => get_option('default_timezone'),
                 ),
                 'attendees' => (array) $data['attendees'],
-                'reminders' => $this->googleReminders
+                'reminders' => $this->googleReminders,
+                'conferenceData' => array(
+                    "createRequest" => [
+                        "conferenceSolutionKey" => ["type" => "hangoutsMeet"],
+                        "requestId" => generate_encryption_key() . time()
+                    ]
+                )
             )
         );
+
         return $event;
     }
 

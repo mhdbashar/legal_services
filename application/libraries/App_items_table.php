@@ -25,6 +25,13 @@ class App_items_table extends App_items_table_template
      */
     public function items()
     {
+
+        if (is_rtl()) {
+            $align = 'right'; //Right align
+        }else{
+            $align = 'left'; //Left align
+        }
+
         $html = '';
 
 
@@ -48,7 +55,7 @@ class App_items_table extends App_items_table_template
             // Table data number
             $itemHTML .= '<td' . $this->td_attributes() . ' align="center" width="5%">' . $i . '</td>';
 
-            $itemHTML .= '<td class="description" align="left;" width="' . $descriptionItemWidth . '%">';
+            $itemHTML .= '<td class="description" align="'.$align.';" width="' . $descriptionItemWidth . '%">';
 
             /**
              * Item description
@@ -168,6 +175,12 @@ class App_items_table extends App_items_table_template
      */
     public function pdf_headings()
     {
+        if (is_rtl()) {
+            $align = 'right'; //Right align
+        }else{
+            $align = 'left'; //Left align
+        }
+
         $descriptionItemWidth = $this->get_description_item_width();
         $regularItemWidth     = $this->get_regular_items_width(6);
         $customFieldsItems    = $this->get_custom_fields_for_table();
@@ -175,7 +188,7 @@ class App_items_table extends App_items_table_template
         $tblhtml = '<tr height="30" bgcolor="' . get_option('pdf_table_heading_color') . '" style="color:' . get_option('pdf_table_heading_text_color') . ';">';
 
         $tblhtml .= '<th width="5%;" align="center">' . $this->number_heading() . '</th>';
-        $tblhtml .= '<th width="' . $descriptionItemWidth . '%" align="left">' . $this->item_heading() . '</th>';
+        $tblhtml .= '<th width="' . $descriptionItemWidth . '%" align="'.$align.'">' . $this->item_heading() . '</th>';
 
         foreach ($customFieldsItems as $cf) {
             $tblhtml .= '<th width="' . $regularItemWidth . '%" align="left">' . $cf['name'] . '</th>';

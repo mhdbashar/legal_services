@@ -104,7 +104,6 @@ function is_rtl($client_area = false)
     if (is_client_logged_in()) {
         $CI->db->select('direction')->from(db_prefix() . 'contacts')->where('id', get_contact_user_id());
         $direction = $CI->db->get()->row()->direction;
-
         if ($direction == 'rtl') {
             return true;
         } elseif ($direction == 'ltr') {
@@ -114,7 +113,6 @@ function is_rtl($client_area = false)
                 return true;
             }
         }
-
         return false;
     } elseif ($client_area == true) {
         // Client not logged in and checked from clients area
@@ -128,7 +126,6 @@ function is_rtl($client_area = false)
             $CI->db->select('direction')->from(db_prefix() . 'staff')->where('staffid', get_staff_user_id());
             $direction = $CI->db->get()->row()->direction;
         }
-
         if ($direction == 'rtl') {
             return true;
         } elseif ($direction == 'ltr') {

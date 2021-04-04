@@ -146,15 +146,9 @@
                                     <label for="status"><?php echo _l('project_status'); ?></label>
                                     <div class="clearfix"></div>
                                     <select name="status" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-<!--                                        --><?php //foreach($statuses as $status){ ?>
-<!--                                            <option value="--><?php //echo $status['id']; ?><!--">--><?php //echo $status['name']; ?><!--</option>-->
-<!--                                        --><?php //} ?>
-
-                                        <option value="4"><?php echo _l('project_status_4') ?></option>
-                                        <option value="5"><?php echo _l('project_status_5') ?></option>
-                                        <option value="2"><?php echo _l('project_status_2') ?></option>
-                                        <option value="3"><?php echo _l('project_status_3') ?></option>
-                                        <option value="1"><?php echo _l('project_status_1') ?></option>
+                                        <?php foreach($statuses as $status){ ?>
+                                            <option value="<?php echo $status['id']; ?>" <?php if(!isset($OtherServ) && $status['id'] == 2 || (isset($OtherServ) && $OtherServ->status == $status['id'])){echo 'selected';} ?>><?php echo $status['name']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -258,10 +252,12 @@
                             <?php } ?>
                             <div class="col-md-12">
                                 <label for="contract" class="control-label"><?php echo _l('contracts'); ?></label>
-                                <select class="form-control custom_select_arrow" name="contract"
-                                        placeholder="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option selected disabled></option>
-                                    <?php $data = get_relation_data('contracts', '');
+                                <select class="selectpicker custom_select_arrow" name="contract" data-width="100%"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <option selected></option>
+                                    <?php
+                                    //$data = get_relation_data('contracts', '');
+                                    $data = get_oservice_contracts('', $service->slug);
                                     foreach ($data as $row): ?>
                                         <option value="<?php echo $row['id']; ?>"><?php echo $row['subject']; ?></option>
                                     <?php endforeach; ?>
@@ -281,7 +277,7 @@
                         <!-- custom_fields -->
                         <?php if ($custom_fields) { ?>
                             <div role="tabpanel" id="custom_fields">
-                                <?php $rel_id = (isset($case) ? $case->id : false); ?>
+                                <?php $rel_id = (isset($OtherServ) ? $OtherServ->id : false); ?>
                                 <?php echo render_custom_fields($service->slug, $rel_id); ?>
                             </div>
                         <?php } ?>

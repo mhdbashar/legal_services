@@ -101,6 +101,9 @@ class Api_model extends App_Model
             case 'milestones':
                 return $this->get_milestones_api($id);
                 break;
+            case 'imported_services':
+                return $this->get_imported_servcies_api($id);
+                break;
             default:
                 return '';
                 break;
@@ -573,5 +576,24 @@ class Api_model extends App_Model
 
 
         return $milestones;
+    }
+
+    public function get_imported_servcies_api($id = '', $where = [])
+    {
+        if($id != ''){
+            $this->db->where(['id' => $id, 'deleted' => 0]);
+        }
+         if ((is_array($where) && count($where) > 0) || (is_string($where) && $where != '')) {
+            $this->db->where($where);
+        }
+        $this->db->order_by('id', 'ASC');
+        $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+
+        if(empty($imported_services)){
+            $this->db->where(['id' => $id, 'deleted' => 1, 'imported' => 1]);
+            $imported_services = $this->db->get(db_prefix() . 'my_imported_services')->result_array();
+        }
+
+        return $imported_services;
     }
 }

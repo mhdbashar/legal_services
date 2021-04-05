@@ -168,12 +168,12 @@
                                        </a>
                                     </li>
                                     <?php }*/ ?>
-                                    <?php /*if(has_permission('contracts','','delete')){*/ ?>
+                                    <?php if(has_permission('legal_procedures','','delete')){ ?>
                                     <li>
                                        <a href="<?php echo admin_url('LegalServices/legal_procedures/delete_contract/'.$contract->id.'/'.$service_type_id.'/'.$service_id); ?>" class="_delete">
                                        <?php echo _l('delete'); ?></a>
                                     </li>
-                                    <?php /*}*/ ?>
+                                    <?php } ?>
                                  </ul>
                               </div>
                            </div>
@@ -210,7 +210,7 @@
                               <?php echo _l('contract_content_permission_edit_warning'); ?>
                            </div>
                         <?php }*/ ?>
-                        <div class="tc-content<?php if(staff_can('edit','contracts')){echo ' editable';} ?>" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
+                        <div class="tc-content<?php if(staff_can('edit','legal_procedures')){echo ' editable';} ?>" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
                            <?php
                               if(empty($contract->content) && staff_can('edit','contracts')){
                                echo hooks()->apply_filters('new_contract_default_content', '<span class="text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
@@ -221,7 +221,7 @@
                         </div>
                          <div class="row mtop25">
                              <div class="col-md-12 text-left">
-                         <?php if(!empty($contract->content) && staff_can('edit','contracts')): ?>
+                         <?php if(!empty($contract->content) && staff_can('edit','legal_procedures')): ?>
                              <h4 class="bold"><?php echo _l('procedure_editor').' '.get_staff_full_name(get_staff_user_id()) ?></h4>
                              <h5 class="bold"><?php echo _l('procedure_copy_date').' '._dt($contract->dateadded); ?> </h5>
                          <?php endif ?>

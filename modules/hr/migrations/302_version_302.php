@@ -34,6 +34,16 @@ class Migration_Version_302 extends App_module_migration
             $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `number` varchar(255) DEFAULT '';");
         }
 
+        if (!$CI->db->field_exists('is_notification', db_prefix() . 'staff_insurance')) {
+            $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `is_notification` int(11) DEFAULT 0;");
+        }
+        if (!$CI->db->field_exists('recurring_from', db_prefix() . 'staff_insurance')) {
+            $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `recurring_from` int(11) DEFAULT 0;");
+        }
+        if (!$CI->db->field_exists('deadline_notified', db_prefix() . 'staff_insurance')) {
+            $CI->db->query("ALTER TABLE `".db_prefix() ."staff_insurance` ADD `deadline_notified` int(11) DEFAULT 0;");
+        }
+
     }
 }
 

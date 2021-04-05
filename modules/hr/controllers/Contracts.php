@@ -11,6 +11,20 @@ class Contracts extends AdminController
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
+    function validate_contract_number($id = '')
+    {
+        $number = $this->input->post('number');
+
+
+        $query = $this->db->get_where(db_prefix().'hr_contracts', array('number' => $number, 'id!=' => $id));
+        if($query->num_rows() < 1){
+            $data['status'] = TRUE;
+        }else{
+            $data['status'] = false;
+        }
+        echo json_encode($data);
+    }
+
     /* List all contracts */
     public function index()
     {
@@ -69,6 +83,7 @@ class Contracts extends AdminController
                 }
                 $id = $this->hr_contracts_model->add($this->input->post());
                 if ($id) {
+                    update_option('next_hr_contract_number', get_option('next_hr_contract_number') + 1);
                     set_alert('success', _l('added_successfully', _l('contract')));
                     redirect(admin_url('hr/contracts/contract/' . $id));
                 }

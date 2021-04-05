@@ -17,7 +17,7 @@
       </div>
       <?php } ?>
        <?php if(!isset($staff_id)) $staff_id = ''; ?>
-      <?php echo form_open_multipart(admin_url('hr/general/member/'.$staff_id),array('class'=>'staff-form','autocomplete'=>'off')); ?>
+      <?php echo form_open_multipart(admin_url('hr/general/member/'.$staff_id),array('class'=>'staff-form', 'id' => 'staff-form')); ?>
       <div class="col-md-12" id="small-table">
          <div class="panel_s">
             <div class="panel-body">
@@ -96,8 +96,24 @@
                         </div>
                      <div class="row">
                      	<div class="col-md-6">
-                     		<?php echo render_input('emloyee_id','emloyee_id',$extra_info->emloyee_id ); ?>
-                     	</div>
+                            <?php
+
+                            $next_staf_number = get_option('next_hr_staff_number');
+                            $format = get_option('hr_staff_number');
+
+                            if(isset($extra_info)){
+                                $format = $extra_info->number_format;
+                            }
+
+                            $prefix = get_option('hr_staff_prefix');
+                            ?>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php $value = (isset($member) ? $extra_info->emloyee_id :$prefix . '0000' . $next_staf_number); ?>
+                                    <?php echo render_input('emloyee_id','emloyee_id',$value); ?>
+                                </div>
+                            </div>                     	</div>
                      	<div class="col-md-6">
                      		<?php $value = (isset($member) ? $member->email : ''); ?>
                      		<?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
@@ -362,7 +378,7 @@
          </div>
       </div>
       <div class="btn-bottom-toolbar text-left btn-toolbar-container-out">
-         <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+         <button type="submit" id="btnSubmit" class="btn btn-info"><?php echo _l('submit'); ?></button>
       </div>
       <?php echo form_close(); ?>
       
@@ -377,4 +393,5 @@
       $('.department input').prop('checked', false);
       $('.department_'+sel.value).removeClass('hide');
     }
+
 </script>

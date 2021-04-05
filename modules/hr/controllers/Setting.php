@@ -16,10 +16,28 @@ class Setting extends AdminController{
     public function global_hr_setting(){
         if($this->input->post()){
             $data = $this->input->post();
-            if(isset($data['insurance_book_number'])){
-                $insurance_book_number = $data['insurance_book_number'];
-                update_option('insurance_book_number', $insurance_book_number);
-                unset($data['insurance_book_number']);
+            if(isset($data['hr_contract_prefix'])){
+                $hr_contract_prefix = $data['hr_contract_prefix'];
+                update_option('hr_contract_prefix', $hr_contract_prefix);
+                unset($data['hr_contract_prefix']);
+                set_alert('success', _l('updated_successfully'));
+            }
+            if(isset($data['next_hr_contract_number'])){
+                $next_hr_contract_number = $data['next_hr_contract_number'];
+                update_option('next_hr_contract_number', $next_hr_contract_number);
+                unset($data['next_hr_contract_number']);
+                set_alert('success', _l('updated_successfully'));
+            }
+            if(isset($data['hr_staff_prefix'])){
+                $hr_staff_prefix = $data['hr_staff_prefix'];
+                update_option('hr_staff_prefix', $hr_staff_prefix);
+                unset($data['hr_staff_prefix']);
+                set_alert('success', _l('updated_successfully'));
+            }
+            if(isset($data['next_hr_staff_number'])){
+                $next_hr_staff_number = $data['next_hr_staff_number'];
+                update_option('next_hr_staff_number', $next_hr_staff_number);
+                unset($data['next_hr_staff_number']);
                 set_alert('success', _l('updated_successfully'));
             }
             foreach($data as $name => $active){

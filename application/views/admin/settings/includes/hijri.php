@@ -10,15 +10,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!-- Default switch -->
 
 <div class="form-group">
-<!--    <button type="button" class="flip-button"></button>-->
-<!--    <input type="checkbox" name="hijri"  >Hijri-->
-    <input type="checkbox"  id="hijri_check" data-toggle="toggle"  data-onstyle="primary" name="isHijriVal">
+    <?php /*<!--    <button type="button" class="flip-button"></button>-->
+<!--    <input type="checkbox" name="hijri"  >Hijri--> */ ?>
     <label for="hiri_check" style="margin-left: 5%">
-        <?php echo _l('hijri')?>
+        <?php echo _l('module_activate') . ' ' . _l('hijri'); ?>
     </label>
+    <input type="checkbox" id="hijri_check" data-toggle="toggle" data-onstyle="primary" name="isHijriVal">
 </div>
-<hr />
-<!--<div class="form-group" id="adjust_div">-->
+<hr/>
+<?php /* <!--<div class="form-group" id="adjust_div">-->
 <!--    <div class="form-group">-->
 <!--        <label  class="control-label clearfix" style="margin-bottom: 2%">-->
 <!--            Hijri adjustment-->
@@ -43,17 +43,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
-<!--<hr />-->
+<!--<hr />-->  */ ?>
 <div class="form-group" id="tbl_div">
-    <label  class="control-label clearfix">
-        <?php echo _l('hijri_pages')?>
+    <label class="control-label clearfix">
+        <?php echo _l('hijri_pages') ?>
     </label>
 
-        <div class="row clearfix">
-            <div class="col-md-9 column">
-                <table class="table table-bordered table-hover" id="tab_logic">
-                    <thead>
-                    <tr >
+    <div class="row clearfix">
+        <div class="col-md-9 column">
+            <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                <tr>
                         <th class="text-center">
                             #
                         </th>
@@ -63,25 +63,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr id='addr0'>
-<!--                        <td>-->
-<!--                            1-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <input type="text" name='link0'  placeholder='Link' class="form-control"/>-->
-<!--                        </td>-->
-
-                    </tr>
-<!--                    <tr id='addr1'></tr>-->
-                    </tbody>
-                </table>
-            </div>
+                <tbody>
+                <tr id='addr0'>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <a id="add_row" class="btn btn-default pull-left"><?php echo _l('add_row')?></a><a id='delete_row' class="pull-right btn btn-default"><?php echo _l('delete_row')?></a>
+    </div>
+    <a id="add_row" class="btn btn-default pull-left"><?php echo _l('add_row') ?></a><a id='delete_row'
+                                                                                        class="pull-right btn btn-default"><?php echo _l('delete_row') ?></a>
 
 </div>
-<!--<div  class="form-group">-->
+<?php /* <!--<div  class="form-group">-->
 <!---->
 <!--    <div id="adjust_list"   style="margin-top: 100px">-->
 <!--        <h2>--><?php //echo $lang['adjust_history']; ?><!--</h2>-->
@@ -143,19 +136,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!--    </div>-->
 <!---->
 <!---->
-<!--</div>-->
+<!--</div>--> */ ?>
 <div id="adjust_div" class="form-group">
 
     <div id="adjust_list" class="form-group" style="margin-top: 100px">
         <?php
         $hijri_settings = array('umalqura' => TRUE, 'langecode' => 'ar');
-//        $hijri_settings['adj_data'] = $_SESSION['adj_data'];
-//        $_SESSION['adj_data'] = $adj->get_adjdata(TRUE);
+        //        $hijri_settings['adj_data'] = $_SESSION['adj_data'];
+        //        $_SESSION['adj_data'] = $adj->get_adjdata(TRUE);
         $adj = new CalendarAdjustment();
         $hmonths = array(1 => "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة");
-        $msg='';
+        $msg = '';
 //        echo '<h2>التعديلات الحالية على تقويم أم القرى</h2>';
-        echo '<h2>'._l('adjust_history').'</h2>';
+        echo '<h4>'._l('adjust_history').'</h4>';
         $history = get_option('adjust_data');
         $history = json_decode($history);
         $myret = array();
@@ -188,11 +181,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 //                echo '</div>';
             }
         }
-
-
-
-
-
 //        echo DateHijri::createFromHijri(1436, 11, 0)->format('_d _M _Y=d M Y') . '<br/>';
 //        echo DateHijri::createFromHijri(1436, 12, 0)->format('_d _M _Y=d M Y') . '<br/>';
 //        echo DateHijri::createFromHijri(1437, 1, 0)->format('_d _M _Y=d M Y') . '<br/>';
@@ -203,7 +191,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <div id="current_adjust" class="form-group">
         <div id="new_adjustement" class="form-group col-sm-12">
-            <h2><?php echo _l('current_adjust'); ?></h2>
+            <h4><?php echo _l('current_adjust'); ?></h4>
             <?php
 
             ?>
@@ -286,12 +274,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
 <?php
-
-
 //    var_dump(DateHijri::createFromHijri(1436, 11, 0)->format('_d _M _Y=d M Y'));exit;
-
-
-
 //
 //
 //        $hm = $_GET['month'];
@@ -359,14 +342,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 //    exit();
 //}
 //?>
-<!--<html dir="rtl">-->
+<?php /* <!--<html dir="rtl">-->
 <!---->
 <!--<head>-->
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
 <!--    <title>تعديل تقويم أم القرى</title>-->
 <!--</head>-->
 <!---->
-<!--<body>-->
+<!--<body>--> */?>
 <?php
 //$no_session = false;
 ////if (array_key_exists('password', $_SESSION)) {
@@ -454,7 +437,4 @@ defined('BASEPATH') or exit('No direct script access allowed');
 //    echo '<br/><form method="post"><input type="submit" name="exit" value="خروج" /></form>';
 //}
 //?>
-
-
-
 

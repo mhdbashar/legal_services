@@ -46,6 +46,24 @@
                </div>
                */?>
                         <?php
+
+                        $next_contract_number = get_option('next_hr_contract_number');
+                        $format = get_option('hr_contract_number');
+
+                        if(isset($contract)){
+                            $format = $contract->number_format;
+                        }
+
+                        $prefix = get_option('hr_contract_prefix');
+                        ?>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php $value = (isset($contract) ? $contract->number :$prefix . '0000' . $next_contract_number); ?>
+                                <?php echo render_input('number','contract_code',$value); ?>
+                            </div>
+                        </div>
+                        <?php
                         //                        $selected = (isset($contract) ? $contract->rel_stype : '');
                         //                        echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],['id' => 'div_rel_stype'], $hide_project_selector,'',true); ?>
 
@@ -84,7 +102,7 @@
                         <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
                         <?php echo render_custom_fields('contracts',$rel_id); ?>
                         <div class="btn-bottom-toolbar text-right">
-                            <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                            <button type="submit" id="contract-submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
                         </div>
                         <?php echo form_close(); ?>
                     </div>
@@ -482,7 +500,38 @@
     }
     Dropzone.autoDiscover = false;
     $(function () {
-        // add invoice/estimate note
+
+        //submit contract
+        $('#contract-submit').on('click', function (e) {
+            var number = $("input[name='number']").val();
+            e.preventDefault();
+
+            $.ajax({
+                url: '<?php
+                    $contract_id = isset($contract) ? $contract->id : '';
+                    echo admin_url('hr/contracts/validate_contract_number/').$contract_id; ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {number: number},
+                error: function () {
+                    console.log('error')
+                },
+                success: function (data) {
+                    if (data.status == true) {
+                        //alert(data.status);
+                        $(window).off('beforeunload');
+                        $("#hr-contract-form").unbind('submit').submit();
+
+
+                    } else if (data.status == false) {
+
+                        // alert(data.status);
+                        $("input[name='number']").css('border', '2px solid red');
+                    }
+                }
+            });
+        });
+        // add contract/estimate note
         $("body").on('submit', '#contracts-notes', function () {
             var form = $(this);
             if (form.find('textarea[name="description"]').val() === '') {

@@ -1,9 +1,16 @@
 
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<?php
-
-?>
+<style>
+    .h5-color {
+        color: #d8341b;
+    }
+    .hr-color {
+        margin-top: 10px;
+        border-bottom: 0.5px solid;
+        color: #d8341b;
+    }
+</style>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -30,11 +37,18 @@
 									        </div>
 									    	</div>
 
-	            					
-	            					<br>
 	            			<?php	} ?>
-                            <hr />
-	            			<div class="btn-bottom-toolbar text-right">
+                            <h5 class="h5-color"><?php echo _l('hr_contract_prefix'); ?></h5>
+                            <hr class="hr-color">
+                            <?php echo render_input('hr_contract_prefix','hr_contract_prefix',get_option('hr_contract_prefix')); ?>
+                            <?php echo render_input('next_hr_contract_number','next_hr_contract_number',get_option('next_hr_contract_number')); ?>
+
+                            <h5 class="h5-color"><?php echo _l('hr_staff_prefix'); ?></h5>
+                            <hr class="hr-color">
+                            <?php echo render_input('hr_staff_prefix','hr_staff_prefix',get_option('hr_staff_prefix')); ?>
+                            <?php echo render_input('next_hr_staff_number','next_hr_staff_number',get_option('next_hr_staff_number')); ?>
+
+                            <div class="btn-bottom-toolbar text-right">
 						          <button type="submit" class="btn btn-info">
 						            <?php echo _l('settings_save'); ?>
 						          </button>

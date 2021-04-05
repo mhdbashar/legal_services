@@ -385,6 +385,40 @@ $(document).ready(function(){
        });
    });
 
+$(function () {
+
+    //submit staff
+    $('#btnSubmit').on('click', function (e) {
+        var emloyee_id = $("input[name='emloyee_id']").val();
+        e.preventDefault();
+        console.log('here')
+        $.ajax({
+            url: '<?php
+                $id = isset($extra_info) ? $extra_info->id : '';
+                echo admin_url('hr/general/validate_staff_number/').$id; ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {number: emloyee_id},
+            error: function () {
+                console.log('error')
+            },
+            success: function (data) {
+                if (data.status == true) {
+                    //alert(data.status);
+                    $(window).off('beforeunload');
+                    $("#staff-form").unbind('submit').submit();
+
+
+                } else if (data.status == false) {
+
+                    // alert(data.status);
+                    $("input[name='emloyee_id']").css('border', '2px solid red');
+                }
+            }
+        });
+    })
+
+});
 </script>
 </body>
 </html>

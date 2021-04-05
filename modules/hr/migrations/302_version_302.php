@@ -23,10 +23,13 @@ class Migration_Version_302 extends App_module_migration
         if (!$CI->db->field_exists('number', db_prefix() . 'hr_contracts')) {
             $CI->db->query("ALTER TABLE `".db_prefix() ."hr_contracts` ADD `number` varchar(255) DEFAULT '';");
         }
-//
-//        if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_extra_info')) {
-//            $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `number_format` varchar(255) DEFAULT '1';");
-//        }
+        if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_contracts')) {
+            $CI->db->query("ALTER TABLE `".db_prefix() ."hr_contracts` ADD `number_format` varchar(255) DEFAULT '1';");
+        }
+
+        if (!$CI->db->field_exists('number_format', db_prefix() . 'hr_extra_info')) {
+            $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `number_format` varchar(255) DEFAULT '1';");
+        }
 //        if (!$CI->db->field_exists('prefix', db_prefix() . 'hr_extra_info')) {
 //            $CI->db->query("ALTER TABLE `".db_prefix() ."hr_extra_info` ADD `prefix` varchar(255) DEFAULT '';");
 //        }

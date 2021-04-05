@@ -26,6 +26,19 @@ class General extends AdminController{
             access_denied();
 	}
 
+	public function validate_staff_number($id){
+        $number = $this->input->post('number');
+
+
+        $query = $this->db->get_where(db_prefix().'hr_extra_info', array('emloyee_id' => $number, 'id!=' => $id));
+        if($query->num_rows() < 1){
+            $data['status'] = TRUE;
+        }else{
+            $data['status'] = false;
+        }
+        echo json_encode($data);
+    }
+
     public function staff()
     {
 //        if (!has_permission('staff', '', 'view')) {
@@ -242,6 +255,7 @@ class General extends AdminController{
                 $id = $this->staff_model->add($data);
                 $hr_data['staff_id'] = $id;
                 $success = $this->Extra_info_model->add($hr_data);
+                update_option('next_hr_staff_number', get_option('next_hr_staff_number') + 1);
 //                    if(is_numeric($branch_id)){
 //                        $this->Branches_model->update_branch('staff', $id, $branch_id);
 //                    }else{
@@ -319,7 +333,7 @@ class General extends AdminController{
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
-        $extra_info = ['emloyee_id' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+        $extra_info = ['id' => '', 'emloyee_id' => '', 'number_format' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
         $data['extra_info'] = (object)$extra_info;
         $data['leaves'] = $this->Leave_type_model->get();
 

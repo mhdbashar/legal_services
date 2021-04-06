@@ -955,7 +955,7 @@ class Purchase_model extends App_Model
             $header[] = 'quantity';
             $header[] = 'into_money';
             $header[] = 'inventory_quantity';
-
+            if (is_array($request_detail) || is_object($request_detail))
             foreach ($request_detail as $key => $value) {
 
                 if($value[0] != ''){

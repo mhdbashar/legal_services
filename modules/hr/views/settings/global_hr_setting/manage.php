@@ -48,6 +48,12 @@
                             <?php echo render_input('hr_staff_prefix','hr_staff_prefix',get_option('hr_staff_prefix')); ?>
                             <?php echo render_input('next_hr_staff_number','next_hr_staff_number',get_option('next_hr_staff_number')); ?>
 
+
+                            <h5 class="h5-color"><?php echo _l('hr_designation_prefix'); ?></h5>
+                            <hr class="hr-color">
+                            <?php echo render_input('hr_designation_prefix','hr_designation_prefix',get_option('hr_designation_prefix')); ?>
+                            <?php echo render_input('next_hr_designation_number','next_hr_designation_number',get_option('next_hr_designation_number')); ?>
+
                             <div class="btn-bottom-toolbar text-right">
 						          <button type="submit" class="btn btn-info">
 						            <?php echo _l('settings_save'); ?>

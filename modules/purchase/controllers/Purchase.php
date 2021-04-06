@@ -30,6 +30,10 @@ class purchase extends AdminController
     public function vendors(){
     	
         $data['title']          = _l('vendor');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/Cases_model', 'case');
+        $data['legal_services'] = $this->legal->get_all_services();
+        var_dump($data['legal_services']); exit();
 
         $this->load->view('vendors/manage', $data);
     }
@@ -1320,6 +1324,10 @@ class purchase extends AdminController
         $data['units'] = $this->purchase_model->get_units();
         $data['items'] = $this->purchase_model->get_items();
         $data['title'] = $title;
+
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/Cases_model', 'case');
+        $data['legal_services'] = $this->legal->get_all_services();
 
         $this->load->view('contracts/contract', $data);
     }

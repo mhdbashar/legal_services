@@ -28,13 +28,7 @@ class purchase extends AdminController
      * { vendors }
      */
     public function vendors(){
-    	
         $data['title']          = _l('vendor');
-        $this->load->model('LegalServices/LegalServicesModel', 'legal');
-        $this->load->model('LegalServices/Cases_model', 'case');
-        $data['legal_services'] = $this->legal->get_all_services();
-        var_dump($data['legal_services']); exit();
-
         $this->load->view('vendors/manage', $data);
     }
 

@@ -5,6 +5,10 @@ $lang['next_hr_contract_number'] = 'Next hr contract number';
 $lang['hr_staff_prefix'] = 'Staff prefix';
 $lang['next_hr_staff_number'] = 'Next staff number';
 
+$lang['hr_designation_prefix'] = 'Designation prefix';
+$lang['next_hr_designation_number'] = 'Next designation number';
+$lang['designation_code'] = 'Designation code';
+
 $lang['total_salary'] = 'Total salary';
 
 $lang['add_insurance_type'] = 'Add insurance type';

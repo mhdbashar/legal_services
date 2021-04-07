@@ -61,78 +61,79 @@ class Settings_model extends App_Model
             $data['settings']['default_tax'] = [];
         }
         $all_settings_looped = [];
-        foreach ($data['settings'] as $name => $val) {
+        if(isset($data['settings'])) {
+            foreach ($data['settings'] as $name => $val) {
 
                 // Do not trim thousand separator option
-            // There is an option of white space there and if will be trimmed wont work as configured
-            if (is_string($val) && $name != 'thousand_separator') {
-                $val = trim($val);
-            }
+                // There is an option of white space there and if will be trimmed wont work as configured
+                if (is_string($val) && $name != 'thousand_separator') {
+                    $val = trim($val);
+                }
 
-            array_push($all_settings_looped, $name);
+                array_push($all_settings_looped, $name);
 
-            $hook_data['name']  = $name;
-            $hook_data['value'] = $val;
-            $hook_data          = hooks()->apply_filters('before_single_setting_updated_in_loop', $hook_data);
-            $name               = $hook_data['name'];
-            $val                = $hook_data['value'];
+                $hook_data['name'] = $name;
+                $hook_data['value'] = $val;
+                $hook_data = hooks()->apply_filters('before_single_setting_updated_in_loop', $hook_data);
+                $name = $hook_data['name'];
+                $val = $hook_data['value'];
 
-            if ($name == 'default_contact_permissions') {
-                $val = serialize($val);
-            } elseif ($name == 'lead_unique_validation') {
-                $val = json_encode($val);
-            } elseif ($name == 'visible_customer_profile_tabs') {
-                if ($val == '') {
-                    $val = 'all';
-                } else {
-                    $tabs           = get_customer_profile_tabs();
-                    $newVisibleTabs = [];
-                    foreach ($tabs as $tabKey => $tab) {
-                        $newVisibleTabs[$tabKey] = in_array($tabKey, $val);
+                if ($name == 'default_contact_permissions') {
+                    $val = serialize($val);
+                } elseif ($name == 'lead_unique_validation') {
+                    $val = json_encode($val);
+                } elseif ($name == 'visible_customer_profile_tabs') {
+                    if ($val == '') {
+                        $val = 'all';
+                    } else {
+                        $tabs = get_customer_profile_tabs();
+                        $newVisibleTabs = [];
+                        foreach ($tabs as $tabKey => $tab) {
+                            $newVisibleTabs[$tabKey] = in_array($tabKey, $val);
+                        }
+                        $val = serialize($newVisibleTabs);
                     }
-                    $val = serialize($newVisibleTabs);
-                }
-            } elseif ($name == 'email_signature') {
-                $val = html_entity_decode($val);
+                } elseif ($name == 'email_signature') {
+                    $val = html_entity_decode($val);
 
-                if ($val == strip_tags($val)) {
-                    // not contains HTML, add break lines
-                    $val = nl2br_save_html($val);
-                }
-            } elseif ($name == 'email_header' || $name == 'email_footer') {
-                $val = html_entity_decode($val);
-            } elseif ($name == 'default_tax') {
-                $val = array_filter($val, function ($value) {
-                    return $value !== '';
-                });
-                $val = serialize($val);
-            } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
-                $val = strip_tags($val);
-                $val = nl2br($val);
-            } elseif (in_array($name, $this->encrypted_fields)) {
-                // Check if not empty $val password
-                // Get original
-                // Decrypt original
-                // Compare with $val password
-                // If equal unset
-                // If not encrypt and save
-                if (!empty($val)) {
-                    $or_decrypted = $this->encryption->decrypt($original_encrypted_fields[$name]);
-                    if ($or_decrypted == $val) {
-                        continue;
+                    if ($val == strip_tags($val)) {
+                        // not contains HTML, add break lines
+                        $val = nl2br_save_html($val);
                     }
-                    $val = $this->encryption->encrypt($val);
+                } elseif ($name == 'email_header' || $name == 'email_footer') {
+                    $val = html_entity_decode($val);
+                } elseif ($name == 'default_tax') {
+                    $val = array_filter($val, function ($value) {
+                        return $value !== '';
+                    });
+                    $val = serialize($val);
+                } elseif ($name == 'company_info_format' || $name == 'customer_info_format' || $name == 'proposal_info_format' || strpos($name, 'sms_trigger_') !== false) {
+                    $val = strip_tags($val);
+                    $val = nl2br($val);
+                } elseif (in_array($name, $this->encrypted_fields)) {
+                    // Check if not empty $val password
+                    // Get original
+                    // Decrypt original
+                    // Compare with $val password
+                    // If equal unset
+                    // If not encrypt and save
+                    if (!empty($val)) {
+                        $or_decrypted = $this->encryption->decrypt($original_encrypted_fields[$name]);
+                        if ($or_decrypted == $val) {
+                            continue;
+                        }
+                        $val = $this->encryption->encrypt($val);
+                    }
                 }
-            }
 
-            if (update_option($name, $val)) {
-                $affectedRows++;
-                if ($name == 'save_last_order_for_tables') {
-                    $this->db->query('DELETE FROM ' . db_prefix() . 'user_meta where meta_key like "%-table-last-order"');
+                if (update_option($name, $val)) {
+                    $affectedRows++;
+                    if ($name == 'save_last_order_for_tables') {
+                        $this->db->query('DELETE FROM ' . db_prefix() . 'user_meta where meta_key like "%-table-last-order"');
+                    }
                 }
             }
         }
-
         // Contact permission default none
         if (!in_array('default_contact_permissions', $all_settings_looped)
                 && in_array('customer_settings', $all_settings_looped)) {

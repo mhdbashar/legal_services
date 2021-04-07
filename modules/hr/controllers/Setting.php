@@ -28,6 +28,7 @@ class Setting extends AdminController{
                 unset($data['next_hr_contract_number']);
                 set_alert('success', _l('updated_successfully'));
             }
+
             if(isset($data['hr_staff_prefix'])){
                 $hr_staff_prefix = $data['hr_staff_prefix'];
                 update_option('hr_staff_prefix', $hr_staff_prefix);
@@ -38,6 +39,19 @@ class Setting extends AdminController{
                 $next_hr_staff_number = $data['next_hr_staff_number'];
                 update_option('next_hr_staff_number', $next_hr_staff_number);
                 unset($data['next_hr_staff_number']);
+                set_alert('success', _l('updated_successfully'));
+            }
+
+            if(isset($data['hr_designation_prefix'])){
+                $hr_designation_prefix = $data['hr_designation_prefix'];
+                update_option('hr_designation_prefix', $hr_designation_prefix);
+                unset($data['hr_designation_prefix']);
+                set_alert('success', _l('updated_successfully'));
+            }
+            if(isset($data['next_hr_designation_number'])){
+                $next_hr_designation_number = $data['next_hr_designation_number'];
+                update_option('next_hr_designation_number', $next_hr_designation_number);
+                unset($data['next_hr_designation_number']);
                 set_alert('success', _l('updated_successfully'));
             }
             foreach($data as $name => $active){

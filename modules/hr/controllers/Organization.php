@@ -17,6 +17,28 @@ class Organization extends AdminController{
             access_denied();
 	}
 
+	public function get_designation_number(){
+        $next_designation_number = get_option('next_hr_designation_number');
+        $prefix = get_option('hr_designation_prefix');
+
+        $data['number'] = ($prefix . '0000' . $next_designation_number);
+
+        echo json_encode($data);
+    }
+    public  function validate_designation_number($id = ''){
+
+        $number = $this->input->post('number');
+
+
+        $query = $this->db->get_where(db_prefix().'hr_designations', array('number' => $number, 'id!=' => $id));
+        if($query->num_rows() < 1){
+            $data['status'] = TRUE;
+        }else{
+            $data['status'] = false;
+        }
+        echo json_encode($data);
+    }
+
 	public function officail_documents(){
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_official_documents_table');
@@ -81,11 +103,11 @@ class Organization extends AdminController{
             $this->hrmapp->get_table_data('my_designation_table');
         }
         $data['departments']   = $this->Departments_model->get();
-        if($this->app_modules->is_active('branches')) {
-            $ci = &get_instance();
-            $ci->load->model('branches/Branches_model');
-            $data['branches'] = $ci->Branches_model->getBranches();
-        }
+//        if($this->app_modules->is_active('branches')) {
+//            $ci = &get_instance();
+//            $ci->load->model('branches/Branches_model');
+//            $data['branches'] = $ci->Branches_model->getBranches();
+//        }
         $data['title'] = _l('designation');
         $this->load->view('organization/designation', $data);
     }
@@ -116,9 +138,9 @@ class Organization extends AdminController{
             $branch_id = $this->No_branch_model->get_general_branch();
         $id = $this->input->post('id');
         $success = $this->Designation_model->update($data, $id);
-        if(true){
-                $this->Branches_model->update_branch('designations', $id, $branch_id);
-            }
+//        if(true){
+//                $this->Branches_model->update_branch('designations', $id, $branch_id);
+//            }
         if($success){
             set_alert('success', _l('updated_successfully'));
         }
@@ -132,7 +154,7 @@ class Organization extends AdminController{
 
         $success = $this->Designation_model->add($data);
         if($success){
-
+            update_option('next_hr_designation_number', get_option('next_hr_designation_number') + 1);
             set_alert('success', _l('added_successfully'));
         }else
             set_alert('warning', 'Problem Creating');

@@ -5,6 +5,9 @@ $lang['hr_contract_prefix'] = 'لاحقة العقد';
 $lang['next_hr_contract_number'] = 'رقم لاحقة العقد';
 $lang['hr_staff_prefix'] = 'لاحقة الموظف';
 $lang['next_hr_staff_number'] = 'رقم لاحقة الموظف';
+$lang['hr_designation_prefix'] = 'لاحقة المسمى الوظيفي';
+$lang['next_hr_designation_number'] = 'رقم لاحقة المسمى الوظيفي';
+$lang['designation_code'] = 'كود المسمى الوظيفي';
 
 $lang['total_salary'] = 'الراتب الكامل';
 $lang['add_insurance_type'] = 'اضافة نوع تأمين';

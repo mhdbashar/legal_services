@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: المشتريات
 Description: وحدة إدارة المشتريات هي أداة لإدارة مشترياتك اليومية. إنها مليئة بجميع المميزات الضرورية التي تحتاجها أي شركة ، والتي يتعين عليها شراء المواد الخام للتصنيع أو شراء السلع الجاهزة للتداول
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 2.3.*
 Author: Babil Team
 Author URI: https://babil.net.sa*/

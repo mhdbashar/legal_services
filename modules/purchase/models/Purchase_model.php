@@ -990,6 +990,7 @@ class Purchase_model extends App_Model
                     
                 }
             }
+            if(!empty($rq_detail))
             $this->db->insert_batch(db_prefix().'pur_request_detail',$rq_detail);
             return $insert_id;
         }
@@ -1069,6 +1070,7 @@ class Purchase_model extends App_Model
             }
         }
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_request_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1342,7 +1344,7 @@ class Purchase_model extends App_Model
             if($data['discount_total'] > 0){
                 $total['total'] = $total['total'] - $data['discount_total'];
             }
-
+            if(!empty($es_detail))
             $this->db->insert_batch(db_prefix().'pur_estimate_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
@@ -1486,6 +1488,7 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_estimate_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1786,7 +1789,7 @@ class Purchase_model extends App_Model
 
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
-
+            if(!empty($es_detail))
             $this->db->insert_batch(db_prefix().'pur_order_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
@@ -1936,6 +1939,7 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_order_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;

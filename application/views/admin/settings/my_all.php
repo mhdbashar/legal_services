@@ -182,34 +182,6 @@
                 $('input[name="settings[purchase_key]"]').parents('.form-group').addClass('has-error');
             }
         });
-
-        $('#submit_office_name').on('click', function (e) {
-            if($("input[name='settings[office_name_in_center]']").length){
-                var office_name_in_center = $("input[name='settings[office_name_in_center]']").val();
-                e.preventDefault();
-            }else{
-                console.log("not exist");
-            }
-            $.ajax({
-                url: '<?php echo site_url($this->uri->uri_string()); ?>/get_office_name',
-                type: 'POST',
-                dataType: 'json',
-                data: {office_name_in_center: office_name_in_center},
-                error: function (e) {
-                    alert('لا يوجد توكن مرتبطة بهذا الاسم');
-                },
-                success: function (data) {
-                    if (data.status == true) {
-                        //alert(data.status);
-                        $(window).off('beforeunload');
-                        $("#settings-form").unbind('submit').submit();
-                    } else if (data.status == false) {
-                        //alert(data.status);
-                        $("input[name='settings[office_name_in_center]']").css('border', '2px solid red');
-                    }
-                }
-            });
-        });
     });
 </script>
 <?php if ($tab['slug'] == 'company') { ?>

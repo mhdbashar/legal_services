@@ -5,7 +5,7 @@
   var rest_time = 0;
   var time = 0;
   var hour_working;
-  var number_day_off = <?php echo html_entity_decode($number_day_off); ?>;
+  var number_day_off =$('input[name="number_day_off"]').val();
   (function(){
     "use strict";
 
@@ -19,7 +19,7 @@
     };
 
     var table_contract = $('.table-table_contract');
-    initDataTable(table_registration_leave,admin_url + 'timesheets/table_registration_leave', [0], [0],requisitionServerParams, [1, 'desc']);
+    initDataTable(table_registration_leave, admin_url+'timesheets/table_registration_leave', [1], [1], requisitionServerParams, [1, 'desc']);
 
      //hide first column
      var hidden_columns = [0];
@@ -89,7 +89,7 @@
       var value = $('select[name="type_of_leave"]').val();
       if(value == 8){
         $('div[id="number_days_off_2"]').removeClass('hide');
-        var number_day_off = <?php echo html_entity_decode($number_day_off); ?>;
+        var number_day_off = $('input[name="number_day_off"]').val();
         if($('input[name="number_of_leaving_day"]').val() > number_day_off){
           $('button[type="submit"]').attr('disabled', 'true');
         }else{
@@ -351,7 +351,7 @@
        response = JSON.parse(response);
        $('input[name="number_of_leaving_day"]').val(response);
        $('#number_days_off label').text('<?php echo _l('Number_of_leaving_day'); ?>: '+response);
-       var number_day_off = <?php echo html_entity_decode($number_day_off); ?>;
+       var number_day_off = $('input[name="number_day_off"]').val();
        var value = $('select[name="type_of_leave"]').val();
        if(value == 8){
         if(response > number_day_off){
@@ -378,6 +378,21 @@
       $.post(admin_url+'timesheets/send_mail', data_send_mail).done(function(response){
       });
     <?php } ?>
+
+    $('select[name="staff_id"]').change(function(){
+      $('#requisition-form .btn-submit').attr('disabled', true);
+      var id = $(this).val();
+      $('input[name="userid"]').val(id);
+      var current_date =  $('input[name="current_date"]').val();
+      $('input[name="number_of_leaving_day"]').val(0.5);
+      $.post(admin_url+'timesheets/get_remain_day_of/'+id).done(function(response){
+        response = JSON.parse(response);
+        $('#number_days_off_2').html(response.html);
+        $('input[name="start_time"]').val(response.valid_date);
+        $('input[name="end_time"]').val(response.valid_date);
+        $('#requisition-form .btn-submit').removeAttr('disabled');
+      });
+    });
   })(jQuery);
 
 
@@ -683,15 +698,18 @@
      var type_of_leave = $('select[name="type_of_leave"]').val();
      if(type_of_leave == 8){
       var number_of_leaving_day = $('#number_of_leaving_day').val();
-      if(number_day_off == 0) {        
+      var number_day_off = $('input[name="number_day_off"]').val();
+      if(number_day_off <= 0) {        
         alert_float('warning', '<?php echo _l('cannot_create_number_of_days_remaining_is_0'); ?>');
         return false;   
       }
-      if(number_of_leaving_day == 0){
-        $('.btn-submit').attr('disabled', true); 
+      if(number_of_leaving_day <= 0){
+        alert_float('warning', '<?php echo _l('the_minimum_number_of_days_off_must_be_0.5'); ?>');
+        return false;   
       }
-      else{
-        $('.btn-submit').removeAttr('disabled');    
+      if(number_of_leaving_day > number_day_off){
+        alert_float('warning', '<?php echo _l('the_number_of_days_off_must_not_be_greater_than').' '; ?>'+number_day_off);
+        return false;   
       }
     }
     else{
@@ -731,6 +749,7 @@
       $(this).val(fit_end_time);
     }
   });
+
   $('input[name="end_time_s"]').change(function(){
     var rel_type = $('select[name="rel_type"]').val();
     if(rel_type == 3 || rel_type == 2 || rel_type == 6){
@@ -745,7 +764,7 @@
     }
   });
 
-$('input[name="start_time"]').change(function(){
+  $('input[name="start_time"]').change(function(){
     var rel_type = $('select[name="rel_type"]').val();
     if(rel_type == 3 || rel_type == 2 || rel_type == 6){
       return false;

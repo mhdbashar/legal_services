@@ -68,14 +68,6 @@
                         </select>
                        </div>
 
-                       <div class="col-md-3 form-group">
-                        <label for="project"><?php echo _l('project'); ?></label>
-                        <select name="project[]" id="project" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('leads_all'); ?>">
-                           <?php foreach($projects as $pj){ ?>
-                            <option value="<?php echo html_entity_decode($pj['id']); ?>" ><?php echo html_entity_decode($pj['name']); ?></option>
-                           <?php } ?>
-                        </select>
-                       </div>
 
                        <div class="col-md-3 form-group">
                            <label for="department"><?php echo _l('department'); ?></label>
@@ -91,7 +83,9 @@
                          <label for="delivery_status"><?php echo _l('delivery_status'); ?></label>
                          <select name="delivery_status[]" id="delivery_status" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('leads_all'); ?>">
                            <option value="0" ><?php echo _l('undelivered'); ?></option>
-                           <option value="1" ><?php echo _l('delivered'); ?></option> 
+                           <option value="1" ><?php echo _l('completely_delivered'); ?></option>
+                           <option value="2" ><?php echo _l('pending_delivered'); ?></option>
+                           <option value="3" ><?php echo _l('partially_delivered'); ?></option>
                         </select>
                        </div>
 
@@ -116,7 +110,8 @@
                            _l('tax_value'),
                            _l('po_value_included_tax'),
                            _l('tags'),
-                           _l('approval_status'),
+                           _l('status'),
+                           _l('delivery_date'),
                            _l('delivery_status'),
                            _l('payment_status'),
                            _l('convert_expense'),
@@ -156,6 +151,7 @@
             <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('expense_name_help'); ?>"></i>
             <?php echo render_input('expense_name','expense_name'); ?>
             <?php echo render_textarea('note','expense_add_edit_note','',array('rows'=>4),array()); ?>
+            <?php echo render_select('clientid',$customers,array('userid','company'),'customer'); ?>
             <?php echo render_select('category',$expense_categories,array('id','name'),'expense_category'); ?>
             <?php echo render_date_input('date','expense_add_edit_date',_d(date('Y-m-d'))); ?>
             <?php echo render_input('amount','expense_add_edit_amount','','number'); ?>

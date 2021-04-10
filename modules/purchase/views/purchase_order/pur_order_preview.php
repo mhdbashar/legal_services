@@ -73,6 +73,17 @@
                      </span>
                      </a>
                   </li>
+
+                  <li role="presentation" class="tab-separator">
+                    <?php
+                              $totalComments = total_rows(db_prefix().'pur_comments',['rel_id' => $estimate->id, 'rel_type' => 'pur_order']);
+                              ?>
+                     <a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">
+                     <?php echo _l('pur_discuss'); ?>
+                      <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
+                     </a>
+                  </li> 
+                  
                   <li role="presentation" class="tab-separator">
                      <a href="#attachment" aria-controls="attachment" role="tab" data-toggle="tab">
                      <?php echo _l('attachment'); ?>
@@ -124,15 +135,13 @@
                <?php } ?>
 
                   
-               <?php if($estimate->approve_status != 2) {?>
                <select name="status" id="status" class="selectpicker pull-right mright10" onchange="change_status_pur_order(this,<?php echo ($estimate->id); ?>); return false;" data-live-search="true" data-width="35%" data-none-selected-text="<?php echo _l('pur_change_status_to'); ?>">
                  <option value=""></option>
                  <option value="1" class="<?php if($estimate->approve_status == 1) { echo 'hide';}?>"><?php echo _l('purchase_not_yet_approve'); ?></option>
                  <option value="2" class="<?php if($estimate->approve_status == 2) { echo 'hide';}?>"><?php echo _l('purchase_approved'); ?></option>
                  <option value="3" class="<?php if($estimate->approve_status == 3) { echo 'hide';}?>"><?php echo _l('purchase_reject'); ?></option>
-                 <option value="4" class="<?php if($estimate->approve_status == 4) { echo 'hide';}?>"><?php echo _l('cancel'); ?></option>
+                 <option value="4" class="<?php if($estimate->approve_status == 4) { echo 'hide';}?>"><?php echo _l('close'); ?></option>
                </select>
-               <?php } ?>
                
                <div class="col-md-12 padr_div_0">
                   <br>
@@ -356,26 +365,25 @@
                                  <td><span class="bold"><?php echo _l('subtotal'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo app_format_money($t_mn,''); ?>
+                                    <?php echo app_format_money($estimate->subtotal,''); ?>
                                  </td>
                               </tr>
+
+                              <?php if($tax_data['preview_html'] != ''){
+                                echo html_entity_decode($tax_data['preview_html']);
+                              } ?>
+
                               <?php if($estimate->discount_total > 0){ ?>
                               
-                              <tr id="subtotal">
-                                 <td><span class="bold"><?php echo _l('discount(%)').'(%)'; ?></span>
-                                 </td>
-                                 <td class="subtotal">
-                                    <?php echo app_format_money($estimate->discount_percent,'').' %'; ?>
-                                 </td>
-                              </tr>
                               <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('discount(money)'); ?></span>
                                  </td>
                                  <td class="subtotal">
-                                    <?php echo app_format_money($estimate->discount_total, ''); ?>
+                                    <?php echo '-'.app_format_money($estimate->discount_total, ''); ?>
                                  </td>
                               </tr>
                               <?php } ?>
+
                               <?php if($estimate->tax_order_amount > 0){ ?>
                                 <tr id="subtotal">
                                  <td><span class="bold"><?php echo _l('tax').'(%)'; ?></span>
@@ -438,6 +446,17 @@
                </div>
             </div>
 
+            <div role="tabpanel" class="tab-pane" id="discuss">
+              <div class="row contract-comments mtop15">
+                 <div class="col-md-12">
+                    <div id="contract-comments"></div>
+                    <div class="clearfix"></div>
+                    <textarea name="content" id="comment" rows="4" class="form-control mtop15 contract-comment"></textarea>
+                    <button type="button" class="btn btn-info mtop10 pull-right" onclick="add_contract_comment();"><?php echo _l('proposal_add_comment'); ?></button>
+                 </div>
+              </div>
+            </div>
+
             <div role="tabpanel" class="tab-pane" id="attachment">
                <?php echo form_open_multipart(admin_url('purchase/purchase_order_attachment/'.$estimate->id),array('id'=>'partograph-attachments-upload')); ?>
                 <?php echo render_input('file','file','','file'); ?>
@@ -489,9 +508,16 @@
                <h4 class="font-medium mbot15 bold text-success"><?php echo _l('payment_for_pur_order').' '.$estimate->pur_order_number; ?></h4>
                </div>
                <div class="col-md-6 padr_div_0">
-               <?php if(purorder_left_to_pay($estimate->id) > 0){ ?>
+                
+               <!-- <?php if(purorder_left_to_pay($estimate->id) > 0){ ?>
                <a href="#" onclick="add_payment(<?php echo html_entity_decode($estimate->id); ?>); return false;" class="btn btn-success pull-right"><i class="fa fa-plus"></i><?php echo ' '._l('payment'); ?></a>
-               <?php } ?>
+               <?php } ?> -->
+
+               <?php if(purorder_left_to_pay($estimate->id) < $estimate->total){ ?>
+               <a href="#" onclick="convert_to_purchase_inv(<?php echo html_entity_decode($estimate->id); ?> ); return false;" class="btn btn-info pull-right mright5" data-toggle="tooltip" data-placement="top" title="<?php echo _l('convert_to_payment_of_purchase_inv'); ?>" ><i class="fa fa-refresh"></i></a>
+                <?php } ?>
+
+
                </div>
                <div class="clearfix"></div>
                <table class="table dt-table">
@@ -510,7 +536,14 @@
                            <td><?php echo get_payment_mode_by_id($pay['paymentmode']); ?></td>
                            <td><?php echo html_entity_decode($pay['transactionid']); ?></td>
                            <td><?php echo _d($pay['date']); ?></td>
-                           <td> <a href="<?php echo admin_url('purchase/delete_payment/'.$pay['id'].'/'.$estimate->id); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a></td>
+                           <td> 
+                            <?php if(has_permission('purchase','','edit') || is_admin()){ ?>
+                              <a href="<?php echo admin_url('purchase/payment_invoice/'.$pay['id']); ?>" class="btn btn-default btn-icon" data-toggle="tooltip" data-placement="top" title="<?php echo _l('view'); ?>" ><i class="fa fa-eye "></i></a>
+                            <?php } ?>
+                            <?php if(has_permission('purchase','','delete') || is_admin()){ ?>
+                            <a href="<?php echo admin_url('purchase/delete_payment/'.$pay['id'].'/'.$estimate->id); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                            <?php } ?>
+                           </td>
                         </tr>
                      <?php } ?>
                   </tbody>

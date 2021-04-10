@@ -28,7 +28,9 @@ class purchase extends AdminController
      * { vendors }
      */
     public function vendors(){
+    	
         $data['title']          = _l('vendor');
+        $data['vendor_categorys'] = $this->purchase_model->get_vendor_category();
         $this->load->view('vendors/manage', $data);
     }
 
@@ -500,6 +502,7 @@ class purchase extends AdminController
     	$this->load->model('departments_model');
         $this->load->model('staff_model');
         $this->load->model('projects_model');
+        $this->load->model('currencies_model');
     	if($id == ''){
     		
     		if($this->input->post()){
@@ -524,14 +527,21 @@ class purchase extends AdminController
 
     		$data['pur_request_detail'] = json_encode($this->purchase_model->get_pur_request_detail($id));
     		$data['pur_request'] = $this->purchase_model->get_purchase_request($id);
+            $data['taxes_data'] = $this->purchase_model->get_html_tax_pur_request($id);
     		$data['title'] = _l('edit');
     	}
 
+        $data['invoices'] = $this->purchase_model->get_invoice_for_pr();
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
+        $data['taxes'] = $this->purchase_model->get_taxes();
         $data['projects'] = $this->projects_model->get();
         $data['staffs'] = $this->staff_model->get();
     	$data['departments'] = $this->departments_model->get();
     	$data['units'] = $this->purchase_model->get_units();
     	$data['items'] = $this->purchase_model->get_items();
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/Cases_model', 'case');
+        $data['legal_services'] = $this->legal->get_all_services();
     	
         $this->load->view('purchase_request/pur_request', $data);
     }
@@ -544,6 +554,7 @@ class purchase extends AdminController
      */
     public function view_pur_request($id){
     	$this->load->model('departments_model');
+        $this->load->model('currencies_model');
 
         $send_mail_approve = $this->session->userdata("send_mail_approve");
         if((isset($send_mail_approve)) && $send_mail_approve != ''){
@@ -556,11 +567,13 @@ class purchase extends AdminController
 		$data['departments'] = $this->departments_model->get();
     	$data['units'] = $this->purchase_model->get_units();
     	$data['items'] = $this->purchase_model->get_items();
-    	
+    	$data['taxes_data'] = $this->purchase_model->get_html_tax_pur_request($id);
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['check_appr'] = $this->purchase_model->get_approve_setting('pur_request');
         $data['get_staff_sign'] = $this->purchase_model->get_staff_sign($id,'pur_request');
         $data['check_approve_status'] = $this->purchase_model->check_approval_details($id,'pur_request');
         $data['list_approve_status'] = $this->purchase_model->get_list_approval_details($id,'pur_request');
+        $data['taxes'] = $this->purchase_model->get_taxes();
 
         $this->load->view('purchase_request/view_pur_request', $data);
 
@@ -906,11 +919,23 @@ class purchase extends AdminController
      * @return   json
      */
     public function tax_change($tax){
+        $this->load->model('taxes_model');
+
         $taxes = explode('%7C', $tax);
         $total_tax = $this->purchase_model->get_total_tax($taxes);
+        $tax_arr = [];
+        foreach($taxes as $t){
+            
+            $tax_if = $this->taxes_model->get($t);
+            if($tax_if){
+                $tax_arr[$tax_if->id] = $tax_if->taxrate;
+            }
+            
+        }
         
         echo json_encode([
             'total_tax' => $total_tax,
+            'taxes' => $tax_arr
         ]);
     }
 
@@ -1019,6 +1044,7 @@ class purchase extends AdminController
         $this->load->model('currencies_model');
         $this->load->model('departments_model');
         $this->load->model('projects_model');
+        $this->load->model('clients_model');
 
         $data['pur_orderid']            = $id;
         $data['title'] = _l('purchase_order');
@@ -1032,6 +1058,7 @@ class purchase extends AdminController
         $data['vendors'] = $this->purchase_model->get_vendor();
         $data['expense_categories'] = $this->expenses_model->get_category();
         $data['item_tags'] = $this->purchase_model->get_item_tag_filter();
+        $data['customers'] = $this->clients_model->get();
         
         $this->load->view('purchase_order/manage', $data);
     }
@@ -1062,7 +1089,7 @@ class purchase extends AdminController
             'expenses_only !=' => 1,
         ]);
 
-        $data['payment'] = $this->purchase_model->get_payment_purchase_order($id);
+        $data['payment'] = $this->purchase_model->get_inv_payment_purchase_order($id);
         $data['pur_order_attachments'] = $this->purchase_model->get_purchase_order_attachments($id);
         $data['estimate_detail'] = $this->purchase_model->get_pur_order_detail($id);
         $data['estimate']          = $estimate;
@@ -1077,6 +1104,7 @@ class purchase extends AdminController
         $data['get_staff_sign'] = $this->purchase_model->get_staff_sign($id,'pur_order');
         $data['check_approve_status'] = $this->purchase_model->check_approval_details($id,'pur_order');
         $data['list_approve_status'] = $this->purchase_model->get_list_approval_details($id,'pur_order');
+        $data['tax_data'] = $this->purchase_model->get_html_tax_pur_order($id);
         
         if ($to_return == false) {
             $this->load->view('purchase_order/pur_order_preview', $data);
@@ -1124,6 +1152,7 @@ class purchase extends AdminController
         } else {
             $data['pur_order_detail'] = json_encode($this->purchase_model->get_pur_order_detail($id));
             $data['pur_order'] = $this->purchase_model->get_pur_order($id);
+            $data['tax_data'] = $this->purchase_model->get_html_tax_pur_order($id);
             $title = _l('pur_order_detail');
         }
 
@@ -1136,6 +1165,7 @@ class purchase extends AdminController
         $this->load->model('departments_model');
         $data['departments'] = $this->departments_model->get();
 
+        $data['invoices'] = $this->purchase_model->get_invoice_for_pr();
         $data['pur_request'] = $this->purchase_model->get_pur_request_by_status(2);
         $data['projects'] = $this->projects_model->get();
         $data['ven'] = $this->input->get('vendor');
@@ -1146,6 +1176,9 @@ class purchase extends AdminController
         $data['units'] = $this->purchase_model->get_units();
         $data['items'] = $this->purchase_model->get_items();
         $data['title'] = $title;
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('LegalServices/Cases_model', 'case');
+        $data['legal_services'] = $this->legal->get_all_services();
 
         $this->load->view('purchase_order/pur_order', $data);
     }
@@ -3678,6 +3711,7 @@ class purchase extends AdminController
     public function invoices(){
         $data['title'] = _l('invoices');
         $data['contracts'] = $this->purchase_model->get_contract();
+        $data['pur_orders'] = $this->purchase_model->get_list_pur_orders();
         $this->load->view('invoices/manage',$data);
     }
 
@@ -3703,8 +3737,39 @@ class purchase extends AdminController
         }
         $data['contracts'] = $this->purchase_model->get_contract();
         $data['taxes'] = $this->purchase_model->get_taxes();
-        $data['pur_orders'] = $this->purchase_model->get_pur_order_approved();
+
+        $data['vendors'] = $this->purchase_model->get_vendor();
+
+        if($id != ''){
+            $data['pur_orders'] = $this->purchase_model->get_pur_order_approved();
+        }else{
+            $data['pur_orders'] = $this->purchase_model->get_pur_order_approved_for_inv();
+        }
+
         $this->load->view('invoices/pur_invoice',$data);
+    }
+
+    /**
+     * { vendors change }
+     */
+    public function pur_vendors_change($vendor){
+        $option = '<option value=""></option>';
+        if(get_purchase_option('create_invoice_by') == 'pur_order'){
+            $pur_orders = $this->purchase_model->get_pur_order_approved_for_inv_by_vendor($vendor);
+            foreach($pur_orders as $po){
+                $option .= '<option value="'.$po['id'].'">'.$po['pur_order_number'].'</option>';
+            }
+        }else{
+            $contracts = $this->purchase_model->get_contracts_by_vendor($vendor);
+            foreach($contracts as $ct){
+                $option .= '<option value="'.$ct['id'].'">'.$ct['contract_number'].'</option>';
+            }
+        }
+
+        echo json_encode([
+            'type' => get_purchase_option('create_invoice_by'),
+            'html' => $option
+        ]);
     }
 
     /**
@@ -3781,7 +3846,12 @@ class purchase extends AdminController
         $pur_order = $this->purchase_model->get_pur_order($ct);
         $value = 0;
         if($pur_order){
-            $value = $pur_order->total;
+            $value = $pur_order->total - total_inv_value_by_pur_order($ct);
+            if($value > 0){
+                $value = $value;
+            }else{
+                $value = 0;
+            }
         }
 
         echo json_encode([
@@ -4662,5 +4732,662 @@ class purchase extends AdminController
             set_alert('success', _l('deleted', _l('po_logo')));
         }
         redirect(admin_url('purchase/setting'));
+    }
+
+    /**
+     * delete_error file day before
+     * @return [type] 
+     */
+    public function delete_error_file_day_before()
+    {
+        //Delete old file before 7 day
+        $date = date_create(date('Y-m-d H:i:s'));
+        date_sub($date,date_interval_create_from_date_string("7 days"));
+        $before_7_day = strtotime(date_format($date,"Y-m-d H:i:s"));
+
+        foreach(glob(PURCHASE_IMPORT_VENDOR_ERROR . '*') as $file) {
+
+            $file_arr = explode("/",$file);
+            $filename = array_pop($file_arr);
+
+            if(file_exists($file)) {
+                $file_name_arr = explode("_",$filename);
+                $date_create_file = array_pop($file_name_arr);
+                $date_create_file =  str_replace('.xlsx', '', $date_create_file);
+
+                if((float)$date_create_file <= (float)$before_7_day){
+                    unlink(PURCHASE_IMPORT_VENDOR_ERROR.$filename);
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * { import job position excel }
+     */
+    public function import_file_xlsx_vendor()
+    {
+        if(!class_exists('XLSXReader_fin')){
+            require_once(module_dir_path(PURCHASE_MODULE_NAME).'/assets/plugins/XLSXReader/XLSXReader.php');
+        }
+        require_once(module_dir_path(PURCHASE_MODULE_NAME).'/assets/plugins/XLSXWriter/xlsxwriter.class.php');
+
+
+        $filename ='';
+        if($this->input->post()){
+            if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+
+                $this->delete_error_file_day_before();
+
+                // Get the temp file path
+                $tmpFilePath = $_FILES['file_csv']['tmp_name'];                
+                // Make sure we have a filepath
+                if (!empty($tmpFilePath) && $tmpFilePath != '') {
+                    $tmpDir = TEMP_FOLDER . '/' . time() . uniqid() . '/';
+
+                    if (!file_exists(TEMP_FOLDER)) {
+                        mkdir(TEMP_FOLDER, 0755);
+                    }
+
+                    if (!file_exists($tmpDir)) {
+                        mkdir($tmpDir, 0755);
+                    }
+
+                    // Setup our new file path
+                    $newFilePath = $tmpDir . $_FILES['file_csv']['name'];                    
+
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                        //Writer file
+                        $writer_header = array(
+                            _l('vendor_code')          =>'string',
+                            _l('first_name')          =>'string',
+                            _l('last_name')          =>'string',
+                            _l('email')               =>'string',
+                            _l('contact_phonenumber')       =>'string',
+                            _l('position')             =>'string',
+                            _l('company')                      =>'string',
+                            _l('vat')                     =>'string',
+                            _l('phonenumber')                     =>'string',
+                            _l('country')                     =>'string',
+                            _l('city')                     =>'string',
+                            _l('zip')                     =>'string',
+                            _l('state')                     =>'string',
+                            _l('address')                     =>'string',
+                            _l('website')                     =>'string',
+                            _l('bank_detail')                     =>'string',
+                            _l('payment_terms')                     =>'string',
+                            _l('pur_billing_street')                     =>'string',
+                            _l('pur_billing_city')                     =>'string',
+                            _l('pur_billing_state')                     =>'string',
+                            _l('pur_billing_zip')                     =>'string',
+                            _l('pur_billing_country')                     =>'string',
+                            _l('pur_shipping_street')                     =>'string',
+                            _l('pur_shipping_city')                     =>'string',
+                            _l('pur_shipping_state')                     =>'string',
+                            _l('pur_shipping_zip')                     =>'string',
+                            _l('pur_shipping_country')                     =>'string',
+                            _l('error')                     =>'string',
+                        );
+
+                        $widths_arr = array();
+                        for($i = 1; $i <= count($writer_header); $i++ ){
+                            $widths_arr[] = 40;
+                        }
+
+                        $writer = new XLSXWriter();
+                        $writer->writeSheetHeader('Sheet1', $writer_header,  $col_options = ['widths'=>$widths_arr ]);
+
+                        //Reader file
+                        $xlsx = new XLSXReader_fin($newFilePath);
+                        $sheetNames = $xlsx->getSheetNames();
+                        $data = $xlsx->getSheetData($sheetNames[1]);
+
+                        $total_rows = 0;
+                        $total_row_false    = 0; 
+
+                        for ($row = 1; $row < count($data); $row++) {
+
+                            $total_rows++;
+
+                            $rd = array();
+                            $flag = 0;
+                            $flag2 = 0;
+
+                            $string_error ='';
+
+                            $value_vendor_code    = isset($data[$row][0]) ? $data[$row][0] : '' ;
+                            $value_fist_name    = isset($data[$row][1]) ? $data[$row][1] : '' ;
+                            $value_last_name    = isset($data[$row][2]) ? $data[$row][2] : '';
+                            $value_email   = isset($data[$row][3]) ? $data[$row][3] : '' ;
+                            $value_contact_phonenumber      = isset($data[$row][4]) ? $data[$row][4] : '';
+                            $value_position       = isset($data[$row][5]) ? $data[$row][5] : '';
+                            $value_company            = isset($data[$row][6]) ? $data[$row][6] : '';
+                            $value_vat            = isset($data[$row][7]) ? $data[$row][7] : '';
+                            $value_phonenumber            = isset($data[$row][8]) ? $data[$row][8] : '';
+                            $value_country            = isset($data[$row][9]) ? $data[$row][9] : '';
+                            $value_city            = isset($data[$row][10]) ? $data[$row][10] : '';
+                            $value_zip            = isset($data[$row][11]) ? $data[$row][11] : '';
+                            $value_state            = isset($data[$row][12]) ? $data[$row][12] : '';
+                            $value_address            = isset($data[$row][13]) ? $data[$row][13] : '';
+                            $value_website            = isset($data[$row][14]) ? $data[$row][14] : '';
+                            $value_bank_detail            = isset($data[$row][15]) ? $data[$row][15] : '';
+                            $value_payment_terms            = isset($data[$row][16]) ? $data[$row][16] : '';
+                            $value_pur_billing_street            = isset($data[$row][17]) ? $data[$row][17] : '';
+                            $value_pur_billing_city            = isset($data[$row][18]) ? $data[$row][18] : '';
+                            $value_pur_billing_state            = isset($data[$row][19]) ? $data[$row][19] : '';
+                            $value_pur_billing_zip            = isset($data[$row][20]) ? $data[$row][20] : '';
+                            $value_pur_billing_country            = isset($data[$row][21]) ? $data[$row][21] : '';
+                            $value_pur_shipping_street            = isset($data[$row][22]) ? $data[$row][22] : '';
+                            $value_pur_shipping_city            = isset($data[$row][23]) ? $data[$row][23] : '';
+                            $value_pur_shipping_state            = isset($data[$row][24]) ? $data[$row][24] : '';
+                            $value_pur_shipping_zip            = isset($data[$row][25]) ? $data[$row][25] : '';
+                            $value_pur_shipping_country            = isset($data[$row][26]) ? $data[$row][26] : '';
+
+                            if(is_null($value_vendor_code) == true || $value_vendor_code ==''){
+                                $string_error .=_l('vendor_code'). _l('not_yet_entered');
+                                $flag = 1;
+                            }else{
+                                $this->db->where('vendor_code', $value_vendor_code);
+                                $total_rows_check = $this->db->count_all_results(db_prefix().'pur_vendor');
+                                if ($total_rows_check > 0) {
+                                    $string_error .=_l('vendor_code'). _l('already_exist');
+                                    $flag = 1;
+                                }
+                            }
+                            
+                            if(is_null($value_fist_name) == true || $value_fist_name ==''){
+                                $string_error .=_l('fist_name'). _l('not_yet_entered');
+                                $flag = 1;
+                            }
+
+                            if(is_null($value_last_name) == true || $value_last_name ==''){
+                                $string_error .=_l('last_name'). _l('not_yet_entered');
+                                $flag = 1;
+                            }
+
+                            if(is_null($value_email) == true || $value_email ==''){
+                                $string_error .=_l('email'). _l('not_yet_entered');
+                                $flag = 1;
+                            }else{
+                                $this->db->where('email', $value_email);
+                                $total_rows_check_email = $this->db->count_all_results(db_prefix().'pur_contacts');
+                                if ($total_rows_check_email > 0) {
+                                    $string_error .=_l('email'). _l('already_exist');
+                                    $flag = 1;
+                                }
+                            }
+
+                            if(is_null($value_company) == true || $value_company ==''){
+                                $string_error .=_l('company'). _l('not_yet_entered');
+                                $flag = 1;
+                            }
+
+                            if(($flag == 1) || $flag2 == 1 ){
+                                //write error file
+                                $writer->writeSheetRow('Sheet1', [
+                                    $value_vendor_code,
+                                    $value_fist_name,
+                                    $value_last_name,
+                                    $value_email,
+                                    $value_contact_phonenumber,
+                                    $value_position,
+                                    $value_company,
+                                    $value_vat,
+                                    $value_phonenumber,
+                                    $value_country,
+                                    $value_city,
+                                    $value_zip,
+                                    $value_state,
+                                    $value_address,
+                                    $value_website,
+                                    $value_bank_detail,
+                                    $value_payment_terms,
+                                    $value_pur_billing_street,
+                                    $value_pur_billing_city,
+                                    $value_pur_billing_state,
+                                    $value_pur_billing_zip,
+                                    $value_pur_billing_country,
+                                    $value_pur_shipping_street,
+                                    $value_pur_shipping_city,
+                                    $value_pur_shipping_state,
+                                    $value_pur_shipping_zip,
+                                    $value_pur_shipping_country,
+                                    $string_error,
+                                ]);
+
+                                // $numRow++;
+                                $total_row_false++;
+                            }
+
+                            if($flag == 0 && $flag2 == 0){
+                                $rd['vendor_code']                = $value_vendor_code;
+                                $rd['firstname']                = $value_fist_name;
+                                $rd['lastname']                     = $value_last_name;
+                                $rd['email']     = $value_email;
+                                $rd['contact_phonenumber']                = $value_contact_phonenumber;
+                                $rd['title']                         = $value_position;
+                                $rd['company']                         = $value_company;
+                                $rd['vat']                         = $value_vat;
+                                $rd['phonenumber']                         = $value_phonenumber;
+                                $rd['country']                         = $value_country;
+                                $rd['city']                         = $value_city;
+                                $rd['zip']                         = $value_zip;
+                                $rd['state']                         = $value_state;
+                                $rd['address']                         = $value_address;
+                                $rd['website']                         = $value_website;
+                                $rd['bank_detail']                         = $value_bank_detail;
+                                $rd['payment_terms']                         = $value_payment_terms;
+                                $rd['billing_street']                         = $value_pur_billing_street;
+                                $rd['billing_city']                         = $value_pur_billing_city;
+                                $rd['billing_state']                         = $value_pur_billing_state;
+                                $rd['billing_zip']                         = $value_pur_billing_zip;
+                                $rd['billing_country']                         = $value_pur_billing_country;
+                                $rd['shipping_street']                         = $value_pur_shipping_street;
+                                $rd['shipping_city']                         = $value_pur_shipping_city;
+                                $rd['shipping_state']                         = $value_pur_shipping_state;
+                                $rd['shipping_zip']                         = $value_pur_shipping_zip;
+                                $rd['shipping_country']                         = $value_pur_shipping_country;
+
+                                $rows[] = $rd;
+                                $response = $this->purchase_model->add_vendor($rd,null, true);
+
+                            }
+
+
+                        }
+
+                        $total_rows = $total_rows;
+                        $total_row_success = isset($rows) ? count($rows) : 0;
+                        // $dataerror = $dataError;
+                        $dataerror = '';
+                        $message ='Not enought rows for importing';
+
+                        if($total_row_false != 0){
+                            $filename = 'Import_vendor_error_'.get_staff_user_id().'_'.strtotime(date('Y-m-d H:i:s')).'.xlsx';
+                            $writer->writeToFile(str_replace($filename, PURCHASE_IMPORT_VENDOR_ERROR.$filename, $filename));
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        if (file_exists($newFilePath)) {
+            @unlink($newFilePath);
+        }
+
+        echo json_encode([
+            'message'           => $message,
+            'total_row_success' => $total_row_success,
+            'total_row_false'   => $total_row_false,
+            'total_rows'        => $total_rows,
+            'site_url'          => site_url(),
+            'staff_id'          => get_staff_user_id(),
+            'filename'          => PURCHASE_IMPORT_VENDOR_ERROR.$filename,
+        ]);
+    }
+
+    /**
+     * { change delivery status }
+     *
+     * @param      integer  $status     The status
+     * @param         $pur_order  The pur order
+     * @return     json
+     */
+    public function change_delivery_status($status, $pur_order){
+        $success = $this->purchase_model->change_delivery_status($status, $pur_order);
+        $message = '';
+        $html = '';
+        $status_str = '';
+        $class = '';
+        if($success == true){
+            $message = _l('change_delivery_status_successfully');
+        }else{
+            $message = _l('change_delivery_status_fail');
+        }
+
+        if(has_permission('purchase', '', 'edit') || is_admin()){
+            $html .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
+            $html .= '<a href="#" class="dropdown-toggle text-dark" id="tablePurOderStatus-' . $pur_order . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            $html .= '<span data-toggle="tooltip" title="' . _l('ticket_single_change_status') . '"><i class="fa fa-caret-down" aria-hidden="true"></i></span>';
+            $html .= '</a>';
+
+            $html .= '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tablePurOderStatus-' . $pur_order . '">';
+
+            if($status == 0){
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 1 ,' . $pur_order . '); return false;">
+                             ' ._l('completely_delivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 2 ,' . $pur_order . '); return false;">
+                             ' ._l('pending_delivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 3 ,' . $pur_order . '); return false;">
+                             ' ._l('partially_delivered') . '
+                          </a>
+                       </li>';
+
+                $status_str = _l('undelivered');
+                $class = 'label-danger';
+            }else if($status == 1){
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 0 ,' . $pur_order . '); return false;">
+                             ' ._l('undelivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 2 ,' . $pur_order . '); return false;">
+                             ' ._l('pending_delivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 3 ,' . $pur_order . '); return false;">
+                             ' ._l('partially_delivered') . '
+                          </a>
+                       </li>';
+                $status_str = _l('completely_delivered');
+                $class = 'label-success';
+            }else if($status == 2){ 
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 0 ,' . $pur_order . '); return false;">
+                             ' ._l('undelivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 1 ,' . $pur_order . '); return false;">
+                             ' ._l('completely_delivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 3 ,' . $pur_order . '); return false;">
+                             ' ._l('partially_delivered') . '
+                          </a>
+                       </li>';
+                $status_str = _l('pending_delivered');
+                $class = 'label-info';
+            }else if($status == 3){ 
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 0 ,' . $pur_order . '); return false;">
+                             ' ._l('undelivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 1 ,' . $pur_order . '); return false;">
+                             ' ._l('completely_delivered') . '
+                          </a>
+                       </li>';
+                $html .= '<li>
+                          <a href="#" onclick="change_delivery_status( 2 ,' . $pur_order . '); return false;">
+                             ' ._l('pending_delivered') . '
+                          </a>
+                       </li>';
+                $status_str = _l('partially_delivered');
+                $class = 'label-warning';
+            }
+               
+
+            $html .= '</ul>';
+            $html .= '</div>';
+        }
+
+        echo json_encode([
+            'success' => $success,
+            'status_str' => $status_str,
+            'class' => $class,
+            'mess' => $message,
+            'html' => $html,
+        ]);
+    }
+
+    /**
+     * { convert po payment }
+     */
+    public function convert_po_payment($pur_order){
+        $success = $this->purchase_model->convert_po_payment($pur_order);
+        $mess = '';
+        if($success == true){
+            $mess = _l('converted_succesfully');
+        }else{
+            $mess = _l('no_payments_are_converted');
+        }
+
+        echo json_encode([
+            'mess' => $mess,
+            'success' => $success,
+        ]);
+    }
+
+    /**
+     * Gets the comments.
+     *
+     * @param        $id     The identifier
+     */
+    public function get_comments($id, $type)
+    {
+        $data['comments'] = $this->purchase_model->get_comments($id, $type);
+        $this->load->view('comments_template', $data);
+    }
+
+    /**
+     * Adds a comment.
+     */
+    public function add_comment()
+    {
+        if ($this->input->post()) {
+            echo json_encode([
+                'success' => $this->purchase_model->add_comment($this->input->post()),
+            ]);
+        }
+    }
+
+    /**
+     * { edit comment }
+     *
+     * @param        $id     The identifier
+     */
+    public function edit_comment($id)
+    {
+        if ($this->input->post()) {
+            echo json_encode([
+                'success' => $this->purchase_model->edit_comment($this->input->post(), $id),
+                'message' => _l('comment_updated_successfully'),
+            ]);
+        }
+    }
+
+    /**
+     * Removes a comment.
+     *
+     * @param        $id     The identifier
+     */
+    public function remove_comment($id)
+    {
+        $this->db->where('id', $id);
+        $comment = $this->db->get(db_prefix().'pur_comments')->row();
+        if ($comment) {
+            if ($comment->staffid != get_staff_user_id() && !is_admin()) {
+                echo json_encode([
+                    'success' => false,
+                ]);
+                die;
+            }
+            echo json_encode([
+                'success' => $this->purchase_model->remove_comment($id),
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+            ]);
+        }
+    }
+
+    /**
+     * { coppy sale invoice }
+     *
+     * @param        $invoice  The invoice
+     */
+    public function coppy_sale_invoice($invoice){
+        $this->load->model('currencies_model');
+        $this->load->model('invoices_model');
+
+        $inv = $this->invoices_model->get($invoice);
+        $base_currency = $this->currencies_model->get_base_currency();
+        $taxes = [];
+        $tax_val = [];
+        $tax_name = [];
+        $subtotal = 0;
+        $total = 0;
+        $data_rs = [];
+        $tax_html = '';
+        if($inv && isset($inv->items)){
+            if(count($inv->items) > 0){
+                foreach($inv->items as $key => $item){
+                    $tax_of_item = $this->purchase_model->get_tax_of_inv_item($item['id'], $invoice);
+
+                    $data_rs[$key]['item_code'] = $item['description'];
+                    $data_rs[$key]['unit_price'] = $item['rate'];
+                    $data_rs[$key]['quantity'] = $item['qty'];
+                    $data_rs[$key]['into_money'] = $item['rate'] * $item['qty'];
+
+                    if($tax_of_item && isset($tax_of_item->taxname)){
+                        $data_rs[$key]['tax'] = $this->purchase_model->get_tax_by_tax_name($tax_of_item->taxname);
+                        $data_rs[$key]['tax_value'] = ($item['rate'] * $item['qty'] * $tax_of_item->taxrate)/100;
+
+                        if(!in_array($data_rs[$key]['tax'], $taxes)){
+                            $taxes[] = $data_rs[$key]['tax'];
+                            $tax_val[] = $data_rs[$key]['tax_value'];
+                            $tax_name[] = $tax_of_item->taxname.' ('.$tax_of_item->taxrate.'%)';
+                        }
+                    }else{
+                        $data_rs[$key]['tax'] = '';
+                        $data_rs[$key]['tax_value'] = 0;
+                    }
+                    
+                    $data_rs[$key]['total'] =  $data_rs[$key]['into_money'] + $data_rs[$key]['tax_value'];
+                    $subtotal += $item['rate'] * $item['qty'];
+                    $total += $data_rs[$key]['into_money'] + $data_rs[$key]['tax_value'];
+                }
+            }
+        }
+
+        foreach($tax_name as $key => $tn){
+            $tax_html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="60%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
+        }
+
+        echo json_encode([
+            'result' => $data_rs,
+            'subtotal' => $subtotal,
+            'total' => $total,
+            'tax_html' => $tax_html,
+            'taxes' => $taxes
+        ]);
+    }
+
+    /**
+     * { inv by client }
+     */
+    public function inv_by_client(){
+        $data_rs = [];
+        $html = '';
+        if($this->input->post()){
+            $clients = $this->input->post('client');
+            foreach($clients as $cli){
+                $list_inv = $this->purchase_model->get_inv_by_client_for_po($cli);
+                if(count($list_inv) > 0){
+                    foreach($list_inv as $inv){
+                        if(total_rows(db_prefix().'pur_orders', ['sale_invoice' => $inv['id']]) <= 0){
+                            $data_rs[] = $inv;
+                        }
+                    }
+                }
+            }
+        }else{
+            $data_rs = $this->purchase_model->get_invoice_for_pr();
+        }
+
+        $html .= '<option value=""></option>';
+        foreach($data_rs as $rs){
+            $html .= '<option value="'.$rs['id'].'">'.format_invoice_number($rs['id']).'</option>';
+        }
+
+        echo json_encode(['html' => $html]);
+    }
+
+    /**
+     * { coppy sale invoice }
+     *
+     * @param        $invoice  The invoice
+     */
+    public function coppy_sale_invoice_po($invoice){
+        $this->load->model('currencies_model');
+        $this->load->model('invoices_model');
+
+        $inv = $this->invoices_model->get($invoice);
+        $base_currency = $this->currencies_model->get_base_currency();
+        $taxes = [];
+        $tax_val = [];
+        $tax_name = [];
+        $subtotal = 0;
+        $total = 0;
+        $data_rs = [];
+        $tax_html = '';
+        if($inv && isset($inv->items)){
+            if(count($inv->items) > 0){
+                foreach($inv->items as $key => $item){
+                    $tax_of_item = $this->purchase_model->get_tax_of_inv_item($item['id'], $invoice);
+
+                    $item_id = get_item_id_by_des($item['description'], $item['long_description']);
+                    if($item_id != ''){
+                        $data_rs[$key]['item_code'] = $item_id;
+                    }else{
+                        $data_rs[$key]['item_code'] = $this->purchase_model->create_item_by_inv_item($item['id']);
+                    }
+
+                    $data_rs[$key]['unit_price'] = $item['rate'];
+                    $data_rs[$key]['quantity'] = $item['qty'];
+                    $data_rs[$key]['into_money'] = $item['rate'] * $item['qty'];
+
+                    if($tax_of_item && isset($tax_of_item->taxname)){
+                        $data_rs[$key]['tax'] = $this->purchase_model->get_tax_by_tax_name($tax_of_item->taxname);
+                        $data_rs[$key]['tax_value'] = ($item['rate'] * $item['qty'] * $tax_of_item->taxrate)/100;
+
+                        if(!in_array($data_rs[$key]['tax'], $taxes)){
+                            $taxes[] = $data_rs[$key]['tax'];
+                            $tax_val[] = $data_rs[$key]['tax_value'];
+                            $tax_name[] = $tax_of_item->taxname.' ('.$tax_of_item->taxrate.'%)';
+                        }
+                    }else{
+                        $data_rs[$key]['tax'] = '';
+                        $data_rs[$key]['tax_value'] = 0;
+                    }
+                    
+                    $data_rs[$key]['total'] =  $data_rs[$key]['into_money'] + $data_rs[$key]['tax_value'];
+                    $data_rs[$key]['total_money'] =  $data_rs[$key]['into_money'] + $data_rs[$key]['tax_value'];
+                    $subtotal += $item['rate'] * $item['qty'];
+                    $total += $data_rs[$key]['into_money'] + $data_rs[$key]['tax_value'];
+                }
+            }
+        }
+
+        foreach($tax_name as $key => $tn){
+            $tax_html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="60%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
+        }
+
+        $items = $this->purchase_model->get_items();
+
+        echo json_encode([
+            'result' => $data_rs,
+            'subtotal' => $subtotal,
+            'total' => $total,
+            'tax_html' => $tax_html,
+            'taxes' => $taxes,
+            'items' => $items
+        ]);
     }
 }

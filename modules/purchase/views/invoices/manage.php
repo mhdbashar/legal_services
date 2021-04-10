@@ -32,10 +32,19 @@
                                   <option value="<?php echo html_entity_decode($ct['id']); ?>" ><?php echo html_entity_decode($ct['contract_number']); ?></option>
                                  <?php } ?>
                               </select>
+
+
+                             </div>
+                             <div class="col-md-3 form-group">
+                               <select name="pur_orders[]" id="pur_orders" class="selectpicker" multiple="true"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('purchase_order'); ?>">
+                                 <?php foreach($pur_orders as $ct){ ?>
+                                  <option value="<?php echo html_entity_decode($ct['id']); ?>" ><?php echo html_entity_decode($ct['pur_order_number']); ?></option>
+                                 <?php } ?>
+                              </select>
                              </div>
                         </div>
                       </div>
-                    <br><br>
+                    
                     <?php render_datatable(array(
                         _l('invoice_no'),
                         _l('contract'),

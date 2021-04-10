@@ -25,7 +25,6 @@ class Vendors_portal extends App_Controller
     {
         parent::__construct();
 
-        hooks()->do_action('after_clients_area_init', $this);
 
         if (is_staff_logged_in()
             && $this->app->is_db_upgrade_required($this->current_db_version)) {
@@ -367,7 +366,6 @@ class Vendors_portal extends App_Controller
     public function change_language($lang = '')
     {
        
-        hooks()->do_action('before_customer_change_language', $lang);
 
         $this->db->where('userid', get_vendor_user_id());
         $this->db->update(db_prefix() . 'pur_vendor', ['default_language' => $lang]);
@@ -555,6 +553,26 @@ class Vendors_portal extends App_Controller
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
+
+        if ($this->input->post()) {
+            $action = $this->input->post('action');
+
+            switch ($action) {
+             case 'quo_comment':
+                    // comment is blank
+                    if (!$this->input->post('content')) {
+                        redirect($this->uri->uri_string());
+                    }
+                    $data_cmt                = $this->input->post();
+                    $data_cmt['rel_id'] = $id;
+                    $data_cmt['rel_type'] = 'pur_quotation';
+                    $this->purchase_model->add_comment($data_cmt, true);
+                    redirect($this->uri->uri_string() . '?tab=discussion');
+
+                    break;
+            }
+        }
+
         $this->load->model('taxes_model');
         $data['taxes'] = $this->purchase_model->get_taxes();
         $this->load->model('currencies_model');
@@ -567,6 +585,7 @@ class Vendors_portal extends App_Controller
         
         $data['items_groups'] = $this->invoice_items_model->get_groups();
 
+        $data['comments'] = $this->purchase_model->get_comments($id, 'pur_quotation');
         $data['view'] = $view;
         $data['staff']             = $this->purchase_model->get_vendor_admins(get_vendor_user_id());
         $data['vendors'] = $this->purchase_model->get_vendor();
@@ -688,10 +707,30 @@ class Vendors_portal extends App_Controller
         $data['pur_order'] = $this->purchase_model->get_pur_order($id);
         $title = _l('pur_order_detail');
 
+        if ($this->input->post()) {
+            $action = $this->input->post('action');
+
+            switch ($action) {
+             case 'po_comment':
+                    // comment is blank
+                    if (!$this->input->post('content')) {
+                        redirect($this->uri->uri_string());
+                    }
+                    $data_cmt                = $this->input->post();
+                    $data_cmt['rel_id'] = $id;
+                    $data_cmt['rel_type'] = 'pur_order';
+                    $this->purchase_model->add_comment($data_cmt, true);
+                    redirect($this->uri->uri_string() . '?tab=discussion');
+
+                    break;
+            }
+        }
 
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
 
+        $data['tax_data'] = $this->purchase_model->get_html_tax_pur_order($id);
+        $data['comments'] = $this->purchase_model->get_comments($id, 'pur_order');
         $data['taxes'] = $this->purchase_model->get_taxes();
         $data['staff']             = $this->staff_model->get('', ['active' => 1]);
         $data['vendors'] = $this->purchase_model->get_vendor();
@@ -728,6 +767,111 @@ class Vendors_portal extends App_Controller
 
         $this->data($data);
         $this->view('vendor_portal/pur_request');
+        $this->layout();
+    }
+
+    /**
+     * { view contract }
+     *
+     * @param        $id     The identifier
+     */
+    public function view_contract($id){
+        $contract = $this->purchase_model->get_contract($id);
+        $data['contract']  = $contract;
+        if (!$contract) {
+            show_404();
+        }
+
+        if ($this->input->post()) {
+            $action = $this->input->post('action');
+
+            switch ($action) {
+             case 'contract_comment':
+                    // comment is blank
+                    if (!$this->input->post('content')) {
+                        redirect($this->uri->uri_string());
+                    }
+                    $data_cmt                = $this->input->post();
+                    $data_cmt['rel_id'] = $id;
+                    $data_cmt['rel_type'] = 'pur_contract';
+                    $this->purchase_model->add_comment($data_cmt, true);
+                    redirect($this->uri->uri_string() . '?tab=discussion');
+
+                    break;
+            }
+        }
+
+        $this->disableNavigation();
+        $this->disableSubMenu();
+
+        $data['title']     = $contract->contract_number;
+
+        $data['bodyclass'] = 'contract contract-view';
+
+        $data['identity_confirmation_enabled'] = true;
+        $data['bodyclass'] .= ' identity-confirmation';
+        $this->app_scripts->theme('sticky-js','assets/plugins/sticky/sticky.js');
+        $data['comments'] = $this->purchase_model->get_comments($id, 'pur_contract');
+        //add_views_tracking('proposal', $id);
+        hooks()->do_action('contract_html_viewed', $id);
+        $this->app_css->remove('reset-css','customers-area-default');
+        $data                      = hooks()->apply_filters('contract_customers_area_view_data', $data);
+        $this->data($data);
+        no_index_customers_area();
+        $this->view('vendor_portal/contracthtml');
+        $this->layout();
+    }
+
+    /**
+     * { invoices }
+     */
+    public function invoices(){
+        if (!is_vendor_logged_in() && !is_staff_logged_in()) {
+            redirect(site_url('purchase/authentication_vendor/login'));
+        }
+
+        $data['title'] = _l('pur_invoices');
+        $data['invoices'] = $this->purchase_model->get_invoices_by_vendor(get_vendor_user_id());
+
+        $this->data($data);
+        $this->view('vendor_portal/invoices/manage');
+        $this->layout();
+    }
+
+    /**
+     * { invoice }
+     *
+     * @param        $id     The identifier
+     */
+    public function invoice($id){
+        $invoice = $this->purchase_model->get_pur_invoice($id);
+        $data['pur_invoice'] = $invoice;
+        if (!$invoice) {
+            show_404();
+        }
+
+        if ($this->input->post()) {
+            $action = $this->input->post('action');
+
+            switch ($action) {
+             case 'inv_comment':
+                    // comment is blank
+                    if (!$this->input->post('content')) {
+                        redirect($this->uri->uri_string());
+                    }
+                    $data_cmt                = $this->input->post();
+                    $data_cmt['rel_id'] = $id;
+                    $data_cmt['rel_type'] = 'pur_invoice';
+                    $this->purchase_model->add_comment($data_cmt, true);
+                    redirect($this->uri->uri_string() . '?tab=discussion');
+
+                    break;
+            }
+        }
+        $data['comments'] = $this->purchase_model->get_comments($id, 'pur_invoice');
+        $data['title'] = $invoice->invoice_number;
+        $this->data($data);
+        $this->view('vendor_portal/invoices/invoice');
         $this->layout();
     }
 }

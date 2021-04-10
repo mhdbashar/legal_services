@@ -3,6 +3,7 @@
 <div id="wrapper">
 	<div class="content">
 		<div class="row">
+    <?php if($view == ''){ ?>
 			<?php
 			
 			if(isset($estimate)){
@@ -11,16 +12,40 @@
 				echo form_open(site_url('purchase/vendors_portal/quotation_form'),array('autocomplete'=>'off'));
 			}
 			?>
+    <?php } ?>
 			<div class="col-md-12">
 				<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="panel_s accounting-template estimate">
    <div class="panel-body">
-      
-      <div class="row">
-         <div class="col-md-6">
-            
-            
 
+      <div class="horizontal-scrollable-tabs preview-tabs-top">
+          <div class="horizontal-tabs">
+             <ul class="nav nav-tabs nav-tabs-horizontal mbot15" role="tablist">
+                <li role="presentation" class="<?php if($this->input->get('tab') != 'discussion'){echo 'active';} ?>">
+                   <a href="#general_infor" aria-controls="general_infor" role="tab" data-toggle="tab">
+                   <?php echo _l('general_infor'); ?>
+                   </a>
+                </li>
+                
+               <?php if($view == 1){ ?> 
+                <li role="presentation" class="tab-separator <?php if($this->input->get('tab') === 'discussion'){echo 'active';} ?>">
+                  <?php
+                            $totalComments = total_rows(db_prefix().'pur_comments',['rel_id' => $estimate->id, 'rel_type' => 'pur_quotation']);
+                            ?>
+                   <a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">
+                   <?php echo _l('pur_discuss'); ?>
+                    <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
+                   </a>
+                </li> 
+                <?php } ?>
+             </ul>
+          </div>
+       </div>
+
+       <div class="tab-content">
+        <div role="tabpanel" class="tab-pane ptop10 <?php if($this->input->get('tab') != 'discussion'){echo 'active';} ?>" id="general_infor">
+          <div class="row">
+         <div class="col-md-6">
             <?php
                $next_estimate_number = max_number_estimates()+1;
                $format = get_option('estimate_number_format');
@@ -124,8 +149,6 @@
             <?php echo render_custom_fields('estimate',$rel_id); ?>
          </div>
          <div class="col-md-6">
-            <div class="panel_s no-shadow">
-              
                <div class="row">
                   <div class="col-md-12">
                      <?php
@@ -165,12 +188,51 @@
                </div>
                  
                </div>
-            </div>
+   
          </div>
-
-               
-           
+         </div>
+    </div>
+    <?php if($view == 1){ ?> 
+      <div role="tabpanel" class="tab-pane <?php if($this->input->get('tab') === 'discussion'){echo ' active';} ?>" id="discuss">
+        <?php echo form_open($this->uri->uri_string()) ;?>
+         <div class="contract-comment">
+            <textarea name="content" rows="4" class="form-control"></textarea>
+            <button type="submit" class="btn btn-info mtop10 pull-right" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('proposal_add_comment'); ?></button>
+            <?php echo form_hidden('action','quo_comment'); ?>
+         </div>
+         <?php echo form_close(); ?>
+         <div class="clearfix"></div>
+         <?php
+            $comment_html = '';
+            foreach ($comments as $comment) {
+             $comment_html .= '<div class="contract_comment mtop10 mbot20" data-commentid="' . $comment['id'] . '">';
+             if($comment['staffid'] != 0){
+              $comment_html .= staff_profile_image($comment['staffid'], array(
+               'staff-profile-image-small',
+               'media-object img-circle pull-left mright10'
+            ));
+            }
+            $comment_html .= '<div class="media-body valign-middle">';
+            $comment_html .= '<div class="mtop5">';
+            $comment_html .= '<b>';
+            if($comment['staffid'] != 0){
+              $comment_html .= get_staff_full_name($comment['staffid']);
+            } else {
+              $comment_html .= _l('pur_vendor');
+            }
+            $comment_html .= '</b>';
+            $comment_html .= ' - <small class="mtop10 text-muted">' . time_ago($comment['dateadded']) . '</small>';
+            $comment_html .= '</div>';
+        
+            $comment_html .= check_for_links($comment['content']) . '<br />';
+            $comment_html .= '</div>';
+            $comment_html .= '</div>';
+            $comment_html .= '<hr />';
+            }
+            echo $comment_html; ?>
       </div>
+    <?php } ?>
+  </div>
    </div>
    <div class="panel-body mtop10">
   <div class="row">
@@ -297,7 +359,9 @@
 </div>
 
 			</div>
+       <?php if($view == ''){ ?>
 			<?php echo form_close(); ?>
+    <?php } ?>
 			
 		</div>
 	</div>

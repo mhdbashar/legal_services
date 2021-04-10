@@ -116,7 +116,30 @@ function get_status_approve($status){
     }elseif($status == 3){
         $result = '<span class="label label-warning"> '._l('purchase_reject').' </span>';
     }elseif($status == 4){
-        $result = '<span class="label label-danger"> '._l('cancelled').' </span>';
+        $result = '<span class="label label-danger"> '._l('close').' </span>';
+    }
+
+    return $result;
+
+}
+
+/**
+ * Gets the status approve string.
+ *
+ * @param      integer  $status  The status
+ *
+ * @return     string   The status approve string.
+ */
+function get_status_approve_str($status){
+    $result = '';
+    if($status == 1){
+        $result = _l('purchase_not_yet_approve');
+    }elseif($status == 2){
+        $result = _l('purchase_approved');
+    }elseif($status == 3){
+        $result = _l('purchase_reject');
+    }elseif($status == 4){
+        $result = _l('close');
     }
 
     return $result;
@@ -1645,4 +1668,67 @@ function get_po_logo($width = 120, $class = ''){
 
 
     return  $logoImage;
+}
+
+/**
+ * { total inv value by pur order }
+ *
+ * @param        $pur_order  The pur order
+ *
+ * @return     int     ( description of the return value )
+ */
+function total_inv_value_by_pur_order($pur_order){
+    $CI           = & get_instance();
+    $CI->db->where('pur_order', $pur_order);
+    $list_inv = $CI->db->get(db_prefix().'pur_invoices')->result_array();
+    $rs = 0;
+    if(count($list_inv) > 0){
+        foreach($list_inv as $inv){
+            $rs += $inv['total'];
+        }
+    }
+    return $rs;
+}
+
+/**
+ * Gets the item identifier by description.
+ *
+ * @param        $des       The description
+ * @param        $long_des  The long description
+ *
+ * @return     string  The item identifier by description.
+ */
+function get_item_id_by_des($des, $long_des){
+    $CI           = & get_instance();
+    $CI->db->where('description', $des);
+    $CI->db->where('long_description', $long_des);
+    $item = $CI->db->get(db_prefix().'items')->row();
+
+    if($item){
+        return $item->id;
+    }
+    return '';
+}
+
+/**
+ * { purorder inv left to pay }
+ *
+ * @param        $pur_order  The pur order
+ */
+function purorder_inv_left_to_pay($pur_order){
+    $CI           = & get_instance();
+    $CI->load->model('purchase/purchase_model');
+    $list_payment = $CI->purchase_model->get_inv_payment_purchase_order($pur_order);
+    $po = $CI->purchase_model->get_pur_order($pur_order);
+    $paid = 0;
+    foreach($list_payment as $payment){
+        if($payment['approval_status'] == 2){
+            $paid += $payment['amount'];
+        }
+    }
+
+    if($po){
+        return $po->total - $paid;
+    }
+    return 0;
 }

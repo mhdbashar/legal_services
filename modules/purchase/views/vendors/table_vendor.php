@@ -15,7 +15,7 @@ $aColumns = [
     'email',
     db_prefix().'pur_vendor.phonenumber as phonenumber',
     db_prefix().'pur_vendor.active',
-    
+    db_prefix().'pur_vendor.category',
     db_prefix().'pur_vendor.datecreated as datecreated',
 ];
 
@@ -36,7 +36,62 @@ foreach ($custom_fields as $key => $field) {
     array_push($join, 'LEFT JOIN '.db_prefix().'customfieldsvalues as ctable_' . $key . ' ON '.db_prefix().'pur_vendor.userid = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
 
+// Filter by vendor category
+$groups   = $this->ci->purchase_model->get_vendor_category();
+$groupIds = [];
+foreach ($groups as $group) {
+    if ($this->ci->input->post('vendor_category_' . $group['id'])) {
+        array_push($groupIds, $group['id']);
+    }
+}
+if (count($groupIds) > 0) {
+    $where_category = '';
+    foreach ($groupIds as $t) {
+        if ($t != '') {
+            if ($where_category == '') {
+                $where_category .= ' AND (find_in_set('.$t.', category)';
+            } else {
+                $where_category .= ' or find_in_set('.$t.', category)';
+            }
+        }
+    }
+    if ($where_category != '') {
+        $where_category .= ')';
+        array_push($where, $where_category);
+    }
+}
 
+// Filter by Purchase order
+$purorderStatusIds = [];
+$purorder_statuses = [1,2,3,4];
+foreach ($purorder_statuses as $status) {
+    if ($this->ci->input->post('pur_order_status_' . $status)) {
+        array_push($purorderStatusIds, $status);
+    }
+}
+
+if (count($purorderStatusIds) > 0) {
+    array_push($where, 'AND '.db_prefix().'pur_vendor.userid IN (SELECT vendor FROM '.db_prefix().'pur_orders WHERE approve_status IN (' . implode(', ', $purorderStatusIds) . '))');
+}
+
+// Filter by Purchase estimate
+$purestimateStatusIds = [];
+$purestimate_statuses = [1,2,3];
+foreach ($purestimate_statuses as $status) {
+    if ($this->ci->input->post('estimate_status_' . $status)) {
+        array_push($purestimateStatusIds, $status);
+    }
+}
+
+if (count($purestimateStatusIds) > 0) {
+    array_push($where, 'AND '.db_prefix().'pur_vendor.userid IN (SELECT vendor FROM '.db_prefix().'pur_estimates WHERE status IN (' . implode(', ', $purestimateStatusIds) . '))');
+}
+
+
+// Filter by my vendors
+if ($this->ci->input->post('my_vendors')) {
+    array_push($where, 'AND '.db_prefix().'pur_vendor.userid IN (SELECT vendor_id FROM '.db_prefix().'pur_vendor_admin WHERE staff_id=' . get_staff_user_id() . ')');
+}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix().'pur_contacts.id as contact_id',
@@ -98,6 +153,16 @@ foreach ($rResult as $aRow) {
 
     // Primary contact phone
     $row[] = ($aRow['phonenumber'] ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
+
+    $groupsRow = '';
+    if ($aRow[db_prefix().'pur_vendor.category']) {
+        $groups = explode(',', $aRow[db_prefix().'pur_vendor.category']);
+        foreach ($groups as $group) {
+            $groupsRow .= '<span class="label label-default mleft5 inline-block">' . get_vendor_cate_name_by_id($group) . '</span>';
+        }
+    }
+
+    $row[] = $groupsRow;
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip" data-title="' . _l('customer_active_inactive_help') . '">

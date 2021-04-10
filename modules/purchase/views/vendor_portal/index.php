@@ -11,7 +11,7 @@ get_template_part_pur($navigationEnabled ? 'navigation' : '');
       </div>
   
       <div class="container">
-         <?php hooks()->do_action('customers_content_container_start'); ?>
+         
          <div class="row">
            
             <?php echo theme_template_view(); ?>

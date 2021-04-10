@@ -246,9 +246,7 @@ img.images_w_table {
     color:#fb3b3b ;
     border:1px solid #fb3b3b; 
 }
-#example {
-    direction: ltr;
-}
-.handsontable {
-    direction: ltr;
+
+.widthul{
+    width: 300px;
 }

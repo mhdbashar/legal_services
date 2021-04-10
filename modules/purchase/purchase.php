@@ -3,12 +3,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: المشتريات
-Description: وحدة إدارة المشتريات هي أداة لإدارة مشترياتك اليومية. إنها مليئة بجميع المميزات الضرورية التي تحتاجها أي شركة ، والتي يتعين عليها شراء المواد الخام للتصنيع أو شراء السلع الجاهزة للتداول
-Version: 1.1.1
+Module Name: Purchase
+Description: Purchase Management Module is a tool for managing your day-to-day purchases. It is packed with all necessary features that are needed by any business, which has to buy raw material for manufacturing or finished good purchases for trading
+Version: 1.1.0
 Requires at least: 2.3.*
-Author: Babil Team
-Author URI: https://babil.net.sa*/
+Author: GreenTech Solutions
+Author URI: https://codecanyon.net/user/greentech_solutions
+*/
 
 define('PURCHASE_MODULE_NAME', 'purchase');
 define('PURCHASE_MODULE_UPLOAD_FOLDER', module_dir_path(PURCHASE_MODULE_NAME, 'uploads'));
@@ -59,10 +60,11 @@ hooks()->add_filter('other_merge_fields_available_for', 'purchase_register_other
 define('PURCHASE_PATH', 'modules/purchase/uploads/');
 define('PURCHASE_MODULE_ITEM_UPLOAD_FOLDER', 'modules/purchase/uploads/item_img/');
 
-define('PURCHASE_REVISION', 109);
+define('PURCHASE_REVISION', 110);
 define('COMMODITY_ERROR_PUR', FCPATH );
 define('COMMODITY_EXPORT_PUR', FCPATH );
 define('PURCHASE_IMPORT_ITEM_ERROR', 'modules/purchase/uploads/import_item_error/');
+define('PURCHASE_IMPORT_VENDOR_ERROR', 'modules/purchase/uploads/import_vendor_error/');
 
 /**
 * Register activation module hook
@@ -413,6 +415,12 @@ function purchase_head_components() {
     }
     if(!(strpos($viewuri, 'purchase/vendors_portal/pur_order') === false)){
         echo '<link href="' . module_dir_url(PURCHASE_MODULE_NAME, 'assets/css/estimate_template.css') .'?v=' . PURCHASE_REVISION.'"  rel="stylesheet" type="text/css" />';
+    }
+    if(!(strpos($viewuri, 'purchase/vendors_portal/invoices') === false)){
+        echo '<link href="' . module_dir_url(PURCHASE_MODULE_NAME, 'assets/css/manage_vendor_invoice.css') .'?v=' . PURCHASE_REVISION.'"  rel="stylesheet" type="text/css" />';
+    }
+    if(!(strpos($viewuri, 'purchase/vendors_portal/invoice/') === false)){
+        echo '<link href="' . module_dir_url(PURCHASE_MODULE_NAME, 'assets/css/manage_vendor_invoice.css') .'?v=' . PURCHASE_REVISION.'"  rel="stylesheet" type="text/css" />';
     }
     if(!(strpos($viewuri, '/admin/purchase/quotations') === false)){
         echo '<link href="' . module_dir_url(PURCHASE_MODULE_NAME, 'assets/css/estimate_preview_template.css') .'?v=' . PURCHASE_REVISION.'"  rel="stylesheet" type="text/css" />';

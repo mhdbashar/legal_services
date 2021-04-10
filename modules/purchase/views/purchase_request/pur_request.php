@@ -92,7 +92,7 @@
                         <br><br>
                     </div>
 
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-3 form-group">
                       <label for="department"><?php echo _l('department'); ?></label>
                         <select name="department" id="department" class="selectpicker" onchange="department_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
                           <option value=""></option>
@@ -103,7 +103,22 @@
                         <br><br>
                     </div>
 
-                    <div class="col-md-4 form-group">
+                    <div class="col-md-2 form-group pright0">
+                      <label for="sale_invoice"><?php echo _l('sale_invoice'); ?></label>
+                        <select name="sale_invoice" id="sale_invoice" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+                          <option value=""></option>
+                          <?php foreach($invoices as $inv) { ?>
+                            <option value="<?php echo html_entity_decode($inv['id']); ?>" <?php if(isset($pur_request) && $inv['id'] == $pur_request->sale_invoice){ echo 'selected'; } ?>><?php echo format_invoice_number($inv['id']); ?></option>
+                            <?php } ?>
+                        </select>
+                        
+                    </div>
+                    <div class="col-md-1" >
+                       <a href="#" onclick="coppy_sale_invoice(); return false;" class="btn btn-success mtop25" data-toggle="tooltip" title="<?php echo _l('coppy_sale_invoice'); ?>">
+                            <i class="fa fa-clone"></i></a>
+                    </div>
+
+                    <div class="col-md-3 form-group">
                       <label for="requester"><?php echo _l('requester'); ?></label>
                         <select name="requester" id="requester" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
                           <option value=""></option>
@@ -113,10 +128,11 @@
                         </select>
                         <br><br>
                     </div>
+                    
 
-                    <div class="col-md-2">
-                      <div class="checkbox checkbox-primary pull-right mtop25">
-                        <input onchange="from_list_items(this); return false" type="checkbox" id="from_items" name="from_items" value="1" <?php if(isset($pur_request)){ echo 'disabled';} ?> <?php if(isset($pur_request) && $pur_request->from_items == 0){ echo ''; }else{ echo 'checked'; } ?>>
+                    <div class="col-md-3">
+                      <div class="checkbox checkbox-primary pull-left mtop25">
+                        <input onchange="from_list_items(); return false" type="checkbox" id="from_items" name="from_items" value="1" <?php if(isset($pur_request) && $pur_request->from_items == 0){ echo ''; }else{ echo 'checked'; } ?>>
                         <label for="from_items"><?php echo _l('from_list_items'); ?>
                       
                         </label>
@@ -138,10 +154,72 @@
                     <p class="bold p_style"><?php echo _l('pur_detail'); ?></p>
                     <hr class="hr_style"  />
                     <div class="col-md-12 " id="example">
-                      <hr>
+                      
                     </div>
+                  </div>
+                  <div class="col-md-6 col-md-offset-6">
+                     <table class="table text-right mbot0">
+                       <tbody>
+                          <tr id="subtotal">
+                             <td class="td_style"><span class="bold"><?php echo _l('subtotal'); ?></span>
+                             </td>
+                             <td width="65%" id="total_td">
+                              
+                               <div class="input-group" id="discount-total">
+
+                                      <input type="text" readonly="true"  class="form-control text-right" name="subtotal" value="<?php if(isset($pur_request)){ echo app_format_money($pur_request->subtotal,''); } ?>">
+
+                                     <div class="input-group-addon">
+                                        <div class="dropdown">
+                                           
+                                           <span class="discount-type-selected">
+                                            <?php echo html_entity_decode($base_currency->name) ;?>
+                                           </span>
+                                           
+                                           
+                                        </div>
+                                     </div>
+
+                                  </div>
+                             </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table class="table text-right">
+                       <tbody id="tax_area_body">
+                          <?php if(isset($pur_request)){ 
+                            echo $taxes_data['html'];
+                            ?>
+                          <?php } ?>
+                       </tbody>
+                      </table>
+
+                      <table class="table text-right">
+                       <tbody id="tax_area_body">
+                          <tr id="total">
+                             <td class="td_style"><span class="bold"><?php echo _l('total'); ?></span>
+                             </td>
+                             <td width="65%" id="total_td">
+                               <div class="input-group" id="total">
+                                     <input type="text" readonly="true" class="form-control text-right" name="total_mn" value="<?php if(isset($pur_request)){ echo app_format_money($pur_request->total,''); } ?>">
+                                     <div class="input-group-addon">
+                                        <div class="dropdown">
+                                           
+                                           <span class="discount-type-selected">
+                                            <?php echo html_entity_decode($base_currency->name) ;?>
+                                           </span>
+                                        </div>
+                                     </div>
+
+                                  </div>
+                             </td>
+                          </tr>
+                       </tbody>
+                      </table>
 
                   </div>
+
                   </div>
                   <?php echo form_hidden('request_detail'); ?>
                     <div class="clearfix"></div>

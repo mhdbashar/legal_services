@@ -48,7 +48,7 @@ class App_vendor_area_constructor
         include_once(module_dir_path(PURCHASE_MODULE_NAME, 'views/vendor_portal/functions.php'));
         init_vendor_area_assets();
 
-        hooks()->do_action('clients_init');
+        //hooks()->do_action('clients_init');
         
         $vars['departments']     = $this->ci->departments_model->get(false, true);
         $vars['priorities']      = $this->ci->tickets_model->get_priority();
@@ -61,7 +61,7 @@ class App_vendor_area_constructor
             $vars['services'] = $this->ci->tickets_model->get_service();
         }
 
-        $vars = hooks()->apply_filters('customers_area_autoloaded_vars', $vars);
+        //$vars = hooks()->apply_filters('customers_area_autoloaded_vars', $vars);
 
         $this->ci->load->vars($vars);
     }

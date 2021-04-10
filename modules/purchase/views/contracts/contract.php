@@ -28,8 +28,28 @@
                 <div class="col-md-6">
                   <?php $contract_name = (isset($contract) ? $contract->contract_name : '');
                   echo render_input('service_category','service_category',$contract_name); ?>
-        
                 </div>
+
+                <div class="col-md-6 form-group">
+                  <label for="vendor"><?php echo _l('vendor'); ?></label>
+                  <select name="vendor" id="vendor" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                    <option value=""></option>
+                    <?php foreach($vendors as $or){ ?>
+                      <option value="<?php echo html_entity_decode($or['userid']); ?>" <?php if(isset($contract) && $contract->vendor == $or['userid']){ echo 'selected'; }else{ if(isset($ven) && $ven == $or['userid']){ echo 'selected'; } } ?>><?php echo html_entity_decode($or['company']); ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
+                <div class="col-md-6 form-group">
+                  <label for="pur_order"><?php echo _l('pur_order'); ?></label>
+                  <select name="pur_order" id="pur_order" class="selectpicker" onchange="view_pur_order(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                    <option value=""></option>
+                    <?php foreach($pur_orders as $or){ ?>
+                      <option value="<?php echo html_entity_decode($or['id']); ?>" <?php if(isset($contract) && $contract->pur_order == $or['id']){ echo 'selected'; } ?>><?php echo html_entity_decode($or['pur_order_number']).' - '.html_entity_decode($or['pur_order_name']); ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
@@ -71,27 +91,7 @@
                             </div>
                         </div>
                     </div>
-                <div class="col-md-6">
-                  <label for="pur_order"><?php echo _l('pur_order'); ?></label>
-                  <select name="pur_order" id="pur_order" class="selectpicker" onchange="view_pur_order(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
-                    <option value=""></option>
-                    <?php foreach($pur_orders as $or){ ?>
-                      <option value="<?php echo html_entity_decode($or['id']); ?>" <?php if(isset($contract) && $contract->pur_order == $or['id']){ echo 'selected'; } ?>><?php echo html_entity_decode($or['pur_order_number']).' - '.html_entity_decode($or['pur_order_name']); ?></option>
-                    <?php } ?>
-                  </select>
-                  <br><br>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="vendor"><?php echo _l('vendor'); ?></label>
-                  <select name="vendor" id="vendor" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
-                    <option value=""></option>
-                    <?php foreach($vendors as $or){ ?>
-                      <option value="<?php echo html_entity_decode($or['userid']); ?>" <?php if(isset($contract) && $contract->vendor == $or['userid']){ echo 'selected'; }else{ if(isset($ven) && $ven == $or['userid']){ echo 'selected'; } } ?>><?php echo html_entity_decode($or['company']); ?></option>
-                    <?php } ?>
-                  </select>
-                  
-                </div>
+  
                 <div class="col-md-6 form-group">
                   <label for="department"><?php echo _l('department'); ?></label>
                   <select name="department" readonly="true" id="department" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
@@ -201,6 +201,8 @@
         <div class="col-md-7 right-column">
           <div class="panel_s">
               <div class="panel-body">
+
+                <div class="col-md-12 mtop15">
                 <div class="horizontal-scrollable-tabs preview-tabs-top">
                      <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
                      <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
@@ -245,6 +247,17 @@
                              </span>
                              </a>
                           </li>
+
+                          <li role="presentation" class="">
+                            <?php
+                                      $totalComments = total_rows(db_prefix().'pur_comments',['rel_id' => $contract->id, 'rel_type' => 'pur_contract']);
+                                      ?>
+                             <a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">
+                             <?php echo _l('pur_discuss'); ?>
+                              <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
+                             </a>
+                          </li> 
+
                           <li role="presentation">
                              <a href="#tab_tasks" onclick="init_rel_tasks_table(<?php echo html_entity_decode($contract->id); ?>,'pur_contract'); return false;" aria-controls="tab_tasks" role="tab" data-toggle="tab">
                              <?php echo _l('tasks'); ?>
@@ -262,6 +275,7 @@
                            </li>
                         </ul>
                      </div>
+                  </div>
                   </div>
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') == 'tab_content'){echo ' active';} ?>" id="tab_content">
@@ -307,6 +321,17 @@
                            </div>
                         </div>
                         <?php } ?>
+                  </div>
+
+                  <div role="tabpanel" class="tab-pane" id="discuss">
+                    <div class="row contract-comments mtop15">
+                       <div class="col-md-12">
+                          <div id="contract-comments"></div>
+                          <div class="clearfix"></div>
+                          <textarea name="content" id="comment" rows="4" class="form-control mtop15 contract-comment"></textarea>
+                          <button type="button" class="btn btn-info mtop10 pull-right" onclick="add_contract_comment();"><?php echo _l('proposal_add_comment'); ?></button>
+                       </div>
+                    </div>
                   </div>
 
                   <div role="tabpanel" class="tab-pane" id="tab_reminders">

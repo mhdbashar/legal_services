@@ -9,6 +9,24 @@
       formatCurrency($(this), "blur");
     }
   });
+
+  var vendor = $('select[name="vendor"]').val();
+  if(vendor != ''){
+    $.post(admin_url + 'purchase/pur_vendors_change/'+el.value).done(function(response) {
+      response = JSON.parse(response);
+
+      if(response.type == 'pur_order'){
+        $('select[name="pur_order"]').html('');
+        $('select[name="pur_order"]').append(response.html);
+        $('select[name="pur_order"]').selectpicker('refresh');
+      }else{
+        $('select[name="contract"]').html(response.html);
+        $('select[name="contract"]').appennd(response.html);
+        $('select[name="contract"]').selectpicker('refresh');
+      }
+    });
+  }
+
 })(jQuery);
 
 function formatNumber(n) {
@@ -71,6 +89,25 @@ function pur_order_change(el){
       response = JSON.parse(response);
       $('#subtotal').val(numberWithCommas(response.value));
       $('#total').val(numberWithCommas(response.value));
+    });
+  }
+}
+
+function pur_vendor_change(el){
+  "use strict";
+  if(el.value != ''){
+    $.post(admin_url + 'purchase/pur_vendors_change/'+el.value).done(function(response) {
+      response = JSON.parse(response);
+
+      if(response.type == 'pur_order'){
+        $('select[name="pur_order"]').html('');
+        $('select[name="pur_order"]').append(response.html);
+        $('select[name="pur_order"]').selectpicker('refresh');
+      }else{
+        $('select[name="contract"]').html(response.html);
+        $('select[name="contract"]').appennd(response.html);
+        $('select[name="contract"]').selectpicker('refresh');
+      }
     });
   }
 }

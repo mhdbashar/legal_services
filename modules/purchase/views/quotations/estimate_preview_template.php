@@ -26,6 +26,17 @@
                      <?php echo _l('tasks'); ?>
                      </a>
                   </li> 
+
+                  <li role="presentation" class="tab-separator">
+                    <?php
+                              $totalComments = total_rows(db_prefix().'pur_comments',['rel_id' => $estimate->id, 'rel_type' => 'pur_quotation']);
+                              ?>
+                     <a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">
+                     <?php echo _l('pur_discuss'); ?>
+                      <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
+                     </a>
+                  </li> 
+
                   <li role="presentation" class="tab-separator">
                      <a href="#attachment" aria-controls="attachment" role="tab" data-toggle="tab">
                      <?php echo _l('attachment'); ?>
@@ -357,6 +368,18 @@
                   </div>
                </div>
             </div>
+
+            <div role="tabpanel" class="tab-pane" id="discuss">
+              <div class="row contract-comments mtop15">
+                 <div class="col-md-12">
+                    <div id="contract-comments"></div>
+                    <div class="clearfix"></div>
+                    <textarea name="content" id="comment" rows="4" class="form-control mtop15 contract-comment"></textarea>
+                    <button type="button" class="btn btn-info mtop10 pull-right" onclick="add_contract_comment();"><?php echo _l('proposal_add_comment'); ?></button>
+                 </div>
+              </div>
+            </div>
+
          </div>
       </div>
    </div>

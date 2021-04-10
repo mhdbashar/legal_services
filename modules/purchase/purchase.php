@@ -8,7 +8,7 @@ Description: وحدة إدارة المشتريات هي أداة لإدارة �
 Version: 1.2.1
 Requires at least: 2.3.*
 Author: Babil Team
-Author URI: https://babil.net.sa*/
+Author URI: https://babil.net.sa
 */
 
 define('PURCHASE_MODULE_NAME', 'purchase');

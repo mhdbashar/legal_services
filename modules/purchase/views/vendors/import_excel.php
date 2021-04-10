@@ -2,7 +2,8 @@
 ?>
 <?php 
   $file_header = array();
-$file_header[] = _l('fist_name');
+$file_header[] = _l('vendor_code');  
+$file_header[] = _l('first_name');
 $file_header[] = _l('last_name');
 $file_header[] = _l('email');
 $file_header[] = _l('contact_phonenumber');
@@ -117,6 +118,6 @@ $file_header[] = _l('pur_shipping_country');
 </div>
 <?php init_tail(); ?>
 
-<?php require 'modules/purchase/assets/js/import_excel_js.php';?>
+<?php require 'modules/purchase/assets/js/import_excel_vendor_js.php';?>
 </body>
 </html>

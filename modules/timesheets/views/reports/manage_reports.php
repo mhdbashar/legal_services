@@ -20,6 +20,8 @@
           <p><a href="#" class="font-medium" onclick="init_report(this,'history_check_in_out'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('history_check_in_out'); ?></a></p>
           <hr class="hr-10" />                          
           <p><a href="#" class="font-medium" onclick="init_report(this,'check_in_out_progress_according_to_the_route'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('check_in_out_progress_according_to_the_route'); ?></a></p>
+          <hr class="hr-10" />                          
+          <p><a href="#" class="font-medium" onclick="init_report(this,'check_in_out_progress'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('check_in_out_progress'); ?></a></p>
         </div>
         <!-- End table report -->
         <!-- Chart report -->
@@ -200,6 +202,25 @@
 <div class="filter_fr_2 col-md-3 type_2_fr">
   <?php echo render_select('type_2_fillter', [['id' => 3, 'name' => _l('all')], ['id' => 1, 'name' => _l('check_in')], ['id' => 2, 'name' => _l('check_out')]], array('id', 'name'), 'type', 3, [], [], '', '', false); ?>
 </div>
+
+<div class="filter_fr_2 col-md-3 type_22_fr">
+  <?php echo render_select('type_22_fillter', [
+    ['id' => 3, 'name' => _l('all')], 
+    ['id' => 1, 'name' => _l('check_in')],
+    ['id' => 2, 'name' => _l('check_out')],
+    ['id' => 4, 'name' => _l('not_check_in')],
+    ['id' => 5, 'name' => _l('not_check_out')],
+    ['id' => 6, 'name' => _l('check_in_check_out')]
+
+  ], array('id', 'name'), 'type', 3, [], [], '', '', false); ?>
+</div>
+<div class="filter_fr_2 col-md-3">
+</div>
+<div class="filter_fr_2 col-md-3">
+</div>
+<div class="filter_fr_2 col-md-3">
+</div>
+
 </div>
 <!-- workplace - root -->
 <?php } ?>
@@ -209,9 +230,11 @@
 <?php $this->load->view('reports/general_public_report.php'); ?> 
 <?php $this->load->view('reports/history_check_in_out.php'); ?> 
 <?php $this->load->view('reports/check_in_out_progress_according_to_the_route.php'); ?> 
+<?php $this->load->view('reports/check_in_out_progress.php'); ?> 
 <?php $this->load->view('reports/report_of_leave.php'); ?> 
 <?php $this->load->view('reports/leave_by_department.php'); ?> 
 <?php $this->load->view('reports/ratio_check_in_out_by_workplace.php'); ?> 
+
 </div>
 </div>
 </div>

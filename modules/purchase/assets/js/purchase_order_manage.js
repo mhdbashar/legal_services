@@ -144,3 +144,34 @@ function projectExpenseSubmitHandler(form) {
       });
       return false;
 }
+
+function change_delivery_status(status, id){
+  "use strict";
+  if(id > 0){
+    $.post(admin_url + 'purchase/change_delivery_status/'+status+'/'+id).done(function(response){
+      response = JSON.parse(response);
+      if(response.success == true){
+        if($('#status_span_'+id).hasClass('label-danger')){
+          $('#status_span_'+id).removeClass('label-danger');
+          $('#status_span_'+id).addClass(response.class);
+          $('#status_span_'+id).html(response.status_str+' '+response.html);
+        }else if($('#status_span_'+id).hasClass('label-success')){
+          $('#status_span_'+id).removeClass('label-success');
+          $('#status_span_'+id).addClass(response.class);
+          $('#status_span_'+id).html(response.status_str+' '+response.html);
+        }else if($('#status_span_'+id).hasClass('label-info')){
+          $('#status_span_'+id).removeClass('label-info');
+          $('#status_span_'+id).addClass(response.class);
+          $('#status_span_'+id).html(response.status_str+' '+response.html);
+        }else if($('#status_span_'+id).hasClass('label-warning')){
+          $('#status_span_'+id).removeClass('label-warning');
+          $('#status_span_'+id).addClass(response.class);
+          $('#status_span_'+id).html(response.status_str+' '+response.html);
+        }
+        alert_float('success', response.mess);
+      }else{
+        alert_float('warning', response.mess);
+      }
+    });
+  }
+}

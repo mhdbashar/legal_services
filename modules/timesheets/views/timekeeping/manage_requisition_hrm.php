@@ -1,6 +1,8 @@
 
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+<?php init_head();
+$valid_cur_date = $this->timesheets_model->get_next_shift_date(get_staff_user_id(), date('Y-m-d'));
+?>
 <div id="wrapper">
   <div class="content">
     <div class="row">
@@ -213,6 +215,14 @@ render_datatable($table_data,'table_registration_leave',
                   <?php  echo render_input('subject') ?>
                 </div>
               </div>
+              <?php 
+              if(is_admin() || has_permission('leave_management', '', 'view')){ ?>
+                <div class="row">
+                  <div class="col-md-12">
+                    <?php echo render_select('staff_id', $pro, array('staffid', array('firstname', 'lastname')), 'staff', get_staff_user_id(),[],[],'','',false); ?>
+                  </div>
+                </div>
+              <?php } ?>
               <div class="row mtop10">
                 <div class="col-md-6 pb-4" id="type">
                   <label for="rel_type" class="control-label"><?php echo _l('Type'); ?></label>
@@ -281,8 +291,9 @@ render_datatable($table_data,'table_registration_leave',
             </div>                                     
           </div>
 
-          <div class="row approx-fr mtop10">
+          <div class="row approx-fr">
            <div class="col-md-12">
+            <br>
             <?php  
             $value_number_day = 0.5;                                   
             ?>
@@ -294,15 +305,16 @@ render_datatable($table_data,'table_registration_leave',
           <div class="col-md-12 mtop10" id="number_days_off_2">
             <label class="control-label "><?php echo _l('number_of_days_off').': '.$days_off; ?></label><br>
             <label class="control-label <?php if($number_day_off == 0){echo 'text-danger';} ?>"><?php echo _l('number_of_leave_days_allowed').': '.$number_day_off; ?></label>
+            <input type="hidden" name="number_day_off" value="<?php echo html_entity_decode($number_day_off);?>">
           </div>
         </div>
         <br>
         <div class="row mtop10 date_input">
           <div class="col-md-6 start_time">
-            <?php echo render_date_input('start_time','From_Date',_d(date('Y-m-d'))) ?>
+            <?php echo render_date_input('start_time','From_Date',_d($valid_cur_date)) ?>
           </div>
           <div class="col-md-6 end_time">
-            <?php echo render_date_input('end_time','To_Date',_d(date('Y-m-d'))) ?>
+            <?php echo render_date_input('end_time','To_Date',_d($valid_cur_date)) ?>
           </div>
         </div>
 
@@ -400,6 +412,7 @@ render_datatable($table_data,'table_registration_leave',
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
+<input type="hidden" name="current_date" value="<?php echo _d(date('Y-m-d')); ?>">
 <?php init_tail(); ?>
 <?php require 'modules/timesheets/assets/js/requisition_manage_js.php'; ?>
 </body>

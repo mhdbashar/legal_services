@@ -246,3 +246,14 @@ img.images_w_table {
     color:#fb3b3b ;
     border:1px solid #fb3b3b; 
 }
+
+.widthul{
+    width: 300px;
+}
+
+#example{
+    direction: ltr;
+}
+.handsontable{
+    direction: ltr;
+}

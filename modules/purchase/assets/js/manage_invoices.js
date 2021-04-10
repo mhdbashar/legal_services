@@ -5,6 +5,7 @@
 		"from_date": 'input[name="from_date"]',
         "to_date": 'input[name="to_date"]',
         "contract": "[name='contract[]']",
+        "pur_orders": "[name='pur_orders[]']"
     };
 
 	initDataTable(table_invoice, admin_url+'purchase/table_pur_invoices',[0], [0], Params);

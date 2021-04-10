@@ -33,6 +33,7 @@
 		"route_point_2_fillter": "[name='route_point_2_fillter[]']",
 		"word_shift_2_fillter": "[name='word_shift_2_fillter[]']",
 		"type_2_fillter": '[name="type_2_fillter"]',
+		"type_22_fillter": '[name="type_22_fillter"]',
 	};
 	(function(){
 		"use strict";
@@ -72,7 +73,7 @@
 			}
 			gen_reports();
 		});
-		$('select[name="staff_2_fillter[]"],select[name="department_2_fillter[]"],select[name="workplace_2_fillter[]"],select[name="route_point_2_fillter[]"],select[name="word_shift_2_fillter[]"],select[name="type_2_fillter"],select[name="roles_2_fillter[]"],select[name="role[]"],select[name="department[]"],select[name="staff[]"],select[name="rel_type[]"],select[name="year_requisition"],select[name="role[]"], select[name="months_2_report"]').on('change', function() {
+		$('select[name="staff_2_fillter[]"],select[name="department_2_fillter[]"],select[name="workplace_2_fillter[]"],select[name="route_point_2_fillter[]"],select[name="word_shift_2_fillter[]"],select[name="type_2_fillter"],select[name="type_22_fillter"],select[name="roles_2_fillter[]"],select[name="role[]"],select[name="department[]"],select[name="staff[]"],select[name="rel_type[]"],select[name="year_requisition"],select[name="role[]"], select[name="months_2_report"]').on('change', function() {
 			gen_reports();
 		});
 	})(jQuery);
@@ -164,7 +165,19 @@
 			$('#check_in_out_progress_according_to_the_route').removeClass('hide');
 			$('#report-month').removeClass('hide');
 			$('#year_requisition').removeClass('hide');
-		}  
+		} 
+		else if(type == 'check_in_out_progress'){
+			$('.department_2_fr').removeClass('hide');
+			$('.staff_2_fr').removeClass('hide');
+			$('.type_22_fr').removeClass('hide');
+			$('.roles_2_fr').removeClass('hide');
+			$('.type_22_fr').removeClass('hide');
+			$('.sorting_2_table').removeClass('hide');
+
+			$('#check_in_out_progress_according_to_the_route').removeClass('hide');
+			$('#report-month').removeClass('hide');
+			$('#year_requisition').removeClass('hide');
+		} 
 		else if(type == 'report_of_leave'){
 			$('.report_of_leave').removeClass('hide');
 			$('select[name="months-report"]').selectpicker('refresh');
@@ -466,6 +479,9 @@
 	 			case 'check_in_out_progress_according_to_the_route':
 	 			check_in_out_progress_according_to_the_route_report();
 	 			break;  
+	 			case 'check_in_out_progress':
+	 			check_in_out_progress_report();
+	 			break; 
 	 			case 'working_hours':
 	 			report_by_working_hours();
 	 			break;  
@@ -555,5 +571,18 @@
 	 		initDataTable(table, admin_url + 'timesheets/check_in_out_progress_according_to_the_route_report', false, list_fillter , fnServerParams, [0, 'desc']);
 	 	});
 	 }
-
+	 function check_in_out_progress_report(){
+	 	"use strict";
+	 	$('#check_in_out_progress_according_to_the_route').html('<table class="table table-check_in_out_progress_report scroll-responsive"><thead><tr></tr></thead><tbody></tbody><tfoot><tr></tr></tfoot></table>');
+	 	$('.title_table').text('<?php echo _l('check_in_out_progress'); ?>');
+	 	var table = $('table.table-check_in_out_progress_report');
+	 	$.get(admin_url+'timesheets/get_header_report_check_in_out/'+$('select[name="months_2_report"]').val()+'/'+$('select[name="year_requisition"]').val()).done(function(response){
+	 		response = JSON.parse(response);
+	 		table.find('thead tr').html(response.col_header);
+	 		table.find('tfoot tr').html(response.col_footer);
+	 		table.find('tbody').html('');
+	 		list_fillter = response.list_fillter;
+	 		initDataTable(table, admin_url + 'timesheets/check_in_out_progress_report', false, list_fillter , fnServerParams, [0, 'desc']);
+	 	});
+	 }
 	</script>

@@ -12,6 +12,7 @@
  				<br>
              </div>
             </div>
+            	<?php echo form_hidden('invoice_id', $pur_invoice->id) ?>
 	            <div class="horizontal-scrollable-tabs preview-tabs-top">
 	            <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
 	            <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
@@ -70,6 +71,15 @@
 	                           <span class="badge"><?php echo ($totalNotes); ?></span>
 	                        <?php } ?>
 	                     </span>
+	                     </a>
+	                  </li>
+	                  <li role="presentation" class="tab-separator">
+	                    <?php
+	                              $totalComments = total_rows(db_prefix().'pur_comments',['rel_id' => $pur_invoice->id, 'rel_type' => 'pur_invoice']);
+	                              ?>
+	                     <a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">
+	                     <?php echo _l('pur_discuss'); ?>
+	                      <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
 	                     </a>
 	                  </li>
 	                  <li role="presentation">
@@ -209,6 +219,17 @@
 		               <hr />
 		               <?php render_datatable(array( _l( 'reminder_description'), _l( 'reminder_date'), _l( 'reminder_staff'), _l( 'reminder_is_notified')), 'reminders'); ?>
 		               <?php $this->load->view('admin/includes/modals/reminder',array('id'=>$pur_invoice->id,'name'=>'pur_invoice','members'=>$members,'reminder_title'=>_l('estimate_set_reminder_title'))); ?>
+		            </div>
+
+		            <div role="tabpanel" class="tab-pane" id="discuss">
+		              <div class="row contract-comments mtop15">
+		                 <div class="col-md-12">
+		                    <div id="contract-comments"></div>
+		                    <div class="clearfix"></div>
+		                    <textarea name="content" id="comment" rows="4" class="form-control mtop15 contract-comment"></textarea>
+		                    <button type="button" class="btn btn-info mtop10 pull-right" onclick="add_contract_comment();"><?php echo _l('proposal_add_comment'); ?></button>
+		                 </div>
+		              </div>
 		            </div>
 
 		            <div role="tabpanel" class="tab-pane" id="tab_notes">

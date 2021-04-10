@@ -11,7 +11,6 @@
 
     appValidateForm($(selector), {
         contract_name: 'required',
-        project: 'required',
         vendor: 'required',
         start_date: 'required',
        
@@ -206,7 +205,7 @@ var selector = typeof(selector) == 'undefined' ? 'div.editable' : selector;
      $('#identityConfirmationForm').submit(function() {
        signaturePadChanged();
      });
-
+get_contract_comments();
 <?php } ?>
 
 
@@ -382,4 +381,92 @@ function get_sales_notes_contract(id, controller) {
         }
     });
 }
+
+<?php if(isset($contract)) { ?>
+
+function add_contract_comment() {
+  "use strict";
+    var comment = $('#comment').val();
+    if (comment == '') {
+       return;
+    }
+    var data = {};
+    data.content = comment;
+    data.rel_id = contract_id;
+    data.rel_type = 'pur_contract';
+    $('body').append('<div class="dt-loader"></div>');
+    $.post(admin_url + 'purchase/add_comment', data).done(function (response) {
+       response = JSON.parse(response);
+       $('body').find('.dt-loader').remove();
+       if (response.success == true) {
+          $('#comment').val('');
+          get_contract_comments();
+       }
+    });
+   }
+
+ function get_contract_comments() {
+  "use strict";
+  if (typeof (contract_id) == 'undefined') {
+     return;
+  }
+  requestGet('purchase/get_comments/' + contract_id+'/pur_contract').done(function (response) {
+     $('#contract-comments').html(response);
+     var totalComments = $('[data-commentid]').length;
+     var commentsIndicator = $('.comments-indicator');
+     if(totalComments == 0) {
+          commentsIndicator.addClass('hide');
+     } else {
+       commentsIndicator.removeClass('hide');
+       commentsIndicator.text(totalComments);
+     }
+  });
+ }
+
+ function remove_contract_comment(commentid) {
+  "use strict";
+  if (confirm_delete()) {
+     requestGetJSON('purchase/remove_comment/' + commentid).done(function (response) {
+        if (response.success == true) {
+
+          var totalComments = $('[data-commentid]').length;
+
+           $('[data-commentid="' + commentid + '"]').remove();
+
+           var commentsIndicator = $('.comments-indicator');
+           if(totalComments-1 == 0) {
+             commentsIndicator.addClass('hide');
+          } else {
+             commentsIndicator.removeClass('hide');
+             commentsIndicator.text(totalComments-1);
+          }
+        }
+     });
+  }
+ }
+
+ function edit_contract_comment(id) {
+  "use strict";
+  var content = $('body').find('[data-contract-comment-edit-textarea="' + id + '"] textarea').val();
+  if (content != '') {
+     $.post(admin_url + 'purchase/edit_comment/' + id, {
+        content: content
+     }).done(function (response) {
+        response = JSON.parse(response);
+        if (response.success == true) {
+           alert_float('success', response.message);
+           $('body').find('[data-contract-comment="' + id + '"]').html(nl2br(content));
+        }
+     });
+     toggle_contract_comment_edit(id);
+  }
+ }
+
+ function toggle_contract_comment_edit(id) {
+  "use strict";
+     $('body').find('[data-contract-comment="' + id + '"]').toggleClass('hide');
+     $('body').find('[data-contract-comment-edit-textarea="' + id + '"]').toggleClass('hide');
+ }
+
+<?php } ?>
 </script>

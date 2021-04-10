@@ -102,7 +102,7 @@
                             $format = get_option('hr_staff_number');
 
                             if(isset($extra_info)){
-                                $format = $extra_info->number_format;
+                                $format = isset($extra_info->number_format) ? $extra_info->number_format : '';
                             }
 
                             $prefix = get_option('hr_staff_prefix');

@@ -11,6 +11,16 @@
   .mtop0{
     margin-top: 0px;
   }
-.handsontable {
-  direction: ltr;
+  table.table{
+    margin-top: 10px;
+  }
+
+.table{
+        width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.pright0{
+  padding-right: 0px;
 }

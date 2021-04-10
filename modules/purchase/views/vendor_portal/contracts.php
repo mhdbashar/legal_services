@@ -18,7 +18,7 @@
 		            <tbody>
 		            	<?php foreach($contracts as $p){ ?>
 		            		<tr>
-		            			<td><?php echo html_entity_decode($p['contract_number'].' - '.$p['contract_name']); ?></td>
+		            			<td><a href="<?php echo site_url('purchase/vendors_portal/view_contract/'.$p['id']); ?>"><?php echo html_entity_decode($p['contract_number']); ?></a></td>
 		            			<td><?php echo html_entity_decode(app_format_money($p['contract_value'],'')); ?></td>
 		            			<td><?php echo html_entity_decode(get_pur_order_subject($p['pur_order'])); ?></td>
 		            			<td><?php echo html_entity_decode(_d($p['start_date'])); ?></td>

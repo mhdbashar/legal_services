@@ -142,7 +142,12 @@ $check = $this->input->get('check'); ?>
                         </tr>
                         <tr>
                           <td><?php echo _l('number_of_leave_days_allowed'); ?></td>
-                          <td><?php echo html_entity_decode($number_day_off); ?></td>
+                          <td><?php 
+                          if($request_leave->number_of_days != ''){
+                            $number_day_off = $request_leave->number_of_days;
+                          }
+                          echo html_entity_decode($number_day_off); 
+                          ?></td>
                         </tr>
                       <?php } ?>
                       <tr>
@@ -187,21 +192,6 @@ $check = $this->input->get('check'); ?>
                     </table>
                   </div>
 
-            </div>
-            <h4><?php echo _l('general_information'); ?></h4>
-            <hr/>
-            <div class="col-md-6">
-              <table class="table border table-striped ">
-                <tbody>
-                  <tr>
-                    <td><?php echo _l('subject'); ?></td>
-                    <td><?php echo html_entity_decode($request_leave->subject); ?></td>
-                  </tr>
-                  <tr>
-                    <td><?php echo _l('category_for_leave'); ?></td>
-                    <td><?php                
-                    echo _l($rel_type); ?></td>
-                  </tr>
                   <?php 
                   if($request_leave->rel_type == 4 && count($advance_payment) > 0){ ?>
                     <div class="col-md-6">
@@ -375,10 +365,7 @@ $check = $this->input->get('check'); ?>
                 echo html_entity_decode($html);
               }
               ?>
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/dev
 
             </div>
           <?php } 
@@ -539,9 +526,9 @@ $payment_modes = $this->payment_modes_model->get('', [
 $expenses_modes = array();
 foreach($payment_modes as $m){
  if(isset($m['invoices_only']) && $m['invoices_only'] == 1) {continue;}
-   if($m['active'] == 1){
-     $expenses_modes[] = $m;
-   }
+ if($m['active'] == 1){
+   $expenses_modes[] = $m;
+ }
 }
 ?>
 <?php
@@ -597,6 +584,7 @@ echo render_select('paymentmode',$expenses_modes,array('id','name'),'payment_mod
     <?php echo form_close(); ?>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<input type="hidden" name="has_send_mail" value="<?php echo html_entity_decode($has_send_mail); ?>">
 
 <?php } ?>
 <?php init_tail(); ?>

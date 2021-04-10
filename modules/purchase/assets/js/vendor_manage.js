@@ -1,6 +1,18 @@
 (function($) {
 	"use strict";  
-	initDataTable('.table-vendors', admin_url+'purchase/table_vendor',[0], [0], '',  [1, 'desc']);
+	var table_vendor = $('.table-vendors');
+
+    var VendorsServerParams = {};
+       $.each($('._hidden_inputs._filters input'),function(){
+          VendorsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
+      });
+       VendorsServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
+
+	var tAPI = initDataTable('.table-vendors', admin_url+'purchase/table_vendor',[0], [0],VendorsServerParams,  [1, 'desc']);
+	$('input[name="exclude_inactive"]').on('change',function(){
+           tAPI.ajax.reload();
+       });
+
 })(jQuery);
 
 function staff_bulk_actions(){

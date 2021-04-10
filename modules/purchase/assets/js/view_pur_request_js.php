@@ -77,6 +77,35 @@ var hotElement = document.querySelector('#example');
 
         },
         {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+      
+          width: 100,
+          chosenOptions: {
+             
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
           data: 'inventory_quantity',
           type: 'numeric',
           readOnly: true
@@ -100,6 +129,9 @@ var hotElement = document.querySelector('#example');
         '<?php echo _l('pur_unit'); ?>',
         '<?php echo _l('purchase_unit_price'); ?>',
         '<?php echo _l('purchase_quantity'); ?>',
+        '<?php echo _l('subtotal_before_tax'); ?>',
+        '<?php echo _l('tax'); ?>',
+        '<?php echo _l('tax_value'); ?>',
         '<?php echo _l('total'); ?>',
         '<?php echo _l('inventory_quantity'); ?>'
         
@@ -119,7 +151,7 @@ var hotElement = document.querySelector('#example');
         indicator: true
       },
       hiddenColumns: {
-        columns: [0,1,7],
+        columns: [0,1,10],
         indicators: true
       },
       filters: true,
@@ -201,6 +233,35 @@ $('.save_detail').on('click', function() {
           readOnly: true
         },
         {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+      
+          width: 100,
+          chosenOptions: {
+             
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
           data: 'inventory_quantity',
           type: 'numeric',
           readOnly: true
@@ -260,6 +321,35 @@ $('.save_detail').on('click', function() {
           numericFormat: {
             pattern: '0,0'
           },
+          readOnly: true
+        },
+        {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+      
+          width: 100,
+          chosenOptions: {
+             
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 90,
           readOnly: true
         },
         {

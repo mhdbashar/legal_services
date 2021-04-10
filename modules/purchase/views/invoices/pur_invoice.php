@@ -29,14 +29,25 @@
 	                    <?php $invoice_number = ( isset($pur_invoice) ? $pur_invoice->invoice_number : $prefix.str_pad($next_number,5,'0',STR_PAD_LEFT));
 	                    echo render_input('invoice_number','',$invoice_number ,'text',array('readonly' => '', 'required' => 'true')); ?>
 	                </div>
-	                <div class="col-md-6 pad_right_0">
+
+	                <div class="col-md-6 pad_right_0 form-group">
+	                	<label for="vendor"><span class="text-danger">* </span><?php echo _l('pur_vendor'); ?></label>
+	                    <select name="vendor" id="vendor" class="selectpicker" onchange="pur_vendor_change(this); return false;" required="true" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+	                        <option value=""></option>
+	                        <?php foreach($vendors as $ven){ ?>
+	                        	<option value="<?php echo html_entity_decode($ven['userid']); ?>" <?php if(isset($pur_invoice) && $pur_invoice->vendor == $ven['userid']){ echo 'selected'; } ?>><?php echo html_entity_decode($ven['vendor_code'].' '.$ven['company']); ?></option>
+	                        <?php } ?>
+	                    </select>
+	                </div>
+
+	                <div class="col-md-6 pad_left_0">
 	                	<label for="invoice_date"><span class="text-danger">* </span><?php echo _l('invoice_date'); ?></label>
 	                	<?php $invoice_date = ( isset($pur_invoice) ? _d($pur_invoice->invoice_date) : _d(date('Y-m-d')) );
 	                	 echo render_date_input('invoice_date','',$invoice_date,array( 'required' => 'true')); ?>
 	                </div>
 
 	                <?php if(get_purchase_option('create_invoice_by') == 'pur_order'){ ?>
-		               <div class="col-md-6 form-group pad_left_0">
+		               <div class="col-md-6 form-group  pad_right_0">
 		                	<label for="pur_order"><?php echo _l('pur_order'); ?></label>
 		                    <select name="pur_order" id="pur_order" class="selectpicker" onchange="pur_order_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
 		                        <option value=""></option>
@@ -46,7 +57,7 @@
 		                    </select>
 		                </div>
 		            <?php }else{ ?>
-		            	 <div class="col-md-6 form-group pad_left_0">
+		            	 <div class="col-md-6 form-group pad_right_0">
 		                	<label for="contract"><?php echo _l('contract'); ?></label>
 		                    <select name="contract" id="contract" class="selectpicker" onchange="contract_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
 		                        <option value=""></option>
@@ -57,26 +68,32 @@
 		                </div>
 		            <?php } ?>
 
-	                <div class="col-md-6 pad_right_0">
+	                <div class="col-md-6 pad_left_0 ">
 	                	<?php $subtotal = ( isset($pur_invoice) ? app_format_money($pur_invoice->subtotal,'') : '');
 	                	echo render_input('subtotal','invoice_amount',$subtotal,'text', array('data-type' => 'currency', 'onchange' => 'subtotal_change(this); return false;' ),[],'','text-right'); ?>
 	                </div>
 
-	                <div class="col-md-6 form-group pad_left_0">
+	                <div class="col-md-6 form-group pad_right_0">
 	                	<label for="tax_rate"><?php echo _l('tax'); ?></label>
-	                    <select name="tax_rate" id="tax_rate" class="selectpicker" onchange="tax_rate_change(this); return false;" data-live-search="true" required data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+	                    <select name="tax_rate" <?php if(get_purchase_option('create_invoice_by') == 'pur_order'){ echo 'disabled="true"'; }?> id="tax_rate" class="selectpicker" onchange="tax_rate_change(this); return false;" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
 	                        <option value=""></option>
 	                        <?php foreach($taxes as $t){ ?>
 	                        	<option value="<?php echo html_entity_decode($t['id']); ?>" <?php if(isset($pur_invoice) && $pur_invoice->tax_rate == $t['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($t['label']); ?></option>
 	                        <?php } ?>
 	                    </select>
 	                </div>
-	                <div class="col-md-6 pad_right_0">
-	                	<?php $tax = ( isset($pur_invoice) ? app_format_money($pur_invoice->tax,'') : '');
-	                	echo render_input('tax','tax_value',$subtotal,'text', array('data-type' => 'currency'),[],'','text-right'); ?>
+	                <div class="col-md-6 pad_left_0">
+	                	<?php $attr = array();
+	                		  if(get_purchase_option('create_invoice_by') == 'pur_order'){ 
+	                		  	$attr = array('data-type' => 'currency', 'readonly' => 'true');
+	                		  }else{
+	                		  	$attr = array('data-type' => 'currency');
+	                		  }
+	                	$tax = ( isset($pur_invoice) ? app_format_money($pur_invoice->tax,'') : '');
+	                	echo render_input('tax','tax_value',$subtotal,'text', $attr,[],'','text-right'); ?>
 	                </div>
 
-	                <div class="col-md-12 pad_left_0 pad_right_0">
+	                <div class="col-md-6 pad_right_0">
 	                	<?php $total = ( isset($pur_invoice) ? app_format_money($pur_invoice->total,'') : '');
 	                	echo render_input('total','total_included_tax',$total,'text', array('data-type' => 'currency'),[],'','text-right'); ?>
 	                </div>

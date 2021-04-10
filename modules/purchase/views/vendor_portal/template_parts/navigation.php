@@ -41,10 +41,10 @@
                </li>
          
                <li class="customers-nav-item-items">
-                  <a href="<?php echo site_url('purchase/vendors_portal/payments'); ?>">
+                  <a href="<?php echo site_url('purchase/vendors_portal/invoices'); ?>">
                      <?php
                      
-                     echo _l('payments');
+                     echo _l('pur_invoices');
                     ?>
                   </a>
                </li>
@@ -111,7 +111,7 @@
                   </ul>
                </li>
             <?php } ?>
-            <?php hooks()->do_action('customers_navigation_after_profile'); ?>
+            
          </ul>
       </div>
       <!-- /.navbar-collapse -->

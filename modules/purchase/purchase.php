@@ -3,12 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Purchase
-Description: Purchase Management Module is a tool for managing your day-to-day purchases. It is packed with all necessary features that are needed by any business, which has to buy raw material for manufacturing or finished good purchases for trading
-Version: 1.1.0
+Module Name: المشتريات
+Description: وحدة إدارة المشتريات هي أداة لإدارة مشترياتك اليومية. إنها مليئة بجميع المميزات الضرورية التي تحتاجها أي شركة ، والتي يتعين عليها شراء المواد الخام للتصنيع أو شراء السلع الجاهزة للتداول
+Version: 1.2.1
 Requires at least: 2.3.*
-Author: GreenTech Solutions
-Author URI: https://codecanyon.net/user/greentech_solutions
+Author: Babil Team
+Author URI: https://babil.net.sa
 */
 
 define('PURCHASE_MODULE_NAME', 'purchase');

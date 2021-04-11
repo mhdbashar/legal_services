@@ -3,12 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: Timesheet Attendance Management
-Description: An complete attendance management system application with timesheet mostly work with attendance, leave, holiday and shift
+Module Name: نظام الحضور والإنصراف والإجازات
+Description: يعمل تطبيق نظام إدارة الحضور الكامل مع الجدول الزمني في الغالب مع الحضور والإجازات والعطلات والمناوبة
 Version: 1.1.2
 Requires at least: 2.3.*
-Author: GreenTech Solutions
-Author URI: https://codecanyon.net/user/greentech_solutions
+Author: Babil Team
+Author URI: https://babil.net.sa/
 */
 
 define('TIMESHEETS_MODULE_NAME', 'timesheets');

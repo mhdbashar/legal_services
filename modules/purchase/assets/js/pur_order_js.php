@@ -1,4 +1,9 @@
 <script>
+var hot;
+var taxes = [];
+  var taxes_val = [];
+  var old_row = [];
+  var tax_name = [];
 
 function removeCommas(str) {
   "use strict";
@@ -108,7 +113,7 @@ function estimate_by_vendor(invoker){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -128,11 +133,12 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 70,
         },
         {
           data: 'quantity',
           type: 'numeric',
+           width: 50,
       
         },
         {
@@ -141,7 +147,7 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -161,16 +167,18 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -218,7 +226,7 @@ var dataObject = [
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -238,12 +246,12 @@ var dataObject = [
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -251,7 +259,7 @@ var dataObject = [
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -266,21 +274,32 @@ var dataObject = [
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -291,7 +310,7 @@ var dataObject = [
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         }
       
       ],
@@ -313,6 +332,7 @@ var dataObject = [
         '<?php echo _l('purchase_quantity'); ?>',
         '<?php echo _l('subtotal_before_tax'); ?>',
         '<?php echo _l('tax'); ?>',
+        '<?php echo _l('tax_value'); ?>',
         '<?php echo _l('subtotal_after_tax'); ?>',
         '<?php echo _l('discount(%)').'(%)'; ?>',
         '<?php echo _l('discount(money)'); ?>',
@@ -338,9 +358,9 @@ var dataObject = [
     };
 
 
-var hot = new Handsontable(hotElement, hotSettings);
+hot = new Handsontable(hotElement, hotSettings);
 hot.addHook('afterChange', function(changes, src) {
-	if(changes !== null){
+	if(changes !== null && changes !== undefined){
 	    changes.forEach(([row, prop, oldValue, newValue]) => {
         if(newValue != ''){
   	      if(prop == 'item_code'){
@@ -353,31 +373,84 @@ hot.addHook('afterChange', function(changes, src) {
   	        });
   	      }else if(prop == 'quantity'){
             hot.setDataAtCell(row,5, newValue*hot.getDataAtCell(row,3));
-  	        hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,3));
-  	        hot.setDataAtCell(row,10, newValue*hot.getDataAtCell(row,3));
+  	        hot.setDataAtCell(row,8, newValue*hot.getDataAtCell(row,3));
+  	        hot.setDataAtCell(row,11, newValue*hot.getDataAtCell(row,3));
   	      }else if(prop == 'unit_price'){
             hot.setDataAtCell(row,5, newValue*hot.getDataAtCell(row,4));
-            hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,4));
-            hot.setDataAtCell(row,10, newValue*hot.getDataAtCell(row,4));
+            hot.setDataAtCell(row,8, newValue*hot.getDataAtCell(row,4));
+            hot.setDataAtCell(row,11, newValue*hot.getDataAtCell(row,4));
           }else if(prop == 'tax'){
+           
+            var tax_arr = [];
+            var tax_val_arr = [];
+
   	      	$.post(admin_url + 'purchase/tax_change/'+newValue).done(function(response){
   	          response = JSON.parse(response);
-  	          hot.setDataAtCell(row,7, (response.total_tax*parseFloat(hot.getDataAtCell(row,5)))/100 + parseFloat(hot.getDataAtCell(row,5)));
-              hot.setDataAtCell(row,10, (response.total_tax*parseFloat(hot.getDataAtCell(row,5)))/100 + parseFloat(hot.getDataAtCell(row,5)));
+  	          hot.setDataAtCell(row,7, (response.total_tax*parseFloat(hot.getDataAtCell(row,5)))/100 );
+              hot.setDataAtCell(row,8, (response.total_tax*parseFloat(hot.getDataAtCell(row,5)))/100 + parseFloat(hot.getDataAtCell(row,5)));
+              hot.setDataAtCell(row,11, (response.total_tax*parseFloat(hot.getDataAtCell(row,5)))/100 + parseFloat(hot.getDataAtCell(row,5)));
+              
+              for (var row_i = 0; row_i <= 40; row_i++) { 
+                var tax_cell_dt = hot.getDataAtCell(row_i, 6);
+                var tax_t = (tax_cell_dt + "").split("|");
+                if(tax_t != "null"){
+                  $.each(tax_t, function(i,val){
+                    if(tax_arr.indexOf(val) == -1 && val != '' && val != null && val != undefined){
+                      tax_arr.push(val);
+                     
+                    }
+                  });
+                }
+              }
+
+              var html = ''; 
+              $.each(tax_arr, function(k, v){
+                var taxrate = tax_rate_by_id(v);
+                tax_val_arr[k] = 0;
+                for (var row_i = 0; row_i <= 40; row_i++) { 
+                  var tax_cell = hot.getDataAtCell(row_i,6);
+                  if(tax_cell != '' && tax_cell != null && tax_cell != undefined){
+                    if(tax_cell.indexOf(v) != -1){
+                      tax_val_arr[k] += (taxrate*parseFloat(hot.getDataAtCell(row_i,5))/100);
+                    }
+                  }
+                }
+                
+                html += '<tr class="tax-area"><td>'+get_tax_name_by_id(v)+'</td><td width="65%">'+numberWithCommas(tax_val_arr[k])+' <?php echo html_entity_decode($base_currency->name); ?></td></tr>';
+              });
+
+              $('#tax_area_body').html(html);
   	      	});
   	      }else if(prop == 'discount_%'){
-            hot.setDataAtCell(row,9, (newValue*parseFloat(hot.getDataAtCell(row,7)))/100 );
+            hot.setDataAtCell(row,10, (newValue*parseFloat(hot.getDataAtCell(row,8)))/100 );
 
           }else if(prop == 'discount_money'){
-             hot.setDataAtCell(row,10, (parseFloat(hot.getDataAtCell(row,7)) - newValue));
+             hot.setDataAtCell(row,11, (parseFloat(hot.getDataAtCell(row,8)) - newValue));
+
+            var discount_val = 0;
+            for (var row_index = 0; row_index <= 40; row_index++) {
+              if(parseFloat(hot.getDataAtCell(row_index, 10)) > 0){
+                discount_val += (parseFloat(hot.getDataAtCell(row_index, 10)));
+              }
+            }
+            $('input[name="dc_total"]').val('-'+numberWithCommas(discount_val));
+
+          }else if(prop == 'into_money'){
+            var grand_tt = 0;
+            for (var row_index = 0; row_index <= 40; row_index++) {
+              if(parseFloat(hot.getDataAtCell(row_index, 5)) > 0){
+                grand_tt += (parseFloat(hot.getDataAtCell(row_index, 5)));
+              }
+            }
+             $('input[name="total_mn"]').val(numberWithCommas(grand_tt));
           }else if(prop == 'total_money'){
            var total_money = 0;
             for (var row_index = 0; row_index <= 40; row_index++) {
-              if(parseFloat(hot.getDataAtCell(row_index, 10)) > 0){
-                total_money += (parseFloat(hot.getDataAtCell(row_index, 10)));
+              if(parseFloat(hot.getDataAtCell(row_index, 11)) > 0){
+                total_money += (parseFloat(hot.getDataAtCell(row_index, 11)));
               }
             }
-             $('input[name="total_mn"]').val(numberWithCommas(total_money));
+             $('input[name="grand_total"]').val(numberWithCommas(Math.round(total_money*100)/100 ));
           }
         }
 	    });
@@ -406,7 +479,7 @@ function coppy_pur_estimate(){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -426,12 +499,12 @@ function coppy_pur_estimate(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -439,7 +512,7 @@ function coppy_pur_estimate(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -454,21 +527,32 @@ function coppy_pur_estimate(){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -479,7 +563,7 @@ function coppy_pur_estimate(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         }
       
       ],
@@ -527,7 +611,7 @@ function coppy_pur_request(){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -547,12 +631,12 @@ function coppy_pur_request(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -560,7 +644,7 @@ function coppy_pur_request(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -575,21 +659,32 @@ function coppy_pur_request(){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -600,7 +695,7 @@ function coppy_pur_request(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         }
       
       ],
@@ -656,7 +751,7 @@ function estimate_by_vendor(invoker){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -676,11 +771,12 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
+          width: 50
       
         },
         {
@@ -689,7 +785,7 @@ function estimate_by_vendor(invoker){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -704,21 +800,32 @@ function estimate_by_vendor(invoker){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -726,7 +833,7 @@ function estimate_by_vendor(invoker){
         {
           data: 'total_money',
           type: 'numeric',
-           width: 90,
+           width: 50,
           numericFormat: {
             pattern: '0,0'
           }
@@ -774,7 +881,7 @@ function numberWithCommas(x) {
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -794,12 +901,12 @@ function numberWithCommas(x) {
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -807,7 +914,7 @@ function numberWithCommas(x) {
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -822,21 +929,32 @@ function numberWithCommas(x) {
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -844,7 +962,7 @@ function numberWithCommas(x) {
         {
           data: 'total_money',
           type: 'numeric',
-           width: 90,
+           width: 50,
           numericFormat: {
             pattern: '0,0'
           }
@@ -872,6 +990,7 @@ function numberWithCommas(x) {
         '<?php echo _l('purchase_quantity'); ?>',
         '<?php echo _l('subtotal_before_tax'); ?>',
         '<?php echo _l('tax'); ?>',
+        '<?php echo _l('tax_value'); ?>',
         '<?php echo _l('subtotal_after_tax'); ?>',
         '<?php echo _l('discount(%)').'(%)'; ?>',
         '<?php echo _l('discount(money)'); ?>',
@@ -901,7 +1020,7 @@ function numberWithCommas(x) {
     };
 
 
-var hot = new Handsontable(hotElement, hotSettings);
+ hot = new Handsontable(hotElement, hotSettings);
 hot.addHook('afterChange', function(changes, src) {
 	if(changes !== null){
 	    changes.forEach(([row, prop, oldValue, newValue]) => {
@@ -916,31 +1035,83 @@ hot.addHook('afterChange', function(changes, src) {
 	        });
 	      }else if(prop == 'quantity'){
           hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,5));
-	        hot.setDataAtCell(row,9, newValue*hot.getDataAtCell(row,5));
-	        hot.setDataAtCell(row,12, newValue*hot.getDataAtCell(row,5));
+	        hot.setDataAtCell(row,10, newValue*hot.getDataAtCell(row,5));
+	        hot.setDataAtCell(row,13, newValue*hot.getDataAtCell(row,5));
 	      }else if(prop == 'unit_price'){
           hot.setDataAtCell(row,7, newValue*hot.getDataAtCell(row,6));
-          hot.setDataAtCell(row,9, newValue*hot.getDataAtCell(row,6));
-          hot.setDataAtCell(row,12, newValue*hot.getDataAtCell(row,6));
+          hot.setDataAtCell(row,10, newValue*hot.getDataAtCell(row,6));
+          hot.setDataAtCell(row,13, newValue*hot.getDataAtCell(row,6));
         }else if(prop == 'tax'){
-	      	$.post(admin_url + 'purchase/tax_change/'+newValue).done(function(response){
-	          response = JSON.parse(response);
-	          hot.setDataAtCell(row,9, (response.total_tax*parseFloat(hot.getDataAtCell(row,7)))/100 + parseFloat(hot.getDataAtCell(row,7)));
-             hot.setDataAtCell(row,12, (response.total_tax*parseFloat(hot.getDataAtCell(row,7)))/100 + parseFloat(hot.getDataAtCell(row,7)));
-	      	});
+	      	var tax_arr = [];
+            var tax_val_arr = [];
+
+            $.post(admin_url + 'purchase/tax_change/'+newValue).done(function(response){
+              response = JSON.parse(response);
+              hot.setDataAtCell(row,9, (response.total_tax*parseFloat(hot.getDataAtCell(row,7)))/100 );
+              hot.setDataAtCell(row,10, (response.total_tax*parseFloat(hot.getDataAtCell(row,7)))/100 + parseFloat(hot.getDataAtCell(row,7)));
+              hot.setDataAtCell(row,13, (response.total_tax*parseFloat(hot.getDataAtCell(row,7)))/100 + parseFloat(hot.getDataAtCell(row,7)));
+              
+              for (var row_i = 0; row_i <= 40; row_i++) { 
+                var tax_cell_dt = hot.getDataAtCell(row_i, 8);
+                var tax_t = (tax_cell_dt + "").split("|");
+                if(tax_t != "null"){
+                  $.each(tax_t, function(i,val){
+                    if(tax_arr.indexOf(val) == -1 && val != '' && val != null && val != undefined){
+                      tax_arr.push(val);
+                     
+                    }
+                  });
+                }
+              }
+
+              var html = ''; 
+              $.each(tax_arr, function(k, v){
+                var taxrate = tax_rate_by_id(v);
+                tax_val_arr[k] = 0;
+                for (var row_i = 0; row_i <= 40; row_i++) { 
+                  var tax_cell = hot.getDataAtCell(row_i,8);
+                  if(tax_cell != '' && tax_cell != null && tax_cell != undefined){
+                    if(tax_cell.indexOf(v) != -1){
+                      tax_val_arr[k] += (taxrate*parseFloat(hot.getDataAtCell(row_i,7))/100);
+                    }
+                  }
+                }
+                
+                html += '<tr class="tax-area"><td>'+get_tax_name_by_id(v)+'</td><td width="65%">'+numberWithCommas(tax_val_arr[k])+' <?php echo html_entity_decode($base_currency->name); ?></td></tr>';
+              });
+
+              $('#tax_area_body').html(html);
+            });
 	      }else if(prop == 'discount_%'){
-          hot.setDataAtCell(row,11, (newValue*parseFloat(hot.getDataAtCell(row,9)))/100 );
+          hot.setDataAtCell(row,12, (newValue*parseFloat(hot.getDataAtCell(row,10)))/100 );
 
         }else if(prop == 'discount_money'){
-           hot.setDataAtCell(row,12, (parseFloat(hot.getDataAtCell(row,9)) - newValue));
-        }else if(prop == 'total_money'){
-         var total_money = 0;
-          for (var row_index = 0; row_index <= 40; row_index++) {
-            if(parseFloat(hot.getDataAtCell(row_index, 12)) > 0){
-              total_money += (parseFloat(hot.getDataAtCell(row_index, 12)));
+            hot.setDataAtCell(row,13, (parseFloat(hot.getDataAtCell(row,10)) - newValue));
+
+            var discount_val = 0;
+            for (var row_index = 0; row_index <= 40; row_index++) {
+              if(parseFloat(hot.getDataAtCell(row_index, 12)) > 0){
+                discount_val += (parseFloat(hot.getDataAtCell(row_index, 12)));
+              }
             }
-          }
-          $('input[name="total_mn"]').val(numberWithCommas(total_money));
+            $('input[name="dc_total"]').val('-'+numberWithCommas(discount_val));
+
+        }else if(prop == 'into_money'){
+            var grand_tt = 0;
+            for (var row_index = 0; row_index <= 40; row_index++) {
+              if(parseFloat(hot.getDataAtCell(row_index, 7)) > 0){
+                grand_tt += (parseFloat(hot.getDataAtCell(row_index, 7)));
+              }
+            }
+             $('input[name="total_mn"]').val(numberWithCommas(grand_tt));
+        }else if(prop == 'total_money'){
+            var total_money = 0;
+            for (var row_index = 0; row_index <= 40; row_index++) {
+              if(parseFloat(hot.getDataAtCell(row_index, 13)) > 0){
+                total_money += (parseFloat(hot.getDataAtCell(row_index, 13)));
+              }
+            }
+             $('input[name="grand_total"]').val(numberWithCommas(Math.round(total_money*100)/100 ));
         }
       }
 	    });
@@ -963,15 +1134,7 @@ $.post(admin_url + 'purchase/estimate_by_vendor/'+id).done(function(response){
 
 });
 
-var total_money = 0;
-for (var row_index = 0; row_index <= 40; row_index++) {
-  if(parseFloat(hot.getDataAtCell(row_index, 12)) > 0){
-    total_money += (parseFloat(hot.getDataAtCell(row_index, 12)));
-  }
-  
- 
-}
-$('input[name="total_mn"]').val(numberWithCommas(total_money));
+
 
 function coppy_pur_estimate(){
   "use strict";
@@ -1002,7 +1165,7 @@ function coppy_pur_estimate(){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -1027,7 +1190,7 @@ function coppy_pur_estimate(){
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -1035,7 +1198,7 @@ function coppy_pur_estimate(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -1050,21 +1213,32 @@ function coppy_pur_estimate(){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -1072,7 +1246,7 @@ function coppy_pur_estimate(){
         {
           data: 'total_money',
           type: 'numeric',
-           width: 90,
+           width: 50,
           numericFormat: {
             pattern: '0,0'
           }
@@ -1131,7 +1305,7 @@ function coppy_pur_request(){
         {
           data: 'description',
           type: 'text',
-           width: 150,
+           width: 100,
           readOnly: true
         },
         {
@@ -1151,12 +1325,12 @@ function coppy_pur_request(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
         },
         {
           data: 'quantity',
           type: 'numeric',
-      
+          width: 50
         },
         {
           data: 'into_money',
@@ -1164,7 +1338,7 @@ function coppy_pur_request(){
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },
         {
@@ -1179,21 +1353,32 @@ function coppy_pur_request(){
           }
         },
         {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
           data: 'total',
           type: 'numeric',
           numericFormat: {
             pattern: '0,0'
           },
-           width: 90,
+           width: 50,
           readOnly: true
         },{
           data: 'discount_%',
           type: 'numeric',
+          width: 70,
           renderer: customRenderer
         },
         {
           data: 'discount_money',
           type: 'numeric',
+          width: 70,
           numericFormat: {
             pattern: '0,0'
           }
@@ -1201,7 +1386,7 @@ function coppy_pur_request(){
         {
           data: 'total_money',
           type: 'numeric',
-           width: 90,
+           width: 50,
           numericFormat: {
             pattern: '0,0'
           }
@@ -1254,6 +1439,299 @@ function customDropdownRenderer(instance, td, row, col, prop, value, cellPropert
 
 	  Handsontable.cellTypes.text.renderer(instance, td, row, col, prop, value, cellProperties);
 	  return td;
+}
+
+function client_change(el){
+  "use strict";
+
+  var client = $(el).val();
+  var data = {};
+  data.client = client;
+  
+  $.post(admin_url + 'purchase/inv_by_client', data).done(function(response){
+    response = JSON.parse(response);
+    $('select[name="sale_invoice"]').html(response.html);
+    $('select[name="sale_invoice"]').selectpicker('refresh');
+  });
+  
+}
+
+/**
+ * { coppy sale invoice }
+ */
+function coppy_sale_invoice(){
+  "use strict";
+  var sale_invoice = $('select[name="sale_invoice"]').val();
+
+  if(sale_invoice != ''){
+
+    hot.alter('remove_row',0,hot.countRows());
+    
+    $.post(admin_url + 'purchase/coppy_sale_invoice_po/'+sale_invoice).done(function(response){
+          response = JSON.parse(response);
+
+          <?php if(isset($pur_order)){ ?>
+      hot.updateSettings({ 
+         columns: [
+        {
+          data: 'id',
+          type: 'numeric',
+      
+        },
+        {
+          data: 'pur_order',
+          type: 'numeric',
+      
+        },
+        {
+          data: 'item_code',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          width: 100,
+          chosenOptions: {
+              data: <?php echo json_encode($items); ?>
+          }
+        },
+        {
+          data: 'description',
+          type: 'text',
+           width: 100,
+          readOnly: true
+        },
+        {
+          data: 'unit_id',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          width: 50,
+          chosenOptions: {
+              data: <?php echo json_encode($units); ?>
+          },
+          readOnly: true
+     
+        },
+        {
+          data: 'unit_price',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+        },
+        {
+          data: 'quantity',
+          type: 'numeric',
+          width: 50
+        },
+        {
+          data: 'into_money',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          multiSelect:true,
+          width: 50,
+          chosenOptions: {
+              multiple: true,
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },{
+          data: 'discount_%',
+          type: 'numeric',
+          width: 70,
+          renderer: customRenderer
+        },
+        {
+          data: 'discount_money',
+          type: 'numeric',
+          width: 70,
+          numericFormat: {
+            pattern: '0,0'
+          }
+        },
+        {
+          data: 'total_money',
+          type: 'numeric',
+           width: 50,
+          numericFormat: {
+            pattern: '0,0'
+          }
+      
+        }
+      
+      ],
+      });
+    <?php }else{ ?>
+       hot.updateSettings({ 
+         columns: [
+        {
+          data: 'item_code',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          width: 100,
+          chosenOptions: {
+              data: response.items
+          }
+        },
+        {
+          data: 'description',
+          type: 'text',
+           width: 100,
+          readOnly: true
+        },
+        {
+          data: 'unit_id',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          width: 50,
+          chosenOptions: {
+              data: <?php echo json_encode($units); ?>
+          },
+          readOnly: true
+     
+        },
+        {
+          data: 'unit_price',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+        },
+        {
+          data: 'quantity',
+          type: 'numeric',
+          width: 50
+        },
+        {
+          data: 'into_money',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
+          data: 'tax',
+          renderer: customDropdownRenderer,
+          editor: "chosen",
+          multiSelect:true,
+          width: 50,
+          chosenOptions: {
+              multiple: true,
+              data: <?php echo json_encode($taxes); ?>
+          }
+        },
+        {
+          data: 'tax_value',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },
+        {
+          data: 'total',
+          type: 'numeric',
+          numericFormat: {
+            pattern: '0,0'
+          },
+           width: 50,
+          readOnly: true
+        },{
+          data: 'discount_%',
+          type: 'numeric',
+          width: 70,
+          renderer: customRenderer
+        },
+        {
+          data: 'discount_money',
+          type: 'numeric',
+          width: 70,
+          numericFormat: {
+            pattern: '0,0'
+          }
+        },
+        {
+          data: 'total_money',
+          type: 'numeric',
+           width: 50,
+          numericFormat: {
+            pattern: '0,0'
+          }
+      
+        }
+      
+      ],
+      });
+    <?php } ?>
+
+          hot.updateSettings({          
+        data: response.result,
+        });
+
+        $('input[name="total_mn"]').val(numberWithCommas(response.subtotal));
+        $('input[name="grand_total"]').val(numberWithCommas(response.total));
+        $('input[name="dc_percent"]').val(0);
+        $('input[name="dc_total"]').val(0);
+        $('input[name="tax_order_rate"]').val(0);
+        $('input[name="tax_order_amount"]').val(0);
+        $('#tax_area_body').html(response.tax_html);
+    });
+  }else{
+    alert_float('warning', '<?php echo _l('please_chose_sale_invoice'); ?>');
+  }
+
+}
+
+function get_tax_name_by_id(tax_id){
+  "use strict";
+  var taxe_arr = <?php echo json_encode($taxes); ?>;
+  var name_of_tax = '';
+  $.each(taxe_arr, function(i, val){
+    if(val.id == tax_id){
+      name_of_tax = val.label;
+    }
+  });
+  return name_of_tax;
+}
+
+function tax_rate_by_id(tax_id){
+  "use strict";
+  var taxe_arr = <?php echo json_encode($taxes); ?>;
+  var tax_rate = 0;
+  $.each(taxe_arr, function(i, val){
+    if(val.id == tax_id){
+      tax_rate = val.taxrate;
+    }
+  });
+  return tax_rate;
 }
 
 </script>

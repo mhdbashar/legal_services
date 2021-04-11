@@ -131,7 +131,6 @@ class Setting extends AdminController{
         $data['workplace'] = $this->hrm_model->get_workplace();
         $data['allowance_type'] = $this->hrm_model->get_allowance_type();
         $data['salary_form'] = $this->hrm_model->get_salary_form();
-        $data['insurance_type'] = $this->hrm_model->get_insurance_type();
         $data['province'] = $this->hrm_model->get_province();
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();

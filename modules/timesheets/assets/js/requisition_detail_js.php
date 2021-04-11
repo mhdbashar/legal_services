@@ -1,7 +1,6 @@
 <script>  
   (function(){
     "use strict";
-
     $('#reject_btn').on('click',function(){
       $('#approved_div').addClass('hide');
     });
@@ -9,25 +8,31 @@
       $('#reject_div').addClass('hide');
     });
 
+    var rel_type = "<?php echo html_entity_decode($rel_type); ?>";
     var data_send_mail = {};
-    <?php if(isset($send_mail_approve)){ 
-      ?>
+    <?php 
+    if(isset($send_mail_approve)){ ?>
       data_send_mail = <?php echo json_encode($send_mail_approve); ?>;
       data_send_mail.rel_id = <?php echo html_entity_decode($request_leave->id); ?>;
       data_send_mail.rel_type = '<?php echo html_entity_decode($rel_type); ?>';
       data_send_mail.addedfrom = <?php echo html_entity_decode($request_leave->staff_id); ?>;
-
-      $.post(admin_url+'timesheets/send_mail', data_send_mail).done(function(response){
-      });
-      if("<?php echo html_entity_decode($rel_type); ?>" == "Leave"){
-        $.post(admin_url+'timesheets/send_notifi_handover_recipients', data_send_mail).done(function(response){
-        });
-
-        $.post(admin_url+'timesheets/send_notification_recipient', data_send_mail).done(function(response){
-        });
-      }
     <?php } ?>
 
+
+
+    $(window).on('load', function() {
+      if($('input[name="has_send_mail"]').val() == 1){
+        $.post(admin_url+'timesheets/send_mail', data_send_mail).done(function(response){
+        });
+        if(rel_type == "Leave"){
+          $.post(admin_url+'timesheets/send_notifi_handover_recipients', data_send_mail).done(function(response){
+          });
+
+          $.post(admin_url+'timesheets/send_notification_recipient', data_send_mail).done(function(response){
+          });
+        }
+      }
+    });
     $("input[data-type='currency']").on({
       keyup: function() {        
         formatCurrency($(this));
@@ -67,8 +72,6 @@
     data.rel_id = <?php echo html_entity_decode($request_leave->id);; ?>;
     data.rel_type = "<?php echo html_entity_decode($rel_type); ?>";
     data.addedfrom = <?php echo html_entity_decode($request_leave->staff_id); ?>;
-
-
     $("body").append('<div class="dt-loader"></div>');
     $.post(admin_url + 'timesheets/send_request_approve', data).done(function(response){
       response = JSON.parse(response);
@@ -186,7 +189,7 @@
     }
     $('#convert_expense input[name="expense_name"]').val(name);
     if(list_expense_name != ''){
-      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
+      $('#convert_expense textarea[name="note"]').val('<?php echo _l('expense_of') ?> '+name.toLowerCase()+' <?php echo _l('include') ?>:'+list_expense_name.replace(/.$/,"."));
     }
     $('#convert_expense input[name="amount"]').val($('#total_advance_payment').text().replace(/,/g,''));
     $('#convert_expense input[name="date"]').val($('#request_date').text());

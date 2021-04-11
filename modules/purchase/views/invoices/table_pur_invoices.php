@@ -49,6 +49,24 @@ if (isset($contract)) {
     }
 }
 
+$pur_orders = $this->ci->input->post('pur_orders');
+if (isset($pur_orders)) {
+    $where_pur_orders = '';
+    foreach ($pur_orders as $t) {
+        if ($t != '') {
+            if ($where_pur_orders == '') {
+                $where_pur_orders .= ' AND ('.db_prefix().'pur_invoices.pur_order = "' . $t . '"';
+            } else {
+                $where_pur_orders .= ' or '.db_prefix().'pur_invoices.pur_order = "' . $t . '"';
+            }
+        }
+    }
+    if ($where_pur_orders != '') {
+        $where_pur_orders .= ')';
+        array_push($where, $where_pur_orders);
+    }
+}
+
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix().'pur_invoices.id as id','(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'pur_invoices.id and rel_type="pur_invoice" ORDER by tag_order ASC) as tags', 'contract_number'
 ]);
 

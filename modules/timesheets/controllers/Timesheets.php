@@ -11,7 +11,6 @@ class timesheets extends AdminController
 		parent::__construct();
 		$this->load->model('timesheets_model');
 		$this->load->model('departments_model');
-		require_once module_dir_path(TIMESHEETS_MODULE_NAME) . '/third_party/excel/PHPExcel.php';
 	}
 
 	/* List all announcements */
@@ -668,6 +667,7 @@ public function add_requisition_ajax(){
 	}
 	if ($this->input->post()) {
 		$data = $this->input->post();
+		unset($data['number_day_off']);
 		if($data['rel_type'] == 1){
 			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time']);
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time']);
@@ -676,9 +676,12 @@ public function add_requisition_ajax(){
 			$data['start_time'] = $this->timesheets_model->format_date_time($data['start_time_s']);
 			$data['end_time'] = $this->timesheets_model->format_date_time($data['end_time_s']);
 		}
+
 		unset($data['start_time_s']);
 		unset($data['end_time_s']);
-		$data['staff_id'] = get_staff_user_id();
+		if(!isset($data['staff_id'])){
+			$data['staff_id'] = get_staff_user_id();
+		}
 		if(isset($data['according_to_the_plan'])){
 			$data['according_to_the_plan'] = 0;
 		}
@@ -707,10 +710,14 @@ public function add_requisition_ajax(){
 			$data_app['rel_type'] = $rel_type;
 			$data_app['addedfrom'] = $data['staff_id'];
 
-			$check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false);
+			$check_proccess = $this->timesheets_model->get_approve_setting($rel_type, false, $data['staff_id']);
 			$check = '';
 			if($check_proccess){
 				if($check_proccess->choose_when_approving == 0){
+					$this->timesheets_model->send_request_approve($data_app, $data['staff_id']);
+					$data_new = [];
+					$data_new['send_mail_approve'] = $data;
+					$this->session->set_userdata($data_new);
 					$check = 'not_choose';
 				}else{
 					$check = 'choose';
@@ -787,8 +794,10 @@ public function add_requisition_ajax(){
 			access_denied('approval_process');
 		}
 		$send_mail_approve = $this->session->userdata("send_mail_approve");
+		$data['has_send_mail'] = 0;
 		if((isset($send_mail_approve)) && $send_mail_approve != ''){
 			$data['send_mail_approve'] = $send_mail_approve;
+			$data['has_send_mail'] = 1;
 			$this->session->unset_userdata("send_mail_approve");
 		}
 		$data['request_leave'] = $this->timesheets_model->get_request_leave($id);
@@ -828,6 +837,7 @@ public function add_requisition_ajax(){
 		$data['rel_type'] = $rel_type;
 		$data['list_staff'] = $this->staff_model->get();
 		$data['check_approve_status'] = $this->timesheets_model->check_approval_details($id,$rel_type);
+
 		$data['list_approve_status'] = $this->timesheets_model->get_list_approval_details($id,$rel_type);
 
 
@@ -933,6 +943,7 @@ public function add_requisition_ajax(){
 				$data['days_off'] = $day_off->total;
 			}
 		}
+
 		$data['data_timekeeping_form'] = get_timesheets_option('timekeeping_form');
 		$this->load->model('departments_model');
 		$data['departments'] = $this->departments_model->get();
@@ -1123,9 +1134,13 @@ public function add_requisition_ajax(){
 					</li>';
 					break;
 					case 'W':
+					$hours = round($value[1], 2);
+					$h = intval($hours);
+					$m = ($hours - $h)*60;
+					$h_m = $h.':'.((strlen($m) == 1) ? $m.'0' : $m);
 					$html .= '<li class="list-group-item justify-content-between">
 					'._l('W_timekeeping').'
-					<span class="badgetext badge badge-primary badge-pill style_w">'.round($value[1], 2).'</span>
+					<span class="badgetext badge badge-primary badge-pill style_w" data-toggle="tooltip" data-placement="top" data-original-title="'.$hours.'">'.$h_m.'</span>
 					</li>';
 					break;
 					case 'A':
@@ -1510,8 +1525,6 @@ public function add_requisition_ajax(){
 		$check = $this->timesheets_model->check_choose_when_approving($data['rel_type']);
 		if($check == 0){
 			$success = $this->timesheets_model->send_request_approve($data);
-
-
 			if ($success === true) {                
 				$message = _l('send_request_approval_success');
 				$data_new = [];
@@ -1664,7 +1677,7 @@ public function add_requisition_ajax(){
 		if ($this->input->is_ajax_request()) {
 			$data = $this->input->post();
 			if((isset($data)) && $data != ''){
-				$this->timesheets_model->send_mail($data);
+				$this->timesheets_model->send_mail($data, $data['addedfrom']);
 				$success = 'success';
 				echo json_encode([
 					'success' => $success,                
@@ -2018,6 +2031,7 @@ public function get_data_additional_timesheets($id){
 		if ($this->input->is_ajax_request()) {
 			if($this->input->post()){
 				$months_report = $this->input->post('months_filter');
+
 				$role_filter = $this->input->post('role_filter');
 				$department_filter = $this->input->post('department_filter');
 				$staff_filter = $this->input->post('staff_filter');
@@ -2094,6 +2108,7 @@ public function get_data_additional_timesheets($id){
 				foreach ($rResult as $aRow) {
 
 					$requisition_number_of_day_off = $this->timesheets_model->get_requisition_number_of_day_off($aRow['staffid'], $year_leave);
+
 					$timesheets_max_leave_in_year = $requisition_number_of_day_off['total_day_off_in_year'];
 					$timesheets_total_day_off = 0;
 
@@ -3116,6 +3131,7 @@ public function get_data_additional_timesheets($id){
 
 		$data['staff_row_sc'] = [];
 		$data['days_in_month'] = $days_in_month;
+
 		if($newquerystring != ''){
 			$staffs = $this->timesheets_model->getStaff('', $newquerystring);
 			$shift_staff = [];
@@ -3697,8 +3713,6 @@ public function get_data_additional_timesheets($id){
 			}
 			$from_date = $data['word_shift']->from_date;
 			$to_date = $data['word_shift']->to_date;
-
-			// $type_shiftwork = $this->input->post('type_shiftwork');
 			
 			if($data['word_shift']->type_shiftwork == 'repeat_periodically'){
 				$data_hs = $this->set_col_tk(1,8, $month, $month_year,false,$staff, $id);
@@ -4496,7 +4510,6 @@ function get_custom_type_shiftwork(){
 				$data_check_in_out = $this->timesheets_model->get_list_check_in_out($split_date[0], $data['staff_id']);
 				$html_list = '';
 				$type_check_in_out = '';
-				$compare_with_now_date = '';
 				foreach ($data_check_in_out as $key => $value) {
 					$type_check_in_out = $value['type_check'];
 					$alert_type = 'alert-success';
@@ -4506,13 +4519,11 @@ function get_custom_type_shiftwork(){
 						$alert_type = 'alert-warning';
 					}
 					$html_list .= '<div class="row"><div class="col-md-12"><div class="alert '.$alert_type.'">'.$type_check.': '._dt($value['date']).'</div></div></div>';
-                    $compare_with_now_date = date('i', strtotime(date('Y-m-d H:i:s')) - strtotime(($value['date'])));
 				} 
 				echo json_encode([
 					'html_list' => $html_list,
 					'allows_updating_check_in_time' => $allows_updating_check_in_time,
-					'type_check_in_out' => $type_check_in_out,
-                    'compare_with_now_date' => $compare_with_now_date
+					'type_check_in_out' => $type_check_in_out
 				]);
 				die;
 			}
@@ -5079,10 +5090,6 @@ public function get_layout_timesheets($from_date, $to_date){
 	}
 	return $data;
 }
-/**
- * delete mass workplace assign
- * @return [type] 
- */
 function delete_mass_workplace_assign(){
 	if($this->input->post()){
 		$data = $this->input->post();
@@ -6136,6 +6143,153 @@ public function export_attendance_excel()
 				]);
 			}
 		}
+	}
+
+/**
+	* check in out progress according to the route report
+	* @return 
+	*/
+	public function check_in_out_progress_report(){
+		if ($this->input->is_ajax_request()) {
+			if($this->input->post()){
+				$month = $this->input->post('months_2_report');
+				$year = $this->input->post('year_requisition');
+				$staff_fillter = $this->input->post("staff_2_fillter");
+				$department_fillter = $this->input->post("department_2_fillter");
+				$role_fillter = $this->input->post("roles_2_fillter");
+				$type_fillter = $this->input->post("type_22_fillter");
+
+				$select = [];
+				$columns = [];
+				$select[] = 'staffid';
+				$columns[] = 'staff';
+				$days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+				for ($d = 1; $d <= $days_in_month; $d++) {
+					$time = mktime(12, 0, 0, $month, $d, (int)$year);
+					if (date('m', $time) == $month) {
+						$select[] = 'staffid';
+						$columns[] = $year.'-'.$month.'-'.(strlen($d) == 1 ? '0'.$d : $d);
+					}
+				}
+				$query = '';
+
+				if(has_permission('report_management', '', 'view') || is_admin()){
+					if(isset($staff_fillter)){
+						$staffid_list = implode(',', $staff_fillter);
+						$query .= ' staffid in ('.$staffid_list.') and';
+					}    
+				}
+				else{
+					$query .= ' staffid = '.get_staff_user_id().' and';
+				}
+
+				if(isset($department_fillter)){
+					$department_list = implode(',', $department_fillter);
+					$query .= ' staffid in (select staffid from '.db_prefix().'staff_departments where departmentid in ('.$department_list.')) and';
+				}
+
+				if(isset($role_fillter)){
+					$roles_id_list = implode(',', $role_fillter);
+					$query .= ' role in ('.$roles_id_list.') and';
+				}
+
+				$query.= ' staffid in (SELECT distinct(staffid) FROM '.db_prefix().'timesheets_route) and';
+				$total_query = '';
+				if(($query)&&($query != '')){
+					$total_query = rtrim($query, ' and');
+					$total_query = ' where '.$total_query;
+				}
+				$where              = [$total_query];
+
+
+				$aColumns     = $select;
+
+				$sIndexColumn = 'staffid';
+				$sTable       = db_prefix() . 'staff';
+				$join         = [];
+
+				$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
+					'staffid'
+				]);
+
+				$output  = $result['output'];
+				$rResult = $result['rResult'];
+
+				foreach ($rResult as $aRow) {
+					$row = [];
+					foreach ($columns as $key => $col) {
+						if($col == 'staff'){
+							$row[] = '<div class="min-width-200">'.get_staff_full_name($aRow['staffid']).'</div>';
+						}
+						else{
+							$in = '';
+							$out = '';
+							$progress = '';
+							$data_check_ts = $this->timesheets_model->check_ts($aRow['staffid'], $col);
+							if($data_check_ts){
+								if($data_check_ts->check_in != 0){
+									$in = '<strong class="text-success">I</strong>';
+								}
+								if($data_check_ts->check_out != 0){
+									$out = '<strong class="text-danger">O</strong>';
+								}
+								if(isset($type_fillter)){
+									if($type_fillter == 1 && $in != ''){
+										$progress = $in.' / '.$out;
+									}
+									if($type_fillter == 2 && $out != ''){
+										$progress = $in.' / '.$out;
+									}
+									if($type_fillter == 3 && ($in != '' || $out != '')){
+										$progress = $in.' / '.$out;
+									}
+									if($type_fillter == 4 && ($in == '' && $out != '')){
+										$progress = $in.' / '.$out;
+									}
+									if($type_fillter == 5 && ($in != '' && $out == '')){
+										$progress = $in.' / '.$out;
+									}
+									if($type_fillter == 6 && ($in != '' && $out != '')){
+										$progress = $in.' / '.$out;
+									}
+								}
+							}
+							$row[] = '<div class="min-width-100">'.$progress.'</div>';
+						}
+					}
+					$output['aaData'][] = $row;
+				}
+				echo json_encode($output);
+				die();
+			}
+		}
+	}
+
+	public function get_remain_day_of($id){
+		$html = '';
+		$day_off = $this->timesheets_model->get_day_off($id);
+		$number_day_off = 0;
+		$days_off = 0;
+		if($day_off != null){
+			$number_day_off = $day_off->remain;
+			if($number_day_off < 0){
+				$number_day_off = 0;
+			}
+			$days_off = $day_off->days_off;
+			if($days_off > $day_off->total){
+				$days_off = $day_off->total;
+			}
+		}
+		$valid_cur_date = $this->timesheets_model->get_next_shift_date($id, date('Y-m-d'));
+		$html .= '<label class="control-label">'._l('number_of_days_off').': '.$days_off.'</label><br>';
+		$html .= '<label class="control-label'.($number_day_off == 0 ? ' text-danger' : '').'">'._l('number_of_leave_days_allowed').': '.$number_day_off.'</label>';
+		$html .= '<input type="hidden" name="number_day_off" value="'.$number_day_off.'">';
+		echo json_encode([
+			'html' => $html,
+			'valid_date' => _d($valid_cur_date)
+		]);
+		die;
 	}
 
 }

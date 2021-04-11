@@ -1237,33 +1237,7 @@ class hrm_model extends App_Model
         }
         return $affectedRows;
     }
-    public function get_insurance_type(){
-        return $this->db->get(db_prefix().'insurance_type')->result_array();
-    }
-    public function add_insurance_type($data){
-        $data['from_month'] = to_sql_date($data['from_month']);
-        $this->db->insert(db_prefix() . 'insurance_type', $data);
-        $insert_id = $this->db->insert_id();
-        return $insert_id;
-    }
-    public function update_insurance_type($data, $id){
-        $this->db->where('id',$id);
-        $this->db->update(db_prefix().'insurance_type', $data);
-        if ($this->db->affected_rows() > 0) {
-            return true;
-        }else{
-            return false;
-        }
 
-    }
-    public function delete_insurance_type($id){
-        $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'insurance_type');
-        if ($this->db->affected_rows() > 0) {
-            return true;
-        }
-        return false;
-    }
 
     public function deleteDirectory($dir) {
         if (!file_exists($dir)) {

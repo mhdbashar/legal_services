@@ -34,9 +34,6 @@
                <button type="submit" class="btn btn-info btn-block"><?php echo _l('clients_login_login_string'); ?></button>
               <a href="<?php echo site_url('purchase/authentication_vendor/register'); ?>" class="btn btn-success btn-block"><?php echo _l('clients_register_string'); ?></a>
             </div>
-
-            
-            <?php hooks()->do_action('clients_login_form_end'); ?>
             <?php echo form_close(); ?>
          </div>
       </div>

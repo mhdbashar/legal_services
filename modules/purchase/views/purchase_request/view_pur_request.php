@@ -221,6 +221,68 @@
                     </div>
 
                   </div>
+                   <div class="col-md-6 col-md-offset-6">
+                     <table class="table text-right mbot0">
+                       <tbody>
+                          <tr id="subtotal">
+                             <td class="td_style"><span class="bold"><?php echo _l('subtotal'); ?></span>
+                             </td>
+                             <td width="65%" id="total_td">
+                              
+                               <div class="input-group" id="discount-total">
+
+                                      <input type="text" readonly="true"  class="form-control text-right" name="subtotal" value="<?php if(isset($pur_request)){ echo app_format_money($pur_request->subtotal,''); } ?>">
+
+                                     <div class="input-group-addon">
+                                        <div class="dropdown">
+                                           
+                                           <span class="discount-type-selected">
+                                            <?php echo html_entity_decode($base_currency->name) ;?>
+                                           </span>
+                                           
+                                           
+                                        </div>
+                                     </div>
+
+                                  </div>
+                             </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table class="table text-right">
+                       <tbody id="tax_area_body">
+                          <?php if(isset($pur_request)){ 
+                            echo $taxes_data['html'];
+                            ?>
+                          <?php } ?>
+                       </tbody>
+                      </table>
+
+                      <table class="table text-right">
+                       <tbody id="tax_area_body">
+                          <tr id="total">
+                             <td class="td_style"><span class="bold"><?php echo _l('total'); ?></span>
+                             </td>
+                             <td width="65%" id="total_td">
+                               <div class="input-group" id="total">
+                                     <input type="text" readonly="true" class="form-control text-right" name="total_mn" value="<?php if(isset($pur_request)){ echo app_format_money($pur_request->total,''); } ?>">
+                                     <div class="input-group-addon">
+                                        <div class="dropdown">
+                                           
+                                           <span class="discount-type-selected">
+                                            <?php echo html_entity_decode($base_currency->name) ;?>
+                                           </span>
+                                        </div>
+                                     </div>
+
+                                  </div>
+                             </td>
+                          </tr>
+                       </tbody>
+                      </table>
+
+                  </div>
                   <?php echo form_hidden('request_detail'); ?>
                     
                 </div>

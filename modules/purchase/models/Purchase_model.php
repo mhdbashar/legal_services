@@ -837,13 +837,8 @@ class Purchase_model extends App_Model
      * @return     <array>  The pur request detail in estimate.
      */
     public function get_pur_request_detail_in_estimate($pur_request){
-        $this->db->where('pur_request',$pur_request);
-        $this->db->select('item_code');
-        $this->db->select('unit_id');
-        $this->db->select('unit_price');
-        $this->db->select('quantity');
-        $this->db->select('into_money');
-        return $this->db->get(db_prefix().'pur_request_detail')->result_array();
+        
+        return $pur_request_lst = $this->db->query('SELECT item_code, prq.unit_id as unit_id, unit_price, quantity, into_money, long_description as description FROM '.db_prefix().'pur_request_detail prq LEFT JOIN '.db_prefix().'items it ON prq.item_code = it.id WHERE prq.pur_request = '.$pur_request)->result_array();
     }
 
     /**
@@ -854,18 +849,7 @@ class Purchase_model extends App_Model
      * @return     <array>  The pur estimate detail in order.
      */
     public function get_pur_estimate_detail_in_order($pur_estimate){
-        $this->db->where('pur_estimate',$pur_estimate);
-        $this->db->select('item_code');
-        $this->db->select('unit_id');
-        $this->db->select('unit_price');
-        $this->db->select('quantity');
-        $this->db->select('into_money');
-        $this->db->select('tax');
-        $this->db->select('total');
-        $this->db->select('total_money');
-        $this->db->select('discount_money');
-        $this->db->select('discount_%');
-        return $this->db->get(db_prefix().'pur_estimate_detail')->result_array();
+        return $estimate = $this->db->query('SELECT prq.*, long_description as description FROM '.db_prefix().'pur_estimate_detail prq LEFT JOIN '.db_prefix().'items it ON prq.item_code = it.id')->result_array();
     }
 
     /**
@@ -893,6 +877,26 @@ class Purchase_model extends App_Model
     }
 
     /**
+     * Gets the tax rate by identifier.
+     */
+    public function get_tax_rate_by_id($tax_ids){
+        $rate_str = '';
+        if($tax_ids != ''){
+            $tax_ids = explode('|', $tax_ids);
+            foreach($tax_ids as $key => $tax){
+                $this->db->where('id', $tax);
+                $tax_if = $this->db->get(db_prefix().'taxes')->row();
+                if(($key + 1) < count($tax_ids)){
+                    $rate_str .= $tax_if->taxrate.'|';
+                }else{
+                    $rate_str .= $tax_if->taxrate;
+                }
+            }
+        }
+        return $rate_str;
+    }
+
+    /**
      * Adds a pur request.
      *
      * @param      <array>   $data   The data
@@ -900,7 +904,6 @@ class Purchase_model extends App_Model
      * @return     boolean  
      */
     public function add_pur_request($data){
-        
         $data['request_date'] = date('Y-m-d H:i:s');
         $check_appr = $this->get_approve_setting('pur_request');
         $data['status'] = 1;
@@ -920,6 +923,17 @@ class Purchase_model extends App_Model
             }
             
         }
+
+        $data['subtotal'] = reformat_currency_pur($data['subtotal']);
+
+        if(isset($data['total_mn'])){
+            $data['total'] = reformat_currency_pur($data['total_mn']);    
+            unset($data['total_mn']);
+        }
+
+        $data['total_tax'] = (float)$data['total'] - (float)$data['subtotal'];
+       
+
 
         $dpm_name = department_pur_request_name($data['department']);
         $prefix = get_purchase_option('pur_order_prefix');
@@ -954,11 +968,14 @@ class Purchase_model extends App_Model
             $header[] = 'unit_price';
             $header[] = 'quantity';
             $header[] = 'into_money';
+            $header[] = 'tax';
+            $header[] = 'tax_value';
+            $header[] = 'total';
             $header[] = 'inventory_quantity';
-            if (is_array($request_detail) || is_object($request_detail))
+
             foreach ($request_detail as $key => $value) {
 
-                if($value[0] != ''){
+                if($value[0] != '' && $value[0] != null){
                     $rq_detail[] = array_combine($header, $value);
                 }
             }
@@ -975,7 +992,8 @@ class Purchase_model extends App_Model
 
             foreach($rq_detail as $key => $rqd){
                 $rq_detail[$key]['pur_request'] = $insert_id;
-                if($data['status'] == 2){
+                $rq_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
+                if($data['status'] == 2 && $data['from_items'] == 1){
                     $item_data['description'] = $rqd['item_code'];
                     $item_data['purchase_price'] = $rqd['unit_price'];
                     $item_data['unit_id'] = $rqd['unit_id'];
@@ -990,6 +1008,7 @@ class Purchase_model extends App_Model
                     
                 }
             }
+            if(!empty($rq_detail))
             $this->db->insert_batch(db_prefix().'pur_request_detail',$rq_detail);
             return $insert_id;
         }
@@ -1008,6 +1027,21 @@ class Purchase_model extends App_Model
         $affectedRows = 0;
         $purq = $this->get_purchase_request($id);
 
+        $data['subtotal'] = reformat_currency_pur($data['subtotal']);
+
+        if(isset($data['total_mn'])){
+            $data['total'] = reformat_currency_pur($data['total_mn']);    
+            unset($data['total_mn']);
+        }
+
+        $data['total_tax'] = $data['total'] - $data['subtotal'];
+
+        if(isset($data['from_items'])){
+            $data['from_items'] = 1;
+        }else{
+            $data['from_items'] = 0;
+        }
+
         if(isset($data['request_detail'])){
             $request_detail = json_decode($data['request_detail']);
             unset($data['request_detail']);
@@ -1017,18 +1051,20 @@ class Purchase_model extends App_Model
             $header = [];
             $header[] = 'prd_id';
             $header[] = 'pur_request';
-            if($purq){
-                if($purq->from_items == 0){
-                    $header[] = 'item_text';
-                }else{
-                    $header[] = 'item_code';
-                }
+            
+            if($data['from_items'] == 1){
+                $header[] = 'item_code';
+            }else{
+                $header[] = 'item_text';
             }
             
             $header[] = 'unit_id';
             $header[] = 'unit_price';
             $header[] = 'quantity';
             $header[] = 'into_money';
+            $header[] = 'tax';
+            $header[] = 'tax_value';
+            $header[] = 'total';
             $header[] = 'inventory_quantity';
 
             foreach ($request_detail as $key => $values) {
@@ -1050,6 +1086,7 @@ class Purchase_model extends App_Model
         $row['insert'] = []; 
         $row['delete'] = [];
         foreach ($rq_detail as $key => $value) {
+            $value['tax_rate'] = $this->get_tax_rate_by_id($value['tax']);
             if($value['prd_id'] != ''){
                 $row['delete'][] = $value['prd_id'];
                 $row['update'][] = $value;
@@ -1058,6 +1095,10 @@ class Purchase_model extends App_Model
                 $value['pur_request'] = $id;
                 $row['insert'][] = $value;
             }
+        }
+
+        if((count($row['delete'])) == 0){
+            $row['delete'][] = 0;
         }
 
         if(count($row['delete']) != 0){
@@ -1069,6 +1110,7 @@ class Purchase_model extends App_Model
             }
         }
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_request_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1342,7 +1384,7 @@ class Purchase_model extends App_Model
             if($data['discount_total'] > 0){
                 $total['total'] = $total['total'] - $data['discount_total'];
             }
-
+            if(!empty($es_detail))
             $this->db->insert_batch(db_prefix().'pur_estimate_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
@@ -1486,6 +1528,7 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_estimate_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -1579,7 +1622,7 @@ class Purchase_model extends App_Model
      */
     public function get_taxes()
     {
-       return $this->db->query('select id, name as label, taxrate from '.db_prefix().'taxes')->result_array();
+       return $this->db->query('select id, CONCAT(name, "(", taxrate,"%)") as label, taxrate from '.db_prefix().'taxes')->result_array();
     }
 
     /**
@@ -1728,6 +1771,7 @@ class Purchase_model extends App_Model
             $header[] = 'quantity';
             $header[] = 'into_money';
             $header[] = 'tax';
+            $header[] = 'tax_value';
             $header[] = 'total';
             $header[] = 'discount_%';
             $header[] = 'discount_money';
@@ -1741,13 +1785,18 @@ class Purchase_model extends App_Model
         }
         
         if(isset($data['dc_total'])){
-            $data['discount_total'] = reformat_currency_pur($data['dc_total']);
+            $data['discount_total'] = str_replace('-', '', reformat_currency_pur($data['dc_total']));
             unset($data['dc_total']);
         }
 
-        if(isset($data['dc_percent'])){
-            $data['discount_percent'] = $data['dc_percent'];
-            unset($data['dc_percent']);
+        if(isset($data['total_mn'])){
+            $data['subtotal'] = reformat_currency_pur($data['total_mn']);
+            unset($data['total_mn']);
+        }
+
+        if(isset($data['grand_total'])){
+            $data['total'] = reformat_currency_pur($data['grand_total']);
+            unset($data['grand_total']);
         }
 
         $data['tax_order_amount'] = reformat_currency_pur($data['tax_order_amount']);
@@ -1761,23 +1810,13 @@ class Purchase_model extends App_Model
             $this->db->update(db_prefix() . 'purchase_option',['option_val' =>  $next_number,]);
 
             $total = [];
-            $total['total'] = 0;
             $total['total_tax'] = 0;
-            $total['subtotal'] = 0;
            
             foreach($es_detail as $key => $rqd){
                 $es_detail[$key]['pur_order'] = $insert_id;
-                $total['total'] += $rqd['total_money'];
-                $total['total_tax'] += ($rqd['total']-$rqd['into_money']);
-                $total['subtotal'] += $rqd['into_money'];
-            }
-
-            if($data['discount_total'] > 0){
-                $total['total'] = $total['total'] - $data['discount_total'];
-            }
-
-            if($data['tax_order_amount'] > 0){
-                $total['total'] = $total['total'] + $data['tax_order_amount'];
+                $es_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
+                //$total['total'] += $rqd['total_money'];
+                $total['total_tax'] += $rqd['tax_value'];
             }
 
             handle_tags_save($tags, $insert_id, 'pur_order');
@@ -1786,7 +1825,7 @@ class Purchase_model extends App_Model
 
                 handle_custom_fields_post($insert_id, $custom_fields);
             }
-
+            if(!empty($es_detail))
             $this->db->insert_batch(db_prefix().'pur_order_detail',$es_detail);
 
             $this->db->where('id',$insert_id);
@@ -1841,6 +1880,7 @@ class Purchase_model extends App_Model
             $header[] = 'quantity';
             $header[] = 'into_money';
             $header[] = 'tax';
+            $header[] = 'tax_value';
             $header[] = 'total';
             $header[] = 'discount_%';
             $header[] = 'discount_money';
@@ -1853,13 +1893,18 @@ class Purchase_model extends App_Model
         }
 
         if(isset($data['dc_total'])){
-            $data['discount_total'] = reformat_currency_pur($data['dc_total']);
+            $data['discount_total'] = str_replace('-', '', reformat_currency_pur($data['dc_total']));
             unset($data['dc_total']);
         }
 
-        if(isset($data['dc_percent'])){
-            $data['discount_percent'] = $data['dc_percent'];
-            unset($data['dc_percent']);
+        if(isset($data['total_mn'])){
+            $data['subtotal'] = reformat_currency_pur($data['total_mn']);
+            unset($data['total_mn']);
+        }
+
+        if(isset($data['grand_total'])){
+            $data['total'] = reformat_currency_pur($data['grand_total']);
+            unset($data['grand_total']);
         }
 
         $data['tax_order_amount'] = reformat_currency_pur($data['tax_order_amount']);
@@ -1891,11 +1936,12 @@ class Purchase_model extends App_Model
         $row['insert'] = []; 
         $row['delete'] = [];
         $total = [];
-        $total['total'] = 0;
+        
         $total['total_tax'] = 0;
-        $total['subtotal'] = 0;
+        
         
         foreach ($es_detail as $key => $value) {
+            $value['tax_rate'] = $this->get_tax_rate_by_id($value['tax']);
             if($value['id'] != ''){
                 $row['delete'][] = $value['id'];
                 $row['update'][] = $value;
@@ -1905,18 +1951,7 @@ class Purchase_model extends App_Model
                 $row['insert'][] = $value;
             }
 
-            $total['total'] += $value['total_money'];
-            $total['total_tax'] += ($value['total']-$value['into_money']);
-            $total['subtotal'] += $value['into_money'];
-            
-        }
-
-        if($data['discount_total'] > 0){
-            $total['total'] = $total['total'] - $data['discount_total'];
-        }
-
-        if($data['tax_order_amount'] > 0){
-            $total['total'] = $total['total'] + $data['tax_order_amount'];
+            $total['total_tax'] += $value['tax_value'];
         }
 
         $this->db->where('id',$id);
@@ -1936,6 +1971,7 @@ class Purchase_model extends App_Model
             }
         
         if(count($row['insert']) != 0){
+            if(!empty($row['insert']))
             $this->db->insert_batch(db_prefix().'pur_order_detail', $row['insert']);
             if($this->db->affected_rows() > 0){
                 $affectedRows++;
@@ -2045,7 +2081,7 @@ class Purchase_model extends App_Model
         $vendor_name = get_vendor_company_name($data['vendor']);
         $ven_rs = strtoupper(str_replace(' ', '', $vendor_name));
         $ct_rs = strtoupper(str_replace(' ', '', $data['contract_name']));
-        if($project){
+        if($project && $data['project'] != ''){
             $pj_rs = strtoupper(str_replace(' ', '', $project->name));
             $data['contract_number'] = $pj_rs.'-'.$ct_rs.'-'.$ven_rs;
         }else{
@@ -3236,7 +3272,7 @@ class Purchase_model extends App_Model
      */
     public function delete_payment($id){
         $this->db->where('id',$id);
-        $this->db->delete(db_prefix().'pur_order_payment');
+        $this->db->delete(db_prefix().'pur_invoice_payment');
         if ($this->db->affected_rows() > 0) {
                 return true;
         }
@@ -3270,7 +3306,7 @@ class Purchase_model extends App_Model
         $pur_order_detail = $this->get_pur_order_detail($pur_order_id);
         $company_name = get_option('invoice_company_name'); 
         $vendor = $this->get_vendor($pur_order->vendor);
-
+        $tax_data = $this->get_html_tax_pur_order($pur_order_id);
         
         $address = '';
         $vendor_name = '';
@@ -3368,21 +3404,18 @@ class Purchase_model extends App_Model
       </table><br><br>';
 
       $html .= '<table class="table text-right"><tbody>';
-      if($pur_order->discount_total > 0){
-        $html .= '<tr id="subtotal">
+      $html .= '<tr id="subtotal">
                     <td width="33%"></td>
                      <td>'._l('subtotal').' </td>
                      <td class="subtotal">
-                        '.app_format_money($t_mn,'').'
+                        '.app_format_money($pur_order->subtotal,'').'
                      </td>
-                  </tr>
-                  <tr id="subtotal">
-                  <td width="33%"></td>
-                     <td>'._l('discount(%)').'(%)'.'</td>
-                     <td class="subtotal">
-                        '.app_format_money($pur_order->discount_percent,'').' %'.'
-                     </td>
-                  </tr>
+                  </tr>';
+
+      $html .= $tax_data['pdf_html'];            
+      if($pur_order->discount_total > 0){
+        $html .= '
+                  
                   <tr id="subtotal">
                   <td width="33%"></td>
                      <td>'._l('discount(money)').'</td>
@@ -4789,7 +4822,7 @@ class Purchase_model extends App_Model
         $data['invoice_date'] = to_sql_date($data['invoice_date']);
         $data['transaction_date'] = to_sql_date($data['transaction_date']);
         $data['subtotal'] = reformat_currency_pur($data['subtotal']);
-        $data['tax'] = reformat_currency_pur($data['subtotal']);
+        $data['tax'] = reformat_currency_pur($data['tax']);
         $data['total'] = reformat_currency_pur($data['total']);
 
         $tags = '';
@@ -4822,7 +4855,7 @@ class Purchase_model extends App_Model
         $data['invoice_date'] = to_sql_date($data['invoice_date']);
         $data['transaction_date'] = to_sql_date($data['transaction_date']);
         $data['subtotal'] = reformat_currency_pur($data['subtotal']);
-        $data['tax'] = reformat_currency_pur($data['subtotal']);
+        $data['tax'] = reformat_currency_pur($data['tax']);
         $data['total'] = reformat_currency_pur($data['total']);
 
         if (isset($data['tags'])) {
@@ -5238,13 +5271,12 @@ class Purchase_model extends App_Model
      */
     public function send_quotation($data){
         $staff_id = get_staff_user_id();
-
         $inbox = array();
 
         $inbox['to'] = implode(',',$data['email']);
         $inbox['sender_name'] = get_staff_full_name($staff_id);
         $inbox['subject'] = _strip_tags($data['subject']);
-        $inbox['body'] = _strip_tags($data['content']);        
+        $inbox['body'] = ($data['content'] != '') ? _strip_tags($data['content']): '-';       
         $inbox['body'] = nl2br_save_html($inbox['body']);
         $inbox['date_received']      = date('Y-m-d H:i:s');
         $inbox['from_email'] = get_option('smtp_email');
@@ -5426,6 +5458,11 @@ class Purchase_model extends App_Model
 
     }
 
+    /**
+     * Removes a po logo.
+     *
+     * @return     boolean  
+     */
     public function remove_po_logo(){
 
         $this->db->where('rel_id', 0);
@@ -5450,5 +5487,500 @@ class Purchase_model extends App_Model
         }
 
         return true;
+    }
+
+    /**
+     * { change delivery status }
+     *
+     * @param        $status  The status
+     * @param        $id      The identifier
+     * @return     boolean
+     */
+    public function change_delivery_status($status, $id){
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix().'pur_orders', [ 'delivery_status' => $status]);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * { convert po payment }
+     *
+     * @param        $pur_order  The pur order
+     */
+    public function convert_po_payment($pur_order){
+        $p_order_payment = $this->get_payment_purchase_order($pur_order);
+        $po = $this->get_pur_order($pur_order);
+        $po_payment_value = 0;
+        if(count($p_order_payment) > 0){
+            foreach($p_order_payment as $payment){
+                $po_payment_value += $payment['amount'];
+            }
+        }
+
+        if($po_payment_value > 0){
+            $this->db->where('pur_order',$pur_order);
+            $invs = $this->db->get(db_prefix().'pur_invoices')->result_array();
+            if(count($invs) > 0){
+                foreach($invs as $key => $inv){
+                    if($inv['total'] >= $po_payment_value){
+                        if(total_rows(db_prefix() . 'pur_invoice_payment', ['pur_invoice' => $inv['id']]) == 0){
+                            $data_payment['amount'] = $po_payment_value;
+                            $data_payment['date'] = date('Y-m-d');
+                            $data_payment['paymentmode'] = '';
+                            $data_payment['transactionid'] = '';
+                            $data_payment['note'] = '';
+                            $success = $this->add_invoice_payment($data_payment, $inv['id']);
+                            if($success){
+                                return true;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }else{
+                $prefix = get_purchase_option('pur_inv_prefix');
+                $next_number = get_purchase_option('next_inv_number');
+                $data_inv['number'] = $next_number;
+                $data_inv['invoice_number'] = $prefix.str_pad($next_number,5,'0',STR_PAD_LEFT);
+                $data_inv['invoice_date'] = date('Y-m-d');
+                $data_inv['pur_order'] = $pur_order;
+                $data_inv['subtotal'] = $po->total;
+                $data_inv['tax_rate'] = '';
+                $data_inv['tax'] = '';
+                $data_inv['total'] = $po->total;
+                $data_inv['adminnote'] = '';
+                $data_inv['tags'] = '';
+                $data_inv['transactionid'] = '';
+                $data_inv['transaction_date'] = '';
+                $data_inv['vendor_note'] = '';
+                $data_inv['terms'] = '';
+                $new_inv = $this->add_pur_invoice($data_inv);
+                if($new_inv){
+                    $data_payment['amount'] = $po_payment_value;
+                    $data_payment['date'] = date('Y-m-d');
+                    $data_payment['paymentmode'] = '';
+                    $data_payment['transactionid'] = '';
+                    $data_payment['note'] = '';
+                    $success = $this->add_invoice_payment($data_payment, $new_inv);
+                    if($success){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the inv payment purchase order.
+     *
+     * @param        $pur_order  The pur order
+     */
+    public function get_inv_payment_purchase_order($pur_order){
+        $this->db->where('pur_order', $pur_order);
+        $list_inv = $this->db->get(db_prefix().'pur_invoices')->result_array();
+        $data_rs = [];
+        foreach($list_inv as $inv){
+            $this->db->where('pur_invoice', $inv['id']);
+            $inv_payments = $this->db->get(db_prefix().'pur_invoice_payment')->result_array();
+            foreach($inv_payments as $payment){
+                $data_rs[] = $payment;
+            }
+        }
+
+        return $data_rs; 
+    }
+
+    /**
+     * get pur order approved for inv
+     *
+     * @return       The pur order approved.
+     */
+    public function get_pur_order_approved_for_inv(){
+        $this->db->where('approve_status', 2);
+        $list_po = $this->db->get(db_prefix().'pur_orders')->result_array();
+        $data_rs = [];
+        if(count($list_po) > 0){
+            foreach($list_po as $po){
+                $this->db->where('pur_order', $po['id']);
+                $list_inv = $this->db->get(db_prefix().'pur_invoices')->result_array();
+                $total_inv_value = 0;
+                foreach($list_inv as $inv){
+                    $total_inv_value += $inv['total'];
+                }
+
+                if($total_inv_value < $po['total']){
+                    $data_rs[] = $po;
+                }
+            }    
+        }
+        
+        return $data_rs;
+    }
+
+    /**
+     * get pur order approved for inv
+     *
+     * @return       The pur order approved.
+     */
+    public function get_pur_order_approved_for_inv_by_vendor($vendor){
+        $this->db->where('approve_status', 2);
+        $this->db->where('vendor', $vendor);
+        $list_po = $this->db->get(db_prefix().'pur_orders')->result_array();
+        $data_rs = [];
+        if(count($list_po) > 0){
+            foreach($list_po as $po){
+                $this->db->where('pur_order', $po['id']);
+                $list_inv = $this->db->get(db_prefix().'pur_invoices')->result_array();
+                $total_inv_value = 0;
+                foreach($list_inv as $inv){
+                    $total_inv_value += $inv['total'];
+                }
+
+                if($total_inv_value < $po['total']){
+                    $data_rs[] = $po;
+                }
+            }    
+        }
+        
+        return $data_rs;
+    }
+
+    /**
+     * Gets the list pur orders.
+     *
+     * @return       The list pur orders.
+     */
+    public function get_list_pur_orders(){
+        return $this->db->get(db_prefix().'pur_orders')->result_array();
+    }
+
+    /**
+     * Get  comments
+     * @param  mixed $id  id
+     * @return array
+     */
+    public function get_comments($id, $type)
+    {
+        $this->db->where('rel_id', $id);
+        $this->db->where('rel_type', $type);
+        $this->db->order_by('dateadded', 'ASC');
+
+        return $this->db->get(db_prefix() . 'pur_comments')->result_array();
+    }
+
+    /**
+    * Add contract comment
+    * @param mixed  $data   $_POST comment data
+    * @param boolean $client is request coming from the client side
+    */
+    public function add_comment($data, $vendor = false)
+    {
+        if (is_staff_logged_in()) {
+            $vendor = false;
+        }
+
+        if (isset($data['action'])) {
+            unset($data['action']);
+        }
+
+        $data['dateadded'] = date('Y-m-d H:i:s');
+
+        if ($vendor == false) {
+            $data['staffid'] = get_staff_user_id();
+        }else{
+            $data['staffid'] = 0;
+        }
+
+        $data['content'] = nl2br($data['content']);
+        $this->db->insert(db_prefix() . 'pur_comments', $data);
+        $insert_id = $this->db->insert_id();
+
+        if ($insert_id) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * { edit comment }
+     *
+     * @param         $data   The data
+     * @param         $id     The identifier
+     *
+     * @return     boolean  
+     */
+    public function edit_comment($data, $id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'pur_comments', [
+            'content' => nl2br($data['content']),
+        ]);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove comment
+     * @param  mixed $id comment id
+     * @return boolean
+     */
+    public function remove_comment($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'pur_comments');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the invoices by vendor.
+     */
+    public function get_invoices_by_vendor($vendor){
+        $data_rs = [];
+        $invs = $this->get_pur_invoice();
+        if(count($invs) > 0){
+            foreach($invs as $inv){
+                if($inv['vendor'] != ''){
+                    if($inv['vendor'] == $vendor){
+                        $data_rs[] = $inv;
+                    }
+                }else{
+                    if( $inv['pur_order'] != null && is_numeric($inv['pur_order'])){
+                        $pur_order = $this->get_pur_order($inv['pur_order']);
+                        if(isset($pur_order->vendor)){
+                            if($pur_order->vendor == $vendor){
+                                $data_rs[] = $inv;
+                            }
+                        }
+                    }
+
+                    if($inv['contract'] != null && is_numeric($inv['contract'])){
+                        $contract = $this->get_contract($inv['contract']);
+                        if(isset($contract->vendor)){
+                            if($contract->vendor == $vendor){
+                                $data_rs[] = $inv;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data_rs;
+    }
+
+    /**
+     * Gets the html tax pur request.
+     */
+    public function get_html_tax_pur_request($id){
+        $html = '';
+        $taxes = [];
+        $tax_val = [];
+        $tax_val_rs = [];
+        $tax_name = [];
+        $rs = [];
+        $this->load->model('currencies_model');
+        $base_currency = $this->currencies_model->get_base_currency();
+        $this->db->where('pur_request', $id);
+        $details = $this->db->get(db_prefix().'pur_request_detail')->result_array();
+        foreach($details as $row){
+            if(!in_array($row['tax'], $taxes)){
+                $taxes[] = $row['tax'];
+                $tax_val[$row['tax']] = $row['tax_value'];
+                $tax_name[$row['tax']] = $this->get_tax_name($row['tax']).' ('.$row['tax_rate'].'%)';
+            }else{
+                $tax_val[$row['tax']] = $tax_val[$row['tax']] + $row['tax_value'];
+            }
+        }
+
+        foreach($tax_name as $key => $tn){
+            $html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="60%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
+            $tax_val_rs[] = $tax_val[$key];
+        }
+        
+        $rs['html'] = $html;
+        $rs['taxes'] = $taxes;
+        $rs['taxes_val'] = $tax_val_rs;
+        return $rs;
+    }
+
+    /**
+     * Gets the tax name.
+     *
+     * @param        $tax    The tax
+     *
+     * @return     string  The tax name.
+     */
+    public function get_tax_name($tax){
+        $this->db->where('id', $tax);
+        $tax_if = $this->db->get(db_prefix().'taxes')->row();
+        if($tax_if){
+            return $tax_if->name;
+        }
+        return '';
+    }
+
+    /**
+     * Gets the invoice for pr.
+     */
+    public function get_invoice_for_pr(){
+        $this->db->where('status != 2');
+        $this->db->where('status != 5');
+        return $this->db->get(db_prefix().'invoices')->result_array();
+    }
+
+    /**
+     * Gets the tax of inv item.
+     *
+     * @param        $itemid   The itemid
+     * @param        $invoice  The invoice
+     *
+     * @return       The tax of inv item.
+     */
+    public function get_tax_of_inv_item($itemid, $invoice){
+        $this->db->where('itemid', $itemid);
+        $this->db->where('rel_type', 'invoice');
+        $this->db->where('rel_id', $invoice);
+        return $this->db->get(db_prefix().'item_tax')->row();
+    }
+
+    /**
+     * Gets the tax by tax name.
+     *
+     * @param        $taxname  The taxname
+     */
+    public function get_tax_by_tax_name($taxname){
+        $this->db->where('name', $taxname);
+        $tax = $this->db->get(db_prefix().'taxes')->row();
+        if($tax){
+            return $tax->id;
+        }
+        return '';
+    }
+
+    /**
+     * Gets the inv by client for po.
+     *
+     * @param        $client  The client
+     */
+    public function get_inv_by_client_for_po($client){
+        $this->db->where('status != 2');
+        $this->db->where('status != 5');
+        $this->db->where('clientid', $client);
+        return $this->db->get(db_prefix().'invoices')->result_array();
+    }
+
+    /**
+     * Creates an item by inv item.
+     */
+    public function create_item_by_inv_item($itemable_id){
+        $this->db->where('id', $itemable_id);
+        $inv_item = $this->db->get(db_prefix().'itemable')->row();
+
+        $item_id = '';
+        if($inv_item){
+            $item_data['description'] = $inv_item->description;
+            $item_data['long_description'] = $inv_item->long_description;
+            $item_data['purchase_price'] = '';
+            $item_data['rate'] = $inv_item->rate;
+            $item_data['sku_code'] = '';
+            $item_data['commodity_barcode'] = $this->generate_commodity_barcode();
+            $item_data['commodity_code'] = $this->generate_commodity_barcode();
+            $item_id = $this->add_commodity_one_item($item_data);
+        }
+
+        return $item_id;
+    }
+
+    /**
+     * Gets the html tax pur order.
+     */
+    public function get_html_tax_pur_order($id){
+        $html = '';
+        $preview_html = '';
+        $pdf_html = '';
+        $taxes = [];
+        $t_rate = [];
+        $tax_val = [];
+        $tax_val_rs = [];
+        $tax_name = [];
+        $rs = [];
+        $this->load->model('currencies_model');
+        $base_currency = $this->currencies_model->get_base_currency();
+        $this->db->where('pur_order', $id);
+        $details = $this->db->get(db_prefix().'pur_order_detail')->result_array();
+
+        foreach($details as $row){
+            if($row['tax'] != ''){
+                $tax_arr = explode('|', $row['tax']);
+
+                $tax_rate_arr = [];
+                if($row['tax_rate'] != ''){
+                    $tax_rate_arr = explode('|', $row['tax_rate']);
+                }
+
+                foreach($tax_arr as $k => $tax_it){
+                    if(!isset($tax_rate_arr[$k]) ){
+                        $tax_rate_arr[$k] = $this->tax_rate_by_id($tax_it);
+                    }
+
+                    if(!in_array($tax_it, $taxes)){
+                        $taxes[$tax_it] = $tax_it;
+                        $t_rate[$tax_it] = $tax_rate_arr[$k];
+                        $tax_name[$tax_it] = $this->get_tax_name($tax_it).' ('.$tax_rate_arr[$k].'%)';
+                    }
+                }
+            }
+        }
+
+        if(count($tax_name) > 0){
+            foreach($tax_name as $key => $tn){
+                $tax_val[$key] = 0;
+                foreach($details as $row_dt){
+                    if(!(strpos($row_dt['tax'], $taxes[$key]) === false)){
+                        $tax_val[$key] += ($row_dt['into_money']*$t_rate[$key]/100);
+                    }
+                }
+                $pdf_html .= '<tr id="subtotal"><td width="33%"></td><td>'.$tn.'</td><td>'.app_format_money($tax_val[$key], '').'</td></tr>';
+                $preview_html .= '<tr id="subtotal"><td>'.$tn.'</td><td>'.app_format_money($tax_val[$key], '').'</td><tr>';
+                $html .= '<tr class="tax-area_pr"><td>'.$tn.'</td><td width="65%">'.app_format_money($tax_val[$key], '').' '.($base_currency->name).'</td></tr>';
+                $tax_val_rs[] = $tax_val[$key];
+            }
+        }
+        
+        $rs['pdf_html'] = $pdf_html;
+        $rs['preview_html'] = $preview_html;
+        $rs['html'] = $html;
+        $rs['taxes'] = $taxes;
+        $rs['taxes_val'] = $tax_val_rs;
+        return $rs;
+    }
+
+    /**
+     * { tax rate by id }
+     *
+     * @param        $tax_id  The tax identifier
+     */
+    public function tax_rate_by_id($tax_id){
+        $this->db->where('id', $tax_id);
+        $tax = $this->db->get(db_prefix().'taxes')->row();
+        if($tax){
+            return $tax->taxrate;
+        }
+        return 0;
     }
 }

@@ -11,8 +11,6 @@ hooks()->add_action('app_vendor_head', 'app_theme_vendor_head_hook');
  * Default theme menu items
  * In most cases you will want to add this hook because of all the features
  */
-hooks()->add_action('clients_init', 'add_default_theme_menu_items');
-
 register_theme_vendor_assets_hook('theme_vendor');
 
 function theme_vendor()

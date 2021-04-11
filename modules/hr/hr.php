@@ -9,7 +9,7 @@ define('HR_MODULE_NAME', 'hr');
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.3
+Version: 3.0.4
 Requires at least: 2.3.*
 Author URI: #
 

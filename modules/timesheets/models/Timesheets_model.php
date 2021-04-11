@@ -1457,7 +1457,6 @@ public function delete_shift($id){
 		}else{
 			return 0;
 		}
-		
 	}
 	/**
 	 * send request approve
@@ -1469,9 +1468,11 @@ public function delete_shift($id){
 		if(!isset($data['status'])){
 			$data['status'] = '';
 		}
+		$staff_addedfrom = $data['addedfrom'];
 		$date_send = date('Y-m-d H:i:s');
-		$data_new = $this->get_approve_setting($data['rel_type']);
-		$data_setting = $this->get_approve_setting($data['rel_type'], false);
+
+		$data_new = $this->get_approve_setting($data['rel_type'], true, $staff_addedfrom);
+		$data_setting = $this->get_approve_setting($data['rel_type'], false, $staff_addedfrom);
 		if(!$data_new){
 			$this->update_approve_request($data['rel_id'] , $data['rel_type'], 1);
 			return false;
@@ -1479,12 +1480,9 @@ public function delete_shift($id){
 		$this->delete_approval_details($data['rel_id'], $data['rel_type']);
 		$list_staff = $this->staff_model->get();
 		$list = [];
-		$staff_addedfrom = $data['addedfrom'];
-		if($staff_id == ''){
-			$sender = get_staff_user_id();
-		}else{
-			$sender = $staff_id;
-		}
+
+		$sender = $staff_addedfrom;
+		
 		foreach ($data_new as $value) {
 			$row = [];
 			$row['notification_recipient'] = $data_setting->notification_recipient;
@@ -1551,62 +1549,49 @@ public function delete_shift($id){
 		$staff = $this->staff_model->get($staff_id);
 		$departments = $this->departments_model->get_staff_departments($staff_id, true);
 
-		
-
-
 		$where_job_position = '';
 		if($staff){
 			if($staff->role != '' && $staff->role != 0){
 				$where_job_position = 'find_in_set('.$staff->role.',job_positions)';
-			}else{
-				$where_job_position = '(job_positions is null or job_positions = "")';
+			}
+			else{
+				$where_job_position = '(job_positions is null OR job_positions = "")';
 			}
 		}
 
 		$where_departments = '';
-
 		foreach ($departments as $key => $value) {
 			if($where_departments != ''){
-				$where_departments .= ' or find_in_set('.$value.',departments)';
+				$where_departments .= ' OR find_in_set('.$value.',departments)';
 			}else{
 				$where_departments = 'find_in_set('.$value.',departments)';
 			}
 		}
 
-		$where = '';
-		if($where_job_position != ''){
-			$where = $where_job_position;
-		}
 		if($where_departments != ''){
 			$where_departments = '('.$where_departments.')';
-			if($where != ''){
-				$where .= ' and '.$where_departments;
-			}else{
-				$where = '('.$where_departments.')';
-			}
 		}
-
+		else{
+			$where_departments = '(departments is null OR departments = "")';
+		}
 		$this->db->select('*');
-		$this->db->where('related', $type);
-		if($where != ''){
-			$this->db->where($where);
+		if($where_job_position != '' && $where_departments != ''){
+			$this->db->where($where_job_position.' AND '.$where_departments.' AND related="'.$type.'"');
 		}
-
 		$approval_setting = $this->db->get(db_prefix().'timesheets_approval_setting')->row();
-		
 		if($approval_setting){
 			if($only_setting == false){
 				return $approval_setting;
 			}else{
 				return json_decode($approval_setting->setting);
 			}
-		}else{
+		}
+		else{
 			$this->db->select('*');
 			$this->db->where('related', $type);
-			if($where_departments != ''){
-				$this->db->where('(job_positions is null or job_positions = "") and '. $where_departments);
+			if($where_job_position != ''){
+				$this->db->where($where_job_position.' AND (departments is null OR departments = "") AND related="'.$type.'"');
 			}
-
 			$approval_setting = $this->db->get(db_prefix().'timesheets_approval_setting')->row();
 			if($approval_setting){
 				if($only_setting == false){
@@ -1614,18 +1599,30 @@ public function delete_shift($id){
 				}else{
 					return json_decode($approval_setting->setting);
 				}
-			}else{
+			}
+			else{
 				$this->db->select('*');
-				$this->db->where('related', $type);
-				$this->db->where('(job_positions is null or job_positions = "")');
-				$this->db->where('(departments is null or departments = "")');
-
+				if($where_departments != ''){
+					$this->db->where($where_departments.' AND (job_positions is null OR job_positions = "") AND related="'.$type.'"');
+				}
 				$approval_setting = $this->db->get(db_prefix().'timesheets_approval_setting')->row();
 				if($approval_setting){
 					if($only_setting == false){
 						return $approval_setting;
 					}else{
 						return json_decode($approval_setting->setting);
+					}
+				}
+				else{
+					$this->db->select('*');
+					$this->db->where('(departments is null OR departments = "") AND (job_positions is null OR job_positions = "") AND related="'.$type.'"');
+					$approval_setting = $this->db->get(db_prefix().'timesheets_approval_setting')->row();
+					if($approval_setting){
+						if($only_setting == false){
+							return $approval_setting;
+						}else{
+							return json_decode($approval_setting->setting);
+						}
 					}
 				}
 			}
@@ -1717,13 +1714,13 @@ public function delete_shift($id){
 					// Number of leaving day
 					$dd = $requisition_leave->number_of_leaving_day;
 
-					$update_days_off = $day_off->days_off + $dd;
-					$update_remain = $day_off->total - $update_days_off;
+					$update_days_off = abs($day_off->days_off + $dd);
+					$update_remain = abs($day_off->total) - $update_days_off;
 
 					$this->db->where('staffid', $requisition_leave->staff_id);
 					$this->db->where('year', date('Y'));
 					$this->db->update(db_prefix().'timesheets_day_off',[
-						'remain' => $update_remain,
+						'remain' => abs($update_remain),
 						'days_off' => $update_days_off
 					]);                        
 					break;
@@ -1834,6 +1831,7 @@ public function delete_shift($id){
 					$staffid = $requisition_leave->staff_id;
 			// Get current hour in shift
 					$shift_info = $this->get_info_hour_shift_staff($staffid, date('Y-m-d', strtotime($start_time)));
+
 					if($shift_info->start_working != ''){
 					// Caculate hour 
 						$value_ts = $this->get_hour($shift_info->start_working, date('H:i:s', strtotime($start_time)));                   
@@ -2029,7 +2027,16 @@ public function delete_shift($id){
 			$advance_payment_reason = $data['advance_payment_reason'];
 			unset($data['advance_payment_reason']);
 		}
-		$check_proccess = $this->get_approve_setting($type);
+		$day_off = $this->timesheets_model->get_day_off($staff_quit_job);
+		$number_day_off = 0;
+		if($day_off != null){
+			$number_day_off = $day_off->remain;
+			if($number_day_off < 0){
+				$number_day_off = 0;
+			}
+		}
+		$data['number_of_days'] = $number_day_off;
+		$check_proccess = $this->get_approve_setting($type, true, $staff_quit_job);
 		if($check_proccess){
 			$this->db->insert(db_prefix() . 'timesheets_requisition_leave', $data);
 			$insert_id = $this->db->insert_id();
@@ -2069,7 +2076,6 @@ public function delete_shift($id){
 					}
 				}
 				$this->update_approve_request($insert_id , $type, $data['status']);
-
 				return $insert_id;
 			}else{
 				return false;
@@ -3447,7 +3453,8 @@ public function format_date_time($date){
 		$additional_data = $data['rel_type'];
 		$object_type = $data['rel_type'];
 		$type = '';
-		switch ($data['rel_type']) {
+		$link = '';
+		switch (strtolower($data['rel_type'])) {
 			case 'hr_planning':
 			$hrplanning = $this->get_proposal_hrplanning($data['rel_id']);
 			$staff_addedfrom = '';
@@ -3595,7 +3602,6 @@ public function format_date_time($date){
 					if ($notified) {
 						pusher_trigger_notification([$staff->staffid]);
 					}
-
 					$email = $this->get_staff_email($value);
 					if($email != ''){
 						$staff_request = '';
@@ -3748,6 +3754,7 @@ public function format_date_time($date){
 			$staff_handover_recipients =  'false';
 
 		}
+
 		if(is_numeric($staff_handover_recipients)){
 
 			$mail_template = 'send-request-approve';
@@ -4404,6 +4411,7 @@ public function get_timesheet($staffid='', $from_date, $to_date){
 			unset($data['approver']);
 			unset($data['staff']);
 		}
+
 		if(!isset($data['choose_when_approving'])){
 			$data['choose_when_approving'] = 0;
 		}
@@ -6483,10 +6491,10 @@ public function choose_approver($data){
 	$list = [];
 	$staff_addedfrom = $data['addedfrom'];
 	$sender = get_staff_user_id();
-	$data_setting = $this->get_approve_setting($data['rel_type'], false);
+	$data_setting = $this->get_approve_setting($data['rel_type'], false, $staff_addedfrom);
 	$row = [];
 
-	$row['notification_recipient'] = $data_setting->notification_recipient;
+	$row['notification_recipient'] = isset($data_setting->notification_recipient) ? $data_setting->notification_recipient : null;
 	$row['approval_deadline'] = date('Y-m-d', strtotime(date('Y-m-d').' +'.$data_setting->number_day_approval.' day'));
 	$row['staffid'] = $data['staffid'];
 	$row['date_send'] = $date_send;
@@ -6794,13 +6802,15 @@ public function get_attendance_manual($staffs_list, $month = '', $year = '', $fr
   					//login time +x hour
   					$start_time = $staff['last_login'];
   				}
-
   				if($time_checkout != '' && $start_time != ''){
   					$effective_time = $this->round_to_next_hour($start_time, $auto_checkout_value);
+  					if(strtotime($effective_time) > strtotime($current_date.' 23:59:59')){
+  						$effective_time = $current_date.' 23:59:59';
+  					}
   					$result_list[] = array(
   						'staffid' => $staff['staffid'],
   						'checkout_date' => $current_date,
-  						'time_checkout' => $time_checkout,
+  						'time_checkout' => date('Y-m-d H:i:s'),
   						'effective_time' => $effective_time
   					);
   				}
@@ -7388,6 +7398,25 @@ public function calculate_attendance_timesheets($staffid, $time_in, $time_out){
 		$obj->late_hour = $late;
 		$obj->early_hour = $early;
 		return $obj;
+	}
+}
+
+public function get_next_shift_date($staff_id, $date, $count = 0){
+	if($count == 30){
+		return '';
+	}
+	$count++;
+	$date = $this->format_date($date);
+	$data_work_time = $this->get_hour_shift_staff($staff_id, $date);
+	$data_day_off = $this->get_day_off_staff_by_date($staff_id, $date);
+
+	if($data_work_time > 0 && count($data_day_off) == 0){
+		return $date;
+
+	}
+	else{
+		$next_date = date('Y-m-d', strtotime($date.' +1 day'));
+		return $this->get_next_shift_date($staff_id, $next_date, $count);
 	}
 }
 

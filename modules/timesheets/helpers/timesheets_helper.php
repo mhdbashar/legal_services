@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+hooks()->add_action('after_email_templates', 'add_timesheets_email_templates');
 
 
 /**
@@ -10,7 +11,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @return boolean
  */
 
-hooks()->add_action('after_email_templates', 'add_timesheets_email_templates');
 function get_timesheets_option($name)
 {
 	$CI = & get_instance();

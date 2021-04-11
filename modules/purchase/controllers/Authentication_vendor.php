@@ -17,8 +17,7 @@ class Authentication_vendor extends App_Controller
     public function __construct()
     {
         parent::__construct();
-        hooks()->do_action('clients_authentication_constructor', $this);
-
+        
         if (is_staff_logged_in()
             && $this->app->is_db_upgrade_required($this->current_db_version)) {
             redirect(admin_url());
@@ -299,7 +298,6 @@ class Authentication_vendor extends App_Controller
     {
         $this->load->model('Authentication_vendor_model');
         $this->Authentication_vendor_model->logout(false);
-        hooks()->do_action('after_client_logout');
         redirect(site_url('purchase/authentication_vendor/login'));
     }
 

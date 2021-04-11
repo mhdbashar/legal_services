@@ -89,8 +89,8 @@ render_datatable($table_data,'workplace_assign',
  <button type="submit" class="btn btn-primary"><?php echo _l('confirm'); ?></button>
 </div>
 
-   </div>
-   <?php echo form_close(); ?>
+</div>
+<?php echo form_close(); ?>
 </div>
 </div>
 

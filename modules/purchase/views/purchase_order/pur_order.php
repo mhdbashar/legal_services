@@ -81,7 +81,7 @@
                             <select name="estimate" id="estimate" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
                               
                             </select>
-                            <br><br>
+                            
                           </div>
                           <div class="col-md-1 pad_div_0">
                             <a href="#" onclick="coppy_pur_estimate(); return false;" class="btn btn-success mtop25" data-toggle="tooltip" title="<?php echo _l('coppy_pur_estimate'); ?>">
@@ -92,40 +92,101 @@
 
                       </div>
 
+                       <div class="row">
+                           <div class="col-md-6">
+                               <div class="form-group">
+                                   <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                   <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                       <option value=""></option>
+                                       <?php foreach ($legal_services as $service): ?>
+                                           <option value="<?php echo true ? $service->slug : 'project'; ?>"
+                                               <?php if(isset($pur_order) || $this->input->get('rel_type')){
+                                                   if(true){
+                                                       if($pur_order->rel_type == $service->slug){
+                                                           echo 'selected';
+                                                       }
+                                                   }else{
+                                                       if($rel_type == 'project'){
+                                                           echo 'selected';
+                                                       }
+                                                   }
+                                               } ?>><?php echo $service->name; ?></option>
+                                       <?php endforeach; ?>
+                                   </select>
+                               </div>
+                           </div>
+
+                           <div class="col-md-6">
+                               <?php $rel_id = isset($pur_order)? $pur_order->rel_id : '' ?>
+                               <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                                   <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                   <div id="rel_id_select">
+                                       <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                           <?php if(true){ //if($rel_id != '' && $rel_type != ''){
+                                               $rel_data = get_relation_data($pur_order->rel_type,$pur_order->rel_id);
+                                               $rel_val = get_relation_values($rel_data,$pur_order->rel_type);
+                                               if(!$rel_data){
+                                                   echo '<option value="'.$pur_order->rel_id.'" selected>'.$pur_order->rel_id.'</option>';
+                                               }else{
+                                                   echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                               }
+                                           } ?>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+
+                      <div class="col-md-5 form-group">
+                        <label for="pur_request"><?php echo _l('pur_request'); ?></label>
+                        <select name="pur_request" id="pur_request" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                          <option value=""></option>
+                            <?php foreach($pur_request as $s) { ?>
+                            <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($pur_order) && $pur_order->pur_request != '' && $pur_order->pur_request == $s['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($s['pur_rq_code'].' - '.$s['pur_rq_name']); ?></option>
+                              <?php } ?>
+                        </select>
+                       </div>
+                      <div class="col-md-1 pad_div_0">
+                        <a href="#" onclick="coppy_pur_request(); return false;" class="btn btn-success mtop25" data-toggle="tooltip" title="<?php echo _l('coppy_pur_request_to_purorder'); ?>">
+                        <i class="fa fa-clone"></i>
+                        </a>
+                      </div> 
+
+                      
+
+                      </div>
+
                       <div class="row">
-                        <div class="col-md-6">
-                        <label for="project"><?php echo _l('project'); ?></label>
-                          <select name="project" id="project" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+                        <div class="col-md-6 form-group">
+                        <label for="department"><?php echo _l('department'); ?></label>
+                          <select name="department" id="department" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
                             <option value=""></option>
-                            <?php foreach($projects as $s) { ?>
-                              <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($pur_order) && $s['id'] == $pur_order->project){ echo 'selected'; } ?>><?php echo html_entity_decode($s['name']); ?></option>
+                            <?php foreach($departments as $s) { ?>
+                              <option value="<?php echo html_entity_decode($s['departmentid']); ?>" <?php if(isset($pur_order) && $s['departmentid'] == $pur_order->department){ echo 'selected'; } ?>><?php echo html_entity_decode($s['name']); ?></option>
                               <?php } ?>
                           </select>
+                          <br><br>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                          <label for="type"><?php echo _l('type'); ?></label>
+                            <select name="type" id="type" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
+                              <option value=""></option>
+                              <option value="capex" <?php if(isset($pur_order) && $pur_order->type == 'capex'){ echo 'selected';} ?>><?php echo _l('capex'); ?></option>
+                              <option value="opex" <?php if(isset($pur_order) && $pur_order->type == 'opex'){ echo 'selected';} ?>><?php echo _l('opex'); ?></option>
+                            </select>
+                        </div>
+                      </div>
+                     
+                   </div>
+                   <div class="col-md-6">
+                      <div class="col-md-12 mbot10 form-group">
                        
-                      </div>
-
-                      <div class="col-md-6">
-                        <label for="type"><?php echo _l('type'); ?></label>
-                          <select name="type" id="type" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
-                            <option value=""></option>
-                            <option value="capex" <?php if(isset($pur_order) && $pur_order->type == 'capex'){ echo 'selected';} ?>><?php echo _l('capex'); ?></option>
-                            <option value="opex" <?php if(isset($pur_order) && $pur_order->type == 'opex'){ echo 'selected';} ?>><?php echo _l('opex'); ?></option>
-                          </select>
-                        
-                      </div>
-
-                      </div>
-
-                      <div class="form-group">
-                        <br><br>
                         <div id="inputTagsWrapper">
                            <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                            <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($pur_order) ? prep_tags_input(get_tags_in($pur_order->id,'pur_order')) : ''); ?>" data-role="tagsinput">
                         </div>
                      </div>
-                     
-                   </div>
-                   <div class="col-md-6">
+
                       <div class="col-md-6">
                         <?php $order_date = (isset($pur_order) ? _d($pur_order->order_date) : _d(date('Y-m-d')));
                         echo render_date_input('order_date','order_date',$order_date); ?>
@@ -158,41 +219,29 @@
                       </div>
 
                       <?php $clients_ed = (isset($pur_order) ? explode(',',$pur_order->clients) : []); ?>
-                      <div class="col-md-6">
+                      <div class="col-md-6 form-group">
                         <label for="clients"><?php echo _l('clients'); ?></label>
-                        <select name="clients[]" id="clients" class="selectpicker" data-live-search="true" multiple data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                        <select name="clients[]" id="clients" class="selectpicker" onchange="client_change(this); return false;" data-live-search="true" multiple data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
 
                             <?php foreach($clients as $s) { ?>
                             <option value="<?php echo html_entity_decode($s['userid']); ?>" <?php if(isset($pur_order) && in_array($s['userid'], $clients_ed)){ echo 'selected'; } ?>><?php echo html_entity_decode($s['company']); ?></option>
                               <?php } ?>
                         </select>
                       </div>
-
-                      <div class="col-md-5 form-group">
-                        <label for="pur_request"><?php echo _l('pur_request'); ?></label>
-                        <select name="pur_request" id="pur_request" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>" >
+                      <div class="col-md-5 form-group pright0">
+                      <label for="sale_invoice"><?php echo _l('sale_invoice'); ?></label>
+                        <select name="sale_invoice" id="sale_invoice" class="selectpicker"  data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
                           <option value=""></option>
-                            <?php foreach($pur_request as $s) { ?>
-                            <option value="<?php echo html_entity_decode($s['id']); ?>" <?php if(isset($pur_order) && $pur_order->pur_request != '' && $pur_order->pur_request == $s['id']){ echo 'selected'; } ?> ><?php echo html_entity_decode($s['pur_rq_code'].' - '.$s['pur_rq_name']); ?></option>
-                              <?php } ?>
-                        </select>
-                       </div>
-                      <div class="col-md-1 pad_div_0">
-                        <a href="#" onclick="coppy_pur_request(); return false;" class="btn btn-success mtop25" data-toggle="tooltip" title="<?php echo _l('coppy_pur_request_to_purorder'); ?>">
-                        <i class="fa fa-clone"></i>
-                        </a>
-                      </div> 
-
-                      <div class="col-md-12 form-group">
-                      <label for="department"><?php echo _l('department'); ?></label>
-                        <select name="department" id="department" class="selectpicker" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('ticket_settings_none_assigned'); ?>">
-                          <option value=""></option>
-                          <?php foreach($departments as $s) { ?>
-                            <option value="<?php echo html_entity_decode($s['departmentid']); ?>" <?php if(isset($pur_order) && $s['departmentid'] == $pur_order->department){ echo 'selected'; } ?>><?php echo html_entity_decode($s['name']); ?></option>
+                          <?php foreach($invoices as $inv) { ?>
+                            <option value="<?php echo html_entity_decode($inv['id']); ?>" <?php if(isset($pur_order) && $inv['id'] == $pur_order->sale_invoice){ echo 'selected'; } ?>><?php echo format_invoice_number($inv['id']); ?></option>
                             <?php } ?>
                         </select>
-                        <br><br>
                       </div>
+                      <div class="col-md-1" >
+                         <a href="javascript:void(0)" onclick="coppy_sale_invoice(); return false;" class="btn btn-success mtop25" data-toggle="tooltip" title="<?php echo _l('coppy_sale_invoice'); ?>">
+                              <i class="fa fa-clone"></i></a>
+                      </div>
+                      
                    </div>  
                 </div>
 
@@ -216,7 +265,7 @@
                       
                        <div class="input-group" id="discount-total">
 
-                              <input type="text" disabled="true" class="form-control text-right" name="total_mn" value="">
+                              <input type="text" readonly="true" class="form-control text-right" name="total_mn" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->subtotal,''); } ?>">
 
                              <div class="input-group-addon">
                                 <div class="dropdown">
@@ -232,116 +281,54 @@
                           </div>
                      </td>
                   </tr>
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('estimate_discount'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
-                             <input type="number" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->discount_percent,''); } ?>" onchange="dc_percent_change(this); return false;" class="form-control pull-left input-percent text-right" min="0" max="100" name="dc_percent">
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   
-                                   <span class="discount-type-selected">%</span>
-                                  
-                                </div>
-                             </div>
-                          </div>
-                     </td>
-                  </tr>
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('estimate_discount'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
+                  </tbody>
+                </table>
 
-                             <input type="text" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->discount_total,''); } ?>" class="form-control pull-left text-right" onchange="dc_total_change(this); return false;" data-type="currency" name="dc_total">
+                <table class="table text-right">
+                 <tbody id="tax_area_body">
+                    <?php if(isset($pur_order) && $tax_data['html'] != ''){
+                      echo html_entity_decode($tax_data['html']);
+                    } ?>
+                 </tbody>
+                </table>
 
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name) ;?>
-                                   </span>
-                                   
-                                   
-                                </div>
-                             </div>
+                <table class="table text-right">
+                  <tbody>
+                    <tr id="discount_area">
+                        <td>
+                            <span class="bold"><?php echo _l('estimate_discount'); ?></span>
+                        </td>
+                        <td width="65%">  
+                            <div class="input-group" id="discount-total">
 
-                          </div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td class="td_style"><span class="bold"><?php echo _l('after_discount'); ?></span>
-                     </td>
-                     <td width="55%" id="total_td">
-                      
-                       <div class="input-group" id="discount-total">
+                               <input type="text" readonly="true" value="-<?php if(isset($pur_order)){ echo app_format_money($pur_order->discount_total,''); } ?>" class="form-control pull-left text-right" data-type="currency" name="dc_total">
 
-                             <input type="text" disabled="true" class="form-control text-right" name="after_discount" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->total - $pur_order->discount_total,''); } ?>">
+                               <div class="input-group-addon">
+                                  <div class="dropdown">
+                                     
+                                     <span class="discount-type-selected">
+                                      <?php echo html_entity_decode($base_currency->name) ;?>
+                                     </span>
+                                     
+                                     
+                                  </div>
+                               </div>
 
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name) ;?>
-                                   </span>
-                                </div>
-                             </div>
+                            </div>
+                       </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-                          </div>
-                     </td>
-
-                  </tr>
-
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('tax'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
-                             <input type="number" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->tax_order_rate,''); } ?>" onchange="tax_percent_change(this); return false;" class="form-control pull-left input-percent text-right" min="0" max="100" name="tax_order_rate">
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   
-                                   <span class="discount-type-selected">%</span>
-                                  
-                                </div>
-                             </div>
-                          </div>
-                     </td>
-                  </tr>
-                  <tr id="discount_area">
-                      <td>
-                          <span class="bold"><?php echo _l('tax_amount'); ?></span>
-                      </td>
-                      <td>  
-                          <div class="input-group" id="discount-total">
-
-                             <input type="text" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->tax_order_amount,''); } ?>" class="form-control pull-left text-right" onchange="tax_amount_change(this); return false;" data-type="currency" name="tax_order_amount" readonly>
-
-                             <div class="input-group-addon">
-                                <div class="dropdown">
-                                   
-                                   <span class="discount-type-selected">
-                                    <?php echo html_entity_decode($base_currency->name) ;?>
-                                   </span>
-                                   
-                                   
-                                </div>
-                             </div>
-
-                          </div>
-                     </td>
-                  </tr>
+              <table class="table text-right">
+                <tbody>
                   <tr>
                      <td class="td_style"><span class="bold"><?php echo _l('grand_total'); ?></span>
                      </td>
-                     <td width="55%" id="total_td">
+                     <td width="65%" id="total_td">
                        <div class="input-group" id="discount-total">
 
-                             <input type="text" disabled="true" class="form-control text-right" name="grand_total" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->total,''); } ?>">
+                             <input type="text" readonly="true" class="form-control text-right" name="grand_total" value="<?php if(isset($pur_order)){ echo app_format_money($pur_order->total,''); } ?>">
 
                              <div class="input-group-addon">
                                 <div class="dropdown">
@@ -355,9 +342,8 @@
                           </div>
                      </td>
                   </tr>
-
-               </tbody>
-            </table>
+                </tbody>
+              </table>
          </div> 
         </div>
         </div>
@@ -392,6 +378,47 @@
 </div>
 </div>
 <?php init_tail(); ?>
+<script>
+    var _rel_id = $('#rel_id'),
+        _rel_type = $('#rel_type'),
+        _rel_id_wrapper = $('#rel_id_wrapper'),
+        data = {};
+
+    $(function (){
+        $('.rel_id_label').html(_rel_type.find('option:selected').text());
+
+        _rel_type.on('change', function() {
+            var clonedSelect = _rel_id.html('').clone();
+            _rel_id.selectpicker('destroy').remove();
+            _rel_id = clonedSelect;
+            $('#rel_id_select').append(clonedSelect);
+            $('.rel_id_label').html(_rel_type.find('option:selected').text());
+
+            task_rel_select();
+            if($(this).val() != ''){
+                _rel_id_wrapper.removeClass('hide');
+            } else {
+                _rel_id_wrapper.addClass('hide');
+            }
+            init_project_details(_rel_type.val());
+        });
+
+
+        $('#time').datetimepicker({
+            datepicker:false,
+            format:'H:i'
+        });
+
+    });
+
+    function task_rel_select(){
+        var serverData = {};
+        serverData.rel_id = _rel_id.val();
+        data.type = _rel_type.val();
+        init_ajax_search(_rel_type.val(),_rel_id,serverData);
+    }
+
+</script>
 </body>
 </html>
 <?php require 'modules/purchase/assets/js/pur_order_js.php';?>

@@ -11,4 +11,4 @@
 		<?php app_vendor_head(); ?>
 </head>
 <body class="customers<?php if(is_mobile()){echo ' mobile';}?><?php if(isset($bodyclass)){echo ' ' . $bodyclass; } ?>" <?php if($isRTL == 'true'){ echo 'dir="rtl"';} ?>>
-	<?php hooks()->do_action('customers_after_body_start'); ?>
+

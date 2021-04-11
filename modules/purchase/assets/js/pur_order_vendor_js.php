@@ -22,7 +22,7 @@ var hotElement = document.querySelector('#example');
         data: 'item_code',
         renderer: customDropdownRenderer,
         editor: "chosen",
-        width: 150,
+        width: 100,
         chosenOptions: {
             data: <?php echo json_encode($items); ?>
         },
@@ -43,6 +43,7 @@ var hotElement = document.querySelector('#example');
       {
         data: 'unit_price',
         type: 'numeric',
+        width: 50,
         numericFormat: {
           pattern: '0,0'
         },
@@ -51,11 +52,13 @@ var hotElement = document.querySelector('#example');
       {
         data: 'quantity',
         type: 'numeric',
+         width: 50,
         readOnly: true
       },
       {
         data: 'into_money',
         type: 'numeric',
+         width: 50,
         numericFormat: {
           pattern: '0,0'
         },
@@ -74,6 +77,15 @@ var hotElement = document.querySelector('#example');
         readOnly: true
       },
       {
+        data: 'tax_value',
+        type: 'numeric',
+        numericFormat: {
+          pattern: '0,0'
+        },
+         width: 50,
+        readOnly: true
+      },
+      {
         data: 'total',
         type: 'numeric',
         numericFormat: {
@@ -83,12 +95,14 @@ var hotElement = document.querySelector('#example');
       },{
         data: 'discount_%',
         type: 'numeric',
+         width: 50,
         renderer: customRenderer,
         readOnly: true
       },
       {
         data: 'discount_money',
         type: 'numeric',
+         width: 50,
         numericFormat: {
           pattern: '0,0'
         },
@@ -124,6 +138,7 @@ var hotElement = document.querySelector('#example');
       '<?php echo _l('purchase_quantity'); ?>',
       '<?php echo _l('subtotal_before_tax'); ?>',
       '<?php echo _l('tax'); ?>',
+      '<?php echo _l('tax_value'); ?>',
       '<?php echo _l('subtotal_after_tax'); ?>',
       '<?php echo _l('discount(%)').'(%)'; ?>',
       '<?php echo _l('discount(money)'); ?>',
@@ -152,20 +167,9 @@ var hotElement = document.querySelector('#example');
     manualColumnResize: true
   };
   var hot = new Handsontable(hotElement, hotSettings);
-  var total_money = 0;
-  for (var row_index = 0; row_index <= 40; row_index++) {
-    if(parseFloat(hot.getDataAtCell(row_index, 11)) > 0){
-      total_money += (parseFloat(hot.getDataAtCell(row_index, 11)));
-    }
-    
-   
-  }
-  $('input[name="total_mn"]').val(numberWithCommas(total_money));
+
 
 })(jQuery);  
-
-
-
 
 
 function numberWithCommas(x) {

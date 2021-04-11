@@ -5,8 +5,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
     db_prefix() . 'pur_estimates.number',
-    'total',
-    'total_tax',
+    db_prefix() . 'pur_estimates.total',
+    db_prefix() . 'pur_estimates.total_tax',
     'YEAR(date) as year',
     'vendor',
     'pur_request',
@@ -124,7 +124,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $numberOutput;
 
-    $amount = app_format_money($aRow['total'], '');
+    $amount = app_format_money($aRow[db_prefix() . 'pur_estimates.total'], '');
 
     if ($aRow['invoiceid']) {
         $amount .= '<br /><span class="hide"> - </span><span class="text-success">' . _l('estimate_invoiced') . '</span>';
@@ -132,7 +132,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $amount;
 
-    $row[] = app_format_money($aRow['total_tax'], '');
+    $row[] = app_format_money($aRow[db_prefix() . 'pur_estimates.total_tax'], '');
 
     $row[] = $aRow['year'];
 

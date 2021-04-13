@@ -764,6 +764,9 @@ class Vendors_portal extends App_Controller
         $data['get_staff_sign'] = $this->purchase_model->get_staff_sign($id,'pur_request');
         $data['check_approve_status'] = $this->purchase_model->check_approval_details($id,'pur_request');
         $data['list_approve_status'] = $this->purchase_model->get_list_approval_details($id,'pur_request');
+        $this->load->model('currencies_model');
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
+        $data['taxes_data'] = $this->purchase_model->get_html_tax_pur_request($id);
 
         $this->data($data);
         $this->view('vendor_portal/pur_request');

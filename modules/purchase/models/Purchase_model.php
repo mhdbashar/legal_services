@@ -990,7 +990,11 @@ class Purchase_model extends App_Model
             $this->db->where('option_name', 'next_pr_number');
             $this->db->update(db_prefix() . 'purchase_option',['option_val' =>  $next_number,]);
 
+
             foreach($rq_detail as $key => $rqd){
+                if($rq_detail[$key]['quantity'] == null){
+                    $rq_detail[$key]['quantity'] = 0;
+                }
                 $rq_detail[$key]['pur_request'] = $insert_id;
                 $rq_detail[$key]['tax_rate'] = $this->get_tax_rate_by_id($rqd['tax']);
                 if($data['status'] == 2 && $data['from_items'] == 1){

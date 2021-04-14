@@ -1745,9 +1745,11 @@ class Accounting_model extends App_Model
         $this->db->where('active', 1);
         $this->db->order_by('account_type_id,account_detail_type_id', 'desc');
         $accounts = $this->db->get(db_prefix() . 'acc_accounts')->result_array();
+        unset($accounts[20], $accounts[45]);
 
         $account_types = $this->accounting_model->get_account_types();
         $detail_types = $this->accounting_model->get_account_type_details();
+        unset($detail_types[116], $detail_types[91]);
 
         $account_type_name = [];
         $detail_type_name = [];

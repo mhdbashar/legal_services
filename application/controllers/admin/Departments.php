@@ -149,7 +149,7 @@ class Departments extends AdminController
                 $folder = $this->input->post('folder');
 
                 $connection->getMailbox(empty($folder) ? 'INBOX' : $folder);
-             } catch (MailboxDoesNotExistException $e) {
+            } catch (MailboxDoesNotExistException $e) {
                 echo json_encode([
                     'alert_type' => 'warning',
                     'message'    => $e->getMessage(),

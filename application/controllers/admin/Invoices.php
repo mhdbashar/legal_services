@@ -131,7 +131,7 @@ class Invoices extends AdminController
             if ($current_invoice != '') {
                 $this->db->select('status');
                 $this->db->where('id', $current_invoice);
-                $current_invoice_status = $this->db->get(db_prefix().'invoices')->row()->status;
+                $current_invoice_status = $this->db->get(db_prefix() . 'invoices')->row()->status;
             }
 
             $_data['invoices_to_merge'] = !isset($current_invoice_status) || (isset($current_invoice_status) && $current_invoice_status != Invoices_model::STATUS_CANCELLED) ? $this->invoices_model->check_for_merge_invoice($customer_id, $current_invoice) : [];
@@ -157,7 +157,7 @@ class Invoices extends AdminController
             $affected_rows = 0;
 
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'invoices', [
+            $this->db->update(db_prefix() . 'invoices', [
                 'prefix' => $this->input->post('prefix'),
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -181,13 +181,15 @@ class Invoices extends AdminController
         $original_number = $this->input->post('original_number');
         $number          = trim($number);
         $number          = ltrim($number, '0');
+
         if ($isedit == 'true') {
             if ($number == $original_number) {
                 echo json_encode(true);
                 die;
             }
         }
-        if (total_rows(db_prefix().'invoices', [
+
+        if (total_rows(db_prefix() . 'invoices', [
             'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
             'number' => $number,
             'status !=' => Invoices_model::STATUS_DRAFT,
@@ -218,7 +220,7 @@ class Invoices extends AdminController
     {
         if (has_permission('invoices', '', 'edit')) {
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'invoices', ['cancel_overdue_reminders' => 1]);
+            $this->db->update(db_prefix() . 'invoices', ['cancel_overdue_reminders' => 1]);
         }
         redirect(admin_url('invoices/list_invoices/' . $id));
     }
@@ -227,7 +229,7 @@ class Invoices extends AdminController
     {
         if (has_permission('invoices', '', 'edit')) {
             $this->db->where('id', $id);
-            $this->db->update(db_prefix().'invoices', ['cancel_overdue_reminders' => 0]);
+            $this->db->update(db_prefix() . 'invoices', ['cancel_overdue_reminders' => 0]);
         }
         redirect(admin_url('invoices/list_invoices/' . $id));
     }
@@ -288,7 +290,7 @@ class Invoices extends AdminController
             $invoice->items[$i]['taxname']          = get_invoice_item_taxes($item['id']);
             $invoice->items[$i]['long_description'] = clear_textarea_breaks($item['long_description']);
             $this->db->where('item_id', $item['id']);
-            $rel              = $this->db->get(db_prefix().'related_items')->result_array();
+            $rel              = $this->db->get(db_prefix() . 'related_items')->result_array();
             $item_related_val = '';
             $rel_type         = '';
             foreach ($rel as $item_related) {
@@ -398,7 +400,7 @@ class Invoices extends AdminController
         $this->load->model('invoice_items_model');
 
         $data['ajaxItems'] = false;
-        if (total_rows(db_prefix().'items') <= ajax_on_total_items()) {
+        if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
             $data['items']     = [];
@@ -453,7 +455,7 @@ class Invoices extends AdminController
         $data['members']                    = $this->staff_model->get('', ['active' => 1]);
         $data['payments']                   = $this->payments_model->get_invoice_payments($id);
         $data['activity']                   = $this->invoices_model->get_invoice_activity($id);
-        $data['totalNotes']                 = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
+        $data['totalNotes']                 = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
         $data['invoice_recurring_invoices'] = $this->invoices_model->get_invoice_recurring_invoices($id);
 
         $data['applied_credits'] = $this->credit_notes_model->get_applied_invoice_credits($id);
@@ -565,10 +567,10 @@ class Invoices extends AdminController
         try {
 
             $statementData = [];
-            if($this->input->post('attach_statement')) {
+            if ($this->input->post('attach_statement')) {
                 $statementData['attach'] = true;
-                $statementData['from'] = to_sql_date($this->input->post('statement_from'));
-                $statementData['to'] = to_sql_date($this->input->post('statement_to'));
+                $statementData['from']   = to_sql_date($this->input->post('statement_from'));
+                $statementData['to']     = to_sql_date($this->input->post('statement_to'));
             }
 
             $success = $this->invoices_model->send_invoice_to_client(
@@ -725,12 +727,15 @@ class Invoices extends AdminController
         if (!user_can_view_invoice($id)) {
             access_denied('Invoice Mark As Sent');
         }
+
         $success = $this->invoices_model->set_invoice_sent($id, true);
+
         if ($success) {
             set_alert('success', _l('invoice_marked_as_sent'));
         } else {
             set_alert('warning', _l('invoice_marked_as_sent_failed'));
         }
+
         redirect(admin_url('invoices/list_invoices/' . $id));
     }
 

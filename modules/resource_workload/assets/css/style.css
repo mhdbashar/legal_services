@@ -97,3 +97,9 @@
 .handsontable .gray-bg {
   background-color: #A9A9A9;
 }
+#example{
+    direction: ltr;
+}
+.handsontable{
+    direction: ltr;
+}

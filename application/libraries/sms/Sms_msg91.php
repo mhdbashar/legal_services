@@ -21,13 +21,13 @@ class Sms_msg91 extends App_sms
         $this->api_type  = $this->get_option('msg91', 'api_type');
 
         $this->add_gateway('msg91', [
-                'info'    => _l("sms_msg91_sms_integration_is_one_way_messaging"),
+                'info'    => "<p>MSG91 SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
                 'name'    => 'MSG91',
                 'options' => [
                     [
                         'name'  => 'sender_id',
                         'label' => 'Sender ID',
-                        'info'  => _l('sms_sender_id_trans'),
+                        'info'  => '<p><a href="https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id" target="_blank">https://help.msg91.com/article/40-what-is-a-sender-id-how-to-select-a-sender-id</a></p>',
                     ],
                     [
                         'name'          => 'api_type',

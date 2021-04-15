@@ -393,6 +393,18 @@ $config['encryption_key'] = APP_ENC_KEY;
 |
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
+
+| 'sess_cookie_samesite'
+|
+| SameSite prevents the browser from sending this cookie along with cross-site requests.
+| There are three possible values for the same-site attribute:
+
+| 'Lax'
+|           -   Some cross-site usage is allowed.
+| 'Strict'
+|           -   The cookie is withheld with any cross-site usage.
+| 'None'
+|           -   Clearly communicate you intentionally want the cookie sent in a third-party context.
 |
 */
 $config['sess_driver']             = SESS_DRIVER;
@@ -403,6 +415,8 @@ $config['sess_save_path']          = SESS_SAVE_PATH;
 $config['sess_match_ip']           = (defined('APP_SESSION_MATCH_IP') ? APP_SESSION_MATCH_IP : false);
 $config['sess_time_to_update']     = (defined('APP_SESSION_TIME_TO_UPDATE') ? APP_SESSION_TIME_TO_UPDATE : 300);
 $config['sess_regenerate_destroy'] = (defined('APP_SESSION_REGENERATE_DESTROY') ? APP_SESSION_REGENERATE_DESTROY : false);
+// Work only on php 7.3 or later
+$config['sess_cookie_samesite'] = (defined('APP_SESSION_COOKIE_SAME_SITE') ? APP_SESSION_COOKIE_SAME_SITE : '');
 
 /*
 |--------------------------------------------------------------------------

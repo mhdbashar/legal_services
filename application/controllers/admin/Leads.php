@@ -63,13 +63,13 @@ class Leads extends AdminController
         }
         $data['statuses']      = $this->leads_model->get_status();
         $data['base_currency'] = get_base_currency();
+        $data['summary'] = get_leads_summary();
         echo $this->load->view('admin/leads/kan-ban', $data, true);
     }
 
     /* Add or update lead */
     public function lead($id = '')
     {
-        
         if (!is_staff_member() || ($id != '' && !$this->leads_model->staff_can_access_lead($id))) {
             ajax_access_denied();
         }
@@ -259,8 +259,8 @@ class Leads extends AdminController
             redirect(admin_url('leads'));
         }
 
-        if (!is_lead_creator($id) && !has_permission('leads', '', 'delete')) {
-            access_denied('Delte Lead');
+        if (!has_permission('leads', '', 'delete')) {
+            access_denied('Delete Lead');
         }
 
         $response = $this->leads_model->delete($id);
@@ -1219,7 +1219,7 @@ class Leads extends AdminController
 
         $data['title']      = _l('leads_email_integration');
         $data['mail']       = $this->leads_model->get_email_integration();
-       
+
         $data['bodyclass'] = 'leads-email-integration';
         $this->load->view('admin/leads/email_integration', $data);
     }

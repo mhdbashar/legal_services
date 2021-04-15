@@ -522,17 +522,12 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
-            $where = hooks()->apply_filters('report_select_branch_estimates', $where);
-
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'estimates';
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
             ];
-            $join = hooks()->apply_filters('estimates_table_sql_join', $join);
-
-            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
@@ -608,8 +603,6 @@ class Reports extends AdminController
                 $row[] = $aRow['reference_no'];
 
                 $row[] = format_estimate_status($aRow['status']);
-
-                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 
                 $output['aaData'][] = $row;
             }
@@ -825,17 +818,12 @@ class Reports extends AdminController
                 }
             }
 
-            $where = hooks()->apply_filters('report_select_branch_credit_notes', $where);
-
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'creditnotes';
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'creditnotes.clientid',
             ];
-
-            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
-            $join = hooks()->apply_filters('creditnotes_table_sql_join', $join);
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
@@ -903,8 +891,6 @@ class Reports extends AdminController
                 $footer_data['remaining_amount'] += $aRow['remaining_amount'];
 
                 $row[] = format_credit_note_status($aRow['status']);
-
-                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
 
                 $output['aaData'][] = $row;
             }
@@ -1012,16 +998,13 @@ class Reports extends AdminController
                 }
             }
 
-            $where = hooks()->apply_filters('report_select_branch', $where);
-
             $aColumns     = $select;
             $sIndexColumn = 'id';
             $sTable       = db_prefix() . 'invoices';
             $join         = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
             ];
-            $aColumns = hooks()->apply_filters('estimates_table_aColumns', $aColumns);
-            $join = hooks()->apply_filters('invoices_table_sql_join', $join);
+
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'userid',
                 'clientid',
@@ -1097,8 +1080,6 @@ class Reports extends AdminController
 
                 $row[] = format_invoice_status($aRow['status']);
 
-                $row = hooks()->apply_filters('estimates_table_row_data', $row, $aRow);
-
                 $output['aaData'][] = $row;
             }
 
@@ -1123,6 +1104,9 @@ class Reports extends AdminController
             $this->load->model('expenses_model');
             $data['categories'] = $this->expenses_model->get_category();
             $data['years']      = $this->expenses_model->get_expenses_years();
+
+            $this->load->model('payment_modes_model');
+            $data['payment_modes']  = $this->payment_modes_model->get('', [], true);
 
             if ($this->input->is_ajax_request()) {
                 $aColumns = [

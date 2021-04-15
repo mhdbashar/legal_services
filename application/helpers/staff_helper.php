@@ -164,6 +164,10 @@ function get_available_staff_permissions($data = [])
                 'delete' => _l('permission_delete'),
             ],
         ],
+        'estimate_request' => [
+            'name'         => _l('estimate_request'),
+            'capabilities' => $allPermissionsArray,
+        ],
         'judges_manage' => [
             'name'         => _l('judges_manage'),
             'capabilities' => [

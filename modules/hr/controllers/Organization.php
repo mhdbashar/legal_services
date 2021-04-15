@@ -151,6 +151,8 @@ class Organization extends AdminController{
 
     public function add_designation(){
         $data = $this->input->post();
+        $data['description'] = $data['description_add'];
+        unset($data['description_add']);
 
         $success = $this->Designation_model->add($data);
         if($success){

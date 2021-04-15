@@ -19,7 +19,6 @@ class Clients extends AdminController
         $data['company_groups']    = $this->clients_model->get_company_groups();
         $data['title']          = _l('clients');
 
-        
         $this->load->model('proposals_model');
         $data['proposal_statuses'] = $this->proposals_model->get_statuses();
 

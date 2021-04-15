@@ -136,6 +136,11 @@ class Emails extends AdminController
             ]);
         }*/
 
+        $data['estimate_request'] = $this->emails_model->get([
+            'type'     => 'estimate_request',
+            'language' => 'english',
+        ]);
+
         $data['written_report'] = $this->emails_model->get([
             'type'     => 'written_report',
             'language' => $lang,

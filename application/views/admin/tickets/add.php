@@ -175,7 +175,6 @@
 	<?php echo form_close(); ?>
 </div>
 </div>
-</div>
 <?php $this->load->view('admin/tickets/services/service'); ?>
 <?php init_tail(); ?>
 <?php hooks()->do_action('new_ticket_admin_page_loaded'); ?>

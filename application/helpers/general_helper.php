@@ -104,6 +104,7 @@ function is_rtl($client_area = false)
     if (is_client_logged_in()) {
         $CI->db->select('direction')->from(db_prefix() . 'contacts')->where('id', get_contact_user_id());
         $direction = $CI->db->get()->row()->direction;
+
         if ($direction == 'rtl') {
             return true;
         } elseif ($direction == 'ltr') {
@@ -113,6 +114,7 @@ function is_rtl($client_area = false)
                 return true;
             }
         }
+
         return false;
     } elseif ($client_area == true) {
         // Client not logged in and checked from clients area
@@ -126,6 +128,7 @@ function is_rtl($client_area = false)
             $CI->db->select('direction')->from(db_prefix() . 'staff')->where('staffid', get_staff_user_id());
             $direction = $CI->db->get()->row()->direction;
         }
+
         if ($direction == 'rtl') {
             return true;
         } elseif ($direction == 'ltr') {
@@ -820,6 +823,11 @@ function csrf_jquery_token()
  */
 function app_happy_text($text)
 {
+    // We won't do this on texts with URL's
+    if(strpos($text, 'http') !== false) {
+        return $text;
+    }
+
     $regex = hooks()->apply_filters('app_happy_text_regex', '\b(congratulations!?|congrats!?|happy!?|feel happy!?|awesome!?|yay!?)\b');
     $re    = '/' . $regex . '/i';
 

@@ -3,15 +3,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: theme_name
-Description: theme_desc
+Module Name: Theme Style
+Description: Default module to apply additional CSS styles
 Version: 2.3.0
 Requires at least: 2.3.*
-Author: Babil Team
-Author URI: #
-
 */
-
 
 define('THEME_STYLE_MODULE_NAME', 'theme_style');
 

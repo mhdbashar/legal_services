@@ -21,7 +21,7 @@ function get_relation_data($type, $rel_id = '')
     if ($type == 'customer' || $type == 'customers') {
         $where_clients = '';
         if ($q) {
-            $where_clients .= '(company LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR CONCAT(firstname, " ", lastname) LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR email LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\') AND ' . db_prefix() . 'clients.active = 1 AND '.db_prefix().'clients.client_type = 0';
+            $where_clients .= '(company LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR CONCAT(firstname, " ", lastname) LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\' OR email LIKE "%' . $CI->db->escape_like_str($q) . '%" ESCAPE \'!\') AND ' . db_prefix() . 'clients.active = 1';
         }
 
         $data = $CI->clients_model->get($rel_id, $where_clients);
@@ -79,6 +79,7 @@ function get_relation_data($type, $rel_id = '')
         }
     } elseif ($type == 'contract' || $type == 'contracts') {
         $CI->load->model('contracts_model');
+
         if ($rel_id != '') {
             $CI->load->model('contracts_model');
             $data = $CI->contracts_model->get($rel_id);

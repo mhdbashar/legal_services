@@ -1,5 +1,7 @@
 <?php
 
+$lang['follower_staff'] = 'Follower staff';
+
 $lang['staff_chart_by_department'] = 'Staff chart by department';
 $lang['staff_chart_by_designation'] = 'Staff chart by designation';
 

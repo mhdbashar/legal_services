@@ -1,4 +1,6 @@
 <?php
+
+$lang['follower_staff'] = 'الموظف المتابع';
 $lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
 $lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';
 

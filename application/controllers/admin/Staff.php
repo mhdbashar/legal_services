@@ -27,14 +27,12 @@ class Staff extends AdminController
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
-
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }
         hooks()->do_action('staff_member_edit_view_profile', $id);
 
         $this->load->model('departments_model');
-
         if ($this->input->post()) {
             $data = $this->input->post();
             // Don't do XSS clean here.
@@ -54,8 +52,6 @@ class Staff extends AdminController
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
-
-
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
@@ -100,7 +96,6 @@ class Staff extends AdminController
             } else {
                 $ts_filter_data['this_month'] = true;
             }
-
 
             $data['logged_time'] = $this->staff_model->get_logged_time_data($id, $ts_filter_data);
             $data['timesheets']  = $data['logged_time']['timesheets'];
@@ -225,6 +220,8 @@ class Staff extends AdminController
     /* When staff edit his profile */
     public function edit_profile()
     {
+        hooks()->do_action('edit_logged_in_staff_profile');
+
         if ($this->input->post()) {
             handle_staff_profile_image_upload();
             $data = $this->input->post();
@@ -238,9 +235,11 @@ class Staff extends AdminController
             }
 
             $success = $this->staff_model->update_profile($data, get_staff_user_id());
+
             if ($success) {
                 set_alert('success', _l('staff_profile_updated'));
             }
+
             redirect(admin_url('staff/edit_profile/' . get_staff_user_id()));
         }
         $member = $this->staff_model->get(get_staff_user_id());
@@ -348,10 +347,10 @@ class Staff extends AdminController
                 if (($notification['fromcompany'] == null && $notification['fromuserid'] != 0) || ($notification['fromcompany'] == null && $notification['fromclientid'] != 0)) {
                     if ($notification['fromuserid'] != 0) {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('staff/profile/' . $notification['fromuserid']) . '">' . staff_profile_image($notification['fromuserid'], [
-                        'staff-profile-image-small',
-                        'img-circle',
-                        'pull-left',
-                    ]) . '</a>';
+                            'staff-profile-image-small',
+                            'img-circle',
+                            'pull-left',
+                        ]) . '</a>';
                     } else {
                         $notifications[$i]['profile_image'] = '<a href="' . admin_url('clients/client/' . $notification['fromclientid']) . '">
                     <img class="client-profile-image-small img-circle pull-left" src="' . contact_profile_image_url($notification['fromclientid']) . '"></a>';
@@ -453,6 +452,16 @@ class Staff extends AdminController
 
             echo json_encode($result);
             die;
+        }
+    }
+
+    public function save_completed_checklist_visibility()
+    {
+        hooks()->do_action('before_save_completed_checklist_visibility');
+
+        $post_data = $this->input->post();
+        if (is_numeric($post_data['task_id'])) {
+            update_staff_meta(get_staff_user_id(), 'task-hide-completed-items-'. $post_data['task_id'], $post_data['hideCompleted']);
         }
     }
 }

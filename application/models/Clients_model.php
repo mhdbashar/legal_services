@@ -33,7 +33,6 @@ class Clients_model extends App_Model
         }
 
         if (is_numeric($id)) {
-
             $this->db->where(db_prefix() . 'clients.userid', $id);
             $client = $this->db->get(db_prefix() . 'clients')->row();
 
@@ -63,6 +62,7 @@ class Clients_model extends App_Model
         if ($customer_id != '') {
             $this->db->where('userid', $customer_id);
         }
+
         $this->db->order_by('is_primary', 'DESC');
 
         return $this->db->get(db_prefix() . 'contacts')->result_array();
@@ -81,12 +81,31 @@ class Clients_model extends App_Model
     }
 
     /**
+     * Get contact by given email
+     *
+     * @since 2.8.0
+     *
+     * @param  string $email
+     *
+     * @return \strClass|null
+     */
+    public function get_contact_by_email($email)
+    {
+        $this->db->where('email', $email);
+        $this->db->limit(1);
+
+        return $this->db->get('contacts')->row();
+    }
+
+    /**
      * @param array $_POST data
-     * @param client_request is this request from the customer area
+     * @param withContact
+     *
      * @return integer Insert ID
+     *
      * Add new client to database
      */
-    public function add($data, $client_or_lead_convert_request = false)
+    public function add($data, $withContact = false)
     {
         $contact_data = [];
         foreach ($this->contact_columns as $field) {
@@ -113,11 +132,6 @@ class Clients_model extends App_Model
         if (isset($data['groups_in'])) {
             $groups_in = $data['groups_in'];
             unset($data['groups_in']);
-        }
-
-        if (isset($data['groups_company_in'])) {
-            $groups_company_in = $data['groups_company_in'];
-            unset($data['groups_company_in']);
         }
 
         $data = $this->check_zero_columns($data);
@@ -150,26 +164,19 @@ class Clients_model extends App_Model
                 }
                 handle_custom_fields_post($userid, $custom_fields);
             }
+
             /**
              * Used in Import, Lead Convert, Register
              */
-            if ($client_or_lead_convert_request == true) {
-                $contact_id = $this->add_contact($contact_data, $userid, $client_or_lead_convert_request);
+            if ($withContact == true) {
+                $contact_id = $this->add_contact($contact_data, $userid, $withContact);
             }
+
             if (isset($groups_in)) {
                 foreach ($groups_in as $group) {
                     $this->db->insert(db_prefix() . 'customer_groups', [
                         'customer_id' => $userid,
                         'groupid'     => $group,
-                    ]);
-                }
-            }
-
-            if (isset($groups_company_in)) {
-                foreach ($groups_company_in as $group_company) {
-                    $this->db->insert(db_prefix() . 'my_customer_company_groups', [
-                        'customer_id' => $userid,
-                        'groupid'     => $group_company,
                     ]);
                 }
             }
@@ -181,6 +188,7 @@ class Clients_model extends App_Model
             }
 
             $isStaff = null;
+
             if (!is_client_logged_in() && is_staff_logged_in()) {
                 $log .= ', From Staff: ' . get_staff_user_id();
                 $isStaff = get_staff_user_id();
@@ -224,11 +232,6 @@ class Clients_model extends App_Model
         if (isset($data['groups_in'])) {
             $groups_in = $data['groups_in'];
             unset($data['groups_in']);
-        }
-
-        if (isset($data['groups_company_in'])) {
-            $groups_company_in = $data['groups_company_in'];
-            unset($data['groups_company_in']);
         }
 
         $data = $this->check_zero_columns($data);
@@ -286,15 +289,7 @@ class Clients_model extends App_Model
             $groups_in = false;
         }
 
-        if (!isset($groups_company_in)) {
-            $groups_company_in = false;
-        }
-
         if ($this->client_groups_model->sync_customer_groups($id, $groups_in)) {
-            $affectedRows++;
-        }
-
-        if ($this->client_groups_model->sync_company_customer_groups($id, $groups_company_in)) {
             $affectedRows++;
         }
 
@@ -496,6 +491,7 @@ class Clients_model extends App_Model
 
             // If client register set this contact as primary
             $data['is_primary'] = 1;
+
             if (is_email_verification_enabled() && !empty($data['email'])) {
                 // Verification is required on register
                 $data['email_verified_at']      = null;
@@ -517,7 +513,7 @@ class Clients_model extends App_Model
         $data['userid']       = $customer_id;
         if (isset($data['password'])) {
             $password_before_hash = $data['password'];
-            $data['password'] = app_hash_password($data['password']);
+            $data['password']     = app_hash_password($data['password']);
         }
 
         $data['datecreated'] = date('Y-m-d H:i:s');
@@ -599,8 +595,14 @@ class Clients_model extends App_Model
                 }
             }
 
-            if ($send_welcome_email == true) {
-                send_mail_template('customer_created_welcome_mail', $data['email'], $data['userid'], $contact_id, $password_before_hash);
+            if ($send_welcome_email == true && !empty($data['email'])) {
+                send_mail_template(
+                    'customer_created_welcome_mail',
+                    $data['email'],
+                    $data['userid'],
+                    $contact_id,
+                    $password_before_hash
+                );
             }
 
             if ($send_set_password_email) {
@@ -640,6 +642,10 @@ class Clients_model extends App_Model
 
         if (!is_email_verification_enabled()) {
             $data['email_verified_at'] = date('Y-m-d H:i:s');
+        } elseif (is_email_verification_enabled() && !empty($data['email'])) {
+            // Verification is required on register
+            $data['email_verified_at']      = null;
+            $data['email_verification_key'] = app_generate_hash();
         }
 
         $password_before_hash = $data['password'];
@@ -921,6 +927,7 @@ class Clients_model extends App_Model
                 'subscription_id'          => 0,
                 'cancel_overdue_reminders' => 1,
                 'last_overdue_reminder'    => null,
+                'last_due_reminder'        => null,
             ]);
 
             if (is_gdpr() && get_option('gdpr_on_forgotten_remove_estimates') == '1') {
@@ -1415,16 +1422,6 @@ class Clients_model extends App_Model
     }
 
     /**
-     * Get customer groups where customer belongs
-     * @param  mixed $id customer id
-     * @return array
-     */
-    public function get_company_customer_groups($id)
-    {
-        return $this->client_groups_model->get_company_customer_groups($id);
-    }
-
-    /**
      * Get all customer groups
      * @param  string $id
      * @return mixed
@@ -1435,16 +1432,6 @@ class Clients_model extends App_Model
     }
 
     /**
-     * Get all customer groups
-     * @param  string $id
-     * @return mixed
-     */
-    public function get_company_groups($id = '')
-    {
-        return $this->client_groups_model->get_company_groups($id);
-    }
-
-    /**
      * Delete customer groups
      * @param  mixed $id group id
      * @return boolean
@@ -1452,16 +1439,6 @@ class Clients_model extends App_Model
     public function delete_group($id)
     {
         return $this->client_groups_model->delete($id);
-    }
-
-    /**
-     * Delete customer groups
-     * @param  mixed $id group id
-     * @return boolean
-     */
-    public function delete_company_group($id)
-    {
-        return $this->client_groups_model->company_delete($id);
     }
 
     /**
@@ -1481,24 +1458,6 @@ class Clients_model extends App_Model
     public function edit_group($data)
     {
         return $this->client_groups_model->edit($data);
-    }
-    /**
-     * Add new customer groups
-     * @param array $data $_POST data
-     */
-    public function add_company_group($data)
-    {
-        return $this->client_groups_model->company_add($data);
-    }
-
-    /**
-     * Edit customer group
-     * @param  array $data $_POST data
-     * @return boolean
-     */
-    public function edit_company_group($data)
-    {
-        return $this->client_groups_model->company_edit($data);
     }
 
     /**
@@ -1723,7 +1682,7 @@ class Clients_model extends App_Model
 
         return $data;
     }
-    
+
     public function delete_contact_profile_image($id)
     {
         hooks()->do_action('before_remove_contact_profile_image');

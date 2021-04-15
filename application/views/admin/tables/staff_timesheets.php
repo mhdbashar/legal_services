@@ -2,18 +2,21 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$v = $this->ci->db->query('SELECT VERSION() as version')->row();
 // 5.6 mysql version don't have the ANY_VALUE function implemented.
+$v = $this->ci->db->query('SELECT VERSION() as version')->row();
 
-  $additionalSelect = [
+$roundTimesheets = get_option('round_off_task_timer_option') != 0;
+
+$additionalSelect = array_filter([
     db_prefix() . 'taskstimers.id',
     'task_id',
     'rel_type',
     'rel_id',
-    'start_time',
-    'end_time',
+    $roundTimesheets ? 'start_time' : '',
+    $roundTimesheets ? 'end_time' : '',
     'billed',
-    'status', ];
+    'status',
+]);
 
 $staffIdSelect = '';
 if ($v && strpos($v->version, '5.7') !== false) {
@@ -26,35 +29,44 @@ if ($v && strpos($v->version, '5.7') !== false) {
             $additionalSelect[$key] = 'ANY_VALUE(' . $column . ') as id';
         }
     }
-    $aColumns = [
+
+    $aColumns = array_values(array_filter([
         'ANY_VALUE(name) as name',
         'ANY_VALUE((SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'taskstimers.id and rel_type="timesheet" ORDER by tag_order ASC)) as tags',
+        !$roundTimesheets ? 'ANY_VALUE(start_time) as start_time' : '',
+        !$roundTimesheets ? 'ANY_VALUE(end_time) as end_time' : '',
         'ANY_VALUE(note) as note',
         'ANY_VALUE(' . tasks_rel_name_select_query() . ') as rel_name',
         'ANY_VALUE(end_time - start_time) as time_h',
         'ANY_VALUE(end_time - start_time) as time_d',
-        ];
+    ]));
 } else {
     $staffIdSelect = 'staff_id';
 
-    $aColumns = [
+    $aColumns = array_values(array_filter([
         'name as name',
         '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'taskstimers.id and rel_type="timesheet" ORDER by tag_order ASC) as tags',
+        !$roundTimesheets ? 'start_time' : '',
+        !$roundTimesheets ? 'end_time' : '',
         'note as note',
         tasks_rel_name_select_query() . ' as rel_name',
         'end_time - start_time as time_h',
         'end_time - start_time as time_d',
-    ];
+    ]));
 }
 
-$time_h_column = 4;
-$time_d_column = 5;
+$time_h_column = 6;
+$time_d_column = 7;
 
 if ($view_all == true) {
     array_unshift($aColumns, $staffIdSelect);
+    $time_h_column++;
+    $time_d_column++;
+}
 
-    $time_h_column = 5;
-    $time_d_column = 6;
+if ($roundTimesheets) {
+    $time_h_column = $time_h_column - 2;
+    $time_d_column = $time_d_column - 2;
 }
 
 if ($this->ci->input->post('group_by_task')) {
@@ -87,7 +99,7 @@ if ($this->ci->input->post('staff_id')) {
 if ($staff_id != false) {
     $where = [
         'AND staff_id=' . $this->ci->db->escape_str($staff_id),
-        ];
+    ];
 }
 
 $project_ids = $this->ci->input->post('project_id');
@@ -109,22 +121,22 @@ if ($this->ci->input->post('clientid') && !$this->ci->input->post('project_id'))
     $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
 
     array_push($where, 'AND (
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
-                OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $customer_id . ') AND rel_type="estimate")
-                OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $customer_id . ') AND rel_type="contract")
-                OR
-                ( rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $customer_id . ') AND rel_type="ticket")
-                OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $customer_id . ') AND rel_type="expense")
-                OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $customer_id . ' AND rel_type="customer") AND rel_type="proposal")
-                OR
-                (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $customer_id . ') AND rel_type="customer")
-                OR
-                (rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $customer_id . ') AND rel_type="project")
-                )');
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
+OR
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'estimates WHERE clientid=' . $customer_id . ') AND rel_type="estimate")
+OR
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'contracts WHERE client=' . $customer_id . ') AND rel_type="contract")
+OR
+( rel_id IN (SELECT ticketid FROM ' . db_prefix() . 'tickets WHERE userid=' . $customer_id . ') AND rel_type="ticket")
+OR
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'expenses WHERE clientid=' . $customer_id . ') AND rel_type="expense")
+OR
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'proposals WHERE rel_id=' . $customer_id . ' AND rel_type="customer") AND rel_type="proposal")
+OR
+(rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $customer_id . ') AND rel_type="customer")
+OR
+(rel_id IN (SELECT id FROM ' . db_prefix() . 'projects WHERE clientid=' . $customer_id . ') AND rel_type="project")
+)');
 }
 
 array_push($where, 'AND task_id != 0');
@@ -236,7 +248,7 @@ $chartWhere = implode(' ', $where);
 $chartWhere = ltrim($chartWhere, 'AND ');
 
 $chartData = $this->ci->db->query('SELECT end_time - start_time logged_time_h,
-    end_time - start_time logged_time_d,start_time,end_time FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE ' . trim($chartWhere))->result_array();
+end_time - start_time logged_time_d,start_time,end_time FROM ' . db_prefix() . 'taskstimers LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id WHERE ' . trim($chartWhere))->result_array();
 
 foreach ($chartData as $timer) {
     if ($timer['logged_time_h'] == null) {
@@ -296,7 +308,7 @@ foreach ($rResult as $aRow) {
     $taskName .= '<span class="hidden"> - </span><span class="inline-block pull-right mright5 label" style="border:1px solid ' . $status['color'] . ';color:' . $status['color'] . '" task-status-table="' . $aRow['status'] . '">' . $status['name'] . '</span>';
 
     if (!$this->ci->input->post('group_by_task') && (!$aRow['end_time'] && is_admin() && $aRow['billed'] == 0)) {
-        $taskName .= ' <a href="#"
+        $taskName .= '<br /><a href="#"
         data-toggle="popover"
         data-placement="bottom"
         data-html="true"
@@ -307,15 +319,20 @@ foreach ($rResult as $aRow) {
         onclick="timer_action(this, ' . $aRow['task_id'] . ', ' . $aRow['id'] . ', 1);"
         class="btn btn-info btn-xs">' . _l('save')
         . "</button>'
-        class=\"text-danger mleft10\"
+        class=\"text-danger\"
         onclick=\"return false;\">
-                <i class=\"fa fa-clock-o\"></i> " . _l('task_stop_timer') . '
+        <i class=\"fa fa-clock-o\"></i> " . _l('task_stop_timer') . '
         </a>';
     }
 
     $row[] = $taskName;
 
     $row[] = render_tags($aRow['tags']);
+
+    if (! $roundTimesheets) {
+        $row[] = _dt($aRow['start_time'], true);
+        $row[] = ($aRow['end_time'] ? _dt($aRow['end_time'], true) : '');
+    }
 
     $row[] = $aRow['note'];
 

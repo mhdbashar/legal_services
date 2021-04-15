@@ -26,7 +26,11 @@ foreach ($statuses as $status) {
           <div class="kan-ban-step-indicator<?php if($status['isdefault'] == 1){ echo ' kan-ban-step-indicator-full'; } ?>"></div>
           <i class="fa fa-reorder pointer"></i>
           <span class="heading pointer" <?php if($is_admin){ ?> data-order="<?php echo $status['statusorder']; ?>" data-color="<?php echo $status['color']; ?>" data-name="<?php echo $status['name']; ?>" onclick="edit_status(this,<?php echo $status['id']; ?>); return false;" <?php } ?>><?php echo $status['name']; ?>
-          </span>
+         </span> -
+          <?php echo app_format_money(
+            $summary[$statusSummaryIndex = array_search($status['id'], array_column($summary, 'id'))]['value'],
+            $base_currency
+          ); ?> - <?php echo $summary[$statusSummaryIndex]['total'] . ' ' . _l('leads') ?>
           <a href="#" onclick="return false;" class="pull-right color-white kanban-color-picker kanban-stage-color-picker<?php if($status['isdefault'] == 1){ echo ' kanban-stage-color-picker-last'; } ?>" data-placement="bottom" data-toggle="popover" data-content="
             <div class='text-center'>
               <button type='button' return false;' class='btn btn-success btn-block mtop10 new-lead-from-status'>
@@ -67,4 +71,4 @@ foreach ($statuses as $status) {
         </div>
       </li>
     </ul>
-    <?php $i++; } ?> 
+    <?php $i++; } ?>

@@ -292,6 +292,7 @@ class Utilities_model extends App_Model
                 array_push($data, $proposal);
             }
         }
+
         if (get_option('show_tasks_on_calendar') == 1 && !$ff || $ff && array_key_exists('tasks', $filters)) {
             if ($client_data && !$has_contact_permission_projects) {
             } else {
@@ -336,13 +337,14 @@ class Utilities_model extends App_Model
                     } else {
                         $task['url'] = site_url('clients/project/' . $task['rel_id'] . '?group=project_tasks&taskid=' . $task['id']);
                     }
-                    
+
                     $task['className'] = $task['milestone'] ? ['milestone-' . $task['milestone']] : '';
 
                     array_push($data, $task);
                 }
             }
         }
+
         if (!$client_data) {
             $available_reminders   = $this->app->get_available_reminders_keys();
             $hideNotifiedReminders = get_option('hide_notified_reminders_from_calendar');
@@ -401,6 +403,7 @@ class Utilities_model extends App_Model
                 }
             }
         }
+
         if (get_option('show_contracts_on_calendar') == 1 && !$ff || $ff && array_key_exists('contracts', $filters)) {
             $this->db->select('hash, subject as title, dateend, datestart, id, client, content, ' . get_sql_select_client_company());
             $this->db->from(db_prefix() . 'contracts');

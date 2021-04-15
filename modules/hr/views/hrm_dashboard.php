@@ -2,8 +2,8 @@
 <?php
    $this->load->model('hrm/hrm_model');
    $data_dash = $this->hrm_model->get_hrm_dashboard_data();
-   $staff_chart_by_age = json_encode($this->hrm_model->staff_chart_by_age());
-   $contract_type_chart = json_encode($this->hrm_model->contract_type_chart());
+   $staff_chart_by_age = json_encode($this->hrm_model->staff_chart_by_department());
+   $contract_type_chart = json_encode($this->hrm_model->staff_chart_by_designation());
 ?>
 
 <?php init_head(); ?>
@@ -26,7 +26,7 @@
          </div>
          <br>
          <hr class="mtop15" />
-         <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
+         <div class="quick-stats-invoices col-xs-12 col-md-6 col-sm-6">
            <div class="top_stats_wrapper hrm-minheight85">
                <a class="text-success mbot15">
                <p class="text-uppercase mtop5 hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-edit"></i> <?php echo _l('total_staff'); ?>
@@ -40,7 +40,7 @@
                </div>
             </div>
          </div>
-         <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
+         <div class="quick-stats-invoices col-xs-12 col-md-6 col-sm-6">
            <div class="top_stats_wrapper hrm-minheight85">
                <a class="text mbot15">
                <p class="text-uppercase mtop5 hrm-colorpurple hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-edit"></i> <?php echo _l('new_staff_for_month'); ?>
@@ -55,35 +55,7 @@
             </div>
          </div>
 
-        
-            <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
-              <div class="top_stats_wrapper hrm-minheight85">
-                  <a class="text-danger mbot15">
-                  <p class="text-uppercase mtop5 hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-remove"></i> <?php echo _l('overdue_contract'); ?>
-                  </p>
-                     <span class="pull-right bold no-mtop hrm-fontsize24"><?php echo htmlspecialchars($data_dash['overdue_contract']); ?></span>
-                  </a>
-                  <div class="clearfix"></div>
-                  <div class="progress no-margin progress-bar-mini">
-                     <div class="progress-bar progress-bar-danger no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo htmlspecialchars($data_dash['overdue_contract']); ?>" aria-valuemin="0" aria-valuemax="<?php echo htmlspecialchars($data_dash['total_staff']); ?>" style="width:  <?php echo ($data_dash['overdue_contract']/$data_dash['total_staff'])*100; ?>%" data-percent=" <?php echo ($data_dash['overdue_contract']/$data_dash['total_staff'])*100; ?>%">
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="quick-stats-invoices col-xs-12 col-md-3 col-sm-6">
-              <div class="top_stats_wrapper hrm-minheight85">
-                  <a class="text-muted  mbot15">
-                  <p class="text-uppercase mtop5 hrm-minheight35"><i class="hidden-sm glyphicon glyphicon-remove"></i> <?php echo _l('contract_is_about_to_expire'); ?>
-                  </p>
-                     <span class="pull-right bold no-mtop hrm-fontsize24"><?php echo htmlspecialchars($data_dash['expire_contract']); ?></span>
-                  </a>
-                  <div class="clearfix"></div>
-                  <div class="progress no-margin progress-bar-mini">
-                     <div class="progress-bar progress-bar-default no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo htmlspecialchars($data_dash['expire_contract']); ?>" aria-valuemin="0" aria-valuemax="<?php echo htmlspecialchars($data_dash['total_staff']); ?>" style="width:  <?php echo ($data_dash['expire_contract']/$data_dash['total_staff'])*100; ?>%" data-percent=" <?php echo ($data_dash['expire_contract']/$data_dash['total_staff'])*100; ?>%">
-                     </div>
-                  </div>
-               </div>
-            </div>
+
       </div>
       <div class="col-md-6">
         <div id="staff_chart_by_age" class="hrm-marginauto hrm-minwidth310">
@@ -222,8 +194,8 @@
 <?php init_tail(); ?>
  <script>
 
-        staff_chart_by_age('staff_chart_by_age',<?php echo ''.$staff_chart_by_age; ?>, <?php echo json_encode(_l('staff_chart_by_age')); ?>);
-        staff_chart_by_age('contract_type_chart',<?php echo ''.$contract_type_chart; ?>, <?php echo json_encode(_l('contract_type_chart')); ?>);
+        staff_chart_by_age('staff_chart_by_age',<?php echo ''.$staff_chart_by_age; ?>, <?php echo json_encode(_l('staff_chart_by_department')); ?>);
+        staff_chart_by_age('contract_type_chart',<?php echo ''.$contract_type_chart; ?>, <?php echo json_encode(_l('staff_chart_by_designation')); ?>);
         //declare function variable radius chart
         function staff_chart_by_age(id, value, title_c){
             Highcharts.setOptions({

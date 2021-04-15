@@ -1,4 +1,6 @@
 <?php
+$lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
+$lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';
 
 
 $lang['hr_contract_prefix'] = 'لاحقة العقد';

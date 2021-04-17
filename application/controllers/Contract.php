@@ -27,9 +27,12 @@ class Contract extends ClientsController
 
                     break;
             case 'sign_contract':
-                    process_digital_signature_image($this->input->post('signature', false), CONTRACTS_UPLOADS_FOLDER . $id);
+                $ip_address = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $this->input->ip_address();
+                $acceptance_info_array = get_acceptance_info_array();
+                $acceptance_info_array['acceptance_ip'] = $ip_address;
+                process_digital_signature_image($this->input->post('signature', false), CONTRACTS_UPLOADS_FOLDER . $id);
                     $this->db->where('id', $id);
-                    $this->db->update(db_prefix().'contracts', array_merge(get_acceptance_info_array(), [
+                    $this->db->update(db_prefix().'contracts', array_merge($acceptance_info_array, [
                         'signed' => 1,
                     ]));
 

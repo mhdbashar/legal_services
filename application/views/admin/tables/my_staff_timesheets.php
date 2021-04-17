@@ -141,10 +141,10 @@ if ($legal_services && $legal_services != '') {
        /* $legal_services = implode(',', array_map(function ($service_id) {
             return get_instance()->db->escape_str($service_id);
         }, $legal_services));*/
-        $rel_type = get_legal_service_slug_by_id($legal_services);       
-        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$rel_type.'")');
-    //}
-}
+//        $rel_type = get_legal_service_slug_by_id($legal_services);
+//        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$rel_type.'")');
+//    //}
+//}
 
 if($this->ci->input->post('clientid') && !$this->ci->input->post('legal_services')){
     $rel_type = get_legal_service_slug_by_id($legal_services); 

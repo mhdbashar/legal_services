@@ -17,5 +17,6 @@
          </li>
       </ul>
    </div>
+    <?php echo form_hidden('currency_id', $currency->id); ?>
   <?php $this->load->view($tab_2,array('bulk_actions'=>true)); ?>
 </div>

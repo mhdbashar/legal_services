@@ -11,7 +11,7 @@
           <th><?php echo _l('customer'); ?></th>
           <th><?php echo _l('description'); ?></th>
           <th><?php echo _l('acc_account'); ?></th>
-          <th class="th_total"><?php echo _l('amount'); ?></th>
+          <th class="th_total"><?php echo _l('acc_amount'); ?></th>
         </tr>
       </thead>
       <tbody>

@@ -12,12 +12,12 @@
           <hr />
           <div class="row">
             <div class="col-md-6">
-              <?php $value = (isset($journal_entry) ? $journal_entry->journal_date : ''); ?>
+              <?php $value = (isset($journal_entry) ? _d($journal_entry->journal_date) : _d(date('Y-m-d'))); ?>
               <?php echo render_date_input('journal_date','journal_date',$value); ?>
             </div>
             <div class="col-md-6">
-              <?php $value = (isset($journal_entry) ? $journal_entry->number : ''); ?>
-              <?php echo render_input('number','number',$value); ?>
+              <?php $value = (isset($journal_entry) ? $journal_entry->number : $next_number); ?>
+              <?php echo render_input('number','number',$value,'number'); ?>
             </div>
           </div>
           <div id="journal_entry_container"></div>
@@ -43,7 +43,7 @@
                </tr>
             </tbody>
          </table>
-      </div>
+        </div>
           <?php echo form_hidden('journal_entry'); ?>
           <?php echo form_hidden('amount'); ?>
           <div class="row">

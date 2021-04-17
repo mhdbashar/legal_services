@@ -7,7 +7,7 @@
   </div>
   <div class="col-md-3">
     <?php $status = [ 
-          1 => ['id' => 'converted', 'name' => _l('converted')],
+          1 => ['id' => 'converted', 'name' => _l('acc_converted')],
           2 => ['id' => 'has_not_been_converted', 'name' => _l('has_not_been_converted')],
         ]; 
         ?>
@@ -24,7 +24,7 @@
 <?php 
 $table_data = [
     _l('invoice_payments_table_date_heading'),
-    _l('amount'),
+    _l('acc_amount'),
     _l('payment_mode'),
     _l('invoice'),
     _l('status'),

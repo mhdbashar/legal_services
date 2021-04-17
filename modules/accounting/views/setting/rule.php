@@ -41,7 +41,7 @@
     <div class="row">
       <?php $follow_1 = [ 
           1 => ['id' => 'description', 'name' => _l('description')],
-          2 => ['id' => 'amount', 'name' => _l('amount')],
+          2 => ['id' => 'amount', 'name' => _l('acc_amount')],
         ]; ?>
       <?php $follow_2 = [ 
           1 => ['id' => 'contains', 'name' => _l('contains')],
@@ -194,7 +194,7 @@
   $value = (isset($rule)) ? $rule->then : '';
   ?>
   <?php echo render_select('then',$then,array('id','name'),'then',$value,array(),array(),'','',false); ?>
-<div id="then_assign">
+<div id="then_assign" class="<?php if($value == 'exclude'){echo 'hide';} ?>">
   <div class="row">
     <div class="col-md-6">
       <?php $value = (isset($rule)) ? $rule->payment_account : ''; ?>

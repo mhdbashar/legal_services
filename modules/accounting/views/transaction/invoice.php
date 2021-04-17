@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3">
     <?php $status = [ 
-          1 => ['id' => 'converted', 'name' => _l('converted')],
+          1 => ['id' => 'converted', 'name' => _l('acc_converted')],
           2 => ['id' => 'has_not_been_converted', 'name' => _l('has_not_been_converted')],
         ]; 
         ?>
@@ -20,7 +20,7 @@
     <th><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="sales-invoice"><label></label></div></th>
     <th><?php echo _l('invoice'); ?></th>
     <th><?php echo _l('invoice_payments_table_date_heading'); ?></th>
-    <th><?php echo _l('amount'); ?></th>
+    <th><?php echo _l('acc_amount'); ?></th>
     <th><?php echo _l('customer'); ?></th>
     <th><?php echo _l('status'); ?></th>
     <th><?php echo _l('acc_convert'); ?></th>

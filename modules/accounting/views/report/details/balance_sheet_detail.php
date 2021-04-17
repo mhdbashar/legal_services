@@ -11,7 +11,7 @@
           <th><?php echo _l('description'); ?></th>
           <th><?php echo _l('debit'); ?></th>
           <th><?php echo _l('credit'); ?></th>
-          <th><?php echo _l('amount'); ?></th>
+          <th><?php echo _l('acc_amount'); ?></th>
           <th><?php echo _l('balance'); ?></th>
         </tr>
       </thead>
@@ -415,7 +415,7 @@
           ?>
           <?php if(count($value['details'])){ ?>
 
-          <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-treegrid-parent-<?php echo html_entity_decode($_parent_index); ?> parent-node expanded">
+          <tr class="treegrid-<?php echo html_entity_decode($parent_index); ?> treegrid-parent-<?php echo html_entity_decode($_parent_index); ?> parent-node expanded">
             <td class="parent"><?php echo html_entity_decode($value['name']); ?></td>
             <td></td>
             <td></td>

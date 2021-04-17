@@ -121,6 +121,35 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#collapse7"><?php echo _l('sales_tax'); ?></a>
+                </h4>
+              </div>
+              <div id="collapse7" class="panel-collapse collapse in">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="<?php echo admin_url('accounting/rp_tax_detail_report'); ?>"><?php echo _l('tax_detail_report'); ?></a>
+                        <p><?php echo _l('tax_detail_report_note'); ?></p>
+                        <a href="<?php echo admin_url('accounting/rp_tax_exception_report'); ?>" class="hide"><?php echo _l('tax_exception_report'); ?></a>
+                        <p class="hide"><?php echo _l('tax_exception_report_note'); ?></p>
+                        <a href="<?php echo admin_url('accounting/rp_tax_summary_report'); ?>"><?php echo _l('tax_summary_report'); ?></a>
+                        <p><?php echo _l('tax_summary_report_note'); ?></p>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="<?php echo admin_url('accounting/rp_tax_liability_report'); ?>"><?php echo _l('tax_liability_report'); ?></a>
+                        <p><?php echo _l('tax_liability_report_note'); ?></p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
                   <a data-toggle="collapse" href="#collapse2"><?php echo _l('sales_and_customers'); ?></a>
                 </h4>
               </div>

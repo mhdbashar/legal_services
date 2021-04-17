@@ -28,7 +28,7 @@ hooks()->add_action('before_payment_deleted', 'acc_delete_payment_convert');
 hooks()->add_action('after_expense_deleted', 'acc_delete_expense_convert');
 hooks()->add_action('invoice_status_changed', 'acc_invoice_status_changed');
 
-define('ACCOUTING_REVISION', 100);
+define('ACCOUTING_REVISION', 101);
 
 
 /**
@@ -107,6 +107,10 @@ function accounting_add_head_component()
 
     if(!(strpos($viewuri,'admin/accounting/new_journal_entry') === false)){
         echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/new_journal_entry.css') . '?v=' . ACCOUTING_REVISION. '"  rel="stylesheet" type="text/css" />';  
+    }
+
+    if(!(strpos($viewuri,'admin/accounting/journal_entry') === false)){
+        echo '<link href="' . module_dir_url(ACCOUNTING_MODULE_NAME, 'assets/css/manage_journal_entry.css') . '?v=' . ACCOUTING_REVISION. '"  rel="stylesheet" type="text/css" />';  
     }
 }
 
@@ -346,7 +350,7 @@ function accounting_permissions() {
 
 function acc_automatic_invoice_conversion($invoice_id){
     if($invoice_id){
-        if(get_option('acc_automatic_conversion') == 1){
+        if(get_option('acc_invoice_automatic_conversion') == 1){
             $CI = &get_instance();
             $CI->load->model('accounting/accounting_model');
 
@@ -360,7 +364,7 @@ function acc_automatic_invoice_conversion($invoice_id){
 
 function acc_automatic_payment_conversion($payment_id){
     if($payment_id){
-        if(get_option('acc_automatic_conversion') == 1){
+        if(get_option('acc_payment_automatic_conversion') == 1){
             $CI = &get_instance();
             $CI->load->model('accounting/accounting_model');
 
@@ -374,26 +378,22 @@ function acc_automatic_payment_conversion($payment_id){
 
 function acc_automatic_expense_conversion($expense_id){
     if($expense_id){
-        if(get_option('acc_automatic_conversion') == 1){
+        if(get_option('acc_expense_automatic_conversion') == 1){
             $CI = &get_instance();
             $CI->load->model('accounting/accounting_model');
-
             $CI->accounting_model->automatic_expense_conversion($expense_id);
         }
 
     }
-
     return $expense_id;
 }
 
 function acc_delete_invoice_convert($invoice_id){
     if($invoice_id){
-        if(get_option('acc_automatic_conversion') == 1){
-            $CI = &get_instance();
-            $CI->load->model('accounting/accounting_model');
+        $CI = &get_instance();
+        $CI->load->model('accounting/accounting_model');
 
-            $CI->accounting_model->delete_invoice_convert($invoice_id);
-        }
+        $CI->accounting_model->delete_invoice_convert($invoice_id);
 
     }
 
@@ -413,13 +413,10 @@ function acc_delete_payment_convert($data){
 
 function acc_delete_expense_convert($expense_id){
     if($expense_id){
-        if(get_option('acc_automatic_conversion') == 1){
-            $CI = &get_instance();
-            $CI->load->model('accounting/accounting_model');
+        $CI = &get_instance();
+        $CI->load->model('accounting/accounting_model');
 
-            $CI->accounting_model->delete_convert($expense_id, 'expense');
-        }
-
+        $CI->accounting_model->delete_convert($expense_id, 'expense');
     }
 
     return $data;

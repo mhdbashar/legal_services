@@ -7,12 +7,7 @@
 		    });
 	    }else{
 	    	appValidateForm($('#general-settings-form'), {
-		        acc_closing_date: 'required',
-		        acc_close_book_password: 'required',
-		        acc_close_book_passwordr: {
-                    required : true,
-                    equalTo : "#acc_close_book_password"
-                },
+		        acc_closing_date: 'required',		        
 		    });
 	    }
 	}
@@ -20,12 +15,7 @@
 	$('input[name="acc_close_the_books"]').on('change', function() {
 	    if($('input[name="acc_close_the_books"]').is(':checked') == true){
 	      	appValidateForm($('#general-settings-form'), {
-		        acc_closing_date: 'required',
-		        acc_close_book_password: 'required',
-		        acc_close_book_passwordr: {
-                    required : true,
-                    equalTo : "#acc_close_book_password"
-                },
+		        acc_closing_date: 'required',		        
 		    });
 	      	$('#div_close_the_books').removeClass('hide');
 	    }else{
@@ -51,12 +41,7 @@
 	      	$('#div_close_book_password').addClass('hide');
 	    }else{
 	    	appValidateForm($('#general-settings-form'), {
-		        acc_closing_date: 'required',
-		        acc_close_book_password: 'required',
-		        acc_close_book_passwordr: {
-                    required : true,
-                    equalTo : "#acc_close_book_password"
-                },
+		        acc_closing_date: 'required',		        
 		    });
 	      $('#div_close_book_password').removeClass('hide');
 	    }

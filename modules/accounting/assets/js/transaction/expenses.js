@@ -11,7 +11,8 @@ var id, type, amount;
       "from_date": '[name="from_date"]',
       "to_date": '[name="to_date"]',
     };
-	"use strict";
+    
+  acc_init_currency();
 	appValidateForm($('#convert-form'), {
 	      
 	      },convert_form_handler);
@@ -49,6 +50,12 @@ var id, type, amount;
   });
   init_expenses_table();
   
+  $("body").on('click', '.edit_conversion_rate_action', function() {
+      $('input[name="exchange_rate"]').val($('input[name="edit_exchange_rate"]').val());
+
+      $('.amount_after_convert').html(format_money(($('input[name="exchange_rate"]').val() * $('input[name="expense_amount"]').val())));
+      $('.currency_converter_label').html('1 '+$('input[name="currency_from"]').val() +' = '+$('input[name="edit_exchange_rate"]').val()+' '+ $('input[name="currency_to"]').val());
+  });
 })(jQuery);
 
 function convert(invoker){
@@ -169,4 +176,18 @@ function bulk_action(event) {
             });
         }, 200);
     }
+}
+
+// Set the currency for accounting
+function acc_init_currency() {
+  "use strict";
+  var selectedCurrencyId = $('input[name="currency_id"]').val();
+  requestGetJSON('misc/get_currency/' + selectedCurrencyId)
+      .done(function(currency) {
+          // Used for formatting money
+          accounting.settings.currency.decimal = currency.decimal_separator;
+          accounting.settings.currency.thousand = currency.thousand_separator;
+          accounting.settings.currency.symbol = currency.symbol;
+          accounting.settings.currency.format = currency.placement == 'after' ? '%v %s' : '%s%v';
+      });
 }

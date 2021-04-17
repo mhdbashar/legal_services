@@ -11,7 +11,7 @@
           <th><?php echo _l('description'); ?></th>
           <th><?php echo _l('acc_account'); ?></th>
           <th><?php echo _l('split'); ?></th>
-          <th class="total_amount"><?php echo _l('amount'); ?></th>
+          <th class="total_amount"><?php echo _l('acc_amount'); ?></th>
         </tr>
       </thead>
       <tbody>

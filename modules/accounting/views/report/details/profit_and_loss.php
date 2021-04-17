@@ -148,7 +148,7 @@
           <?php $row_index += 1; ?>
           <tr class="treegrid-total-<?php echo html_entity_decode($row_index); ?> parent-node expanded tr_total">
             <td class="parent"><?php echo _l('net_earnings_uppercase'); ?></td>
-            <td class="total_amount"><?php echo app_format_money(($data_report['total']['income'] - $data_report['total']['cost_of_sales']) + ($data_report['total']['other_income'] - $data_report['total']['expenses'] - $data_report['total']['other_expenses']), $currency->name); ?> </td>
+            <td class="total_amount"><?php echo app_format_money(($data_report['total']['income'] + $data_report['total']['other_income']) - ($data_report['total']['cost_of_sales'] + $data_report['total']['expenses'] + $data_report['total']['other_expenses']), $currency->name); ?> </td>
           </tr>
         </tbody>
     </table>

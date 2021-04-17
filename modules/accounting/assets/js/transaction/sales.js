@@ -3,6 +3,9 @@ var id, type, amount;
 var fnServerParams;
 (function($) {
     "use strict";
+
+    acc_init_currency();
+
   fnServerParams = {
       "invoice": '[name="invoice"]',
       "payment_mode": '[name="payment_mode"]',
@@ -59,6 +62,13 @@ var fnServerParams;
     }
   });
 
+  $("body").on('click', '.edit_conversion_rate_action', function() {
+      $('input[name="exchange_rate"]').val($('input[name="edit_exchange_rate"]').val());
+
+      $('.amount_after_convert').html(format_money(($('input[name="exchange_rate"]').val() * $('input[name="payment_amount"]').val())));
+      $('.currency_converter_label').html('1 '+$('input[name="currency_from"]').val() +' = '+$('input[name="edit_exchange_rate"]').val()+' '+ $('input[name="currency_to"]').val());
+  });
+
 })(jQuery);
 
 function convert(invoker){
@@ -83,16 +93,14 @@ function convert(invoker){
             $('#payment_account['+item_id+']').selectpicker('refresh');
             $('#deposit_to['+item_id+']').selectpicker('refresh');
           });
+
         }else{
-          console.log(response);
           if(response.debit != 0){
             $('select[name="deposit_to"]').val(response.debit).change();
-            console.log(response.debit);
           }
 
           if(response.credit != 0){
             $('select[name="payment_account"]').val(response.credit).change();
-            console.log(response.credit);
           }
         }
     });
@@ -267,4 +275,18 @@ function bulk_action(event) {
             });
         }, 200);
     }
+}
+
+// Set the currency for accounting
+function acc_init_currency() {
+  "use strict";
+  var selectedCurrencyId = $('input[name="currency_id"]').val();
+  requestGetJSON('misc/get_currency/' + selectedCurrencyId)
+      .done(function(currency) {
+          // Used for formatting money
+          accounting.settings.currency.decimal = currency.decimal_separator;
+          accounting.settings.currency.thousand = currency.thousand_separator;
+          accounting.settings.currency.symbol = currency.symbol;
+          accounting.settings.currency.format = currency.placement == 'after' ? '%v %s' : '%s%v';
+      });
 }

@@ -24,8 +24,8 @@
               <tr>
                 <th><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="journal-entry"><label></label></div></th>
                  <th><?php echo _l('journal_date'); ?></th>
-                 <th><?php echo _l('number'); ?></th>
-                 <th><?php echo _l('amount'); ?></th>
+                 <th><?php echo _l('number').' - '._l('description'); ?></th>
+                 <th><?php echo _l('acc_amount'); ?></th>
               </tr>
            </thead>
         </table>
@@ -33,39 +33,6 @@
       </div>
     </div>
   </div>
-</div>
-<?php $arrAtt = array();
-      $arrAtt['data-type']='currency';
-?>
-<div class="modal fade" id="transfer-modal">
-   <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><?php echo _l('transfer')?></h4>
-         </div>
-         <?php echo form_open_multipart(admin_url('accounting/add_transfer'),array('id'=>'transfer-form'));?>
-         <?php echo form_hidden('id'); ?>
-         
-         <div class="modal-body">
-              <?php echo render_select('transfer_funds_from',$accounts,array('id','name'),'transfer_funds_from'); ?>
-              <?php echo render_select('transfer_funds_to',$accounts,array('id','name'),'transfer_funds_to'); ?>
-              <?php echo render_date_input('date', 'expense_dt_table_heading_date') ?>
-              <?php echo render_input('transfer_amount', 'transfer_amount', '', 'text', $arrAtt) ?>
-              <div class="row">
-                <div class="col-md-12">
-                  <p class="bold"><?php echo _l('dt_expense_description'); ?></p>
-                  <?php echo render_textarea('description','','',array(),array(),'','tinymce'); ?>
-                </div>
-              </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
-            <button type="submit" class="btn btn-info btn-submit"><?php echo _l('submit'); ?></button>
-         </div>
-         <?php echo form_close(); ?>  
-      </div>
-   </div>
 </div>
 
 <div class="modal fade bulk_actions" id="journal_entry_bulk_actions" tabindex="-1" role="dialog" data-table=".table-journal-entry">

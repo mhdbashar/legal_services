@@ -126,6 +126,28 @@
         formatCurrency($(this), "blur");
       }
   });
+
+  $('input[name="mass_activate"]').on('change', function() {
+    if($('#mass_activate').is(':checked') == true){
+      $('#mass_delete').prop( "checked", false );
+      $('#mass_deactivate').prop( "checked", false );
+    }
+  });
+
+  $('input[name="mass_deactivate"]').on('change', function() {
+    if($('#mass_deactivate').is(':checked') == true){
+      $('#mass_delete').prop( "checked", false );
+      $('#mass_activate').prop( "checked", false );
+    }
+  });
+
+  $('input[name="mass_delete"]').on('change', function() {
+    if($('#mass_delete').is(':checked') == true){
+      $('#mass_activate').prop( "checked", false );
+      $('#mass_deactivate').prop( "checked", false );
+    }
+  });
+
 })(jQuery);
 
 function edit_account(id) {
@@ -260,7 +282,36 @@ function init_account_table() {
   if ($.fn.DataTable.isDataTable('.table-accounts')) {
     $('.table-accounts').DataTable().destroy();
   }
-  initDataTable('.table-accounts', admin_url + 'accounting/accounts_table', false, false, fnServerParams);
+  initDataTable('.table-accounts', admin_url + 'accounting/accounts_table', [0], [0], fnServerParams,[1, 'desc']);
   $('.dataTables_filter').addClass('hide');
+}
+
+// journal entry bulk actions action
+function bulk_action(event) {
+  "use strict";
+    if (confirm_delete()) {
+        var ids = [],
+            data = {};
+            data.mass_delete = $('#mass_delete').prop('checked');
+            data.mass_activate = $('#mass_activate').prop('checked');
+            data.mass_deactivate = $('#mass_deactivate').prop('checked');
+
+        var rows = $($('#accounts_bulk_actions').attr('data-table')).find('tbody tr');
+
+        $.each(rows, function() {
+            var checkbox = $($(this).find('td').eq(0)).find('input');
+            if (checkbox.prop('checked') === true) {
+                ids.push(checkbox.val());
+            }
+        });
+        data.ids = ids;
+        
+        $(event).addClass('disabled');
+        setTimeout(function() {
+            $.post(admin_url + 'accounting/accounts_bulk_action', data).done(function() {
+                window.location.reload();
+            });
+        }, 200);
+    }
 }
 </script>

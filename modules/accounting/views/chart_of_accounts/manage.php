@@ -33,8 +33,10 @@
             </div>
           </div>
           <hr>
+          <a href="#" data-toggle="modal" data-target="#accounts_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-accounts"><?php echo _l('bulk_actions'); ?></a>
           <table class="table table-accounts">
             <thead>
+              <th><span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="accounts"><label></label></div></th>
               <?php if(get_option('acc_enable_account_numbers') == 1 && get_option('acc_show_account_numbers') == 1){ ?>
                 <th><?php echo _l('number'); ?></th>
               <?php } ?>
@@ -100,6 +102,45 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade bulk_actions" id="accounts_bulk_actions" tabindex="-1" role="dialog" data-table=".table-accounts">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><?php echo _l('bulk_actions'); ?></h4>
+         </div>
+         <div class="modal-body">
+            <?php if(has_permission('accounting_chart_of_accounts','','edit')){ ?>
+               <div class="checkbox checkbox-info">
+                  <input type="checkbox" name="mass_activate" id="mass_activate">
+                  <label for="mass_activate"><?php echo _l('mass_activate'); ?></label>
+               </div>
+            <?php } ?>
+            <?php if(has_permission('accounting_chart_of_accounts','','edit')){ ?>
+               <div class="checkbox checkbox-info">
+                  <input type="checkbox" name="mass_deactivate" id="mass_deactivate">
+                  <label for="mass_deactivate"><?php echo _l('mass_deactivate'); ?></label>
+               </div>
+            <?php } ?>
+            <?php if(has_permission('accounting_chart_of_accounts','','detele')){ ?>
+               <div class="checkbox checkbox-danger">
+                  <input type="checkbox" name="mass_delete" id="mass_delete">
+                  <label for="mass_delete"><?php echo _l('mass_delete'); ?></label>
+               </div>
+            <?php } ?>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
+         <a href="#" class="btn btn-info" onclick="bulk_action(this); return false;"><?php echo _l('confirm'); ?></a>
+      </div>
+   </div>
+   <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <?php init_tail(); ?>
 </body>
 </html>

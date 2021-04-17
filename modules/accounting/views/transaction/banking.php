@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3">
     <?php $status = [ 
-          1 => ['id' => 'converted', 'name' => _l('converted')],
+          1 => ['id' => 'converted', 'name' => _l('acc_converted')],
           2 => ['id' => 'has_not_been_converted', 'name' => _l('has_not_been_converted')],
         ]; 
         ?>

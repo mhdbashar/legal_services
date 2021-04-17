@@ -10,7 +10,7 @@
             <th><?php echo _l('transaction_type'); ?></th>
             <th><?php echo _l('customer'); ?></th>
             <th><?php echo _l('description'); ?></th>
-            <th class="total_amount"><?php echo _l('amount'); ?></th>
+            <th class="total_amount"><?php echo _l('acc_amount'); ?></th>
           </tr>
         </thead>
         <tbody>

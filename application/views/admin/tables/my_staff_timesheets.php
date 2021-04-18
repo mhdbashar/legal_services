@@ -2,19 +2,22 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$v = $this->ci->db->query('SELECT VERSION() as version')->row();
 // 5.6 mysql version don't have the ANY_VALUE function implemented.
+$v = $this->ci->db->query('SELECT VERSION() as version')->row();
+$roundTimesheets = get_option('round_off_task_timer_option') != 0;
 
-  $additionalSelect = [
+$additionalSelect = array_filter([
     db_prefix() . 'taskstimers.id',
     'task_id',
     'rel_type',
     'rel_id',
     'start_time',
     'end_time',
+    $roundTimesheets ? 'start_time' : '',
+    $roundTimesheets ? 'end_time' : '',
     'billed',
-    'status', ];
-
+    'status',
+]);
 $staffIdSelect = '';
 if ($v && strpos($v->version, '5.7') !== false) {
     $staffIdSelect = 'ANY_VALUE(staff_id) as staff_id';
@@ -26,35 +29,43 @@ if ($v && strpos($v->version, '5.7') !== false) {
             $additionalSelect[$key] = 'ANY_VALUE(' . $column . ') as id';
         }
     }
-    $aColumns = [
+    $aColumns = array_values(array_filter([
         'ANY_VALUE(name) as name',
         'ANY_VALUE((SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'taskstimers.id and rel_type="timesheet" ORDER by tag_order ASC)) as tags',
+        !$roundTimesheets ? 'ANY_VALUE(start_time) as start_time' : '',
+        !$roundTimesheets ? 'ANY_VALUE(end_time) as end_time' : '',
         'ANY_VALUE(note) as note',
         'ANY_VALUE(' . tasks_rel_name_select_query() . ') as rel_name',
         'ANY_VALUE(end_time - start_time) as time_h',
         'ANY_VALUE(end_time - start_time) as time_d',
-        ];
+    ]));
 } else {
     $staffIdSelect = 'staff_id';
 
-    $aColumns = [
+    $aColumns = array_values(array_filter([
         'name as name',
         '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'taskstimers.id and rel_type="timesheet" ORDER by tag_order ASC) as tags',
+        !$roundTimesheets ? 'start_time' : '',
+        !$roundTimesheets ? 'end_time' : '',
         'note as note',
         tasks_rel_name_select_query() . ' as rel_name',
         'end_time - start_time as time_h',
         'end_time - start_time as time_d',
-    ];
+    ]));
 }
 
-$time_h_column = 4;
-$time_d_column = 5;
+$time_h_column = 6;
+$time_d_column = 7;
 
 if ($view_all == true) {
     array_unshift($aColumns, $staffIdSelect);
+    $time_h_column++;
+    $time_d_column++;
+}
 
-    $time_h_column = 5;
-    $time_d_column = 6;
+if ($roundTimesheets) {
+    $time_h_column = $time_h_column - 2;
+    $time_d_column = $time_d_column - 2;
 }
 
 if ($this->ci->input->post('group_by_task')) {
@@ -68,7 +79,7 @@ if ($this->ci->input->post('group_by_task')) {
 }
 
 $sIndexColumn = 'id';
-$sTable       = db_prefix() . 'taskstimers';
+$sTable = db_prefix() . 'taskstimers';
 
 $join = [
     'LEFT JOIN ' . db_prefix() . 'tasks ON ' . db_prefix() . 'tasks.id = ' . db_prefix() . 'taskstimers.task_id',
@@ -87,8 +98,8 @@ if ($this->ci->input->post('staff_id')) {
 if ($staff_id != false) {
     $where = [
         'AND staff_id=' . $this->ci->db->escape_str($staff_id),
-        ];
-} 
+    ];
+}
 
 
 /*$project_ids = $this->ci->input->post('project_id');
@@ -137,17 +148,17 @@ if ($legal_services && $legal_services != '') {
         return $value !== '';
     });*/
 
-    //if (count($legal_services) > 0) {
-       /* $legal_services = implode(',', array_map(function ($service_id) {
-            return get_instance()->db->escape_str($service_id);
-        }, $legal_services));*/
-        $rel_type = get_legal_service_slug_by_id($legal_services);       
-        array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "'.$rel_type.'")');
-    //}
+//if (count($legal_services) > 0) {
+/* $legal_services = implode(',', array_map(function ($service_id) {
+     return get_instance()->db->escape_str($service_id);
+ }, $legal_services));*/
+$rel_type = get_legal_service_slug_by_id($legal_services);
+array_push($where, 'AND task_id IN (SELECT id FROM ' . db_prefix() . 'tasks WHERE rel_type = "' . $rel_type . '")');
+//}
 }
 
-if($this->ci->input->post('clientid') && !$this->ci->input->post('legal_services')){
-    $rel_type = get_legal_service_slug_by_id($legal_services); 
+if ($this->ci->input->post('clientid') && !$this->ci->input->post('legal_services')) {
+    $rel_type = get_legal_service_slug_by_id($legal_services);
     $customer_id = $this->ci->db->escape_str($this->ci->input->post('clientid'));
     array_push($where, 'AND (
         (rel_id IN (SELECT id FROM ' . db_prefix() . 'invoices WHERE clientid=' . $customer_id . ') AND rel_type="invoice")
@@ -164,9 +175,9 @@ if($this->ci->input->post('clientid') && !$this->ci->input->post('legal_services
         OR
         (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $customer_id . ') AND rel_type="customer")
         OR
-        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_cases WHERE clientid=' . $customer_id . ') AND rel_type="'.$rel_type.'")
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_cases WHERE clientid=' . $customer_id . ') AND rel_type="' . $rel_type . '")
         OR
-        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_other_services WHERE clientid=' . $customer_id . ') AND rel_type="'.$rel_type.'")
+        (rel_id IN (SELECT id FROM ' . db_prefix() . 'my_other_services WHERE clientid=' . $customer_id . ') AND rel_type="' . $rel_type . '")
         )');
 }
 
@@ -176,28 +187,28 @@ $filter = $this->ci->input->post('range');
 if ($filter != 'period') {
     if ($filter == 'today') {
         $beginOfDay = strtotime('midnight');
-        $endOfDay   = strtotime('tomorrow', $beginOfDay) - 1;
+        $endOfDay = strtotime('tomorrow', $beginOfDay) - 1;
         array_push($where, ' AND start_time BETWEEN ' . $beginOfDay . ' AND ' . $endOfDay);
     } elseif ($filter == 'this_month') {
         $beginThisMonth = date('Y-m-01');
-        $endThisMonth   = date('Y-m-t 23:59:59');
+        $endThisMonth = date('Y-m-t 23:59:59');
         array_push($where, ' AND start_time BETWEEN ' . strtotime($beginThisMonth) . ' AND ' . strtotime($endThisMonth));
     } elseif ($filter == 'last_month') {
         $beginLastMonth = date('Y-m-01', strtotime('-1 MONTH'));
-        $endLastMonth   = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
+        $endLastMonth = date('Y-m-t 23:59:59', strtotime('-1 MONTH'));
         array_push($where, ' AND start_time BETWEEN ' . strtotime($beginLastMonth) . ' AND ' . strtotime($endLastMonth));
     } elseif ($filter == 'this_week') {
         $beginThisWeek = date('Y-m-d', strtotime('monday this week'));
-        $endThisWeek   = date('Y-m-d 23:59:59', strtotime('sunday this week'));
+        $endThisWeek = date('Y-m-d 23:59:59', strtotime('sunday this week'));
         array_push($where, ' AND start_time BETWEEN ' . strtotime($beginThisWeek) . ' AND ' . strtotime($endThisWeek));
     } elseif ($filter == 'last_week') {
         $beginLastWeek = date('Y-m-d', strtotime('monday last week'));
-        $endLastWeek   = date('Y-m-d 23:59:59', strtotime('sunday last week'));
+        $endLastWeek = date('Y-m-d 23:59:59', strtotime('sunday last week'));
         array_push($where, ' AND start_time BETWEEN ' . strtotime($beginLastWeek) . ' AND ' . strtotime($endLastWeek));
     }
 } else {
     $start_date = to_sql_date($this->ci->input->post('period-from'));
-    $end_date   = to_sql_date($this->ci->input->post('period-to'));
+    $end_date = to_sql_date($this->ci->input->post('period-to'));
     array_push($where, ' AND start_time BETWEEN ' . strtotime($start_date . ' 00:00:00') . ' AND ' . strtotime($end_date . ' 23:59:00'));
 }
 
@@ -211,21 +222,21 @@ $result = data_tables_init(
     ($this->ci->input->post('group_by_task') ? 'GROUP BY task_id' : '')
 );
 
-$output  = $result['output'];
+$output = $result['output'];
 $rResult = $result['rResult'];
 
 $footer_data['total_logged_time_h'] = 0;
 $footer_data['total_logged_time_d'] = 0;
 
-$footer_data['chart']           = [];
+$footer_data['chart'] = [];
 $footer_data['chart']['labels'] = [];
-$footer_data['chart']['data']   = [];
+$footer_data['chart']['data'] = [];
 
-$temp_weekdays_data           = [];
-$temp_months_data             = [];
-$chart_type                   = 'today';
+$temp_weekdays_data = [];
+$temp_months_data = [];
+$chart_type = 'today';
 $chart_type_month_from_filter = false;
-$weekDay                      = date('w', strtotime(date('Y-m-d H:i:s')));
+$weekDay = date('w', strtotime(date('Y-m-d H:i:s')));
 if ($filter == 'today') {
     $footer_data['chart']['labels'] = [_l('today')];
 } elseif ($filter == 'this_week' || $filter == 'last_week') {
@@ -244,7 +255,7 @@ if ($filter == 'today') {
                 }
                 $footer_data['chart']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $footer_data['chart']['labels'][$i];
             } else {
-                $strtotime                          = $day . ' last week';
+                $strtotime = $day . ' last week';
                 $footer_data['chart']['labels'][$i] = date('d', strtotime($strtotime)) . ' - ' . $footer_data['chart']['labels'][$i];
             }
         }
@@ -253,7 +264,7 @@ if ($filter == 'today') {
 
     $chart_type = 'week';
 } elseif ($filter == 'this_month' || $filter == 'last_month') {
-    $month      = ($filter == 'this_month') ? date('m') : date('m', strtotime('first day last month'));
+    $month = ($filter == 'this_month') ? date('m') : date('m', strtotime('first day last month'));
     $month_year = ($filter == 'this_month') ? date('Y') : date('Y', strtotime('first day last month'));
 
     for ($d = 1; $d <= 31; $d++) {
@@ -265,10 +276,10 @@ if ($filter == 'today') {
     $chart_type = 'month';
 } else {
     $_start_time = new DateTime(date('Y-m-d', strtotime($start_date)));
-    $_end_time   = new DateTime(date('Y-m-d', strtotime($end_date)));
+    $_end_time = new DateTime(date('Y-m-d', strtotime($end_date)));
 
-    $chart_type  = 'weeks_split';
-    $weeks       = get_weekdays_between_dates($_start_time, $_end_time);
+    $chart_type = 'weeks_split';
+    $weeks = get_weekdays_between_dates($_start_time, $_end_time);
     $total_weeks = count($weeks);
     for ($i = 1; $i <= $total_weeks; $i++) {
         array_push($footer_data['chart']['labels'], split_weeks_chart_label($weeks, $i));
@@ -333,14 +344,14 @@ foreach ($rResult as $aRow) {
         $row[] = '<a href="' . admin_url('staff/member/' . $aRow['staff_id']) . '" target="_blank">' . get_staff_full_name($aRow['staff_id']) . '</a>';
     }
 
-    $taskName = '<a href="' . admin_url('tasks/view/' . $aRow['task_id']) . '" onclick="init_task_modal(' . $aRow['task_id'] . '); return false;">' . $aRow['name'] . '</a>';
+    $taskName = '<a href="' . admin_url('tasks/view/' . $aRow['task_id']) . '" onclick="init_task_modal(' . $aRow['task_id'] . ') return false;">' . $aRow['name'] . '</a>';
 
     $status = get_task_status_by_id($aRow['status']);
 
     $taskName .= '<span class="hidden"> - </span><span class="inline-block pull-right mright5 label" style="border:1px solid ' . $status['color'] . ';color:' . $status['color'] . '" task-status-table="' . $aRow['status'] . '">' . $status['name'] . '</span>';
 
     if (!$this->ci->input->post('group_by_task') && (!$aRow['end_time'] && is_admin() && $aRow['billed'] == 0)) {
-        $taskName .= ' <a href="#"
+        $taskName .= '<br /><a href="#"
         data-toggle="popover"
         data-placement="bottom"
         data-html="true"
@@ -350,32 +361,37 @@ foreach ($rResult as $aRow) {
         <button type="button"
         onclick="timer_action(this, ' . $aRow['task_id'] . ', ' . $aRow['id'] . ', 1);"
         class="btn btn-info btn-xs">' . _l('save')
-        . "</button>'
-        class=\"text-danger mleft10\"
+            . "</button>'
+        class=\"text-danger\"
         onclick=\"return false;\">
                 <i class=\"fa fa-clock-o\"></i> " . _l('task_stop_timer') . '
         </a>';
     }
-    
+
     $row[] = $taskName;
 
     $row[] = render_tags($aRow['tags']);
+
+    if (!$roundTimesheets) {
+        $row[] = _dt($aRow['start_time'], true);
+        $row[] = ($aRow['end_time'] ? _dt($aRow['end_time'], true) : '');
+    }
 
     $row[] = $aRow['note'];
 
     $this->ci->load->model('LegalServices/LegalServicesModel', 'legal');
     $service_id = $this->ci->legal->get_service_id_by_slug($aRow['rel_type']);
     if (!empty($service_id)) {
-        if($service_id == 1){
-            $row[] = '<a href="' . admin_url('Case/view/' .$service_id.'/'. $aRow['rel_id']) . '">' . get_case_name_by_id($aRow['rel_id']) . '</a>';
-        }else{
-            $row[] = '<a href="' . admin_url('SOther/view/' .$service_id.'/'. $aRow['rel_id']) . '">' . get_oservice_name_by_id($aRow['rel_id']) . '</a>';
+        if ($service_id == 1) {
+            $row[] = '<a href="' . admin_url('Case/view/' . $service_id . '/' . $aRow['rel_id']) . '">' . get_case_name_by_id($aRow['rel_id']) . '</a>';
+        } else {
+            $row[] = '<a href="' . admin_url('SOther/view/' . $service_id . '/' . $aRow['rel_id']) . '">' . get_oservice_name_by_id($aRow['rel_id']) . '</a>';
         }
-    }else{
+    } else {
         if ($aRow['rel_name']) {
             $relName = task_rel_name($aRow['rel_name'], $aRow['rel_id'], $aRow['rel_type']);
-            $link    = task_rel_link($aRow['rel_id'], $aRow['rel_type']);
-            $row[]   = '<a href="' . $link . '">' . $relName . '</a>';
+            $link = task_rel_link($aRow['rel_id'], $aRow['rel_type']);
+            $row[] = '<a href="' . $link . '">' . $relName . '</a>';
         } else {
             $row[] = '';
         }
@@ -431,7 +447,7 @@ if ($chart_type == 'today') {
     }
 }
 
-$output['chart']      = $footer_data['chart'];
+$output['chart'] = $footer_data['chart'];
 $output['chart_type'] = $chart_type;
 unset($footer_data['chart']);
 

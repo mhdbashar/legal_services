@@ -126,19 +126,19 @@ hooks()->add_filter('available_date_formats', 'add_hijri_option');
 function my_app_init_customer_profile_tabs()
 {
     $CI = &get_instance();
-    $CI->app_custom_tabs->add_customer_profile_tab('cases', [
+    $CI->app_tabs->add_customer_profile_tab('cases', [
          'name'     => _l('Cases'),
          'icon'     => 'fa fa-gavel',
          'view'     => 'admin/clients/groups/cases',
          'position' => 65,
     ]);
-    $CI->app_custom_tabs->add_customer_profile_tab('legal_services', [
+    $CI->app_tabs->add_customer_profile_tab('legal_services', [
         'name'     => _l('LegalServices'),
         'icon'     => 'fa fa-gavel',
         'view'     => 'admin/clients/groups/legal_services',
         'position' => 65,
     ]);
-    $CI->app_custom_tabs->add_customer_profile_tab('sessions', [
+    $CI->app_tabs->add_customer_profile_tab('sessions', [
         'name'     => _l('sessions'),
         'icon'     => 'fa fa-font-awesome',
         'view'     => 'admin/clients/groups/sessions',

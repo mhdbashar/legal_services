@@ -13,9 +13,11 @@
 <?php render_yes_no_option('gdpr_enable_terms_and_conditions_ticket_form','gdpr_informed_enable_terms_conditions_for_ticket_form'); ?>
 <hr />
 <?php render_yes_no_option('gdpr_show_terms_and_conditions_in_footer','gdpr_informed_show_terms_conditions_in_customers_area_footer'); ?>
+<hr />
+<?php render_yes_no_option('gdpr_enable_terms_and_conditions_estimate_request_form','Enable Terms & Conditions for estimate request forms'); ?>
 <hr class="hr-panel-heading" />
 <p class="">
-<?php echo _l('gdpr_informed_terms_and_conditions');?>
+    <?php echo _l('terms_and_conditions') ?>
     <br />
     <a href="<?php echo terms_url(); ?>" target="_blank"><?php echo terms_url(); ?></a>
 </p>

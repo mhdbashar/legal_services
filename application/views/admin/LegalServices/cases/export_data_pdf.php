@@ -15,12 +15,6 @@ $slug = $this->ci->legal->get_service_by_id(1)->row()->slug;
 $dimensions    = $pdf->getPageDimensions();
 $custom_fields = get_custom_fields("$slug");
 
-$divide_document_overview = 3;
-// If custom fields found divide the overview in 4 parts not in 3 to include the custom fields too
-if (count($custom_fields) > 0) {
-    $divide_document_overview = 4;
-}
-
 // Like heading project name
 $html = '<h1>' . _l('project_name') . ': ' . $project->name . '</h1>';
 // project overview heading
@@ -34,8 +28,10 @@ $pdf->writeHTML($html, true, false, false, false, $align);
 $pdf->Ln(10);
 
 $html = '';
-// Project overview
-// Billing type
+$html .= '<table>';
+$html .= '<thead>';
+$html .= '<tr>';
+$html .= '<th>';
 if ($project->billing_type == 1) {
     $type_name = 'project_billing_type_fixed_cost';
 } elseif ($project->billing_type == 2) {
@@ -43,7 +39,35 @@ if ($project->billing_type == 1) {
 } else {
     $type_name = 'project_billing_type_project_task_hours';
 }
-$html .= '<b style="background-color:#f0f0f0;">' . _l('project_overview') . '</b><br /><br />';
+
+$html .= '<b style="background-color:#f0f0f0;">' . _l('project_overview') . '</b>';
+
+$html .= '</th>';
+
+$html .= '<th>';
+
+$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('finance_overview')) . '</b>';
+
+$html .= '</th>';
+
+if (count($custom_fields) > 0) {
+    $html .= '<th>';
+    $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('project_custom_fields')) . '</b>';
+    $html .= '</th>';
+}
+
+$html .= '<th>';
+$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('project_customer')) . '</b>';
+$html .= '</th>';
+
+$html .= '</tr>';
+
+$html .= '</thead>';
+$html .= '<tbody>';
+
+$html .= '<tr>';
+
+$html .= '<td><br /><br />';
 
 $html .= '<b>' . _l('project_billing_type') . ': </b>' . _l($type_name) . '<br />';
 
@@ -78,18 +102,16 @@ $html .= '<b>' . _l('total_project_discussions_created') . ': </b>' . $total_fil
 $html .= '<b>' . _l('total_milestones') . ': </b>' . $total_milestones . '<br />';
 // Total Tickets
 $html .= '<b>' . _l('total_tickets_related_to_project') . ': </b>' . $total_tickets . '<br />';
-// Write project overview data
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
+$html .= '</td>';
 
-$html = '';
-$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('finance_overview')) . '</b><br /><br />';
+$html .= '<td><br /><br />';
 $html .= '<b>' . _l('projects_total_invoices_created') . ' </b>' . $total_invoices . '<br />';
 // Not paid invoices total
 $html .= '<b>' . _l('outstanding_invoices') . ' </b>' . app_format_money($invoices_total_data['due'], $project->currency_data) . '<br />';
 // Due invoices total
 $html .= '<b>' . _l('past_due_invoices') . ' </b>' . app_format_money($invoices_total_data['overdue'], $project->currency_data) . '<br />';
 // Paid invoices
-$html .= '<b>' . _l('paid_invoices') . ' </b>' . app_format_money($invoices_total_data['paid'], $project->currency_data) . '<br /><br />';
+$html .= '<b>' . _l('paid_invoices') . ' </b>' . app_format_money($invoices_total_data['paid'], $project->currency_data) . '';
 
 // Finance Overview
 if ($project->billing_type == 2 || $project->billing_type == 3) {
@@ -115,14 +137,11 @@ $html .= '<b>' . _l('project_overview_expenses_billable') . ': </b>' . app_forma
 $html .= '<b>' . _l('project_overview_expenses_billed') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid !=' => 'NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
 // Unbilled expenses + money
 $html .= '<b>' . _l('project_overview_expenses_unbilled') . ': </b>' . app_format_money(sum_from_table(db_prefix().'expenses', ['where' => ['rel_sid' => $project->id, 'rel_stype' => $slug, 'invoiceid IS NULL', 'billable' => 1], 'field' => 'amount']), $project->currency_data) . '<br />';
-// Write finance overview
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
+$html .= '</td>';
 
 // Custom fields
-// Check for custom fields
 if (count($custom_fields) > 0) {
-    $html = '';
-    $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('project_custom_fields')) . '</b><br /><br />';
+    $html .= '<td><br /><br />';
 
     foreach ($custom_fields as $field) {
         $value = get_custom_field_value($project->id, $field['id'], "$slug");
@@ -130,13 +149,13 @@ if (count($custom_fields) > 0) {
         $html .= '<b>' . ucfirst($field['name']) . ': </b>' . $value . '<br />';
     }
 
-    // Write custom fields
-    $pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
+    $html .= '</td>';
 }
 
-$html = '';
 // Customer Info
-$html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('project_customer')) . '</b><br /><br /><b>' . $project->client_data->company . '</b><br />';
+$html .= '<td><br /><br />';
+
+$html .= '<b>' . $project->client_data->company . '</b><br />';
 $html .= $project->client_data->address . '<br />';
 
 if (!empty($project->client_data->city)) {
@@ -165,12 +184,16 @@ $html .= '<br />';
 // Case Result
 $html .= '<b style="background-color:#f0f0f0;">' . ucwords(_l('case_status')) . '</b><br /><br /><b>' . maybe_translate(_l('nothing_was_specified'), $project->StatusCase) . '</b><br />';
 
-// Write custom info
-$pdf->MultiCell(($dimensions['wk'] / $divide_document_overview) - $dimensions['lm'], 0, $html, 0, $align, 0, 0, '', '', true, 0, true);
+$html .= '</td>';
+$html .= '</tr>';
 
-// Set new lines to prevent overlaping the content
-$pdf->Ln(80);
-// $pdf->setY(140);
+$html .= '</tbody>';
+$html .= '</table>';
+
+$pdf->writeHTML($html, true, false, false, false, '');
+
+$pdf->ln(5);
+
 // Project members overview
 $html = '';
 // Heading

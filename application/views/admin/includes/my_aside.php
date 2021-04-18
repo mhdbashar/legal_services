@@ -56,7 +56,7 @@
          hooks()->do_action('before_render_aside_menu');
          ?>
       <?php foreach($sidebar_menu as $key => $item){
-         if(isset($item['collapse']) && count($item['children']) === 0) {
+         if((isset($item['collapse']) && $item['collapse']) && count($item['children']) === 0) {
            continue;
          }
          ?>
@@ -73,11 +73,19 @@
              <?php echo _l($item['name'],'', false); ?>
              </span>
              <?php if(count($item['children']) > 0){ ?>
-               <?php if (is_rtl()){?>
-                     <span class="fa arrow-ar"></span>
+               <?php if (is_rtl()){ ?>
+                     <span class="fa arrow-ar pleft5"></span>
                <?php }else { ?>
-                     <span class="fa arrow"></span>
-             <?php }} ?>
+                     <span class="fa arrow pleft5"></span>
+             <?php } } ?>
+             <?php if (isset($item['badge'], $item['badge']['value']) && !empty($item['badge'])) {?>
+                 <span class="badge pull-right
+               <?=isset($item['badge']['type']) &&  $item['badge']['type'] != '' ? "bg-{$item['badge']['type']}" : 'bg-info' ?>"
+               <?=(isset($item['badge']['type']) &&  $item['badge']['type'] == '') ||
+               isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>
+               <?= $item['badge']['value'] ?>
+            </span>
+             <?php } ?>
          </a>
          <?php if(count($item['children']) > 0){ ?>
          <ul class="nav nav-second-level collapse" aria-expanded="false">
@@ -97,6 +105,14 @@
                   <?php echo _l($submenu['name'],'',false); ?>
                </span>
                </a>
+                <?php if (isset($submenu['badge'], $submenu['badge']['value']) && !empty($submenu['badge'])) {?>
+                    <span class="badge pull-right
+               <?=isset($submenu['badge']['type']) &&  $submenu['badge']['type'] != '' ? "bg-{$submenu['badge']['type']}" : 'bg-info' ?>"
+               <?=(isset($submenu['badge']['type']) &&  $submenu['badge']['type'] == '') ||
+               isset($submenu['badge']['color']) ? "style='background-color: {$submenu['badge']['color']}'" : '' ?>>
+               <?= $submenu['badge']['value'] ?>
+            </span>
+                <?php } ?>
             </li>
             <?php } ?>
          </ul>

@@ -163,7 +163,7 @@ function count_recently_created_contracts($days = 7, $staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : ''));
+    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') .' AND type_id=0');
 }
 
 /**

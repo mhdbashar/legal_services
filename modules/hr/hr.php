@@ -9,7 +9,7 @@ define('HR_MODULE_NAME', 'hr');
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.5
+Version: 3.0.6
 Requires at least: 2.3.*
 Author URI: #
 
@@ -688,6 +688,14 @@ function hr_init_hrmApp(){
             'name'     => _l('designation'),
             'href'     => admin_url('hr/organization/designation'),
             'position' => 70,
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'designations_groups',
+            'name'     => _l('designations_groups'),
+            'href'     => admin_url('hr/organization/designations_groups'),
+            'position' => 71,
         ]);
     }
     if (has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view')){

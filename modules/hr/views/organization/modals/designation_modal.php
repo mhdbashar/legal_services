@@ -27,6 +27,20 @@
                     </div>
                 </div>
 
+
+                <div class="form-group">
+                    <label for="group_id" class="control-label"><?php echo _l('designation_group') ?></label>
+                    <select class="form-control" id="group_id" name="group_id" placeholder="<?php echo _l('designation_group') ?>" aria-invalid="false">
+                        <option></option>
+                        <?php
+                        foreach ($designations_groups as $designation_group) { ?>
+                            <option value="<?php echo $designation_group['id'] ?>">
+                                <?php echo $designation_group['name'] ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label for="department_id" class="control-label"><?php echo _l('department') ?></label>
                     <select class="form-control" id="department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
@@ -40,7 +54,6 @@
                     </select>
                 </div>
 
-                <p for="description" class="bold"><?php echo _l('description'); ?></p>
                 <?php echo render_textarea('description_add', 'description', '', array(), array(), '', 'tinymce'); ?>
 
             </div>
@@ -77,6 +90,20 @@
                     <div class="col-md-12">
                         <?php echo render_input('designation_name','designation_name', '', 'text', ['required' => 'required']); ?>
                     </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="group_id" class="control-label"><?php echo _l('designation_group') ?></label>
+                    <select class="form-control" id="e_group_id" name="group_id" placeholder="<?php echo _l('designation_group') ?>" aria-invalid="false">
+                        <option></option>
+                        <?php
+                        foreach ($designations_groups as $designation_group) { ?>
+                            <option value="<?php echo $designation_group['id'] ?>">
+                                <?php echo $designation_group['name'] ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -133,6 +160,7 @@
                 $('[name="number"]').val(data.number);
 
                 $('[name="department_id"]').val(data.department.departmentid);
+                $('[name="group_id"]').val(data.group_id);
                 $('#a_department_id').selectpicker('refresh');
 
 

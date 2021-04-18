@@ -1,5 +1,9 @@
 <?php
 
+$lang['designation_group'] = 'Designation group';
+$lang['new_designation_group'] = 'New designation_group';
+$lang['designations_groups'] = 'Designations groups';
+
 $lang['follower_staff'] = 'Follower staff';
 
 $lang['staff_chart_by_department'] = 'Staff chart by department';

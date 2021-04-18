@@ -1,5 +1,9 @@
 <?php
 
+$lang['designation_group'] = 'مجموعة المسميات الموظفية';
+$lang['new_designation_group'] = 'مجموعة جديدة';
+$lang['designations_groups'] = 'مجموعات المسميات الوظيفية';
+
 $lang['follower_staff'] = 'الموظف المتابع';
 $lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
 $lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';

@@ -79,6 +79,16 @@ class Designation_model extends App_Model{
         return $this->db->get($this->table_name)->result_array();
     }
 
+    public function get_designation_group($id = ''){
+        if(is_numeric($id)){
+            $this->db->where('id' ,$id);
+            return $this->db->get(db_prefix() . 'hr_designations_groups')->row();
+        }
+
+        $this->db->order_by('id', 'desc');
+        return $this->db->get(db_prefix() . 'hr_designations_groups')->result_array();
+    }
+
     public function get_designation($id=''){
         if(is_numeric($id)){
             $this->db->where('id' ,$id);
@@ -99,11 +109,32 @@ class Designation_model extends App_Model{
         return false;
     }
 
+    public function add_designation_group($data){
+
+        $this->db->insert(db_prefix() . 'hr_designations_groups', $data);
+        $insert_id = $this->db->insert_id();
+        if($insert_id){
+            log_activity('New ' . $this->table_name . ' added [ID: '.$insert_id.']');
+            return $insert_id;
+        }
+        return false;
+    }
+
     public function update($data, $id){
         $this->db->where('id', $id);
         $this->db->update($this->table_name, $data);
         if($this->db->affected_rows() > 0){
             log_activity($this->table_name . ' updated [ ID: '. $id . ']');
+            return true;
+        }
+        return false;
+    }
+
+    public function update_designation_group($data, $id){
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'hr_designations_groups', $data);
+        if($this->db->affected_rows() > 0){
+            log_activity(db_prefix() . 'hr_designations_groups' . ' updated [ ID: '. $id . ']');
             return true;
         }
         return false;

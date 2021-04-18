@@ -138,6 +138,7 @@ class Organization extends AdminController{
     }
     public function update_designation(){
         $data = $this->input->post();
+        $data['description'] = $this->input->post('description', FALSE);
         $id = $this->input->post('id');
         $success = $this->Designation_model->update($data, $id);
 //        if(true){
@@ -155,6 +156,7 @@ class Organization extends AdminController{
     public function update_designation_group(){
         $data = $this->input->post();
         $id = $this->input->post('id');
+        $data['description'] = $this->input->post('description', FALSE);
         $success = $this->Designation_model->update_designation_group($data, $id);
         if($success){
             set_alert('success', _l('updated_successfully'));
@@ -169,6 +171,8 @@ class Organization extends AdminController{
         $data['description'] = $data['description_add'];
         unset($data['description_add']);
 
+        $data['description'] = $this->input->post('description', FALSE);
+
         $success = $this->Designation_model->add($data);
         if($success){
             update_option('next_hr_designation_number', get_option('next_hr_designation_number') + 1);
@@ -182,6 +186,8 @@ class Organization extends AdminController{
         $data = $this->input->post();
         $data['description'] = $data['description_add'];
         unset($data['description_add']);
+
+        $data['description'] = $this->input->post('description', FALSE);
 
         $success = $this->Designation_model->add_designation_group($data);
         if($success){

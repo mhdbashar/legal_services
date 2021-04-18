@@ -112,6 +112,17 @@ hooks()->add_action('clients_init', 'my_module_clients_area_menu_items');
 hooks()->add_action('admin_init', 'my_module_menu_item_collapsible');
 hooks()->add_action('admin_init', 'my_app_init_customer_profile_tabs');
 
+//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
+hooks()->add_action('admin_init', 'add_hijri_settings');
+hooks()->add_action('app_admin_assets_added', 'admin_assets');
+hooks()->add_filter('before_sql_date_format', 'to_AD_date');
+hooks()->add_filter('after_format_date', 'to_hijri_date');
+hooks()->add_filter('after_format_datetime', 'to_hijri_date');
+hooks()->add_filter('before_settings_updated', 'set_my_options');
+hooks()->add_filter('available_date_formats', 'add_hijri_option');
+// hooks()->add_action('after_format_datetime', 'my_custom_date');
+// hooks()->add_action('after_format_date', 'my_custom_date');
+
 function my_app_init_customer_profile_tabs()
 {
     $CI = &get_instance();
@@ -386,44 +397,41 @@ function app_init_opponent_profile_tabs()
 
     $CI = &get_instance();
 
-    $CI->app_custom_tabs->add_opponent_profile_tab('profile', [
+    $CI->app_tabs->add_opponent_profile_tab('profile', [
         'name'     => _l('client_add_edit_profile'),
         'icon'     => 'fa fa-user-circle',
         'view'     => 'admin/opponent/groups/profile',
         'position' => 5,
     ]);
 
-    $CI->app_custom_tabs->add_opponent_profile_tab('contacts', [
+    $CI->app_tabs->add_opponent_profile_tab('contacts', [
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/opponent/groups/contacts',
         'position' => 10,
     ]);
 
-    $CI->app_custom_tabs->add_opponent_profile_tab('notes', [
+    $CI->app_tabs->add_opponent_profile_tab('notes', [
         'name'     => _l('contracts_notes_tab'),
         'icon'     => 'fa fa-sticky-note-o',
         'view'     => 'admin/opponent/groups/notes',
         'position' => 15,
     ]);
 
-    $CI->app_custom_tabs->add_opponent_profile_tab('attachments', [
+    $CI->app_tabs->add_opponent_profile_tab('attachments', [
         'name'     => _l('customer_attachments'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/opponent/groups/attachments',
         'position' => 20,
     ]);
 
-    $CI->app_custom_tabs->add_opponent_profile_tab('map', [
+    $CI->app_tabs->add_opponent_profile_tab('map', [
         'name'     => _l('customer_map'),
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/opponent/groups/map',
         'position' => 25,
     ]);
 }
-
-// hooks()->add_action('after_format_datetime', 'my_custom_date');
-// hooks()->add_action('after_format_date', 'my_custom_date');
 
 // function my_custom_date($date)
 // {
@@ -432,7 +440,6 @@ function app_init_opponent_profile_tabs()
 //         $datetime = explode(' ', $date);
 //         $date = new DateTime($datetime[0]);
 //         $date = Greg2Hijri($date->format('d'), $date->format('m'), $date->format('Y'), $string = true);
-
 //         // First condition for date and datetime
 //         // Second condition for 12 or 24 (Time Format)
 //         if (isset($datetime[1])){
@@ -792,15 +799,6 @@ function force_to_hijri_date($date)
         return $date;
 }
 
-//hooks()->add_action('pre_admin_init', 'init_hijri_settings');
-hooks()->add_action('admin_init', 'add_hijri_settings');
-hooks()->add_action('app_admin_assets_added', 'admin_assets');
-hooks()->add_filter('before_sql_date_format', 'to_AD_date');
-hooks()->add_filter('after_format_date', 'to_hijri_date');
-hooks()->add_filter('after_format_datetime', 'to_hijri_date');
-hooks()->add_filter('before_settings_updated', 'set_my_options');
-hooks()->add_filter('available_date_formats', 'add_hijri_option');
-
 function set_my_options($data){
     if(isset($data['isHijriVal']) && $data['isHijriVal'] == 'on'){
         $isHijrivar = "on";
@@ -1105,6 +1103,61 @@ function get_books_by_api($tags)
     endif;
 }
 
+/**
+ * Format dispute invoice number based on description
+ * @param  mixed $id
+ * @return string
+ */
+function format_dispute_invoice_number($id)
+{
+    $CI = & get_instance();
+
+    $CI->db->select('date,number,prefix,number_format,status')
+        ->from(db_prefix() . 'my_project_invoices')
+        ->where('id', $id);
+
+    $invoice = $CI->db->get()->row();
+
+    if (!$invoice) {
+        return '';
+    }
+
+   if (!class_exists('Invoices_model', false)) {
+        get_instance()->load->model('invoices_model');
+    }
+
+    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
+        $number = $invoice->prefix . 'DRAFT';
+    } else {
+        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
+    }
+
+    return hooks()->apply_filters('format_invoice_number', $number, [
+        'id'      => $id,
+        'invoice' => $invoice,
+    ]);
+}
+
+function _dha($date) {
+    $hijriStatus= get_option('isHijri');
+    /** to check if this page are included in database hijri option **/
+    $hijri_pages = json_decode(get_option('hijri_pages'));
+    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
+
+    $admin_url = admin_url();
+    $this_page = str_replace(admin_url(),'',$current_url);
+    if(search_url($hijri_pages, $this_page) > 0){
+        $hijri_convert = true;
+    }else{
+        $hijri_convert = false;
+    }
+    if($hijriStatus =="on"){
+        return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
+    }else
+        return _d($date);
+}
+
 //function search_book_api()
 //{
 //    if($this->input->post()){
@@ -1171,57 +1224,3 @@ function get_books_by_api($tags)
 //        echo json_encode(array("message" => "Method Not Allowed"));
 //    }
 //}
-
-/**
- * Format dispute invoice number based on description
- * @param  mixed $id
- * @return string
- */
-function format_dispute_invoice_number($id)
-{
-    $CI = & get_instance();
-
-    $CI->db->select('date,number,prefix,number_format,status')
-        ->from(db_prefix() . 'my_project_invoices')
-        ->where('id', $id);
-
-    $invoice = $CI->db->get()->row();
-
-    if (!$invoice) {
-        return '';
-    }
-
-   if (!class_exists('Invoices_model', false)) {
-        get_instance()->load->model('invoices_model');
-    }
-
-    if ($invoice->status == Invoices_model::STATUS_DRAFT) {
-        $number = $invoice->prefix . 'DRAFT';
-    } else {
-        $number = sales_number_format($invoice->number, $invoice->number_format, $invoice->prefix, $invoice->date);
-    }
-
-    return hooks()->apply_filters('format_invoice_number', $number, [
-        'id'      => $id,
-        'invoice' => $invoice,
-    ]);
-}
-function _dha($date) {
-    $hijriStatus= get_option('isHijri');
-    /** to check if this page are included in database hijri option **/
-    $hijri_pages = json_decode(get_option('hijri_pages'));
-    // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $current_url = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:'';
-
-    $admin_url = admin_url();
-    $this_page = str_replace(admin_url(),'',$current_url);
-    if(search_url($hijri_pages, $this_page) > 0){
-        $hijri_convert = true;
-    }else{
-        $hijri_convert = false;
-    }
-    if($hijriStatus =="on"){
-        return force_to_hijri_date($date) . '<br>' . force_to_AD_date($date);
-    }else
-        return _d($date);
-}

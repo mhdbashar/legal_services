@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function get_contract_shortlink($contract)
 {
-    $long_url = site_url("invoice/{$contract->id}/{$contract->hash}");
+    $long_url = site_url("contract/{$contract->id}/{$contract->hash}");
     if (!get_option('bitly_access_token')) {
         return $long_url;
     }
@@ -163,7 +163,7 @@ function count_recently_created_contracts($days = 7, $staffId = null)
         $where_own = ['addedfrom' => $staffId];
     }
 
-    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : '') .' AND type_id=0');
+    return total_rows(db_prefix() . 'contracts', 'dateadded BETWEEN "' . $diff1 . '" AND "' . $diff2 . '" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom=' . $staffId : ''));
 }
 
 /**

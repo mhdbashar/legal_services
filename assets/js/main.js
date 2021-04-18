@@ -53,6 +53,7 @@ var original_top_search_val,
     comment_likes_total_pages = 0,
     select_picker_validated_event = false,
     postid = 0,
+    lastAddedItemKey = null,
     setup_menu_item = $('#setup-menu-item');
 
 // Custom deselect all on bootstrap ajax select input
@@ -762,6 +763,9 @@ $(function () {
     $("body").on('change', 'input[name="checklist-box"]', function () {
         requestGet(admin_url + 'tasks/checkbox_action/' + ($(this).parents('.checklist').data('checklist-id')) + '/' + ($(this).prop('checked') === true ? 1 : 0));
         recalculate_checklist_items_progress();
+        if ($(this).prop('checked') && $('button[data-hide="1"]').hasClass('hide')) {
+            $(this).closest('.checklist ').addClass('hide');
+        }
     });
 
     // Fix task checklist content textarea height
@@ -895,7 +899,15 @@ $(function () {
         if (typeof (taskAttachmentDropzone) != 'undefined') {
             taskAttachmentDropzone.destroy();
         }
-        tinyMCE.remove('#task_view_description');
+        var viewDescriptionEditor = tinyMCE.get('#task_view_description');
+        if(viewDescriptionEditor) {
+            // Invoke the blur event before the modal is closed in case
+            // there are unsaved changes.
+            // see edit_task_inline_description function
+            viewDescriptionEditor.blur();
+
+            tinyMCE.remove('#task_view_description');
+        }
     });
 
     // On task single modal hidden remove all html data
@@ -4087,9 +4099,10 @@ function lead_profile_form_handler(form) {
         } else {
             _lead_init_data(response, response.id);
         }
-        // If is from kanban reload the list tables
         if ($.fn.DataTable.isDataTable('.table-leads')) {
             table_leads.DataTable().ajax.reload(null, false);
+        } else if($('body').hasClass('kan-ban-body')) {
+            leads_kanban()
         }
     }).fail(function (data) {
         alert_float('danger', data.responseText);
@@ -4331,7 +4344,7 @@ function leads_kanban_update(ui, object) {
         data.order = order;
         setTimeout(function () {
             $.post(admin_url + 'leads/update_lead_status', data).done(function (response) {
-                check_kanban_empty_col('[data-lead-id]');
+                leads_kanban();
             });
         }, 200);
     }
@@ -4835,6 +4848,7 @@ function recalculate_checklist_items_progress() {
     var total_checklist_items = $('input[name="checklist-box"]').length;
     var percent = 0,
         task_progress_bar = $('.task-progress-bar');
+    $('.task-total-checklist-completed').text(total_finished);
     if (total_checklist_items == 0) {
         // remove the heading for checklist items
         $("body").find('.chk-heading').remove();
@@ -4847,10 +4861,27 @@ function recalculate_checklist_items_progress() {
         percent = (total_finished * 100) / total_checklist_items;
     } else {
         task_progress_bar.parents('.progress').addClass('hide');
+        if (total_finished > 0) {
+            $('.chk-toggle-buttons').removeClass('hide')
+        } else {
+            $('.chk-toggle-buttons').addClass('hide')
+        }
         return false;
     }
     task_progress_bar.css('width', percent.toFixed(2) + '%');
     task_progress_bar.text(percent.toFixed(2) + '%');
+
+    if (total_finished > 0) {
+        $('.chk-toggle-buttons').removeClass('hide')
+    } else {
+        $('.chk-toggle-buttons').addClass('hide')
+    }
+
+    if (percent == 100) {
+        task_progress_bar.removeClass('progress-bar-default').addClass('progress-bar-success')
+    } else {
+        task_progress_bar.removeClass('progress-bar-success').addClass('progress-bar-default')
+    }
 }
 
 // Remove task checklist items template
@@ -5604,8 +5635,9 @@ function edit_task_inline_description(e, id) {
         selector: '#task_view_description',
         theme: 'inlite',
         skin: 'perfex',
+        directionality: isRTL == 'true' ? 'rtl' : '',
         auto_focus: "task_view_description",
-        plugins: 'table link paste contextmenu textpattern',
+        plugins: 'table link paste contextmenu textpattern' + (isRTL == 'true' ? ' directionality' : ''),
         contextmenu: "link table paste pastetext",
         insert_toolbar: 'quicktable',
         selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
@@ -5647,10 +5679,18 @@ function tasks_bulk_action(event) {
             var milestone = $('#task_bulk_milestone');
             data.milestone = milestone.length ? milestone.selectpicker('val') : '';
 
+            data.billable = $('#task_bulk_billable').val();
+            data.billable = typeof (data.billable) == 'undefined' ? '' : data.billable;
+
             data.priority = $('#task_bulk_priority').val();
             data.priority = typeof (data.priority) == 'undefined' ? '' : data.priority;
 
-            if (data.status === '' && data.priority === '' && data.tags === '' && data.assignees === '' && data.milestone === '') {
+            if (data.status === '' &&
+               data.priority === '' &&
+               data.tags === '' &&
+               data.assignees === '' &&
+               data.milestone === '' &&
+               data.billable === '') {
                 return;
             }
         } else {
@@ -5926,8 +5966,10 @@ function add_item_to_table(data, itemid, merge_invoice, bill_expense) {
     if (data.description === "" && data.long_description === "" && data.rate === "") {
         return;
     }
+
     var table_row = '';
-    var item_key = $("body").find('tbody .item').length + 1;
+    var item_key = lastAddedItemKey ? lastAddedItemKey += 1 : $("body").find('tbody .item').length + 1;
+    lastAddedItemKey = item_key;
 
     table_row += '<tr class="sortable item" data-merge-invoice="' + merge_invoice + '" data-bill-expense="' + bill_expense + '">';
 
@@ -6371,8 +6413,9 @@ function delete_item(row, itemid) {
             calculate_total();
         }, 50);
     });
+
     // If is edit we need to add to input removed_items to track activity
-    if ($('input[name="isedit"]').length > 0) {
+    if (itemid && $('input[name="isedit"]').length > 0) {
         $('#removed-items').append(hidden_input('removed_items[]', itemid));
     }
 }
@@ -7297,7 +7340,7 @@ function init_ajax_search(type, selector, server_data, url) {
 function merge_field_format_url(url, node, on_save, name) {
     // Merge fields url
     if (url.indexOf("%7B") > -1 && url.indexOf("%7D") > -1) {
-        url = url.replace('%7B', '{').replace('%7D', '}');
+        url = url.replaceAll('%7B', '{').replaceAll('%7D', '}');
     }
 
     return url;

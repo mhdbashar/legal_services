@@ -1,6 +1,7 @@
 <?php
 
 use app\services\utilities\Date;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Tasks extends AdminController
@@ -296,7 +297,6 @@ class Tasks extends AdminController
             $this->db->where('is_session', 0);
             $this->db->order_by($fetch_month_from, 'ASC');
             array_push($overview, $m);
-
             $overview[$m] = $this->db->get(db_prefix() . 'tasks')->result_array();
         }
 
@@ -413,6 +413,7 @@ class Tasks extends AdminController
             }
             $title = _l('edit', _l('task_lowercase')) . ' ' . $data['task']->name;
         }
+
         $data['project_end_date_attrs'] = [];
         if ($this->input->get('rel_type') == 'project' && $this->input->get('rel_id') || ($id !== '' && $data['task']->rel_type == 'project')) {
             $project = $this->projects_model->get($id === '' ? $this->input->get('rel_id') : $data['task']->rel_id);
@@ -423,6 +424,7 @@ class Tasks extends AdminController
                 ];
             }
         }
+
         $data['id']    = $id;
         $data['legal_services'] = $this->legal->get_all_services();
         $data['title'] = $title;
@@ -610,7 +612,11 @@ class Tasks extends AdminController
         $data['staff']              = $this->staff_model->get('', ['active' => 1]);
         $data['reminders']          = $this->tasks_model->get_reminders($taskid);
 
-        $data['staff_reminders'] = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
+        $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($taskid);
+        // For backward compatibilities
+        $data['staff_reminders'] = $data['task_staff_members'];
+
+        $data['hide_completed_items'] = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $taskid);
 
         $data['project_deadline'] = null;
         if ($task->rel_type == 'project') {
@@ -702,10 +708,10 @@ class Tasks extends AdminController
         if ($reminder && ($reminder->creator == get_staff_user_id() || is_admin()) && $reminder->isnotified == 0) {
             $success = $this->misc_model->edit_reminder($this->input->post(), $id);
             echo json_encode([
-                    'taskHtml'   => $this->get_task_data($reminder->rel_id, true),
-                    'alert_type' => 'success',
-                    'message'    => ($success ? _l('updated_successfully', _l('reminder')) : ''),
-                ]);
+                'taskHtml'   => $this->get_task_data($reminder->rel_id, true),
+                'alert_type' => 'success',
+                'message'    => ($success ? _l('updated_successfully', _l('reminder')) : ''),
+            ]);
         }
     }
 
@@ -788,9 +794,12 @@ class Tasks extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
-                $post_data          = $this->input->post();
-                $data['task_id']    = $post_data['taskid'];
-                $data['checklists'] = $this->tasks_model->get_checklist_items($post_data['taskid']);
+                $post_data                    = $this->input->post();
+                $data['task_id']              = $post_data['taskid'];
+                $data['checklists']           = $this->tasks_model->get_checklist_items($post_data['taskid']);
+                $data['task_staff_members']   = $this->tasks_model->get_staff_members_that_can_access_task($data['task_id']);
+                $data['hide_completed_items'] = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $data['task_id']);
+
                 $this->load->view('admin/tasks/checklist_items_template', $data);
             }
         }
@@ -896,7 +905,11 @@ class Tasks extends AdminController
     public function add_external_attachment()
     {
         if ($this->input->post()) {
-            $this->tasks_model->add_attachment_to_database($this->input->post('task_id'), $this->input->post('files'), $this->input->post('external'));
+            $this->tasks_model->add_attachment_to_database(
+                $this->input->post('task_id'),
+                $this->input->post('files'),
+                $this->input->post('external')
+            );
         }
     }
 
@@ -909,8 +922,10 @@ class Tasks extends AdminController
             $data['content'] = nl2br($this->input->post('content'));
         }
         $comment_id = false;
-        if ($data['content'] != ''
-            || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)) {
+        if (
+            $data['content'] != ''
+            || (isset($_FILES['file']['name']) && is_array($_FILES['file']['name']) && count($_FILES['file']['name']) > 0)
+        ) {
             $comment_id = $this->tasks_model->add_task_comment($data);
             if ($comment_id) {
                 $commentAttachments = handle_task_attachments_array($data['taskid'], 'file');
@@ -998,7 +1013,10 @@ class Tasks extends AdminController
     /* Add new task follower / ajax */
     public function add_task_followers()
     {
-        if (has_permission('tasks', '', 'edit') || has_permission('tasks', '', 'create')) {
+        $task = $this->tasks_model->get($this->input->post('taskid'));
+
+        if (staff_can('edit', 'tasks') ||
+                ($task->current_user_is_creator && staff_can('create', 'tasks'))) {
             echo json_encode([
                 'success'  => $this->tasks_model->add_task_followers($this->input->post()),
                 'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
@@ -1019,7 +1037,10 @@ class Tasks extends AdminController
     /* Add task assignees / ajax */
     public function add_task_assignees()
     {
-        if (has_permission('tasks', '', 'edit') || has_permission('tasks', '', 'create')) {
+        $task = $this->tasks_model->get($this->input->post('taskid'));
+
+        if (staff_can('edit', 'tasks') ||
+                ($task->current_user_is_creator && staff_can('create', 'tasks'))) {
             echo json_encode([
                 'success'  => $this->tasks_model->add_task_assignees($this->input->post()),
                 'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
@@ -1090,7 +1111,10 @@ class Tasks extends AdminController
     /* Remove assignee / ajax */
     public function remove_assignee($id, $taskid)
     {
-        if (has_permission('tasks', '', 'edit') && has_permission('tasks', '', 'create')) {
+        $task = $this->tasks_model->get($taskid);
+
+        if (staff_can('edit', 'tasks') ||
+                ($task->current_user_is_creator && staff_can('create', 'tasks'))) {
             $success = $this->tasks_model->remove_assignee($id, $taskid);
             $message = '';
             if ($success) {
@@ -1123,7 +1147,10 @@ class Tasks extends AdminController
     /* Remove task follower / ajax */
     public function remove_follower($id, $taskid)
     {
-        if (has_permission('tasks', '', 'edit') && has_permission('tasks', '', 'create')) {
+        $task = $this->tasks_model->get($taskid);
+
+        if (staff_can('edit', 'tasks') ||
+                ($task->current_user_is_creator && staff_can('create', 'tasks'))) {
             $success = $this->tasks_model->remove_follower($id, $taskid);
             $message = '';
             if ($success) {
@@ -1156,9 +1183,11 @@ class Tasks extends AdminController
     /* Unmark task as complete / ajax*/
     public function unmark_complete($id)
     {
-        if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
+        if (
+            $this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
             || $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
-            || has_permission('tasks', '', 'edit')) {
+            || has_permission('tasks', '', 'edit')
+        ) {
             $success = $this->tasks_model->unmark_complete($id);
 
             // Don't do this query if the action is not performed via task single
@@ -1212,9 +1241,11 @@ class Tasks extends AdminController
 
     public function mark_as($status, $id)
     {
-        if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
+        if (
+            $this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
             || $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
-            || has_permission('tasks', '', 'edit')) {
+            || has_permission('tasks', '', 'edit')
+        ) {
             $success = $this->tasks_model->mark_as($status, $id);
 
             // Don't do this query if the action is not performed via task single
@@ -1558,6 +1589,7 @@ class Tasks extends AdminController
             $assignees = $this->input->post('assignees');
             $milestone = $this->input->post('milestone');
             $priority  = $this->input->post('priority');
+            $billable  = $this->input->post('billable');
             $is_admin  = is_admin();
             if (is_array($ids)) {
                 foreach ($ids as $id) {
@@ -1569,20 +1601,29 @@ class Tasks extends AdminController
                         }
                     } else {
                         if ($status) {
-                            if ($this->tasks_model->is_task_creator(get_staff_user_id(), $id)
+                            if (
+                                $this->tasks_model->is_task_creator(get_staff_user_id(), $id)
                                 || $is_admin
-                                || $this->tasks_model->is_task_assignee(get_staff_user_id(), $id)) {
+                                || $this->tasks_model->is_task_assignee(get_staff_user_id(), $id)
+                            ) {
                                 $this->tasks_model->mark_as($status, $id);
                             }
                         }
-                        if ($priority || $milestone) {
+                        if ($priority || $milestone || ($billable === 'billable' || $billable === 'not_billable')) {
                             $update = [];
+
                             if ($priority) {
                                 $update['priority'] = $priority;
                             }
+
                             if ($milestone) {
                                 $update['milestone'] = $milestone;
                             }
+
+                            if ($billable) {
+                                $update['billable'] = $billable === 'billable' ? 1 : 0;
+                            }
+
                             $this->db->where('id', $id);
                             $this->db->update(db_prefix() . 'tasks', $update);
                         }
@@ -1606,12 +1647,12 @@ class Tasks extends AdminController
                                         'staffid'       => $user_id,
                                         'taskid'        => $id,
                                         'assigned_from' => get_staff_user_id(),
-                                        ]);
+                                    ]);
                                     if ($user_id != get_staff_user_id()) {
                                         $notification_data = [
-                                        'description' => 'not_task_assigned_to_you',
-                                        'touserid'    => $user_id,
-                                        'link'        => '#taskid=' . $id,
+                                            'description' => 'not_task_assigned_to_you',
+                                            'touserid'    => $user_id,
+                                            'link'        => '#taskid=' . $id,
                                         ];
 
                                         $notification_data['additional_data'] = serialize([
@@ -1676,6 +1717,20 @@ class Tasks extends AdminController
             }, $members);
 
             echo json_encode($members);
+        }
+    }
+
+    public function save_checklist_assigned_staff()
+    {
+        if ($this->input->post() && $this->input->is_ajax_request()) {
+            $payload = $this->input->post();
+            $item    = $this->tasks_model->get_checklist_item($payload['checklistId']);
+            if ($item->addedfrom == get_staff_user_id() || is_admin()) {
+                $this->tasks_model->update_checklist_assigned_staff($payload);
+                die;
+            }
+
+            ajax_access_denied();
         }
     }
 }

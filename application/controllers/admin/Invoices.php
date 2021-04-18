@@ -565,7 +565,6 @@ class Invoices extends AdminController
         }
 
         try {
-
             $statementData = [];
             if ($this->input->post('attach_statement')) {
                 $statementData['attach'] = true;

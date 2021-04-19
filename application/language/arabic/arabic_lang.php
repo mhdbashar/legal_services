@@ -3233,3 +3233,100 @@ $lang['something_went_wrong']            = 'Something went wrong. Try again';
 $lang['imap_folder']                     = 'Folder';
 $lang['retrieve_folders']                = 'Retrieve Folders';
 $lang['email_to_ticket_config']          = 'Email to ticket configuration';
+
+# Version 2.8.0
+$lang['enable_support_menu_badges']     = 'تفعيل شارة عنصر قائمة الدعم';
+$lang['item_copy_success']              = 'تم نسخ العنصر بنجاح';
+$lang['item_copy_fail']                 = 'فشل في نسخ العنصر';
+$lang['attach_invoice_to_payment_receipt_email'] = 'إرفاق الفاتورة بتنسيق PDF عند إرسال إيصال الدفع بالبريد الإلكتروني';
+
+$lang['estimate_request']                       = 'طلب عرض سعر';
+$lang['estimate_requests']                      = 'طلبات عروض الأسعار';
+$lang['estimate_request_form']                  = 'نموذج طلب عرض السعر';
+$lang['acs_estimate_request']                   = 'طلب عرض سعر';
+$lang['acs_estimate_request_forms']             = 'النماذج';
+$lang['estimate_request_forms']             = 'نماذج طلبات عروض الأسعار';
+$lang['estimate_request_notify_staff']          = 'التنبيهات للموظفين';
+$lang['estimate_request_notify_when_submitted']     = 'يتم التنبيه عند تقديم طلب عرض سعر';
+$lang['estimate_request_assignee']              = 'المسؤول (المعين)';
+$lang['estimate_request_notify_roles']          = 'الأدوار للتنبيه';
+$lang['custom_field_estimate_request']          = 'طلب عرض أسعار';
+$lang['new_estimate_request_submitted_from_form']     = 'تم إرسال طلب عرض أسعار جديد من النموذج - s%';
+$lang['acs_estimate_request_statuses_submenu']  = 'الحالة';
+$lang['estimate_request_dt_email']              = 'البريد الإلكتروني';
+$lang['estimate_request_dt_assigned']           = 'مخصصة لـ';
+$lang['estimate_request_dt_status']             = 'الحالة';
+$lang['estimate_request_dt_datecreated']        = 'أنشأت';
+$lang['estimate_request_attachments']           = 'المرفقات';
+$lang['estimate_request_new_status']            = 'حالة جديدة';
+$lang['estimate_request_status_table_name']     = 'إسم الحالة';
+$lang['estimate_request_table_total']           = 'إجمالي الطلبات: s%';
+$lang['estimate_request_statuses_not_found']    = 'لم يتم العثور على حالات طلب عروض أسعار';
+$lang['estimate_request_status_add_edit_name']  = 'إسم الحالة';
+$lang['estimate_request_status_color']          = 'اللون';
+$lang['estimate_request_status_add_edit_order'] = 'ترتيب الحالة';
+$lang['estimate_request_status']                = 'الحالة';
+$lang['estimate_request_date_added']            = 'تاريخ الإنشاء';
+$lang['estmate_request_tags_updated']           = 'تم تحديث الكلمات الدلالية';
+$lang['not_estimate_request_activity_status_updated'] = 'تم تحديث حالة طلب عرض ألاسعار s% من s% إلى s%';
+$lang['estimate_request_lowercase']             = 'طلب عرض سعر';
+$lang['estimate_request_form_email_field_is_required']     = 'حقل البريد الإلكتروني مطلوب لتتم إضافته في النموذج';
+$lang['estimate_request_form_email_field_set_to_required'] = 'ضع علامة على حقل البريد الإلكتروني على أنه مطلوب';
+$lang['not_delete_estimate_request_default_status']        = 'لا يمكن حذف حالة طلب عرض السعر الأساسي';
+$lang['mark_estimate_request_as']               = 'علم كـ s%';
+$lang['estimate_request_updated']              = 'تم تحديث طلب عرض السعر';
+$lang['convert_estimate_request']               = 'تحويل طلب عرض السعر';
+$lang['estimate_request_client_firstname']      = 'الإسم الاول';
+$lang['estimate_request_client_lastname']       = 'الإسم الأخير';
+$lang['estimate_request_email']                 = 'البريد الإلكتروني';
+$lang['estimate_request_for_lead']              = 'العميل المحتمل';
+$lang['estimate_request_for_customer']          = 'العميل';
+$lang['estimate_request_related']               = 'مرتبط بـ';
+$lang['estimate_request_client_created_success'] = 'طلب عرض السعر للغميل تم إنشاؤه';
+$lang['estimate_request_assigned']              = 'الموظف المعين';
+$lang['not_estimate_request_activity_assigned_updated']       = 'تم تعيين طلب عرض السعر لـ s%';
+$lang['estimate_request_status_lowercase']      = 'حالة طلب عرض السعر';
+$lang['estimate_request_assigned_to_staff']     = 'تم تخصيص طلب عرض سعر لك';
+
+$lang['activity_due_reminder_is_sent']          = 'أصبحت الفاتورة المرسلة من s% بمثابة تذكير مستحق';
+$lang['invoice_due_notice_before']              = 'إرسال تذكير بالوقت المحدد قبل X أيام من تاريخ الاستحقاق';
+$lang['overdue_notices']                        = 'التنبيهات المتأخرة';
+$lang['invoice_overdue_notices_info']           = 'يتم إرسال تنبيهات التأخير عندما تصبح الفاتورة متأخرة.';
+$lang['due_reminders']                          = 'التذكيرات المستحقة';
+$lang['due_reminders_for_invoices_info']        = 'يتم إرسال التذكيرات المستحقة إلى الفواتير غير المدفوعة والمدفوعة جزئيًا كتذكير للعميل بدفع الفاتورة قبل استحقاقها.';
+$lang['expenses_list_made_payment_by']          = 'تم الدفع بواسطة s%';
+
+# Version 2.8.2
+$lang['hide_task_checklist_items_completed']          = 'إخفاء العناصر المكتملة';
+$lang['show_task_checklist_items_completed']          = 'إظهار العناصر المكتملة s%';
+$lang['task_checklist_assign']                        = 'الموظف المعين';
+$lang['task_checklist_assigned']                      = 'تخصيص إلى s%';
+$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+
+$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
+
+$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
+
+$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
+
+$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
+
+$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
+
+$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
+
+$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
+
+$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
+
+$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";

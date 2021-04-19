@@ -109,6 +109,7 @@
                                     </li>
                                 <?php } ?>
                             <?php } ?>
+                            <?php hooks()->do_action('after_lead_lead_tabs', $lead ?? null); ?>
                         </ul>
                     </div>
                 </div>
@@ -348,6 +349,7 @@
                         </div>
                     </div>
                 <?php } ?>
+                <?php hooks()->do_action('after_lead_tabs_content', $lead ?? null); ?>
             </div>
         </div>
     </div>

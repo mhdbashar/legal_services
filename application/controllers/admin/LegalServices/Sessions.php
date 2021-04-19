@@ -734,7 +734,11 @@ class Sessions extends AdminController
         $data['staff']              = $this->staff_model->get('', ['active' => 1]);
         $data['reminders']          = $this->sessions_model->get_reminders($taskid);
 
-        $data['staff_reminders'] = $this->sessions_model->get_staff_members_that_can_access_task($taskid);
+        $data['task_staff_members']   = $this->sessions_model->get_staff_members_that_can_access_task($taskid);
+        // For backward compatibilities
+        $data['staff_reminders'] = $data['task_staff_members'];
+
+        $data['hide_completed_items'] = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $taskid);
 
         $data['project_deadline'] = null;
         if ($task->rel_type == 'project') {
@@ -912,9 +916,11 @@ class Sessions extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
-                $post_data          = $this->input->post();
-                $data['task_id']    = $post_data['taskid'];
-                $data['checklists'] = $this->sessions_model->get_checklist_items($post_data['taskid']);
+                $post_data                    = $this->input->post();
+                $data['task_id']              = $post_data['taskid'];
+                $data['checklists']           = $this->sessions_model->get_checklist_items($post_data['taskid']);
+                $data['task_staff_members']   = $this->sessions_model->get_staff_members_that_can_access_task($data['task_id']);
+                $data['hide_completed_items'] = get_staff_meta(get_staff_user_id(), 'task-hide-completed-items-' . $data['task_id']);
                 $this->load->view('admin/sessions/checklist_items_template', $data);
             }
         }
@@ -1020,7 +1026,11 @@ class Sessions extends AdminController
     public function add_external_attachment()
     {
         if ($this->input->post()) {
-            $this->sessions_model->add_attachment_to_database($this->input->post('task_id'), $this->input->post('files'), $this->input->post('external'));
+            $this->sessions_model->add_attachment_to_database(
+                $this->input->post('task_id'),
+                $this->input->post('files'),
+                $this->input->post('external')
+            );
         }
     }
 
@@ -1122,7 +1132,10 @@ class Sessions extends AdminController
     /* Add new task follower / ajax */
     public function add_task_followers()
     {
-        if (has_permission('sessions', '', 'edit') || has_permission('sessions', '', 'create')) {
+        $task = $this->sessions_model->get($this->input->post('taskid'));
+
+        if (staff_can('edit', 'sessions') ||
+            ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
             echo json_encode([
                 'success'  => $this->sessions_model->add_task_followers($this->input->post()),
                 'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
@@ -1143,23 +1156,16 @@ class Sessions extends AdminController
     /* Add task assignees / ajax */
     public function add_task_assignees()
     {
-        if (has_permission('sessions', '', 'edit') || has_permission('sessions', '', 'create')) {
+        $task = $this->sessions_model->get($this->input->post('taskid'));
+
+        if (staff_can('edit', 'sessions') ||
+            ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
             echo json_encode([
                 'success'  => $this->sessions_model->add_task_assignees($this->input->post()),
                 'taskHtml' => $this->get_task_data($this->input->post('taskid'), true),
             ]);
         }
     }
-
-    /*public function add_session_assignees()
-    {
-        if (has_permission('sessions', '', 'edit') || has_permission('sessions', '', 'create')) {
-            echo json_encode([
-                'success'  => $this->sessions_model->add_task_assignees($this->input->post()),
-                'taskHtml' => $this->get_task_data_with_session($this->input->post('taskid'), true),
-            ]);
-        }
-    }*/
 
     public function edit_comment()
     {
@@ -1214,7 +1220,10 @@ class Sessions extends AdminController
     /* Remove assignee / ajax */
     public function remove_assignee($id, $taskid)
     {
-        if (has_permission('sessions', '', 'edit') && has_permission('sessions', '', 'create')) {
+        $task = $this->sessions_model->get($taskid);
+
+        if (staff_can('edit', 'sessions') ||
+            ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
             $success = $this->sessions_model->remove_assignee($id, $taskid);
             $message = '';
             if ($success) {
@@ -1247,7 +1256,10 @@ class Sessions extends AdminController
     /* Remove task follower / ajax */
     public function remove_follower($id, $taskid)
     {
-        if (has_permission('sessions', '', 'edit') && has_permission('sessions', '', 'create')) {
+        $task = $this->sessions_model->get($taskid);
+
+        if (staff_can('edit', 'sessions') ||
+            ($task->current_user_is_creator && staff_can('create', 'sessions'))) {
             $success = $this->sessions_model->remove_follower($id, $taskid);
             $message = '';
             if ($success) {
@@ -1664,6 +1676,7 @@ class Sessions extends AdminController
             $assignees = $this->input->post('assignees');
             $milestone = $this->input->post('milestone');
             $priority  = $this->input->post('priority');
+            $billable  = $this->input->post('billable');
             $is_admin  = is_admin();
             if (is_array($ids)) {
                 foreach ($ids as $id) {
@@ -1681,13 +1694,16 @@ class Sessions extends AdminController
                                 $this->sessions_model->mark_as($status, $id);
                             }
                         }
-                        if ($priority || $milestone) {
+                        if ($priority || $milestone || ($billable === 'billable' || $billable === 'not_billable')) {
                             $update = [];
                             if ($priority) {
                                 $update['priority'] = $priority;
                             }
                             if ($milestone) {
                                 $update['milestone'] = $milestone;
+                            }
+                            if ($billable) {
+                                $update['billable'] = $billable === 'billable' ? 1 : 0;
                             }
                             $this->db->where('id', $id);
                             $this->db->update(db_prefix() . 'tasks', $update);
@@ -1795,5 +1811,19 @@ class Sessions extends AdminController
     {
         $response = $this->sessions_model->get_checklist_items_description($task_id);
         echo json_encode($response);
+    }
+
+    public function save_checklist_assigned_staff()
+    {
+        if ($this->input->post() && $this->input->is_ajax_request()) {
+            $payload = $this->input->post();
+            $item    = $this->sessions_model->get_checklist_item($payload['checklistId']);
+            if ($item->addedfrom == get_staff_user_id() || is_admin()) {
+                $this->sessions_model->update_checklist_assigned_staff($payload);
+                die;
+            }
+
+            ajax_access_denied();
+        }
     }
 }

@@ -118,7 +118,7 @@ function get_customer_profile_tabs()
  */
 function get_opponent_profile_tabs()
 {
-    return get_instance()->app_custom_tabs->get_opponent_profile_tabs();
+    return get_instance()->app_tabs->get_opponent_profile_tabs();
 }
 
 /**

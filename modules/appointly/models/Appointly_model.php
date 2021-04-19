@@ -588,18 +588,19 @@ class Appointly_model extends App_Model
     /**
      * Fetch contact data and apply to fields in modal
      *
-     * @param [string] $contact_id
-     * @return function
+     * @param string $contact_id
+     * @return mixed
      */
     function apply_contact_data($contact_id, $is_lead)
     {
-        if ($is_lead === "false") {
+        if ($is_lead == 'false' || $is_lead == false) {
             return $this->clients_model->get_contact($contact_id);
         } else {
             $this->load->model('leads_model');
             return $this->leads_model->get($contact_id);
         }
     }
+
 
     /**
      * Get single appointment data

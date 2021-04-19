@@ -2,7 +2,7 @@
 /*
 Module Name: المواعيد
 Description: نظام إدارة المواعيد والإجتماعات
-Version: 1.1.7
+Version: 1.1.8
 Author: Babil Team
 Author URI: https://babil.net.sa
 Requires at least: 2.4.1
@@ -179,6 +179,15 @@ function appointly_register_menu_items()
             'href'     => admin_url('appointly/appointments/user_settings_view/settings'),
             'position' => 20,
             'icon'     => 'fa fa-cog',
+        ]);
+
+        $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
+            'slug'     => 'appointly-link-menu-form',
+            'name'     => 'appointment_menu_form_link',
+            'href'     => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
+            'href_attributes' => 'target="_blank" rel="noopener noreferrer"',
+            'position' => 25,
+            'icon'     => 'fa fa-wpforms',
         ]);
     }
 }

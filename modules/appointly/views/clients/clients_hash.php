@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-lg-12 col-xs-12">
+                <div class="col-lg-12 col-xs-12 fixpadding_clients">
                     <div class="panel_s <?= (!is_staff_logged_in()) ? 'nomargin' : '' ?>">
                         <div class="panel-body">
 
@@ -52,7 +52,8 @@
                                                 <img width="30" src="<?= base_url('/modules/appointly/assets/images/google_meet.png') ?>" alt="">
                                             </a>
                                         </div>
-                                    <?php endif; ?></h3>
+                                    <?php endif; ?>
+                                </h3>
 
                             </div>
                             <div class="text-center" id="appointment_feedbacks">

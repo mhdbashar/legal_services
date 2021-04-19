@@ -20,10 +20,14 @@ if (!function_exists('get_appointment_types')) {
 <body class="appointments-external-form" <?php if (is_rtl(true)) {
                                                 echo ' dir="rtl"';
                                             } ?>>
-    <div class="container-fluid">
-        <div id="response"></div>
+    <?php
+    $clientUserData = $this->session->userdata();
+    applyAdditionalCssStyles($clientUserData);
+    ?>
 
-        <?php $clientUserData = $this->session->userdata(); ?>
+    <div class="container-fluid">
+
+        <div id="response"></div>
 
         <?php echo form_open('appointly/appointments_public/create_external_appointment', array('id' => 'appointments-form')); ?>
 
@@ -36,17 +40,7 @@ if (!function_exists('get_appointment_types')) {
                 <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 
                 <div class="text-center">
-
                     <h4 class="text-center"><?= _l('appointment_create_new_appointment'); ?></h4>
-
-                    <?php if (is_client_logged_in()) : ?>
-                        <div class="col-md-12" style="margin-bottom: 15px;">
-                            <div class="row">
-                                <a href="<?= base_url(); ?>" class="go_back_button"><?= _l('appointment_want_to_go_back'); ?></a>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
                 </div>
 
                 <?php echo render_input('subject', 'appointment_subject'); ?>
@@ -77,7 +71,7 @@ if (!function_exists('get_appointment_types')) {
                     <input type="email" class="form-control" value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'email') : ''; ?>" name="email" id="email">
                 </div>
                 <div class="form-group">
-                    <label for="number"><?= _l('appointment_phone'); ?> (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
+                    <label for="phone"><?= _l('appointment_phone'); ?> (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
                     <input type="text" class="form-control" value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>" name="phone" id="phone">
                 </div>
                 <div class="hours_wrapper">

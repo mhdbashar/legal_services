@@ -8,6 +8,23 @@ body.appointly.appointments .content.no-padding .panel_s {
     border: none;
 }
 
+body li[class^="sub-menu-item-appointly-"].active a {
+    margin-left: 15px !important;
+    padding-left: 30px !important;
+}
+
+body li[class^="sub-menu-item-appointly-"].active a i.menu-icon {
+    margin-left: -15px !important;
+}
+
+body li[class^="sub-menu-item-appointly-"] a {
+    padding-left: 30px !important;
+}
+
+body li[class^="menu-item-appointly-"] a {
+    padding-left: 5px !important;
+}
+
 body #addedToOutlook {
     margin-top: 1px !important;
 }
@@ -754,6 +771,14 @@ body.callbacks .callbacks-select-staff {
     border-radius: 4px;
     padding: 0 6px;
     margin-bottom: 5px;
+}
+
+
+/* Envelope icon for outlook style */
+
+.fixLine {
+    margin-left: -1px;
+    padding-right: 2px;
 }
 
 .table-appointments::before {

@@ -1,9 +1,9 @@
 <?php
 
 # Version 2.4.0
-$lang['perfex_email_builder'] = 'مولد قوالب البريد';
+$lang['babil_email_builder'] = 'مولد قوالب البريد';
 $lang['edit_an_email_template'] = 'تحرير قالب بريد إلكتروني';
-$lang['perfex_email_builder_options'] = 'خيارات مخصصة';
+$lang['babil_email_builder_options'] = 'خيارات مخصصة';
 $lang['email_templates_top_alert'] = 'لقد قمت بتثبيت <a href="'. admin_url(EMAIL_BUILDER_MODULE_NAME).'"> مولد قوالب البريد </a> ، نوصي بتحرير القوالب هناك!';
 $lang['general'] = 'الخيارات العامة';
 $lang['inject_code_admin'] = 'Admin custom styles/js';

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Perfex_email_builder extends AdminController {
+class Babil_email_builder extends AdminController {
 
     public function __construct() {
         parent::__construct();
@@ -47,8 +47,8 @@ class Perfex_email_builder extends AdminController {
 
         $data['merge_fields'] = $merge_fields;
 
-        hooks()->add_action('app_admin_head', 'perfex_email_builder_head_styles');
-        hooks()->add_action('app_admin_footer', 'perfex_email_builder_footer_scripts');
+        hooks()->add_action('app_admin_head', 'babil_email_builder_head_styles');
+        hooks()->add_action('app_admin_footer', 'babil_email_builder_footer_scripts');
 
         $this->load->view(EMAIL_BUILDER_MODULE_NAME, $data);
     }

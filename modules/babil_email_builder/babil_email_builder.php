@@ -11,7 +11,7 @@ Requires at least: 2.4.*
 Author URI: #
 */
 
-define('EMAIL_BUILDER_MODULE_NAME', 'perfex_email_builder');
+define('EMAIL_BUILDER_MODULE_NAME', 'babil_email_builder');
 define('EMAIL_BUILDER_NGB_FOLDER', 'em');
 
 hooks()->add_action('admin_init', 'email_builder_init_menu_items');
@@ -20,14 +20,14 @@ hooks()->add_filter('module_' . EMAIL_BUILDER_MODULE_NAME . '_action_links', 'em
 
 // hooks set filter before_parse_email_template_message
 // Later I need to implement the hooks
-// hooks()->apply_filters('after_parse_perfex_email_builder_template_message', $template);
+// hooks()->apply_filters('after_parse_babil_email_builder_template_message', $template);
 hooks()->add_filter('after_parse_email_template_message', 'before_parse_email_template_message', 0);
 function before_parse_email_template_message($template) {
     $CI = &get_instance();
     
     if (!$CI->input->post('email_template_custom')) {        
         $CI->db->where('emailtemplateid', $template->emailtemplateid);
-        $savedTemplate = $CI->db->get(db_prefix() . '_perfex_email_builder')->row();
+        $savedTemplate = $CI->db->get(db_prefix() . '_babil_email_builder')->row();
 
         // Remove default insert track code filter
         hooks()->remove_filter('after_parse_email_template_message', 'email_tracking_inject_in_body');
@@ -62,17 +62,17 @@ function before_parse_email_template_message($template) {
         }
     }
 
-    return hooks()->apply_filters('after_parse_perfex_email_builder_template_message', $template);
+    return hooks()->apply_filters('after_parse_babil_email_builder_template_message', $template);
 }
 
-function perfex_email_builder_head_styles() {
+function babil_email_builder_head_styles() {
     $builderAssetsPath = module_dir_url(EMAIL_BUILDER_MODULE_NAME, 'assets/' . EMAIL_BUILDER_NGB_FOLDER);
 
     echo '<base href="' . $builderAssetsPath . '/">' . PHP_EOL;
     echo '<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />' . PHP_EOL;
     echo '<link href="' . $builderAssetsPath . '/styles.css" rel="stylesheet">' . PHP_EOL;
 }
-function perfex_email_builder_footer_scripts() {
+function babil_email_builder_footer_scripts() {
     $builderAssetsPath = module_dir_url(EMAIL_BUILDER_MODULE_NAME, 'assets/' . EMAIL_BUILDER_NGB_FOLDER);
     
     echo '<script data-cfasync="false" src="' . $builderAssetsPath . '/runtime-es2015.js?v=2.0.2" type="module"></script>' . PHP_EOL;

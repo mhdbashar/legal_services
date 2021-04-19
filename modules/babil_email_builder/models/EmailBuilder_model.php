@@ -8,7 +8,7 @@ class EmailBuilder_model extends App_Model {
     {
         parent::__construct();
         $this->emailTplsTable = db_prefix() . 'emailtemplates';
-        $this->emailBuilderTable = db_prefix() . '_perfex_email_builder';
+        $this->emailBuilderTable = db_prefix() . '_babil_email_builder';
         $this->load->model('emails_model');
     }
 

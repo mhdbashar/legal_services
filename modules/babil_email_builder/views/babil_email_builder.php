@@ -2,7 +2,7 @@
 
 <?php init_head(); ?>
 <div id="wrapper">
-    <?php hooks()->do_action('before_start_perfex_email_builder'); ?>
+    <?php hooks()->do_action('before_start_babil_email_builder'); ?>
     <app-root
         data-mount="templates"
         data-languages='<?php echo json_encode($languages); ?>'
@@ -13,7 +13,7 @@
         data-csrf-name="<?php echo $this->security->get_csrf_token_name(); ?>">
     </app-root>
     <div class="clearfix"></div>
-    <?php hooks()->do_action('after_start_perfex_email_builder'); ?>
+    <?php hooks()->do_action('after_start_babil_email_builder'); ?>
 </div>
 <?php init_tail(); ?>
 </body>

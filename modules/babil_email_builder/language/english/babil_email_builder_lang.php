@@ -1,9 +1,9 @@
 <?php
 
 # Version 2.4.0
-$lang['perfex_email_builder'] = 'Mail templates creator';
+$lang['babil_email_builder'] = 'Mail templates creator';
 $lang['edit_an_email_template'] = 'Edit an email template';
-$lang['perfex_email_builder_options'] = 'Custom Options';
+$lang['babil_email_builder_options'] = 'Custom Options';
 $lang['email_templates_top_alert'] = 'You have installed the <a href="' . admin_url(EMAIL_BUILDER_MODULE_NAME) . '">Mail templates creator</a>, we would recommend to edit the templates there!';
 $lang['general'] = 'General Options';
 $lang['inject_code_admin'] = 'Admin custom styles/js';

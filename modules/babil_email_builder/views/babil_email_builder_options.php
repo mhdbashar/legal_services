@@ -4,7 +4,7 @@
 <div id="wrapper">
     <div class="content">
         <div class="row">
-            <?php hooks()->do_action('before_options_perfex_email_builder'); ?>
+            <?php hooks()->do_action('before_options_babil_email_builder'); ?>
             <div class="col-md-3">
                 <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked">
                     <li class="active"><a href="<?php echo admin_url(EMAIL_BUILDER_MODULE_NAME . '/options'); ?>"><?php echo _l('general'); ?></a></li>

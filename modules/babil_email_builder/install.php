@@ -8,8 +8,8 @@ add_option(EMAIL_BUILDER_MODULE_NAME . '_default_media_folder', EMAIL_BUILDER_MO
 update_option('email_header', '<!-- Handled by Babil Email Builder, any way you can edit it here: ' . admin_url(EMAIL_BUILDER_MODULE_NAME . '/options') . ' -->');
 update_option('email_footer', '<!-- Handled by Babil Email Builder, any way you can edit it here: ' . admin_url(EMAIL_BUILDER_MODULE_NAME . '/options') . ' -->');
 
-if (!$CI->db->table_exists(db_prefix() . '_perfex_email_builder')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . '_perfex_email_builder` (
+if (!$CI->db->table_exists(db_prefix() . '_babil_email_builder')) {
+    $CI->db->query('CREATE TABLE `' . db_prefix() . '_babil_email_builder` (
     `id` int(11) NOT NULL,
     `emailtemplateid` VARCHAR(4) NOT NULL,
     `emailObject` TEXT NOT NULL,
@@ -18,6 +18,6 @@ if (!$CI->db->table_exists(db_prefix() . '_perfex_email_builder')) {
     `updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW()
     ) ENGINE=InnoDB DEFAULT CHARSET='. $CI->db->char_set .';');
 
-    $CI->db->query('ALTER TABLE `' . db_prefix() . '_perfex_email_builder` ADD PRIMARY KEY (`id`);');
-    $CI->db->query('ALTER TABLE `' . db_prefix() . '_perfex_email_builder` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1');
+    $CI->db->query('ALTER TABLE `' . db_prefix() . '_babil_email_builder` ADD PRIMARY KEY (`id`);');
+    $CI->db->query('ALTER TABLE `' . db_prefix() . '_babil_email_builder` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1');
 }

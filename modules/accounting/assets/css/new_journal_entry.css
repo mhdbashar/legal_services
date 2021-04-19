@@ -1,0 +1,9 @@
+.ht_clone_top {
+    z-index: auto !important;
+}
+#example{
+    direction: ltr;
+}
+.handsontable{
+    direction: ltr;
+}

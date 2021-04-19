@@ -1,5 +1,15 @@
 <?php
 
+$lang['designation_group'] = 'Designation group';
+$lang['new_designation_group'] = 'New designation_group';
+$lang['designations_groups'] = 'Designations groups';
+
+$lang['follower_staff'] = 'Follower staff';
+
+$lang['staff_chart_by_department'] = 'Staff chart by department';
+$lang['staff_chart_by_designation'] = 'Staff chart by designation';
+
+
 $lang['hr_contract_prefix'] = 'Hr contract prefix';
 $lang['next_hr_contract_number'] = 'Next hr contract number';
 $lang['hr_staff_prefix'] = 'Staff prefix';

@@ -1,5 +1,13 @@
 <?php
 
+$lang['designation_group'] = 'مجموعة المسميات الموظفية';
+$lang['new_designation_group'] = 'مجموعة جديدة';
+$lang['designations_groups'] = 'مجموعات المسميات الوظيفية';
+
+$lang['follower_staff'] = 'الموظف المتابع';
+$lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
+$lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';
+
 
 $lang['hr_contract_prefix'] = 'لاحقة العقد';
 $lang['next_hr_contract_number'] = 'رقم لاحقة العقد';

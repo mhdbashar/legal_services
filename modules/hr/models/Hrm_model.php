@@ -2296,13 +2296,12 @@ public function evalmath($equation)
         return $chart;
     }
 
-    public function contract_type_chart()
+    public function staff_chart_by_designation()
     {
-        $contracts = $this->db->query('SELECT * FROM tblstaff_contract')->result_array();
-        $statuses = $this->get_contracttype();
+        $statuses = $this->db->get(db_prefix() . 'hr_designations')->result_array();
         $color_data = ['#00FF7F', '#0cffe95c','#80da22','#f37b15','#da1818','#176cea','#5be4f0', '#57c4d8', '#a4d17a', '#225b8', '#be608b', '#96b00c', '#088baf',
-        '#63b598', '#ce7d78', '#ea9e70', '#a48a9e', '#c6e1e8', '#648177' ,'#0d5ac1' ,
-        '#d2737d' ,'#c0a43c' ,'#f2510e' ,'#651be6' ,'#79806e' ,'#61da5e' ,'#cd2f00' ];
+            '#63b598', '#ce7d78', '#ea9e70', '#a48a9e', '#c6e1e8', '#648177' ,'#0d5ac1' ,
+            '#d2737d' ,'#c0a43c' ,'#f2510e' ,'#651be6' ,'#79806e' ,'#61da5e' ,'#cd2f00' ];
 
 
         $_data                         = [];
@@ -2310,11 +2309,11 @@ public function evalmath($equation)
         $total_value =0;
         $has_permission = has_permission('projects', '', 'view');
         $sql            = '';
-        
+
         foreach ($statuses as $status) {
             $sql .= ' SELECT COUNT(*) as total';
-            $sql .= ' FROM ' . db_prefix() . 'staff_contract';
-            $sql .= ' WHERE name_contract=' . $status['id_contracttype'];
+            $sql .= ' FROM ' . db_prefix() . 'hr_extra_info';
+            $sql .= ' WHERE designation=' . $status['id'];
             $sql .= ' UNION ALL ';
             $sql = trim($sql);
         }
@@ -2326,17 +2325,61 @@ public function evalmath($equation)
             $result = $this->db->query($sql)->result();
         }
         foreach ($statuses as $key => $status) {
-              $total_value+=(int)$result[$key]->total;
-          }
+            $total_value+=(int)$result[$key]->total;
+        }
 
         foreach ($statuses as $key => $status) {
-         array_push($_data,
-            [ 
-                'name' => $status['name_contracttype'],
-                'y'    => (int)$result[$key]->total,
-                'z'    => $total_value == 0 ? 0 :(number_format(((int)$result[$key]->total/$total_value), 4, '.',""))*100,
-                'color'=>$color_data[$key]
-            ]);
+            array_push($_data,
+                [
+                    'name' => $status['designation_name'],
+                    'y'    => (int)$result[$key]->total,
+                    'z'    => $total_value == 0 ? 0 :(number_format(((int)$result[$key]->total/$total_value), 4, '.',""))*100,
+                    'color'=>$color_data[$key]
+                ]);
+        }
+        return $_data;
+    }
+
+
+    public function staff_chart_by_department()
+    {
+        $statuses = $this->db->get(db_prefix() . 'departments')->result_array();
+        $color_data = ['#00FF7F', '#0cffe95c','#80da22','#f37b15','#da1818','#176cea','#5be4f0', '#57c4d8', '#a4d17a', '#225b8', '#be608b', '#96b00c', '#088baf',
+            '#63b598', '#ce7d78', '#ea9e70', '#a48a9e', '#c6e1e8', '#648177' ,'#0d5ac1' ,
+            '#d2737d' ,'#c0a43c' ,'#f2510e' ,'#651be6' ,'#79806e' ,'#61da5e' ,'#cd2f00' ];
+
+
+        $_data                         = [];
+        //percent
+        $total_value =0;
+        $sql            = '';
+
+        foreach ($statuses as $status) {
+            $sql .= ' SELECT COUNT(*) as total';
+            $sql .= ' FROM ' . db_prefix() . 'staff_departments';
+            $sql .= ' WHERE departmentid=' . $status['departmentid'];
+            $sql .= ' UNION ALL ';
+            $sql = trim($sql);
+        }
+
+        $result = [];
+        if ($sql != '') {
+            // Remove the last UNION ALL
+            $sql    = substr($sql, 0, -10);
+            $result = $this->db->query($sql)->result();
+        }
+        foreach ($statuses as $key => $status) {
+            $total_value+=(int)$result[$key]->total;
+        }
+
+        foreach ($statuses as $key => $status) {
+            array_push($_data,
+                [
+                    'name' => $status['name'],
+                    'y'    => (int)$result[$key]->total,
+                    'z'    => $total_value == 0 ? 0 :(number_format(((int)$result[$key]->total/$total_value), 4, '.',""))*100,
+                    'color'=>$color_data[$key]
+                ]);
         }
         return $_data;
     }

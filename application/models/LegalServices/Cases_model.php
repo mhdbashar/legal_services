@@ -2431,6 +2431,7 @@ class Cases_model extends App_Model
         }
         $_data            = handle_case_discussion_comment_attachments($discussion_id, $data, $_data);
         $_data['created'] = date('Y-m-d H:i:s');
+        $_data = hooks()->apply_filters('before_add_project_discussion_comment', $_data, $discussion_id);
         $this->db->insert(db_prefix() . 'casediscussioncomments', $_data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -2484,10 +2485,10 @@ class Cases_model extends App_Model
             $notifiedUsers = [];
 
             $regex = "/data\-mention\-id\=\"(\d+)\"/";
-            if (preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
+            if (isset($data['content']) && preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
                 $members = array_unique($mentionedStaff[1], SORT_NUMERIC);
-                $this->send_project_email_mentioned_users($discussion->project_id, 'project_new_discussion_comment_to_staff',$members, $emailTemplateData);
-                
+                $this->send_project_email_mentioned_users($discussion->project_id, 'project_new_discussion_comment_to_staff', $members, $emailTemplateData);
+
                 foreach ($members as $memberId) {
                     if ($memberId == get_staff_user_id() && !is_client_logged_in()) {
                         continue;
@@ -2501,27 +2502,26 @@ class Cases_model extends App_Model
                 
             } else {
                 $this->send_project_email_template($discussion->project_id, 'project_new_discussion_comment_to_staff', 'project_new_discussion_comment_to_customer', $discussion->show_to_customer, $emailTemplateData);
-     
 
-            $members       = $this->get_project_members($discussion->project_id);
-            $notifiedUsers = [];
-            foreach ($members as $member) {
-                if ($member['staff_id'] == get_staff_user_id() && !is_client_logged_in()) {
-                    continue;
-                }
-                $notification_data['touserid'] = $member['staff_id'];
-                if (add_notification($notification_data)) {
-                    array_push($notifiedUsers, $member['staff_id']);
+                $members = $this->get_project_members($discussion->project_id);
+                foreach ($members as $member) {
+                    if ($member['staff_id'] == get_staff_user_id() && !is_client_logged_in()) {
+                        continue;
+                    }
+                    $notification_data['touserid'] = $member['staff_id'];
+                    if (add_notification($notification_data)) {
+                        array_push($notifiedUsers, $member['staff_id']);
+                    }
                 }
             }
-
-        }
 
             $this->log_activity($discussion->project_id, 'project_activity_commented_on_discussion', $discussion->subject, $discussion->show_to_customer);
             
             pusher_trigger_notification($notifiedUsers);
 
             $this->_update_discussion_last_activity($discussion_id, $type);
+
+            hooks()->do_action('after_add_discussion_comment', $insert_id);
 
             return $this->get_discussion_comment($insert_id);
         }
@@ -2806,10 +2806,13 @@ class Cases_model extends App_Model
                 $milestones        = $this->get_milestones($slug, $project_id);
                 $_added_milestones = [];
                 foreach ($milestones as $milestone) {
-                    $dCreated = new DateTime($milestone['datecreated']);
-                    $dDuedate = new DateTime($milestone['due_date']);
-                    $dDiff    = $dCreated->diff($dDuedate);
-                    $due_date = date('Y-m-d', strtotime(date('Y-m-d', strtotime('+' . $dDiff->days . 'DAY'))));
+                    $oldProjectStartDate = new DateTime($project->start_date);
+                    $dDuedate            = new DateTime($milestone['due_date']);
+                    $dDiff               = $oldProjectStartDate->diff($dDuedate);
+
+                    $newProjectStartDate = new DateTime($_new_data['start_date']);
+                    $newProjectStartDate->modify('+' . $dDiff->days . ' DAY');
+                    $newMilestoneDueDate = $newProjectStartDate->format('Y-m-d');
 
                     $this->db->insert(db_prefix() . 'milestones', [
                         'name'                            => $milestone['name'],
@@ -2817,7 +2820,7 @@ class Cases_model extends App_Model
                         'milestone_order'                 => $milestone['milestone_order'],
                         'description_visible_to_customer' => $milestone['description_visible_to_customer'],
                         'description'                     => $milestone['description'],
-                        'due_date'                        => $due_date,
+                        'due_date'                        => $newMilestoneDueDate,
                         'datecreated'                     => date('Y-m-d'),
                         'color'                           => $milestone['color'],
                     ]);

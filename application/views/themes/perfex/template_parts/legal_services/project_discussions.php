@@ -93,7 +93,7 @@
         $table_name = 'oservicediscussioncomments';
     }
     ?>
-<p><?php echo _l('project_discussion_total_comments'); ?>: <?php echo total_rows(db_prefix().$table_name,array('discussion_id'=>$discussion->id)); ?>
+<p><?php echo _l('project_discussion_total_comments'); ?>: <?php echo total_rows(db_prefix().$table_name,array('discussion_id'=>$discussion->id, 'discussion_type'=>'regular')); ?></p>
 <p class="text-muted"><?php echo $discussion->description; ?></p>
 <hr />
 <div id="custom-discussion-comments" class="tc-content"></div>

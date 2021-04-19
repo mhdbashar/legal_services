@@ -779,7 +779,7 @@ class Tasks_model extends App_Model
                 }
             }
 
-            log_activity('New Task Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
+            log_activity('New '.$log_text.' Added [ID:' . $insert_id . ', Name: ' . $data['name'] . ']');
             hooks()->do_action('after_add_task', $insert_id);
 
             return $insert_id;
@@ -967,7 +967,7 @@ class Tasks_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             hooks()->do_action('after_update_task', $id);
-            log_activity('Task Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
+            log_activity(''.$log_text.' Updated [ID:' . $id . ', Name: ' . $data['name'] . ']');
         }
 
         if ($affectedRows > 0) {

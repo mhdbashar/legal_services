@@ -3,7 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
-    db_prefix() . 'mail_outbox.to',    
+    db_prefix() . 'mail_outbox.to',
+    'sender_name',    
     'subject',    
     'date_sent',    
 ];
@@ -13,7 +14,7 @@ $sTable       = db_prefix() . 'mail_outbox';
 
 $join = [];
 $where = [];
-array_push($where, ' AND trash = 0');
+array_push($where, 'AND trash = 0');
 if($group=='draft'){
     array_push($where, ' AND draft = 1');
 } else {
@@ -45,8 +46,15 @@ foreach ($rResult as $aRow) {
         $has_attachment = '<i class="fa fa-paperclip pull-right" data-toggle="tooltip" title="'._l('mailbox_file_attachment').'" data-original-title="fa-paperclip"></i>';
     }
 
+    if($group == "draft"){
+        $type = "outbox"; 
+    } else {
+        $type = "inbox";
+    }
+
+
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['id'] . '"><label></label></div>                
-                <a class="btn btnIcon" data-toggle="tooltip" title="" data-original-title="'. _l('mailbox_delete').'" onclick="update_field(\''.$group.'\',\'trash\',1,'.$aRow['id'].');"><i class="fa fa-trash-o"></i></a>';
+                <a class="btn btnIcon" data-toggle="tooltip" title="" data-original-title="'. _l('mailbox_delete').'" onclick="update_field(\''.$group.'\',\'trash\',1,'.$aRow['id'].',\''.$type.'\');"><i class="fa fa-trash-o"></i></a>';
     
 
     $content = '<a href="'.admin_url().'mailbox/outbox/'.$aRow['id'].'">';
@@ -54,7 +62,7 @@ foreach ($rResult as $aRow) {
         $content = '<a href="'.admin_url().'mailbox/compose/'.$aRow['id'].'">';
     }
     $row[] = $content.'<span>'.$aRow[db_prefix() . 'mail_outbox.to'].'</span></a>';
-    $row[] = $content.'<span>'.$aRow['subject'].' - </span><span class="text-muted">'.clear_textarea_breaks(text_limiter($aRow['body'],8,'...')).'</span>'.$has_attachment.'</a>';    
+    $row[] = $content.'<span>'.$aRow['subject'].' - </span><span class="text-muted">'.clear_textarea_breaks(text_limiter($aRow['body'],2,'...')).'</span>'.$has_attachment.'</a>';    
     $row[] = $content.'<span>'._dt($aRow['date_sent']).'</span></a>';
 
     $output['aaData'][] = $row;

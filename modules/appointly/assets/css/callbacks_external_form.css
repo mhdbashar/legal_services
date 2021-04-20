@@ -7,7 +7,7 @@ body {
     position: absolute;
     background: #fff;
     z-index: 9999999;
-    top: calc(100% - 96%);
+    top: calc(100% - 97.5%);
     width: 540px;
     right: 0;
     box-sizing: border-box;
@@ -67,7 +67,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     display: block;
     z-index: 1;
     position: absolute;
-    top: 0;
+    top: -2px;
     right: 0;
     transform: rotate(90deg);
     width: 54px;
@@ -163,9 +163,17 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
     }
 }
 
+.blurry {
+    transition: all ease 0.5s;
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+}
+
 @media screen and (max-width:600px) {
     .pfx-cb-show {
-        right: 304px !important;
+        right: 450px !important;
     }
     .cb-form-wrapper .dropdown-menu.open .inner.open {
         overflow-x: hidden;
@@ -174,7 +182,7 @@ You should gho in modules\appointly\views\forms\callbacks_form.php and uncomment
         max-width: 240px;
     }
     .cb-form-wrapper {
-        width: 304px !important;
+        width: 450px !important;
         top: 0;
     }
     .xdsoft_datetimepicker {

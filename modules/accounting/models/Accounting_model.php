@@ -748,13 +748,20 @@ class Accounting_model extends App_Model
                 'note'           	=> _l('acc_dividend_income_note'),
                 'order'          	=> 92,
                 ],
+//            [
+//                'id'             	=> 93,
+//                'account_type_id' 	=> 12,
+//                'name'           	=> _l('acc_interest_earned'),
+//                'note'           	=> _l('acc_interest_earned_note'),
+//                'order'          	=> 93,
+//                ],
             [
-                'id'             	=> 93,
-                'account_type_id' 	=> 12,
-                'name'           	=> _l('acc_interest_earned'),
-                'note'           	=> _l('acc_interest_earned_note'),
-                'order'          	=> 93,
-                ],
+                'id'                => 93,
+                'account_type_id'   => 15,
+                'name'              => _l('acc_other_expense'),
+                'note'              => _l('acc_other_expense_note'),
+                'order'             => 93,
+            ],
             [
                 'id'             	=> 94,
                 'account_type_id' 	=> 12,
@@ -923,13 +930,20 @@ class Accounting_model extends App_Model
                 'note'              => _l('acc_insurance_note'),
                 'order'             => 117,
                 ],
+//            [
+//                'id'                => 118,
+//                'account_type_id'   => 14,
+//                'name'              => _l('acc_interest_paid'),
+//                'note'              => _l('acc_interest_paid_note'),
+//                'order'             => 118,
+//                ],
             [
                 'id'                => 118,
-                'account_type_id'   => 14,
-                'name'              => _l('acc_interest_paid'),
-                'note'              => _l('acc_interest_paid_note'),
+                'account_type_id'   => 15,
+                'name'              => _l('acc_penalties_and_settlements'),
+                'note'              => _l('acc_penalties_and_settlements_note'),
                 'order'             => 118,
-                ],
+            ],
             [
                 'id'                => 119,
                 'account_type_id'   => 14,
@@ -1077,13 +1091,13 @@ class Accounting_model extends App_Model
                 'note'              => _l('acc_other_expense_note'),
                 'order'             => 139,
                 ],
-            [
-                'id'                => 140,
-                'account_type_id'   => 15,
-                'name'              => _l('acc_penalties_and_settlements'),
-                'note'              => _l('acc_penalties_and_settlements_note'),
-                'order'             => 140,
-                ],
+//            [
+//                'id'                => 140,
+//                'account_type_id'   => 15,
+//                'name'              => _l('acc_penalties_and_settlements'),
+//                'note'              => _l('acc_penalties_and_settlements_note'),
+//                'order'             => 140,
+//                ],
             ]);
 
         usort($account_type_details, function ($a, $b) {
@@ -1300,12 +1314,12 @@ class Accounting_model extends App_Model
                 'account_type_id' => 5,
                 'account_detail_type_id' => 35,
             ],
-            [
-                'name' => '',
-                'key_name' => 'acc_interest_expense',
-                'account_type_id' => 14,
-                'account_detail_type_id' => 118,
-            ],
+//            [
+//                'name' => '',
+//                'key_name' => 'acc_interest_expense',
+//                'account_type_id' => 14,
+//                'account_detail_type_id' => 118,
+//            ],
             [
                 'name' => '',
                 'key_name' => 'acc_interest_income',

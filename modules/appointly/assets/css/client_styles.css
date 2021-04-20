@@ -387,6 +387,11 @@ body .label {
     line-height: normal;
 }
 
+.fixpadding_clients {
+    padding-right: initial;
+    padding-left: 0px;
+}
+
 .pulse {
     background: #f37502;
     border-radius: 50%;

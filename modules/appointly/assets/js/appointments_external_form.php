@@ -70,6 +70,7 @@
 
                 $('.appointment-date').datetimepicker(appointmentDatePickerOptionsExternal);
             });
+
             jQuery.datetimepicker.setLocale(app.locale);
         }
         <?php
@@ -144,7 +145,7 @@
                             <?php else : ?>
                                 location.reload();
                             <?php endif; ?>
-                        }, 2000)
+                        }, 3000)
                     } else if (response.success == false && response.recaptcha == false) {
                         $('#recaptcha_response_field').show().html(response.message);
                         $('#pfxcbsubmit').prop('disabled', false);

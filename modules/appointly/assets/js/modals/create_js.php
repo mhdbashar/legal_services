@@ -94,7 +94,6 @@
                var lead_select = $('body').find('#appointment-form #rel_id');
 
                if (optionSelected == 'external') {
-
                     dninput.val('').attr('disabled', false).attr('required', true);
                     $('#div_phone input').attr('required', false);
                     div_nep.removeClass('hidden');
@@ -104,14 +103,12 @@
                     lead_select.attr('required', false).val('default').selectpicker("refresh");
 
                } else if (optionSelected == 'internal') {
-
                     contact_id.val('default').selectpicker("refresh").attr('required', true);
                     div_nep.addClass('hidden').attr('required', false);
                     select_contacts.removeClass('hidden');
                     rel_id_wrapper.addClass('hide');
                     lead_select.attr('required', false).val('default').selectpicker("refresh");
                } else {
-
                     dninput.attr('required', false);
                     contact_id.val('default').selectpicker("refresh").attr('required', false);
                     div_nep.addClass('hidden').attr('required', false);

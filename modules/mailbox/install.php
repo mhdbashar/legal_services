@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
+/*
  * The file is responsible for handing the mailbox installation
  */
 
@@ -13,8 +13,8 @@ add_option('mailbox_folder_scan', 'Inbox');
 add_option('mailbox_check_every', 3);
 add_option('mailbox_only_loop_on_unseen_emails', 1);
 
-if (!$CI->db->table_exists(db_prefix() . 'mail_inbox')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . "mail_inbox` (
+if (!$CI->db->table_exists(db_prefix().'mail_inbox')) {
+    $CI->db->query('CREATE TABLE `'.db_prefix()."mail_inbox` (
       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `from_staff_id` int(11) NOT NULL DEFAULT '0',
       `to_staff_id` int(11) NOT NULL DEFAULT '0',
@@ -33,11 +33,11 @@ if (!$CI->db->table_exists(db_prefix() . 'mail_inbox')) {
       `trash` tinyint(1) NOT NULL DEFAULT '0',
       `from_email` varchar(150) DEFAULT NULL,
       PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+    ) ENGINE=InnoDB DEFAULT CHARSET=".$CI->db->char_set.';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'mail_outbox')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . "mail_outbox` (
+if (!$CI->db->table_exists(db_prefix().'mail_outbox')) {
+    $CI->db->query('CREATE TABLE `'.db_prefix()."mail_outbox` (
       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `sender_staff_id` int(11) NOT NULL DEFAULT '0',
       `to` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -54,32 +54,43 @@ if (!$CI->db->table_exists(db_prefix() . 'mail_outbox')) {
       `reply_from_id` int(11) DEFAULT NULL,
       `reply_type` varchar(45) NOT NULL DEFAULT 'inbox',
       PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+    ) ENGINE=InnoDB DEFAULT CHARSET=".$CI->db->char_set.';');
 }
 
-if (!$CI->db->table_exists(db_prefix() . 'mail_attachment')) {
-    $CI->db->query('CREATE TABLE `' . db_prefix() . "mail_attachment` (
+if (!$CI->db->table_exists(db_prefix().'mail_attachment')) {
+    $CI->db->query('CREATE TABLE `'.db_prefix()."mail_attachment` (
       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
       `mail_id` int(11) NOT NULL,
       `file_name` varchar(191) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
       `file_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
       `type` varchar(45) NOT NULL DEFAULT 'inbox',
       PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
+    ) ENGINE=InnoDB DEFAULT CHARSET=".$CI->db->char_set.';');
 }
 
 if (!$CI->db->field_exists('draft', 'mail_outbox')) {
-    $CI->db->query('ALTER TABLE `' . db_prefix() . 'mail_outbox` ADD COLUMN `draft` tinyint(1) NOT NULL DEFAULT 0;');            
+    $CI->db->query('ALTER TABLE `'.db_prefix().'mail_outbox` ADD COLUMN `draft` tinyint(1) NOT NULL DEFAULT 0;');
 }
 
 if (!$CI->db->field_exists('mail_password', 'staff')) {
-    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `mail_password` VARCHAR(250) NULL');
+    $CI->db->query('ALTER TABLE `'.db_prefix().'staff`  ADD COLUMN `mail_password` VARCHAR(250) NULL');
 }
 
 if (!$CI->db->field_exists('mail_signature', 'staff')) {
-    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `mail_signature` VARCHAR(250) NULL');
+    $CI->db->query('ALTER TABLE `'.db_prefix().'staff`  ADD COLUMN `mail_signature` VARCHAR(250) NULL');
 }
 
 if (!$CI->db->field_exists('last_email_check', 'staff')) {
-    $CI->db->query('ALTER TABLE `' . db_prefix() . 'staff`  ADD COLUMN `last_email_check` VARCHAR(50) NULL');
+    $CI->db->query('ALTER TABLE `'.db_prefix().'staff`  ADD COLUMN `last_email_check` VARCHAR(50) NULL');
+}
+
+
+// Moving necessary dependencies to the correct place for clean installs of v2.7.0+
+$checkfolder = FCPATH . 'application/third_party/php-imap';
+$srcloc = APP_MODULES_PATH . 'mailbox/third_party/php-imap'; 
+$destloc = FCPATH . 'application/third_party/';
+
+if(!is_dir($checkfolder)){
+  mkdir($checkfolder);
+  shell_exec("cp -r $srcloc $destloc");
 }

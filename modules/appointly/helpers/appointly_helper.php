@@ -677,29 +677,29 @@ function getAppointmentHours()
         ['value' => '11:00', 'name' => '11:00 AM'],
         ['value' => '11:30', 'name' => '11:30 AM'],
         ['value' => '12:00', 'name' => '12:00 PM'],
-        ['value' => '12:30', 'name' => '12:30 AM'],
+        ['value' => '12:30', 'name' => '12:30 PM'],
         ['value' => '13:00', 'name' => '13:00 PM'],
-        ['value' => '13:30', 'name' => '13:30 AM'],
+        ['value' => '13:30', 'name' => '13:30 PM'],
         ['value' => '14:00', 'name' => '14:00 PM'],
-        ['value' => '14:30', 'name' => '14:30 AM'],
+        ['value' => '14:30', 'name' => '14:30 PM'],
         ['value' => '15:00', 'name' => '15:00 PM'],
-        ['value' => '15:30', 'name' => '15:30 AM'],
+        ['value' => '15:30', 'name' => '15:30 PM'],
         ['value' => '16:00', 'name' => '16:00 PM'],
-        ['value' => '16:30', 'name' => '16:30 AM'],
+        ['value' => '16:30', 'name' => '16:30 PM'],
         ['value' => '17:00', 'name' => '17:00 PM'],
-        ['value' => '17:30', 'name' => '17:30 AM'],
+        ['value' => '17:30', 'name' => '17:30 PM'],
         ['value' => '18:00', 'name' => '18:00 PM'],
-        ['value' => '18:30', 'name' => '18:30 AM'],
+        ['value' => '18:30', 'name' => '18:30 PM'],
         ['value' => '19:00', 'name' => '19:00 PM'],
-        ['value' => '19:30', 'name' => '19:30 AM'],
+        ['value' => '19:30', 'name' => '19:30 PM'],
         ['value' => '20:00', 'name' => '20:00 PM'],
-        ['value' => '20:30', 'name' => '20:30 AM'],
+        ['value' => '20:30', 'name' => '20:30 PM'],
         ['value' => '21:00', 'name' => '21:00 PM'],
-        ['value' => '21:30', 'name' => '21:30 AM'],
+        ['value' => '21:30', 'name' => '21:30 PM'],
         ['value' => '22:00', 'name' => '22:00 PM'],
-        ['value' => '22:30', 'name' => '22:30 AM'],
+        ['value' => '22:30', 'name' => '22:30 PM'],
         ['value' => '23:00', 'name' => '23:00 PM'],
-        ['value' => '23:30', 'name' => '23:30 AM']
+        ['value' => '23:30', 'name' => '23:30 PM']
     ];
 }
 
@@ -1000,5 +1000,35 @@ function get_appointly_version()
 
     if ($version->num_rows() > 0) {
         return _l('appointly_current_version') . $version->row('installed_version');
+    }
+}
+
+/**
+ * Add additional css on client side external form
+ *
+ * @param string $client
+ * @return void
+ */
+function applyAdditionalCssStyles($client)
+{
+    if (isset($client['client_logged_in'])) {
+        echo compile_theme_css();
+        get_template_part('navigation');
+        echo '<style>
+            body .cb-form-wrapper { top: calc(100% - 88.2%); }
+            @media only screen and (max-width: 768px) {
+              body .cb-form-wrapper {
+                top: calc(100% - 86.2%);
+                }
+            }
+        </style>';
+    } else {
+        echo '<style>
+        @media only screen and (max-width: 768px) {
+            body .callback-icon {
+                right: 32px;
+            } 
+         }
+        </style>';
     }
 }

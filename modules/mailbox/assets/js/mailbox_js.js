@@ -1,13 +1,13 @@
 /**
  * Update email status 
  */
-function update_field(group, action, value, mail_id){
+function update_field(group, action, value, mail_id, type='inbox'){
     var data = {};
     data.group = group;
     data.action = action;
     data.value = value;
     data.id = mail_id;
-    data.type = 'inbox';     
+    data.type = type;     
     if(group == 'detail'){
         data.type = mailtype; 
     }
@@ -43,9 +43,9 @@ function reload_mailbox_tables() {
 /**
  * Update multi-email 
  */
-function update_mass(group, action, value){
+function update_mass(group, action, value, type = "inbox"){
     if(group == 'detail'){
-        update_field(group, action, value, mailid);
+        update_field(group, action, value, mailid, type);
     } else {
         if (confirm_delete()) {
             var table_mailbox = $('.table-mailbox');
@@ -57,7 +57,7 @@ function update_mass(group, action, value){
                     lstid = lstid + checkbox.val() + ',';
                 }
             });
-            update_field(group, action, value, lstid);
+            update_field(group, action, value, lstid, type);
         }
     }
 }

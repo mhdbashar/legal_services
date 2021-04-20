@@ -17,11 +17,26 @@ $CI = &get_instance();
 
 hooks()->add_filter('sidebar_custom_email_and_sms_notifications_items', 'app_admin_sidebar_custom_options', 999);
 hooks()->add_filter('sidebar_custom_email_and_sms_notifications_items', 'app_admin_sidebar_custom_positions', 998);
-
 hooks()->add_filter('setup_custom_email_and_sms_notifications_items', 'app_admin_custom_email_and_sms_notifications_custom_options', 999);
 hooks()->add_filter('setup_custom_email_and_sms_notifications_items', 'app_admin_custom_email_and_sms_notifications_custom_positions', 998);
 hooks()->add_filter('module_custom_email_and_sms_notifications_action_links', 'module_custom_email_and_sms_notifications_action_links');
 hooks()->add_action('app_admin_footer', 'sms_and_email_assets');
+hooks()->add_action('admin_init', 'add_csrf_support');
+
+/**
+ * Add CSRF Exclusion Support
+ * @return stylesheet / script
+ */
+function add_csrf_support()
+{
+	$configfile = FCPATH . 'application/config/config.php';
+	$searchforit = file_get_contents($configfile);
+	$csrfstring = 'admin/custom_email_and_sms_notifications/email_sms/sendEmailSms';
+	
+	if(strpos($searchforit,$csrfstring) == false) {
+		file_put_contents($configfile, str_replace('$config[\'csrf_exclude_uris\'] = [', '$config[\'csrf_exclude_uris\'] = [\'admin/custom_email_and_sms_notifications/email_sms/sendEmailSms\', ', $searchforit)); 
+	}
+}
 
 /**
  * Staff login includes
@@ -54,6 +69,7 @@ register_activation_hook(CUSTOM_EMAIL_AND_SMS_NOTIFICATIONS_MODULE_NAME, 'custom
 
 function custom_email_and_sms_notifications_activation_hook()
 {
+	$CI = &get_instance();
     require_once(__DIR__ . '/install.php');
 }
 
@@ -61,3 +77,53 @@ function custom_email_and_sms_notifications_activation_hook()
 * Register language files, must be registered if the module is using languages
 */
 register_language_files(CUSTOM_EMAIL_AND_SMS_NOTIFICATIONS_MODULE_NAME, [CUSTOM_EMAIL_AND_SMS_NOTIFICATIONS_MODULE_NAME]);
+
+//inject permissions Feature and Capabilities for module
+hooks()->add_filter('staff_permissions', 'custom_email_and_sms_notifications_permissions_for_staff');
+function custom_email_and_sms_notifications_permissions_for_staff($permissions)
+{
+    $viewGlobalName      = _l('permission_view').'('._l('permission_global').')';
+    $allPermissionsArray = [
+        'view'     => $viewGlobalName,
+        'create'   => _l('permission_create'),
+    ];
+    $permissions['custom_email_and_sms_notifications'] = [
+                'name'         => _l('sms_module_title'),
+                'capabilities' => $allPermissionsArray,
+            ];
+
+    return $permissions;
+}
+
+hooks()->add_action('admin_init', 'custom_email_and_sms_menuitem');
+
+function custom_email_and_sms_menuitem()
+{
+    $CI = &get_instance();
+
+    $CI->app_menu->add_sidebar_menu_item('custom-email-and-sms', [
+            'slug'     => 'main-menu-options',
+            'name'     => 'Custom Email/SMS',
+            'href'     => admin_url('custom_email_and_sms_notifications/email_sms/email_or_sms'),
+            'position' => 65,
+            'icon'     => 'fa fa-envelope'
+    ]);
+
+
+    $CI->app_menu->add_sidebar_children_item('custom-email-and-sms', [
+        'slug'     => 'main-menu-options',
+        'name'     => 'Send Email or SMS',
+        'href'     => admin_url('custom_email_and_sms_notifications/email_sms/email_or_sms'),
+        'position' => 65,
+    ]);
+
+    if (has_permission('custom_email_and_sms_notifications', '', 'view')) {
+        $CI->app_menu->add_sidebar_children_item('custom-email-and-sms', [
+            'slug'     => 'add_edit_templates',
+            'name'     => _l('templates'),
+            'href'     => admin_url('custom_email_and_sms_notifications/template'),
+            'position' => 5,
+        ]);
+    }
+
+}

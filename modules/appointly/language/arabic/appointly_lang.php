@@ -296,3 +296,6 @@ $lang['appointment_mark_as_ongoing'] = 'جارية';
 $lang['appointment_mark_as_cancelled'] = 'ملغية';
 $lang['appointment_mark_as_finished'] = 'منتهية';
 $lang['appointment_marked_as_approved'] = 'تم تحديد الموعد على أنه تمت الموافقة عليه';
+
+# Version 1.1.8
+$lang['appointment_menu_form_link'] = 'معلومات النموذج';

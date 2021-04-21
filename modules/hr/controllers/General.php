@@ -111,7 +111,7 @@ class General extends AdminController{
 //                if(!$this->app_modules->is_active('branches'))
 //                    $data['branch'] = $this->No_branch_model->get_branch('staff', $staff_id);
 
-            $extra_info = ['emloyee_id' => '', 'follower_staff' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+            $extra_info = ['emloyee_id' => '', 'country' => '', 'follower_staff' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
 
             $data['extra_info'] = (object)$extra_info;
 
@@ -223,6 +223,7 @@ class General extends AdminController{
         $hr_data['leaves'] = $this->input->post('leaves');
         $hr_data['follower_staff'] = $this->input->post('follower_staff');
         $hr_data['marital_status'] = $this->input->post('marital_status');
+        $hr_data['country'] = $this->input->post('country');
         $staff_id = $id;
 
         if ($this->input->post()) {
@@ -336,7 +337,7 @@ class General extends AdminController{
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
-        $extra_info = ['id' => '', 'follower_staff' => '', 'emloyee_id' => '', 'number_format' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
+        $extra_info = ['id' => '', 'country' => '', 'follower_staff' => '', 'emloyee_id' => '', 'number_format' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
         $data['extra_info'] = (object)$extra_info;
         $data['leaves'] = $this->Leave_type_model->get();
 

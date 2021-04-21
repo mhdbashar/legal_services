@@ -340,6 +340,7 @@ class General extends AdminController{
         $extra_info = ['id' => '', 'country' => '', 'follower_staff' => '', 'emloyee_id' => '', 'number_format' => '', 'sub_department' => '', 'designation' => '', 'gender' => '', 'marital_status' => '', 'office_sheft' => '', 'date_birth' => date("Y/m/d"), 'state_province' => '', 'city' => '', 'leaves' => '', 'zip_code' => '', 'address' => ''];
         $data['extra_info'] = (object)$extra_info;
         $data['leaves'] = $this->Leave_type_model->get();
+        $data['staffs'] = $this->Extra_info_model->get_staffs();
 
         $this->load->view('details/general/member', $data);
     }

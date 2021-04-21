@@ -238,6 +238,8 @@
                          </div>
 
 
+
+
                          <div class="col-md-4">
                              <div class="form-group">
                                  <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
@@ -263,6 +265,11 @@
                              <?php echo render_input('state_province','state_province',$extra_info->state_province ); ?>
                          </div>
 
+                         <div class="col-md-4">
+                             <?php $countries = get_all_countries(); ?>
+                             <?php $selected = ($extra_info->nationality != '' ? $extra_info->nationality : get_option('company_country')); ?>
+                             <?php echo render_select('nationality', get_cases_countries($field), array('country_id', array($field)), 'nationality', $selected); ?>
+                         </div>
                      	<div class="col-md-4">
                      		<?php echo render_input('zip_code','zip_code',$extra_info->zip_code ); ?>
                      	</div>

@@ -648,7 +648,7 @@ class hrm_model extends App_Model
     {
 
         if (is_numeric($id)) {
-        $this->db->where('position_id', $id);
+        $this->db->where('id', $id);
 
             return $this->db->get(db_prefix() . 'job_position')->row();
         }
@@ -664,7 +664,7 @@ class hrm_model extends App_Model
         $position = $this->db->query('select * from tbljob_position')->result_array();
         $position_arrray = [];
         foreach ($position as $value) {
-            array_push($position_arrray, $value['position_id']);
+            array_push($position_arrray, $value['id']);
         }
         return $position_arrray;
     }
@@ -675,7 +675,7 @@ class hrm_model extends App_Model
     }
     public function update_job_position($data, $id)
     {   
-        $this->db->where('position_id', $id);
+        $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'job_position', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -683,7 +683,7 @@ class hrm_model extends App_Model
         return false;
     }
     public function delete_job_position($id){
-        $this->db->where('position_id', $id);
+        $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'job_position');
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -1558,7 +1558,7 @@ class hrm_model extends App_Model
         }
         $data['department_id'] = json_encode(($data['department_id']));
         $data['role_id'] = json_encode(($data['role_id']));
-        $data['position_id'] = json_encode(($data['position_id']));
+        $data['id'] = json_encode(($data['id']));
 
 
 
@@ -1608,7 +1608,7 @@ class hrm_model extends App_Model
 
         $data['department_id'] = json_encode(($data['department_id']));
         $data['role_id'] = json_encode(($data['role_id']));
-        $data['position_id'] = json_encode(($data['position_id']));
+        $data['id'] = json_encode(($data['id']));
 
 
         $templates = [];
@@ -1707,10 +1707,10 @@ class hrm_model extends App_Model
             $replaceVal = array('(', ')', '');
            $department_array = str_replace($searchVal, $replaceVal, $get_payroletype->department_id);
         }
-        if($get_payroletype->position_id != 'null'){
+        if($get_payroletype->id != 'null'){
             $searchVal = array('[', ']', '"');
             $replaceVal = array('(', ')', '');
-           $position_array = str_replace($searchVal, $replaceVal, $get_payroletype->position_id);
+           $position_array = str_replace($searchVal, $replaceVal, $get_payroletype->id);
         }
         if($get_payroletype->role_id != 'null'){
             $searchVal = array('[', ']', '"');
@@ -1724,8 +1724,8 @@ class hrm_model extends App_Model
         if(isset($get_payroletype->role_id) && $get_payroletype->role_id != 'null' && $get_payroletype->role_id != '0'){
             $sql .= ' AND role in '.$role_array.'';
         }        
-        if(isset($get_payroletype->position_id) && $get_payroletype->position_id != 'null' && $get_payroletype->position_id != '0'){
-            $sql .= ' AND job_position in ( select position_id from tbljob_position where position_id in '.$position_array.' )';
+        if(isset($get_payroletype->id) && $get_payroletype->id != 'null' && $get_payroletype->id != '0'){
+            $sql .= ' AND job_position in ( select id from tbljob_position where id in '.$position_array.' )';
         }
 
         $CI = & get_instance();
@@ -1814,8 +1814,8 @@ class hrm_model extends App_Model
         $arr_leftjoin_select = array();
         $arr_leftjoin_on = array();
 
-        $arr_leftjoin_select['job_position'] = ' tbljob_position.position_name as job_position';
-        $arr_leftjoin_on['job_position'] = ' LEFT JOIN tbljob_position on tbljob_position.position_id = tblstaff.job_position';
+        $arr_leftjoin_select['job_position'] = ' tbljob_position.designation_name as job_position';
+        $arr_leftjoin_on['job_position'] = ' LEFT JOIN tbljob_position on tbljob_position.id = tblstaff.job_position';
 
         $arr_leftjoin_select['name'] = ' tbldepartments.name as name';
         $arr_leftjoin_on['name'] = ' LEFT JOIN tblstaff_departments on tblstaff_departments.staffid = tblstaff.staffid LEFT JOIN tbldepartments ON tbldepartments.departmentid = tblstaff_departments.departmentid ' ;

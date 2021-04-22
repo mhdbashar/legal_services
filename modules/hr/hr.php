@@ -4,6 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
+define('VERSION_HR', 307);
+
 
 /*
 Author: Babil Team
@@ -483,7 +485,12 @@ function hr_add_head_components(){
     echo '<link href="' . module_dir_url('hr','assets/css/style.css') .'"  rel="stylesheet" type="text/css" />';
     echo '<link href="' . module_dir_url('hr','assets/plugins/ComboTree/style.css') .'"  rel="stylesheet" type="text/css" />';
 
+    if(accepted_pages(['hr/hr_profile/organizational_chart'])){
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/style.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, 'assets/css/style.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, '/assets/plugins/OrgChart-master/jquery.orgchart.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
 
+    }
     if (accepted_pages(['hr'])) {
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/variable-pie.js').'"></script>';
@@ -514,6 +521,13 @@ function hr_add_footer_components(){
     }
     if (accepted_pages(['hr/contract'])) {
         echo '<script src="'.module_dir_url('hr', 'assets/js/contract.js').'"></script>';
+    }
+
+    if(accepted_pages(['hr/hr_profile/organizational_chart'])){
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_HR.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_HR.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/OrgChart-master/jquery.orgchart.js').'?v=' . VERSION_HR.'"></script>';
+
     }
 
 }
@@ -703,6 +717,15 @@ function hr_init_hrmApp(){
             'href'     => admin_url('hr/organization/designation'),
             'position' => 70,
             'icon'     => 'fa fa-users',
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'organizational_chart',
+            'name'     => _l('organizational_chart'),
+            'href'     => admin_url('hr/hr_profile/organizational_chart'),
+            'position' => 72,
+            'icon'     => 'fa fa-th-list',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){

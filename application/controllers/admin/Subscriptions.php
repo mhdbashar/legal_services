@@ -119,6 +119,7 @@ class Subscriptions extends AdminController
         }
 
         $subscription = $this->subscriptions_model->get_by_id($id);
+
         if (!$subscription || (!has_permission('subscriptions', '', 'view') && $subscription->created_from != get_staff_user_id())) {
             show_404();
         }
@@ -181,7 +182,7 @@ class Subscriptions extends AdminController
             if (!empty($subscription->stripe_subscription_id)) {
                 $data['stripeSubscription'] = $this->stripe_subscriptions->get_subscription($subscription->stripe_subscription_id);
 
-                /*              $data['stripeSubscription']->billing_cycle_anchor = 'now';
+/*                              $data['stripeSubscription']->billing_cycle_anchor = 'now';
                               $data['stripeSubscription']->save();
                               die;*/
 

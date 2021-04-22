@@ -19,7 +19,6 @@ class Clients extends AdminController
         $data['company_groups']    = $this->clients_model->get_company_groups();
         $data['title']          = _l('clients');
 
-        
         $this->load->model('proposals_model');
         $data['proposal_statuses'] = $this->proposals_model->get_statuses();
 
@@ -36,7 +35,7 @@ class Clients extends AdminController
 
         $whereContactsLoggedIn = '';
         if (!has_permission('customers', '', 'view')) {
-            $whereContactsLoggedIn = ' AND userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';
+            $whereContactsLoggedIn = ' AND userid IN (SELECT customer_id FROM ' . db_prefix() . 'customer_admins WHERE staff_id=' . get_staff_user_id() . ')';
         }
 
         $data['contacts_logged_in_today'] = $this->clients_model->get_contacts('', 'last_login LIKE "' . date('Y-m-d') . '%"' . $whereContactsLoggedIn);
@@ -88,16 +87,12 @@ class Clients extends AdminController
         }
 
         if ($this->input->post() && !$this->input->is_ajax_request()) {
-
-
-            $data = $this->input->post();
-
-
             if ($id == '') {
                 if (!has_permission('customers', '', 'create')) {
                     access_denied('customers');
                 }
-                
+
+                $data = $this->input->post();
 
                 $save_and_add_contact = false;
                 if (isset($data['save_and_add_contact'])) {
@@ -125,7 +120,7 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
-                $success = $this->clients_model->update($data, $id);
+                $success = $this->clients_model->update($this->input->post(), $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));
                 }
@@ -301,7 +296,7 @@ class Clients extends AdminController
         if (has_permission('customers', '', 'create')) {
             $companyName = trim($this->input->post('company'));
             $response    = [
-                'exists'  => (bool) total_rows(db_prefix().'clients', ['company' => $companyName]) > 0,
+                'exists'  => (bool) total_rows(db_prefix() . 'clients', ['company' => $companyName]) > 0,
                 'message' => _l('company_exists_info', '<b>' . $companyName . '</b>'),
             ];
             echo json_encode($response);
@@ -317,7 +312,7 @@ class Clients extends AdminController
         }
 
         $this->db->where('userid', $client_id);
-        $this->db->update(db_prefix().'clients', [
+        $this->db->update(db_prefix() . 'clients', [
             'longitude' => $this->input->post('longitude'),
             'latitude'  => $this->input->post('latitude'),
         ]);
@@ -369,8 +364,8 @@ class Clients extends AdminController
                 echo json_encode([
                     'success'             => $success,
                     'message'             => $message,
-                    'has_primary_contact' => (total_rows(db_prefix().'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
-                    'is_individual'       => is_empty_customer_company($customer_id) && total_rows(db_prefix().'contacts', ['userid' => $customer_id]) == 1,
+                    'has_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
+                    'is_individual'       => is_empty_customer_company($customer_id) && total_rows(db_prefix() . 'contacts', ['userid' => $customer_id]) == 1,
                 ]);
                 die;
             }
@@ -409,7 +404,7 @@ class Clients extends AdminController
             }
             if ($updated == true) {
                 $contact = $this->clients_model->get_contact($contact_id);
-                if (total_rows(db_prefix().'proposals', [
+                if (total_rows(db_prefix() . 'proposals', [
                         'rel_type' => 'customer',
                         'rel_id' => $contact->userid,
                         'email' => $original_contact->email,
@@ -423,7 +418,7 @@ class Clients extends AdminController
                     'proposal_warning'    => $proposal_warning,
                     'message'             => $message,
                     'original_email'      => $original_email,
-                    'has_primary_contact' => (total_rows(db_prefix().'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
+                    'has_primary_contact' => (total_rows(db_prefix() . 'contacts', ['userid' => $customer_id, 'is_primary' => 1]) > 0 ? true : false),
                 ]);
             die;
         }
@@ -440,7 +435,7 @@ class Clients extends AdminController
                 ]);
                 die;
             }
-            $title = $data['contact']->firstname.' '.$data['contact']->lastname;
+            $title = $data['contact']->firstname . ' ' . $data['contact']->lastname;
         }
 
         $data['customer_permissions'] = get_contact_permissions();
@@ -469,10 +464,10 @@ class Clients extends AdminController
             }
 
             $this->db->where('file_id', $file_id);
-            $this->db->delete(db_prefix().'shared_customer_files');
+            $this->db->delete(db_prefix() . 'shared_customer_files');
 
             foreach ($share_contacts_id as $share_contact_id) {
-                $this->db->insert(db_prefix().'shared_customer_files', [
+                $this->db->insert(db_prefix() . 'shared_customer_files', [
                     'file_id'    => $file_id,
                     'contact_id' => $share_contact_id,
                 ]);
@@ -482,20 +477,13 @@ class Clients extends AdminController
 
     public function delete_contact_profile_image($contact_id)
     {
-        hooks()->do_action('before_remove_contact_profile_image');
-        if (file_exists(get_upload_path_by_type('contact_profile_images') . $contact_id)) {
-            delete_dir(get_upload_path_by_type('contact_profile_images') . $contact_id);
-        }
-        $this->db->where('id', $contact_id);
-        $this->db->update(db_prefix().'contacts', [
-            'profile_image' => null,
-        ]);
+        $this->clients_model->delete_contact_profile_image($contact_id);
     }
 
     public function mark_as_active($id)
     {
         $this->db->where('userid', $id);
-        $this->db->update(db_prefix().'clients', [
+        $this->db->update(db_prefix() . 'clients', [
             'active' => 1,
         ]);
         redirect(admin_url('clients/client/' . $id));
@@ -526,7 +514,7 @@ class Clients extends AdminController
 
             $this->db->select('email,userid');
             $this->db->where('id', $contact_id);
-            $contact = $this->db->get(db_prefix().'contacts')->row();
+            $contact = $this->db->get(db_prefix() . 'contacts')->row();
 
             $proposals = $this->proposals_model->get('', [
                 'rel_type' => 'customer',
@@ -537,7 +525,7 @@ class Clients extends AdminController
 
             foreach ($proposals as $proposal) {
                 $this->db->where('id', $proposal['id']);
-                $this->db->update(db_prefix().'proposals', [
+                $this->db->update(db_prefix() . 'proposals', [
                     'email' => $contact->email,
                 ]);
                 if ($this->db->affected_rows() > 0) {
@@ -579,7 +567,7 @@ class Clients extends AdminController
 
         $this->db->where('customer_id', $customer_id);
         $this->db->where('staff_id', $staff_id);
-        $this->db->delete(db_prefix().'customer_admins');
+        $this->db->delete(db_prefix() . 'customer_admins');
         redirect(admin_url('clients/client/' . $customer_id) . '?tab=customer_admins');
     }
 
@@ -593,7 +581,7 @@ class Clients extends AdminController
         $contact      = $this->clients_model->get_contact($id);
         $hasProposals = false;
         if ($contact && is_gdpr()) {
-            if (total_rows(db_prefix().'proposals', ['email' => $contact->email]) > 0) {
+            if (total_rows(db_prefix() . 'proposals', ['email' => $contact->email]) > 0) {
                 $hasProposals = true;
             }
         }
@@ -782,7 +770,7 @@ class Clients extends AdminController
             ]);
 
         $this->app_bulk_pdf_export->set_client_id($id);
-        $this->app_bulk_pdf_export->set_client_id_column(db_prefix().'clients.userid');
+        $this->app_bulk_pdf_export->set_client_id_column(db_prefix() . 'clients.userid');
         $this->app_bulk_pdf_export->in_folder($this->input->post('file_name'));
         $this->app_bulk_pdf_export->export();
     }
@@ -793,7 +781,7 @@ class Clients extends AdminController
             access_denied('customers');
         }
 
-        $dbFields = $this->db->list_fields(db_prefix().'contacts');
+        $dbFields = $this->db->list_fields(db_prefix() . 'contacts');
         foreach ($dbFields as $key => $contactField) {
             if ($contactField == 'phonenumber') {
                 $dbFields[$key] = 'contact_phonenumber';
@@ -838,11 +826,8 @@ class Clients extends AdminController
         $data['bodyclass'] = 'dynamic-create-groups';
         $this->load->view('admin/clients/import', $data);
     }
-    public function groups(){
-        $this->personal_groups();
-    }
 
-    public function personal_groups()
+    public function groups()
     {
         if (!is_admin()) {
             access_denied('Customer Groups');

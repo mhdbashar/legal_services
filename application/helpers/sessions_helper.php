@@ -589,3 +589,31 @@ function get_count_of_previous_sessions()
     $CI = &get_instance();
     return $CI->db->query('SELECT COUNT(id) AS session_count FROM ' . db_prefix() . 'tasks WHERE is_session = 1 AND DATE_FORMAT(now(),"%Y-%m-%d") > STR_TO_DATE('.db_prefix() .'tasks.startdate, "%Y-%m-%d")')->row()->session_count;
 }
+
+/**
+ * check if staff created task
+ *
+ * @param null|int|string $taskId
+ * @param null|int|string $staffId
+ * @return bool
+ * @since 2.8.2
+ *
+ */
+function is_session_created_by_staff($taskId, $staffId = null)
+{
+    if (is_null($staffId)) {
+        $staffId = get_staff_user_id();
+    }
+
+    if (!is_numeric($staffId) || !is_numeric($staffId)) {
+        return false;
+    }
+
+    $CI = &get_instance();
+    $CI->db->select('1')
+        ->where('is_added_from_contact', 0)
+        ->where('addedfrom', $staffId)
+        ->where('is_session', 1)
+        ->where('id', $taskId);
+    return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
+}

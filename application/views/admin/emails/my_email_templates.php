@@ -472,6 +472,41 @@
                                     </table>
                                 </div>
                             </div>
+                            <?php hooks()->do_action('before_estimate_request_email_templates'); ?>
+                            <div class="col-md-12">
+                                <h4 class="bold well email-template-heading">
+                                    <?php echo _l('estimate_request'); ?>
+                                    <?php if($hasPermissionEdit){ ?>
+                                        <a href="<?php echo admin_url('emails/disable_by_type/estimate_request'); ?>" class="pull-right mleft5 mright25"><small><?php echo _l('disable_all'); ?></small></a>
+                                        <a href="<?php echo admin_url('emails/enable_by_type/estimate_request'); ?>" class="pull-right"><small><?php echo _l('enable_all'); ?></small></a>
+                                    <?php } ?>
+
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th><?php echo _l('email_templates_table_heading_name'); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach($estimate_request as $estimate_request){ ?>
+                                            <tr>
+                                                <td class="<?php if($estimate_request['active'] == 0){echo 'text-throught';} ?>">
+                                                    <a href="<?php echo admin_url('emails/email_template/'.$estimate_request['emailtemplateid']); ?>"><?php echo $estimate_request['name']; ?></a>
+                                                    <?php if(ENVIRONMENT !== 'production'){ ?>
+                                                        <br/><small><?php echo $estimate_request['slug']; ?></small>
+                                                    <?php } ?>
+                                                    <?php if($hasPermissionEdit){ ?>
+                                                        <a href="<?php echo admin_url('emails/'.($estimate_request['active'] == '1' ? 'disable/' : 'enable/').$estimate_request['emailtemplateid']); ?>" class="pull-right"><small><?php echo _l($estimate_request['active'] == 1 ? 'disable' : 'enable'); ?></small></a>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <?php hooks()->do_action('before_gdpr_email_templates'); ?>
                             <div class="col-md-12<?php if(!is_gdpr()){echo ' hide';} ?>">
                                 <h4 class="bold well email-template-heading">

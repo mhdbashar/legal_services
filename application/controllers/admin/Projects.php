@@ -136,7 +136,7 @@ class Projects extends AdminController
                 !isset($status['filter_default'])
                 || (isset($status['filter_default']) && $status['filter_default'])
                 && !$appliedStatuses
-                ) {
+            ) {
                 $selected_statuses[] = $status['id'];
             } elseif ($appliedStatuses) {
                 if (in_array($status['id'], $appliedStatuses)) {
@@ -269,7 +269,7 @@ class Projects extends AdminController
                 $data['percent_circle'] = $percent_circle;
 
 
-                $data['project_overview_chart'] = $this->projects_model->get_project_overview_weekly_chart_data($id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart'):'this_week'));
+                $data['project_overview_chart'] = $this->projects_model->get_project_overview_weekly_chart_data($id, ($this->input->get('overview_chart') ? $this->input->get('overview_chart') : 'this_week'));
             } elseif ($group == 'project_invoices') {
                 $this->load->model('invoices_model');
 
@@ -607,11 +607,11 @@ class Projects extends AdminController
         $data['milestones'] = [];
 
         $data['milestones'][] = [
-          'name'              => _l('milestones_uncategorized'),
-          'id'                => 0,
-          'total_logged_time' => $this->projects_model->calc_milestone_logged_time($data['project_id'], 0),
-          'color'             => null,
-          ];
+            'name'              => _l('milestones_uncategorized'),
+            'id'                => 0,
+            'total_logged_time' => $this->projects_model->calc_milestone_logged_time($data['project_id'], 0),
+            'color'             => null,
+        ];
 
         $_milestones = $this->projects_model->get_milestones($data['project_id']);
 

@@ -55,10 +55,9 @@ class Authentication_model extends App_Model
                     return false;
                 }
             } else {
-
                 hooks()->do_action('non_existent_user_login_attempt', [
-                        'email'           => $email,
-                        'is_staff_member' => $staff,
+                    'email'           => $email,
+                    'is_staff_member' => $staff,
                 ]);
 
                 log_activity('Non Existing User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
@@ -68,8 +67,8 @@ class Authentication_model extends App_Model
 
             if ($user->active == 0) {
                 hooks()->do_action('inactive_user_login_attempt', [
-                        'user'            => $user,
-                        'is_staff_member' => $staff,
+                    'user'            => $user,
+                    'is_staff_member' => $staff,
                 ]);
                 log_activity('Inactive User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
@@ -93,7 +92,7 @@ class Authentication_model extends App_Model
                         'staff_logged_in' => true,
                     ];
                 } else {
-                    $user_data = [];
+                    $user_data                = [];
                     $user_data['tfa_staffid'] = $user->staffid;
                     if ($remember) {
                         $user_data['tfa_remember'] = true;
@@ -112,7 +111,6 @@ class Authentication_model extends App_Model
                     'client_logged_in' => true,
                 ];
             }
-
             $this->session->set_userdata($user_data);
 
             if (!$twoFactorAuth) {

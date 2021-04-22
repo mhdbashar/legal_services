@@ -402,6 +402,8 @@ $lang['not_document_deadline_reminder'] = "Not Document Deadline Reminder";
 
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
+$lang['processing'] = "Processing";
+$lang['cancelled'] = "Cancelled";
 $lang['not_completed'] = "Not Completed";
 $lang['completed_with_hr_system'] = "Integrated With Hr System";
 

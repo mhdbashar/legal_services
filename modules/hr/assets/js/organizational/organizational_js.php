@@ -206,8 +206,8 @@
 
 						var ds = {
 							'name': '',
-							'image':'<img class="img_logo_1" style="width: 40px"  src=" '+img_dir+' ">' ,
-							'title':'<p class="title_company"><?php echo get_option('invoice_company_name'); ?></p>',
+							'image':'<img class="img_logo_1" style="width: 195px"  src=" '+img_dir+' ">' ,
+							'title':'<p class="title_company" style="text-align: center"><?php echo get_option('invoice_company_name'); ?></p>',
 							'reality_now':'',
 							'children': <?php echo html_entity_decode($deparment_chart); ?>
 						};

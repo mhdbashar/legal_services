@@ -318,8 +318,10 @@ function add_tab_commission_in_client($client){
 }
 
 function add_content_commission_in_client($client){
-    $CI = &get_instance();
-	if(check_applicable_client($client->userid)){
-		require 'modules/commission/views/client/commission_tab.php';
+    if($client != null){
+        $CI = &get_instance();
+        if(check_applicable_client($client->userid)){
+            require 'modules/commission/views/client/commission_tab.php';
+        }
     }
 }

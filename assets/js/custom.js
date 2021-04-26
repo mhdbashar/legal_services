@@ -594,7 +594,17 @@ $(function() {
         window.location.href = admin_url + 'disputes/view/' + val + __project_group;
     });
 
-    $("body").on('change', '.f_client_id,#clientid,select[name="clientid"] ', function() {
+    $("body").on('change', '.f_client_id select[name="clientid"] ', function() {
+        var val = $(this).val();
+        var servicesWrapper = $('.services-wrapper');
+        if (!val) {
+            servicesWrapper.addClass('hide');
+        }else {
+            servicesWrapper.removeClass('hide');
+        }
+    });
+    
+    $("body").on('change', '#clientid', function() {
         customer_init();
         $('#rel_sid').html('');
         var val = $(this).val();

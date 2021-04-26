@@ -867,6 +867,9 @@ class Accounting extends AdminController
                 if($acc_enable_account_numbers == 1 && $acc_show_account_numbers == 1){
                     $row[] = $aRow['number'];
                 }
+                if ($aRow['key_name'] != '' && str_contains($aRow['key_name'], 'acc_interest')) {
+                    continue;
+                }
                 if($aRow['name'] == ''){
                     $categoryOutput = _l($aRow['key_name']);
                 }else{

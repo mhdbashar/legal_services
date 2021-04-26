@@ -323,15 +323,17 @@ $html .= '</tr>';
 $html .= '</thead>';
 $html .= '<tbody>';
 foreach ($timesheets as $timesheet) {
-    $html .= '<tr style="color:#4a4a4a;">';
-    $html .= '<td>' . get_staff_full_name($timesheet['staff_id']) . '</td>';
-    $html .= '<td>' . $timesheet['task_data']->name . '</td>';
-    $html .= '<td>' . _dt($timesheet['start_time'], true) . '</td>';
-    $html .= '<td>' . (!is_null($timesheet['end_time']) ? _dt($timesheet['end_time'], true) : '') . '</td>';
-    $html .= '<td>' . seconds_to_time_format($timesheet['total_spent']) . '</td>';
-    $html .= '<td>' . sec2qty($timesheet['total_spent']) . '</td>';
+        $html .= '<tr style="color:#4a4a4a;">';
+        $html .= '<td>' . get_staff_full_name($timesheet['staff_id']) . '</td>';
+    if($timesheet['task_data'] != null){
+        $html .= '<td>' . $timesheet['task_data']->name . '</td>';
+    }
+        $html .= '<td>' . _dt($timesheet['start_time'], true) . '</td>';
+        $html .= '<td>' . (!is_null($timesheet['end_time']) ? _dt($timesheet['end_time'], true) : '') . '</td>';
+        $html .= '<td>' . seconds_to_time_format($timesheet['total_spent']) . '</td>';
+        $html .= '<td>' . sec2qty($timesheet['total_spent']) . '</td>';
 
-    $html .= '</tr>';
+        $html .= '</tr>';
 }
 $html .= '</tbody>';
 $html .= '</table>';

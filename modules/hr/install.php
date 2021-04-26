@@ -680,9 +680,9 @@ if (row_options_exist('"sign_a_labor_contract"') == 0){
 
 if (!$CI->db->table_exists(db_prefix() . 'job_position')) {
     $CI->db->query('CREATE TABLE `' . db_prefix() . "job_position` (
-      `position_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-      `position_name` varchar(200) NOT NULL,
-      PRIMARY KEY (`position_id`)
+      `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `designation_name` varchar(200) NOT NULL,
+      PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=" . $CI->db->char_set . ';');
 }
 

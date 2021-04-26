@@ -8,7 +8,16 @@
 </div>
 <?php init_tail(); ?>
 <script>
-//
+    $("#country").change(function () {
+        $.ajax({
+            url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
+            data: {country: $(this).val()},
+            type: "POST",
+            success: function (data) {
+                $("#city").html(data);
+            }
+        });
+    });
 //  $(document).on('change','#branch_id',function () {
 //    $.get(admin_url + 'branches/getDepartments/' + $(this).val(), function(response) {
 //        if (response.success == true) {
@@ -148,7 +157,6 @@
             alert_float('danger', response.message);
         }
     }, 'json');
-});
 
   function check(sel)
   {

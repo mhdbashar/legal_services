@@ -418,6 +418,16 @@ $(function () {
         });
     })
 
+    $("#country").change(function () {
+        $.ajax({
+            url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
+            data: {country: $(this).val()},
+            type: "POST",
+            success: function (data) {
+                $("#city").html(data);
+            }
+        });
+    });
 });
 </script>
 </body>

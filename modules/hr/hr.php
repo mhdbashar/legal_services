@@ -4,12 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
+define('VERSION_HR', 307);
+
 
 /*
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.6
+Version: 3.0.7
 Requires at least: 2.3.*
 Author URI: #
 
@@ -483,7 +485,12 @@ function hr_add_head_components(){
     echo '<link href="' . module_dir_url('hr','assets/css/style.css') .'"  rel="stylesheet" type="text/css" />';
     echo '<link href="' . module_dir_url('hr','assets/plugins/ComboTree/style.css') .'"  rel="stylesheet" type="text/css" />';
 
+    if(accepted_pages(['hr/hr_profile/organizational_chart'])){
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/style.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, 'assets/css/style.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
+        echo '<link href="' . module_dir_url(HR_MODULE_NAME, '/assets/plugins/OrgChart-master/jquery.orgchart.css') . '?v=' . VERSION_HR. '"  rel="stylesheet" type="text/css" />';
 
+    }
     if (accepted_pages(['hr'])) {
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/variable-pie.js').'"></script>';
@@ -514,6 +521,13 @@ function hr_add_footer_components(){
     }
     if (accepted_pages(['hr/contract'])) {
         echo '<script src="'.module_dir_url('hr', 'assets/js/contract.js').'"></script>';
+    }
+
+    if(accepted_pages(['hr/hr_profile/organizational_chart'])){
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/comboTreePlugin.js').'?v=' . VERSION_HR.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_HR.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/OrgChart-master/jquery.orgchart.js').'?v=' . VERSION_HR.'"></script>';
+
     }
 
 }
@@ -565,7 +579,7 @@ function hr_init_hrmApp(){
             'name' => _l("hr"), // The name if the item
             'href' => '#', // URL of the item
             'position' => 10, // The menu position, see below for default positions.
-            // 'icon'     => 'fa fa-file-text-o', // Font awesome icon
+            // 'icon'     => 'fa fa-users', // Font awesome icon
         ]);
     }
     if (has_permission('hr', '', 'view')){
@@ -574,6 +588,7 @@ function hr_init_hrmApp(){
             'name'     => _l('dashboard'),
             'href'     => admin_url('hr'),
             'position' => 5,
+            'icon'     => 'fa fa-home',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -582,6 +597,7 @@ function hr_init_hrmApp(){
             'name'     => _l('staff'),
             'href'     => admin_url('hr/general/staff'),
             'position' => 5,
+            'icon'     => 'fa fa-user',
         ]);
     }
 
@@ -591,15 +607,7 @@ function hr_init_hrmApp(){
             'name'     => _l('expired_documents'),
             'href'     => admin_url('hr/general/expired_documents'),
             'position' => 10,
-        ]);
-    }
-
-    if (has_permission('hr_contracts', '', 'view_own') || has_permission('hr_contracts', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
-            'slug'     => 'staff_contract',
-            'name'     => _l('staff_contract'),
-            'href'     => admin_url('hr/contracts'),
-            'position' => 15,
+            'icon'     => 'fa fa-file',
         ]);
     }
     if (has_permission('insurrance', '', 'view_own') || has_permission('insurrance', '', 'view')){
@@ -608,6 +616,17 @@ function hr_init_hrmApp(){
             'name'     => _l('insurrance'),
             'href'     => admin_url('hr/insurances'),
             'position' => 20,
+            'icon'     => 'fa fa-life-ring',
+        ]);
+    }
+
+    if (has_permission('hr_contracts', '', 'view_own') || has_permission('hr_contracts', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'staff_contract',
+            'name'     => _l('staff_contract'),
+            'href'     => admin_url('hr/contracts'),
+            'position' => 22,
+            'icon'     => 'fa fa-file',
         ]);
     }
     if (has_permission('hr_settings', '', 'view')){
@@ -616,6 +635,7 @@ function hr_init_hrmApp(){
             'name'     => _l('constants'),
             'href'     => admin_url('hr/setting'),
             'position' => 25,
+            'icon'     => 'fa fa-cog',
         ]);
     }
     if (has_permission('hr_settings', '', 'view')){
@@ -624,6 +644,7 @@ function hr_init_hrmApp(){
             'name'     => _l('global_hr_setting'),
             'href'     => admin_url('hr/setting/global_hr_setting'),
             'position' => 30,
+            'icon'     => 'fa fa-cog',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -632,6 +653,7 @@ function hr_init_hrmApp(){
             'name'     => _l('payroll'),
             'href'     => admin_url('hr/payroll'),
             'position' => 35,
+            'icon'     => 'fa fa-money',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -640,6 +662,7 @@ function hr_init_hrmApp(){
             'name'     => _l('payment_history'),
             'href'     => admin_url('hr/payroll/payment_history'),
             'position' => 40,
+            'icon'     => 'fa fa-history',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -648,6 +671,7 @@ function hr_init_hrmApp(){
             'name'     => _l('indicators'),
             'href'     => admin_url('hr/performance/indicators'),
             'position' => 45,
+            'icon'     => 'fa fa-tachometer',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -656,6 +680,7 @@ function hr_init_hrmApp(){
             'name'     => _l('appraisals'),
             'href'     => admin_url('hr/performance/appraisals'),
             'position' => 50,
+            'icon'     => 'fa fa-tachometer',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -664,6 +689,7 @@ function hr_init_hrmApp(){
             'name'     => _l('official_documents'),
             'href'     => admin_url('hr/organization/officail_documents'),
             'position' => 55,
+            'icon'     => 'fa fa-file',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -672,6 +698,7 @@ function hr_init_hrmApp(){
             'name'     => _l('departments'),
             'href'     => admin_url('departments'),
             'position' => 60,
+            'icon'     => 'fa fa-building-o',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') and is_active_sub_department()){
@@ -680,6 +707,7 @@ function hr_init_hrmApp(){
             'name'     => _l('sub_department'),
             'href'     => admin_url('hr/organization/sub_department'),
             'position' => 65,
+            'icon'     => 'fa fa-building-o',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -688,6 +716,16 @@ function hr_init_hrmApp(){
             'name'     => _l('designation'),
             'href'     => admin_url('hr/organization/designation'),
             'position' => 70,
+            'icon'     => 'fa fa-users',
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'organizational_chart',
+            'name'     => _l('organizational_chart'),
+            'href'     => admin_url('hr/hr_profile/organizational_chart'),
+            'position' => 72,
+            'icon'     => 'fa fa-th-list',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -696,6 +734,7 @@ function hr_init_hrmApp(){
             'name'     => _l('designations_groups'),
             'href'     => admin_url('hr/organization/designations_groups'),
             'position' => 71,
+            'icon'     => 'fa fa-object-group',
         ]);
     }
     if (has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view')){
@@ -704,6 +743,7 @@ function hr_init_hrmApp(){
             'name'     => _l('awards'),
             'href'     => admin_url('hr/core_hr/awards'),
             'position' => 75,
+            'icon'     => 'fa fa-trophy',
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
@@ -712,6 +752,7 @@ function hr_init_hrmApp(){
             'name'     => _l('terminations'),
             'href'     => admin_url('hr/core_hr/terminations'),
             'position' => 80,
+            'icon'     => 'fa fa-sign-out',
         ]);
     }
     if (has_permission('warnings', '', 'view_own') || has_permission('warnings', '', 'view')){
@@ -720,6 +761,7 @@ function hr_init_hrmApp(){
             'name'     => _l('warnings'),
             'href'     => admin_url('hr/core_hr/warnings'),
             'position' => 85,
+            'icon'     => 'fa fa-exclamation-triangle',
         ]);
     }
     if (has_permission('transfers', '', 'view_own') || has_permission('transfers', '', 'view') and is_active_sub_department()){
@@ -728,6 +770,7 @@ function hr_init_hrmApp(){
             'name'     => _l('transfers'),
             'href'     => admin_url('hr/core_hr/transfers'),
             'position' => 90,
+            'icon'     => 'fa fa-arrows',
         ]);
     }
     if (has_permission('complaints', '', 'view_own') || has_permission('complaints', '', 'view')){
@@ -736,6 +779,7 @@ function hr_init_hrmApp(){
             'name'     => _l('complaints'),
             'href'     => admin_url('hr/core_hr/complaints'),
             'position' => 95,
+            'icon'     => 'fa fa-file',
         ]);
     }
     if (has_permission('resignations', '', 'view_own') || has_permission('resignations', '', 'view')){
@@ -744,6 +788,7 @@ function hr_init_hrmApp(){
             'name'     => _l('resignations'),
             'href'     => admin_url('hr/core_hr/resignations'),
             'position' => 100,
+            'icon'     => 'fa fa-file',
         ]);
     }
     if (has_permission('promotions', '', 'view_own') || has_permission('promotions', '', 'view')){
@@ -752,6 +797,7 @@ function hr_init_hrmApp(){
             'name'     => _l('promotions'),
             'href'     => admin_url('hr/core_hr/promotions'),
             'position' => 105,
+            'icon'     => 'fa fa-bullhorn',
         ]);
     }
     if (has_permission('travels', '', 'view_own') || has_permission('travels', '', 'view')){
@@ -760,6 +806,7 @@ function hr_init_hrmApp(){
             'name'     => _l('travels'),
             'href'     => admin_url('hr/core_hr/travels'),
             'position' => 110,
+            'icon'     => 'fa fa-file',
         ]);
     }
 

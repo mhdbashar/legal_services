@@ -134,6 +134,7 @@ class Contracts extends AdminController
             $contract_merge_fields[0][] = $salary_merge_fileds;
             $contract_merge_fields[0][] = $total_salary_merge_fileds;
             $contract_merge_fields[0][] = $allowance_merge_fileds;
+            unset($contract_merge_fields[1][5]);
             $data['contract_merge_fields'] = $contract_merge_fields;
 
             $title = $data['contract']->subject;

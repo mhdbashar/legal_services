@@ -1,5 +1,6 @@
 <?php
 
+$lang['add_only_main_salary'] = 'Add only main salary';
 $lang['designation_group'] = 'Designation group';
 $lang['new_designation_group'] = 'New designation_group';
 $lang['designations_groups'] = 'Designations groups';

@@ -90,7 +90,7 @@
                               }));
                          }, 1000);
                     }
-                    $.post("<?= site_url('prchat/Prchat_ClientsController/trigger_ticket_event'); ?>", {
+                    $.post("<?= site_url('babilchat/Prchat_ClientsController/trigger_ticket_event'); ?>", {
                          client_id: r.client_id,
                          ticket_id: r.ticket_id
                     }).done(function(r) {

@@ -15,7 +15,7 @@ if (location.protocol != 'http:') {
     var stopButton = document.getElementById("stopButton");
     var cancelButton = document.getElementById("cancelRecording");
 
-    var timer;
+    //var timer;
     var chat_seconds_element = document.getElementById("chat_rec_seconds");
     var chat_minutes_element = document.getElementById("chat_rec_minutes");
     //add events to those 2 buttons
@@ -156,7 +156,7 @@ if (location.protocol != 'http:') {
         stopButton.disabled = false;
     }
 
-    /** 
+    /**
      * Clear recording fields
      */
     function clearMinutesAndSeconds() {

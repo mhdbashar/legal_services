@@ -9,6 +9,7 @@ class Proposals extends AdminController
         parent::__construct();
         $this->load->model('proposals_model');
         $this->load->model('currencies_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index($proposal_id = '')
@@ -466,7 +467,7 @@ class Proposals extends AdminController
             'belongs_to' => 'proposal',
             'rel_id'     => $id,
         ];
-
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $this->load->view('admin/proposals/estimate_convert_template', $data);
     }
 

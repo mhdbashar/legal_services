@@ -462,7 +462,7 @@
                                 <div role="tabpanel" class="tab-pane" id="tab_templates">
                                     <div class="row contract-templates">
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-info" onclick="add_template('hr_contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
+                                            <button type="button" class="btn btn-info" onclick="add_hr_template('hr_contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
                                             <hr>
                                         </div>
                                         <div class="col-md-12">
@@ -493,7 +493,7 @@
 
     function get_hr_templates(rel_type, rel_id) {
         if (rel_type === 'hr_contracts') {
-            $('#contract-templates').load(admin_url + 'templates', {
+            $('#contract-templates').load(admin_url + 'hr/contracts/templates', {
                 rel_type: rel_type,
                 rel_id: rel_id
             });

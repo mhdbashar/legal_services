@@ -498,6 +498,7 @@ function hr_add_head_components(){
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/accessibility.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/exporting.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts-3d.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/js/hr.js').'"></script>';
     }
 
 

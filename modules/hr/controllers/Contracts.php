@@ -9,6 +9,7 @@ class Contracts extends AdminController
         parent::__construct();
         $this->load->model('hr_contracts_model');
         $this->load->model('LegalServices/LegalServicesModel', 'legal');
+        $this->load->model('templates_model');
     }
 
     function validate_contract_number($id = '')
@@ -161,6 +162,93 @@ class Contracts extends AdminController
     {
         $name = $this->input->get('name');
         echo $this->load->view('admin/hr/contracts/templates/' . $name, [], true);
+    }
+    public function templates($id = null)
+    {
+        $data['rel_type'] = $this->input->post('rel_type');
+        $data['rel_id']   = $this->input->post('rel_id');
+
+        $where             = ['type' => $data['rel_type']];
+        $data['templates'] = $this->templates_model->get($id, $where);
+
+        if (is_numeric($id)) {
+            $template = $this->templates_model->get($id);
+
+            echo json_encode([
+                'data' => $template,
+            ]);
+            die;
+        }
+
+        $this->load->view('admin/contracts/templates', $data);
+    }
+    protected function authorize($id)
+    {
+        $template = $this->templates_model->get($id);
+
+        if ($template->addedfrom != get_staff_user_id() && !is_admin()) {
+            ajax_access_denied();
+        }
+    }
+    public function delete_hr_template($id)
+    {
+        $this->authorize($id);
+
+        $this->templates_model->delete($id);
+
+        echo json_encode([
+            'success' => true,
+        ]);
+    }
+    public function template($id = null)
+    {
+        $content = $this->input->post('content', false);
+        $content = html_purify($content);
+
+        $data['name']      = $this->input->post('name');
+        $data['content']   = $content;
+        $data['addedfrom'] = get_staff_user_id();
+        $data['type']      = $this->input->post('rel_type');
+
+        // so when modal is submitted, it returns to the proposal/contract that was being edited.
+        $rel_id = $this->input->post('rel_id');
+
+        if (is_numeric($id)) {
+            $this->authorize($id);
+            $success = $this->templates_model->update($id, $data);
+            $message = _l('template_updated');
+        } else {
+            $success = $this->templates_model->create($data);
+            $message = _l('template_added');
+        }
+
+        if ($success) {
+            set_alert('success', $message);
+        }
+
+        redirect(
+            $data['type'] == 'hr_contracts' ?
+                admin_url('hr/contracts/contract/' . $rel_id) :
+                admin_url('proposals/list_proposals/' . $rel_id)
+        );
+    }
+    public function modal()
+    {
+        $data['rel_type'] = $this->input->post('rel_type');
+
+        // When modal is submitted, it returns to the proposal/contract that was being edited.
+        $data['rel_id'] = $this->input->post('rel_id');
+
+        if ($this->input->post('slug') == 'new') {
+            $data['title'] = _l('add_template');
+        } elseif ($this->input->post('slug') == 'edit') {
+            $data['title'] = _l('edit_template');
+            $data['id']    = $this->input->post('id');
+            $this->authorize($data['id']);
+            $data['template'] = $this->templates_model->get($data['id']);
+        }
+
+        $this->load->view('admin/contracts/modals/template', $data);
     }
 
     public function mark_as_signed($id)

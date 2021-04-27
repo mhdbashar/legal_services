@@ -1,6 +1,6 @@
 <script>
-    var getUserSound = new Audio(site_url + 'modules/prchat/assets/chat_implements/sounds/push.mp3');
-    var getSeenSound = new Audio(site_url + 'modules/prchat/assets/chat_implements/sounds/chat_seen.mp3');
+    var getUserSound = new Audio(site_url + 'modules/babilchat/assets/chat_implements/sounds/push.mp3');
+    var getSeenSound = new Audio(site_url + 'modules/babilchat/assets/chat_implements/sounds/chat_seen.mp3');
     var soundDisabledMembers = [];
 
     (localStorage.getItem('soundDisabledMembers')) ?

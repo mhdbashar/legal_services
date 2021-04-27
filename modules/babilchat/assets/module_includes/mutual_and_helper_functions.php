@@ -3,10 +3,29 @@
      * Main Settings for clients chat
      * Used in chat_clients_view.php
      */
+    if (location.protocol != 'http:') {
+        URL = window.URL || window.webkitURL;
+        var gumStream; //stream from getUserMedia()
+        var recorder; //WebAudioRecorder object
+        var input; //MediaStreamAudioSourceNode  we'll be recording
+        var encodingType = 'ogg'; // current is set to ogg audio (file) there is wav and mp3 also but bigger files ogg suits best
+        var encodeAfterRecord = true; // when to encode
+        var chat_rec_sec = 0;
+        // shim for AudioContext when it's not avb.
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        var audioContext; //new audio context to help us record
 
-    var recordButton = document.getElementById("recordButton");
-    var stopButton = document.getElementById("stopButton");
-    var cancelButton = document.getElementById("cancelRecording");
+        var recordButton = document.getElementById("recordButton");
+        var stopButton = document.getElementById("stopButton");
+        var cancelButton = document.getElementById("cancelRecording");
+
+        //var timer;
+        var chat_seconds_element = document.getElementById("chat_rec_seconds");
+        var chat_minutes_element = document.getElementById("chat_rec_minutes");
+        //add events to those 2 buttons
+        recordButton.addEventListener("click", startRecording);
+        stopButton.addEventListener("click", stopRecording);
+    }
 
     var customerSettings = {
         'clientPusherAuth': '<?php echo site_url('babilchat/Babilchat_ClientsController/pusherCustomersAuth'); ?>',
@@ -90,7 +109,9 @@
             audioWrapper.css('display', 'none');
         }
 
-        cancelButton.disabled = false;
+        document.addEventListener("DOMContentLoaded", function(event) {
+            cancelButton.disabled = false;
+        });
         //  button is disabled on send due bugs prevention must enable when wrapper is shown again
         if (recorder !== undefined) {
             recorder.onEncodingCanceled;

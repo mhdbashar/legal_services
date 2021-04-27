@@ -54,8 +54,11 @@ class Expenses extends AdminController
             ajax_access_denied();
         }
 
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('case-expenses', [
             'clientid' => $clientid,
+            'data'     => $data,
         ]);
     }
 
@@ -65,8 +68,11 @@ class Expenses extends AdminController
             ajax_access_denied();
         }
 
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('oservice-expenses', [
             'clientid' => $clientid,
+            'data'     => $data,
         ]);
     }
 

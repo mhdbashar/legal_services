@@ -89,7 +89,7 @@ function babilchat_set_session_variable_before_login_for_notification_client()
 function babil_chat_load_js()
 {
     if (!strpos($_SERVER['REQUEST_URI'], 'chat_full_view') !== false) {
-        echo '<script src="' . module_dir_url('babilchat', 'assets/js/pr-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
+        echo '<script src="' . module_dir_url('babilchat', 'assets/js/babil-chat.js' . '?v=' . VERSIONING . '') . '"></script>';
     }
     /**
      * Mentions js

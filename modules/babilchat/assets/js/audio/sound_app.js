@@ -194,7 +194,10 @@ if (location.protocol != 'http:') {
             audioWrapper.css('display', 'none');
         }
 
-        cancelButton.disabled = false;
+        document.addEventListener("DOMContentLoaded", function(event) {
+            cancelButton.disabled = false;
+        });
+
         //  button is disabled on send due bugs prevention must enable when wrapper is shown again
         if (recorder !== undefined) {
             recorder.onEncodingCanceled;

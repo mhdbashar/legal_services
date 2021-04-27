@@ -30,11 +30,14 @@ if (count($_categories) > 0) {
 
 
 $modesIds = [];
-foreach ($data['payment_modes'] as $mode) {
-    if ($this->ci->input->post('expense_payments_by_' . $mode['id'])) {
-        array_push($modesIds, $mode['id']);
+if(isset($data['payment_modes'])) {
+    foreach ($data['payment_modes'] as $mode) {
+        if ($this->ci->input->post('expense_payments_by_' . $mode['id'])) {
+            array_push($modesIds, $mode['id']);
+        }
     }
 }
+
 if (count($modesIds) > 0) {
     array_push($filter, 'AND paymentmode IN ("' . implode('", "', $modesIds) . '")');
 }

@@ -3411,8 +3411,8 @@ CREATE TABLE `tblchatgroupmessages` (
 
 INSERT INTO `tblchatgroupmessages` (`id`, `group_id`, `message`, `sender_id`, `is_deleted`, `time_sent`) VALUES
 (1, 1, 'السلام عليكم', 1, 0, '2020-03-30 14:31:33'),
-(2, 1, 'https://law.babillawnet.com/modules/prchat/uploads/groups/1.jpg', 2, 0, '2020-03-30 14:32:35'),
-(3, 1, 'https://law.babillawnet.com/modules/prchat/uploads/groups/page-267.pdf', 2, 0, '2020-03-30 14:33:27'),
+(2, 1, 'https://law.babillawnet.com/modules/babilchat/uploads/groups/1.jpg', 2, 0, '2020-03-30 14:32:35'),
+(3, 1, 'https://law.babillawnet.com/modules/babilchat/uploads/groups/page-267.pdf', 2, 0, '2020-03-30 14:33:27'),
 (4, 1, 'طيب', 1, 0, '2020-03-30 14:34:34'),
 (5, 1, '&lt;a href=&quot;https://law.babillawnet.com/admin/profile/2&quot; class=&quot;user_mentioned&quot; data-chatmentioned=&quot;true&quot; data-toggle=&quot;tooltip&quot; title=&quot;mohamad saleh &quot; target=&quot;_blank&quot; data-mention-id=&quot;2&quot;&gt;@mohamad saleh &lt;/a&gt; مرحبا كيفك', 1, 0, '2020-04-13 22:44:13');
 
@@ -8486,7 +8486,7 @@ INSERT INTO `tblnotifications` (`id`, `isread`, `isread_inline`, `date`, `descri
 (800, 1, 1, '2020-04-11 13:53:02', 'not_procuration_deadline_reminder', 0, 0, '', 1, 1, 'procuration/procurationcu/2', NULL),
 (801, 0, 0, '2020-04-11 13:59:01', 'not_procuration_deadline_reminder', 0, 0, '', 3, 1, 'procuration/procurationcu/2', NULL),
 (802, 1, 1, '2020-04-11 13:59:02', 'not_procuration_deadline_reminder', 0, 0, '', 1, 1, 'procuration/procurationcu/2', NULL),
-(803, 0, 0, '2020-04-14 01:44:13', 'في مجموعة اجتماعات Mhdbashar   أشار إليك في رسالة', 0, 0, '', 2, 1, 'prchat/Prchat_Controller/chat_full_view', NULL),
+(803, 0, 0, '2020-04-14 01:44:13', 'في مجموعة اجتماعات Mhdbashar   أشار إليك في رسالة', 0, 0, '', 2, 1, 'babilchat/Prchat_Controller/chat_full_view', NULL),
 (804, 1, 0, '2020-04-16 00:02:02', 'new_task_assigned_non_user', 0, 0, '', 1, 1, '#taskid=11', 'a:1:{i:0;s:18:\"task for mhdbashar\";}'),
 (805, 1, 0, '2020-04-18 00:03:01', 'not_task_deadline_reminder', 0, 0, '', 1, 1, '#taskid=11', 'a:1:{i:0;s:18:\"task for mhdbashar\";}');
 

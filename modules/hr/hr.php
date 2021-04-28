@@ -4,14 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-define('VERSION_HR', 307);
+define('VERSION_HR', 308);
+define('HR_ERROR', 'modules/hr_profile/uploads/file_error_response/');
 
 
 /*
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.7
+Version: 3.0.8
 Requires at least: 2.3.*
 Author URI: #
 
@@ -529,6 +530,11 @@ function hr_add_footer_components(){
         echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/ComboTree/icontains.js').'?v=' . VERSION_HR.'"></script>';
         echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/plugins/OrgChart-master/jquery.orgchart.js').'?v=' . VERSION_HR.'"></script>';
 
+    }
+
+    if(!(strpos($viewuri,'dependent_person') === false)){
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/dependent_person.js').'?v=' . HR_MODULE_NAME.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/importxlsx_js.php').'?v=' . HR_MODULE_NAME.'"></script>';
     }
 
 }

@@ -449,3 +449,36 @@ $lang['payroll_template_edit'] = 'Edit Payroll template';
 $lang['payslip_record'] = 'Payslip Record';
 $lang['preview_file'] = 'View File';
 $lang['download_file'] = 'Download File';
+//Dependent Persons
+$lang['hr_dependent_persons']        									= 'Dependants';
+$lang['HR_dependent_persons']        								= 'HR Dependent persons';
+$lang['hr_new_dependent_person']                                  		= 'New dependant';
+$lang['hr_edit_dependent_person']                                  	= 'Edit dependent person';
+$lang['hr_dependent_name']                                  			= 'Dependant name';
+$lang['hr_dependent_bir']                                  			= 'Date of birth';
+$lang['hr_dependent_iden']                                  			= 'Citizen identification';
+$lang['hr_dependent_person'] 											= 'Dependent person';
+$lang['hr_add_dependents'] 											= 'Add dependants';
+$lang['hr_edit_dependents'] 											= 'Update dependants';
+$lang['file_xlsx_dependent_person1'] 									= 'HR code: corresponding to the column of employee is hr code';
+$lang['file_xlsx_dependent_person2'] 									= 'Date of birth, Effective date, Expiration date: enter with the format "yyyy-mm-dd": eg: 2020-12-30';
+$lang['file_xlsx_dependent_person3'] 									= 'Status: Enter 2 corresponds to "Rejected", other value 2 corresponds to "Approved"';
+$lang['hr_reset_data_title'] 												= 'All related data: Onboarding process, Training, Contracts, Dependent persons, Resignation procedures, Q&A will be deleted';
+$lang['hr_download_sample']                                            = 'Download sample file';
+$lang['hr__back']                                  					= 'Back';
+
+$lang['hr_hr_staff_name']                                     			= 'Staff name';
+$lang['hr_rejected_label']                                  			= 'Rejected';
+$lang['hr_pending_label']                                  			= 'Pending';
+$lang['hr_job_p_import_excel']                                     	= 'Import Excel';
+$lang['hr_start_month']                                  				= 'Effective date';
+$lang['hr_reason_label']                                  				= 'Reason';
+$lang['hr_status_comment']                                  			= 'Respond';
+$lang['hr_agree_label']                                  				= 'Approved';
+$lang['hr_hr_code'] 													= 'Staff code';
+$lang['hr_hr_relationship'] 											= 'Relationship';
+$lang['hr_end_month']                                  				= 'Expiration date';
+$lang['hr_import_excel_1'] 											= 'The Excel data file (.xlsx) must have column header and format like the table below. Some columns refer to the values ​​below.';
+
+$lang['hr_status_label']                                  				= 'Status';
+$lang['total_dependent_person_deleted']									= 'Total dependant person deleted';

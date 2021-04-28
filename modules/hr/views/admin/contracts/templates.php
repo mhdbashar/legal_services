@@ -11,7 +11,7 @@ $i = 0;
         <button class="btn pull-right btn-danger" onclick="delete_hr_template(this,'<?php echo $rel_type ?>',<?php echo $template['id']; ?>, <?php echo $rel_id ?>);return false;"><i class="fa fa fa-times"></i></button>
         <button class="btn pull-right btn-info mright5 " onclick="edit_hr_template('<?php echo $rel_type ?>',<?php echo $template['id']; ?>, <?php echo $rel_id ?>);return false;"><i class="fa fa-pencil-square-o"></i></button>
         <?php } ?>
-        <button class="btn pull-right btn-secondary mright5" onclick="insert_template(this,'<?php echo $rel_type ?>',<?php echo $template['id']; ?>);return false;"><?php echo _l('insert_template') ?></button>
+        <button class="btn pull-right btn-secondary mright5" onclick="insert_hr_template(this,'<?php echo $rel_type ?>',<?php echo $template['id']; ?>);return false;"><?php echo _l('insert_template') ?></button>
         <div data-template-content="<?php echo $template['id']; ?>"class="bold">
            <?php echo check_for_links($template['name']); ?>
         </div>

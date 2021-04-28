@@ -13,7 +13,7 @@
 		};
 
 		var table_dependent_person = $('.table-table_dependent_person');
-		initDataTable(table_dependent_person, admin_url+'hr_profile/table_dependent_person', [0], [0], ContractsServerParams, [0, 'desc']);
+		initDataTable(table_dependent_person, admin_url+'hr/hr_profile/table_dependent_person', [0], [0], ContractsServerParams, [0, 'desc']);
 
 		//hide first column
 		var hidden_columns = [0,2,8];

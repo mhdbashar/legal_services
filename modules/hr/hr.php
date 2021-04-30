@@ -733,6 +733,15 @@ function hr_init_hrmApp(){
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'designations_groups',
+            'name'     => _l('designations_groups'),
+            'href'     => admin_url('hr/organization/designations_groups'),
+            'position' => 71,
+            'icon'     => 'fa fa-object-group',
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
             'slug'     => 'organizational_chart',
             'name'     => _l('organizational_chart'),
             'href'     => admin_url('hr/hr_profile/organizational_chart'),
@@ -742,11 +751,20 @@ function hr_init_hrmApp(){
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
-            'slug'     => 'designations_groups',
-            'name'     => _l('designations_groups'),
-            'href'     => admin_url('hr/organization/designations_groups'),
-            'position' => 71,
-            'icon'     => 'fa fa-object-group',
+            'slug'     => 'knowledge_base_q_a',
+            'name'     => _l('knowledge_base'),
+            'href'     => admin_url('hr/knowledge_base_q_a'),
+            'position' => 73,
+            'icon'     => 'fa fa-th-list',
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_setup_children_item('hr', [
+            'slug'     => 'dependent_persons',
+            'name'     => _l('dependent_persons'),
+            'href'     => admin_url('hr/hr_profile/dependent_persons'),
+            'position' => 74,
+            'icon'     => 'fa fa-th-list',
         ]);
     }
     if (has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view')){

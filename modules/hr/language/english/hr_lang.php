@@ -466,6 +466,10 @@ $lang['file_xlsx_dependent_person3'] 									= 'Status: Enter 2 corresponds to 
 $lang['hr_reset_data_title'] 												= 'All related data: Onboarding process, Training, Contracts, Dependent persons, Resignation procedures, Q&A will be deleted';
 $lang['hr_download_sample']                                            = 'Download sample file';
 $lang['hr__back']                                  					= 'Back';
+$lang['hr_kb_article_QA']   											= 'Show to employees';
+$lang['hr_kb_article_files']   										= 'Attach files';
+$lang['hr_view']                                            			= 'View';
+$lang['hr_edit']                                                       = 'Edit';
 
 $lang['hr_hr_staff_name']                                     			= 'Staff name';
 $lang['hr_rejected_label']                                  			= 'Rejected';

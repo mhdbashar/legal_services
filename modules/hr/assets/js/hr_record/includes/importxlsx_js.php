@@ -7,11 +7,11 @@
 		var language = $('input[name="language"]').val();
 		if(language == 'vietnamese')
 		{
-			$( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/hr_profile/uploads/sample_file/Sample_import_hrm_staff_file_vi.xlsx" class="btn btn-primary mright5" ><?php echo _l('hr_download_sample') ?></a>' );
-			$( "#dowload_file_sample" ).append( '<a href="<?php echo admin_url('hr/hr_profile/staff_infor'); ?>" class=" mright5 btn btn-default" ><?php echo _l('hr__back') ?></a><hr>' );
+			$( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/hr/uploads/sample_file/Sample_import_hrm_staff_file_vi.xlsx" class="btn btn-primary mright5" ><?php echo _l('hr_download_sample') ?></a>' );
+			$( "#dowload_file_sample" ).append( '<a href="<?php echo admin_url('hr/hr/staff_infor'); ?>" class=" mright5 btn btn-default" ><?php echo _l('hr__back') ?></a><hr>' );
 		}else{
-			$( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/hr_profile/uploads/sample_file/Sample_import_hrm_staff_file_en.xlsx" class="btn btn-primary mright5" ><?php echo _l('hr_download_sample') ?></a>' );
-			$( "#dowload_file_sample" ).append( '<a href="<?php echo admin_url('hr/hr_profile/staff_infor'); ?>" class=" mright5 btn btn-default" ><?php echo _l('hr__back') ?></a><hr>' );
+			$( "#dowload_file_sample" ).append( '<a href="'+ site_url+'modules/hr/uploads/sample_file/Sample_import_hrm_staff_file_en.xlsx" class="btn btn-primary mright5" ><?php echo _l('hr_download_sample') ?></a>' );
+			$( "#dowload_file_sample" ).append( '<a href="<?php echo admin_url('hr/hr/staff_infor'); ?>" class=" mright5 btn btn-default" ><?php echo _l('hr__back') ?></a><hr>' );
 		}
 	});
 	

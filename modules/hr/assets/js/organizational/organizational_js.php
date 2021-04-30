@@ -155,7 +155,7 @@
 	function zen_unit_chart (department) {
 		'use strict';
 
-		$.post(admin_url+'hr_profile/zen_unit_chart/'+department).done(function(response){
+		$.post(admin_url+'hr/zen_unit_chart/'+department).done(function(response){
 			response = JSON.parse(response);
 
 			ds = {

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-define('VERSION_HR', 309);
+define('VERSION_HR', 310);
 define('HR_ERROR', 'modules/hr/uploads/file_error_response/');
 define('HR_PROFILE_JOB_POSIITON_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/job_position/'));
 define('HR_PROFILE_CONTRACT_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/contracts/'));
@@ -17,7 +17,7 @@ define('HR_PROFILE_Q_A_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAM
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.9
+Version: 3.1.0
 Requires at least: 2.3.*
 Author URI: #
 

@@ -527,7 +527,7 @@ class Contracts extends AdminController
             access_denied('contracts');
         }
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('contract_types');
+            $this->hrmapp->get_table_data('hr_contract_types');
         }
         $data['title'] = _l('contract_types');
         $this->load->view('admin/contracts/manage_types', $data);

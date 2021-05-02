@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-$aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'resignation_date'];
+$aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'resignation_date', 'status'];
 
 
 $ci = &get_instance();
@@ -42,6 +42,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['resignation_date'];
 
+    $row[] = $aRow['status'];
     $options = ''; if (has_permission('resignations', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_resignation', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     if (has_permission('resignations', '', 'delete')) $options .= icon_btn('hr/core_hr/delete_resignation/' . $aRow['id'], 'remove', 'btn-danger _delete');
     if (has_permission('resignations', '', 'edit') || has_permission('resignations', '', 'delete') )

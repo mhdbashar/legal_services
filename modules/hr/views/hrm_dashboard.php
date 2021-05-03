@@ -105,7 +105,7 @@
                     enabled: false
                 },
                 tooltip: {
-                    pointFormat: '<span style="color:{series.color}">'+<?php echo json_encode(_l('invoice_table_quantity_heading')); ?>+'</span>: <b>{point.y}</b> <br/> <span>'+<?php echo json_encode(_l('invoice_table_percentage')); ?>+'</span>: <b>{point.percentage:.0f}%</b><br/>',
+                    pointFormat: '<span style="color:{series.color}">'+<?php echo json_encode('Qty'); ?>+'</span>: <b>{point.y}</b> <br/> <span>'+<?php echo json_encode('Percentage'); ?>+'</span>: <b>{point.percentage:.0f}%</b><br/>',
                     shared: true
                 },
                  plotOptions: {

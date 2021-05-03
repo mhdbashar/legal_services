@@ -742,8 +742,8 @@ function hr_init_hrmApp(){
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
-            'slug'     => 'organizational_chart',
-            'name'     => _l('organizational_chart'),
+            'slug'     => 'HR_organizational_chart',
+            'name'     => _l('HR_organizational_chart'),
             'href'     => admin_url('hr/hr_profile/organizational_chart'),
             'position' => 72,
             'icon'     => 'fa fa-th-list',
@@ -760,8 +760,8 @@ function hr_init_hrmApp(){
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_setup_children_item('hr', [
-            'slug'     => 'dependent_persons',
-            'name'     => _l('dependent_persons'),
+            'slug'     => 'hr_dependent_persons',
+            'name'     => _l('hr_dependent_persons'),
             'href'     => admin_url('hr/hr_profile/dependent_persons'),
             'position' => 74,
             'icon'     => 'fa fa-th-list',

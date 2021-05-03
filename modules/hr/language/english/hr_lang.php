@@ -470,6 +470,17 @@ $lang['hr_kb_article_QA']   											= 'Show to employees';
 $lang['hr_kb_article_files']   										= 'Attach files';
 $lang['hr_view']                                            			= 'View';
 $lang['hr_edit']                                                       = 'Edit';
+// org charts
+$lang['HR_organizational_chart']                                    = 'HR Organization';
+$lang['hr_organizational_chart']                                       = 'Org chart';
+$lang['hr_view_department_chart']                                      = 'View chart';
+$lang['hr_unit_email']                                                 = 'Unit email';
+$lang['hr_organizational_chart']                                       = 'Org chart';
+$lang['hr_new_unit']                                                   = 'Add new unit';
+$lang['hr_edit_unit']                                                  = 'Edit unit';
+$lang['hr_parent_unit']                                                = 'Parent unit';
+$lang['hr_manager_unit']                                               = 'Unit manager';
+$lang['hr_hr_id'] 														= 'ID';
 
 $lang['hr_hr_staff_name']                                     			= 'Staff name';
 $lang['hr_rejected_label']                                  			= 'Rejected';

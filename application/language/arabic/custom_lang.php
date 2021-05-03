@@ -1,5 +1,7 @@
 <?php
 
+$lang['organizations'] = 'المنظمات';
+
 $lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
 $lang['designation_group'] = 'مجموعة المسميات الموظفية';
 $lang['new_designation_group'] = 'مجموعة جديدة';

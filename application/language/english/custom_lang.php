@@ -732,7 +732,7 @@ $lang['office_sheft'] = "Office Sheft";
 $lang['branches'] = 'Branches';
 $lang['professional_courses'] = "Professional Cources";
 
-$lang['hr'] = "Human Resources";
+$lang['hr'] = "H.R.M";
 $lang['add_new_procuration'] = "Add New Procuration";
 $lang['edit_procuration'] = "Edit Procuration";
 $lang['company_groups'] = 'Company Groups';

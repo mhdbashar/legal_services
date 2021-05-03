@@ -451,3 +451,36 @@ $lang['payroll_template_edit'] = 'تحرير قالب كشف الرواتب';
 $lang['payslip_record'] = 'سجلات دفع الرواتب';
 $lang['preview_file'] = 'عرض الملف';
 $lang['download_file'] = 'تحميل الملف';
+
+//Dependent Persons
+$lang['hr_dependent_persons']        									= 'التابعين';
+$lang['HR_dependent_persons']        								= 'الأشخاص التابعين';
+$lang['hr_new_dependent_person']                                  		= 'تابع جديد';
+$lang['hr_edit_dependent_person']                                  	= 'تحرير التابع';
+$lang['hr_dependent_name']                                  			= 'إسيم التابع';
+$lang['hr_dependent_bir']                                  			= 'تاريخ الميلاد';
+$lang['hr_dependent_iden']                                  			= 'الجنسية';
+$lang['hr_dependent_person'] 											= 'التابع';
+$lang['hr_add_dependents'] 											= 'إضافة تابعين';
+$lang['hr_edit_dependents'] 											= 'تحديث التابعين';
+$lang['file_xlsx_dependent_person1'] 									= 'كود HR: المقابل لعمود الموظف هو رمز hr';
+$lang['file_xlsx_dependent_person2'] 									= 'تاريخ الميلاد ، تاريخ السريان ، تاريخ انتهاء الصلاحية: أدخل بالتنسيق "yyyy-mm-dd": على سبيل المثال: 2020-12-30';
+$lang['file_xlsx_dependent_person3'] 									= 'الحالة: أدخل 2 يتوافق مع "مرفوض" ، والقيمة الأخرى 2 تقابل "موافق عليه"';
+$lang['hr_reset_data_title'] 												= 'جميع البيانات ذات الصلة: سيتم حذف عملية الإعداد والتدريب والعقود والأشخاص التابعين وإجراءات الاستقالة والأسئلة والأجوبة';
+$lang['hr_download_sample']                                            = 'تنزيل ملف نموذج';
+$lang['hr__back']                                  					= 'العودة';
+$lang['hr_kb_article_QA']   											= 'عرض للموظفين';
+$lang['hr_kb_article_files']   										= 'الملفات المرفقة';
+$lang['hr_view']                                            			= 'عرض';
+$lang['hr_edit']                                                       = 'تحرير';
+// org charts
+$lang['HR_organizational_chart']                                    = 'المنشآة HR';
+$lang['hr_organizational_chart']                                       = 'الهيكل التنظيمي';
+$lang['hr_view_department_chart']                                      = 'عرض الشجرة';
+$lang['hr_unit_email']                                                 = 'أيميل الوحدة';
+$lang['hr_organizational_chart']                                       = 'الهيكل التنظيمي';
+$lang['hr_new_unit']                                                   = 'إضافة وحدة جديدة';
+$lang['hr_edit_unit']                                                  = 'تحرير الوحدة';
+$lang['hr_parent_unit']                                                = 'وحدة أعلى';
+$lang['hr_manager_unit']                                               = 'إدارة الوحدة';
+$lang['hr_hr_id'] 														= 'ID';

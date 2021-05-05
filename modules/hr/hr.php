@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-define('VERSION_HR', 311);
+define('VERSION_HR', 312);
 define('HR_ERROR', 'modules/hr/uploads/file_error_response/');
 define('HR_PROFILE_JOB_POSIITON_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/job_position/'));
 define('HR_PROFILE_CONTRACT_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/contracts/'));
@@ -17,7 +17,7 @@ define('HR_PROFILE_Q_A_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAM
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.1.1
+Version: 3.1.2
 Requires at least: 2.3.*
 Author URI: #
 
@@ -540,6 +540,12 @@ function hr_add_footer_components(){
     if(!(strpos($viewuri,'dependent_person') === false)){
         echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/dependent_person.js').'?v=' . HR_MODULE_NAME.'"></script>';
         echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/importxlsx_js.php').'?v=' . HR_MODULE_NAME.'"></script>';
+    }
+
+    if(!(strpos($viewuri,'admin/hr/hr_profile/training') === false)){
+        if(!(strpos($viewuri,'training_library') === false)){
+            echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/training/training_library.js').'?v=' . VERSION_HR.'"></script>';
+        }
     }
 
 }

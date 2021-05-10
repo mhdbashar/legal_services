@@ -497,3 +497,45 @@ $lang['hr_import_excel_1'] 											= 'The Excel data file (.xlsx) must have c
 
 $lang['hr_status_label']                                  				= 'Status';
 $lang['total_dependent_person_deleted']									= 'Total dependant person deleted';
+
+//training
+
+$lang['hr_more_training_sessions']       								= 'Add training';
+$lang['hr_training_programs_name']       								= 'Training program name';
+$lang['hr_hr_training_places']       										= 'Training places';
+$lang['hr_training'] 													= 'Training';
+$lang['hr__training_library'] 											= 'Training libraries';
+$lang['hr__training_program'] 											= 'Training programs';
+$lang['hr_training_type'] 												= 'Training type';
+$lang['hr_mint_point'] 												= 'Minimum point';
+$lang['hr_edit_training_process'] 										= 'Edit training program';
+$lang['hr_new_training_process'] 										= 'New training program';
+$lang['hr_training_item'] 												= 'Training program item';
+$lang['hr_training_name'] 												= 'Training program name';
+$lang['hr_basic_training'] 											= 'Basic training';
+$lang['hr_professiona_training'] 										= 'Professional training';
+$lang['hr_skill_training'] 											= 'Skill training';
+$lang['hr_management_training'] 										= 'Management training';
+$lang['hr_training_question_string'] 									= 'Training questions';
+$lang['hr_enter_the_score_of_the_question'] 							= 'Enter the score of the question';
+$lang['hr_score'] 														= 'Score';
+$lang['hr_thank_you_for_participating_in_this_training']				= 'Thank you for participating in this training program';
+$lang['hr_hr_add'] 													= 'Add';
+$lang['hr_hr_description']                                             = 'Description';
+$lang['hr_datecreator'] 												= 'Created date';
+$lang['hr_close']                										= 'Close';
+$lang['hr__position_apply']                                  			= 'Job position to apply';
+$lang['hr_bulk_actions']  												= 'Bulk actions';
+$lang['hr_survey_dt_name']												= 'Name';
+$lang['hr_survey_dt_total_questions']									= 'Total questions';
+$lang['hr_survey_dt_total_participants']								= 'Total participants';
+$lang['hr_survey_dt_date_created']										= 'Created date';
+$lang['hr_survey_create_first']											= 'Please create relevant information before creating questions';
+$lang['hr_survey_insert_field']											= 'Add another question';
+$lang['hr_survey_question_required']									= 'Required';
+$lang['hr_question_string']												= 'Question';
+$lang['hr_survey_list_view_tooltip']									= 'Preview';
+$lang['hr_survey_field_checkbox']										= 'Checkbox';
+$lang['hr_survey_submit']												= 'Submit';
+$lang['hr_survey_no_questions']											= 'This training post does not have questions added yet.';
+

@@ -705,6 +705,15 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+        $CI->app_menu->add_sidebar_children_item('staffs', [
+            'slug'     => 'hr_training_process',
+            'name'     => _l('hr_training_process'),
+            'href'     => admin_url('hr/hr_profile/training'),
+            'position' => 43,
+            'icon'     => 'fa fa-graduation-cap',
+        ]);
+    }
+    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
         $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'indicators',
             'name'     => _l('indicators'),

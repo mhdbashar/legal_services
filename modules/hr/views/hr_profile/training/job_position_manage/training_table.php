@@ -24,7 +24,7 @@ foreach ($rResult as $aRow) {
 			$_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow['training_id'] . '"><label></label></div>';
 
 		}elseif ($aColumns[$i] == 'subject') {
-			$_data = '<a href="' . site_url('hr/hr_profile/participate/index/' . $aRow['training_id'] . '/' . $aRow['hash']) . '" target="_blank">' . $_data . '</a>';
+			$_data = '<a href="' . site_url('hr/participate/index/' . $aRow['training_id'] . '/' . $aRow['hash']) . '" target="_blank">' . $_data . '</a>';
 
 			$_data .= '<div class="row-options">';
 

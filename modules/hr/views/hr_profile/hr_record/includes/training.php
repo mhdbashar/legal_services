@@ -56,7 +56,7 @@
 					?>
 					<tr>
 						<td class="hide"><?php echo html_entity_decode($key+1); ?></td>
-						<td><a href="<?php echo admin_url('hr/hr_profile/participate/index/'.$value['training_id'].'/'.hr_get_training_hash($value['training_id'])); ?>"><?php echo '&nbsp;&nbsp;&nbsp;+'. html_entity_decode($value['training_name']); ?></a></td>
+						<td><a href="<?php echo admin_url('hr/participate/index/'.$value['training_id'].'/'.hr_get_training_hash($value['training_id'])); ?>"><?php echo '&nbsp;&nbsp;&nbsp;+'. html_entity_decode($value['training_name']); ?></a></td>
 						<td><?php echo _l('hr_point').': '. html_entity_decode($value['total_point']).'/'. html_entity_decode($value['total_question_point']); ?></td>
 						<td></td>
 

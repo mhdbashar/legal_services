@@ -538,4 +538,6 @@ $lang['hr_survey_list_view_tooltip']									= 'Preview';
 $lang['hr_survey_field_checkbox']										= 'Checkbox';
 $lang['hr_survey_submit']												= 'Submit';
 $lang['hr_survey_no_questions']											= 'This training post does not have questions added yet.';
+$lang['hr_thank_you_for_participating_in_this_training']				= 'Thank you for participating in this training program';
+$lang['hr_training_process'] 											= 'Training';
 

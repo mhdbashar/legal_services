@@ -26,6 +26,7 @@ Author URI: #
 
 register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
+hooks()->add_action('admin_init', 'hr_profile_permissions');
 hooks()->add_action('app_admin_head', 'hr_add_head_components');
 hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 
@@ -557,6 +558,50 @@ function hr_module_activation_hook()
     $CI = &get_instance();
     require_once(__DIR__ . '/install.php');
 }
+
+/**
+ * hr profile permissions
+ */
+function hr_profile_permissions()
+{
+
+    $capabilities = [];
+    $capabilities_2 = [];
+    $dashboard = [];
+
+    $capabilities['capabilities'] = [
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
+    ];
+
+    $capabilities_2['capabilities'] = [
+        // 'view_own'   => _l('permission_view'),
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
+    ];
+
+    $dashboard['capabilities'] = [
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+
+    ];
+
+    //Dashboard
+    register_staff_capabilities('hrm_dashboard', $dashboard, _l('HR_dashboard'));
+    //Orgranization
+    register_staff_capabilities('staffmanage_orgchart', $capabilities_2, _l('HR_organizational_chart'));
+    //Training
+    register_staff_capabilities('staffmanage_training', $capabilities, _l('HR_training'));
+    //Q&A
+    register_staff_capabilities('hr_manage_q_a', $capabilities, _l('HR_q&a'));
+    //Dependent Persons
+    register_staff_capabilities('hrm_dependent_person', $capabilities, _l('HR_dependent_persons'));
+
+
+}
 function hr_init_hrmApp(){
     $CI = & get_instance();
     $CI->load->library(HR_MODULE_NAME . '/' . 'hrmApp');
@@ -621,7 +666,7 @@ function hr_init_hrmApp(){
         ]);
     }
     //core_hr
-    if (has_permission('hr', '', 'view')){
+    if(has_permission('hrm_dashboard','','view')){
         $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'dashboard',
             'name'     => _l('dashboard'),
@@ -704,7 +749,7 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-history',
         ]);
     }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+    if(has_permission('staffmanage_training','','view')){
         $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'hr_training_process',
             'name'     => _l('hr_training_process'),
@@ -776,7 +821,7 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-object-group',
         ]);
     }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+    if(has_permission('staffmanage_orgchart','','view')){
         $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'HR_organizational_chart',
             'name'     => _l('HR_organizational_chart'),
@@ -785,7 +830,7 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-th-list',
         ]);
     }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
+    if(has_permission('hr_manage_q_a','','view')){
         $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'knowledge_base_q_a',
             'name'     => _l('knowledge_base'),
@@ -794,8 +839,8 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-th-list',
         ]);
     }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_sidebar_children_item('core_hre', [
+    if(has_permission('hrm_dependent_person','','view')){
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'hr_dependent_persons',
             'name'     => _l('hr_dependent_persons'),
             'href'     => admin_url('hr/hr_profile/dependent_persons'),

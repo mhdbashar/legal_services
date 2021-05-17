@@ -541,3 +541,9 @@ $lang['hr_survey_no_questions']											= 'This training post does not have qu
 $lang['hr_thank_you_for_participating_in_this_training']				= 'Thank you for participating in this training program';
 $lang['hr_training_process'] 											= 'Training';
 
+// Permissions
+$lang['HR_dashboard']        										= 'HR Dashboard';
+$lang['HR_reception_staff']        									= 'HR Receive staff';
+$lang['hr_hr_records'] 												= 'HR records';
+$lang['hr_training'] 												= 'Training';
+$lang['HR_q&a']                                    					= 'HR Q&A';

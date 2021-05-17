@@ -450,7 +450,6 @@ $lang['payslip_record'] = 'Payslip Record';
 $lang['preview_file'] = 'View File';
 $lang['download_file'] = 'Download File';
 //Dependent Persons
-$lang['hr_dependent_persons']        									= 'Dependants';
 $lang['HR_dependent_persons']        								= 'HR Dependent persons';
 $lang['hr_new_dependent_person']                                  		= 'New dependant';
 $lang['hr_edit_dependent_person']                                  	= 'Edit dependent person';
@@ -543,7 +542,5 @@ $lang['hr_training_process'] 											= 'Training';
 
 // Permissions
 $lang['HR_dashboard']        										= 'HR Dashboard';
-$lang['HR_reception_staff']        									= 'HR Receive staff';
-$lang['hr_hr_records'] 												= 'HR records';
 $lang['hr_training'] 												= 'Training';
 $lang['HR_q&a']                                    					= 'HR Q&A';

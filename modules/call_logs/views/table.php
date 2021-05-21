@@ -165,33 +165,54 @@ foreach ($rResult as $aRow) {
                     $pic ='';// '<img src="'.contact_profile_image_url($oCustomer[0]['id']).'" class="img img-responsive staff-profile-image-small pull-left">';
 
                     $contactName = $pic.'<a href="'.admin_url('leads/index/'.$oClient->id).'">'.$oClient->name.'</a><br>';
+                    $_data = $contactName.$oClient->company;
                 }
-                $_data = $contactName.$oClient->company;
+                
+
             }else{
                 $oClient = $this->ci->clients_model->get($aRow['clientid']);
-                $oCustomer = $this->ci->clients_model->get_contacts($oClient->userid, ['is_primary' => true]);
-                $contactName = '';
-                if(isset($oCustomer[0])){
-                    $pic = '<img src="'.contact_profile_image_url($oCustomer[0]['id']).'" class="img img-responsive staff-profile-image-small pull-left">';
-                    $contactName = $pic.'<br><a href="'.admin_url('clients/client/'.$aRow['clientid'].'?group=contacts&contactid='.$oCustomer[0]['id']).'" data-id="'.$oCustomer[0]['id'].'">'.$oCustomer[0]['firstname']. ' '.  $oCustomer[0]['lastname'].'</a><br>';
+                if(!empty($oClient)){
+                   $oCustomer = $this->ci->clients_model->get_contacts($oClient->userid, ['is_primary' => true]);
+                    $contactName = '';
+                    if(isset($oCustomer[0])){
+                        $pic = '<img src="'.contact_profile_image_url($oCustomer[0]['id']).'" class="img img-responsive staff-profile-image-small pull-left">';
+                        $contactName = $pic.'<br><a href="'.admin_url('clients/client/'.$aRow['clientid'].'?group=contacts&contactid='.$oCustomer[0]['id']).'" data-id="'.$oCustomer[0]['id'].'">'.$oCustomer[0]['firstname']. ' '.  $oCustomer[0]['lastname'].'</a><br>';
+                    }
+                    $_data = $contactName.$oClient->company; 
                 }
-                $_data = $contactName.$oClient->company;
+                
             }
 
         }elseif($aColumns[$i] == 'twilio_sms_response'){
             if(!empty($_data)){
                 if($_data == 'Failed'){
-                    $_data = '<span class="label label-danger" style="background-color: #d9534f;color: white; width: 66px;
+                    $_data = '<span class="label label-danger" style="background-color: #d9534f;color: white; width: 80px;
                     display: inline-block;
-                    padding: 6px;">'.$_data.'</span>';
+                    padding: 6px;">'. _l('cl_sms_status_failed') .'</span>';
                 }elseif ($_data == 'Sent') {
-                    $_data = '<span class="label label-success" style="background-color: #84c529;color: white; width: 66px;
+                    $_data = '<span class="label label-success" style="background-color: #84c529;color: white; width: 80px;
                     display: inline-block;
-                    padding: 6px;">'.$_data.'</span>';
+                    padding: 6px;">'. _l('cl_sms_status_sent') .'</span>';
                 }elseif ($_data == 'n/a') {
-                    $_data = '<span class="label label-default" style="background-color: #777;color: white; width: 66px;
+                    $_data = '<span class="label label-default" style="background-color: #777;color: white; width: 80px;
                     display: inline-block;
                     padding: 6px;">'.$_data.'</span>';
+                }elseif ($_data == 'Completed') {
+                    $_data = '<span class="label label-success" style="background-color: #84c529;color: white; width: 80px;
+                    display: inline-block;
+                    padding: 6px;">'. _l('cl_call_status_completed') .'</span>';
+                }elseif ($_data == 'Busy') {
+                    $_data = '<span class="label label-info" style="background-color: #5bc0de;color: white; width: 80px;
+                    display: inline-block;
+                    padding: 6px;">'. _l('cl_call_status_busy') .'</span>';
+                }elseif ($_data == 'No Answer') {
+                    $_data = '<span class="label label-default" style="background-color: #777;color: white; width: 80px;
+                    display: inline-block;
+                    padding: 6px;">'. _l('cl_call_status_no_answer') .'</span>';
+                }elseif($_data == 'Cancelled'){
+                    $_data = '<span class="label label-danger" style="background-color: #d9534f;color: white; width: 80px;
+                    display: inline-block;
+                    padding: 6px;">'. _l('cl_call_status_cancelled') .'</span>';
                 }
             }
         }

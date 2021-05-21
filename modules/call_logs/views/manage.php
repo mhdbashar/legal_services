@@ -37,62 +37,80 @@ if(isset($call_log)){
 }
 
 ?>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/twilio.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/WebAudioRecorder.min.js"></script>
 <div id="wrapper">
     <div class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="_buttons">
-                            <?php if(has_permission('call_logs','','create')){ ?>
-                                <a href="<?php echo admin_url('call_logs/call_log'); ?>" class="btn btn-info pull-left display-block mright5"><i class="fa fa-phone menu-icon"></i> <?php echo _l('new_call_log'); ?></a>
-                            <?php } ?>
-                            <a href="#send_bulk_sms_modal" class="btn btn-default" data-toggle="modal">
-                                <i class="fa fa-envelope"></i>
-                                <?php echo _l('cl_bulk_sms_modal_title'); ?>
-                            </a>
-                            <a href="<?php echo admin_url('call_logs/overview'); ?>" data-toggle="tooltip" title="<?php echo _l('cl_gantt_overview'); ?>" class="btn btn-default"><i class="fa fa-bar-chart" aria-hidden="true"></i> <?php echo _l('cl_overview'); ?></a>
+                        <div class="row">
+                            <div class="col-lg-8">
+                               <div class="_buttons">
+                                <?php if(has_permission('call_logs','','create')){ ?>
+                                    <a href="<?php echo admin_url('call_logs/call_log'); ?>" class="btn btn-info pull-left display-block mright5"><i class="fa fa-phone menu-icon"></i> <?php echo _l('new_call_log'); ?></a>
+                                <?php } ?>
 
-                            <a href="<?php echo admin_url('call_logs/switch_grid/'.$switch_grid); ?>" class="btn btn-default hidden-xs">
-                                <?php if($switch_grid == 1){ echo _l('cl_switch_to_list_view');}else{echo _l('cl_switch_to_grid_view');}; ?>
-                            </a>
-                            <div class="visible-xs">
-                                <div class="clearfix"></div>
-                            </div>
+
+                                <?php if (is_admin() && get_option('staff_members_bulk_sms') == '0') { ?>
+                                    <a href="javascript:void(0)" onclick="bulksmsOpen(); return false;" class="btn btn-default" data-toggle="modal">
+                                        <i class="fa fa-envelope"></i>
+                                        <?php echo _l('cl_bulk_sms_modal_title'); ?>
+                                    </a>
+                                <?php } ?>
+
+                                <a href="<?php echo admin_url('call_logs/records'); ?>" data-toggle="tooltip" title="Record List" class="btn btn-default"><i class="fa fa-volume-control-phone" aria-hidden="true"></i> Recorded calls   
+</a>
+                                
+                                <a href="<?php echo admin_url('call_logs/overview'); ?>" data-toggle="tooltip" title="<?php echo _l('cl_gantt_overview'); ?>" class="btn btn-default"><i class="fa fa-bar-chart" aria-hidden="true"></i> <?php echo _l('cl_overview'); ?></a>
+
+                                <a href="<?php echo admin_url('call_logs/switch_grid/'.$switch_grid); ?>" class="btn btn-default hidden-xs">
+                                    <?php if($switch_grid == 1){ echo _l('cl_switch_to_list_view');}else{echo _l('cl_switch_to_grid_view');}; ?>
+                                </a>
+                                <div class="visible-xs">
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>  
                         </div>
-                        <div class="clearfix"></div>
-                        <hr class="hr-panel-heading" />
+                        <div class="col-lg-4 text-right">
+                            <?php if( get_option('staff_members_twilio_account_share_staff') == '1') { ?>    <button onclick= "openTwilioSettingModal();" class="btn btn-info pull-right display-block" >
+                                    Settings <i class="fa fa-cog" aria-hidden="true"></i>
+                                </button>
+                            <?php } ?> 
+                            <button type="button" class="btn btn-sm btn-danger" id="recordcall"  style="display: none;"><span><i class="fa fa-phone" style="padding-right: 3px;"></i></span><?php echo _l('end_call'); ?></button>
 
-                        <div class="clearfix mtop20"></div>
-                        <div class="row" id="call-logs-table">
-                            <?php if($isGridView ==0){ ?>
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p class="bold"><?php echo _l('filter_by'); ?></p>
-                                        </div>
-                                        <div class="col-md-2 cl-filter-column">
-                                            <?php echo render_select('view_assigned',$staffs,array('staffid',array('firstname','lastname')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_filter_staff')),array(),'no-mbot'); ?>
-                                        </div>
-                                        <div class="col-md-2 cl-filter-column">
-                                            <?php echo render_select('view_by_rel_type',$rel_types,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_type')),array(),'no-mbot'); ?>
-                                        </div>
-                                        <div class="col-md-2 cl-filter-column">
-                                            <?php echo render_select('view_by_lead',$leads,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_lead')),array(),'no-mbot'); ?>
-                                        </div>
-                                        <div class="col-md-2 cl-filter-column">
-                                            <?php echo render_select('view_by_customer',$clcustomers,array('userid',array('company')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_customer')),array(),'no-mbot'); ?>
-                                        </div>
-                                        <div class="col-md-2 cl-filter-column">
-                                            <?php echo render_select('view_by_status',$cl_filter_status,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_filter_status')),array(),'no-mbot'); ?>
-                                        </div>
+                            <button type="button" class="btn btn-sm btn-danger" id="endcall"  style="display: none;"><span><i class="fa fa-phone" style="padding-right: 3px;"></i></span><?php echo _l('end_call'); ?></button>
+                            <button type="button" class="btn btn-sm btn-success" id="answer-button"  style="display: none;"><span><i class="fa fa-phone" style="padding-right: 3px;"></i></span><?php echo _l('call_answer'); ?></button>
+                        </div> 
+                    </div>
 
-                                        <!-- <div class="col-md-2 cl-filter-column">
-                                            <a href="#send_sms_modal" class="btn btn-block btn-default" data-toggle="modal">
-                                                <i class="fa fa-envelope"></i>
-                                                Send SMS
-                                            </a>
-                                        </div> -->
+                    <div class="clearfix"></div>
+                    <hr class="hr-panel-heading" />
+
+                    <div class="clearfix mtop20"></div>
+                    <div class="row" id="call-logs-table">
+                        <?php if($isGridView ==0){ ?>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="bold"><?php echo _l('filter_by'); ?></p>
+                                    </div>
+                                    <div class="col-md-2 cl-filter-column">
+                                        <?php echo render_select('view_assigned',$staffs,array('staffid',array('firstname','lastname')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_filter_staff')),array(),'no-mbot'); ?>
+                                    </div>
+                                    <div class="col-md-2 cl-filter-column">
+                                        <?php echo render_select('view_by_rel_type',$rel_types,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_type')),array(),'no-mbot'); ?>
+                                    </div>
+                                    <div class="col-md-2 cl-filter-column">
+                                        <?php echo render_select('view_by_lead',$leads,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_lead')),array(),'no-mbot'); ?>
+                                    </div>
+                                    <div class="col-md-2 cl-filter-column">
+                                        <?php echo render_select('view_by_customer',$clcustomers,array('userid',array('company')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_customer')),array(),'no-mbot'); ?>
+                                    </div>
+                                    <div class="col-md-2 cl-filter-column">
+                                        <?php echo render_select('view_by_status',$cl_filter_status,array('id',array('name')),'','',array('data-width'=>'100%','data-none-selected-text'=>_l('cl_filter_status')),array(),'no-mbot'); ?>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -132,6 +150,99 @@ if(isset($call_log)){
         </div>
     </div>
 </div>
+
+
+
+
+<div class="modal fade" id="twilioSettingsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">My twilio account settings</h4>
+            </div>
+            <?php echo form_open(admin_url('call_logs/save_twilio'),array('id'=>'call_logs_twilio_settings')); ?>
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="alert alert-success bold">
+                                <p>
+                                Enter your own Twilio api credential        </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label class="control-label" for="twiml_app_sid"><?php echo _l('twiml_app_sid'); ?></label>
+                            <input type="text" name="twiml_app_sid" id="twiml_app_sid" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->twiml_app_sid; ?>">
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="control-label" for="twiml_app_friendly_name"><?php echo _l('twiml_app_friendly_name'); ?></label>
+                            <input type="text" name="twiml_app_friendly_name" id="twiml_app_friendly_name" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->twiml_app_friendly_name; ?>">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label class="control-label" for="twiml_app_voice_request_url"><?php echo _l('twiml_app_voice_request_url'); ?></label>
+                            <input type="text" name="twiml_app_voice_request_url" id="twiml_app_voice_request_url" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->twiml_app_voice_request_url; ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="sms_twilio_account_sid"><?php echo _l('sms_twilio_account_sid'); ?></label>
+                            <input type="text" name="sms_twilio_account_sid" id="sms_twilio_account_sid" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->sms_twilio_account_sid; ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="sms_twilio_auth_token"><?php echo _l('sms_twilio_auth_token'); ?></label>
+                            <input type="text" name="sms_twilio_auth_token" id="sms_twilio_auth_token" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->sms_twilio_auth_token; ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <i class="fa fa-phone pull-left"></i>
+                            <label class="control-label" for="twilio_phone_number"><?php echo _l('twilio_phone_number'); ?></label>
+                            <input type="text" name="twilio_phone_number" id="twilio_phone_number" class="form-control" value="<?php if(isset($twilio_account_info)) echo $twilio_account_info->twilio_phone_number; ?>">
+                        </div>
+
+                        <?php 
+                            $active = '1';
+                            if(isset($twilio_account_info)) {
+                                $active =  $twilio_account_info->active;
+                            } 
+                        ?>
+
+                        <div class="form-group">
+                            <label for="pusher_chat" class="control-label clearfix">
+                                <?php echo _l('active'); ?>
+                            </label>
+                            <div class="radio radio-primary radio-inline">
+                                <input type="radio" id="y_opt_1_twilio_active" name="active" value="1" <?= ($active == 1) ? ' checked' : '' ?>>
+                                <label for="y_opt_1_twilio_active"><?php echo _l('settings_yes'); ?></label>
+                            </div>
+                            <div class="radio radio-primary radio-inline">
+                                <input type="radio" id="y_opt_2_twilio_active" name="active" value="0" <?= ($active == 0) ? ' checked' : '' ?>>
+                                <label for="y_opt_2_twilio_active">
+                                <?php echo _l('settings_no'); ?>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>      
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-info">Save</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
+</div>
+
 <!-- Call Log Modal-->
 <div class="modal fade call_log-modal" id="call_log-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg">
@@ -140,50 +251,6 @@ if(isset($call_log)){
         </div>
     </div>
 </div>
-
-<!-- Send SMS Modal -->
-<!-- <div class="modal fade" id="send_sms_modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="loader" style="width: 100%;
-                height: 100%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                display: none;
-                background: #ffffffa1;"></div>
-                <div class="form-content">
-                    <?php echo form_open_multipart($this->uri->uri_string().'/SendSMS/send', array('id'=>'form_sms')) ;?>
-                    <div class="form-group">
-                        <label for="">Phone 1 </label>
-                        <input type="text" name="phone_number[]" value="" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Phone 1 </label>
-                        <input type="text" name="phone_number[]" value="" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="4" class="form-control"></textarea>
-                    </div>
-
-                    <button class="btn btn-primary">Send</button>
-                </form>
-            </div>
-            <div class="report-content"></div>
-        </div>
-    </div>
-</div>
-</div> -->
-
 <div class="modal fade" id="send_bulk_sms_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -395,95 +462,15 @@ if(isset($call_log)){
 </div>
 </div>
 </div>
-<div class="modal fade lead-modal in" id="customer-info-modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content data">
-        <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-         <h4 class="modal-title">Profile</h4>
-     </div>
-     <div class="modal-body">
-         <div class="ribbon success"><span>Customer</span></div>
-         <div class="row">
-           <div class="col-md-12">
-               <!-- Tab panes -->
-               <div class="tab-content">
-                  <!-- from leads modal -->
-                  <div role="tabpanel" class="tab-pane active" id="tab_lead_profile">
-                   <div class="lead-wrapper">
-                    <div class="row">
-                      <div class="lead-view" id="leadViewWrapper">
-                       <div class="col-md-4 col-xs-12 lead-information-col">
-                        <div class="lead-info-heading">
-                         <h4 class="no-margin font-medium-xs bold">Lead Information</h4>
-                     </div>
-                     <p class="text-muted lead-field-heading no-mtop">Name</p>
-                     <p class="bold font-medium-xs lead-name">Abdul Hanan</p>
-                     <p class="text-muted lead-field-heading">Position</p>
-                     <p class="bold font-medium-xs">-</p>
-                     <p class="text-muted lead-field-heading">Email Address</p>
-                     <p class="bold font-medium-xs"><a href="mailto:theabdulhasvsnan@gmail.com">theabdulhasvsnan@gmail.com</a></p>
-                     <p class="text-muted lead-field-heading">Website</p>
-                     <p class="bold font-medium-xs">-</p>
-                     <p class="text-muted lead-field-heading">Phone</p>
-                     <p class="bold font-medium-xs"><a href="tel:03006724741">03006724741</a></p>
-                     <p class="text-muted lead-field-heading">Company</p>
-                     <p class="bold font-medium-xs">Ideoversity</p>
-                     <p class="text-muted lead-field-heading">Address</p>
-                     <p class="bold font-medium-xs">ARFA Tower, Office # 8, Level # 8، Ferozepur Road, lahore, 54000</p>
-                     <p class="text-muted lead-field-heading">City</p>
-                     <p class="bold font-medium-xs">Lahore</p>
-                     <p class="text-muted lead-field-heading">State</p>
-                     <p class="bold font-medium-xs">-</p>
-                     <p class="text-muted lead-field-heading">Country</p>
-                     <p class="bold font-medium-xs">Pakistan</p>
-                     <p class="text-muted lead-field-heading">Zip Code</p>
-                     <p class="bold font-medium-xs">54000</p>
-                 </div>
-                 <div class="col-md-4 col-xs-12 lead-information-col">
-                    <div class="lead-info-heading">
-                     <h4 class="no-margin font-medium-xs bold">General Information</h4>
-                 </div>
-                 <p class="text-muted lead-field-heading no-mtop">Status</p>
-                 <p class="bold font-medium-xs mbot15">Аллочка</p>
-                 <p class="text-muted lead-field-heading">Source</p>
-                 <p class="bold font-medium-xs mbot15">Facebook</p>
-                 <p class="text-muted lead-field-heading">Default Language</p>
-                 <p class="bold font-medium-xs mbot15">System Default</p>
-                 <p class="text-muted lead-field-heading">Assigned</p>
-                 <p class="bold font-medium-xs mbot15">Simply Admin</p>
-                 <p class="text-muted lead-field-heading">Tags</p>
-                 <p class="bold font-medium-xs mbot10">
-                 -            </p>
-                 <p class="text-muted lead-field-heading">Created</p>
-                 <p class="bold font-medium-xs"><span class="text-has-action" data-toggle="tooltip" data-title="2020-11-07 10:14:45">2 months ago</span></p>
-                 <p class="text-muted lead-field-heading">Last Contact</p>
-                 <p class="bold font-medium-xs"><span class="text-has-action" data-toggle="tooltip" data-title="2020-12-02 12:25:00">a month ago</span></p>
-                 <p class="text-muted lead-field-heading">Public</p>
-                 <p class="bold font-medium-xs mbot15">
-                 No            </p>
-             </div>
-             <div class="col-md-4 col-xs-12 lead-information-col">
-             </div>
-             <div class="clearfix"></div>
-             <div class="col-md-12">
-                <p class="text-muted lead-field-heading">Description</p>
-                <p class="bold font-medium-xs">-</p>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
+
+
+
 <?php $this->load->view('call_types/type.php'); ?>
 <?php $this->load->view('call_types/call_direction.php'); ?>
 <?php init_tail(); ?>
+
+
 <?php if($contactid != ''): ?>
     <script type="text/javascript">
         $(function(){
@@ -513,6 +500,16 @@ if(isset($call_log)){
                 });
             });
         }else{
+             $('.bootstrap-select').on('click',function(e){
+                $(this).toggleClass('open');
+            });
+            $('#clientid_select').on('click',function(){
+                $(this).find('div.bootstrap-select').toggleClass('open');
+                
+            });
+            $('#contactid_select').on('click',function(){
+                $(this).find('div.bootstrap-select').toggleClass('open');
+            });
             loadGridView();
 
             $(document).off().on('click','a.paginate',function(e){
@@ -690,27 +687,11 @@ if(isset($call_log)){
     });
 
     $( "#call_start_time" ).blur(function() {
-            /*
-            var now = moment($(this).val()); //todays date
-            var end = moment($( "#call_end_time" ).val()); // another date
-            var duration = moment.duration(end.diff(now));
-            var hours = end.diff(now, 'hours', true); //duration.asDays();
-            var diff = convertTime(Math.floor(hours * 60 * 60));
-            $("#call_duration").val(diff);
-            */
-            calculate_duration($( this ).val(), $('#call_end_time').val());
-        });
+        calculate_duration($( this ).val(), $('#call_end_time').val());
+    });
     $( "#call_end_time" ).blur(function() {
-            /*
-            var now = moment($('#call_start_time').val()); //todays date
-            var end = moment($( this ).val()); // another date
-            var duration = moment.duration(end.diff(now));
-            var hours = end.diff(now, 'hours', true); //duration.asDays();
-            var diff = convertTime(Math.floor(hours * 60 * 60));
-            $("#call_duration").val(diff);
-            */
-            calculate_duration($('#call_start_time').val(), $( this ).val());
-        });
+        calculate_duration($('#call_start_time').val(), $( this ).val());
+    });
 });
   function calculate_duration(start_time, end_time){
     $.ajax({ 
@@ -858,17 +839,9 @@ function sendsmsnew()
 });
  }
 }
-function loadCustomerProfile(e) {
-    var id = $(e).attr('data-id');
-    $.ajax({ 
-      url: admin_url+'call_logs/get_customer_data',
-      type: 'POST',
-      data: {contactid: id},
-      success: function (result) {
-        $("#leadViewWrapper").html(result)
-        $("#customer-info-modal").modal('show');
-    }
-});
+
+function openTwilioSettingModal() {
+    $("#twilioSettingsModal").modal();
 }
 $(document).ready(function(){
     var maxLength = 160;
@@ -891,5 +864,6 @@ $(document).ready(function(){
 });
 });
 </script>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/custom.js"></script>
 </body>
 </html>

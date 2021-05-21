@@ -86,6 +86,7 @@ $lang['cl_monthly_calls']                                      = 'مكالمات
 
 $lang['cl_types_enable_option']                                = 'السماح للموظفين غير الإداريين بإنشاء <b> النوع </ b> في منطقة إنشاء / تحرير <b> سجل المكالمات </b>؟';
 $lang['cl_call_direction_enable_option']                       = 'هل تسمح للموظفين غير الإداريين بإنشاء <b> نوع إتصال </b> في منطقة إنشاء / تحرير <b> سجل المكالمات </b>؟';
+$lang['cl_bulk_sms_disable_option']                             = 'تعطيل رسائل SMS المجمعة للموظفين غير الإداريين؟';
 $lang['cl_follow_up_notification']                             = 'لديك مكالمة متابعة مع s% في s%';
 
 $lang['staff_members_daily_calls_target']                      = 'عدد المكالمات اليومية للموظفين غير الإداريين';
@@ -99,10 +100,32 @@ $lang['cl_opt_event_type']                                    = 'نوع السج
 $lang['cl_sms_content']                                       = 'SMS';
 $lang['cl_twilio_sms_response']                               = 'الحالة';
 $lang['cl_sms_start_time']                                    = 'وقت بدء الرسائل القصيرة';
-$lang['cl_sms_end_time']                                      = 'وقت إنتهاء الرسائل القصيرة';
-$lang['cl_bulk_sms_modal_title']                              = 'إرسال رسائل قصيرة جماعية';
-$lang['sms_log_direction']                                    = 'وصف الرسالة القصيرة';
+$lang['cl_sms_end_time']                                      = 'وقت نهاية الرسائل القصيرة';
+$lang['cl_bulk_sms_modal_title']                              = 'إرسال رسائل نصية مجمعة';
+$lang['sms_log_direction']                                    = 'اتجاه الرسائل القصيرة';
 $lang['sms_purpose']                                          = 'الغرض من الرسائل القصيرة';
-$lang['sms_log_add_edit_call_summary']                        = 'نظرة عامة على الرسائل القصيرة';
+$lang['sms_log_add_edit_call_summary']                        = 'ملخص الرسائل القصيرة';
 $lang['cl_report_sms']                              		  = 'Sms';
-$lang['write_your_sms_here']              = 'أكتب رسالتك هنا';
+$lang['write_your_sms_here']              					  = 'اكتب رسالتك النصية هنا';
+$lang['phone_number_with_dialing_code']              		  = 'أدخل الهاتف (قم بتضمين رمز الاتصال مثل +966)';
+$lang['call_answer']              		  					  = 'الإجابة';
+$lang['end_call']              		  						  = 'النهاية';
+$lang['call']              		  						  	  = 'الإتصال';
+$lang['call_support']              		  					  = 'الدعم';
+$lang['cl_call_status']              		  				  = 'حالة الإتصال';
+$lang['cl_call_status_completed']              		  		  = 'مكتمل';
+$lang['cl_call_status_busy']              		  	     	  = 'مشغول';
+$lang['cl_call_status_no_answer']              		  	      = 'لم يتم الرد';
+$lang['cl_call_status_cancelled']              		  	      = 'ملغية';
+$lang['cl_sms_status_sent']              		  	      	  = 'مرسلة';
+$lang['cl_sms_status_failed']              		  	      	  = 'فشل';
+$lang['twiml_app_friendly_name']              		  	      = 'twiML App Friendly Name';
+$lang['twiml_app_sid']              		  	      		  = 'twiML App SID';
+$lang['twiml_app_voice_request_url']              		  	  = 'twiML App voice request URL';
+$lang['cl_twilio_account_share_staff_option']                 = 'اسمح للموظفين بالدخول إلى حساب Twilio الفردي أو استخدام الحساب العام.';
+$lang['twilio_phone_number']              		  	      	  = 'twiML Phone Number';
+$lang['sms_twilio_auth_token']              		  	      	  = 'Auth Token';
+$lang['sms_twilio_account_sid']              		  	      	  = 'Account SID';
+$lang['active']              		  	      	                = 'نشط';
+
+

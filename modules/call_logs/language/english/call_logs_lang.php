@@ -86,6 +86,7 @@ $lang['cl_monthly_calls']                                      = 'Monthly Calls'
 
 $lang['cl_types_enable_option']                                = 'Allow non-admin staff members to create <b>Type</b> in <b>Call Log</b> create/edit area?  ';
 $lang['cl_call_direction_enable_option']                       = 'Allow non-admin staff members to create <b>Call Type</b> in <b>Call Log</b> create/edit area?  ';
+$lang['cl_bulk_sms_disable_option']                             = 'Disable Bulk SMS for non-admin staff members?  ';
 $lang['cl_follow_up_notification']                             = 'You have a follow-up call with %s on %s';
 
 $lang['staff_members_daily_calls_target']                      = 'Non-admin Staff members daily number of calls';
@@ -105,4 +106,26 @@ $lang['sms_log_direction']                                    = 'Sms Direction';
 $lang['sms_purpose']                                          = 'Sms Purpose';
 $lang['sms_log_add_edit_call_summary']                        = 'Sms Summary';
 $lang['cl_report_sms']                              		  = 'Sms';
-$lang['write_your_sms_here']              = 'Write your SMS here';
+$lang['write_your_sms_here']              					  = 'Write your SMS here';
+$lang['phone_number_with_dialing_code']              		  = 'Enter Phone (include the dialling code e.g +44)';
+$lang['call_answer']              		  					  = 'Answer';
+$lang['end_call']              		  						  = 'End';
+$lang['call']              		  						  	  = 'Call';
+$lang['call_support']              		  					  = 'Support';
+$lang['cl_call_status']              		  				  = 'Call Status';
+$lang['cl_call_status_completed']              		  		  = 'Completed';
+$lang['cl_call_status_busy']              		  	     	  = 'Busy';
+$lang['cl_call_status_no_answer']              		  	      = 'No Answer';
+$lang['cl_call_status_cancelled']              		  	      = 'Cancelled';
+$lang['cl_sms_status_sent']              		  	      	  = 'Sent';
+$lang['cl_sms_status_failed']              		  	      	  = 'Failed';
+$lang['twiml_app_friendly_name']              		  	      = 'twiML App Friendly Name';
+$lang['twiml_app_sid']              		  	      		  = 'twiML App SID';
+$lang['twiml_app_voice_request_url']              		  	  = 'twiML App voice request URL';
+$lang['cl_twilio_account_share_staff_option']                 = 'Allow staff members to enter individual Twilio account or use global account.';
+$lang['twilio_phone_number']              		  	      	  = 'twiML Phone Number';
+$lang['sms_twilio_auth_token']              		  	      	  = 'Auth Token';
+$lang['sms_twilio_account_sid']              		  	      	  = 'Account SID';
+$lang['active']              		  	      	                = 'Active';
+
+

@@ -1,18 +1,33 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/twilio.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/WebAudioRecorder.min.js"></script>
 <div id="wrapper">
     <div class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <div class="panel_s mbot10">
-                            <div class="_buttons">
-                                <a href="<?php echo admin_url('call_logs'); ?>" class="btn btn-info pull-left display-block mright5">
-                                    <?php echo _l('go_back'); ?>
-                                </a>
+
+
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="panel_s mbot10">
+                                    <div class="_buttons">
+                                        <a href="<?php echo admin_url('call_logs'); ?>" class="btn btn-info pull-left display-block mright5">
+                                            <?php echo _l('go_back'); ?>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col-lg-4 text-right">
+                                <button type="button" class="btn btn-sm btn-danger" id="endcall"  style="display: none;"><span><i class="fa fa-phone" style="padding-right: 3px;"></i></span><?php echo _l('end_call'); ?></button>
+                                <button type="button" class="btn btn-sm btn-success" id="answer-button"  style="display: none;"><span><i class="fa fa-phone" style="padding-right: 3px;"></i></span><?php echo _l('call_answer'); ?></button>
+                            </div> 
                         </div>
+
+
+
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
 
@@ -119,5 +134,6 @@
         });
     });
 </script>
+<script type="text/javascript" src="<?php echo base_url() ?>modules/call_logs/assets/js/custom.js"></script>
 </body>
 </html>

@@ -47,3 +47,20 @@
 </html>
 <?php require 'modules/timesheets/assets/js/setting_js.php';?>
 
+
+    <script>
+        $(document).on('click', '#generate-key', function (e) {
+            e.preventDefault();
+            $('#key_app').val(generateNewKey(40))
+        });
+
+        function generateNewKey(length) {
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+    </script>

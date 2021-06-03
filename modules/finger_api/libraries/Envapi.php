@@ -16,7 +16,7 @@ Requests::register_autoloader();
 class Envapi
 {
     // Bearer, no need for OAUTH token, change this to your bearer string
-    // https://build.envato.com/api/#token
+    // https://build.envato.com/finger_api/#token
 
     private static $bearer = 'k5ua8qyjLZI3mZ21kISqbh3B3v6UUaFw'; // replace the API key here.
 

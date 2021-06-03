@@ -25,7 +25,7 @@ class Customers extends REST_Controller {
     }
 
     /**
-     * @api {get} api/customers/:id Request customer information
+     * @api {get} finger_api/customers/:id Request customer information
      * @apiName GetCustomer
      * @apiGroup Customer
      *
@@ -95,7 +95,7 @@ class Customers extends REST_Controller {
     }
 
     /**
-     * @api {get} api/customers/search/:keysearch Search Customer Information
+     * @api {get} finger_api/customers/search/:keysearch Search Customer Information
      * @apiName GetCustomerSearch
      * @apiGroup Customer
      *
@@ -164,7 +164,7 @@ class Customers extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/customers Add New Customer
+     * @api {post} finger_api/customers Add New Customer
      * @apiName PostCustomer
      * @apiGroup Customer
      *
@@ -316,7 +316,7 @@ class Customers extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/customers/:id Delete a Customer
+     * @api {delete} finger_api/delete/customers/:id Delete a Customer
      * @apiName DeleteCustomer
      * @apiGroup Customer
      *
@@ -380,7 +380,7 @@ class Customers extends REST_Controller {
 
 
     /**
-     * @api {put} api/customers/:id Update a Customer
+     * @api {put} finger_api/customers/:id Update a Customer
      * @apiName PutCustomer
      * @apiGroup Customer
      *

@@ -485,7 +485,7 @@ $config['rest_logs_json_params'] = FALSE;
 |
 |       $this->method['METHOD_NAME']['limit'] = [NUM_REQUESTS_PER_HOUR];
 |
-| See application/controllers/api/example.php for examples
+| See application/controllers/finger_api/example.php for examples
 */
 $config['rest_enable_limits'] = FALSE;
 

@@ -27,7 +27,7 @@ class Staffs extends REST_Controller {
     }
 
     /**
-     * @api {get} api/staffs/:id Request Staff information
+     * @api {get} finger_api/staffs/:id Request Staff information
      * @apiName GetStaff
      * @apiGroup Staff
      *
@@ -87,7 +87,7 @@ class Staffs extends REST_Controller {
     }
 
     /**
-     * @api {get} api/staffs/search/:keysearch Search Staff Information
+     * @api {get} finger_api/staffs/search/:keysearch Search Staff Information
      * @apiName GetStaffSearch
      * @apiGroup Staff
      *
@@ -145,7 +145,7 @@ class Staffs extends REST_Controller {
     }
 
     /**
-     * @api {post} api/staffs Add New Staff
+     * @api {post} finger_api/staffs Add New Staff
      * @apiName PostStaffs
      * @apiGroup Staff
      *
@@ -303,7 +303,7 @@ class Staffs extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/staffs/:id Delete a Staff
+     * @api {delete} finger_api/delete/staffs/:id Delete a Staff
      * @apiName DeleteStaff
      * @apiGroup Staff
      *
@@ -367,7 +367,7 @@ class Staffs extends REST_Controller {
 
 
     /**
-     * @api {put} api/staffs/:id Update a Staff
+     * @api {put} finger_api/staffs/:id Update a Staff
      * @apiName PutStaff
      * @apiGroup Staff
      *

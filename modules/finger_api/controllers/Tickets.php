@@ -26,7 +26,7 @@ class Tickets extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tickets/:id Request Ticket information
+     * @api {get} finger_api/tickets/:id Request Ticket information
      * @apiName GetTicket
      * @apiGroup Ticket
      *
@@ -97,7 +97,7 @@ class Tickets extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tickets/search/:keysearch Search Ticket Information
+     * @api {get} finger_api/tickets/search/:keysearch Search Ticket Information
      * @apiName GetTicketSearch
      * @apiGroup Ticket
      *
@@ -166,7 +166,7 @@ class Tickets extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/tickets Add New Ticket
+     * @api {post} finger_api/tickets Add New Ticket
      * @apiName PostTicket
      * @apiGroup Ticket
      *
@@ -279,7 +279,7 @@ class Tickets extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/tickets/:id Delete a Ticket
+     * @api {delete} finger_api/delete/tickets/:id Delete a Ticket
      * @apiName DeleteTicket
      * @apiGroup Ticket
      *
@@ -343,7 +343,7 @@ class Tickets extends REST_Controller {
 
 
     /**
-     * @api {put} api/tickets/:id Update a ticket
+     * @api {put} finger_api/tickets/:id Update a ticket
      * @apiName PutTicket
      * @apiGroup Ticket
      *

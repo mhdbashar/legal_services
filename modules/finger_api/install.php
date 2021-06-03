@@ -3,8 +3,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $CI = & get_instance();
-if (!$CI->db->table_exists(db_prefix() . 'user_api')) {
-    $CI->db->query('CREATE TABLE `'. db_prefix() .'user_api` (
+if (!$CI->db->table_exists(db_prefix() . 'user_finger_api')) {
+    $CI->db->query('CREATE TABLE `'. db_prefix() .'user_finger_api` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `user` VARCHAR(50) NOT NULL,
   `name` VARCHAR(50) NOT NULL,
@@ -14,6 +14,6 @@ if (!$CI->db->table_exists(db_prefix() . 'user_api')) {
 ');
 }
 
-if($CI->db->field_exists('password',db_prefix() . 'user_api')) {
-	$CI->db->query('ALTER TABLE '.db_prefix().'user_api DROP `password`');
+if($CI->db->field_exists('password',db_prefix() . 'user_finger_api')) {
+	$CI->db->query('ALTER TABLE '.db_prefix().'user_finger_api DROP `password`');
 }

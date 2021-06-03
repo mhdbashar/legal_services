@@ -26,7 +26,7 @@ class Milestones extends REST_Controller {
     }
 
     /**
-     * @api {get} api/milestones/:id Request Milestones information
+     * @api {get} finger_api/milestones/:id Request Milestones information
      * @apiName GetMilestones
      * @apiGroup Milestone
      *
@@ -84,7 +84,7 @@ class Milestones extends REST_Controller {
     }
 
     /**
-     * @api {get} api/milestones/search/:keysearch Search Milestones Information
+     * @api {get} finger_api/milestones/search/:keysearch Search Milestones Information
      * @apiName GetMilestoneSearch
      * @apiGroup Milestone
      *
@@ -141,7 +141,7 @@ class Milestones extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/milestones Add New Milestone
+     * @api {post} finger_api/milestones Add New Milestone
      * @apiName PostMilestone
      * @apiGroup Milestone
      *
@@ -236,7 +236,7 @@ class Milestones extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/milestones/:id Delete a Milestone
+     * @api {delete} finger_api/delete/milestones/:id Delete a Milestone
      * @apiName DeleteMilestone
      * @apiGroup Milestone
      *
@@ -300,7 +300,7 @@ class Milestones extends REST_Controller {
 
 
     /**
-     * @api {put} api/milestones/:id Update a Milestone
+     * @api {put} finger_api/milestones/:id Update a Milestone
      * @apiName PutMilestone
      * @apiGroup Milestone 
      *

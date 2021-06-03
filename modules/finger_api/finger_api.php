@@ -55,7 +55,7 @@ function finger_api_init_menu_items()
         $CI->app_menu->add_sidebar_children_item('finger_api-options', [
             'slug'     => 'finger_api-register-options',
             'name'     => _l('api_management'),
-            'href'     => admin_url('finger_api/api_management'),
+            'href'     => admin_url('finger_finger_api/api_management'),
             'position' => 5,
         ]);
         

@@ -24,7 +24,7 @@ class Projects extends REST_Controller {
     }
 
     /**
-     * @api {get} api/projects/:id Request project information
+     * @api {get} finger_api/projects/:id Request project information
      * @apiName GetProject
      * @apiGroup Project
      *
@@ -94,7 +94,7 @@ class Projects extends REST_Controller {
     }
 
     /**
-     * @api {get} api/projects/search/:keysearch Search Project Information
+     * @api {get} finger_api/projects/search/:keysearch Search Project Information
      * @apiName GetProjectSearch
      * @apiGroup Project
      *
@@ -162,7 +162,7 @@ class Projects extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/projects Add New Project
+     * @api {post} finger_api/projects Add New Project
      * @apiName PostProject
      * @apiGroup Project
      *
@@ -298,7 +298,7 @@ class Projects extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/projects/:id Delete a Project
+     * @api {delete} finger_api/delete/projects/:id Delete a Project
      * @apiName DeleteProject
      * @apiGroup Project
      *
@@ -362,7 +362,7 @@ class Projects extends REST_Controller {
 
 
     /**
-     * @api {put} api/projects/:id Update a project
+     * @api {put} finger_api/projects/:id Update a project
      * @apiName PutProject
      * @apiGroup Project
      *

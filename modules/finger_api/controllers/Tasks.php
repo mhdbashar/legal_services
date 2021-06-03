@@ -26,7 +26,7 @@ class Tasks extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tasks/:id Request Task information
+     * @api {get} finger_api/tasks/:id Request Task information
      * @apiName GetTask
      * @apiGroup Task
      *
@@ -91,7 +91,7 @@ class Tasks extends REST_Controller {
     }
 
     /**
-     * @api {get} api/tasks/search/:keysearch Search Tasks Information
+     * @api {get} finger_api/tasks/search/:keysearch Search Tasks Information
      * @apiName GetTaskSearch
      * @apiGroup Task
      *
@@ -155,7 +155,7 @@ class Tasks extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/tasks Add New Task
+     * @api {post} finger_api/tasks Add New Task
      * @apiName PostTask
      * @apiGroup Task
      *
@@ -283,7 +283,7 @@ class Tasks extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/tasks/:id Delete a Task
+     * @api {delete} finger_api/delete/tasks/:id Delete a Task
      * @apiName DeleteTask
      * @apiGroup Task
      *
@@ -347,7 +347,7 @@ class Tasks extends REST_Controller {
 
 
     /**
-     * @api {put} api/tasks/:id Update a task
+     * @api {put} finger_api/tasks/:id Update a task
      * @apiName PutTask
      * @apiGroup Task
      *

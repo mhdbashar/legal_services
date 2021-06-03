@@ -608,7 +608,7 @@ abstract class REST_Controller extends CI_Controller {
         if($is_valid_token['status'] == false || $check_token === false){
             $message = array(
                 'status' => FALSE,
-                'message' => $is_valid_token['message']
+                'message' => isset($is_valid_token['message']) ? $is_valid_token['message'] : "Something went wrong!"
             );
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -990,7 +990,7 @@ abstract class REST_Controller extends CI_Controller {
         $pattern = '/\.('.implode('|', array_keys($this->_supported_formats)).')($|\/)/';
         $matches = [];
 
-        // Check if a file extension is used e.g. http://example.com/api/index.json?param1=param2
+        // Check if a file extension is used e.g. http://example.com/finger_api/index.json?param1=param2
         if (preg_match($pattern, $this->uri->uri_string(), $matches))
         {
             return $matches[1];

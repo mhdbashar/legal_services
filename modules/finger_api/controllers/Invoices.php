@@ -26,7 +26,7 @@ class Invoices extends REST_Controller {
 	}
 
   /**
-	* @api {get} api/invoices/:id Request invoice information
+	* @api {get} finger_api/invoices/:id Request invoice information
 	* @apiVersion 0.1.0
 	* @apiName GetInvoice
 	* @apiGroup Invoice
@@ -186,7 +186,7 @@ class Invoices extends REST_Controller {
     }
 
 	 /**
-	  * @api {get} api/invoices/search/:keysearch Search invoice information
+	  * @api {get} finger_api/invoices/search/:keysearch Search invoice information
 	  * @apiVersion 0.1.0
 	  * @apiName GetInvoiceSearch
 	  * @apiGroup Invoice
@@ -306,7 +306,7 @@ class Invoices extends REST_Controller {
       }
 
     /**
-     * @api {post} api/invoices/:id Add New invoice
+     * @api {post} finger_api/invoices/:id Add New invoice
      * @apiVersion 0.1.0
      * @apiName PostInvoice
      * @apiGroup Invoice
@@ -514,7 +514,7 @@ class Invoices extends REST_Controller {
       }
 
      /**
-      * @api {delete} api/invoices/:id Delete invoice
+      * @api {delete} finger_api/invoices/:id Delete invoice
       * @apiVersion 0.1.0
       * @apiName DeleteInvoice
       * @apiGroup Invoice
@@ -586,7 +586,7 @@ class Invoices extends REST_Controller {
      }
 
 		/**
-     * @api {put} api/invoices/:id Update invoice
+     * @api {put} finger_api/invoices/:id Update invoice
      * @apiVersion 0.1.0
      * @apiName PutInvoice
      * @apiGroup Invoice

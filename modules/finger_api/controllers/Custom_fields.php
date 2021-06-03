@@ -10,7 +10,7 @@ class Custom_fields extends REST_Controller {
     }
 
     /**
-     * @api {get} api/custom_fields/:FieldBelongsto/:id Request Values of Custom Fields
+     * @api {get} finger_api/custom_fields/:FieldBelongsto/:id Request Values of Custom Fields
      * @apiVersion 0.2.0
      * @apiName GetCustomFieldswithValue
      * @apiGroup Custom Fields
@@ -155,7 +155,7 @@ class Custom_fields extends REST_Controller {
     /**
      * @api {POST} N/A Add Custom Fields
      * @apiVersion 0.2.0
-     * @apiDescription Submit URL for POST request of the custom fields remains the same for each endpoint (ie `api/contacts` for Contacts endpoint, `api/invoices` for Invoices endpoint, etc..)
+     * @apiDescription Submit URL for POST request of the custom fields remains the same for each endpoint (ie `finger_api/contacts` for Contacts endpoint, `finger_api/invoices` for Invoices endpoint, etc..)
      * <br> <h2>In this example, we will use the following form data which corresponds to the following custom field types:</h2>
      `custom_fields[invoice][1]`  = **Input Type**
      <br> `custom_fields[invoice][2]`  = **Number**
@@ -199,7 +199,7 @@ class Custom_fields extends REST_Controller {
     /**
      * @api {PUT} N/A Update Custom Fields
      * @apiVersion 0.2.0
-     * @apiDescription Submit URL for PUT request of the custom fields remains the same for each endpoint (ie `api/contacts` for Contacts endpoint, `api/invoices` for Invoices endpoint, etc..)
+     * @apiDescription Submit URL for PUT request of the custom fields remains the same for each endpoint (ie `finger_api/contacts` for Contacts endpoint, `finger_api/invoices` for Invoices endpoint, etc..)
      * <br> <h2>In this example, we will use the following form data which corresponds to the following custom field types:</h2>
      `custom_fields[invoice][1]`  = **Input Type**
      <br> `custom_fields[invoice][2]`  = **Number**

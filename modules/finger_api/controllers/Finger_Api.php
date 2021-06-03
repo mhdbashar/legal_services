@@ -25,7 +25,7 @@ class Finger_Api extends AdminController
 
     public function api_guide()
     { 
-        fopen(APP_MODULES_PATH . 'api/views/apidoc/index.html', 'r');
+        fopen(APP_MODULES_PATH . 'finger_api/views/apidoc/index.html', 'r');
     }
 
     /* Add new user or update existing*/
@@ -43,7 +43,7 @@ class Finger_Api extends AdminController
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('user_api')));
                 }
-                 redirect(admin_url('api/api_management'));
+                 redirect(admin_url('finger_api/api_management'));
             } else {
                 $data = $this->input->post();
                 $id   = $data['id'];
@@ -52,7 +52,7 @@ class Finger_Api extends AdminController
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('user_api')));
                 }
-                redirect(admin_url('api/api_management'));
+                redirect(admin_url('finger_api/api_management'));
             }
             die;
         }
@@ -66,13 +66,13 @@ class Finger_Api extends AdminController
             access_denied('User');
         }
         if (!$id) {
-            redirect(admin_url('api/api_management'));
+            redirect(admin_url('finger_api/api_management'));
         }
         $response = $this->api_model->delete_user($id);
         if ($response == true) {
             set_alert('success', _l('deleted', _l('user_api')));
         }
-        redirect(admin_url('api/api_management'));
+        redirect(admin_url('finger_api/api_management'));
     }
 
 }

@@ -25,7 +25,7 @@ class Items extends REST_Controller {
 	    parent::__construct();
 	}
 	/**
-	  * @api {get} api/items/items/:id Request items information
+	  * @api {get} finger_api/items/items/:id Request items information
 	  * @apiVersion 0.1.0
 	  * @apiName GetItem
 	  * @apiGroup Items
@@ -83,7 +83,7 @@ class Items extends REST_Controller {
         }
   	}
 	 /**
-	  * @api {get} api/items/search/:keysearch Search invoice item information
+	  * @api {get} finger_api/items/search/:keysearch Search invoice item information
 	  * @apiVersion 0.1.0
 	  * @apiName GetItemSearch
 	  * @apiGroup Items

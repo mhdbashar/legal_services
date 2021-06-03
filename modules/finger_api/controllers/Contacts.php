@@ -27,7 +27,7 @@ class Contacts extends REST_Controller {
 	}
 
     /**
-     * @api {get} api/contacts/:customer_id/:contact_id List all Contacts of a Customer
+     * @api {get} finger_api/contacts/:customer_id/:contact_id List all Contacts of a Customer
      * @apiVersion 0.1.0
      * @apiName GetContact
      * @apiGroup Contact
@@ -121,7 +121,7 @@ class Contacts extends REST_Controller {
 	}
 
     /**
-     * @api {get} api/contacts/search/:keysearch Search Contact Information
+     * @api {get} finger_api/contacts/search/:keysearch Search Contact Information
      * @apiVersion 0.1.0
      * @apiName GetContactSearch
      * @apiGroup Contact
@@ -225,7 +225,7 @@ class Contacts extends REST_Controller {
 	}
 	
     /**
-     * @api {post} api/contacts/ Add New Contact
+     * @api {post} finger_api/contacts/ Add New Contact
      * @apiVersion 0.1.0
      * @apiName PostContact
      * @apiGroup Contact
@@ -340,7 +340,7 @@ class Contacts extends REST_Controller {
 	}
 
     /**
-     * @api {delete} api/delete/contacts/:id Delete Contact
+     * @api {delete} finger_api/delete/contacts/:id Delete Contact
      * @apiVersion 0.1.0
      * @apiName DeleteContact
      * @apiGroup Contact
@@ -413,7 +413,7 @@ class Contacts extends REST_Controller {
 	}
 
 	/**
-     * @api {put} api/contacts/:id Update Contact Information
+     * @api {put} finger_api/contacts/:id Update Contact Information
      * @apiVersion 0.1.0
      * @apiName PutContact
      * @apiGroup Contact

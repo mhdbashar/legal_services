@@ -508,7 +508,7 @@ class Api_model extends App_Model
         {
              $this->db->where('id', $id);
         }
-        return $this->db->get(db_prefix() . 'user_api')->result_array();
+        return $this->db->get(db_prefix() . 'user_finger_api')->result_array();
     }
 
      public function add_user($data)
@@ -524,7 +524,7 @@ class Api_model extends App_Model
         $today = date('Y-m-d H:i:s');
                 
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
-       $this->db->insert(db_prefix() . 'user_api', $data);
+       $this->db->insert(db_prefix() . 'user_finger_api', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
             log_activity('New User Added [ID: ' . $insert_id . ', Name: ' . $data['name'] . ']');
@@ -536,7 +536,7 @@ class Api_model extends App_Model
     {        
         $data['expiration_date'] = to_sql_date($data['expiration_date'],true);
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'user_api', $data);
+        $this->db->update(db_prefix() . 'user_finger_api', $data);
         if ($this->db->affected_rows() > 0) {
             log_activity('Ticket User Updated [ID: ' . $id . ' Name: ' . $data['name'] . ']');
 
@@ -549,7 +549,7 @@ class Api_model extends App_Model
     {
 
         $this->db->where('id', $id);
-        $this->db->delete(db_prefix() . 'user_api');
+        $this->db->delete(db_prefix() . 'user_finger_api');
         if ($this->db->affected_rows() > 0) {
             log_activity('User Deleted [ID: ' . $id . ']');
             return true;
@@ -561,14 +561,14 @@ class Api_model extends App_Model
     {
 
         $this->db->where('token', $token);
-        $user = $this->db->get(db_prefix() . 'user_api')->row();
+        $user = $this->db->get(db_prefix() . 'user_finger_api')->row();
         if(isset($user)){
             return true;
         }
         return false;
     }
 
-    public function user_api_exists()
+    public function user_finger_api_exists()
     {
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {

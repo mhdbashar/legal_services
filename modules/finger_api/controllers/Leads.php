@@ -20,7 +20,7 @@ class Leads extends REST_Controller {
     }
 
     /**
-     * @api {get} api/leads/:id Request lead information
+     * @api {get} finger_api/leads/:id Request lead information
      * @apiName GetLead
      * @apiGroup Lead
      *
@@ -87,7 +87,7 @@ class Leads extends REST_Controller {
     }
 
     /**
-     * @api {get} api/leads/search/:keysearch Search Lead Information
+     * @api {get} finger_api/leads/search/:keysearch Search Lead Information
      * @apiName GetLeadSearch
      * @apiGroup Lead
      *
@@ -151,7 +151,7 @@ class Leads extends REST_Controller {
         }
     }
     /**
-     * @api {post} api/leads Add New Lead
+     * @api {post} finger_api/leads Add New Lead
      * @apiName PostLead
      * @apiGroup Lead
      *
@@ -292,7 +292,7 @@ class Leads extends REST_Controller {
 
 
     /**
-     * @api {delete} api/delete/leads/:id Delete a Lead
+     * @api {delete} finger_api/delete/leads/:id Delete a Lead
      * @apiName DeleteLead
      * @apiGroup Lead
      *
@@ -356,7 +356,7 @@ class Leads extends REST_Controller {
 
 
     /**
-     * @api {put} api/leads/:id Update a lead
+     * @api {put} finger_api/leads/:id Update a lead
      * @apiName PutLead
      * @apiGroup Lead
      *

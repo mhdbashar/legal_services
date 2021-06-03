@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<link href="<?php echo base_url('modules/api/assets/main.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('modules/finger_api/assets/main.css'); ?>" rel="stylesheet" type="text/css" />
 <div id="wrapper">
    <div class="content">
       <div class="row">
@@ -32,7 +32,7 @@
                            <td><?php echo addslashes($user['expiration_date']); ?></td>
                            <td>
                              <a href="#" onclick="edit_user(this,<?php echo addslashes($user['id']); ?>); return false" data-user="<?php echo addslashes($user['user']); ?>" data-name="<?php echo addslashes($user['name']); ?>" data-expiration_date="<?php echo addslashes($user['expiration_date']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-                             <a href="<?php echo admin_url('api/delete_user/'.addslashes($user['id'])); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+                             <a href="<?php echo admin_url('finger_api/delete_user/'.addslashes($user['id'])); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
                            </td>
                         </tr>
                         <?php } ?>
@@ -46,7 +46,7 @@
 </div>
 <div class="modal fade" id="user_api" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-      <?php echo form_open(admin_url('api/user')); ?>
+      <?php echo form_open(admin_url('finger_api/user')); ?>
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -75,4 +75,4 @@
    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <?php init_tail(); ?>
-<script src="<?php echo base_url('modules/api/assets/main.js'); ?>"></script>
+<script src="<?php echo base_url('modules/finger_api/assets/main.js'); ?>"></script>

@@ -47,14 +47,35 @@ class Timesheets extends REST_Controller {
         }
     }
 
+    public function verify_token()
+    {
+        $headers = $this->input->request_headers();
+        if(!isset($headers['authtoken'])){
+            $this->response(['message' => 'Unauthorized'], 401);
+        }
+        $result = $this->authorization_token->validateToken();
+        $a = 0;
+        $email = $result['data']->$a;
+
+        $this->db->select('email,latitude,longitude,'.db_prefix().'staff.staffid as staff_id');
+        $this->db->where('email', $email);
+        $this->db->join(db_prefix() . 'timesheets_workplace_assign', db_prefix().'timesheets_workplace_assign.staffid='.db_prefix().'staff.staffid', 'left');
+        $this->db->join(db_prefix().'timesheets_workplace', db_prefix().'timesheets_workplace.id='.db_prefix().'timesheets_workplace_assign.workplace_id', 'left');
+        $staff = $this->db->get(db_prefix().'staff')->row();
+
+        return $staff;
+
+    }
+
     public function attend_post()
     {
+        $staff = $this->verify_token();
         $this->form_validation->set_rules('key', 'Key', 'required');
-        $this->form_validation->set_rules('lat', 'Lat', 'required');
-        $this->form_validation->set_rules('longt', 'Longt', 'required');
-        $this->form_validation->set_rules('area_id', 'area_id', 'required');
+//        $this->form_validation->set_rules('lat', 'Lat', 'required');
+//        $this->form_validation->set_rules('longt', 'Longt', 'required');
+//        $this->form_validation->set_rules('area_id', 'area_id', 'required');
         $this->form_validation->set_rules('q', 'q', 'required');
-        $this->form_validation->set_rules('worker_id', 'worker_id', 'required');
+        // $this->form_validation->set_rules('worker_id', 'worker_id', 'required');
         if ($this->form_validation->run() == FALSE)
         {
             // form validation error
@@ -77,20 +98,20 @@ class Timesheets extends REST_Controller {
                 );
 
 
-            $this->load->model('timesheets/Timesheets_model', 'Timesheets_model');
+            $this->load->model('timesheets/Timesheets_model', 'timesheets_model');
             $this->load->model('departments_model');
             $this->load->helper('timesheets/timesheets');
 
             $attend_data = [
-                'staff_id' =>  $data['worker_id'],
+                'staff_id' =>  $staff->staff_id,
                 'type_check' => $data['q'] == 'in' ? 1 : 2,
                 'edit_date' => '',
                 'point_id' => '',
-                'location_user' => $data['lat'] . ',' . $data['longt']
+                'location_user' => $staff->latitude . ',' . $staff->longitude
             ];
 
             $type = $attend_data['type_check'];
-            $re = $this->Timesheets_model->check_in($attend_data);
+            $re = $this->timesheets_model->check_in($attend_data);
             $message = '';
             $status = true;
             if(is_numeric($re)){

@@ -60,6 +60,7 @@ foreach ($rResult as $aRow) {
     $oStaff = $CI->staff_model->get($aRow['staffid']);
     $staffCalls = $CI->call_logs_model->get_staff_counts($aRow['staffid']);
     $staffSMS = $CI->call_logs_model->get_staff_counts_sms($aRow['staffid']);
+    $twilio_phone_number = $CI->call_logs_model->get_staff_twilio_phone_number($aRow['staffid']);
     if(!empty($oStaff)):
 ?>
     <div class="col-md-3">
@@ -67,6 +68,7 @@ foreach ($rResult as $aRow) {
             <div style="background: lightgrey; height: 70px; margin-bottom: -30px;"></div>
             <img src="<?php echo staff_profile_image_url($oStaff->staffid, 'thumb'); ?>">
             <h4><a href="<?php echo admin_url('profile/'.$oStaff->staffid);?>"><?php echo $oStaff->firstname.' '. $oStaff->lastname; ?></a></h4>
+            <?php echo empty($twilio_phone_number)?"":"<p>".$twilio_phone_number."</p>"; ?>
             <p>Total Calls: <?php echo $staffCalls;?></p>
              <p>Total SMS: <?php echo $staffSMS;?></p>
         </div>

@@ -4,14 +4,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 define('HR_MODULE_PATH', __DIR__ );
 define('HR_MODULE_NAME', 'hr');
 
-define('VERSION_HR', 307);
+define('VERSION_HR', 312);
+define('HR_ERROR', 'modules/hr/uploads/file_error_response/');
+define('HR_PROFILE_JOB_POSIITON_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/job_position/'));
+define('HR_PROFILE_CONTRACT_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/contracts/'));
+define('HR_PROFILE_FILE_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/att_file/'));
+
+define('HR_PROFILE_Q_A_ATTACHMENTS_UPLOAD_FOLDER', module_dir_path(HR_MODULE_NAME, 'uploads/q_a/'));
 
 
 /*
 Author: Babil Team
 Module Name: hr_name
 Description: hr_desc
-Version: 3.0.7
+Version: 3.1.2
 Requires at least: 2.3.*
 Author URI: #
 
@@ -20,6 +26,7 @@ Author URI: #
 
 register_activation_hook('hr', 'hr_module_activation_hook');
 hooks()->add_action('admin_init', 'hr_init_hrmApp');
+hooks()->add_action('admin_init', 'hr_profile_permissions');
 hooks()->add_action('app_admin_head', 'hr_add_head_components');
 hooks()->add_action('app_admin_footer', 'hr_add_footer_components');
 
@@ -498,6 +505,7 @@ function hr_add_head_components(){
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/accessibility.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/modules/exporting.js').'"></script>';
         echo '<script src="'.module_dir_url('hr', 'assets/plugins/highcharts/highcharts-3d.js').'"></script>';
+        echo '<script src="'.module_dir_url('hr', 'assets/js/hr.js').'"></script>';
     }
 
 
@@ -530,6 +538,17 @@ function hr_add_footer_components(){
 
     }
 
+    if(!(strpos($viewuri,'dependent_person') === false)){
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/dependent_person.js').'?v=' . HR_MODULE_NAME.'"></script>';
+        echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/hr_record/includes/importxlsx_js.php').'?v=' . HR_MODULE_NAME.'"></script>';
+    }
+
+    if(!(strpos($viewuri,'admin/hr/hr_profile/training') === false)){
+        if(!(strpos($viewuri,'training_library') === false)){
+            echo '<script src="'.module_dir_url(HR_MODULE_NAME, 'assets/js/training/training_library.js').'?v=' . VERSION_HR.'"></script>';
+        }
+    }
+
 }
 
 
@@ -538,6 +557,50 @@ function hr_module_activation_hook()
 {
     $CI = &get_instance();
     require_once(__DIR__ . '/install.php');
+}
+
+/**
+ * hr profile permissions
+ */
+function hr_profile_permissions()
+{
+
+    $capabilities = [];
+    $capabilities_2 = [];
+    $dashboard = [];
+
+    $capabilities['capabilities'] = [
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
+    ];
+
+    $capabilities_2['capabilities'] = [
+        // 'view_own'   => _l('permission_view'),
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'create' => _l('permission_create'),
+        'edit'   => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
+    ];
+
+    $dashboard['capabilities'] = [
+        'view'   => _l('permission_view') . '(' . _l('permission_global') . ')',
+
+    ];
+
+    //Dashboard
+    register_staff_capabilities('hrm_dashboard', $dashboard, _l('HR_dashboard'));
+    //Orgranization
+    register_staff_capabilities('staffmanage_orgchart', $capabilities_2, _l('HR_organizational_chart'));
+    //Training
+    register_staff_capabilities('staffmanage_training', $capabilities, _l('HR_training'));
+    //Q&A
+    register_staff_capabilities('hr_manage_q_a', $capabilities, _l('HR_q&a'));
+    //Dependent Persons
+    register_staff_capabilities('hrm_dependent_person', $capabilities, _l('HR_dependent_persons'));
+
+
 }
 function hr_init_hrmApp(){
     $CI = & get_instance();
@@ -574,6 +637,26 @@ function hr_init_hrmApp(){
     register_staff_capabilities('payroll', ['capabilities' => $allPermissionsArray,], _l('payroll'));
     register_staff_capabilities('expired_documents', ['capabilities' => $allPermissionsArray,], _l('expired_documents'));
 
+    $CI->app_menu->add_sidebar_menu_item('hr', [
+        'name'     => _l('hr'),
+        'icon'     => 'fa fa-users',
+        'position' => 200,
+    ]);
+    $CI->app_menu->add_sidebar_menu_item('staffs', [
+        'name'     => _l('staff'),
+        'icon'     => 'fa fa-users',
+        'position' => 205,
+    ]);
+    $CI->app_menu->add_sidebar_menu_item('organizations', [
+        'name'     => _l('organizations'),
+        'icon'     => 'fa fa-users',
+        'position' => 210,
+    ]);
+//    $CI->app_menu->add_sidebar_menu_item('core_hr', [
+//        'name'     => _l('core_hr'),
+//        'icon'     => 'fa fa-users',
+//        'position' => 10,
+//    ]);
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('hr', [
             'name' => _l("hr"), // The name if the item
@@ -582,8 +665,9 @@ function hr_init_hrmApp(){
             // 'icon'     => 'fa fa-users', // Font awesome icon
         ]);
     }
-    if (has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+    //core_hr
+    if(has_permission('hrm_dashboard','','view')){
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'dashboard',
             'name'     => _l('dashboard'),
             'href'     => admin_url('hr'),
@@ -592,7 +676,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'staff',
             'name'     => _l('staff'),
             'href'     => admin_url('hr/general/staff'),
@@ -602,7 +686,7 @@ function hr_init_hrmApp(){
     }
 
     if (has_permission('expired_documents', '', 'view_own') || has_permission('expired_documents', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'expired_documents',
             'name'     => _l('expired_documents'),
             'href'     => admin_url('hr/general/expired_documents'),
@@ -611,7 +695,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('insurrance', '', 'view_own') || has_permission('insurrance', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'insurrance',
             'name'     => _l('insurrance'),
             'href'     => admin_url('hr/insurances'),
@@ -621,7 +705,7 @@ function hr_init_hrmApp(){
     }
 
     if (has_permission('hr_contracts', '', 'view_own') || has_permission('hr_contracts', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'staff_contract',
             'name'     => _l('staff_contract'),
             'href'     => admin_url('hr/contracts'),
@@ -648,7 +732,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'payroll',
             'name'     => _l('payroll'),
             'href'     => admin_url('hr/payroll'),
@@ -657,7 +741,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('staffs', [
             'slug'     => 'payment_history',
             'name'     => _l('payment_history'),
             'href'     => admin_url('hr/payroll/payment_history'),
@@ -665,8 +749,17 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-history',
         ]);
     }
+    if(has_permission('staffmanage_training','','view')){
+        $CI->app_menu->add_sidebar_children_item('staffs', [
+            'slug'     => 'hr_training_process',
+            'name'     => _l('hr_training_process'),
+            'href'     => admin_url('hr/hr_profile/training'),
+            'position' => 43,
+            'icon'     => 'fa fa-graduation-cap',
+        ]);
+    }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'indicators',
             'name'     => _l('indicators'),
             'href'     => admin_url('hr/performance/indicators'),
@@ -675,7 +768,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'appraisals',
             'name'     => _l('appraisals'),
             'href'     => admin_url('hr/performance/appraisals'),
@@ -684,7 +777,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'official_documents',
             'name'     => _l('official_documents'),
             'href'     => admin_url('hr/organization/officail_documents'),
@@ -693,7 +786,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'departments',
             'name'     => _l('departments'),
             'href'     => admin_url('departments'),
@@ -702,7 +795,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view') and is_active_sub_department()){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'sub_department',
             'name'     => _l('sub_department'),
             'href'     => admin_url('hr/organization/sub_department'),
@@ -711,7 +804,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'designation',
             'name'     => _l('designation'),
             'href'     => admin_url('hr/organization/designation'),
@@ -720,16 +813,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
-            'slug'     => 'organizational_chart',
-            'name'     => _l('organizational_chart'),
-            'href'     => admin_url('hr/hr_profile/organizational_chart'),
-            'position' => 72,
-            'icon'     => 'fa fa-th-list',
-        ]);
-    }
-    if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('organizations', [
             'slug'     => 'designations_groups',
             'name'     => _l('designations_groups'),
             'href'     => admin_url('hr/organization/designations_groups'),
@@ -737,8 +821,35 @@ function hr_init_hrmApp(){
             'icon'     => 'fa fa-object-group',
         ]);
     }
+    if(has_permission('staffmanage_orgchart','','view')){
+        $CI->app_menu->add_sidebar_children_item('organizations', [
+            'slug'     => 'HR_organizational_chart',
+            'name'     => _l('HR_organizational_chart'),
+            'href'     => admin_url('hr/hr_profile/organizational_chart'),
+            'position' => 72,
+            'icon'     => 'fa fa-th-list',
+        ]);
+    }
+    if(has_permission('hr_manage_q_a','','view')){
+        $CI->app_menu->add_sidebar_children_item('hr', [
+            'slug'     => 'knowledge_base_q_a',
+            'name'     => _l('knowledge_base'),
+            'href'     => admin_url('hr/knowledge_base_q_a'),
+            'position' => 73,
+            'icon'     => 'fa fa-th-list',
+        ]);
+    }
+    if(has_permission('hrm_dependent_person','','view')){
+        $CI->app_menu->add_sidebar_children_item('hr', [
+            'slug'     => 'hr_dependent_persons',
+            'name'     => _l('hr_dependent_persons'),
+            'href'     => admin_url('hr/hr_profile/dependent_persons'),
+            'position' => 74,
+            'icon'     => 'fa fa-th-list',
+        ]);
+    }
     if (has_permission('awards', '', 'view_own') || has_permission('awards', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'awards',
             'name'     => _l('awards'),
             'href'     => admin_url('hr/core_hr/awards'),
@@ -747,7 +858,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('hr', '', 'view_own') || has_permission('hr', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'terminations',
             'name'     => _l('terminations'),
             'href'     => admin_url('hr/core_hr/terminations'),
@@ -756,7 +867,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('warnings', '', 'view_own') || has_permission('warnings', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'warnings',
             'name'     => _l('warnings'),
             'href'     => admin_url('hr/core_hr/warnings'),
@@ -765,7 +876,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('transfers', '', 'view_own') || has_permission('transfers', '', 'view') and is_active_sub_department()){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'transfers',
             'name'     => _l('transfers'),
             'href'     => admin_url('hr/core_hr/transfers'),
@@ -774,7 +885,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('complaints', '', 'view_own') || has_permission('complaints', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'complaints',
             'name'     => _l('complaints'),
             'href'     => admin_url('hr/core_hr/complaints'),
@@ -783,7 +894,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('resignations', '', 'view_own') || has_permission('resignations', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'resignations',
             'name'     => _l('resignations'),
             'href'     => admin_url('hr/core_hr/resignations'),
@@ -792,7 +903,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('promotions', '', 'view_own') || has_permission('promotions', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'promotions',
             'name'     => _l('promotions'),
             'href'     => admin_url('hr/core_hr/promotions'),
@@ -801,7 +912,7 @@ function hr_init_hrmApp(){
         ]);
     }
     if (has_permission('travels', '', 'view_own') || has_permission('travels', '', 'view')){
-        $CI->app_menu->add_setup_children_item('hr', [
+        $CI->app_menu->add_sidebar_children_item('hr', [
             'slug'     => 'travels',
             'name'     => _l('travels'),
             'href'     => admin_url('hr/core_hr/travels'),

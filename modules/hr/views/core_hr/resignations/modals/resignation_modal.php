@@ -49,6 +49,16 @@
                     <div class="col-md-12">
                         <?php echo render_textarea('resignation_reason','resignation_reason', '', ['required' => 'required']); ?>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="status" class="control-label"><?php echo _l('hr_status') ?></label>
+                            <select required="required" class="form-control" id="status" name="status" aria-invalid="false">
+                                <option value="Pending">Pending</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -71,6 +81,8 @@
             </div>
             <?php echo form_open_multipart(admin_url('hr/core_hr/add_resignation'),array('id'=>'form_transout')); ?>
             <?php echo form_hidden('id'); ?>
+            <?php echo form_hidden('status', 'Pending'); ?>
+
             <div class="modal-body">
                 <div class="row">
 <!--                --><?php // if($this->app_modules->is_active('branches')){  ?>

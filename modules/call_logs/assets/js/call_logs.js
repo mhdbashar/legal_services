@@ -9,6 +9,9 @@ function loadGridView() {
         $('div#grid-tab').html(resposne)
     })
 }
+function bulksmsOpen(){
+       $('#send_bulk_sms_modal').modal('show');
+   }
 function gridViewDataCall(formData, successFn, errorFn) {
     $.ajax({
         url:  admin_url + 'call_logs/grid/'+(formData.start+1),
@@ -42,3 +45,6 @@ function init_call_log_modal(id) {
         alert_float('danger', data.responseText);
     });
 }
+$(document).on('click','#send_bulk_sms_modal_close_btn',function(){
+    $('body').removeClass('modal-backdrop fade in');
+});

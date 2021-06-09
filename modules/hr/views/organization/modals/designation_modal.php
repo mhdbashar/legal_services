@@ -111,12 +111,12 @@
                     <select class="form-control" id="a_department_id" name="department_id" placeholder="<?php echo _l('department') ?>" aria-invalid="false">
                         <option></option>
                         <?php
-                         foreach ($departments as $department) { ?>
+                        foreach ($departments as $department) { ?>
                             <option value="<?php echo $department['departmentid'] ?>">
                                 <?php echo $department['name'] ?>
                             </option>
                         <?php } ?>
-                    </select>     
+                    </select>
                 </div>
 
 
@@ -155,13 +155,13 @@
 
                 $('[name="designation_name"]').val(data.designation_name);
 
-                tinyMCE.activeEditor.setContent(data.description);
-
                 $('[name="number"]').val(data.number);
 
                 $('[name="department_id"]').val(data.department.departmentid);
                 $('[name="group_id"]').val(data.group_id);
                 $('#a_department_id').selectpicker('refresh');
+
+                tinyMCE.activeEditor.setContent(data.description != null ? data.description : '');
 
 
                 $('#update_designation').modal('show'); // show bootstrap modal when complete loaded

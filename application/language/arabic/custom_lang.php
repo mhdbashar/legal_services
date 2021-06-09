@@ -1,5 +1,8 @@
 <?php
 
+$lang['organizations'] = 'المنشاّة';
+
+$lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
 $lang['designation_group'] = 'مجموعة المسميات الموظفية';
 $lang['new_designation_group'] = 'مجموعة جديدة';
 $lang['designations_groups'] = 'مجموعات المسميات الوظيفية';
@@ -660,7 +663,7 @@ $lang['gendre'] = "الجنس";
 $lang['emloyee_id'] = "رقم الموظف";
 $lang['office_sheft'] = "Office Sheft";
 $lang['branch_name'] = "اسم الفرع";
-$lang['professional_courses'] = "الدورات";
+$lang['professional_courses'] = "المهارات";
 $lang['branches'] = "الفروع";
 $lang['add_new_procuration'] = "اضافة وكالة جديدة";
 $lang['edit_procuration'] = "تعديل الوكالة";

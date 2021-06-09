@@ -9,8 +9,8 @@ class Hr extends AdminController{
         $this->load->model('hrm_model');
         $this->load->model('Insurance_type_model');
         $this->load->model('Insurance_book_num_model');
-        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
-            access_denied();
+//        if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
+//            access_denied();
 
         $total_complete_staffs = $this->db->count_all_results(db_prefix() . 'hr_extra_info');
         $total_staffs = $this->db->count_all_results(db_prefix() . 'staff');
@@ -22,8 +22,8 @@ class Hr extends AdminController{
 
     public function index()
     {
-        if (!has_permission('hr', '', 'view')) {
-            access_denied('hr');
+        if (!has_permission('hrm_dashboard', '', 'view')) {
+            access_denied('hrm_dashboard');
         }
         $this->load->model('departments_model');
 

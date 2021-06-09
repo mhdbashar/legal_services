@@ -7,6 +7,10 @@ use Twilio\Rest\Client;
 use Twilio\Jwt\ClientToken;
 use Twilio\TwiML\VoiceResponse;
 use Carbon\Carbon;
+
+error_reporting(-1);
+ini_set('display_errors', 1);
+
 class Call_logs extends AdminController
 {
     public function __construct()
@@ -28,7 +32,6 @@ class Call_logs extends AdminController
             $i = ($seconds / 60) % 60;
             $s = $seconds % 60;
             echo sprintf("%02d:%02d:%02d", $H, $i, $s);
-            //echo gmdate("H:i:s", $duration);
         }
         die();
     }
@@ -36,9 +39,6 @@ class Call_logs extends AdminController
     /* List all call_logs */
     public function index()
     {
-        //if (!has_permission('call_logs', '', 'access')) {
-            //access_denied('call_logs');
-        //}
         if ($this->input->is_ajax_request()) {
             $this->app->get_table_data(module_views_path('call_logs', 'table'));
         }
@@ -67,8 +67,7 @@ class Call_logs extends AdminController
         $data['call_directions'] = $this->call_logs_model->get_call_directions();
         $data['owner']         = $this->staff_model->get(get_staff_user_id());
         $data['staff']         = $this->staff_model->get();
-        //print_r($data); exit;
-
+        $data['twilio_account_info']         = $this->call_logs_model->get_twilio_account();
         $this->app_scripts->add('mindmap-js','modules/call_logs/assets/js/call_logs.js');
         $this->load->view('manage', $data);
     }
@@ -76,15 +75,11 @@ class Call_logs extends AdminController
     /* Prepare the table function to display the records in table format. */
     public function table($clientid = '')
     {
-        //if (!has_permission('call_logs', '', 'view')) {
-            //access_denied('call_logs');
-        //}
-
         $data['clientid'] = $clientid;
-
         $this->app->get_table_data(module_views_path('call_logs', 'table'), $data);
     }
 
+    
     /* Get the data ready for grid view. */
     public function grid()
     {
@@ -127,60 +122,97 @@ class Call_logs extends AdminController
     /* Call log function to handle create, view, edit views. */
     public function call_log($id = '')
     {
-        //print_r($this->input->post()); exit;
-        //if (!has_permission('call_logs', '', 'view')) {
-            //access_denied('call_logs');
-        //}
         if ($this->input->post()) {
             $this->load->model('misc_model');
-
+            $post_data = $this->input->post();
+            
             if ($id == '') {
                 if (!has_permission('call_logs', '', 'create')) {
                     access_denied('call_logs');
                 }
-                $id = $this->call_logs_model->add($this->input->post());
+                $id = $this->call_logs_model->add($post_data);
                 if ($id) {
-                    if($this->input->post('has_follow_up') == 1 && $this->input->post('is_completed') == 0) {
+
+                    $success = false;
+                    if($post_data['has_follow_up'] == 1 && $post_data['is_completed'] == 0) {
                         $params = [
                             'notify_by_email' => 1,
                             'date' => $this->input->post('follow_up_schedule'),
                             'description' => $this->input->post('call_summary'),
                             'rel_type' => $this->input->post('customer_type'),
                             'rel_id' => $this->input->post('clientid'),
-                            'staff' => ((int)$this->input->post('call_with_staffid') > 0)?$this->input->post('call_with_staffid') :$this->input->post('staffid') ,
+                            'staff' => ((int)$this->input->post('call_with_staffid') > 0)?$post_data['call_with_staffid'] :$this->input->post('staffid') ,
                         ];
                         $success = $this->misc_model->add_reminder($params, $this->input->post('clientid'));
                     }
-                    set_alert('success', _l('added_successfully', _l('call_log')));
-                    redirect(admin_url('call_logs'));
+
+                    // Saving recorded blob files
+                    if( !empty($_FILES) && is_array($_FILES["recorded_blobs"])) {
+                        $file_count = count($_FILES["recorded_blobs"]["tmp_name"]);
+                        $path     = FCPATH .'uploads/call_logs/' . $id . '/';
+                        if( !is_dir(FCPATH .'uploads/call_logs/' . $id)){
+                            mkdir( FCPATH .'uploads/call_logs/' . $id , 0777, true );
+                            fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
+                        }
+                       
+                        $extension = ".mp3";
+                        for($i = 0;$i < $file_count;$i++){
+                            
+                            $filename    = unique_filename($path, "record".time());
+                            $newFilePath = $path . $filename.$extension;
+                            // Upload the file into the company uploads dir
+                            if (move_uploaded_file($_FILES["recorded_blobs"]["tmp_name"][$i], $newFilePath)) { 
+                                $success = $this->call_logs_model->save_voice_records( $filename.$extension , $id);
+                            }
+                        }
+                    }
+
+                    echo json_encode([
+                        'success'             => $success,
+                        'message'             => _l('added_successfully', _l('call_log')),
+                    ]);
+                    die;
+                    //set_alert('success', _l('added_successfully', _l('call_log')));
+                    //redirect(admin_url('call_logs'));
                 }
             } else {
                 if (!has_permission('call_logs', '', 'edit')) {
                     access_denied('call_logs');
                 }
-                $success = $this->call_logs_model->update($this->input->post(), $id);
+                $success = $this->call_logs_model->update($post_data, $id);
                 if ($success) {
-//                    if($this->input->post('has_follow_up') == 1 && $this->input->post('is_completed') == 0) {
-//                        $params = [
-//                            'notify_by_email' => 1,
-//                            'date' => $this->input->post('follow_up_schedule'),
-//                            'description' => $this->input->post('call_summary'),
-//                            'rel_type' => $this->input->post('customer_type'),
-//                            'rel_id' => $this->input->post('clientid'),
-//                            'staff' => ((int)$this->input->post('call_with_staffid') > 0)?$this->input->post('call_with_staffid') :$this->input->post('staffid') ,
-//                        ];
-//                        $success = $this->misc_model->add_reminder($params, $this->input->post('clientid'));
-//                    }
-                    /*$send_sms_data['phone_number'][] = $this->input->post('userphone');
-                    $send_sms_data['message'] = $this->input->post('sms_content');
-                    $send_sms_data['call_back_url'] = base_url().'admin/call_logs/udpate_sms_response/'.$id;
-                    $sms_response = send_sms($send_sms_data);
-                    print_r($sms_response); exit;*/
-                    set_alert('success', _l('updated_successfully', _l('call_log')));
+
+                     // Saving recorded blob files
+                     if( !empty($_FILES) && is_array($_FILES["recorded_blobs"]) && (count($_FILES["recorded_blobs"]) > 0)) {
+                        $file_count = count($_FILES["recorded_blobs"]["tmp_name"]);
+
+                        $path     = FCPATH .'uploads/call_logs/' . $id . '/';
+                        if( !is_dir(FCPATH .'uploads/call_logs/' . $id)){
+                            mkdir( FCPATH .'uploads/call_logs/' . $id , 0777, true );
+                            fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
+                        }
+                        $extension = ".mp3";
+                        for($i = 0;$i < $file_count;$i++){
+                            
+                            $filename    = unique_filename($path, "record".time());
+                            $newFilePath = $path . $filename.$extension;
+                            // Upload the file into the company uploads dir
+                            if (move_uploaded_file($_FILES["recorded_blobs"]["tmp_name"][$i], $newFilePath)) {
+                                
+                                $success = $this->call_logs_model->save_voice_records( $filename.$extension , $id);
+                            }
+                        }
+                    }
+
+                    echo json_encode([
+                        'success'             => $success,
+                        'message'             => _l('updated_successfully', _l('call_log')),
+                    ]);
+                    die;
+                    
+                   // set_alert('success', _l('updated_successfully', _l('call_log')));
                 }
-                //redirect(admin_url('call_logs/call_log/' . $id));
-                //redirect(admin_url('call_logs'));
-                redirect($_SERVER['HTTP_REFERER']);
+                //redirect($_SERVER['HTTP_REFERER']);
             }
         }
         if ($id == '') {
@@ -192,7 +224,6 @@ class Call_logs extends AdminController
         }
 
         $data['owner']         = $this->staff_model->get(get_staff_user_id());
-        //$data['staff']         = $this->staff_model->get('',["staffid <> " => get_staff_user_id()]);
         $data['staff']         = $this->staff_model->get();
         $data['members'] = $this->staff_model->get('', ['is_not_staff' => 0, 'active'=>1]);
         $data['rel_types'] = $this->call_logs_model->get_rel_types();
@@ -203,28 +234,35 @@ class Call_logs extends AdminController
         $this->load->view('call_log', $data);
     }
 
+    public function records(){
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data(module_views_path('call_logs', 'records_table'));
+        }
+        $data['title']     = "Call Logs Record List";
+        $this->load->view('records', $data);
+    }
+    public function records_table($clientid = '')
+    {
+       // $data['clientid'] = $clientid;
+        $this->app->get_table_data(module_views_path('call_logs', 'records_table'), []);
+    }
+
 
     /* Call log function to handle preview views. */
     public function preview($id = 0)
     {
-        //if (!has_permission('call_logs', '', 'view')) {
-            //access_denied('call_logs');
-        //}
         $data['call_log']        = $this->call_logs_model->get($id);
 
         if (!$data['call_log']) {
             blank_page(_l('cl_not_found'), 'danger');
         }
-
         $data['rel_types'] = $this->call_logs_model->get_rel_types();
         $data['call_directions'] = $this->call_logs_model->get_call_directions();
         $data['owner']         = $this->staff_model->get(get_staff_user_id());
         $data['staff']         = $this->staff_model->get('',["staffid <> " => get_staff_user_id()]);
         $data['members'] = $this->staff_model->get('', ['is_not_staff' => 0, 'active'=>1]);
         $data['cl_rel_type']        = $this->call_logs_model->get_rel_types($data['call_log']->rel_type);
-
         $data['title']                 = _l('preview_call_log');
-
         $this->load->view('preview', $data);
     }
 
@@ -428,8 +466,6 @@ class Call_logs extends AdminController
             }
         }
     }
-
-
     public function delete_call_direction($id)
     {
         if (!$id) {
@@ -445,174 +481,128 @@ class Call_logs extends AdminController
         }
         redirect(admin_url('call_logs/call_directions'));
     }
-    public function check_call()
+    
+    public function get_lead_info()
     {
-       // print_r($this->input->post()); exit;
-        if(isset($_POST['userphone']))
-        {
-         $this->load->helper('call_logs_helper');
-         $result = twilio_setting(); 
-             // print_r($result); exit;
-            // $result['twilio_number'] = ' +12054190964';
-            // Where to make a voice call (your cell phone?)
-         $to_number = $_POST['userphone']; 
-            //$to_number = '+91 88607 67651'; 
-         $client = new Client($result['account_sid'], $result['auth_token']);
-            //$client = new Client('ACfef2526c96f877698cb713d27dffe799', 'b0498d2d3c5c717267e09767e2a7e89e');
-         $call = $client->account->calls->create(
-            $to_number,
-            $result['twilio_number'],
-            [
-                "method" => "GET",
-                /*"statusCallback" => "http://localhost/perfex_crm/testing.php",*/
-                "statusCallback" => "http://localhost/prontoinvoices/testing.php",
-                "statusCallbackEvent" => ["initiated","ringing","answered","complete"],
-                "statusCallbackMethod" => "POST",
-                "url" => "http://demo.twilio.com/docs/voice.xml"
-            ]
-        );
-            //print_r($call); exit;
-         if($call->sid)
-         {
-            echo  'ok';
-        }
-        else
-        {
-            echo 'no';
-        }
-        exit;
+        $this->load->model('Leads_model');
+        $leadid = $_POST['lead_id'];
+        $results = $this->Leads_model->get($leadid);
+
+        if(isset($results))
+            echo $results->phonenumber;
+        else 
+            echo "";
     }
-    $this->load->view('checkcall');
-}
-public function get_lead_info()
-{
-    $this->load->model('Leads_model');
-    $leadid = $_POST['lead_id'];
-    $results = $this->Leads_model->get($leadid);
-    echo $results->phonenumber;
-}
 
-public function get_contact_info()
-{
-    $this->load->model('Clients_model');
-    $contactid = $_POST['contactid'];
-    $results = $this->Clients_model->get_contact($contactid);
-    echo $results->phonenumber;
-}
-public function newToken()
-{
-        //print_r($this->input->post()); die;
-    $result = twilio_setting(); 
-    //print_r($result); exit;
-    $client = new ClientToken($result['account_sid'], $result['auth_token']);
-       // print_r($client); exit;
-    /*$forPage = $request->input('forPage');*/
-        //$applicationSid = config('services.twilio')[$result['account_sid']];
-    $client->allowClientOutgoing($result['account_sid']);
+    public function get_contact_info()
+    {
+        $this->load->model('Clients_model');
+        $contactid = $_POST['contactid'];
+        $results = $this->Clients_model->get_contact($contactid);
 
-        /*if ($forPage === route('dashboard', [], false)) {
-            $client->allowClientIncoming('support_agent');
+        if(isset($results))
+            echo $results->phonenumber;
+        else 
+            echo "";
+    }
+    public function newToken()
+    {
+
+        if((get_option('staff_members_twilio_account_share_staff') == 1) || (get_option('staff_members_twilio_account_share_staff') == '1')) {
+
+            $result = $this->call_logs_model->get_twilio_account(); 
+            $token = "";
+            if(isset($result) && (($result->active == '1') || ($result->active == 1))){ 
+
+                update_option('loggin_user_temp_id', get_staff_user_id());
+
+                $account_sid = $result->sms_twilio_account_sid;
+                str_replace(' ', '', $account_sid);
+
+                $auth_token = $result->sms_twilio_auth_token;
+                str_replace(' ', '', $auth_token);
+
+                $app_sid = $result->twiml_app_sid;
+                str_replace(' ', '', $app_sid);
+
+                $client = new ClientToken($account_sid, $auth_token);
+                $client->allowClientOutgoing($app_sid);
+                $client->allowClientIncoming('support_agent');
+                $token = $client->generateToken();
+            } else {
+                
+            }
+            echo json_encode(['token' => $token]);
+
         } else {
-            $client->allowClientIncoming('customer');
-        }*/
-
-        $token = $client->generateToken();
-        //print_r($token); die;
-        echo json_encode(['token' => $token]);
+            $result = twilio_setting(); 
+            $token = "";
+            
+            if( ($result["sms_twilio_active"] == "1") || ($result["sms_twilio_active"] == 1) ) {
+                $client = new ClientToken($result['account_sid'], $result['auth_token']);
+                $client->allowClientOutgoing($result['twiml_app_sid']);
+                $client->allowClientIncoming('support_agent');
+                $token = $client->generateToken();
+            }
+            
+            echo json_encode(['token' => $token]);
+        }
+        
     }
-    public function newCall()
+    public function udpate_sms_response($id='')
     {
-     $result = twilio_setting(); 
-     $response = new VoiceResponse();
-     $callerIdNumber =  $result['twilio_number'];
-
-     $dial = $response->dial(null, ['callerId'=>$callerIdNumber]);
-     $phoneNumberToDial = $this->input->post('phoneNumber');
-
-     if (isset($phoneNumberToDial)) {
-        $dial->number($phoneNumberToDial);
-    } else {
-        $dial->client('support_agent');
+        if($this->input->post()){
+            $post_data['twilio_sms_response'] = $this->input->post('SmsStatus');
+            return $this->call_logs_model->udpate_sms_response($post_data, $id);
+        }else{
+            echo "403 forbidden access!";
+        }
     }
 
-    return $response;
-}
-public function check_sms()
-{
-   print_r($this->input->post()); exit;
-   if(isset($_POST['userphone']))
-   {
-     $this->load->helper('call_logs_helper');
-     $result = twilio_setting(); 
-             // print_r($result); exit;
-            // $result['twilio_number'] = ' +12054190964';
-            // Where to make a voice call (your cell phone?)
-     $to_number = $_POST['userphone']; 
-            //$to_number = '+91 88607 67651'; 
-     $client = new Client($result['account_sid'], $result['auth_token']);
-            //$client = new Client('ACfef2526c96f877698cb713d27dffe799', 'b0498d2d3c5c717267e09767e2a7e89e');
-     $call = $client->account->calls->create(
-        $to_number,
-        $result['twilio_number'],
-        [
-            "method" => "GET",
-            /*"statusCallback" => "http://localhost/perfex_crm/testing.php",*/
-            "statusCallback" => "http://localhost/prontoinvoices/testing.php",
-            "statusCallbackEvent" => ["initiated","ringing","answered","complete"],
-            "statusCallbackMethod" => "POST",
-            "url" => "http://demo.twilio.com/docs/voice.xml"
-        ]
-    );
-            //print_r($call); exit;
-     if($call->sid)
-     {
-        echo  'ok';
-    }
-    else
-    {
-        echo 'no';
-    }
-    exit;
-}
-$this->load->view('checkcall');
-}
-public function udpate_sms_response($id='')
-{
-    if($this->input->post()){
-        $post_data['twilio_sms_response'] = $this->input->post('SmsStatus');
-        return $this->call_logs_model->udpate_sms_response($post_data, $id);
-    }else{
-        echo "403 forbidden access!";
-    }
-}
-public function get_customer_data()
-{
-    $html = '';
-    $this->load->model('Clients_model');
-    $result = $this->Clients_model->get_contact($this->input->post('contactid'));
-    $html .= ' <div class="col-md-4 col-xs-12 lead-information-col"><div class="lead-info-heading"><h4 class="no-margin font-medium-xs bold">Customer Information</h4></div>';
-    $html .= '<p class="text-muted lead-field-heading no-mtop">Name</p>';
-    $html .= '<p class="bold font-medium-xs lead-name">'.$result->firstname.' '.$result->lastname.'</p>';
-    $html .= '<p class="text-muted lead-field-heading">Position</p>';
-    $html .= '<p class="bold font-medium-xs">-</p><p class="text-muted lead-field-heading">Email Address</p>';
-    $html .= '<p class="bold font-medium-xs"><a href="mailto:'.$result->email.'">'.$result->email.'</a></p>';
-    $html .= '<p class="text-muted lead-field-heading">Website</p>';
-    $html .= '<p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">Phone</p>';
-    $html .= '<p class="bold font-medium-xs"><a href="tel:'.$result->phonenumber.'">'.$result->phonenumber.'</a></p>';
-    $html .= '<p class="text-muted lead-field-heading">Company</p>';
-    $html .= ' <p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">Address</p>';
-    $html .= '<p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">City</p>';
-    $html .= '<p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">State</p>';
-    $html .= '<p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">Country</p>';
-    $html .= '<p class="bold font-medium-xs">-</p>';
-    $html .= '<p class="text-muted lead-field-heading">Zip Code</p>';
-    $html .= '<p class="bold font-medium-xs">-</p></div>';
-    echo $html;
-}
+    public function save_twilio(){ 
+        if($this->input->post()){
+            $post_data['twiml_app_sid'] = $this->input->post('twiml_app_sid');
+            $post_data['twiml_app_friendly_name'] = $this->input->post('twiml_app_friendly_name');
+            $post_data['twiml_app_voice_request_url'] = $this->input->post('twiml_app_voice_request_url');
+            $post_data['twilio_phone_number'] = $this->input->post('twilio_phone_number');
+            $post_data['sms_twilio_account_sid'] = $this->input->post('sms_twilio_account_sid');
+            $post_data['sms_twilio_auth_token'] = $this->input->post('sms_twilio_auth_token');
+            $post_data['active'] = $this->input->post('active');
 
+            $this->call_logs_model->udpate_twilio_account($post_data);
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_record($recording_id){
+        if (!$recording_id) {
+            redirect(admin_url('call_logs/records'));
+        }
+        $response = $this->call_logs_model->delete_recording($recording_id);
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced', _l('call_log_recording')));
+        } elseif ($response == true) {
+            set_alert('success', _l('deleted', _l('call_log_recording')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('call_log_recording')));
+        }
+        redirect(admin_url('call_logs/records'));
+    }
+
+    public function download_record($recording_id){
+        
+        $this->load->helper('download');
+
+        $path = $this->call_logs_model->get_record_path($recording_id);
+
+        if (file_exists($path)) {
+            force_download($path, null);
+        } else {
+            set_alert('warning', 'Could not download file.');
+            redirect(admin_url('call_logs/records'));
+        }
+        
+    }
+
+    
 }

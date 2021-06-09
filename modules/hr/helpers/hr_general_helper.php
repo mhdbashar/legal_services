@@ -277,3 +277,113 @@ function check_hr_contract_restrictions($id, $hash)
         }
     }
 }
+
+/**
+ * hr profile get kb groups
+ * @return [type]
+ */
+function hr_get_kb_groups()
+{
+    $CI = & get_instance();
+
+    return $CI->db->get(db_prefix() . 'hr_knowledge_base_groups')->result_array();
+}
+
+/**
+ * hr profile handle kb article files upload
+ * @param  string $articleid
+ * @param  string $index_name
+ * @return [type]
+ */
+function hr_profile_handle_kb_article_files_upload($articleid = '', $index_name = 'kb_article_files')
+{
+    $path           = get_hr_profile_upload_path_by_type('kb_article_files') . $articleid . '/';
+    $uploaded_files = [];
+    if (isset($_FILES[$index_name])) {
+        _file_attachments_index_fix($index_name);
+        // Get the temp file path
+        $tmpFilePath = $_FILES[$index_name]['tmp_name'];
+        // Make sure we have a filepath
+        if (!empty($tmpFilePath) && $tmpFilePath != '') {
+            // Getting file extension
+            $extension = strtolower(pathinfo($_FILES[$index_name]['name'], PATHINFO_EXTENSION));
+
+            $allowed_extensions = explode(',', get_option('ticket_attachments_file_extensions'));
+            $allowed_extensions = array_map('trim', $allowed_extensions);
+            // Check for all cases if this extension is allowed
+
+            _maybe_create_upload_path($path);
+            $filename    = unique_filename($path, $_FILES[$index_name]['name']);
+            $newFilePath = $path . $filename;
+
+            // Upload the file into the temp dir
+            if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                $CI                       = & get_instance();
+
+                $CI->db->insert(db_prefix().'files', [
+                    'rel_id' => $articleid,
+                    'rel_type' => 'hr_profile_kb_article',
+                    'file_name' => $_FILES['kb_article_files']['name'],
+                    'filetype' => $_FILES['kb_article_files']['type'],
+                    'staffid' => get_staff_user_id()
+                ]);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
+ * get hr profile upload path by type
+ * @param  string $type
+ */
+function get_hr_profile_upload_path_by_type($type)
+{
+    $path = '';
+    switch ($type) {
+        case 'staff_contract':
+            $path = HR_PROFILE_CONTRACT_ATTACHMENTS_UPLOAD_FOLDER;
+
+            break;
+
+        case 'job_position':
+            $path = HR_PROFILE_JOB_POSIITON_ATTACHMENTS_UPLOAD_FOLDER;
+
+            break;
+
+        case 'kb_article_files':
+            $path = HR_PROFILE_Q_A_ATTACHMENTS_UPLOAD_FOLDER;
+            break;
+
+        case 'att_files':
+            $path = HR_PROFILE_FILE_ATTACHMENTS_UPLOAD_FOLDER;
+
+            break;
+
+
+    }
+
+    return hooks()->apply_filters('get_hr_profile_upload_path_by_type', $path, $type);
+}
+
+/**
+ * hr get staff email by id
+ * @param  [type] $id
+ * @return [type]
+ */
+function hr_get_staff_email_by_id($id)
+{
+    $CI = & get_instance();
+
+    $staff = $CI->app_object_cache->get('staff-email-by-id-' . $id);
+
+    if (!$staff) {
+        $CI->db->where('staffid', $id);
+        $staff = $CI->db->select('email')->from(db_prefix() . 'staff')->get()->row();
+        $CI->app_object_cache->add('staff-email-by-id-' . $id, $staff);
+    }
+
+    return ($staff ? $staff->email : '');
+}

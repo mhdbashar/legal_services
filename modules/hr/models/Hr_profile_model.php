@@ -1201,47 +1201,47 @@ if ($id == '') {
 	}
 
 
-	/**
-	 * add job position training process
-	 * @param array $data 
-	 */
-	public function add_job_position_training_process($data){
-		if(isset($data['department_id'])){
-			unset($data['department_id']);
-		}
-		$data['date_add'] = date('Y-m-d H:i:s');
-		$data['position_training_id'] = implode(',',$data['position_training_id']);
-		$data['job_id'] = implode(',',$data['job_id']);
-		$this->db->insert(db_prefix().'hr_jp_interview_training',$data);
-		$insert_id = $this->db->insert_id();
+    /**
+     * add job position training process
+     * @param array $data
+     */
+    public function add_job_position_training_process($data){
+        if(isset($data['department_id'])){
+            unset($data['department_id']);
+        }
+        $data['date_add'] = date('Y-m-d H:i:s');
+        $data['position_training_id'] = implode(',',$data['position_training_id']);
+        $data['job_position_id'] = implode(',',$data['job_position_id']);
+        $this->db->insert(db_prefix().'hr_jp_interview_training',$data);
+        $insert_id = $this->db->insert_id();
 
-		if ($insert_id) {
-			return $insert_id;
-		}
-		return false;
-	}
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+    }
 
 
-	/**
-	 * update job position training process
-	 * @param  array $data 
-	 * @param  integer $id   
-	 * @return integer or boolean       
-	 */
-	public function update_job_position_training_process($data, $id){
-		if(isset($data['department_id'])){
-			unset($data['department_id']);
-		}
-		$data['date_add'] = date('Y-m-d H:i:s');
-		$data['position_training_id'] = implode(',',$data['position_training_id']);
-		$data['job_id'] = implode(',',$data['job_id']);
-		$this->db->where('training_process_id', $id);
-		$this->db->update(db_prefix().'hr_jp_interview_training',$data);
-		if ($this->db->affected_rows() > 0) {
-			return true;
-		}
-		return false;
-	}
+    /**
+     * update job position training process
+     * @param  array $data
+     * @param  integer $id
+     * @return integer or boolean
+     */
+    public function update_job_position_training_process($data, $id){
+        if(isset($data['department_id'])){
+            unset($data['department_id']);
+        }
+        $data['date_add'] = date('Y-m-d H:i:s');
+        $data['position_training_id'] = implode(',',$data['position_training_id']);
+        $data['job_position_id'] = implode(',',$data['job_position_id']);
+        $this->db->where('training_process_id', $id);
+        $this->db->update(db_prefix().'hr_jp_interview_training',$data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
 
 
 	/**

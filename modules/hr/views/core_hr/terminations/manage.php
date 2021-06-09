@@ -18,6 +18,7 @@
                         _l('staff_name'),
                         _l('notice_date'),
                         _l('termination_date'),
+                        _l('status'),
                         _l('control'),
                     );
 

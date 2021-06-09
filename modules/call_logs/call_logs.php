@@ -5,9 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: سجل الإتصالات
 Description: لتسجيل الإتصالات الصادرة والواردة
-Version: 2.1.5
+Version: 1.2.1
 Author: Babil Team
-Author URI: https://babil.net.sa/
+Author URI: https://babiltec.com/
 Requires at least: 2.3.*
 */
 

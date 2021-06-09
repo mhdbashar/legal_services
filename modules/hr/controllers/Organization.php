@@ -2,11 +2,11 @@
 
 class Organization extends AdminController{
 
-	public function __construct(){
-		parent::__construct();
-		$this->load->model('Designation_model');
+    public function __construct(){
+        parent::__construct();
+        $this->load->model('Designation_model');
 
-		$this->load->model('Departments_model');
+        $this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
         $this->load->model('Extra_info_model');
@@ -15,9 +15,9 @@ class Organization extends AdminController{
 
         if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
-	}
+    }
 
-	public function get_designation_number(){
+    public function get_designation_number(){
         $next_designation_number = get_option('next_hr_designation_number');
         $prefix = get_option('hr_designation_prefix');
 
@@ -39,13 +39,13 @@ class Organization extends AdminController{
         echo json_encode($data);
     }
 
-	public function officail_documents(){
+    public function officail_documents(){
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_official_documents_table');
         }
         $data['title'] = _l('official_documents');
         $this->load->view('organization/officail_documents', $data);
-	}
+    }
 
     // document
 
@@ -93,12 +93,12 @@ class Organization extends AdminController{
 
     //
 
-	public function location(){
-		$data['title'] = _l('location');
-		$this->load->view('organization/location', $data);
-	}
+    public function location(){
+        $data['title'] = _l('location');
+        $this->load->view('organization/location', $data);
+    }
 
-	public function designation(){
+    public function designation(){
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_designation_table');
         }
@@ -126,14 +126,14 @@ class Organization extends AdminController{
         $this->load->view('organization/sub_department', $data);
     }
 
-	// designation
+    // designation
 
     public function json_designation($id){
         $data = $this->Designation_model->get($id);
         echo json_encode($data);
     }
     public function json_designation_group($id){
-	    $data = $this->Designation_model->get_designation_group($id);
+        $data = $this->Designation_model->get_designation_group($id);
         echo json_encode($data);
     }
     public function update_designation(){
@@ -171,7 +171,7 @@ class Organization extends AdminController{
         $data['description'] = $data['description_add'];
         unset($data['description_add']);
 
-        $data['description'] = $this->input->post('description', FALSE);
+        $data['description'] = $this->input->post('description_add', FALSE);
 
         $success = $this->Designation_model->add($data);
         if($success){
@@ -187,7 +187,7 @@ class Organization extends AdminController{
         $data['description'] = $data['description_add'];
         unset($data['description_add']);
 
-        $data['description'] = $this->input->post('description', FALSE);
+        $data['description'] = $this->input->post('description_add', TRUE);
 
         $success = $this->Designation_model->add_designation_group($data);
         if($success){

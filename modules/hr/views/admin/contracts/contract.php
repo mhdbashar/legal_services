@@ -68,8 +68,9 @@
                         //                        echo render_select('rel_stype',$legal_services,array('slug','name'),'select_legal_services',$selected, ['onchange' => 'get_legal_services_by_slug()'],['id' => 'div_rel_stype'], $hide_project_selector,'',true); ?>
 
                         <?php $value = (isset($contract) ? $contract->subject : ''); ?>
-                        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
                         <?php echo render_input('subject','contract_subject',$value); ?>
+                        <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('add_only_main_salary'); ?>"></i>
+
                         <div class="form-group">
                             <label for="contract_value"><?php echo _l('salary'); ?></label>
                             <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
@@ -461,7 +462,7 @@
                                 <div role="tabpanel" class="tab-pane" id="tab_templates">
                                     <div class="row contract-templates">
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-info" onclick="add_template('hr_contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
+                                            <button type="button" class="btn btn-info" onclick="add_hr_template('hr_contracts', <?php echo $contract->id ?>);"><?php echo _l('add_template'); ?></button>
                                             <hr>
                                         </div>
                                         <div class="col-md-12">
@@ -492,7 +493,7 @@
 
     function get_hr_templates(rel_type, rel_id) {
         if (rel_type === 'hr_contracts') {
-            $('#contract-templates').load(admin_url + 'templates', {
+            $('#contract-templates').load(admin_url + 'hr/contracts/templates', {
                 rel_type: rel_type,
                 rel_id: rel_id
             });

@@ -18,6 +18,7 @@
                         _l('staff_name'),
                         _l('notice_date'),
                         _l('resignation_date'),
+                        _l('status'),
                     );
                     if (has_permission('resignations', '', 'edit') || has_permission('resignations', '', 'delete') )
                         $data[] = _l('control');

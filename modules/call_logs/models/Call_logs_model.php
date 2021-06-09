@@ -72,6 +72,7 @@ class Call_logs_model extends App_Model
     public function add($data)
     {
         unset($data['lead_id']);
+        unset($data['call_status']);
         $data['datestart'] = date('Y-m-d');
         $data['staffid']      = $data['staffid'] == '' ? 0 : $data['staffid'];
         $data['call_start_time']    = to_sql_date($data['call_start_time'], true);
@@ -106,6 +107,7 @@ class Call_logs_model extends App_Model
     public function update($data, $id)
     {
         unset($data['lead_id']);
+        unset($data['call_status']);
         $data['staffid']      = $data['staffid'] == '' ? 0 : $data['staffid'];
         $data['call_start_time']    = to_sql_date($data['call_start_time'], true);
         $data['call_end_time']      = to_sql_date($data['call_end_time'], true);
@@ -140,7 +142,8 @@ class Call_logs_model extends App_Model
         $this->db->delete(db_prefix() . 'call_logs');
         if ($this->db->affected_rows() > 0) {
             log_activity('Call log Deleted [ID:' . $id . ']');
-
+            $this->db->where('call_log_id', $id);
+            $this->db->delete(db_prefix() . 'call_logs_voice_records');
             return true;
         }
 
@@ -864,4 +867,90 @@ class Call_logs_model extends App_Model
             return $row->total_sms;
         }
     }
+
+    
+    public function udpate_twilio_account($data)
+    {
+        $data['staffid'] = get_staff_user_id();
+        $this->db->where('staffid', $data['staffid']);
+        $this->db->update(db_prefix() . 'call_logs_staff_twilio', $data);
+        if ($this->db->affected_rows() == 0) {
+            $this->db->insert(db_prefix() . 'call_logs_staff_twilio', $data);
+            return true;
+        }
+        return false;
+    }
+
+    public function get_twilio_account( $staffid = 0)
+    {
+        if(empty($staffid) || !is_numeric($staffid))
+            $staffid = get_staff_user_id();
+        $this->db->where('staffid', $staffid);
+        //$this->db->where('active', 1);
+        return $this->db->get(db_prefix() . 'call_logs_staff_twilio')->row();
+        
+    }
+
+    public function save_voice_records($file_name, $call_log_id){
+        $data = array();
+        $data["file_path"] = $file_name;
+        $data["call_log_id"] = $call_log_id;
+        $data["create_date"] = date('Y-m-d H:i:s');
+        $this->db->insert(db_prefix() . 'call_logs_voice_records', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            return $insert_id;
+        }
+        return false;
+    }
+
+    public function get_voice_records($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'call_logs_voice_records')->row();
+        }
+        $this->db->order_by('create_date', 'asc');
+
+        return $this->db->get(db_prefix() . 'call_logs_voice_records')->result_array();
+    }
+
+    public function delete_recording($recording_id){
+       
+        $this->db->where('id', $recording_id);
+        $this->db->delete(db_prefix() . 'call_logs_voice_records');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_staff_twilio_phone_number($staffid){
+        if (is_numeric($staffid)) {
+            $this->db->where('staffid', $staffid);
+            $row = $this->db->get(db_prefix() . 'call_logs_staff_twilio')->row();
+            if(isset($row))
+            {
+                return $row->twilio_phone_number;
+            }
+        }
+        return "";
+    }
+
+    public function get_record_path($record_id){
+        if (is_numeric($record_id)) {
+            $this->db->where('id', $record_id);
+            $row = $this->db->get(db_prefix() . 'call_logs_voice_records')->row();
+            if(isset($row))
+            {
+                $path = 'uploads/call_logs/'.$row->call_log_id.'/'.$row->file_path;
+                return FCPATH.$path;
+            }
+        }
+        return "";
+    }
+
+
 }

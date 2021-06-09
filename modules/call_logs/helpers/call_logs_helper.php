@@ -568,8 +568,16 @@ function twilio_setting()
     //$data['auth_token'] = '378cc0f6917eee446221398153027a3f';
     $data['auth_token'] = get_option('sms_twilio_auth_token');
 
-    $data['twilio_number'] = "+12565619656";
-    //$data['twilio_number'] = get_option('sms_twilio_phone_number');
+    //$data['twilio_number'] = "+12565619656";
+    $data['twilio_number'] = get_option('sms_twilio_phone_number');
+
+    $data['twiml_app_sid'] = get_option('twiml_app_sid');    
+
+    $data['twiml_app_friendly_name'] = get_option('twiml_app_friendly_name');   
+     
+    $data['twiml_app_voice_request_url'] = get_option('twiml_app_voice_request_url');    
+
+    $data['sms_twilio_active'] = get_option('sms_twilio_active');    
 
     return $data;
 

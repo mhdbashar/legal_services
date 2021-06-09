@@ -138,8 +138,8 @@ function get_dpm_in_dayoff($id){
 function get_position_in_dayoff($id){
     $CI             = &get_instance();
     if($id != 0){
-        $pss = $CI->db->query('select position_name from '.db_prefix().'job_position where position_id = '.$id)->row();
-        return $pss->position_name;
+        $pss = $CI->db->query('select designation_name from '.db_prefix().'job_position where id = '.$id)->row();
+        return $pss->designation_name;
     }else{
         return _l('all');
     }
@@ -201,4 +201,40 @@ function get_hrm_department_name_by_staffid($staff_id = ''){
         return $arr_dept[0]['name'];
     }
     return '';
+}
+
+
+/**
+ * job name by id
+ * @param  integer $job_position
+ * @return string
+ */
+function hr_profile_job_name_by_id($job_position){
+    $CI             = &get_instance();
+    $CI->db->where('id', $job_position);
+    $CI->db->select('designation_name');
+    $dpm = $CI->db->get(db_prefix().'hr_designations')->row();
+    if($dpm){
+        return $dpm->designation_name;
+    }else{
+        return '';
+    }
+}
+
+/**
+ * job position by staff
+ * @param  integer $staffid
+ * @return string
+ */
+function hr_profile_job_position_by_staff($staffid){
+    $CI             = &get_instance();
+    $CI->load->model('hr_profile/hr_profile_model');
+    $staff = $CI->hr_profile_model->get_staff($staffid);
+    if($staff){
+        $job_name = hr_profile_job_name_by_id($staff->job_position);
+    }else{
+        $job_name = '';
+    }
+
+    return $job_name;
 }

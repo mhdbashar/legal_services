@@ -13,8 +13,7 @@ function load_pdf_language($clientid)
 {
     $CI = & get_instance();
 
-    $language = get_option('active_language');
-
+    $language       = get_option('active_language');
     $clientLanguage = get_client_default_language($clientid);
 
     // When cron or email sending pdf document the pdfs need to be on the client language
@@ -54,6 +53,7 @@ function pdf_logo_url()
     if ($width == '') {
         $width = 120;
     }
+
     if ($custom_pdf_logo_image_url != '') {
         $logoUrl = $custom_pdf_logo_image_url;
     } else {
@@ -65,6 +65,7 @@ function pdf_logo_url()
     }
 
     $logoImage = '';
+
     if ($logoUrl != '') {
         $logoImage = '<img width="' . $width . 'px" src="' . $logoUrl . '">';
     }
@@ -79,15 +80,17 @@ function pdf_logo_url()
 function get_pdf_fonts_list()
 {
     static $fontlist = null;
+
     if (!$fontlist) {
         $fontlist = [];
+
         if (($fontsdir = opendir(TCPDF_FONTS::_getfontpath())) !== false) {
             while (($file = readdir($fontsdir)) !== false) {
                 if (substr($file, -4) == '.php') {
                     $name = strtolower(basename($file, '.php'));
                     // Exclude ITALIC Fonts because are causing issue when they are set directly.
                     // Not sure if they work fine if it's set manually.
-                    if(!endsWith($name, 'i')) {
+                    if (!endsWith($name, 'i')) {
                         array_push($fontlist, $name);
                     }
                 }
@@ -117,7 +120,8 @@ function set_mailing_constant()
 function get_pdf_format($option_name)
 {
     $oFormat = strtoupper(get_option($option_name));
-    $data    = [
+
+    $data = [
         'orientation' => '',
         'format'      => '',
     ];
@@ -287,7 +291,6 @@ function _bulk_pdf_export_maybe_tag($tag, &$pdf)
  */
 function pdf_multi_row($left, $right, $pdf, $left_width = 40)
 {
-
     // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 
     $page_start = $pdf->getPage();

@@ -56,10 +56,10 @@ class Client_groups_model extends App_Model
     }
 
     /**
-    * Get customer groups where customer belongs
-    * @param  mixed $id customer id
-    * @return array
-    */
+     * Get customer groups where customer belongs
+     * @param  mixed $id customer id
+     * @return array
+     */
     public function get_customer_company_groups($id)
     {
         $this->db->where('customer_id', $id);
@@ -68,10 +68,10 @@ class Client_groups_model extends App_Model
     }
 
     /**
-    * Get customer groups where customer belongs
-    * @param  mixed $id customer id
-    * @return array
-    */
+     * Get customer groups where customer belongs
+     * @param  mixed $id customer id
+     * @return array
+     */
 
     public function get_company_customer_groups($id)
     {
@@ -199,7 +199,7 @@ class Client_groups_model extends App_Model
     * Update/sync customer groups where belongs
     * @param  mixed $id        customer id
     * @param  mixed $groups_in
-    * @return boolean 
+    * @return boolean
     */
     public function sync_customer_groups($id, $groups_in)
     {
@@ -271,11 +271,11 @@ class Client_groups_model extends App_Model
     }
 
     /**
-    * Update/sync customer Company groups where belongs
-    * @param  mixed $id        customer id
-    * @param  mixed $groups_in
-    * @return boolean 
-    */
+     * Update/sync customer Company groups where belongs
+     * @param  mixed $id        customer id
+     * @param  mixed $groups_in
+     * @return boolean
+     */
     public function sync_customer_company_groups($id, $groups_in)
     {
         if ($groups_in == false) {

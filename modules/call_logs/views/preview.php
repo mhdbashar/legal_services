@@ -155,6 +155,11 @@ if(isset($call_log)){
                                 <?php echo render_input('userphone','Enter Phone', $value, 'text', ['disabled' => 'disabled']);?>
                             </div>
                             <?php } ?>
+                             <?php if((isset($call_log) &&  $call_log->opt_event_type == 'call')){ ?>
+                                <div class="col-md-12">
+                                    <?php echo render_input('call_status','cl_call_status', _l($call_log->twilio_sms_response), 'text', ['disabled' => 'disabled']); ?>
+                                </div>
+                            <?php } ?>
                             <?php if((isset($call_log) && ($call_log->opt_event_type == 'sms' || $call_log->opt_event_type == 'bulk sms') )){ ?>
                                 <div class="col-md-12">
                                     <?php $value = (isset($call_log) ? $call_log->sms_content : '') ?>
@@ -168,7 +173,7 @@ if(isset($call_log)){
                             </div>
                             <div class="col-md-12">
                                 <?php $value = (isset($call_log) ? _d($call_log->call_end_time) : _d(date('Y-m-d H:i'))) ?>
-                                <?php $cl_call_end_time = ($call_log->opt_event_type == 'sms' || $call_log->opt_event_type == 'bulk sms') ? 'cl_sms_end_time' : 'cl_call_start_time' ?>
+                                <?php $cl_call_end_time = ($call_log->opt_event_type == 'sms' || $call_log->opt_event_type == 'bulk sms') ? 'cl_sms_end_time' : 'cl_call_end_time' ?>
                                 <?php echo render_input('call_end_time',$cl_call_end_time, $value, 'text', ['disabled' => 'disabled']); ?>
                             </div>
                             <?php if($call_log->opt_event_type == 'call'){ ?>

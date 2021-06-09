@@ -9,7 +9,6 @@ if ($this->ci->input->post('my_tasks')) {
 }
 
 $task_statuses = $this->ci->tasks_model->get_statuses();
-
 $_statuses     = [];
 foreach ($task_statuses as $status) {
     if ($this->ci->input->post('task_status_' . $status['id'])) {

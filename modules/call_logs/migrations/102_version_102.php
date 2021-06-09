@@ -10,6 +10,8 @@ class Migration_Version_102 extends App_module_migration
 
         add_option('staff_members_create_inline_call_direction', 1);
         add_option('staff_members_create_inline_cl_types', 1);
+        add_option('staff_members_bulk_sms', 0);
+
 
 
         $cl_relTypeTable = db_prefix() . 'call_logs_rel_types';

@@ -391,10 +391,9 @@ $(function () {
     $('#btnSubmit').on('click', function (e) {
         var emloyee_id = $("input[name='emloyee_id']").val();
         e.preventDefault();
-        console.log('here')
         $.ajax({
             url: '<?php
-                $id = isset($extra_info) ? $extra_info->id : '';
+                $id = isset($member->staffid) ? $member->staffid : '';
                 echo admin_url('hr/general/validate_staff_number/').$id; ?>',
             type: 'POST',
             dataType: 'json',
@@ -418,6 +417,16 @@ $(function () {
         });
     })
 
+    $("#country").change(function () {
+        $.ajax({
+            url: "<?php echo admin_url('Countries/build_dropdown_cities'); ?>",
+            data: {country: $(this).val()},
+            type: "POST",
+            success: function (data) {
+                $("#city").html(data);
+            }
+        });
+    });
 });
 </script>
 </body>

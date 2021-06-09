@@ -41,36 +41,36 @@ class Tasks_model extends App_Model
                 'name'           => _l('task_status_1'),
                 'order'          => 1,
                 'filter_default' => true,
-                ],
-             [
+            ],
+            [
                 'id'             => self::STATUS_IN_PROGRESS,
                 'color'          => '#03A9F4',
                 'name'           => _l('task_status_4'),
                 'order'          => 2,
                 'filter_default' => true,
-                ],
-             /*[
-                'id'             => self::STATUS_TESTING,
-                'color'          => '#2d2d2d',
-                'name'           => _l('task_status_3'),
-                'order'          => 3,
-                'filter_default' => true,
-                ],*/
-              [
+            ],
+            /*[
+               'id'             => self::STATUS_TESTING,
+               'color'          => '#2d2d2d',
+               'name'           => _l('task_status_3'),
+               'order'          => 3,
+               'filter_default' => true,
+               ],*/
+            [
                 'id'             => self::STATUS_AWAITING_FEEDBACK,
                 'color'          => '#adca65',
                 'name'           => _l('task_status_2'),
                 'order'          => 4,
                 'filter_default' => true,
-                ],
+            ],
             [
                 'id'             => self::STATUS_COMPLETE,
                 'color'          => '#84c529',
                 'name'           => _l('task_status_5'),
                 'order'          => 100,
                 'filter_default' => false,
-                ],
-            ]);
+            ],
+        ]);
 
         usort($statuses, function ($a, $b) {
             return $a['order'] - $b['order'];
@@ -408,6 +408,7 @@ class Tasks_model extends App_Model
                 'dateadded'   => date('Y-m-d H:i:s'),
                 'addedfrom'   => $list['addedfrom'],
                 'list_order'  => $list['list_order'],
+                'assigned'  => $list['assigned'],
             ]);
         }
     }
@@ -461,7 +462,7 @@ class Tasks_model extends App_Model
                 OR
                 (rel_id IN (SELECT userid FROM ' . db_prefix() . 'clients WHERE userid=' . $this->db->escape_str($customer_id) . ') AND rel_type="customer")
                 )'
-                );
+            );
         }
 
         if (!$has_permission_view) {
@@ -707,7 +708,7 @@ class Tasks_model extends App_Model
                         'dateadded'   => date('Y-m-d H:i:s'),
                         'addedfrom'   => get_staff_user_id(),
                         'list_order'  => $key,
-                        ]);
+                    ]);
                 }
             }
             handle_tags_save($tags, $insert_id, 'task');
@@ -719,7 +720,7 @@ class Tasks_model extends App_Model
                 $this->load->model('leads_model');
                 $this->leads_model->log_lead_activity($data['rel_id'], 'not_activity_new_task_created', false, serialize([
                     '<a href="' . admin_url('tasks/view/' . $insert_id) . '" onclick="init_task_modal(' . $insert_id . ');return false;">' . $data['name'] . '</a>',
-                    ]));
+                ]));
             }
 
             if ($clientRequest == false) {
@@ -758,14 +759,14 @@ class Tasks_model extends App_Model
                                     $fpt      = fopen($task_path . $filename, 'w');
                                     if ($fpt && fwrite($fpt, stream_get_contents($f))) {
                                         $this->db->insert(db_prefix() . 'files', [
-                                                            'rel_id'         => $insert_id,
-                                                            'rel_type'       => 'task',
-                                                            'file_name'      => $filename,
-                                                            'filetype'       => $ticket_attachment['filetype'],
-                                                            'staffid'        => get_staff_user_id(),
-                                                            'dateadded'      => date('Y-m-d H:i:s'),
-                                                            'attachment_key' => app_generate_hash(),
-                                                        ]);
+                                            'rel_id'         => $insert_id,
+                                            'rel_type'       => 'task',
+                                            'file_name'      => $filename,
+                                            'filetype'       => $ticket_attachment['filetype'],
+                                            'staffid'        => get_staff_user_id(),
+                                            'dateadded'      => date('Y-m-d H:i:s'),
+                                            'attachment_key' => app_generate_hash(),
+                                        ]);
                                     }
                                     if ($fpt) {
                                         fclose($fpt);
@@ -905,12 +906,12 @@ class Tasks_model extends App_Model
         foreach ($checklistItems as $key => $chkID) {
             $itemTemplate = $this->get_checklist_template($chkID);
             $this->db->insert(db_prefix() . 'task_checklist_items', [
-                    'description' => $itemTemplate->description,
-                    'taskid'      => $id,
-                    'dateadded'   => date('Y-m-d H:i:s'),
-                    'addedfrom'   => get_staff_user_id(),
-                    'list_order'  => $key,
-                    ]);
+                'description' => $itemTemplate->description,
+                'taskid'      => $id,
+                'dateadded'   => date('Y-m-d H:i:s'),
+                'addedfrom'   => get_staff_user_id(),
+                'list_order'  => $key,
+            ]);
             $affectedRows++;
         }
 
@@ -995,7 +996,7 @@ class Tasks_model extends App_Model
     {
         $this->db->insert(db_prefix() . 'tasks_checklist_templates', [
             'description' => $description,
-            ]);
+        ]);
 
         return $this->db->insert_id();
     }
@@ -1159,7 +1160,6 @@ class Tasks_model extends App_Model
                 $this->projects_model->log_activity($task->rel_id, 'project_activity_new_task_comment', $task->name, $task->visible_to_client);
             }
 
-
             $regex = "/data\-mention\-id\=\"(\d+)\"/";
             if (preg_match_all($regex, $data['content'], $mentionedStaff, PREG_PATTERN_ORDER)) {
                 if (check_session_by_id($data['taskid'])) {
@@ -1201,18 +1201,18 @@ class Tasks_model extends App_Model
                         $insert_id
                     );
                 }
-            $this->db->where('project_id', $task->rel_id);
-            $this->db->where('name', 'view_task_comments');
-            $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
+                $this->db->where('project_id', $task->rel_id);
+                $this->db->where('name', 'view_task_comments');
+                $project_settings = $this->db->get(db_prefix() . 'project_settings')->row();
 
-            if ($project_settings && $project_settings->value == 1) {
-                
-                if(check_session_by_id($data['taskid'])){
-                    $this->_send_customer_contacts_notification($data['taskid'], 'session_new_comment_to_customer');
-                }else{
-                    $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+                if ($project_settings && $project_settings->value == 1) {
+
+                    if(check_session_by_id($data['taskid'])){
+                        $this->_send_customer_contacts_notification($data['taskid'], 'session_new_comment_to_customer');
+                    }else{
+                        $this->_send_customer_contacts_notification($data['taskid'], 'task_new_comment_to_customer');
+                    }
                 }
-            }
 
             }
             hooks()->do_action('task_comment_added', ['task_id' => $data['taskid'], 'comment_id' => $insert_id]);
@@ -1519,7 +1519,7 @@ class Tasks_model extends App_Model
                     'contact_id' => $file->contact_id,
                     'file_id'    => $file_id,
                     'dateadded'  => date('Y-m-d H:i:s'),
-                    ]);
+                ]);
             }
 
             return true;
@@ -1647,8 +1647,10 @@ class Tasks_model extends App_Model
         if ($comment->staffid == get_staff_user_id() || has_permission('tasks', '', 'delete') || $comment->contact_id == get_contact_user_id() || $force === true) {
             $comment_added = strtotime($comment->dateadded);
             $minus_1_hour  = strtotime('-1 hours');
-            if (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour)
-                || (is_admin() || $force === true)) {
+            if (
+                get_option('client_staff_add_edit_delete_task_comments_first_hour') == 0 || (get_option('client_staff_add_edit_delete_task_comments_first_hour') == 1 && $comment_added >= $minus_1_hour)
+                || (is_admin() || $force === true)
+            ) {
                 $this->db->where('id', $id);
                 $this->db->delete(db_prefix() . 'task_comments');
                 if ($this->db->affected_rows() > 0) {
@@ -1923,6 +1925,9 @@ class Tasks_model extends App_Model
                 delete_dir(get_upload_path_by_type('task') . $id);
             }
 
+            $this->db->where('meta_key', 'task-hide-completed-items-'. $id);
+            $this->db->delete(db_prefix() . 'user_meta');
+
             hooks()->do_action('task_deleted', $id);
 
             return true;
@@ -2139,9 +2144,11 @@ class Tasks_model extends App_Model
                 ]);
             }
 
-            if ($task_id != '0'
+            if (
+                $task_id != '0'
                 && get_option('timer_started_change_status_in_progress') == '1'
-                && total_rows(db_prefix() . 'tasks', ['id' => $task_id, 'status' => 1]) > 0) {
+                && total_rows(db_prefix() . 'tasks', ['id' => $task_id, 'status' => 1]) > 0
+            ) {
                 $this->mark_as(4, $task_id);
             }
 
@@ -2164,10 +2171,10 @@ class Tasks_model extends App_Model
 
             $this->db->where('id', $timer_id);
             $this->db->update(db_prefix() . 'taskstimers', [
-                    'end_time' => $end_time,
-                    'task_id'  => $task_id,
-                    'note'     => ($note != '' ? $note : null),
-                ]);
+                'end_time' => $end_time,
+                'task_id'  => $task_id,
+                'note'     => ($note != '' ? $note : null),
+            ]);
         }
 
         return true;
@@ -2253,12 +2260,12 @@ class Tasks_model extends App_Model
         $affectedRows = 0;
         $this->db->where('id', $data['timer_id']);
         $this->db->update(db_prefix() . 'taskstimers', [
-                'start_time' => $start_time,
-                'end_time'   => $end_time,
-                'staff_id'   => $timesheet_staff_id,
-                'task_id'    => $data['timesheet_task_id'],
-                'note'       => (isset($data['note']) && $data['note'] != '' ? nl2br($data['note']) : null),
-            ]);
+            'start_time' => $start_time,
+            'end_time'   => $end_time,
+            'staff_id'   => $timesheet_staff_id,
+            'task_id'    => $data['timesheet_task_id'],
+            'note'       => (isset($data['note']) && $data['note'] != '' ? nl2br($data['note']) : null),
+        ]);
 
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
@@ -2473,6 +2480,7 @@ class Tasks_model extends App_Model
     {
         $retVal              = false;
         $staffCanAccessTasks = $this->get_staff_members_that_can_access_task($task_id);
+
         foreach ($staffCanAccessTasks as $staff) {
             if ($staff['staffid'] == $staff_id) {
                 $retVal = true;
@@ -2503,7 +2511,6 @@ class Tasks_model extends App_Model
             OR staffid IN (SELECT addedfrom FROM {$prefix}tasks WHERE id=$taskId AND is_added_from_contact=0)
             OR staffid IN(SELECT staff_id FROM {$prefix}staff_permissions WHERE feature = 'tasks' AND capability='view')
         ) AND active=1")->result_array();
-
     }
 
     /**
@@ -2522,9 +2529,9 @@ class Tasks_model extends App_Model
         }
 
         return hooks()->apply_filters('should_staff_receive_task_notification', ($this->is_task_assignee($staffid, $taskid)
-                || $this->is_task_follower($staffid, $taskid)
-                || $this->is_task_creator($staffid, $taskid)
-                || $this->staff_has_commented_on_task($staffid, $taskid)), ['staff_id' => $staffid, 'task_id' => $taskid]);
+            || $this->is_task_follower($staffid, $taskid)
+            || $this->is_task_creator($staffid, $taskid)
+            || $this->staff_has_commented_on_task($staffid, $taskid)), ['staff_id' => $staffid, 'task_id' => $taskid]);
     }
 
     public function new_task_to_select_timesheet($data)
@@ -2537,7 +2544,7 @@ class Tasks_model extends App_Model
         }
         return false;
     }
-    
+
     /**
      * Send notifications on new task comment
      *
@@ -2591,4 +2598,15 @@ class Tasks_model extends App_Model
         pusher_trigger_notification($notifiedUsers);
     }
 
+    public function update_checklist_assigned_staff($data)
+    {
+        $assigned = $this->db->escape_str($data['assigned']);
+        if (!is_numeric($assigned) || $assigned == 0) {
+            $assigned = null;
+        }
+        $this->db->where('id', $data['checklistId']);
+        $this->db->update(db_prefix() . 'task_checklist_items', [
+            'assigned' =>  $assigned,
+        ]);
+    }
 }

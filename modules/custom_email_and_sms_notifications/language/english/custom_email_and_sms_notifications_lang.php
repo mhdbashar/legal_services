@@ -1,15 +1,20 @@
 <?php
 
 # Version 2.3.0
-$lang['menu_builder']        = 'Menu Setup';
-$lang['main_menu']           = 'Main Menu';
-$lang['setup_menu']          = 'Setup Menu';
-$lang['utilities_menu_icon'] = 'Icon';
-$lang['active_menu_items']   = 'Active Menu Items';
-$lang['utilities_menu_save'] = 'Save Menu';
-$lang['sms_title']        = 'My Email & SMS';
-$lang['sms_select_title']           = 'Please select a Customer for the notification(s):';
-$lang['sms_textarea_placeholder']          = 'Write your Email/SMS here (HTML accepted on emails) - notification(s) will be sent to all available Contacts.';
-$lang['sms_phpinfo_warning']          = '* Big size attachments may lead to a slower operation or PHP configuration limitation';
-$lang['send'] = 'send';
+$lang['sms_title']  = 'Send a custom Email / SMS Notification';
+$lang['sms_select_title']  = '* Send this notification to all contacts of';
+$lang['write_your_notification']  = 'Write your Email/SMS here:';
+$lang['sms_textarea_placeholder'] = 'HTML accepted for emails only';
+$lang['attachment_note']  = 'Include an attachment (optional, applicable to emails):';
+$lang['notification_type']  = 'Select notification type:';
+$lang['send'] = 'send the notification';
 $lang['email_sms'] = 'Send Email/SMS';
+$lang['add_edit_templates'] = 'Add / Edit Template';
+$lang['add_templates'] = 'Add Template';
+$lang['edit_templates'] = 'Edit Template';
+$lang['templates'] = 'Templates';
+$lang['template_name'] = 'Name';
+$lang['template_content'] = 'Content';	
+$lang['send_as_email'] = 'E-mail notification(s)';
+$lang['send_as_sms'] = 'SMS notification(s)';
+$lang['template_select_title'] = 'Load content from a template (optional):';

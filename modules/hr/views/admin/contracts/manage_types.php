@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('admin/contracts/contract_type'); ?>
+<?php $this->load->view('hr/admin/contracts/contract_type'); ?>
 <?php init_tail(); ?>
 <script>
     $(function(){

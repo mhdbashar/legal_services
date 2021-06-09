@@ -1,4 +1,4 @@
-  appValidateForm($('form'),{position_name:'required',workplace_name:'required',name_contracttype:'required',type_name:'required',allowance_val:'required',taxable:'required', contracttype:'required', insurance:'required',from_month:'required'});
+  appValidateForm($('form'),{designation_name:'required',workplace_name:'required',name_contracttype:'required',type_name:'required',allowance_val:'required',taxable:'required', contracttype:'required', insurance:'required',from_month:'required'});
 $(function() {
     $('.date-picker').datepicker( {
 	"use strict";

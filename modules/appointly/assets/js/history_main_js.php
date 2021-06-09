@@ -58,6 +58,8 @@
                .done(function(data) {
                     data = JSON.parse(data);
                     tinymce.remove('textarea[name="notes"]');
+                    data.notes = (null == data.notes) ? '' : data.notes;
+                    
                     setTimeout(() => {
                          content_row.find('.edit_appointment_history').remove();
                          content_row.append(`

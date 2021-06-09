@@ -1,5 +1,16 @@
 <?php
 
+$lang['organizations'] = 'المنشاّة';
+
+$lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
+$lang['designation_group'] = 'مجموعة المسميات الموظفية';
+$lang['new_designation_group'] = 'مجموعة جديدة';
+$lang['designations_groups'] = 'مجموعات المسميات الوظيفية';
+
+$lang['follower_staff'] = 'الموظف المتابع';
+$lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
+$lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';
+
 
 $lang['hr_contract_prefix'] = 'لاحقة العقد';
 $lang['next_hr_contract_number'] = 'رقم لاحقة العقد';
@@ -333,6 +344,10 @@ $lang['overtime_status'] = "الحالة";
 $lang['not_document_deadline_reminder'] = "تذكير قبل انتهاء مهلة الوثيقة";
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "الرجاء إكمال المعلومات الأساسية للموظف";
 $lang['completed'] = "مكتمل";
+$lang['processing'] = "قيد المعالجة";
+$lang['Processing'] = "قيد المعالجة";
+$lang['cancelled'] = "ملغاة";
+$lang['Cancelled'] = "ملغاة";
 $lang['not_completed'] = "غير مكتمل";
 $lang['completed_with_hr_system'] = "التكامل مع نظام الموارد البشرية";
 $lang['lead_country'] = "الدولة";
@@ -648,7 +663,7 @@ $lang['gendre'] = "الجنس";
 $lang['emloyee_id'] = "رقم الموظف";
 $lang['office_sheft'] = "Office Sheft";
 $lang['branch_name'] = "اسم الفرع";
-$lang['professional_courses'] = "الدورات";
+$lang['professional_courses'] = "المهارات";
 $lang['branches'] = "الفروع";
 $lang['add_new_procuration'] = "اضافة وكالة جديدة";
 $lang['edit_procuration'] = "تعديل الوكالة";

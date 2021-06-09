@@ -267,8 +267,12 @@
                                                 echo 'selected';
                                             }
                                         }
-                                    } ?>><?php echo $service->name; ?></option>
+                                    } ?>><?php echo $service->name; ?>
+                                </option>
                             <?php endforeach; ?>
+                            <?php
+                            hooks()->do_action('task_modal_rel_type_select', ['task' => (isset($task) ? $task : 0), 'rel_type' => $rel_type]);
+                            ?>
                         </select>
                      </div>
                   </div>

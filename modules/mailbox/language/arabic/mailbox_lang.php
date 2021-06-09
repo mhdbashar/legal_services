@@ -1,4 +1,5 @@
 <?php
+
 $lang['mailbox']                                                        = 'البريد الإلكتروني';
 $lang['mailbox_setting']                                                = 'إعدادات البريد';
 $lang['mailbox_inbox']                                                 	= 'الوارد';

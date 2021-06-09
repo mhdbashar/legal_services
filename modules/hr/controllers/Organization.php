@@ -2,11 +2,11 @@
 
 class Organization extends AdminController{
 
-	public function __construct(){
-		parent::__construct();
-		$this->load->model('Designation_model');
+    public function __construct(){
+        parent::__construct();
+        $this->load->model('Designation_model');
 
-		$this->load->model('Departments_model');
+        $this->load->model('Departments_model');
         $this->load->model('Sub_department_model');
         $this->load->model('Official_document_model');
         $this->load->model('Extra_info_model');
@@ -15,9 +15,9 @@ class Organization extends AdminController{
 
         if (!has_permission('hr', '', 'view_own') && !has_permission('hr', '', 'view'))
             access_denied();
-	}
+    }
 
-	public function get_designation_number(){
+    public function get_designation_number(){
         $next_designation_number = get_option('next_hr_designation_number');
         $prefix = get_option('hr_designation_prefix');
 
@@ -39,13 +39,13 @@ class Organization extends AdminController{
         echo json_encode($data);
     }
 
-	public function officail_documents(){
+    public function officail_documents(){
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_official_documents_table');
         }
         $data['title'] = _l('official_documents');
         $this->load->view('organization/officail_documents', $data);
-	}
+    }
 
     // document
 
@@ -93,23 +93,28 @@ class Organization extends AdminController{
 
     //
 
-	public function location(){
-		$data['title'] = _l('location');
-		$this->load->view('organization/location', $data);
-	}
+    public function location(){
+        $data['title'] = _l('location');
+        $this->load->view('organization/location', $data);
+    }
 
-	public function designation(){
+    public function designation(){
         if($this->input->is_ajax_request()){
             $this->hrmapp->get_table_data('my_designation_table');
         }
         $data['departments']   = $this->Departments_model->get();
-//        if($this->app_modules->is_active('branches')) {
-//            $ci = &get_instance();
-//            $ci->load->model('branches/Branches_model');
-//            $data['branches'] = $ci->Branches_model->getBranches();
-//        }
+        $data['designations_groups'] = $this->Designation_model->get_designation_group();
         $data['title'] = _l('designation');
         $this->load->view('organization/designation', $data);
+    }
+
+    public function designations_groups(){
+        if($this->input->is_ajax_request()){
+            $this->hrmapp->get_table_data('my_designations_groups_table');
+        }
+        $data['title'] = _l('designations_groups');
+        $this->load->view('organization/designations_groups', $data);
+
     }
 
     public function sub_department(){
@@ -121,21 +126,19 @@ class Organization extends AdminController{
         $this->load->view('organization/sub_department', $data);
     }
 
-	// designation
+    // designation
 
     public function json_designation($id){
         $data = $this->Designation_model->get($id);
         echo json_encode($data);
     }
+    public function json_designation_group($id){
+        $data = $this->Designation_model->get_designation_group($id);
+        echo json_encode($data);
+    }
     public function update_designation(){
         $data = $this->input->post();
-        if($this->app_modules->is_active('branches')){
-            $branch_id = $this->input->post()['branch_id'];
-
-            unset($data['branch_id']);
-        }
-        else
-            $branch_id = $this->No_branch_model->get_general_branch();
+        $data['description'] = $this->input->post('description', FALSE);
         $id = $this->input->post('id');
         $success = $this->Designation_model->update($data, $id);
 //        if(true){
@@ -149,12 +152,45 @@ class Organization extends AdminController{
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+
+    public function update_designation_group(){
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+        $data['description'] = $this->input->post('description', FALSE);
+        $success = $this->Designation_model->update_designation_group($data, $id);
+        if($success){
+            set_alert('success', _l('updated_successfully'));
+        }
+        else
+            set_alert('warning', 'Problem Updating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function add_designation(){
         $data = $this->input->post();
+        $data['description'] = $data['description_add'];
+        unset($data['description_add']);
+
+        $data['description'] = $this->input->post('description_add', FALSE);
 
         $success = $this->Designation_model->add($data);
         if($success){
             update_option('next_hr_designation_number', get_option('next_hr_designation_number') + 1);
+            set_alert('success', _l('added_successfully'));
+        }else
+            set_alert('warning', 'Problem Creating');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function add_designation_group(){
+        $data = $this->input->post();
+        $data['description'] = $data['description_add'];
+        unset($data['description_add']);
+
+        $data['description'] = $this->input->post('description_add', TRUE);
+
+        $success = $this->Designation_model->add_designation_group($data);
+        if($success){
             set_alert('success', _l('added_successfully'));
         }else
             set_alert('warning', 'Problem Creating');

@@ -192,32 +192,84 @@
                                 </select>
                             </div>
                       </div>
-                     	<div class="col-md-4">
-                     		<?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
-                     	</div>
+                         <div class="col-md-4">
+                             <?php echo render_date_input('date_birth','date_birth',_d($extra_info->date_birth) ); ?>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group">
+                                 <label for="follower_staff" class="control-label"><?php echo _l('follower_staff') ?></label>
+                                 <select required="required" class="form-control" id="follower_staff" name="follower_staff" placeholder="<?php echo _l('follower_staff') ?>" aria-invalid="false">
+                                     <option></option>
+                                     <?php
+                                     // if(!$this->app_modules->is_active('branches')){
+                                     $selected = '';
+                                     foreach ($staffs as $value) {
+
+                                         if($extra_info->follower_staff == $value['staffid'])
+                                             $selected = 'selected';
+                                         else
+                                             $selected = '';
+                                         ?>
+                                         <option <?php echo $selected ?> value="<?php echo $value['staffid'] ?>">
+                                             <?php echo $value['firstname'] ?>
+                                         </option>
+                                     <?php } ?>
+                                 </select>
+                             </div>
+                         </div>
                      </div>
 
-                        <?php
-//                            $selected = array();
-//                            if(isset($extra_info)){
-//                              $selected_leaves = $extra_info->leaves;
-//
-//                              if($selected_leaves != ''){
-//                                  foreach($selected_leaves as $row){
-//                                    array_push($selected,$row['id']);
-//                                  }
-//                              }
-//                            }
-//                             echo render_select('leaves[]',$leaves,array('id',array('name')),'leaves',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
-                         ?>
 
+                      <?php
+                      $staff_language = get_staff_default_language(get_staff_user_id());
+                      if($staff_language == 'arabic'){
+                          $field = 'short_name_ar';
+                          $field_city = 'Name_ar';
+                      }else{
+                          $field = 'short_name';
+                          $field_city = 'Name_en';
+                      }
+                      ?>
                      <div class="row">
-                     	<div class="col-md-4">
-                     		<?php echo render_input('state_province','state_province',$extra_info->state_province ); ?>
-                     	</div>
-                     	<div class="col-md-4">
-                     		<?php echo render_input('city','city',$extra_info->city ); ?>
-                     	</div>
+                         <div class="col-md-4">
+                             <?php $countries = get_all_countries(); ?>
+                             <?php $selected = ($extra_info->country != '' ? $extra_info->country : get_option('company_country')); ?>
+                             <?php echo render_select('country', get_cases_countries($field), array('country_id', array($field)), 'lead_country', $selected); ?>
+                         </div>
+
+
+
+
+                         <div class="col-md-4">
+                             <div class="form-group">
+                                 <label class="control-label" for="city"><?php echo _l('client_city'); ?></label>
+                                 <?php $data = get_relation_data('build_dropdown_cities','');  ?>
+                                 <select id="city" name="city" class="form-control custom_select_arrow">
+                                     <option selected disabled></option>
+                                     <?php
+                                     if($extra_info->country == '' and $extra_info->city == ''){
+                                         if(get_option('company_city') != ''){
+                                             foreach ($data as $row): ?>
+                                                 <option value="<?php echo $row->$field_city; ?>" <?php echo get_option('company_city') == $row->Name_en ? 'selected' : (get_option('company_city') == $row->Name_ar ? 'selected' : '') ?>><?php echo $row->$field_city; ?></option>
+                                             <?php endforeach;
+                                         }
+                                     }else{?>
+                                         <?php foreach ($data as $row): ?>
+                                             <option value="<?php echo $row->$field_city; ?>" <?php echo $extra_info->city == $row->Name_en ? 'selected' : ($extra_info->city == $row->Name_ar ?  'selected' : '') ?>><?php echo $row->$field_city; ?></option>
+                                         <?php endforeach;
+                                     }?>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <?php echo render_input('state_province','state_province',$extra_info->state_province ); ?>
+                         </div>
+
+                         <div class="col-md-4">
+                             <?php $countries = get_all_countries(); ?>
+                             <?php $selected = ($extra_info->nationality != '' ? $extra_info->nationality : get_option('company_country')); ?>
+                             <?php echo render_select('nationality', get_cases_countries($field), array('country_id', array($field)), 'nationality', $selected); ?>
+                         </div>
                      	<div class="col-md-4">
                      		<?php echo render_input('zip_code','zip_code',$extra_info->zip_code ); ?>
                      	</div>

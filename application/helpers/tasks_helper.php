@@ -147,7 +147,6 @@ function task_priority_color($id)
     // Not exists?
     return '#333';
 }
-
 /**
  * Format html task assignees
  * This function is used to save up on query
@@ -237,7 +236,6 @@ function task_rel_link($rel_id, $rel_type)
 
     return $link;
 }
-
 /**
  * Prepares task array gantt data to be used in the gantt chart
  * @param  array $task task array
@@ -266,8 +264,8 @@ function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
         $data['custom_class'] = 'ganttGreen';
     }
 
-    $data['name']    = $task['name'];
-    $data['task_id'] = $task['id'];
+    $data['name']     = $task['name'];
+    $data['task_id']  = $task['id'];
     $data['progress'] = 0;
 
     //for task in single project gantt
@@ -285,7 +283,6 @@ function get_task_array_gantt_data($task, $dep_id = null, $defaultEnd = null)
 
     return $data;
 }
-
 /**
  * Common function used to select task relation name
  * @return string
@@ -306,6 +303,7 @@ function tasks_rel_name_select_query()
         ELSE NULL
         END)';
 }
+
 
 /**
  * Tasks html table used all over the application for relation tasks
@@ -511,6 +509,7 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
     return $tasks_summary;
 }
 
+
 function get_sql_calc_task_logged_time($task_id)
 {
     /**
@@ -637,4 +636,33 @@ function task_timer_round($seconds)
 
         break;
     }
+}
+
+
+
+/**
+ * check if staff created task
+ *
+ * @param null|int|string $taskId
+ * @param null|int|string $staffId
+ * @return bool
+ * @since 2.8.2
+ *
+ */
+function is_task_created_by_staff($taskId, $staffId = null)
+{
+    if (is_null($staffId)) {
+        $staffId = get_staff_user_id();
+    }
+
+    if (!is_numeric($staffId) || !is_numeric($staffId)) {
+        return false;
+    }
+
+    $CI = &get_instance();
+    $CI->db->select('1')
+        ->where('is_added_from_contact', 0)
+        ->where('addedfrom', $staffId)
+        ->where('id', $taskId);
+    return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
 }

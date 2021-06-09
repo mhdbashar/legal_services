@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php echo form_open_multipart($this->uri->uri_string().'/config',array('id'=>'mailbox_config_form')); ?>
+<?php echo form_open_multipart($this->uri->uri_string().'/config', ['id'=>'mailbox_config_form']); ?>
 <div class="row">
     <div class="col-lg-12">
         <br>
@@ -8,13 +8,13 @@
     </div>
     <div class="col-md-6">
         <?php $value = (isset($member) ? $member->email : ''); ?>
-        <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off','readonly'=>'readonly')); ?>
+        <?php echo render_input('email', 'staff_add_edit_email', $value, 'email', ['autocomplete'=>'off', 'readonly'=>'readonly']); ?>
     </div>
     <div class="col-md-6">
         <label for="mail_password" class="control-label"><?php echo _l('mailbox_email_password'); ?></label>
         <div class="input-group">
         	<?php $value = (isset($member) ? $member->mail_password : ''); ?>
-	        <input type="password" class="form-control password" name="mail_password" value="<?php echo $value;?>" autocomplete="new-password">
+	        <input type="password" class="form-control password" name="mail_password" value="<?php echo $value; ?>" autocomplete="new-password">
 	        <span class="input-group-addon">
 	        <a href="#mail_password" class="show_password" onclick="showPassword('mail_password'); return false;"><i class="fa fa-eye"></i></a>
 	        </span>
@@ -23,8 +23,8 @@
     <div class="col-md-12">
         <label for="signature" class="control-label"><?php echo _l('mailbox_email_signature'); ?></label>
         <div class="input-group">
-        <?php $value = (isset($member) ? $member->mail_signature : 'Sent from Babil'); ?>
-        <?php echo render_textarea('mail_signature','',$value); ?>
+        <?php $value = (isset($member) ? $member->mail_signature : 'Sent from Perfex'); ?>
+        <?php echo render_textarea('mail_signature', '', $value); ?>
 	    </div>
     </div>
 </div>

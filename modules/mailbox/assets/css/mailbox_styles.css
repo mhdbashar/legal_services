@@ -102,3 +102,10 @@ img.mr-2.rounded-circle {
     height: 5em;
     width: 41em;
 }
+.limitme {
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

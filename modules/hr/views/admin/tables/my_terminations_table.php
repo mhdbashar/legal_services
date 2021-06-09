@@ -1,16 +1,6 @@
 <?php
-/*
-`id` int(11) PRIMARY KEY AUTO_INCREMENT,
-    `termination_type` varchar(200) NOT NULL,
-    `termination_date` date NOT NULL,
-    `notice_date` date NOT NULL,
-    `description` text NOT NULL,
-    `award_information` text NOT NULL,
-    `attachment` varchar(200) NOT NULL,
-    `staff_id` int(11) NOT NULL
-*/
 defined('BASEPATH') or exit('No direct script access allowed');
-$aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'termination_date'];
+$aColumns = ['CONCAT(firstname," ", lastname) as fullname', 'notice_date', 'termination_date', 'status'];
 
 
 $ci = &get_instance();
@@ -52,6 +42,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['termination_date'];
 
+    $row[] = $aRow['status'];
     $options = ''; if (has_permission('hr', '', 'edit')) $options = icon_btn('#', 'pencil-square-o', 'btn-default', ['data-toggle' => 'modal', 'data-target' => '#update_termination', 'data-id' => $aRow['id'], 'onclick' => 'edit(' . $aRow['id'] . ')']);
     $options .= icon_btn(base_url().$aRow['attachment'], 'download', 'btn-default','download');
     if (has_permission('hr', '', 'delete'))$options .= icon_btn('hr/core_hr/delete_termination/' . $aRow['id'], 'remove', 'btn-danger _delete');

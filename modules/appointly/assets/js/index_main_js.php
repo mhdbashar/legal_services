@@ -1,13 +1,14 @@
 <script>
-     var appointly_please_wait = "<?= _l('appointment_please_wait'); ?>";
+     var appointly_please_wait = "<?= _l("appointment_please_wait"); ?>";
      var is_busy_times_enabled = "<?= get_option('appointly_busy_times_enabled'); ?>";
-     var appointly_lang_finished = "<?= _l('appointment_marked_as_finished'); ?>";
-     var appointly_lang_cancelled = "<?= _l('appointment_is_cancelled'); ?>";
-     var appointly_mark_as_ongoing = "<?= _l('appointment_marked_as_ongoing'); ?>";
-     var appointment_are_you_sure_mark_as_ongoing = "<?= _l('appointment_are_you_sure_to_mark_as_ongoing') ?>";
-     var appointly_are_you_sure_mark_as_cancelled = "<?= _l('appointment_are_you_sure_to_cancel') ?>";
-     var appointly_are_you_early_reminders = "<?= _l('appointly_are_you_early_reminders') ?>";
-     var appointly_reminders_sent = "<?= _l('appointly_reminders_sent') ?>";
+     var appointly_lang_finished = "<?= _l("appointment_marked_as_finished"); ?>";
+     var appointly_lang_cancelled = "<?= _l("appointment_is_cancelled"); ?>";
+     var appointly_mark_as_ongoing = "<?= _l("appointment_marked_as_ongoing"); ?>";
+     var appointment_are_you_sure_mark_as_ongoing = "<?= _l("appointment_are_you_sure_to_mark_as_ongoing") ?>";
+     var appointly_are_you_sure_mark_as_cancelled = "<?= _l("appointment_are_you_sure_to_cancel") ?>";
+     var appointly_are_you_early_reminders = "<?= _l("appointly_are_you_early_reminders") ?>";
+     var appointly_reminders_sent = "<?= _l("appointly_reminders_sent") ?>";
+     var appointly_lang_approved = "<?= _l("appointment_marked_as_approved"); ?>";
 
      var filters = <?php echo json_encode($filters); ?>;
 
@@ -166,7 +167,8 @@
           new_task(url);
 
           $('#_task').on('show.bs.modal', function(e) {
-               $('body').find('#_task #name').val("<?= _l('appointments_contact_name_task'); ?> " + '[ ' + contact_name + ' ]');
+               $('body').find('#_task #task_is_billable').attr('checked', false);
+               $('body').find('#_task #name').val("<?= _l("appointments_contact_name_task"); ?> " + '[ ' + contact_name + ' ]');
           });
      }
 
@@ -180,7 +182,7 @@
                $('#lead-modal').modal('show');
           }
           $('#lead-modal').on('show.bs.modal', function(e) {
-               $('body').find('#lead-modal .modal-title').text("<?= _l('appointments_convert_to_lead'); ?>");
+               $('body').find('#lead-modal .modal-title').text("<?= _l("appointments_convert_to_lead"); ?>");
                $('body').find('#lead-modal #name').val(contact_name);
                $('body').find('#lead-modal #email').val(contact_email);
                $('body').find('#lead-modal #phonenumber').val(contact_phonenumber);
@@ -194,7 +196,7 @@
           var url = admin_url + 'appointly/appointments/requestAppointmentFeedback/' + appointment_id;
           $.post(url).done(function(response) {
                if (response.success == true) {
-                    alert_float('info', "<?= _l('appointment_feedback_reuested_alert'); ?>");
+                    alert_float('info', "<?= _l("appointment_feedback_reuested_alert"); ?>");
                     $("body").find('.dt-loader').remove();
                }
           }).fail(function(err) {
@@ -204,7 +206,7 @@
      }
 
      function deleteAppointment(id, el) {
-          if (confirm("<?= _l('appointment_are_you_sure'); ?>")) {
+          if (confirm("<?= _l("appointment_are_you_sure"); ?>")) {
                var outlookId = $('.table-appointments').find('a#outlookLink_' + id).data('outlook-id');
 
                if (outlookId != undefined) {
@@ -266,42 +268,42 @@
           });
      }
 
-     // // Cancel appointment
-     // function markAppointmentAsCancelled(id) {
-     //      var url = window.location.search;
-     //      if (confirm(appointly_are_you_sure_mark_as_cancelled)) {
-     //           $.post('appointments/cancel_appointment', {
-     //                id: id,
-     //                beforeSend: function() {
-     //                     $(".table-appointments").append('<div class="dt-loader"></div>');
-     //                },
-     //           }).done(function(r) {
-     //                if (r.success == true) {
-     //                     alert_float('success', appointly_lang_cancelled);
-     //                     $('.table-appointments').DataTable().ajax.reload();
-     //                }
-     //                $(".table-appointments").find('.dt-loader').remove();
-     //           });
-     //      }
-     // }
+     // Cancel appointment
+     function markAppointmentAsCancelled(id) {
+          var url = window.location.search;
+          if (confirm(appointly_are_you_sure_mark_as_cancelled)) {
+               $.post('appointments/cancel_appointment', {
+                    id: id,
+                    beforeSend: function() {
+                         $(".table-appointments").append('<div class="dt-loader"></div>');
+                    },
+               }).done(function(r) {
+                    if (r.success == true) {
+                         alert_float('success', appointly_lang_cancelled);
+                         $('.table-appointments').DataTable().ajax.reload();
+                    }
+                    $(".table-appointments").find('.dt-loader').remove();
+               });
+          }
+     }
 
-     // // Mark appointment as ongoing if marked as cancelled
-     // function markAppointmentAsOngoing(id) {
-     //      var url = window.location.search;
-     //      if (confirm(appointment_are_you_sure_mark_as_ongoing)) {
-     //           $.post('appointments/mark_as_ongoing_appointment', {
-     //                id: id,
-     //                beforeSend: function() {
-     //                     $(".table-appointments").append('<div class="dt-loader"></div>');
-     //                     // think of some indicator
-     //                },
-     //           }).done(function(r) {
-     //                if (r.success == true) {
-     //                     alert_float('success', appointly_mark_as_ongoing);
-     //                     $('.table-appointments').DataTable().ajax.reload();
-     //                }
-     //                $(".table-appointments").find('.dt-loader').remove();
-     //           });
-     //      }
-     // }
+     // Mark appointment as ongoing if marked as cancelled
+     function markAppointmentAsOngoing(id) {
+          var url = window.location.search;
+          if (confirm(appointment_are_you_sure_mark_as_ongoing)) {
+               $.post('appointments/mark_as_ongoing_appointment', {
+                    id: id,
+                    beforeSend: function() {
+                         $(".table-appointments").append('<div class="dt-loader"></div>');
+                         // think of some indicator
+                    },
+               }).done(function(r) {
+                    if (r.success == true) {
+                         alert_float('success', appointly_mark_as_ongoing);
+                         $('.table-appointments').DataTable().ajax.reload();
+                    }
+                    $(".table-appointments").find('.dt-loader').remove();
+               });
+          }
+     }
 </script>

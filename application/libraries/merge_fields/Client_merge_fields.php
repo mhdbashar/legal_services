@@ -20,15 +20,14 @@ class Client_merge_fields extends App_merge_fields
                         'credit_note',
                         'subscriptions',
                     ],
-                       'templates' => [
+                          'templates' => [
                         'gdpr-removal-request',
-                        'contract-expiration',
-                         'send-contract',
-                          'contract-comment-to-client',
-                         'task-added-attachment-to-contacts',
-                         'task-commented-to-contacts',
-                         'task-status-change-to-contacts',
-
+                         'contract-expiration',
+                          'send-contract',
+                           'contract-comment-to-client',
+                           'task-added-attachment-to-contacts',
+                           'task-commented-to-contacts',
+                           'task-status-change-to-contacts',
                     ],
                 ],
                 // [

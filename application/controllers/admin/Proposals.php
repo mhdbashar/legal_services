@@ -9,6 +9,7 @@ class Proposals extends AdminController
         parent::__construct();
         $this->load->model('proposals_model');
         $this->load->model('currencies_model');
+        $this->load->model('LegalServices/LegalServicesModel', 'legal');
     }
 
     public function index($proposal_id = '')
@@ -57,9 +58,11 @@ class Proposals extends AdminController
 
     public function table()
     {
-        if (!has_permission('proposals', '', 'view')
+        if (
+            !has_permission('proposals', '', 'view')
             && !has_permission('proposals', '', 'view_own')
-            && get_option('allow_staff_view_proposals_assigned') == 0) {
+            && get_option('allow_staff_view_proposals_assigned') == 0
+        ) {
             ajax_access_denied();
         }
 
@@ -464,7 +467,7 @@ class Proposals extends AdminController
             'belongs_to' => 'proposal',
             'rel_id'     => $id,
         ];
-
+        $data['legal_services']    = $this->legal->get_all_services(['is_module' => 0], true);
         $this->load->view('admin/proposals/estimate_convert_template', $data);
     }
 

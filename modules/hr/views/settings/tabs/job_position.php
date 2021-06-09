@@ -17,11 +17,11 @@
  <tbody>
     <?php foreach($positions as $job){ ?>
     <tr>
-       <td><?php echo htmlspecialchars($job['position_id']); ?></td>
-       <td><?php echo htmlspecialchars($job['position_name']); ?></td>
+       <td><?php echo htmlspecialchars($job['id']); ?></td>
+       <td><?php echo htmlspecialchars($job['designation_name']); ?></td>
        <td>
-         <a href="#" onclick="edit_job_position(this,<?php echo htmlspecialchars($job['position_id']); ?>); return false" data-name="<?php echo htmlspecialchars($job['position_name']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
-          <a href="<?php echo admin_url('hrm/delete_job_position/'.$job['position_id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
+         <a href="#" onclick="edit_job_position(this,<?php echo htmlspecialchars($job['id']); ?>); return false" data-name="<?php echo htmlspecialchars($job['designation_name']); ?>" class="btn btn-default btn-icon"><i class="fa fa-pencil-square-o"></i></a>
+          <a href="<?php echo admin_url('hrm/delete_job_position/'.$job['id']); ?>" class="btn btn-danger btn-icon _delete"><i class="fa fa-remove"></i></a>
        </td>
     </tr>
     <?php } ?>
@@ -44,7 +44,7 @@
                      <div id="additional"></div>   
                      <div class="form">     
                         <?php 
-                        echo render_input('position_name','job_position'); ?>
+                        echo render_input('designation_name','job_position'); ?>
                     </div>
                     </div>
                     </div>

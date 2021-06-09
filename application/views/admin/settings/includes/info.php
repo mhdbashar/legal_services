@@ -32,7 +32,7 @@
 				</td>
 			</tr>
 			<tr>
-			<td class="bold">Webserver User</td>
+				<td class="bold">Webserver User</td>
 				<td>
 					<?php
 					echo get_current_user();

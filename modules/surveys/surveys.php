@@ -3,14 +3,13 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Module Name: surveys_name
-Description: surveys_desc
+Module Name: Surveys
+Description: Default module for sending surveys
 Version: 2.3.0
 Requires at least: 2.3.*
-Author: Babil Team
-Author URI: #
-
 */
+
+require(__DIR__ . '/vendor/autoload.php');
 
 define('SURVEYS_MODULE_NAME', 'surveys');
 

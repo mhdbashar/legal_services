@@ -3,6 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
+    db_prefix() . 'mail_inbox.to',    
     'sender_name',    
     'subject',
     'date_received',
@@ -13,6 +14,7 @@ $sTable       = db_prefix() . 'mail_inbox';
 
 $join = [];
 $where = [];
+array_push($where, 'AND to_staff_id = '.get_staff_user_id());
 if($group == 'inbox'){
     array_push($where, ' AND trash = 0');
 } else if($group == 'starred'){
@@ -22,7 +24,6 @@ if($group == 'inbox'){
 } else if($group == 'trash'){
     array_push($where, ' AND trash = 1');
 }
-array_push($where, ' AND to_staff_id = '.get_staff_user_id());
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ['id','has_attachment','stared','important','body',db_prefix() . 'mail_inbox.read']);
 
 $output  = $result['output'];
@@ -60,7 +61,7 @@ foreach ($rResult as $aRow) {
 
     $content = '<a href="'.admin_url().'mailbox/inbox/'.$aRow['id'].'">';
     $row[] = $content.'<span class="'.$read.'">'.$aRow['sender_name'].'</span></a>';
-    $row[] = $content.'<span class="'.$read.'">'.$aRow['subject'].' - </span><span class="text-muted">'.clear_textarea_breaks(text_limiter($aRow['body'],8,'...')).'</span>'.$has_attachment.'</a>';    
+    $row[] = $content.'<span class="limitme '.$read.'">'.$aRow['subject'].' - </span><span class="limitme text-muted">'.clear_textarea_breaks(text_limiter($aRow['body'],2,'...')).'</span>'.$has_attachment.'</a>';    
     $row[] = $content.'<span class="'.$read.'">'._dt($aRow['date_received']).'</span></a>';
 
     $output['aaData'][] = $row;

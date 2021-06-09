@@ -100,7 +100,7 @@ class Contracts_model extends App_Model
 
         $data['datestart'] = to_sql_date($data['datestart']);
         unset($data['attachment']);
-        if (!isset($data['dateend']) || $data['dateend'] == '') {
+        if ($data['dateend'] == '') {
             unset($data['dateend']);
         } else {
             $data['dateend'] = to_sql_date($data['dateend']);

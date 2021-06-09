@@ -107,10 +107,9 @@ foreach ($rResult as $aRow) {
         }
         $row[] = $_data;
     }
-    // $row[] = '';
     $row['DT_RowClass'] = 'has-row-options';
 
-    $row = hooks()->apply_filters('staffs_table_row_data', $row, $aRow);
+    $row = hooks()->apply_filters('staff_table_row', $row, $aRow);
 
     $output['aaData'][] = $row;
 }

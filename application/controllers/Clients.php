@@ -587,6 +587,7 @@ class Clients extends ClientsController
         $data['is_home'] = true;
         $this->load->model('reports_model');
         $data['payments_years'] = $this->reports_model->get_distinct_customer_invoices_years();
+
         $data['project_statuses'] = $this->projects_model->get_project_statuses();
         $data['title']            = get_company_name(get_client_user_id());
         $data['legal_services']   = $this->legal->get_all_services();
@@ -630,6 +631,7 @@ class Clients extends ClientsController
             get_user_id_by_contact_id(get_contact_user_id()),
             get_contact_user_id()
         );
+
         echo json_encode($data);
     }
 
@@ -1009,7 +1011,8 @@ class Clients extends ClientsController
                     $data['contracts'] = $this->contracts_model->get('', [
                             'client'     => get_client_user_id(),
                             'project_id' => $id,
-                        ]);}
+                        ]);
+                }
             } elseif ($group == 'project_activity') {
                 $data['activity'] = $this->projects_model->get_activity($id);
             } elseif ($group == 'project_milestones') {
@@ -2527,7 +2530,6 @@ class Clients extends ClientsController
         }
 
         set_contact_language($lang);
-
 
         if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
             redirect($_SERVER['HTTP_REFERER']);

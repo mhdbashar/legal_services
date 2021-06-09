@@ -109,7 +109,7 @@ function get_client($id = null)
  */
 function get_customer_profile_tabs()
 {
-    return get_instance()->app_custom_tabs->get_customer_profile_tabs();
+    return get_instance()->app_tabs->get_customer_profile_tabs();
 }
 
 /**
@@ -118,7 +118,7 @@ function get_customer_profile_tabs()
  */
 function get_opponent_profile_tabs()
 {
-    return get_instance()->app_custom_tabs->get_opponent_profile_tabs();
+    return get_instance()->app_tabs->get_opponent_profile_tabs();
 }
 
 /**
@@ -166,14 +166,14 @@ function app_init_customer_profile_tabs()
         $client_id = $client->userid;
 
         $total_reminders = total_rows(
-              db_prefix() . 'reminders',
+            db_prefix() . 'reminders',
             [
-             'isnotified' => 0,
-             'staff'      => get_staff_user_id(),
-             'rel_type'   => 'customer',
-             'rel_id'     => $client_id,
-           ]
-          );
+                'isnotified' => 0,
+                'staff'      => get_staff_user_id(),
+                'rel_type'   => 'customer',
+                'rel_id'     => $client_id,
+            ]
+        );
 
         if ($total_reminders > 0) {
             $remindersText .= ' <span class="badge">' . $total_reminders . '</span>';
@@ -182,21 +182,21 @@ function app_init_customer_profile_tabs()
 
     $CI = &get_instance();
 
-    $CI->app_custom_tabs->add_customer_profile_tab('profile', [
+    $CI->app_tabs->add_customer_profile_tab('profile', [
         'name'     => _l('client_add_edit_profile'),
         'icon'     => 'fa fa-user-circle',
         'view'     => 'admin/clients/groups/profile',
         'position' => 5,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('contacts', [
+    $CI->app_tabs->add_customer_profile_tab('contacts', [
         'name'     => !is_empty_customer_company($client_id) || empty($client_id) ? _l('customer_contacts') : _l('contact'),
         'icon'     => 'fa fa-users',
         'view'     => 'admin/clients/groups/contacts',
-        'position' => 7,
+        'position' => 10,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('procurations', [
+    $CI->app_tabs->add_customer_profile_tab('procurations', [
         'name'     => _l('procurations'),
         'icon'     => 'fa fa-briefcase',
         'view'     => 'admin/clients/groups/procurations',
@@ -204,22 +204,22 @@ function app_init_customer_profile_tabs()
         'position' => 10,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('notes', [
+    $CI->app_tabs->add_customer_profile_tab('notes', [
         'name'     => _l('contracts_notes_tab'),
         'icon'     => 'fa fa-sticky-note-o',
         'view'     => 'admin/clients/groups/notes',
         'position' => 15,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('statement', [
+    $CI->app_tabs->add_customer_profile_tab('statement', [
         'name'     => _l('customer_statement'),
         'icon'     => 'fa fa-area-chart',
         'view'     => 'admin/clients/groups/statement',
-        'visible'  => (has_permission('invoices', '', 'view') && has_permission('payments', '', 'view')),
+        'visible'  => has_permission('invoices', '', 'view'),
         'position' => 20,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('invoices', [
+    $CI->app_tabs->add_customer_profile_tab('invoices', [
         'name'     => _l('client_invoices_tab'),
         'icon'     => 'fa fa-file-text',
         'view'     => 'admin/clients/groups/invoices',
@@ -227,7 +227,7 @@ function app_init_customer_profile_tabs()
         'position' => 25,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('payments', [
+    $CI->app_tabs->add_customer_profile_tab('payments', [
         'name'     => _l('client_payments_tab'),
         'icon'     => 'fa fa-line-chart',
         'view'     => 'admin/clients/groups/payments',
@@ -235,7 +235,7 @@ function app_init_customer_profile_tabs()
         'position' => 30,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('proposals', [
+    $CI->app_tabs->add_customer_profile_tab('proposals', [
         'name'     => _l('proposals'),
         'icon'     => 'fa fa-file-powerpoint-o',
         'view'     => 'admin/clients/groups/proposals',
@@ -243,7 +243,7 @@ function app_init_customer_profile_tabs()
         'position' => 35,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('credit_notes', [
+    $CI->app_tabs->add_customer_profile_tab('credit_notes', [
         'name'     => _l('credit_notes'),
         'icon'     => 'fa fa-sticky-note-o',
         'view'     => 'admin/clients/groups/credit_notes',
@@ -251,7 +251,7 @@ function app_init_customer_profile_tabs()
         'position' => 40,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('estimates', [
+    $CI->app_tabs->add_customer_profile_tab('estimates', [
         'name'     => _l('estimates'),
         'icon'     => 'fa fa-clipboard',
         'view'     => 'admin/clients/groups/estimates',
@@ -259,7 +259,7 @@ function app_init_customer_profile_tabs()
         'position' => 45,
     ]);
 
-    // $CI->app_custom_tabs->add_customer_profile_tab('subscriptions', [
+    // $CI->app_tabs->add_customer_profile_tab('subscriptions', [
     //     'name'     => _l('subscriptions'),
     //     'icon'     => 'fa fa-repeat',
     //     'view'     => 'admin/clients/groups/subscriptions',
@@ -267,7 +267,7 @@ function app_init_customer_profile_tabs()
     //     'position' => 50,
     // ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('expenses', [
+    $CI->app_tabs->add_customer_profile_tab('expenses', [
         'name'     => _l('expenses'),
         'icon'     => 'fa fa-file-text-o',
         'view'     => 'admin/clients/groups/expenses',
@@ -275,7 +275,7 @@ function app_init_customer_profile_tabs()
         'position' => 55,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('contracts', [
+    $CI->app_tabs->add_customer_profile_tab('contracts', [
         'name'     => _l('contracts'),
         'icon'     => 'fa fa-file',
         'view'     => 'admin/clients/groups/contracts',
@@ -283,21 +283,21 @@ function app_init_customer_profile_tabs()
         'position' => 60,
     ]);
 
-    // $CI->app_custom_tabs->add_customer_profile_tab('projects', [
+    // $CI->app_tabs->add_customer_profile_tab('projects', [
     //     'name'     => _l('projects'),
     //     'icon'     => 'fa fa-bars',
     //     'view'     => 'admin/clients/groups/projects',
     //     'position' => 65,
     // ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('tasks', [
+    $CI->app_tabs->add_customer_profile_tab('tasks', [
         'name'     => _l('tasks'),
         'icon'     => 'fa fa-tasks',
         'view'     => 'admin/clients/groups/tasks',
         'position' => 70,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('tickets', [
+    $CI->app_tabs->add_customer_profile_tab('tickets', [
         'name'     => _l('tickets'),
         'icon'     => 'fa fa-ticket',
         'view'     => 'admin/clients/groups/tickets',
@@ -305,28 +305,28 @@ function app_init_customer_profile_tabs()
         'position' => 75,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('attachments', [
+    $CI->app_tabs->add_customer_profile_tab('attachments', [
         'name'     => _l('customer_attachments'),
         'icon'     => 'fa fa-paperclip',
         'view'     => 'admin/clients/groups/attachments',
         'position' => 80,
     ]);
 
-    // $CI->app_custom_tabs->add_customer_profile_tab('vault', [
+    // $CI->app_tabs->add_customer_profile_tab('vault', [
     //     'name'     => _l('vault'),
     //     'icon'     => 'fa fa-lock',
     //     'view'     => 'admin/clients/groups/vault',
     //     'position' => 85,
     // ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('reminders', [
+    $CI->app_tabs->add_customer_profile_tab('reminders', [
         'name'     => $remindersText,
         'icon'     => 'fa fa-clock-o',
         'view'     => 'admin/clients/groups/reminders',
         'position' => 90,
     ]);
 
-    $CI->app_custom_tabs->add_customer_profile_tab('map', [
+    $CI->app_tabs->add_customer_profile_tab('map', [
         'name'     => _l('customer_map'),
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/clients/groups/map',
@@ -455,7 +455,7 @@ function get_user_id_by_contact_id($id)
     $userid = $CI->app_object_cache->get('user-id-by-contact-id-' . $id);
     if (!$userid) {
         $CI->db->select('userid')
-        ->where('id', $id);
+            ->where('id', $id);
         $client = $CI->db->get(db_prefix() . 'contacts')->row();
 
         if ($client) {
@@ -562,10 +562,10 @@ function get_company_name($userid, $prevent_empty_company = false)
     $select = ($prevent_empty_company == false ? get_sql_select_client_company() : 'company');
 
     $client = $CI->db->select($select)
-    ->where('userid', $_userid)
-    ->from(db_prefix() . 'clients')
-    ->get()
-    ->row();
+        ->where('userid', $_userid)
+        ->from(db_prefix() . 'clients')
+        ->get()
+        ->row();
     if ($client) {
         return $client->company;
     }
@@ -705,11 +705,11 @@ function load_client_language($customer_id = '')
         // set_contact_language($language);
     }
 
-
     $CI->lang->is_loaded = [];
     $CI->lang->language  = [];
 
     $CI->lang->load($language . '_lang', $language);
+
     if (file_exists(APPPATH . 'language/' . $language . '/custom_lang.php')) {
         $CI->lang->load('custom_lang', $language);
     }
@@ -751,9 +751,9 @@ function client_have_transactions($id)
 
 
 /**
-* Predefined contact permission
-* @return array
-*/
+ * Predefined contact permission
+ * @return array
+ */
 function get_contact_permissions()
 {
     $permissions = [
@@ -816,27 +816,26 @@ function can_contact_view_email_notifications_options()
         || has_contact_permission('estimates')
         || has_contact_permission('projects')
         || has_contact_permission('contracts');
-
 }
 
 /**
-* With this function staff can login as client in the clients area
-* @param  mixed $id client id
-*/
+ * With this function staff can login as client in the clients area
+ * @param  mixed $id client id
+ */
 function login_as_client($id)
 {
     $CI = &get_instance();
 
     $CI->db->select(db_prefix() . 'contacts.id, active')
-    ->where('userid', $id)
-    ->where('is_primary', 1);
+        ->where('userid', $id)
+        ->where('is_primary', 1);
 
     $primary = $CI->db->get(db_prefix() . 'contacts')->row();
 
     if (!$primary) {
         set_alert('danger', _l('no_primary_contact'));
         redirect($_SERVER['HTTP_REFERER']);
-    } elseif($primary->active == '0') {
+    } elseif ($primary->active == '0') {
         set_alert('danger', 'Customer primary contact is not active, please set the primary contact as active in order to login as client');
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -891,10 +890,10 @@ function contact_consent_url($contact_id)
 }
 
 /**
-*  Get customer attachment
-* @param   mixed $id   customer id
-* @return  array
-*/
+ *  Get customer attachment
+ * @param   mixed $id   customer id
+ * @return  array
+ */
 function get_all_customer_attachments($id)
 {
     $CI = &get_instance();
@@ -1067,7 +1066,7 @@ function get_all_customer_attachments($id)
     }
 
     $CI->db->select('leadid')
-    ->where('userid', $id);
+        ->where('userid', $id);
     $customer = $CI->db->get(db_prefix() . 'clients')->row();
 
     if ($customer->leadid != null) {

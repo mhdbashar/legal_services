@@ -29,48 +29,48 @@ class Departments extends AdminController
         $this->load->view('admin/departments/manage', $data);
     }
 
-       /* Edit or add new department */
-       public function department($id = '')
-       {
-           if ($this->input->post()) {
-               $message          = '';
-               $data             = $this->input->post();
-               $data             = $this->input->post();
-               $data['password'] = $this->input->post('password', false);
-   
-               if (isset($data['fakeusernameremembered']) || isset($data['fakepasswordremembered'])) {
-                   unset($data['fakeusernameremembered']);
-                   unset($data['fakepasswordremembered']);
-               }
-   
-               if (!$this->input->post('id')) {
-                   $id = $this->departments_model->add($data);
-                   if ($id) {
-                       $success = true;
-                       $message = _l('added_successfully', _l('department'));
-                   }
-                   echo json_encode([
-                       'success'              => $success,
-                       'message'              => $message,
-                       'email_exist_as_staff' => $this->email_exist_as_staff(),
-                   ]);
-               } else {
-   
-                   $id = $data['id'];
-                   unset($data['id']);
-                   $success = $this->departments_model->update($data, $id);
-                   if ($success) {
-                       $message = _l('updated_successfully', _l('department'));
-                   }
-                   echo json_encode([
-                       'success'              => $success,
-                       'message'              => $message,
-                       'email_exist_as_staff' => $this->email_exist_as_staff(),
-                   ]);
-               }
-               die;
-           }
-       }
+    /* Edit or add new department */
+    public function department($id = '')
+    {
+        if ($this->input->post()) {
+            $message          = '';
+            $data             = $this->input->post();
+            $data             = $this->input->post();
+            $data['password'] = $this->input->post('password', false);
+
+            if (isset($data['fakeusernameremembered']) || isset($data['fakepasswordremembered'])) {
+                unset($data['fakeusernameremembered']);
+                unset($data['fakepasswordremembered']);
+            }
+
+            if (!$this->input->post('id')) {
+                $id = $this->departments_model->add($data);
+                if ($id) {
+                    $success = true;
+                    $message = _l('added_successfully', _l('department'));
+                }
+                echo json_encode([
+                    'success'              => $success,
+                    'message'              => $message,
+                    'email_exist_as_staff' => $this->email_exist_as_staff(),
+                ]);
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->departments_model->update($data, $id);
+                if ($success) {
+                    $message = _l('updated_successfully', _l('department'));
+                }
+                echo json_encode([
+                    'success'              => $success,
+                    'message'              => $message,
+                    'email_exist_as_staff' => $this->email_exist_as_staff(),
+                ]);
+            }
+            die;
+        }
+    }
+
     /* Delete department from database */
     public function delete($id)
     {
@@ -149,7 +149,7 @@ class Departments extends AdminController
                 $folder = $this->input->post('folder');
 
                 $connection->getMailbox(empty($folder) ? 'INBOX' : $folder);
-             } catch (MailboxDoesNotExistException $e) {
+            } catch (MailboxDoesNotExistException $e) {
                 echo json_encode([
                     'alert_type' => 'warning',
                     'message'    => $e->getMessage(),

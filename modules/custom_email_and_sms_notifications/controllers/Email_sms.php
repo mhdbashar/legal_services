@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-require (FCPATH.'application/vendor/twilio/sdk/Twilio/autoload.php');
+require (FCPATH.'application/vendor/twilio/sdk/src/Twilio/autoload.php');
 require (FCPATH.'modules/custom_email_and_sms_notifications/helpers/ClickatellException.php');
 
 use Twilio\Rest\Client;
@@ -15,24 +15,33 @@ class Email_sms extends AdminController
     {
         parent::__construct();
 
-        if (!is_admin()) {
-            access_denied('Email Sms');
+        if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
         }
+        $this->load->model('Custom_email_and_sms_notifications_model','template_model');
         
     }
 
     public function email_or_sms()
     {
+    	if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
+        }
         $clients =  $this->db->select('tblclients.*');
         $this->db->from('tblclients');
         $clients = $this->db->get()->result();
 
-        $data['clients'] = $clients;
+        $data['clients']      = $clients;
+        $where = ['staff_id'=>$this->session->userdata('staff_user_id')];
+        $data['templates'] = $this->template_model->get('staff_id',$where);
 
         $this->load->view('custom_email_and_sms_notifications', $data);
     }
 
     public function sendEmailSms() {
+    	if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
+        }
 
         $request = $this->input->post();
 
@@ -40,12 +49,11 @@ class Email_sms extends AdminController
             set_alert('warning', _l('You can`t send file via SMS'));
             redirect($_SERVER['HTTP_REFERER']);
         }
-
-       
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('allowed_payment_modes[]', 'Customers', 'required');       
         $this->form_validation->set_rules('message', 'Message', 'required');
+        $this->form_validation->set_rules('template', 'Template', 'required');
         $this->form_validation->set_rules('mail_or_sms', 'Mail', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -66,6 +74,9 @@ class Email_sms extends AdminController
     }
 
     public function sendMail($request) {
+    	if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
+        }
 
         $to =  $this->db->select('tblcontacts.*');
         $this->db->from('tblcontacts');
@@ -180,7 +191,7 @@ class Email_sms extends AdminController
 
             foreach ($to as $key => $t) {
 
-                $mail->addAddress($t->email);
+                $mail->addBCC($t->email);
 
                 $mail->addReplyTo($fromMail);
 
@@ -214,24 +225,22 @@ class Email_sms extends AdminController
 
                     $this->db->insert('tblactivity_log', $data);
                 }
-            }
-
-
-            
+            }            
         }
 
 
         redirect($_SERVER['HTTP_REFERER']);
-
     }
 
     public function sendSMS($request) {
+    	if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
+        }
 
         $to =  $this->db->select('tblcontacts.*');
         $this->db->from('tblcontacts');
         $this->db->where_in('userid',$request['allowed_payment_modes']);
         $to = $this->db->get()->result();
-
         if (get_option('sms_twilio_active') == 1) {
             $this->twilioSms($request,$to);
         }
@@ -243,10 +252,12 @@ class Email_sms extends AdminController
         else if (get_option('sms_msg91_active') == 1) {
             $this->msg91Sms($request,$to);
         }
-
     }   
 
     public function twilioSms($request,$to) {
+    	if (!has_permission('custom_email_and_sms_notifications', '', 'create')) {
+             access_denied(_l('sms_title'));
+        }
         $account_sid   = get_option('sms_twilio_account_sid');
         $auth_token   = get_option('sms_twilio_auth_token');
         $twilio_number   = get_option('sms_twilio_phone_number');
@@ -258,14 +269,14 @@ class Email_sms extends AdminController
                 $t->phonenumber,
                 array(
                     'from' => $twilio_number,
-                    'body' => $request['message']
+                    'body' => strip_tags($request['message'])
                 )
             );
 
             if ($message->sid) {
                 echo "Message has been sent!";
                 
-                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".$request['message'];
+                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".strip_tags($request['message']);
 
                 $data = array(
                         'description' => $activity_log_des,
@@ -287,53 +298,13 @@ class Email_sms extends AdminController
     }
 
     public function msg91Sms($request,$to) {
-
-        $authKey = get_option('sms_msg91_auth_key');
-
-        foreach ($to as $key => $t) {
-            
-            $mobileNumber = $t->phonenumber;
-
-            $senderId =  get_option('sms_msg91_sender_id');
-
-            $message = urlencode($request['message']);
-
-            $route = "define";
-
-            $postData = array(
-                'authkey' => $authKey,
-                'mobiles' => $mobileNumber,
-                'message' => $message,
-                'sender' => $senderId,
-                'route' => $route
-            );
-
-            $url="http://world.msg91.com/api/sendhttp.php";
-
-            $ch = curl_init();
-            curl_setopt_array($ch, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => $postData
-            ));
-
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-            $output = curl_exec($ch);
-
-            if(curl_errno($ch))
-            {
-                echo 'error:' . curl_error($ch);
-            }
-
-            curl_close($ch);
-
-            if ($output !== null) {
-                echo "Message has been sent !";
+    	foreach ($to as $key => $t) {
+    		$mobileNumber = $t->phonenumber;
+    		$message = urlencode(strip_tags($request['message']));
+	    	if($this->sms_msg91->send($mobileNumber, $message)){
+	    		echo "Message has been sent !";
                 
-                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".$request['message'];
+                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".strip_tags($request['message']);
 
                 $data = array(
                         'description' => $activity_log_des,
@@ -349,10 +320,8 @@ class Email_sms extends AdminController
                 echo "Message could not be sent!";
                 set_alert('warning', _l('Message could not be sent!'));
             }
-
-        }
-
-        redirect($_SERVER['HTTP_REFERER']);
+    	}
+    	redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function clickatellSms($request,$to) {
@@ -362,9 +331,9 @@ class Email_sms extends AdminController
         foreach ($to as $key => $t) {
 
             try {
-                $result = $clickatell->sendMessage(['to' => [$t->phonenumber], 'content' => $request['message']]);
+                $result = $clickatell->sendMessage(['to' => [$t->phonenumber], 'content' => strip_tags($request['message'])]);
                 
-                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".$request['message'];
+                $activity_log_des = "SMS sent to ".$t->phonenumber." , Message: ".strip_tags($request['message']);
                 $data = array(
                         'description' => $activity_log_des,
                         'date' => gmdate('Y-m-d h:i:s \G\M\T'),

@@ -3,13 +3,10 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-Author: Babil Team
-Module Name: menu_name
-Description: menu_desc
+Module Name: Menu Setup
+Description: Default module to apply changes to the menus
 Version: 2.3.0
 Requires at least: 2.3.*
-Author URI: #
-
 */
 
 define('MENU_SETUP_MODULE_NAME', 'menu_setup');

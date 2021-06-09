@@ -44,6 +44,7 @@
         $(document).on('click', ".bar-deactive", function() {
             $(this).removeClass('bar-deactive').addClass('bar-active');
             $('.cb-form-wrapper').removeClass('pfx-cb-hide').addClass('pfx-cb-show');
+            $('body.appointments-external-form .container-fluid').addClass('blurry');
             callback_form[0].reset();
         });
 
@@ -52,6 +53,7 @@
             $(this).removeClass('bar-active').addClass('bar-deactive');;
             $('.cb-form-wrapper').removeClass('pfx-cb-show').addClass('pfx-cb-hide');
             $('.selectpicker').selectpicker('refresh');
+            $('body.appointments-external-form .container-fluid').removeClass('blurry');
             callback_form[0].reset();
             call_types = [];
         });

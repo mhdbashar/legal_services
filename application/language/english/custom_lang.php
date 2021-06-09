@@ -1,5 +1,16 @@
 <?php
 
+$lang['add_only_main_salary'] = 'Add only main salary';
+$lang['designation_group'] = 'Designation group';
+$lang['new_designation_group'] = 'New designation_group';
+$lang['designations_groups'] = 'Designations groups';
+
+$lang['follower_staff'] = 'Follower staff';
+
+$lang['staff_chart_by_department'] = 'Staff chart by department';
+$lang['staff_chart_by_designation'] = 'Staff chart by designation';
+
+
 $lang['hr_contract_prefix'] = 'Hr contract prefix';
 $lang['next_hr_contract_number'] = 'Next hr contract number';
 $lang['hr_staff_prefix'] = 'Staff prefix';
@@ -392,6 +403,8 @@ $lang['not_document_deadline_reminder'] = "Not Document Deadline Reminder";
 
 $lang['you_must_add_sub_department_and_designation_to_this_staff'] = "Please Complete Besic Information for this Staff";
 $lang['completed'] = "Completed";
+$lang['processing'] = "Processing";
+$lang['cancelled'] = "Cancelled";
 $lang['not_completed'] = "Not Completed";
 $lang['completed_with_hr_system'] = "Integrated With Hr System";
 
@@ -719,7 +732,7 @@ $lang['office_sheft'] = "Office Sheft";
 $lang['branches'] = 'Branches';
 $lang['professional_courses'] = "Professional Cources";
 
-$lang['hr'] = "Human Resources";
+$lang['hr'] = "H.R.M";
 $lang['add_new_procuration'] = "Add New Procuration";
 $lang['edit_procuration'] = "Edit Procuration";
 $lang['company_groups'] = 'Company Groups';

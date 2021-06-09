@@ -7,7 +7,10 @@
                 <div class="panel_s">
                     <div class="panel-body _buttons">
                         <?php if(has_permission('hr_contracts','','create')){ ?>
-                            <a href="<?php echo admin_url('hr/contracts/contract'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_contract'); ?></a>
+                        <div class="_buttons col-md-8">
+                            <a href="<?php echo admin_url('hr/contracts/contract'); ?>" class="mright5 btn btn-info pull-left display-block"><?php echo _l('new_contract'); ?></a>
+                            <a href="<?php echo admin_url('hr/contracts/types'); ?>" class="btn btn-info pull-left ml-2 display-block"><?php echo _l('contract_types'); ?></a>
+                        </div>
                         <?php } ?>
                     </div>
                 </div>

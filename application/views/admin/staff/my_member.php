@@ -94,7 +94,7 @@
                         <hr />
                      </div>
 
-                      <?php  if(!$this->app_modules->is_active('hr')){ ?>
+                      <div class="<?php  if($this->app_modules->is_active('hr')) echo 'hide' ?>">
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
@@ -272,8 +272,7 @@
                      </span>
                      <?php } } ?>
                   <?php } ?>
-                      <?php } ?>
-                  </div>
+                  </div></div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
                      <?php
                         hooks()->do_action('staff_render_permissions');

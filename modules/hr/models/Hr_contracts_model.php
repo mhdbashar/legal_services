@@ -7,7 +7,7 @@ class Hr_contracts_model extends App_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('contract_types_model');
+        $this->load->model('Hr_contract_types_model');
     }
 
     /**
@@ -859,7 +859,7 @@ class Hr_contracts_model extends App_Model
      */
     public function get_contract_types($id = '')
     {
-        return $this->contract_types_model->get($id);
+        return $this->Hr_contract_types_model->get($id);
     }
 
     /**
@@ -869,7 +869,7 @@ class Hr_contracts_model extends App_Model
      */
     public function delete_contract_type($id)
     {
-        return $this->contract_types_model->delete($id);
+        return $this->Hr_contract_types_model->delete($id);
     }
 
     /**
@@ -878,7 +878,7 @@ class Hr_contracts_model extends App_Model
      */
     public function add_contract_type($data)
     {
-        return $this->contract_types_model->add($data);
+        return $this->Hr_contract_types_model->add($data);
     }
 
     /**
@@ -888,7 +888,7 @@ class Hr_contracts_model extends App_Model
      */
     public function update_contract_type($data, $id)
     {
-        return $this->contract_types_model->update($data, $id);
+        return $this->Hr_contract_types_model->update($data, $id);
     }
 
     /**
@@ -897,7 +897,7 @@ class Hr_contracts_model extends App_Model
      */
     public function get_contracts_types_chart_data()
     {
-        return $this->contract_types_model->get_chart_data();
+        return $this->Hr_contract_types_model->get_chart_data();
     }
 
     /**
@@ -906,6 +906,6 @@ class Hr_contracts_model extends App_Model
      */
     public function get_contracts_types_values_chart_data()
     {
-        return $this->contract_types_model->get_values_chart_data();
+        return $this->Hr_contract_types_model->get_values_chart_data();
     }
 }

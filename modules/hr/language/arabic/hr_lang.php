@@ -38,7 +38,7 @@ $lang['form_list'] = 'قائمة القوالب';
 $lang['workplace'] = 'مكان العمل';
 $lang['staff_role'] = 'معرف المسمى الوظيفي';
 $lang['job_position'] = 'المسمى الوظيفي';
-$lang['job_position_id'] = 'معرف المسمى الوظيفي';
+$lang['job_id'] = 'معرف المسمى الوظيفي';
 $lang['invoice_table_percentage'] = 'النسبة: ';
 $lang['shift'] = 'فترة العمل';
 $lang['allowance_type'] = 'نوع البدلات';
@@ -451,3 +451,86 @@ $lang['payroll_template_edit'] = 'تحرير قالب كشف الرواتب';
 $lang['payslip_record'] = 'سجلات دفع الرواتب';
 $lang['preview_file'] = 'عرض الملف';
 $lang['download_file'] = 'تحميل الملف';
+
+//Dependent Persons
+$lang['hr_dependent_persons']        									= 'التابعين';
+$lang['HR_dependent_persons']        								= 'الأشخاص التابعين';
+$lang['hr_new_dependent_person']                                  		= 'تابع جديد';
+$lang['hr_edit_dependent_person']                                  	= 'تحرير التابع';
+$lang['hr_dependent_name']                                  			= 'إسيم التابع';
+$lang['hr_dependent_bir']                                  			= 'تاريخ الميلاد';
+$lang['hr_dependent_iden']                                  			= 'الجنسية';
+$lang['hr_dependent_person'] 											= 'التابع';
+$lang['hr_add_dependents'] 											= 'إضافة تابعين';
+$lang['hr_edit_dependents'] 											= 'تحديث التابعين';
+$lang['file_xlsx_dependent_person1'] 									= 'كود HR: المقابل لعمود الموظف هو رمز hr';
+$lang['file_xlsx_dependent_person2'] 									= 'تاريخ الميلاد ، تاريخ السريان ، تاريخ انتهاء الصلاحية: أدخل بالتنسيق "yyyy-mm-dd": على سبيل المثال: 2020-12-30';
+$lang['file_xlsx_dependent_person3'] 									= 'الحالة: أدخل 2 يتوافق مع "مرفوض" ، والقيمة الأخرى 2 تقابل "موافق عليه"';
+$lang['hr_reset_data_title'] 												= 'جميع البيانات ذات الصلة: سيتم حذف عملية الإعداد والتدريب والعقود والأشخاص التابعين وإجراءات الاستقالة والأسئلة والأجوبة';
+$lang['hr_download_sample']                                            = 'تنزيل ملف نموذج';
+$lang['hr__back']                                  					= 'العودة';
+$lang['hr_kb_article_QA']   											= 'عرض للموظفين';
+$lang['hr_kb_article_files']   										= 'الملفات المرفقة';
+$lang['hr_view']                                            			= 'عرض';
+$lang['hr_edit']                                                       = 'تحرير';
+// org charts
+$lang['HR_organizational_chart']                                    = 'المنشآة HR';
+$lang['hr_organizational_chart']                                       = 'الهيكل التنظيمي';
+$lang['hr_view_department_chart']                                      = 'عرض الشجرة';
+$lang['hr_unit_email']                                                 = 'أيميل الوحدة';
+$lang['hr_organizational_chart']                                       = 'الهيكل التنظيمي';
+$lang['hr_new_unit']                                                   = 'إضافة وحدة جديدة';
+$lang['hr_edit_unit']                                                  = 'تحرير الوحدة';
+$lang['hr_parent_unit']                                                = 'وحدة أعلى';
+$lang['hr_manager_unit']                                               = 'إدارة الوحدة';
+$lang['hr_hr_id'] 														= 'ID';
+
+
+//training
+
+$lang['hr_more_training_sessions']       								= 'إضافة تدريب';
+$lang['hr_training_programs_name']       								= 'إسم برنامج التدريب';
+$lang['hr_hr_training_places']       										= 'مكان التدريب';
+$lang['hr_training'] 													= 'التدريب';
+$lang['hr__training_library'] 											= 'مكتبة التدريب';
+$lang['hr__training_program'] 											= 'برامج التدريب';
+$lang['hr_training_type'] 												= 'نوع التدريب';
+$lang['hr_mint_point'] 												= 'الحد الادنى من النقاط';
+$lang['hr_edit_training_process'] 										= 'تحرير برنامج التدريب';
+$lang['hr_new_training_process'] 										= 'برنامج تدريب جديد';
+$lang['hr_training_item'] 												= 'عنصر برنامج التدريب';
+$lang['hr_training_name'] 												= 'إسم برنامج التدريب';
+$lang['hr_basic_training'] 											= 'تدريب عادي';
+$lang['hr_professiona_training'] 										= 'تدريب إحترافي';
+$lang['hr_skill_training'] 											= 'مهارات التدريب';
+$lang['hr_management_training'] 										= 'إدارة التدريب';
+$lang['hr_training_question_string'] 									= 'أسئلة التدريب';
+$lang['hr_enter_the_score_of_the_question'] 							= 'أدخل درجة السؤال';
+$lang['hr_score'] 														= 'الدرجة';
+$lang['hr_thank_you_for_participating_in_this_training']				= 'شكرا لك على المشاركة في هذا البرنامج التدريبي';
+$lang['hr_hr_add'] 													= 'إضافة';
+$lang['hr_hr_description']                                             = 'الوصف';
+$lang['hr_datecreator'] 												= 'تاريخ الإنشاء';
+$lang['hr_close']                										= 'إغلاق';
+$lang['hr__position_apply']                                  			= 'المسمى الوظيفي للتقدم';
+$lang['hr_bulk_actions']  												= 'إجراءات جماعية';
+$lang['hr_survey_dt_name']												= 'الإسم';
+$lang['hr_survey_dt_total_questions']									= 'مجموع الإسئلة';
+$lang['hr_survey_dt_total_participants']								= 'مجموع المشاركين';
+$lang['hr_survey_dt_date_created']										= 'تاريخ الإنشاء';
+$lang['hr_survey_create_first']											= 'يرجى إنشاء المعلومات ذات الصلة قبل إنشاء الأسئلة';
+$lang['hr_survey_insert_field']											= 'إضافة سؤال أخر';
+$lang['hr_survey_question_required']									= 'مطلوب';
+$lang['hr_question_string']												= 'السؤال';
+$lang['hr_survey_list_view_tooltip']									= 'معاينة';
+$lang['hr_survey_field_checkbox']										= 'خانة اختيار';
+$lang['hr_survey_submit']												= 'إرسال';
+$lang['hr_survey_no_questions']											= 'لم يتم إضافة أسئلة هذا المنشور التدريبي حتى الآن.';
+$lang['hr_thank_you_for_participating_in_this_training']				= 'شكرا لك على المشاركة في هذا البرنامج التدريبي';
+$lang['hr_training_process'] 											= 'التدريب';
+
+// Permissions
+$lang['HR_dashboard']        										= 'لوحة تحكم الموارد البشرية';
+$lang['hr_training'] 												= 'التدريب';
+$lang['HR_q&a']                                    					= 'قاعدة المعرفة';
+

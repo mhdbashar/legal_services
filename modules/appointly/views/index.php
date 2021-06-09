@@ -139,13 +139,13 @@ $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
                                     <?php if (get_option('google_client_id') !== '' && get_option('appointly_google_client_secret') !== '') : ?>
                                         <li>
                                             <?php if (!appointlyGoogleAuth()) : ?>
-                                                <a href="<?= site_url('appointly/google/auth/login'); ?>">
+                                                <a href="<?= site_url('appointly/google/auth/login'); ?>" class="a_google">
                                                     <i class="fa fa-google" aria-hidden="true"></i>
                                                     <?= _l('appointments_sign_in_google'); ?>
                                                 </a>
                                             <?php else : ?>
                                                 <a data-toggle="tooltip" title="<?= _l('appointments_google_revoke') ?>" href="<?= site_url('appointly/google/auth/logout'); ?>">
-                                                    <!-- <i class="fa fa-google" aria-hidden="true"></i> -->
+                                                    <i class="fa fa-google" aria-hidden="true"></i>
                                                     <?= _l('appointments_sign_out_google'); ?>
                                                 </a>
                                             <?php endif; ?>

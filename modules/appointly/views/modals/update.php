@@ -26,7 +26,7 @@
                         <?php if ($history['outlook_event_id'] && $history['outlook_added_by_id'] == get_staff_user_id()) : ?>
                             <div class="checkbox pull-right mleft10" id="addedToOutlook">
                                 <input disabled type="checkbox" id="outlook" checked>
-                                <label data-toggle="tooltip" title="<?= _l('appointment_added_to_outlook'); ?>" for="outlook"> <i class="fa fa-envelope" aria-hidden="true"></i></label>
+                                <label data-toggle="tooltip" title="<?= _l('appointment_is_added_to_outlook'); ?>" for="outlook"> <i class="fa fa-envelope" aria-hidden="true"></i></label>
                             </div>
                         <?php endif; ?>
 

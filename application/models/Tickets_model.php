@@ -11,6 +11,39 @@ class Tickets_model extends App_Model
         parent::__construct();
     }
 
+    public function ticket_count($status = null)
+    {
+        $where = '';
+        if (!is_admin()) {
+            $this->load->model('departments_model');
+            $staff_deparments_ids = $this->departments_model->get_staff_departments(get_staff_user_id(), true);
+            if (get_option('staff_access_only_assigned_departments') == 1) {
+                $departments_ids = [];
+                if (count($staff_deparments_ids) == 0) {
+                    $departments = $this->departments_model->get();
+                    foreach ($departments as $department) {
+                        array_push($departments_ids, $department['departmentid']);
+                    }
+                } else {
+                    $departments_ids = $staff_deparments_ids;
+                }
+                if (count($departments_ids) > 0) {
+                    $where = 'AND department IN (SELECT departmentid FROM ' . db_prefix() . 'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")';
+                }
+            }
+        }
+        $_where = '';
+        if (!is_null($status)) {
+            if ($where == '') {
+                $_where = 'status=' . $status;
+            } else {
+                $_where = 'status=' . $status . ' ' . $where;
+            }
+        }
+
+        return total_rows(db_prefix() . 'tickets', $_where);
+    }
+
     public function insert_piped_ticket($data)
     {
         $data = hooks()->apply_filters('piped_ticket_data', $data);
@@ -25,7 +58,7 @@ class Tickets_model extends App_Model
             'failure notice',
             'Returned mail: see transcript for details',
             'Undelivered Mail Returned to Sender',
-            ];
+        ];
 
         $subject_blocked = false;
 
@@ -193,7 +226,7 @@ class Tickets_model extends App_Model
         $this->db->insert(db_prefix() . 'tickets_pipe_log', [
             'date'     => date('Y-m-d H:i:s'),
             'email_to' => $to,
-            'name'     => $name,
+            'name'     => $name ?: 'Unknown',
             'email'    => $email,
             'subject'  => $subject,
             'message'  => $message,
@@ -219,7 +252,6 @@ class Tickets_model extends App_Model
                 $extension     = end($filenameparts);
                 $extension     = strtolower($extension);
                 if (in_array('.' . $extension, $allowed_extensions)) {
-
                     $filename = implode(array_slice($filenameparts, 0, 0 - 1));
                     $filename = trim(preg_replace('/[^a-zA-Z0-9-_ ]/', '', $filename));
 
@@ -234,7 +266,7 @@ class Tickets_model extends App_Model
                     }
 
                     $filename = unique_filename($path, $filename . '.' . $extension);
-                    file_put_contents($path.$filename, $attachment['data']);
+                    file_put_contents($path . $filename, $attachment['data']);
 
                     array_push($ticket_attachments, [
                         'file_name' => $filename,
@@ -288,32 +320,28 @@ class Tickets_model extends App_Model
         $this->db->join(db_prefix() . 'staff', db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.admin', 'left');
         $this->db->join(db_prefix() . 'contacts', db_prefix() . 'contacts.id = ' . db_prefix() . 'tickets.contactid', 'left');
         $this->db->join(db_prefix() . 'tickets_priorities', db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority', 'left');
+
         if (strlen($id) === 32) {
-            $this->db->or_where(db_prefix() . 'tickets.ticketkey', $id);
+            $this->db->where(db_prefix() . 'tickets.ticketkey', $id);
         } else {
             $this->db->where(db_prefix() . 'tickets.ticketid', $id);
         }
+
         if (is_numeric($userid)) {
             $this->db->where(db_prefix() . 'tickets.userid', $userid);
         }
+
         $ticket = $this->db->get()->row();
         if ($ticket) {
-            if ($ticket->admin == null || $ticket->admin == 0) {
-                if ($ticket->contactid != 0) {
-                    $ticket->submitter = $ticket->user_firstname . ' ' . $ticket->user_lastname;
-                } else {
-                    $ticket->submitter = $ticket->from_name;
-                }
-            } else {
-                if ($ticket->contactid != 0) {
-                    $ticket->submitter = $ticket->user_firstname . ' ' . $ticket->user_lastname;
-                } else {
-                    $ticket->submitter = $ticket->from_name;
-                }
+            $ticket->submitter = $ticket->contactid != 0 ?
+            ($ticket->user_firstname . ' ' . $ticket->user_lastname) :
+            $ticket->from_name;
+
+            if (!($ticket->admin == null || $ticket->admin == 0)) {
                 $ticket->opened_by = $ticket->staff_firstname . ' ' . $ticket->staff_lastname;
             }
 
-            $ticket->attachments = $this->get_ticket_attachments($id);
+            $ticket->attachments = $this->get_ticket_attachments($ticket->ticketid);
         }
 
 
@@ -347,12 +375,7 @@ class Tickets_model extends App_Model
     public function get_ticket_attachments($id, $replyid = '')
     {
         $this->db->where('ticketid', $id);
-        if (is_numeric($replyid)) {
-            $this->db->where('replyid', $replyid);
-        } else {
-            $this->db->where('replyid', null);
-        }
-        $this->db->where('ticketid', $id);
+        $this->db->where('replyid', is_numeric($replyid) ? $replyid : null);
 
         return $this->db->get(db_prefix() . 'ticket_attachments')->result_array();
     }
@@ -503,8 +526,10 @@ class Tickets_model extends App_Model
                 $notificationForStaffMemberOnTicketReply = get_option('receive_notification_on_new_ticket_replies') == 1;
 
                 foreach ($staff as $staff_key => $member) {
-                    if (get_option('access_tickets_to_none_staff_members') == 0
-                         && !is_staff_member($member['staffid'])) {
+                    if (
+                        get_option('access_tickets_to_none_staff_members') == 0
+                        && !is_staff_member($member['staffid'])
+                    ) {
                         continue;
                     }
 
@@ -515,15 +540,15 @@ class Tickets_model extends App_Model
 
                         if ($notificationForStaffMemberOnTicketReply) {
                             $notified = add_notification([
-                                    'description'     => 'not_new_ticket_reply',
-                                    'touserid'        => $member['staffid'],
-                                    'fromcompany'     => 1,
-                                    'fromuserid'      => 0,
-                                    'link'            => 'tickets/ticket/' . $id,
-                                    'additional_data' => serialize([
-                                        $ticket->subject,
-                                    ]),
-                                ]);
+                                'description'     => 'not_new_ticket_reply',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => 0,
+                                'link'            => 'tickets/ticket/' . $id,
+                                'additional_data' => serialize([
+                                    $ticket->subject,
+                                ]),
+                            ]);
                             if ($notified) {
                                 array_push($notifiedUsers, $member['staffid']);
                             }
@@ -830,8 +855,10 @@ class Tickets_model extends App_Model
                 $notificationForStaffMemberOnTicketCreation = get_option('receive_notification_on_new_ticket') == 1;
 
                 foreach ($staff as $member) {
-                    if (get_option('access_tickets_to_none_staff_members') == 0
-                        && !is_staff_member($member['staffid'])) {
+                    if (
+                        get_option('access_tickets_to_none_staff_members') == 0
+                        && !is_staff_member($member['staffid'])
+                    ) {
                         continue;
                     }
                     $staff_departments = $this->departments_model->get_staff_departments($member['staffid'], true);
@@ -841,15 +868,15 @@ class Tickets_model extends App_Model
 
                         if ($notificationForStaffMemberOnTicketCreation) {
                             $notified = add_notification([
-                                    'description'     => 'not_new_ticket_created',
-                                    'touserid'        => $member['staffid'],
-                                    'fromcompany'     => 1,
-                                    'fromuserid'      => 0,
-                                    'link'            => 'tickets/ticket/' . $ticketid,
-                                    'additional_data' => serialize([
-                                        $data['subject'],
-                                    ]),
-                                ]);
+                                'description'     => 'not_new_ticket_created',
+                                'touserid'        => $member['staffid'],
+                                'fromcompany'     => 1,
+                                'fromuserid'      => 0,
+                                'link'            => 'tickets/ticket/' . $ticketid,
+                                'additional_data' => serialize([
+                                    $data['subject'],
+                                ]),
+                            ]);
                             if ($notified) {
                                 array_push($notifiedUsers, $member['staffid']);
                             }
@@ -1022,10 +1049,11 @@ class Tickets_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             hooks()->do_action(
                 'ticket_settings_updated',
-            [
-                'ticket_id'       => $data['ticketid'],
-                'original_ticket' => $ticketBeforeUpdate,
-                'data'            => $data, ]
+                [
+                    'ticket_id'       => $data['ticketid'],
+                    'original_ticket' => $ticketBeforeUpdate,
+                    'data'            => $data,
+                ]
             );
             $affectedRows++;
         }
@@ -1494,28 +1522,28 @@ class Tickets_model extends App_Model
         $customer_id = get_user_id_by_contact_id($contact_id);
 
         $this->db->where('userid', 0)
-                ->where('contactid', 0)
-                ->where('admin IS NULL')
-                ->where('email', $email);
+            ->where('contactid', 0)
+            ->where('admin IS NULL')
+            ->where('email', $email);
 
         $this->db->update(db_prefix() . 'tickets', [
-                    'email'     => null,
-                    'name'      => null,
-                    'userid'    => $customer_id,
-                    'contactid' => $contact_id,
-                ]);
+            'email'     => null,
+            'name'      => null,
+            'userid'    => $customer_id,
+            'contactid' => $contact_id,
+        ]);
 
         $this->db->where('userid', 0)
-                ->where('contactid', 0)
-                ->where('admin IS NULL')
-                ->where('email', $email);
+            ->where('contactid', 0)
+            ->where('admin IS NULL')
+            ->where('email', $email);
 
         $this->db->update(db_prefix() . 'ticket_replies', [
-                    'email'     => null,
-                    'name'      => null,
-                    'userid'    => $customer_id,
-                    'contactid' => $contact_id,
-                ]);
+            'email'     => null,
+            'name'      => null,
+            'userid'    => $customer_id,
+            'contactid' => $contact_id,
+        ]);
 
         return true;
     }

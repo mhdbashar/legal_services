@@ -114,6 +114,7 @@
         }
     }, 'json');
 <?php  }  ?>
+    var department_id = 0;
   $.get(admin_url + 'hr/organization/get_sub_departments/' + department_id, function(response) {
         if (response.success == true) {
             $('#sub_department_id').empty();

@@ -126,7 +126,7 @@ $lang['sms_api_key_trans'] = "مفتاح API";
 $lang['sms_babil_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
 $lang['sms_sender_id_trans'] = "معرف المرسل";
 $lang['sms_msg91_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
-$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن وكلائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"%s\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class=\'hr-10\' />";
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن عملائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"%s\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class=\'hr-10\' />";
 $lang['sms_appointment_approved_Sent_to_contact'] = "الموافقة على الموعد (مرسلة إلى جهة الاتصال)";
 $lang['sms_trigger_when_appointment_is_approved'] = "يتم تشغيله عند الموافقة على الموعد ، سيتم إرسال SMS إلى رقم جهة الاتصال.";
 $lang['appointment_cancelled_sent_to_contact'] = "تم إلغاء الموعد (مرسلة إلى جهة الاتصال)";

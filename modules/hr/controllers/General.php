@@ -282,6 +282,7 @@ class General extends AdminController{
 //                        $this->Branches_model->delete_branch('staff', $id);
 //                    }                handle_staff_profile_image_upload($id);
                 $data['lastname'] = '';
+                $data['role'] = $this->input->post('role');
                 if($this->Extra_info_model->get($id)){
                     $success = $this->Extra_info_model->update($hr_data, $id);
                     $response = $this->staff_model->update($data, $id);

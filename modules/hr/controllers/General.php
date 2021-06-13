@@ -30,7 +30,7 @@ class General extends AdminController{
         $number = $this->input->post('number');
 
 
-        $query = $this->db->get_where(db_prefix().'hr_extra_info', array('emloyee_id' => $number, 'id!=' => $id));
+        $query = $this->db->get_where(db_prefix().'hr_extra_info', array('emloyee_id' => $number, 'staff_id!=' => $id));
         if($query->num_rows() < 1){
             $data['status'] = TRUE;
         }else{

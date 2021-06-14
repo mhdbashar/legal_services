@@ -71,8 +71,8 @@ class Timesheets extends REST_Controller {
     {
         $staff = $this->verify_token();
         $this->form_validation->set_rules('key', 'Key', 'required');
-//        $this->form_validation->set_rules('lat', 'Lat', 'required');
-//        $this->form_validation->set_rules('longt', 'Longt', 'required');
+        $this->form_validation->set_rules('lat', 'Lat', 'required');
+        $this->form_validation->set_rules('longt', 'Longt', 'required');
 //        $this->form_validation->set_rules('area_id', 'area_id', 'required');
         $this->form_validation->set_rules('q', 'q', 'required');
         // $this->form_validation->set_rules('worker_id', 'worker_id', 'required');
@@ -107,7 +107,7 @@ class Timesheets extends REST_Controller {
                 'type_check' => $data['q'] == 'in' ? 1 : 2,
                 'edit_date' => '',
                 'point_id' => '',
-                'location_user' => $staff->latitude . ',' . $staff->longitude
+                'location_user' => $data['lat'] . ',' . $data['longt']
             ];
 
             $type = $attend_data['type_check'];

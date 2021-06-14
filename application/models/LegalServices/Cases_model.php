@@ -208,6 +208,14 @@ class Cases_model extends App_Model
             $data['progress_from_tasks'] = 0;
         }
 
+        if (isset($data['contact_notification'])) {
+            if ($data['contact_notification'] == 2) {
+                $data['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $data['notify_contacts'] = serialize([]);
+            }
+        }
+
         $data['project_cost']    = !empty($data['project_cost']) ? $data['project_cost'] : null;
         $data['estimated_hours'] = !empty($data['estimated_hours']) ? $data['estimated_hours'] : null;
 
@@ -241,6 +249,16 @@ class Cases_model extends App_Model
         }
 
         $data['addedfrom'] = get_staff_user_id();
+
+        $items_to_convert = false;
+        if (isset($data['items'])) {
+            $items_to_convert = $data['items'];
+            $estimate_id = $data['estimate_id'];
+            $items_assignees = $data['items_assignee'];
+            unset($data['items'], $data['estimate_id'], $data['items_assignee']);
+        }
+
+
         $court_id          = $data['court_id'];
 
         $data = hooks()->apply_filters('before_add_project', $data);
@@ -333,6 +351,16 @@ class Cases_model extends App_Model
                         'value'      => $value_setting,
                     ]);
                 }
+            }
+
+            if ($items_to_convert && is_numeric($estimate_id)) {
+                $this->convert_estimate_items_to_tasks($insert_id, $items_to_convert, $items_assignees, $data, $project_settings);
+
+                $this->db->where('id', $estimate_id);
+                //$this->db->set('project_id', $insert_id);
+                $this->db->set('rel_sid', $insert_id);
+                $this->db->set('rel_stype', $slug);
+                $this->db->update(db_prefix() . 'estimates');
             }
 
             $this->log_activity($insert_id, 'LService_activity_created');
@@ -543,6 +571,14 @@ class Cases_model extends App_Model
         if (isset($data['cancel_recurring_tasks'])) {
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id, $slug);
+        }
+
+        if (isset($data['contact_notification'])) {
+            if ($data['contact_notification'] == 2) {
+                $data['notify_contacts'] = serialize($data['notify_contacts']);
+            } else {
+                $data['notify_contacts'] = serialize([]);
+            }
         }
 
         $data = hooks()->apply_filters('before_update_project', $data, $id);
@@ -2065,13 +2101,28 @@ class Cases_model extends App_Model
      */
     public function send_project_customer_email($id, $template, $ServID = '')
     {
-        $this->db->select('clientid');
+        $this->db->select('clientid,contact_notification,notify_contacts');
         $this->db->where('id', $id);
-        $clientid = $this->db->get(db_prefix() . 'my_cases')->row()->clientid;
+        $project = $this->db->get(db_prefix() . 'my_cases')->row();
+
         $sent     = false;
-        $contacts = $this->clients_model->get_contacts($clientid, ['active' => 1, 'project_emails' => 1]);
+
+        if ($project->contact_notification == 1) {
+            $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
+        } elseif ($project->contact_notification == 2) {
+            $contacts = [];
+            $contactIds = unserialize($project->notify_contacts);
+            if(count($contactIds) > 0){
+                $this->db->where_in('id', $contactIds);
+                $this->db->where('active', 1);
+                $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+            }
+        } else {
+            $contacts = [];
+        }
+
         foreach ($contacts as $contact) {
-            if (send_mail_template($template, $id, $clientid, $contact, $ServID)) {
+            if (send_mail_template($template, $id, $project->clientid, $contact, $ServID)) {
                 $sent = true;
             }
         }
@@ -2734,6 +2785,11 @@ class Cases_model extends App_Model
         $_new_data['addedfrom']       = get_staff_user_id();
 
         $_new_data['date_finished'] = null;
+
+        if ($project->contact_notification == 2) {
+            $contacts = $this->clients_model->get_contacts($_new_data['clientid'], ['active' => 1, 'project_emails' => 1]);
+            $_new_data['notify_contacts'] = serialize(array_column($contacts, 'id'));
+        }
 
         $this->db->insert(db_prefix() . 'my_cases', $_new_data);
         $id = $this->db->insert_id();
@@ -3474,7 +3530,19 @@ class Cases_model extends App_Model
             $mailTemplate->send();
         }
         if ($action_visible_to_customer == 1) {
-            $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
+            if ($project->contact_notification == 1) {
+                $contacts = $this->clients_model->get_contacts($project->clientid, ['active' => 1, 'project_emails' => 1]);
+            } elseif ($project->contact_notification == 2) {
+                $contacts = [];
+                $contactIds = unserialize($project->notify_contacts);
+                if(count($contactIds) > 0){
+                    $this->db->where_in('id', $contactIds);
+                    $this->db->where('active', 1);
+                    $contacts = $this->db->get(db_prefix() . 'contacts')->result_array();
+                }
+            } else {
+                $contacts = [];
+            }
 
             foreach ($contacts as $contact) {
                 if (is_client_logged_in() && $contact['id'] == get_contact_user_id()) {
@@ -3603,6 +3671,51 @@ class Cases_model extends App_Model
                 }
             }
             $mailTemplate->send();
+        }
+    }
+
+    public function convert_estimate_items_to_tasks($project_id, $items, $assignees, $project_data, $project_settings)
+    {
+        $this->load->model('tasks_model');
+        foreach ($items as $index => $itemId) {
+
+            $this->db->where('id', $itemId);
+            $_item = $this->db->get(db_prefix() . 'itemable')->row();
+
+            $data = [
+                'billable' => 'on',
+                'name' => $_item->description,
+                'description' => $_item->long_description,
+                'startdate' => $project_data['start_date'],
+                'duedate' => '',
+                'rel_type' => 'project',
+                'rel_id' => $project_id,
+                'hourly_rate' => $project_data['billing_type'] == 3 ? $_item->rate : 0,
+                'priority' => get_option('default_task_priority'),
+                'withDefaultAssignee' => false,
+            ];
+
+            if (isset($project_settings->view_tasks)) {
+                $data['visible_to_client'] = 'on';
+            }
+
+            $task_id = $this->tasks_model->add($data);
+
+            if ($task_id) {
+                $staff_id = $assignees[$index];
+
+                $this->tasks_model->add_task_assignees([
+                    'taskid' => $task_id,
+                    'assignee' => intval($staff_id),
+                ]);
+
+                if (!$this->is_member($project_id, $staff_id)) {
+                    $this->db->insert(db_prefix() . 'project_members', [
+                        'project_id' => $project_id,
+                        'staff_id'   => $staff_id,
+                    ]);
+                }
+            }
         }
     }
     

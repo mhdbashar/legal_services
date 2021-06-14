@@ -626,8 +626,8 @@ class Clients extends ClientsController
     {
         $this->load->model('utilities_model');
         $data = $this->utilities_model->get_calendar_data(
-            $this->input->get('start'),
-            $this->input->get('end'),
+            date('Y-m-d', strtotime($this->input->get('start'))),
+            date('Y-m-d', strtotime($this->input->get('end'))),
             get_user_id_by_contact_id(get_contact_user_id()),
             get_contact_user_id()
         );

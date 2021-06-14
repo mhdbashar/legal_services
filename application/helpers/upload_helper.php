@@ -1230,6 +1230,10 @@ function get_upload_path_by_type($type)
         $path = NEWSFEED_FOLDER;
 
         break;
+        case 'estimate_request':
+        $path = NEWSFEED_FOLDER;
+
+        break;
         case 'case':
             $path = CASE_ATTACHMENTS_FOLDER;
 

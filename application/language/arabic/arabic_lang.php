@@ -8,6 +8,7 @@ $lang['settings_number_padding_prefix'] = "تنسيق البدايات الصف�
 $lang['new_credit_note'] = "رصيد دائن جديد";
 $lang['leads_source_add_edit_name'] = "إسم المصدر";
 $lang['lead_created'] = "أُنشيء";
+$lang['Share_direct_link'] = "مشاركة الرابط المباشر";
 $lang['kb_group_order'] = "الترتيب";
 $lang['invoice_payments_table_number_heading'] = "# المدفوعات";
 $lang['invoice_item_add_edit_rate_currency'] = "سعر - %s";

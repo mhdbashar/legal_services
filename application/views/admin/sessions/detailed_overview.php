@@ -115,7 +115,7 @@
                      <?php if($this->input->get('project_id')){ echo ' - ' .$project_name ;} ?>
                      <?php if(is_numeric($staff_id) && has_permission('sessions','','view')) { echo ' ('.get_staff_full_name($staff_id).')';} ?>
                   </h4>
-                  <table class="table tasks-overview dt-table scroll-responsive">
+                  <table class="table tasks-overview dt-table">
                      <thead>
                         <tr>
                            <th><?php echo _l('tasks_dt_name'); ?></th>

@@ -33,7 +33,7 @@ if(isset($invoice->scheduled_email) && $invoice->scheduled_email) { ?>
             $next_recurring_date_compare = $recurring_invoice->last_recurring_date;
          }
       } else {
-         $next_recurring_date_compare = $recurring_invoice->date;
+       $next_recurring_date_compare = $recurring_invoice->date;
        if($recurring_invoice->last_recurring_date){
         $next_recurring_date_compare = $recurring_invoice->last_recurring_date;
      }

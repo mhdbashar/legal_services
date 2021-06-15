@@ -116,59 +116,45 @@ $(function() {
         }
     });
 
-    // Fix for dropdown overlay in .table-responsive, last rows are overlapping e.q. on tasks table
-    $("body").on('click', '.table-responsive .dropdown-toggle', function(event) {
-        if ($(this).next().hasClass('dropdown-menu')) {
-            var elm = $(this).next(),
-                docHeight = $(document).height(),
-                docWidth = $(document).width(),
-                btn_offset = $(this).offset(),
-                btn_width = $(this).outerWidth(),
-                btn_height = $(this).outerHeight(),
-                elm_width = elm.outerWidth(),
-                elm_height = elm.outerHeight(),
-                table_offset = $(".table-responsive").offset(),
-                table_width = $(".table-responsive").width(),
-                table_height = $(".table-responsive").height(),
-
-                tableoffright = table_width + table_offset.left,
-                tableoffbottom = table_height + table_offset.top,
-                rem_tablewidth = docWidth - tableoffright,
-                rem_tableheight = docHeight - tableoffbottom,
-                elm_offsetleft = btn_offset.left,
-                elm_offsetright = btn_offset.left + btn_width,
-                elm_offsettop = btn_offset.top + btn_height,
-                btn_offsetbottom = elm_offsettop,
-
-                left_edge = (elm_offsetleft - table_offset.left) < elm_width,
-                top_edge = btn_offset.top < elm_height,
-                right_edge = (table_width - elm_offsetleft) < elm_width,
-                bottom_edge = (tableoffbottom - btn_offsetbottom) < elm_height;
-
-            var table_offset_bottom = docHeight - (table_offset.top + table_height);
-
-            var touchTableBottom = (btn_offset.top + btn_height + (elm_height * 2)) - table_offset.top;
-
-            var bottomedge = touchTableBottom > table_offset_bottom;
-
-            if (left_edge) {
-                $(this).addClass('left-edge');
-            } else {
-                $('.dropdown-menu').removeClass('left-edge');
-            }
-            if (bottom_edge) {
-                $(this).parent().addClass('dropup');
-            } else {
-                $(this).parent().removeClass('dropup');
-            }
+    $(document).on('shown.bs.dropdown', '.table-responsive', function (e) {
+        var $container = $(e.target);
+        if($container.hasClass('bootstrap-select')) {
+            return;
         }
+        var $dropdown = $container.find('.dropdown-menu');
+        if ($dropdown.length) {
+            $container.data('dropdown-menu', $dropdown);
+        } else {
+            $dropdown = $container.data('dropdown-menu');
+        }
+
+        $dropdown.css('top', ($container.offset().top + $container.outerHeight()) + 'px');
+        var leftPosition = 0;
+        $dropdown.css('display', 'block');
+        $dropdown.css('position', 'absolute');
+        var parentWidth = $container.parent().outerWidth();
+        var dropdownWidth = $dropdown.outerWidth();
+        leftPosition = $container.parent().offset().left - (dropdownWidth - parentWidth)
+        $dropdown.css('left', leftPosition + 'px');
+        $dropdown.css('right', 'auto')
+
+        $dropdown.appendTo('body');
     });
 
-    // Add are you sure on all delete links (onclick is not handler here)
-    $("body").on('click', '._delete', function(e) {
-        if (confirm_delete()) { return true; }
-        return false;
+    $(document).on('hide.bs.dropdown', '.table-responsive', function (e) {
+        var $container = $(e.target);
+
+        if($container.hasClass('bootstrap-select')) {
+            return;
+        }
+        $container.data('dropdown-menu').css('display', 'none');
     });
+
+// Add are you sure on all delete links (onclick is not handler here)
+$("body").on('click', '._delete', function(e) {
+    if (confirm_delete()) { return true; }
+    return false;
+});
 });
 
 // Will give alert to confirm delete
@@ -649,7 +635,6 @@ function appDataTableInline(element, options) {
     }
 
     var defaults = {
-        scrollResponsive: 0,
         supportsButtons: false,
         supportsLoading: false,
         dtLengthMenuAllText: app.lang.dt_length_menu_all,
@@ -676,9 +661,7 @@ function appDataTableInline(element, options) {
         },
         "initComplete": function(oSettings, json) {
 
-            if (this.hasClass('scroll-responsive') || settings.scrollResponsive == 1) {
-                this.wrap('<div class="table-responsive"></div>');
-            }
+            this.wrap('<div class="table-responsive"></div>');
 
             var dtInlineEmpty = this.find('.dataTables_empty');
             if (dtInlineEmpty.length) {
@@ -746,10 +729,6 @@ function appDataTableInline(element, options) {
     $.each($tables, function() {
 
         $(this).addClass('dt-inline');
-
-        if ($(this).hasClass('scroll-responsive') || settings.scrollResponsive == 1) {
-            settings.responsive = false;
-        }
 
         orderCol = $(this).attr('data-order-col');
         orderType = $(this).attr('data-order-type');

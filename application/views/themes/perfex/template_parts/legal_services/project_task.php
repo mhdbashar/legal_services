@@ -219,7 +219,7 @@
             <?php echo $view_task->description; ?>
          </div>
          <?php } ?>
-         <?php if($project->settings->upload_files == 1){ ?>
+         <?php if($project->settings->upload_on_tasks == 1){ ?>
          <hr />
          <?php echo form_open_multipart(site_url('clients/legal_services/'.$project->id.'/'.$ServID),array('class'=>'dropzone mtop15','id'=>'task-file-upload')); ?>
          <input type="file" name="file" multiple class="hide"/>

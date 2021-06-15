@@ -3799,3 +3799,4 @@ $lang['customers_estimate_request_link_text']                 = 'Request Estimat
 $lang['total_expenses_deleted']                               = 'Total Expenses Deleted: %s';
 $lang['estimate_convert_to_project']                          = 'Convert to Project';
 $lang['estimate_items_convert_to_tasks']                      = 'Items that will be converted to tasks';
+$lang['Share_direct_link'] = "Share direct link";

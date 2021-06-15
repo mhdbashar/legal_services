@@ -13,7 +13,10 @@
 <div class="clearfix"></div>
 <?php
    echo form_hidden('custom_view');
-   $this->load->view('admin/expenses/table_html_case', array('class'=>'case-expenses'));
+$this->load->view('admin/expenses/table_html_case', [
+    'class'=>'case-expenses',
+    'withBulkActions'=> false,
+ ]);
    ?>
 <div class="modal fade" id="new_project_expense" tabindex="-1" role="dialog">
    <div class="modal-dialog">

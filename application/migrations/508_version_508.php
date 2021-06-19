@@ -25,6 +25,22 @@ class Migration_Version_508 extends CI_Migration
             $this->db->query('ALTER TABLE `' . db_prefix() . 'projects` ADD `notify_contacts` TEXT DEFAULT NULL');
         }
 
+        if (!$this->db->field_exists('contact_notification', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `contact_notification` INT DEFAULT 1');
+        }
+
+        if (!$this->db->field_exists('notify_contacts', db_prefix() . 'my_cases')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_cases` ADD `notify_contacts` TEXT DEFAULT NULL');
+        }
+
+        if (!$this->db->field_exists('contact_notification', db_prefix() . 'my_other_services')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_other_services` ADD `contact_notification` INT DEFAULT 1');
+        }
+
+        if (!$this->db->field_exists('notify_contacts', db_prefix() . 'my_other_services')) {
+            $this->db->query('ALTER TABLE `' . db_prefix() . 'my_other_services` ADD `notify_contacts` TEXT DEFAULT NULL');
+        }
+
         delete_option('scroll_responsive_tables');
 
         $calendarDefaultView = get_option('default_view_calendar');

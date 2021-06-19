@@ -138,10 +138,9 @@ class Disputes extends AdminController
 */
     public function project($id = '')
     {
-        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+        if (!staff_can('edit', 'projects') && !staff_can('create', 'projects')) {
             access_denied('Projects');
         }
-
         if ($this->input->post()) {
             $data                = $this->input->post();
             $data['description'] = $this->input->post('description', false);
@@ -217,7 +216,10 @@ class Disputes extends AdminController
         if ($this->input->get('customer_id')) {
             $data['customer_id'] = $this->input->get('customer_id');
         }
-
+        if ($this->input->get('via_estimate_id')) {
+            $this->load->model('estimates_model');
+            $data['estimate'] = $this->estimates_model->get($this->input->get('via_estimate_id'));
+        }
         $data['last_project_settings'] = $this->projects_model->get_last_project_settings();
 
         if (count($data['last_project_settings'])) {
@@ -281,7 +283,7 @@ class Disputes extends AdminController
 
         $data['selected_statuses'] = $selected_statuses;
 
-        if (has_permission('projects', '', 'view')) {
+        if (staff_can('view', 'projects')) {
             $selectedMember          = $appliedMember;
             $data['selectedMember']  = $selectedMember;
             $data['project_members'] = $this->projects_model->get_distinct_projects_members();
@@ -297,7 +299,7 @@ class Disputes extends AdminController
 
     public function view($id)
     {
-        if (has_permission('projects', '', 'view') || $this->projects_model->is_member($id)) {
+        if (staff_can('view', 'projects') || $this->projects_model->is_member($id)) {
             close_setup_menu();
             $project = $this->projects_model->get($id);
 
@@ -392,7 +394,7 @@ class Disputes extends AdminController
                 }
 
                 $__total_where_tasks = 'rel_type = "project" AND rel_id=' . $id;
-                if (!has_permission('tasks', '', 'view')) {
+                if (!staff_can('view', 'tasks')) {
                     $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
 
                     if (get_option('show_all_tasks_for_project_member') == 1) {
@@ -519,7 +521,7 @@ class Disputes extends AdminController
 
             $other_projects_where .= ')';
 
-            if (!has_permission('projects', '', 'view')) {
+            if (!staff_can('view', 'projects')) {
                 $other_projects_where .= ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')';
             }
 
@@ -539,7 +541,7 @@ class Disputes extends AdminController
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
-            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+            if (staff_can('create', 'projects') || staff_can('edit', 'projects')) {
                 $status = get_project_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
@@ -591,7 +593,7 @@ class Disputes extends AdminController
 
     public function download_all_files($id)
     {
-        if ($this->projects_model->is_member($id) || has_permission('projects', '', 'view')) {
+        if ($this->projects_model->is_member($id) || staff_can('view', 'projects')) {
             $files = $this->projects_model->get_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
@@ -609,7 +611,7 @@ class Disputes extends AdminController
 
     public function export_project_data($id)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             app_pdf('project-data', LIBSPATH . 'pdf/Project_data_pdf', $id);
         }
     }
@@ -636,7 +638,7 @@ class Disputes extends AdminController
 
     public function add_edit_members($project_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             $this->projects_model->add_edit_members($this->input->post(), $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -708,7 +710,7 @@ class Disputes extends AdminController
     public function delete_discussion($id)
     {
         $success = false;
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete', 'projects')) {
             $success = $this->projects_model->delete_discussion($id);
         }
         $alert_type = 'warning';
@@ -744,7 +746,7 @@ class Disputes extends AdminController
 
     public function change_activity_visibility($id, $visible)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->projects_model->change_activity_visibility($id, $visible);
             }
@@ -799,7 +801,7 @@ class Disputes extends AdminController
 
     public function milestones($project_id)
     {
-        if ($this->projects_model->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->projects_model->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('milestones', [
                     'project_id' => $project_id,
@@ -814,11 +816,17 @@ class Disputes extends AdminController
             $message = '';
             $success = false;
             if (!$this->input->post('id')) {
+                if (!staff_can('create_milestones', 'projects')) {
+                    access_denied();
+                }
                 $id = $this->projects_model->add_milestone($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project_milestone')));
                 }
             } else {
+                if (!staff_can('edit_milestones', 'projects')) {
+                    access_denied();
+                }
                 $data = $this->input->post();
                 $id   = $data['id'];
                 unset($data['id']);
@@ -834,7 +842,7 @@ class Disputes extends AdminController
 
     public function delete_milestone($project_id, $id)
     {
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete_milestones', 'projects')) {
             if ($this->projects_model->delete_milestone($id)) {
                 set_alert('deleted', 'project_milestone');
             }
@@ -846,7 +854,7 @@ class Disputes extends AdminController
     {
         hooks()->do_action('before_do_bulk_action_for_project_files');
         $total_deleted       = 0;
-        $hasPermissionDelete = has_permission('projects', '', 'delete');
+        $hasPermissionDelete = staff_can('delete', 'projects');
         // bulk action for projects currently only have delete button
         if ($this->input->post()) {
             $fVisibility = $this->input->post('visible_to_customer') == 'true' ? 1 : 0;
@@ -868,7 +876,7 @@ class Disputes extends AdminController
 
     public function timesheets($project_id)
     {
-        if ($this->projects_model->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->projects_model->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('timesheets', [
                     'project_id' => $project_id,
@@ -902,8 +910,8 @@ class Disputes extends AdminController
     {
         $assignees             = $this->tasks_model->get_task_assignees($task_id);
         $data                  = '';
-        $has_permission_edit   = has_permission('projects', '', 'edit');
-        $has_permission_create = has_permission('projects', '', 'edit');
+        $has_permission_edit   = staff_can('edit', 'projects');
+        $has_permission_create = staff_can('edit', 'projects');
         // The second condition if staff member edit their own timesheet
         if ($staff_id == 'undefined' || $staff_id != 'undefined' && (!$has_permission_edit || !$has_permission_create)) {
             $staff_id     = get_staff_user_id();
@@ -927,7 +935,7 @@ class Disputes extends AdminController
 
     public function remove_team_member($project_id, $staff_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             if ($this->projects_model->remove_team_member($project_id, $staff_id)) {
                 set_alert('success', _l('project_member_removed'));
             }
@@ -948,7 +956,7 @@ class Disputes extends AdminController
 
     public function delete($project_id)
     {
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete', 'projects')) {
             $project = $this->projects_model->get($project_id);
             $success = $this->projects_model->delete($project_id);
             if ($success) {
@@ -967,7 +975,7 @@ class Disputes extends AdminController
 
     public function copy($project_id)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             $id = $this->projects_model->copy($project_id, $this->input->post());
             if ($id) {
                 set_alert('success', _l('project_copied_successfully'));
@@ -981,7 +989,7 @@ class Disputes extends AdminController
 
     public function mass_stop_timers($project_id, $billable = 'false')
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $where = [
                 'billed'       => 0,
                 'startdate <=' => date('Y-m-d'),
@@ -1013,7 +1021,7 @@ class Disputes extends AdminController
 
     public function get_pre_invoice_project_info($project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $data['billable_tasks'] = $this->projects_model->get_tasks($project_id, [
                 'billable'     => 1,
                 'billed'       => 0,
@@ -1042,7 +1050,7 @@ class Disputes extends AdminController
 
     public function get_invoice_project_data()
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $type       = $this->input->post('type');
             $project_id = $this->input->post('project_id');
             // Check for all cases
@@ -1270,7 +1278,7 @@ class Disputes extends AdminController
 
     public function invoice_project($project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             //$this->load->model('invoices_model');
             $data               = $this->input->post();
             //var_dump($data); exit;

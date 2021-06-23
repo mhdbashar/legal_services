@@ -1,4 +1,5 @@
 .idea/
 .idea/workspace.xml
 logs/
+application/config/app-config.php
 node_modules/

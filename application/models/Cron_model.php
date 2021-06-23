@@ -1109,6 +1109,11 @@ class Cron_model extends App_Model
         $invoices = $this->db->get()->result_array();
 
         foreach ($invoices as $invoice) {
+
+            if(empty($invoice['duedate'])) {
+                continue;
+            }
+
             if (!$invoice['last_due_reminder']) {
                 $due_date               = new DateTime($invoice['duedate']);
                 $diff                   = $due_date->diff(new DateTime(date('Y-m-d')))->format('%a');

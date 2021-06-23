@@ -13,7 +13,10 @@ $this->load->view('admin/expenses/filter_by_template',$data_expenses_filter); ?>
 <div class="clearfix"></div>
 <?php
 echo form_hidden('custom_view');
-$this->load->view('admin/expenses/table_html_oservice', array('class'=>'oservice-expenses'));
+$this->load->view('admin/expenses/table_html_oservice', [
+    'class'=>'oservice-expenses',
+    'withBulkActions'=> false,
+ ]);
 ?>
 <div class="modal fade" id="new_project_expense" tabindex="-1" role="dialog">
     <div class="modal-dialog">

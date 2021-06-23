@@ -273,6 +273,7 @@
             <hr />
          </div>
          <div class="clearfix"></div>
+         <?php hooks()->do_action('before_task_description_section', $task); ?>
          <h4 class="th font-medium mbot15 pull-left"><?php echo _l('task_view_description'); ?></h4>
          <?php if(has_permission('tasks','','edit')){ ?><a href="#" onclick="edit_task_inline_description(this,<?php echo $task->id; ?>); return false;" class="pull-left mtop10 mleft5 font-medium-xs"><i class="fa fa-pencil-square-o"></i></a>
          <?php } ?>
@@ -824,7 +825,8 @@
          <hr class="task-info-separator" />
          <div class="clearfix"></div>
          <h4 class="task-info-heading font-normal font-medium-xs"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo _l('task_single_assignees'); ?></h4>
-         <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+         <?php if(staff_can('edit','tasks') ||
+               ($task->current_user_is_creator && staff_can('create','tasks'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" <?php if($task->rel_type=='project'){ ?> data-live-search-placeholder="<?php echo _l('search_project_members'); ?>" <?php } ?> data-task-id="<?php echo $task->id; ?>" id="add_task_assignees" class="text-muted task-action-select selectpicker" name="select-assignees" data-live-search="true" title='<?php echo _l('task_single_assignees_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -848,7 +850,8 @@
                $_assignees = '';
                foreach ($task->assignees as $assignee) {
                 $_remove_assigne = '';
-                if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) {
                   $_remove_assigne = ' <a href="#" class="remove-task-user text-danger" onclick="remove_assignee(' . $assignee['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                }
                $_assignees .= '
@@ -870,7 +873,8 @@
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <?php echo _l('task_single_followers'); ?>
          </h4>
-         <?php if(has_permission('tasks','','edit') || has_permission('tasks','','create')){ ?>
+         <?php if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) { ?>
          <div class="simple-bootstrap-select">
             <select data-width="100%" data-task-id="<?php echo $task->id; ?>" class="text-muted selectpicker task-action-select" name="select-followers" data-live-search="true" title='<?php echo _l('task_single_followers_select_title'); ?>' data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <?php
@@ -890,7 +894,8 @@
                $_followers        = '';
                foreach ($task->followers as $follower) {
                  $_remove_follower = '';
-                 if(has_permission('tasks','','edit') || has_permission('tasks','','create')){
+                 if(staff_can('edit','tasks') ||
+                  ($task->current_user_is_creator && staff_can('create','tasks'))) {
                    $_remove_follower = ' <a href="#" class="remove-task-user text-danger" onclick="remove_follower(' . $follower['id'] . ',' . $task->id . '); return false;"><i class="fa fa-remove"></i></a>';
                 }
                 $_followers .= '

@@ -307,29 +307,44 @@ function session_rel_link($rel_id, $rel_type)
  */
 function get_session_array_gantt_data($session)
 {
-    $data           = [];
-    $data['values'] = [];
-    $values         = [];
+    $data = [];
 
-    $data['desc'] = $session['name'];
-    $data['name'] = '';
+    $data['id']     = $session['id'];
+    $data['desc']   = $session['name'];
+    $data['status'] = $session['status'];
 
-    $values['from']  = strftime('%Y/%m/%d', strtotime($session['startdate']));
-    $values['to']    = strftime('%Y/%m/%d', strtotime($session['duedate']));
-    $values['desc']  = $session['name'] . ' - ' . _l('session_total_logged_time') . ' ' . seconds_to_time_format($session['total_logged_time']);
-    $values['label'] = $session['name'];
-    if ($session['duedate'] && date('Y-m-d') > $session['duedate'] && $session['status'] != Sessions_model::STATUS_COMPLETE) {
-        $values['customClass'] = 'ganttRed';
-    } elseif ($session['status'] == Sessions_model::STATUS_COMPLETE) {
-        $values['label']       = ' <i class="fa fa-check"></i> ' . $values['label'];
-        $values['customClass'] = 'ganttGreen';
+    $data['start'] = strftime('%Y-%m-%d', strtotime($session['startdate']));
+
+    if ($session['duedate']) {
+        $data['end'] = strftime('%Y-%m-%d', strtotime($session['duedate']));
+    } else {
+        $data['end'] = $defaultEnd;
     }
 
-    $values['dataObj'] = [
-        'session_id' => $session['id'],
-    ];
+    $data['desc']  = $session['name'] . ' - ' . _l('session_total_logged_time') . ' ' . seconds_to_time_format($session['total_logged_time']);
+    $data['label'] = $session['name'];
+    if ($session['duedate'] && date('Y-m-d') > $session['duedate'] && $session['status'] != Sessions_model::STATUS_COMPLETE) {
+        $data['custom_class'] = 'ganttRed';
+    } elseif ($session['status'] == Sessions_model::STATUS_COMPLETE) {
+        $data['custom_class'] = 'ganttGreen';
+    }
 
-    $data['values'][] = $values;
+    $data['name']     = $session['name'];
+    $data['session_id']  = $session['id'];
+    $data['progress'] = 0;
+
+    //for session in single project gantt
+    if ($dep_id) {
+        $data['dependencies'] = $dep_id;
+    }
+
+    if (!staff_can('edit', 'sessions') || is_client_logged_in()) {
+        if (isset($data['custom_class'])) {
+            $data['custom_class'] .= ' noDrag';
+        } else {
+            $data['custom_class'] = 'noDrag';
+        }
+    }
 
     return $data;
 }
@@ -615,5 +630,6 @@ function is_session_created_by_staff($taskId, $staffId = null)
         ->where('addedfrom', $staffId)
         ->where('is_session', 1)
         ->where('id', $taskId);
+        
     return $CI->db->count_all_results(db_prefix() . 'tasks') > 0 ? true : false;
 }

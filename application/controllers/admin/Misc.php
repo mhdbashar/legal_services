@@ -95,7 +95,7 @@ class Misc extends AdminController
     {
         if ($this->input->post()) {
             $type = $this->input->post('type');
-            $data = get_relation_data($type);
+            $data = get_relation_data($type, '', $this->input->post('extra'));
             if ($this->input->post('rel_id')) {
                 $rel_id = $this->input->post('rel_id');
             } else {

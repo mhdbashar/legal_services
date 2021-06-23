@@ -106,46 +106,55 @@ $(function() {
 
     if ($('#calendar').length) {
         var settings = {
-            themeSystem: 'bootstrap3',
-            header: {
+            headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             editable: false,
-            eventLimit: parseInt(app.options.calendar_events_limit) + 1,
+            dayMaxEventRows: parseInt(app.options.calendar_events_limit) + 1,
             views: {
                 day: {
-                    eventLimit: false
+                    dayMaxEventRows: false
                 }
             },
-            defaultView: app.options.default_view_calendar,
-            eventLimitClick: function(cellInfo, jsEvent) {
-                $('#calendar').fullCalendar('gotoDate', cellInfo.date);
-                $('#calendar').fullCalendar('changeView', 'basicDay');
+            initialView: app.options.default_view_calendar,
+            moreLinkClick: function (info) {
+                calendar.gotoDate( info.date )
+                calendar.changeView('dayGridDay');
+
+                setTimeout(function(){
+                    $('.fc-popover-close').click();
+                }, 250)
             },
             loading: function(isLoading, view) {
-                isLoading && $('#calendar .fc-header-toolbar .btn-default').addClass('btn-info').removeClass('btn-default').css('display', 'block');
                 !isLoading ? $('.dt-loader').addClass('hide') : $('.dt-loader').removeClass('hide');
             },
-            isRTL: (app.options.isRTL == 'true' ? true : false),
+            direction: (isRTL == 'true' ? 'rtl' : 'ltr'),
             eventStartEditable: false,
             firstDay: parseInt(app.options.calendar_first_day),
-            eventSources: [{
-                url: site_url + 'clients/get_calendar_data',
-                type: 'GET',
-                error: function() {
-                    console.error('There was error fetching calendar data')
-                },
-            }, ],
-            eventRender: function(event, element) {
-                element.attr('title', event._tooltip);
-                element.attr('onclick', event.onclick);
-                element.attr('data-toggle', 'tooltip');
+            events: function(info, successCallback, failureCallback) {
+                return $.getJSON(site_url + 'clients/get_calendar_data', {
+                    start: info.startStr,
+                    end: info.endStr,
+                }).then(function(data){
+                    successCallback(data.map(function(e){
+                        return $.extend( {}, e, {
+                            start: e.start || e.date,
+                            end: e.end || e.date
+                        });
+                    }));
+                });
+            },
+            eventDidMount: function (data) {
+                var $el = $(data.el);
+                $el.attr('title', data.event.extendedProps._tooltip);
+                $el.attr('onclick', data.event.extendedProps.onclick);
+                $el.attr('data-toggle', 'tooltip');
             },
         }
-        // Init calendar
-        $('#calendar').fullCalendar(settings);
+       var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), settings);
+       calendar.render();
     }
 
     var tab_group = get_url_param('group');
@@ -304,9 +313,7 @@ function save_edited_comment(id) {
 }
 
 function initDataTable() {
-    appDataTableInline(undefined, {
-        scrollResponsive: true,
-    });
+    appDataTableInline();
 }
 
 function dt_custom_view(table, column, val) {

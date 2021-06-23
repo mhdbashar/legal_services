@@ -1,3 +1,12 @@
 .dataTables_empty{
     background-size: contain;
 }
+
+/*for big header*/
+.logo img {
+    height: 68px !important;
+}
+
+body .navbar-right {
+    margin-top: 15px !important;
+}

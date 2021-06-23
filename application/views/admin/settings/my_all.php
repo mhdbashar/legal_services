@@ -21,40 +21,54 @@
             } ?>
             <div class="col-md-3">
                 <ul class="nav navbar-pills navbar-pills-flat nav-tabs nav-stacked">
+
                     <?php
                     $i = 0;
                     foreach ($tabs as $group) {
                         ?>
-                        <li<?php if ($i == 0) {
-                            echo " class='active'";
-                        } ?>>
-                            <a href="<?php echo admin_url('settings?group=' . $group['slug']); ?>" data-group="<?php echo $group['slug']; ?>">
-                                <?php echo $group['name']; ?></a>
+                        <li class="settings-group-<?php echo $group['slug']; ?><?php echo ($i === 0) ? ' active' : '' ?>">
+                            <a href="<?php echo admin_url('settings?group=' . $group['slug']); ?>"
+                               data-group="<?php echo $group['slug']; ?>">
+                                <?php echo $group['name']; ?>
+
+                                <?php if (isset($group['badge'], $group['badge']['value']) && !empty($group['badge'])) { ?>
+                                    <span class="badge pull-right
+                <?= isset($group['badge']['type']) && $group['badge']['type'] != '' ? "bg-{$group['badge']['type']}" : 'bg-info' ?>"
+                  <?= (isset($group['badge']['type']) && $group['badge']['type'] == '') ||
+                  isset($group['badge']['color']) ? "style='background-color: {$group['badge']['color']}'" : '' ?>>
+                  <?= $group['badge']['value'] ?>
+              </span>
+                                <?php } ?>
+
+                            </a>
                         </li>
                         <?php $i++;
-                    } ?>
+                    }
+                    ?>
                 </ul>
                 <div class="panel_s">
                     <div class="panel-body">
-                        <a href="<?php echo admin_url('settings?group=update'); ?>" class="<?php if ($this->input->get('group') == 'update') {
-                            echo 'bold';
-                        } ?>">
+                        <a href="<?php echo admin_url('settings?group=update'); ?>"
+                           class="settings-group-system-update<?php if ($this->input->get('group') == 'update') {
+                               echo 'bold';
+                           } ?>">
                             <?php echo _l('settings_update'); ?>
                         </a>
                         <!-- <?php //if (is_admin()) {
-                            ?>
+                        ?>
                      <hr class="hr-10" />
-                     <a href="<?php //echo admin_url('settings?group=info'); ?>" class="<?php //if ($this->input->get('group') == 'info') {
-                                //echo 'bold';
-                            //} ?>">
+                     <a href="<?php //echo admin_url('settings?group=info'); ?>" class="settings-group-system-info<?php //if ($this->input->get('group') == 'info') {
+                        //echo 'bold';
+                        //} ?>">
                        System/Server Info
                      </a>
                      <?php
                         //} ?> -->
                         <?php if (is_admin()) {
                             ?>
-                            <hr class="hr-10" />
-                            <a href="<?php echo admin_url('settings?group=license'); ?>" class="<?php if ($this->input->get('group') == 'license') {
+                            <hr class="hr-10"/>
+                            <a href="<?php echo admin_url('settings?group=license'); ?>"
+                               class="<?php if ($this->input->get('group') == 'license') {
                                 echo 'bold';
                             } ?>">
                                 <?php echo _l('license_key'); ?>

@@ -20,7 +20,7 @@ class Other_services_controller extends AdminController
 
     public function add($ServID)
     {
-        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+        if (!staff_can('edit', 'projects') && !staff_can('create', 'projects')) {
             access_denied('Projects');
         }
         $ExistServ = $this->legal->CheckExistService($ServID);
@@ -53,6 +53,10 @@ class Other_services_controller extends AdminController
         $data['Numbering'] = $this->other->GetTopNumbering();
         $data['service'] = $this->legal->get_service_by_id($ServID)->row();
         $data['auto_select_billing_type'] = $this->other->get_most_used_billing_type();
+        if ($this->input->get('via_estimate_id')) {
+            $this->load->model('estimates_model');
+            $data['estimate'] = $this->estimates_model->get($this->input->get('via_estimate_id'));
+        }
         $data['last_project_settings'] = $this->other->get_last_project_settings();
         if (count($data['last_project_settings'])) {
             $key                                          = array_search('available_features', array_column($data['last_project_settings'], 'name'));
@@ -71,7 +75,7 @@ class Other_services_controller extends AdminController
 
     public function edit($ServID, $id)
     {
-        if (!has_permission('projects', '', 'edit') && !has_permission('projects', '', 'create')) {
+        if (!staff_can('edit', 'projects') && !staff_can('create', 'projects')) {
             access_denied('Projects');
         }
         if (!$id) {
@@ -112,24 +116,26 @@ class Other_services_controller extends AdminController
 
     public function delete($ServID, $id)
     {
-        if (!has_permission('legal_recycle_bin', '', 'delete')) {
-            access_denied('legal_recycle_bin');
-        }
-        if (!$id) {
-            set_alert('danger', _l('WrongEntry'));
+        if (staff_can('delete', 'projects')) {
+            if (!$id) {
+                set_alert('danger', _l('WrongEntry'));
+                redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
+            }
+            $response = $this->other->delete($ServID, $id);
+            if ($response == true) {
+                set_alert('success', _l('deleted_successfully'));
+            } else {
+                set_alert('warning', _l('problem_deleting'));
+            }
             redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
         }
-        $response = $this->other->delete($ServID, $id);
-        if ($response == true) {
-            set_alert('success', _l('deleted_successfully'));
-        } else {
-            set_alert('warning', _l('problem_deleting'));
-        }
-        redirect(admin_url("LegalServices/LegalServices_controller/legal_recycle_bin/$ServID"));
     }
 
     public function move_to_recycle_bin($ServID,$id)
     {
+        if (!has_permission('legal_recycle_bin', '', 'delete')) {
+            access_denied('legal_recycle_bin');
+        }
         if(!$id){
             set_alert('danger', _l('WrongEntry'));
             redirect(admin_url("Service/$ServID"));
@@ -169,9 +175,12 @@ class Other_services_controller extends AdminController
     public function expenses($id, $slug = '')
     {
         $this->load->model('expenses_model');
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('oservice_expenses', [
             'project_id' => $id,
-            'slug' => $slug
+            'slug' => $slug,
+            'data'       => $data,
         ]);
     }
 
@@ -233,7 +242,7 @@ class Other_services_controller extends AdminController
 
         $data['selected_statuses'] = $selected_statuses;
 
-        if (has_permission('projects', '', 'view')) {
+        if (staff_can('view', 'projects')) {
             $selectedMember = $appliedMember;
             $data['selectedMember'] = $selectedMember;
             $data['project_members'] = $this->other->get_distinct_projects_members();
@@ -249,7 +258,7 @@ class Other_services_controller extends AdminController
 
     public function view($ServID, $id)
     {
-        if (has_permission('projects', '', 'view') || $this->other->is_member($id)) {
+        if (staff_can('view', 'projects') || $this->other->is_member($id)) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['slug'] = $slug;
             close_setup_menu();
@@ -346,7 +355,7 @@ class Other_services_controller extends AdminController
                 }
 
                 $__total_where_tasks = 'rel_type = "'.$slug.'" AND rel_id=' . $this->db->escape_str($id);
-                if (!has_permission('tasks', '', 'view')) {
+                if (!staff_can('view', 'tasks')) {
                     $__total_where_tasks .= ' AND ' . db_prefix() . 'tasks.id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . ')';
 
                     if (get_option('show_all_tasks_for_project_member') == 1) {
@@ -485,7 +494,7 @@ class Other_services_controller extends AdminController
 
             $other_projects_where .= ')';
 
-            if (!has_permission('projects', '', 'view')) {
+            if (!staff_can('view', 'projects')) {
                 $other_projects_where .= ' AND ' . db_prefix() . 'my_other_services.id IN (SELECT oservice_id FROM ' . db_prefix() . 'my_members_services WHERE staff_id=' . get_staff_user_id() . ')';
             }
 
@@ -510,7 +519,7 @@ class Other_services_controller extends AdminController
         $success = false;
         $message = '';
         if ($this->input->is_ajax_request()) {
-            if (has_permission('projects', '', 'create') || has_permission('projects', '', 'edit')) {
+            if (staff_can('create', 'projects') || staff_can('edit', 'projects')) {
                 $status = get_oservice_status_by_id($this->input->post('status_id'));
 
                 $message = _l('project_marked_as_failed', $status['name']);
@@ -562,7 +571,7 @@ class Other_services_controller extends AdminController
 
     public function download_all_files($ServID = '', $id)
     {
-        if ($this->other->is_member($id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($id) || staff_can('view', 'projects')) {
             $files = $this->other->get_files($id);
             if (count($files) == 0) {
                 set_alert('warning', _l('no_files_found'));
@@ -580,7 +589,7 @@ class Other_services_controller extends AdminController
 
     public function export_project_data($ServID, $id)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             app_pdf('oservice-data', LIBSPATH . 'pdf/Oservice_data_pdf',$ServID, $id);
         }
     }
@@ -607,7 +616,7 @@ class Other_services_controller extends AdminController
 
     public function add_edit_members($ServID='', $project_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             $this->other->add_edit_members($this->input->post(), $ServID, $project_id);
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -681,7 +690,7 @@ class Other_services_controller extends AdminController
     public function delete_discussion($id)
     {
         $success = false;
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete', 'projects')) {
             $success = $this->other->delete_discussion($id);
         }
         $alert_type = 'warning';
@@ -715,9 +724,9 @@ class Other_services_controller extends AdminController
         }
     }
 
-    public function project_invoices($id, $visible)
+    public function change_activity_visibility($id, $visible)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->other->change_activity_visibility($id, $visible);
             }
@@ -774,7 +783,7 @@ class Other_services_controller extends AdminController
 
     public function milestones($project_id, $ServID, $slug)
     {
-        if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('milestones_oservice', [
                     'project_id' => $project_id,
@@ -791,11 +800,17 @@ class Other_services_controller extends AdminController
             $message = '';
             $success = false;
             if (!$this->input->post('id')) {
+                if (!staff_can('create_milestones', 'projects')) {
+                    access_denied();
+                }
                 $id = $this->other->add_milestone($ServID, $this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project_milestone')));
                 }
             } else {
+                if (!staff_can('edit_milestones', 'projects')) {
+                    access_denied();
+                }
                 $data = $this->input->post();
                 $id   = $data['id'];
                 unset($data['id']);
@@ -810,7 +825,7 @@ class Other_services_controller extends AdminController
 
     public function delete_milestone($ServID='',$project_id, $id)
     {
-        if (has_permission('projects', '', 'delete')) {
+        if (staff_can('delete_milestones', 'projects')) {
             if ($this->other->delete_milestone($ServID, $id)) {
                 set_alert('deleted', 'project_milestone');
             }
@@ -822,7 +837,7 @@ class Other_services_controller extends AdminController
     {
         hooks()->do_action('before_do_bulk_action_for_project_files');
         $total_deleted = 0;
-        $hasPermissionDelete = has_permission('projects', '', 'delete');
+        $hasPermissionDelete = staff_can('delete', 'projects');
         // bulk action for projects currently only have delete button
         if ($this->input->post()) {
             $fVisibility = $this->input->post('visible_to_customer') == 'true' ? 1 : 0;
@@ -844,7 +859,7 @@ class Other_services_controller extends AdminController
 
     public function timesheets($project_id, $slug)
     {
-        if ($this->other->is_member($project_id) || has_permission('projects', '', 'view')) {
+        if ($this->other->is_member($project_id) || staff_can('view', 'projects')) {
             if ($this->input->is_ajax_request()) {
                 $this->app->get_table_data('timesheets_oservice', [
                     'project_id' => $project_id,
@@ -879,8 +894,8 @@ class Other_services_controller extends AdminController
     {
         $assignees = $this->tasks_model->get_task_assignees($task_id);
         $data = '';
-        $has_permission_edit = has_permission('projects', '', 'edit');
-        $has_permission_create = has_permission('projects', '', 'edit');
+        $has_permission_edit   = staff_can('edit', 'projects');
+        $has_permission_create = staff_can('edit', 'projects');
         // The second condition if staff member edit their own timesheet
         if ($staff_id == 'undefined' || $staff_id != 'undefined' && (!$has_permission_edit || !$has_permission_create)) {
             $staff_id = get_staff_user_id();
@@ -904,7 +919,7 @@ class Other_services_controller extends AdminController
 
     public function remove_team_member($ServID,$project_id, $staff_id)
     {
-        if (has_permission('projects', '', 'edit') || has_permission('projects', '', 'create')) {
+        if (staff_can('edit', 'projects')) {
             if ($this->other->remove_team_member($ServID, $project_id, $staff_id)) {
                 set_alert('success', _l('project_member_removed'));
             }
@@ -925,7 +940,7 @@ class Other_services_controller extends AdminController
 
     public function copy($ServID,$project_id)
     {
-        if (has_permission('projects', '', 'create')) {
+        if (staff_can('create', 'projects')) {
             $id = $this->other->copy($ServID,$project_id, $this->input->post());
             if ($id) {
                 set_alert('success', _l('project_copied_successfully'));
@@ -957,7 +972,7 @@ class Other_services_controller extends AdminController
 
     public function mass_stop_timers($project_id, $billable = 'false', $ServID)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $where = [
                 'billed' => 0,
                 'startdate <=' => date('Y-m-d'),
@@ -989,7 +1004,7 @@ class Other_services_controller extends AdminController
 
     public function get_pre_invoice_project_info($ServID, $project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $data['billable_tasks'] = $this->other->get_tasks($ServID, $project_id, [
                 'billable' => 1,
@@ -1017,7 +1032,7 @@ class Other_services_controller extends AdminController
 
     public function get_invoice_project_data($ServID)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $type = $this->input->post('type');
             $project_id = $this->input->post('project_id');
             // Check for all cases
@@ -1225,7 +1240,7 @@ class Other_services_controller extends AdminController
 
     public function invoice_project($ServID, $project_id)
     {
-        if (has_permission('invoices', '', 'create')) {
+        if (staff_can('create', 'invoices')) {
             $slug = $this->legal->get_service_by_id($ServID)->row()->slug;
             $this->load->model('invoices_model');
             $data               = $this->input->post();

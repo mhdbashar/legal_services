@@ -3292,42 +3292,61 @@ $lang['estimate_request_assigned_to_staff']     = 'تم تخصيص طلب عرض
 $lang['activity_due_reminder_is_sent']          = 'أصبحت الفاتورة المرسلة من %s بمثابة تذكير مستحق';
 $lang['invoice_due_notice_before']              = 'إرسال تذكير بالوقت المحدد قبل X أيام من تاريخ الاستحقاق';
 $lang['overdue_notices']                        = 'التنبيهات المتأخرة';
-$lang['invoice_overdue_notices_info']           = 'يتم إرسال تنبيهات التأخير عندما تصبح الفاتورة متأخرة.';
-$lang['due_reminders']                          = 'التذكيرات المستحقة';
-$lang['due_reminders_for_invoices_info']        = 'يتم إرسال التذكيرات المستحقة إلى الفواتير غير المدفوعة والمدفوعة جزئيًا كتذكير للعميل بدفع الفاتورة قبل استحقاقها.';
-$lang['expenses_list_made_payment_by']          = 'تم الدفع بواسطة %s';
+$lang['invoice_overdue_notices_info'] = 'يتم إرسال تنبيهات التأخير عندما تصبح الفاتورة متأخرة.';
+$lang['due_reminders'] = 'التذكيرات المستحقة';
+$lang['due_reminders_for_invoices_info'] = 'يتم إرسال التذكيرات المستحقة إلى الفواتير غير المدفوعة والمدفوعة جزئيًا كتذكير للعميل بدفع الفاتورة قبل استحقاقها.';
+$lang['expenses_list_made_payment_by'] = 'تم الدفع بواسطة %s';
 
 # Version 2.8.2
-$lang['hide_task_checklist_items_completed']          = 'إخفاء العناصر المكتملة';
-$lang['show_task_checklist_items_completed']          = 'إظهار العناصر المكتملة %s';
-$lang['task_checklist_assign']                        = 'الموظف المعين';
-$lang['task_checklist_assigned']                      = 'تخصيص إلى %s';
-$lang['sms_invoice_overdue_notice'] = 'إشعار بفاتورة متأخرة';
-$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = 'يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.';
+$lang['hide_task_checklist_items_completed'] = 'إخفاء العناصر المكتملة';
+$lang['show_task_checklist_items_completed'] = 'إظهار العناصر المكتملة %s';
+$lang['task_checklist_assign'] = 'الموظف المعين';
+$lang['task_checklist_assigned'] = 'تخصيص إلى %s';
 
-$lang['sms_invoice_payment_recorded'] = 'تسجيل دفعة على الفاتورة';
-$lang['sms_trigger_when_invoice_payment_is_recorded'] = 'يتم تشغيله عند تسجيل دفع الفاتورة.';
-
-$lang['sms_estimate_expiration_reminder'] = 'تذكير بانتهاء صلاحية عرض الاتعاب';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.';
-
-$lang['sms_proposal_expiration_reminder'] = 'تذكير بانتهاء صلاحية العطاء';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = 'يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.';
-
-$lang['sms_new_comment_on_proposal_to_customer'] = 'تعليق جديد على العطاء (للعميل)';
-$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = 'يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).';
-
-$lang['sms_new_comment_on_proposal_to_staff'] = 'تعليق جديد على العطاء (لفريق العمل)';
-$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = 'يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.';
-
-$lang['sms_new_comment_on_contract_to_customer'] = 'تعليق جديد على العقد (للعميل)';
-$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = 'يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.';
-
-$lang['sms_new_comment_on_contract_to_staff'] = 'تعليق جديد على العقد (لفريق العمل)';
-$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = 'يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.';
-
-$lang['sms_contract_expiration_reminder'] = 'تذكير بانتهاء العقد';
-$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = 'يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.';
-
-$lang['sms_staff_reminder'] = 'تذكيرات فريق العمل';
+$lang['sms_invoice_overdue_notice'] = "إشعار بفاتورة متأخرة";
+$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = "يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.";
+$lang['sms_invoice_payment_recorded'] = "تسجيل دفعة على الفاتورة";
+$lang['sms_trigger_when_invoice_payment_is_recorded'] = "يتم تشغيله عند تسجيل دفع الفاتورة.";
+$lang['sms_estimate_expiration_reminder'] = "تذكير بانتهاء صلاحية عرض الاتعاب";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.";
+$lang['sms_proposal_expiration_reminder'] = "تذكير بانتهاء صلاحية العطاء";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.";
+$lang['sms_new_comment_on_proposal_to_customer'] = "تعليق جديد على العطاء (للعميل)";
+$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = "يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).";
+$lang['sms_new_comment_on_proposal_to_staff'] = "تعليق جديد على العطاء (لفريق العمل)";
+$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = "يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.";
+$lang['sms_new_comment_on_contract_to_customer'] = "تعليق جديد على العقد (للعميل)";
+$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = "يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.";
+$lang['sms_new_comment_on_contract_to_staff'] = "تعليق جديد على العقد (لفريق العمل)";
+$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = "يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.";
+$lang['sms_contract_expiration_reminder'] = "تذكير بانتهاء العقد";
+$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = "يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.";
+$lang['sms_staff_reminder'] = "تذكيرات فريق العمل";
 $lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";
+$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_api_key_trans'] = "مفتاح API";
+$lang['sms_babil_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_sender_id_trans'] = "معرف المرسل";
+$lang['sms_msg91_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
+$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن وكلائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"%s\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class=\'hr-10\' />";
+$lang['sms_appointment_approved_Sent_to_contact'] = "الموافقة على الموعد (مرسلة إلى جهة الاتصال)";
+$lang['sms_trigger_when_appointment_is_approved'] = "يتم تشغيله عند الموافقة على الموعد ، سيتم إرسال SMS إلى رقم جهة الاتصال.";
+$lang['sms_trigger_when_appointment_is_cancelled'] = "يتم تشغيله عند إلغاء الموعد ، سيتم إرسال الرسائل القصيرة إلى رقم جهة الاتصال.";
+$lang['sms_appointment_reminder_Sent_to_contact'] = "تذكير بالموعد (مرسلة إلى جهة الاتصال)";
+$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = "يتم تشغيله عندما يتم تعيين تذكير قبل التاريخ عند إنشاء الموعد ، سيتم إرسال SMS إلى جهات الاتصال.";
+
+# Version 2.8.3
+$lang['projects_send_contact_notification'] = 'إرسال التنبيهات إلى جهات الاتصال';
+$lang['project_send_all_contacts_with_notifications_enabled'] = 'لجميع جهات الاتصال مع تمكين التنبيهات للخدمات';
+$lang['project_do_not_send_contacts_notifications'] = 'لا تقم بإرسال تنبيهات';
+$lang['project_send_specific_contacts_with_notification'] = 'جهات اتصال محددة';
+$lang['project_contacts_to_notify'] = 'إختبر جهة إتصال للتنبيه';
+$lang['contract_signed_by'] = 'إسم الموقع';
+$lang['contract_signed_date'] = 'تاريخ التوقيع';
+$lang['contract_signed_ip'] = 'عنوان IP';
+$lang['show_estimate_request_in_customers_area'] = 'إظهار رابط طلب عرض السعر في منطقة العملاء؟';
+$lang['customers_estimate_request_link_text'] = 'طلب عرض سعر';
+$lang['total_expenses_deleted'] = 'إجمالي المصروفات المحذوفة: s%';
+$lang['estimate_convert_to_project'] = 'التحويل إلى خدمة';
+$lang['estimate_items_convert_to_tasks'] = 'العناصر التي سيتم تحويلها إلى مهام';
+$lang['Share_direct_link'] = "مشاركة الرابط المباشر";

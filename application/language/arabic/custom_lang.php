@@ -1,17 +1,13 @@
 <?php
 
 $lang['organizations'] = 'المنشاّة';
-
 $lang['add_only_main_salary'] = 'أدخل الراتب الأساسي فقط';
 $lang['designation_group'] = 'مجموعة المسميات الموظفية';
 $lang['new_designation_group'] = 'مجموعة جديدة';
 $lang['designations_groups'] = 'مجموعات المسميات الوظيفية';
-
 $lang['follower_staff'] = 'الموظف المتابع';
 $lang['staff_chart_by_department'] = 'مخطط الموظفين بحسب الأقسام';
 $lang['staff_chart_by_designation'] = 'مخطط الموظفين بحسب المسميات الوظيفية';
-
-
 $lang['hr_contract_prefix'] = 'لاحقة العقد';
 $lang['next_hr_contract_number'] = 'رقم لاحقة العقد';
 $lang['hr_staff_prefix'] = 'لاحقة الموظف';
@@ -19,7 +15,6 @@ $lang['next_hr_staff_number'] = 'رقم لاحقة الموظف';
 $lang['hr_designation_prefix'] = 'لاحقة المسمى الوظيفي';
 $lang['next_hr_designation_number'] = 'رقم لاحقة المسمى الوظيفي';
 $lang['designation_code'] = 'كود المسمى الوظيفي';
-
 $lang['total_salary'] = 'الراتب الكامل';
 $lang['add_insurance_type'] = 'اضافة نوع تأمين';
 $lang['can_it_for_staff'] = 'هل يمكن التطبيق على الموظف؟';
@@ -27,7 +22,6 @@ $lang['add_insurance_book_num'] = 'اضافة رقم بوليصة تأمين ج�
 $lang['Male'] = 'ذكر';
 $lang['Female'] = 'أنثى';
 $lang['loan_note'] = 'سيتم اقتطاع قيمة هذا القرض من راتب الموظف بشكل شهري خلال المدة المحدد للقرض';
-
 $lang['filter_by_departments'] = 'الفلترة بحسب الأقسام';
 $lang['settings_general_company_logo_tooltip'] = "الأبعاد الموصى بها: 300 × 68 بكسل";
 $lang['you_have_to_complete_staff_informations'] = 'يجب اكمال معلومات الموظفين';
@@ -101,38 +95,7 @@ $lang['session_marked_as_success'] = "تم وضع علامة على الجلسة
 $lang['session_unmarked_as_complete'] = "جلسة لم يتم تعليمها كمكتملة";
 $lang['nothing_was_specified'] = "لم يتم تحديد شيء";
 $lang['save_last_order_for_tables_infor'] = "\"الجداول المدعومة حاليًا: العملاء ، العملاء المحتملون ، التذاكر ، المهام ، الخدمات ، المدفوعات ، النفقات ، العطاءات ، قاعدة المعرفة ، العقود <br /> <br /> ملاحظة: سيؤدي تغيير هذا الخيار إلى حذف جميع طلبات الجدول المحفوظة!\"";
-$lang['sms_invoice_overdue_notice'] = "إشعار بفاتورة متأخرة";
-$lang['sms_trigger_when_invoice_overdue_notice_is_sent_to_customer_contacts'] = "يتم تشغيله عند إرسال إشعار فاتورة متأخرة إلى جهات اتصال العملاء.";
-$lang['sms_invoice_payment_recorded'] = "تسجيل دفعة على الفاتورة";
-$lang['sms_trigger_when_invoice_payment_is_recorded'] = "يتم تشغيله عند تسجيل دفع الفاتورة.";
-$lang['sms_estimate_expiration_reminder'] = "تذكير بانتهاء صلاحية عرض الاتعاب";
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_customer_contacts'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية عرض الأتعاب إلى جهات اتصال العملاء.";
-$lang['sms_proposal_expiration_reminder'] = "تذكير بانتهاء صلاحية العطاء";
-$lang['sms_trigger_when_expiration_reminder_should_be_send_to_proposal'] = "يتم تشغيله عند إرسال تذكير بانتهاء صلاحية العطاء.";
-$lang['sms_new_comment_on_proposal_to_customer'] = "تعليق جديد على العطاء (للعميل)";
-$lang['sms_trigger_when_staff_member_comments_on_proposal_sms_will_be_sent_to_proposal_number_customer_lead'] = "يتم تشغيله عندما يعلق الموظف على العطاء، سيتم إرسال SMS إلى رقم (العميل / العميل المحتمل).";
-$lang['sms_new_comment_on_proposal_to_staff'] = "تعليق جديد على العطاء (لفريق العمل)";
-$lang['sms_trigger_when_customer_lead_comments_on_proposal_sms_will_be_sent_to_proposal_creator_and_assigned_staff_member'] = "يتم تشغيله عند تعليقات العملاء / العملاء المحتملين على العطاء، سيتم إرسال SMS إلى منشئ الاقتراح والموظف المعين.";
-$lang['sms_new_comment_on_contract_to_customer'] = "تعليق جديد على العقد (للعميل)";
-$lang['sms_trigger_when_staff_member_add_comment_to_contract_sms_will_be_sent_customer_contacts'] = "يتم تشغيله عندما يضيف الموظف تعليقًا على العقد ، سيتم إرسال رسائل SMS إلى جهات اتصال العملاء.";
-$lang['sms_new_comment_on_contract_to_staff'] = "تعليق جديد على العقد (لفريق العمل)";
-$lang['sms_trigger_when_customer_add_comment_to_contract_sms_will_be_sent_to_contract_creator'] = "يتم تشغيله عندما يضيف العميل تعليقًا إلى العقد ، سيتم إرسال SMS إلى منشئ العقد.";
-$lang['sms_contract_expiration_reminder'] = "تذكير بانتهاء العقد";
-$lang['sms_trigger_when_expiration_reminder_should_be_send_via_cron_job_to_customer_contacts'] = "يتم تشغيله لإرسال تذكير انتهاء الصلاحية العقد عبر وظائف النظام إلى جهات اتصال العملاء.";
-$lang['sms_staff_reminder'] = "تذكيرات فريق العمل";
-$lang['sms_trigger_when_staff_is_notified_for_specific_custom'] = "يتم تشغيله عندما يتم إبلاغ فريق العمل عن <a href=\"%s\">تذكير</a>. مخصص";
-$lang['sms_clickatell_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Clickatell SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
-$lang['sms_api_key_trans'] = "مفتاح API";
-$lang['sms_babil_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Babil SMS مراسلة في إتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
-$lang['sms_sender_id_trans'] = "معرف المرسل";
-$lang['sms_msg91_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل MSG91 SMS مراسلة في اتجاه واحد ، مما يعني أن عملاءك لن يتمكنوا من الرد على الرسائل القصيرة. </p><hr class='hr-10'>";
-$lang['sms_twilio_sms_integration_is_one_way_messaging'] = "<p> يعد تكامل Twilio SMS مراسلة في اتجاه واحد ، مما يعني أن وكلائك لن يتمكنوا من الرد على الرسائل القصيرة. يجب أن تكون أرقام الهاتف بالتنسيق <a href=\"%s\" target=\"_blank\">E.164</a>. انقر <a href=\"https://support.twilio.com/hc/en-us/articles/223183008-Formatting-International-Phone-Numbers\" target=\"_blank\"> هنا </a> لقراءة المزيد عن كيفية تنسيق ارقام الهاتف. </p><hr class=\'hr-10\' />";
-$lang['sms_appointment_approved_Sent_to_contact'] = "الموافقة على الموعد (مرسلة إلى جهة الاتصال)";
-$lang['sms_trigger_when_appointment_is_approved'] = "يتم تشغيله عند الموافقة على الموعد ، سيتم إرسال SMS إلى رقم جهة الاتصال.";
 $lang['appointment_cancelled_sent_to_contact'] = "تم إلغاء الموعد (مرسلة إلى جهة الاتصال)";
-$lang['sms_trigger_when_appointment_is_cancelled'] = "يتم تشغيله عند إلغاء الموعد ، سيتم إرسال الرسائل القصيرة إلى رقم جهة الاتصال.";
-$lang['sms_appointment_reminder_Sent_to_contact'] = "تذكير بالموعد (مرسلة إلى جهة الاتصال)";
-$lang['sms_trigger_when_reminder_before_date_is_set_when_appointment_is_created'] = "يتم تشغيله عندما يتم تعيين تذكير قبل التاريخ عند إنشاء الموعد ، سيتم إرسال SMS إلى جهات الاتصال.";
 $lang['gdpr_portability_contacts'] = "جهات الاتصال";
 $lang['gdpr_portability_enable_contact_to_export_data'] = "تمكين جهة الاتصال لتصدير البيانات (JSON)";
 $lang['gdpr_potability_on_export_the_data'] = "عند التصدير ، قم بتصدير البيانات التالية";
@@ -260,21 +223,16 @@ $lang['new_status'] = "حالة جديدة";
 $lang['hr_document'] = "وثائق الموارد البشرية";
 $lang['hr_document_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
-
 $lang['hr_official_document_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_official_document_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
-
 $lang['hr_immigration_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_immigration_reminder_notification_before'] = "تذكير الموعد النهائي لوثائق الموارد البشرية قبل (الأيام)";
-
 $lang['hr_insurance_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_insurance_reminder_notification_before'] = 'تذكير قبل انتهاء صلاحية التأمين قبل (الأيام)';
 $lang['not_insurance_deadline_reminder'] = "تذكير قبل انتهاء صلاحية التأمين";
-
 $lang['hr_insurance_book_number_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['hr_insurance_book_number_reminder_notification_before'] = 'تذكير قبل انتهاء صلاحية رقم بوليصة التأمين قبل (الأيام)';
 $lang['not_insurance_book_number_deadline_reminder'] = "تذكير قبل انتهاء صلاحية رقم بوليصة التأمين";
-
 $lang['procurations_reminder_notification_before_help'] = "للتعطيل 0";
 $lang['procurations_reminder_notification_before'] = "تذكير الموعد النهائي للوكالة قبل (الأيام)";
 $lang['tick_cssnote'] = "تغيير عمود حاوية النموذج (Bootstrap)";
@@ -1128,8 +1086,6 @@ $lang['auto_close_edit_written_reports_after'] = "إغلاق التحرير عل
 $lang['written_reports_cant_edit'] = "لم يعد يمكنك التحرير على هذا التقرير!";
 $lang['editable_until'] = "التعديل متاح حتى";
 $lang['dont_have_edit_permission'] = "ليس لديك صلاحية التعديل!";
-
 $lang['session_no_assignees'] = "ليس هناك شخص مسؤول عن هذه الجلسة";
-
 $lang['task_filter_detailed_all_days'] = "كل الايام";
 $lang['view_book'] = "عرض الكتاب";

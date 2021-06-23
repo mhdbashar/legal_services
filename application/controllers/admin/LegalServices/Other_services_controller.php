@@ -175,9 +175,12 @@ class Other_services_controller extends AdminController
     public function expenses($id, $slug = '')
     {
         $this->load->model('expenses_model');
+        $this->load->model('payment_modes_model');
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
         $this->app->get_table_data('oservice_expenses', [
             'project_id' => $id,
-            'slug' => $slug
+            'slug' => $slug,
+            'data'       => $data,
         ]);
     }
 

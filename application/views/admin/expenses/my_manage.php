@@ -25,7 +25,7 @@
                         <div class="clearfix"></div>
                         <!-- if expenseid found in url -->
                         <?php echo form_hidden('expenseid',$expenseid); ?>
-                        <?php $this->load->view('admin/expenses/table_html'); ?>
+                        <?php $this->load->view('admin/expenses/table_html', ['withBulkActions'=>true]); ?>
                      </div>
                   </div>
                </div>

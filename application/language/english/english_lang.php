@@ -3819,3 +3819,7 @@ $lang['total_expenses_deleted'] = 'Total Expenses Deleted: %s';
 $lang['estimate_convert_to_project'] = 'Convert to Project';
 $lang['estimate_items_convert_to_tasks'] = 'Items that will be converted to tasks';
 $lang['Share_direct_link'] = "Share direct link";
+$lang['permission_create_milestones'] = "Create Milestones";
+$lang['permission_edit_milestones'] = "Edit Milestones";
+$lang['permission_delete_milestones'] = "Delete Milestones";
+$lang['custom_field_add_edit_default_value'] = "Default Value";

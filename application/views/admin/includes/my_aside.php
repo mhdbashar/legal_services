@@ -64,9 +64,9 @@
       <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
          <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>" aria-expanded="false"
          <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
-         <?php if (is_rtl()){?>
+         <?php if (is_rtl()){ ?>
                <i class="<?php echo $item['icon']; ?> menu-icon-ar"></i>
-         <?php }else{?>
+         <?php }else{ ?>
                <i class="<?php echo $item['icon']; ?> menu-icon"></i>
              <?php } ?>
              <span class="menu-text">
@@ -79,40 +79,40 @@
                      <span class="fa arrow pleft5"></span>
              <?php } } ?>
              <?php if (isset($item['badge'], $item['badge']['value']) && !empty($item['badge'])) {?>
-                 <span class="badge pull-right
+               <span class="badge pull-right
                <?=isset($item['badge']['type']) &&  $item['badge']['type'] != '' ? "bg-{$item['badge']['type']}" : 'bg-info' ?>"
                <?=(isset($item['badge']['type']) &&  $item['badge']['type'] == '') ||
-               isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>
+                        isset($item['badge']['color']) ? "style='background-color: {$item['badge']['color']}'" : '' ?>>
                <?= $item['badge']['value'] ?>
             </span>
-             <?php } ?>
-         </a>
+            <?php } ?>
+            </a>
          <?php if(count($item['children']) > 0){ ?>
          <ul class="nav nav-second-level collapse" aria-expanded="false">
             <?php foreach($item['children'] as $submenu){
                ?>
             <li class="sub-menu-item-<?php echo $submenu['slug']; ?>"
-            <?php echo _attributes_to_string(isset($submenu['li_attributes']) ? $submenu['li_attributes'] : []); ?>>
+              <?php echo _attributes_to_string(isset($submenu['li_attributes']) ? $submenu['li_attributes'] : []); ?>>
               <a href="<?php echo $submenu['href']; ?>"
-            <?php echo _attributes_to_string(isset($submenu['href_attributes']) ? $submenu['href_attributes'] : []); ?>>
+               <?php echo _attributes_to_string(isset($submenu['href_attributes']) ? $submenu['href_attributes'] : []); ?>>
                <?php if(!empty($submenu['icon'])){ ?>
-                  <?php if (is_rtl()){?>
+                  <?php if (is_rtl()){ ?>
                <i class="<?php echo $submenu['icon']; ?> menu-icon-ar"></i>
-                  <?php }else{?>
+                  <?php }else{ ?>
                <i class="<?php echo $submenu['icon']; ?> menu-icon"></i>
-               <?php }} ?>
+               <?php } } ?>
                <span class="sub-menu-text">
                   <?php echo _l($submenu['name'],'',false); ?>
                </span>
                </a>
-                <?php if (isset($submenu['badge'], $submenu['badge']['value']) && !empty($submenu['badge'])) {?>
-                    <span class="badge pull-right
+             <?php if (isset($submenu['badge'], $submenu['badge']['value']) && !empty($submenu['badge'])) {?>
+               <span class="badge pull-right
                <?=isset($submenu['badge']['type']) &&  $submenu['badge']['type'] != '' ? "bg-{$submenu['badge']['type']}" : 'bg-info' ?>"
                <?=(isset($submenu['badge']['type']) &&  $submenu['badge']['type'] == '') ||
-               isset($submenu['badge']['color']) ? "style='background-color: {$submenu['badge']['color']}'" : '' ?>>
+                isset($submenu['badge']['color']) ? "style='background-color: {$submenu['badge']['color']}'" : '' ?>>
                <?= $submenu['badge']['value'] ?>
             </span>
-                <?php } ?>
+            <?php } ?>
             </li>
             <?php } ?>
          </ul>

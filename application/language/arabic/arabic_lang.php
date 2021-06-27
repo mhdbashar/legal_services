@@ -947,7 +947,7 @@ $lang['time_ago_years'] = "منذ %s سنوات";
 $lang['estimates'] = "عروض الأسعار";
 $lang['estimate'] = "عرض سعر";
 $lang['estimate_lowercase'] = "عرض سعر";
-$lang['create_new_estimate'] = "إنشاءعرض سعر";
+$lang['create_new_estimate'] = "إنشاء عرض سعر";
 $lang['view_estimate'] = "إستعراض عرض السعر";
 $lang['estimate_sent_to_client_success'] = "تم إرسال عرض السعر إلى العميل بنجاح";
 $lang['estimate_sent_to_client_fail'] = "مشكلة عن إرسال عرض السعر إلى العميل";
@@ -2099,7 +2099,7 @@ $lang['from_date'] = "من تاريخ";
 $lang['to_date'] = "إلى تاريخ";
 $lang['not_results_found'] = "لم يتم العثور على نتائج";
 $lang['lead_lock_after_convert_to_customer'] = "لا تسمح بتحرير العملاء المتوقعين بعد تحويلهم إلى عملاء (لاينطبق على المسؤولين)";
-$lang['toggle_full_view'] = "Toggle full view";
+$lang['toggle_full_view'] = "تبديل الى عرض كامل";
 $lang['not_estimate_invoice_deleted'] = "حذف الفاتورة التي تم إنشاؤها";
 $lang['not_task_new_comment'] = "علق على المهمة %s";
 $lang['invoice_number_exists'] = "رقم الفاتورة هذا موجود للسنة الجارية.";
@@ -3350,3 +3350,7 @@ $lang['total_expenses_deleted'] = 'إجمالي المصروفات المحذو�
 $lang['estimate_convert_to_project'] = 'التحويل إلى خدمة';
 $lang['estimate_items_convert_to_tasks'] = 'العناصر التي سيتم تحويلها إلى مهام';
 $lang['Share_direct_link'] = "مشاركة الرابط المباشر";
+$lang['permission_create_milestones'] = "إضافة مراحل خطة العمل";
+$lang['permission_edit_milestones'] = "تعديل مراحل خطة العمل";
+$lang['permission_delete_milestones'] = "حذف مراحل خطة العمل";
+$lang['custom_field_add_edit_default_value'] = "القيمة الإفتراضية";
